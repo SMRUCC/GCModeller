@@ -92,7 +92,7 @@ Namespace DocumentFormat.MEME.LDM
         ''' <param name="s"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function InternalParser(s As String) As Site
+        Friend Shared Function InternalParser(s As String) As Site
             Dim Tokens As String() = (From ss As String In s.Split
                                       Where Not String.IsNullOrEmpty(ss)
                                       Select ss).ToArray

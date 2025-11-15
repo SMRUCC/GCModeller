@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\interops\\meme_suite\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|solutionrelative:meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\meme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\meme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\mast.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\mast.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\meme\\text\\sitelength.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\meme\\text\\sitelength.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\meme\\ldm\\site.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\meme\\ldm\\site.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\meme\\ldm\\motif.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\meme\\ldm\\motif.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3BE6B451-870E-BCC3-BA74-6B492E119179}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\MotifFinder.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motiffinder\\scanner\\probabilityscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -52,6 +80,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\ParserTest\\Module1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
+              "RelativeToolTip": "MEME.DocParser\\ParserTest\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADAAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:51:25.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "XmlBaseAbstract.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
+              "RelativeToolTip": "MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:28:43.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MAST.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MAST.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\MAST.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MAST.vb",
+              "RelativeToolTip": "MEME.DocParser\\XmlOutput\\MAST.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:28:40.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MEME.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MEME.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\MEME.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MEME.vb",
+              "RelativeToolTip": "MEME.DocParser\\XmlOutput\\MEME.vb",
+              "ViewState": "AgIAAD0BAAAAAAAAAAAmwEYBAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:27:57.147Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SiteLength.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\Text\\SiteLength.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\Text\\SiteLength.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\Text\\SiteLength.vb",
+              "RelativeToolTip": "MEME.DocParser\\MEME\\Text\\SiteLength.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:27:52.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Site.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Site.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\LDM\\Site.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Site.vb",
+              "RelativeToolTip": "MEME.DocParser\\MEME\\LDM\\Site.vb",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAowFAAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:27:30.949Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Motif.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Motif.vb",
+              "RelativeDocumentMoniker": "MEME.DocParser\\MEME\\LDM\\Motif.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\MEME\\LDM\\Motif.vb",
+              "RelativeToolTip": "MEME.DocParser\\MEME\\LDM\\Motif.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T14:27:21.482Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "ProbabilityScanner.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\ProbabilityScanner.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\ProbabilityScanner.vb",
@@ -64,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "MotifNeedlemanWunsch.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifNeedlemanWunsch.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifNeedlemanWunsch.vb",
@@ -72,12 +191,11 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifNeedlemanWunsch.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:14:02.87Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:14:02.87Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 9,
               "Title": "MotifMatch.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
@@ -85,12 +203,11 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\Scanner\\MotifMatch.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:14:00.134Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:14:00.134Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 10,
               "Title": "SeedCluster.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SeedCluster.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SeedCluster.vb",
@@ -98,12 +215,11 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SeedCluster.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:13:56.324Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:13:56.324Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "VectorCompares.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\VectorCompares.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\VectorCompares.vb",
@@ -111,12 +227,11 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\VectorCompares.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:13:55.332Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:13:55.332Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "SequenceMotif.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SequenceMotif.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SequenceMotif.vb",
@@ -124,12 +239,11 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SequenceMotif.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:13:54.368Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:13:54.368Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "ScanFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\ScanFile.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\ScanFile.vb",
@@ -137,8 +251,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\ScanFile.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-05T20:13:47.955Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-05T20:13:47.955Z"
             }
           ]
         },

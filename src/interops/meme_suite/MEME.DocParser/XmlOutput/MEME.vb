@@ -319,9 +319,12 @@ Namespace DocumentFormat.XmlOutput.MEME
     End Class
 
     ''' <summary>
-    ''' &lt;MEME version="4.10.2" release="Thu Sep 03 15:00:54 2015 -0700">.(MEME程序的输出文件的XML文档)
+    ''' &lt;MEME version="4.10.2" release="Thu Sep 03 15:00:54 2015 -0700">.
     ''' </summary>
-    <XmlRoot("MEME", DataType:="MEME", IsNullable:=True)> Public Class MEME : Inherits XmlOutput.MEMEXmlBase
+    ''' <remarks>
+    ''' (MEME程序的输出文件的XML文档)
+    ''' </remarks>
+    <XmlRoot("MEME", DataType:="MEME", IsNullable:=True)> Public Class MEMEXml : Inherits XmlOutput.MEMEXmlBase
 
         ''' <summary>
         ''' Training-set elements
@@ -343,15 +346,15 @@ Namespace DocumentFormat.XmlOutput.MEME
         ''' <returns></returns>
         <XmlElement("scanned_sites_summary")> Public Property ScannedSitesSummary As ScannedSitesSummary
 
-        Public Shared Function LoadDocument(path As String) As MEME
+        Public Shared Function LoadDocument(path As String) As MEMEXml
             Dim Text As String = FileIO.FileSystem.ReadAllText(path)
             Text = Regex.Replace(Text, "<!DOCTYPE.+?]>", "")
-            Return Text.LoadFromXml(Of MEME)()
+            Return Text.LoadFromXml(Of MEMEXml)()
         End Function
 
         Public Function ToMEMEHtml() As HTML.MEMEHtml
             Dim Html As HTML.MEMEHtml = New HTML.MEMEHtml With {
-                .ObjectId = basename(Me.TrainingSet.DataFile)
+                .ObjectId = BaseName(Me.TrainingSet.DataFile)
             }
             Html.Motifs = (From MotifObject As Motif
                            In Me.Motifs

@@ -42,10 +42,15 @@
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Interops.NBCR
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME
 
 Module Module1
 
     Sub Main()
+        memeXmlparser()
+    End Sub
+
+    Private Sub parseDb()
         'Dim motifs = LANS.SystemsBiology.AnalysisTools.NBCR.Extensions.MEME_Suite.DocumentFormat.MEME.Text.Load("F:\1.13.RegPrecise_network\MEME_OUT\DEGs.MEME\MMX-TO-NY.Down.fa.MEME_OUT\250bp.txt")
         'Call motifs.SaveAsXml("./test.xml")
 
@@ -53,5 +58,12 @@ Module Module1
         Dim list As New XmlList(Of MotifPWM)(motifs)
 
         Call list.GetXml.SaveTo("M:\project\20251010-wheat\20251105\LargePanicleDevelopment\blastp\TF\PlantTFDB_TF_binding_motifs_from_experiments.xml")
+    End Sub
+
+    Sub memeXmlparser()
+        Dim file = "M:\motifs\LuxR_motif_results\meme.xml"
+        Dim data = MEMEXml.LoadDocument(file)
+
+        Pause()
     End Sub
 End Module
