@@ -94,7 +94,10 @@ Public Class SequenceMotif : Inherits Probability
     ''' <returns></returns>
     Public ReadOnly Property SignificantSites As Integer
         Get
-            Return region.Where(Function(r) r.isConserved).Count
+            Return Aggregate r As Residue
+                   In region
+                   Where r.isConserved
+                   Into Count
         End Get
     End Property
 
