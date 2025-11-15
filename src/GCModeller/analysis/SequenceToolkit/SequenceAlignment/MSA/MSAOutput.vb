@@ -61,74 +61,77 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-''' <summary>
-''' the result data of multiple sequence alignment
-''' </summary>
-Public Class MSAOutput
+Namespace MSA
 
-    Public Property names As String()
-    Public Property MSA As String()
+    ''' <summary>
+    ''' the result data of multiple sequence alignment
+    ''' </summary>
+    Public Class MSAOutput
 
-    <XmlAttribute>
-    Public Property cost As Double
+        Public Property names As String()
+        Public Property MSA As String()
 
-    Public ReadOnly Property size As Integer
-        Get
-            Return MSA.Length
-        End Get
-    End Property
+        <XmlAttribute>
+        Public Property cost As Double
 
-    Public Overrides Function ToString() As String
-        With New MemoryStream
-            Print(, New IO.StreamWriter(.ByRef))
-            Return .ToArray.UTF8String
-        End With
-    End Function
+        Public ReadOnly Property size As Integer
+            Get
+                Return MSA.Length
+            End Get
+        End Property
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ToFasta() As FastaFile
-        Return New FastaFile(PopulateAlignment)
-    End Function
+        Public Overrides Function ToString() As String
+            With New MemoryStream
+                Print(, New IO.StreamWriter(.ByRef))
+                Return .ToArray.UTF8String
+            End With
+        End Function
 
-    Public Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
-        Dim MSA As String() = Me.MSA
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToFasta() As FastaFile
+            Return New FastaFile(PopulateAlignment)
+        End Function
 
-        For i As Integer = 0 To MSA.Length - 1
-            Yield New FastaSeq With {
-                .Headers = {names.ElementAtOrDefault(i, $"seq_{i + 1}")},
-                .SequenceData = MSA(i)
-            }
-        Next
-    End Function
+        Public Iterator Function PopulateAlignment() As IEnumerable(Of FastaSeq)
+            Dim MSA As String() = Me.MSA
 
-    Public Sub Print(Optional maxNameWidth% = 10, Optional dev As TextWriter = Nothing)
-        Dim n = MSA.Length
-        Dim names = Me.names.ToArray
-        Dim out As TextWriter = dev Or Console.Out.AsDefault
+            For i As Integer = 0 To MSA.Length - 1
+                Yield New FastaSeq With {
+                    .Headers = {names.ElementAtOrDefault(i, $"seq_{i + 1}")},
+                    .SequenceData = MSA(i)
+                }
+            Next
+        End Function
 
-        For i As Integer = 0 To n - 1
-            names(i) = Mid(names(i), 1, maxNameWidth)
-            names(i) = names(i) & New String(" "c, maxNameWidth - names(i).Length)
-            out.WriteLine(names(i) & vbTab & MSA(i))
-        Next
+        Public Sub Print(Optional maxNameWidth% = 10, Optional dev As TextWriter = Nothing)
+            Dim n = MSA.Length
+            Dim names = Me.names.ToArray
+            Dim out As TextWriter = dev Or Console.Out.AsDefault
 
-        Dim conserved$ = ""
+            For i As Integer = 0 To n - 1
+                names(i) = Mid(names(i), 1, maxNameWidth)
+                names(i) = names(i) & New String(" "c, maxNameWidth - names(i).Length)
+                out.WriteLine(names(i) & vbTab & MSA(i))
+            Next
 
-        For j As Integer = 0 To MSA(0).Length - 1
-            Dim index% = j
-            Dim column = MSA.Select(Function(s) s(index)).ToArray
+            Dim conserved$ = ""
 
-            If column.Distinct.Count = 1 Then
-                conserved &= "*"
-            Else
-                conserved &= " "
+            For j As Integer = 0 To MSA(0).Length - 1
+                Dim index% = j
+                Dim column = MSA.Select(Function(s) s(index)).ToArray
+
+                If column.Distinct.Count = 1 Then
+                    conserved &= "*"
+                Else
+                    conserved &= " "
+                End If
+            Next
+
+            If Not Strings.Trim(conserved).StringEmpty Then
+                out.WriteLine(New String(" "c, maxNameWidth) & vbTab & conserved)
             End If
-        Next
 
-        If Not Strings.Trim(conserved).StringEmpty Then
-            out.WriteLine(New String(" "c, maxNameWidth) & vbTab & conserved)
-        End If
-
-        out.Flush()
-    End Sub
-End Class
+            out.Flush()
+        End Sub
+    End Class
+End Namespace

@@ -56,43 +56,44 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.Language.Default
 
-Public Class ScoreMatrix : Implements IScore(Of Char)
+Namespace MSA
 
-    Dim matrix As Dictionary(Of Char, Dictionary(Of Char, Double))
+    Public Class ScoreMatrix : Implements IScore(Of Char)
 
-    Private Sub New()
-    End Sub
+        Dim matrix As Dictionary(Of Char, Dictionary(Of Char, Double))
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function getScore(i As Char, j As Char) As Double Implements IScore(Of Char).GetSimilarityScore
-        Return matrix(i)(j)
-    End Function
+        Private Sub New()
+        End Sub
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadFile(filePath As String) As ScoreMatrix
-        Return MatrixParser(filePath.ReadAllLines)
-    End Function
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getScore(i As Char, j As Char) As Double Implements IScore(Of Char).GetSimilarityScore
+            Return matrix(i)(j)
+        End Function
 
-    Public Shared Function MatrixParser(data As String()) As ScoreMatrix
-        Dim chars = data.Select(Function(l) l.Split) _
-            .GroupBy(Function(t) t(Scan0)) _
-            .ToArray
-        Dim tuples As Dictionary(Of Char, Dictionary(Of Char, Double)) = chars _
-            .ToDictionary(Function(c) CChar(c.Key),
-                          Function(scores)
-                              Return scores.ToDictionary(Function(line) CChar(line(1)),
-                                                         Function(line)
-                                                             Return Val(line(2))
-                                                         End Function)
-                          End Function)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadFile(filePath As String) As ScoreMatrix
+            Return MatrixParser(filePath.ReadAllLines)
+        End Function
 
-        Return New ScoreMatrix With {
-            .matrix = tuples
-        }
-    End Function
+        Public Shared Function MatrixParser(data As String()) As ScoreMatrix
+            Dim chars = data.Select(Function(l) l.Split) _
+                .GroupBy(Function(t) t(Scan0)) _
+                .ToArray
+            Dim tuples As Dictionary(Of Char, Dictionary(Of Char, Double)) = chars _
+                .ToDictionary(Function(c) CChar(c.Key),
+                              Function(scores)
+                                  Return scores.ToDictionary(Function(line) CChar(line(1)),
+                                                             Function(line)
+                                                                 Return Val(line(2))
+                                                             End Function)
+                              End Function)
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function DefaultMatrix() As [Default](Of ScoreMatrix)
-        Return MatrixParser(My.Resources.Matrix.LineTokens)
-    End Function
-End Class
+            Return New ScoreMatrix With {.matrix = tuples}
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DefaultMatrix() As [Default](Of ScoreMatrix)
+            Return MatrixParser(My.Resources.Matrix.LineTokens)
+        End Function
+    End Class
+End Namespace
