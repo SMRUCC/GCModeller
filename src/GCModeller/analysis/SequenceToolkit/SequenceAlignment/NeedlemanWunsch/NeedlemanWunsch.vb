@@ -55,25 +55,28 @@
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 
-Public Class NeedlemanWunsch : Inherits NeedlemanWunsch(Of Char)
+Namespace GlobalAlignment
 
-    Sub New(query As String, subject As String)
-        Call MyBase.New(defaultScoreMatrix, symbolProvider)
+    Public Class NeedlemanWunsch : Inherits NeedlemanWunsch(Of Char)
 
-        Me.Sequence1 = query.ToCharArray
-        Me.Sequence2 = subject.ToCharArray
-    End Sub
+        Sub New(query As String, subject As String)
+            Call MyBase.New(defaultScoreMatrix, symbolProvider)
 
-    Private Shared Function symbolProvider() As GenericSymbol(Of Char)
-        Return New GenericSymbol(Of Char)(
-            equals:=Function(a, b) a = b,
-            similarity:=Function(a, b) If(a = b, 1, 0),
-            toChar:=Function(a) a,
-            empty:=Function() "-"c
-        )
-    End Function
+            Me.Sequence1 = query.ToCharArray
+            Me.Sequence2 = subject.ToCharArray
+        End Sub
 
-    Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Char)
-        Return New ScoreMatrix(Of Char)(Function(a, b) a = b)
-    End Function
-End Class
+        Private Shared Function symbolProvider() As GenericSymbol(Of Char)
+            Return New GenericSymbol(Of Char)(
+                equals:=Function(a, b) a = b,
+                similarity:=Function(a, b) If(a = b, 1, 0),
+                toChar:=Function(a) a,
+                empty:=Function() "-"c
+            )
+        End Function
+
+        Private Shared Function defaultScoreMatrix() As ScoreMatrix(Of Char)
+            Return New ScoreMatrix(Of Char)(Function(a, b) a = b)
+        End Function
+    End Class
+End Namespace

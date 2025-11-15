@@ -54,64 +54,64 @@
 #End Region
 
 Imports System.IO
-Imports System.Linq
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
 
-''' <summary>
-''' Application of the ``Needleman-Wunsch Algorithm``
-''' Bioinformatics 1, WS 15/16
-''' Dr. Kay Nieselt and Alexander Seitz
-''' 
-''' * Benjamin Schroeder
-''' * Jonas Ditz
-''' </summary>
-Public Module RunNeedlemanWunsch
+Namespace GlobalAlignment
 
     ''' <summary>
-    ''' Run the Needleman-Wunsch Algorithm 
+    ''' Application of the ``Needleman-Wunsch Algorithm``
+    ''' Bioinformatics 1, WS 15/16
+    ''' Dr. Kay Nieselt and Alexander Seitz
+    ''' 
+    ''' * Benjamin Schroeder
+    ''' * Jonas Ditz
     ''' </summary>
-    ''' <param name="fasta1"> commandline arguments </param>
-    ''' <exception cref="Exception"> </exception>
-    ''' <returns>This function returns the alignment score</returns>
-    Public Function RunAlign(fasta1 As IPolymerSequenceModel,
-                             fasta2 As IPolymerSequenceModel,
-                             Optional ByRef score# = 0) As IEnumerable(Of GlobalAlign(Of Char))
+    Public Module RunNeedlemanWunsch
 
-        Dim nw As New NeedlemanWunsch(fasta1.SequenceData, fasta2.SequenceData)
+        ''' <summary>
+        ''' Run the Needleman-Wunsch Algorithm 
+        ''' </summary>
+        ''' <param name="fasta1"> commandline arguments </param>
+        ''' <exception cref="Exception"> </exception>
+        ''' <returns>This function returns the alignment score</returns>
+        Public Function RunAlign(fasta1 As IPolymerSequenceModel,
+                                 fasta2 As IPolymerSequenceModel,
+                                 Optional ByRef score# = 0) As IEnumerable(Of GlobalAlign(Of Char))
 
-        ' run algorithm
-        Call nw.compute()
-        Call score.InlineCopy(nw.Score)
+            Dim nw As New NeedlemanWunsch(fasta1.SequenceData, fasta2.SequenceData)
 
-        Return nw.PopulateAlignments.ToArray
-    End Function
+            ' run algorithm
+            Call nw.Compute()
+            Call score.InlineCopy(nw.Score)
 
-    ''' <summary>
-    ''' Run the Needleman-Wunsch Algorithm 
-    ''' </summary>
-    ''' <param name="fasta1"> commandline arguments </param>
-    ''' <exception cref="Exception"> </exception>
-    ''' <remarks>
-    ''' 如果两条序列长度不一样，则较短的序列会被补充长度到最长的一条序列
-    ''' </remarks>
-    Public Function RunAlign(fasta1 As FASTA.FastaSeq, fasta2 As FASTA.FastaSeq, Optional dev As TextWriter = Nothing) As Double
-        Dim score# = 0
-        RunAlign(fasta1, fasta2, score).Print(dev)
-        Return score
-    End Function
+            Return nw.PopulateAlignments.ToArray
+        End Function
 
-    <Extension>
-    Public Sub Print(results As IEnumerable(Of GlobalAlign(Of Char)), Optional dev As TextWriter = Nothing)
-        With dev Or Console.Out.AsDefault
-            For Each alignment In results
-                Call .WriteLine("align1: " & alignment.query)
-                Call .WriteLine("align2: " & alignment.subject)
-                Call .WriteLine("        " & alignment _
-                         .query _
+        ''' <summary>
+        ''' Run the Needleman-Wunsch Algorithm 
+        ''' </summary>
+        ''' <param name="fasta1"> commandline arguments </param>
+        ''' <exception cref="Exception"> </exception>
+        ''' <remarks>
+        ''' 如果两条序列长度不一样，则较短的序列会被补充长度到最长的一条序列
+        ''' </remarks>
+        Public Function RunAlign(fasta1 As FASTA.FastaSeq, fasta2 As FASTA.FastaSeq, Optional dev As TextWriter = Nothing) As Double
+            Dim score# = 0
+            RunAlign(fasta1, fasta2, score).Print(dev)
+            Return score
+        End Function
+
+        <Extension>
+        Public Sub Print(results As IEnumerable(Of GlobalAlign(Of Char)), Optional dev As TextWriter = Nothing)
+            With dev Or Console.Out.AsDefault
+                For Each alignment In results
+                    Call .WriteLine("align1: " & alignment.query)
+                    Call .WriteLine("align2: " & alignment.subject)
+                    Call .WriteLine("        " & alignment.query _
                          .Select(Function(c, i)
                                      If alignment.subject(i) = c Then
                                          Return "*"c
@@ -120,10 +120,11 @@ Public Module RunNeedlemanWunsch
                                      End If
                                  End Function) _
                          .CharString)
-                Call .WriteLine("score=" & alignment.Score)
-            Next
+                    Call .WriteLine("score=" & alignment.Score)
+                Next
 
-            Call .Flush()
-        End With
-    End Sub
-End Module
+                Call .Flush()
+            End With
+        End Sub
+    End Module
+End Namespace
