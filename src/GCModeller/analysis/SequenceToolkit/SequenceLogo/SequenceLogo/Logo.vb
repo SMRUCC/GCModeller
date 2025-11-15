@@ -58,7 +58,7 @@ Namespace SequenceLogo
             Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim size As SizeF
             Dim region As Rectangle = canvas.PlotRegion(css)
-            Dim X, Y As Integer
+            Dim X, Y As Single
             Dim font As Font = css.GetFont(theme.tagCSS)
             Dim wordSize As Single = font.Size
             Dim margin As Padding = canvas.Padding
@@ -77,12 +77,12 @@ Namespace SequenceLogo
             Y = region.Height + css.GetHeight(margin.Top)
 
             Dim maxBits As Double = Math.Log(n, newBase:=2)
-            Dim yHeight As Integer = n * height
+            Dim yHeight As Single = n * height
 
             ' y axis
-            Call g.DrawLine(Pens.Black, New Point(X, Y - yHeight), New Point(X, Y))
+            Call g.DrawLine(Pens.Black, New PointF(X, Y - yHeight), New PointF(X, Y))
             ' x axis
-            Call g.DrawLine(Pens.Black, New Point(X, Y), New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
+            Call g.DrawLine(Pens.Black, New PointF(X, Y), New PointF(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
 
             ' nt 2 steps,  aa 5 steps
             Dim departs As Integer = If(maxBits = 2, 2, 5)
@@ -108,10 +108,10 @@ Namespace SequenceLogo
                 size = g.MeasureString(str, font:=font)
 
                 y1 = Y - size.Height / 2
-                g.DrawString(str, font, Brushes.Black, New Point(x:=bitStrLeft, y:=y1))
+                g.DrawString(str, font, Brushes.Black, New PointF(x:=bitStrLeft, y:=y1))
 
                 y1 = Y '- sz.Height / 8
-                g.DrawLine(Pens.Black, New Point(x:=X, y:=y1), New Point(x:=X + 10, y:=y1))
+                g.DrawLine(Pens.Black, New PointF(x:=X, y:=y1), New PointF(x:=X + 10, y:=y1))
 
                 yBits += d
                 Y -= yHeight
@@ -119,9 +119,9 @@ Namespace SequenceLogo
 
             '绘制bits字符串
             Dim bitsLabelFont As New Font(font.Name, font.Size / 2)
-            size = g.MeasureString("Bits", bitsLabelFont)
 
-            Call g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, region.Top + (region.Height - size.Width) / 2, -90)
+            size = g.MeasureString("Bits", bitsLabelFont)
+            g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, region.Top + (region.Height - size.Width) / 2, -90)
 #End Region
             Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
             Dim colorSchema As Dictionary(Of Char, Image) = model.getCharColorImages
@@ -129,43 +129,49 @@ Namespace SequenceLogo
 
             Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
 
+            ' start from x0
+            X = css.GetWidth(margin.Left)
+            font = New Font(font.Name, font.Size * 0.65)
+
             For Each residue As Residue In source
                 If Not frequencyOrder Then
                     order = residue.Alphabets
                 Else
                     order = (From rsd As Alphabet
                              In residue.Alphabets
-                             Select rsd
                              Order By rsd.RelativeFrequency Ascending).ToArray
                 End If
 
                 Y = region.Height + css.GetHeight(margin.Top)
-
-                ' YHeight is the max height of current residue, and its value is calculate from its Bits value
-                yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
+                ' YHeight is the max height of current residue,
+                ' and its value is calculate from its Bits value
+                yHeight = region.Height * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
 
                 Dim idx As String = CStr(residue.Position)
-                Dim loci As New PointF(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
+                Dim loci As PointF
 
                 size = g.MeasureString(idx, font)
+                loci = New PointF(X + (DrawingDevice.WordSize - size.Width) / 2, Y + 10)
                 g.DrawString(idx, font, Brushes.Black, loci)
 
-                For Each Alphabet As Alphabet In order
+                For Each alphabet As Alphabet In order
+                    If alphabet.RelativeFrequency <= 0.0 Then
+                        Continue For
+                    End If
 
                     ' H is the drawing height of the current drawing alphabet, 
                     ' this height value can be calculate from the formula that show above. 
                     ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
                     ' The drawing height of the alphabet can be calculated out. 
-
-                    Dim H As Single = Alphabet.RelativeFrequency * yHeight
+                    Dim H As Single = alphabet.RelativeFrequency * yHeight
 
                     ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
                     ' and then this makes the next alphabet move up direction 
                     Y -= H
 
                     g.DrawImage(
-                        colorSchema(Alphabet.Alphabet),   ' Drawing alphabet
-                        CSng(X), CSng(Y),                 ' position
+                        colorSchema(alphabet.Alphabet),   ' Drawing alphabet
+                        X, Y,                             ' position
                         CSng(DrawingDevice.WordSize), H)  ' Size and relative height
                 Next
 

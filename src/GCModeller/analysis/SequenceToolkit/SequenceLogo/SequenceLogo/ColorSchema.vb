@@ -138,7 +138,9 @@ Namespace SequenceLogo
 
                 Call g.DrawString(alphabet, font, br, point:=pos)
 
-                Return DirectCast(g, GdiRasterGraphics).ImageResource
+                Dim img As Image = DirectCast(g, GdiRasterGraphics).ImageResource
+                img = img.corp
+                Return img
             End Using
         End Function
 
