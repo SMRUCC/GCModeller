@@ -81,4 +81,20 @@ Public Class MSAMotif : Inherits MSAOutput
         End Get
     End Property
 
+    Public Function CreateMotif() As MotifPWM
+        Return New MotifPWM With {
+            .name = "motif",
+            .alphabets = alphabets,
+            .note = names.JoinBy(", "),
+            .pwm = countMatrix _
+                .Select(Function(r, i)
+                            Return New ResidueSite With {
+                                .site = i + 1,
+                                .PWM = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, r.ints.Sum)
+                            }
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
 End Class

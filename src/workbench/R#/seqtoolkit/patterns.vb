@@ -609,21 +609,27 @@ Module patterns
         End If
 
         Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA, env)
+        Dim pwm As MotifPWM
 
         If data Is Nothing Then
             Dim type As Type = MSA.GetType
 
             Select Case type
                 Case GetType(SequenceMotif)
-                    data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
-                Case GetType(MSAOutput), GetType(MSAMotif)
+                    pwm = DirectCast(MSA, SequenceMotif).CreateModel
+                Case GetType(MSAOutput)
                     data = DirectCast(MSA, MSAOutput).PopulateAlignment
+                    pwm = SequencePatterns.Motif.PWM.FromMla(New FastaFile(data))
+                Case GetType(MSAMotif)
+                    pwm = DirectCast(MSA, MSAMotif).CreateMotif
                 Case Else
                     Return REnv.Internal.debug.stop(New InvalidProgramException($"un-supported clr object type for extract MSA data: {type.FullName}!"), env)
             End Select
+        Else
+            pwm = SequencePatterns.Motif.PWM.FromMla(New FastaFile(data))
         End If
 
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title, driver:=driver)
+        Return DrawingDevice.DrawFrequency(pwm, title, driver:=driver)
     End Function
 
     ''' <summary>

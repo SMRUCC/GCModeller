@@ -79,16 +79,6 @@ Public Class SequenceMotif : Inherits Probability
     End Property
 
     ''' <summary>
-    ''' the length of the MSA alignment
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property width As Integer
-        Get
-            Return seeds.MSA(Scan0).Length
-        End Get
-    End Property
-
-    ''' <summary>
     ''' score / motif with
     ''' </summary>
     ''' <returns></returns>
@@ -107,5 +97,18 @@ Public Class SequenceMotif : Inherits Probability
             Return region.Where(Function(r) r.isConserved).Count
         End Get
     End Property
+
+    Public Function CreateModel() As MotifPWM
+        Dim alphabets As Char() = New Char() {"A"c, "C"c, "G"c, "T"c}
+
+        Return New MotifPWM With {
+            .name = name,
+            .note = tag,
+            .pwm = region _
+                .Select(Function(r) New ResidueSite(r, alphabets)) _
+                .ToArray,
+            .alphabets = alphabets
+        }
+    End Function
 
 End Class
