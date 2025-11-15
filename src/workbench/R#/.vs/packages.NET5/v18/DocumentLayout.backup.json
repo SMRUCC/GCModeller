@@ -1,7 +1,14 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\motifscanner.net5.vbproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\motifscanner.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +16,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +33,31 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MotifScanner.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-15T20:56:02.85Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MotifScanner.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-11-15T20:55:55.032Z",
+              "EditorCaption": ""
             }
           ]
         },

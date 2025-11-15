@@ -15,25 +15,12 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
-  </PropertyGroup>
+
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
     <OutputPath>../../../../../.nuget</OutputPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifScanner.xml</DocumentationFile>
-  </PropertyGroup>
 
 
 
@@ -61,8 +48,5 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-  </ItemGroup>
 
 </Project>
