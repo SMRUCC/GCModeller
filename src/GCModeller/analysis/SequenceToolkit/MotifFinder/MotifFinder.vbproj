@@ -64,11 +64,9 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\Motifs\MotifGraph\MotifGraph.vbproj" />
     <ProjectReference Include="..\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
-    <ProjectReference Include="..\MSA\MSA.NET5.vbproj" />
-    <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
+    <ProjectReference Include="..\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
-    <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
   </ItemGroup>
 
 </Project>

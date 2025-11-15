@@ -50,10 +50,8 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\MotifFinder\MotifFinder.vbproj" />
-    <ProjectReference Include="..\MSA\MSA.NET5.vbproj" />
-    <ProjectReference Include="..\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
+    <ProjectReference Include="..\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
-    <ProjectReference Include="..\SmithWaterman\SmithWaterman.NET5.vbproj" />
   </ItemGroup>
 
   <ItemGroup>
