@@ -354,7 +354,7 @@ Namespace Regtransbase.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function SequenceTrimming(FastaObject As WebServices.MotifFasta) As String
-            Return SequenceTrimming(FastaObject.SequenceData.Replace("-", "N"))
+            Return SequenceTrimming(FastaObject.SequenceData.Replace("-"c, "N"c)).Replace("N"c, "-"c)
         End Function
 
         ''' <summary>
@@ -364,16 +364,16 @@ Namespace Regtransbase.WebServices
         ''' <returns></returns>
         Public Shared Function SequenceTrimming(sequence As String) As String
             Dim tokens$() = Regex.Matches(sequence, ".\(\d+\)", RegexOptions.Singleline).ToArray
-            Dim sBuilder As New StringBuilder(sequence)
+            Dim nt As New StringBuilder(sequence)
 
             For Each token As String In tokens
                 Dim extends As New String(token.First, Convert.ToInt32(Regex.Match(token, "\d+").Value))
 
-                Call $"  {token}  --> {extends}".Warning
-                Call sBuilder.Replace(token, extends)
+                Call $"  {token}  --> {extends}".warning
+                Call nt.Replace(token, extends)
             Next
 
-            Return sBuilder.ToString
+            Return nt.ToString
         End Function
 
         Public Shared Function Parse(url As String) As Regulator
