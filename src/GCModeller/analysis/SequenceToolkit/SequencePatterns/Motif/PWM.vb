@@ -118,10 +118,12 @@ Namespace Motif
             Dim n As Integer = fa.Count
             Dim base As Integer = If(fa.First.IsProtSource, 20, 4)
             Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
-            Dim H As Double() = f.Residues.Select(Function(x) Probability.HI(x.Alphabets)).ToArray
-            Dim PWM As ResidueSite() =
-                LinqAPI.Exec(Of SimpleSite, ResidueSite) _
-               (f.Residues) <= Function(x, i) __residue(x.Alphabets, H(i), E, base, i)
+            Dim H As Double() = f.AsEnumerable.Select(Function(x) Probability.HI(x.Alphabets)).ToArray
+            Dim PWM As ResidueSite() = f.AsEnumerable _
+                .Select(Function(x, i)
+                            Return makeResidue(x.Alphabets, H(i), E, base, i)
+                        End Function) _
+                .ToArray
 
             If base = 20 Then
                 Return MotifPWM.AA_PWM(PWM)
@@ -138,7 +140,7 @@ Namespace Motif
         ''' <param name="en"></param>
         ''' <param name="n"></param>
         ''' <returns></returns>
-        Private Function __residue(f As Dictionary(Of Char, Double), h As Double, en As Double, n As Integer, i As Integer) As ResidueSite
+        Private Function makeResidue(f As Dictionary(Of Char, Double), h As Double, en As Double, n As Integer, i As Integer) As ResidueSite
             Dim R As Double = Math.Log(n, 2) - (h + en)
             Dim alphabets As Double()
 

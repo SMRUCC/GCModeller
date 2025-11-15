@@ -153,7 +153,7 @@ Namespace SequenceModel.Patterns
     ''' <summary>
     ''' 一个经过多序列比对对齐操作的序列集合之中所得到的残基的出现频率模型，可以用这个模型来计算突变率以及SNP位点
     ''' </summary>
-    Public Structure PatternModel : Implements IPatternProvider
+    Public Structure PatternModel : Implements IPatternProvider, Enumeration(Of SimpleSite)
 
         Public ReadOnly Property Residues As SimpleSite()
 
@@ -187,6 +187,12 @@ Namespace SequenceModel.Patterns
 
         Public Overrides Function ToString() As String
             Return GetJson
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of SimpleSite) Implements Enumeration(Of SimpleSite).GenericEnumerator
+            For Each x As SimpleSite In Residues
+                Yield x
+            Next
         End Function
     End Structure
 End Namespace
