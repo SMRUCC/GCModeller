@@ -112,8 +112,8 @@ Namespace BestLocalAlignment
         '''N -2  0  6  1 -3  0  0  0  1 -3 -3  0 -2 [rest of string was truncated]&quot;;.
         '''</summary>
         Public Shared Function FromInnerBlosum62() As Blosum
-            SyncLock My.Resources.BLOSUM62
-                Return BlosumParser.LoadFromStream(My.Resources.BLOSUM62)
+            SyncLock My.Resources.BLOSUM.BLOSUM62
+                Return BlosumParser.LoadFromStream(My.Resources.BLOSUM.BLOSUM62)
             End SyncLock
         End Function
 
