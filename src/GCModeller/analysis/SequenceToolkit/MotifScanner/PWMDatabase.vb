@@ -1,6 +1,8 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
@@ -8,21 +10,21 @@ Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Public Class PWMDatabase : Implements IDisposable
 
-    ReadOnly s As StreamPack
+    ReadOnly fs As IFileSystemEnvironment
 
     Dim disposedValue As Boolean
 
     Public ReadOnly Property FamilyList As String()
         Get
-            Return s.OpenFolder("/motifs/").files _
+            Return fs..OpenFolder("/motifs/").files _
                 .OfType(Of StreamGroup) _
                 .Select(Function(dir) dir.fileName) _
                 .ToArray
         End Get
     End Property
 
-    Sub New(s As Stream, Optional is_readonly As Boolean = True)
-        Me.s = New StreamPack(s, [readonly]:=is_readonly)
+    Sub New(fs As IFileSystemEnvironment)
+        Me.fs = fs
     End Sub
 
     Public Sub AddPWM(family As String, pwm As IEnumerable(Of Probability))
@@ -70,7 +72,9 @@ Public Class PWMDatabase : Implements IDisposable
         If Not disposedValue Then
             If disposing Then
                 ' TODO: dispose managed state (managed objects)
-                Call s.Dispose()
+                If CObj(fs).GetType.ImplementInterface(Of IDisposable) Then
+                    Call DirectCast(fs, IDisposable).Dispose()
+                End If
             End If
 
             ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
