@@ -50,6 +50,10 @@ Namespace SequenceLogo
             Me.model = model
             Me.reverse = reverse
             Me.frequencyOrder = frequencyOrder
+
+            If main.StringEmpty Then
+                main = model.ModelsId
+            End If
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
@@ -59,14 +63,11 @@ Namespace SequenceLogo
             Dim X, Y As Integer
             Dim font As Font = css.GetFont(theme.tagCSS)
             Dim wordSize As Single = font.Size
-            Dim location As PointF
             Dim margin As Padding = canvas.Padding
             Dim n As Integer = model.Alphabets
             Dim gfx = g
 
-            size = g.MeasureString(model.ModelsId, font)
-            location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=css.GetHeight(margin.Top) / 2.5)
-            g.DrawString(model.ModelsId, font, Brushes.Black, location)
+            Call DrawMainTitle(g, region)
 
             font = New Font(FontFace.MicrosoftYaHei, CInt(wordSize * 0.4))
 
