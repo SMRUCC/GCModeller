@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>   
+    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
+    <RootNamespace>SMRUCC.genomics.Interops.NBCR.MEME_Suite</RootNamespace>
+    <AssemblyName>SMRUCC.genomics.Interops.NBCR.MEME_Suite.Documents</AssemblyName>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;PlantMAT</Configurations>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <UseApplicationFramework>True</UseApplicationFramework>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <IncludeSymbols>True</IncludeSymbols>
+  </PropertyGroup>
+  
+</Project>
