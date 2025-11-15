@@ -31,5 +31,6 @@
     <BuildType Solution="gcmodeller_desktop|*" Project="Release" />
     <BuildType Solution="mzkit_win32|*" Project="Release" />
     <BuildType Solution="Rsharp_app_release|*" Project="Release" />
+    <Platform Solution="Debug|x64" Project="x64" />
   </Project>
 </Solution>
