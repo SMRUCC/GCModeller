@@ -93,7 +93,7 @@ Namespace MSA
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function DefaultMatrix() As [Default](Of ScoreMatrix)
-            Return MatrixParser(My.Resources.Matrix.LineTokens)
+            Return MatrixParser(My.Resources.MSAData.Matrix.LineTokens)
         End Function
     End Class
 End Namespace

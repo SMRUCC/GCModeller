@@ -234,6 +234,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="MSA\MSAData.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MSAData.resx</DependentUpon>
+    </Compile>
     <Compile Update="My Project\Resources.Designer.vb">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -242,6 +247,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="MSA\MSAData.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MSAData.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="My Project\Resources.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
