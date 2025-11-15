@@ -154,6 +154,8 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.MEME
 
 Namespace DocumentFormat.XmlOutput.MEME
@@ -206,6 +208,10 @@ Namespace DocumentFormat.XmlOutput.MEME
 
     <XmlType("alphabet_array")> Public Class AlphabetArray
         <XmlElement("value")> Public Property Values As Value()
+
+        Public Function CreateTable() As Dictionary(Of String, Double)
+            Return Values.SafeQuery.ToDictionary(Function(a) a.LetterId, Function(a) a.Value)
+        End Function
 
         Public Function GetValue(alphabet As String) As String
             Dim LQuery = From value In Values Where String.Equals(value.LetterId, alphabet) Select value.Value '
@@ -262,8 +268,15 @@ Namespace DocumentFormat.XmlOutput.MEME
             Return String.Format("motif:={0};", Name)
         End Function
 
-        Public Class ProbabilitiesArray
+        Public Class ProbabilitiesArray : Implements Enumeration(Of AlphabetArray)
+
             <XmlArray("alphabet_matrix")> Public Property AlphabetMatrix As XmlOutput.MEME.AlphabetArray()
+
+            Public Iterator Function GenericEnumerator() As IEnumerator(Of AlphabetArray) Implements Enumeration(Of AlphabetArray).GenericEnumerator
+                For Each site As AlphabetArray In AlphabetMatrix.SafeQuery
+                    Yield site
+                Next
+            End Function
         End Class
 
         <XmlElement("regular_expression")> Public Property RegularExpression As String
@@ -359,6 +372,27 @@ Namespace DocumentFormat.XmlOutput.MEME
                            }
                            Select motif).ToArray
             Return Html
+        End Function
+
+        Public Iterator Function GetMotifs() As IEnumerable(Of Probability)
+            For Each motif As Motif In Motifs.SafeQuery
+                Dim pwm As Residue() = motif.Probabilities _
+                    .AsEnumerable _
+                    .Select(Function(p, i)
+                                Return New Residue With {
+                                    .index = i + 1,
+                                    .frequency = p.CreateTable
+                                }
+                            End Function) _
+                    .ToArray
+
+                Yield New Probability With {
+                    .name = motif.Name,
+                    .pvalue = motif.pvalue,
+                    .score = motif.BayesThreshold,
+                    .region = pwm
+                }
+            Next
         End Function
     End Class
 

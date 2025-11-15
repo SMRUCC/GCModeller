@@ -56,17 +56,30 @@
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 ''' <summary>
 ''' The PWM model
 ''' </summary>
-Public Class Probability
+Public Class Probability : Implements INamedValue, IReadOnlyId
 
+    ''' <summary>
+    ''' the PWM matrix data
+    ''' </summary>
+    ''' <returns></returns>
     Public Property region As Residue()
 
     <XmlAttribute> Public Property pvalue As Double
     <XmlAttribute> Public Property score As Double
+
+    Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
+
+    Public ReadOnly Property width As Integer
+        Get
+            Return region.TryCount
+        End Get
+    End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String

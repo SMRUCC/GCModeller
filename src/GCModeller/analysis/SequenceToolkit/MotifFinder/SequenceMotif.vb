@@ -56,6 +56,9 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 
+''' <summary>
+''' motif model
+''' </summary>
 Public Class SequenceMotif : Inherits Probability
 
     Public Property seeds As MSAOutput

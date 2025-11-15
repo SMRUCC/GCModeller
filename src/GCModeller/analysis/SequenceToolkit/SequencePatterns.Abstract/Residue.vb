@@ -60,6 +60,9 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Information
 
+''' <summary>
+''' residue site
+''' </summary>
 Public Structure Residue
 
     Public Property frequency As Dictionary(Of String, Double)
