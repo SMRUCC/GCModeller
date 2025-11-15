@@ -96,7 +96,7 @@ Public Class Probability : Implements INamedValue, IReadOnlyId
     ''' 
     ''' </summary>
     ''' <param name="nsize">
-    ''' the count of the fasta sequence.
+    ''' the count of the input fasta sequence.
     ''' </param>
     ''' <returns></returns>
     Public Shared Function E(nsize As Integer) As Double
@@ -116,6 +116,9 @@ Public Class Probability : Implements INamedValue, IReadOnlyId
     ''' 
     ''' </summary>
     ''' <param name="En"></param>
+    ''' <param name="NtMol">
+    ''' calculate for the nucleotide sequence model?
+    ''' </param>
     ''' <returns></returns>
     Public Shared Function CalculatesBits(Hi As Double, En As Double, NtMol As Boolean) As Double
         '  Math.Log(n, 2) - (h + en)
@@ -137,13 +140,25 @@ Public Class Probability : Implements INamedValue, IReadOnlyId
     ''' </remarks>
     Public Shared Function HI(f As Dictionary(Of Char, Double)) As Double
         ' 零乘以任何数都是得结果零
-        Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
+        Dim h As Double = Aggregate n As Double
+                          In f.Values
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
         h = 0 - h
         Return h
     End Function
 
     Public Shared Function HI(f As IPatternSite) As Double
-        Dim h As Double = f.EnumerateValues.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
+        Dim h As Double = Aggregate n As Double
+                          In f.EnumerateValues
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
+        h = 0 - h
+        Return h
+    End Function
+
+    Public Shared Function HI(col As IEnumerable(Of Double)) As Double
+        Dim h As Double = Aggregate n As Double
+                          In col
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
         h = 0 - h
         Return h
     End Function

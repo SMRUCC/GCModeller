@@ -90,9 +90,18 @@ Namespace SequenceModel.Patterns
     End Interface
 
     Public Interface IPatternSite : Inherits IAddressOf
+
         Default ReadOnly Property Probability(c As Char) As Double
 
+        ''' <summary>
+        ''' get alphabets of current site
+        ''' </summary>
+        ''' <returns></returns>
         Function EnumerateKeys() As IEnumerable(Of Char)
+        ''' <summary>
+        ''' get the pwm data column
+        ''' </summary>
+        ''' <returns></returns>
         Function EnumerateValues() As IEnumerable(Of Double)
     End Interface
 

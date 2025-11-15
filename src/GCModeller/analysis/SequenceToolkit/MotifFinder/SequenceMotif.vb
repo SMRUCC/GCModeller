@@ -100,12 +100,20 @@ Public Class SequenceMotif : Inherits Probability
 
     Public Function CreateModel() As MotifPWM
         Dim alphabets As Char() = New Char() {"A"c, "C"c, "G"c, "T"c}
+        Dim n As Integer = 100  ' normalized as 100 sequence input
+        Dim E As Double = Probability.E(nsize:=100)
 
         Return New MotifPWM With {
             .name = name,
             .note = tag,
             .pwm = region _
-                .Select(Function(r) New ResidueSite(r, alphabets)) _
+                .Select(Function(r)
+                            Dim hi As Double = Probability.HI(r)
+
+                            Return New ResidueSite(r, alphabets) With {
+                                .bits = Probability.CalculatesBits(hi, E, NtMol:=alphabets.Length = 4)
+                            }
+                        End Function) _
                 .ToArray,
             .alphabets = alphabets
         }

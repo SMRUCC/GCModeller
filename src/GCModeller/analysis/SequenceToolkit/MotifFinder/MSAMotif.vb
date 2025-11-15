@@ -82,15 +82,23 @@ Public Class MSAMotif : Inherits MSAOutput
     End Property
 
     Public Function CreateMotif() As MotifPWM
+        Dim n As Integer = 100  ' normalized as 100 sequence input
+        Dim E As Double = Probability.E(nsize:=100)
+
         Return New MotifPWM With {
             .name = "motif",
             .alphabets = alphabets,
             .note = names.JoinBy(", "),
             .pwm = countMatrix _
                 .Select(Function(r, i)
+                            Dim sum As Integer = r.ints.Sum
+                            Dim col As Double() = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, r.ints.Sum)
+                            Dim Hi As Double = Probability.HI(col)
+
                             Return New ResidueSite With {
                                 .site = i + 1,
-                                .PWM = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, r.ints.Sum)
+                                .PWM = col,
+                                .bits = Probability.CalculatesBits(Hi, E, NtMol:=alphabets.Length = 4)
                             }
                         End Function) _
                 .ToArray
