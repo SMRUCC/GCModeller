@@ -57,6 +57,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -66,8 +67,6 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -149,6 +148,42 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
         ''' (绘制各个残基的出现频率)
         ''' </summary>
+        ''' <param name="pwm">The alignment export data from the clustal software.</param>
+        ''' <param name="title">The sequence logo display title.</param>
+        ''' <returns></returns>
+        <ExportAPI("Drawing.Frequency")>
+        <Extension>
+        Public Function DrawFrequency(pwm As MotifPWM, title$,
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
+
+            Dim model As New DrawingModel With {.ModelsId = title}
+#If DEBUG Then
+            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
+            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
+#End If
+            model.Residues =
+                LinqAPI.Exec(Of ResidueSite, Residue)(pwm.pwm) <=
+                    Function(rsd As ResidueSite)
+                        Return New Residue With {
+                            .Bits = rsd.bits,
+                            .Position = rsd.site,
+                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
+                                                                      In rsd.PWM.SeqIterator
+                                                                      Select New Alphabet With {
+                                                                          .Alphabet = pwm.alphabets(x.i),
+                                                                          .RelativeFrequency = x.value
+                                                                      }  ' alphabets
+                        }  ' residues
+                    End Function
+
+            Return InvokeDrawing(model, True, height:=height, driver:=driver)
+        End Function
+
+        ''' <summary>
+        ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
+        ''' (绘制各个残基的出现频率)
+        ''' </summary>
         ''' <param name="Fasta">The alignment export data from the clustal software.</param>
         ''' <param name="title">The sequence logo display title.</param>
         ''' <returns></returns>
@@ -161,40 +196,18 @@ For example, we identified a new domain, likely to have a role downstream of the
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
-            Dim model As New DrawingModel
-
-#If DEBUG Then
-            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
-            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
-#End If
 
             If String.IsNullOrEmpty(title) Then
                 If Not String.IsNullOrEmpty(fasta.FilePath) Then
-                    model.ModelsId = fasta.FilePath.BaseName
+                    title = fasta.FilePath.BaseName
                 Else
-                    model.ModelsId = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
+                    title = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
                 End If
-            Else
-                model.ModelsId = title
             End If
 
             getModel = PWM
-            model.Residues =
-                LinqAPI.Exec(Of ResidueSite, Residue)(PWM.pwm) <=
-                    Function(rsd As ResidueSite)
-                        Return New Residue With {
-                            .Bits = rsd.Bits,
-                            .Position = rsd.Site,
-                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
-                                                                      In rsd.PWM.SeqIterator
-                                                                      Select New Alphabet With {
-                                                                          .Alphabet = PWM.Alphabets(x.i),
-                                                                          .RelativeFrequency = x.value
-                                                                      }  ' alphabets
-                        }  ' residues
-                    End Function
 
-            Return InvokeDrawing(model, True, height:=height, driver:=driver)
+            Return PWM.DrawFrequency(title, height, driver)
         End Function
 
         ''' <summary>

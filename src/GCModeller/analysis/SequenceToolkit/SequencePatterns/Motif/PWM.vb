@@ -107,10 +107,12 @@ Namespace Motif
         ''' <summary>
         ''' Build probability matrix from clustal multiple sequence alignment, this matrix model can be 
         ''' used for the downstream sequence logo drawing visualization.
-        ''' (从Clustal比对结果之中生成PWM用于SequenceLogo的绘制)
         ''' </summary>
         ''' <param name="fa">A fasta sequence file from the clustal multiple sequence alignment.</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (从Clustal比对结果之中生成PWM用于SequenceLogo的绘制)
+        ''' </remarks>
         Public Function FromMla(fa As FastaFile) As MotifPWM
             Dim f As PatternModel = PatternsAPI.Frequency(fa)
             Dim n As Integer = fa.Count
