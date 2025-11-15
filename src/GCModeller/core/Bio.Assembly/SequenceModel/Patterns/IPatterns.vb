@@ -80,6 +80,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Information
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SequenceModel.Patterns
@@ -90,6 +91,12 @@ Namespace SequenceModel.Patterns
     End Interface
 
     Public Interface IPatternSite : Inherits IAddressOf
+
+        ''' <summary>
+        ''' The information of this site can give us.
+        ''' </summary>
+        ''' <returns></returns>
+        ReadOnly Property Bits As Double
 
         Default ReadOnly Property Probability(c As Char) As Double
 
@@ -105,8 +112,7 @@ Namespace SequenceModel.Patterns
         Function EnumerateValues() As IEnumerable(Of Double)
     End Interface
 
-    Public Structure SimpleSite
-        Implements IPatternSite
+    Public Structure SimpleSite : Implements IPatternSite
 
         Public ReadOnly Property Alphabets As Dictionary(Of Char, Double)
 
@@ -133,11 +139,17 @@ Namespace SequenceModel.Patterns
             End Get
         End Property
 
-        Public Property Address As Integer Implements IAddressOf.Address
+        Public Property site As Integer Implements IAddressOf.Address
+
+        Public ReadOnly Property Bits As Double Implements IPatternSite.Bits
+            Get
+                Return Alphabets.Values.ShannonEntropy
+            End Get
+        End Property
 
         Sub New(f As Dictionary(Of Char, Double), i As Integer)
             Alphabets = f
-            Address = i
+            site = i
         End Sub
 
         Public Overrides Function ToString() As String
@@ -154,7 +166,7 @@ Namespace SequenceModel.Patterns
             Return Alphabets.Values
         End Function
 
-        Public Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
             Throw New NotImplementedException()
         End Sub
     End Structure

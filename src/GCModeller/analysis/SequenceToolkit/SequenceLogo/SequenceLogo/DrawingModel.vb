@@ -1,82 +1,69 @@
 ﻿#Region "Microsoft.VisualBasic::d166df1bea72da18013a30a1ba416acc, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 117
-    '    Code Lines: 70 (59.83%)
-    ' Comment Lines: 33 (28.21%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 14 (11.97%)
-    '     File Size: 4.26 KB
+' Summaries:
 
 
-    '     Interface ILogoResidue
-    ' 
-    '         Properties: Bits
-    ' 
-    '     Class DrawingModel
-    ' 
-    '         Properties: Alphabets, En, ModelsId, Residues
-    ' 
-    '         Function: AAResidue, NTResidue, pwm2ic, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 117
+'    Code Lines: 70 (59.83%)
+' Comment Lines: 33 (28.21%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 14 (11.97%)
+'     File Size: 4.26 KB
+
+
+'     Interface ILogoResidue
+' 
+'         Properties: Bits
+' 
+'     Class DrawingModel
+' 
+'         Properties: Alphabets, En, ModelsId, Residues
+' 
+'         Function: AAResidue, NTResidue, pwm2ic, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace SequenceLogo
-
-    ''' <summary>
-    ''' Abstract model for a residue site in a motif sequence fragment.
-    ''' </summary>
-    Public Interface ILogoResidue : Inherits IPatternSite
-        ''' <summary>
-        ''' The information of this site can give us.
-        ''' </summary>
-        ''' <returns></returns>
-        ReadOnly Property Bits As Double
-    End Interface
 
     ''' <summary>
     ''' Drawing model for the sequence logo visualization.
@@ -111,10 +98,9 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Shared Function AAResidue(x As ILogoResidue) As Residue
+        Public Shared Function AAResidue(x As IPatternSite) As Residue
             Dim Residue As New Residue With {
-                .Alphabets = SequenceModel _
-                    .AA _
+                .Alphabets = SequenceModel.AA _
                     .Select(Function(r)
                                 Return New Alphabet With {
                                     .Alphabet = r,
@@ -133,7 +119,7 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Shared Function NTResidue(x As ILogoResidue) As Residue
+        Public Shared Function NTResidue(x As IPatternSite) As Residue
             Dim Residue As New Residue With {
                 .Alphabets = {
                     New Alphabet With {.Alphabet = "A"c, .RelativeFrequency = x("A"c)},

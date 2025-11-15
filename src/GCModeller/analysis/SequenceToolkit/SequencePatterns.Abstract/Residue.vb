@@ -98,7 +98,7 @@ Public Structure Residue : Implements IPatternSite
         End Get
     End Property
 
-    Public ReadOnly Property Hi As Double
+    Public ReadOnly Property Hi As Double Implements IPatternSite.Bits
         Get
             Return frequency.Values.ShannonEntropy()
         End Get

@@ -129,29 +129,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj">
-      <Project>{be2226e1-1bb8-e925-e8b2-d7443ad47345}</Project>
-      <Name>MotifGraph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj">
       <Project>{986b40f3-72af-5320-15c4-6aa73c7bfe49}</Project>
       <Name>DNA_Comparative.netcoreapp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\MotifFinder\MotifFinder.vbproj">
-      <Project>{3be6b451-870e-bcc3-ba74-6b492e119179}</Project>
-      <Name>MotifFinder</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\MSA\MSA.NET5.vbproj">
-      <Project>{43da9157-41ed-d729-1179-83bc0dd7a326}</Project>
-      <Name>MSA.NET5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj">
-      <Project>{487be54f-a8d6-8e59-009a-57f5b0f8a38e}</Project>
-      <Name>NeedlemanWunsch.NET5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.NET5.vbproj">
-      <Project>{cc81bd51-18f5-9ed7-5c62-345408aa04e2}</Project>
-      <Name>SequenceLogo.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj">
       <Project>{6ca8c916-8372-a64e-34c4-bfae5c1abd53}</Project>
@@ -160,10 +140,6 @@
     <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj">
       <Project>{10882691-b340-7419-76df-c78c61918fcd}</Project>
       <Name>SequencePatterns.NET5</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.NET5.vbproj">
-      <Project>{ff644f5f-bee6-f6c4-fcb9-430a007997fb}</Project>
-      <Name>SmithWaterman.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
       <Project>{e6075059-b6e2-8fe8-0c2c-a7a202da0f4a}</Project>
@@ -233,9 +209,9 @@
       <Project>{b43ec60f-c887-3bd6-9f97-d5d36d5fda87}</Project>
       <Name>html_netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MEME.DocParser.vbproj">
-      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
-      <Name>MEME.DocParser</Name>
+    <ProjectReference Include="..\meme_data.vbproj">
+      <Project>{119d9987-7a67-18d4-486e-ce295acc7c83}</Project>
+      <Name>meme_data</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
