@@ -62,6 +62,7 @@ Namespace SequenceLogo
             Dim location As PointF
             Dim margin As Padding = canvas.Padding
             Dim n As Integer = model.Alphabets
+            Dim gfx = g
 
             size = g.MeasureString(model.ModelsId, Font)
             location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=css.GetHeight(margin.Top) / 2.5)
@@ -77,7 +78,9 @@ Namespace SequenceLogo
             Dim maxBits As Double = Math.Log(n, newBase:=2)
             Dim yHeight As Integer = n * height
 
+            ' y axis
             Call g.DrawLine(Pens.Black, New Point(X, Y - yHeight), New Point(X, Y))
+            ' x axis
             Call g.DrawLine(Pens.Black, New Point(X, Y), New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
 
             ' nt 2 steps,  aa 5 steps
@@ -90,12 +93,21 @@ Namespace SequenceLogo
 
             Dim yBits As Double = 0
             Dim y1!
+            Dim str As String
+            Dim pad As Integer = 5
+            Dim maxStrW As Double = Enumerable.Range(0, departs + 1) _
+                .Select(Function(a)
+                            Return gfx.MeasureString(a * d, font).Width
+                        End Function) _
+                .Max
+            Dim bitStrLeft As Single = X - maxStrW - pad
 
             For j As Integer = 0 To departs
-                size = g.MeasureString(yBits, font:=Font)
+                str = yBits.ToString
+                size = g.MeasureString(str, font:=font)
 
                 y1 = Y - size.Height / 2
-                g.DrawString(CStr(yBits), font, Brushes.Black, New Point(x:=X - size.Width, y:=y1))
+                g.DrawString(str, font, Brushes.Black, New Point(x:=bitStrLeft, y:=y1))
 
                 y1 = Y '- sz.Height / 8
                 g.DrawLine(Pens.Black, New Point(x:=X, y:=y1), New Point(x:=X + 10, y:=y1))
@@ -103,7 +115,7 @@ Namespace SequenceLogo
                 yBits += d
                 Y -= yHeight
             Next
-
+#End Region
             Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
             Dim colorSchema As Dictionary(Of Char, Image) = model.getCharColorImages
             Dim order As Alphabet()
@@ -161,7 +173,7 @@ Namespace SequenceLogo
             size = g.MeasureString("Bits", Font)
 
             Call g.DrawString("Bits", Font, Brushes.Black, (height - size.Width) / 2, css.GetWidth(margin.Left) / 3, -90)
-#End Region
+
         End Sub
     End Class
 End Namespace
