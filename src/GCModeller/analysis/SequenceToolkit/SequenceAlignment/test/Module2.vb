@@ -54,7 +54,7 @@
 Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Module Module1
+Module Module2
 
     Sub Main()
 

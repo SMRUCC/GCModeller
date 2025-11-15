@@ -54,7 +54,7 @@
 Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Module Module1
+Module Module3
 
     Sub Main()
         Dim s1 As New FastaToken("ATGCCCCCCCCCCTGGGAAAAAAAATGCCCACCCCTTTAA", "1")
