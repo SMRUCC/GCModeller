@@ -64,8 +64,11 @@ Imports SMRUCC.genomics.ContextModel.Promoter
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
-''' 扫描出相同的KO编号的基因的上游区域的片段的相似片段
+''' Find motif from the consensus sequence region
 ''' </summary>
+''' <remarks>
+''' 扫描出相同的KO编号的基因的上游区域的片段的相似片段
+''' </remarks>
 Public Class ConsensusScanner
 
     Dim KOUpstream As Dictionary(Of String, FastaSeq())
