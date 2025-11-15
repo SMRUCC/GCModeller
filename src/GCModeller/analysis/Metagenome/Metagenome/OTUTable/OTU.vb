@@ -58,7 +58,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Metagenomics.BIOMTaxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
