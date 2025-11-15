@@ -225,10 +225,14 @@ For example, we identified a new domain, likely to have a role downstream of the
         End Function
 
         <Extension>
-        Friend Function CharColorImages(model As DrawingModel) As Dictionary(Of Char, Image)
-            Return If(model.Alphabets = 4,
-                SequenceLogo.ColorSchema.NucleotideSchema,
-                SequenceLogo.ColorSchema.ProteinSchema)
+        Friend Function CharColorImages(model As DrawingModel, backColor As Color) As Dictionary(Of Char, Image)
+            With New ColorSchema(backColor)
+                If model.Alphabets = 4 Then
+                    Return .NucleotideSchema
+                Else
+                    Return .ProteinSchema
+                End If
+            End With
         End Function
 
         ''' <summary>

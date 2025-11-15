@@ -124,7 +124,7 @@ Namespace SequenceLogo
             g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, region.Top + (region.Height - size.Width) / 2, -90)
 #End Region
             Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
-            Dim colorSchema As Dictionary(Of Char, Image) = model.CharColorImages
+            Dim colorSchema As Dictionary(Of Char, Image) = model.CharColorImages(theme.background.TranslateColor)
             Dim order As Alphabet()
 
             Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
