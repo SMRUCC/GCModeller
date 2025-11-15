@@ -145,11 +145,7 @@ Namespace SequenceLogo
                 Call g.DrawString(alphabet, font, br, point:=pos)
 
                 Dim img As Image = DirectCast(g, GdiRasterGraphics).ImageResource
-
-                img = img _
-                    .CorpBlank(blankColor:=Color.Transparent) _
-                    .ColorReplace(Color.Black, Color.Transparent)
-
+                img = img.CorpBlank(blankColor:=backColor)
                 Return img
             End Using
         End Function

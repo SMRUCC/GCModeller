@@ -261,7 +261,7 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim theme As New Theme With {
                 .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
                 .padding = logoPadding,
-                .background = "transparent",
+                .background = "white",
                 .mainCSS = "font-style: strong; font-size: 36; font-family: " & FontFace.MicrosoftYaHei & ";"
             }
             Dim logo As New Logo(model, reverse, frequencyOrder, theme)
