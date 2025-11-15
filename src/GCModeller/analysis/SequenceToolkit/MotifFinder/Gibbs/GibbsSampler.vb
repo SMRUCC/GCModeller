@@ -166,12 +166,13 @@ Public Class GibbsSampler
             .MaxDegreeOfParallelism = Environment.ProcessorCount
         }
 
-        Call Parallel.For(fromInclusive:=0,
-                          toExclusive:=numSamples,
-                          parallelOptions,
-                          body:=Sub(j)
-                                    Call sampler.RunOne(maxIterations)
-                                End Sub)
+        Call System.Threading.Tasks.Parallel.For(
+            fromInclusive:=0,
+            toExclusive:=numSamples,
+            parallelOptions,
+            body:=Sub(j)
+                      Call sampler.RunOne(maxIterations)
+                  End Sub)
 
         Dim motifMatrix As WeightMatrix = New SequenceMatrix(sampler.predictedMotifs)
         Dim icpc As Double = CDbl(sampler.maxInformationContent) / m_motifLength
