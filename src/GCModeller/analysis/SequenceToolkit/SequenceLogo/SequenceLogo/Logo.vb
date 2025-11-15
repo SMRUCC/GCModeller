@@ -66,7 +66,7 @@ Namespace SequenceLogo
             Dim gfx = g
             Dim height As Single = region.Height / n
 
-            Call DrawMainTitle(g, region, 1.5)
+            Call DrawMainTitle(g, region, 1.25)
 
             font = New Font(FontFace.MicrosoftYaHei, CInt(wordSize * 0.4))
 
@@ -121,7 +121,7 @@ Namespace SequenceLogo
             Dim bitsLabelFont As New Font(font.Name, font.Size / 2)
             size = g.MeasureString("Bits", bitsLabelFont)
 
-            Call g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, (height + margin.Vertical(css)), -90)
+            Call g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, region.Top + (region.Height - size.Width) / 2, -90)
 #End Region
             Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
             Dim colorSchema As Dictionary(Of Char, Image) = model.getCharColorImages

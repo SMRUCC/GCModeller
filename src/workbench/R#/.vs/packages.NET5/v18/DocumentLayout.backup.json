@@ -3,10 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\drawingdevice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\logo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\logo.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo\\drawingdevice.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -29,7 +29,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
@@ -74,13 +74,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "DrawingDevice.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\DrawingDevice.vb",
-              "ViewState": "AgIAANQAAAAAAAAAAAAYwAwBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAANQAAAAAAAAAAAAYwAQBAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T16:57:37.646Z",
               "EditorCaption": ""
@@ -100,13 +100,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Logo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo\\Logo.vb",
-              "ViewState": "AgIAABwAAAAAAAAAAAAuwDEAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAgwG4AAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T16:29:47.817Z",
               "EditorCaption": ""
