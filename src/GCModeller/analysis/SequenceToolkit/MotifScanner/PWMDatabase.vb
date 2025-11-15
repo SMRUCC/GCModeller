@@ -14,9 +14,11 @@ Public Class PWMDatabase : Implements IDisposable
 
     Public ReadOnly Property FamilyList As String()
         Get
-            Return fs..OpenFolder("/motifs/").files _
-                .OfType(Of StreamGroup) _
-                .Select(Function(dir) dir.fileName) _
+            Dim folder As FileSystemTree = FileSystemTree.BuildTree(fs.EnumerateFiles("/motifs/"))
+            Dim dirs = folder.Files.Values.Where(Function(a) a.IsDirectory).ToArray
+
+            Return dirs _
+                .Select(Function(dir) dir.Name) _
                 .ToArray
         End Get
     End Property

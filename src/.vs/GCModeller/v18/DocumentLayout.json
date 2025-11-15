@@ -5,6 +5,26 @@
     {
       "AbsoluteMoniker": "D:0:0:{B1C757BF-6D57-4298-B01A-6F08B3417666}|GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\pwmdatabase.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{B1C757BF-6D57-4298-B01A-6F08B3417666}|GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\pwmdatabase.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\filesystemtree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\filesystemtree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\iworkspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\iworkspace.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\ifilesystemenvironment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\fs\\ifilesystemenvironment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\programpathsearchtool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\programpathsearchtool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\memorystreampool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2CD39486-4D2E-4498-8F70-B7365B28291A}|runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|solutionrelative:runtime\\scibasic#\\microsoft.visualbasic.core\\src\\applicationservices\\filesystem\\memorystreampool.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,8 +34,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 9,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IWorkspace.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IWorkspace.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IWorkspace.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IWorkspace.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IWorkspace.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T21:32:40.393Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IFileSystemEnvironment.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T21:31:53.658Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -34,13 +80,52 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FileSystemTree.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\FileSystemTree.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\FileSystemTree.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\FileSystemTree.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\FileSystemTree.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwEQAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T21:32:20.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ProgramPathSearchTool.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\ProgramPathSearchTool.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\ProgramPathSearchTool.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\ProgramPathSearchTool.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\ProgramPathSearchTool.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T21:32:16.313Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "MemoryStreamPool.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\MemoryStreamPool.vb",
+              "RelativeDocumentMoniker": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\MemoryStreamPool.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\MemoryStreamPool.vb",
+              "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\MemoryStreamPool.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-15T21:32:15.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "PWMDatabase.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T21:25:13.118Z",
               "EditorCaption": ""
