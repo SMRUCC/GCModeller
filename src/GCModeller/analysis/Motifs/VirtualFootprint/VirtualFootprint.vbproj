@@ -33,10 +33,7 @@
     <ProjectReference Include="..\..\..\data\RegulonDatabase\RegulonDatabase.NET5.vbproj" />
     <ProjectReference Include="..\..\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj" />
     <ProjectReference Include="..\..\SequenceToolkit\MotifFinder\MotifFinder.vbproj" />
-    <ProjectReference Include="..\..\SequenceToolkit\MSA\MSA.NET5.vbproj" />
-    <ProjectReference Include="..\..\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
     <ProjectReference Include="..\..\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
-    <ProjectReference Include="..\..\SequenceToolkit\SmithWaterman\SmithWaterman.NET5.vbproj" />
     <ProjectReference Include="..\MotifGraph\MotifGraph.vbproj" />
   </ItemGroup>
 </Project>
