@@ -50,10 +50,11 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel
 
 Namespace DocumentFormat.XmlOutput
 
-    Public MustInherit Class MEMEXmlBase
+    Public MustInherit Class MEMEXmlBase : Inherits XmlDataModel
 
         <XmlAttribute("version")> Public Property Version As String
         <XmlAttribute("release")> Public Property Release As String

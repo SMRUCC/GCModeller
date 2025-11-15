@@ -219,7 +219,7 @@ Namespace DocumentFormat.XmlOutput.MEME
 
         <XmlType("value")> Public Class Value
             <XmlAttribute("letter_id")> Public Property LetterId As String
-            <XmlText()> Public Property Value As String
+            <XmlText()> Public Property Value As Double
 
             Public Overrides Function ToString() As String
                 Return String.Format("<value letter_id=""{0}"">{1}</value>", LetterId, Value)
@@ -398,7 +398,7 @@ Namespace DocumentFormat.XmlOutput.MEME
     ''' </summary>
     Public Class TrainingSet
 
-        <XmlAttribute("datafile")> Public Property DataFile As String
+        <XmlAttribute()> Public Property primary_sequences As String
         <XmlAttribute("length")> Public Property Length As String
         <XmlElement("alphabet")> Public Property Alphabet As Alphabet
         <XmlElement("ambigs")> Public Property Ambigs As AmbigsArray
@@ -411,7 +411,7 @@ Namespace DocumentFormat.XmlOutput.MEME
         End Function
 
         Public Overrides Function ToString() As String
-            Return String.Format("<training_set datafile=""{0}"" length=""{1}"">", DataFile, Length)
+            Return String.Format("<training_set datafile=""{0}"" length=""{1}"">", primary_sequences, Length)
         End Function
 
         Public Class AmbigsArray
@@ -435,17 +435,23 @@ Namespace DocumentFormat.XmlOutput.MEME
     End Class
 
     Public Class Alphabet
-        <XmlAttribute("id")> Public Property Id As String
-        <XmlAttribute("length")> Public Property Length As String
+        <XmlAttribute()> Public Property name As String
+        <XmlAttribute()> Public Property [like] As String
+
         <XmlElement("letter")> Public Property Letters As Letter()
 
         Public Overrides Function ToString() As String
-            Return String.Format("<alphabet id=""{0}"" length=""{1}"">", Id, Length)
+            Return String.Format("<alphabet id=""{0}"" length=""{1}"">", name, Letters.Length)
         End Function
 
         Public Class Letter
             <XmlAttribute("id")> Public Property Id As String
             <XmlAttribute("symbol")> Public Property Symbol As String
+            <XmlAttribute> Public Property complement As String
+            <XmlAttribute> Public Property name As String
+            <XmlAttribute> Public Property colour As String
+            <XmlAttribute("equals")> Public Property equalsTo As String
+            <XmlAttribute> Public Property aliases As String
 
             Public Overrides Function ToString() As String
                 Return String.Format("<letter id=""{0}"" symbol=""{1}"">", Id, Symbol)
