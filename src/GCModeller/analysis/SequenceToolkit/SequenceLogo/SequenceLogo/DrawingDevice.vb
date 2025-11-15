@@ -237,6 +237,9 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' <param name="model">The model can be achieve from clustal alignment or meme software.</param>
         ''' <param name="frequencyOrder">Reorder the alphabets in each residue site in the order of frequency values. default is yes!</param>
         ''' <param name="reverse">Reverse the residue sequence order in the drawing model?</param>
+        ''' <param name="height">
+        ''' height of the alphabet plot image
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' (绘制SequenceLogo图)
@@ -244,19 +247,16 @@ For example, we identified a new domain, likely to have a role downstream of the
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
-                                      Optional logoPadding$ = g.DefaultPadding,
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 5%;",
                                       Optional reverse As Boolean = False,
                                       Optional height As Integer = 75,
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            Dim n As Integer = model.Alphabets
-            Dim margin As Padding = Padding.TryParse(logoPadding)
-            Dim css As New CSSEnvirnment(New Size(model.Residues.Length * WordSize, height))
-            Dim width! = model.Residues.Length * WordSize + margin.Horizontal(css)
-            Dim size1 As New Size(width, (n + 1) * height + margin.Vertical(css))
+            Dim width! = (model.Residues.Length + 5) * WordSize
+            Dim size1 As New Size(width, (model.Alphabets + 3) * height)
             Dim theme As New Theme With {
                 .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
-                .padding = margin.ToString,
+                .padding = logoPadding,
                 .background = "transparent"
             }
             Dim logo As New Logo(model, height, reverse, frequencyOrder, theme)

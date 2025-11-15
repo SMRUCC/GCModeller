@@ -55,7 +55,7 @@ Namespace SequenceLogo
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim size As SizeF
-            Dim region As Rectangle = canvas.PlotRegion(CSS)
+            Dim region As Rectangle = canvas.PlotRegion(css)
             Dim X, Y As Integer
             Dim font As Font = css.GetFont(theme.tagCSS)
             Dim wordSize As Single = font.Size
@@ -64,11 +64,11 @@ Namespace SequenceLogo
             Dim n As Integer = model.Alphabets
             Dim gfx = g
 
-            size = g.MeasureString(model.ModelsId, Font)
+            size = g.MeasureString(model.ModelsId, font)
             location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=css.GetHeight(margin.Top) / 2.5)
-            g.DrawString(model.ModelsId, Font, Brushes.Black, location)
+            g.DrawString(model.ModelsId, font, Brushes.Black, location)
 
-            Font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
+            font = New Font(FontFace.MicrosoftYaHei, CInt(wordSize * 0.4))
 
 #Region "画坐标轴"
             ' 坐标轴原点
@@ -115,6 +115,12 @@ Namespace SequenceLogo
                 yBits += d
                 Y -= yHeight
             Next
+
+            '绘制bits字符串
+            Dim bitsLabelFont As New Font(font.Name, font.Size / 2)
+            size = g.MeasureString("Bits", bitsLabelFont)
+
+            Call g.DrawString("Bits", bitsLabelFont, Brushes.Black, css.GetWidth(margin.Left) / 3, (height + margin.Vertical(css)), -90)
 #End Region
             Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
             Dim colorSchema As Dictionary(Of Char, Image) = model.getCharColorImages
@@ -167,13 +173,6 @@ Namespace SequenceLogo
             Next
 
             Call Console.WriteLine()
-
-            '绘制bits字符串
-            Font = New Font(Font.Name, Font.Size / 2)
-            size = g.MeasureString("Bits", Font)
-
-            Call g.DrawString("Bits", Font, Brushes.Black, (height - size.Width) / 2, css.GetWidth(margin.Left) / 3, -90)
-
         End Sub
     End Class
 End Namespace
