@@ -66,7 +66,6 @@ Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 Imports std = System.Math
 
 Public Module ProbabilityScanner
@@ -96,71 +95,6 @@ Public Module ProbabilityScanner
             Yield scan
         Next
     End Function
-
-    Public Class ZERO
-
-        ReadOnly nucleotides As Char()
-        ReadOnly cumulativeProbs As IReadOnlyCollection(Of Double)
-
-        Sub New(background As Dictionary(Of Char, Double))
-            Dim cumulativeProbs As New List(Of Double)()
-            Dim nucleotides As Char() = background.Keys.ToArray
-            ' 构建累积概率分布
-            Dim cumulative As Double = 0
-            For Each NT As Char In background.Keys
-                cumulative += background(NT)
-                cumulativeProbs.Add(cumulative)
-            Next
-
-            Me.nucleotides = nucleotides
-            Me.cumulativeProbs = cumulativeProbs
-        End Sub
-
-        Public Function NextSequence(length As Integer) As String
-            ' 生成随机序列
-            Dim sequence As Char() = New Char(length - 1) {}
-
-            For i As Integer = 1 To length
-                Dim rndValue As Double = randf.NextDouble()
-
-                ' 选择核苷酸
-                For j As Integer = 0 To nucleotides.Length - 1
-                    If rndValue <= cumulativeProbs(j) Then
-                        sequence(i - 1) = nucleotides(j)
-                        Exit For
-                    End If
-                Next
-            Next
-
-            Return New String(sequence)
-        End Function
-
-    End Class
-
-    Public Class NullTest : Inherits NullHypothesis(Of String)
-
-        ReadOnly length As Integer
-        ReadOnly zero As ZERO
-        ReadOnly motifSlice As Residue()
-
-        Sub New(zero As ZERO, motifSlice As Residue(), length As Integer, Optional permutation As Integer = 1000)
-            Call MyBase.New(permutation)
-
-            Me.motifSlice = motifSlice
-            Me.zero = zero
-            Me.length = length
-        End Sub
-
-        Public Overrides Iterator Function ZeroSet() As IEnumerable(Of String)
-            For i As Integer = 1 To Permutation
-                Yield zero.NextSequence(length)
-            Next
-        End Function
-
-        Public Overrides Function Score(x As String) As Double
-            Return ProbabilityScanner.score(x.ToCharArray, motifSlice)
-        End Function
-    End Class
 
     <Extension>
     Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
@@ -216,7 +150,7 @@ Public Module ProbabilityScanner
         Return matches.Take(5)
     End Function
 
-    Private Function score(seq As String, PWM As IReadOnlyCollection(Of Residue)) As Double
+    Friend Function score(seq As String, PWM As IReadOnlyCollection(Of Residue)) As Double
         Dim total As Double = 0
 
         For i As Integer = 0 To seq.Length - 1
