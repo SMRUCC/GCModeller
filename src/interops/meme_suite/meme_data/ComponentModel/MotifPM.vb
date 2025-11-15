@@ -59,7 +59,6 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
@@ -69,7 +68,7 @@ Namespace ComponentModel
     ''' Motif序列之中的一个位点
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class MotifPM : Implements ILogoResidue
+    Public Class MotifPM : Implements IPatternSite
 
         Dim _innerTable As Dictionary(Of DNA, Double)
 
@@ -150,7 +149,7 @@ Namespace ComponentModel
 
         Dim MostPossible As KeyValuePair(Of DNA, Double)
 
-        <XmlAttribute> Public Property Bits As Double Implements ILogoResidue.Bits
+        <XmlAttribute> Public Property Bits As Double Implements IPatternSite.Bits
 
         ''' <summary>
         ''' 
@@ -234,7 +233,7 @@ Namespace ComponentModel
             {DNA.dCMP, Function(pm As MotifPM) pm.C}
         }
 
-        Default Public ReadOnly Property Probability(c As Char) As Double Implements ILogoResidue.Probability
+        Default Public ReadOnly Property Probability(c As Char) As Double Implements IPatternSite.Probability
             Get
                 Select Case c
                     Case "A"c, "a"c
