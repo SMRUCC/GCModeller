@@ -215,7 +215,7 @@ Module patterns
     ''' convert the meme document to motif PWM model object
     ''' </summary>
     ''' <param name="meme"></param>
-    ''' <returns></returns>
+    ''' <returns>a vector of the PWM clr object.</returns>
     <ExportAPI("toPWM")>
     <RApiReturn(GetType(Probability))>
     Public Function toPWM(meme As MEMEXml) As Object

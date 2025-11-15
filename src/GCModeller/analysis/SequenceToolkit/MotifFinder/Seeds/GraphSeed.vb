@@ -69,7 +69,7 @@ Imports SMRUCC.genomics.Model.MotifGraph
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
-Public Module FileName
+Public Module GraphSeedTool
 
     ''' <summary>
     ''' bootstrapping sampling
