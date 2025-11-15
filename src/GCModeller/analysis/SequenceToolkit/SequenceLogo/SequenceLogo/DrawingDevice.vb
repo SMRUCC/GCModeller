@@ -257,9 +257,10 @@ For example, we identified a new domain, likely to have a role downstream of the
             Dim theme As New Theme With {
                 .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
                 .padding = logoPadding,
-                .background = "transparent"
+                .background = "transparent",
+                .mainCSS = "font-style: strong; font-size: 27; font-family: " & FontFace.MicrosoftYaHei & ";"
             }
-            Dim logo As New Logo(model, height, reverse, frequencyOrder, theme)
+            Dim logo As New Logo(model, reverse, frequencyOrder, theme)
 
             Return logo.Plot($"{size1.Width},{size1.Height}",, driver)
         End Function

@@ -39,14 +39,12 @@ Namespace SequenceLogo
     Public Class Logo : Inherits Plot
 
         ReadOnly model As DrawingModel
-        ReadOnly height As Single
         ReadOnly reverse As Boolean
         ReadOnly frequencyOrder As Boolean
 
-        Public Sub New(model As DrawingModel, height As Single, reverse As Boolean, frequencyOrder As Boolean, theme As Theme)
+        Public Sub New(model As DrawingModel, reverse As Boolean, frequencyOrder As Boolean, theme As Theme)
             MyBase.New(theme)
 
-            Me.height = height
             Me.model = model
             Me.reverse = reverse
             Me.frequencyOrder = frequencyOrder
@@ -66,13 +64,15 @@ Namespace SequenceLogo
             Dim margin As Padding = canvas.Padding
             Dim n As Integer = model.Alphabets
             Dim gfx = g
+            Dim height As Single = region.Height / n
 
-            Call DrawMainTitle(g, region)
+            Call DrawMainTitle(g, region, 1.5)
 
             font = New Font(FontFace.MicrosoftYaHei, CInt(wordSize * 0.4))
 
 #Region "画坐标轴"
             ' 坐标轴原点
+            ' x0, y0
             X = css.GetWidth(margin.Left)
             Y = region.Height + css.GetHeight(margin.Top)
 
