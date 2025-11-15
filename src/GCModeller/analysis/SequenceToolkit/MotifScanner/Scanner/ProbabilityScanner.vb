@@ -109,12 +109,14 @@ Public Module ProbabilityScanner
                                        Optional minW% = 6,
                                        Optional identities As Double = 0.8,
                                        Optional pvalue As Double = 0.05,
-                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
+                                       Optional top As Integer = 9,
+                                       Optional permutation As Integer = 1000) As IEnumerable(Of MotifMatch)
 
         For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW,
                                                               identities:=identities,
                                                               pvalue_cut:=pvalue,
-                                                              top:=top)
+                                                              top:=top,
+                                                              n:=permutation)
             scan.seeds = New String() {motif.name}
 
             Yield scan
