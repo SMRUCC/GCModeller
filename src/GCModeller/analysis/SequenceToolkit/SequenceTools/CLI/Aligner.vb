@@ -1,66 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 213
-    '    Code Lines: 175 (82.16%)
-    ' Comment Lines: 10 (4.69%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 28 (13.15%)
-    '     File Size: 9.38 KB
+' Summaries:
 
 
-    ' Module Utilities
-    ' 
-    '     Function: __alignCommon, Align, Align2, AlignSelf, CutMlAlignment
-    '               NW, NWNT
-    '     Class AlignmentResult
-    ' 
-    '         Properties: Query, Subject
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: __getReference, __getSubject, SafeAlign
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 213
+'    Code Lines: 175 (82.16%)
+' Comment Lines: 10 (4.69%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 28 (13.15%)
+'     File Size: 9.38 KB
+
+
+' Module Utilities
+' 
+'     Function: __alignCommon, Align, Align2, AlignSelf, CutMlAlignment
+'               NW, NWNT
+'     Class AlignmentResult
+' 
+'         Properties: Query, Subject
+' 
+'         Constructor: (+3 Overloads) Sub New
+'         Function: __getReference, __getSubject, SafeAlign
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
@@ -68,15 +67,15 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis
-Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 
     ''' <summary>
-    ''' <see cref="RunNeedlemanWunsch.RunAlign(FastaSeq, FastaSeq, TextWriter)"/>
+    ''' <see cref="RunNeedlemanWunsch.RunAlign"/>
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -132,7 +131,7 @@ Partial Module Utilities
         Dim queryFa As New FASTA.FastaSeq(query)
         Dim subjectFa As New FASTA.FastaSeq(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, BlosumParser.LoadMatrix(blosum))
-        Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
+        Dim sw As SmithWaterman = SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
         Call output.debug
         Return output.SaveAsXml(out).CLICode
@@ -270,6 +269,6 @@ Partial Module Utilities
 
         Dim out = aln.Mid(leftOffset, rightOffset)
         Dim outFile$ = args("/out") Or ((args <= "/in").TrimSuffix & $"{leftOffset}-{rightOffset}.fasta")
-        Return out.Save(-1, outFile, Encodings.ASCII).CLICode
+        Return out.Save(-1, outFile, encoding:=Encodings.ASCII).CLICode
     End Function
 End Module

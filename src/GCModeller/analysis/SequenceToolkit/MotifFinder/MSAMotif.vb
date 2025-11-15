@@ -55,7 +55,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 
 ''' <summary>
 ''' 
