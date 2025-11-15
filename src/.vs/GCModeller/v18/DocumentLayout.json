@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\aligner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\aligner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{BD268211-881F-4176-8220-3CA450ADB2D7}|GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\SequenceTools.vbproj|solutionrelative:gcmodeller\\analysis\\sequencetoolkit\\sequencetools\\cli\\utilities.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -35,32 +26,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Utilities.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T20:14:27.496Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Aligner.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Aligner.vb",
-              "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Aligner.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Aligner.vb",
-              "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Aligner.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T20:14:20.244Z",
-              "EditorCaption": ""
             }
           ]
         },
