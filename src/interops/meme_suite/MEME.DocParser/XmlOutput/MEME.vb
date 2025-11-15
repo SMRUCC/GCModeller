@@ -202,7 +202,6 @@ Namespace DocumentFormat.XmlOutput.MEME
             Return String.Format("<background_frequencies source=""{0}"">", Source)
         End Function
 
-
     End Class
 
     <XmlType("alphabet_array")> Public Class AlphabetArray
@@ -237,11 +236,13 @@ Namespace DocumentFormat.XmlOutput.MEME
     <XmlType("motif")> Public Class Motif
         <XmlAttribute("id")> Public Property Id As String
         <XmlAttribute("name")> Public Property Name As String
+        <XmlAttribute> Public Property alt As String
         <XmlAttribute("width")> Public Property Width As String
         <XmlAttribute("sites")> Public Property Sites As String
         <XmlAttribute("ic")> Public Property Ic As String
         <XmlAttribute("re")> Public Property Re As String
         <XmlAttribute("llr")> Public Property Llr As String
+        <XmlAttribute("p_value")> Public Property pvalue As Double
         <XmlAttribute("e_value")> Public Property EValue As String
         <XmlAttribute("bayes_threshold")> Public Property BayesThreshold As String
         <XmlAttribute("elapsed_time")> Public Property ElapsedTime As String
@@ -265,16 +266,7 @@ Namespace DocumentFormat.XmlOutput.MEME
             <XmlArray("alphabet_matrix")> Public Property AlphabetMatrix As XmlOutput.MEME.AlphabetArray()
         End Class
 
-        Dim _InternalExpression As String
-
         <XmlElement("regular_expression")> Public Property RegularExpression As String
-            Get
-                Return _InternalExpression
-            End Get
-            Set(value As String)
-                _InternalExpression = value.Replace(vbCr, "").Replace(vbLf, "")
-            End Set
-        End Property
 
         ''' <summary>
         ''' Contributing site elements
@@ -332,10 +324,6 @@ Namespace DocumentFormat.XmlOutput.MEME
         ''' <returns></returns>
         <XmlElement("training_set")> Public Property TrainingSet As TrainingSet
 
-        Public Overrides Function ToString() As String
-            Return String.Format("<MEME version=""{0}"" release=""{1}"">", Version, Release)
-        End Function
-
         <XmlArray("motifs")> Public Property Motifs As Motif()
         <XmlElement("model")> Public Property Model As Model
 
@@ -346,6 +334,10 @@ Namespace DocumentFormat.XmlOutput.MEME
         ''' <returns></returns>
         <XmlElement("scanned_sites_summary")> Public Property ScannedSitesSummary As ScannedSitesSummary
 
+        Public Overrides Function ToString() As String
+            Return String.Format("<MEME version=""{0}"" release=""{1}"">", Version, Release)
+        End Function
+
         Public Shared Function LoadDocument(path As String) As MEMEXml
             Dim Text As String = FileIO.FileSystem.ReadAllText(path)
             Text = Regex.Replace(Text, "<!DOCTYPE.+?]>", "")
@@ -353,8 +345,8 @@ Namespace DocumentFormat.XmlOutput.MEME
         End Function
 
         Public Function ToMEMEHtml() As HTML.MEMEHtml
-            Dim Html As HTML.MEMEHtml = New HTML.MEMEHtml With {
-                .ObjectId = BaseName(Me.TrainingSet.DataFile)
+            Dim Html As New HTML.MEMEHtml With {
+                .ObjectId = BaseName(Me.TrainingSet.primary_sequences)
             }
             Html.Motifs = (From MotifObject As Motif
                            In Me.Motifs

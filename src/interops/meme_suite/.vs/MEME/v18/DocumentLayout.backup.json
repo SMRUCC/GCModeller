@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\interops\\meme_suite\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\meme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\meme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{72FB33B6-ABF2-47CC-8FBE-FA899A7F2973}|MEME.DocParser\\ParserTest\\ParserTest.vbproj|solutionrelative:meme.docparser\\parsertest\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|solutionrelative:meme.docparser\\xmloutput\\xmlbaseabstract.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CC8FF50E-1073-400B-B20C-C1475C10C565}|MEME.DocParser\\MEME.DocParser.vbproj|g:\\gcmodeller\\src\\interops\\meme_suite\\meme.docparser\\xmloutput\\mast.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -59,7 +59,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -79,20 +79,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\ParserTest\\Module1.vb",
               "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\ParserTest\\Module1.vb",
               "RelativeToolTip": "MEME.DocParser\\ParserTest\\Module1.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEAAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T14:51:25.664Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "XmlBaseAbstract.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\XmlBaseAbstract.vb",
@@ -118,13 +118,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "MEME.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MEME.vb",
               "RelativeDocumentMoniker": "MEME.DocParser\\XmlOutput\\MEME.vb",
               "ToolTip": "G:\\GCModeller\\src\\interops\\meme_suite\\MEME.DocParser\\XmlOutput\\MEME.vb",
               "RelativeToolTip": "MEME.DocParser\\XmlOutput\\MEME.vb",
-              "ViewState": "AgIAACwBAAAAAAAAAAAjwEYBAABqAAAAAAAAAA==",
+              "ViewState": "AgIAALYAAAAAAAAAAIA7wNcAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-15T14:27:57.147Z",
               "EditorCaption": ""
