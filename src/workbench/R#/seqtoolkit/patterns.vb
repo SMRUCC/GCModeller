@@ -79,6 +79,7 @@ Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME
 Imports SMRUCC.genomics.Model.MotifGraph
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -198,6 +199,27 @@ Module patterns
     <ExportAPI("pull.all_seeds")>
     Public Function pullAllSeeds(seed As ScanFile) As HSP()
         Return seed.LoadAllSeeds.ToArray
+    End Function
+
+    ''' <summary>
+    ''' read the xml motif data model output from the meme program
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.meme_xml")>
+    Public Function read_memexml(file As String) As MEMEXml
+        Return MEMEXml.LoadDocument(file)
+    End Function
+
+    ''' <summary>
+    ''' convert the meme document to motif PWM model object
+    ''' </summary>
+    ''' <param name="meme"></param>
+    ''' <returns></returns>
+    <ExportAPI("toPWM")>
+    <RApiReturn(GetType(Probability))>
+    Public Function toPWM(meme As MEMEXml) As Object
+        Return meme.GetMotifs.ToArray
     End Function
 
     ''' <summary>
