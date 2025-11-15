@@ -225,7 +225,7 @@ For example, we identified a new domain, likely to have a role downstream of the
         End Function
 
         <Extension>
-        Friend Function getCharColorImages(model As DrawingModel) As Dictionary(Of Char, Image)
+        Friend Function CharColorImages(model As DrawingModel) As Dictionary(Of Char, Image)
             Return If(model.Alphabets = 4,
                 SequenceLogo.ColorSchema.NucleotideSchema,
                 SequenceLogo.ColorSchema.ProteinSchema)
