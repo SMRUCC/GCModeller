@@ -58,13 +58,17 @@ Public Module Extensions
 
                           For Each model As Probability In pwm(family)
                               For Each site As MotifMatch In model.ScanSites(region, 0.8, identities:=identities_cutoff)
-                                  site.seeds = {family, model.name}
-                                  list.Add(site)
+                                  If Not site Is Nothing Then
+                                      site.seeds = {family, model.name}
+                                      list.Add(site)
+                                  End If
                               Next
                           Next
                       End Sub)
 
-            Call tfbsList.Add(region.Title, list.ToArray)
+            Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                             In list
+                                             Where Not site Is Nothing).ToArray)
         Next
 
         Return tfbsList
