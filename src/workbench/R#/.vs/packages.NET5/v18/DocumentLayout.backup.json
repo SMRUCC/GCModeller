@@ -1,7 +1,21 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\patternscanner.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{842CE3DE-2582-4E28-9D90-75750DA19131}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\MotifScanner.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\motifscanner\\sequencemotif.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +23,47 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\Extensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-16T08:57:44.395Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PatternScanner.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PatternScanner.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-16T08:57:37.626Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SequenceMotif.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\SequenceMotif.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\SequenceMotif.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\SequenceMotif.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\SequenceMotif.vb",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAIwFYAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-16T08:56:44.589Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -26,6 +79,19 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "patterns.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
+              "RelativeToolTip": "seqtoolkit\\patterns.vb",
+              "ViewState": "AgIAADQCAAAAAAAAAAAowGsCAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-16T08:55:16.997Z",
+              "EditorCaption": ""
             }
           ]
         },

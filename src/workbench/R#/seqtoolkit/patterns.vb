@@ -623,6 +623,8 @@ Module patterns
                     pwm = SequencePatterns.Motif.PWM.FromMla(New FastaFile(data))
                 Case GetType(MSAMotif)
                     pwm = DirectCast(MSA, MSAMotif).CreateMotif
+                Case GetType(Probability)
+                    pwm = DirectCast(MSA, Probability).CreateModel
                 Case Else
                     Return REnv.Internal.debug.stop(New InvalidProgramException($"un-supported clr object type for extract MSA data: {type.FullName}!"), env)
             End Select
