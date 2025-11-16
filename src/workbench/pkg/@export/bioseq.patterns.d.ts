@@ -175,7 +175,7 @@ declare namespace bioseq.patterns {
       /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
        * 
         * @param file -
       */
@@ -243,6 +243,7 @@ declare namespace bioseq.patterns {
     * 
     * 
      * @param meme -
+     * @return a vector of the PWM clr object.
    */
    function toPWM(meme: object): object;
    module view {

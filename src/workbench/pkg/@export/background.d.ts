@@ -105,6 +105,7 @@ declare namespace background {
      * @param background -
      * @param gene_names 
      * + default value Is ``true``.
+     * @return row item is the cluster object
    */
    function background_summary(background: object, gene_names?: boolean): object;
    /**

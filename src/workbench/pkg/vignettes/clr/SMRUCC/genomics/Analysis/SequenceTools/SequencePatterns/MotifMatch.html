@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Residue</title>
+    <title>SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.MotifMatch</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,39 +13,40 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>Residue {SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns}</td>
+                <td>MotifMatch {SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>Residue</h2>
+        <h2>MotifMatch</h2>
 
         <h3>Description</h3>
 
-        <p>residue site</p>
+        <p>motif model sequence site matches result</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
-export class Residue {
-   # should be sum equals to 1
-   frequency: list;
-   Hi: double;
-   index: integer;
-   isConserved: boolean;
-   isEmpty: boolean;
-   topChar: string;
+export class MotifMatch {
+   ends: integer;
+   identities: double;
+   motif: string;
+   pvalue: double;
+   score1: double;
+   score2: double;
+   seeds: string;
+   segment: string;
+   start: integer;
+   title: string;
 }
 </code>
         </pre>
 
         <h3>.NET clr type reference tree</h3>
 
-        <ol>
-<li>use by <i>property</i> member <code>frequency</code>: list</li>
-</ol>
+        this clr type has no other .net clr type reference.
 
 
         <hr />
