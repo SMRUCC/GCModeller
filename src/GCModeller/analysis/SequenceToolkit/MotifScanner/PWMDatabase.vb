@@ -57,15 +57,28 @@ Public Class PWMDatabase : Implements IDisposable
         Next
     End Function
 
+    ''' <summary>
+    ''' Load all motif data into memory
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function LoadMotifs() As Dictionary(Of String, Probability())
+        Dim dbset As New Dictionary(Of String, Probability())
+
+        For Each name As String In FamilyList
+            Call dbset.Add(name, LoadFamilyMotifs(name).ToArray)
+        Next
+
+        Return dbset
+    End Function
+
+    ''' <summary>
+    ''' Load all motif data into memory
+    ''' </summary>
+    ''' <param name="fs"></param>
+    ''' <returns></returns>
     Public Shared Function LoadMotifs(fs As IFileSystemEnvironment) As Dictionary(Of String, Probability())
         Using db As New PWMDatabase(fs)
-            Dim dbset As New Dictionary(Of String, Probability())
-
-            For Each name As String In db.FamilyList
-                Call dbset.Add(name, db.LoadFamilyMotifs(name).ToArray)
-            Next
-
-            Return dbset
+            Return db.LoadMotifs
         End Using
     End Function
 
