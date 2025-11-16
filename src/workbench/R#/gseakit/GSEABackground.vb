@@ -72,6 +72,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -137,14 +138,15 @@ Public Module GSEABackground
             .ToArray
         Dim data As New Rdataframe With {
             .columns = New Dictionary(Of String, Array),
-            .rownames = inflate _
-                .Select(Function(a) a.gene.accessionID) _
-                .UniqueNames
+            .rownames = inflate.Sequence(1).AsCharacter.ToArray
         }
 
+        Call data.add("id", inflate.Select(Function(a) a.gene.accessionID))
         Call data.add("name", From a In inflate Select a.gene.name)
-        Call data.add("class_id", From a In inflate Select a.c.ID)
-        Call data.add("term", From a In inflate Select a.c.names)
+        Call data.add("pathway_id", From a In inflate Select a.c.ID)
+        Call data.add("pathway_name", From a In inflate Select a.c.names)
+        Call data.add("class", From a In inflate Select a.c.class)
+        Call data.add("sub_class", From a In inflate Select a.c.category)
 
         Return data
     End Function
