@@ -73,7 +73,10 @@ Namespace FQ
         ''' 去除两端质量值低于20的碱基
         ''' </summary>
         ''' <param name="reads"></param>
-        ''' <param name="quality%"></param>
+        ''' <param name="quality"></param>
+        ''' <param name="warnings">
+        ''' catch the warning message.
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Iterator Function TrimLowQuality(reads As IEnumerable(Of FastQ),
