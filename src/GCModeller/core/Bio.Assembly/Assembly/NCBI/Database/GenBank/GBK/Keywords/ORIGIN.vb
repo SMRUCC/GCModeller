@@ -170,7 +170,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' (返回记录在本Genbank数据库文件之中的全基因组核酸序列)
         ''' </remarks>
         Public Function ToFasta() As FastaSeq
-            Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
+            Dim attrs As String() = {Title, Len(SequenceData) & "bp"}
             Dim seq$ = SequenceData.ToUpper
 
             Return New FastaSeq(attrs, seq)

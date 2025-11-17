@@ -59,6 +59,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -75,6 +76,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
+Imports std = System.Math
 
 ''' <summary>
 ''' the tools for processing of the genomics context information
@@ -307,7 +309,9 @@ Module context
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("TSS_upstream")>
-    Public Function TSS_upstream(genome As Object, <RRawVectorArgument> genes As Object, Optional env As Environment = Nothing) As Object
+    Public Function TSS_upstream(genome As Object, <RRawVectorArgument> genes As Object,
+                                 Optional upstream_len As Integer = 150,
+                                 Optional env As Environment = Nothing) As Object
         Dim nt As FastaSeq
 
         If genome Is Nothing Then
@@ -332,7 +336,24 @@ Module context
         Return pullFeatures _
             .populates(Of IGeneBrief)(env) _
             .Select(Function(gene)
+                        Dim gene_loci As NucleotideLocation = gene.Location
+                        Dim left As Integer = If(gene_loci.Strand = Strands.Forward, gene_loci.left - 1, gene_loci.right + 1)
+                        Dim upstream As Integer = If(gene_loci.Strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                        Dim from = std.Min(left, upstream)
+                        Dim [to] = std.Max(left, upstream)
+                        Dim seq As String = nt.CutSequenceLinear(from, [to])
 
-                    End Function)
+                        If gene_loci.Strand = Strands.Reverse Then
+                            seq = NucleicAcid.Complement(seq).Reverse.CharString
+                        End If
+
+                        Dim promoter_region As New FastaSeq With {
+                            .Headers = {nt.Title, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}"},
+                            .SequenceData = seq
+                        }
+
+                        Return promoter_region
+                    End Function) _
+            .ToArray
     End Function
 End Module
