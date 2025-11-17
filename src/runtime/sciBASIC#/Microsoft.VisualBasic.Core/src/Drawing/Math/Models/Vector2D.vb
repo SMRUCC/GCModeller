@@ -85,7 +85,7 @@ Namespace Imaging.Math2D
         ''' <summary>
         ''' distance to zero [0,0]
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>Magnitude of the vector</returns>
         Public ReadOnly Property Length As Double
             Get
                 Return std.Sqrt(x ^ 2 + y ^ 2)
@@ -106,6 +106,16 @@ Namespace Imaging.Math2D
             Me.New(pt.X, pt.Y)
         End Sub
 
+        Sub New(p As IReadOnlyPoint)
+            Me.x = p.X
+            Me.y = p.Y
+        End Sub
+
+        Sub New(p As Layout2D)
+            Me.x = p.X
+            Me.y = p.Y
+        End Sub
+
         Public Sub New(x As Double, y As Double)
             Me.x = x
             Me.y = y
@@ -115,6 +125,12 @@ Namespace Imaging.Math2D
             Me.x = x
             Me.y = y
         End Sub
+
+        Public Function Normalize() As Vector2D
+            Dim mag As Double = Length
+            If mag = 0 Then Return New Vector2D(0, 0)
+            Return New Vector2D(x / mag, y / mag)
+        End Function
 
         Public Overrides Function ToString() As String
             Return $"[{x}, {y}]"
@@ -185,6 +201,28 @@ Namespace Imaging.Math2D
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetCross(a As Layout2D, b As Layout2D) As Double
             Return a.X * b.Y - a.Y * b.X
+        End Function
+
+        ''' <summary>
+        ''' 计算点到线段的距离
+        ''' </summary>
+        ''' <param name="point">target 2d point</param>
+        ''' <param name="segStart">target 2d line start</param>
+        ''' <param name="segEnd">target 2d line ends</param>
+        ''' <returns></returns>
+        Public Shared Function DistanceToSegment(point As Vector2D, segStart As Vector2D, segEnd As Vector2D) As Double
+            Dim l2 = segStart.GetDistance(segEnd) ^ 2
+            If l2 = 0 Then Return point.GetDistance(segStart)
+
+            Dim t = std.Max(0, std.Min(1, ((point.x - segStart.x) * (segEnd.x - segStart.x) +
+                               (point.y - segStart.y) * (segEnd.y - segStart.y)) / l2))
+
+            Dim projection As New Vector2D(
+            segStart.x + t * (segEnd.x - segStart.x),
+            segStart.y + t * (segEnd.y - segStart.y)
+        )
+
+            Return point.GetDistance(projection)
         End Function
     End Class
 End Namespace
