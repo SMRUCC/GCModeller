@@ -118,7 +118,7 @@ Namespace BestLocalAlignment
         ''' <param name="subject"></param>
         ''' <param name="blosum"></param>
         ''' <returns></returns>
-        Public Shared Function Align(query As FastaSeq, subject As FastaSeq, Optional blosum As Blosum = Nothing) As SmithWaterman
+        Public Shared Function Align(query As IPolymerSequenceModel, subject As IPolymerSequenceModel, Optional blosum As Blosum = Nothing) As SmithWaterman
             Return New SmithWaterman(query.SequenceData, subject.SequenceData, blosum).BuildMatrix
         End Function
     End Class
