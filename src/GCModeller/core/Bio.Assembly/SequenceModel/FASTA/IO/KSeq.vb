@@ -108,7 +108,8 @@ Namespace SequenceModel.FASTA
         Public Shared Iterator Function Kmers(seq_str As String, k As Integer) As IEnumerable(Of KSeq)
             For i As Integer = 0 To seq_str.Length - k
                 Yield New KSeq With {
-                    .Seq = seq_str.Substring(i, length:=k)
+                    .Seq = seq_str.Substring(i, length:=k),
+                    .Name = (i + 1).ToString
                 }
             Next
         End Function
