@@ -29,7 +29,7 @@ Module kmersTools
         Dim pull As pipeline
 
         If TypeOf x Is FastQFile Then
-            pull = pipeline.CreateFromPopulator(DirectCast(x, FastQFile).AsEnumerable)
+            pull = pipeline.CreateFromPopulator(DirectCast(x, FastQFile).ToArray)
         Else
             pull = pipeline.TryCreatePipeline(Of IFastaProvider)(x, env)
         End If
