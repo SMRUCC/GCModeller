@@ -175,7 +175,7 @@ Namespace SAM
         ''' <summary>
         ''' 对当前的这个Mapping之中的Reads进行装配
         ''' </summary>
-        Public Sub Assembling(ByRef Forwards As Contig()， ByRef Reversed As Contig(), Optional TrimError As Boolean = True)
+        Public Sub Assembling(ByRef Forwards As ContigSequence()， ByRef Reversed As ContigSequence(), Optional TrimError As Boolean = True)
             Dim AlignmentReads As AlignmentReads() = Me.AlignmentsReads.ToArray
 
             If TrimError Then
@@ -228,8 +228,8 @@ Namespace SAM
         ''' <param name="Alignment">请注意先按照方向排序</param>
         ''' <param name="Reversed"></param>
         ''' <returns></returns>
-        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As Contig()
-            Dim ChunkBuffer As New List(Of Contig)
+        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As ContigSequence()
+            Dim ChunkBuffer As New List(Of ContigSequence)
             Dim p As New EventProc(Alignment.Count)
 
             Do While Alignment.Count > 0
@@ -289,7 +289,7 @@ Namespace SAM
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As Contig
+        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As ContigSequence
 
 #Region "Implements IEnumerable(Of AlignmentReads).GetEnumerator"
 
