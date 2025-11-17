@@ -53,6 +53,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -94,5 +95,18 @@ Public Class KMers
                 .Count = group.Count
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' Create sample matrix row data
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="k"></param>
+    ''' <returns></returns>
+    Public Shared Function KMerSample(seq As IFastaProvider, Optional k As Integer = 3) As NamedValue(Of Dictionary(Of String, Double))
+        Dim exprdata As Dictionary(Of String, Double) = KMers.Create(seq, k).ToDictionary(Function(a) a.Tag, Function(a) CDbl(a.Count))
+        Dim sampleId As String = seq.title
+
+        Return New NamedValue(Of Dictionary(Of String, Double))(sampleId, exprdata)
     End Function
 End Class
