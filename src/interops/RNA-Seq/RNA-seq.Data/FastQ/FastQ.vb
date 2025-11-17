@@ -90,6 +90,7 @@ Namespace FQ
     ''' </remarks>
     Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
+        Implements IFastaProvider
 
         ''' <summary>
         ''' 第一行的摘要描述信息
@@ -97,7 +98,7 @@ Namespace FQ
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+        Public ReadOnly Property Title As String Implements IAbstractFastaToken.title, IFastaProvider.title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return SEQ_ID.instrument_name
@@ -118,7 +119,12 @@ Namespace FQ
         ''' <returns></returns>
         Public Property Quality As String
 
-        Public Property Headers As String() Implements IAbstractFastaToken.Headers
+        Public Property Headers As String() Implements IAbstractFastaToken.headers
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
+        End Function
 
         Public Overrides Function ToString() As String
             Return Title

@@ -86,6 +86,16 @@ Public Module FastQ
     End Sub
 
     ''' <summary>
+    ''' read the fastq file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.fastq")>
+    Public Function read_fastq(file As String) As FastQFile
+        Return FastQFile.Load(file)
+    End Function
+
+    ''' <summary>
     ''' Do short reads assembling
     ''' </summary>
     ''' <param name="reads">should be a set of the sequence data, example as a collection of <see cref="FastaSeq"/> data.</param>
