@@ -55,15 +55,24 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Information
+Imports SMRUCC.genomics.SequenceModel.Patterns
 
-Public Structure Residue
+''' <summary>
+''' residue site
+''' </summary>
+Public Class Residue : Implements IPatternSite
 
+    ''' <summary>
+    ''' should be sum equals to 1
+    ''' </summary>
+    ''' <returns></returns>
     Public Property frequency As Dictionary(Of String, Double)
-    Public Property index As Integer
+    Public Property index As Integer Implements IIndexOf(Of Integer).Address
 
     Public ReadOnly Property topChar As Char
         Get
@@ -71,7 +80,7 @@ Public Structure Residue
         End Get
     End Property
 
-    Default Public ReadOnly Property getFrequency(base As Char) As Double
+    Default Public ReadOnly Property getFrequency(base As Char) As Double Implements IPatternSite.Probability
         Get
             Return _frequency.TryGetValue(base)
         End Get
@@ -89,7 +98,7 @@ Public Structure Residue
         End Get
     End Property
 
-    Public ReadOnly Property Hi As Double
+    Public ReadOnly Property Hi As Double Implements IPatternSite.Bits
         Get
             Return frequency.Values.ShannonEntropy()
         End Get
@@ -139,4 +148,16 @@ Public Structure Residue
             End If
         End With
     End Function
-End Structure
+
+    Public Function EnumerateKeys() As IEnumerable(Of Char) Implements IPatternSite.EnumerateKeys
+        Return frequency.Keys.Select(Function(a) CChar(a))
+    End Function
+
+    Public Function EnumerateValues() As IEnumerable(Of Double) Implements IPatternSite.EnumerateValues
+        Return frequency.Values
+    End Function
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        index = address
+    End Sub
+End Class

@@ -70,6 +70,7 @@ Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
@@ -84,6 +85,25 @@ Module genomics
     <ExportAPI("read.gff")>
     Public Function readGff(file As String) As GFFTable
         Return GFFTable.LoadDocument(file)
+    End Function
+
+    ''' <summary>
+    ''' get gff features by id reference
+    ''' </summary>
+    ''' <param name="gff"></param>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    <ExportAPI("gff_features")>
+    Public Function gff_features(gff As GFFTable, <RRawVectorArgument> Optional id As Object = Nothing) As Object
+        If id Is Nothing Then
+            Return gff.features
+        Else
+            Dim index As Dictionary(Of String, Feature) = gff.CreateGeneObjectIndex
+            Dim idset As String() = CLRVector.asCharacter(id)
+            Dim subset As Feature() = idset.Select(Function(sid) index(sid)).ToArray
+
+            Return subset
+        End If
     End Function
 
     <ExportAPI("as.tabular")>

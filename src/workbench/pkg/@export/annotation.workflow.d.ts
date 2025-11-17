@@ -10,15 +10,27 @@
  * 
 */
 declare namespace annotation.workflow {
-   module besthit {
-      /**
-        * @param evalue default value Is ``1E-05``.
-        * @param delNohits default value Is ``true``.
-        * @param pickTop default value Is ``false``.
-        * @param env default value Is ``null``.
-      */
-      function filter(besthits: object, evalue?: number, delNohits?: boolean, pickTop?: boolean, env?: object): object;
-   }
+   /**
+    * make filter of the blast best hits via the given parameter combinations
+    * 
+    * 
+     * @param besthits is a collection of the blastp/blastn parsed result: @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit``
+     * @param evalue new cutoff value of the evalue for make filter of the given hits collection
+     * 
+     * + default value Is ``null``.
+     * @param identities 
+     * + default value Is ``null``.
+     * @param delNohits removes ``HITS_NOT_FOUND``? default is yes.
+     * 
+     * + default value Is ``true``.
+     * @param pickTop pick the top one hit for each query group?
+     * 
+     * + default value Is ``false``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function besthit_filter(besthits: object, evalue?: object, identities?: object, delNohits?: boolean, pickTop?: boolean, env?: object): object;
    module blasthit {
       /**
         * @param algorithm default value Is ``null``.
@@ -90,6 +102,10 @@ declare namespace annotation.workflow {
       function stream(file: string, type?: object, encoding?: object, ioRead?: boolean, env?: object): any;
    }
    module read {
+      /**
+        * @param encoding default value Is ``null``.
+      */
+      function besthits(file: string, encoding?: object): object;
       /**
        * Open the blast output text file for parse data result.
        * 

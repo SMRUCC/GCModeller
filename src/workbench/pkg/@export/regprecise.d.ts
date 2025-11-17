@@ -12,8 +12,22 @@ declare namespace regprecise {
      * @param env default value Is ``null``.
    */
    function join(blast: any, regulators: any, env?: object): object;
+   /**
+    * 
+    * 
+     * @param ncbi -
+     * @param regprecise -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function match_taxonomy(ncbi: object, regprecise: any, env?: object): object|object;
    module motif {
       /**
+       * export the raw motif site sequence in fasta file format
+       * 
+       * 
+        * @param regprecise -
       */
       function raw(regprecise: object): object;
    }
@@ -42,4 +56,10 @@ declare namespace regprecise {
      * @param env default value Is ``null``.
    */
    function regulators(regulome: object, info: object, env?: object): object;
+   module write {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function regprecise(db: any, file: string, env?: object): any;
+   }
 }

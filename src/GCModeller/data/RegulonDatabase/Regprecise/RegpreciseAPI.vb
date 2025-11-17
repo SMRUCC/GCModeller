@@ -67,11 +67,13 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel
@@ -147,55 +149,13 @@ Rodionov, D. A.", Volume:=14)>
         <ExportAPI("Db.CompileGeneration")>
         Public Function GenerateDatabase(DIR As String) As TranscriptionFactors
             Dim LQuery = (From File As String In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchAllSubDirectories, "*.xml").AsParallel
-                          Let Bacteria As Regprecise.BacteriaRegulome = Distinct(File.LoadXml(Of Regprecise.BacteriaRegulome)())
+                          Let Bacteria As Regprecise.BacteriaRegulome = File.LoadXml(Of Regprecise.BacteriaRegulome)()
                           Select Bacteria
                           Order By Bacteria.genome.name Ascending).ToArray
             Return New TranscriptionFactors With {
                 .genomes = LQuery,
                 .update = Now.ToString
             }
-        End Function
-
-        Public Function Distinct(data As BacteriaRegulome) As BacteriaRegulome
-            Dim Regulators = (From reg As Regulator
-                              In data.regulome.regulators
-                              Select reg.locus_tag.name
-                              Distinct).ToArray
-            If Regulators.Length = data.numOfRegulons Then
-                Return data       '没有重复的数据，则直接返回
-            End If
-
-            Dim DistinctedRegulators = (From sId As String
-                                        In Regulators
-                                        Select RegulatorId = sId,
-                                            ddata = (From reg As Regulator In data.regulome.regulators
-                                                     Where String.Equals(reg.locus_tag.name, sId)
-                                                     Select reg).ToArray).ToArray
-            Dim LQuery = (From Line In DistinctedRegulators
-                          Let Sites = (From item In Line.ddata Select item.regulatorySites).ToVector
-                          Let DistinctedSites = (From SiteId As String In (From item In Sites Select item.UniqueId Distinct).ToArray Let site = Sites.GetItem(SiteId) Select site).ToArray
-                          Select Regulator = Line.ddata.First,
-                              DistinctedSites).ToArray
-            For i As Integer = 0 To LQuery.Length - 1
-                Dim Regulator = LQuery(i)
-                Regulator.Regulator.regulatorySites = Regulator.DistinctedSites
-            Next
-            data.regulome.regulators = (From item In LQuery Select item.Regulator).ToArray
-            Return data
-        End Function
-
-        ''' <summary>
-        ''' Download regprecise regulator protein sequence from kegg database.
-        ''' </summary>
-        ''' <param name="Regprecise"></param>
-        ''' <param name="EXPORT"></param>
-        ''' <returns></returns>
-        Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, Optional EXPORT As String = "") As FASTA.FastaFile
-            If String.IsNullOrEmpty(EXPORT) Then
-                EXPORT = TempFileSystem.TempDir
-            End If
-
-            Return WebAPI.DownloadRegulatorSequence(Regprecise, EXPORT)
         End Function
 
         <ExportAPI("Write.Xml.Regprecise")>
@@ -245,12 +205,11 @@ Rodionov, D. A.", Volume:=14)>
             Throw New NotImplementedException
         End Function
 
-        <ExportAPI("Write.Csv.Matches")>
-        Public Function WriteMatches(data As IEnumerable(Of RegPreciseRegulatorMatch), saveto As String) As Boolean
-            Return data.SaveTo(saveto, False)
-        End Function
-
-        <ExportAPI("Read.Xml.Regprecise")>
+        ''' <summary>
+        ''' read the local regprecise database file
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         Public Function ReadXml(path As String) As TranscriptionFactors
             Return TranscriptionFactors.Load(path)
         End Function
@@ -271,7 +230,7 @@ Rodionov, D. A.", Volume:=14)>
             Return New IO.File(array)
         End Function
 
-        Public Function FamilyStatics2(Matches As Generic.IEnumerable(Of IRegulatorMatched)) As KeyValuePair(Of String, String())()
+        Public Function FamilyStatics2(Matches As IEnumerable(Of IRegulatorMatched)) As KeyValuePair(Of String, String())()
             Dim Families As String() = (From item In Matches Select item.Family Distinct Order By Family Ascending).ToArray
             Dim LQuery As KeyValuePair(Of String, String())() = (
                 From Family As String In Families
@@ -291,7 +250,7 @@ Rodionov, D. A.", Volume:=14)>
         Public Function ExportBySpecies(Regprecise As TranscriptionFactors,
                                         <Parameter("DIR.Export")> ExportDir As String) As Boolean
             Dim TFFamilies As String() = GetTfFamilies(Regprecise)
-            Dim TFSitesFasta = __getFastaCollection(Regprecise)
+            Dim TFSitesFasta = getFastaCollection(Regprecise)
             Dim LQuery = (From Family As String
                           In TFFamilies.AsParallel
                           Select __exportMotif(Family, TFSitesFasta, Regprecise, ExportDir)).ToArray
@@ -375,7 +334,7 @@ Rodionov, D. A.", Volume:=14)>
             }
         End Function
 
-        Private Function __getFastaCollection(Regprecise As TranscriptionFactors) As KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)()
+        Private Function getFastaCollection(Regprecise As TranscriptionFactors) As KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)()
             Dim ChunkBuffer As List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta)) =
                 New List(Of KeyValuePairData(Of Regtransbase.WebServices.MotifFasta))
 
@@ -420,7 +379,7 @@ Rodionov, D. A.", Volume:=14)>
                     If regulon.type = Types.RNA Then
                         Continue For
                     ElseIf regulon.family.StringEmpty Then
-                        Dim sites = regulon.ExportMotifs
+                        Dim sites As FastaSeq() = regulon.ExportMotifs.ToArray
                         Dim family = sites.First.Title.Matches("\[.+?\]").Last.GetStackValue("[", "]").GetTagValue("=").Name
 
                         If Not buffer.ContainsKey(family) Then
@@ -453,6 +412,9 @@ Rodionov, D. A.", Volume:=14)>
         ''' 当有时候向RegulatorSequerncede Fasta文件之中添加了新的Regprecise数据库之中没有的蛋白质序列数据之后，可能会出现
         ''' TFBS序列和Regulator之间的关系无法对应的情况，则这个时候可以使用本方法来重新刷新着两个Fasta序列文件
         ''' </summary>
+        ''' <param name="Regulators">
+        ''' a directory folder that contains the regulator fasta sequence.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>对于调控因子序列仅仅取出LocusTAG以及Description数据，TFBS文件是重新生成的</remarks>
         ''' 
@@ -469,26 +431,24 @@ Rodionov, D. A.", Volume:=14)>
             End If
 
             For Each Bacteria In Regprecise.genomes
-                For Each Regulator In Bacteria.regulome.regulators
-                    Dim Path As String = String.Format("{0}/{1}.fasta", Regulators, Regulator.locus_tag.name)
+                For Each Regulator As Regulator In From r As Regulator In Bacteria.regulome.regulators Where r.type = Types.TF
+                    For Each prot As NamedValue In Regulator.locus_tags
+                        Dim path As String = String.Format("{0}/{1}.fasta", Regulators, prot.name)
 
-                    If Regulator.type = Types.RNA Then
-                        Continue For
-                    End If
+                        If Not FileIO.FileSystem.FileExists(path) Then
+                            Call String.Format("EMPTY!!! {0}  -  {1}", prot.name, Regulator.regulator.name).warning
+                            Continue For
+                        End If
 
-                    If Not FileIO.FileSystem.FileExists(Path) Then
-                        Call Console.WriteLine("EMPTY!!! {0}  -  {1}", Regulator.locus_tag.name, Regulator.regulator.name)
-                        Continue For
-                    End If
+                        Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(path))
+                        Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
+                                                                         Regulator.regulog.name,
+                                                                         String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
+                        lcl += 1
+                        FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
 
-                    Dim FastaSequence As FastaReaders.Regulator = FastaReaders.Regulator.LoadDocument(FASTA.FastaSeq.Load(Path))
-                    Dim RegpreciseProperty As String = String.Format("[Regulog={0}] [tfbs={1}]",
-                                                                     Regulator.regulog.name,
-                                                                     String.Join(";", (From site In Regulator.regulatorySites Select String.Format("{0}:{1}", site.locus_tag, site.position)).ToArray))
-                    lcl += 1
-                    FastaSequence.Headers = New String() {String.Format("lcl{0}", lcl), FastaSequence.Headers(1), RegpreciseProperty}
-
-                    Call FileData.Add(FastaSequence)
+                        Call FileData.Add(FastaSequence)
+                    Next
                 Next
             Next
 
@@ -496,26 +456,6 @@ Rodionov, D. A.", Volume:=14)>
             Dim f2 As Boolean = FileData.Save(String.Format("{0}/Regprecise_Regulators.fasta", Export), encoding:=Encoding.ASCII)
 
             Return f1 And f2
-        End Function
-
-        <ExportAPI("Regprecise.Compile")>
-        Public Function Compile(Regprecise As TranscriptionFactors) As Regulations
-
-        End Function
-
-        <ExportAPI("Regprecise.Compile")>
-        Public Function Compile(Regprecise As IEnumerable(Of JSON.genome), repository As String) As Regulations
-
-        End Function
-
-        ''' <summary>
-        ''' 加载自有的源之中的调控数据库
-        ''' </summary>
-        ''' <returns></returns>
-        <ExportAPI("")>
-        Public Function LoadRegulationDb() As Regulations
-            'Dim Xml As String = GCModeller.FileSystem.GetRegulations
-            'Return Xml.LoadXml(Of Regulations)
         End Function
     End Module
 End Namespace

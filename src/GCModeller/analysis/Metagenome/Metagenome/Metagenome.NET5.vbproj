@@ -79,7 +79,7 @@
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\models\BIOM\BIOM\BIOM.NET5.vbproj" />
     <ProjectReference Include="..\..\HTS_matrix\HTS_matrix-netcore5.vbproj" />
-    <ProjectReference Include="..\..\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
+    <ProjectReference Include="..\..\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
   </ItemGroup>
 
   <ItemGroup>

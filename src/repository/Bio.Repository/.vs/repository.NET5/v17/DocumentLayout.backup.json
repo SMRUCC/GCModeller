@@ -3,58 +3,8 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\Bio.Repository\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BD223439-452E-430F-ADEB-2926BCD3E432}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\keggorganism\\organism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BD223439-452E-430F-ADEB-2926BCD3E432}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\keggorganism\\showorganism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\keggorthology\\organismmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\keggorthology\\organismmodel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\reactionrepository\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\reactionrepository\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\reactionrepository\\reactionlink.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\reactionrepository\\reactionlink.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\reactionrepository\\pathwayrepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\reactionrepository\\pathwayrepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\reactionrepository\\compoundrepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\reactionrepository\\compoundrepository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\keggorganism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\keggorganism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\kegg\\web\\keggapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:kegg\\web\\keggapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\webapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\repositoryextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\geodataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\geodataset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\ftpindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -64,34 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Organism.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\Organism.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\Organism.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\Organism.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\Organism.vb",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAkwGAAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:55:19.68Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ShowOrganism.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\ShowOrganism.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\ShowOrganism.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\ShowOrganism.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\KEGGOrganism\\ShowOrganism.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:54:27.33Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -102,158 +26,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "OrganismModel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\KEGGOrthology\\OrganismModel.vb",
-              "RelativeDocumentMoniker": "KEGG\\KEGGOrthology\\OrganismModel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\KEGGOrthology\\OrganismModel.vb",
-              "RelativeToolTip": "KEGG\\KEGGOrthology\\OrganismModel.vb",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAEgAAAAoAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "Module1.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
+              "RelativeDocumentMoniker": "test\\Module1.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
+              "RelativeToolTip": "test\\Module1.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:37.436Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RepositoryExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\RepositoryExtensions.vb",
-              "RelativeDocumentMoniker": "KEGG\\ReactionRepository\\RepositoryExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\RepositoryExtensions.vb",
-              "RelativeToolTip": "KEGG\\ReactionRepository\\RepositoryExtensions.vb",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:29.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ReactionLink.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\ReactionLink.vb",
-              "RelativeDocumentMoniker": "KEGG\\ReactionRepository\\ReactionLink.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\ReactionLink.vb",
-              "RelativeToolTip": "KEGG\\ReactionRepository\\ReactionLink.vb",
-              "ViewState": "AgIAAKcAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:23.691Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "PathwayRepository.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\PathwayRepository.vb",
-              "RelativeDocumentMoniker": "KEGG\\ReactionRepository\\PathwayRepository.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\PathwayRepository.vb",
-              "RelativeToolTip": "KEGG\\ReactionRepository\\PathwayRepository.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:22.764Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CompoundRepository.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\CompoundRepository.vb",
-              "RelativeDocumentMoniker": "KEGG\\ReactionRepository\\CompoundRepository.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\ReactionRepository\\CompoundRepository.vb",
-              "RelativeToolTip": "KEGG\\ReactionRepository\\CompoundRepository.vb",
-              "ViewState": "AgIAAGYAAAAAAAAAAAAowAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:19.449Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "KEGGOrganism.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\KEGGOrganism.vb",
-              "RelativeDocumentMoniker": "KEGG\\KEGGOrganism.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\KEGGOrganism.vb",
-              "RelativeToolTip": "KEGG\\KEGGOrganism.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:15.39Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Extensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "RelativeDocumentMoniker": "KEGG\\Extensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Extensions.vb",
-              "RelativeToolTip": "KEGG\\Extensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:53:12.614Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "KEGGApi.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Web\\KEGGApi.vb",
-              "RelativeDocumentMoniker": "KEGG\\Web\\KEGGApi.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\KEGG\\Web\\KEGGApi.vb",
-              "RelativeToolTip": "KEGG\\Web\\KEGGApi.vb",
-              "ViewState": "AgIAAMUAAAAAAAAAAAAgwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:52:49.33Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "WebAPI.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
-              "RelativeDocumentMoniker": "NCBI\\WebAPI.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\WebAPI.vb",
-              "RelativeToolTip": "NCBI\\WebAPI.vb",
-              "ViewState": "AgIAAFUAAAAAAAAAAAA2wG4AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:52:23.211Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "RepositoryExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
-              "RelativeDocumentMoniker": "NCBI\\RepositoryExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\RepositoryExtensions.vb",
-              "RelativeToolTip": "NCBI\\RepositoryExtensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:52:16.155Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "FtpIndex.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
-              "RelativeDocumentMoniker": "NCBI\\FtpIndex.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\FtpIndex.vb",
-              "RelativeToolTip": "NCBI\\FtpIndex.vb",
-              "ViewState": "AgIAABUBAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-04-03T05:52:07.446Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GEODataSet.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
-              "RelativeDocumentMoniker": "NCBI\\GEODataSet.vb",
-              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GEODataSet.vb",
-              "RelativeToolTip": "NCBI\\GEODataSet.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-03-02T13:08:28.111Z",
+              "WhenOpened": "2025-11-11T08:00:00.048Z",
               "EditorCaption": ""
             }
           ]

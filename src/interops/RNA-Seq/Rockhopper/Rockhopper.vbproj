@@ -7,7 +7,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>LANS.SystemsBiology.Toolkits.RNA_Seq.Rockhopper</RootNamespace>
     <AssemblyName>Rockhopper</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -254,27 +254,23 @@
     <None Include="Resources\replicons.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\GCModeller.Core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{6b8662d6-6ede-599b-ab66-6c8ebd7d06bc}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Reference_SharedLib\Java\Java.vbproj">
-      <Project>{c2dc8172-e957-4aa3-9771-4488d95aba2d}</Project>
-      <Name>Java</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{325eeff3-7735-e2ed-de19-7a1485b1bd93}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\DocumentFormats\VB_DataFrame\+VB_Tabular.DataFrame.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>+VB_Tabular.DataFrame</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{6a751aa8-8b8b-80f6-943f-b08dad71cb70}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
+    <ProjectReference Include="..\..\meme_suite\MEME.DocParser\MEME.DocParser.vbproj">
+      <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
+      <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GCModeller\AnalysisTools\TSSAR\TSSAR.vbproj">
-      <Project>{18120be0-3fd5-4a07-93df-6ce3a8ed936d}</Project>
-      <Name>TSSAR</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\MEME\MEME.vbproj">
+    <ProjectReference Include="..\..\meme_suite\MEME\MEME.vbproj">
       <Project>{8f12481c-04f2-4a9f-b7d6-21f1757c43c3}</Project>
       <Name>MEME</Name>
     </ProjectReference>
@@ -283,6 +279,5 @@
     <None Include="gpl.txt" />
     <Content Include="Rockhopper.ico" />
   </ItemGroup>
-
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -321,7 +321,7 @@ Imports std = System.Math
 
         For Each l In parser.PromoterRegions
             Dim save$ = $"{out}-promoter-regions/-{l.Tag}bp.fasta"
-            Call New FastaFile(l.Value.Values).Save(120, save, Encodings.ASCII)
+            Call New FastaFile(l.Value.Values).Save(120, save, encoding:=Encodings.ASCII)
         Next
 
         Return 0

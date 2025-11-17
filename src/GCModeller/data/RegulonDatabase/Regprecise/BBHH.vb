@@ -59,7 +59,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Regprecise
 
@@ -82,7 +82,7 @@ Namespace Regprecise
         Public Property hit_name As String Implements IBlastHit.hitName
         Public Property vimssId As Integer
         Public Property Family As String
-        Public Property definition As String
+        Public Property definition As String Implements IBlastHit.description
 
         Public Overrides Function ToString() As String
             Return $"{query_name}  --> {hit_name}"

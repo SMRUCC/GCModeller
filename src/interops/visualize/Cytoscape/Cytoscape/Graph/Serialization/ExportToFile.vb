@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::357356d0f32bb210035c9e90aa44d2c5, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 392
-    '    Code Lines: 311 (79.34%)
-    ' Comment Lines: 31 (7.91%)
-    '    - Xml Docs: 96.77%
-    ' 
-    '   Blank Lines: 50 (12.76%)
-    '     File Size: 17.81 KB
+' Summaries:
 
 
-    '     Module ExportToFile
-    ' 
-    '         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
-    '                   __getMap, __mapInterface, __mapNodes, __mapping, (+4 Overloads) Export
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 392
+'    Code Lines: 311 (79.34%)
+' Comment Lines: 31 (7.91%)
+'    - Xml Docs: 96.77%
+' 
+'   Blank Lines: 50 (12.76%)
+'     File Size: 17.81 KB
+
+
+'     Module ExportToFile
+' 
+'         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
+'                   __getMap, __mapInterface, __mapNodes, __mapping, (+4 Overloads) Export
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -57,12 +57,12 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection.Reflector
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML

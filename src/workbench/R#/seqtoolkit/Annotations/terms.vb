@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::384b5df159833b117e5acd310e689986, R#\seqtoolkit\Annotations\terms.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 147
-    '    Code Lines: 104 (70.75%)
-    ' Comment Lines: 22 (14.97%)
-    '    - Xml Docs: 95.45%
-    ' 
-    '   Blank Lines: 21 (14.29%)
-    '     File Size: 6.22 KB
+' Summaries:
 
 
-    ' Module terms
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: COGannotations, COGtable, geneNames, GOannotations, KOannotations
-    '               Pfamannotations, printIDSolver, readIdMappings, readMyvaCOG, saveIdMappings
-    '               Synonyms
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 147
+'    Code Lines: 104 (70.75%)
+' Comment Lines: 22 (14.97%)
+'    - Xml Docs: 95.45%
+' 
+'   Blank Lines: 21 (14.29%)
+'     File Size: 6.22 KB
+
+
+' Module terms
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: COGannotations, COGtable, geneNames, GOannotations, KOannotations
+'               Pfamannotations, printIDSolver, readIdMappings, readMyvaCOG, saveIdMappings
+'               Synonyms
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
@@ -73,6 +74,9 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' tools for make ontology term annotation based on the proteins sequence data
+''' </summary>
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module terms
 
@@ -111,6 +115,36 @@ Module terms
         Call sb.AppendLine("...")
 
         Return sb.ToString
+    End Function
+
+    <ExportAPI("removes_proteinIDSuffix")>
+    Public Function removesProteinIDSuffix(<RRawVectorArgument> id As Object) As String()
+        Dim dbxref As String() = CLRVector.asCharacter(id)
+
+        If dbxref.IsNullOrEmpty Then
+            Return Nothing
+        End If
+
+        Const prot_idSuffix = "\.\d+$"
+
+        dbxref = dbxref _
+            .Select(Function(prot_id)
+                        Return Regex.Replace(prot_id, prot_idSuffix, String.Empty)
+                    End Function) _
+            .Distinct _
+            .ToArray
+
+        Return dbxref
+    End Function
+
+    ''' <summary>
+    ''' read the given table file as rank term object
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_rankterms")>
+    Public Function read_rankterms(file As String) As RankTerm()
+        Return file.LoadCsv(Of RankTerm)(mute:=True).ToArray
     End Function
 
     ''' <summary>
@@ -161,6 +195,41 @@ Module terms
         Else
             Return RInternal.debug.stop(Message.InCompatibleType(GetType(MyvaCOG), alignment.GetType, env), env)
         End If
+    End Function
+
+    ''' <summary>
+    ''' assign the top term by score ranking
+    ''' </summary>
+    ''' <param name="alignment"></param>
+    ''' <param name="term_maps"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("assign_terms")>
+    <RApiReturn(GetType(RankTerm))>
+    Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
+                                    Optional term_maps As list = Nothing,
+                                    Optional top_best As Boolean = True,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim maps As New Dictionary(Of String, String)
+
+        For Each term As KeyValuePair(Of String, Object) In term_maps.slots
+            For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
+                maps(id) = term.Key
+            Next
+        Next
+
+        Dim terms As RankTerm() = RankTerm _
+            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=top_best) _
+            .ToArray
+
+        Return terms
     End Function
 
     <ExportAPI("assign.Pfam")>

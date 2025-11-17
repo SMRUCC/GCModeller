@@ -77,6 +77,7 @@
 
 Imports System.ComponentModel
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Regprecise.WebServices.JSON
 
@@ -229,23 +230,23 @@ Namespace Regprecise.WebServices.JSON
     ''' 
     <Description("https://regprecise.lbl.gov/Services/rest/genomes")>
     <XmlType("bacterial.genome", [Namespace]:="https://regprecise.lbl.gov/Services/rest/genomes")>
-    Public Class genome
+    Public Class genome : Implements IGenomeObject
 
         ''' <summary>
         ''' genome identifier
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property genomeId As Integer
+        <XmlAttribute> Public Property genomeId As String
         ''' <summary>
         ''' genome name
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property name As String Implements IGenomeObject.genome_name
         ''' <summary>
         ''' NCBI taxonomy id
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property taxonomyId As Integer
+        <XmlAttribute> Public Property taxonomyId As UInteger Implements IGenomeObject.ncbi_taxid
 
         Public Overrides Function ToString() As String
             Return name

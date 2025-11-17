@@ -59,6 +59,6 @@ Public Class zzz
 
     Public Shared Sub onLoad()
         Call patterns.Main()
-        Call uniprot.Main()
+        Call uniprotTools.Main()
     End Sub
 End Class

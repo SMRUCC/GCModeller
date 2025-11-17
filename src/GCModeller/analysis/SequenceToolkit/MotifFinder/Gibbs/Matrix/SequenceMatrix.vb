@@ -66,24 +66,33 @@ Namespace Matrix
 
         Public Sub New(sequences As IList(Of String))
             Me.sequences = sequences
-            sequenceCount = sequences.Count
-            rowSum = sequenceCount
-            sequenceLength = sequences(0).Length
-            MyBase.initMatrix(sequenceLength)
-            initSequenceMatrix()
+            Me.sequenceCount = sequences.Count
+            Me.rowSum = sequenceCount
+            Me.sequenceLength = sequences(0).Length
+
+            Call initMatrix(sequenceLength)
+            Call initSequenceMatrix()
         End Sub
 
         ''' <summary>
         ''' Counts the occurrences of each base along each position of each sequence
         ''' </summary>
         Private Sub initSequenceMatrix()
-            Enumerable.Range(0, sequenceCount).ForEach(Sub(i, z)
-                                                           Dim sequence = sequences(i)
-                                                           Enumerable.Range(0, sequenceLength).ForEach(Sub(j, y)
-                                                                                                           Dim b = Utils.indexOfBase(sequence(j))
-                                                                                                           countsMatrix(j)(b) += 1
-                                                                                                       End Sub)
-                                                       End Sub)
+            Dim b As Integer
+            Dim sequence As String
+
+            For i As Integer = 0 To sequenceCount - 1
+                sequence = sequences(i)
+
+                For j As Integer = 0 To sequenceLength - 1
+                    b = Utils.indexOfBase(sequence(j))
+
+                    ' b = -1 means N or - these non-standard sequence chars
+                    If b > -1 Then
+                        countsMatrix(j)(b) += 1
+                    End If
+                Next
+            Next
         End Sub
 
         ''' <summary>
@@ -91,7 +100,9 @@ Namespace Matrix
         ''' <param name="index">, index of base </param>
         ''' <param name="base">, base in the index </param>
         Public Overridable Function probability(index As Integer, base As Integer) As Double
-            Return countsMatrix(index)(base) / rowSum
+            ' 添加伪计数（加1平滑）
+            Dim totalCount As Double = rowSum + 4 ' 4个碱基
+            Return (countsMatrix(index)(base) + 1) / totalCount
         End Function
     End Class
 

@@ -56,17 +56,30 @@
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 ''' <summary>
 ''' The PWM model
 ''' </summary>
-Public Class Probability
+Public Class Probability : Implements INamedValue, IReadOnlyId
 
+    ''' <summary>
+    ''' the PWM matrix data
+    ''' </summary>
+    ''' <returns></returns>
     Public Property region As Residue()
 
     <XmlAttribute> Public Property pvalue As Double
     <XmlAttribute> Public Property score As Double
+
+    Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
+
+    Public ReadOnly Property width As Integer
+        Get
+            Return region.TryCount
+        End Get
+    End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
@@ -83,7 +96,7 @@ Public Class Probability
     ''' 
     ''' </summary>
     ''' <param name="nsize">
-    ''' the count of the fasta sequence.
+    ''' the count of the input fasta sequence.
     ''' </param>
     ''' <returns></returns>
     Public Shared Function E(nsize As Integer) As Double
@@ -103,6 +116,9 @@ Public Class Probability
     ''' 
     ''' </summary>
     ''' <param name="En"></param>
+    ''' <param name="NtMol">
+    ''' calculate for the nucleotide sequence model?
+    ''' </param>
     ''' <returns></returns>
     Public Shared Function CalculatesBits(Hi As Double, En As Double, NtMol As Boolean) As Double
         '  Math.Log(n, 2) - (h + en)
@@ -124,13 +140,25 @@ Public Class Probability
     ''' </remarks>
     Public Shared Function HI(f As Dictionary(Of Char, Double)) As Double
         ' 零乘以任何数都是得结果零
-        Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
+        Dim h As Double = Aggregate n As Double
+                          In f.Values
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
         h = 0 - h
         Return h
     End Function
 
     Public Shared Function HI(f As IPatternSite) As Double
-        Dim h As Double = f.EnumerateValues.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
+        Dim h As Double = Aggregate n As Double
+                          In f.EnumerateValues
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
+        h = 0 - h
+        Return h
+    End Function
+
+    Public Shared Function HI(col As IEnumerable(Of Double)) As Double
+        Dim h As Double = Aggregate n As Double
+                          In col
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
         h = 0 - h
         Return h
     End Function

@@ -67,10 +67,12 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -113,9 +115,40 @@ Public Module GSEABackground
 
     <RGenericOverloads("as.data.frame")>
     Private Function backgroundTabular(bg As Background, args As list, env As Environment) As Rdataframe
-        Dim gene_names As Boolean = args.getValue(Of Boolean)("gene.names", env, [default]:=False)
-        Dim df = backgroundSummary(bg, gene_names)
+        Dim gene_names As Boolean = args.getValue("gene.names", env, [default]:=False)
+        Dim id_class As Boolean = args.getValue("id_class", env, [default]:=False)
+        Dim df As Rdataframe
+
+        If id_class Then
+            df = backgroundGeneIdTable(bg)
+        Else
+            df = backgroundSummary(bg, gene_names)
+        End If
+
         Return df
+    End Function
+
+    Private Function backgroundGeneIdTable(bg As Background) As Rdataframe
+        Dim inflate = bg.clusters _
+            .Select(Function(c)
+                        Return c.AsEnumerable _
+                            .Select(Function(gene) (gene, c))
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+        Dim data As New Rdataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = inflate.Sequence(1).AsCharacter.ToArray
+        }
+
+        Call data.add("id", inflate.Select(Function(a) a.gene.accessionID))
+        Call data.add("name", From a In inflate Select a.gene.name)
+        Call data.add("pathway_id", From a In inflate Select a.c.ID)
+        Call data.add("pathway_name", From a In inflate Select a.c.names)
+        Call data.add("class", From a In inflate Select a.c.class)
+        Call data.add("sub_class", From a In inflate Select a.c.category)
+
+        Return data
     End Function
 
     Private Function PrintBackground(x As Background) As String
@@ -466,7 +499,7 @@ Public Module GSEABackground
     ''' summary of the background model as dataframe
     ''' </summary>
     ''' <param name="background"></param>
-    ''' <returns></returns>
+    ''' <returns>row item is the cluster object</returns>
     <ExportAPI("background_summary")>
     Public Function backgroundSummary(background As Background, Optional gene_names As Boolean = True) As Rdataframe
         Dim table As New Rdataframe With {
@@ -672,20 +705,38 @@ Public Module GSEABackground
     ''' </example>
     <ExportAPI("geneSet.filter")>
     <RApiReturn(GetType(Background))>
-    Public Function ClusterFilter(background As Background, <RRawVectorArgument> geneSet As Object,
+    Public Function ClusterFilter(background As Background,
+                                  <RRawVectorArgument>
+                                  Optional geneSet As Object = Nothing,
                                   Optional min_size As Integer = 3,
                                   Optional max_intersects As Integer = 500,
+                                  <RRawVectorArgument>
+                                  Optional remove_clusters As Object = Nothing,
                                   Optional env As Environment = Nothing) As Object
 
         Dim idset As String() = CLRVector.asCharacter(geneSet).SafeQuery.Distinct.ToArray
+        Dim removeClusters As Index(Of String) = CLRVector _
+            .asCharacter(remove_clusters) _
+            .Indexing
 
-        If idset.IsNullOrEmpty Then
-            Return RInternal.debug.stop("the required gene idset for test intersect should not be empty!", env)
+        If idset.IsNullOrEmpty AndAlso removeClusters.Count = 0 Then
+            Return RInternal.debug.stop("the required gene idset for test intersect or the cluster id collection for make filtered from the background should not be empty!", env)
         End If
 
         Dim filtered As Cluster() = background.clusters _
             .Where(Function(c)
-                       Return c.size >= min_size AndAlso c.Intersect(idset).Count <= max_intersects
+                       Dim test1 As Boolean = True
+                       Dim test2 As Boolean = True
+
+                       If Not idset.IsNullOrEmpty Then
+                           test1 = c.size >= min_size AndAlso
+                               c.Intersect(idset).Count <= max_intersects
+                       End If
+                       If removeClusters.Count > 0 Then
+                           test2 = Not (c.ID Like removeClusters)
+                       End If
+
+                       Return test1 AndAlso test2
                    End Function) _
             .ToArray
 

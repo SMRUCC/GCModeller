@@ -66,6 +66,19 @@ Namespace ComponentModel
         ''' high-throughput sequencing instruments such as the Illumina Genome Analyzer.
         ''' </summary>
         Public Const FastQ As String = "text/plain, chemical/seq-na-fastq"
+        ''' <summary>
+        ''' Fasta file for protein sequence data
+        ''' </summary>
+        Public Const FastAProt As String = "text/plain, chemical/seq-aa"
+        ''' <summary>
+        ''' Fasta file for nucleotide sequence data
+        ''' </summary>
+        Public Const FastANucl As String = "text/plain, chemical/seq-na"
+        Public Const GenBank As String = "text/plain, application/x-genbank"
+        ''' <summary>
+        ''' Generic Feature Format version 3
+        ''' </summary>
+        Public Const GFF3Table As String = "text/plain, text/x-gff3"
 
     End Module
 End Namespace

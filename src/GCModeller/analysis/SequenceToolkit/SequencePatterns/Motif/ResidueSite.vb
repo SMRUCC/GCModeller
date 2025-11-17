@@ -93,6 +93,22 @@ Namespace Motif
             End Get
         End Property
 
+        ''' <summary>
+        ''' 请注意，在这里显示的字符是按照内部默认的ATGC的顺序来显示的，可能会与实际的字符顺序不符合，这里仅做调试查看使用
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property AsChar As Char
+            Get
+                Dim mxInd As Integer = PWM.MaxIndex
+
+                If PWM.Length = 4 Then
+                    Return ToChar("ATGC"(mxInd), PWM(mxInd))
+                Else
+                    Return ToChar(SequenceModel.AA(mxInd), PWM(mxInd))
+                End If
+            End Get
+        End Property
+
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
             Me.site = address
         End Sub
@@ -135,26 +151,15 @@ Namespace Motif
             bits = 1.5
         End Sub
 
+        Sub New(residue As Residue, alphabets As Char())
+            site = residue.index
+            PWM = alphabets.Select(Function(c) residue(c)).ToArray
+        End Sub
+
         Public Overrides Function ToString() As String
             Dim ATGC As String = New String({ToChar("A"c, PWM(0)), ToChar("T"c, PWM(1)), ToChar("G"c, PWM(2)), ToChar("C"c, PWM(3))})
             Return $"{ATGC}   //({Math.Round(bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
         End Function
-
-        ''' <summary>
-        ''' 请注意，在这里显示的字符是按照内部默认的ATGC的顺序来显示的，可能会与实际的字符顺序不符合，这里仅做调试查看使用
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property AsChar As Char
-            Get
-                Dim mxInd As Integer = PWM.MaxIndex
-
-                If PWM.Length = 4 Then
-                    Return ToChar("ATGC"(mxInd), PWM(mxInd))
-                Else
-                    Return ToChar(SequenceModel.AA(mxInd), PWM(mxInd))
-                End If
-            End Get
-        End Property
 
         ''' <summary>
         '''

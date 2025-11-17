@@ -217,6 +217,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
     ''' </summary>
     ''' <remarks>(序列上面的一个位点)</remarks>
     Public Class RegionSegment
+
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
 

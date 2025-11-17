@@ -57,6 +57,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -66,8 +67,6 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-
 
 #If NET48 Then
 Imports Pen = System.Drawing.Pen
@@ -149,6 +148,42 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
         ''' (绘制各个残基的出现频率)
         ''' </summary>
+        ''' <param name="pwm">The alignment export data from the clustal software.</param>
+        ''' <param name="title">The sequence logo display title.</param>
+        ''' <returns></returns>
+        <ExportAPI("Drawing.Frequency")>
+        <Extension>
+        Public Function DrawFrequency(pwm As MotifPWM, title$,
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
+
+            Dim model As New DrawingModel With {.ModelsId = title}
+#If DEBUG Then
+            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
+            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
+#End If
+            model.Residues =
+                LinqAPI.Exec(Of ResidueSite, Residue)(pwm.pwm) <=
+                    Function(rsd As ResidueSite)
+                        Return New Residue With {
+                            .Bits = rsd.bits,
+                            .Position = rsd.site,
+                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
+                                                                      In rsd.PWM.SeqIterator
+                                                                      Select New Alphabet With {
+                                                                          .Alphabet = pwm.alphabets(x.i),
+                                                                          .RelativeFrequency = x.value
+                                                                      }  ' alphabets
+                        }  ' residues
+                    End Function
+
+            Return InvokeDrawing(model, True, height:=height, driver:=driver)
+        End Function
+
+        ''' <summary>
+        ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
+        ''' (绘制各个残基的出现频率)
+        ''' </summary>
         ''' <param name="Fasta">The alignment export data from the clustal software.</param>
         ''' <param name="title">The sequence logo display title.</param>
         ''' <returns></returns>
@@ -161,40 +196,18 @@ For example, we identified a new domain, likely to have a role downstream of the
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
-            Dim model As New DrawingModel
-
-#If DEBUG Then
-            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
-            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
-#End If
 
             If String.IsNullOrEmpty(title) Then
                 If Not String.IsNullOrEmpty(fasta.FilePath) Then
-                    model.ModelsId = fasta.FilePath.BaseName
+                    title = fasta.FilePath.BaseName
                 Else
-                    model.ModelsId = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
+                    title = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
                 End If
-            Else
-                model.ModelsId = title
             End If
 
             getModel = PWM
-            model.Residues =
-                LinqAPI.Exec(Of ResidueSite, Residue)(PWM.pwm) <=
-                    Function(rsd As ResidueSite)
-                        Return New Residue With {
-                            .Bits = rsd.Bits,
-                            .Position = rsd.Site,
-                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
-                                                                      In rsd.PWM.SeqIterator
-                                                                      Select New Alphabet With {
-                                                                          .Alphabet = PWM.Alphabets(x.i),
-                                                                          .RelativeFrequency = x.value
-                                                                      }  ' alphabets
-                        }  ' residues
-                    End Function
 
-            Return InvokeDrawing(model, True, height:=height, driver:=driver)
+            Return PWM.DrawFrequency(title, height, driver)
         End Function
 
         ''' <summary>
@@ -212,10 +225,14 @@ For example, we identified a new domain, likely to have a role downstream of the
         End Function
 
         <Extension>
-        Friend Function getCharColorImages(model As DrawingModel) As Dictionary(Of Char, Image)
-            Return If(model.Alphabets = 4,
-                SequenceLogo.ColorSchema.NucleotideSchema,
-                SequenceLogo.ColorSchema.ProteinSchema)
+        Friend Function CharColorImages(model As DrawingModel, backColor As Color) As Dictionary(Of Char, Image)
+            With New ColorSchema(backColor)
+                If model.Alphabets = 4 Then
+                    Return .NucleotideSchema
+                Else
+                    Return .ProteinSchema
+                End If
+            End With
         End Function
 
         ''' <summary>
@@ -224,6 +241,9 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' <param name="model">The model can be achieve from clustal alignment or meme software.</param>
         ''' <param name="frequencyOrder">Reorder the alphabets in each residue site in the order of frequency values. default is yes!</param>
         ''' <param name="reverse">Reverse the residue sequence order in the drawing model?</param>
+        ''' <param name="height">
+        ''' height of the alphabet plot image
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' (绘制SequenceLogo图)
@@ -231,22 +251,20 @@ For example, we identified a new domain, likely to have a role downstream of the
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
-                                      Optional logoPadding$ = g.DefaultPadding,
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 5%;",
                                       Optional reverse As Boolean = False,
                                       Optional height As Integer = 75,
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            Dim n As Integer = model.Alphabets
-            Dim margin As Padding = Padding.TryParse(logoPadding)
-            Dim css As New CSSEnvirnment(New Size(model.Residues.Length * WordSize, height))
-            Dim width! = model.Residues.Length * WordSize + margin.Horizontal(css)
-            Dim size1 As New Size(width, (n + 1) * height + margin.Vertical(css))
+            Dim width! = (model.Residues.Length + 5) * WordSize
+            Dim size1 As New Size(width, (model.Alphabets + 3) * height)
             Dim theme As New Theme With {
                 .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
-                .padding = margin.ToString,
-                .background = "transparent"
+                .padding = logoPadding,
+                .background = "white",
+                .mainCSS = "font-style: strong; font-size: 36; font-family: " & FontFace.MicrosoftYaHei & ";"
             }
-            Dim logo As New Logo(model, height, reverse, frequencyOrder, theme)
+            Dim logo As New Logo(model, reverse, frequencyOrder, theme)
 
             Return logo.Plot($"{size1.Width},{size1.Height}",, driver)
         End Function

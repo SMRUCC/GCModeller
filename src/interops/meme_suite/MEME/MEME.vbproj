@@ -367,122 +367,27 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq.RTools\Toolkits.RNA-Seq.RTools.vbproj">
-      <Project>{aa24c3cf-9377-4bf6-b71d-8d452ae68c3d}</Project>
-      <Name>Toolkits.RNA-Seq.RTools</Name>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.netcoreapp.vbproj">
+      <Project>{c7a02fdd-0f2d-3a24-df19-0ae641adc7bb}</Project>
+      <Name>DNA_Comparative.netcoreapp</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\Toolkits.RNA-Seq\Toolkits.RNA-Seq.vbproj">
-      <Project>{df1c1740-08b7-40d3-84dc-35c94faca108}</Project>
-      <Name>Toolkits.RNA-Seq</Name>
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{6b8662d6-6ede-599b-ab66-6c8ebd7d06bc}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\RNA-Seq\WGCNA\WGCNA.vbproj">
-      <Project>{154af6a3-6731-437d-a76e-67a41bd303e8}</Project>
-      <Name>WGCNA</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{325eeff3-7735-e2ed-de19-7a1485b1bd93}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\DNA_Comparative\DNA_Comparative.vbproj">
-      <Project>{e54c3dc8-66a0-4617-aff8-d89457569723}</Project>
-      <Name>DNA_Comparative</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.vbproj">
-      <Project>{e71c120a-76cb-4312-af93-6a559d3ba062}</Project>
-      <Name>MotifScanner</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MSA\MSA.vbproj">
-      <Project>{099D156F-13A1-4A1F-868E-5E67F9B99D54}</Project>
-      <Name>MSA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.vbproj">
-      <Project>{1ae6b8da-1a79-4dc7-a291-a8ae75ce07ba}</Project>
-      <Name>SequenceLogo</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.vbproj">
-      <Project>{49219b69-7958-4bdb-b72b-9b72d7902a28}</Project>
-      <Name>SequencePatterns.Abstract</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.vbproj">
-      <Project>{abdce82b-700e-4f70-a2f1-86b8054d0c8e}</Project>
-      <Name>SequencePatterns</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SmithWaterman\SmithWaterman.vbproj">
-      <Project>{96973118-8964-49c4-b34f-086c4f9e2cdf}</Project>
-      <Name>SmithWaterman</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj">
-      <Project>{1dc0341c-37f5-45a6-b486-337edc2bad76}</Project>
-      <Name>VirtualFootprint</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\Bio.InteractionModel.vbproj">
-      <Project>{df6469fa-36ac-4959-812f-8ebc54faf7f3}</Project>
-      <Name>Bio.InteractionModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\data\ExternalDBSource\DatabaseServices.vbproj">
-      <Project>{e036d23d-d5fa-4623-97b6-4a2c06b5f009}</Project>
-      <Name>DatabaseServices</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\data\RegulonDatabase\RegulonDatabase.vbproj">
-      <Project>{6dda9162-c232-4dad-9a79-06b9caa47374}</Project>
-      <Name>RegulonDatabase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj">
-      <Project>{03565bd9-54dc-4e8f-a0e7-7d3ef10ee8d7}</Project>
-      <Name>STRING-db</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\data\Xfam\Pfam\Pfam.vbproj">
-      <Project>{f5fad2bd-2274-4bd9-91a6-95a0c6a93c95}</Project>
-      <Name>Pfam</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj">
-      <Project>{387eb391-5940-40e2-83f9-20a49de9b4b6}</Project>
-      <Name>psidev</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\repository\Bio.Repository\Bio.Repository.vbproj">
-      <Project>{216acc2d-c7a5-4c27-9dc9-bdfa4dbb6a37}</Project>
-      <Name>Bio.Repository</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
-      <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
-      <Name>DynamicProgramming</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85E71B4B-9276-4EC8-AADC-C849205F1EA8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Network.GraphTheory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
-      <Project>{78CB32E6-2904-41E7-ACCA-F1E2757BFA8E}</Project>
-      <Name>Network.IO.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{6a751aa8-8b8b-80f6-943f-b08dad71cb70}</Project>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEME.DocParser\MEME.DocParser.vbproj">
       <Project>{cc8ff50e-1073-400b-b20c-c1475c10c565}</Project>
       <Name>MEME.DocParser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TmoD\TmoD.vbproj">
-      <Project>{01c60ec4-4677-483b-9f20-031bac02d921}</Project>
-      <Name>TmoD</Name>
-    </ProjectReference>
   </ItemGroup>
-  <Import Project="..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
-  <Import Project="..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
-  <Import Project="..\..\..\GCModeller\shared\docs\Shared.DocumentFormats.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

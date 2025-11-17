@@ -80,6 +80,8 @@ Module pipHelper
             a = DirectCast(a, vector).data
         ElseIf TypeOf a Is dataframe Then
             Return fastaFromDataframe(a)
+        ElseIf TypeOf a Is vbObject Then
+            a = DirectCast(a, vbObject).target
         End If
 
         Dim type As Type = a.GetType

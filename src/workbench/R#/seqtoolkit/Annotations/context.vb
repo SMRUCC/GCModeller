@@ -60,8 +60,10 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -72,7 +74,10 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
 
-<Package("annotation.genomics_context", Category:=APICategories.ResearchTools)>
+''' <summary>
+''' the tools for processing of the genomics context information
+''' </summary>
+<Package("genomics_context", Category:=APICategories.ResearchTools)>
 Module context
 
     Sub New()
@@ -110,14 +115,46 @@ Module context
         Return sb.ToString
     End Function
 
+    <ExportAPI("set_context")>
+    Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprint)(sites, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim all_sites As VirtualFootprint() = pull _
+            .populates(Of VirtualFootprint)(env) _
+            .ToArray
+        Dim index As Dictionary(Of String, Feature) = genomics.CreateGeneObjectIndex
+
+        For Each site As VirtualFootprint In all_sites
+            Dim feature As Feature = index(site.ORF)
+            Dim loc As NucleotideLocation = feature.Location
+            Dim locSize As Integer = site.sequence.Length
+
+            If loc.Strand = Strands.Forward Then
+                site.starts = loc.left + site.distance
+                site.ends = site.starts - locSize
+                site.strand = Strands.Forward
+            Else
+                site.starts = loc.right - site.distance
+                site.ends = site.starts + locSize
+                site.strand = Strands.Reverse
+            End If
+        Next
+
+        Return all_sites.TryCastGenericArray(env)
+    End Function
+
     ''' <summary>
     ''' filter genes by given strand direction
     ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <param name="strand"></param>
+    ''' <param name="genes">a collection of the gene model object which is subclass of <see cref="IGeneBrief"/></param>
+    ''' <param name="strand">the nucleotide sequence strand direction, value could be +, -, forward, reverse.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("strand.filter")>
+    <ExportAPI("filter_strand")>
     Public Function strandFilter(<RRawVectorArgument> genes As Object,
                                  Optional strand As Object = "+",
                                  Optional env As Environment = Nothing) As Object
@@ -127,6 +164,8 @@ Module context
 
         If geneObjects.isError Then
             Return geneObjects.getError
+        ElseIf strVal = Strands.Unknown Then
+            Call "the given strand value for make gene direction filter is missing!".warning
         End If
 
         Return geneObjects _
@@ -168,9 +207,9 @@ Module context
     End Function
 
     ''' <summary>
-    ''' the given nucleotide location is in forward direction
+    ''' assert that does the given nucleotide location is in forward direction?
     ''' </summary>
-    ''' <param name="loci"></param>
+    ''' <param name="loci">a target nucleotide location</param>
     ''' <returns></returns>
     <ExportAPI("is.forward")>
     Public Function isForward(loci As NucleotideLocation) As Boolean

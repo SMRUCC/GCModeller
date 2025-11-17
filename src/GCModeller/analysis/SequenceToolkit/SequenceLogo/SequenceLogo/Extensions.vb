@@ -53,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports ScannerMotif = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif
 
 Namespace SequenceLogo
 
@@ -61,7 +60,7 @@ Namespace SequenceLogo
     Public Module Extensions
 
         <Extension>
-        Public Function CreateDrawingModel(motif As ScannerMotif) As DrawingModel
+        Public Function CreateDrawingModel(motif As SequenceMotif) As DrawingModel
             Dim n% = motif.seeds.MSA.Length
             Dim E# = Probability.E(n)
             Dim alphas As Residue() = motif _

@@ -65,8 +65,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.SequenceTools.MSA
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -477,7 +477,7 @@ Module Fasta
                 .ToArray
             Dim fasta As New FastaFile(seqs)
 
-            Return fasta.Save(lineBreak, file, encoding)
+            Return fasta.Save(lineBreak, file, encoding:=encoding)
         End If
     End Function
 

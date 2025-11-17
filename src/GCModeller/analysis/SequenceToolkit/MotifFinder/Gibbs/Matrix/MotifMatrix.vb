@@ -80,7 +80,7 @@ Namespace Matrix
             Call initMotifMatrix()
         End Sub
 
-        Public Sub New(countsLists As IList(Of IList(Of Integer)))
+        Public Sub New(countsLists As List(Of List(Of Integer)))
             MyBase.New(countsLists)
         End Sub
 

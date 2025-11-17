@@ -5,6 +5,7 @@
 // ref=seqtoolkit.terms@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * tools for make ontology term annotation based on the proteins sequence data
  * 
 */
 declare namespace annotation.terms {
@@ -32,6 +33,21 @@ declare namespace annotation.terms {
       function Pfam(): any;
    }
    /**
+    * assign the top term by score ranking
+    * 
+    * 
+     * @param alignment -
+     * @param term_maps -
+     * 
+     * + default value Is ``null``.
+     * @param top_best 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function assign_terms(alignment: any, term_maps?: object, top_best?: boolean, env?: object): object;
+   /**
     * try parse gene names from the product description strings
     * 
     * 
@@ -52,6 +68,16 @@ declare namespace annotation.terms {
       */
       function MyvaCOG(file: string): object;
    }
+   /**
+    * read the given table file as rank term object
+    * 
+    * 
+     * @param file -
+   */
+   function read_rankterms(file: string): object;
+   /**
+   */
+   function removes_proteinIDSuffix(id: any): string;
    /**
      * @param excludeNull default value Is ``false``.
    */

@@ -81,7 +81,6 @@ Namespace Regprecise
             Return RegulatedGene.DocParser(doc:=page)
         End Function
 
-        <ExportAPI("Regulator.Creates")>
         Public Function CreateRegulator(Family As String,
                                         Bacteria As String,
                                         RegulatorSites As FASTA.FastaFile,
@@ -91,7 +90,7 @@ Namespace Regprecise
                             Select FastaObject.ToFastaObject).ToArray
             Dim Regulator As Regulator = New Regulator With {
                 .family = Family,
-                .locus_tag = New NamedValue With {.name = RegulatorId},
+                .locus_tags = {New NamedValue With {.name = RegulatorId}},
                 .regulog = New NamedValue With {
                     .name = String.Format("{0} - {1}", Family, Bacteria)
                 },
@@ -181,51 +180,6 @@ Namespace Regprecise
 
                 Return .ByRef
             End With
-        End Function
-
-        ''' <summary>
-        ''' 从KEGG数据库中下载调控因子的蛋白质序列
-        ''' </summary>
-        ''' <param name="Regprecise"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <ExportAPI("Regulators.Downloads",
-                   Info:="Downloads the protein sequence of the regulators which is archives in Regprecise database.")>
-        Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, DownloadDIR As String) As FASTA.FastaFile
-            Dim FileData As FASTA.FastaFile = New FASTA.FastaFile
-            Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
-                For Each Bacteria As BacteriaRegulome In Regprecise.genomes
-                    Dim downloads = (From regulator As Regulator
-                                     In Bacteria.regulome.regulators
-                                     Let fa As FASTA.FastaSeq = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
-                                     Where Not fa Is Nothing
-                                     Select fa).ToArray
-                    Call FileData.AddRange(downloads)
-                Next
-            End Using
-
-            Return FileData
-        End Function
-
-        Private Function __downloads(regulator As Regulator,
-                                     genome As BacteriaRegulome,
-                                     ErrLog As LogFile,
-                                     DownloadDIR As String) As FASTA.FastaSeq
-
-            If regulator.type = Types.RNA Then
-                Return Nothing
-            End If
-
-            If String.IsNullOrEmpty(regulator.locus_tag.name) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
-                Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
-                Return Nothing
-            End If
-
-            Dim FastaSaved As String = String.Format("{0}/{1}.fasta", DownloadDIR, regulator.locus_tag.name)
-            Dim FastaObject = RegulatorDownloads(regulator, genome, ErrLog, DownloadDIR, FastaSaved)
-            Return FastaObject
         End Function
     End Module
 End Namespace

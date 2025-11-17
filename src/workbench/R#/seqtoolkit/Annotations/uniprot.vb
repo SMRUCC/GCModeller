@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::0d87a9403df3d67725c1e7641f944e36, R#\seqtoolkit\Annotations\uniprot.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 466
-    '    Code Lines: 353 (75.75%)
-    ' Comment Lines: 61 (13.09%)
-    '    - Xml Docs: 93.44%
-    ' 
-    '   Blank Lines: 52 (11.16%)
-    '     File Size: 20.71 KB
+' Summaries:
 
 
-    ' Module uniprot
-    ' 
-    '     Function: get_description, get_keywords, get_pathwayNames, get_reactions, get_sequence
-    '               get_subcellularlocation, get_xrefs, getProteinSeq, IdUnify, metaboliteSet
-    '               openUniprotXmlAssembly, parseUniProt, proteinTable, readProteinTable, uniprotProteinTable
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 466
+'    Code Lines: 353 (75.75%)
+' Comment Lines: 61 (13.09%)
+'    - Xml Docs: 93.44%
+' 
+'   Blank Lines: 52 (11.16%)
+'     File Size: 20.71 KB
+
+
+' Module uniprot
+' 
+'     Function: get_description, get_keywords, get_pathwayNames, get_reactions, get_sequence
+'               get_subcellularlocation, get_xrefs, getProteinSeq, IdUnify, metaboliteSet
+'               openUniprotXmlAssembly, parseUniProt, proteinTable, readProteinTable, uniprotProteinTable
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -73,6 +73,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
 Imports proteinTable = SMRUCC.genomics.Assembly.Uniprot.Web.Entry
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -116,7 +117,7 @@ PubMed:=540024,
 Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
 <RTypeExport("uniprot_kb", GetType(entry))>
-Module uniprot
+Module uniprotTools
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
@@ -412,36 +413,52 @@ Module uniprot
     ''' <summary>
     ''' get external database reference id set
     ''' </summary>
-    ''' <param name="prot"></param>
+    ''' <param name="prot">target protein object to extract its database corss reference id</param>
+    ''' <param name="dbname">
+    ''' this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
-    ''' make unify with the genebank feature xrefs
+    ''' make unify with the genebank feature xrefs.
     ''' </remarks>
     <ExportAPI("get_xrefs")>
-    Public Function get_xrefs(prot As entry) As Object
-        Dim list As list = list.empty
-        Dim xrefs As list = list.empty
+    <RApiReturn(GetType(dataframe), GetType(String))>
+    Public Function get_xrefs(prot As entry, Optional dbname As String = Nothing) As Object
+        If dbname Is Nothing Then
+            Dim list As list = list.empty
+            Dim xrefs As list = list.empty
 
-        ' 20240804
-        ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
-        '
-        ' make unify with the genebank entry when insert into biocad_registry
-        xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
+            ' 20240804
+            ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
+            '
+            ' make unify with the genebank entry when insert into biocad_registry
+            xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
 
-        For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
-            Call xrefs.add(link.Key, From i In link Select i.id)
-        Next
+            For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
+                Call xrefs.add(link.Key, From i In link Select i.id)
+            Next
 
-        list.add("name", If(prot.name, prot.accessions.First))
-        list.add("xrefs", xrefs)
+            list.add("name", If(prot.name, prot.accessions.First))
+            list.add("xrefs", xrefs)
 
-        Return list
+            Return list
+        Else
+            Return prot.DbReferenceIds(dbname).ToArray
+        End If
     End Function
 
+    ''' <summary>
+    ''' get keyword dataframe about the given protein data
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns>
+    ''' a dataframe object that with two data fields: `id` - the keyword id and `keyword` - the keyword name.
+    ''' </returns>
     <ExportAPI("get_keywords")>
+    <RApiReturn(GetType(dataframe))>
     Public Function get_keywords(prot As entry) As Object
-        Dim labels = prot.keywords
+        Dim labels As value() = prot.keywords
         Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array),
             .rownames = labels.SafeQuery _
@@ -458,51 +475,84 @@ Module uniprot
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
-    ''' <param name="uniprot">a collection of the uniprot protein ``entry`` data.</param>
-    ''' <param name="extractAll"></param>
+    ''' <param name="uniprot">a collection of the uniprot protein <see cref="entry"/> data.</param>
+    ''' <param name="extractAll">populate the sequence with all uniprot accession id</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> that export from the given protein set.
+    ''' 
+    ''' the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
+    ''' the db_xref is optional if the parameter <paramref name="db_xref"/> is not be omited.
+    ''' </returns>
     <ExportAPI("protein.seqs")>
+    <RApiReturn(GetType(FastaSeq))>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
                                   Optional KOseq As Boolean = False,
+                                  Optional db_xref As String = Nothing,
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)
-        Dim protFa = Iterator Function(prot As entry) As IEnumerable(Of FastaSeq)
-                         If KOseq Then
-                             Dim KO As dbReference = prot.KO
-
-                             If Not KO Is Nothing Then
-                                 Yield New FastaSeq With {
-                                    .Headers = {KO.id, prot.proteinFullName},
-                                    .SequenceData = prot.ProteinSequence
-                                 }
-                             End If
-                         ElseIf extractAll Then
-                             For Each accid As String In prot.accessions
-                                 Yield New FastaSeq With {
-                                    .Headers = {accid},
-                                    .SequenceData = prot.ProteinSequence
-                                 }
-                             Next
-                         Else
-                             Yield New FastaSeq With {
-                                .Headers = {prot.accessions(Scan0)},
-                                .SequenceData = prot.ProteinSequence
-                             }
-                         End If
-                     End Function
+        Dim protFa = Function(prot As entry) makeFasta(prot, KOseq, extractAll, db_xref)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
         Else
-            Return source.TryCast(Of IEnumerable(Of entry)) _
+            Return source.TryCast(Of IEnumerable(Of protein)) _
                 .Select(Function(prot)
                             Return protFa(prot)
                         End Function) _
                 .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+    End Function
+
+    Private Iterator Function makeFasta(prot As protein, KOseq As Boolean, extractAll As Boolean, db_xref As String) As IEnumerable(Of FastaSeq)
+        Dim fullname As String = prot.proteinFullName
+        Dim db_xrefs As String() = Nothing
+        Dim prot_seq As String = prot.ProteinSequence
+
+        If Not db_xref Is Nothing Then
+            db_xrefs = prot.DbReferenceIds(db_xref).ToArray
+        End If
+
+        If KOseq Then
+            Dim KO As dbReference = prot.KO
+
+            If Not KO Is Nothing Then
+                Yield New FastaSeq With {
+                    .Headers = {KO.id, fullname},
+                    .SequenceData = prot_seq
+                }
+            End If
+        ElseIf db_xrefs IsNot Nothing Then
+            If db_xrefs.IsNullOrEmpty Then
+                Yield New FastaSeq With {
+                    .Headers = {prot.accessions(Scan0), fullname},
+                    .SequenceData = prot_seq
+                }
+            Else
+                For Each id As String In db_xrefs
+                    Yield New FastaSeq With {
+                        .Headers = {prot.accessions(Scan0), id, fullname},
+                        .SequenceData = prot_seq
+                    }
+                Next
+            End If
+        Else
+            If extractAll Then
+                For Each accid As String In prot.accessions
+                    Yield New FastaSeq With {
+                        .Headers = {accid, fullname},
+                        .SequenceData = prot_seq
+                    }
+                Next
+            Else
+                Yield New FastaSeq With {
+                    .Headers = {prot.accessions(Scan0), fullname},
+                    .SequenceData = prot_seq
+                }
+            End If
         End If
     End Function
 

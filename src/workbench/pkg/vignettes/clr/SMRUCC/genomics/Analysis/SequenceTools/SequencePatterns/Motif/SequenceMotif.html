@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>motif model</p>
 
         <h3>Declare</h3>        
 
@@ -34,6 +34,7 @@ export class SequenceMotif extends <a href="/vignettes/clr/SMRUCC/genomics/Analy
    alignments: double;
    # score / motif with
    AverageScore: double;
+   name: string;
    pvalue: double;
    region: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/SequenceTools/SequencePatterns/Residue.html">Residue[]</a>;
    RSD: double;
@@ -42,7 +43,6 @@ export class SequenceMotif extends <a href="/vignettes/clr/SMRUCC/genomics/Analy
    # get number of the conserved sites
    SignificantSites: integer;
    tag: string;
-   # the length of the MSA alignment
    width: integer;
 }
 </code>

@@ -98,6 +98,12 @@ Namespace ComponentModel.Loci.Abstract
         ReadOnly Property Strand As Strands
     End Interface
 
+    Public Interface INucleotideLocation : Inherits ILocationComponent
+
+        Property Strand As Strands
+
+    End Interface
+
     ''' <summary>
     ''' This type of the object has the loci location value attribute.
     ''' </summary>

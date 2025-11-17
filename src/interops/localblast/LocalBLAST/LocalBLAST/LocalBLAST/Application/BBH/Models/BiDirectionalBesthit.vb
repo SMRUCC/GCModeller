@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::0e66bf3889ca9b8a39b4376565a9630c, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 97
-    '    Code Lines: 50 (51.55%)
-    ' Comment Lines: 36 (37.11%)
-    '    - Xml Docs: 94.44%
-    ' 
-    '   Blank Lines: 11 (11.34%)
-    '     File Size: 3.89 KB
+' Summaries:
 
 
-    '     Class BiDirectionalBesthit
-    ' 
-    '         Properties: description, forward, identities, length, level
-    '                     NullValue, positive, reverse, term
-    ' 
-    '         Function: ShadowCopy, ToString
-    '         Delegate Function
-    ' 
-    '             Function: MatchDescription
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 97
+'    Code Lines: 50 (51.55%)
+' Comment Lines: 36 (37.11%)
+'    - Xml Docs: 94.44%
+' 
+'   Blank Lines: 11 (11.34%)
+'     File Size: 3.89 KB
+
+
+'     Class BiDirectionalBesthit
+' 
+'         Properties: description, forward, identities, length, level
+'                     NullValue, positive, reverse, term
+' 
+'         Function: ShadowCopy, ToString
+'         Delegate Function
+' 
+'             Function: MatchDescription
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LocalBLAST.Application.BBH
@@ -80,7 +81,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property description As String
+        Public Overrides Property description As String
+
         ''' <summary>
         ''' Category term annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>, like COG/KO, etc
         ''' </summary>

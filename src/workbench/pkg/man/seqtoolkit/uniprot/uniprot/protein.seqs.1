@@ -6,6 +6,7 @@ protein.seqs \- populate all protein fasta sequence from the given uniprot datab
 \fIprotein.seqs(\fBuniprot\fR as any, 
 \fBextractAll\fR as boolean = FALSE, 
 \fBKOseq\fR as boolean = FALSE, 
+\fBdb_xref\fR as string = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -13,13 +14,20 @@ populate all protein fasta sequence from the given uniprot database reader
 .PP
 .SH OPTIONS
 .PP
-\fBuniprot\fB \fR\- a collection of the uniprot protein \fBentry\fR data.. 
+\fBuniprot\fB \fR\- a collection of the uniprot protein @\fBT:SMRUCC.genomics.Assembly.Uniprot.XML.entry\fR data.. 
 .PP
 .PP
-\fBextractAll\fB \fR\- -. 
+\fBextractAll\fB \fR\- populate the sequence with all uniprot accession id. 
 .PP
 .PP
 \fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR that export from the given protein set.
+ 
+ the generated fasta sequence header title in format: \fBuniprot_id|db_xref|protein function\fR.
+ the db_xref is optional if the parameter **`db_xref`** is not be omited.
 .PP
 .SH SEE ALSO
 uniprot

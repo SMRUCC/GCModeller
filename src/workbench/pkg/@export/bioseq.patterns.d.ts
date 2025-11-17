@@ -81,9 +81,19 @@ declare namespace bioseq.patterns {
    */
    function find_motifs(fasta: any, minw?: object, maxw?: object, nmotifs?: object, noccurs?: object, seedingCutoff?: number, scanMinW?: object, scanCutoff?: number, cleanMotif?: number, significant_sites?: object, seeds?: any, debug?: boolean, env?: object): object;
    /**
-     * @param width default value Is ``12``.
-     * @param maxitr default value Is ``1000``.
-     * @param env default value Is ``null``.
+    * make a motif scan from the given sequence collection
+    * 
+    * 
+     * @param seqs -
+     * @param width -
+     * 
+     * + default value Is ``null``.
+     * @param maxitr -
+     * 
+     * + default value Is ``1000``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function gibbs_scan(seqs: any, width?: object, maxitr?: object, env?: object): object;
    module motif {
@@ -99,12 +109,14 @@ declare namespace bioseq.patterns {
         * + default value Is ``8``.
         * @param identities 
         * + default value Is ``0.85``.
+        * @param pvalue 
+        * + default value Is ``0.05``.
         * @param parallel 
         * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
       */
-      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, parallel?: boolean, env?: object): object;
+      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, env?: object): object;
    }
    /**
     * 
@@ -154,14 +166,25 @@ declare namespace bioseq.patterns {
    }
    module read {
       /**
+       * read the xml motif data model output from the meme program
+       * 
+       * 
+        * @param file -
+      */
+      function meme_xml(file: string): object;
+      /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
        * 
         * @param file -
       */
       function motifs(file: string): object;
       /**
+       * read the motif match scan result table file
+       * 
+       * 
+        * @param file should be a file path to a csv table file.
       */
       function scans(file: string): object;
    }
@@ -196,6 +219,33 @@ declare namespace bioseq.patterns {
      * @param base -
    */
    function seeds(size: object, base: string): string;
+   /**
+    * split the motif matches result in parts by its gene source
+    * 
+    * 
+     * @param matches -
+     * @param gff -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function split_match_source(matches: any, gff?: object, env?: object): any;
+   /**
+     * @param identities default value Is ``null``.
+     * @param pvalue default value Is ``null``.
+     * @param minW default value Is ``null``.
+   */
+   function top_sites(sites: object, identities?: object, pvalue?: object, minW?: object): object;
+   /**
+    * convert the meme document to motif PWM model object
+    * 
+    * 
+     * @param meme -
+     * @return a vector of the PWM clr object.
+   */
+   function toPWM(meme: object): object;
    module view {
       /**
        * 

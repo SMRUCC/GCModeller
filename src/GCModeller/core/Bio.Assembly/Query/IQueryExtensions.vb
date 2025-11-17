@@ -127,7 +127,8 @@ Namespace ObjectQuery
         ''' </summary>
         ''' <param name="fasta"></param>
         ''' <returns></returns>
-        <Extension> Public Function GetLocusTag(fasta As FastaSeq) As String
+        <Extension>
+        Public Function GetLocusTag(fasta As FastaSeq) As String
             Dim uid As String = fasta.Headers.First.Split.First.Trim
             Return uid
         End Function

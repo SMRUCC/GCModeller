@@ -56,7 +56,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ReactionNetwork
 
@@ -117,7 +117,7 @@ Namespace ReactionNetwork
         Private Shared Function indexKey(c1$, c2$) As String
             Dim i1 = Integer.Parse(c1.Substring(1))
             Dim i2 = Integer.Parse(c2.Substring(1))
-            Dim key = stdNum.Min(i1, i2) & "|" & stdNum.Max(i1, i2)
+            Dim key = std.Min(i1, i2) & "|" & std.Max(i1, i2)
 
             Return key
         End Function

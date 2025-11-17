@@ -27,6 +27,12 @@ kegg
 |> write.background(file = "Z:/kegg_compounds.xml")
 ;
 
+kegg = as.data.frame(kegg, id_class = TRUE);
+kegg[,"term"] = gsub(kegg$term," - Reference pathway","");
+
+write.csv(kegg,file = "Z:/compound_pathway.csv");
+
+
 print(cid);
 
 write.csv(cid, file = "Z:/kegg_cid.csv");

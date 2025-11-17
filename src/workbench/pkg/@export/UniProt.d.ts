@@ -2,7 +2,7 @@
 //
 //    imports "uniprot" from "seqtoolkit";
 //
-// ref=seqtoolkit.uniprot@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=seqtoolkit.uniprotTools@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * The Universal Protein Resource (UniProt)
@@ -13,8 +13,13 @@ declare namespace uniprot {
    */
    function get_description(prot: object): string;
    /**
+    * get keyword dataframe about the given protein data
+    * 
+    * 
+     * @param prot -
+     * @return a dataframe object that with two data fields: `id` - the keyword id and `keyword` - the keyword name.
    */
-   function get_keywords(prot: object): any;
+   function get_keywords(prot: object): object;
    /**
     * get related pathway names of current protein
     * 
@@ -39,11 +44,14 @@ declare namespace uniprot {
     * get external database reference id set
     * 
     * > the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
-    * >  make unify with the genebank feature xrefs
+    * >  make unify with the genebank feature xrefs.
     * 
-     * @param prot -
+     * @param prot target protein object to extract its database corss reference id
+     * @param dbname this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
+     * 
+     * + default value Is ``null``.
    */
-   function get_xrefs(prot: object): any;
+   function get_xrefs(prot: object, dbname?: string): object|string;
    /**
     * id unify mapping
     * 
@@ -89,17 +97,23 @@ declare namespace uniprot {
        * populate all protein fasta sequence from the given uniprot database reader
        * 
        * 
-        * @param uniprot a collection of the uniprot protein ``entry`` data.
-        * @param extractAll -
+        * @param uniprot a collection of the uniprot protein @``T:SMRUCC.genomics.Assembly.Uniprot.XML.entry`` data.
+        * @param extractAll populate the sequence with all uniprot accession id
         * 
         * + default value Is ``false``.
         * @param KOseq 
         * + default value Is ``false``.
+        * @param db_xref 
+        * + default value Is ``null``.
         * @param env -
         * 
         * + default value Is ``null``.
+        * @return a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` that export from the given protein set.
+        *  
+        *  the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
+        *  the db_xref is optional if the parameter **`db_xref`** is not be omited.
       */
-      function seqs(uniprot: any, extractAll?: boolean, KOseq?: boolean, env?: object): object;
+      function seqs(uniprot: any, extractAll?: boolean, KOseq?: boolean, db_xref?: string, env?: object): object;
    }
    /**
     * export protein annotation data as data frame.

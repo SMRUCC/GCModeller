@@ -174,6 +174,13 @@ Namespace PubMed
                     End If
                 End If
             End If
+            If PubmedData IsNot Nothing Then
+                Dim doi = PubmedData.ArticleIdList.Where(Function(a) a.IdType.TextEquals("doi")).FirstOrDefault
+
+                If Not doi Is Nothing Then
+                    Return doi.ID
+                End If
+            End If
 
             Return "-"
         End Function
@@ -239,6 +246,16 @@ Namespace PubMed
             End If
         End Function
 
+        Public Iterator Function GetOtherTerms() As IEnumerable(Of String)
+            If MedlineCitation IsNot Nothing Then
+                If MedlineCitation.KeywordList IsNot Nothing Then
+                    For Each term As Keyword In MedlineCitation.KeywordList.AsEnumerable
+                        Yield term.Keyword
+                    Next
+                End If
+            End If
+        End Function
+
     End Class
 
     Public Class KeywordList : Implements Enumeration(Of Keyword)
@@ -267,6 +284,13 @@ Namespace PubMed
         Public Property MajorTopicYN As String
         <XmlText>
         Public Property Keyword As String
+
+        Sub New()
+        End Sub
+
+        Sub New(term As String)
+            Keyword = term
+        End Sub
 
         Public Overrides Function ToString() As String
             Return Keyword
@@ -331,6 +355,13 @@ Namespace PubMed
         Public Property DescriptorName As RegisterObject
         <XmlElement("QualifierName")>
         Public Property QualifierName As RegisterObject()
+
+        Sub New()
+        End Sub
+
+        Sub New(keyword As String)
+            DescriptorName = New RegisterObject With {.Value = keyword}
+        End Sub
 
         Public Overrides Function ToString() As String
             Return DescriptorName.ToString
