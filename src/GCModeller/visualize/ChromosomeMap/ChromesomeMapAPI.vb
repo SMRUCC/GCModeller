@@ -484,11 +484,4 @@ Public Module ChromesomeMapAPI
 
         Return Model
     End Function
-
-    Private Function __getRandomColor() As Color
-        Dim r = Rnd() * 255
-        Dim g = Rnd() * 255
-        Dim b = Rnd() * 255
-        Return Color.FromArgb(r, g, b)
-    End Function
 End Module
