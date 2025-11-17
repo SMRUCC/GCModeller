@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>FastQ</title>
+    <title>kmers</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
-    <meta name="keywords" content="R#; FastQ; rnaseq" />
+    <meta name="keywords" content="R#; kmers; seqtoolkit" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="FastQ toolkit..." />
+    <meta name="description" content="..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -50,33 +50,26 @@ table caption {font-size:14px;font-weight:bolder;}
 </style>
   </head>
   <body>
-    <table width="100%" summary="page for {FastQ}">
+    <table width="100%" summary="page for {kmers}">
       <tbody>
         <tr>
-          <td>{FastQ}</td>
+          <td>{kmers}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>FastQ</h1>
+    <h1>kmers</h1>
     <hr />
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' FastQ toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FastQ"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "kmers"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
                            </code>
     </p>
-    <p><p>FastQ toolkit</p></p>
+    <p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           <p>FASTQ format Is a text-based format For storing both a biological sequence 
- (usually nucleotide sequence) And its corresponding quality scores. Both 
- the sequence letter And quality score are Each encoded With a Single ASCII 
- character For brevity. It was originally developed at the Wellcome Trust 
- Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
- but has recently become the de facto standard For storing the output Of 
- high-throughput sequencing instruments such As the Illumina Genome 
- Analyzer.</p>
+                           
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -89,31 +82,10 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
-  <td id="illumina_fastQ_id">
-    <a href="./FastQ/illumina_fastQ_id.html">illumina_fastQ_id</a>
+  <td id="kmers_matrix">
+    <a href="./kmers/kmers_matrix.html">kmers_matrix</a>
   </td>
-  <td></td>
-</tr>
-<tr>
-  <td id="read.fastq">
-    <a href="./FastQ/read.fastq.html">read.fastq</a>
-  </td>
-  <td><p>read the fastq file</p></td>
-</tr>
-<tr>
-  <td id="assemble">
-    <a href="./FastQ/assemble.html">assemble</a>
-  </td>
-  <td><p>Do short reads assembling</p></td>
-</tr>
-<tr>
-  <td id="quality_score">
-    <a href="./FastQ/quality_score.html">quality_score</a>
-  </td>
-  <td><p>In FASTQ files, quality scores are encoded into a compact form, 
- which uses only 1 byte per quality value. In this encoding, the 
- quality score is represented as the character with an ASCII 
- code equal to its value + 33.</p></td>
+  <td><p>generate sequence k-mer count data matrix</p></td>
 </tr></tbody>
       </table>
     </div>

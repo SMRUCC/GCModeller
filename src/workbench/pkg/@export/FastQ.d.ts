@@ -29,6 +29,9 @@ declare namespace FastQ {
    */
    function assemble(reads: any, env?: object): object;
    /**
+   */
+   function illumina_fastQ_id(fq: object): object;
+   /**
     * In FASTQ files, quality scores are encoded into a compact form, 
     *  which uses only 1 byte per quality value. In this encoding, the 
     *  quality score is represented as the character with an ASCII 
@@ -42,4 +45,13 @@ declare namespace FastQ {
      * @return the quality score data of each @``T:SMRUCC.genomics.SequenceModel.FQ.FastQ`` sequence data.
    */
    function quality_score(q: any, env?: object): number;
+   module read {
+      /**
+       * read the fastq file
+       * 
+       * 
+        * @param file -
+      */
+      function fastq(file: string): object;
+   }
 }

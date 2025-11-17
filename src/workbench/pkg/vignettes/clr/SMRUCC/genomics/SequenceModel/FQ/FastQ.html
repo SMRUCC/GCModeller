@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.SequenceModel.FQ.FastQ</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FastQ {SMRUCC.genomics.SequenceModel.FQ}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FastQ</h2>
+
+        <h3>Description</h3>
+
+        <p>FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and 
+ its corresponding quality scores. Both the sequence letter and quality score are each encoded with a single 
+ ASCII character for brevity. It was originally developed at the Wellcome Trust Sanger Institute to bundle a 
+ FASTA sequence and its quality data, but has recently become the de facto standard for storing the output of 
+ high-throughput sequencing instruments such as the Illumina Genome Analyzer.
+ 
+ There is no standard file extension for a FASTQ file, but .fq and .fastq, are commonly used.
+ <a href='(http://en.wikipedia.org/wiki/FASTQ_format' title='(http://en.wikipedia.org/wiki/FASTQ_format'>(http://en.wikipedia.org/wiki/FASTQ_format</a>
+
+A FASTQ file normally uses four lines per sequence.
+ 
+ + Line 1 begins with a '@' character and is followed by a sequence identifier and an optional description (like a FASTA title line).
+ + Line 2 is the raw sequence letters.
+ + Line 3 begins with a '+' character and is optionally followed by the same sequence identifier (and any description) again.
+ + Line 4 encodes the quality values for the sequence in Line 2, and must contain the same number of symbols as letters in the sequence.
+ 
+ > + header
+ > + seuqnece
+ > + <code>+</code>
+ > + quality
+ 
+ 一条FastQ序列文件通常使用4行代表一条序列数据：
+ + 第一行： 起始于@字符，后面跟随着序列的标识符，以及一段可选的摘要描述信息
+ + 第二行： 原始的序列
+ + 第三行： 起始于+符号，与第一行的作用类似
+ + 第四行： 编码了第二行的序列数据的质量高低，长度与第二行相同</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.SequenceModel.FQ
+export class FastQ extends <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a> {
+   Headers: string;
+   IsProtSource: boolean;
+   Length: integer;
+   # @<code>M:SMRUCC.genomics.SequenceModel.FQ.FastQ.GetQualityOrder(System.Char)</code> for each char in this string.
+   Quality: string;
+   # 第一行的摘要描述信息
+   SEQ_ID: string;
+   SEQ_ID2: string;
+   SequenceData: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a> class: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

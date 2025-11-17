@@ -10,5 +10,7 @@ FastQ toolkit
 >  high-throughput sequencing instruments such As the Illumina Genome 
 >  Analyzer.
 
++ [illumina_fastQ_id](FastQ/illumina_fastQ_id.1) 
++ [read.fastq](FastQ/read.fastq.1) read the fastq file
 + [assemble](FastQ/assemble.1) Do short reads assembling
 + [quality_score](FastQ/quality_score.1) In FASTQ files, quality scores are encoded into a compact form, 

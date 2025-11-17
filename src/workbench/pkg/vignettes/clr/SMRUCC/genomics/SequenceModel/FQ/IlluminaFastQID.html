@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.SequenceModel.ISequenceModel</title>
+    <title>SMRUCC.genomics.SequenceModel.FQ.IlluminaFastQID</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,31 +13,46 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>ISequenceModel {SMRUCC.genomics.SequenceModel}</td>
+                <td>IlluminaFastQID {SMRUCC.genomics.SequenceModel.FQ}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>ISequenceModel</h2>
+        <h2>IlluminaFastQID</h2>
 
         <h3>Description</h3>
 
-        <p>The biological sequence molecular model.</p>
-
-<p>(蛋白质序列，核酸序列都可以使用本对象来表示)</p>
+        <p>Illumina sequence identifiers</p>
 
         <h3>Declare</h3>        
 
         <pre>
             <code id="clr_ts">
-# namespace SMRUCC.genomics.SequenceModel
-export class ISequenceModel {
-   # This sequence is a protein type sequence?(判断这条序列是否为蛋白质序列)
-   IsProtSource: boolean;
-   # The <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a>.<a href="#">SequenceData</a> string length.
-   Length: integer;
-   # Sequence data in a string type.(字符串类型的序列数据)
-   SequenceData: string;
+# namespace SMRUCC.genomics.SequenceModel.FQ
+export class IlluminaFastQID {
+   # B10 0 when none of the control bits are on, otherwise it is an even number
+   ControlBits: integer;
+   # B9 Y if the read is filtered, N otherwise
+   Filtered: string;
+   # A3
+   FlowCellID: string;
+   # A4 Flowcell lane
+   FlowCellLane: string;
+   # B11 index sequence
+   IndexSequence: string;
+   # A1 The unique instrument name
+   instrument_name: string;
+   IsEmpty: boolean;
+   # B8 The member of a pair, /1 or /2 (paired-end or mate-pair reads only)
+   PairMember: string;
+   # A2
+   RunID: string;
+   # A5 Tile number within the flowcell lane
+   Tiles: string;
+   # A6 'x'-coordinate of the cluster within the tile
+   X: integer;
+   # A7 'y'-coordinate of the cluster within the tile
+   Y: integer;
 }
 </code>
         </pre>
