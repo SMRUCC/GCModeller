@@ -151,8 +151,9 @@ Public Class DataFrameRow : Implements INamedValue, IVector
     End Sub
 
     <DebuggerStepThrough>
-    Sub New(id As String)
+    Sub New(id As String, Optional expr As IEnumerable(Of Double) = Nothing)
         Me.geneID = id
+        Me.experiments = expr.ToArray
     End Sub
 
     Sub New(sample As NamedCollection(Of Double))
