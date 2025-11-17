@@ -3,6 +3,17 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\kmerstools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\kmerstools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\matrix\\dataframerow.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{56116DEA-95DF-4AD8-B183-3E484231CB4C}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\kmers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -42,10 +53,6 @@
       "AbsoluteMoniker": "D:0:0:{D1CC0609-FCF1-4B4D-946D-7BF5685E9E21}|..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\MotifGraph.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\motifs\\motifgraph\\builder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\patterns.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|G:\\biocad_registry\\src\\biocad_registry\\imports_api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -76,175 +83,19 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 11,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "LociExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:44:51.319Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "KmerNode.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:44:08.332Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "KmerEdge.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:44:05.265Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "MorganFingerprint.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:59.368Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "EnzymeGenerator.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:48.957Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "CreateMatrix.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
-              "ViewState": "AgIAAFIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:47.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "Builder.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:29.01Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "DistanceGraph.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:25.881Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GraphMatrix.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:21.783Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "SequenceGraph.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:43:20.333Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "KSeq.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
-              "ViewState": "AgIAADcAAAAAAAAAAAAhwFsAAAAlAAAAAAAAAA==",
+              "Title": "DataFrameRow.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\DataFrameRow.vb",
+              "ViewState": "AgIAAHAAAAAAAAAAAAAowJQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:21:44.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "KMers.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:21:17.885Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "KMerGraph.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAABAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:21:11.764Z",
+              "WhenOpened": "2025-11-17T09:10:05.307Z",
               "EditorCaption": ""
             },
             {
@@ -269,20 +120,190 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "kmersTools.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\kmersTools.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\kmersTools.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\kmersTools.vb",
+              "RelativeToolTip": "seqtoolkit\\kmersTools.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:59:40.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LociExtensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\LociExtensions.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE0AAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:44:51.319Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "KmerNode.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerNode.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:44:08.332Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "KmerEdge.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KmerEdge.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:44:05.265Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 13,
+              "Title": "MorganFingerprint.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\MorganFingerprint.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:59.368Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "EnzymeGenerator.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\EnzymeGenerator.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:48.957Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CreateMatrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\CreateMatrix.vb",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:47.849Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Builder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\Builder.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:29.01Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "DistanceGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\DistanceGraph.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:25.881Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GraphMatrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\GraphMatrix.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:21.783Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SequenceGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Motifs\\MotifGraph\\SequenceGraph.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:43:20.333Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "KSeq.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
+              "ViewState": "AgIAADcAAAAAAAAAAAAhwFsAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:21:44.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "KMers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\KMers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:21:17.885Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "KMerGraph.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\ProteinTools\\ProteinMatrix\\Kmer\\KMerGraph.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGMAAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T08:21:11.764Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "patterns.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\patterns.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\patterns.vb",
               "RelativeToolTip": "seqtoolkit\\patterns.vb",
-              "ViewState": "AgIAAFgCAAAAAAAAAAAIwHMCAAAZAAAAAAAAAA==",
+              "ViewState": "AgIAALMCAAAAAAAAAAAAAHMCAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-17T08:20:37.441Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "imports_api.vb",
               "DocumentMoniker": "G:\\biocad_registry\\src\\biocad_registry\\imports_api.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\biocad_registry\\src\\biocad_registry\\imports_api.vb",
@@ -290,12 +311,11 @@
               "RelativeToolTip": "..\\..\\..\\..\\biocad_registry\\src\\biocad_registry\\imports_api.vb",
               "ViewState": "AgIAAJkAAAAAAAAAAAAuwOAAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T02:36:42.191Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T02:36:42.191Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "UniProtImporter.vb",
               "DocumentMoniker": "G:\\biocad_registry\\src\\biocad_storage\\imports\\BatchDataCommit\\UniProtImporter.vb",
               "RelativeDocumentMoniker": "..\\..\\..\\..\\biocad_registry\\src\\biocad_storage\\imports\\BatchDataCommit\\UniProtImporter.vb",
@@ -307,7 +327,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "EnvironmentExtensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Environment\\EnvironmentExtensions.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Environment\\EnvironmentExtensions.vb",
@@ -319,7 +339,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
@@ -330,7 +350,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "uniprot.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
@@ -342,7 +362,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "UniprotXML.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\ELIXIR\\UniProt\\XML\\Model\\UniprotXML.vb",
@@ -354,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 22,
               "Title": "GSEABackground.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
               "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
