@@ -3,7 +3,22 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\qc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\qc.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\trimreadsheaders.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\optimizationdataquality.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\assembleresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\assembleresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BA47F51A-3A2E-3BB6-6B48-6B8F21C5236D}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SequenceAlignment.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencealignment\\smithwaterman\\extension\\output.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -16,9 +31,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\illuminafastqid.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\optimizationdataquality.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\fastqfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -91,11 +103,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "QC.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\QC.vb",
+              "RelativeDocumentMoniker": "rnaseq\\QC.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\QC.vb",
+              "RelativeToolTip": "rnaseq\\QC.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T14:19:35.843Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AssembleResult.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\AssembleResult.vb",
+              "RelativeDocumentMoniker": "rnaseq\\AssembleResult.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\AssembleResult.vb",
+              "RelativeToolTip": "rnaseq\\AssembleResult.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T14:19:28.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FastQ.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
+              "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
+              "RelativeToolTip": "rnaseq\\FastQ.vb",
+              "ViewState": "AgIAAG4AAAAAAAAAAAA8wAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T14:19:23.597Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Output.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\Extension\\Output.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\Extension\\Output.vb",
@@ -108,20 +159,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TrimReadsHeaders.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
-              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
-              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T14:04:19.485Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "Blosum.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\Matrix\\Blosum.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\Matrix\\Blosum.vb",
@@ -134,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "Blast.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Blast.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Blast.vb",
@@ -147,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "Fasta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
@@ -160,7 +198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "SmithWaterman.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\SmithWaterman.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceAlignment\\SmithWaterman\\SmithWaterman.vb",
@@ -173,7 +211,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "file.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\file.vb",
@@ -206,7 +244,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "base.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
@@ -219,7 +257,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "BamReader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\BamReader.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\BamReader.vb",
@@ -232,7 +270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "Tags.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\Tags.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\Tags.vb",
@@ -245,7 +283,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 17,
               "Title": "SAMHeader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\SAMHeader.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\SAMHeader.vb",
@@ -258,7 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "CIGAROperations.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\CIGAROperations.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\CIGAROperations.vb",
@@ -271,7 +309,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 19,
               "Title": "BitFLAGS.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\BitFLAGS.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\BitFLAGS.vb",
@@ -284,7 +322,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "AlignmentReads.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\AlignmentReads.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\DocumentNodes\\AlignmentReads.vb",
@@ -297,7 +335,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "TSSs.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\TSSs.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\TSSs.vb",
@@ -310,7 +348,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "SamStream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\SamStream.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\SamStream.vb",
@@ -323,7 +361,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 23,
               "Title": "SAM.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\SAM.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\SAM\\SAM.vb",
@@ -336,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 24,
               "Title": "Stream.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
@@ -349,20 +387,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "OptimizationDataQuality.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
-              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
-              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T11:09:28.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 8,
               "Title": "IlluminaFastQID.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\IlluminaFastQID.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\IlluminaFastQID.vb",
@@ -375,7 +400,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "FastQ.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQ.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQ.vb",
@@ -388,7 +413,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 25,
               "Title": "Contig.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Contig.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Contig.vb",
@@ -401,7 +426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "16sAssembler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\16sAssembler.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\16sAssembler.vb",
@@ -414,7 +439,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 27,
               "Title": "RNA-seq.Data.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj",
@@ -427,7 +452,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "FastQFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQFile.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQFile.vb",
@@ -440,7 +465,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
+              "DocumentIndex": 28,
               "Title": "kmersTools.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\kmersTools.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\kmersTools.vb",
@@ -460,6 +485,74 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "ee929374-f944-403a-b72e-aab5ccb1da34",
+        "Display": 1,
+        "X": 1170,
+        "Y": 62,
+        "Width": 1290,
+        "Height": 1300,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OptimizationDataQuality.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\OptimizationDataQuality.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T11:09:28.264Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "bf5f3dee-a18d-44e8-9e4f-97cfda06d996",
+        "Display": 1,
+        "X": 1086,
+        "Y": 70,
+        "Width": 1455,
+        "Height": 1300,
+        "WindowState": 0
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TrimReadsHeaders.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\TrimReadsHeaders.vb",
+              "ViewState": "AgIAADYAAAAAAAAAAAAiwD8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T14:04:19.485Z",
+              "EditorCaption": ""
             }
           ]
         }
