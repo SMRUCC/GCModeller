@@ -79,4 +79,17 @@ declare namespace genomics_context {
      * @param env default value Is ``null``.
    */
    function set_context(sites: any, genomics: object, env?: object): any;
+   /**
+    * get TSS upstream site sequence data
+    * 
+    * 
+     * @param genome -
+     * @param genes -
+     * @param upstream_len 
+     * + default value Is ``150``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function TSS_upstream(genome: any, genes: any, upstream_len?: object, env?: object): any;
 }
