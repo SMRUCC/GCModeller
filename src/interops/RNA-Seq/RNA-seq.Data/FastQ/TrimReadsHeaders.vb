@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
 
 Namespace FQ
@@ -60,10 +61,10 @@ Namespace FQ
         ''' <param name="gapPenalty">Smith-Waterman算法中的空位罚分。</param>
         ''' <returns>修剪后的FastQ序列集合。</returns>
         <Extension>
-        Public Iterator Function TrimPrimersSmithWaterman(reads As IEnumerable(Of FastQ),
-        primersAndAdapters As IEnumerable(Of String),
-        Optional minScore As Integer = 15,
-        Optional gapPenalty As Integer = -5) As IEnumerable(Of FastQ)
+        Public Iterator Function TrimPrimersSmithWaterman(reads As IEnumerable(Of FastQ), primersAndAdapters As IEnumerable(Of String),
+                                                          Optional minScore As Integer = 15,
+                                                          Optional gapPenalty As Integer = -5,
+                                                          Optional cutoff As Double = 0.85) As IEnumerable(Of FastQ)
 
             ' 1. 预处理：将所有引物/接头字符串转换为FastQ对象，以便于比对。
             '    引物/接头本身没有质量值，我们创建一个虚拟的质量字符串。
@@ -76,7 +77,7 @@ Namespace FQ
             Next
 
             ' 2. 创建DNA比对矩阵
-            Dim scoringMatrix = SimpleDNAMatrix.DefaultMatrix()
+            Dim scoringMatrix As Blosum = Blosum.DNAMatrix
 
             ' 3. 遍历每一条read进行比对和修剪
             For Each read As FastQ In reads
@@ -90,7 +91,7 @@ Namespace FQ
                     Dim swResult As SmithWaterman = SmithWaterman.Align(read, primer, scoringMatrix)
 
                     ' 查找本次比对中得分最高的HSP
-                    For Each hsp As HSP In swResult
+                    For Each hsp As HSP In swResult.GetOutput(cutoff, minW:=primer.Length * 0.85).AsEnumerable
                         ' HSP的Score属性是判断匹配好坏的关键
                         If hsp.score > minScore AndAlso (bestHSP Is Nothing OrElse hsp.score > bestHSP.score) Then
                             bestHSP = hsp

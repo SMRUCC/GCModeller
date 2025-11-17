@@ -57,13 +57,14 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace BestLocalAlignment
 
     <XmlType("GSW", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
-    Public Class Output
+    Public Class Output : Implements Enumeration(Of HSP)
 
         ''' <summary>
         ''' best chain, 但是不明白这个有什么用途
@@ -160,6 +161,12 @@ Namespace BestLocalAlignment
                 .Subject = subject,
                 .Best = best
             }
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of HSP) Implements Enumeration(Of HSP).GenericEnumerator
+            For Each region As HSP In HSP.SafeQuery
+                Yield region
+            Next
         End Function
     End Class
 End Namespace
