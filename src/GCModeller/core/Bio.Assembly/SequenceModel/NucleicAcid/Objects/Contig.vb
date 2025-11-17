@@ -65,8 +65,11 @@ Imports SMRUCC.genomics.ContextModel
 Namespace SequenceModel.NucleotideModels
 
     ''' <summary>
-    ''' 这个基础的模型对象只有在基因组上面的位置信息
+    ''' a model for nucleotide sequence region on genomics sequence
     ''' </summary>
+    ''' <remarks>
+    ''' 这个基础的模型对象只有在基因组上面的位置信息
+    ''' </remarks>
     Public MustInherit Class Contig : Implements IContig
 
         Protected _MappingLocation As NucleotideLocation
