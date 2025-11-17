@@ -103,6 +103,23 @@ Namespace BestLocalAlignment
             End Get
         End Property
 
+        ''' <summary>
+        ''' 一个简单的DNA替换矩阵，用于Smith-Waterman比对。
+        ''' 匹配得分为+1，错配得分为-1。
+        ''' </summary>
+        Public Shared ReadOnly Property DNAMatrix As Blosum
+            Get
+                Return New Blosum(New String() {"A", "T", "G", "C"}) With {
+                    .matrix = {
+                        New Integer() {1, -1, -1, -1}, ' A vs A,T,G,C
+                        New Integer() {-1, 1, -1, -1}, ' T vs A,T,G,C
+                        New Integer() {-1, -1, 1, -1}, ' G vs A,T,G,C
+                        New Integer() {-1, -1, -1, 1}  ' C vs A,T,G,C
+                    }
+                }
+            End Get
+        End Property
+
         Sub New(base As String())
             index = base
         End Sub
