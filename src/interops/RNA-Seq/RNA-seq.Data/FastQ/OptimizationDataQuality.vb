@@ -78,52 +78,59 @@ Namespace FQ
         <Extension>
         Public Iterator Function TrimLowQuality(reads As IEnumerable(Of FastQ), Optional quality% = 20) As IEnumerable(Of FastQ)
             For Each read As FastQ In reads
-debug_loop:     Dim qchrs = read.Quality.ToCharArray
-                Dim seq = read.SequenceData
-                Dim del_start% = -1
-                Dim del_ends% = -1
-                Dim qs$ = read.Quality
+                ' 检查序列或质量字符串是否为空
+                If String.IsNullOrEmpty(read.SequenceData) OrElse String.IsNullOrEmpty(read.Quality) Then
+                    Continue For ' 跳过无效的read
+                End If
 
-                For i As Integer = 0 To qchrs.Length / 2 - 1
-                    If FastQ.GetQualityOrder(qchrs(i)) < quality Then
-                        ' 标记为删除
-                        del_start = i
-                    End If
-                Next
-                For i As Integer = qchrs.Length - 1 To qchrs.Length / 2 Step -1
-                    If FastQ.GetQualityOrder(qchrs(i)) <= quality Then
-                        ' 标记为删除
-                        del_ends = i
-                    End If
-                Next
+                ' 检查序列和质量长度是否一致
+                If read.SequenceData.Length <> read.Quality.Length Then
+                    Continue For ' 跳过数据不一致的read
+                End If
 
-                ' 无需做任何处理
-                If del_start = -1 AndAlso del_ends = -1 Then
+                read = read.TrimLowQuality(quality)
+
+                If Not read Is Nothing Then
                     Yield read
-                ElseIf del_start > -1 AndAlso del_ends > -1 Then
-
-                    read.SequenceData = seq.Substring(del_start, del_ends - del_start)
-                    read.Quality = qs.Substring(del_start, del_ends - del_start)
-                    Yield read
-
-                Else
-                    If del_start > -1 Then
-
-                        ' 只有左边的需要去掉低质量序列
-                        read.SequenceData = seq.Substring(del_start)
-                        read.Quality = qs.Substring(del_start)
-
-                        Yield read
-                    Else
-
-                        ' 只有右边的需要去掉低质量序列
-                        read.SequenceData = seq.Substring(0, del_ends)
-                        read.Quality = qs.Substring(0, del_ends)
-
-                        Yield read
-                    End If
                 End If
             Next
+        End Function
+
+        <Extension>
+        Private Function TrimLowQuality(read As FastQ, Optional quality% = 20) As FastQ
+            Dim trimStartIndex As Integer = -1
+            Dim trimEndIndex As Integer = -1
+
+            ' 1. 从左向右找到第一个质量值 >= quality 的碱基索引
+            For i As Integer = 0 To read.Quality.Length - 1
+                If FastQ.GetQualityOrder(read.Quality(i)) >= quality Then
+                    trimStartIndex = i
+                    Exit For ' 找到后立即退出循环
+                End If
+            Next
+
+            ' 2. 从右向左找到最后一个质量值 >= quality 的碱基索引
+            For i As Integer = read.Quality.Length - 1 To 0 Step -1
+                If FastQ.GetQualityOrder(read.Quality(i)) >= quality Then
+                    trimEndIndex = i
+                    Exit For ' 找到后立即退出循环
+                End If
+            Next
+
+            ' 3. 判断是否找到有效的高质量区域
+            ' - trimStartIndex = -1 表示整个序列质量都低于阈值
+            ' - trimStartIndex > trimEndIndex 表示没有连续的高质量区域（例如，所有碱基质量都低）
+            If trimStartIndex = -1 OrElse trimStartIndex > trimEndIndex Then
+                ' 整个序列都是低质量，或者没有可保留的高质量区域，直接丢弃此read
+                Return Nothing
+            End If
+
+            ' 4. 计算保留区域的长度并执行修剪
+            Dim length As Integer = trimEndIndex - trimStartIndex + 1
+            read.SequenceData = read.SequenceData.Substring(trimStartIndex, length)
+            read.Quality = read.Quality.Substring(trimStartIndex, length)
+
+            Return read
         End Function
 
         ''' <summary>
@@ -135,7 +142,7 @@ debug_loop:     Dim qchrs = read.Quality.ToCharArray
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function TrimShortReads(reads As IEnumerable(Of FastQ), Optional minLen% = 200) As IEnumerable(Of FastQ)
-            Return reads.Where(Function(r) r.Length >= 200)
+            Return reads.Where(Function(r) r.Length >= minLen)
         End Function
     End Module
 End Namespace
