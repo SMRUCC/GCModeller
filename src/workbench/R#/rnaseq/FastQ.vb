@@ -85,6 +85,11 @@ Public Module FastQ
         Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
     End Sub
 
+    <ExportAPI("illumina_fastQ_id")>
+    Public Function IlluminaFastQID(fq As FQ.FastQ) As IlluminaFastQID
+        Return IlluminaFastQID.IDParser(fq.SEQ_ID)
+    End Function
+
     ''' <summary>
     ''' read the fastq file
     ''' </summary>
