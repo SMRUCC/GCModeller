@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -25,7 +26,13 @@ Module kmersTools
     <ExportAPI("kmers_matrix")>
     <RApiReturn(GetType(SeqMatrix))>
     Public Function kmers_matrix(<RRawVectorArgument> x As Object, Optional k As Integer = 3, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of IFastaProvider)(x, env)
+        Dim pull As pipeline
+
+        If TypeOf x Is FastQFile Then
+            pull = pipeline.CreateFromPopulator(DirectCast(x, FastQFile).AsEnumerable)
+        Else
+            pull = pipeline.TryCreatePipeline(Of IFastaProvider)(x, env)
+        End If
 
         If pull.isError Then
             Return pull.getError
