@@ -76,7 +76,14 @@ Namespace FQ
         ''' <param name="quality%"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function TrimLowQuality(reads As IEnumerable(Of FastQ), Optional quality% = 20) As IEnumerable(Of FastQ)
+        Public Iterator Function TrimLowQuality(reads As IEnumerable(Of FastQ),
+                                                Optional quality% = 20,
+                                                Optional warnings As List(Of String) = Nothing) As IEnumerable(Of FastQ)
+
+            If warnings Is Nothing Then
+                warnings = New List(Of String)
+            End If
+
             For Each read As FastQ In reads
                 ' 检查序列或质量字符串是否为空
                 If String.IsNullOrEmpty(read.SequenceData) OrElse String.IsNullOrEmpty(read.Quality) Then
