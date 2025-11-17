@@ -142,7 +142,7 @@ Public Module FastQ
         ElseIf TypeOf q Is FastQFile Then
             Return New list With {
                 .slots = DirectCast(q, FastQFile) _
-                    .ToDictionary(Function(i) i.Title,
+                    .ToDictionary(Function(i) i.SEQ_ID,
                                   Function(i)
                                       Dim scores = FQ.FastQ _
                                          .GetQualityOrder(i.Quality) _
