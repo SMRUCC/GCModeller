@@ -8,7 +8,7 @@ Namespace Pipeline
     Public Module Exports
 
         <Extension>
-        Public Iterator Function ExportHistResult(blast As IEnumerable(Of Query)) As IEnumerable(Of HitCollection)
+        Public Iterator Function ExportHitsResult(blast As IEnumerable(Of Query)) As IEnumerable(Of HitCollection)
             For Each query As Query In blast.SafeQuery
                 Yield New HitCollection With {
                     .QueryName = query.QueryName,
