@@ -112,7 +112,7 @@ Public Class RegionMap : Inherits Plot
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, region As GraphicsRegion)
         Dim css As CSSEnvirnment = g.LoadEnvironment
         Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
-        Dim startLength% = model.GeneObjects.Select(Function(gene) gene.Left).Min * 0.85
+        Dim startLength% = model.GeneObjects.Select(Function(gene) gene.Left).Min
         Dim preRight#
         Dim level%
         Dim width = region.Width
