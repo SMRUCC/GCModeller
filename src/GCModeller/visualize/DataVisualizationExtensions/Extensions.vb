@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
@@ -98,12 +99,13 @@ Public Module Extensions
     ''' <param name="dev">gdi/svg graphics engine</param>
     ''' <remarks></remarks>
     ''' 
-    <Extension> Public Sub DrawingCOGColors(ByRef dev As IGraphics,
-                                            COGsColor As Dictionary(Of String, Brush),
-                                            ref As Point,
-                                            legendFont As Font,
-                                            width As Integer,
-                                            margin As Integer)
+    <Extension>
+    Public Sub DrawingCOGColors(ByRef dev As IGraphics,
+                                COGsColor As Dictionary(Of String, Brush),
+                                ref As Point,
+                                legendFont As Font,
+                                width As Integer,
+                                margin As Integer)
 
         Dim top As Integer = ref.Y - 100
         Dim left As Integer = ref.X
@@ -111,14 +113,16 @@ Public Module Extensions
         Dim FontHeight As Single = dev.MeasureString("COG", legendFont).Height
         Dim d As Single = (legendHeight - FontHeight) / 2
         Dim colors = LinqAPI.MakeList(Of KeyValuePair(Of String, Brush)) <=
- _
+                                                                           _
             From x As KeyValuePair(Of String, Brush)
-            In COGsColor
+            In COGsColor.SafeQuery
             Where Not String.IsNullOrEmpty(x.Key)
             Select x
             Order By x.Key Ascending
 
         Dim notAssigned As Brush = Nothing
+
+        COGsColor = If(COGsColor, New Dictionary(Of String, Brush))
 
         If COGsColor.ContainsKey("") Then
             notAssigned = COGsColor("")
