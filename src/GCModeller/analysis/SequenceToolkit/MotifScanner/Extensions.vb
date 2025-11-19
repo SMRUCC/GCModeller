@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
@@ -45,10 +46,15 @@ Public Module Extensions
         }
         Dim allFamily As String() = pwm.Keys.ToArray
         Dim tss As FastaSeq() = regions.SafeQuery.ToArray
+        Dim bar As Tqdm.ProgressBar = Nothing
 
-        progress = If(progress, New Action(Of String)(AddressOf VBDebugger.EchoLine))
+        If App.EnableTqdm AndAlso progress Is Nothing Then
+            progress = Sub(label) bar.SetLabel(label)
+        Else
+            progress = If(progress, New Action(Of String)(AddressOf VBDebugger.EchoLine))
+        End If
 
-        For Each region As FastaSeq In tss
+        For Each region As FastaSeq In Tqdm.Wrap(tss, bar:=bar, wrap_console:=App.EnableTqdm)
             Dim list As New List(Of MotifMatch)
 
             Call progress($"search TFBS for {region.Title} ... {++i}/{tss.Length}")
