@@ -23,7 +23,7 @@ Namespace v2
         ''' the cross reference id of this compound, used for search on the workbench ui
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement> Public Property db_xrefs As String()
+        <XmlAttribute> Public Property db_xrefs As String()
 
         Sub New()
         End Sub
