@@ -106,13 +106,13 @@ Public Module ProbabilityScanner
     <Extension>
     Public Iterator Function ScanSites(motif As Probability, target As FastaSeq,
                                        Optional cutoff# = 0.6,
-                                       Optional minW% = 6,
+                                       Optional minW# = 0.9,
                                        Optional identities As Double = 0.8,
                                        Optional pvalue As Double = 0.05,
                                        Optional top As Integer = 9,
                                        Optional permutation As Integer = 1000) As IEnumerable(Of MotifMatch)
 
-        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW,
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW * motif.width,
                                                               identities:=identities,
                                                               pvalue_cut:=pvalue,
                                                               top:=top,
@@ -192,8 +192,8 @@ Public Module ProbabilityScanner
     ''' </summary>
     ''' <param name="PWM">PWM</param>
     ''' <param name="target"></param>
-    ''' <param name="cutoff#"></param>
-    ''' <param name="minW%"></param>
+    ''' <param name="cutoff"></param>
+    ''' <param name="minW"></param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function ScanSites(PWM As Residue(), target As FastaSeq,
@@ -214,6 +214,7 @@ Public Module ProbabilityScanner
         )
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
         Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore) _
+            .Where(Function(m) (m.toB - m.fromB) >= minW) _
             .OrderByDescending(Function(a) a.score) _
             .Take(top) _
             .ToArray
@@ -221,10 +222,6 @@ Public Module ProbabilityScanner
         Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
 
         For Each m As Match In result
-            If (m.toB - m.fromB) < minW Then
-                Continue For
-            End If
-
             Dim len As Integer = std.Min(m.toA - m.fromA, m.toB - m.fromB)
             Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, len)
             Dim motifSlice = motifSpan.SpanView

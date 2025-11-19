@@ -32,6 +32,9 @@ Public Module Extensions
     Public Function ScanSites(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
                               Optional n_threads As Integer = 8,
                               Optional identities_cutoff As Double = 0.8,
+                              Optional minW As Double = 0.85,
+                              Optional top As Integer = 3,
+                              Optional permutation As Integer = 2500,
                               Optional progress As Action(Of String) = Nothing) As Dictionary(Of String, MotifMatch())
 
         Dim pwm As Dictionary(Of String, Probability()) = db.LoadMotifs()
@@ -57,7 +60,11 @@ Public Module Extensions
                           Dim family As String = allFamily(j)
 
                           For Each model As Probability In pwm(family)
-                              For Each site As MotifMatch In model.ScanSites(region, 0.8, identities:=identities_cutoff)
+                              For Each site As MotifMatch In model.ScanSites(region, 0.8,
+                                                                             minW:=minW,
+                                                                             identities:=identities_cutoff,
+                                                                             top:=top,
+                                                                             permutation:=permutation)
                                   If Not site Is Nothing Then
                                       site.seeds = {family, model.name}
                                       list.Add(site)
