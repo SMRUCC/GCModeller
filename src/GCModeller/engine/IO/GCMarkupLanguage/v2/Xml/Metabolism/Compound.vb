@@ -20,10 +20,10 @@ Namespace v2
         <XmlText> Public Property name As String
 
         ''' <summary>
-        ''' the chemical composition formula of this metabolite
+        ''' the cross reference id of this compound, used for search on the workbench ui
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property formula As String
+        <XmlElement> Public Property db_xrefs As String()
 
         Sub New()
         End Sub
