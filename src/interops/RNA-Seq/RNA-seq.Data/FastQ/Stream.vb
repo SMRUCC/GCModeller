@@ -123,13 +123,14 @@ Namespace FQ
 
             lines(Scan0) = fq.SEQ_ID.ToString
             lines(1) = fq.SequenceData
-            lines(2) = If(fq.SEQ_ID2.IsEmpty, "+", fq.SEQ_ID2.ToString)
+            lines(2) = If(fq.SEQ_ID2.StringEmpty(, True), "+", fq.SEQ_ID2.ToString)
             lines(3) = fq.Quality
 
             Return lines.JoinBy(ASCII.LF)
         End Function
 
-        <Extension> Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        <Extension>
+        Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Using file As IO.StreamWriter = save.OpenWriter(encoding)
                 For Each fq As FastQ In data
                     Call file.WriteLine(fq.AsReadsNode)

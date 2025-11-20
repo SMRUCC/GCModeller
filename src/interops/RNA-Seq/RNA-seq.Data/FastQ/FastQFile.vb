@@ -69,7 +69,7 @@ Namespace FQ
     ''' </summary>
     ''' <remarks></remarks>
     Public Class FastQFile
-        Implements IEnumerable(Of FastQ)
+        Implements Enumeration(Of FastQ)
         Implements IList(Of FastQ)
 
         Dim _innerList As New List(Of FastQ)
@@ -86,19 +86,6 @@ Namespace FQ
 
             Return FastaqFile
         End Function
-
-#Region "Implements Generic.IEnumerable(Of Fastaq)"
-
-        Public Iterator Function GetEnumerator() As IEnumerator(Of FastQ) Implements IEnumerable(Of FastQ).GetEnumerator
-            For Each Fastaq As FastQ In _innerList
-                Yield Fastaq
-            Next
-        End Function
-
-        Public Iterator Function GetEnumerator1() As IEnumerator Implements IEnumerable.GetEnumerator
-            Yield GetEnumerator()
-        End Function
-#End Region
 
 #Region "Implements Generic.IList(Of Fastaq)"
 
@@ -201,6 +188,16 @@ Namespace FQ
             End If
 
             Return attrs
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of FastQ) Implements Enumeration(Of FastQ).GenericEnumerator, IEnumerable(Of FastQ).GetEnumerator
+            For Each seq As FastQ In _innerList
+                Yield seq
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

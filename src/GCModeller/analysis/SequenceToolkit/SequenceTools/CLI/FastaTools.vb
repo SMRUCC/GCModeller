@@ -95,8 +95,8 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Partial Module Utilities
 
-    <ExportAPI("/Count")>
-    <Usage("/Count /in <data.fasta>")>
+    <ExportAPI("/count")>
+    <Usage("/count /in <data.fasta>")>
     <Description("Count the number of the given fasta file.")>
     Public Function Count(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
@@ -105,7 +105,7 @@ Partial Module Utilities
 
         Using reader As StreamReader = [in].OpenReader
             Do While Not reader.EndOfStream
-                If Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso (+line).First = ">"c Then
+                If Not String.IsNullOrEmpty(line = reader.ReadLine) AndAlso CStr(line).First = ">"c Then
                     n += 1
                 End If
             Loop
@@ -116,17 +116,15 @@ Partial Module Utilities
         Return 0
     End Function
 
-    <ExportAPI("/Sites2Fasta",
-               Info:="Converts the simple segment object collection as fasta file.",
-               Usage:="/Sites2Fasta /in <segments.csv> [/assemble /out <out.fasta>]")>
-    <ArgumentAttribute("/in", AcceptTypes:={GetType(SimpleSegment)})>
-    <ArgumentAttribute("/out", AcceptTypes:={GetType(FastaFile)})>
+    <ExportAPI("/sites2fasta")>
+    <Description("Converts the simple segment object collection as fasta file.")>
+    <Usage("/sites2fasta /in <segments.csv> [/assemble /out <out.fasta>]")>
+    <Argument("/in", AcceptTypes:={GetType(SimpleSegment)})>
+    <Argument("/out", AcceptTypes:={GetType(FastaFile)})>
     Public Function Sites2Fasta(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim assemble As Boolean = args("/assemble")
-        Dim out As String = args.GetValue(
-            "/out",
-            [in].TrimSuffix & $"{If(assemble, "-assemble", "")}.fasta")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & $"{If(assemble, "-assemble", "")}.fasta")
         Dim locis As SimpleSegment() = [in].LoadCsv(Of SimpleSegment)
 
         If assemble Then

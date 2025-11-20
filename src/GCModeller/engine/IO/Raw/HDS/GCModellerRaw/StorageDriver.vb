@@ -109,7 +109,7 @@ Namespace Raw
         ''' set molecule symbol names
         ''' </summary>
         ''' <param name="symbols"></param>
-        Public Sub SetSymbolNames(symbols As Dictionary(Of String, String))
+        Public Sub SetSymbolNames(symbols As Dictionary(Of String, CompoundInfo))
             Call output.GetStream.WriteText(symbols.GetJson, "/symbols.json", allocate:=False)
         End Sub
 

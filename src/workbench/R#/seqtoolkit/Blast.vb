@@ -65,6 +65,7 @@ Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
@@ -120,33 +121,39 @@ Module Blast
     ''' <param name="minW"></param>
     ''' <returns></returns>
     <ExportAPI("HSP")>
-    Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer) As Object
+    <RApiReturn(GetType(Rdataframe), GetType(HSP))>
+    Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer, Optional as_dataframe As Boolean = True) As Object
         Dim outputs As Output = align.GetOutput(cutoff, minW)
-        Dim query As String() = outputs.HSP.Select(Function(r) r.Query).ToArray
-        Dim subject As String() = outputs.HSP.Select(Function(r) r.Subject).ToArray
-        Dim queryLen As Integer() = outputs.HSP.Select(Function(r) r.QueryLength).ToArray
-        Dim subjectLen As Integer() = outputs.HSP.Select(Function(r) r.SubjectLength).ToArray
-        Dim lenQuery As Integer() = outputs.HSP.Select(Function(r) r.LengthQuery).ToArray
-        Dim lenHit As Integer() = outputs.HSP.Select(Function(r) r.LengthHit).ToArray
-        Dim hspQuery As String() = outputs.HSP.Select(Function(r) $"{r.fromA}..{r.toA}").ToArray
-        Dim hspSubject As String() = outputs.HSP.Select(Function(r) $"{r.fromB}..{r.toB}").ToArray
-        Dim score As Double() = outputs.HSP.Select(Function(r) r.score).ToArray
-        Dim coverage As Double() = outputs.HSP.Select(Function(r) r.LengthQuery / r.QueryLength).ToArray
 
-        Return New Rdataframe With {
-            .columns = New Dictionary(Of String, Array) From {
-                {"query", query},
-                {"subject", subject},
-                {"query_length", queryLen},
-                {"subject_length", subjectLen},
-                {"length_query", lenQuery},
-                {"length_hit", lenHit},
-                {"hsp_query", hspQuery},
-                {"hsp_subject", hspSubject},
-                {"score", score},
-                {"coverage", coverage}
+        If as_dataframe Then
+            Dim query As String() = outputs.HSP.Select(Function(r) r.Query).ToArray
+            Dim subject As String() = outputs.HSP.Select(Function(r) r.Subject).ToArray
+            Dim queryLen As Integer() = outputs.HSP.Select(Function(r) r.QueryLength).ToArray
+            Dim subjectLen As Integer() = outputs.HSP.Select(Function(r) r.SubjectLength).ToArray
+            Dim lenQuery As Integer() = outputs.HSP.Select(Function(r) r.LengthQuery).ToArray
+            Dim lenHit As Integer() = outputs.HSP.Select(Function(r) r.LengthHit).ToArray
+            Dim hspQuery As String() = outputs.HSP.Select(Function(r) $"{r.fromA}..{r.toA}").ToArray
+            Dim hspSubject As String() = outputs.HSP.Select(Function(r) $"{r.fromB}..{r.toB}").ToArray
+            Dim score As Double() = outputs.HSP.Select(Function(r) r.score).ToArray
+            Dim coverage As Double() = outputs.HSP.Select(Function(r) r.LengthQuery / r.QueryLength).ToArray
+
+            Return New Rdataframe With {
+                .columns = New Dictionary(Of String, Array) From {
+                    {"query", query},
+                    {"subject", subject},
+                    {"query_length", queryLen},
+                    {"subject_length", subjectLen},
+                    {"length_query", lenQuery},
+                    {"length_hit", lenHit},
+                    {"hsp_query", hspQuery},
+                    {"hsp_subject", hspSubject},
+                    {"score", score},
+                    {"coverage", coverage}
+                }
             }
-        }
+        Else
+            Return outputs.HSP
+        End If
     End Function
 
     ''' <summary>

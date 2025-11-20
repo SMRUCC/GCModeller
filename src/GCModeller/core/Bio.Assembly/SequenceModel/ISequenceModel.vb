@@ -60,9 +60,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Namespace SequenceModel
 
     ''' <summary>
-    ''' The biological sequence molecular model.(蛋白质序列，核酸序列都可以使用本对象来表示)
+    ''' The biological sequence molecular model.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(蛋白质序列，核酸序列都可以使用本对象来表示)</remarks>
     Public MustInherit Class ISequenceModel
         Implements IPolymerSequenceModel
         Implements ISequenceData(Of Char, String)

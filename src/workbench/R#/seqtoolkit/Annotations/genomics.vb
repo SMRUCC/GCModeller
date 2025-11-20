@@ -193,7 +193,13 @@ Module genomics
         Return loci
     End Function
 
-    <ExportAPI("genome.genes")>
+    ''' <summary>
+    ''' Extract all gene features from a given genomics context assembly data
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("genes_features")>
     <RApiReturn(GetType(GeneBrief))>
     Public Function genes(<RRawVectorArgument> genome As Object, Optional env As Environment = Nothing) As Object
         If genome Is Nothing Then

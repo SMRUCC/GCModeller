@@ -90,6 +90,7 @@ Namespace FQ
     ''' </remarks>
     Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
+        Implements IFastaProvider
 
         ''' <summary>
         ''' 第一行的摘要描述信息
@@ -97,31 +98,23 @@ Namespace FQ
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return SEQ_ID.instrument_name
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' 第一行的序列标识符
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property SEQ_ID As IlluminaFastQID
-        Public Property SEQ_ID2 As IlluminaFastQID
+        Public Property SEQ_ID As String Implements IAbstractFastaToken.title, IFastaProvider.title
+        Public Property SEQ_ID2 As String
         ''' <summary>
         ''' <see cref="GetQualityOrder"/> for each char in this string.
         ''' </summary>
         ''' <returns></returns>
         Public Property Quality As String
 
-        Public Property Headers As String() Implements IAbstractFastaToken.Headers
+        Public Property Headers As String() Implements IAbstractFastaToken.headers
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
+        End Function
 
         Public Overrides Function ToString() As String
-            Return Title
+            Return SEQ_ID
         End Function
 
         ''' <summary>
@@ -173,8 +166,8 @@ Namespace FQ
         Public Shared Function FastaqParser(str As String()) As FastQ
             Dim Fastaq As New FastQ With {
                 .SequenceData = str(1),
-                .SEQ_ID = IlluminaFastQID.IDParser(str(0)),
-                .SEQ_ID2 = IlluminaFastQID.IDParser(str(2)),
+                .SEQ_ID = str(0),
+                .SEQ_ID2 = str(2),
                 .Quality = str(3)
             }
 

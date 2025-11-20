@@ -9,7 +9,7 @@
 + [as.geneTable](annotation.genomics/as.geneTable.1) 
 + [as.PTT](annotation.genomics/as.PTT.1) 
 + [upstream](annotation.genomics/upstream.1) Create the upstream location
-+ [genome.genes](annotation.genomics/genome.genes.1) 
++ [genes_features](annotation.genomics/genes_features.1) Extract all gene features from a given genomics context assembly data
 + [write.PTT_tabular](annotation.genomics/write.PTT_tabular.1) 
 + [operon_set](annotation.genomics/operon_set.1) load operon set data from the ODB database
 + [read.nucmer](annotation.genomics/read.nucmer.1) 

@@ -123,6 +123,10 @@ Namespace ModelLoader
             ElseIf AAKey = "initiation-trnamet" Then
                 AAKey = "Met"
                 AA = aaIndex(AAKey)
+            ElseIf AAKey.TextEquals("other") Then
+                ' unknown amino acid type
+                ' not treated as tRNA
+                Return
             Else
                 Throw New MissingPrimaryKeyException($"missing the amino acid mapping of '{AAKey}'!")
             End If

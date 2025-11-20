@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace Pipeline
 
@@ -74,6 +75,22 @@ Namespace Pipeline
             Next
         End Function
 
+        Public Shared Iterator Function RankTopTerm(hits As HitCollection) As IEnumerable(Of RankTerm)
+            For Each group As IGrouping(Of String, Hit) In hits.AsEnumerable.GroupBy(Function(a) a.tag)
+                Dim scoreSet = group.Select(Function(a) New NamedValue(Of Double)(a.hitName, (a.score + 1) * (a.identities + 1))).ToArray
+                Dim termName As String = group.Key
+                Dim sourceNames As String() = scoreSet.Select(Function(a) a.Name).ToArray
+                Dim vec As Double() = scoreSet.Select(Function(a) a.Value).ToArray
+
+                Yield New RankTerm With {
+                    .queryName = hits.QueryName,
+                    .scores = vec,
+                    .term = termName,
+                    .source = sourceNames
+                }
+            Next
+        End Function
+
         Private Shared Function SingleBestHitScore(h As BestHit) As Double
             Return (h.score + 1) * (h.identities + 1)
         End Function
@@ -95,8 +112,8 @@ Namespace Pipeline
             For Each term As IGrouping(Of String, NamedValue(Of Double)) In scores.GroupBy(Function(a) If(termMaps Is Nothing, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown")))
                 Dim scoreSet As NamedValue(Of Double)() = term.ToArray
                 Dim termName As String = term.Key
-                Dim sourceNames As String() = term.Select(Function(a) a.Name).ToArray
-                Dim vec As Double() = term.Select(Function(a) a.Value).ToArray
+                Dim sourceNames As String() = scoreSet.Select(Function(a) a.Name).ToArray
+                Dim vec As Double() = scoreSet.Select(Function(a) a.Value).ToArray
 
                 Yield New RankTerm With {
                     .queryName = queryId,

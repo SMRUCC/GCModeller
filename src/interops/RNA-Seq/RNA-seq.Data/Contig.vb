@@ -56,10 +56,14 @@
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Class Contig : Inherits NucleotideModels.Contig
+''' <summary>
+''' sequence region on a genomics sequence data
+''' </summary>
+Public Class ContigSequence : Inherits NucleotideModels.Contig
     Implements IAbstractFastaToken
 
     Public Property FLAGS As String()
+
     Public Property Location As NucleotideLocation
         Get
             Return Me._MappingLocation
@@ -69,13 +73,13 @@ Public Class Contig : Inherits NucleotideModels.Contig
         End Set
     End Property
 
-    Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+    Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
         Get
             Return Me.ToString
         End Get
     End Property
 
-    Public Property Headers As String() Implements IAbstractFastaToken.Headers
+    Public Property Headers As String() Implements IAbstractFastaToken.headers
     Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Public Function ToFastaToken() As FastaSeq

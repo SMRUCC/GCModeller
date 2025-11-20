@@ -99,13 +99,13 @@ Public Module Extensions
     ''' <param name="raw"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadSymbols(raw As IStreamContainer) As Dictionary(Of String, String)
+    Public Function LoadSymbols(raw As IStreamContainer) As Dictionary(Of String, CompoundInfo)
         Dim json_str = Strings.Trim(raw.GetStream.ReadText("/symbols.json"))
 
         If json_str.StringEmpty(, True) Then
-            Return New Dictionary(Of String, String)
+            Return New Dictionary(Of String, CompoundInfo)
         Else
-            Return json_str.LoadJSON(Of Dictionary(Of String, String))
+            Return json_str.LoadJSON(Of Dictionary(Of String, CompoundInfo))
         End If
     End Function
 

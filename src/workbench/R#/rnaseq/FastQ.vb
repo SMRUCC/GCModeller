@@ -85,6 +85,21 @@ Public Module FastQ
         Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
     End Sub
 
+    <ExportAPI("illumina_fastQ_id")>
+    Public Function IlluminaFastQID(fq As FQ.FastQ) As IlluminaFastQID
+        Return IlluminaFastQID.IDParser(fq.SEQ_ID)
+    End Function
+
+    ''' <summary>
+    ''' read the fastq file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.fastq")>
+    Public Function read_fastq(file As String) As FastQFile
+        Return FastQFile.Load(file)
+    End Function
+
     ''' <summary>
     ''' Do short reads assembling
     ''' </summary>
@@ -127,7 +142,7 @@ Public Module FastQ
         ElseIf TypeOf q Is FastQFile Then
             Return New list With {
                 .slots = DirectCast(q, FastQFile) _
-                    .ToDictionary(Function(i) i.Title,
+                    .ToDictionary(Function(i) i.SEQ_ID,
                                   Function(i)
                                       Dim scores = FQ.FastQ _
                                          .GetQualityOrder(i.Quality) _

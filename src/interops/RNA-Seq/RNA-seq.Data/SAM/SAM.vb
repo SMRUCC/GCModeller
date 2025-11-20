@@ -97,8 +97,7 @@ Namespace SAM
     ''' SAM格式的文件是一种序列比对文件，使用TAB符号进行分隔，文件的格式为一个可选的标题头部区域，标题头部使用@符号起始而比对区域则不需要
     ''' 每一行序列比对的数据有11个域用于储存比对信息，诸如：mapping的位置之类
     ''' </remarks>
-    Public Class SAM
-        Implements IEnumerable(Of AlignmentReads)
+    Public Class SAM : Implements IEnumerable(Of AlignmentReads)
 
 #If DEBUG Then
         Public Const CHUNK_SIZE As Integer = 32 * 1024 * 1024
@@ -175,7 +174,7 @@ Namespace SAM
         ''' <summary>
         ''' 对当前的这个Mapping之中的Reads进行装配
         ''' </summary>
-        Public Sub Assembling(ByRef Forwards As Contig()， ByRef Reversed As Contig(), Optional TrimError As Boolean = True)
+        Public Sub Assembling(ByRef Forwards As ContigSequence()， ByRef Reversed As ContigSequence(), Optional TrimError As Boolean = True)
             Dim AlignmentReads As AlignmentReads() = Me.AlignmentsReads.ToArray
 
             If TrimError Then
@@ -228,8 +227,8 @@ Namespace SAM
         ''' <param name="Alignment">请注意先按照方向排序</param>
         ''' <param name="Reversed"></param>
         ''' <returns></returns>
-        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As Contig()
-            Dim ChunkBuffer As New List(Of Contig)
+        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As ContigSequence()
+            Dim ChunkBuffer As New List(Of ContigSequence)
             Dim p As New EventProc(Alignment.Count)
 
             Do While Alignment.Count > 0
@@ -289,12 +288,12 @@ Namespace SAM
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As Contig
+        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As ContigSequence
 
 #Region "Implements IEnumerable(Of AlignmentReads).GetEnumerator"
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AlignmentReads) Implements IEnumerable(Of AlignmentReads).GetEnumerator
-            For i As Integer = 0 To Me.AlignmentsReads.Count - 1
+            For i As Integer = 0 To Me.AlignmentsReads.Length - 1
                 Yield AlignmentsReads(i)
             Next
         End Function

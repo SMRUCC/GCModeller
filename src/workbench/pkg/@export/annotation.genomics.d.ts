@@ -23,12 +23,16 @@ declare namespace annotation.genomics {
       */
       function tabular(genes: object, title?: string, size?: object, format?: string, env?: object): object;
    }
-   module genome {
-      /**
-        * @param env default value Is ``null``.
-      */
-      function genes(genome: any, env?: object): object;
-   }
+   /**
+    * Extract all gene features from a given genomics context assembly data
+    * 
+    * 
+     * @param genome -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function genes_features(genome: any, env?: object): object;
    /**
     * get gff features by id reference
     * 

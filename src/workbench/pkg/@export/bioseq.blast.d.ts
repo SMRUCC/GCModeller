@@ -49,6 +49,8 @@ declare namespace bioseq.blast {
      * @param align -
      * @param cutoff [0,1] threshold
      * @param minW -
+     * @param as_dataframe 
+     * + default value Is ``true``.
    */
-   function HSP(align: object, cutoff: number, minW: object): any;
+   function HSP(align: object, cutoff: number, minW: object, as_dataframe?: boolean): object|object;
 }

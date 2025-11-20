@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::0f2df20fc8a584d7d787020aaf7debf1, R#\seqtoolkit\Annotations\context.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 203
-    '    Code Lines: 138 (67.98%)
-    ' Comment Lines: 40 (19.70%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 25 (12.32%)
-    '     File Size: 7.62 KB
+' Summaries:
 
 
-    ' Module context
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    ' 
-    '     Function: context, contextSummary, getNtLocation, getStrand, isForward
-    '               location, offsetLocation, relationship, strandFilter
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 203
+'    Code Lines: 138 (67.98%)
+' Comment Lines: 40 (19.70%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 25 (12.32%)
+'     File Size: 7.62 KB
+
+
+' Module context
+' 
+'     Constructor: (+1 Overloads) Sub New
+' 
+'     Function: context, contextSummary, getNtLocation, getStrand, isForward
+'               location, offsetLocation, relationship, strandFilter
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
@@ -68,11 +69,14 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
+Imports std = System.Math
+Imports vector = SMRUCC.Rsharp.Runtime.Internal.Object.vector
 
 ''' <summary>
 ''' the tools for processing of the genomics context information
@@ -297,4 +301,59 @@ Module context
         End If
     End Function
 
+    ''' <summary>
+    ''' get TSS upstream site sequence data
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="genes"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("TSS_upstream")>
+    Public Function TSS_upstream(genome As Object, <RRawVectorArgument> genes As Object,
+                                 Optional upstream_len As Integer = 150,
+                                 Optional env As Environment = Nothing) As Object
+        Dim nt As FastaSeq
+
+        If genome Is Nothing Then
+            Call "the required genome sequence source data should not be nothing!".warning
+            Return Nothing
+        End If
+
+        If TypeOf genome Is GBFF.File Then
+            nt = DirectCast(genome, GBFF.File).Origin.ToFasta
+        ElseIf TypeOf genome Is FastaSeq Then
+            nt = DirectCast(genome, FastaSeq)
+        Else
+            Return Message.InCompatibleType(GetType(FastaSeq), genome.GetType, env)
+        End If
+
+        Dim pullFeatures As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+
+        If pullFeatures.isError Then
+            Return pullFeatures.getError
+        End If
+
+        Return pullFeatures _
+            .populates(Of IGeneBrief)(env) _
+            .Select(Function(gene)
+                        Dim gene_loci As NucleotideLocation = gene.Location
+                        Dim left As Integer = If(gene_loci.Strand = Strands.Forward, gene_loci.left - 1, gene_loci.right + 1)
+                        Dim upstream As Integer = If(gene_loci.Strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                        Dim from = std.Min(left, upstream)
+                        Dim [to] = std.Max(left, upstream)
+                        Dim seq As String = nt.CutSequenceLinear(from, [to])
+
+                        If gene_loci.Strand = Strands.Reverse Then
+                            seq = NucleicAcid.Complement(seq).Reverse.CharString
+                        End If
+
+                        Dim promoter_region As New FastaSeq With {
+                            .Headers = {nt.Title, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}"},
+                            .SequenceData = seq
+                        }
+
+                        Return promoter_region
+                    End Function) _
+            .ToArray
+    End Function
 End Module
