@@ -98,18 +98,11 @@ Public Module Extensions
                           Dim list As New List(Of MotifMatch)
 
                           For Each family As String In allFamily
-                              For Each model As Probability In pwm(family)
-                                  For Each site As MotifMatch In model.ScanSites(region, 0.8,
-                                                                                 minW:=minW,
-                                                                                 identities:=identities_cutoff,
-                                                                                 top:=top,
-                                                                                 permutation:=permutation)
-                                      If Not site Is Nothing Then
-                                          site.seeds = {family, model.name}
-                                          list.Add(site)
-                                      End If
-                                  Next
-                              Next
+                              Call list.AddRange(region.ScanRegion(family, pwm(family),
+                                                                   identities_cutoff:=identities_cutoff,
+                                                                   minW:=minW,
+                                                                   top:=top,
+                                                                   permutation:=permutation))
                           Next
 
                           SyncLock tfbsList
@@ -122,6 +115,27 @@ Public Module Extensions
         )
 
         Return tfbsList
+    End Function
+
+    <Extension>
+    Public Iterator Function ScanRegion(region As FastaSeq, family As String, pwm As Probability(),
+                                        identities_cutoff As Double,
+                                        minW As Double,
+                                        top As Integer,
+                                        permutation As Integer) As IEnumerable(Of MotifMatch)
+
+        For Each model As Probability In pwm
+            For Each site As MotifMatch In model.ScanSites(region, 0.8,
+                                                           minW:=minW,
+                                                           identities:=identities_cutoff,
+                                                           top:=top,
+                                                           permutation:=permutation)
+                If Not site Is Nothing Then
+                    site.seeds = {family, model.name}
+                    Yield site
+                End If
+            Next
+        Next
     End Function
 
     <Extension>
@@ -155,20 +169,14 @@ Public Module Extensions
                 toExclusive:=allFamily.Length,
                 parallelOptions,
                 body:=Sub(j)
-                          Dim family As String = allFamily(j)
-
-                          For Each model As Probability In pwm(family)
-                              For Each site As MotifMatch In model.ScanSites(region, 0.8,
-                                                                             minW:=minW,
-                                                                             identities:=identities_cutoff,
-                                                                             top:=top,
-                                                                             permutation:=permutation)
-                                  If Not site Is Nothing Then
-                                      site.seeds = {family, model.name}
-                                      list.Add(site)
-                                  End If
-                              Next
-                          Next
+                          Dim result As MotifMatch() = region.ScanRegion(allFamily(j), pwm(allFamily(j)),
+                                                                         identities_cutoff:=identities_cutoff,
+                                                                         minW:=minW,
+                                                                         top:=top,
+                                                                         permutation:=permutation).ToArray
+                          SyncLock list
+                              Call list.AddRange(result)
+                          End SyncLock
                       End Sub)
 
             Call tfbsList.Add(region.Title, (From site As MotifMatch
