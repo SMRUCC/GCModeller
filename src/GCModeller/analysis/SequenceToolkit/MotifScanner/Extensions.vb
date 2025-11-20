@@ -29,6 +29,21 @@ Public Module Extensions
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="regions"></param>
+    ''' <param name="n_threads"></param>
+    ''' <param name="identities_cutoff"></param>
+    ''' <param name="minW"></param>
+    ''' <param name="top"></param>
+    ''' <param name="permutation"></param>
+    ''' <param name="workflowMode">
+    ''' parallel will works in different mode
+    ''' </param>
+    ''' <param name="progress"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ScanSites(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
                               Optional n_threads As Integer = 8,
@@ -36,14 +51,91 @@ Public Module Extensions
                               Optional minW As Double = 0.85,
                               Optional top As Integer = 3,
                               Optional permutation As Integer = 2500,
+                              Optional workflowMode As Boolean = False,
                               Optional progress As Action(Of String) = Nothing) As Dictionary(Of String, MotifMatch())
+
+        Dim parallelOptions As New ParallelOptions With {
+            .MaxDegreeOfParallelism = n_threads
+        }
+
+        If workflowMode Then
+            Return db.ScanSiteWorkflowMode(regions, parallelOptions,
+                                           progress:=If(progress, New Action(Of String)(AddressOf VBDebugger.EchoLine)),
+                                           identities_cutoff:=identities_cutoff,
+                                           minW:=minW,
+                                           top:=top,
+                                           permutation:=permutation)
+        Else
+            Return db.ScanSiteUIMode(regions, parallelOptions, progress,
+                                     identities_cutoff:=identities_cutoff,
+                                     minW:=minW,
+                                     top:=top,
+                                     permutation:=permutation)
+        End If
+    End Function
+
+    <Extension>
+    Private Function ScanSiteWorkflowMode(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
+                                          parallelOptions As ParallelOptions,
+                                          progress As Action(Of String),
+                                          Optional identities_cutoff As Double = 0.8,
+                                          Optional minW As Double = 0.85,
+                                          Optional top As Integer = 3,
+                                          Optional permutation As Integer = 2500) As Dictionary(Of String, MotifMatch())
 
         Dim pwm As Dictionary(Of String, Probability()) = db.LoadMotifs()
         Dim tfbsList As New Dictionary(Of String, MotifMatch())
         Dim i As i32 = 1
-        Dim parallelOptions As New ParallelOptions With {
-            .MaxDegreeOfParallelism = n_threads
-        }
+        Dim allFamily As String() = pwm.Keys.ToArray
+        Dim tss As FastaSeq() = regions.SafeQuery.ToArray
+
+        Call System.Threading.Tasks.Parallel.For(
+                fromInclusive:=0,
+                toExclusive:=allFamily.Length,
+                parallelOptions,
+                body:=Sub(j)
+                          Dim region As FastaSeq = tss(j)
+                          Dim list As New List(Of MotifMatch)
+
+                          For Each family As String In allFamily
+                              For Each model As Probability In pwm(family)
+                                  For Each site As MotifMatch In model.ScanSites(region, 0.8,
+                                                                                 minW:=minW,
+                                                                                 identities:=identities_cutoff,
+                                                                                 top:=top,
+                                                                                 permutation:=permutation)
+                                      If Not site Is Nothing Then
+                                          site.seeds = {family, model.name}
+                                          list.Add(site)
+                                      End If
+                                  Next
+                              Next
+                          Next
+
+                          SyncLock tfbsList
+                              Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                                               In list
+                                                               Where Not site Is Nothing).ToArray)
+                              Call progress($"search TFBS for {region.Title} ... {++i}/{tss.Length}")
+                          End SyncLock
+                      End Sub
+        )
+
+        Return tfbsList
+    End Function
+
+    <Extension>
+    Private Function ScanSiteUIMode(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
+                                    parallelOptions As ParallelOptions,
+                                    progress As Action(Of String),
+                                    Optional identities_cutoff As Double = 0.8,
+                                    Optional minW As Double = 0.85,
+                                    Optional top As Integer = 3,
+                                    Optional permutation As Integer = 2500) As Dictionary(Of String, MotifMatch())
+
+        Dim pwm As Dictionary(Of String, Probability()) = db.LoadMotifs()
+        Dim tfbsList As New Dictionary(Of String, MotifMatch())
+        Dim i As i32 = 1
         Dim allFamily As String() = pwm.Keys.ToArray
         Dim tss As FastaSeq() = regions.SafeQuery.ToArray
         Dim bar As Tqdm.ProgressBar = Nothing
