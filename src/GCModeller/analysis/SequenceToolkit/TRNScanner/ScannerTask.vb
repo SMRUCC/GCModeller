@@ -17,6 +17,9 @@ Public Module ScannerTask
                               Optional permutation As Integer = 2500) As IEnumerable(Of MotifMatch)
 
         Dim task As New Func(Of FastaSeq, String, Double, Double, Integer, Integer, MotifMatch())(AddressOf ScanTask)
+
+        DarwinismEnvironment.SetThreads(n_threads)
+
         Dim env As Argument = DarwinismEnvironment.GetEnvironmentArguments
         Dim source As FastaSeq() = regions.ToArray
         Dim result = Host.ParallelFor(Of FastaSeq, MotifMatch())(env, task, source, motif_db,
