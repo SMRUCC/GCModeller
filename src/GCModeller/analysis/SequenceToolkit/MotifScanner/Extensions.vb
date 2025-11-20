@@ -60,7 +60,7 @@ Public Module Extensions
 
         If workflowMode Then
             Return db.ScanSiteWorkflowMode(regions, parallelOptions,
-                                           progress:=If(progress, New Action(Of String)(AddressOf VBDebugger.EchoLine)),
+                                           progress:=If(progress, New Action(Of String)(AddressOf VBDebugger.debug)),
                                            identities_cutoff:=identities_cutoff,
                                            minW:=minW,
                                            top:=top,
