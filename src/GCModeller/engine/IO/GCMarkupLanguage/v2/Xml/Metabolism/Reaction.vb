@@ -33,6 +33,12 @@ Namespace v2
         ''' <returns></returns>
         Public Property none_enzymatic As Reaction()
 
+        ''' <summary>
+        ''' a collection of the reaction id index that used for transportation between compartments
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property transportation As String()
+
         Default Public ReadOnly Property Item(id As String) As Reaction
             Get
                 Return Me.AsEnumerable.Where(Function(rxn) rxn.ID = id).FirstOrDefault
