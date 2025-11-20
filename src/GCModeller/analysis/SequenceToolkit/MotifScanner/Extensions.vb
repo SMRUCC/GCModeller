@@ -91,7 +91,7 @@ Public Module Extensions
 
         Call System.Threading.Tasks.Parallel.For(
                 fromInclusive:=0,
-                toExclusive:=allFamily.Length,
+                toExclusive:=tss.Length,
                 parallelOptions,
                 body:=Sub(j)
                           Dim region As FastaSeq = tss(j)
