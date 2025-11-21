@@ -290,9 +290,18 @@ declare namespace geneExpression {
    */
    function impute_missing(x: object, by_features?: boolean): object;
    /**
-     * @param strict default value Is ``true``.
+    * merge multiple gene expression matrix by gene features
+    * 
+    * 
+     * @param x -
+     * @param strict -
+     * 
+     * + default value Is ``true``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function joinFeatures(x: object, strict?: boolean): object;
+   function joinFeatures(x: any, strict?: boolean, env?: object): object;
    /**
     * do matrix join by samples
     * 
