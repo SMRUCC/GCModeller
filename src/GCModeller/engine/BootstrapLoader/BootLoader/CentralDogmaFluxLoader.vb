@@ -442,7 +442,7 @@ Namespace ModelLoader
                         .reverse = Controls.StaticControl(0),
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.translationCapacity,
-                            .reverse = 0
+                            .reverse = 0  ' RNA can not be revsered to DNA
                         }
                     }
 
@@ -455,7 +455,10 @@ Namespace ModelLoader
                     Yield translation
                 End If
 
-                regulations = TFregulations.TryGetValue(cd.transcript_unit).SafeQuery.ToArray
+                regulations = TFregulations _
+                    .TryGetValue(cd.transcript_unit) _
+                    .JoinIterates(TFregulations.TryGetValue(cd.geneID)) _
+                    .ToArray
 
                 Dim activeReg As Variable() = regulations _
                     .Where(Function(r) r.effects > 0) _
