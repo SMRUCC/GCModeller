@@ -184,6 +184,7 @@ Namespace ModelLoader
 
             If reaction.enzyme_compartment = MetabolicModel.Membrane Then
                 is_transport = True
+                reaction.enzyme_compartment = default_compartment
             End If
             If compart_idset.IsNullOrEmpty Then
                 If is_transport Then

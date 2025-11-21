@@ -135,7 +135,7 @@ Namespace Core
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function getMass(id As String) As Double
             Dim parId As String = pars(id)
-            Dim factor As Factor = env(parId)
+            Dim factor As Factor = Me.env(parId)
 
             Return factor.Value
         End Function
