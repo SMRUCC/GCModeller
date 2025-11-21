@@ -66,6 +66,7 @@
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -752,21 +753,52 @@ Module geneExpression
     ''' rows subset from the original matrix input.
     ''' </returns>
     <ExportAPI("filter")>
-    Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
-        Dim filterIndex As Index(Of String) = geneId
-        Dim newMatrix As New Matrix With {
-            .tag = HTS.tag,
-            .sampleID = HTS.sampleID,
-            .expression = HTS.expression _
-                .Where(Function(gene)
-                           If exclude Then
-                               Return Not gene.geneID Like filterIndex
-                           Else
-                               Return gene.geneID Like filterIndex
-                           End If
-                       End Function) _
-                .ToArray
-        }
+    <RApiReturn(GetType(Matrix))>
+    Public Function filter(HTS As Matrix,
+                           Optional geneId As String() = Nothing,
+                           Optional instr As String = Nothing,
+                           Optional exclude As Boolean = False,
+                           Optional env As Environment = Nothing) As Object
+
+        If geneId.IsNullOrEmpty AndAlso instr.StringEmpty Then
+            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list or title search text was provided!", MSG_TYPES.WRN)
+            Return HTS
+        End If
+
+        Dim newMatrix As Matrix
+
+        If Not geneId.IsNullOrEmpty Then
+            Dim filterIndex As Index(Of String) = geneId.Indexing
+
+            newMatrix = New Matrix With {
+                .tag = $"filtered_geneids({HTS.tag})",
+                .sampleID = HTS.sampleID,
+                .expression = HTS.expression _
+                    .Where(Function(gene)
+                               If exclude Then
+                                   Return Not gene.geneID Like filterIndex
+                               Else
+                                   Return gene.geneID Like filterIndex
+                               End If
+                           End Function) _
+                    .ToArray
+            }
+        Else
+            newMatrix = New Matrix With {
+                .tag = $"filtered_title({HTS.tag})",
+                .sampleID = HTS.sampleID,
+                .expression = HTS.expression _
+                    .AsParallel _
+                    .Where(Function(gene)
+                               If exclude Then
+                                   Return Strings.InStr(gene.geneID, instr, CompareMethod.Text) <= 0
+                               Else
+                                   Return Strings.InStr(gene.geneID, instr, CompareMethod.Text) > 0
+                               End If
+                           End Function) _
+                    .ToArray
+            }
+        End If
 
         Return newMatrix
     End Function
