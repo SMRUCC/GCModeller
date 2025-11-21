@@ -1794,14 +1794,32 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' merge multiple gene expression matrix by gene features
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="strict"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("joinFeatures")>
-    Public Function joinFeatures(x As Matrix(), Optional strict As Boolean = True) As Matrix
-        If x.IsNullOrEmpty Then
+    <RApiReturn(GetType(Matrix))>
+    Public Function joinFeatures(<RRawVectorArgument> x As Object, Optional strict As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of Matrix)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim matrixList As Matrix() = pull _
+            .populates(Of Matrix)(env) _
+            .ToArray
+
+        If matrixList.IsNullOrEmpty Then
             Return Nothing
-        ElseIf x.Length = 1 Then
-            Return x(Scan0)
+        ElseIf matrixList.Length = 1 Then
+            Return matrixList(Scan0)
         Else
-            Return x.MergeFeatures(strict)
+            Return matrixList.MergeFeatures(strict)
         End If
     End Function
 
