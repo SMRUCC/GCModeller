@@ -87,6 +87,7 @@ Namespace ModelLoader
         Public Sub doMassLoadingOn(cell As CellularModule)
             Dim defaultCompartment As String() = cell.GetCompartments _
                 .JoinIterates({loader.define.CultureMedium}) _
+                .Where(Function(s) s <> MetabolicModel.Membrane) _
                 .Distinct _
                 .ToArray
 

@@ -134,7 +134,10 @@ Namespace Core
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function getMass(id As String) As Double
-            Return env(pars(id)).Value
+            Dim parId As String = pars(id)
+            Dim factor As Factor = env(parId)
+
+            Return factor.Value
         End Function
 
         Public Overrides Function ToString() As String
