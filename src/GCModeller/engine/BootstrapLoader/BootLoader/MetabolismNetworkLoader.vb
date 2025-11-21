@@ -76,6 +76,7 @@ Namespace ModelLoader
 
         ReadOnly pull As New List(Of String)
         ReadOnly default_compartment As [Default](Of String)
+        ReadOnly culturalMedium As String
         ReadOnly geneIndex As New Dictionary(Of String, CentralDogma)
 
         Public Const MembraneTransporter As String = "MembraneTransporter"
@@ -86,6 +87,7 @@ Namespace ModelLoader
             ' content of these metabolite will be changed
             default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
+            culturalMedium = loader.define.CultureMedium
 
             If infinitySource.Any Then
                 Call $"{infinitySource.Objects.GetJson} are assume as infinity content.".debug
@@ -167,6 +169,33 @@ Namespace ModelLoader
         End Sub
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
+            Dim compart_idset = reaction.equation.Reactants _
+                .JoinIterates(reaction.equation.Products) _
+                .Select(Function(f) f.Compartment) _
+                .Distinct _
+                .ToArray
+            Dim compart_suffix As String
+            Dim is_transport As Boolean = reaction.equation.Products _
+                .Any(Function(c)
+                         Return reaction.equation.Reactants _
+                             .Any(Function(ci) c.ID = ci.ID)
+                     End Function)
+
+            If compart_idset.Length = 1 OrElse Not is_transport Then
+                compart_suffix = compart_idset(0)
+            Else
+                compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"
+
+                If compart_idset.Length = 1 Then
+                    For Each ref In reaction.equation.Reactants
+                        ref.Compartment = default_compartment
+                    Next
+                    For Each ref In reaction.equation.Products
+                        ref.Compartment = culturalMedium
+                    Next
+                End If
+            End If
+
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
             Dim bounds As New Boundary With {
@@ -251,24 +280,6 @@ Namespace ModelLoader
                     .activation = left,
                     .baseline = 5
                 }
-            End If
-
-            Dim compart_idset = left.JoinIterates(right).Select(Function(f) f.mass.cellular_compartment).Distinct.ToArray
-            Dim compart_suffix As String
-            Dim is_transport As Boolean = reaction.equation.Products _
-                .Any(Function(c)
-                         Return reaction.equation.Reactants _
-                             .Any(Function(ci) c.ID = ci.ID)
-                     End Function)
-
-            If compart_idset.Length = 1 OrElse Not is_transport Then
-                compart_suffix = compart_idset(0)
-            Else
-                compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"
-
-                If compart_idset.Length = 1 Then
-
-                End If
             End If
 
             Dim metabolismFlux As New Channel(left, right) With {
