@@ -217,15 +217,21 @@ declare namespace geneExpression {
     * 
      * @param HTS A gene expression matrix object
      * @param geneId A character vector for run the matrix feature row filter
+     * 
+     * + default value Is ``null``.
+     * @param instr 
+     * + default value Is ``null``.
      * @param exclude matrix a subset of the data matrix excepts the 
      *  input **`geneId`** features or just make a subset which 
      *  just contains the input **`geneId`** features.
      * 
      * + default value Is ``false``.
+     * @param env 
+     * + default value Is ``null``.
      * @return A new expression matrix object that consist with gene feature
      *  rows subset from the original matrix input.
    */
-   function filter(HTS: object, geneId: string, exclude?: boolean): object;
+   function filter(HTS: object, geneId?: string, instr?: string, exclude?: boolean, env?: object): object;
    /**
     * set the NaN missing value to default value
     * 

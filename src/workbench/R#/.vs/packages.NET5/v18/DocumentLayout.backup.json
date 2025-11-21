@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\debugger\\debugger.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -16,10 +20,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\biocyc\\reactionnetworkcompiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -60,11 +60,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 10,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "CompoundInfo.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\Raw\\HDS\\CompoundInfo.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\Raw\\HDS\\CompoundInfo.vb",
@@ -97,20 +97,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Debugger.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAcwDMBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAgBAAAAAAAAAAAcwBkBAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-21T17:33:18.261Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "RawXmlKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
@@ -123,7 +123,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "v2Compiler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
@@ -136,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "ReactionNetworkCompiler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
@@ -149,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "geneExpression.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
