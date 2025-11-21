@@ -78,6 +78,8 @@ Namespace ModelLoader
         ReadOnly default_compartment As [Default](Of String)
         ReadOnly geneIndex As New Dictionary(Of String, CentralDogma)
 
+        Public Const MembraneTransporter As String = "MembraneTransporter"
+
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
@@ -90,6 +92,7 @@ Namespace ModelLoader
             End If
 
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
+            loader.fluxIndex.Add(MembraneTransporter, New List(Of String))
         End Sub
 
         ''' <summary>
@@ -252,11 +255,20 @@ Namespace ModelLoader
 
             Dim compart_idset = left.JoinIterates(right).Select(Function(f) f.mass.cellular_compartment).Distinct.ToArray
             Dim compart_suffix As String
+            Dim is_transport As Boolean = reaction.equation.Products _
+                .Any(Function(c)
+                         Return reaction.equation.Reactants _
+                             .Any(Function(ci) c.ID = ci.ID)
+                     End Function)
 
-            If compart_idset.Length = 1 Then
+            If compart_idset.Length = 1 OrElse Not is_transport Then
                 compart_suffix = compart_idset(0)
             Else
-                compart_suffix = $"transportOf_{compart_idset.JoinBy(",")}"
+                compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"
+
+                If compart_idset.Length = 1 Then
+
+                End If
             End If
 
             Dim metabolismFlux As New Channel(left, right) With {
@@ -274,7 +286,11 @@ Namespace ModelLoader
                 Throw New InvalidDataException(String.Format(metabolismFlux.Message, metabolismFlux.ID))
             End If
 
-            Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
+            If is_transport Then
+                Call loader.fluxIndex(MembraneTransporter).Add(metabolismFlux.ID)
+            Else
+                Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
+            End If
 
             Return metabolismFlux
         End Function
