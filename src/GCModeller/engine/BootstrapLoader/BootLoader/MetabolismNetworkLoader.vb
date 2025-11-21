@@ -172,6 +172,7 @@ Namespace ModelLoader
             Dim compart_idset = reaction.equation.Reactants _
                 .JoinIterates(reaction.equation.Products) _
                 .Select(Function(f) f.Compartment) _
+                .Where(Function(s) Not s Is Nothing) _
                 .Distinct _
                 .ToArray
             Dim compart_suffix As String
@@ -181,7 +182,11 @@ Namespace ModelLoader
                              .Any(Function(ci) c.ID = ci.ID)
                      End Function)
 
-            If compart_idset.Length = 1 OrElse Not is_transport Then
+            If reaction.enzyme_compartment = MetabolicModel.Membrane Then
+                is_transport = True
+            End If
+
+            If Not is_transport Then
                 compart_suffix = compart_idset(0)
             Else
                 compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"

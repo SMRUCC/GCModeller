@@ -415,6 +415,8 @@ Namespace v2
             Dim KO As NamedValue(Of Catalysis)()
             Dim bounds As Double()
             Dim kinetics As Kinetics()
+            Dim transporters As Index(Of String) = model.metabolismStructure.reactions.transportation.Indexing
+            Dim location As String
 
             For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
                 equation = reaction.BuildEquation
@@ -443,6 +445,12 @@ Namespace v2
                     bounds(Scan0) = 0
                 End If
 
+                If reaction.ID Like transporters Then
+                    location = MetabolicModel.Membrane
+                Else
+                    location = reaction.compartment.DefaultFirst
+                End If
+
                 Yield New FluxModel With {
                     .ID = reaction.ID,
                     .name = reaction.name,
@@ -450,7 +458,7 @@ Namespace v2
                     .enzyme = KO.Keys.Distinct.ToArray,
                     .bounds = bounds,
                     .kinetics = kinetics,
-                    .enzyme_compartment = reaction.compartment.DefaultFirst
+                    .enzyme_compartment = location
                 }
             Next
         End Function
