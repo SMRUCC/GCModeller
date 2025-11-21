@@ -55,6 +55,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
@@ -72,8 +73,11 @@ Namespace ModelLoader
         Public ReadOnly proteinComplex As New Dictionary(Of String, String)
         Public ReadOnly peptideToProteinComplex As New Dictionary(Of String, String())
 
+        ReadOnly loader As Loader
+
         Sub New(loader As Loader)
-            massTable = loader.massTable
+            Me.massTable = loader.massTable
+            Me.loader = loader
         End Sub
 
         ''' <summary>
@@ -81,7 +85,10 @@ Namespace ModelLoader
         ''' </summary>
         ''' <param name="cell"></param>
         Public Sub doMassLoadingOn(cell As CellularModule)
-            Dim defaultCompartment As String() = cell.GetCompartments.ToArray
+            Dim defaultCompartment As String() = cell.GetCompartments _
+                .JoinIterates({loader.define.CultureMedium}) _
+                .Distinct _
+                .ToArray
 
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
