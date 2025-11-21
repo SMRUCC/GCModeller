@@ -3,6 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F7B0B8C9-0593-4021-BCB0-A81010280935}|..\\..\\GCModeller\\engine\\vcellkit\\vcellkit.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\vcellkit\\rawxmlkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\biocyc\\v2compiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\markupcompiler\\biocyc\\reactionnetworkcompiler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -41,21 +54,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ORIGIN.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
-              "ViewState": "AgIAAIUAAAAAAAAAAAAuwJwAAABHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:36:21.629Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -79,19 +79,82 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Fasta.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
-              "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
-              "RelativeToolTip": "seqtoolkit\\Fasta.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFIAAAAlAAAAAAAAAA==",
+              "Title": "RawXmlKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
+              "ViewState": "AgIAAC8BAAAAAAAAAAAQwE0BAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:25:11.426Z",
+              "WhenOpened": "2025-11-21T17:32:24.762Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "v2Compiler.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAcwJEAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-21T17:32:01.901Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ReactionNetworkCompiler.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAcwCkAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-21T17:31:33.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "geneExpression.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
+              "ViewState": "AgIAAOQCAAAAAAAAAAAQwCQDAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T17:12:53.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "ORIGIN.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAuwJwAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T16:36:21.629Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Fasta.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
+              "RelativeToolTip": "seqtoolkit\\Fasta.vb",
+              "ViewState": "AgIAAFUBAAAAAAAAAAAAAGoBAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-11-17T16:25:11.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "context.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\context.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\context.vb",
@@ -99,12 +162,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\context.vb",
               "ViewState": "AgIAAB8BAAAAAAAAAAAAADgBAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:58.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:58.271Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "genbankKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
@@ -112,12 +174,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
               "ViewState": "AgIAALUBAAAAAAAAAAAAAF4AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:18.844Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:18.844Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "workflows.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\workflows.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\workflows.vb",
@@ -125,12 +186,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
               "ViewState": "AgIAAGoBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:07.614Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:07.614Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "uniprot.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\uniprot.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\uniprot.vb",
@@ -138,12 +198,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:06.465Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:06.465Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 11,
               "Title": "terms.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\terms.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\terms.vb",
@@ -151,12 +210,11 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\terms.vb",
               "ViewState": "AgIAAOQAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:23:56.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:23:56.842Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "genomics.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genomics.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genomics.vb",
@@ -164,8 +222,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:23:31.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:23:31.263Z"
             }
           ]
         },
