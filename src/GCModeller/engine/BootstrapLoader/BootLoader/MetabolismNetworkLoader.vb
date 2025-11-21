@@ -185,13 +185,20 @@ Namespace ModelLoader
             If reaction.enzyme_compartment = MetabolicModel.Membrane Then
                 is_transport = True
             End If
+            If compart_idset.IsNullOrEmpty Then
+                If is_transport Then
+                    compart_idset = New String() {MetabolicModel.Membrane}
+                Else
+                    compart_idset = New String() {default_compartment}
+                End If
+            End If
 
             If Not is_transport Then
                 compart_suffix = compart_idset(0)
             Else
                 compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"
 
-                If compart_idset.Length = 1 Then
+                If compart_idset.Length <= 1 Then
                     For Each ref In reaction.equation.Reactants
                         ref.Compartment = default_compartment
                     Next
