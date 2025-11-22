@@ -104,7 +104,7 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Utilities.vb",
-              "ViewState": "AgIAADcBAAAAAAAAAAAqwGoBAABCAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoBAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-17T16:33:33.277Z",
               "EditorCaption": ""
@@ -119,7 +119,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Debugger.vb",
               "ViewState": "AgIAAFUAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:55:05.644Z"
+              "WhenOpened": "2025-11-17T08:55:05.644Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -129,7 +130,7 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\FastaTools.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\FastaTools.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\FastaTools.vb",
-              "ViewState": "AgIAAG4CAAAAAAAAAAAAAHYAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAGsCAAAAAAAAAABIwHYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-17T08:52:41.343Z",
               "EditorCaption": ""
@@ -144,7 +145,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\NTProps.vb",
               "ViewState": "AgIAADQBAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:52:16.236Z"
+              "WhenOpened": "2025-11-17T08:52:16.236Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -156,7 +158,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\SequenceTools\\CLI\\Aligner.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T08:52:03.051Z"
+              "WhenOpened": "2025-11-17T08:52:03.051Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -168,7 +171,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\TrimMotif.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:41:48.435Z"
+              "WhenOpened": "2025-11-15T21:41:48.435Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -180,7 +184,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\VectorCompares.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:41:47.51Z"
+              "WhenOpened": "2025-11-15T21:41:47.51Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -192,7 +197,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\SeedCluster.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:41:44.045Z"
+              "WhenOpened": "2025-11-15T21:41:44.045Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -204,7 +210,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\ScanFile.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:41:41.427Z"
+              "WhenOpened": "2025-11-15T21:41:41.427Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -216,7 +223,8 @@
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifFinder\\PWMDatabase.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:41:14.937Z"
+              "WhenOpened": "2025-11-15T21:41:14.937Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -228,7 +236,8 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IWorkspace.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAABeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:32:40.393Z"
+              "WhenOpened": "2025-11-15T21:32:40.393Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -240,7 +249,8 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\IFileSystemEnvironment.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:31:53.658Z"
+              "WhenOpened": "2025-11-15T21:31:53.658Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -252,7 +262,8 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\Fs\\FileSystemTree.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwEQAAABBAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:32:20.061Z"
+              "WhenOpened": "2025-11-15T21:32:20.061Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -264,7 +275,8 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\ProgramPathSearchTool.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:32:16.313Z"
+              "WhenOpened": "2025-11-15T21:32:16.313Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -276,7 +288,8 @@
               "RelativeToolTip": "runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\ApplicationServices\\FileSystem\\MemoryStreamPool.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:32:15.479Z"
+              "WhenOpened": "2025-11-15T21:32:15.479Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -286,9 +299,10 @@
               "RelativeDocumentMoniker": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
               "RelativeToolTip": "GCModeller\\analysis\\SequenceToolkit\\MotifScanner\\PWMDatabase.vb",
-              "ViewState": "AgIAABYAAAAAAAAAAAAYwDgAAABrAAAAAAAAAA==",
+              "ViewState": "AgIAABYAAAAAAAAAAAAYwDgAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-15T21:25:13.118Z"
+              "WhenOpened": "2025-11-15T21:25:13.118Z",
+              "EditorCaption": ""
             }
           ]
         },
