@@ -195,6 +195,8 @@ Namespace Core
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
 
+            Call $"boost factor for regulation vector is {boost}".info
+
             shareFactors = (sharedLeft, sharedRight)
             ' create dynamics equation for 
             ' RK4 ODEs solver
