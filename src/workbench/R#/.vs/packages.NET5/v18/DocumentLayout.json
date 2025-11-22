@@ -94,8 +94,7 @@
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-11-21T18:21:15.041Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T18:21:15.041Z"
             },
             {
               "$type": "Document",
@@ -107,8 +106,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\IO\\Raw\\HDS\\CompoundInfo.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAA6wBMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-21T17:34:21.919Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T17:34:21.919Z"
             },
             {
               "$type": "Document",
@@ -120,8 +118,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\Debugger\\Debugger.vb",
               "ViewState": "AgIAAAgBAAAAAAAAAAAcwBkBAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-21T17:33:18.261Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T17:33:18.261Z"
             },
             {
               "$type": "Document",
@@ -133,8 +130,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\vcellkit\\RawXmlKit.vb",
               "ViewState": "AgIAAC8BAAAAAAAAAAAQwE0BAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-21T17:32:24.762Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T17:32:24.762Z"
             },
             {
               "$type": "Document",
@@ -146,8 +142,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\v2Compiler.vb",
               "ViewState": "AgIAAHUAAAAAAAAAAAAcwJEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-21T17:32:01.901Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T17:32:01.901Z"
             },
             {
               "$type": "Document",
@@ -159,8 +154,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\MarkupCompiler\\BioCyc\\ReactionNetworkCompiler.vb",
               "ViewState": "AgIAAA8AAAAAAAAAAAAcwCkAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-21T17:31:33.651Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-21T17:31:33.651Z"
             },
             {
               "$type": "Document",
@@ -185,8 +179,7 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Database\\GenBank\\GBK\\Keywords\\ORIGIN.vb",
               "ViewState": "AgIAAIUAAAAAAAAAAAAuwJwAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:36:21.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:36:21.629Z"
             },
             {
               "$type": "Document",
@@ -198,8 +191,7 @@
               "RelativeToolTip": "seqtoolkit\\Fasta.vb",
               "ViewState": "AgIAAFIBAAAAAAAAAABIwGoBAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:25:11.426Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:25:11.426Z"
             },
             {
               "$type": "Document",
@@ -211,8 +203,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\context.vb",
               "ViewState": "AgIAABwBAAAAAAAAAIBOwDgBAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:58.271Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:58.271Z"
             },
             {
               "$type": "Document",
@@ -224,8 +215,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
               "ViewState": "AgIAALIBAAAAAAAAAABIwF4AAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:18.844Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:18.844Z"
             },
             {
               "$type": "Document",
@@ -237,8 +227,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\workflows.vb",
               "ViewState": "AgIAAGcBAAAAAAAAAABIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:07.614Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:07.614Z"
             },
             {
               "$type": "Document",
@@ -250,8 +239,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\uniprot.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:24:06.465Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:24:06.465Z"
             },
             {
               "$type": "Document",
@@ -263,8 +251,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\terms.vb",
               "ViewState": "AgIAAOQAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:23:56.842Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:23:56.842Z"
             },
             {
               "$type": "Document",
@@ -276,8 +263,7 @@
               "RelativeToolTip": "seqtoolkit\\Annotations\\genomics.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEsAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-17T16:23:31.263Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-17T16:23:31.263Z"
             }
           ]
         },
