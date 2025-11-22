@@ -162,7 +162,7 @@ Namespace Engine
             Call core _
                 .load(mass.AsEnumerable) _
                 .load(biologicalProcesses) _
-                .Initialize()
+                .Initialize(boost:=dynamics.boost)
             Call Reset()
 
             Return Me
@@ -179,7 +179,7 @@ Namespace Engine
                 Call core _
                     .load(.massTable.AsEnumerable) _
                     .load(.processes) _
-                    .Initialize()
+                    .Initialize(boost:=dynamics.boost)
             End With
 
             Call Reset()
