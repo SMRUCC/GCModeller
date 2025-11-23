@@ -149,6 +149,9 @@ Namespace Raw
         Public Property ribosomeAssembly As Index(Of String)
         <[Module]("Protein-Mature-Flux")>
         Public Property ProteinMature As Index(Of String)
+        <[Module]("Transmembrane-Flux")>
+        Public Property TransmembraneFlux As Index(Of String)
+
 #End Region
 #End Region
 
