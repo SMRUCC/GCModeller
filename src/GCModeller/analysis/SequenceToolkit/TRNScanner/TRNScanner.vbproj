@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\meme_suite\meme_data\meme_data.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\Darwinism\src\computing\batch\batch.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\Darwinism\src\computing\Parallel\parallel-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
@@ -17,7 +18,9 @@
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\MotifScanner\MotifScanner.NET5.vbproj" />
+    <ProjectReference Include="..\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
+    <ProjectReference Include="..\SequencePatterns\SequencePatterns.NET5.vbproj" />
   </ItemGroup>
 
 </Project>
