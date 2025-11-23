@@ -18,7 +18,7 @@
 
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
-    <OutputPath>../../../../../.nuget</OutputPath>
+    <OutputPath>../../../../../../../../../../../BlueprintCAD\App</OutputPath>
   </PropertyGroup>
 
 
