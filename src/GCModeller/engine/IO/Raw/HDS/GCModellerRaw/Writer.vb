@@ -109,6 +109,7 @@ Namespace Raw
             MyBase.tRNACharge = fluxIndex!tRNAProcess
             MyBase.ribosomeAssembly = fluxIndex!ribosomeAssembly
             MyBase.ProteinMature = fluxIndex!ProteinMatureFluxLoader
+            MyBase.TransmembraneFlux = fluxIndex!MembraneTransporter
 
             mapping = mass.getMapping
             compartments = mass.compartment_ids.ToArray
@@ -132,7 +133,8 @@ Namespace Raw
                         {NameOf(RNADegradation), RNADegradation.Count},
                         {NameOf(tRNACharge), tRNACharge.Count},
                         {NameOf(ribosomeAssembly), ribosomeAssembly.Count},
-                        {NameOf(ProteinMature), ProteinMature.Count}
+                        {NameOf(ProteinMature), ProteinMature.Count},
+                        {NameOf(TransmembraneFlux), TransmembraneFlux.Count}
                     }.GetJson
                 }, "/.etc/count.json")
         End Sub
