@@ -19,6 +19,7 @@ Public Module ScannerTask
         Dim task As New Func(Of FastaSeq, String, Double, Double, Integer, Integer, MotifMatch())(AddressOf ScanTask)
 
         DarwinismEnvironment.SetThreads(n_threads)
+        DarwinismEnvironment.SetLibPath(App.HOME)
 
         Dim env As Argument = DarwinismEnvironment.GetEnvironmentArguments
         Dim source As FastaSeq() = regions.ToArray
