@@ -4,8 +4,6 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
-Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module Extensions
