@@ -3,13 +3,7 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{AB7EB6FB-C853-B91A-1D2C-C43C0B2629E8}|..\\..\\interops\\localblast\\ParallelTask\\ParallelTask.vbproj|g:\\gcmodeller\\src\\interops\\localblast\\paralleltask\\ncbilocalblast.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\io\\extensions\\pathextensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{36EE8DC2-3D23-45B7-8CE4-1942916A02AA}|..\\..\\Settings\\Shared\\Settings.FileSystem\\Settings.FileSystem.shproj|g:\\gcmodeller\\src\\settings\\shared\\settings.filesystem\\filesystem.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{B4B7D9A1-A9A9-46B4-A9AE-7CD64E5704C3}|..\\..\\GCModeller\\sub-system\\simulators\\simulators.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\simulators\\ssystemkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,21 +13,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PathExtensions.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Extensions\\PathExtensions.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Extensions\\PathExtensions.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Extensions\\PathExtensions.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\IO\\Extensions\\PathExtensions.vb",
-              "ViewState": "AgIAADEDAAAAAAAAAAAuwFgDAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-24T15:57:25.83Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -57,27 +38,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "NCBILocalBlast.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\localblast\\ParallelTask\\NCBILocalBlast.vb",
-              "RelativeDocumentMoniker": "..\\..\\interops\\localblast\\ParallelTask\\NCBILocalBlast.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\localblast\\ParallelTask\\NCBILocalBlast.vb",
-              "RelativeToolTip": "..\\..\\interops\\localblast\\ParallelTask\\NCBILocalBlast.vb",
-              "ViewState": "AgIAAAsBAAAAAAAAAAAQwD4BAAAAAAAAAAAAAA==",
+              "Title": "SSystemKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
+              "ViewState": "AgIAALAAAAAAAAAAAAAywMoAAABQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-24T15:55:47.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "FileSystem.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\Settings\\Shared\\Settings.FileSystem\\FileSystem.vb",
-              "RelativeDocumentMoniker": "..\\..\\Settings\\Shared\\Settings.FileSystem\\FileSystem.vb",
-              "ToolTip": "G:\\GCModeller\\src\\Settings\\Shared\\Settings.FileSystem\\FileSystem.vb",
-              "RelativeToolTip": "..\\..\\Settings\\Shared\\Settings.FileSystem\\FileSystem.vb",
-              "ViewState": "AgIAAAgBAAAAAAAAAAAcwDcBAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-24T15:55:09.953Z",
+              "WhenOpened": "2025-11-25T14:28:27.589Z",
               "EditorCaption": ""
             }
           ]

@@ -69,6 +69,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports renv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' S-system toolkit
@@ -198,6 +199,11 @@ Module SSystemKit
         Dim equations As New List(Of NamedValue(Of String))
         Dim name As String
         Dim expression As String
+
+        If TypeOf ssystem Is vector Then
+            ssystem = DirectCast(ssystem, vector).data
+            ssystem = renv.UnsafeTryCastGenericArray(ssystem)
+        End If
 
         If TypeOf ssystem Is list Then
             For Each flux In DirectCast(ssystem, list).AsGeneric(Of String)(env)
