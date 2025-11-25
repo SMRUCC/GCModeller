@@ -64,12 +64,14 @@ Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Closure
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports renv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' S-system toolkit
@@ -195,11 +197,15 @@ Module SSystemKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("s.system")>
-    Public Function ConfigSSystem(kernel As Kernel, <RRawVectorArgument> ssystem As Object, Optional env As Environment = Nothing) As Kernel
+    <RApiReturn(GetType(Kernel))>
+    Public Function ConfigSSystem(kernel As Kernel, <RRawVectorArgument> ssystem As Object, Optional env As Environment = Nothing) As Object
         Dim equations As New List(Of NamedValue(Of String))
         Dim name As String
         Dim expression As String
 
+        If ssystem Is Nothing Then
+            Return RInternal.debug.stop("the required s-system network model should not be nothing!", env)
+        End If
         If TypeOf ssystem Is vector Then
             ssystem = DirectCast(ssystem, vector).data
             ssystem = renv.UnsafeTryCastGenericArray(ssystem)
@@ -223,6 +229,8 @@ Module SSystemKit
                     .Value = expression
                 }
             Next
+        Else
+            Return Message.InCompatibleType(GetType(DeclareLambdaFunction), ssystem.GetType, env)
         End If
 
         kernel.Channels = equations _
