@@ -234,6 +234,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="MSA\MSAData.Designer.vb">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

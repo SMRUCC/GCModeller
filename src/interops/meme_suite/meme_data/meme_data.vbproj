@@ -191,6 +191,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns\SequencePatterns.NET5.vbproj" />

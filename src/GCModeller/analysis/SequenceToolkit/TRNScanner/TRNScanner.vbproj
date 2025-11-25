@@ -41,6 +41,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\..\interops\meme_suite\meme_data\meme_data.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\Darwinism\src\computing\batch\batch.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\Darwinism\src\computing\Parallel\parallel-netcore5.vbproj" />
