@@ -188,9 +188,11 @@ Namespace Kernel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
-            For Each _RuntimeTicks As Long In Tqdm.Range(0, CLng(finalTime * (1 / precision)))
+            For Each ti As Long In Tqdm.Range(0, CLng(finalTime * (1 / precision)))
                 If is_terminated Then
                     Exit For
+                Else
+                    _RuntimeTicks = ti
                 End If
 #If DEBUG Then
                 Call [Step](RuntimeTicks)
