@@ -49,9 +49,9 @@ let metabolites = list(
 # open data connection for export to a csv table file
 using data.driver as snapshot(relative_work("TCA-cycle.csv"), symbols = names(metabolites)) {
     data.driver
-    |> kernel(S.script("TCA cycle"))
+    |> kernel(S.script("TCA cycle"),strict=FALSE)
     |> environment(metabolites)
     |> s.system(TCA_cycle)
-    |> run(ticks = 4.5, resolution = 0.01);
+    |> run(ticks = 50, resolution = 0.1);
 }
 
