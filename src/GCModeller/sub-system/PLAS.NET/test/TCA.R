@@ -11,24 +11,22 @@ imports "S.system" from "simulators";
 # Fumarate Hydration (Fumarase): Fumarate + H₂O → L-Malate
 # Malate Dehydrogenation: L-Malate + NAD⁺ → Oxaloacetate + NADH
 let TCA_cycle = [
-  # metabolite       synthesis                                    consumption                                           
-  citrate         -> (oxaloacetate^0.5)                         - (citrate ^ 0.5),              
-  coA_sh          -> (succinyl_coA^ 0.5)                        - ((a_ketoglutarate ^ 0.5) * (coA_sh ^ 0.5)),                            
-  fumarate        -> (succinate ^ 0.5)                          - (fumarate ^0.5),                  
-  isocitrate      -> (citrate ^ 0.5)                            - (isocitrate ^ 0.5),               
-  l_malate        -> (fumarate ^0.5)                            - (l_malate^0.5),                      
-  oxaloacetate    -> (l_malate^0.5)                             - (oxaloacetate^0.5),          
-  succinate       -> (succinyl_coA ^ 0.5)                       - (succinate ^ 0.5 ) ,   
-  succinyl_coA    -> ((a_ketoglutarate ^ 0.5) * (coA_sh ^ 0.5)) - (succinyl_coA ^ 0.5),  
-  a_ketoglutarate -> (isocitrate ^ 0.5)                         - ((a_ketoglutarate ^ 0.5) * (coA_sh ^ 0.5))
+  # metabolite       synthesis               consumption                                           
+  citrate         -> (oxaloacetate^0.5)      - (citrate ^ 0.5),                             
+  fumarate        -> (succinate ^ 0.5)       - (fumarate ^0.5),                  
+  isocitrate      -> (citrate ^ 0.5)         - (isocitrate ^ 0.5),               
+  l_malate        -> (fumarate ^0.5)         - (l_malate^0.5),                      
+  oxaloacetate    -> (l_malate^0.5)          - (oxaloacetate^0.5),          
+  succinate       -> (succinyl_coA ^ 0.5)    - (succinate ^ 0.5 ) ,   
+  succinyl_coA    -> (a_ketoglutarate ^ 0.5) - (succinyl_coA ^ 0.5),  
+  a_ketoglutarate -> (isocitrate ^ 0.5)      - (a_ketoglutarate ^ 0.5)
 ];
 
 let metabolites = list(
-    citrate = 100, coA_sh = 100,
-    fumarate = 100, 
-    isocitrate = 100, l_malate = 100,
-    oxaloacetate = 100, 
-    succinate = 100, succinyl_coA = 100, a_ketoglutarate = 100
+    citrate = 100, fumarate = 20, isocitrate = 20, 
+    l_malate = 20, oxaloacetate = 20, 
+    succinate = 20, succinyl_coA = 20, 
+    a_ketoglutarate = 20
 );
 
 # open data connection for export to a csv table file
@@ -37,6 +35,6 @@ using data.driver as snapshot(relative_work("TCA-cycle.csv"), symbols = names(me
     |> kernel(S.script("TCA cycle"),strict=FALSE)
     |> environment(metabolites)
     |> s.system(TCA_cycle)
-    |> run(ticks = 250, resolution = 0.01);
+    |> run(ticks = 150, resolution = 0.005);
 }
 
