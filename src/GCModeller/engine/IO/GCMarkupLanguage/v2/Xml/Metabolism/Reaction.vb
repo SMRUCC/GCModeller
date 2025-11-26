@@ -141,6 +141,10 @@ Namespace v2
             End Get
         End Property
 
+        Public Function CheckTransportation() As Boolean
+            Return substrate.Any(Function(s) product.Any(Function(a) a.compound = s.compound))
+        End Function
+
         Public Overrides Function ToString() As String
             Return $"({ID}: {name}) {equation}"
         End Function
