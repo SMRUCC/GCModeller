@@ -1,20 +1,7 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\system\\kernel.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\system\\experiments\\kicks.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9BF1E3F8-127E-4E51-8F0C-9D7358DAD89E}|..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\SSystem.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\plas.net\\ssystem\\system\\dataacquisition.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B4B7D9A1-A9A9-46B4-A9AE-7CD64E5704C3}|..\\..\\GCModeller\\sub-system\\simulators\\simulators.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\simulators\\ssystemkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    }
-  ],
+  "WorkspaceRootPath": "E:\\GCModeller\\src\\workbench\\R#\\",
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -22,8 +9,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": -1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -38,60 +29,7 @@
             },
             {
               "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
-            {
-              "$type": "Bookmark",
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Kernel.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Kernel.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAMIAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-25T15:43:57.501Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Kicks.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Experiments\\Kicks.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Experiments\\Kicks.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Experiments\\Kicks.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\Experiments\\Kicks.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAABbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-25T15:43:55.699Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "DataAcquisition.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\DataAcquisition.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\DataAcquisition.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\DataAcquisition.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\PLAS.NET\\SSystem\\System\\DataAcquisition.vb",
-              "ViewState": "AgIAAKsAAAAAAAAAAAAAAMwAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-25T15:42:42.609Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SSystemKit.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\sub-system\\simulators\\SSystemKit.vb",
-              "ViewState": "AgIAAGAAAAAAAAAAAADwv4QAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-25T14:28:27.589Z"
             }
           ]
         },
