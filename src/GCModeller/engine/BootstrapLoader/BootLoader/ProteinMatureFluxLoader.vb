@@ -105,7 +105,8 @@ Namespace ModelLoader
                     End If
 
                     If Not MassTable.Exists(peptide, cellular_id) Then
-                        Throw New MissingMemberException("Missing protein complex component polypeptide: " & peptide)
+                        Call ("Missing protein complex component polypeptide: " & peptide).warning
+                        Call MassTable.addNew(peptide, MassRoles.polypeptide, cellular_id)
                     Else
                         polypeptides += peptide
                     End If

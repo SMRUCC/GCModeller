@@ -223,9 +223,12 @@ Namespace Engine
 
         Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
             For Each mass As Factor In core.m_massIndex.Values
-                If cultureMedium.ContainsKey(mass.template_id) AndAlso
-                    mass.cellular_compartment = initials.CultureMedium Then
-
+                If mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(0)
+                End If
+            Next
+            For Each mass As Factor In core.m_massIndex.Values
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso mass.cellular_compartment = initials.CultureMedium Then
                     Call mass.reset(cultureMedium(mass.template_id))
                 End If
             Next
@@ -319,17 +322,9 @@ Namespace Engine
                 End If
             Next
 
-            Dim cultureMedium As Dictionary(Of String, Double) = If(
-                initials.status.TryGetValue(initials.CultureMedium),
-                New Dictionary(Of String, Double)
-            )
-
-            ' clear the culture medium
-            For Each mass As Factor In core.m_massIndex.Values
-                If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(cultureMedium.TryGetValue(mass.template_id))
-                End If
-            Next
+            If initials.status.ContainsKey(initials.CultureMedium) Then
+                Call SetCultureMedium(initials.status(initials.CultureMedium))
+            End If
         End Sub
 
         Public Overrides Function Run() As Integer Implements ITaskDriver.Run
