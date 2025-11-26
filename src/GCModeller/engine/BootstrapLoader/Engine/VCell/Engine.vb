@@ -305,22 +305,29 @@ Namespace Engine
             End If
 
             For Each mass As Factor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.ID) Then
+                Dim status As Dictionary(Of String, Double) = initials.status(mass.cellular_compartment)
+
+                If status.ContainsKey(mass.ID) Then
                     ' instance id has the highest order
-                    Call mass.reset(initials.status(mass.ID))
+                    Call mass.reset(status(mass.ID))
                 Else
-                    If initials.status.ContainsKey(mass.template_id) Then
-                        Call mass.reset(initials.status(mass.template_id))
+                    If status.ContainsKey(mass.template_id) Then
+                        Call mass.reset(status(mass.template_id))
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If
                 End If
             Next
 
+            Dim cultureMedium As Dictionary(Of String, Double) = If(
+                initials.status.TryGetValue(initials.CultureMedium),
+                New Dictionary(Of String, Double)
+            )
+
             ' clear the culture medium
             For Each mass As Factor In core.m_massIndex.Values
                 If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(0)
+                    Call mass.reset(cultureMedium.TryGetValue(mass.template_id))
                 End If
             Next
         End Sub
