@@ -202,6 +202,32 @@ Namespace Engine
             Return Me
         End Function
 
+        Public Function SetCellCopyNumber(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Dim genes As Dictionary(Of String, Factor()) = core.m_massIndex.Values _
+                .Where(Function(a) a.role = MassRoles.gene) _
+                .GroupBy(Function(a) a.cellular_compartment) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
+
+            For Each cellCopy As KeyValuePair(Of String, Integer) In copyNum
+                If genes.ContainsKey(cellCopy.Key) Then
+                    Dim copyNumber As Double = CDbl(cellCopy.Value)
+
+                    For Each gene As Factor In genes(cellCopy.Key)
+                        gene.reset(copyNumber)
+                    Next
+                End If
+            Next
+
+            Return Me
+        End Function
+
         ''' <summary>
         ''' set gene copy numbers
         ''' </summary>
