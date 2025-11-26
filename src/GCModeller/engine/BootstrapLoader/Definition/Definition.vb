@@ -1,65 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::79c4fc0e77b1ee2c9d47833398caba1e, engine\BootstrapLoader\Definition\Definition.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 150
-    '    Code Lines: 108 (72.00%)
-    ' Comment Lines: 24 (16.00%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 18 (12.00%)
-    '     File Size: 5.34 KB
+' Summaries:
 
 
-    '     Enum GeneralCompound
-    ' 
-    '         DNA, Protein, RNA
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Class Definition
-    ' 
-    '         Properties: ADP, AminoAcid, ATP, GenericCompounds, NucleicAcid
-    '                     Oxygen, status, Water
-    ' 
-    '         Function: GenericEnumerator, GetInfinitySource, KEGG
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 150
+'    Code Lines: 108 (72.00%)
+' Comment Lines: 24 (16.00%)
+'    - Xml Docs: 87.50%
+' 
+'   Blank Lines: 18 (12.00%)
+'     File Size: 5.34 KB
+
+
+'     Enum GeneralCompound
+' 
+'         DNA, Protein, RNA
+' 
+'  
+' 
+' 
+' 
+'     Class Definition
+' 
+'         Properties: ADP, AminoAcid, ATP, GenericCompounds, NucleicAcid
+'                     Oxygen, status, Water
+' 
+'         Function: GenericEnumerator, GetInfinitySource, KEGG
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -239,7 +239,7 @@ Namespace Definitions
                 .Oxygen = "OXYGEN-MOLECULE",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .status = initStatus,
+                .status = New Dictionary(Of String, Dictionary(Of String, Double)) From {{"default", initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"Peptides", GeneralCompound.Protein},
                     {"DNA-Holder", GeneralCompound.DNA},
@@ -301,7 +301,7 @@ Namespace Definitions
                 .Oxygen = "C00007",
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
-                .status = initStatus,
+                .status = New Dictionary(Of String, Dictionary(Of String, Double)) From {{"default", initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"C00017", GeneralCompound.Protein},
                     {"C00039", GeneralCompound.DNA},
