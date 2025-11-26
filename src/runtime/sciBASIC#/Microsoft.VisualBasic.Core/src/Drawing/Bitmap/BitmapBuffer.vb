@@ -517,12 +517,12 @@ Namespace Imaging.BitmapImage
         ''' helper function for hqx algorithm module
         ''' </remarks>
         Public Function GetARGBStream() As UInteger()
-            Dim ints As UInteger() = New UInteger(buffer.Length / 4 - 1) {}
-            Dim uint As Byte() = New Byte(4 - 1) {}
+            Dim ints As UInteger() = New UInteger(buffer.Length / TYPE_INT_ARGB - 1) {}
+            Dim uint As Byte() = New Byte(TYPE_INT_ARGB - 1) {}
             Dim p As i32 = 0
 
-            If channels = 4 Then
-                For i As Integer = 0 To buffer.Length - 1 Step 4
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
                     'ints(i) = buffer(i + 3) ' A
                     'ints(i + 1) = buffer(i + 2) ' R
                     'ints(i + 2) = buffer(i + 1) ' G
@@ -536,7 +536,7 @@ Namespace Imaging.BitmapImage
                 Next
             Else
                 ' channels = 3
-                For i As Integer = 0 To buffer.Length - 1 Step 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
                     'ints(i) = 255 ' A
                     'ints(i + 1) = buffer(i + 2) ' R
                     'ints(i + 2) = buffer(i + 1) ' G
@@ -554,15 +554,29 @@ Namespace Imaging.BitmapImage
             Return ints
         End Function
 
-        Public Function GetPixelsAll() As IEnumerable(Of Color)
-            Return GetPixel(New Rectangle(New Point, Size)).IteratesALL
-        End Function
+        Public Iterator Function GetPixelsAll() As IEnumerable(Of Color)
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
+                    ' 按照 BGRA 顺序从 buffer 读取
+                    Dim b As Byte = buffer(i)       ' B
+                    Dim g As Byte = buffer(i + 1)   ' G
+                    Dim r As Byte = buffer(i + 2)   ' R
+                    Dim a As Byte = buffer(i + 3)   ' A
 
-        Public Shared Function GetColor(uint As UInteger) As Color
-            Dim bytes As Byte() = BitConverter.GetBytes(uint)
-            Dim color As Color = Color.FromArgb(bytes(0), bytes(1), bytes(2), bytes(3))
+                    ' Color.FromArgb 的标准参数顺序是 A, R, G, B
+                    Yield Color.FromArgb(a, r, g, b)
+                Next
+            Else
+                ' channels = 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
+                    Dim r As Byte = buffer(i)       ' R
+                    Dim g As Byte = buffer(i + 1)   ' G
+                    Dim b As Byte = buffer(i + 2)   ' B
+                    Dim a As Byte = 255             ' A (不透明)
 
-            Return color
+                    Yield Color.FromArgb(a, r, g, b)
+                Next
+            End If
         End Function
 
         ''' <summary>
@@ -572,7 +586,8 @@ Namespace Imaging.BitmapImage
         ''' <param name="size"></param>
         ''' <returns></returns>
         Public Shared Function Unpack(pixels As Color(), size As Size) As Byte()
-            Dim bytes As Byte() = New Byte(TYPE_INT_ARGB * size.Width * size.Height - 1) {}
+            Dim totalBytes As Integer = TYPE_INT_ARGB * size.Width * size.Height
+            Dim bytes As Byte() = New Byte(totalBytes - 1) {}
 
             ' If channels = TYPE_INT_ARGB Then
             '    iA = buffer(i + 3)
@@ -582,17 +597,26 @@ Namespace Imaging.BitmapImage
             ' Dim iG As Byte = buffer(i + 1)
             ' Dim iB As Byte = buffer(i + 0)
 
-            For i As Integer = 0 To pixels.Length - 1 Step TYPE_INT_ARGB
+            For i As Integer = 0 To pixels.Length - 1
                 Dim pixel As Color = pixels(i)
+                ' 计算当前像素在字节数组中的起始位置
+                Dim byteIndex As Integer = i * TYPE_INT_ARGB
 
-                bytes(i + 3) = pixel.A
-
-                bytes(i + 2) = pixel.R
-                bytes(i + 1) = pixel.G
-                bytes(i + 0) = pixel.B
+                ' 按照 BGRA 顺序写入字节
+                bytes(byteIndex + 0) = pixel.B ' B
+                bytes(byteIndex + 1) = pixel.G ' G
+                bytes(byteIndex + 2) = pixel.R ' R
+                bytes(byteIndex + 3) = pixel.A ' A
             Next
 
             Return bytes
+        End Function
+
+        Public Shared Function GetColor(uint As UInteger) As Color
+            Dim bytes As Byte() = BitConverter.GetBytes(uint)
+            Dim color As Color = Color.FromArgb(bytes(0), bytes(1), bytes(2), bytes(3))
+
+            Return color
         End Function
 
         ''' <summary>
