@@ -306,7 +306,7 @@ Public Module NCBILocalBlast
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(blastbin, LocalBLAST.InteropService.Program.BlastPlus)
         End If
 
-        Dim Directories As String() = ProgramPathSearchTool.SearchDirectory("blast*", "")
+        Dim Directories As String() = {ProgramPathSearchTool.Which("blastp"), ProgramPathSearchTool.Which("blastn")}.Select(Function(path) path.ParentPath).Distinct.ToArray
         If Directories.IsNullOrEmpty Then
             Return Nothing
         End If
@@ -317,14 +317,7 @@ Public Module NCBILocalBlast
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
         End If
 
-        Dim EXEList As String() = ProgramPathSearchTool.SearchProgram(BLAST, "blast")
-
-        If EXEList.Length > 1 Then
-            BLAST = RepositoryFileSystem.GetMostAppreancePath(EXEList)
-            Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
-        Else
-            Return Nothing
-        End If
+        Return Nothing
     End Function
 
     <ExportAPI("blastp")>

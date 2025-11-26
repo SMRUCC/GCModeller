@@ -91,6 +91,10 @@ Namespace v2
 
             For Each cpd As Compound In vcell.metabolismStructure.compounds
                 For Each ref_id As String In cpd.referenceIds.SafeQuery
+                    If ref_id.StringEmpty Then
+                        Continue For
+                    End If
+
                     refs(ref_id) = cpd.ID
                 Next
             Next

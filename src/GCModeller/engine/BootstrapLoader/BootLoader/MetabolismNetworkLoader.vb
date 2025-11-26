@@ -76,7 +76,10 @@ Namespace ModelLoader
 
         ReadOnly pull As New List(Of String)
         ReadOnly default_compartment As [Default](Of String)
+        ReadOnly culturalMedium As String
         ReadOnly geneIndex As New Dictionary(Of String, CentralDogma)
+
+        Public Const MembraneTransporter As String = "MembraneTransporter"
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
@@ -84,12 +87,14 @@ Namespace ModelLoader
             ' content of these metabolite will be changed
             default_compartment = loader.massTable.defaultCompartment
             infinitySource = loader.define.GetInfinitySource
+            culturalMedium = loader.define.CultureMedium
 
             If infinitySource.Any Then
                 Call $"{infinitySource.Objects.GetJson} are assume as infinity content.".debug
             End If
 
             loader.fluxIndex.Add(NameOf(MetabolismNetworkLoader), New List(Of String))
+            loader.fluxIndex.Add(MembraneTransporter, New List(Of String))
         End Sub
 
         ''' <summary>
@@ -164,6 +169,46 @@ Namespace ModelLoader
         End Sub
 
         Private Function fluxByReaction(reaction As Reaction, KOfunctions As Dictionary(Of String, String())) As Channel
+            Dim compart_idset = reaction.equation.Reactants _
+                .JoinIterates(reaction.equation.Products) _
+                .Select(Function(f) f.Compartment) _
+                .Where(Function(s) Not s Is Nothing) _
+                .Distinct _
+                .ToArray
+            Dim compart_suffix As String
+            Dim is_transport As Boolean = reaction.equation.Products _
+                .Any(Function(c)
+                         Return reaction.equation.Reactants _
+                             .Any(Function(ci) c.ID = ci.ID)
+                     End Function)
+
+            If reaction.enzyme_compartment = MetabolicModel.Membrane Then
+                is_transport = True
+                reaction.enzyme_compartment = default_compartment
+            End If
+            If compart_idset.IsNullOrEmpty Then
+                If is_transport Then
+                    compart_idset = New String() {MetabolicModel.Membrane}
+                Else
+                    compart_idset = New String() {default_compartment}
+                End If
+            End If
+
+            If Not is_transport Then
+                compart_suffix = compart_idset(0)
+            Else
+                compart_suffix = $"Transport[{compart_idset.JoinBy(",")}]"
+
+                If compart_idset.Length <= 1 Then
+                    For Each ref In reaction.equation.Reactants
+                        ref.Compartment = default_compartment
+                    Next
+                    For Each ref In reaction.equation.Products
+                        ref.Compartment = culturalMedium
+                    Next
+                End If
+            End If
+
             Dim left As Variable() = MassTable.variables(reaction.equation.Reactants, infinitySource).ToArray
             Dim right As Variable() = MassTable.variables(reaction.equation.Products, infinitySource).ToArray
             Dim bounds As New Boundary With {
@@ -250,15 +295,6 @@ Namespace ModelLoader
                 }
             End If
 
-            Dim compart_idset = left.JoinIterates(right).Select(Function(f) f.mass.cellular_compartment).Distinct.ToArray
-            Dim compart_suffix As String
-
-            If compart_idset.Length = 1 Then
-                compart_suffix = compart_idset(0)
-            Else
-                compart_suffix = $"transportOf_{compart_idset.JoinBy(",")}"
-            End If
-
             Dim metabolismFlux As New Channel(left, right) With {
                 .bounds = bounds,
                 .ID = reaction.ID & "@" & compart_suffix,
@@ -274,7 +310,11 @@ Namespace ModelLoader
                 Throw New InvalidDataException(String.Format(metabolismFlux.Message, metabolismFlux.ID))
             End If
 
-            Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
+            If is_transport Then
+                Call loader.fluxIndex(MembraneTransporter).Add(metabolismFlux.ID)
+            Else
+                Call loader.fluxIndex(NameOf(MetabolismNetworkLoader)).Add(metabolismFlux.ID)
+            End If
 
             Return metabolismFlux
         End Function

@@ -104,6 +104,8 @@ Namespace Definitions
         Public Property ribosomeAssemblyCapacity As Double = 10
         Public Property ribosomeDisassemblyCapacity As Double = 5
 
+        Public Property boost As Double = 1.0
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function

@@ -351,12 +351,12 @@ Module RawXmlKit
                 Dim m As HTS_Matrix = read.GetTimeFrames(modu)
 
                 If symbol_name Then
-                    Dim symbols = read.LoadSymbols
+                    Dim symbols As Dictionary(Of String, CompoundInfo) = read.LoadSymbols
                     Dim names As New List(Of String)
 
                     For Each id As String In m.sampleID
                         If symbols.ContainsKey(id) Then
-                            names.Add(symbols(id))
+                            names.Add(symbols(id).name)
                         Else
                             names.Add(id)
                         End If

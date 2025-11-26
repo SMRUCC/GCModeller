@@ -188,11 +188,11 @@ Namespace Kernel
         ''' <summary>
         ''' 这个主要是调用外部接口的回调函数，这个回调函数会在一个内核循环之中采集完数据之后被触发调用
         ''' </summary>
-        Dim __tickCallback As Action(Of DataSet)
+        Dim acquisition As Action(Of DataSet)
         Dim kernel As Kernel
 
-        Sub New(tick As Action(Of DataSet))
-            __tickCallback = tick
+        Sub New(store As Action(Of DataSet))
+            acquisition = store
         End Sub
 
         Public Function loadKernel(kernel As Kernel) As DataAcquisition
@@ -211,7 +211,7 @@ Namespace Kernel
             }
 
             ' 在一次内核循环之中才几万计算数据之后调用回调函数来触发外部事件
-            Call __tickCallback(t)
+            Call acquisition(t)
         End Sub
 
         Private Shared Function tagAs(x As var) As String

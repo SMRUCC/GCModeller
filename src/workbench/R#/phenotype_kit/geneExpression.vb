@@ -66,6 +66,7 @@
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -752,21 +753,52 @@ Module geneExpression
     ''' rows subset from the original matrix input.
     ''' </returns>
     <ExportAPI("filter")>
-    Public Function filter(HTS As Matrix, geneId As String(), Optional exclude As Boolean = False) As Matrix
-        Dim filterIndex As Index(Of String) = geneId
-        Dim newMatrix As New Matrix With {
-            .tag = HTS.tag,
-            .sampleID = HTS.sampleID,
-            .expression = HTS.expression _
-                .Where(Function(gene)
-                           If exclude Then
-                               Return Not gene.geneID Like filterIndex
-                           Else
-                               Return gene.geneID Like filterIndex
-                           End If
-                       End Function) _
-                .ToArray
-        }
+    <RApiReturn(GetType(Matrix))>
+    Public Function filter(HTS As Matrix,
+                           Optional geneId As String() = Nothing,
+                           Optional instr As String = Nothing,
+                           Optional exclude As Boolean = False,
+                           Optional env As Environment = Nothing) As Object
+
+        If geneId.IsNullOrEmpty AndAlso instr.StringEmpty Then
+            Call env.AddMessage("no gene content was filtered due to the reason of no gene id list or title search text was provided!", MSG_TYPES.WRN)
+            Return HTS
+        End If
+
+        Dim newMatrix As Matrix
+
+        If Not geneId.IsNullOrEmpty Then
+            Dim filterIndex As Index(Of String) = geneId.Indexing
+
+            newMatrix = New Matrix With {
+                .tag = $"filtered_geneids({HTS.tag})",
+                .sampleID = HTS.sampleID,
+                .expression = HTS.expression _
+                    .Where(Function(gene)
+                               If exclude Then
+                                   Return Not gene.geneID Like filterIndex
+                               Else
+                                   Return gene.geneID Like filterIndex
+                               End If
+                           End Function) _
+                    .ToArray
+            }
+        Else
+            newMatrix = New Matrix With {
+                .tag = $"filtered_title({HTS.tag})",
+                .sampleID = HTS.sampleID,
+                .expression = HTS.expression _
+                    .AsParallel _
+                    .Where(Function(gene)
+                               If exclude Then
+                                   Return Strings.InStr(gene.geneID, instr, CompareMethod.Text) <= 0
+                               Else
+                                   Return Strings.InStr(gene.geneID, instr, CompareMethod.Text) > 0
+                               End If
+                           End Function) _
+                    .ToArray
+            }
+        End If
 
         Return newMatrix
     End Function
@@ -1762,14 +1794,32 @@ Module geneExpression
         End If
     End Function
 
+    ''' <summary>
+    ''' merge multiple gene expression matrix by gene features
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="strict"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("joinFeatures")>
-    Public Function joinFeatures(x As Matrix(), Optional strict As Boolean = True) As Matrix
-        If x.IsNullOrEmpty Then
+    <RApiReturn(GetType(Matrix))>
+    Public Function joinFeatures(<RRawVectorArgument> x As Object, Optional strict As Boolean = True, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of Matrix)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim matrixList As Matrix() = pull _
+            .populates(Of Matrix)(env) _
+            .ToArray
+
+        If matrixList.IsNullOrEmpty Then
             Return Nothing
-        ElseIf x.Length = 1 Then
-            Return x(Scan0)
+        ElseIf matrixList.Length = 1 Then
+            Return matrixList(Scan0)
         Else
-            Return x.MergeFeatures(strict)
+            Return matrixList.MergeFeatures(strict)
         End If
     End Function
 

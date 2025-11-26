@@ -168,7 +168,7 @@ Namespace MarkupCompiler.BioCyc
                 .Select(Function(id)
                             Return New Compound With {
                                 .ID = id,
-                                .formula = "",
+                                .db_xrefs = Nothing,
                                 .name = id
                             }
                         End Function) _

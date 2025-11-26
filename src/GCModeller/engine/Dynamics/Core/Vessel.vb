@@ -191,15 +191,17 @@ Namespace Core
             Return Me
         End Function
 
-        Public Function Initialize() As Vessel
+        Public Function Initialize(Optional boost As Double = 1) As Vessel
             Dim sharedLeft = factorsByCount(True)
             Dim sharedRight = factorsByCount(False)
+
+            Call $"boost factor for regulation vector is {boost}".info
 
             shareFactors = (sharedLeft, sharedRight)
             ' create dynamics equation for 
             ' RK4 ODEs solver
             m_dynamics = MassDynamics _
-                .PopulateDynamics(Me) _
+                .PopulateDynamics(Me, boost) _
                 .ToArray
 
             Return Me

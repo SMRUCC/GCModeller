@@ -112,6 +112,7 @@ Namespace Core
         Dim fluxForward As Double()
         Dim fluxReverse As Double()
         Dim is_template As Boolean = False
+        Dim boost As Double = 1
 
         Private Sub New(is_template As Boolean)
             Me.is_template = is_template
@@ -160,9 +161,9 @@ Namespace Core
                 fluxReverse(i) = reverse
             Next
 
-            Dim dy As Double = additions.Average
+            Dim dy As Double = additions.Sum
             ' dy = (channels.Length * dy) / (channels.Length + Math.Abs(dy))
-            Return dy
+            Return dy * boost
         End Function
 
         Private Shared Function SafeFactorValue(variants As Double, clipMin As Double, clipMax As Double) As Double
@@ -239,7 +240,7 @@ Namespace Core
         ''' </summary>
         ''' <param name="env"></param>
         ''' <returns></returns>
-        Public Shared Iterator Function PopulateDynamics(env As Vessel) As IEnumerable(Of MassDynamics)
+        Public Shared Iterator Function PopulateDynamics(env As Vessel, Optional boost As Double = 1) As IEnumerable(Of MassDynamics)
             Dim factors As New List(Of Double)
             Dim matter As Variable
             Dim templates As Index(Of String) = Nothing
@@ -306,7 +307,8 @@ Namespace Core
                         .ToArray,
                     .fluxValues = New Double(.fluxVariants.Length - 1) {},
                     .fluxForward = New Double(.fluxVariants.Length - 1) {},
-                    .fluxReverse = New Double(.fluxVariants.Length - 1) {}
+                    .fluxReverse = New Double(.fluxVariants.Length - 1) {},
+                    .boost = boost
                 }
             Next
 

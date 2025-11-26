@@ -4,8 +4,10 @@
 filter \- Filter the geneID rows
 .SH SYNOPSIS
 \fIfilter(\fBHTS\fR as <generic> Matrix, 
-\fBgeneId\fR as string, 
-\fBexclude\fR as boolean = FALSE);\fR
+\fBgeneId\fR as string = \fB<NULL>\fR, 
+\fBinstr\fR as string = \fB<NULL>\fR, 
+\fBexclude\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
 Filter the geneID rows

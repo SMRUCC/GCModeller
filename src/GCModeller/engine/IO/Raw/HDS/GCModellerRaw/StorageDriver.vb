@@ -213,6 +213,7 @@ Namespace Raw
             Call output.WriteFluxData(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
             Call output.WriteFluxData(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
             Call output.WriteFluxData(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
+            Call output.WriteFluxData(NameOf(Writer.TransmembraneFlux), iteration, snapshot:=data)
         End Sub
 
         Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
@@ -225,6 +226,7 @@ Namespace Raw
             Call output.WriteFluxForwardRegulation(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
             Call output.WriteFluxForwardRegulation(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
+            Call output.WriteFluxForwardRegulation(NameOf(Writer.TransmembraneFlux), iteration, snapshot:=data)
         End Sub
 
         Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
@@ -237,6 +239,7 @@ Namespace Raw
             Call output.WriteFluxReverseRegulation(NameOf(Writer.tRNACharge), iteration, snapshot:=data)
             Call output.WriteFluxReverseRegulation(NameOf(Writer.ribosomeAssembly), iteration, snapshot:=data)
             Call output.WriteFluxReverseRegulation(NameOf(Writer.ProteinMature), iteration, snapshot:=data)
+            Call output.WriteFluxReverseRegulation(NameOf(Writer.TransmembraneFlux), iteration, snapshot:=data)
         End Sub
 
 #Region "IDisposable Support"

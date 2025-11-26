@@ -48,6 +48,6 @@ the gene expression matrix data toolkit
 + [as.deg](geneExpression/as.deg.1) create gene expression DEG model
 + [deg.class](geneExpression/deg.class.1) set deg class label
 + [joinSample](geneExpression/joinSample.1) do matrix join by samples
-+ [joinFeatures](geneExpression/joinFeatures.1) 
++ [joinFeatures](geneExpression/joinFeatures.1) merge multiple gene expression matrix by gene features
 + [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical
 + [add_gauss](geneExpression/add_gauss.1) add random gauss noise to the matrix
