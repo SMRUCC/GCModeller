@@ -134,8 +134,10 @@ Namespace Definitions
         ''' <summary>
         ''' define of the cell initial status.
         ''' </summary>
-        ''' <returns></returns>
-        Public Property status As Dictionary(Of String, Double)
+        ''' <returns>
+        ''' [cell_id => [metabolite => content data]]
+        ''' </returns>
+        Public Property status As Dictionary(Of String, Dictionary(Of String, Double))
 
         Public Function GetInfinitySource() As Index(Of String)
             Return {Water, Oxygen}.Where(Function(ref) Not ref Is Nothing).Indexing
