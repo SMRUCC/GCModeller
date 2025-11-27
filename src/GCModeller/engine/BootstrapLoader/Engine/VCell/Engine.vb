@@ -202,6 +202,32 @@ Namespace Engine
             Return Me
         End Function
 
+        Public Function SetCellCopyNumber(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Dim genes As Dictionary(Of String, Factor()) = core.m_massIndex.Values _
+                .Where(Function(a) a.role = MassRoles.gene) _
+                .GroupBy(Function(a) a.cellular_compartment) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
+
+            For Each cellCopy As KeyValuePair(Of String, Integer) In copyNum
+                If genes.ContainsKey(cellCopy.Key) Then
+                    Dim copyNumber As Double = CDbl(cellCopy.Value)
+
+                    For Each gene As Factor In genes(cellCopy.Key)
+                        gene.reset(copyNumber)
+                    Next
+                End If
+            Next
+
+            Return Me
+        End Function
+
         ''' <summary>
         ''' set gene copy numbers
         ''' </summary>
@@ -223,9 +249,12 @@ Namespace Engine
 
         Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
             For Each mass As Factor In core.m_massIndex.Values
-                If cultureMedium.ContainsKey(mass.template_id) AndAlso
-                    mass.cellular_compartment = initials.CultureMedium Then
-
+                If mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(0)
+                End If
+            Next
+            For Each mass As Factor In core.m_massIndex.Values
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso mass.cellular_compartment = initials.CultureMedium Then
                     Call mass.reset(cultureMedium(mass.template_id))
                 End If
             Next
@@ -305,24 +334,23 @@ Namespace Engine
             End If
 
             For Each mass As Factor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.ID) Then
+                Dim status As Dictionary(Of String, Double) = initials.status(mass.cellular_compartment)
+
+                If status.ContainsKey(mass.ID) Then
                     ' instance id has the highest order
-                    Call mass.reset(initials.status(mass.ID))
+                    Call mass.reset(status(mass.ID))
                 Else
-                    If initials.status.ContainsKey(mass.template_id) Then
-                        Call mass.reset(initials.status(mass.template_id))
+                    If status.ContainsKey(mass.template_id) Then
+                        Call mass.reset(status(mass.template_id))
                     Else
                         Call mass.reset(randf.NextDouble(10, 250))
                     End If
                 End If
             Next
 
-            ' clear the culture medium
-            For Each mass As Factor In core.m_massIndex.Values
-                If mass.cellular_compartment = initials.CultureMedium Then
-                    Call mass.reset(0)
-                End If
-            Next
+            If initials.status.ContainsKey(initials.CultureMedium) Then
+                Call SetCultureMedium(initials.status(initials.CultureMedium))
+            End If
         End Sub
 
         Public Overrides Function Run() As Integer Implements ITaskDriver.Run

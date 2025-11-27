@@ -175,15 +175,18 @@ Public Module Simulator
     <ExportAPI("set_status")>
     Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
         If def.status Is Nothing Then
-            def.status = New Dictionary(Of String, Double)
+            def.status = New Dictionary(Of String, Dictionary(Of String, Double))
         End If
 
         For Each compart_id As String In env_set.getNames
             Dim s0 As list = env_set.getByName(compart_id)
+            Dim status = If(def.status.TryGetValue(compart_id), New Dictionary(Of String, Double))
 
             For Each cid As String In s0.getNames
-                def.status(cid & "@" & compart_id) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+                status(cid) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
             Next
+
+            def.status(compart_id) = status
         Next
 
         Return def
@@ -279,7 +282,8 @@ Public Module Simulator
             Next
         End If
 
-        kegg_maps.status = s0
+        kegg_maps.status = New Dictionary(Of String, Dictionary(Of String, Double))
+        kegg_maps.status(vcell.cellular_id) = s0
 
         Return kegg_maps
     End Function
@@ -403,8 +407,10 @@ Public Module Simulator
             Case ModuleSystemLevels.Proteome
 
             Case ModuleSystemLevels.Metabolome
+                Dim s0 = status.status("default")
+
                 For Each compound In profile
-                    status.status(compound.Key) = compound.Value
+                    s0(compound.Key) = compound.Value
                 Next
 
             Case Else
