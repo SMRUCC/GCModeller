@@ -56,16 +56,11 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace ModelLoader
 
