@@ -87,7 +87,7 @@ Namespace SequenceModel.FASTA
         Public Iterator Function ReadStream() As IEnumerable(Of FastaSeq)
             Dim stream As New List(Of String)
 
-            For Each fa As FastaSeq In __loops(stream)
+            For Each fa As FastaSeq In Loops(stream)
                 Yield fa
             Next
 
@@ -112,7 +112,7 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="stream"></param>
         ''' <returns></returns>
-        Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
+        Private Iterator Function Loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
             For Each line As String In BufferProvider()   ' 读取一个数据块
                 If line.StringEmpty Then  ' 跳过空白的行
                     Continue For
