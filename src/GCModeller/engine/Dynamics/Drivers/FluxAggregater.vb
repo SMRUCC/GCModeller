@@ -81,6 +81,16 @@ Namespace Engine
                               End Function)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetFluxNames() As Dictionary(Of String, String)
+            Return core.Channels _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First.name
+                              End Function)
+        End Function
+
         Private Sub updateFluxRegulationCache()
             Call forward.Clear()
             Call reverse.Clear()

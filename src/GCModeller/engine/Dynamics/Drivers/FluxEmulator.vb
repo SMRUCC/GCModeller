@@ -159,6 +159,7 @@ Namespace Engine
             Dim flux As New FluxAggregater(core)
             Dim iterations As Integer = resolution
             Dim summary As New StringBuilder
+            Dim fluxNames As Dictionary(Of String, String) = flux.GetFluxNames
 
             For i As Integer = 0 To iterations - 1
                 ' run internal engine iteration
@@ -185,7 +186,7 @@ Namespace Engine
                 summary.Clear()
                 summary.AppendFormat("total_loads: {0} ", abs.Sum.ToString("F3"))
                 summary.AppendFormat("mean_loads: {0} ", abs.Average.ToString("F3"))
-                summary.AppendFormat("max_loads_flux: {0}={1}", maxKey, fluxData(maxKey).ToString("F4"))
+                summary.AppendFormat("max_loads_flux: {0}={1}", If(fluxNames.TryGetValue(maxKey), maxKey), fluxData(maxKey).ToString("F4"))
 
                 With flux.getRegulations
                     Call forwardSnapshot(i, .forward)
