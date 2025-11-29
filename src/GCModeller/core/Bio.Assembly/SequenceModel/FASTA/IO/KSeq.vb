@@ -114,6 +114,12 @@ Namespace SequenceModel.FASTA
             Next
         End Function
 
+        Public Shared Iterator Function KmerSpans(seq_str As String, k As Integer) As IEnumerable(Of String)
+            For i As Integer = 0 To seq_str.Length - k
+                Yield seq_str.Substring(i, length:=k)
+            Next
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Kmers(seq As ISequenceProvider, k As Integer) As IEnumerable(Of KSeq)
             Return Kmers(seq_str:=seq.GetSequenceData, k)
