@@ -110,7 +110,8 @@ Namespace Core
                 .regulation = VariableFactor _
                     .GetModel(flux.forward, flux.reverse) _
                     .ToArray,
-                .id = flux.ID
+                .id = flux.ID,
+                .name = flux.name
             }
 
             Return model.GetJson
