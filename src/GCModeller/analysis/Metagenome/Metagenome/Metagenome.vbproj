@@ -311,9 +311,6 @@
     <Compile Include="Enterotype.vb" />
     <Compile Include="Mothur\SILVA_OTU.vb" />
     <Compile Include="Mothur\Extensions.vb" />
-    <Compile Include="Mothur\MothurContigsOTU.vb" />
-    <Compile Include="Mothur\Mothur.vb" />
-    <Compile Include="newickParser.vb" />
     <Compile Include="OTUTable\BIOMExtensions.vb" />
     <Compile Include="SILVA\SILVABuild.vb" />
     <Compile Include="UPGMATree.vb" />
@@ -365,53 +362,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{c6b843b8-f990-4faf-98de-a20efc8b69f7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.vbproj">
-      <Project>{9f515beb-a2ca-4b96-b1d9-f4798736054d}</Project>
-      <Name>RNA-seq.Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\Darwinism\CloudKit\Docker\Docker.vbproj">
-      <Project>{b028826a-e615-4f26-b192-b9b0a997696a}</Project>
-      <Name>Docker</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.vbproj">
-      <Project>{1b42809b-603f-4cea-a0db-91276582b9ca}</Project>
-      <Name>DataMining</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.vbproj">
-      <Project>{A903B744-C08D-4869-BC35-3DD25E36AA16}</Project>
-      <Name>DynamicProgramming</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
-      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
-      <Name>GraphTheory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{8e0dac93-81d0-4261-2cf9-087f28f0b285}</Project>
+      <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\models\BIOM\BIOM\BIOM.vbproj">
       <Project>{ee17be25-17e3-48f5-bef2-a7d540ae09e1}</Project>
       <Name>BIOM</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vbproj">
-      <Project>{7d48b4ef-34d4-488c-8fc4-2cbc0b92bd9c}</Project>
-      <Name>NeedlemanWunsch</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -351,25 +351,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\BinaryData.vbproj">
-      <Project>{487d7c92-d05a-4908-bf81-e6baba0bf592}</Project>
-      <Name>BinaryData</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{8e0dac93-81d0-4261-2cf9-087f28f0b285}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\DataStorage\DataStorage.vbproj">
-      <Project>{3c79ae03-a766-4b61-bdc4-824d78481b53}</Project>
-      <Name>DataStorage</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%25JSON\application.JSON.vbproj">
-      <Project>{32228818-26f1-44df-8d40-347136c743cd}</Project>
-      <Name>application.JSON</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{2de312c2-6dc9-a812-b2f5-12db3e706fcd}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
