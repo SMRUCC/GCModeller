@@ -101,6 +101,11 @@ Namespace Core
         Public ReadOnly Property Message As String
 
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' the debug name
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property name As String
 
         Sub New(left As IEnumerable(Of Variable), right As IEnumerable(Of Variable))
             Me.left = left.ToArray
@@ -218,7 +223,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If direct = Directions.stop Then
-                Return $"[{ID}] stopped..."
+                Return $"[{ID}] stopped... ({name})"
             Else
                 Return Core.ToString(Me)
             End If

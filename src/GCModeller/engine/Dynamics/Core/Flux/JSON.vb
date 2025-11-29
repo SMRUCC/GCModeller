@@ -83,6 +83,11 @@ Namespace Core
         ''' <returns></returns>
         Public Property regulation As VariableFactor()
         Public Property id As String
+        ''' <summary>
+        ''' the name of this biological process, used for debug used
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property name As String
 
         Public Overrides Function ToString() As String
             Return left.JoinBy(" + ") & " = " & right.JoinBy(" + ")
