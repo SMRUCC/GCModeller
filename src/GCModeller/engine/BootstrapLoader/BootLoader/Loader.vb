@@ -146,6 +146,11 @@ Namespace ModelLoader
             Return metabolismNetworkLoader
         End Function
 
+        ''' <summary>
+        ''' Convert the virtual cell model as computational network model
+        ''' </summary>
+        ''' <param name="cell"></param>
+        ''' <returns></returns>
         Public Function CreateEnvironment(cell As CellularModule) As (massTable As MassTable, processes As Channel())
             ' create the flux simulation environment
             If _massTable Is Nothing Then

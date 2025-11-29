@@ -196,7 +196,8 @@ Namespace ModelLoader
                     .bounds = New Boundary With {
                         .forward = 1000,
                         .reverse = 0
-                    }
+                    },
+                    .name = $"Protein degradation of {proteinComplexId} in cell {cellular_id}"
                 }
 
                 If flux.isBroken Then
@@ -246,7 +247,8 @@ Namespace ModelLoader
                      .bounds = New Boundary With {
                          .forward = 1000,
                          .reverse = 0
-                     }
+                     },
+                     .name = $"Polypeptide degradation of {gene.polypeptide} in cell {cellular_id}"
                 }
 
                 If flux.isBroken Then
@@ -302,7 +304,8 @@ Namespace ModelLoader
                     .bounds = New Boundary With {
                         .forward = loader.dynamics.RNADegradationCapacity,
                         .reverse = 0
-                    }
+                    },
+                    .name = $"RNA degradation of {gene.RNAName} in cell {cellular_id}"
                 }
 
                 If flux.isBroken Then

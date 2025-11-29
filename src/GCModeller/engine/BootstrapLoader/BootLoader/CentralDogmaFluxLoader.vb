@@ -156,7 +156,8 @@ Namespace ModelLoader
                    .forward = loader.dynamics.tRNAChargeCapacity
                },
                .reverse = Controls.StaticControl(0),
-               .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline)
+               .forward = Controls.StaticControl(loader.dynamics.tRNAChargeBaseline),
+               .name = $"tRNA charge of {cd.RNAName} in cell {cellular_id}"
             }
 
             If flux.isBroken Then
@@ -214,7 +215,8 @@ Namespace ModelLoader
                     .reverse = loader.dynamics.ribosomeDisassemblyCapacity
                 },
                 .forward = Controls.StaticControl(loader.dynamics.ribosomeAssemblyBaseline),
-                .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline)
+                .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline),
+                .name = $"Ribosome assembly in cell {cellular_id}"
             }
 
             loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
@@ -443,7 +445,8 @@ Namespace ModelLoader
                         .bounds = New Boundary With {
                             .forward = loader.dynamics.translationCapacity,
                             .reverse = 0  ' RNA can not be revsered to DNA
-                        }
+                        },
+                        .name = $"Translation from mRNA {cd.RNAName} to polypeptide {cd.polypeptide} in cell {cellular_id}"
                     }
 
                     If translation.isBroken Then
@@ -486,7 +489,8 @@ Namespace ModelLoader
                     .bounds = New Boundary With {
                         .forward = loader.dynamics.transcriptionCapacity * cd.expression_level,
                         .reverse = 0
-                    }
+                    },
+                    .name = $"Transcription of gene {cd.geneID} to RNA {cd.RNAName} in cell {cellular_id}"
                 }
 
                 If transcription.isBroken Then

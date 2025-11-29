@@ -299,7 +299,8 @@ Namespace ModelLoader
                 .bounds = bounds,
                 .ID = reaction.ID & "@" & compart_suffix,
                 .forward = forward,
-                .reverse = reverse
+                .reverse = reverse,
+                .name = reaction.name
             }
 
             ' 假设所有的反应过程化都存在产物抑制效应

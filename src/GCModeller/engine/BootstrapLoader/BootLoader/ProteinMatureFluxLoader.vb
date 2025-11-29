@@ -126,7 +126,8 @@ Namespace ModelLoader
                     .bounds = New Boundary With {
                         .forward = loader.dynamics.proteinMatureCapacity,
                         .reverse = 0
-                    }
+                    },
+                    .name = $"Protein mature from components {complex.polypeptides.JoinBy(",")} to protein complex {complex.ProteinID} in cell {cellular_id}"
                 }
 
                 If flux.isBroken Then
