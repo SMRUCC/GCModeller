@@ -30,6 +30,12 @@ Namespace SequenceModel.NucleotideModels
             _title = title
         End Sub
 
+        Public Shared Function ReadFromFile(file As String, Optional chunkSize As Integer = ByteSize.MB * 32) As IEnumerable(Of ChunkedNtFasta)
+            Using s As Stream = file.OpenReadonly(, verbose:=True)
+                Return LoadDocument(s, chunkSize)
+            End Using
+        End Function
+
         ''' <summary>
         ''' 从文件流中加载FASTA文档
         ''' </summary>
@@ -96,6 +102,14 @@ Namespace SequenceModel.NucleotideModels
                     Yield currentFasta
                 End If
             End Using
+        End Function
+
+        Public Iterator Function Kmers(k As Integer) As IEnumerable(Of String)
+            Dim length As UInteger = Me.Length
+
+            For i As UInteger = 0 To length - k
+                Yield GetRegion(i, i + k)
+            Next
         End Function
 
         ''' <summary>
