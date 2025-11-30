@@ -1,56 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::0902c3310acfa11c7f68587318de0a3c, core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 61
-    '    Code Lines: 24 (39.34%)
-    ' Comment Lines: 28 (45.90%)
-    '    - Xml Docs: 7.14%
-    ' 
-    '   Blank Lines: 9 (14.75%)
-    '     File Size: 2.45 KB
+' Summaries:
 
 
-    '     Class KSeq
-    ' 
-    '         Properties: Seq
-    ' 
-    '         Function: GetSequenceData, (+2 Overloads) Kmers, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 61
+'    Code Lines: 24 (39.34%)
+' Comment Lines: 28 (45.90%)
+'    - Xml Docs: 7.14%
+' 
+'   Blank Lines: 9 (14.75%)
+'     File Size: 2.45 KB
+
+
+'     Class KSeq
+' 
+'         Properties: Seq
+' 
+'         Function: GetSequenceData, (+2 Overloads) Kmers, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -91,14 +91,23 @@ Namespace SequenceModel.FASTA
     ''' </summary>
     Public Class KSeq : Inherits ISequenceBuilder
 
-        <XmlAttribute> Public Property Seq As String
+        ''' <summary>
+        ''' the kmer sequence
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property seq As String
+        ''' <summary>
+        ''' location of the left
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property location As Integer
 
         Public Overrides Function GetSequenceData() As String
-            Return Seq
+            Return seq
         End Function
 
         Public Overrides Function GetHashCode() As Integer
-            Return If(Seq Is Nothing, 0, CalculateDirectQuaternaryHashCode(Seq))
+            Return If(seq Is Nothing, 0, CalculateDirectQuaternaryHashCode(seq))
         End Function
 
         Public Overrides Function ToString() As String
@@ -108,8 +117,8 @@ Namespace SequenceModel.FASTA
         Public Shared Iterator Function Kmers(seq_str As String, k As Integer) As IEnumerable(Of KSeq)
             For i As Integer = 0 To seq_str.Length - k
                 Yield New KSeq With {
-                    .Seq = seq_str.Substring(i, length:=k),
-                    .Name = (i + 1).ToString
+                    .seq = seq_str.Substring(i, length:=k),
+                    .location = i + 1
                 }
             Next
         End Function
@@ -122,7 +131,17 @@ Namespace SequenceModel.FASTA
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Kmers(seq As ISequenceProvider, k As Integer) As IEnumerable(Of KSeq)
-            Return Kmers(seq_str:=seq.GetSequenceData, k)
+            Return Kmers(seq.GetSequenceData, k)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Iterator Function Kmers(seq As IFastaProvider, k As Integer) As IEnumerable(Of KSeq)
+            Dim title As String = seq.title
+
+            For Each kmer As KSeq In Kmers(seq_str:=seq.GetSequenceData, k)
+                kmer.Name = title
+                Yield kmer
+            Next
         End Function
 
         ''' <summary>
