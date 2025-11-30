@@ -187,7 +187,7 @@ Module microbiomeKit
     <RApiReturn(GetType(OTUData(Of Double)))>
     Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, table As Object, Optional env As Environment = Nothing) As Object
         Dim OTUtable As OTUData(Of Double)()
-        Dim println As Action(Of String, Boolean) = Sub(line, newLine) Call base.cat(line & If(newLine, "\n", ""),,, env)
+        Dim println As Action(Of String, Boolean) = Sub(line, newLine) Call base.cat(line & If(newLine, "\n", ""),,, env:=env)
 
         If TypeOf table Is dataframe Then
             OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
