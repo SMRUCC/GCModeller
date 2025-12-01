@@ -70,13 +70,15 @@ Namespace Assembly.NCBI.Taxonomy
         ''' </summary>
         ''' <param name="id">序列编号，例如gi编号或者accession编号</param>
         ''' <returns>taxid编号</returns>
-        Public Delegate Function Mapping(id$) As Integer
+        Public Delegate Function Mapping(id$) As UInteger
 
-        <Extension> Public Function MapByAcc(acc2taxid$) As Mapping
-            Dim taxids As BucketDictionary(Of String, Integer) =
-                ReadFile(acc2taxid) _
-                .CreateBuckets(Function(x) x.Name,
-                               Function(x) x.Value)
+        <Extension>
+        Public Function MapByAcc(acc2taxid$) As Mapping
+            Dim taxids As BucketDictionary(Of String, UInteger) = Accession2Taxid.ReadFile(acc2taxid) _
+                .CreateBuckets(Function(x) x.accession,
+                               Function(x)
+                                   Return x.taxid
+                               End Function)
 
             Return Function(acc$) If(taxids.ContainsKey(acc), taxids(acc), -1)
         End Function
