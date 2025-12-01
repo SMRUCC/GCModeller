@@ -260,9 +260,12 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <summary>
         ''' 使用这个函数得到物种的具体分类，返回来的数据是从小到大排列的
         ''' </summary>
-        ''' <param name="taxid"></param>
-        ''' <param name="only_std_ranks"></param>
-        ''' <returns></returns>
+        ''' <param name="taxid">ncbi taxonomy数据库中的物种id</param>
+        ''' <param name="only_std_ranks">是否仅返回标准分类层级</param>
+        ''' <returns>目标物种在NCBI taxonomy物种分类树上的分类路径节点向量</returns>
+        ''' <remarks>
+        ''' 请注意：返回来的数据是从小到大排列的
+        ''' </remarks>
         Public Function GetAscendantsWithRanksAndNames(taxid As Integer, Optional only_std_ranks As Boolean = False) As TaxonomyNode()
             Dim key As String = taxid.ToString
 
