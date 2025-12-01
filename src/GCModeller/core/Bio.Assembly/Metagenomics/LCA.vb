@@ -173,11 +173,11 @@ Namespace Metagenomics
                 Return New LcaResult With {
                     .lcaNode = Nothing,
                     .supportRatio = 0,
-                    .supportedTaxids = New List(Of Integer)()
+                    .supportedTaxids = New Integer() {}
                 }
             End If
 
-            Dim taxidList = taxids.Distinct().ToList()
+            Dim taxidList = taxids.Distinct().ToArray()
 
             If taxidList.Count = 1 Then
                 Return New LcaResult With {
@@ -188,16 +188,19 @@ Namespace Metagenomics
             End If
 
             ' 计算所有taxid的LCA
-            Dim lcaNode = GetLCA(taxidList)
+            Dim lcaNode As TaxonomyNode = GetLCA(taxidList)
 
             If lcaNode Is Nothing Then
-                Return New LcaResult With {.lcaNode = Nothing, .supportRatio = 0, .supportedTaxids = New List(Of Integer)()}
+                Return New LcaResult With {
+                    .lcaNode = Nothing,
+                    .supportRatio = 0,
+                    .supportedTaxids = New Integer() {}
+                }
             End If
 
             ' 计算支持度：有多少taxid是LCA的后代
             Dim supportedCount = taxidList.AsEnumerable.Count(Function(taxid) Check(taxid, lcaNode))
-
-            Dim supportRatio = supportedCount / taxidList.Count
+            Dim supportRatio = supportedCount / taxidList.Length
 
             ' 如果支持度低于阈值，尝试在更高层级寻找LCA
             If supportRatio < minSupport Then
@@ -205,7 +208,7 @@ Namespace Metagenomics
                 While currentLca IsNot Nothing AndAlso currentLca.parent IsNot Nothing
                     Dim parentNode = _taxonomyTree(Integer.Parse(currentLca.parent))
                     Dim parentSupportedCount = taxidList.AsEnumerable.Count(Function(taxid) Check(taxid, parentNode))
-                    Dim parentSupportRatio = parentSupportedCount / taxidList.Count
+                    Dim parentSupportRatio = parentSupportedCount / taxidList.Length
 
                     If parentSupportRatio >= minSupport Then
                         lcaNode = parentNode
@@ -220,7 +223,7 @@ Namespace Metagenomics
             Return New LcaResult With {
                 .lcaNode = lcaNode,
                 .supportRatio = supportRatio,
-                .supportedTaxids = taxidList.Where(Function(taxid) Check(taxid, lcaNode)).ToList()
+                .supportedTaxids = taxidList.Where(Function(taxid) Check(taxid, lcaNode)).ToArray
             }
         End Function
 
@@ -237,7 +240,7 @@ Namespace Metagenomics
 
         Public Property lcaNode As TaxonomyNode
         Public Property supportRatio As Double
-        Public Property supportedTaxids As List(Of Integer)
+        Public Property supportedTaxids As Integer()
 
         Public Overrides Function ToString() As String
             If lcaNode Is Nothing Then

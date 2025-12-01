@@ -436,13 +436,13 @@ Module TaxonomyKit
 
     <ExportAPI("LCA")>
     <RApiReturn(GetType(LcaResult))>
-    Public Function lca(tree As NcbiTaxonomyTree, ncbi_taxid As Object,
+    Public Function lca(tree As NcbiTaxonomyTree, <RRawVectorArgument> ncbi_taxid As Object,
                         Optional min_supports As Double = 0.5,
                         Optional env As Environment = Nothing) As Object
 
         Dim taxid As Integer() = CLRVector.asInteger(ncbi_taxid)
         Dim method As New LCA(tree)
-        Dim result = method.GetLCAForMetagenomics(taxid, minSupport:=min_supports)
+        Dim result As LcaResult = method.GetLCAForMetagenomics(taxid, minSupport:=min_supports)
 
         Return result
     End Function
