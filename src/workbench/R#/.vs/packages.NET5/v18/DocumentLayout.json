@@ -31,7 +31,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
@@ -63,8 +63,7 @@
               "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAALAAAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-30T15:38:25.411Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-30T15:38:25.411Z"
             },
             {
               "$type": "Document",
@@ -76,8 +75,7 @@
               "RelativeToolTip": "seqtoolkit\\Fasta.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAGoBAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-11-30T15:32:00.204Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-11-30T15:32:00.204Z"
             },
             {
               "$type": "Document",
@@ -123,7 +121,7 @@
               "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
               "RelativeToolTip": "rnaseq\\FastQ.vb",
-              "ViewState": "AgIAAD0AAAAAAAAAAAAAAGEAAAAaAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-28T22:50:52.347Z",
               "EditorCaption": ""
