@@ -62,18 +62,25 @@ Namespace Metagenomics
                 Return Nothing
             End If
 
-            If taxids.Count() = 1 Then
-                Return _taxonomyTree.GetAscendantsWithRanksAndNames(taxids.First()).FirstOrDefault()
+            ' 将第一个taxid的路径作为起始的LCA
+            Dim taxidList = taxids.ToList()
+            Dim currentLCA As TaxonomyNode = _taxonomyTree.GetAscendantsWithRanksAndNames(taxidList(0)).FirstOrDefault()
+
+            If currentLCA Is Nothing Then
+                Return Nothing
             End If
 
-            ' 使用Aggregate逐步计算所有taxid的LCA
-            Return taxids.Aggregate(Function(currentLca, nextTaxid)
-                                        If currentLca Is Nothing Then
-                                            Return _taxonomyTree.GetAscendantsWithRanksAndNames(nextTaxid).FirstOrDefault()
-                                        Else
-                                            Return GetLCA(currentLca.taxid, nextTaxid)
-                                        End If
-                                    End Function)
+            ' 从第二个taxid开始，依次与当前的LCA进行计算
+            For i As Integer = 1 To taxidList.Count - 1
+                Dim nextTaxid As Integer = taxidList(i)
+                currentLCA = GetLCA(currentLCA.taxid, nextTaxid)
+
+                If currentLCA Is Nothing Then
+                    Exit For
+                End If
+            Next
+
+            Return currentLCA
         End Function
 
         ''' <summary>
