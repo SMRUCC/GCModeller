@@ -55,6 +55,12 @@ declare namespace taxonomy_kit {
    */
    function consensus(tree: object, rank: object): object;
    /**
+     * @param min_supports default value Is ``0.5``.
+     * @param as_list default value Is ``true``.
+     * @param env default value Is ``null``.
+   */
+   function LCA(tree: object, ncbi_taxid: any, min_supports?: number, as_list?: boolean, env?: object): object;
+   /**
     * get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id
     * 
     * 

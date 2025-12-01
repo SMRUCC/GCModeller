@@ -17,3 +17,4 @@ toolkit for process ncbi taxonomy tree data
 + [consensus](taxonomy_kit/consensus.1) 
 + [read.mothurTree](taxonomy_kit/read.mothurTree.1) Parse the result output from mothur command ``summary.tax``.
 + [taxonomy_range](taxonomy_kit/taxonomy_range.1) 
++ [LCA](taxonomy_kit/LCA.1) 
