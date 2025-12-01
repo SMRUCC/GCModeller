@@ -269,7 +269,7 @@ Namespace Assembly.NCBI.Taxonomy
             If Not Taxonomy.ContainsKey(key) Then
                 Return {}
             Else
-                Return __ascendantsWithRanksAndNames(key, only_std_ranks)
+                Return ascendantsWithRanksAndNames(key, only_std_ranks)
             End If
         End Function
 
@@ -309,13 +309,13 @@ Namespace Assembly.NCBI.Taxonomy
                     result(key:=taxid) = {}
                     Call $"Missing taxid {taxid}!".debug
                 Else
-                    result(key:=taxid) = __ascendantsWithRanksAndNames(taxid, only_std_ranks)
+                    result(key:=taxid) = ascendantsWithRanksAndNames(taxid, only_std_ranks)
                 End If
             Next
             Return result
         End Function
 
-        Private Function __ascendantsWithRanksAndNames(taxid As String, only_std_ranks As Boolean) As TaxonomyNode()
+        Private Function ascendantsWithRanksAndNames(taxid As String, only_std_ranks As Boolean) As TaxonomyNode()
             Dim lineage As New List(Of TaxonomyNode) From {
                 New TaxonomyNode With {
                     .taxid = taxid,
@@ -353,7 +353,7 @@ Namespace Assembly.NCBI.Taxonomy
             Return lineage
         End Function
 
-        Private Function __descendants(taxid As String) As IEnumerable(Of String)
+        Private Function descendants(taxid As String) As IEnumerable(Of String)
             '""" 
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
             '    >>> tree._getDescendants(208962) # doctest: +NORMALIZE_WHITESPACE
@@ -368,7 +368,7 @@ Namespace Assembly.NCBI.Taxonomy
                                                      _
                     () <= From child As String
                           In children
-                          Select __descendants(child)
+                          Select descendants(child)
 
                 result.Insert(0, taxid)
 
@@ -399,7 +399,7 @@ Namespace Assembly.NCBI.Taxonomy
             Dim result As New Dictionary(Of Integer, Integer())
 
             For Each taxid As Integer In taxids
-                result(key:=taxid) = flatten(__descendants(taxid.ToString)).ToArray(Of Integer)
+                result(key:=taxid) = flatten(descendants(taxid.ToString)).ToArray(Of Integer)
             Next
 
             Return result
@@ -429,7 +429,7 @@ Namespace Assembly.NCBI.Taxonomy
                 result(key:=taxid) = LinqAPI.Exec(Of TaxonomyNode) <=
                                                                      _
                     From descendant As String
-                    In __descendants(taxid)
+                    In descendants(taxid)
                     Select New TaxonomyNode With {
                         .taxid = descendant,
                         .rank = Taxonomy(descendant).rank,
@@ -550,15 +550,15 @@ Namespace Assembly.NCBI.Taxonomy
             Dim _preorderTraversal As Func(Of Integer, Integer())
 
             If only_leaves Then
-                _preorderTraversal = AddressOf __preorderTraversalOnlyLeaves
+                _preorderTraversal = AddressOf preorderTraversalOnlyLeaves
             Else
-                _preorderTraversal = AddressOf __preorderTraversal
+                _preorderTraversal = AddressOf preorderTraversal
             End If
 
             Return _preorderTraversal(taxid)
         End Function
 
-        Private Function __preorderTraversal(taxid As Integer) As Integer()
+        Private Function preorderTraversal(taxid As Integer) As Integer()
             Dim children = Taxonomy(key:=taxid.ToString).children
             Dim result As Integer()
 
@@ -567,7 +567,7 @@ Namespace Assembly.NCBI.Taxonomy
                                                   _
                     () <= From child As String
                           In children
-                          Select __preorderTraversal(Integer.Parse(child)) ', taxid )
+                          Select preorderTraversal(Integer.Parse(child)) ', taxid )
 
                 result.Add(taxid)
             Else
@@ -577,7 +577,7 @@ Namespace Assembly.NCBI.Taxonomy
             Return result
         End Function
 
-        Private Function __preorderTraversalOnlyLeaves(taxid As Integer) As Integer()
+        Private Function preorderTraversalOnlyLeaves(taxid As Integer) As Integer()
             Dim children = Taxonomy(key:=taxid.ToString).children
 
             If children.IsNullOrEmpty Then
@@ -588,7 +588,7 @@ Namespace Assembly.NCBI.Taxonomy
                                                      _
                 () <= From child As String
                       In children.AsParallel
-                      Select __preorderTraversalOnlyLeaves(Integer.Parse(child)) 'for] if children else taxid
+                      Select preorderTraversalOnlyLeaves(Integer.Parse(child)) 'for] if children else taxid
 
             Return result
         End Function
