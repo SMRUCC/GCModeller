@@ -8,6 +8,9 @@ Namespace SequenceModel.NucleotideModels
     ''' <summary>
     ''' 分块存储的FASTA序列对象，用于处理大型基因组序列，例如植物基因组，动物基因组这些序列长度超过了2GB的基因组序列
     ''' </summary>
+    ''' <remarks>
+    ''' all char in this sequence has already been converted to upper case
+    ''' </remarks>
     Public Class ChunkedNtFasta
 
         ReadOnly seq As New BucketSet(Of DNA)()
@@ -104,6 +107,11 @@ Namespace SequenceModel.NucleotideModels
             End Using
         End Function
 
+        ''' <summary>
+        ''' all char in this sequence has already been converted to upper case
+        ''' </summary>
+        ''' <param name="k"></param>
+        ''' <returns></returns>
         Public Iterator Function Kmers(k As Integer) As IEnumerable(Of String)
             Dim length As UInteger = Me.Length
 
@@ -118,6 +126,9 @@ Namespace SequenceModel.NucleotideModels
         ''' <param name="left">起始位置（从1开始）</param>
         ''' <param name="right">结束位置（从1开始）</param>
         ''' <returns>指定区域的序列字符串</returns>
+        ''' <remarks>
+        ''' all char in this sequence has already been converted to upper case
+        ''' </remarks>
         Public Function GetRegion(left As Long, right As Long) As String
             ' 将1-based索引转换为0-based索引
             Dim startIndex As Long = left - 1
