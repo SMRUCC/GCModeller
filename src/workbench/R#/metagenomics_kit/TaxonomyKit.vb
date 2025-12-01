@@ -84,6 +84,7 @@ Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 ''' </remarks>
 <Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("taxonomy", GetType(Taxonomy))>
+<RTypeExport("taxonomy_node", GetType(TaxonomyNode))>
 Module TaxonomyKit
 
     Sub Main()
@@ -431,5 +432,18 @@ Module TaxonomyKit
                                compare = Relations.IncludeBy
                     End Function) _
             .ToArray
+    End Function
+
+    <ExportAPI("LCA")>
+    <RApiReturn(GetType(LcaResult))>
+    Public Function lca(tree As NcbiTaxonomyTree, ncbi_taxid As Object,
+                        Optional min_supports As Double = 0.5,
+                        Optional env As Environment = Nothing) As Object
+
+        Dim taxid As Integer() = CLRVector.asInteger(ncbi_taxid)
+        Dim method As New LCA(tree)
+        Dim result = method.GetLCAForMetagenomics(taxid, minSupport:=min_supports)
+
+        Return result
     End Function
 End Module

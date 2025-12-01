@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\taxonomykit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\taxonomykit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -56,19 +60,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "TaxonomyKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\TaxonomyKit.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\TaxonomyKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\TaxonomyKit.vb",
+              "RelativeToolTip": "metagenomics_kit\\TaxonomyKit.vb",
+              "ViewState": "AgIAAIcBAAAAAAAAAAAqwKgBAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-01T18:34:37.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "microbiomeKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
               "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
               "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEwAAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-11-30T15:38:25.411Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Fasta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
@@ -80,7 +97,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "KSeq.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\KSeq.vb",
@@ -92,7 +109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "StreamIterator.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\StreamIterator.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\StreamIterator.vb",
@@ -104,7 +121,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "FastaToken.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\FastaToken.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\FASTA\\IO\\FastaToken.vb",
@@ -116,7 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "FastQ.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
               "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
