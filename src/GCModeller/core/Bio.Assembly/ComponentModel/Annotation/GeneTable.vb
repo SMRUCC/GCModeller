@@ -120,8 +120,8 @@ Namespace ComponentModel.Annotation
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property SpeciesAccessionID As String
+        ''' <remarks>the sequence id of the target genome(replicon).</remarks>
+        Public Property replicon_accessionID As String
         Public Property Translation As String
         Public Property Transl_table As String
 

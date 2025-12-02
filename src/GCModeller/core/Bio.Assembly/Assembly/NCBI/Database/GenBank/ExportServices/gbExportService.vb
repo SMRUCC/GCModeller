@@ -117,7 +117,7 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("transl_table", gene.Transl_table)
 
             gene.species = obj.gb.Definition.Value
-            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
+            gene.replicon_accessionID = obj.gb.Locus.AccessionID
             gene.type = obj.KeyName
 
             Try
@@ -534,7 +534,7 @@ Namespace Assembly.NCBI.GenBank
                     .ProteinId = gene.Synonym,
                     .right = gene.Location.right,
                     .species = "",
-                    .SpeciesAccessionID = "",
+                    .replicon_accessionID = "",
                     .strand = gene.Location.Strand.ToString,
                     .Translation = "",
                     .Transl_table = "",
