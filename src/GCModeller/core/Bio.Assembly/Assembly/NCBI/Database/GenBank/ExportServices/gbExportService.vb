@@ -112,9 +112,9 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("product", gene.commonName)
             Call obj.TryGetValue("protein_id", gene.ProteinId)
             Call obj.TryGetValue("gene", gene.geneName)
-            Call obj.TryGetValue("translation", gene.Translation)
+            Call obj.TryGetValue("translation", gene.translation)
             Call obj.TryGetValue("function", gene.function)
-            Call obj.TryGetValue("transl_table", gene.Transl_table)
+            Call obj.TryGetValue("transl_table", gene.transl_table)
 
             gene.species = obj.gb.Definition.Value
             gene.replicon_accessionID = obj.gb.Locus.AccessionID
@@ -536,8 +536,8 @@ Namespace Assembly.NCBI.GenBank
                     .species = "",
                     .replicon_accessionID = "",
                     .strand = gene.Location.Strand.ToString,
-                    .Translation = "",
-                    .Transl_table = "",
+                    .translation = "",
+                    .transl_table = "",
                     .UniprotSwissProt = "",
                     .UniprotTrEMBL = ""
                 }
@@ -639,7 +639,7 @@ Namespace Assembly.NCBI.GenBank
                 Let fa As FASTA.FastaSeq =
                     New FASTA.FastaSeq With {
                         .Headers = New String() {gene.locus_id},
-                        .SequenceData = gene.Translation
+                        .SequenceData = gene.translation
                     }
                 Select fa
             Return New FASTA.FastaFile(LQuery)
@@ -652,7 +652,7 @@ Namespace Assembly.NCBI.GenBank
                 Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
                 Select New FASTA.FastaSeq With {
                     .Headers = attrs,
-                    .SequenceData = gene.Translation
+                    .SequenceData = gene.translation
                 })
         End Function
 

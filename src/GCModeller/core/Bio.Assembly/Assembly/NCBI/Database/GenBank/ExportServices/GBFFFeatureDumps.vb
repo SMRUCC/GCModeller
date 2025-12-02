@@ -124,7 +124,7 @@ Namespace Assembly.NCBI.GenBank
                         .Location = feature.Location.ContiguousRegion,
                         .locus_id = feature("locus_tag"),
                         .geneName = feature("gene") & "_mics_feature",
-                        .Translation = feature("translation"),
+                        .translation = feature("translation"),
                         .ProteinId = feature("protein_id"),
                         .CDS = feature.SequenceData
                     }
@@ -140,7 +140,7 @@ Namespace Assembly.NCBI.GenBank
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
                     .geneName = feature("gene") & "_regulatory",
-                    .Translation = feature("translation"),
+                    .translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
                }).ToArray
@@ -157,7 +157,7 @@ Namespace Assembly.NCBI.GenBank
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
                     .geneName = feature("gene"),
-                    .Translation = feature("translation"),
+                    .translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
                }).ToArray

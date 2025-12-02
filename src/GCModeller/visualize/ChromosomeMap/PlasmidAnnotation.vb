@@ -190,7 +190,7 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
                       .commonName = item.product,
                       .geneName = item.Gene_name,
                       .locus_id = item.ORF_ID,
-                      .Translation = item.Protein,
+                      .translation = item.Protein,
                       .left = item.Location.left,
                       .right = item.Location.right
                   }

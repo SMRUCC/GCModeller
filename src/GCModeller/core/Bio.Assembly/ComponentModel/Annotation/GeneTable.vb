@@ -122,8 +122,8 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         ''' <remarks>the sequence id of the target genome(replicon).</remarks>
         Public Property replicon_accessionID As String
-        Public Property Translation As String
-        Public Property Transl_table As String
+        Public Property translation As String
+        Public Property transl_table As String
 
         ''' <summary>
         ''' The COG feature
