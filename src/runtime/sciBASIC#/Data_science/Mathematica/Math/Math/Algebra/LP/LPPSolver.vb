@@ -78,31 +78,28 @@ Namespace LinearAlgebra.LinearProgramming
             ' Point badness if we are going to be incrementing this later?
             Dim solutionLog As New StringBuilder
             Dim varNum As Integer = lpp.variableNames.Count
+            Dim startTime As Long = App.ElapsedMilliseconds
+
+            If showProgress Then
+                Call VBDebugger.EchoLine("Make Standard Form...")
+            End If
 
             Call lpp.makeStandardForm()
 
             Dim artificialVariables As List(Of Integer) = lpp.ArtificialVariableAssignments
 
-            ' ArrayList<String> varNames = Input.VariableNames;
-            ' String LaTeXString = latex.LPPtoLaTeX.displayLPP(Input)+'\n';
-            If showProgress Then
-                Call Console.WriteLine("Make Standard Form...")
-            End If
-
             Call solutionLog.AppendLine("Make Standard Form")
             Call lpp.makeStandardForm(artificialVariables)
 
-            Dim startTime As Long = App.ElapsedMilliseconds
-
             If showProgress Then
-                Call Console.WriteLine("Add artificial variables to the LPP...")
+                Call VBDebugger.EchoLine("Add artificial variables to the LPP...")
             End If
 
             ' Add artificial variables to the LPP
             Call lpp.addArtificialVariables(artificialVariables)
 
             If showProgress Then
-                Call Console.WriteLine("Search for Basic Feasible Solution...")
+                Call VBDebugger.EchoLine("Search for Basic Feasible Solution...")
             End If
 
             ' Search for Basic Feasible Solution
@@ -207,11 +204,11 @@ Namespace LinearAlgebra.LinearProgramming
             Dim go As Boolean = True
             Dim limiter As Integer = 0
 
-            Call "Run LPP Solution Iterations...".info
+            Call "Run LPP solution iterations...".info
 
-            'LaTeXString += latex.LPPtoLaTeX.beginTableaus(Input);
+            ' LaTeXString += latex.LPPtoLaTeX.beginTableaus(Input);
 
-            'Create the ProgressBar
+            ' Create the ProgressBar
             ' Maximum: The Max value in ProgressBar (Default is 100)
             Using progBar = New ProgressBar() With {.Maximum = Nothing}
                 Do While go
@@ -228,14 +225,13 @@ Namespace LinearAlgebra.LinearProgramming
                         go = False
 
                     ElseIf limiter = LPP.PIVOT_ITERATION_LIMIT Then
-                        Call "Max iteration reached...".warning
+                        Call "max iteration reached...".warning
                         ' Check iteration limit not exceeded.
                         Return New LPPSolution("The pivot max iteration cap was exceeded.", solutionLog.ToString, feasibleSolutionTime)
                     ElseIf [next] = -1 Then
                         Call "LPP is unbounded!".warning
                         ' Check for unboundedness.
                         Return New LPPSolution("The given LPP is unbounded.", solutionLog.ToString, feasibleSolutionTime)
-
                     Else
                         ' Get pivot constraint, continue.
                         Call pivot(n, [next])
@@ -247,6 +243,10 @@ Namespace LinearAlgebra.LinearProgramming
                     Call progBar.PerformStep()
                 Loop
             End Using
+
+            Call Console.WriteLine()
+            Call Console.WriteLine()
+            Call Console.WriteLine()
 
             Return Nothing
         End Function
@@ -313,10 +313,8 @@ Namespace LinearAlgebra.LinearProgramming
 
             ' eliminate the pivot variable from the other constraints
             For j As Integer = 0 To lpp.constraintCoefficients.Length - 1
-
                 ' check constraint j != pivot constraint
                 If j <> constIndex Then
-
                     ' make constraint local variables
                     Dim constraint As List(Of Double) = lpp.constraintCoefficients(j)
                     Dim constraintRHS As Double = lpp.constraintRightHandSides(j)
