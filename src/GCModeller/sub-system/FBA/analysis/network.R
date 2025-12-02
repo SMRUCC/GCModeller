@@ -1,18 +1,3 @@
-# 构建代谢网络边列表
-edges <- data.frame(
-  from = c("M1", "M2", "M3", "M4", "M5", "M6"),
-  to = c("M2", "M3", "M4", "M5", "M6"),
-  flux = c(15.2, 8.7, 12.3, 3.5, 20.1)
-)
-
-# 定义代谢物节点
-nodes <- data.frame(
-  id = c("M1", "M2", "M3", "M4", "M5", "M6"),
-  label = c("葡萄糖-6-磷酸", "果糖-6-磷酸", "丙酮酸", "琥珀酸", "柠檬酸", "异柠檬酸"),
-  x = c(1, 2, 3, 4, 5, 6),
-  y = c(1, 2, 3, 4, 5, 6)
-)
-
 # 加载必要的包
 library(igraph)
 library(ggplot2)
@@ -54,8 +39,8 @@ create_metabolic_network <- function(edges, nodes, output_file = "metabolic_netw
 # 使用示例数据
 example_edges <- data.frame(
   from = c("M1", "M2", "M3", "M4", "M5", "M6"),
-  to = c("M2", "M3", "M4", "M5", "M6"),
-  flux = c(15.2, 8.7, 12.3, 3.5, 20.1)
+  to = c("M2", "M3", "M1", "M5", "M6", "M4"),
+  flux = c(15.2, 8.7, 12.3, 3.5, 20.1,99)
 )
 
 example_nodes <- data.frame(
