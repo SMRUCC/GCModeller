@@ -9,9 +9,9 @@ Namespace Kmers
 
     Public Class KmerWriter : Implements IDisposable, DatabaseWriter
 
-        Friend ReadOnly seqs As New List(Of SequenceSource)
         Friend ReadOnly database_dir As String
         Friend ReadOnly shardings As New Dictionary(Of String, ShardingWriter)
+        Friend ReadOnly seqs As SequenceCollection
 
         Dim disposedValue As Boolean
         Dim k As Integer
@@ -26,7 +26,7 @@ Namespace Kmers
             Me.config = If(config, New Dictionary(Of String, String))
 
             config!k = k
-            seqs = $"{database_dir}/seq_ids.csv".LoadCsv(Of SequenceSource).AsList
+            seqs = New SequenceCollection($"{database_dir}/seq_ids.csv".LoadCsv(Of SequenceSource))
 
             Call My.Resources.Docs.readme.FlushStream($"{database_dir}/readme.txt")
         End Sub
@@ -39,18 +39,7 @@ Namespace Kmers
         End Sub
 
         Public Function AddSequenceID(taxid As UInteger, name As String) As UInteger Implements DatabaseWriter.AddSequenceID
-            Dim id As UInteger = seqs.Count + 1
-            Dim genbank_info As NamedValue(Of String) = name.GetTagValue(" ", trim:=True, failureNoName:=False)
-            Dim seq As New SequenceSource With {
-            .id = id,
-            .name = If(genbank_info.Value.StringEmpty, "no_name", genbank_info.Value),
-            .ncbi_taxid = taxid,
-            .accession_id = genbank_info.Name
-        }
-
-            Call seqs.Add(seq)
-
-            Return id
+            Return seqs.AddSequenceID(taxid, name)
         End Function
 
         ''' <summary>
