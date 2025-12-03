@@ -68,13 +68,17 @@ Namespace Kmers
             check = db.ReadInt32()
             buf = db.ReadBytes(size)
             db = New BinaryDataReader(buf) With {
-            .ByteOrder = ByteOrder.BigEndian
-        }
+                .ByteOrder = ByteOrder.BigEndian
+            }
 
             If check <> size Then
                 Throw New InvalidDataException("buffer size verification failured, database file is damaged!")
+            Else
+                Return ParseKmerBuffer(db)
             End If
+        End Function
 
+        Public Shared Function ParseKmerBuffer(db As BinaryDataReader) As KmerSeed
             Dim kmer As String = Encoding.ASCII.GetString(db.ReadBytes(k))
             Dim n As Integer = db.ReadInt32
             Dim sources As KmerSource() = New KmerSource(n - 1) {}
@@ -83,18 +87,18 @@ Namespace Kmers
                 Dim nsize As Integer = db.ReadInt32
                 Dim uints As UInteger() = db.ReadUInt32s(nsize)
                 Dim source As New KmerSource With {
-                .count = uints.Length - 1,
-                .seqid = uints(0),
-                .locations = uints.Skip(1).ToArray
-            }
+                    .count = uints.Length - 1,
+                    .seqid = uints(0),
+                    .locations = uints.Skip(1).ToArray
+                }
 
                 sources(i) = source
             Next
 
             Return New KmerSeed With {
-            .kmer = kmer,
-            .source = sources
-        }
+                .kmer = kmer,
+                .source = sources
+            }
         End Function
 
         Friend Shared Function LoadIndex(index As BinaryDataReader, ByRef k As Integer, cache As Dictionary(Of String, (Long, Integer))) As Boolean
