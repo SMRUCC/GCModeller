@@ -9,6 +9,14 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AssemblyTitle>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</AssemblyTitle>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <Title>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</Title>
+    <Description>The Biological Observation Matrix (BIOM) Format Project http://biom-format.org</Description>
+    <Company>http://biom-format.org</Company>
+    <Product>GCModeller</Product>
+    <Copyright>Copyright © GPL3 2016</Copyright>
+    <PackageTags>biom-format</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -66,7 +74,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\HDF5\HDF5.vbproj" />
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\BinaryData\netCDF\netCDF.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\application%json\JSON-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
