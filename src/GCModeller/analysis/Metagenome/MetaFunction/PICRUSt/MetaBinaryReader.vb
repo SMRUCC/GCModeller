@@ -64,6 +64,9 @@ Imports System.Text
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.BSON
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports SMRUCC.genomics.Metagenomics
 
 Namespace PICRUSt
@@ -73,6 +76,11 @@ Namespace PICRUSt
         ReadOnly buffer As BinaryDataReader
         ReadOnly index As New Dictionary(Of String, ko_13_5_precalculated)
         ReadOnly tree As ko_13_5_precalculated
+
+        ''' <summary>
+        ''' 访问 rrnDB 官网 (https://rrndb.umms.med.umich.edu/)，下载最新的数据集。数据通常是一个表格，包含物种名、分类学信息以及对应的 16S 拷贝数。
+        ''' </summary>
+        ReadOnly copyNumbers_16s As Dictionary(Of String, Double)
 
         Dim ko As String()
         Dim disposedValue As Boolean
@@ -98,7 +106,12 @@ Namespace PICRUSt
                 Throw New InvalidDataException("invalid magic header string!")
             Else
                 Dim len As Integer = buffer.ReadInt32
+                Dim buf As Byte() = buffer.ReadBytes(len)
+                Dim json As JsonObject = BSONFormat.Load(buf)
                 Dim id As New List(Of String)
+
+                copyNumbers_16s = json.CreateObject(Of Dictionary(Of String, Double))
+                len = buffer.ReadInt32
 
                 For i As Integer = 1 To len
                     Call id.Add(buffer.ReadString(BinaryStringFormat.ZeroTerminated))
@@ -113,6 +126,10 @@ Namespace PICRUSt
 
         Public Function GetAllFeatureIds() As String()
             Return ko.ToArray
+        End Function
+
+        Public Function Get16sCopyNumbers(OTU_id As String) As Double
+            Return copyNumbers_16s.TryGetValue(OTU_id)
         End Function
 
         ''' <summary>
