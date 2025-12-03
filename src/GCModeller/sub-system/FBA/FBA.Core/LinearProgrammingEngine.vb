@@ -128,6 +128,15 @@ Public Class LinearProgrammingEngine
         ).ConfigModelName(name, description)
     End Function
 
+    ''' <summary>
+    ''' FBA solver based on the LPP solver
+    ''' </summary>
+    ''' <param name="fbaMat"></param>
+    ''' <param name="opt"></param>
+    ''' <returns>
+    ''' + the objective function value is the bio-mass value
+    ''' + the lpp solution is the reaction flux value
+    ''' </returns>
     Public Function Run(fbaMat As Matrix, Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
         Dim engine As New LPP(
             objectiveFunctionType:=opt.Description,
