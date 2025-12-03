@@ -63,6 +63,8 @@ Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Metagenomics
@@ -85,10 +87,12 @@ Namespace PICRUSt
 
         ReadOnly file As BinaryDataWriter
         ReadOnly ggTax As Dictionary(Of String, Taxonomy)
+        ReadOnly copyNumbers As Dictionary(Of String, Double)
 
         Private disposedValue As Boolean
 
-        Sub New(file As Stream, ggTax As Dictionary(Of String, Taxonomy))
+        Sub New(file As Stream, ggTax As Dictionary(Of String, Taxonomy), copyNumbers As Dictionary(Of String, Double))
+            Me.copyNumbers = copyNumbers
             Me.ggTax = ggTax
             Me.file = New BinaryDataWriter(file) With {
                 .ByteOrder = ByteOrder.BigEndian,
@@ -225,8 +229,23 @@ Namespace PICRUSt
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)
+            Dim copyNumbers16sBSON As Byte() = BSONFormat.SafeGetBuffer(copyNumbers.CreateJSONElement).ToArray
+
+            ' magic 
+            ' int32
+            ' 16s copy numbers bson
+            ' int32
+            ' KO id set
+            ' ZERO byte
+            ' int64 - tree offset
+            ' precomputed genome content data
+            ' tree index
+
+            ' move to first
             Call file.Seek(Scan0, SeekOrigin.Begin)
             Call file.Write(Magic, BinaryStringFormat.ZeroTerminated)
+            Call file.Write(copyNumbers16sBSON.Length)
+            Call file.Write(copyNumbers16sBSON)
 
             offsetIndex = New ko_13_5_precalculated With {
                 .label = "/",
@@ -250,14 +269,14 @@ Namespace PICRUSt
         ''' </param>
         ''' <param name="save"></param>
         ''' <returns></returns>
-        Public Shared Function CreateWriter(gg As IEnumerable(Of otu_taxonomy), save As Stream) As MetaBinaryWriter
+        Public Shared Function CreateWriter(gg As IEnumerable(Of otu_taxonomy), copyNumbers As Dictionary(Of String, Double), save As Stream) As MetaBinaryWriter
             Dim tax As New Dictionary(Of String, Taxonomy)
 
             For Each lineage As otu_taxonomy In gg
-                tax.Add(lineage.ID, lineage.Taxonomy)
+                Call tax.Add(lineage.ID, lineage.Taxonomy)
             Next
 
-            Return New MetaBinaryWriter(save, tax)
+            Return New MetaBinaryWriter(save, tax, copyNumbers)
         End Function
 
         Protected Overridable Sub Dispose(disposing As Boolean)

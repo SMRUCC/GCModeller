@@ -145,25 +145,40 @@ Module microbiomeKit
     End Function
 
     ''' <summary>
-    ''' 
+    ''' build PICRUSt binary database file
     ''' </summary>
-    ''' <param name="ggtax"></param>
-    ''' <param name="ko_13_5_precalculated"></param>
-    ''' <param name="save"></param>
+    ''' <param name="ggtax">A helper table gg_13_8_99.gg.tax for make OTU id mapping to taxonomy information</param>
+    ''' <param name="ko_13_5_precalculated">file connection to the ``ko_13_5_precalculated.tab``</param>
+    ''' <param name="save">the file connection for save the compiled PICRUSt binary database file</param>
+    ''' <param name="copyNumbers_16s">
+    ''' a list of the 16s RNA copy number, [#OTU_IDs => 16S_rRNA_Count]
+    ''' </param>
     ''' <returns></returns>
     ''' <remarks>
     ''' write the data matrix via <see cref="MetaBinaryWriter"/>
     ''' </remarks>
-    <ExportAPI("save.PICRUSt_matrix")>
-    Public Function indexMatrix(ggtax As otu_taxonomy(), ko_13_5_precalculated As Stream, save As Stream) As Boolean
-        Using file As MetaBinaryWriter = MetaBinaryWriter.CreateWriter(ggtax, save)
+    <ExportAPI("build.PICRUSt_db")>
+    Public Function indexMatrix(ggtax As otu_taxonomy(),
+                                copyNumbers_16s As list,
+                                ko_13_5_precalculated As Stream,
+                                save As Stream,
+                                Optional env As Environment = Nothing) As Boolean
+
+        Dim copyNumbers As Dictionary(Of String, Double) = copyNumbers_16s.AsGeneric(Of Double)(env)
+
+        Using file As MetaBinaryWriter = MetaBinaryWriter.CreateWriter(ggtax, copyNumbers, save)
             Call file.ImportsComputes(ko_13_5_precalculated)
 
             Return True
         End Using
     End Function
 
-    <ExportAPI("read.PICRUSt_matrix")>
+    ''' <summary>
+    ''' read the compiled PICRUSt binary database file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_PICRUSt")>
     Public Function readPICRUStMatrix(file As Stream) As MetaBinaryReader
         Return New MetaBinaryReader(file)
     End Function
