@@ -188,7 +188,7 @@ Namespace PICRUSt
                     Dim sum As Double = 0
                     Dim id As String = KOIds(i)
 
-                    For Each OTU In OTU_KO
+                    For Each OTU As OTUData(Of Dictionary(Of String, Double)) In OTU_KO
                         sum += OTU.data(sample)(id)
                     Next
 

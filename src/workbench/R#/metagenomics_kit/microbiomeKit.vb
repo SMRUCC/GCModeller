@@ -70,6 +70,7 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -197,10 +198,8 @@ Module microbiomeKit
             Return Message.InCompatibleType(GetType(HTSMatrix), table.GetType, env)
         End If
 
-        Dim result = OTUtable.PredictMetagenome(
-            precalculated:=PICRUSt,
-            println:=println
-        )
+        Dim predictor As New PredictMetagenome(PICRUSt, println)
+        Dim result = predictor.PredictMetagenome(OTUtable).ToArray
 
         Return result
     End Function
