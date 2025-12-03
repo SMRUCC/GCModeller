@@ -43,6 +43,10 @@ Namespace Kmers
             Return id
         End Function
 
+        Public Shared Function Load(file As String) As SequenceCollection
+            Return New SequenceCollection(file.LoadCsv(Of SequenceSource)(mute:=True))
+        End Function
+
         Public Sub SaveTo(file As String)
             Call seqs.Values.SaveTo(file, silent:=True)
         End Sub
