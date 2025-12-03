@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\zzz.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\kmers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\kmers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B4B7D9A1-A9A9-46B4-A9AE-7CD64E5704C3}|..\\..\\GCModeller\\sub-system\\simulators\\simulators.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\sub-system\\simulators\\fba.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -16,7 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -44,7 +56,46 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "zzz.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\zzz.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\zzz.vb",
+              "RelativeToolTip": "metagenomics_kit\\zzz.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD4AAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-03T14:20:32.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "Kmers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\Kmers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
+              "RelativeToolTip": "metagenomics_kit\\Kmers.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-03T14:19:07.343Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "microbiomeKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-03T14:18:59.519Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "ModelExtensions.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\IO\\GCMarkupLanguage\\v2\\ModelExtensions.vb",
@@ -56,7 +107,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "FBA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\sub-system\\simulators\\FBA.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\sub-system\\simulators\\FBA.vb",

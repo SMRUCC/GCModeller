@@ -154,7 +154,7 @@ Namespace Kmers
                     Call buf.Write(Encoding.ASCII.GetBytes(seed.Key))
                     Call buf.Write(seed.Value.source.Length)
 
-                    For Each s In seed.Value.source
+                    For Each s As KmerSource In seed.Value.source
                         Call buf.Write(s.locations.Length + 1)
                         Call buf.Write(s.seqid)
                         Call buf.Write(s.locations)

@@ -61,5 +61,6 @@ Public NotInheritable Class zzz
         Call microbiomeKit.Main()
         Call TaxonomyKit.Main()
         Call BIOMkit.Main()
+        Call KmersTool.Main()
     End Sub
 End Class
