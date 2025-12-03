@@ -8,6 +8,12 @@ Namespace Kmers
 
         ReadOnly seqs As New Dictionary(Of String, SequenceSource)
 
+        Default Public ReadOnly Property GetSource(accession_id As String) As SequenceSource
+            Get
+                Return seqs.TryGetValue(accession_id)
+            End Get
+        End Property
+
         Sub New(load As IEnumerable(Of SequenceSource))
             seqs = load.SafeQuery _
                 .GroupBy(Function(a) a.accession_id) _
