@@ -144,26 +144,11 @@ Namespace Kmers
                 writer.Position = scan0
 
                 For Each seed As KeyValuePair(Of String, KmerSeed) In cache
-                    Dim ms As New MemoryStream
-                    Dim buf As New BinaryDataWriter(ms) With {
-                    .ByteOrder = ByteOrder.BigEndian
-                }
-
-                    scan0 = writer.Position
-
-                    Call buf.Write(Encoding.ASCII.GetBytes(seed.Key))
-                    Call buf.Write(seed.Value.source.Length)
-
-                    For Each s As KmerSource In seed.Value.source
-                        Call buf.Write(s.locations.Length + 1)
-                        Call buf.Write(s.seqid)
-                        Call buf.Write(s.locations)
-                    Next
-
-                    Call buf.Flush()
-
+                    Dim ms As MemoryStream = SerializeToBuffer(seed.Value)
                     Dim buf_data = ms.ToArray
                     Dim buf_size As Integer = buf_data.Length
+
+                    scan0 = writer.Position
 
                     Call writer.Write(buf_size)
                     Call writer.Write(buf_data)
@@ -173,6 +158,27 @@ Namespace Kmers
                 Next
             End Using
         End Sub
+
+        Public Shared Function SerializeToBuffer(seed As KmerSeed) As MemoryStream
+            Dim ms As New MemoryStream
+            Dim buf As New BinaryDataWriter(ms) With {
+                .ByteOrder = ByteOrder.BigEndian
+            }
+
+            Call buf.Write(Encoding.ASCII.GetBytes(seed.kmer))
+            Call buf.Write(seed.source.Length)
+
+            For Each s As KmerSource In seed.source
+                Call buf.Write(s.locations.Length + 1)
+                Call buf.Write(s.seqid)
+                Call buf.Write(s.locations)
+            Next
+
+            Call buf.Flush()
+            Call buf.Seek(Scan0, SeekOrigin.Begin)
+
+            Return ms
+        End Function
 
         Protected Overridable Sub Dispose(disposing As Boolean)
             If Not disposedValue Then
