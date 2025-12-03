@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Cellular.Molecule
@@ -89,6 +90,16 @@ Namespace Cellular.Molecule
             Next
 
             Return symbolNames
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetReactionIndex() As Dictionary(Of String, Reaction)
+            Return fluxes.SafeQuery _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
         End Function
     End Structure
 End Namespace

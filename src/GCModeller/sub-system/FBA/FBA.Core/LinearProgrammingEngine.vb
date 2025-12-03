@@ -58,6 +58,21 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
+''' <summary>
+''' FBA LPP solver
+''' </summary>
+''' <remarks>
+''' #### FBA代谢流平衡分析的计算原理
+''' 
+''' FBA的核心思想是： 在一个假设的稳态下， 计算一个细胞代谢网络中所有反应的流量（通量）分布， 使得某个生物学目标（如生长速率）达到最优。
+''' 
+''' 它建立在几个关键假设之上：
+''' 
+''' 稳态假设： 这是FBA的基石。它假设在所研究的时间尺度内，细胞内每个代谢物的浓度保持不变。这意味着，对于任何一个代谢物，其生成总速率等于消耗总速率。
+''' 数学表达：d[Metabolite_i]/dt = 0
+''' 质量守恒： 代谢网络中的物质是守恒的。每个反应都遵循化学计量关系。
+''' 目标驱动： 细胞（尤其是微生物）的代谢行为是为了实现某个优化目标，最常见的就是最大化自身的生长速率（即最大化生物量合成反应的通量）。
+''' </remarks>
 Public Class LinearProgrammingEngine
 
     ''' <summary>
