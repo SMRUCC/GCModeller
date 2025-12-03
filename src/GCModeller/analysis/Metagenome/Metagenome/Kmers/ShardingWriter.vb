@@ -90,7 +90,7 @@ Namespace Kmers
             Call GC.Collect()
         End Sub
 
-        Friend Shared Function Union(s1 As KmerSource(), s2 As KmerSource()) As KmerSource()
+        Public Shared Function Union(s1 As KmerSource(), s2 As KmerSource()) As KmerSource()
             Return s1.JoinIterates(s2) _
             .GroupBy(Function(a) a.seqid) _
             .Select(Function(a)
