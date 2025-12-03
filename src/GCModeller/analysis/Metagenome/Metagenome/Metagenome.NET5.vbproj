@@ -88,6 +88,22 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Kmers\Docs.Designer.vb">
+      <DependentUpon>Docs.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Kmers\Docs.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <LastGenOutput>Docs.Designer.vb</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
   <Import Project="..\..\..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems" Label="Shared" />
 
   <Import Project="..\..\..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems" Label="Shared" />
