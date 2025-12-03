@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::8d2ae34cd712d0a91567b5bded30da8d, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 92
-    '    Code Lines: 66 (71.74%)
-    ' Comment Lines: 16 (17.39%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 10 (10.87%)
-    '     File Size: 3.87 KB
+' Summaries:
 
 
-    ' Class LinearProgrammingEngine
-    ' 
-    '     Function: CreateMatrix, (+2 Overloads) Run, ToLppModel
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 92
+'    Code Lines: 66 (71.74%)
+' Comment Lines: 16 (17.39%)
+'    - Xml Docs: 87.50%
+' 
+'   Blank Lines: 10 (10.87%)
+'     File Size: 3.87 KB
+
+
+' Class LinearProgrammingEngine
+' 
+'     Function: CreateMatrix, (+2 Overloads) Run, ToLppModel
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -115,12 +115,12 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
-    Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a") As LPPModel
+    Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a", Optional opt As OptimizationType = OptimizationType.MAX) As LPPModel
         Dim types As String() = "=".Replicate(fbaMat.NumOfCompounds).ToArray
         Dim constraints As Double() = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray
 
         Return New LPPModel(fbaMat.Matrix, types, constraints, fbaMat.Compounds) With {
-            .objectiveFunctionType = OptimizationType.MAX.Description,
+            .objectiveFunctionType = opt.Description,
             .objectiveFunctionValue = 0
         }.ConfigSymbols(
             names:=fbaMat.Flux.Keys.ToArray,
@@ -128,9 +128,9 @@ Public Class LinearProgrammingEngine
         ).ConfigModelName(name, description)
     End Function
 
-    Public Function Run(fbaMat As Matrix) As LPPSolution
+    Public Function Run(fbaMat As Matrix, Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
         Dim engine As New LPP(
-            objectiveFunctionType:=OptimizationType.MAX.Description,
+            objectiveFunctionType:=opt.Description,
             variableNames:=fbaMat.Flux.Keys.ToArray,
             objectiveFunctionCoefficients:=fbaMat.GetTargetCoefficients,
             constraintCoefficients:=fbaMat.Matrix,
