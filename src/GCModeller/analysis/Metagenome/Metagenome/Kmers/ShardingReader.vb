@@ -74,11 +74,11 @@ Namespace Kmers
             If check <> size Then
                 Throw New InvalidDataException("buffer size verification failured, database file is damaged!")
             Else
-                Return ParseKmerBuffer(db)
+                Return ParseKmerBuffer(db, k)
             End If
         End Function
 
-        Public Shared Function ParseKmerBuffer(db As BinaryDataReader) As KmerSeed
+        Public Shared Function ParseKmerBuffer(db As BinaryDataReader, k As Integer) As KmerSeed
             Dim kmer As String = Encoding.ASCII.GetString(db.ReadBytes(k))
             Dim n As Integer = db.ReadInt32
             Dim sources As KmerSource() = New KmerSource(n - 1) {}
