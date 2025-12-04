@@ -29,7 +29,9 @@ Namespace Kmers
         Default Public ReadOnly Property GetSource(seq_id As UInteger) As SequenceSource
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return seqs(index(seq_id))
+                ' sequence id is 1-based
+                ' translate to zero-based index at here
+                Return seqs(index(seq_id - 1))
             End Get
         End Property
 
