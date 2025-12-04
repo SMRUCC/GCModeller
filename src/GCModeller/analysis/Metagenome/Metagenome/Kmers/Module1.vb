@@ -1,6 +1,4 @@
-﻿Imports Microsoft.VisualBasic.DataMining.AprioriRules.Impl
-
-Namespace Kmers
+﻿Namespace Kmers
 
     Module Module1
 
