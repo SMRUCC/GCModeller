@@ -193,7 +193,9 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetParent(taxid As Integer) As TaxonomyNode
-            Return Taxonomy(taxid.ToString)
+            Dim node = Taxonomy(taxid.ToString)
+            Dim parent = Taxonomy(node.parent)
+            Return parent
         End Function
 
         ''' <summary>
