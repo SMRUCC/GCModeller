@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -226,9 +227,19 @@ Module genbankKit
                     "index: " & file.i
                 }, MSG_TYPES.WRN)
             ElseIf TypeOf file.value Is String Then
-                For Each gb As GBFF.File In GBFF.File.LoadDatabase(file.value, suppressError:=True)
-                    Yield gb
-                Next
+                Dim filepath As String = CStr(file.value)
+
+                If filepath.ExtensionSuffix("gz") Then
+                    Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(s.UnGzipStream, suppressError:=True)
+                            Yield gb
+                        Next
+                    End Using
+                Else
+                    For Each gb As GBFF.File In GBFF.File.LoadDatabase(filepath, suppressError:=True)
+                        Yield gb
+                    Next
+                End If
             ElseIf TypeOf file.value Is Stream Then
                 For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
                     Yield gb
