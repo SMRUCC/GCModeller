@@ -54,6 +54,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -106,11 +107,13 @@ Namespace Assembly.NCBI.Taxonomy
             Dim line As Value(Of String) = ""
             Dim tokens$()
 
-            Using reader As StreamReader = file.OpenReader
+            Using txt As StreamReader = file.OpenReader
                 ' skip first line, headers
-                Call reader.ReadLine()
+                Call txt.ReadLine()
 
-                Do While (line = reader.ReadLine) IsNot Nothing
+                Dim reader As Func(Of String) = TqdmWrapper.StreamReader(txt)
+
+                Do While (line = reader()) IsNot Nothing
                     tokens = line.Split(ASCII.TAB)
 
                     ' 2018-11-03 因为下面的解析过程是依据具体的index来进行的
