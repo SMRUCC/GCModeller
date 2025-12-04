@@ -1,63 +1,64 @@
 ﻿#Region "Microsoft.VisualBasic::eab3dab5216d408dee57cfb1e75a9fb7, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 568
-    '    Code Lines: 250 (44.01%)
-    ' Comment Lines: 245 (43.13%)
-    '    - Xml Docs: 52.24%
-    ' 
-    '   Blank Lines: 73 (12.85%)
-    '     File Size: 24.07 KB
+' Summaries:
 
 
-    '     Class NcbiTaxonomyTree
-    ' 
-    '         Properties: Taxonomy
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
-    '                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
-    '                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
-    '                   preorderTraversal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 568
+'    Code Lines: 250 (44.01%)
+' Comment Lines: 245 (43.13%)
+'    - Xml Docs: 52.24%
+' 
+'   Blank Lines: 73 (12.85%)
+'     File Size: 24.07 KB
+
+
+'     Class NcbiTaxonomyTree
+' 
+'         Properties: Taxonomy
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
+'                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
+'                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
+'                   preorderTraversal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -186,11 +187,21 @@ Namespace Assembly.NCBI.Taxonomy
         End Sub
 
         ''' <summary>
+        ''' get parent node of current node its taxid
+        ''' </summary>
+        ''' <param name="taxid"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetParent(taxid As Integer) As TaxonomyNode
+            Return Taxonomy(taxid.ToString)
+        End Function
+
+        ''' <summary>
         ''' Returns parent id
         ''' </summary>
         ''' <param name="taxids"></param>
         ''' <returns></returns>
-        Public Function GetParent(ParamArray taxids As Integer()) As Dictionary(Of Integer, String)
+        Public Function GetParents(ParamArray taxids As Integer()) As Dictionary(Of Integer, String)
             '"""
             '    >>> tree = NcbiTaxonomyTree(nodes_filename="nodes.dmp", names_filename="names.dmp")
             '    >>> tree.getParent([28384, 131567])

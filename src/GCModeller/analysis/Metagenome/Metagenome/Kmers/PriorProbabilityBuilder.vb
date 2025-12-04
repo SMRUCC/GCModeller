@@ -1,17 +1,14 @@
-﻿Namespace Kmers
+﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+
+Namespace Kmers
 
     Public Class PriorProbabilityBuilder
+
         ''' <summary>
-        ''' 模拟的分类学数据库。在实际应用中，您应该从NCBI taxdump文件中加载这些数据。
+        ''' 分类学数据库。在实际应用中，您应该从NCBI taxdump文件中加载这些数据。
         ''' Key: Child TaxId, Value: Parent TaxId
         ''' </summary>
-        Public MockTaxonomyDB As New Dictionary(Of Integer, Integer) From {
-        {12345, 567}, ' 物种12345的父级是属567
-        {12346, 567}, ' 物种12346的父级是属567
-        {12347, 568}, ' 物种12347的父级是属568
-        {567, 99},    ' 属567的父级是科99
-        {568, 99}     ' 属568的父级是科99
-    }
+        ReadOnly TaxonomyDB As NcbiTaxonomyTree
 
         ''' <summary>
         ''' 根据子分类单元ID和目标父级等级，查找其父级分类单元ID。
@@ -22,10 +19,20 @@
         ''' <returns>父级分类单元的TaxId，如果找不到则返回0。</returns>
         Public Function GetParentTaxId(childTaxId As Integer, parentRank As String) As Integer
             ' 在真实系统中，您需要知道每个TaxId对应的rank（species, genus, family等）
-            ' 这里我们简化处理，假设我们知道属的ID
-            If MockTaxonomyDB.ContainsKey(childTaxId) Then
-                Return MockTaxonomyDB(childTaxId)
-            End If
+            Dim parent As TaxonomyNode = TaxonomyDB.GetParent(childTaxId)
+
+            For i As Integer = 0 To 1000
+                If parent.rank = parentRank Then
+                    Return parent.taxid
+                Else
+                    parent = TaxonomyDB.GetParent(parent.taxid)
+
+                    If parent Is Nothing Then
+                        Return 0
+                    End If
+                End If
+            Next
+
             Return 0
         End Function
 
