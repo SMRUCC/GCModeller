@@ -59,13 +59,13 @@ Namespace Kmers
         End Function
 
         Public Function AddSequenceID(taxid As UInteger, name As String) As UInteger
-            Dim id As UInteger = seqs.Count + 1
             Dim genbank_info As NamedValue(Of String) = name.GetTagValue(" ", trim:=True, failureNoName:=False)
 
             If seqs.ContainsKey(genbank_info.Name) Then
                 Return seqs(genbank_info.Name).id
             End If
 
+            Dim id As UInteger = seqs.Count + 1
             Dim seq As New SequenceSource With {
                 .id = id,
                 .name = If(genbank_info.Value.StringEmpty, "no_name", genbank_info.Value),
