@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>get, add or replace the genome origin fasta sequence in the given genbank assembly file.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>origin_fasta {GenBank}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>get, add or replace the genome origin fasta sequence in the given genbank assembly file.</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>origin_fasta</strong>(<i>gb</i>,
+    <i>nt</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>mol.type</i> = <span style='color: brown;'><strong>"genomic DNA"</strong></span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>gb</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a>]</p></dd>
+
+
+<dt>nt</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>]</p></dd>
+
+
+<dt>mol.type</dt>
+<dd><p>[as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        seqtoolkit
+
+        <h3>Value</h3>
+
+        <p>if the <code>**`nt`**</code> parameter is nothing, 
+ means get fasta sequence, otherwise is add/update fasta 
+ sequence in the genbank assembly, the returns type of 
+ the api will change from the getted fasta sequence to 
+ the modified genbank assembly object.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/File.html">File</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GenBank</em> version 1.0.0.0 <a
+                href="../GenBank.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH GENBANK 4 2000-Jan "origin_fasta" "origin_fasta"
+.SH NAME
+origin_fasta \- get, add or replace the genome origin fasta sequence in the given genbank assembly file.
+.SH SYNOPSIS
+\fIorigin_fasta(\fBgb\fR as <generic> File, 
+\fBnt\fR as <generic> FastaSeq = \fB<NULL>\fR, 
+\fBmol_type\fR as string = "genomic DNA");\fR
+.SH DESCRIPTION
+.PP
+get, add or replace the genome origin fasta sequence in the given genbank assembly file.
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- -. 
+.PP
+.PP
+\fBnt\fB \fR\- -. 
+.PP
+.PP
+\fBmol_type\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+if the \fB**`nt`**\fR parameter is nothing, 
+ means get fasta sequence, otherwise is add/update fasta 
+ sequence in the genbank assembly, the returns type of 
+ the api will change from the getted fasta sequence to 
+ the modified genbank assembly object.
+.PP
+.SH SEE ALSO
+GenBank
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

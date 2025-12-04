@@ -17,7 +17,7 @@ NCBI genbank assembly file I/O toolkit
 + [featureKeys](GenBank/featureKeys.1) get all feature key names
 + [featureMeta](GenBank/featureMeta.1) extract the feature metadata from a genbank clr feature object
 + [addMeta](GenBank/addMeta.1) add metadata into a given feature object
-+ [origin.fasta](GenBank/origin.fasta.1) get, add or replace the genome origin fasta sequence in the given genbank assembly file.
++ [origin_fasta](GenBank/origin_fasta.1) get, add or replace the genome origin fasta sequence in the given genbank assembly file.
 + [getRNA.fasta](GenBank/getRNA.fasta.1) get all of the RNA gene its gene sequence in fasta sequence format.
 + [export_geneNt_fasta](GenBank/export_geneNt_fasta.1) 
 + [protein.fasta](GenBank/protein.fasta.1) get or set fasta sequence of all CDS feature in the given genbank assembly file.

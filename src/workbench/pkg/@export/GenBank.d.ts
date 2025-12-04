@@ -124,6 +124,7 @@ declare namespace GenBank {
    /**
     * populate a list of genbank data objects from a given list of files or stream.
     * 
+    * > this function supports of read assembly data directly from *.gz genbank archive file.
     * 
      * @param files a list of files or file stream
      * @param autoClose auto close of the @``T:System.IO.Stream`` if the **`files`** contains stream object?
@@ -134,26 +135,24 @@ declare namespace GenBank {
      * + default value Is ``null``.
    */
    function load_genbanks(files: any, autoClose?: boolean, env?: object): object;
-   module origin {
-      /**
-       * get, add or replace the genome origin fasta sequence in the given genbank assembly file.
-       * 
-       * 
-        * @param gb -
-        * @param nt -
-        * 
-        * + default value Is ``null``.
-        * @param mol_type -
-        * 
-        * + default value Is ``'genomic DNA'``.
-        * @return if the ``**`nt`**`` parameter is nothing, 
-        *  means get fasta sequence, otherwise is add/update fasta 
-        *  sequence in the genbank assembly, the returns type of 
-        *  the api will change from the getted fasta sequence to 
-        *  the modified genbank assembly object.
-      */
-      function fasta(gb: object, nt?: object, mol_type?: string): object|object;
-   }
+   /**
+    * get, add or replace the genome origin fasta sequence in the given genbank assembly file.
+    * 
+    * 
+     * @param gb -
+     * @param nt -
+     * 
+     * + default value Is ``null``.
+     * @param mol_type -
+     * 
+     * + default value Is ``'genomic DNA'``.
+     * @return if the ``**`nt`**`` parameter is nothing, 
+     *  means get fasta sequence, otherwise is add/update fasta 
+     *  sequence in the genbank assembly, the returns type of 
+     *  the api will change from the getted fasta sequence to 
+     *  the modified genbank assembly object.
+   */
+   function origin_fasta(gb: object, nt?: object, mol_type?: string): object|object;
    module protein {
       /**
        * get or set fasta sequence of all CDS feature in the given genbank assembly file.
