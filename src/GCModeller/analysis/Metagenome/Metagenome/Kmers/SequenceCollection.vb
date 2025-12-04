@@ -9,6 +9,11 @@ Namespace Kmers
         ReadOnly seqs As New Dictionary(Of String, SequenceSource)
         ReadOnly index As New List(Of String)
 
+        ''' <summary>
+        ''' get sequence source information by its ncbi sequence accession id
+        ''' </summary>
+        ''' <param name="accession_id"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property GetSource(accession_id As String) As SequenceSource
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -16,6 +21,11 @@ Namespace Kmers
             End Get
         End Property
 
+        ''' <summary>
+        ''' get sequence source information by its sequence id
+        ''' </summary>
+        ''' <param name="seq_id"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property GetSource(seq_id As UInteger) As SequenceSource
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get

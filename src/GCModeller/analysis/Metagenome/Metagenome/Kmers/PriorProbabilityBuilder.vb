@@ -51,7 +51,7 @@ Namespace Kmers
         ''' <returns>一个字典，Key是物种的ncbi_taxid，Value是该物种相对于目标层级的先验概率。</returns>
         Public Function BuildPriorDatabase(
         kmerDatabase As IEnumerable(Of KmerSeed),
-        sequenceLookup As Dictionary(Of UInteger, SequenceSource),
+        sequenceLookup As SequenceCollection,
         targetRank As String
     ) As Dictionary(Of Integer, Double)
 
@@ -68,7 +68,7 @@ Namespace Kmers
             ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
             For Each seed As KmerSeed In kmerDatabase
                 For Each src As KmerSource In seed.source
-                    If sequenceLookup.TryGetValue(src.seqid, Nothing) Then
+                    If sequenceLookup(src.seqid) IsNot Nothing Then
                         Dim seqSrc As SequenceSource = sequenceLookup(src.seqid)
                         Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
                         speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + CULng(src.count)

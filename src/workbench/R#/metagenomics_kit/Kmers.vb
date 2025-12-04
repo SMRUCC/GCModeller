@@ -1,11 +1,16 @@
-﻿Imports Microsoft.VisualBasic.Scripting.MetaData
+﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kmers")>
+<RTypeExport("kmer", GetType(KmerSeed))>
 Module KmersTool
 
     Sub Main()
@@ -29,5 +34,32 @@ Module KmersTool
         Call df.add(NameOf(SequenceHit.score), From h As SequenceHit In hits Select h.score)
 
         Return df
+    End Function
+
+    <ExportAPI("bayes_background")>
+    <RApiReturn(GetType(Double))>
+    Public Function bayes_background(<RRawVectorArgument> kmers_db As Object,
+                                     ncbi_taxonomy As NcbiTaxonomyTree,
+                                     seq_id As SequenceCollection,
+                                     <RRawVectorArgument(TypeCodes.string)>
+                                     Optional rank As Object = "species|genus|family|order|class|phylum|superkingdom",
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim estimate As New PriorProbabilityBuilder(ncbi_taxonomy)
+        Dim pullKmers As pipeline = pipeline.TryCreatePipeline(Of KmerSeed)(kmers_db, env)
+        Dim targetRank As String = CLRVector.safeCharacters(rank).ElementAtOrDefault(0, "genus")
+
+        If pullKmers.isError Then
+            Return pullKmers.getError
+        End If
+
+        Dim kmers As IEnumerable(Of KmerSeed) = pullKmers.populates(Of KmerSeed)(env)
+
+        Return estimate.BuildPriorDatabase(kmers, seq_id, targetRank)
+    End Function
+
+    <ExportAPI("read_seqid")>
+    Public Function readSequenceDb(file As String) As SequenceCollection
+        Return SequenceCollection.Load(file)
     End Function
 End Module
