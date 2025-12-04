@@ -57,6 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -90,6 +91,10 @@ Namespace Assembly.NCBI.Taxonomy
                                Function(a)
                                    Return a.taxid
                                End Function)
+        End Function
+
+        Public Shared Function ReadFiles(ParamArray files As String()) As IEnumerable(Of Accession2Taxid)
+            Return files.Select(Function(path) ReadFile(path)).IteratesALL
         End Function
 
         ''' <summary>
