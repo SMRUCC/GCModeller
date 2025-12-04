@@ -54,8 +54,9 @@ Module KmersTool
         End If
 
         Dim kmers As IEnumerable(Of KmerSeed) = pullKmers.populates(Of KmerSeed)(env)
+        Dim prior = estimate.BuildPriorDatabase(kmers, seq_id, targetRank)
 
-        Return estimate.BuildPriorDatabase(kmers, seq_id, targetRank)
+        Return prior
     End Function
 
     <ExportAPI("read_seqid")>
