@@ -464,4 +464,17 @@ Module TaxonomyKit
             Return result
         End If
     End Function
+
+    ''' <summary>
+    ''' Create a stream read to the ncbi accession id mapping to ncbi taxonomy id
+    ''' </summary>
+    ''' <param name="map_files">
+    ''' should be a set of file path to the ncbi accession map to taxid table file, example as: ``c('nucl_gb.accession2taxid', 'nucl_wgs.accession2taxid')``
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("accession2Taxid")>
+    <RApiReturn(GetType(Accession2Taxid))>
+    Public Function accession2Taxid_load(<RRawVectorArgument> map_files As Object) As Object
+        Return pipeline.CreateFromPopulator(Accession2Taxid.ReadFiles(CLRVector.asCharacter(map_files)))
+    End Function
 End Module
