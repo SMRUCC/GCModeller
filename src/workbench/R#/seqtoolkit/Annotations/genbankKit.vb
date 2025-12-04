@@ -203,6 +203,9 @@ Module genbankKit
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' this function supports of read assembly data directly from *.gz genbank archive file.
+    ''' </remarks>
     <ExportAPI("load_genbanks")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function populateGenbanks(<RRawVectorArgument>
