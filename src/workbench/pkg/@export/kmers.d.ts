@@ -11,6 +11,11 @@
 */
 declare namespace kmers {
    /**
+     * @param rank default value Is ``["species","genus","family","order","class","phylum","superkingdom"]``.
+     * @param env default value Is ``null``.
+   */
+   function bayes_background(kmers_db: any, ncbi_taxonomy: object, seq_id: object, rank?: any, env?: object): number;
+   /**
     * generate sequence k-mer count data matrix
     * 
     * 
@@ -23,4 +28,7 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function kmers_matrix(x: any, k?: object, env?: object): object;
+   /**
+   */
+   function read_seqid(file: string): object;
 }
