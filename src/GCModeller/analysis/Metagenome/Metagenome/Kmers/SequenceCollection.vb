@@ -25,14 +25,19 @@ Namespace Kmers
         End Property
 
         Sub New(load As IEnumerable(Of SequenceSource))
-            seqs = load.SafeQuery _
-                .GroupBy(Function(a) a.accession_id) _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return a.First
-                              End Function)
-            index = New List(Of String)(seqs.Keys)
+            For Each seq As SequenceSource In load.OrderBy(Function(a) a.id)
+                Call seqs.Add(seq.accession_id, seq)
+                Call index.Add(seq.accession_id)
+            Next
         End Sub
+
+        Public Function HasSequence(seq_id As UInteger) As Boolean
+            If seq_id < 0 OrElse seq_id >= index.Count Then
+                Return False
+            Else
+                Return True
+            End If
+        End Function
 
         Public Function AddSequenceID(taxid As UInteger, name As String) As UInteger
             Dim id As UInteger = seqs.Count + 1
