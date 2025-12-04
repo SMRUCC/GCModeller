@@ -1,0 +1,39 @@
+.\" man page create by R# package system.
+.TH MICROBIOME 1 2000-Jan "build.PICRUSt_db" "build.PICRUSt_db"
+.SH NAME
+build.PICRUSt_db \- build PICRUSt binary database file
+.SH SYNOPSIS
+\fIbuild.PICRUSt_db(\fBggtax\fR as <generic> otu_taxonomy[], 
+\fBcopyNumbers_16s\fR as list, 
+\fBko_13_5_precalculated\fR as <generic> Stream, 
+\fBsave\fR as <generic> Stream, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+build PICRUSt binary database file
+.PP
+.SH OPTIONS
+.PP
+\fBggtax\fB \fR\- A helper table gg_13_8_99.gg.tax for make OTU id mapping to taxonomy information. 
+.PP
+.PP
+\fBko_13_5_precalculated\fB \fR\- file connection to the \fBko_13_5_precalculated.tab\fR. 
+.PP
+.PP
+\fBsave\fB \fR\- the file connection for save the compiled PICRUSt binary database file. 
+.PP
+.PP
+\fBcopyNumbers_16s\fB \fR\- 
+ a list of the 16s RNA copy number, [#OTU_IDs => 16S_rRNA_Count]
+. 
+.PP
+.SH DETAILS
+.PP
+write the data matrix via @\fBT:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter\fR
+.PP
+.SH SEE ALSO
+microbiome
+.SH FILES
+.PP
+metagenomics_kit.dll
+.PP

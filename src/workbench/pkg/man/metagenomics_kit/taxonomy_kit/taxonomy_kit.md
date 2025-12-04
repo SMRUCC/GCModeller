@@ -18,3 +18,4 @@ toolkit for process ncbi taxonomy tree data
 + [read.mothurTree](taxonomy_kit/read.mothurTree.1) Parse the result output from mothur command ``summary.tax``.
 + [taxonomy_range](taxonomy_kit/taxonomy_range.1) 
 + [LCA](taxonomy_kit/LCA.1) 
++ [accession2Taxid](taxonomy_kit/accession2Taxid.1) Create a stream read to the ncbi accession id mapping to ncbi taxonomy id

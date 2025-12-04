@@ -12,6 +12,13 @@
  * >  of the described species of life on the planet.
 */
 declare namespace taxonomy_kit {
+   /**
+    * Create a stream read to the ncbi accession id mapping to ncbi taxonomy id
+    * 
+    * 
+     * @param map_files should be a set of file path to the ncbi accession map to taxid table file, example as: ``c('nucl_gb.accession2taxid', 'nucl_wgs.accession2taxid')``
+   */
+   function accession2Taxid(map_files: any): object;
    module as {
       module taxonomy {
          /**

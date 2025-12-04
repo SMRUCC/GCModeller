@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>build PICRUSt binary database file</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>build.PICRUSt_db {microbiome}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>build PICRUSt binary database file</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>build.PICRUSt_db</strong>(<i>ggtax</i>, <i>copyNumbers.16s</i>, <i>ko.13.5.precalculated</i>, <i>save</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>ggtax</dt>
+<dd><p>A helper table gg<em>13</em>8_99.gg.tax for make OTU id mapping to taxonomy information. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/greengenes/otu_taxonomy.html">otu_taxonomy</a>]</p></dd>
+
+
+<dt>ko.13.5.precalculated</dt>
+<dd><p>file connection to the <code>ko_13_5_precalculated.tab</code>. [as <a href="/vignettes/clr/System/IO/Stream.html">Stream</a>]</p></dd>
+
+
+<dt>save</dt>
+<dd><p>the file connection for save the compiled PICRUSt binary database file. [as <a href="/vignettes/clr/System/IO/Stream.html">Stream</a>]</p></dd>
+
+
+<dt>copyNumbers.16s</dt>
+<dd><p>a list of the 16s RNA copy number, [#OTU<em>IDs => 16S</em>rRNA_Count]. [as list]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>write the data matrix via <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/PICRUSt/MetaBinaryWriter.html">MetaBinaryWriter</a></p>
+
+        <h3 style="display: block">Authors</h3>
+
+        metagenomics_kit
+
+        <h3>Value</h3>
+
+        this function returns data object of type boolean.<h4>clr value class</h4><ul><li>boolean</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>microbiome</em> version 1.0.0.0 <a
+                href="../microbiome.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -9,6 +9,21 @@
  * 
 */
 declare namespace microbiome {
+   module build {
+      /**
+       * build PICRUSt binary database file
+       * 
+       * > write the data matrix via @``T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter``
+       * 
+        * @param ggtax A helper table gg_13_8_99.gg.tax for make OTU id mapping to taxonomy information
+        * @param copyNumbers_16s a list of the 16s RNA copy number, [#OTU_IDs => 16S_rRNA_Count]
+        * @param ko_13_5_precalculated file connection to the ``ko_13_5_precalculated.tab``
+        * @param save the file connection for save the compiled PICRUSt binary database file
+        * @param env 
+        * + default value Is ``null``.
+      */
+      function PICRUSt_db(ggtax: object, copyNumbers_16s: object, ko_13_5_precalculated: object, save: object, env?: object): boolean;
+   }
    module compounds {
       module origin {
          /**
@@ -63,22 +78,13 @@ declare namespace microbiome {
      * + default value Is ``null``.
    */
    function predict_metagenomes(PICRUSt: object, table: any, env?: object): object;
-   module read {
-      /**
-      */
-      function PICRUSt_matrix(file: object): object;
-   }
-   module save {
-      /**
-       * 
-       * > write the data matrix via @``T:SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt.MetaBinaryWriter``
-       * 
-        * @param ggtax -
-        * @param ko_13_5_precalculated -
-        * @param save -
-      */
-      function PICRUSt_matrix(ggtax: object, ko_13_5_precalculated: object, save: object): boolean;
-   }
+   /**
+    * read the compiled PICRUSt binary database file
+    * 
+    * 
+     * @param file -
+   */
+   function read_PICRUSt(file: object): object;
    module taxonomy {
       /**
        * 
