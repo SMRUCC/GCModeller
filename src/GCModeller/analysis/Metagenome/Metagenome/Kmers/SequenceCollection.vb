@@ -31,7 +31,15 @@ Namespace Kmers
             Get
                 ' sequence id is 1-based
                 ' translate to zero-based index at here
-                Return seqs(index(seq_id - 1))
+                seq_id = seq_id - 1
+
+                ' 20251205 some sequence information has not been saved when
+                ' the kmer database builder program is crashed
+                If seq_id >= index.Count Then
+                    Return Nothing
+                End If
+
+                Return seqs(index(seq_id))
             End Get
         End Property
 
