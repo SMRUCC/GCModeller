@@ -36,6 +36,17 @@ Module KmersTool
         Return df
     End Function
 
+    <ExportAPI("write.kmers_background")>
+    Public Function write_background(bayes As KmerBackground, dirpath As String) As Object
+        Call bayes.Save(dirpath)
+        Return True
+    End Function
+
+    <ExportAPI("read.kmers_background")>
+    Public Function load_background(dirpath As String) As KmerBackground
+        Return KmerBackground.Load(dirpath)
+    End Function
+
     <ExportAPI("bayes_background")>
     <RApiReturn(GetType(KmerBackground))>
     Public Function bayes_background(<RRawVectorArgument> kmers_db As Object,
