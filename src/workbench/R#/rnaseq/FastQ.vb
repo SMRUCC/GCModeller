@@ -161,4 +161,9 @@ Public Module FastQ
             Return Message.InCompatibleType(GetType(FQ.FastQ), q.GetType, env)
         End If
     End Function
+
+    <ExportAPI("")>
+    Public Function simulate(genomes As Object, Optional n As Integer = 100000, Optional len As Object = "200,350", Optional env As Environment = Nothing) As Object
+
+    End Function
 End Module

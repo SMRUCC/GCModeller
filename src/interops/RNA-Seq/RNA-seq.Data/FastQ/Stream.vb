@@ -123,7 +123,7 @@ Namespace FQ
 
             lines(Scan0) = fq.SEQ_ID.ToString
             lines(1) = fq.SequenceData
-            lines(2) = If(fq.SEQ_ID2.StringEmpty(, True), "+", fq.SEQ_ID2.ToString)
+            lines(2) = If(fq.SEQ_Info.StringEmpty(, True), "+", fq.SEQ_Info.ToString)
             lines(3) = fq.Quality
 
             Return lines.JoinBy(ASCII.LF)

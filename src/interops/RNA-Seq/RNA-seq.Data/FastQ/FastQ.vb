@@ -99,7 +99,11 @@ Namespace FQ
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property SEQ_ID As String Implements IAbstractFastaToken.title, IFastaProvider.title
-        Public Property SEQ_ID2 As String
+        ''' <summary>
+        ''' the sequence description information text, but usually be string ``+``.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property SEQ_Info As String
         ''' <summary>
         ''' <see cref="GetQualityOrder"/> for each char in this string.
         ''' </summary>
@@ -167,7 +171,7 @@ Namespace FQ
             Dim Fastaq As New FastQ With {
                 .SequenceData = str(1),
                 .SEQ_ID = str(0),
-                .SEQ_ID2 = str(2),
+                .SEQ_Info = str(2),
                 .Quality = str(3)
             }
 
