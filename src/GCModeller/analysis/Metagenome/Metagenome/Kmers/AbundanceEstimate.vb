@@ -4,17 +4,39 @@ Namespace Kmers
 
     Public Class AbundanceEstimate
 
-        ReadOnly sequenceLookup As SequenceCollection
         ReadOnly taxonomyDB As NcbiTaxonomyTree
+
+#Region "kmer database background/information"
         ''' <summary>
         ''' 全局先验概率：Key是物种的ncbi_taxid, Value是该物种的先验概率
         ''' </summary>
-        ReadOnly priors As Dictionary(Of Integer, Double)
+        Dim priors As Dictionary(Of Integer, Double)
         ''' <summary>
         ''' 全局k-mer分布：Key是k-mer字符串, Value是一个字典
         ''' 内层字典的Key是物种的ncbi_taxid, Value是该k-mer在该物种中的概率
         ''' </summary>
-        ReadOnly KmerDistributions As New Dictionary(Of String, Dictionary(Of Integer, Double))
+        Dim KmerDistributions As New Dictionary(Of String, Dictionary(Of Integer, Double))
+        Dim sequenceLookup As SequenceCollection
+#End Region
+
+        Sub New(taxonomyDB As NcbiTaxonomyTree)
+            Me.taxonomyDB = taxonomyDB
+        End Sub
+
+        Sub New(taxonomyDB As String)
+            Call Me.New(New NcbiTaxonomyTree(taxonomyDB))
+        End Sub
+
+        Public Function SetBackground(bg As KmerBackground) As AbundanceEstimate
+            priors = bg.Prior
+            KmerDistributions = bg.KmerDistributions
+            Return Me
+        End Function
+
+        Public Function SetSequenceDb(seqs As SequenceCollection) As AbundanceEstimate
+            sequenceLookup = seqs
+            Return Me
+        End Function
 
         ''' <summary>
         ''' 阶段一：从单条Read的KmerSeed数组中提取原始分类信息
@@ -75,19 +97,48 @@ Namespace Kmers
             Return False
         End Function
 
-        Public Function ReestimateAbundanceForGenus(kmerSeedsForRead As KmerSeed(), genusC_taxid As Integer) As Dictionary(Of Integer, Double)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="kmerOfRead">这个参数代表了**一条宏基因组测序Read**在k-mer数据库中的所有匹配结果。
+        ''' 当处理一条测序Read时，我们会将其分解成多个k-mer，然后用这些k-mer去查询kmer数据库。
+        ''' 对于每一个成功匹配的k-mer，数据库都会返回一个对应的 `KmerSeed` 对象。
+        ''' 这个 `KmerSeed` 对象包含了匹配上的k-mer序列（`kmer` 属性）以及这个k-mer在所有参考基因组中的来源信息（`source` 属性，是一个 `KmerSource` 数组）。
+        ''' 因此，`kmerOfRead` 这个数组**完整地描述了这条Read的组成信息**，即它是由哪些k-mer构成的，以及这些k-mer都可能来源于哪些物种。
+        ''' 
+        ''' 这是进行贝叶斯重估的**原始数据**。
+        ''' 函数会遍历这个数组，统计Read中的k-mer“投票”给了哪些分类单元（物种、属等）。
+        ''' 这些投票信息是计算贝叶斯公式中“似然”（Likelihood）部分的基础。
+        ''' 
+        ''' 可以看作是**一张完整的选票**。上面记录了选民（这条Read）的每一部分（每个k-mer）都投给了哪些候选人（物种）。
+        ''' </param>
+        ''' <param name="ncbi_taxid">这个参数代表想要进行丰度重估的**目标分类单元的NCBI Taxonomy ID**。
+        ''' 
+        ''' 在宏基因组分析中，很多Read无法被唯一地分类到物种级别，因为它们的k-mer可能同时存在于同一个属下的多个物种中。
+        ''' 这个参数允许我们指定一个**分类层级**（通常是一个属，但也可以是科、目等），告诉函数：“请帮我重新估算这个分类单元下所有物种的丰度”。
+        ''' 例如，如果大肠杆菌（`taxid: 562`）和沙门氏菌（`taxid: 590`）都属于埃希氏菌-志贺氏菌属（`taxid: 561`），
+        ''' 当我们传入 `genusC_taxid = 561` 时，函数就会尝试将那些只被分类到属（561）而无法区分到种（562或590）的Read，根据贝叶斯模型重新分配给这两个物种。
+        ''' 
+        ''' **定义了贝叶斯重估的范围**。函数只会关注那些与这个 `genusC_taxid` 相关的Read和物种。
+        ''' 它是连接“原始分类结果”和“贝叶斯模型”的桥梁。函数会查找所有被分类到这个 `genusC_taxid`（或其下级物种）的k-mer，然后将它们作为待重估的数据集 `D`。
+        ''' 它也用于从全局的先验概率数据库中，提取出该属下所有物种的先验概率 `p(s)`。
+        ''' 
+        ''' 可以看作是**一个特定的选区**（例如“物理学奖”）。基于此以重新计算这个选区内各位候选人（物理学家）的真实得票率。
+        ''' </param>
+        ''' <returns></returns>
+        Public Function EstimateAbundanceForGenus(kmerOfRead As KmerSeed(), ncbi_taxid As Integer) As Dictionary(Of Integer, Double)
             ' 1. 获取原始分类计数
-            Dim rawCounts As Dictionary(Of Integer, Integer) = GetRawTaxonomyCounts(kmerSeedsForRead)
+            Dim rawCounts As Dictionary(Of Integer, Integer) = GetRawTaxonomyCounts(kmerOfRead)
             ' 2. 找到属C下的所有物种（假设我们有一个函数可以做到）
-            Dim speciesInGenus As New List(Of Integer)(GetSpeciesInGenus(genusC_taxid)) ' 例如返回 {taxid_s1, taxid_s2}
+            Dim speciesInGenus As New List(Of Integer)(GetSpeciesInGenus(ncbi_taxid)) ' 例如返回 {taxid_s1, taxid_s2}
             ' 3. 收集所有与属C相关的k-mer
             Dim relevantKmers As New List(Of String)
 
-            For Each seed As KmerSeed In kmerSeedsForRead
+            For Each seed As KmerSeed In kmerOfRead
                 For Each src As KmerSource In seed.source
                     Dim taxId As Integer = sequenceLookup(src.seqid).ncbi_taxid
                     ' taxid is the child of target genusC_taxid?
-                    If IsDescendantOf(taxId, genusC_taxid) Then
+                    If IsDescendantOf(taxId, ncbi_taxid) Then
                         relevantKmers.Add(seed.kmer)
                         Exit For ' 一个k-mer只算一次
                     End If
@@ -104,9 +155,9 @@ Namespace Kmers
 
             ' 计算分子部分的对数值，并找出分母的对数值
             For Each speciesId As Integer In speciesInGenus
-                If Not Priors.ContainsKey(speciesId) Then Continue For
+                If Not priors.ContainsKey(speciesId) Then Continue For
 
-                Dim prior As Double = Priors(speciesId)
+                Dim prior As Double = priors(speciesId)
                 Dim logLikelihood As Double = 0
 
                 For Each kmer As String In relevantKmers
