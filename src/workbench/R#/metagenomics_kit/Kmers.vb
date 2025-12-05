@@ -37,7 +37,7 @@ Module KmersTool
     End Function
 
     <ExportAPI("bayes_background")>
-    <RApiReturn(GetType(Double))>
+    <RApiReturn(GetType(KmerBackground))>
     Public Function bayes_background(<RRawVectorArgument> kmers_db As Object,
                                      ncbi_taxonomy As NcbiTaxonomyTree,
                                      seq_id As SequenceCollection,
@@ -54,7 +54,7 @@ Module KmersTool
         End If
 
         Dim kmers As IEnumerable(Of KmerSeed) = pullKmers.populates(Of KmerSeed)(env)
-        Dim prior = estimate.BuildPriorDatabase(kmers, seq_id, targetRank)
+        Dim prior = estimate.BuildDatabase(kmers, seq_id, targetRank)
 
         Return prior
     End Function
