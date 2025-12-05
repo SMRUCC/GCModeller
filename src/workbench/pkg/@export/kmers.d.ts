@@ -28,7 +28,17 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function kmers_matrix(x: any, k?: object, env?: object): object;
+   module read {
+      /**
+      */
+      function kmers_background(dirpath: string): object;
+   }
    /**
    */
    function read_seqid(file: string): object;
+   module write {
+      /**
+      */
+      function kmers_background(bayes: object, dirpath: string): any;
+   }
 }
