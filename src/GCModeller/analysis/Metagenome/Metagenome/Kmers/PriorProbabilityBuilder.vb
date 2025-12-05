@@ -61,12 +61,11 @@ Namespace Kmers
             Console.WriteLine($"开始遍历k-mer数据库以统计k-mer数量... (目标层级: {targetRank})")
             Console.WriteLine("开始构建k-mer在不同物种中的计数分布...")
 
-            Using bar As New ProgressBar
+            Using bar As New ProgressBar With {.Maximum = Nothing}
                 bar.Text.Description.Clear()
 
-                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Element: {pb.ElementName}")
-                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Count: {pb.Value}")
-                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Processing time: {pb.TimeProcessing.TotalSeconds}s.")
+                bar.Text.Body.Processing.SetValue(Function(pb) $"k-mer: {pb.ElementName}, processed {pb.Value} kmers, total_time: {StringFormats.FormatTime(pb.TimeProcessing)}")
+                bar.Text.Body.Done.SetValue("Count all k-mers finished!")
 
                 ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
                 For Each seed As KmerSeed In kmerDatabase
