@@ -126,8 +126,12 @@ Namespace v2
             Dim genomeName$
             Dim enzymes As Dictionary(Of String, Enzyme) = model.metabolismStructure.enzymes _
                 .SafeQuery _
+                .GroupBy(Function(a) a.proteinID) _
                 .ToDictionary(Function(enzyme)
-                                  Return enzyme.proteinID
+                                  Return enzyme.Key
+                              End Function,
+                              Function(enzyme)
+                                  Return enzyme.First
                               End Function)
             Dim rnaTable As Dictionary(Of String, NamedValue(Of RNATypes))
             Dim RNA As NamedValue(Of RNATypes)
