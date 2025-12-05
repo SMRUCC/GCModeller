@@ -58,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -126,6 +127,11 @@ Namespace SequenceModel.NucleotideModels
         Sub New(loci As SimpleSegment, sId As String)
             Call Me.New(loci)
             ID = sId
+        End Sub
+
+        Sub New(id As String, seq As IPolymerSequenceModel)
+            _ID = id
+            _SequenceData = seq.SequenceData
         End Sub
 
         Sub New(site As SimpleSegment, loci As NucleotideLocation)

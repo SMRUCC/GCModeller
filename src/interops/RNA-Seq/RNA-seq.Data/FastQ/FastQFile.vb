@@ -74,6 +74,13 @@ Namespace FQ
 
         Dim _innerList As New List(Of FastQ)
 
+        Sub New()
+        End Sub
+
+        Sub New(reads As IEnumerable(Of FastQ))
+            _innerList = New List(Of FastQ)(reads)
+        End Sub
+
         ''' <summary>
         ''' Load the fastq data from a specific file handle.(从一个特定的文件句柄之中加载fastq文件的数据)
         ''' </summary>

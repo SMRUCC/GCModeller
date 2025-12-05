@@ -39,7 +39,7 @@ Public Class ReadSimulationConfig
     ''' <summary>
     ''' 模拟reads的最小和最大长度。
     ''' </summary>
-    Public Property ReadLengthRange As DoubleRange
+    Public Property ReadLengthRange As IntRange
 
     ''' <summary>
     ''' （可选）各基因组的相对丰度权重。Key为基因组的SequenceId，Value为权重。

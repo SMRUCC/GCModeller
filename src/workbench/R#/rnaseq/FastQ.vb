@@ -1,69 +1,73 @@
 ﻿#Region "Microsoft.VisualBasic::aa76880784ba6483bd4892eac3c07b44, R#\rnaseq\FastQ.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 95
-    '    Code Lines: 60 (63.16%)
-    ' Comment Lines: 28 (29.47%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 7 (7.37%)
-    '     File Size: 4.12 KB
+' Summaries:
 
 
-    ' Module FastQ
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetQualityScore, SequenceAssembler
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 95
+'    Code Lines: 60 (63.16%)
+' Comment Lines: 28 (29.47%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 7 (7.37%)
+'     File Size: 4.12 KB
+
+
+' Module FastQ
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: GetQualityScore, SequenceAssembler
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 ''' <summary>
 ''' FastQ toolkit
@@ -79,7 +83,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 ''' Analyzer.
 ''' </remarks>
 <Package("FastQ")>
-Public Module FastQ
+Public Module FastQTools
 
     Sub New()
         Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
@@ -98,6 +102,26 @@ Public Module FastQ
     <ExportAPI("read.fastq")>
     Public Function read_fastq(file As String) As FastQFile
         Return FastQFile.Load(file)
+    End Function
+
+    <ExportAPI("write.fastq")>
+    <RApiReturn(TypeCodes.boolean)>
+    Public Function write_fastq(<RRawVectorArgument> reads As Object, file As String, Optional env As Environment = Nothing) As Object
+        Dim fq As FastQFile = Nothing
+
+        If TypeOf reads Is FastQFile Then
+            fq = DirectCast(reads, FastQFile)
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            fq = New FastQFile(pull.populates(Of FastQ)(env))
+        End If
+
+        Return fq.WriteFastQ(file)
     End Function
 
     ''' <summary>
@@ -162,8 +186,32 @@ Public Module FastQ
         End If
     End Function
 
-    <ExportAPI("")>
-    Public Function simulate(genomes As Object, Optional n As Integer = 100000, Optional len As Object = "200,350", Optional env As Environment = Nothing) As Object
+    <ExportAPI("simulate_reads")>
+    <RApiReturn(GetType(FastQFile))>
+    Public Function simulate(<RRawVectorArgument> genomes As Object,
+                             Optional n As Integer = 100000,
+                             <RRawVectorArgument>
+                             Optional len As Object = "200,350",
+                             Optional env As Environment = Nothing) As Object
 
+        Dim readSeqs As FastaSeq() = GetFastaSeq(genomes, env).ToArray
+        Dim lenMinMax As Integer() = CLRVector.asInteger(len)
+        Dim config As New ReadSimulationConfig With {
+            .Genomes = readSeqs _
+                .Select(Function(f) New SimpleSegment(f.Title, f)) _
+                .ToArray,
+            .NumberOfReads = n,
+            .ReadLengthRange = New IntRange(lenMinMax)
+        }
+        Dim i As i32 = 1
+        Dim reads As New FastQFile(From s As String
+                                   In ReadsFakeSource.FakeReads(config)
+                                   Select New FastQ With {
+                                       .Quality = "I".RepeatString(s.Length),
+                                       .SequenceData = s,
+                                       .SEQ_ID = $"seq_{++i}",
+                                       .SEQ_Info = "+"
+                                   })
+        Return reads
     End Function
 End Module
