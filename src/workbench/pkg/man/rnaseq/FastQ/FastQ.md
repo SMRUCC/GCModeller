@@ -12,5 +12,7 @@ FastQ toolkit
 
 + [illumina_fastQ_id](FastQ/illumina_fastQ_id.1) 
 + [read.fastq](FastQ/read.fastq.1) read the fastq file
++ [write.fastq](FastQ/write.fastq.1) 
 + [assemble](FastQ/assemble.1) Do short reads assembling
 + [quality_score](FastQ/quality_score.1) In FASTQ files, quality scores are encoded into a compact form, 
++ [simulate_reads](FastQ/simulate_reads.1) 

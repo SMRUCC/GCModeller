@@ -2,7 +2,7 @@
 //
 //    imports "FastQ" from "rnaseq";
 //
-// ref=rnaseq.FastQ@rnaseq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=rnaseq.FastQTools@rnaseq, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * FastQ toolkit
@@ -53,5 +53,17 @@ declare namespace FastQ {
         * @param file -
       */
       function fastq(file: string): object;
+   }
+   /**
+     * @param n default value Is ``100000``.
+     * @param len default value Is ``'200,350'``.
+     * @param env default value Is ``null``.
+   */
+   function simulate_reads(genomes: any, n?: object, len?: any, env?: object): object;
+   module write {
+      /**
+        * @param env default value Is ``null``.
+      */
+      function fastq(reads: any, file: string, env?: object): boolean;
    }
 }
