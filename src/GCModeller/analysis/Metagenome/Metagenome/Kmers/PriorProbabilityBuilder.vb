@@ -49,21 +49,21 @@ Namespace Kmers
         ''' <param name="sequenceLookup">一个全局查找表，用于通过seqid获取SequenceSource信息。</param>
         ''' <param name="targetRank">用于计算先验概率的目标分类层级，例如 "genus", "family", "order"。</param>
         ''' <returns>一个字典，Key是物种的ncbi_taxid，Value是该物种相对于目标层级的先验概率。</returns>
-        Public Function BuildPriorDatabase(
+        Public Function BuildDatabase(
         kmerDatabase As IEnumerable(Of KmerSeed),
         sequenceLookup As SequenceCollection,
         targetRank As String
-    ) As Dictionary(Of Integer, Double)
+    ) As KmerBackground
 
             ' --- 步骤 1: 初始化计数器 ---
             ' 存储每个物种的k-mer总数
             Dim speciesKmerCounts As New Dictionary(Of Integer, ULong)()
-            ' 存储每个目标分类单元（如属、科）的k-mer总数
-            Dim parentGroupKmerCounts As New Dictionary(Of Integer, ULong)()
-            ' 缓存物种到其目标父级分类单元的映射关系，避免重复查询
-            Dim speciesToParentGroupMap As New Dictionary(Of Integer, Integer)()
+            ' --- 步骤 2: 初始化一个临时字典来记录每个k-mer在各自物种中的出现次数 ---
+            ' 结构: Dictionary(Of kmer_string, Dictionary(Of species_taxid, occurrence_count))
+            Dim kmerSpeciesCountsTemp As New Dictionary(Of String, Dictionary(Of Integer, ULong))()
 
             Console.WriteLine($"开始遍历k-mer数据库以统计k-mer数量... (目标层级: {targetRank})")
+            Console.WriteLine("开始构建k-mer在不同物种中的计数分布...")
 
             ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
             For Each seed As KmerSeed In kmerDatabase
@@ -74,9 +74,77 @@ Namespace Kmers
                         speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + CULng(src.count)
                     End If
                 Next
+
+                Dim kmerString As String = seed.kmer ' 获取k-mer字符串
+
+                ' 如果这个k-mer还未被记录，则初始化其内层字典
+                If Not kmerSpeciesCountsTemp.ContainsKey(kmerString) Then
+                    kmerSpeciesCountsTemp(kmerString) = New Dictionary(Of Integer, ULong)()
+                End If
+
+                ' 遍历该k-mer的所有来源(物种)
+                For Each src As KmerSource In seed.source
+                    If sequenceLookup(src.seqid) IsNot Nothing Then
+                        Dim seqSrc As SequenceSource = sequenceLookup(src.seqid)
+                        Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
+                        Dim kmerCountFromThisSource As ULong = CULng(src.count)
+
+                        ' 累加该k-mer在此物种中的出现次数
+                        Dim currentSpeciesCountsForKmer As Dictionary(Of Integer, ULong) = kmerSpeciesCountsTemp(kmerString)
+                        currentSpeciesCountsForKmer(speciesTaxId) = currentSpeciesCountsForKmer.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
+                    End If
+                Next
             Next
 
             Console.WriteLine("物种k-mer统计完成，开始建立物种与目标分类单元的映射关系...")
+
+            Return New KmerBackground With {
+                .Prior = BuildBayesPriorBackground(speciesKmerCounts, targetRank)
+            }
+        End Function
+
+        ''' <summary>
+        ''' 构建k-mer条件概率分布数据库 KmerDistributions。
+        ''' 计算公式：P(kmer | species) = (kmer在物种中出现的次数) / (该物种的总k-mer数)
+        ''' </summary>
+        ''' <returns>一个嵌套字典，Key是k-mer字符串，Value是内层字典（Key为物种taxid，Value为条件概率）。</returns>
+        Public Function BuildKmerDistributions(speciesKmerCounts As Dictionary(Of Integer, ULong), kmerSpeciesCountsTemp As Dictionary(Of String, Dictionary(Of Integer, ULong))) As Dictionary(Of String, Dictionary(Of Integer, Double))
+            Console.WriteLine("k-mer计数分布统计完成，开始计算条件概率...")
+
+            ' --- 步骤 3: 计算条件概率，构建最终的KmerDistributions ---
+            Dim kmerDists As New Dictionary(Of String, Dictionary(Of Integer, Double))()
+
+            For Each kmerEntry In kmerSpeciesCountsTemp
+                Dim kmerStr As String = kmerEntry.Key
+                Dim speciesCounts As Dictionary(Of Integer, ULong) = kmerEntry.Value
+
+                kmerDists(kmerStr) = New Dictionary(Of Integer, Double)()
+
+                For Each speciesCount In speciesCounts
+                    Dim speciesTaxId As Integer = speciesCount.Key
+                    Dim kmerOccurrenceInSpecies As ULong = speciesCount.Value
+                    Dim totalKmersInSpecies As ULong = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL)
+
+                    ' 计算条件概率：P(kmer | species)
+                    If totalKmersInSpecies > 0UL Then
+                        Dim conditionalProb As Double = CDbl(kmerOccurrenceInSpecies) / CDbl(totalKmersInSpecies)
+                        kmerDists(kmerStr)(speciesTaxId) = conditionalProb
+                    Else
+                        ' 如果该物种总k-mer数为0（理论上不应发生），则概率设为0
+                        kmerDists(kmerStr)(speciesTaxId) = 0.0
+                    End If
+                Next
+            Next
+
+            Console.WriteLine($"K-mer条件概率分布数据库构建完成，共包含 {kmerDists.Count} 个唯一k-mer的概率数据。")
+            Return kmerDists
+        End Function
+
+        Private Function BuildBayesPriorBackground(speciesKmerCounts As Dictionary(Of Integer, ULong), targetRank As String) As Dictionary(Of Integer, Double)
+            ' 存储每个目标分类单元（如属、科）的k-mer总数
+            Dim parentGroupKmerCounts As New Dictionary(Of Integer, ULong)()
+            ' 缓存物种到其目标父级分类单元的映射关系，避免重复查询
+            Dim speciesToParentGroupMap As New Dictionary(Of Integer, Integer)()
 
             ' --- 步骤 3: 建立每个物种到其目标父级分类单元的映射 ---
             For Each speciesTaxId In speciesKmerCounts.Keys
@@ -120,6 +188,13 @@ Namespace Kmers
             Console.WriteLine($"针对 '{targetRank}' 层级的先验概率数据库构建完成，共包含 {priors.Count} 个物种的概率数据。")
             Return priors
         End Function
+
+    End Class
+
+    Public Class KmerBackground
+
+        Public Property Prior As Dictionary(Of Integer, Double)
+        Public Property KmerDistributions As Dictionary(Of String, Dictionary(Of Integer, Double))
 
     End Class
 End Namespace
