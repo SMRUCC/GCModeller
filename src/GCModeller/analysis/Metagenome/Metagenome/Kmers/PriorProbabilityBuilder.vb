@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.ConsoleProgressBar
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Kmers
 
@@ -60,30 +61,40 @@ Namespace Kmers
             Console.WriteLine($"开始遍历k-mer数据库以统计k-mer数量... (目标层级: {targetRank})")
             Console.WriteLine("开始构建k-mer在不同物种中的计数分布...")
 
-            ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
-            For Each seed As KmerSeed In kmerDatabase
-                Dim kmerString As String = seed.kmer ' 获取k-mer字符串
+            Using bar As New ProgressBar
+                bar.Text.Description.Clear()
 
-                ' 如果这个k-mer还未被记录，则初始化其内层字典
-                If Not kmerSpeciesCountsTemp.HashKmer(kmerString) Then
-                    kmerSpeciesCountsTemp.Add(kmerString, New Dictionary(Of Integer, ULong))
-                End If
+                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Element: {pb.ElementName}")
+                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Count: {pb.Value}")
+                bar.Text.Description.Processing.AddNew().SetValue(Function(pb) $"Processing time: {pb.TimeProcessing.TotalSeconds}s.")
 
-                ' 遍历该k-mer的所有来源(物种)
-                For Each src As KmerSource In seed.source
-                    If sequenceLookup(src.seqid) IsNot Nothing Then
-                        Dim seqSrc As SequenceSource = sequenceLookup(src.seqid)
-                        Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
-                        Dim kmerCountFromThisSource As ULong = CULng(src.count)
+                ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
+                For Each seed As KmerSeed In kmerDatabase
+                    Dim kmerString As String = seed.kmer ' 获取k-mer字符串
 
-                        speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
-
-                        ' 累加该k-mer在此物种中的出现次数
-                        Dim currentSpeciesCountsForKmer As Dictionary(Of Integer, ULong) = kmerSpeciesCountsTemp(kmerString)
-                        currentSpeciesCountsForKmer(speciesTaxId) = currentSpeciesCountsForKmer.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
+                    ' 如果这个k-mer还未被记录，则初始化其内层字典
+                    If Not kmerSpeciesCountsTemp.HashKmer(kmerString) Then
+                        kmerSpeciesCountsTemp.Add(kmerString, New Dictionary(Of Integer, ULong))
                     End If
+
+                    ' 遍历该k-mer的所有来源(物种)
+                    For Each src As KmerSource In seed.source
+                        If sequenceLookup(src.seqid) IsNot Nothing Then
+                            Dim seqSrc As SequenceSource = sequenceLookup(src.seqid)
+                            Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
+                            Dim kmerCountFromThisSource As ULong = CULng(src.count)
+
+                            speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
+
+                            ' 累加该k-mer在此物种中的出现次数
+                            Dim currentSpeciesCountsForKmer As Dictionary(Of Integer, ULong) = kmerSpeciesCountsTemp(kmerString)
+                            currentSpeciesCountsForKmer(speciesTaxId) = currentSpeciesCountsForKmer.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
+                        End If
+                    Next
+
+                    Call bar.PerformStep(seed.kmer)
                 Next
-            Next
+            End Using
 
             Console.WriteLine("物种k-mer统计完成，开始建立物种与目标分类单元的映射关系...")
 
