@@ -216,6 +216,7 @@ Module genbankKit
             Return RInternal.debug.stop("the required file list can not be nothing!", env)
         End If
 
+        ' CLRIterator
         Return pipeline.CreateFromPopulator(Populates(files, autoClose, env))
     End Function
 
