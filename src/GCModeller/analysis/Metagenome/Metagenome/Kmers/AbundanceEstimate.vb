@@ -15,7 +15,7 @@ Namespace Kmers
         ''' 全局k-mer分布：Key是k-mer字符串, Value是一个字典
         ''' 内层字典的Key是物种的ncbi_taxid, Value是该k-mer在该物种中的概率
         ''' </summary>
-        Dim KmerDistributions As New Dictionary(Of String, Dictionary(Of Integer, Double))
+        Dim KmerDistributions As KmerMemory(Of Dictionary(Of Integer, Double))
         Dim sequenceLookup As SequenceCollection
 #End Region
 
@@ -36,36 +36,6 @@ Namespace Kmers
         Public Function SetSequenceDb(seqs As SequenceCollection) As AbundanceEstimate
             sequenceLookup = seqs
             Return Me
-        End Function
-
-        ''' <summary>
-        ''' 阶段一：从单条Read的KmerSeed数组中提取原始分类信息
-        ''' </summary>
-        ''' <param name="kmerSeedsForRead"></param>
-        ''' <returns></returns>
-        Public Function GetRawTaxonomyCounts(kmerSeedsForRead As KmerSeed()) As Dictionary(Of Integer, Integer)
-            Dim taxonomyCounts As New Dictionary(Of Integer, Integer)()
-
-            For Each seed As KmerSeed In kmerSeedsForRead
-                ' 一个k-mer可能匹配多个来源，我们按权重分配
-                ' weight = 1 / source.Length，表示每个来源分得1/N的票
-                Dim voteWeight As Double = seed.weight
-
-                For Each src As KmerSource In seed.source
-                    ' 通过seqid找到对应的SequenceSource，从而获得ncbi_taxid
-                    If sequenceLookup.HasSequence(src.seqid) Then
-                        Dim taxId As Integer = sequenceLookup(src.seqid).ncbi_taxid
-
-                        If taxonomyCounts.ContainsKey(taxId) Then
-                            taxonomyCounts(taxId) += CInt(Math.Ceiling(voteWeight))
-                        Else
-                            taxonomyCounts(taxId) = CInt(Math.Ceiling(voteWeight))
-                        End If
-                    End If
-                Next
-            Next
-
-            Return taxonomyCounts
         End Function
 
         Private Iterator Function GetSpeciesInGenus(genusC_taxid As Integer) As IEnumerable(Of Integer)
@@ -127,8 +97,6 @@ Namespace Kmers
         ''' </param>
         ''' <returns></returns>
         Public Function EstimateAbundanceForGenus(kmerOfRead As KmerSeed(), ncbi_taxid As Integer) As Dictionary(Of Integer, Double)
-            ' 1. 获取原始分类计数
-            Dim rawCounts As Dictionary(Of Integer, Integer) = GetRawTaxonomyCounts(kmerOfRead)
             ' 2. 找到属C下的所有物种（假设我们有一个函数可以做到）
             Dim speciesInGenus As New List(Of Integer)(GetSpeciesInGenus(ncbi_taxid)) ' 例如返回 {taxid_s1, taxid_s2}
             ' 3. 收集所有与属C相关的k-mer
@@ -161,11 +129,15 @@ Namespace Kmers
                 Dim logLikelihood As Double = 0
 
                 For Each kmer As String In relevantKmers
-                    If KmerDistributions.ContainsKey(kmer) AndAlso KmerDistributions(kmer).ContainsKey(speciesId) Then
-                        Dim prob As Double = KmerDistributions(kmer)(speciesId)
-                        ' 避免log(0)
-                        If prob > 0 Then
-                            logLikelihood += Math.Log(prob)
+                    If KmerDistributions.HashKmer(kmer) Then
+                        Dim kmerDist = KmerDistributions(kmer)
+
+                        If kmerDist.ContainsKey(speciesId) Then
+                            Dim prob As Double = KmerDistributions(kmer)(speciesId)
+                            ' 避免log(0)
+                            If prob > 0 Then
+                                logLikelihood += Math.Log(prob)
+                            End If
                         End If
                     End If
                 Next
