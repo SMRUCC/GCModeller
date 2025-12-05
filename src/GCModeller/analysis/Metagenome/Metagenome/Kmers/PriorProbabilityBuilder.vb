@@ -67,14 +67,6 @@ Namespace Kmers
 
             ' --- 步骤 2: 遍历数据库，统计物种的k-mer数量 ---
             For Each seed As KmerSeed In kmerDatabase
-                For Each src As KmerSource In seed.source
-                    If sequenceLookup(src.seqid) IsNot Nothing Then
-                        Dim seqSrc As SequenceSource = sequenceLookup(src.seqid)
-                        Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
-                        speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + CULng(src.count)
-                    End If
-                Next
-
                 Dim kmerString As String = seed.kmer ' 获取k-mer字符串
 
                 ' 如果这个k-mer还未被记录，则初始化其内层字典
@@ -89,6 +81,8 @@ Namespace Kmers
                         Dim speciesTaxId As Integer = seqSrc.ncbi_taxid
                         Dim kmerCountFromThisSource As ULong = CULng(src.count)
 
+                        speciesKmerCounts(speciesTaxId) = speciesKmerCounts.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
+
                         ' 累加该k-mer在此物种中的出现次数
                         Dim currentSpeciesCountsForKmer As Dictionary(Of Integer, ULong) = kmerSpeciesCountsTemp(kmerString)
                         currentSpeciesCountsForKmer(speciesTaxId) = currentSpeciesCountsForKmer.TryGetValue(speciesTaxId, default:=0UL) + kmerCountFromThisSource
@@ -100,7 +94,8 @@ Namespace Kmers
 
             Return New KmerBackground With {
                 .Prior = BuildBayesPriorBackground(speciesKmerCounts, targetRank),
-                .KmerDistributions = BuildKmerDistributions(speciesKmerCounts, kmerSpeciesCountsTemp)
+                .KmerDistributions = BuildKmerDistributions(speciesKmerCounts, kmerSpeciesCountsTemp),
+                .speciesKmerCounts = speciesKmerCounts
             }
         End Function
 
@@ -196,6 +191,7 @@ Namespace Kmers
 
         Public Property Prior As Dictionary(Of Integer, Double)
         Public Property KmerDistributions As Dictionary(Of String, Dictionary(Of Integer, Double))
+        Public Property speciesKmerCounts As Dictionary(Of Integer, ULong)
 
     End Class
 End Namespace
