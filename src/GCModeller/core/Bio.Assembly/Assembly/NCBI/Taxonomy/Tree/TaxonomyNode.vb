@@ -109,6 +109,10 @@ Namespace Assembly.NCBI.Taxonomy
             End Get
         End Property
 
+        Public Function HasChilds() As Boolean
+            Return Not children.IsNullOrEmpty
+        End Function
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
