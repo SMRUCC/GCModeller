@@ -41,6 +41,7 @@ Namespace Kmers
                 Dim line As Value(Of String) = ""
                 Dim cache As New Dictionary(Of String, Dictionary(Of Integer, Double))
 
+                ' skip of the csv header line
                 Call csv.ReadLine()
 
                 Do While (line = csv.ReadLine) IsNot Nothing
