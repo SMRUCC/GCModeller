@@ -55,7 +55,7 @@ Namespace Kmers
             Dim speciesKmerCounts As New Dictionary(Of Integer, ULong)()
             ' --- 步骤 2: 初始化一个临时字典来记录每个k-mer在各自物种中的出现次数 ---
             ' 结构: Dictionary(Of kmer_string, Dictionary(Of species_taxid, occurrence_count))
-            Dim kmerSpeciesCountsTemp As New Dictionary(Of String, Dictionary(Of Integer, ULong))()
+            Dim kmerSpeciesCountsTemp As New KmerMemory(Of Dictionary(Of Integer, ULong))
 
             Console.WriteLine($"开始遍历k-mer数据库以统计k-mer数量... (目标层级: {targetRank})")
             Console.WriteLine("开始构建k-mer在不同物种中的计数分布...")
@@ -65,8 +65,8 @@ Namespace Kmers
                 Dim kmerString As String = seed.kmer ' 获取k-mer字符串
 
                 ' 如果这个k-mer还未被记录，则初始化其内层字典
-                If Not kmerSpeciesCountsTemp.ContainsKey(kmerString) Then
-                    kmerSpeciesCountsTemp(kmerString) = New Dictionary(Of Integer, ULong)()
+                If Not kmerSpeciesCountsTemp.HashKmer(kmerString) Then
+                    kmerSpeciesCountsTemp.Add(kmerString, New Dictionary(Of Integer, ULong))
                 End If
 
                 ' 遍历该k-mer的所有来源(物种)
@@ -99,17 +99,18 @@ Namespace Kmers
         ''' 计算公式：P(kmer | species) = (kmer在物种中出现的次数) / (该物种的总k-mer数)
         ''' </summary>
         ''' <returns>一个嵌套字典，Key是k-mer字符串，Value是内层字典（Key为物种taxid，Value为条件概率）。</returns>
-        Public Function BuildKmerDistributions(speciesKmerCounts As Dictionary(Of Integer, ULong), kmerSpeciesCountsTemp As Dictionary(Of String, Dictionary(Of Integer, ULong))) As Dictionary(Of String, Dictionary(Of Integer, Double))
+        Public Function BuildKmerDistributions(speciesKmerCounts As Dictionary(Of Integer, ULong), kmerSpeciesCountsTemp As KmerMemory(Of Dictionary(Of Integer, ULong))) As KmerMemory(Of Dictionary(Of Integer, Double))
             Console.WriteLine("k-mer计数分布统计完成，开始计算条件概率...")
 
             ' --- 步骤 3: 计算条件概率，构建最终的KmerDistributions ---
-            Dim kmerDists As New Dictionary(Of String, Dictionary(Of Integer, Double))()
+            Dim kmerDists As New KmerMemory(Of Dictionary(Of Integer, Double))
 
             For Each kmerEntry In kmerSpeciesCountsTemp
                 Dim kmerStr As String = kmerEntry.Key
                 Dim speciesCounts As Dictionary(Of Integer, ULong) = kmerEntry.Value
+                Dim dists As New Dictionary(Of Integer, Double)
 
-                kmerDists(kmerStr) = New Dictionary(Of Integer, Double)()
+                Call kmerDists.Add(kmerStr, dists)
 
                 For Each speciesCount In speciesCounts
                     Dim speciesTaxId As Integer = speciesCount.Key
@@ -119,10 +120,10 @@ Namespace Kmers
                     ' 计算条件概率：P(kmer | species)
                     If totalKmersInSpecies > 0UL Then
                         Dim conditionalProb As Double = CDbl(kmerOccurrenceInSpecies) / CDbl(totalKmersInSpecies)
-                        kmerDists(kmerStr)(speciesTaxId) = conditionalProb
+                        dists(speciesTaxId) = conditionalProb
                     Else
                         ' 如果该物种总k-mer数为0（理论上不应发生），则概率设为0
-                        kmerDists(kmerStr)(speciesTaxId) = 0.0
+                        dists(speciesTaxId) = 0.0
                     End If
                 Next
             Next
@@ -185,7 +186,7 @@ Namespace Kmers
     Public Class KmerBackground
 
         Public Property Prior As Dictionary(Of Integer, Double)
-        Public Property KmerDistributions As Dictionary(Of String, Dictionary(Of Integer, Double))
+        Public Property KmerDistributions As KmerMemory(Of Dictionary(Of Integer, Double))
         Public Property speciesKmerCounts As Dictionary(Of Integer, ULong)
 
     End Class

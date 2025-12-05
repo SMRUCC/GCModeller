@@ -6,7 +6,23 @@
       "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\priorprobabilitybuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\kmermemory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\abundanceestimate.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\sequencecollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\vectorization\\objectset.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\interpreter\\executeengine\\expressionsymbols\\turing\\forloop.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\taxonomy\\tree\\taxonomynode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -33,9 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\fasta.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\sequencecollection.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -45,7 +58,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 180,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 18,
           "Children": [
             {
               "$type": "Bookmark",
@@ -73,7 +86,44 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ObjectSet.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Vectorization\\ObjectSet.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Vectorization\\ObjectSet.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Vectorization\\ObjectSet.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Vectorization\\ObjectSet.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGcAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T14:19:58.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ForLoop.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Turing\\ForLoop.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Turing\\ForLoop.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Turing\\ForLoop.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Turing\\ForLoop.vb",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAiwPwAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T14:19:04.152Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "genbankKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
+              "RelativeToolTip": "seqtoolkit\\Annotations\\genbankKit.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAANoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T14:18:22.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "TaxonomyNode.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\TaxonomyNode.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\TaxonomyNode.vb",
@@ -81,25 +131,24 @@
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\TaxonomyNode.vb",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAFEAAABSAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-05T01:06:09.085Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-05T01:06:09.085Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "AbundanceEstimate.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\AbundanceEstimate.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\AbundanceEstimate.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\AbundanceEstimate.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\AbundanceEstimate.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAmwBEAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-05T01:02:34.321Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 10,
               "Title": "FastICA.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\FastICA.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\FastICA.vb",
@@ -111,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 12,
               "Title": "16sAssembler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\16sAssembler.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\16sAssembler.vb",
@@ -123,7 +172,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 13,
               "Title": "Contig.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Contig.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Contig.vb",
@@ -135,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 11,
               "Title": "ReadsFakeSource.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
@@ -147,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "Fasta.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Fasta.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Fasta.vb",
@@ -159,7 +208,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 9,
               "Title": "NcbiTaxonomyTree.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
@@ -171,13 +220,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 4,
               "Title": "SequenceCollection.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\SequenceCollection.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\SequenceCollection.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\SequenceCollection.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\SequenceCollection.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwCkAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-04T23:18:56.908Z"
             },
@@ -189,14 +238,14 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\PriorProbabilityBuilder.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\PriorProbabilityBuilder.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\PriorProbabilityBuilder.vb",
-              "ViewState": "AgIAAC8AAAAAAAAAAAAowDkAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAAowDwAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-04T23:07:41.448Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 8,
               "Title": "Kmers.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
               "RelativeDocumentMoniker": "metagenomics_kit\\Kmers.vb",
@@ -204,7 +253,25 @@
               "RelativeToolTip": "metagenomics_kit\\Kmers.vb",
               "ViewState": "AgIAAAkAAAAAAAAAAAAuwC8AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-04T22:29:27.758Z",
+              "WhenOpened": "2025-12-04T22:29:27.758Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 180,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KmerMemory.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\KmerMemory.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\KmerMemory.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\KmerMemory.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\KmerMemory.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T20:58:31.272Z",
               "EditorCaption": ""
             }
           ]
