@@ -49,12 +49,7 @@ Namespace Kmers
         ''' <param name="sequenceLookup">一个全局查找表，用于通过seqid获取SequenceSource信息。</param>
         ''' <param name="targetRank">用于计算先验概率的目标分类层级，例如 "genus", "family", "order"。</param>
         ''' <returns>一个字典，Key是物种的ncbi_taxid，Value是该物种相对于目标层级的先验概率。</returns>
-        Public Function BuildDatabase(
-        kmerDatabase As IEnumerable(Of KmerSeed),
-        sequenceLookup As SequenceCollection,
-        targetRank As String
-    ) As KmerBackground
-
+        Public Function BuildDatabase(kmerDatabase As IEnumerable(Of KmerSeed), sequenceLookup As SequenceCollection, targetRank As String) As KmerBackground
             ' --- 步骤 1: 初始化计数器 ---
             ' 存储每个物种的k-mer总数
             Dim speciesKmerCounts As New Dictionary(Of Integer, ULong)()
