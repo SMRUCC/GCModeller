@@ -28,12 +28,12 @@ Namespace Kmers
                 Call csv.Flush()
             End Using
 
-            Call Prior.GetJson.SaveTo($"{dir}/bayes_prior.json")
+            Call Prior.GetJson.SaveTo($"{dir}/bayes_priors.json")
             Call speciesKmerCounts.GetJson.SaveTo($"{dir}/species_kmer.json")
         End Sub
 
         Public Shared Function Load(dir As String, Optional cache_size As Integer = 1000) As KmerBackground
-            Dim bayes As Dictionary(Of Integer, Double) = $"{dir}/bayes_prior.json".LoadJsonFile(Of Dictionary(Of Integer, Double))
+            Dim bayes As Dictionary(Of Integer, Double) = $"{dir}/bayes_priors.json".LoadJsonFile(Of Dictionary(Of Integer, Double))
             Dim species As Dictionary(Of Integer, ULong) = $"{dir}/species_kmer.json".LoadJsonFile(Of Dictionary(Of Integer, ULong))
             Dim kmerDist As New KmerMemory(Of Dictionary(Of Integer, Double))
 
