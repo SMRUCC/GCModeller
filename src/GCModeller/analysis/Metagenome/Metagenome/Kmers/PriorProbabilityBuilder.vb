@@ -99,7 +99,8 @@ Namespace Kmers
             Console.WriteLine("物种k-mer统计完成，开始建立物种与目标分类单元的映射关系...")
 
             Return New KmerBackground With {
-                .Prior = BuildBayesPriorBackground(speciesKmerCounts, targetRank)
+                .Prior = BuildBayesPriorBackground(speciesKmerCounts, targetRank),
+                .KmerDistributions = BuildKmerDistributions(speciesKmerCounts, kmerSpeciesCountsTemp)
             }
         End Function
 
