@@ -3,14 +3,23 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\simulator\\readsimulationconfig.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\simulator\\regionhotspot.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\simulator\\readsfakesource.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\stream.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{CACA6ECA-DADF-4C7D-A99E-E1AA8AFEFFA9}|rnaseq\\rnaseq.vbproj|solutionrelative:rnaseq\\fastq.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\fastq\\fastqfile.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{379F1EB6-289F-481E-80DF-4A783E9C6996}|..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\RNA-seq.Data.NET5.vbproj|g:\\gcmodeller\\src\\interops\\rna-seq\\rna-seq.data\\readsfakesource.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\sequencemodel\\nucleicacid\\objects\\simplesegment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -26,11 +35,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 180,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "RegionHotspot.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\RegionHotspot.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\RegionHotspot.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\RegionHotspot.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\RegionHotspot.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T23:55:36.035Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReadSimulationConfig.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadSimulationConfig.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadSimulationConfig.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadSimulationConfig.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadSimulationConfig.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T23:55:23.3Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Stream.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\Stream.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-05T23:54:06.155Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "FastQFile.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQFile.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQFile.vb",
@@ -43,7 +91,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "SimpleSegment.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\SimpleSegment.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\SequenceModel\\NucleicAcid\\Objects\\SimpleSegment.vb",
@@ -80,20 +128,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "FastQ.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
               "RelativeDocumentMoniker": "rnaseq\\FastQ.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\rnaseq\\FastQ.vb",
               "RelativeToolTip": "rnaseq\\FastQ.vb",
-              "ViewState": "AgIAAJAAAAAAAAAAAAAAwMUAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAHsAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-05T22:42:32.437Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "FastQ.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQ.vb",
               "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\FastQ\\FastQ.vb",
@@ -108,11 +156,11 @@
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "ReadsFakeSource.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
-              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
-              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
-              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\ReadsFakeSource.vb",
-              "ViewState": "AgIAAMEAAAAAAAAAAAAAACkAAAAeAAAAAAAAAA==",
+              "DocumentMoniker": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadsFakeSource.vb",
+              "RelativeDocumentMoniker": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadsFakeSource.vb",
+              "ToolTip": "G:\\GCModeller\\src\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadsFakeSource.vb",
+              "RelativeToolTip": "..\\..\\interops\\RNA-Seq\\RNA-seq.Data\\Simulator\\ReadsFakeSource.vb",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAgwA4AAABgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-05T22:36:46.655Z",
               "EditorCaption": ""
