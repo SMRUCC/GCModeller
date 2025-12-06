@@ -192,6 +192,8 @@ Public Module FastQTools
                              Optional n As Integer = 100000,
                              <RRawVectorArgument(TypeCodes.integer)>
                              Optional len As Object = "200,350",
+                             <RRawVectorArgument>
+                             Optional genome_weights As list = Nothing,
                              Optional env As Environment = Nothing) As Object
 
         Dim readSeqs As FastaSeq() = GetFastaSeq(genomes, env).ToArray
@@ -201,7 +203,12 @@ Public Module FastQTools
                 .Select(Function(f) New SimpleSegment(f.Title, f)) _
                 .ToArray,
             .NumberOfReads = n,
-            .ReadLengthRange = New IntRange(lenMinMax)
+            .ReadLengthRange = New IntRange(lenMinMax),
+            .GenomeAbundanceWeights = If(
+                genome_weights IsNot Nothing,
+                genome_weights.AsGeneric(Of Double)(env),
+                New Dictionary(Of String, Double)
+            )
         }
         Dim i As i32 = 1
         Dim reads As New FastQFile(From s As String
