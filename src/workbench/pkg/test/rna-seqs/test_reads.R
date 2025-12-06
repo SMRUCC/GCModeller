@@ -13,17 +13,32 @@ let w1 = list(
 );
 let w2 = list(
     "AP014857 Escherichia albertii DNA, complete genome, strain: EC06-170. 4.66 MB" = 2000,
+    "CP002967 Escherichia coli W, complete genome. 4.90 MB" = 200
+);
+let w3 = list(
+    "CP002967 Escherichia coli W, complete genome. 4.90 MB" = 1000
+);
+let w4 = list(
+    "CP001671 Escherichia coli ABU 83972, complete genome. 5.13 MB" = 3000,
+    "CP001637 Escherichia coli DH1, complete genome. 4.63 MB" = 1500,
+    "CP002168 Escherichia coli UM146 plasmid pUM146, complete sequence. 114.55 KB" = 699
 );
 
-# print(names, max.print = 10000);
+writeLines(names, con = "Z:/names.txt");
 
-for(i in 1:9) {
+for(i in 1:5) {
     let reads1 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w1);
     let reads2 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w2);
-    let save1 = sprintf("Z:/w1_%s.fq", i);
-    let save2 = sprintf("Z:/w2_%s.fq", i);
+    let reads3 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w3);
+    let reads4 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w4);
+    let save1 = sprintf("Z:/test/w1_%s.fq", i);
+    let save2 = sprintf("Z:/test/w2_%s.fq", i);
+    let save3 = sprintf("Z:/test/w3_%s.fq", i);
+    let save4 = sprintf("Z:/test/w4_%s.fq", i);
 
     write.fastq(reads1, file = save1);
     write.fastq(reads2, file = save2);
+    write.fastq(reads3, file = save3);
+    write.fastq(reads4, file = save4);
 }
 

@@ -215,7 +215,7 @@ Public Module FastQTools
                                    In ReadsFakeSource.FakeReads(config)
                                    Select New FastQ With {
                                        .Quality = "I".RepeatString(s.Length),
-                                       .SequenceData = s.Length,
+                                       .SequenceData = s.SequenceData,
                                        .SEQ_ID = s.ID,
                                        .SEQ_Info = $"+ seq_{++i} {s.Length}bp"
                                    })
