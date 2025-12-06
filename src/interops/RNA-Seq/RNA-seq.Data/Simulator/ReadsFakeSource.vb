@@ -12,7 +12,7 @@ Public Module ReadsFakeSource
     ''' </summary>
     ''' <param name="config">一个包含所有模拟参数的 <see cref="ReadSimulationConfig"/> 对象。</param>
     ''' <returns>一个IEnumerable(Of String)，通过迭代器模式逐个返回模拟的read序列。</returns>
-    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of String)
+    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of SimpleSegment)
         ' --- 参数验证 ---
         If config Is Nothing Then
             Throw New ArgumentNullException(NameOf(config))
@@ -78,7 +78,13 @@ Public Module ReadsFakeSource
             Dim simulatedRead As String = sequence.Substring(startIndex, readLength)
 
             ' 6. 使用Yield返回当前生成的read
-            Yield simulatedRead
+            Yield New SimpleSegment With {
+                .SequenceData = simulatedRead,
+                .ID = selectedGenome.ID,
+                .Start = startIndex + 1,
+                .Ends = .Start + .Length,
+                .Strand = "+"
+            }
         Next
     End Function
 

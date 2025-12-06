@@ -211,13 +211,13 @@ Public Module FastQTools
             )
         }
         Dim i As i32 = 1
-        Dim reads As New FastQFile(From s As String
+        Dim reads As New FastQFile(From s As SimpleSegment
                                    In ReadsFakeSource.FakeReads(config)
                                    Select New FastQ With {
                                        .Quality = "I".RepeatString(s.Length),
-                                       .SequenceData = s,
-                                       .SEQ_ID = $"read_{++i} {s.Length}bp",
-                                       .SEQ_Info = "+"
+                                       .SequenceData = s.Length,
+                                       .SEQ_ID = s.ID,
+                                       .SEQ_Info = $"+ seq_{++i} {s.Length}bp"
                                    })
         Return reads
     End Function
