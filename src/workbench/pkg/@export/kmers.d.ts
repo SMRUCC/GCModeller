@@ -26,7 +26,7 @@ declare namespace kmers {
      * @param bayes -
      * @param reads all reads data in one sample
      * @param rank 
-     * + default value Is ``["species","genus","family","order","class","phylum","superkingdom"]``.
+     * + default value Is ``["genus","family","order","class","phylum","species"]``.
      * @param env -
      * 
      * + default value Is ``null``.

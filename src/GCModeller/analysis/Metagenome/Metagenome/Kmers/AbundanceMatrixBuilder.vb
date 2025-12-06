@@ -14,7 +14,7 @@ Namespace Kmers
         ''' <param name="allSampleAbundances">聚合后的数据，Key为样本ID，Value为该样本的物种丰度字典。</param>
         ''' <param name="performNormalization">是否执行按列（样本）的总和归一化，使每个样本的相对丰度之和为1。</param>
         ''' <returns>一个包含物种和样本丰度信息的DataTable。</returns>
-        Public Function BuildAndNormalizeAbundanceMatrix(allSampleAbundances As NamedValue(Of Dictionary(Of Integer, Double))(), Optional performNormalization As Boolean = True) As Matrix
+        Public Function BuildAndNormalizeAbundanceMatrix(allSampleAbundances As NamedValue(Of Dictionary(Of String, Double))(), Optional performNormalization As Boolean = True) As Matrix
             If allSampleAbundances.IsNullOrEmpty Then
                 Console.WriteLine("警告: 没有样本数据可用于构建丰度矩阵。")
                 Return New Matrix
@@ -40,9 +40,9 @@ Namespace Kmers
         End Function
 
         <Extension>
-        Private Function MatrixInternal(allSampleAbundances As Dictionary(Of String, Dictionary(Of Integer, Double)), performNormalization As Boolean, ByRef allSampleIds As String()) As DataTable
+        Private Function MatrixInternal(allSampleAbundances As Dictionary(Of String, Dictionary(Of String, Double)), performNormalization As Boolean, ByRef allSampleIds As String()) As DataTable
             ' --- 步骤 1: 识别所有唯一的物种和样本 ---
-            Dim allSpeciesIds As List(Of Integer) = allSampleAbundances.Values.
+            Dim allSpeciesIds As List(Of String) = allSampleAbundances.Values.
                 SelectMany(Function(dict) dict.Keys).
                 Distinct().
                 OrderBy(Function(id) id).ToList()
