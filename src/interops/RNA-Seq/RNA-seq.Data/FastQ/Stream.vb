@@ -96,9 +96,13 @@ Namespace FQ
             ' ASCII值减去33， 即为该碱基的测序质量值， 比如@对应的ASCII值为64， 那么其对应的碱基质量值是31。
             ' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
 
-            lines(Scan0) = fq.SEQ_ID.ToString
+            lines(Scan0) = If(fq.SEQ_ID.StringEmpty(, True),
+                "@" & fq.GetHashCode,
+                If(fq.SEQ_ID.StartsWith("@"),
+                    fq.SEQ_ID,
+                    "@" & fq.SEQ_ID))
             lines(1) = fq.SequenceData
-            lines(2) = If(fq.SEQ_Info.StringEmpty(, True), "+", fq.SEQ_Info.ToString)
+            lines(2) = If(fq.SEQ_Info.StringEmpty(, True), "+", fq.SEQ_Info)
             lines(3) = fq.Quality
 
             Return lines.JoinBy(ASCII.LF)
