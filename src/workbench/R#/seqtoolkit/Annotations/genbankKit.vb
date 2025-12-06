@@ -234,11 +234,16 @@ Module genbankKit
                 Dim filepath As String = CStr(file.value)
 
                 If filepath.ExtensionSuffix("gz") Then
-                    Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(s.UnGzipStream, suppressError:=True)
-                            Yield gb
-                        Next
-                    End Using
+                    Try
+                        Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                            For Each gb As GBFF.File In GBFF.File.LoadDatabase(s.UnGzipStream, suppressError:=True)
+                                Yield gb
+                            Next
+                        End Using
+                    Catch ex As Exception
+                        Call App.LogException(ex, filepath)
+                        Call $"gzip decompress error: {filepath}".warning
+                    End Try
                 Else
                     For Each gb As GBFF.File In GBFF.File.LoadDatabase(filepath, suppressError:=True)
                         Yield gb

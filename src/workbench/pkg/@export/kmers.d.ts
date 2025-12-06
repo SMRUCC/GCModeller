@@ -25,11 +25,13 @@ declare namespace kmers {
      * @param db -
      * @param bayes -
      * @param reads all reads data in one sample
+     * @param rank 
+     * + default value Is ``["species","genus","family","order","class","phylum","superkingdom"]``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function bayes_abundance(db: object, bayes: object, reads: any, env?: object): number;
+   function bayes_abundance(db: object, bayes: object, reads: any, rank?: any, env?: object): number;
    /**
      * @param rank default value Is ``["species","genus","family","order","class","phylum","superkingdom"]``.
      * @param env default value Is ``null``.

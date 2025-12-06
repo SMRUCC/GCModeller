@@ -3,7 +3,7 @@ require(GCModeller);
 imports "FastQ" from "rnaseq";
 imports ["bioseq.fasta","GenBank"] from "seqtoolkit";
 
-let asm_source = GenBank::load_genbanks(list.files("D:\\datapool\\ncbi_genbank") |> take(100));
+let asm_source = GenBank::load_genbanks(list.files("D:\\datapool\\ncbi_genbank") |> take(1000));
 let genomes = sapply(asm_source, gb -> GenBank::origin_fasta(gb));
 let names = [genomes]::Title;
 let w1 = list(
@@ -27,10 +27,10 @@ let w4 = list(
 writeLines(names, con = "Z:/names.txt");
 
 for(i in 1:5) {
-    let reads1 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w1);
-    let reads2 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w2);
-    let reads3 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w3);
-    let reads4 = FastQ::simulate_reads(genomes, n= 100000, genome_weights = w4);
+    let reads1 = FastQ::simulate_reads(genomes, n= 10000, genome_weights = w1);
+    let reads2 = FastQ::simulate_reads(genomes, n= 10000, genome_weights = w2);
+    let reads3 = FastQ::simulate_reads(genomes, n= 10000, genome_weights = w3);
+    let reads4 = FastQ::simulate_reads(genomes, n= 10000, genome_weights = w4);
     let save1 = sprintf("Z:/test/w1_%s.fq", i);
     let save2 = sprintf("Z:/test/w2_%s.fq", i);
     let save3 = sprintf("Z:/test/w3_%s.fq", i);
