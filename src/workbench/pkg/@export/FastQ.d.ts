@@ -57,9 +57,10 @@ declare namespace FastQ {
    /**
      * @param n default value Is ``100000``.
      * @param len default value Is ``[200,350]``.
+     * @param genome_weights default value Is ``null``.
      * @param env default value Is ``null``.
    */
-   function simulate_reads(genomes: any, n?: object, len?: any, env?: object): object;
+   function simulate_reads(genomes: any, n?: object, len?: any, genome_weights?: object, env?: object): object;
    module write {
       /**
         * @param env default value Is ``null``.

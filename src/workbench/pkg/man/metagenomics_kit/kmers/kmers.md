@@ -6,3 +6,6 @@
 + [read.kmers_background](kmers/read.kmers_background.1) 
 + [bayes_background](kmers/bayes_background.1) 
 + [read_seqid](kmers/read_seqid.1) 
++ [make_classify](kmers/make_classify.1) just make reads classify of the fastq reads based on the k-mer distribution
++ [bayes_abundance](kmers/bayes_abundance.1) quantify of the metagenome community via kmers and bayes method
++ [as.abundance_matrix](kmers/as.abundance_matrix.1) 

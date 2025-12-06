@@ -8,8 +8,28 @@
 
 /**
  * 
+ * 
 */
 declare namespace kmers {
+   module as {
+      /**
+        * @param normalized default value Is ``false``.
+        * @param env default value Is ``null``.
+      */
+      function abundance_matrix(samples: object, normalized?: boolean, env?: object): object;
+   }
+   /**
+    * quantify of the metagenome community via kmers and bayes method
+    * 
+    * 
+     * @param db -
+     * @param bayes -
+     * @param reads all reads data in one sample
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function bayes_abundance(db: object, bayes: object, reads: any, env?: object): number;
    /**
      * @param rank default value Is ``["species","genus","family","order","class","phylum","superkingdom"]``.
      * @param env default value Is ``null``.
@@ -28,6 +48,18 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function kmers_matrix(x: any, k?: object, env?: object): object;
+   /**
+    * just make reads classify of the fastq reads based on the k-mer distribution
+    * 
+    * > apply this method for do host sequence filter
+    * 
+     * @param db -
+     * @param reads -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function make_classify(db: object, reads: any, env?: object): object;
    module read {
       /**
       */
