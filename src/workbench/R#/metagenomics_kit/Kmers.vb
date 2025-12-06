@@ -135,7 +135,7 @@ Module KmersTool
     <RApiReturn(TypeCodes.double)>
     Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object,
                              <RRawVectorArgument(TypeCodes.string)>
-                             Optional rank As Object = "genus|family|order|class|phylum|superkingdom",
+                             Optional rank As Object = "genus|family|order|class|phylum|species",
                              Optional env As Environment = Nothing) As Object
 
         Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
