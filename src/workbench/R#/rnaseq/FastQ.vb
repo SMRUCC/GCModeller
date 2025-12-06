@@ -190,7 +190,7 @@ Public Module FastQTools
     <RApiReturn(GetType(FastQFile))>
     Public Function simulate(<RRawVectorArgument> genomes As Object,
                              Optional n As Integer = 100000,
-                             <RRawVectorArgument>
+                             <RRawVectorArgument(TypeCodes.integer)>
                              Optional len As Object = "200,350",
                              Optional env As Environment = Nothing) As Object
 
@@ -209,7 +209,7 @@ Public Module FastQTools
                                    Select New FastQ With {
                                        .Quality = "I".RepeatString(s.Length),
                                        .SequenceData = s,
-                                       .SEQ_ID = $"seq_{++i}",
+                                       .SEQ_ID = $"read_{++i} {s.Length}bp",
                                        .SEQ_Info = "+"
                                    })
         Return reads
