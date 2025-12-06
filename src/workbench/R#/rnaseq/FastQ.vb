@@ -191,7 +191,7 @@ Public Module FastQTools
     Public Function simulate(<RRawVectorArgument> genomes As Object,
                              Optional n As Integer = 100000,
                              <RRawVectorArgument(TypeCodes.integer)>
-                             Optional len As Object = "200,350",
+                             Optional len As Object = "350,550",
                              <RRawVectorArgument>
                              Optional genome_weights As list = Nothing,
                              Optional env As Environment = Nothing) As Object

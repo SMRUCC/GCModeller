@@ -56,7 +56,7 @@ declare namespace FastQ {
    }
    /**
      * @param n default value Is ``100000``.
-     * @param len default value Is ``[200,350]``.
+     * @param len default value Is ``[350,550]``.
      * @param genome_weights default value Is ``null``.
      * @param env default value Is ``null``.
    */
