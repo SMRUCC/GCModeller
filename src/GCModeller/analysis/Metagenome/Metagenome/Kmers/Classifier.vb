@@ -6,17 +6,10 @@ Namespace Kmers
     Public Class Classifier : Implements IDisposable
 
         Dim kmers As DatabaseReader
-        Dim cutoff As Double
 
-        Sub New(kmers As DatabaseReader, Optional cutoff As Double = 0.3)
+        Sub New(kmers As DatabaseReader)
             Me.kmers = kmers
-            Me.cutoff = cutoff
         End Sub
-
-        Public Function SetRatioCutoff(cutoff As Double) As Classifier
-            Me.cutoff = cutoff
-            Return Me
-        End Function
 
         ''' <summary>
         ''' 
@@ -28,8 +21,8 @@ Namespace Kmers
             ' parse input reads sequence as kmers
             ' and then get kmer hits from the database
             Dim kmerHits As KmerSeed() = KSeq.KmerSpans(reads, kmers.k) _
-            .Select(Function(k) kmers.GetKmer(k)) _
-            .ToArray
+                .Select(Function(k) kmers.GetKmer(k)) _
+                .ToArray
             Dim total As Integer = kmerHits.Length
             Dim scoreMap As New Dictionary(Of UInteger, Double)
             Dim hitsMap As New Dictionary(Of UInteger, Integer)
@@ -58,8 +51,8 @@ Namespace Kmers
 
             If scoreMap.Count = 0 Then
                 Return New SequenceHit With {
-                .name = "Unknown"
-            }
+                    .name = "Unknown"
+                }
             End If
 
             Dim topHitSeq = scoreMap.OrderByDescending(Function(a) a.Value).First
@@ -67,11 +60,11 @@ Namespace Kmers
             Dim identifies As Double = topHitSeq.Value / totalScore
 
             Return New SequenceHit(kmers.SequenceInfomation(topHitSeq.Key)) With {
-            .identities = identifies,
-            .total = totalScore,
-            .score = topHitSeq.Value,
-            .ratio = ratio
-        }
+                .identities = identifies,
+                .total = totalScore,
+                .score = topHitSeq.Value,
+                .ratio = ratio
+            }
         End Function
 
         Dim disposedValue As Boolean
