@@ -37,7 +37,7 @@ Namespace Kmers
             Dim species As Dictionary(Of Integer, ULong) = $"{dir}/species_kmer.json".LoadJsonFile(Of Dictionary(Of Integer, ULong))
             Dim kmerDist As New KmerMemory(Of Dictionary(Of Integer, Double))
 
-            Using csv As New StreamReader($"{dir}/kmer_dist.csv".Open(FileMode.OpenOrCreate, doClear:=True), Encoding.ASCII)
+            Using csv As New StreamReader($"{dir}/kmer_dist.csv".Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), Encoding.ASCII)
                 Dim line As Value(Of String) = ""
                 Dim cache As New Dictionary(Of String, Dictionary(Of Integer, Double))
 
