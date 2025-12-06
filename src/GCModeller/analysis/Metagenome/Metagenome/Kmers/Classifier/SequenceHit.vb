@@ -1,4 +1,6 @@
-﻿Namespace Kmers
+﻿Imports System.Runtime.CompilerServices
+
+Namespace Kmers
 
     Public Class SequenceHit : Inherits SequenceSource
 
@@ -17,6 +19,13 @@
             name = info.name
             accession_id = info.accession_id
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Unknown() As SequenceHit
+            Return New SequenceHit With {
+                .name = "Unknown"
+            }
+        End Function
 
     End Class
 End Namespace

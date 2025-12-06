@@ -50,16 +50,20 @@ Namespace Kmers
             Next
 
             If scoreMap.Count = 0 Then
-                Return New SequenceHit With {
-                    .name = "Unknown"
-                }
+                Return SequenceHit.Unknown
             End If
 
             Dim topHitSeq = scoreMap.OrderByDescending(Function(a) a.Value).First
+            Dim topdata = kmers.SequenceInfomation(topHitSeq.Key)
+
+            If topdata Is Nothing Then
+                Return SequenceHit.Unknown
+            End If
+
             Dim ratio As Double = hitsMap(topHitSeq.Key) / total
             Dim identifies As Double = topHitSeq.Value / totalScore
 
-            Return New SequenceHit(kmers.SequenceInfomation(topHitSeq.Key)) With {
+            Return New SequenceHit(topdata) With {
                 .identities = identifies,
                 .total = totalScore,
                 .score = topHitSeq.Value,
