@@ -39,9 +39,20 @@ Namespace Kmers
             Return Me
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="seq_id"></param>
+        ''' <returns>returns zero means not found</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function LookupTaxonomyId(seq_id As UInteger) As UInteger
-            Return sequenceLookup(seq_id).ncbi_taxid
+            Dim src = sequenceLookup(seq_id)
+
+            If src Is Nothing Then
+                Return 0
+            Else
+                Return src.ncbi_taxid
+            End If
         End Function
 
         Private Iterator Function GetSpeciesInGenus(genusC_taxid As Integer) As IEnumerable(Of Integer)
@@ -110,9 +121,9 @@ Namespace Kmers
 
             For Each seed As KmerSeed In kmerOfRead
                 For Each src As KmerSource In seed.source
-                    Dim taxId As Integer = sequenceLookup(src.seqid).ncbi_taxid
+                    Dim taxId As Integer = LookupTaxonomyId(src.seqid)
                     ' taxid is the child of target genusC_taxid?
-                    If IsDescendantOf(taxId, ncbi_taxid) Then
+                    If taxId > 0 AndAlso IsDescendantOf(taxId, ncbi_taxid) Then
                         relevantKmers.Add(seed.kmer)
                         Exit For ' 一个k-mer只算一次
                     End If

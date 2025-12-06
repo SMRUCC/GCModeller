@@ -152,6 +152,7 @@ Module KmersTool
             .IteratesALL _
             .Select(Function(a) bayes.LookupTaxonomyId(a.seqid)) _
             .Distinct _
+            .Where(Function(taxid) taxid > 0) _
             .ToArray
 
         Dim abundance As New Dictionary(Of Integer, Double)
