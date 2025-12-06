@@ -1,7 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -73,5 +75,52 @@ Module KmersTool
     <ExportAPI("read_seqid")>
     Public Function readSequenceDb(file As String) As SequenceCollection
         Return SequenceCollection.Load(file)
+    End Function
+
+    ''' <summary>
+    ''' quantify of the metagenome community via kmers and bayes method
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="bayes"></param>
+    ''' <param name="reads">all reads data in one sample</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("quantify")>
+    Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim readsData As IEnumerable(Of FastQ)
+
+        If readsFile.isError OrElse TypeOf reads Is FastQFile Then
+            If TypeOf reads Is FastQFile Then
+                readsData = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsFile.getError
+            End If
+        Else
+            readsData = readsFile.populates(Of FastQ)(env)
+        End If
+
+        Dim all_kmers As KmerSeed() = db.QueryKmers(readsData).ToArray
+        Dim all_speciesId = all_kmers.Select(Function(a) a.source) _
+            .IteratesALL _
+            .Select(Function(a) bayes.LookupTaxonomyId(a.seqid)) _
+            .Distinct _
+            .ToArray
+
+        Dim abundance As New Dictionary(Of Integer, Double)
+
+        ' 4. 循环处理每一个你关心的属
+        For Each ncbi_taxid As UInteger In all_speciesId
+            ' 5. 调用贝叶斯估算函数，传入完整的k-mer数据和目标属的ID
+            ' 函数内部会自己筛选出相关的k-mer并进行计算
+            Dim abundanceForThisGenus As Dictionary(Of Integer, Double) = bayes.EstimateAbundanceForGenus(all_kmers, ncbi_taxid)
+
+            ' 6. 将计算出的属内物种丰度合并到该样本的总丰度字典中
+            For Each kvp In abundanceForThisGenus
+                abundance(kvp.Key) = abundance.TryGetValue(kvp.Key, [default]:=0.0) + kvp.Value
+            Next
+        Next
+
+        Return abundance
     End Function
 End Module

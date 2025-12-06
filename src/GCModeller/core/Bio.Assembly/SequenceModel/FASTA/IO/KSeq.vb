@@ -123,6 +123,12 @@ Namespace SequenceModel.FASTA
             Next
         End Function
 
+        ''' <summary>
+        ''' split the given sequence as kmer span for a speicific biological sequence.
+        ''' </summary>
+        ''' <param name="seq_str"></param>
+        ''' <param name="k"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function KmerSpans(seq_str As String, k As Integer) As IEnumerable(Of String)
             For i As Integer = 0 To seq_str.Length - k
                 Yield seq_str.Substring(i, length:=k)

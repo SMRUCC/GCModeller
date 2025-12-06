@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+﻿Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Kmers
 
@@ -36,6 +37,11 @@ Namespace Kmers
         Public Function SetSequenceDb(seqs As SequenceCollection) As AbundanceEstimate
             sequenceLookup = seqs
             Return Me
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function LookupTaxonomyId(seq_id As UInteger) As UInteger
+            Return sequenceLookup(seq_id).ncbi_taxid
         End Function
 
         Private Iterator Function GetSpeciesInGenus(genusC_taxid As Integer) As IEnumerable(Of Integer)

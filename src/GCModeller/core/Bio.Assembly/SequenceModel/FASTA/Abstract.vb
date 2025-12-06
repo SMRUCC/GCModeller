@@ -102,7 +102,8 @@ Namespace SequenceModel.FASTA
     End Interface
 
     ''' <summary>
-    ''' This object could provide a sequence data through <see cref="ISequenceProvider.GetSequenceData()"/> function.
+    ''' This object could provide a biological sequence data
+    ''' through <see cref="ISequenceProvider.GetSequenceData()"/> function.
     ''' </summary>
     Public Interface ISequenceProvider
         Function GetSequenceData() As String
