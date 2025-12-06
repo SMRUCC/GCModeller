@@ -36,6 +36,9 @@ declare namespace kmers {
    */
    function bayes_background(kmers_db: any, ncbi_taxonomy: object, seq_id: object, rank?: any, env?: object): object;
    /**
+   */
+   function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
+   /**
     * generate sequence k-mer count data matrix
     * 
     * 
