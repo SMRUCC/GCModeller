@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FQ
@@ -85,7 +87,8 @@ Module KmersTool
     ''' <param name="reads">all reads data in one sample</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("quantify")>
+    <ExportAPI("bayes_abundance")>
+    <RApiReturn(TypeCodes.double)>
     Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
         Dim readsData As IEnumerable(Of FastQ)
@@ -122,5 +125,22 @@ Module KmersTool
         Next
 
         Return abundance
+    End Function
+
+    <ExportAPI("as.abundance_matrix")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function metagenome_matrix(<RListObjectArgument> samples As list,
+                                      Optional normalized As Boolean = False,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim sampleList As New List(Of NamedValue(Of Dictionary(Of Integer, Double)))
+
+        For Each name As String In samples.getNames
+            Dim data As Object = samples.getByName(name)
+
+
+        Next
+
+        Return AbundanceMatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
     End Function
 End Module
