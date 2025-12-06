@@ -1,9 +1,11 @@
-﻿Imports System.Runtime.CompilerServices
-
-Namespace Kmers
+﻿Namespace Kmers
 
     Public Interface DatabaseReader : Inherits IDisposable
 
+        ''' <summary>
+        ''' the char length of the k-mer span in this database
+        ''' </summary>
+        ''' <returns></returns>
         ReadOnly Property k As Integer
 
         Function GetKmer(kmer As String, Optional loadLocis As Boolean = False) As KmerSeed
