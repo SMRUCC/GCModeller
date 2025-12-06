@@ -85,7 +85,22 @@ Namespace Kmers
         End Function
 
         Public Function GetParentTaxIdAtRank(taxid As Integer, rank As String) As Integer
+            Dim lineage As TaxonomyNode() = taxonomyDB.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=True)
 
+            If lineage.IsNullOrEmpty Then
+                Return 0
+            End If
+            If NcbiTaxonomyTree.stdranks(lineage(0).rank) >= NcbiTaxonomyTree.stdranks(rank) Then
+                Return lineage(0).taxid
+            Else
+                For Each level As TaxonomyNode In lineage
+                    If level.rank = rank Then
+                        Return level.taxid
+                    End If
+                Next
+
+                Return 0
+            End If
         End Function
 
         ''' <summary>

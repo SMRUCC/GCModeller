@@ -105,6 +105,9 @@ Namespace Assembly.NCBI.Taxonomy
         ''' + phylum
         ''' + superkingdom
         ''' </summary>
+        ''' <remarks>
+        ''' use this index order for make comparision of the rank levels
+        ''' </remarks>
         Public Shared ReadOnly stdranks As Index(Of String) = {
             "species",
             "genus",
@@ -363,10 +366,10 @@ Namespace Assembly.NCBI.Taxonomy
                     std_lineage.Insert(0, lineage(lastlevel))
                 End If
 
-                lineage = std_lineage
+                Return std_lineage.ToArray
+            Else
+                Return lineage.ToArray
             End If
-
-            Return lineage
         End Function
 
         Private Function descendants(taxid As String) As IEnumerable(Of String)
