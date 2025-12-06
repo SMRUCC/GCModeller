@@ -160,6 +160,7 @@ Module KmersTool
             .Where(Function(taxid) taxid > 0) _
             .Select(Function(taxid) bayes.GetParentTaxIdAtRank(taxid, rank_str)) _
             .Where(Function(taxid) taxid > 0) _
+            .Distinct _
             .ToArray
 
         Dim abundance As New Dictionary(Of Integer, Double)

@@ -10,11 +10,11 @@
       "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\abundanceestimate.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\taxonomy\\tree\\ncbitaxonomytree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\ncbi\\taxonomy\\tree\\ncbitaxonomytree.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{E2D629CC-31B1-4BD6-97FA-E3714537D3A6}|seqtoolkit\\seqtoolkit.NET5.vbproj|solutionrelative:seqtoolkit\\annotations\\genbankkit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -52,7 +52,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "genbankKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\seqtoolkit\\Annotations\\genbankKit.vb",
               "RelativeDocumentMoniker": "seqtoolkit\\Annotations\\genbankKit.vb",
@@ -65,13 +65,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "NcbiTaxonomyTree.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\NCBI\\Taxonomy\\Tree\\NcbiTaxonomyTree.vb",
-              "ViewState": "AgIAADoBAAAAAAAAAAAowGUBAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAAG8AAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-06T10:32:45.616Z",
               "EditorCaption": ""
@@ -97,7 +97,7 @@
               "RelativeDocumentMoniker": "metagenomics_kit\\Kmers.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
               "RelativeToolTip": "metagenomics_kit\\Kmers.vb",
-              "ViewState": "AgIAAHUAAAAAAAAAAAAuwIkAAAA4AAAAAAAAAA==",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAuwJMAAAAQAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-06T10:23:20.386Z",
               "EditorCaption": ""
