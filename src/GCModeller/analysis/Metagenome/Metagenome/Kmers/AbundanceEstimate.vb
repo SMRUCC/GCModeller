@@ -55,8 +55,8 @@ Namespace Kmers
             End If
         End Function
 
-        Private Iterator Function GetSpeciesInGenus(genusC_taxid As Integer) As IEnumerable(Of Integer)
-            Dim node As TaxonomyNode = taxonomyDB(genusC_taxid)
+        Private Iterator Function GetSpeciesInGenus(taxid As Integer) As IEnumerable(Of Integer)
+            Dim node As TaxonomyNode = taxonomyDB(taxid)
 
             If node.rank = "species" Then
                 Yield node.taxid
@@ -72,16 +72,20 @@ Namespace Kmers
             End If
         End Function
 
-        Private Function IsDescendantOf(taxId As Integer, genusC_taxid As Integer) As Boolean
+        Private Function IsDescendantOf(taxId As Integer, genus_taxid As Integer) As Boolean
             Dim lineage As TaxonomyNode() = taxonomyDB.GetAscendantsWithRanksAndNames(taxId)
 
             For Each parent As TaxonomyNode In lineage
-                If parent.taxid = genusC_taxid Then
+                If parent.taxid = genus_taxid Then
                     Return True
                 End If
             Next
 
             Return False
+        End Function
+
+        Public Function GetParentTaxIdAtRank(taxid As Integer, rank As String) As Integer
+
         End Function
 
         ''' <summary>

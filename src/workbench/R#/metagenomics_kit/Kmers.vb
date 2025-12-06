@@ -133,9 +133,14 @@ Module KmersTool
     ''' <returns></returns>
     <ExportAPI("bayes_abundance")>
     <RApiReturn(TypeCodes.double)>
-    Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+    Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object,
+                             <RRawVectorArgument(TypeCodes.string)>
+                             Optional rank As Object = "",
+                             Optional env As Environment = Nothing) As Object
+
         Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
         Dim readsData As IEnumerable(Of FastQ)
+        Dim rank_str As String = CLRVector.asScalarCharacter(rank)
 
         If readsFile.isError OrElse TypeOf reads Is FastQFile Then
             If TypeOf reads Is FastQFile Then
@@ -152,6 +157,8 @@ Module KmersTool
             .IteratesALL _
             .Select(Function(a) bayes.LookupTaxonomyId(a.seqid)) _
             .Distinct _
+            .Where(Function(taxid) taxid > 0) _
+            .Select(Function(taxid) bayes.GetParentTaxIdAtRank(taxid, rank_str)) _
             .Where(Function(taxid) taxid > 0) _
             .ToArray
 
