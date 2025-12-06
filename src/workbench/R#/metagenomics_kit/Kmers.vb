@@ -118,6 +118,11 @@ Module KmersTool
         Return labels.ToArray
     End Function
 
+    <ExportAPI("bayes_estimate")>
+    Public Function bayes_estimate(background As KmerBackground, taxonomyDB As NcbiTaxonomyTree, seq_ids As SequenceCollection) As AbundanceEstimate
+        Return New AbundanceEstimate(taxonomyDB).SetBackground(background).SetSequenceDb(seq_ids)
+    End Function
+
     ''' <summary>
     ''' quantify of the metagenome community via kmers and bayes method
     ''' </summary>
