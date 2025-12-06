@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -77,6 +78,44 @@ Module KmersTool
     <ExportAPI("read_seqid")>
     Public Function readSequenceDb(file As String) As SequenceCollection
         Return SequenceCollection.Load(file)
+    End Function
+
+    ''' <summary>
+    ''' just make reads classify of the fastq reads based on the k-mer distribution
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' apply this method for do host sequence filter
+    ''' </remarks>
+    <ExportAPI("make_classify")>
+    <RApiReturn(GetType(SequenceHit))>
+    Public Function make_classify(db As DatabaseReader, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim classifier As New Classifier(db)
+        Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim labels As New List(Of SequenceHit)
+        Dim readsData As IEnumerable(Of FastQ)
+
+        If readsFile.isError OrElse TypeOf reads Is FastQFile Then
+            If TypeOf reads Is FastQFile Then
+                readsData = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsFile.getError
+            End If
+        Else
+            readsData = readsFile.populates(Of FastQ)(env)
+        End If
+
+        For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+            Dim hit = classifier.MakeClassify(read.SequenceData)
+
+            hit.reads_title = read.SEQ_ID
+            labels.Add(hit)
+        Next
+
+        Return labels.ToArray
     End Function
 
     ''' <summary>
