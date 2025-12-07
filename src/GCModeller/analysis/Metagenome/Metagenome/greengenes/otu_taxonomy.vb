@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
@@ -62,11 +63,23 @@ Imports SMRUCC.genomics.Metagenomics
 
 Namespace greengenes
 
+    ''' <summary>
+    ''' otu id mappingg to taxonomy lineage information
+    ''' </summary>
     Public Class otu_taxonomy : Implements INamedValue
 
+        ''' <summary>
+        ''' the otu id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' the taxonomy lineage information
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Taxonomy As Taxonomy
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return Taxonomy.CreateTable.Value.TaxonomyString
         End Function

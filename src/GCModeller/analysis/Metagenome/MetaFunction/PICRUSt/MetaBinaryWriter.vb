@@ -149,7 +149,7 @@ Namespace PICRUSt
             Dim dt As Double
             Dim dsize As Double
 
-            Call Console.WriteLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
+            Call VBDebugger.EchoLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
 
             ' save ko id vector data
             Call file.Write(koId.Length)
@@ -173,7 +173,7 @@ Namespace PICRUSt
                 ggId = tokens(Scan0)
 
                 If Not ggTax.ContainsKey(ggId) Then
-                    Call Console.WriteLine($"skip missing id: {ggId}...")
+                    Call $"skip missing id: {ggId}...".debug
                     Continue Do
                 End If
 
@@ -184,7 +184,7 @@ Namespace PICRUSt
                     .ToArray
 
                 If data.Length <> koId.Length Then
-                    Call Console.WriteLine($"found invalid line: {line.Value.Substring(0, 32)}...")
+                    Call $"found invalid line: {line.Value.Substring(0, 32)}...".debug
                     Continue Do
                 End If
 
@@ -220,12 +220,12 @@ Namespace PICRUSt
                     dt = App.ElapsedMilliseconds - prog
                     prog = App.ElapsedMilliseconds
 
-                    Console.WriteLine($"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}/s")
+                    Call $"[{(pos / size * 100).ToString("F0")}%] {StringFormats.Lanudry(pos)}/{StringFormats.Lanudry(size)} ~ {StringFormats.Lanudry(dsize / (dt / 1000))}/s".info
                 End If
             Loop
 
             Call file.Flush()
-            Call Console.WriteLine("~done!")
+            Call VBDebugger.EchoLine("~done!")
         End Sub
 
         Public Sub ImportsComputes(ko_13_5_precalculated As Stream)
