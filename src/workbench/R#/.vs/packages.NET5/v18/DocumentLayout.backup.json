@@ -7,20 +7,14 @@
       "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\otutabletools.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\otutable\\otu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FDBB7A20-7766-4DA0-91B5-9797659D3A67}|..\\..\\GCModeller\\analysis\\Metagenome\\MetaFunction\\MetaFunction.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metafunction\\picrust\\predictmetagenome.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\base.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\metagenomics\\taxonomy.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\objects\\dataset\\list.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\otutable\\otu.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,8 +24,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 154,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Taxonomy.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\Taxonomy.vb",
+              "ViewState": "AgIAAEkBAAAAAAAAAAAAwGQBAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-07T14:21:46.095Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
@@ -58,15 +65,28 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "OTU.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTU.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTU.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTU.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\OTUTable\\OTU.vb",
-              "ViewState": "AgIAAKgAAAAAAAAAAAAowM4AAABMAAAAAAAAAA==",
+              "ViewState": "AgIAAL8AAAAAAAAAAAAowM0AAAB6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-07T13:07:27.562Z",
+              "WhenOpened": "2025-12-07T14:20:48.857Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "microbiomeKit.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
+              "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
+              "ViewState": "AgIAAEkAAAAAAAAAAAAAAGoAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-07T14:18:16.618Z",
               "EditorCaption": ""
             },
             {
@@ -77,61 +97,9 @@
               "RelativeDocumentMoniker": "metagenomics_kit\\OTUTableTools.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\OTUTableTools.vb",
               "RelativeToolTip": "metagenomics_kit\\OTUTableTools.vb",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAYwJcAAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAAHgAAAAAAAAAAAAiwKcAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-07T13:07:16.939Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PredictMetagenome.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\PICRUSt\\PredictMetagenome.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\MetaFunction\\PICRUSt\\PredictMetagenome.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\MetaFunction\\PICRUSt\\PredictMetagenome.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\MetaFunction\\PICRUSt\\PredictMetagenome.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFUAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-07T13:06:52.002Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "base.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
-              "ViewState": "AgIAAE4HAAAAAAAAAAAowH0HAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-07T13:02:38.759Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "list.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\list.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\list.vb",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\list.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\list.vb",
-              "ViewState": "AgIAAAkDAAAAAAAAAAAYwCwDAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-07T13:00:56.961Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "microbiomeKit.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
-              "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
-              "RelativeToolTip": "metagenomics_kit\\microbiomeKit.vb",
-              "ViewState": "AgIAALUAAAAAAAAAAAA5wO0AAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-07T08:19:40.955Z",
               "EditorCaption": ""
             }
           ]

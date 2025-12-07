@@ -73,13 +73,13 @@ declare namespace OTU_table {
        * 
        * 
         * @param file -
-        * @param sumDuplicated -
+        * @param sum_duplicated sum all OTU data if theirs taxonomy information is the same
         * 
         * + default value Is ``true``.
         * @param OTUTaxonAnalysis 
         * + default value Is ``false``.
       */
-      function OTUtable(file: string, sumDuplicated?: boolean, OTUTaxonAnalysis?: boolean): object;
+      function OTUtable(file: string, sum_duplicated?: boolean, OTUTaxonAnalysis?: boolean): object;
    }
    /**
     * Transform abundance data in an otu_table to relative abundance, sample-by-sample. 

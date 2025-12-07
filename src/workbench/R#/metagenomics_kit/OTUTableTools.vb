@@ -144,11 +144,11 @@ Module OTUTableTools
     ''' read 16s OTU table
     ''' </summary>
     ''' <param name="file"></param>
-    ''' <param name="sumDuplicated"></param>
+    ''' <param name="sum_duplicated">sum all OTU data if theirs taxonomy information is the same</param>
     ''' <returns></returns>
     <ExportAPI("read.OTUtable")>
     Public Function readOTUTable(file As String,
-                                 Optional sumDuplicated As Boolean = True,
+                                 Optional sum_duplicated As Boolean = True,
                                  Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
         Dim otus As OTUTable()
 
@@ -160,7 +160,7 @@ Module OTUTableTools
             otus = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
         End If
 
-        If sumDuplicated Then
+        If sum_duplicated Then
             Return OTUTable.SumDuplicatedOTU(otus).ToArray
         Else
             Return otus
