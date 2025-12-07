@@ -16,7 +16,7 @@ declare namespace kmers {
         * @param normalized default value Is ``false``.
         * @param env default value Is ``null``.
       */
-      function abundance_matrix(samples: object, normalized?: boolean, env?: object): object;
+      function abundance_matrix(samples: any, normalized?: boolean, env?: object): object;
    }
    /**
     * quantify of the metagenome community via kmers and bayes method
