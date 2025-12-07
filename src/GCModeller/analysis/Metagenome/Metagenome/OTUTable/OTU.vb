@@ -224,15 +224,13 @@ Public Module OTU
 
         Do While df.Read
             Dim tax As New Taxonomy() With {
-                .[class] = df.GetString([class]),
-                .family = df.GetString(family),
-                .genus = df.GetString(genus),
-                .kingdom = Strings.Trim(df.GetString(kingdom)) _
-                    .Replace("norank_d_", "") _
-                    .Trim("_"c, " "c, "-"c, "."c),
-                .order = df.GetString(order),
-                .phylum = df.GetString(phylum),
-                .species = df.GetString(species)
+                .[class] = RankStringCleanup(df.GetString([class])),
+                .family = RankStringCleanup(df.GetString(family)),
+                .genus = RankStringCleanup(df.GetString(genus)),
+                .kingdom = RankStringCleanup(df.GetString(kingdom)),
+                .order = RankStringCleanup(df.GetString(order)),
+                .phylum = RankStringCleanup(df.GetString(phylum)),
+                .species = RankStringCleanup(df.GetString(species))
             }
             Dim id As String = df.GetString(otu)
             Dim data As New Dictionary(Of String, Double)
@@ -247,5 +245,11 @@ Public Module OTU
                 .taxonomy = tax
             }
         Loop
+    End Function
+
+    Private Function RankStringCleanup(s As String) As String
+        Return Strings.Trim(s) _
+            .StringReplace("norank_[a-z]+_+", "") _
+            .Trim("_"c, " "c, "-"c, "."c)
     End Function
 End Module
