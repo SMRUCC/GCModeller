@@ -227,7 +227,9 @@ Public Module OTU
                 .[class] = df.GetString([class]),
                 .family = df.GetString(family),
                 .genus = df.GetString(genus),
-                .kingdom = Strings.Trim(df.GetString(kingdom)).Replace("norank_d_", ""),
+                .kingdom = Strings.Trim(df.GetString(kingdom)) _
+                    .Replace("norank_d_", "") _
+                    .Trim("_"c, " "c, "-"c, "."c),
                 .order = df.GetString(order),
                 .phylum = df.GetString(phylum),
                 .species = df.GetString(species)
