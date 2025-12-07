@@ -3,11 +3,11 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\base.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\microbiomekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\internalinvokes\\base.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\objects\\dataset\\list.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -20,17 +20,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 154,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 8,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "base.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
               "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\internalInvokes\\base.vb",
-              "ViewState": "AgIAAE4HAAAAAAAAAAAowHYHAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAE4HAAAAAAAAAAAowH0HAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-07T13:02:38.759Z",
               "EditorCaption": ""
@@ -74,7 +74,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "microbiomeKit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\microbiomeKit.vb",
               "RelativeDocumentMoniker": "metagenomics_kit\\microbiomeKit.vb",
