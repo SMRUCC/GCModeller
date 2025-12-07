@@ -213,8 +213,8 @@ Public Module OTU
         Dim family = df.GetOrdinal("family")
         Dim genus = df.GetOrdinal("genus")
         Dim species = df.GetOrdinal("species")
-        Dim otu = df.GetOrdinal("otu")
-        Dim assets As Index(Of String) = {"Total", "Prevalence", "Percent", "domain", "kingdom", "phylum", "class", "order", "family", "genus", "species", "otu"}
+        Dim otu = df.GetOrdinal("otu", "asv")
+        Dim assets As Index(Of String) = {"Total", "Prevalence", "Percent", "domain", "kingdom", "phylum", "class", "order", "family", "genus", "species", "otu", "asv"}
         Dim sampleIds As String() = df.HeadTitles _
             .Where(Function(str)
                        Return Not (str Like assets)
