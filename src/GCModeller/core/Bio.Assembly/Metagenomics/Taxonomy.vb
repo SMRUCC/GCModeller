@@ -1,64 +1,65 @@
 ﻿#Region "Microsoft.VisualBasic::00f2bdd472857e242a750957bcad6237, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 354
-    '    Code Lines: 229 (64.69%)
-    ' Comment Lines: 79 (22.32%)
-    '    - Xml Docs: 77.22%
-    ' 
-    '   Blank Lines: 46 (12.99%)
-    '     File Size: 14.09 KB
+' Summaries:
 
 
-    '     Class Taxonomy
-    ' 
-    '         Properties: [class], family, genus, kingdom, lowestLevel
-    '                     ncbi_taxid, order, phylum, scientificName, species
-    ' 
-    '         Constructor: (+5 Overloads) Sub New
-    '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
-    '                   Rank, ToArray, (+3 Overloads) ToString
-    '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 354
+'    Code Lines: 229 (64.69%)
+' Comment Lines: 79 (22.32%)
+'    - Xml Docs: 77.22%
+' 
+'   Blank Lines: 46 (12.99%)
+'     File Size: 14.09 KB
+
+
+'     Class Taxonomy
+' 
+'         Properties: [class], family, genus, kingdom, lowestLevel
+'                     ncbi_taxid, order, phylum, scientificName, species
+' 
+'         Constructor: (+5 Overloads) Sub New
+'         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
+'                   Rank, ToArray, (+3 Overloads) ToString
+'         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -364,17 +365,29 @@ Namespace Metagenomics
             Dim tax As New List(Of String)
             Dim i As i32 = Scan0
 
-            tax += If(Me.kingdom.StringEmpty, "", BIOMPrefixAlt(++i) & Me.kingdom)
-            tax += If(Me.phylum.StringEmpty, "", BIOMPrefixAlt(++i) & Me.phylum)
-            tax += If(Me.class.StringEmpty, "", BIOMPrefixAlt(++i) & Me.class)
-            tax += If(Me.order.StringEmpty, "", BIOMPrefixAlt(++i) & Me.order)
-            tax += If(Me.family.StringEmpty, "", BIOMPrefixAlt(++i) & Me.family)
-            tax += If(Me.genus.StringEmpty, "", BIOMPrefixAlt(++i) & Me.genus)
-            tax += If(Me.species.StringEmpty, "", BIOMPrefixAlt(++i) & Me.species)
+            tax += rankName(BIOMPrefixAlt(++i), kingdom)
+            tax += rankName(BIOMPrefixAlt(++i), phylum)
+            tax += rankName(BIOMPrefixAlt(++i), [class])
+            tax += rankName(BIOMPrefixAlt(++i), order)
+            tax += rankName(BIOMPrefixAlt(++i), family)
+            tax += rankName(BIOMPrefixAlt(++i), genus)
+            tax += rankName(BIOMPrefixAlt(++i), species)
 
             Return tax _
                 .Where(Function(t) Not t.StringEmpty) _
                 .JoinBy(";")
+        End Function
+
+        Private Shared Function rankName(biomprefix As String, name As String) As String
+            If name.StringEmpty Then
+                Return biomprefix
+            End If
+
+            If name.StartsWith("[a-z]__", RegexICSng) Then
+                Return name
+            Else
+                Return biomprefix & name
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
