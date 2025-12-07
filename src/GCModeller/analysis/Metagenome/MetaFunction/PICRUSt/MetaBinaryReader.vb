@@ -149,7 +149,12 @@ Namespace PICRUSt
             End If
         End Function
 
-        Public Function findRawByTaxonomy(taxonomy As Taxonomy) As Single()
+        ''' <summary>
+        ''' read raw vector that associated with the given taxonomy information
+        ''' </summary>
+        ''' <param name="taxonomy"></param>
+        ''' <returns></returns>
+        Public Function findRawByTaxonomy(taxonomy As Taxonomy, ByRef copyNum16s As Double) As Single()
             Dim nodes As String() = taxonomy.ToArray
             Dim target As ko_13_5_precalculated = tree.FindNode(nodes)
 
@@ -157,8 +162,9 @@ Namespace PICRUSt
                 Return Nothing
             End If
 
+            ' data offset of all child node in current taxonomy node
             Dim offsets As Long() = getAllLineageOffsets(target).ToArray
-            Dim v As Single() = readByOffsets(offsets)
+            Dim v As Single() = readByOffsets(offsets, copyNum16s)
 
             Return v
         End Function
@@ -175,28 +181,40 @@ Namespace PICRUSt
             Next
         End Function
 
-        Private Function readByOffsets(offsets As Long())
+        Private Function readByOffsets(offsets As Long(), ByRef copyNum16s As Double) As Single()
             If offsets.IsNullOrEmpty Then
                 Return Nothing
             Else
                 Dim output As Single() = New Single(ko.Length - 1) {}
                 Dim v As Single()
 
+                copyNum16s = 0
+
                 For Each offset As Long In (From l As Long In offsets Where l > 0)
                     buffer.Seek(offset, SeekOrigin.Begin)
-                    v = buffer.ReadSingles(ko.Length)
+                    v = buffer.ReadSingles(ko.Length + 1)
 
-                    For i As Integer = 0 To v.Length - 1
+                    For i As Integer = 0 To ko.Length - 1
                         output(i) += v(i)
                     Next
+
+                    copyNum16s += v(v.Length - 1)
                 Next
 
                 Return output
             End If
         End Function
 
-        Public Function findByTaxonomy(taxonomy As Taxonomy) As Dictionary(Of String, Double)
-            Dim v As Single() = findRawByTaxonomy(taxonomy)
+        ''' <summary>
+        ''' get KO gene abundance vector for a speicfic taxonomy otu
+        ''' </summary>
+        ''' <param name="taxonomy"></param>
+        ''' <param name="copyNum16s">
+        ''' get 16s copy number of current taxonomy for the data normalization
+        ''' </param>
+        ''' <returns></returns>
+        Public Function findByTaxonomy(taxonomy As Taxonomy, ByRef copyNum16s As Double) As Dictionary(Of String, Double)
+            Dim v As Single() = findRawByTaxonomy(taxonomy, copyNum16s)
 
             If v Is Nothing Then
                 Return Nothing
@@ -216,7 +234,7 @@ Namespace PICRUSt
                 Return Nothing
             Else
                 Dim offset As Long() = getAllLineageOffsets(index(id)).ToArray
-                Dim v As Single() = readByOffsets(offset)
+                Dim v As Single() = readByOffsets(offset, copyNum16s:=0)
 
                 Return v
             End If

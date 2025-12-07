@@ -110,6 +110,11 @@ Namespace PICRUSt
             Return (Parent.QualifyName & ";" & $"{taxonomyRank.Description.ToLower}__{label}").Trim("/"c, ";"c, " "c, ASCII.TAB, "."c)
         End Function
 
+        ''' <summary>
+        ''' add data block offset into current taxonomy tree node data list
+        ''' </summary>
+        ''' <param name="ggid"></param>
+        ''' <param name="offset"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Sub Add(ggid As String, offset As Long)
             Call Data.Add(ggid, offset)

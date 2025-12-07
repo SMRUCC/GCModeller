@@ -73,13 +73,21 @@ Namespace PICRUSt
             KOIds = precalculated.GetAllFeatureIds
         End Sub
 
-        Private Iterator Function LoadGenomeContent(OTUtable As OTUData(Of Double)()) As IEnumerable(Of Dictionary(Of String, Double))
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="OTUtable"></param>
+        ''' <returns>metagenome data that keeps the same order with the rows of the input <paramref name="OTUtable"/></returns>
+        Private Iterator Function LoadGenomeContent(OTUtable As OTUData(Of Double)(), copyNum16s As List(Of Double)) As IEnumerable(Of Dictionary(Of String, Double))
             For i As Integer = 0 To OTUtable.Length - 1
                 Dim OTU As OTUData(Of Double) = OTUtable(i)
                 Dim tax As Taxonomy = BIOMTaxonomyParser.Parse(OTU.taxonomy)
-                Dim data As Dictionary(Of String, Double) = precalculated.findByTaxonomy(tax)
+                Dim copyNum As Double = 0
+                Dim data As Dictionary(Of String, Double) = precalculated.findByTaxonomy(tax, copyNum)
 
                 Call println($" -> {data.TryCount} hits, {OTU.taxonomy} [{i + 1}/{OTUtable.Length}]", True)
+
+                copyNum16s.Add(copyNum)
 
                 If data.IsNullOrEmpty Then
                     Yield KOIds.ToDictionary(Function(id) id, Function(any) 0.0)
@@ -91,7 +99,19 @@ Namespace PICRUSt
             Call println(" done!", True)
         End Function
 
-        Private Function SamplePredicts(allSampleNames As String(), OTUtable As OTUData(Of Double)(), OTUdata As Dictionary(Of String, Double)()) As OTUData(Of Dictionary(Of String, Double))()
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="allSampleNames"></param>
+        ''' <param name="OTUtable">the input otu table data</param>
+        ''' <param name="OTUdata">the readed metagenome data, keeps the same order with the rows of the <paramref name="OTUtable"/></param>
+        ''' <param name="copyNumbers">the 16s copy number data vector, keeps the same order with the rows of the <paramref name="OTUtable"/></param>
+        ''' <returns></returns>
+        Private Function SamplePredicts(allSampleNames As String(),
+                                        OTUtable As OTUData(Of Double)(),
+                                        OTUdata As Dictionary(Of String, Double)(),
+                                        copyNumbers As Double()) As OTUData(Of Dictionary(Of String, Double))()
+
             Dim OTU_KO As OTUData(Of Dictionary(Of String, Double))() = New OTUData(Of Dictionary(Of String, Double))(OTUdata.Length - 1) {}
 
             For i As Integer = 0 To OTU_KO.Length - 1
@@ -107,20 +127,26 @@ Namespace PICRUSt
             Call println("start processing samples:", True)
 
             For Each name As String In allSampleNames
-                Dim v As Double() = OTUtable _
+                Dim rawAbundances As Double() = OTUtable _
                     .Select(Function(OTU) OTU.data.TryGetValue(name)) _
                     .ToArray
-                Dim sum As Double = v.Sum
+                ' 2. 计算拷贝数校正后的丰度 (raw_abundance / copy_number)
+                Dim normalizedAbundances As Double() = rawAbundances _
+                    .Select(Function(ab, i) If(copyNumbers(i) > 0, ab / copyNumbers(i), 0)) _
+                    .ToArray()
+                ' 3. 基于校正后的丰度计算新的总和，用于归一化
+                Dim sumOfNormalized As Double = normalizedAbundances.Sum
 
                 Call println($"[{++n}/{allSampleNames.Length}]Processing sample: {name}...", False)
 
-                For i As Integer = 0 To v.Length - 1
-                    Dim norm As Double = v(i) / sum
+                For i As Integer = 0 To normalizedAbundances.Length - 1
+                    ' 4. 计算最终的、用于预测的相对丰度
+                    Dim finalNorm As Double = normalizedAbundances(i) / sumOfNormalized
                     Dim PICRUSt As Dictionary(Of String, Double) = OTUdata(i)
                     Dim ko_vec As Dictionary(Of String, Double) = KOIds _
                         .ToDictionary(Function(id) id,
                                       Function(id)
-                                          Return norm * PICRUSt(id)
+                                          Return finalNorm * PICRUSt(id)
                                       End Function)
 
                     Call OTU_KO(i).data.Add(name, ko_vec)
@@ -175,8 +201,9 @@ Namespace PICRUSt
             Call println($"Loading taxonomy reference data...", True)
 
             ' load ko_13_5_precalculated genome content for each OTU
-            Dim OTUdata As Dictionary(Of String, Double)() = LoadGenomeContent(OTUtable).ToArray
-            Dim OTU_KO As OTUData(Of Dictionary(Of String, Double))() = SamplePredicts(allSampleNames, OTUtable, OTUdata)
+            Dim copyNum16s As New List(Of Double)
+            Dim OTUdata As Dictionary(Of String, Double)() = LoadGenomeContent(OTUtable, copyNum16s).ToArray
+            Dim OTU_KO As OTUData(Of Dictionary(Of String, Double))() = SamplePredicts(allSampleNames, OTUtable, OTUdata, copyNum16s.ToArray)
             Dim featureSize As Integer = precalculated.featureSize
 
             ' column is sample names

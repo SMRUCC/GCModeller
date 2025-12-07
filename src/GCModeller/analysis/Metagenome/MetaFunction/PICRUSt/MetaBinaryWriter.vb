@@ -148,9 +148,14 @@ Namespace PICRUSt
             Dim pos As Long
             Dim dt As Double
             Dim dsize As Double
+            Dim copyNum16s As Single
 
             Call VBDebugger.EchoLine($"start to process matrix with {koId.Length} KO features and data size {StringFormats.Lanudry(size)}")
 
+            ' 20251207 please note that the KO id length is N
+            ' but the data vector store in matrix is N+1
+            ' where the +1 is the data of 16s copy number
+            ' placed at the end of the ko vector for each taxonomy otu
             ' save ko id vector data
             Call file.Write(koId.Length)
 
@@ -177,6 +182,7 @@ Namespace PICRUSt
                     Continue Do
                 End If
 
+                copyNum16s = copyNumbers.TryGetValue(ggId)
                 taxonomy = ggTax(ggId)
                 data = tokens _
                     .Skip(1) _
@@ -192,7 +198,9 @@ Namespace PICRUSt
                 offset = file.Position
                 target = offsetIndex
 
+                ' KO data ...... 16s copy number
                 Call file.Write(data)
+                Call file.Write(copyNum16s)
 
                 For j As Integer = 0 To tokens.Length - 1
                     name = tokens(j)
