@@ -201,16 +201,37 @@ Module microbiomeKit
     ''' <returns></returns>
     <ExportAPI("predict_metagenomes")>
     <RApiReturn(GetType(OTUData(Of Double)))>
-    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, table As Object, Optional env As Environment = Nothing) As Object
+    Public Function predict_metagenomes(PICRUSt As MetaBinaryReader, <RRawVectorArgument> table As Object, Optional env As Environment = Nothing) As Object
         Dim OTUtable As OTUData(Of Double)()
         Dim println As Action(Of String, Boolean) = Sub(line, newLine) Call base.cat(line & If(newLine, "\n", ""),,, env:=env)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(table, env)
 
-        If TypeOf table Is dataframe Then
-            OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
-        ElseIf TypeOf table Is HTSMatrix Then
-            OTUtable = DirectCast(table, HTSMatrix).OTUtable.ToArray
+        If pull.isError Then
+            pull = pipeline.TryCreatePipeline(Of OTUData(Of Double))(table, env)
+
+            If pull.isError Then
+                If TypeOf table Is dataframe Then
+                    OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
+                ElseIf TypeOf table Is HTSMatrix Then
+                    OTUtable = DirectCast(table, HTSMatrix).OTUtable.ToArray
+                Else
+                    Return Message.InCompatibleType(GetType(HTSMatrix), table.GetType, env)
+                End If
+            Else
+                OTUtable = pull _
+                    .populates(Of OTUData(Of Double))(env) _
+                    .ToArray
+            End If
         Else
-            Return Message.InCompatibleType(GetType(HTSMatrix), table.GetType, env)
+            OTUtable = pull.populates(Of OTUTable)(env) _
+                .Select(Function(a)
+                            Return New OTUData(Of Double) With {
+                                .OTU = a.ID,
+                                .data = a.Properties,
+                                .taxonomy = a.taxonomy.BIOMTaxonomyString
+                            }
+                        End Function) _
+                .ToArray
         End If
 
         Dim predictor As New PredictMetagenome(PICRUSt, println)
