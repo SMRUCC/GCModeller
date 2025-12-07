@@ -75,7 +75,7 @@ declare namespace OTU_table {
         * @param file -
         * @param sum_duplicated sum all OTU data if theirs taxonomy information is the same
         * 
-        * + default value Is ``true``.
+        * + default value Is ``false``.
         * @param OTUTaxonAnalysis 
         * + default value Is ``false``.
       */

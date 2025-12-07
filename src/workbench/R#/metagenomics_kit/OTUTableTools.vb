@@ -148,7 +148,7 @@ Module OTUTableTools
     ''' <returns></returns>
     <ExportAPI("read.OTUtable")>
     Public Function readOTUTable(file As String,
-                                 Optional sum_duplicated As Boolean = True,
+                                 Optional sum_duplicated As Boolean = False,
                                  Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
         Dim otus As OTUTable()
 
