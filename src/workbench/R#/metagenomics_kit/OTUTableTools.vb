@@ -167,6 +167,11 @@ Module OTUTableTools
         End If
     End Function
 
+    <ExportAPI("read.OTUdata")>
+    Public Function readOTuData(file As String) As OTUData(Of Double)()
+        Return file.LoadCsv(Of OTUData(Of Double))(mute:=True).ToArray
+    End Function
+
     ''' <summary>
     ''' combine of two batch data
     ''' </summary>

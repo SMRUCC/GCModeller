@@ -24,6 +24,23 @@ declare namespace microbiome {
       */
       function PICRUSt_db(ggtax: object, copyNumbers_16s: object, ko_13_5_precalculated: object, save: object, env?: object): boolean;
    }
+   /**
+    * create compound origin profile dataset
+    * 
+    * 
+     * @param annotations a list of multiple organism protein functional annotation dataset.
+     * @param tree the ncbi taxonomy tree
+     * @param rank minimal rank for takes the most abondance taxonomy from the raw dataset.
+     * 
+     * + default value Is ``null``.
+     * @param ranges -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function compound_origins(annotations: object, tree: object, rank?: object, ranges?: string, env?: object): object;
    module compounds {
       module origin {
          /**
@@ -87,6 +104,7 @@ declare namespace microbiome {
    function read_PICRUSt(file: object): object;
    module taxonomy {
       /**
+       * Generate a serials of the otu table in different rank level
        * 
        * 
         * @param otus the otu table data

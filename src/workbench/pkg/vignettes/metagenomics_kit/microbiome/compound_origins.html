@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Generate a serials of the otu table in different rank level</title>
+    <title>create compound origin profile dataset</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>taxonomy.rank_table {microbiome}</td>
+                <td>compound_origins {microbiome}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Generate a serials of the otu table in different rank level</h2>
+        <h2>create compound origin profile dataset</h2>
 
         <h3>Description</h3>
 
@@ -27,16 +27,33 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>taxonomy.rank_table</strong>(<i>otus</i>,
-    <i>as.matrix</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>compound_origins</strong>(<i>annotations</i>, <i>tree</i>,
+    <i>rank</i> = Family,
+    <i>ranges</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>otus</dt>
-<dd><p>the otu table data</p></dd>
+<dt>annotations</dt>
+<dd><p>a list of multiple organism protein functional annotation dataset. [as list]</p></dd>
+
+
+<dt>tree</dt>
+<dd><p>the ncbi taxonomy tree. [as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>]</p></dd>
+
+
+<dt>rank</dt>
+<dd><p>minimal rank for takes the most abondance taxonomy from the raw dataset. [as <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/TaxonomyRanks.html">TaxonomyRanks</a>]</p></dd>
+
+
+<dt>ranges</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
@@ -51,8 +68,7 @@
 
         <h3>Value</h3>
 
-        <p>a tuple list of the <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/RankLevelView.html">RankLevelView</a> in different taxonomy
- rank levels.</p><h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/RankLevelView.html">RankLevelView</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a></li></ul>
+        this function returns data object of type list.<h4>clr value class</h4><ul><li>list</li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

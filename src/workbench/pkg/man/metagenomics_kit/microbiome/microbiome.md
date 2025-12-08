@@ -8,5 +8,5 @@ tools for metagenomics and microbiome
 + [predict_metagenomes](microbiome/predict_metagenomes.1) creates the final metagenome functional predictions. It 
 + [diff.entropy](microbiome/diff.entropy.1) evaluate the similarity of two taxonomy data vector
 + [compounds.origin.profile](microbiome/compounds.origin.profile.1) 
-+ [compounds.origin](microbiome/compounds.origin.1) create compound origin profile dataset
-+ [taxonomy.rank_table](microbiome/taxonomy.rank_table.1) 
++ [compound_origins](microbiome/compound_origins.1) create compound origin profile dataset
++ [taxonomy.rank_table](microbiome/taxonomy.rank_table.1) Generate a serials of the otu table in different rank level
