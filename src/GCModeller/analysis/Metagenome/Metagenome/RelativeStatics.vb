@@ -133,7 +133,7 @@ Public Module RelativeStatics
             ' 按照物种树进行数据分组
             Dim groups = (From x As OTUTable
                           In samples
-                          Let tree As String = DirectCast(x.taxonomy, gast.Taxonomy).GetTree(rank.i)
+                          Let tree As String = DirectCast(x.taxonomy, gast.Taxonomy).GetTree(rank.i, biom_style:=True)
                           Select i = (x, tree)
                           Group By i.tree Into Group).ToArray
             Dim tuples = groups.Select(Function(ti) (tree:=ti.tree, list:=ti.Group.Select(Function(x) (x.tree, x.x)).ToArray)).ToArray

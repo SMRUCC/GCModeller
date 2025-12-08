@@ -199,14 +199,18 @@ Namespace gast
             Return ToString(BIOMstyle:=True)
         End Function
 
-        Public Function GetTree(rankLevel As Integer) As String
+        Public Function GetTree(rankLevel As Integer, Optional biom_style As Boolean = False) As String
             Dim ls As New List(Of String)
 
             For i As Integer = 0 To rankLevel
                 ls += Me(i)
             Next
 
-            Return String.Join(";", ls.ToArray)
+            If biom_style Then
+                Return BIOMTaxonomy.TaxonomyString(ls.ToArray)
+            Else
+                Return String.Join(";", ls.ToArray)
+            End If
         End Function
 
         ''' <summary>
