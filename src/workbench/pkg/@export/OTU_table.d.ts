@@ -69,6 +69,9 @@ declare namespace OTU_table {
    function otu_from_matrix(x: object): object;
    module read {
       /**
+      */
+      function OTUdata(file: string): object;
+      /**
        * read 16s OTU table
        * 
        * 
