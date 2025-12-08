@@ -325,7 +325,7 @@ Module microbiomeKit
     ''' <param name="ranges"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("compounds.origin")>
+    <ExportAPI("compound_origins")>
     Public Function CompoundOrigin(annotations As list, tree As NcbiTaxonomyTree,
                                    Optional rank As TaxonomyRanks = TaxonomyRanks.Family,
                                    Optional ranges As String() = Nothing,
@@ -408,7 +408,7 @@ Module microbiomeKit
     End Function
 
     ''' <summary>
-    ''' 
+    ''' Generate a serials of the otu table in different rank level
     ''' </summary>
     ''' <param name="otus">
     ''' the otu table data
