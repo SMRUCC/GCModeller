@@ -3,6 +3,13 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\metagenomics_kit\\kmers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{05457007-17F0-445E-B445-E7FB35A3574A}|metagenomics_kit\\metagenomics_kit.vbproj|solutionrelative:metagenomics_kit\\kmers.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\kraken2\\reportdata.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{0F7F5A31-9276-4A1B-A5FC-4568FC4F94A8}|..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Metagenome.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\metagenome\\metagenome\\kmers\\kraken2\\krakenparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -38,14 +45,46 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Kmers.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
+              "RelativeDocumentMoniker": "metagenomics_kit\\Kmers.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\metagenomics_kit\\Kmers.vb",
+              "RelativeToolTip": "metagenomics_kit\\Kmers.vb",
+              "ViewState": "AgIAAK8AAAAAAAAAAAAswOkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-10T15:16:38.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "KrakenParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\KrakenParser.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\KrakenParser.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\KrakenParser.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\KrakenParser.vb",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAYwEsAAAAlAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAYwDoAAABpAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-10T15:11:08.975Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 154,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ReportData.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\ReportData.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\ReportData.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\ReportData.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\Metagenome\\Metagenome\\Kmers\\Kraken2\\ReportData.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADwAAAAjAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-10T15:14:50.224Z",
               "EditorCaption": ""
             }
           ]
