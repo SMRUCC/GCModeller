@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -229,5 +230,53 @@ Module KmersTool
     <ExportAPI("parse_kraken_report")>
     Public Function parse_kraken_report(filepath As String) As KrakenReportRecord()
         Return KrakenReportRecord.ParseDocument(filepath).ToArray
+    End Function
+
+    <ExportAPI("host_classification")>
+    <RApiReturn(TypeCodes.integer)>
+    Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
+                                          <RRawVectorArgument> host_taxids As Object,
+                                          Optional env As Environment = Nothing) As Object
+
+        Dim taxIndex As Index(Of Long) = CLRVector.asLong(host_taxids)
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        End If
+
+        Return pipeline.CreateFromPopulator(From c As KrakenOutputRecord
+                                            In kraken2.populates(Of KrakenOutputRecord)(env)
+                                            Where c.TaxID Like taxIndex)
+    End Function
+
+    <ExportAPI("filter_reads")>
+    <RApiReturn(GetType(FastQ))>
+    Public Function filter_reads(<RRawVectorArgument> kraken_output As Object,
+                                 <RRawVectorArgument> reads As Object,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+        Dim readsData As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim reads_data As IEnumerable(Of FastQ)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        ElseIf readsData.isError Then
+            If TypeOf reads Is FastQFile Then
+                reads_data = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsData.getError
+            End If
+        Else
+            reads_data = readsData.populates(Of FastQ)(env)
+        End If
+
+        Dim filterIndex As Index(Of String) = kraken2.populates(Of KrakenOutputRecord)(env).Select(Function(k) k.ReadName).Indexing
+        Dim result As pipeline = pipeline.CreateFromPopulator(From fq As FastQ
+                                                              In reads_data
+                                                              Where Not fq.SEQ_ID Like filterIndex)
+
+        Return result
     End Function
 End Module
