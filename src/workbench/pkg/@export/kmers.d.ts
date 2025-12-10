@@ -65,6 +65,12 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function make_classify(db: object, reads: any, env?: object): object;
+   /**
+   */
+   function parse_kraken_output(filepath: string): object;
+   /**
+   */
+   function parse_kraken_report(filepath: string): object;
    module read {
       /**
       */

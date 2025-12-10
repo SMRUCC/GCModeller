@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2.KrakenReportRecord</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>KrakenReportRecord {SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>KrakenReportRecord</h2>
+
+        <h3>Description</h3>
+
+        <p>用于存储 --report 文件中每一行的数据。这个文件提供了整个样本的分类汇总统计，非常直观。</p>
+
+<p>--report 文件是 taxon-centric 的，关注点是“每个分类单元包含了多少 reads”。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+export class KrakenReportRecord {
+   # 分配到该分类单元（及其所有后代）的 reads 数量占样本中总分类 reads 数量的百分比。
+   Percentage: double;
+   # 表示该分类单元在分类学树中的等级。
+   #  U: 未分类
+   #  R: 根
+   #  D: 域
+   #  K: 界
+   #  P: 门
+   #  C: 纲
+   #  O: 目
+   #  F: 科
+   #  G: 属
+   #  S: 种
+   #  S1, G1 等：有时用于表示亚种或未分类的属/种。
+   RankCode: string;
+   # 分配到该分类单元或其任何下级分类单元的 reads 总数。(该节点及子节点读数)
+   ReadsAtRank: integer;
+   # 直接分配到该节点的读数，<em>直接</em>分配到该分类单元，而不是其任何子节点的 reads 数量。
+   ReadsDirect: integer;
+   # 该分类单元的科学名称。
+   ScientificName: string;
+   # 该分类单元的 NCBI Taxonomy ID。
+   TaxID: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

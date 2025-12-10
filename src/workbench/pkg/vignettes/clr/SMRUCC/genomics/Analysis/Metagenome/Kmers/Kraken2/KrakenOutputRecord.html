@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2.KrakenOutputRecord</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>KrakenOutputRecord {SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>KrakenOutputRecord</h2>
+
+        <h3>Description</h3>
+
+        <p>用于存储 --output 文件中每一行的数据，这个文件详细列出了每一条序列（read）的分类结果。每一行对应一条 read。</p>
+
+<p>--output 文件是 read-centric 的，关注点是“每一条 read 被分到了哪里”。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+export class KrakenOutputRecord {
+   # LCA映射详情, 使用字典来存储 k-mer 的分配详情，键是 TaxID，值是 k-mer 数量
+   #  
+   #  这是一个由空格分隔的列表，详细描述了该 read 中所有 k-mer 的分配情况。
+   #  格式为 [TaxID]:[k-mer数量]。
+   #  0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
+   LcaMappings: list;
+   # 该 read 的碱基数量。
+   ReadLength: integer;
+   # 输入的 FASTQ 文件中该 read 的序列标识符。
+   ReadName: string;
+   # "C" or "U"
+   #   
+   #  C: Classified (已分类)。表示 Kraken2 成功为该 read 分配了一个分类单元。
+   #  U: Unclassified (未分类)。表示该 read 未能被分配到任何数据库中的分类单元。
+   StatusCode: string;
+   # 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
+   TaxID: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>LcaMappings</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
