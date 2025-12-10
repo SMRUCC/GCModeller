@@ -12,3 +12,5 @@
 + [as.abundance_matrix](kmers/as.abundance_matrix.1) 
 + [parse_kraken_output](kmers/parse_kraken_output.1) 
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
++ [host_classification](kmers/host_classification.1) 
++ [filter_reads](kmers/filter_reads.1) 

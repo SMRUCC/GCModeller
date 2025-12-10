@@ -41,6 +41,14 @@ declare namespace kmers {
    */
    function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function filter_reads(kraken_output: any, reads: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function host_classification(kraken_output: any, host_taxids: any, env?: object): object;
+   /**
     * generate sequence k-mer count data matrix
     * 
     * 
