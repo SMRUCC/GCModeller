@@ -109,8 +109,9 @@ Namespace Kmers.Kraken2
             Return KrakenParser.ParseReportFile(filepath)
         End Function
 
-        Public Shared Function FilterHost(report As KrakenReportRecord()) As KrakenReportRecord()
-
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FilterHost(report As KrakenReportRecord(), hostIDs As Long()) As KrakenReportRecord()
+            Return ReportFilter.FilterHumanReadsAndRecalculate(report, hostIDs)
         End Function
     End Class
 End Namespace

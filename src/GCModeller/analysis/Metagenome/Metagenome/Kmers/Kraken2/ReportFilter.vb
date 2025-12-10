@@ -1,6 +1,4 @@
-﻿Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
-
-Namespace Kmers.Kraken2
+﻿Namespace Kmers.Kraken2
 
     Module ReportFilter
 
