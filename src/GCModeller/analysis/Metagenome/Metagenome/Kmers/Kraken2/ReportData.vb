@@ -108,5 +108,9 @@ Namespace Kmers.Kraken2
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenReportRecord)
             Return KrakenParser.ParseReportFile(filepath)
         End Function
+
+        Public Shared Function FilterHost(report As KrakenReportRecord()) As KrakenReportRecord()
+
+        End Function
     End Class
 End Namespace
