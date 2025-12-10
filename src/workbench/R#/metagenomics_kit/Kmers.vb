@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
+Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
@@ -218,5 +219,15 @@ Module KmersTool
         Next
 
         Return AbundanceMatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
+    End Function
+
+    <ExportAPI("parse_kraken_output")>
+    Public Function parse_kraken_output(filepath As String) As KrakenOutputRecord()
+        Return KrakenOutputRecord.ParseDocument(filepath).ToArray
+    End Function
+
+    <ExportAPI("parse_kraken_report")>
+    Public Function parse_kraken_report(filepath As String) As KrakenReportRecord()
+        Return KrakenReportRecord.ParseDocument(filepath).ToArray
     End Function
 End Module
