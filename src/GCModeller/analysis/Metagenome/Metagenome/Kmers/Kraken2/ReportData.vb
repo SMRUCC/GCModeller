@@ -1,4 +1,6 @@
-﻿Namespace Kmers.Kraken2
+﻿Imports System.Runtime.CompilerServices
+
+Namespace Kmers.Kraken2
 
     ''' <summary>
     ''' 用于存储 --output 文件中每一行的数据，这个文件详细列出了每一条序列（read）的分类结果。每一行对应一条 read。
@@ -42,6 +44,11 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property LcaMappings As New Dictionary(Of Long, Integer)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenOutputRecord)
+            Return Kraken2.KrakenParser.ParseOutputFile(filepath)
+        End Function
 
     End Class
 
@@ -96,5 +103,10 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property ScientificName As String
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenReportRecord)
+            Return KrakenParser.ParseReportFile(filepath)
+        End Function
     End Class
 End Namespace
