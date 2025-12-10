@@ -272,11 +272,17 @@ Module KmersTool
             reads_data = readsData.populates(Of FastQ)(env)
         End If
 
-        Dim filterIndex As Index(Of String) = kraken2.populates(Of KrakenOutputRecord)(env).Select(Function(k) k.ReadName).Indexing
+        Dim filterIndex As Index(Of String) = kraken2 _
+            .populates(Of KrakenOutputRecord)(env) _
+            .Select(Iterator Function(k) As IEnumerable(Of String)
+                        Yield k.ReadName
+                        Yield "@" & k.ReadName
+                    End Function) _
+            .IteratesALL _
+            .Indexing
         Dim result As pipeline = pipeline.CreateFromPopulator(From fq As FastQ
                                                               In reads_data
                                                               Where Not fq.SEQ_ID Like filterIndex)
-
         Return result
     End Function
 End Module
