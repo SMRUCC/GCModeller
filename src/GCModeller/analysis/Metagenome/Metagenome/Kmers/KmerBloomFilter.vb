@@ -88,10 +88,10 @@ Namespace Kmers
             Next
 
             Dim pk As Integer = bin.ReadInt32
-            Dim bitSize As Integer = bin.ReadInt32
+            Dim m As Integer = bin.ReadInt32
             Dim byteSize As Integer = bin.ReadInt32
             Dim bytes As Byte() = bin.ReadBytes(byteSize)
-            Dim bloom As New BloomFilter(bytes, pk)
+            Dim bloom As New BloomFilter(bytes, m, pk)
 
             Return New KmerBloomFilter(k, names, taxid, bloom)
         End Function
