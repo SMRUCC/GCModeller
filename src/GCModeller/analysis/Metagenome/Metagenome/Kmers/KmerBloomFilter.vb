@@ -117,7 +117,7 @@ Namespace Kmers
                                                                   Optional desiredFPR As Double = 0.00001,
                                                                   Optional spanSize As Integer = 50 * ByteSize.MB) As KmerBloomFilter
             Dim pool As Fasta() = genomics.ToArray
-            Dim estimatedKmers As Integer = Math.Max(0, pool.Sum(Function(s) s.length) - k + 1)
+            Dim estimatedKmers As Integer = Math.Max(0, Math.Min(spanSize, pool.Max(Function(s) s.length)) - k + 1)
             Dim filter As BloomFilter = BloomFilter.Create(estimatedKmers, desiredFPR)
             Dim names As New List(Of String)
 
