@@ -1,4 +1,7 @@
-﻿Imports System.Runtime.CompilerServices
+﻿Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text
 
 Namespace Kmers.Kraken2
 
@@ -49,6 +52,22 @@ Namespace Kmers.Kraken2
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenOutputRecord)
             Return Kraken2.KrakenParser.ParseOutputFile(filepath)
         End Function
+
+        Public Shared Sub Save(result As IEnumerable(Of KrakenOutputRecord), file As Stream)
+            Using text As New StreamWriter(file) With {.NewLine = ASCII.LF}
+                For Each line As KrakenOutputRecord In result.SafeQuery
+                    Call text.WriteLine(New String() {
+                         line.StatusCode,
+                         line.ReadName,
+                         line.TaxID,
+                         line.ReadLength,
+                         (From map As KeyValuePair(Of Integer, Integer)
+                          In line.LcaMappings
+                          Select $"{map.Key}:{map.Value}").JoinBy(" ")
+                    }.JoinBy(vbTab))
+                Next
+            End Using
+        End Sub
 
     End Class
 
