@@ -119,7 +119,7 @@ AAGCGAACAAATGTTCTATA"
         ''' 方便通过<see cref="FASTA.FastaSeq.AddAttribute">Add接口</see>向<see cref="FASTA.FastaSeq.Headers">Attribute列表</see>中添加数据
         ''' </summary>
         ''' <remarks></remarks>
-        Dim innerList As List(Of String)
+        Dim metadata As List(Of String)
 
         ''' <summary>
         ''' The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
@@ -132,10 +132,10 @@ AAGCGAACAAATGTTCTATA"
         Public Overridable Property Headers As String() Implements IAbstractFastaToken.headers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return innerList.ToArray
+                Return metadata.ToArray
             End Get
             Set(value As String())
-                innerList = value.AsList
+                metadata = value.AsList
             End Set
         End Property
 
@@ -198,28 +198,28 @@ AAGCGAACAAATGTTCTATA"
 
 #Region "Header Attributes Operations"
         Public Sub AddAttribute(attrValue As String)
-            Call innerList.Add(attrValue)
+            Call metadata.Add(attrValue)
         End Sub
 
         Public Sub InsertAttribute(attrValue As String, Index As Integer)
-            If innerList.Count - 1 > Index Then
-                Call innerList.Insert(Index, attrValue)
+            If metadata.Count - 1 > Index Then
+                Call metadata.Insert(Index, attrValue)
             Else
-                Call innerList.Add(attrValue)
+                Call metadata.Add(attrValue)
             End If
         End Sub
 
         Public Sub RemoveAttribute(attrIndex As Integer)
-            If innerList.Count - 1 > attrIndex Then
-                Call innerList.RemoveAt(attrIndex)
+            If metadata.Count - 1 > attrIndex Then
+                Call metadata.RemoveAt(attrIndex)
             End If
         End Sub
 
         Public Sub SetAttribute(attrIndex As Integer, value As String)
-            If innerList.Count - 1 > attrIndex Then
-                innerList(attrIndex) = value
+            If metadata.Count - 1 > attrIndex Then
+                metadata(attrIndex) = value
             Else
-                Call innerList.Add(value)
+                Call metadata.Add(value)
             End If
         End Sub
 #End Region
