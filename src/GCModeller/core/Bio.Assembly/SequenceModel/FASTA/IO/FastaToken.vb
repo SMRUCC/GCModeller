@@ -163,7 +163,7 @@ AAGCGAACAAATGTTCTATA"
         ''' <remarks>
         ''' (获取序列的长度)
         ''' </remarks>
-        Public Overrides ReadOnly Property Length As Integer
+        Public Overrides ReadOnly Property Length As Integer Implements IFastaProvider.length
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(Me.SequenceData)

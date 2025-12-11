@@ -71,8 +71,10 @@ Namespace SequenceModel
         ReadOnly bytes As Byte()
 
         Public ReadOnly Property seqType As SeqTypes
+
         Public ReadOnly Property title As String Implements IFastaProvider.title
-        Public ReadOnly Property length As Integer
+
+        Public ReadOnly Property length As Integer Implements IFastaProvider.length
             Get
                 Return bytes.Length
             End Get

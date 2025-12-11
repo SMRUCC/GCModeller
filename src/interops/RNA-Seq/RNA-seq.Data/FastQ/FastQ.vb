@@ -112,6 +112,12 @@ Namespace FQ
 
         Public Property Headers As String() Implements IAbstractFastaToken.headers
 
+        Public Overrides ReadOnly Property Length As Integer Implements IFastaProvider.length
+            Get
+                Return MyBase.Length
+            End Get
+        End Property
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return SequenceData
