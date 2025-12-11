@@ -97,11 +97,11 @@ Module NCBI
     ''' <returns></returns>
     <ExportAPI("index_subset")>
     Public Function index_subset(repo As AssemblySummaryGenbank, <RRawVectorArgument> accession_ids As Object) As Object
-        Return pipeline.CreateFromPopulator(From asm_id As String
-                                            In CLRVector.safeCharacters(accession_ids)
-                                            Let asm As GenBankAssemblyIndex = repo.GetByAccessionId(asm_id)
-                                            Where Not asm Is Nothing
-                                            Select asm)
+        Return (From asm_id As String
+                In CLRVector.safeCharacters(accession_ids)
+                Let asm As GenBankAssemblyIndex = repo.GetByAccessionId(asm_id)
+                Where Not asm Is Nothing
+                Select asm).ToArray
     End Function
 
     ''' <summary>
