@@ -28,6 +28,26 @@ Namespace Kmers
             Me.bloomFilter = bloomFilter
         End Sub
 
+        Public Function KmerHits(seq As ISequenceProvider) As Dictionary(Of String, Integer)
+            Return KmerHits(KSeq.KmerSpans(seq.GetSequenceData, k))
+        End Function
+
+        Public Function KmerHits(kmers As IEnumerable(Of String)) As Dictionary(Of String, Integer)
+            Dim hits As New Dictionary(Of String, Integer)
+
+            For Each kmer As String In kmers
+                If bloomFilter(kmer) Then
+                    If Not hits.ContainsKey(kmer) Then
+                        hits.Add(kmer, 1)
+                    Else
+                        hits(kmer) += 1
+                    End If
+                End If
+            Next
+
+            Return hits
+        End Function
+
         Public Shared Function LoadFromFile(file As Stream) As KmerBloomFilter
             Dim bin As New BinaryDataReader(file, leaveOpen:=True) With {.ByteOrder = ByteOrder.LittleEndian}
             Dim magic As String = Encoding.ASCII.GetString(bin.ReadBytes(magicNum.Length))
