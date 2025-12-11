@@ -2,6 +2,7 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.IO
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Kmers
 
@@ -15,14 +16,14 @@ Namespace Kmers
         ''' <summary>
         ''' the genome name
         ''' </summary>
-        ReadOnly name As String
+        ReadOnly names As String()
         ReadOnly ncbi_taxid As Integer
 
         Const magicNum As String = "kmer-bloom"
 
-        Sub New(k As Integer, name As String, ncbi_taxid As Integer, bloomFilter As BloomFilter)
+        Sub New(k As Integer, name As IEnumerable(Of String), ncbi_taxid As Integer, bloomFilter As BloomFilter)
             Me.k = k
-            Me.name = name
+            Me.names = name.ToArray
             Me.ncbi_taxid = ncbi_taxid
             Me.bloomFilter = bloomFilter
         End Sub
@@ -37,12 +38,18 @@ Namespace Kmers
 
             Dim k As Integer = bin.ReadInt32
             Dim taxid As Integer = bin.ReadInt32
-            Dim name As String = bin.ReadString
+            Dim nameNum As Integer = bin.ReadInt32
+            Dim names As New List(Of String)
+
+            For i As Integer = 0 To nameNum - 1
+                Call names.Add(bin.ReadString)
+            Next
+
             Dim pk As Integer = bin.ReadInt32
             Dim bytes As Byte() = bin.ReadBytes(bin.ReadInt32 \ 8)
             Dim bloom As New BloomFilter(bytes, pk)
 
-            Return New KmerBloomFilter(k, name, taxid, bloom)
+            Return New KmerBloomFilter(k, names, taxid, bloom)
         End Function
 
         Public Sub Save(file As Stream)
@@ -51,12 +58,37 @@ Namespace Kmers
             Call bin.Write(Encoding.ASCII.GetBytes(magicNum))
             Call bin.Write(k)
             Call bin.Write(ncbi_taxid)
-            Call bin.Write(name)
+            Call bin.Write(names.Length)
+
+            For Each name As String In names
+                Call bin.Write(name)
+            Next
+
             Call bin.Write(bloomFilter.k)
             Call bin.Write(bloomFilter.m)
             Call bin.Write(bloomFilter.ToArray)
             Call bin.Flush()
         End Sub
+
+        Public Shared Function Create(Of Fasta As IFastaProvider)(genomics As IEnumerable(Of Fasta),
+                                                                  ncbi_taxid As Integer,
+                                                                  Optional k As Integer = 35,
+                                                                  Optional desiredFPR As Double = 0.00001) As KmerBloomFilter
+            Dim pool As Fasta() = genomics.ToArray
+            Dim estimatedKmers As Integer = Math.Max(0, pool.Sum(Function(s) s.length) - k + 1)
+            Dim filter As BloomFilter = BloomFilter.Create(estimatedKmers, desiredFPR)
+            Dim names As New List(Of String)
+
+            For Each nt As Fasta In pool
+                Call names.Add(nt.title)
+
+                For Each kmer As String In KSeq.KmerSpans(nt.GetSequenceData, k)
+                    Call filter.Add(kmer)
+                Next
+            Next
+
+            Return New KmerBloomFilter(k, names, ncbi_taxid, filter)
+        End Function
 
     End Class
 

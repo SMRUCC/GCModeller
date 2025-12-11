@@ -72,6 +72,8 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <returns></returns>
         ReadOnly Property title As String
+        ReadOnly Property length As Integer
+
     End Interface
 
     ''' <summary>
@@ -106,6 +108,8 @@ Namespace SequenceModel.FASTA
     ''' through <see cref="ISequenceProvider.GetSequenceData()"/> function.
     ''' </summary>
     Public Interface ISequenceProvider
+
         Function GetSequenceData() As String
+
     End Interface
 End Namespace
