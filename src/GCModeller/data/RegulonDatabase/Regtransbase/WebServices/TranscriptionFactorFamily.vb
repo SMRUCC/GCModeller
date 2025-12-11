@@ -458,6 +458,12 @@ Namespace Regtransbase.WebServices
             End Get
         End Property
 
+        Public ReadOnly Property length As Integer Implements IFastaProvider.length
+            Get
+                Return SequenceData.Length
+            End Get
+        End Property
+
         Public Shared Function Parse(url As String) As MotifFasta()
             Dim text As String = url.GET
             Dim FASTA As FastaFile = FastaFile.ParseDocument(doc:=text)

@@ -31,7 +31,7 @@ Namespace Kmers.Kraken2
                      .ReadName = parts(1).Trim()
                 }
 
-                Long.TryParse(parts(2).Trim(), record.TaxID)
+                Integer.TryParse(parts(2).Trim(), record.TaxID)
                 Integer.TryParse(parts(3).Trim(), record.ReadLength)
 
                 ' 解析 LCA 映射详情 (第5列)
