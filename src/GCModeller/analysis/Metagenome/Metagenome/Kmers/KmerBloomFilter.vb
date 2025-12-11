@@ -9,15 +9,16 @@ Namespace Kmers
     Public Class KmerBloomFilter
 
         ReadOnly bloomFilter As BloomFilter
-        ''' <summary>
-        ''' the length of the k-mer
-        ''' </summary>
-        ReadOnly k As Integer
+
         ''' <summary>
         ''' the genome name
         ''' </summary>
         ReadOnly names As String()
 
+        ''' <summary>
+        ''' the length of the k-mer
+        ''' </summary>
+        Public ReadOnly Property k As Integer
         Public ReadOnly Property ncbi_taxid As Integer
 
         Const magicNum As String = "kmer-bloom"

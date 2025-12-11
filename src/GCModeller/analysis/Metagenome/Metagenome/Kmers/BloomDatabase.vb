@@ -1,4 +1,6 @@
-﻿Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -10,6 +12,20 @@ Namespace Kmers
         ReadOnly k As Integer
         ReadOnly NcbiTaxonomyTree As LCA
         ReadOnly min_supports As Double = 0.5
+
+        Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA, Optional minSupports As Double = 0.5)
+            Me.genomes = genomes.ToArray
+            Me.NcbiTaxonomyTree = lca
+            Me.min_supports = min_supports
+
+            Dim checkKmer = Me.genomes.GroupBy(Function(a) a.k).ToArray
+
+            If checkKmer.Length = 1 Then
+                k = checkKmer(0).Key
+            Else
+                Throw New InvalidProgramException($"there are multiple k-mer length(k={checkKmer.Keys.ToArray.GetJson}) bloom filter is mixed at here!")
+            End If
+        End Sub
 
         Public Function MakeClassify(read As IFastaProvider) As KrakenOutputRecord
             Dim hits As New Dictionary(Of Integer, Integer)
