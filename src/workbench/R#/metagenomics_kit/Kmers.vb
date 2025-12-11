@@ -25,6 +25,9 @@ Module KmersTool
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceHit()), AddressOf hitTable)
+
+        Call RInternal.generic.add("readBin.kmer_bloom", GetType(Stream), AddressOf readKmerBloomFilter)
+        Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -44,6 +47,17 @@ Module KmersTool
         Call df.add(NameOf(SequenceHit.score), From h As SequenceHit In hits Select h.score)
 
         Return df
+    End Function
+
+    Public Function readKmerBloomFilter(file As System.IO.Stream, args As list, env As Environment) As Object
+        Return KmerBloomFilter.LoadFromFile(file)
+    End Function
+
+    Public Function writeKmerBloomFilter(filter As KmerBloomFilter, args As list, env As Environment) As Object
+        Dim s As System.IO.Stream = args!con
+        Call filter.Save(s)
+        Call s.Flush()
+        Return True
     End Function
 
     <ExportAPI("write.kmers_background")>
