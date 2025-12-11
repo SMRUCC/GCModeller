@@ -110,11 +110,9 @@ Module KmersTool
     ''' apply this method for do host sequence filter
     ''' </remarks>
     <ExportAPI("make_classify")>
-    <RApiReturn(GetType(SequenceHit))>
-    Public Function make_classify(db As DatabaseReader, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
-        Dim classifier As New Classifier(db)
+    <RApiReturn(GetType(SequenceHit), GetType(KrakenOutputRecord))>
+    Public Function make_classify(db As Object, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
         Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
-        Dim labels As New List(Of SequenceHit)
         Dim readsData As IEnumerable(Of FastQ)
 
         If readsFile.isError OrElse TypeOf reads Is FastQFile Then
@@ -127,14 +125,30 @@ Module KmersTool
             readsData = readsFile.populates(Of FastQ)(env)
         End If
 
-        For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
-            Dim hit = classifier.MakeClassify(read.SequenceData)
+        If TypeOf db Is DatabaseReader Then
+            Dim classifier As New Classifier(DirectCast(db, DatabaseReader))
+            Dim labels As New List(Of SequenceHit)
 
-            hit.reads_title = read.SEQ_ID
-            labels.Add(hit)
-        Next
+            For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+                Dim hit = classifier.MakeClassify(read.SequenceData)
 
-        Return labels.ToArray
+                hit.reads_title = read.SEQ_ID
+                labels.Add(hit)
+            Next
+
+            Return labels.ToArray
+        ElseIf TypeOf db Is BloomDatabase Then
+            Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
+            Dim labels As New List(Of KrakenOutputRecord)
+
+            For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+                Call labels.Add(classifier.MakeClassify(read))
+            Next
+
+            Return labels.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(DatabaseReader), db.GetType, env)
+        End If
     End Function
 
     <ExportAPI("bayes_estimate")>

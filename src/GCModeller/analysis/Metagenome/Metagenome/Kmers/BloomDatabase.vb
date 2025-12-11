@@ -11,7 +11,7 @@ Namespace Kmers
         ReadOnly NcbiTaxonomyTree As LCA
         ReadOnly min_supports As Double = 0.5
 
-        Public Function MakeClass(read As IFastaProvider) As KrakenOutputRecord
+        Public Function MakeClassify(read As IFastaProvider) As KrakenOutputRecord
             Dim hits As New Dictionary(Of Integer, Integer)
             Dim kmers As String() = KSeq.KmerSpans(read.GetSequenceData, k).ToArray
 
