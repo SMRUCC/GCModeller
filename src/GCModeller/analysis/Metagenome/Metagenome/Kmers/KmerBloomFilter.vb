@@ -1,5 +1,6 @@
 ﻿Imports System.IO
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.IO
@@ -121,7 +122,7 @@ Namespace Kmers
             Dim filter As BloomFilter = BloomFilter.Create(estimatedKmers, desiredFPR)
             Dim names As New List(Of String)
 
-            For Each nt As Fasta In pool
+            For Each nt As Fasta In TqdmWrapper.Wrap(pool)
                 Dim ntseq As String = nt.GetSequenceData
 
                 Call names.Add(nt.title)
