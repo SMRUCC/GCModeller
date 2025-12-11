@@ -88,7 +88,9 @@ Namespace Kmers
             Next
 
             Dim pk As Integer = bin.ReadInt32
-            Dim bytes As Byte() = bin.ReadBytes(bin.ReadInt32 \ 8)
+            Dim bitSize As Integer = bin.ReadInt32
+            Dim byteSize As Integer = bin.ReadInt32
+            Dim bytes As Byte() = bin.ReadBytes(byteSize)
             Dim bloom As New BloomFilter(bytes, pk)
 
             Return New KmerBloomFilter(k, names, taxid, bloom)
@@ -106,9 +108,12 @@ Namespace Kmers
                 Call bin.Write(name)
             Next
 
+            Dim bits As Byte() = bloomFilter.ToArray
+
             Call bin.Write(bloomFilter.k)
             Call bin.Write(bloomFilter.m)
-            Call bin.Write(bloomFilter.ToArray)
+            Call bin.Write(bits.Length)
+            Call bin.Write(bits)
             Call bin.Flush()
         End Sub
 
