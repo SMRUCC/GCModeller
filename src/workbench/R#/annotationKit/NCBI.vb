@@ -57,6 +57,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("NCBI")>
 Module NCBI
@@ -67,13 +68,40 @@ Module NCBI
     ''' <returns></returns>
     <ExportAPI("genome_assembly_index")>
     <RApiReturn(GetType(GenBankAssemblyIndex))>
-    Public Function genome_assembly_index(file As String) As Object
-        Return pipeline.CreateFromPopulator(GenBankAssemblyIndex.LoadIndex(file))
+    Public Function genome_assembly_index(file As String, Optional make_accession_index As Boolean = False) As Object
+        Dim summary As IEnumerable(Of GenBankAssemblyIndex) = GenBankAssemblyIndex.LoadIndex(file)
+
+        If make_accession_index Then
+            Dim asmIndex As New Dictionary(Of String, Object)
+
+            For Each asm As GenBankAssemblyIndex In summary
+                asmIndex(asm.assembly_accession.Split("."c).First) = asm
+            Next
+
+            Return New list With {.slots = asmIndex}
+        Else
+            Return pipeline.CreateFromPopulator(summary)
+        End If
     End Function
 
     <ExportAPI("genbank_assemblyDb")>
     Public Function genbank_assemblyDb(file As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
         Return New AssemblySummaryGenbank(qgram).LoadIntoMemory(file)
+    End Function
+
+    ''' <summary>
+    ''' make data subset via a given collection of the acession id
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="accession_ids"></param>
+    ''' <returns></returns>
+    <ExportAPI("index_subset")>
+    Public Function index_subset(repo As AssemblySummaryGenbank, <RRawVectorArgument> accession_ids As Object) As Object
+        Return pipeline.CreateFromPopulator(From asm_id As String
+                                            In CLRVector.safeCharacters(accession_ids)
+                                            Let asm As GenBankAssemblyIndex = repo.GetByAccessionId(asm_id)
+                                            Where Not asm Is Nothing
+                                            Select asm)
     End Function
 
     ''' <summary>

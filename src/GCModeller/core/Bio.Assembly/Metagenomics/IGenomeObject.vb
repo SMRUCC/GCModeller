@@ -10,7 +10,7 @@ Namespace Metagenomics
 
     End Interface
 
-    Public Class GenomeNameIndex(Of T As IGenomeObject)
+    Public Class GenomeNameIndex(Of T As IGenomeObject) : Implements Enumeration(Of T)
 
         ReadOnly qgram As QGramIndex
         ReadOnly pool As New List(Of T)
@@ -18,6 +18,16 @@ Namespace Metagenomics
         Default Public ReadOnly Property Assembly(q As FindResult) As T
             Get
                 Return pool(q.index)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' size of the data pool
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Size As Integer
+            Get
+                Return pool.Count
             End Get
         End Property
 
@@ -62,6 +72,12 @@ Namespace Metagenomics
             Else
                 Return Nothing
             End If
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+            For Each obj As T In pool
+                Yield obj
+            Next
         End Function
     End Class
 End Namespace
