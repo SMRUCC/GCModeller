@@ -29,7 +29,7 @@ Namespace Kmers.Kraken2
         ''' 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
         ''' </summary>
         ''' <returns></returns>
-        Public Property TaxID As Long
+        Public Property TaxID As Integer
         ''' <summary>
         ''' 该 read 的碱基数量。
         ''' </summary>
@@ -43,7 +43,7 @@ Namespace Kmers.Kraken2
         ''' 0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
         ''' </summary>
         ''' <returns></returns>
-        Public Property LcaMappings As New Dictionary(Of Long, Integer)
+        Public Property LcaMappings As New Dictionary(Of Integer, Integer)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenOutputRecord)

@@ -17,7 +17,8 @@ Namespace Kmers
         ''' the genome name
         ''' </summary>
         ReadOnly names As String()
-        ReadOnly ncbi_taxid As Integer
+
+        Public ReadOnly Property ncbi_taxid As Integer
 
         Const magicNum As String = "kmer-bloom"
 
@@ -30,6 +31,18 @@ Namespace Kmers
 
         Public Function KmerHits(seq As ISequenceProvider) As Dictionary(Of String, Integer)
             Return KmerHits(KSeq.KmerSpans(seq.GetSequenceData, k))
+        End Function
+
+        Public Function KmerHitNumber(kmers As IEnumerable(Of String)) As Integer
+            Dim hits As Integer = 0
+
+            For Each kmer As String In kmers
+                If bloomFilter(kmer) Then
+                    hits += 1
+                End If
+            Next
+
+            Return hits
         End Function
 
         Public Function KmerHits(kmers As IEnumerable(Of String)) As Dictionary(Of String, Integer)
