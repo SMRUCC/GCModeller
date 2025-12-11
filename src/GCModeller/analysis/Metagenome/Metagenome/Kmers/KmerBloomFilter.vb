@@ -121,11 +121,13 @@ Namespace Kmers
             Dim estimatedKmers As Integer = Math.Max(0, Math.Min(spanSize, pool.Max(Function(s) s.length)) - k + 1)
             Dim filter As BloomFilter = BloomFilter.Create(estimatedKmers, desiredFPR)
             Dim names As New List(Of String)
+            Dim bar As ProgressBar = Nothing
 
-            For Each nt As Fasta In TqdmWrapper.Wrap(pool)
+            For Each nt As Fasta In TqdmWrapper.Wrap(pool, bar:=bar)
                 Dim ntseq As String = nt.GetSequenceData
 
                 Call names.Add(nt.title)
+                Call bar.SetLabel(nt.title)
 
                 For i As Integer = 0 To ntseq.Length Step spanSize
                     Dim len As Integer = spanSize
