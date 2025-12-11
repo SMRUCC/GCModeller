@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.IO
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -113,17 +114,28 @@ Namespace Kmers
         Public Shared Function Create(Of Fasta As IFastaProvider)(genomics As IEnumerable(Of Fasta),
                                                                   ncbi_taxid As Integer,
                                                                   Optional k As Integer = 35,
-                                                                  Optional desiredFPR As Double = 0.00001) As KmerBloomFilter
+                                                                  Optional desiredFPR As Double = 0.00001,
+                                                                  Optional spanSize As Integer = 50 * ByteSize.MB) As KmerBloomFilter
             Dim pool As Fasta() = genomics.ToArray
             Dim estimatedKmers As Integer = Math.Max(0, pool.Sum(Function(s) s.length) - k + 1)
             Dim filter As BloomFilter = BloomFilter.Create(estimatedKmers, desiredFPR)
             Dim names As New List(Of String)
 
             For Each nt As Fasta In pool
+                Dim ntseq As String = nt.GetSequenceData
+
                 Call names.Add(nt.title)
 
-                For Each kmer As String In KSeq.KmerSpans(nt.GetSequenceData, k)
-                    Call filter.Add(kmer)
+                For i As Integer = 0 To ntseq.Length Step spanSize
+                    Dim len As Integer = spanSize
+
+                    If i + len > ntseq.Length Then
+                        len = ntseq.Length - i
+                    End If
+
+                    For Each kmer As String In KSeq.KmerSpans(ntseq.Substring(i, len), k)
+                        Call filter.Add(kmer)
+                    Next
                 Next
             Next
 
