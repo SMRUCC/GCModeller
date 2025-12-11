@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
@@ -97,6 +98,18 @@ Module KmersTool
     <ExportAPI("read_seqid")>
     Public Function readSequenceDb(file As String) As SequenceCollection
         Return SequenceCollection.Load(file)
+    End Function
+
+    <ExportAPI("bloom_filters")>
+    Public Function scanBloomDatabase(repo_dir As String, ncbi_taxonomy As NcbiTaxonomyTree, Optional min_supports As Double = 0.5) As BloomDatabase
+        Dim bloomfiles As String() = repo_dir.EnumerateFiles("*.ksbloom").ToArray
+        Dim lca As New LCA(ncbi_taxonomy)
+        Dim genomes As IEnumerable(Of KmerBloomFilter) =
+            From file As String
+            In TqdmWrapper.Wrap(bloomfiles)
+            Select KmerBloomFilter.LoadFromFile(file)
+        Dim kdb As New BloomDatabase(genomes, lca, min_supports)
+        Return kdb
     End Function
 
     ''' <summary>
@@ -252,7 +265,16 @@ Module KmersTool
         Return AbundanceMatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
     End Function
 
-    <ExportAPI("bloom_filter")>
+    ''' <summary>
+    ''' cast the genomics sequence as kmer based bloom filter model
+    ''' </summary>
+    ''' <param name="genomics"></param>
+    ''' <param name="ncbi_taxid"></param>
+    ''' <param name="k"></param>
+    ''' <param name="fpr"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.bloom_filter")>
     <RApiReturn(GetType(KmerBloomFilter))>
     Public Function bloom_filter(<RRawVectorArgument> genomics As Object,
                                  Optional ncbi_taxid As Integer = 0,

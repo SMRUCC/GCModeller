@@ -62,6 +62,12 @@ Namespace Kmers
             Return hits
         End Function
 
+        Public Shared Function LoadFromFile(filepath As String) As KmerBloomFilter
+            Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return LoadFromFile(s)
+            End Using
+        End Function
+
         Public Shared Function LoadFromFile(file As Stream) As KmerBloomFilter
             Dim bin As New BinaryDataReader(file, leaveOpen:=True) With {.ByteOrder = ByteOrder.LittleEndian}
             Dim magic As String = Encoding.ASCII.GetString(bin.ReadBytes(magicNum.Length))
