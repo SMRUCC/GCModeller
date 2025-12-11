@@ -16,8 +16,18 @@ declare namespace NCBI {
     * read ncbi ftp index of the genome assembly
     * 
     * 
+     * @param make_accession_index 
+     * + default value Is ``false``.
    */
-   function genome_assembly_index(file: string): object;
+   function genome_assembly_index(file: string, make_accession_index?: boolean): object;
+   /**
+    * make data subset via a given collection of the acession id
+    * 
+    * 
+     * @param repo -
+     * @param accession_ids -
+   */
+   function index_subset(repo: object, accession_ids: any): any;
    /**
     * make the in-memory assembly summary database query by the organism name matches
     * 
