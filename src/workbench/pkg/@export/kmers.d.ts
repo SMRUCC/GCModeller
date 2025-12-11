@@ -17,6 +17,25 @@ declare namespace kmers {
         * @param env default value Is ``null``.
       */
       function abundance_matrix(samples: any, normalized?: boolean, env?: object): object;
+      /**
+       * cast the genomics sequence as kmer based bloom filter model
+       * 
+       * 
+        * @param genomics -
+        * @param ncbi_taxid -
+        * 
+        * + default value Is ``0``.
+        * @param k -
+        * 
+        * + default value Is ``35``.
+        * @param fpr -
+        * 
+        * + default value Is ``1E-05``.
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function bloom_filter(genomics: any, ncbi_taxid?: object, k?: object, fpr?: number, env?: object): object;
    }
    /**
     * quantify of the metagenome community via kmers and bayes method
@@ -40,6 +59,10 @@ declare namespace kmers {
    /**
    */
    function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
+   /**
+     * @param min_supports default value Is ``0.5``.
+   */
+   function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number): object;
    /**
      * @param env default value Is ``null``.
    */
@@ -72,7 +95,7 @@ declare namespace kmers {
      * 
      * + default value Is ``null``.
    */
-   function make_classify(db: object, reads: any, env?: object): object;
+   function make_classify(db: any, reads: any, env?: object): object|object;
    /**
    */
    function parse_kraken_output(filepath: string): object;

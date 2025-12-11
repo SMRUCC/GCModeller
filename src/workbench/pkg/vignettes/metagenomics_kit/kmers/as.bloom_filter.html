@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>just make reads classify of the fastq reads based on the k-mer distribution</title>
+    <title>cast the genomics sequence as kmer based bloom filter model</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>make_classify {kmers}</td>
+                <td>as.bloom_filter {kmers}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>just make reads classify of the fastq reads based on the k-mer distribution</h2>
+        <h2>cast the genomics sequence as kmer based bloom filter model</h2>
 
         <h3>Description</h3>
 
@@ -27,19 +27,30 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>make_classify</strong>(<i>db</i>, <i>reads</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>as.bloom_filter</strong>(<i>genomics</i>,
+    <i>ncbi.taxid</i> = <span style='color: green;'>0</span>,
+    <i>k</i> = <span style='color: green;'>35</span>,
+    <i>fpr</i> = <span style='color: green;'>1E-05</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>db</dt>
+<dt>genomics</dt>
 <dd><p>-</p></dd>
 
 
-<dt>reads</dt>
-<dd><p>-</p></dd>
+<dt>ncbi.taxid</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>k</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>fpr</dt>
+<dd><p>[as double]</p></dd>
 
 
 <dt>env</dt>
@@ -48,9 +59,9 @@
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>apply this method for do host sequence filter</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -58,7 +69,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceHit.html">SequenceHit</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceHit.html">SequenceHit</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/KmerBloomFilter.html">KmerBloomFilter</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/KmerBloomFilter.html">KmerBloomFilter</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

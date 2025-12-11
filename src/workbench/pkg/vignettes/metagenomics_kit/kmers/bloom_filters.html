@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>just make reads classify of the fastq reads based on the k-mer distribution</title>
+    <title>bloom_filters</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,44 +13,34 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>make_classify {kmers}</td>
+                <td>bloom_filters {kmers}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>just make reads classify of the fastq reads based on the k-mer distribution</h2>
+        <h2>bloom_filters</h2>
 
         <h3>Description</h3>
 
-        
+        bloom_filters
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>make_classify</strong>(<i>db</i>, <i>reads</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>bloom_filters</strong>(<i>repo.dir</i>, <i>ncbi.taxonomy</i>,
+    <i>min.supports</i> = <span style='color: green;'>0.5</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>db</dt>
-<dd><p>-</p></dd>
-
-
-<dt>reads</dt>
-<dd><p>-</p></dd>
-
-
-<dt>env</dt>
-<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
-
         </table>
 
 
-        <h3 style="display: block;">Details</h3>
+        <h3 style="display: none;">Details</h3>
 
-        <p>apply this method for do host sequence filter</p>
+        
 
         <h3 style="display: block">Authors</h3>
 
@@ -58,7 +48,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object in these one of the listed data types: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceHit.html">SequenceHit</a>, <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceHit.html">SequenceHit</a></li><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/BloomDatabase.html">BloomDatabase</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/BloomDatabase.html">BloomDatabase</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 
