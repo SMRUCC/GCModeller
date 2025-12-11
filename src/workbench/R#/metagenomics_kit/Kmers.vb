@@ -8,6 +8,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -19,6 +20,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kmers")>
 <RTypeExport("kmer", GetType(KmerSeed))>
+<RTypeExport("kmer_bloom", GetType(KmerBloomFilter))>
 Module KmersTool
 
     Sub Main()
@@ -220,6 +222,19 @@ Module KmersTool
         Next
 
         Return AbundanceMatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
+    End Function
+
+    <ExportAPI("bloom_filter")>
+    <RApiReturn(GetType(KmerBloomFilter))>
+    Public Function bloom_filter(<RRawVectorArgument> genomics As Object,
+                                 Optional ncbi_taxid As Integer = 0,
+                                 Optional k As Integer = 35,
+                                 Optional fpr As Double = 0.00001,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(genomics, env)
+        Dim kmers As KmerBloomFilter = KmerBloomFilter.Create(seqs, ncbi_taxid, k, fpr)
+        Return kmers
     End Function
 
     <ExportAPI("parse_kraken_output")>

@@ -37868,6 +37868,7 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems*{05457007-17f0-445e-b445-e7fb35a3574a}*SharedItemsImports = 5
+		Rscript_shared\Rscript_shared.projitems*{05457007-17f0-445e-b445-e7fb35a3574a}*SharedItemsImports = 5
 		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
 		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{0f7f5a31-9276-4a1b-a5fc-4568fc4f94a8}*SharedItemsImports = 5
 		..\..\R-sharp\studio\Rstudio.common\Rstudio.common.projitems*{14010b90-bc3b-42d9-a52c-30ca537d3c11}*SharedItemsImports = 13

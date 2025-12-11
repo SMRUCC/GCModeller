@@ -466,7 +466,7 @@ Module Fasta
             Return True
         Else
             ' save a collection of the fasta sequence
-            Dim seqs = GetFastaSeq(seq, env) _
+            Dim seqs = pipHelper.GetFastaSeq(seq, env) _
                 .Where(Function(f)
                            If filter_empty AndAlso f.Length = 0 Then
                                Return False
