@@ -11,11 +11,11 @@
 declare namespace ptf {
    module cache {
       /**
-       * create a protein annotation metadata file
+       * create a protein annotation metadata file from the uniprot dataset
        * 
        * 
-        * @param uniprot -
-        * @param file -
+        * @param uniprot a collection of the protein data from the uniprot database
+        * @param file file path to save the metadata file
         * @param db_xref -
         * 
         * + default value Is ``["Bgee","KEGG","KO","GO","Pfam","RefSeq","EC","InterPro","BioCyc","eggNOG","keyword"]``.
@@ -93,5 +93,17 @@ declare namespace ptf {
       /**
       */
       function xrefs(ptf: object, xrefs: string): any;
+   }
+   module write {
+      /**
+       * create a protein annotation metadata file from the uniprot dataset
+       * 
+       * 
+        * @param file file path to save the metadata file
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function ptf(proteins: any, file: any, env?: object): any;
    }
 }

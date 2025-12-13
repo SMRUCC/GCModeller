@@ -7,6 +7,9 @@
       "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\uniprot\\annotationcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\objects\\dataset\\dataframe.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -14,9 +17,6 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\hds\\ptfreader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\uniprot\\annotationcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\metabolism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -41,11 +41,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "PtfParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
@@ -58,7 +58,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "PtfReader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
@@ -71,13 +71,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "AnnotationCache.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
               "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
-              "ViewState": "AgIAAIoAAAAAAAAAAADgv58AAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:10:51.158Z",
               "EditorCaption": ""
@@ -162,7 +162,7 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "dataframe.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
@@ -181,7 +181,7 @@
               "RelativeDocumentMoniker": "annotationKit\\PtfCache.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
               "RelativeToolTip": "annotationKit\\PtfCache.vb",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAYwKQAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAAG0BAAAAAAAAAAAuwJgBAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:11:35.496Z",
               "EditorCaption": ""

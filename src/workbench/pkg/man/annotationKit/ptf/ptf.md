@@ -9,4 +9,5 @@ The protein annotation metadata
 + [read.ptf](ptf/read.ptf.1) read the protein annotation database
 + [ID_mapping](ptf/ID_mapping.1) do id mapping via the protein annotation cache
 + [loadBackgroundModel](ptf/loadBackgroundModel.1) 
-+ [cache.ptf](ptf/cache.ptf.1) create a protein annotation metadata file
++ [cache.ptf](ptf/cache.ptf.1) create a protein annotation metadata file from the uniprot dataset
++ [write.ptf](ptf/write.ptf.1) create a protein annotation metadata file from the uniprot dataset
