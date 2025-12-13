@@ -54,6 +54,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
@@ -349,10 +350,10 @@ Module PTFCache
     End Function
 
     ''' <summary>
-    ''' create a protein annotation metadata file
+    ''' create a protein annotation metadata file from the uniprot dataset
     ''' </summary>
-    ''' <param name="uniprot"></param>
-    ''' <param name="file"></param>
+    ''' <param name="uniprot">a collection of the protein data from the uniprot database</param>
+    ''' <param name="file">file path to save the metadata file</param>
     ''' <param name="db_xref"></param>
     ''' <param name="cacheTaxonomy"></param>
     ''' <param name="hds_stream"></param>
@@ -382,6 +383,47 @@ Module PTFCache
                 idMapping:=keys
             )
         End If
+    End Function
+
+    ''' <summary>
+    ''' write the protein annotation as text file
+    ''' </summary>
+    ''' <param name="proteins"></param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("write.ptf")>
+    Public Function writePtfFile(<RRawVectorArgument> proteins As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(proteins, env)
+        Dim is_filepath As Boolean
+        Dim buffer = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
+        Dim stream As StreamWriter = Nothing
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+        If TypeOf file Is StreamWriter Then
+            stream = file
+        ElseIf buffer Like GetType(Message) Then
+            Return buffer.TryCast(Of Message)
+        End If
+
+        If stream Is Nothing Then
+            stream = New StreamWriter(buffer.TryCast(Of Stream), Encoding.UTF8, leaveOpen:=True)
+        End If
+
+        For Each prot As ProteinAnnotation In pull.populates(Of ProteinAnnotation)(env)
+            Call stream.WriteLine(PtfFile.ToString(prot))
+        Next
+
+        Call stream.Flush()
+
+        If is_filepath Then
+            Call stream.Dispose()
+            Call buffer.TryCast(Of Stream).Dispose()
+        End If
+
+        Return True
     End Function
 
     <Extension>
