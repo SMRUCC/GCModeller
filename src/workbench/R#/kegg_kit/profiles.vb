@@ -1,57 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::3645e9393ece5c9e64325b1ecbc9c030, R#\kegg_kit\profiles.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 235
-    '    Code Lines: 187 (79.57%)
-    ' Comment Lines: 19 (8.09%)
-    '    - Xml Docs: 89.47%
-    ' 
-    '   Blank Lines: 29 (12.34%)
-    '     File Size: 10.25 KB
+' Summaries:
 
 
-    ' Module profiles
-    ' 
-    '     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
-    '               KOpathwayProfiles, MapCategory
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 235
+'    Code Lines: 187 (79.57%)
+' Comment Lines: 19 (8.09%)
+'    - Xml Docs: 89.47%
+' 
+'   Blank Lines: 29 (12.34%)
+'     File Size: 10.25 KB
+
+
+' Module profiles
+' 
+'     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
+'               KOpathwayProfiles, MapCategory
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -313,70 +315,10 @@ Module profiles
                                        Optional env As Environment = Nothing) As Background
 
         Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
-        Dim map_index = CLRVector.asCharacter(map_set).Indexing
+        Dim map_index As Index(Of String) = CLRVector.asCharacter(map_set).Indexing
         Dim clusters As Cluster() = kegg.SafeQuery _
             .Select(Function(map)
-                        Dim shapes As MapData = map.shapes
-                        Dim mapId = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode))
-
-                        If map_index.Count > 0 Then
-                            If Not (mapId Like map_index) Then
-                                Return Nothing
-                            End If
-                        End If
-                        If shapes Is Nothing OrElse shapes.mapdata.IsNullOrEmpty Then
-                            Return Nothing
-                        End If
-
-                        Dim idset = shapes.mapdata _
-                            .Select(Function(a) a.IDVector) _
-                            .IteratesALL _
-                            .Distinct _
-                            .Where(Function(kid) koId.ContainsKey(kid)) _
-                            .Select(Function(kid)
-                                        Dim geneId = koId(kid)
-                                        Dim genes = geneId _
-                                            .Select(Function(id)
-                                                        Return New BackgroundGene With {
-                                                            .accessionID = id,
-                                                            .locus_tag = New NamedValue With {.name = id, .text = kid},
-                                                            .name = kid,
-                                                            .term_id = {New NamedValue With {.name = kid, .text = id}}
-                                                        }
-                                                    End Function) _
-                                            .ToArray
-
-                                        Return genes
-                                    End Function) _
-                            .IteratesALL _
-                            .ToArray
-
-                        If idset.IsNullOrEmpty Then
-                            Return Nothing
-                        ElseIf multiple_omics Then
-                            Dim compounds = shapes.mapdata _
-                                .Select(Function(a) a.IDVector) _
-                                .IteratesALL _
-                                .Distinct _
-                                .Where(Function(cid) cid.IsPattern("C\d+")) _
-                                .Select(Function(cid)
-                                            Return New BackgroundGene With {
-                                                .accessionID = cid,
-                                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
-                                                .name = cid
-                                            }
-                                        End Function) _
-                                .ToArray
-
-                            idset = idset.JoinIterates(compounds).ToArray
-                        End If
-
-                        Return New Cluster With {
-                            .description = map.description,
-                            .ID = mapId,
-                            .members = idset,
-                            .names = Strings.Replace(map.name, "Reference pathway", "").Trim(" "c, "-"c)
-                        }
+                        Return map.MapToCluster(tcode, map_index, koId, multiple_omics)
                     End Function) _
             .Where(Function(c) Not c Is Nothing) _
             .ToArray
@@ -388,6 +330,71 @@ Module profiles
             .name = tcode,
             .id = tcode,
             .size = clusters.BackgroundSize
+        }
+    End Function
+
+    <Extension>
+    Private Function MapToCluster(map As Map, tcode As String, map_index As Index(Of String), koId As Dictionary(Of String, String()), multiple_omics As Boolean) As Cluster
+        Dim shapes As MapData = map.shapes
+        Dim mapId = If(tcode.StringEmpty(), map.EntryId, map.EntryId.Replace("map", tcode))
+
+        If map_index.Count > 0 Then
+            If Not (mapId Like map_index) Then
+                Return Nothing
+            End If
+        End If
+        If shapes Is Nothing OrElse shapes.mapdata.IsNullOrEmpty Then
+            Return Nothing
+        End If
+
+        Dim idset = shapes.mapdata _
+            .Select(Function(a) a.IDVector) _
+            .IteratesALL _
+            .Distinct _
+            .Where(Function(kid) koId.ContainsKey(kid)) _
+            .Select(Function(kid)
+                        Dim geneId = koId(kid)
+                        Dim genes = geneId _
+                            .Select(Function(id)
+                                        Return New BackgroundGene With {
+                                            .accessionID = id,
+                                            .locus_tag = New NamedValue With {.name = id, .text = kid},
+                                            .name = kid,
+                                            .term_id = {New NamedValue With {.name = kid, .text = id}}
+                                        }
+                                    End Function) _
+                            .ToArray
+
+                        Return genes
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        If idset.IsNullOrEmpty Then
+            Return Nothing
+        ElseIf multiple_omics Then
+            Dim compounds = shapes.mapdata _
+                .Select(Function(a) a.IDVector) _
+                .IteratesALL _
+                .Distinct _
+                .Where(Function(cid) cid.IsPattern("C\d+")) _
+                .Select(Function(cid)
+                            Return New BackgroundGene With {
+                                .accessionID = cid,
+                                .locus_tag = New NamedValue With {.name = cid, .text = cid},
+                                .name = cid
+                            }
+                        End Function) _
+                .ToArray
+
+            idset = idset.JoinIterates(compounds).ToArray
+        End If
+
+        Return New Cluster With {
+            .description = map.description,
+            .ID = mapId,
+            .members = idset,
+            .names = Strings.Replace(map.name, "Reference pathway", "").Trim(" "c, "-"c)
         }
     End Function
 End Module
