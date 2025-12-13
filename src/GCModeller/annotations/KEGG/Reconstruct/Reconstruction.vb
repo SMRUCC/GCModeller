@@ -225,7 +225,9 @@ Public Module Reconstruction
     ''' </summary>
     ''' <param name="reference"></param>
     ''' <param name="genes"></param>
-    ''' <param name="min_cov"></param>
+    ''' <param name="min_cov">
+    ''' coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
@@ -287,7 +289,7 @@ Public Module Reconstruction
             .Select(Function(g) g.First) _
             .ToArray
 
-        If coverage >= min_cov Then
+        If coverage > min_cov Then
             Return map.createPathwayModel(proteins, idIndex)
         Else
             Return Nothing

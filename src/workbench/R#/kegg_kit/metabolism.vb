@@ -129,11 +129,14 @@ Module metabolism
     ''' <param name="reactions">
     ''' a list of the kegg reaction data models
     ''' </param>
-    ''' <param name="annotations"></param>
-    ''' <param name="min_cov"></param>
+    ''' <param name="annotations">the <see cref="ProteinAnnotation"/> data stream with kegg ontology('ko' attribute) id.</param>
+    ''' <param name="min_cov">coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
-    <ExportAPI("kegg.reconstruction")>
+    ''' <returns>
+    ''' A set of the kegg pathway object that contains with the KEGG id mapping(protein id mapping and assigned compound id list)
+    ''' </returns>
+    <ExportAPI("kegg_reconstruction")>
+    <RApiReturn(GetType(DBGET.bGetObject.Pathway))>
     Public Function KEGGReconstruction(<RRawVectorArgument> reference As Object,
                                        <RRawVectorArgument> reactions As Object,
                                        <RRawVectorArgument> annotations As Object,
