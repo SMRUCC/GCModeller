@@ -70,7 +70,8 @@ Namespace Ptf.Document
 
         <Extension>
         Friend Function asLineText(protein As ProteinAnnotation) As String
-            Dim attrsToStr = protein.attributes _
+            Dim attrsToStr As String = protein.attributes _
+                .Where(Function(a) Not a.Value.IsNullOrEmpty) _
                 .Select(Function(a)
                             Return $"{a.Key}:{a.Value.JoinBy(",")}"
                         End Function) _
