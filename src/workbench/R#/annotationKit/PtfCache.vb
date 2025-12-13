@@ -211,9 +211,14 @@ Module PTFCache
     ''' <returns></returns>
     <ExportAPI("load_xref")>
     <RApiReturn(TypeCodes.list)>
-    Public Function loadXrefs(<RRawVectorArgument> ptf As Object, database As String, Optional env As Environment = Nothing) As Object
+    Public Function loadXrefs(<RRawVectorArgument> ptf As Object, database As String,
+                              Optional flip As Boolean = False,
+                              Optional env As Environment = Nothing) As Object
+
+        Dim db_xrefs As Dictionary(Of String, String())
+
         If TypeOf ptf Is StreamPack Then
-            Return New PtfReader(DirectCast(ptf, StreamPack)).LoadCrossReference(key:=database)
+            db_xrefs = New PtfReader(DirectCast(ptf, StreamPack)).LoadCrossReference(key:=database)
         Else
             Dim pull As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
 
@@ -221,8 +226,30 @@ Module PTFCache
                 Return pull.getError
             End If
 
-            Return pull.populates(Of ProteinAnnotation)(env).LoadCrossReference(key:=database)
+            db_xrefs = pull.populates(Of ProteinAnnotation)(env).LoadCrossReference(key:=database)
         End If
+
+        If flip Then
+            Dim flipMap As New Dictionary(Of String, List(Of String))
+
+            For Each map In db_xrefs
+                For Each xref_id As String In map.Value
+                    If flipMap.ContainsKey(xref_id) Then
+                        flipMap(xref_id).Add(map.Key)
+                    Else
+                        flipMap(xref_id) = New List(Of String) From {map.Key}
+                    End If
+                Next
+            Next
+
+            db_xrefs = flipMap _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.Value.ToArray
+                              End Function)
+        End If
+
+        Return db_xrefs
     End Function
 
     ''' <summary>
