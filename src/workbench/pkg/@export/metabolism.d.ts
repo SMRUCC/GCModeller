@@ -28,12 +28,14 @@ declare namespace metabolism {
      * @param min_cov coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map
      * 
      * + default value Is ``0.3``.
+     * @param prefix 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
      * @return A set of the kegg pathway object that contains with the KEGG id mapping(protein id mapping and assigned compound id list)
    */
-   function kegg_reconstruction(reference: any, reactions: any, annotations: any, min_cov?: number, env?: object): object;
+   function kegg_reconstruction(reference: any, reactions: any, annotations: any, min_cov?: number, prefix?: string, env?: object): object;
    module load {
       module reaction {
          /**

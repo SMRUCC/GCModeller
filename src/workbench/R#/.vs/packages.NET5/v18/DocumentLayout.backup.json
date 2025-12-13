@@ -3,14 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\ptf\\document\\documentbuilder.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\uniprot\\annotationcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\runtime\\internal\\objects\\dataset\\dataframe.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\ptf\\document\\ptfparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
@@ -41,11 +37,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "DocumentBuilder.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\DocumentBuilder.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\DocumentBuilder.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\DocumentBuilder.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\DocumentBuilder.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-13T20:11:49.66Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "PtfParser.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
@@ -58,7 +67,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "PtfReader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
@@ -77,14 +86,14 @@
               "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
               "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAPAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:10:51.158Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 5,
               "Title": "Reconstruction.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
@@ -117,7 +126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "metabolism.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\metabolism.vb",
               "RelativeDocumentMoniker": "kegg_kit\\metabolism.vb",
@@ -130,7 +139,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 6,
               "Title": "britekit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\britekit.vb",
               "RelativeDocumentMoniker": "kegg_kit\\britekit.vb",
@@ -143,7 +152,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "activatorUtils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\activatorUtils.vb",
               "RelativeDocumentMoniker": "kegg_kit\\activatorUtils.vb",
@@ -152,38 +161,6 @@
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:01:54.675Z",
-              "EditorCaption": ""
-            }
-          ]
-        },
-        {
-          "DockedWidth": 94,
-          "SelectedChildIndex": 1,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "dataframe.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
-              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
-              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
-              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Runtime\\Internal\\objects\\dataset\\dataframe.vb",
-              "ViewState": "AgIAAMgBAAAAAAAAAAAowOgBAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T19:15:43.32Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PtfCache.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeDocumentMoniker": "annotationKit\\PtfCache.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeToolTip": "annotationKit\\PtfCache.vb",
-              "ViewState": "AgIAAG0BAAAAAAAAAAAuwJgBAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T19:11:35.496Z",
               "EditorCaption": ""
             }
           ]
