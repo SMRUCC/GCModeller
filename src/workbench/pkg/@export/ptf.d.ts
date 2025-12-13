@@ -73,10 +73,12 @@ declare namespace ptf {
     * load the cross reference id set
     * 
     * 
-     * @param ptf -
+     * @param ptf a collection of the protein annotation data or the @``T:Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem.StreamPack`` database connection
      * @param database the database name
+     * @param env 
+     * + default value Is ``null``.
    */
-   function load_xref(ptf: object, database: string): any;
+   function load_xref(ptf: any, database: string, env?: object): any;
    /**
    */
    function loadBackgroundModel(ptf: object, database: string): object;
