@@ -71,9 +71,9 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
-    ''' The kegg pathway annotation data.(这个代谢途径模型是针对某一个物种而言的)
+    ''' The kegg pathway annotation data.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(这个代谢途径模型是针对某一个物种而言的)</remarks>
     <XmlRoot("KEGG_pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     <XmlType("pathway", Namespace:="http://www.genome.jp/kegg/pathway.html")>
     Public Class Pathway : Inherits PathwayBrief

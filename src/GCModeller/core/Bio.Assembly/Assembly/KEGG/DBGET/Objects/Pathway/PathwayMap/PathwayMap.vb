@@ -96,8 +96,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
     ''' <see cref="BriteHEntry.Pathway.LoadFromResource()"/>.
-    ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
     ''' </summary>
+    ''' <remarks>
+    ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
+    ''' </remarks>
     Public Class PathwayMap : Inherits PathwayBrief
 
         Public Property KOpathway As String
