@@ -38,7 +38,7 @@ C    06038  Folate metabolism
 C    06025  Molybdenum cofactor biosynthesis
 C    06011  Heme biosynthesis
 C    06538  Cobalamin transport and metabolism
-B  Replication and repair
+B  Replication, repair and transcription
 C    06509  DNA replication
 C    06510  Telomere length regulation
 C    06504  Base excision repair
@@ -46,6 +46,7 @@ C    06502  Nucleotide excision repair
 C    06503  Mismatch repair
 C    06506  Double-strand break repair
 C    06508  Interstrand crosslink repair
+C    06547  Spliceosome
 B  Signal transduction
 C    06526  MAPK signaling
 C    06530  PI3K signaling
@@ -74,6 +75,9 @@ C    06529  Thermogenesis
 C    06539  Cytoskeleton in muscle cells
 C    06541  Cytoskeleton in neurons
 C    06544  Neuroactive ligand signaling
+C    06546  IgSF CAM signaling
+C    06548  Integrin signaling
+C    06545  Cornified envelope formation
 B  Immune system
 C    06513  Complement cascade
 C    06514  Coagulation cascade
@@ -169,6 +173,6 @@ C    06182  Shigella
 C    06183  Yersinia
 !
 #<hr>
-#Last updated: April 10, 2025
+#Last updated: December 2, 2025
 #<br><br><a href="/brite/jp08907">&raquo; Japanese version</a>
-
+

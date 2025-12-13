@@ -230,6 +230,10 @@ D      R10907	C01172  beta-D-Glucose 6-phosphate
 B  1.1.1.388
 C    R10520	C00092  D-Glucose 6-phosphate
 D      R10907	C01172  beta-D-Glucose 6-phosphate
+B  1.1.1.390
+C    R11036	C20829  Sulfoquinovose
+D      R13567	C22077  6-Sulfo-alpha-D-quinovose
+D      R13568	C22078  6-Sulfo-beta-D-quinovose
 B  1.1.1.418
 C    R12366	C22111  3beta-Hydroxysteroid-4alpha-carboxylate	C01876  3-Oxosteroid
 D      R12371	C22116  3beta-Hydroxy-4beta,14alpha-dimethyl-9beta,19-cyclo-5alpha-ergost-24(24(1))-en-4alpha-carboxylate	C22121  Cycloeucalenone
@@ -729,6 +733,10 @@ B  1.14.14.154
 C    R12118	C21918  14alpha-Methylsteroid	C21919  Delta14-Steroid
 D      R05640	C01724  Lanosterol	C11455  4,4-Dimethyl-5alpha-cholesta-8,14,24-trien-3beta-ol
 D      R05731	C01943  Obtusifoliol	C11508  4alpha-Methyl-5alpha-ergosta-8,14,24(28)-trien-3beta-ol
+B  1.14.14.181
+C    R13017	C20829  Sulfoquinovose
+D      R13569	C22077  6-Sulfo-alpha-D-quinovose
+D      R13570	C22078  6-Sulfo-beta-D-quinovose
 B  1.14.15.4
 C    R02726	C00377  Steroid	C01058  11beta-Hydroxysteroid
 D      R02725	C00280  Androstenedione	C05284  11beta-Hydroxyandrost-4-ene-3,17-dione
@@ -1880,6 +1888,6 @@ D      R02161	C00390  Ubiquinol	C00399  Ubiquinone
 !
 #<hr>
 #[ <a href="/kegg/reaction/">REACTION</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: May 22, 2025
+#Last updated: October 11, 2025
 #<br>Parent-child relationship of IUBMB reaction and other reactions with the same EC number
-
+

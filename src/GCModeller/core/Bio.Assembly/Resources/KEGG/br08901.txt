@@ -31,6 +31,7 @@ C    00640  Propanoate metabolism
 C    00650  Butanoate metabolism
 C    00660  C5-Branched dibasic acid metabolism
 C    00562  Inositol phosphate metabolism
+C    00566  Sulfoquinovose metabolism
 B  Energy metabolism
 C    00190  Oxidative phosphorylation
 C    00195  Photosynthesis
@@ -172,6 +173,7 @@ C    00404  Staurosporine biosynthesis
 C    00405  Phenazine biosynthesis
 C    00333  Prodigiosin biosynthesis
 C    00254  Aflatoxin biosynthesis
+C    00975  Biosynthesis of various siderophores
 C    00998  Biosynthesis of various antibiotics
 C    00999  Biosynthesis of various plant secondary metabolites
 C    00997  Biosynthesis of various other secondary metabolites
@@ -303,7 +305,9 @@ C    04081  Hormone signaling
 C    04060  Cytokine-cytokine receptor interaction
 C    04061  Viral protein interaction with cytokine and cytokine receptor
 C    04512  ECM-receptor interaction
-C    04514  Cell adhesion molecules
+C    04514  Cell adhesion molecule (CAM) interaction
+C    04517  IgSF CAM signaling
+C    04518  Integrin signaling
 #
 A<b>Cellular Processes</b>
 B  Transport and catabolism
@@ -656,6 +660,6 @@ C    07114  Naphthalene family
 C    07117  Benzodiazepine family
 !
 #<hr>
-#Last updated: June 3, 2025
+#Last updated: December 8, 2025
 #<br><br><a href="/brite/jp08901">&raquo; Japanese version</a>
-
+

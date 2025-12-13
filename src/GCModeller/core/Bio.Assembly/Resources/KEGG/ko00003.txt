@@ -53,7 +53,14 @@ D      RM022  Nucleotide sugar biosynthesis, type 1
 D      RM023  Nucleotide sugar biosynthesis, type 2
 D      RM039  Nucleotide sugar biosynthesis, type 3
 D      RM042  Nucleotide sugar biosynthesis, type 4
-E        M00063  CMP-KDO biosynthesis
+E        M00955  CMP-Neu5Ac/Neu5Gc biosynthesis, animals, UDP-GlcNAc => CMP-Neu5Ac => CMP-Neu5Gc
+E        M00954  CMP-KDN biosynthesis, Man-6P => CMP-KDN
+E        M00063  CMP-KDO biosynthesis, ribulose-5P => CMP-KDO
+E        M00922  CMP-Neu5Ac biosynthesis, bacteria, UDP-GlcNAc => CMP-Neu5Ac
+E        M01011  CMP-Leg5Ac7Ac biosynthesis, UDP-BacNAc4NAc => CMP-Leg5Ac7Ac
+E        M01012  CMP-Leg5Ac7Ala biosynthesis, UDP-GlcNAc => CMP-Leg5Ac7Ala
+E        M01008  CMP-8eLeg5Ac7Ac biosynthesis, UDP-GlcNAc => CMP-8eLeg5Ac7Ac
+E        M01007  CMP-Pse5Ac7Ac biosynthesis, UDP-GlcNAc => CMP-Pse5Ac7Ac
 C    Deoxy sugar metabolism
 D      RM035  Transamination and N,N-dimethylation in polyketide biosynthesis
 E        M00796  dTDP-D-mycaminose biosynthesis
@@ -64,6 +71,17 @@ E        M00800  dTDP-L-megosamine biosynthesis
 E        M00780  Tetracycline/oxytetracycline biosynthesis, pretetramide => tetracycline/oxytetracycline
 E        M00823  Chlortetracycline biosynthesis, pretetramide => chlortetracycline
 D      RM043  Transamination and N-acetylation in deoxysugar biosynthesis
+E        M01024  dTDP-Qui3NAc biosynthesis, Glc-1P => dTDP-Qui3NAc
+E        M01023  dTDP-D-Fuc3NAc biosynthesis, Glc-1P => dTDP-D-Fuc3NAc
+E        M01026  dTDP-Qui4NAc biosynthesis, Glc-1P => dTDP-Qui4NAc
+E        M01025  dTDP-D-Fuc4NAc biosynthesis, Glc-1P => dTDP-D-Fuc4NAc
+E        M01020  GDP-D-Rha4NAc biosynthesis, GDP-Man => GDP-D-Rha4N => GDP-D-Rha4NAc
+E        M01010  UDP-BacNAc4NAc biosynthesis, UDP-GlcNAc => UDP-BacNAc4NAc
+E        M01012  CMP-Leg5Ac7Ala biosynthesis, UDP-GlcNAc => CMP-Leg5Ac7Ala
+E        M01033  UDP-yelosamine biosynthesis, UDP-GlcNAc => UDP-yelosamine
+E        M01008  CMP-8eLeg5Ac7Ac biosynthesis, UDP-GlcNAc => CMP-8eLeg5Ac7Ac
+E        M01007  CMP-Pse5Ac7Ac biosynthesis, UDP-GlcNAc => CMP-Pse5Ac7Ac
+E        M01035  UDP-ManNAc3NAcA biosynthesis, UDP-GlcNAc => UDP-ManNAc3NAcA
 D      RM036  Epimerization and reduction in deoxysugar biosynthesis
 E        M00793  dTDP-L-rhamnose biosynthesis
 E        M00801  dTDP-L-olivose biosynthesis
@@ -139,5 +157,5 @@ D      RM031  Oxime to acetate conversion
 !
 #<hr>
 #[ <a href="/kegg/reaction/rmodule.html">RMODULE</a> | <a href="/kegg/brite.html">BRITE</a> | <a href="/kegg/pathway.html">PATHWAY</a> | <a href="/kegg/kegg2.html">KEGG2</a> | <a href="/kegg/">KEGG</a> ]<br>
-#Last updated: November 5, 2024
-
+#Last updated: August 14, 2025
+
