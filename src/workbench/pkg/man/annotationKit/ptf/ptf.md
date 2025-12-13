@@ -2,6 +2,7 @@
 
 The protein annotation metadata
 
++ [fromDataframe](ptf/fromDataframe.1) Create the protein annotation data model from a given dataframe object
 + [list.xrefs](ptf/list.xrefs.1) enumerate all database name from a HDS stream
 + [summary.xrefs](ptf/summary.xrefs.1) 
 + [load_xref](ptf/load_xref.1) load the cross reference id set

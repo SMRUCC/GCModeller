@@ -32,6 +32,20 @@ declare namespace ptf {
       function ptf(uniprot: any, file: any, db_xref?: any, cacheTaxonomy?: boolean, hds_stream?: boolean, env?: object): any;
    }
    /**
+    * Create the protein annotation data model from a given dataframe object
+    * 
+    * 
+     * @param x + gene_id
+     *  + locus_id
+     *  + gene_name
+     *  + description
+     *  + sequence
+     *  + ...
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function fromDataframe(x: object, env?: object): object;
+   /**
     * do id mapping via the protein annotation cache
     * 
     * 
