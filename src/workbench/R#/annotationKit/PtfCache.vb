@@ -206,13 +206,23 @@ Module PTFCache
     ''' <summary>
     ''' load the cross reference id set
     ''' </summary>
-    ''' <param name="ptf"></param>
+    ''' <param name="ptf">a collection of the protein annotation data or the <see cref="StreamPack"/> database connection</param>
     ''' <param name="database">the database name</param>
     ''' <returns></returns>
     <ExportAPI("load_xref")>
     <RApiReturn(TypeCodes.list)>
-    Public Function loadXrefs(ptf As StreamPack, database As String) As Object
-        Return New PtfReader(ptf).LoadCrossReference(key:=database)
+    Public Function loadXrefs(<RRawVectorArgument> ptf As Object, database As String, Optional env As Environment = Nothing) As Object
+        If TypeOf ptf Is StreamPack Then
+            Return New PtfReader(DirectCast(ptf, StreamPack)).LoadCrossReference(key:=database)
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Return pull.populates(Of ProteinAnnotation)(env).LoadCrossReference(key:=database)
+        End If
     End Function
 
     ''' <summary>
