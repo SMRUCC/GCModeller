@@ -94,7 +94,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function LoadFromResource() As EnzymaticReaction()
-            Dim model As BriteHText = BriteHTextParser.Load(My.Resources.br08201)
+            Dim model As BriteHText = BriteHTextParser.Load(My.Resources.KEGGReactions.br08201)
             Return Build(model)
         End Function
 

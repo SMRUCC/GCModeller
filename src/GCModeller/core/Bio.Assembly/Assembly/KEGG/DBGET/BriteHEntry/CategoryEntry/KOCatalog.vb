@@ -88,7 +88,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 所以函数返回的字典为一个KO编号对应若干个KO term
         ''' </returns>
         Public Shared Function ko00000() As Dictionary(Of String, BriteHText())
-            Dim htext As htext = htext.StreamParser(My.Resources.ko00000)
+            Dim htext As htext = htext.StreamParser(My.Resources.KEGG.ko00000)
             Dim maps = htext.Hierarchical _
                 .EnumerateEntries _
                 .GroupBy(Function(x) x.entryID) _

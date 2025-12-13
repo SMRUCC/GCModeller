@@ -132,7 +132,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadFromResource() As Pathway()
-            Return LoadStream(My.Resources.br08901)
+            Return LoadStream(My.Resources.KEGG.br08901)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

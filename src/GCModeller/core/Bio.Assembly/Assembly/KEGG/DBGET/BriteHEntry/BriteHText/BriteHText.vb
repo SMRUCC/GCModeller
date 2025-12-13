@@ -268,7 +268,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00002() As BriteHText
-            Return BriteHTextParser.Load(text:=My.Resources.ko00002_keg)
+            Return BriteHTextParser.Load(text:=My.Resources.KEGG.ko00002)
         End Function
 
         ''' <summary>
@@ -278,7 +278,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00001() As BriteHText
-            Return BriteHTextParser.Load(text:=My.Resources.ko00001)
+            Return BriteHTextParser.Load(text:=My.Resources.KEGG.ko00001)
         End Function
 
         ''' <summary>

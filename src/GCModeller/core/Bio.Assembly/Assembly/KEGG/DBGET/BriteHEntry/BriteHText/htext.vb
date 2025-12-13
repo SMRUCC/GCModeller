@@ -176,7 +176,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ko00001() As htext
-            Return StreamParser(My.Resources.ko00001)
+            Return StreamParser(My.Resources.KEGG.ko00001)
         End Function
 
         ''' <summary>
@@ -186,7 +186,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08201() As htext
-            Return StreamParser(My.Resources.br08201)
+            Return StreamParser(My.Resources.KEGGReactions.br08201)
         End Function
 
         ''' <summary>
@@ -195,7 +195,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08204() As htext
-            Return StreamParser(My.Resources.br08204)
+            Return StreamParser(My.Resources.KEGGReactions.br08204)
         End Function
 
         ''' <summary>
@@ -206,7 +206,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' https://rest.kegg.jp/get/br:br08901
         ''' </remarks>
         Public Shared Function br08901() As htext
-            Return StreamParser(My.Resources.br08901)
+            Return StreamParser(My.Resources.KEGG.br08901)
         End Function
 
 #If NET48 Then
@@ -217,7 +217,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 #End If
 
         Private Shared Function GetInternalResourceText(resourceName As String) As String
-            Return My.Resources.ResourceManager.GetString(resourceName)
+            Dim str = My.Resources.KEGG.ResourceManager.GetString(resourceName)
+
+            If Not str Is Nothing Then
+                Return str
+            Else
+                str = My.Resources.KEGGCompounds.ResourceManager.GetString(resourceName)
+            End If
+
+            If Not str Is Nothing Then
+                Return str
+            Else
+                str = My.Resources.KEGGReactions.ResourceManager.GetString(resourceName)
+            End If
+
+            Return str
         End Function
 
         ' kegg enzyme
