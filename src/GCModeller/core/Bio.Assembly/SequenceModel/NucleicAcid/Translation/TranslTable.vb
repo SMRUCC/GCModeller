@@ -286,25 +286,25 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Protected Friend Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
- _
-            {1, ParseTable(My.Resources.transl_table_1)},
-            {2, ParseTable(My.Resources.transl_table_2)},
-            {3, ParseTable(My.Resources.transl_table_3)},
-            {4, ParseTable(My.Resources.transl_table_4)},
-            {5, ParseTable(My.Resources.transl_table_5)},
-            {6, ParseTable(My.Resources.transl_table_6)},
-            {9, ParseTable(My.Resources.transl_table_9)},
-            {10, ParseTable(My.Resources.transl_table_10)},
-            {11, ParseTable(My.Resources.transl_table_11)},
-            {12, ParseTable(My.Resources.transl_table_12)},
-            {13, ParseTable(My.Resources.transl_table_13)},
-            {14, ParseTable(My.Resources.transl_table_14)},
-            {16, ParseTable(My.Resources.transl_table_16)},
-            {21, ParseTable(My.Resources.transl_table_21)},
-            {22, ParseTable(My.Resources.transl_table_22)},
-            {23, ParseTable(My.Resources.transl_table_23)},
-            {24, ParseTable(My.Resources.transl_table_24)},
-            {25, ParseTable(My.Resources.transl_table_25)}
+                                                                                                  _
+            {1, ParseTable(My.Resources.TranslTables.transl_table_1)},
+            {2, ParseTable(My.Resources.TranslTables.transl_table_2)},
+            {3, ParseTable(My.Resources.TranslTables.transl_table_3)},
+            {4, ParseTable(My.Resources.TranslTables.transl_table_4)},
+            {5, ParseTable(My.Resources.TranslTables.transl_table_5)},
+            {6, ParseTable(My.Resources.TranslTables.transl_table_6)},
+            {9, ParseTable(My.Resources.TranslTables.transl_table_9)},
+            {10, ParseTable(My.Resources.TranslTables.transl_table_10)},
+            {11, ParseTable(My.Resources.TranslTables.transl_table_11)},
+            {12, ParseTable(My.Resources.TranslTables.transl_table_12)},
+            {13, ParseTable(My.Resources.TranslTables.transl_table_13)},
+            {14, ParseTable(My.Resources.TranslTables.transl_table_14)},
+            {16, ParseTable(My.Resources.TranslTables.transl_table_16)},
+            {21, ParseTable(My.Resources.TranslTables.transl_table_21)},
+            {22, ParseTable(My.Resources.TranslTables.transl_table_22)},
+            {23, ParseTable(My.Resources.TranslTables.transl_table_23)},
+            {24, ParseTable(My.Resources.TranslTables.transl_table_24)},
+            {25, ParseTable(My.Resources.TranslTables.transl_table_25)}
         }
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
