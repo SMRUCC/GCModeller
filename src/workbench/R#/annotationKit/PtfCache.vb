@@ -88,48 +88,75 @@ Module PTFCache
     <RApiReturn(GetType(ProteinAnnotation))>
     Public Function fromDataframe(x As dataframe, Optional env As Environment = Nothing) As Object
         Dim col As Value(Of String) = ""
-        Dim gene_id As String
-        Dim locus_id As String
-        Dim gene_name As String
-        Dim note As String
-        Dim sequence As String = Nothing
-        Dim db_xrefs As String()
+        Dim gene_id As (col As String, data As String())
+        Dim locus_id As (col As String, data As String())
+        Dim gene_name As (col As String, data As String())
+        Dim note As (col As String, data As String())
+        Dim sequence As (col As String, data As String()) = Nothing
+        Dim db_xrefs As (col As String, data As String())()
 
         If (col = x.checkColumnNames("geneId", "gene_id")) Is Nothing Then
             Return RInternal.debug.stop("missing of the gene id field: geneId or gene_id", env)
         Else
-            gene_id = col
+            gene_id = (CStr(col), CLRVector.asCharacter(x(CStr(col))))
         End If
         If (col = x.checkColumnNames("locus_id", "locus_tag")) Is Nothing Then
             Return RInternal.debug.stop("missing of the gene locus_tag field: locust_id or locust_tag", env)
         Else
-            locus_id = col
+            locus_id = (CStr(col), CLRVector.asCharacter(x(CStr(col))))
         End If
         If (col = x.checkColumnNames("geneName", "gene_name")) Is Nothing Then
             Return RInternal.debug.stop("missing of the gene synonym name field: geneName or gene_name", env)
         Else
-            gene_name = col
+            gene_name = (CStr(col), CLRVector.asCharacter(x(CStr(col))))
         End If
         If (col = x.checkColumnNames("description", "note", "function")) Is Nothing Then
             Return RInternal.debug.stop("missing of the gene function description text field: description, note or function", env)
         Else
-            note = col
+            note = (CStr(col), CLRVector.asCharacter(x(CStr(col))))
         End If
         If (col = x.checkColumnNames("sequence")) IsNot Nothing Then
-            sequence = col
+            sequence = (CStr(col), CLRVector.asCharacter(x(CStr(col))))
         End If
 
         Dim check_cols As Index(Of String) = {gene_id, locus_id, gene_name, note, sequence} _
-            .Where(Function(s) Not s Is Nothing) _
+            .Where(Function(s) Not s.col Is Nothing) _
+            .Select(Function(a) a.col) _
             .Indexing
 
         db_xrefs = x.colnames _
             .Where(Function(name)
                        Return Not (name Like check_cols)
                    End Function) _
+            .Select(Function(colname)
+                        Return (colname, CLRVector.asCharacter(x(colname)))
+                    End Function) _
             .ToArray
 
+        Dim proteins As New List(Of ProteinAnnotation)
+        Dim nrows As Integer = x.nrows
 
+        For i As Integer = 0 To nrows - 1
+            Dim prot As New ProteinAnnotation With {
+                .geneId = gene_id.data(i),
+                .description = note.data(i),
+                .geneName = gene_name.data(i),
+                .locus_id = locus_id.data(i),
+                .attributes = New Dictionary(Of String, String())
+            }
+
+            If sequence.data IsNot Nothing Then
+                prot.sequence = sequence.data(i)
+            End If
+
+            For Each db_xref In db_xrefs
+                Call prot.attributes.Add(db_xref.col, New String() {db_xref.data(i)})
+            Next
+
+            Call proteins.Add(prot)
+        Next
+
+        Return proteins.ToArray
     End Function
 
     ''' <summary>
