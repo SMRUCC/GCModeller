@@ -12,6 +12,7 @@ const url_templ as string = "https://www.kegg.jp/dbget-bin/www_bget?cpd:%s";
 options(http.cache_dir = cache_dir);
 
 let index = REnv::getHtml("https://rest.kegg.jp/list/compound", interval = 3, filetype = "html");
+index = trim(index);
 index = strsplit(index, "\n");
 index = lapply(index, si -> strsplit(si, "\t"));
 index = lapply(index, i -> i[2], names = i -> i[1]);
