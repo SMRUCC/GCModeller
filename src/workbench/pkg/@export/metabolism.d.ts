@@ -18,23 +18,22 @@ declare namespace metabolism {
       */
       function invalid_keggIds(identified: string): string;
    }
-   module kegg {
-      /**
-       * do kegg pathway reconstruction by given protein annotation data
-       * 
-       * 
-        * @param reference the kegg reference maps
-        * @param reactions a list of the kegg reaction data models
-        * @param annotations -
-        * @param min_cov -
-        * 
-        * + default value Is ``0.3``.
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function reconstruction(reference: any, reactions: any, annotations: any, min_cov?: number, env?: object): object;
-   }
+   /**
+    * do kegg pathway reconstruction by given protein annotation data
+    * 
+    * 
+     * @param reference the kegg reference maps
+     * @param reactions a list of the kegg reaction data models
+     * @param annotations the @``T:SMRUCC.genomics.Annotation.Ptf.ProteinAnnotation`` data stream with kegg ontology('ko' attribute) id.
+     * @param min_cov coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map
+     * 
+     * + default value Is ``0.3``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return A set of the kegg pathway object that contains with the KEGG id mapping(protein id mapping and assigned compound id list)
+   */
+   function kegg_reconstruction(reference: any, reactions: any, annotations: any, min_cov?: number, env?: object): object;
    module load {
       module reaction {
          /**

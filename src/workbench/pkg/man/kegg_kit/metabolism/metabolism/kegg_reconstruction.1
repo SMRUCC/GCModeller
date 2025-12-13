@@ -1,0 +1,44 @@
+.\" man page create by R# package system.
+.TH METABOLISM 2 2000-Jan "kegg_reconstruction" "kegg_reconstruction"
+.SH NAME
+kegg_reconstruction \- do kegg pathway reconstruction by given protein annotation data
+.SH SYNOPSIS
+\fIkegg_reconstruction(\fBreference\fR as any, 
+\fBreactions\fR as any, 
+\fBannotations\fR as any, 
+\fBmin_cov\fR as double = 0.3, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+do kegg pathway reconstruction by given protein annotation data
+.PP
+.SH OPTIONS
+.PP
+\fBreference\fB \fR\- 
+ the kegg reference maps
+. 
+.PP
+.PP
+\fBreactions\fB \fR\- 
+ a list of the kegg reaction data models
+. 
+.PP
+.PP
+\fBannotations\fB \fR\- the @\fBT:SMRUCC.genomics.Annotation.Ptf.ProteinAnnotation\fR data stream with kegg ontology('ko' attribute) id.. 
+.PP
+.PP
+\fBmin_cov\fB \fR\- coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+A set of the kegg pathway object that contains with the KEGG id mapping(protein id mapping and assigned compound id list)
+.PP
+.SH SEE ALSO
+metabolism
+.SH FILES
+.PP
+kegg_kit.dll
+.PP
