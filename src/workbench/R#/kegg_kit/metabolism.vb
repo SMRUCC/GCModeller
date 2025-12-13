@@ -147,7 +147,13 @@ Module metabolism
         Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env)
 
         If rxnList.isError Then
-            Return rxnList
+            rxnList = pipeline.TryCreatePipeline(Of DBGET.bGetObject.Reaction)(reactions, env)
+
+            If Not rxnList.isError Then
+                rxnList = pipeline.CreateFromPopulator(ReactionTable.Load(rxnList.populates(Of DBGET.bGetObject.Reaction)(env).ToArray))
+            Else
+                Return rxnList
+            End If
         End If
 
         Dim maps As pipeline = pipeline.TryCreatePipeline(Of Map)(reference, env)
