@@ -55,7 +55,9 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -68,12 +70,67 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The protein annotation metadata
 ''' </summary>
-<Package("ptf")> Module PTFCache
+<Package("ptf")>
+<RTypeExport("protein_data", GetType(ProteinAnnotation))>
+Module PTFCache
+
+    ''' <summary>
+    ''' Create the protein annotation data model from a given dataframe object
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("fromDataframe")>
+    <RApiReturn(GetType(ProteinAnnotation))>
+    Public Function fromDataframe(x As dataframe, Optional env As Environment = Nothing) As Object
+        Dim col As Value(Of String) = ""
+        Dim gene_id As String
+        Dim locus_id As String
+        Dim gene_name As String
+        Dim note As String
+        Dim sequence As String = Nothing
+        Dim db_xrefs As String()
+
+        If (col = x.checkColumnNames("geneId", "gene_id")) Is Nothing Then
+            Return RInternal.debug.stop("missing of the gene id field: geneId or gene_id", env)
+        Else
+            gene_id = col
+        End If
+        If (col = x.checkColumnNames("locus_id", "locus_tag")) Is Nothing Then
+            Return RInternal.debug.stop("missing of the gene locus_tag field: locust_id or locust_tag", env)
+        Else
+            locus_id = col
+        End If
+        If (col = x.checkColumnNames("geneName", "gene_name")) Is Nothing Then
+            Return RInternal.debug.stop("missing of the gene synonym name field: geneName or gene_name", env)
+        Else
+            gene_name = col
+        End If
+        If (col = x.checkColumnNames("description", "note", "function")) Is Nothing Then
+            Return RInternal.debug.stop("missing of the gene function description text field: description, note or function", env)
+        Else
+            note = col
+        End If
+        If (col = x.checkColumnNames("sequence")) IsNot Nothing Then
+            sequence = col
+        End If
+
+        Dim check_cols As Index(Of String) = {gene_id, locus_id, gene_name, note, sequence} _
+            .Where(Function(s) Not s Is Nothing) _
+            .Indexing
+
+        db_xrefs = x.colnames _
+            .Where(Function(name)
+                       Return Not (name Like check_cols)
+                   End Function) _
+            .ToArray
+
+
+    End Function
 
     ''' <summary>
     ''' enumerate all database name from a HDS stream

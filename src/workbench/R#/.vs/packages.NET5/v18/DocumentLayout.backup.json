@@ -3,11 +3,24 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{21432E9A-690B-4D27-81B6-7665FECC3310}|..\\..\\GCModeller\\annotations\\KEGG\\KEGGAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\kegg\\reconstruct\\reconstruction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AD129A16-C806-42DF-B090-DEFEDF09B227}|..\\..\\GCModeller\\core\\Bio.Annotation\\annotation.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.annotation\\ptf\\document\\ptfparser.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\hds\\ptfreader.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EB20A5A-2521-4AE1-B6F6-91BD5200E7C9}|..\\..\\repository\\Bio.Repository\\repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\uniprot\\annotationcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\metabolism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\metabolism.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{21432E9A-690B-4D27-81B6-7665FECC3310}|..\\..\\GCModeller\\annotations\\KEGG\\KEGGAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\kegg\\reconstruct\\reconstruction.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\britekit.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -30,12 +43,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PtfCache.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
+              "RelativeDocumentMoniker": "annotationKit\\PtfCache.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
+              "RelativeToolTip": "annotationKit\\PtfCache.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-13T19:11:35.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PtfParser.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Annotation\\PTF\\Document\\PtfParser.vb",
+              "ViewState": "AgIAAGQAAAAAAAAAAAArwIAAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-13T19:11:16.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PtfReader.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\HDS\\PtfReader.vb",
+              "ViewState": "AgIAAHUAAAAAAAAAAAArwIoAAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-13T19:11:02.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AnnotationCache.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
+              "RelativeDocumentMoniker": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
+              "RelativeToolTip": "..\\..\\repository\\Bio.Repository\\UniProt\\AnnotationCache.vb",
+              "ViewState": "AgIAAIoAAAAAAAAAAADgv58AAAATAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-13T19:10:51.158Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Reconstruction.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\annotations\\KEGG\\Reconstruct\\Reconstruction.vb",
-              "ViewState": "AgIAAOUAAAAAAAAAAAAowBYBAAAWAAAAAAAAAA==",
+              "ViewState": "AgIAAMMAAAAAAAAAAAAowOQAAABqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:04:05.924Z",
               "EditorCaption": ""
@@ -62,20 +127,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "metabolism.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\metabolism.vb",
               "RelativeDocumentMoniker": "kegg_kit\\metabolism.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\metabolism.vb",
               "RelativeToolTip": "kegg_kit\\metabolism.vb",
-              "ViewState": "AgIAAHQAAAAAAAAAAAAuwKYAAAAbAAAAAAAAAA==",
+              "ViewState": "AgIAAHQAAAAAAAAAAAAuwJ0AAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-13T19:02:10.461Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "britekit.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\britekit.vb",
               "RelativeDocumentMoniker": "kegg_kit\\britekit.vb",
@@ -88,7 +153,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "activatorUtils.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\activatorUtils.vb",
               "RelativeDocumentMoniker": "kegg_kit\\activatorUtils.vb",
