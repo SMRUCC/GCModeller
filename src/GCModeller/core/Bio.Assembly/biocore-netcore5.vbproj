@@ -666,6 +666,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>KEGGReactions.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Default.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Default.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\transl_table\TranslTables.Designer.vb">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -688,6 +693,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>KEGGReactions.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Default.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Default.Designer.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\transl_table\TranslTables.resx">
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
