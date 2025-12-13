@@ -166,7 +166,7 @@ Module DEBUG_MAIN
         '        "UniRef90_I3ITW3",
         '        "UniRef90_A0A0U4TJT5",
         '        "UniRef90_M4ANX3",
-        '        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
+        '        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.debug
 
         Pause()
 
@@ -189,18 +189,18 @@ Module DEBUG_MAIN
 
         Dim tax As New NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
 
-        Call tax.GetParent({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetRank({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetChildren({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetName({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetAscendantsWithRanksAndNames({1, 562}).GetJson.__DEBUG_ECHO
-        Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.__DEBUG_ECHO
-        Call tax.GetDescendants(208962, 566).GetJson.__DEBUG_ECHO
-        Call tax.GetDescendantsWithRanksAndNames(566).GetJson.__DEBUG_ECHO
-        ' Call tax.GetLeaves(1).Length.__DEBUG_ECHO
-        Call tax.GetLeaves(561).Length.__DEBUG_ECHO
-        Call tax.GetLeavesWithRanksAndNames(561) '.GetJson.__DEBUG_ECHO
-        Call tax.GetTaxidsAtRank("superkingdom").GetJson.__DEBUG_ECHO
+        Call tax.GetParents({28384, 131567}).GetJson.debug
+        Call tax.GetRank({28384, 131567}).GetJson.debug
+        Call tax.GetChildren({28384, 131567}).GetJson.debug
+        Call tax.GetName({28384, 131567}).GetJson.debug
+        Call tax.GetAscendantsWithRanksAndNames({1, 562}).GetJson.debug
+        Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.debug
+        Call tax.GetDescendants(208962, 566).GetJson.debug
+        Call tax.GetDescendantsWithRanksAndNames(566).GetJson.debug
+        ' Call tax.GetLeaves(1).Length.debug
+        Call tax.GetLeaves(561).Length.debug
+        Call tax.GetLeavesWithRanksAndNames(561) '.GetJson.debug
+        Call tax.GetTaxidsAtRank("superkingdom").GetJson.debug
 
         Dim ptt As PTT = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")
         Dim loci As New NucleotideLocation(3769223, 3769149, Strands.Reverse)

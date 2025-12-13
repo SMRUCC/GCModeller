@@ -198,15 +198,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
-      <Project>{f258b8fd-f5e5-49bd-a31b-a20b39704318}</Project>
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
       <Name>Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bio.Annotation\annotation.NET5.vbproj">
-      <Project>{dc9b37da-7f35-4467-870c-07e942c2520e}</Project>
+      <Project>{e2529708-c2a7-e815-d8ee-951dbedab139}</Project>
       <Name>annotation.NET5</Name>
     </ProjectReference>
     <ProjectReference Include="..\Bio.Assembly\biocore-netcore5.vbproj">
-      <Project>{e2dca944-98ef-4483-a530-b3971649cbd5}</Project>
+      <Project>{591d817b-0338-829b-f226-ed8e9d65d194}</Project>
       <Name>biocore-netcore5</Name>
     </ProjectReference>
   </ItemGroup>
