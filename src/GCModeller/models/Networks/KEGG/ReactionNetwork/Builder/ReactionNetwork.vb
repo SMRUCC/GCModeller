@@ -383,18 +383,18 @@ Namespace ReactionNetwork
             For Each gene As GeneName In pathway.genes.SafeQuery
                 Dim ko As String = gene.KO
 
-                If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
+                If ko IsNot Nothing AndAlso reactions.ContainsKey(ko) Then
                     For Each item As ReactionTable In reactions(ko)
                         Yield item
                     Next
                 End If
 
-                If reactions.ContainsKey(gene.geneId) Then
+                If gene.geneId IsNot Nothing AndAlso reactions.ContainsKey(gene.geneId) Then
                     For Each item As ReactionTable In reactions(gene.geneId)
                         Yield item
                     Next
                 End If
-                If reactions.ContainsKey(gene.geneName) Then
+                If gene.geneName IsNot Nothing AndAlso reactions.ContainsKey(gene.geneName) Then
                     For Each item As ReactionTable In reactions(gene.geneName)
                         Yield item
                     Next
@@ -402,9 +402,9 @@ Namespace ReactionNetwork
 
                 If Not gene.EC Is Nothing Then
                     For Each id As String In gene.EC
-                        If Not id.StringEmpty AndAlso reactions.ContainsKey(id) Then
-                            For Each item As ReactionTable In reactions(id)
-                                Yield item
+                        If id IsNot Nothing AndAlso reactions.ContainsKey(id) Then
+                            For Each rxn As ReactionTable In reactions(id)
+                                Yield rxn
                             Next
                         End If
                     Next
