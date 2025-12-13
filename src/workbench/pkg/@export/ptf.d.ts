@@ -75,10 +75,12 @@ declare namespace ptf {
     * 
      * @param ptf a collection of the protein annotation data or the @``T:Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem.StreamPack`` database connection
      * @param database the database name
+     * @param flip 
+     * + default value Is ``false``.
      * @param env 
      * + default value Is ``null``.
    */
-   function load_xref(ptf: any, database: string, env?: object): any;
+   function load_xref(ptf: any, database: string, flip?: boolean, env?: object): any;
    /**
    */
    function loadBackgroundModel(ptf: object, database: string): object;
