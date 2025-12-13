@@ -20,7 +20,7 @@ let save = file.path(dirname(pkg), `${basename(pkg)}.xml`);
 
 pkg
 |> load.pathways(referenceMap = FALSE)
-|> as.background( omics = "Metabolomics", kegg.code = "eco")
+|> as.background( omics = "Metabolomics", kegg.code = basename(pkg))
 # |> append.id_terms("GeneExpression", idmaps )
 |> write.background(file = save)
 ;
