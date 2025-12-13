@@ -63,5 +63,188 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +W
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Organisms in the NCBI Taxonomy&lt;/h2&gt;
+        '''!
+        '''AEukaryota
+        '''B  Metazoa
+        '''C    Chordata
+        '''D      Craniata
+        '''E        Vertebrata
+        '''F          Euteleostomi
+        '''G            Mammalia
+        '''H              Eutheria
+        '''I                Euarchontoglires
+        '''J                  Primates
+        '''K                    Haplorrhini
+        '''L                      Catarrhini
+        '''M                        Hominidae
+        '''N                          Homo
+        '''O                            H [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08610() As String
+            Get
+                Return ResourceManager.GetString("br08610", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	Map number
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Pathway Maps&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Metabolism&lt;/b&gt;
+        '''B  Global and overview maps
+        '''C    01100  Metabolic pathways
+        '''C    01110  Biosynthesis of secondary metabolites
+        '''C    01120  Microbial metabolism in diverse environments
+        '''C    01200  Carbon metabolism
+        '''C    01210  2-Oxocarboxylic acid metabolism
+        '''C    01212  Fatty acid metabolism
+        '''C    01230  Biosynthesis of amino acids
+        '''C    01232  Nucleotide metabolism
+        '''C    012 [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08901() As String
+            Get
+                Return ResourceManager.GetString("br08901", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	Br number
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; BRITE Hierarchy Files&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Pathway and Brite&lt;/b&gt;
+        '''B  Pathway
+        '''C    br08901  KEGG pathway maps
+        '''B  Brite
+        '''C    br08902  BRITE hierarchy files
+        '''C    br08904  BRITE table files
+        '''C    br08906  BRITE binary relation files
+        '''B  Network
+        '''C    br08907  KEGG network variation maps
+        '''B  Taxonomy
+        '''C    br08908  Taxonomy files
+        '''#
+        '''A&lt;b&gt;Genes and Proteins&lt;/b&gt;
+        '''B  Orthologs and modules
+        '''C    ko00001  KEGG Orthology (KO)
+        '''C  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08902() As String
+            Get
+                Return ResourceManager.GetString("br08902", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +C	nt
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Network Variation Maps&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Pathway view&lt;/b&gt;
+        '''B  Carbohydrate metabolism
+        '''C    06031  Citrate cycle and pyruvate metabolism
+        '''C    06017  Glycogen metabolism
+        '''C    06023  Galactose degradation
+        '''B  Lipid/glycolipid metabolism
+        '''C    06020  beta-Oxidation in mitochondria
+        '''C    06021  beta-Oxidation in peroxisome
+        '''C    06034  Cholesterol biosynthesis
+        '''C    06019  Steroid hormone biosynthesis
+        '''C    06022  Bile [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08907() As String
+            Get
+                Return ResourceManager.GetString("br08907", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to (404) Not Found!
+        '''.
+        '''</summary>
+        Friend Shared ReadOnly Property ko00000() As String
+            Get
+                Return ResourceManager.GetString("ko00000", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +D	KO
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt; &amp;nbsp; KEGG Orthology (KO)&lt;/h2&gt;
+        '''!
+        '''A09100 Metabolism
+        '''B
+        '''B  09101 Carbohydrate metabolism
+        '''C    00010 Glycolysis / Gluconeogenesis [PATH:ko00010]
+        '''D      K00844  HK; hexokinase [EC:2.7.1.1]
+        '''D      K12407  GCK; glucokinase [EC:2.7.1.2]
+        '''D      K00845  glk; glucokinase [EC:2.7.1.2]
+        '''D      K25026  glk; glucokinase [EC:2.7.1.2]
+        '''D      K01810  GPI, pgi; glucose-6-phosphate isomerase [EC:5.3.1.9]
+        '''D      K06859  pgi1; gluco [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property ko00001() As String
+            Get
+                Return ResourceManager.GetString("ko00001", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +D	Module
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Modules&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Pathway modules&lt;/b&gt;
+        '''B
+        '''B  &lt;b&gt;Carbohydrate metabolism&lt;/b&gt;
+        '''C    Central carbohydrate metabolism
+        '''D      M00001  Glycolysis (Embden-Meyerhof pathway), glucose =&gt; pyruvate [PATH:map00010 map01200 map01100]
+        '''D      M00002  Glycolysis, core module involving three-carbon compounds [PATH:map00010 map01200 map01230 map01100]
+        '''D      M00003  Gluconeogenesis, oxaloacetate =&gt; fructose-6P [PATH [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property ko00002() As String
+            Get
+                Return ResourceManager.GetString("ko00002", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +E	RModule
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; KEGG Reaction Modules&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Reaction modules&lt;/b&gt;
+        '''B
+        '''B  &lt;b&gt;Carboxylic acid metabolism&lt;/b&gt;
+        '''C    2-Oxocarboxylic acid chain extension
+        '''D      RM001  2-Oxocarboxylic acid chain extension by tricarboxylic acid pathway
+        '''E        M00010  Citrate cycle, first carbon oxidation, oxaloacetate =&gt; 2-oxoglutarate
+        '''E        M00433  Lysine biosynthesis, 2-oxoglutarate =&gt; 2-oxoadipate
+        '''E        M00608  2-Oxocarboxyli [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property ko00003() As String
+            Get
+                Return ResourceManager.GetString("ko00003", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +E	Enzyme
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Enzymes&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;1. Oxidoreductases&lt;/b&gt;
+        '''B  1.1  Acting on the CH-OH group of donors
+        '''C    1.1.1  With NAD+ or NADP+ as acceptor
+        '''D      1.1.1.1  alcohol dehydrogenase
+        '''E        K00001  E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+        '''E        K00121  frmA, ADH5, adhC; S-(hydroxymethyl)glutathione dehydrogenase / alcohol dehydrogenase [EC:1.1.1.284 1.1.1.1]
+        '''E        K04072  adhE; acetaldehyde dehydroge [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property ko01000() As String
+            Get
+                Return ResourceManager.GetString("ko01000", resourceCulture)
+            End Get
+        End Property
     End Class
 End Namespace

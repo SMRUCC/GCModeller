@@ -63,5 +63,92 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +E	Reaction
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Enzymatic Reactions&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
+        '''B  1.1  Acting on the CH-OH group of donors
+        '''C    1.1.1  With NAD+ or NADP+ as acceptor
+        '''D      1.1.1.1
+        '''E        R00623  Primary alcohol + NAD+ &lt;=&gt; Aldehyde + NADH + H+
+        '''E        R00624  Secondary alcohol + NAD+ &lt;=&gt; Ketone + NADH + H+
+        '''E        R00754  Ethanol + NAD+ &lt;=&gt; Acetaldehyde + NADH + H+
+        '''E        R02124  Retinol + NAD+ &lt;=&gt; Retinal +  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08201() As String
+            Get
+                Return ResourceManager.GetString("br08201", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +D	Reaction	Substrate	Product	Substrate2	Product2
+        '''%&lt;!-- w=200,300,300,300 --&gt;
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; IUBMB Reaction Hierarchy&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
+        '''B  1.1.1.1
+        '''C    R00623	C00226  Primary alcohol	C00071  Aldehyde
+        '''D      R00754	C00469  Ethanol	C00084  Acetaldehyde
+        '''D      R02124	C00473  Retinol	C00376  Retinal
+        '''D      R02878	C00756  1-Octanol	C01545  Octanal
+        '''D      R04805	C05444  3alpha,7alpha,26-Trihydroxy-5beta-cho [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08202() As String
+            Get
+                Return ResourceManager.GetString("br08202", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +B	Glycosyltransferase reaction
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Glycosyltransferase Reactions&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;Glucosyltransferase reactions&lt;/b&gt;
+        '''B  R06264  Glc a1-2 Glc [KO:K03850] [PATH:rn00510]
+        '''B  R05164  Glc a1-2 Glc [KO:K13677] [PATH:rn00561]
+        '''B  R03118  Glc a1-3 Glc [KO:K00706] [PATH:rn00500]
+        '''B  R06263  Glc a1-3 Glc [KO:K03849] [PATH:rn00510]
+        '''B  R06045  Glc a1-3 Glc [KO:K00749]
+        '''B  R06018  Glc b1-3 Glc
+        '''B  R06051  Glc a1-4 Glc [KO:K00693 K00750 K [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08203() As String
+            Get
+                Return ResourceManager.GetString("br08203", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to +E	RClass
+        '''#&lt;h2&gt;&lt;a href=&quot;/kegg/brite.html&quot;&gt;&lt;img src=&quot;/Fig/bget/kegg3.gif&quot; align=&quot;middle&quot; border=0&gt;&lt;/a&gt;&amp;nbsp; Reaction Class&lt;/h2&gt;
+        '''!
+        '''A&lt;b&gt;1. Oxidoreductase reactions&lt;/b&gt;
+        '''B  1.1  Acting on the CH-OH group of donors
+        '''C    1.1.1  With NAD+ or NADP+ as acceptor
+        '''D      1.1.1.1
+        '''E        RC00050
+        '''E        RC00087
+        '''E        RC00088
+        '''E        RC00099
+        '''E        RC00116
+        '''E        RC00170
+        '''E        RC00649
+        '''E        RC00955
+        '''E        RC01734
+        '''E        RC02273
+        '''D      1.1.1.2
+        '''E        RC00050
+        '''E        RC00087
+        '''E        RC00088
+        '''E        [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property br08204() As String
+            Get
+                Return ResourceManager.GetString("br08204", resourceCulture)
+            End Get
+        End Property
     End Class
 End Namespace

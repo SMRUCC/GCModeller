@@ -63,5 +63,400 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to The Genetic Codes
+        '''
+        '''Compiled by Andrzej (Anjay) Elzanowski and Jim Ostell at National Center for Biotechnology Information (NCBI), Bethesda, Maryland, U.S.A.
+        '''
+        '''Last update of the Genetic Codes: April 30, 2013
+        '''
+        '''
+        '''
+        '''NCBI takes great care to ensure that the translation for each coding sequence (CDS) present in GenBank records is correct. Central to this effort is careful checking on the taxonomy of each record and assignment of the correct genetic code (shown as a /transl_table qualifier on the CDS in the  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property Genetic_Codes() As String
+            Get
+                Return ResourceManager.GetString("Genetic Codes", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=1
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_1() As String
+            Get
+                Return ResourceManager.GetString("transl_table-1", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=10
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA C Cys  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_10() As String
+            Get
+                Return ResourceManager.GetString("transl_table-10", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=11
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_11() As String
+            Get
+                Return ResourceManager.GetString("transl_table-11", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=12
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG S Ser i    CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_12() As String
+            Get
+                Return ResourceManager.GetString("transl_table-12", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=13
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_13() As String
+            Get
+                Return ResourceManager.GetString("transl_table-13", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=14
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA Y Tyr      TGA W Trp  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_14() As String
+            Get
+                Return ResourceManager.GetString("transl_table-14", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=16
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA * Ter  
+        '''TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_16() As String
+            Get
+                Return ResourceManager.GetString("transl_table-16", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=2
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_2() As String
+            Get
+                Return ResourceManager.GetString("transl_table-2", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=21
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_21() As String
+            Get
+                Return ResourceManager.GetString("transl_table-21", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=22
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA * Ter      TAA * Ter      TGA * Ter  
+        '''TTG L Leu      TCG S Ser      TAG L Leu      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_22() As String
+            Get
+                Return ResourceManager.GetString("transl_table-22", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=23
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA * Ter      TCA S Ser      TAA * Ter      TGA * Ter  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile i    ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_23() As String
+            Get
+                Return ResourceManager.GetString("transl_table-23", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=24
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_24() As String
+            Get
+                Return ResourceManager.GetString("transl_table-24", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=25
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA G Gly  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr  [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_25() As String
+            Get
+                Return ResourceManager.GetString("transl_table-25", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=3
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT T Thr      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC T Thr      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA T Thr      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG T Thr      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_3() As String
+            Get
+                Return ResourceManager.GetString("transl_table-3", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=4
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu i    TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu i    CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_4() As String
+            Get
+                Return ResourceManager.GetString("transl_table-4", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=5
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu i    TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile i    ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_5() As String
+            Get
+                Return ResourceManager.GetString("transl_table-5", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=6
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA Q Gln      TGA * Ter  
+        '''TTG L Leu      TCG S Ser      TAG Q Gln      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_6() As String
+            Get
+                Return ResourceManager.GetString("transl_table-6", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to transl_table=9
+        '''
+        '''TTT F Phe      TCT S Ser      TAT Y Tyr      TGT C Cys  
+        '''TTC F Phe      TCC S Ser      TAC Y Tyr      TGC C Cys  
+        '''TTA L Leu      TCA S Ser      TAA * Ter      TGA W Trp  
+        '''TTG L Leu      TCG S Ser      TAG * Ter      TGG W Trp  
+        '''
+        '''CTT L Leu      CCT P Pro      CAT H His      CGT R Arg  
+        '''CTC L Leu      CCC P Pro      CAC H His      CGC R Arg  
+        '''CTA L Leu      CCA P Pro      CAA Q Gln      CGA R Arg  
+        '''CTG L Leu      CCG P Pro      CAG Q Gln      CGG R Arg  
+        '''
+        '''ATT I Ile      ACT T Thr   [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend Shared ReadOnly Property transl_table_9() As String
+            Get
+                Return ResourceManager.GetString("transl_table-9", resourceCulture)
+            End Get
+        End Property
     End Class
 End Namespace
