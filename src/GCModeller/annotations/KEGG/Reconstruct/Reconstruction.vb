@@ -232,7 +232,8 @@ Public Module Reconstruction
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
                                                 genes As IEnumerable(Of ProteinAnnotation),
-                                                Optional min_cov As Double = 0.3) As IEnumerable(Of DBGET.bGetObject.Pathway)
+                                                Optional min_cov As Double = 0.3,
+                                                Optional prefix As String = Nothing) As IEnumerable(Of DBGET.bGetObject.Pathway)
 
         Dim KOindex As Dictionary(Of String, ProteinAnnotation()) = genes _
             .Where(Function(g) g.attributes.ContainsKey("ko")) _
@@ -248,14 +249,14 @@ Public Module Reconstruction
         Dim mapReconstruct As New Value(Of DBGET.bGetObject.Pathway)
 
         For Each map As Map In reference
-            If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov) Is Nothing Then
+            If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov, prefix) Is Nothing Then
                 Yield mapReconstruct
             End If
         Next
     End Function
 
     <Extension>
-    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As DBGET.bGetObject.Pathway
+    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#, prefix As String) As DBGET.bGetObject.Pathway
         Dim all As Integer = 0
         Dim hits As New List(Of ProteinAnnotation())
         Dim objs As String()
@@ -290,14 +291,14 @@ Public Module Reconstruction
             .ToArray
 
         If coverage > min_cov Then
-            Return map.createPathwayModel(proteins, idIndex)
+            Return map.createPathwayModel(proteins, idIndex, prefix)
         Else
             Return Nothing
         End If
     End Function
 
     <Extension>
-    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As DBGET.bGetObject.Pathway
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String), prefix$) As DBGET.bGetObject.Pathway
         Dim kopathway As NamedValue() = proteins _
             .Select(Function(prot)
                         Return prot.attributes("ko") _
@@ -310,10 +311,19 @@ Public Module Reconstruction
                     End Function) _
             .IteratesALL _
             .ToArray
+        Dim mapId As String = map.EntryId
+
+        If Not prefix.StringEmpty Then
+            If Not mapId.IsPattern("\d+") Then
+                mapId = mapId.Match("\d+")
+            End If
+
+            mapId = prefix & mapId.PadLeft(5, "0"c)
+        End If
 
         Return New DBGET.bGetObject.Pathway With {
             .description = map.name,
-            .EntryId = map.EntryId,
+            .EntryId = mapId,
             .name = map.name,
             .KOpathway = kopathway,
             .genes = proteins _

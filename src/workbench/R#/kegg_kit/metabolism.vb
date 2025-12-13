@@ -141,6 +141,7 @@ Module metabolism
                                        <RRawVectorArgument> reactions As Object,
                                        <RRawVectorArgument> annotations As Object,
                                        Optional min_cov As Double = 0.3,
+                                       Optional prefix As String = Nothing,
                                        Optional env As Environment = Nothing) As pipeline
 
         Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env)
@@ -166,7 +167,7 @@ Module metabolism
 
         Return maps _
             .populates(Of Map)(env) _
-            .KEGGReconstruction(genes, min_cov) _
+            .KEGGReconstruction(genes, min_cov, prefix:=prefix) _
             .Select(Function(pathway)
                         Return pathway.AssignCompounds(rxnIndex)
                     End Function) _
