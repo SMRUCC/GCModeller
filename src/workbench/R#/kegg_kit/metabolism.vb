@@ -144,7 +144,7 @@ Module metabolism
                                        Optional prefix As String = Nothing,
                                        Optional env As Environment = Nothing) As pipeline
 
-        Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env)
+        Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
 
         If rxnList.isError Then
             rxnList = pipeline.TryCreatePipeline(Of DBGET.bGetObject.Reaction)(reactions, env)

@@ -113,10 +113,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks>Load resource using <see cref="ResourcesSatellite"/></remarks>
         Public Shared Function GetResource() As htext
-            Dim res$ = GetType(EnzymeEntry) _
-                .Assembly _
-                .ResourcesSatellite() _
-                .GetString("ko01000")
+            Dim res$ = My.Resources.ko01000
             Dim htext As htext = htext.StreamParser(res)
             Return htext
         End Function
