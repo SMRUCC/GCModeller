@@ -157,7 +157,11 @@ Module PTFCache
             End If
 
             For Each db_xref In db_xrefs
-                Call prot.attributes.Add(db_xref.col, New String() {db_xref.data(i)})
+                If db_xref.data(i).StringEmpty() Then
+                    Call prot.attributes.Add(db_xref.col, New String() {})
+                Else
+                    Call prot.attributes.Add(db_xref.col, db_xref.data(i).StringSplit("\s*;\s*"))
+                End If
             Next
 
             Call proteins.Add(prot)
