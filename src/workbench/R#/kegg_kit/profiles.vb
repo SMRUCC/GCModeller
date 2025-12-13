@@ -315,7 +315,16 @@ Module profiles
                                        Optional env As Environment = Nothing) As Background
 
         Dim koId As Dictionary(Of String, String()) = ko.AsGeneric(Of String())(env)
-        Dim map_index As Index(Of String) = CLRVector.asCharacter(map_set).Indexing
+        Dim map_index As Index(Of String) = CLRVector.asCharacter(map_set) _
+            .SafeQuery _
+            .Select(Function(map_id)
+                        If tcode.StringEmpty Then
+                            Return "map" & map_id.Match("\d+")
+                        Else
+                            Return tcode & map_id.Match("\d+")
+                        End If
+                    End Function) _
+            .Indexing
         Dim clusters As Cluster() = kegg.SafeQuery _
             .Select(Function(map)
                         Return map.MapToCluster(tcode, map_index, koId, multiple_omics)

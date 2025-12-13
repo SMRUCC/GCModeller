@@ -24,3 +24,8 @@ pkg
 # |> append.id_terms("GeneExpression", idmaps )
 |> write.background(file = save)
 ;
+
+let pathways = pkg |> load.pathways(referenceMap = FALSE);
+
+writeLines([pathways]::EntryId, con = file.path(dirname(pkg), `${basename(pkg)}.txt`));
+
