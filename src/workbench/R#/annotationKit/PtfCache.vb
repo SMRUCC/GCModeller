@@ -82,7 +82,14 @@ Module PTFCache
     ''' <summary>
     ''' Create the protein annotation data model from a given dataframe object
     ''' </summary>
-    ''' <param name="x"></param>
+    ''' <param name="x">
+    ''' + gene_id
+    ''' + locus_id
+    ''' + gene_name
+    ''' + description
+    ''' + sequence
+    ''' + ...
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("fromDataframe")>
     <RApiReturn(GetType(ProteinAnnotation))>
