@@ -38,11 +38,14 @@ declare namespace GSVA {
     * 
      * @param expr A raw gene expression data matrix object
      * @param geneSet A gsea enrichment @``T:SMRUCC.genomics.Analysis.HTS.GSEA.Background`` model
+     * @param name_suffix append the pathway name to the map id as suffix?
+     * 
+     * + default value Is ``false``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function gsva(expr: any, geneSet: any, env?: object): object;
+   function gsva(expr: any, geneSet: any, name_suffix?: boolean, env?: object): object;
    /**
     * convert to diff data from dataframe
     * 

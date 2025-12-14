@@ -27,7 +27,8 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsva</strong>(<i>expr</i>, <i>geneSet</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>gsva</strong>(<i>expr</i>, <i>geneSet</i>,
+    <i>name.suffix</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -40,6 +41,10 @@
 
 <dt>geneSet</dt>
 <dd><p>A gsea enrichment <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/GSEA/Background.html">Background</a> model</p></dd>
+
+
+<dt>name.suffix</dt>
+<dd><p>append the pathway name to the map id as suffix?. [as boolean]</p></dd>
 
 
 <dt>env</dt>
