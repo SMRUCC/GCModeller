@@ -650,7 +650,7 @@ Module geneExpression
     ''' str(matrix_info(file = "/path/to/expr_mat.csv"));
     ''' </example>
     <ExportAPI("matrix_info")>
-    <RApiReturn("sampleID", "geneID", "tag")>
+    <RApiReturn("sampleID", "geneID", "tag", "mad")>
     Public Function getMatrixInformation(file As Object) As Object
         If TypeOf file Is String Then
             Dim filepath As String = file
@@ -673,6 +673,7 @@ Module geneExpression
             summary.add("tag", HTS.tag)
             summary.add("sampleID", HTS.sampleID.ToArray)
             summary.add("geneID", HTS.rownames.ToArray)
+            summary.add("mad", HTS.expression.Select(Function(gene) gene.MAD).ToArray)
 
             Return summary
         Else
