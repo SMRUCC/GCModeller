@@ -92,6 +92,11 @@ Public Class Background : Inherits XmlDataModel
     <XmlElement>
     Public Property clusters As Cluster()
 
+    ''' <summary>
+    ''' get background cluster object via its id reference
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
     Default Public ReadOnly Property Item(id As String) As Cluster
         Get
             Return clusters _

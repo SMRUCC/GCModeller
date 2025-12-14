@@ -93,6 +93,9 @@ Module GSVA
     ''' <param name="geneSet">
     ''' A gsea enrichment <see cref="Background"/> model
     ''' </param>
+    ''' <param name="name_suffix">
+    ''' append the pathway name to the map id as suffix?
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     ''' <remarks>
@@ -101,7 +104,7 @@ Module GSVA
     ''' </remarks>
     <ExportAPI("gsva")>
     <RApiReturn(GetType(HTSMatrix))>
-    Public Function gsva(expr As Object, geneSet As Object, Optional env As Environment = Nothing) As Object
+    Public Function gsva(expr As Object, geneSet As Object, Optional name_suffix As Boolean = False, Optional env As Environment = Nothing) As Object
         Dim mat As HTSMatrix
         Dim background As Background
 
@@ -134,7 +137,15 @@ Module GSVA
             Return Message.InCompatibleType(GetType(Background), geneSet.GetType, env)
         End If
 
-        Return mat.gsva(background)
+        Dim gsva_result As HTSMatrix = mat.gsva(background)
+
+        If name_suffix Then
+            For Each pathway As DataFrameRow In gsva_result.expression
+                pathway.geneID = $"{pathway.geneID} - {background(pathway.geneID).names}"
+            Next
+        End If
+
+        Return gsva_result
     End Function
 
     ''' <summary>

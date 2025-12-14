@@ -3,6 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{69BE4F67-28E5-4373-A777-9D7DFC006DA5}|..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\gsva\\gsva.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\knowledgebase\\background.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB1CBF3E-51DD-42CA-8080-7A4D9D500520}|..\\..\\R-sharp\\R#\\Rsharp-netcore5.vbproj|g:\\gcmodeller\\src\\r-sharp\\r#\\interpreter\\executeengine\\expressionsymbols\\operators\\valueassignoperator\\membervalueassign.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\labeler\\labeler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -42,23 +55,69 @@
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Background.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\Background.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\Background.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\Background.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\KnowledgeBase\\Background.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T20:52:30.933Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "labeler.vb",
-              "DocumentMoniker": "C:\\Users\\Administrator\\AppData\\Local\\SourceServer\\8c5798ecb9209f967d0d436a96fe105b59a243995a7139816931224d03a75680\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
-              "ToolTip": "C:\\Users\\Administrator\\AppData\\Local\\SourceServer\\8c5798ecb9209f967d0d436a96fe105b59a243995a7139816931224d03a75680\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
-              "ViewState": "AgIAAE8BAAAAAAAAAAAuwJABAAAAAAAAAAAAAA==",
+              "Title": "GSVA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\GSVA\\GSVA.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-14T20:09:27.2Z",
+              "WhenOpened": "2025-12-14T20:50:45.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "GSVA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSVA.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSVA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSVA.vb",
+              "RelativeToolTip": "gseakit\\GSVA.vb",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAIwIIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T20:50:32.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MemberValueAssign.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Operators\\ValueAssignOperator\\MemberValueAssign.vb",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Operators\\ValueAssignOperator\\MemberValueAssign.vb",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Operators\\ValueAssignOperator\\MemberValueAssign.vb",
+              "RelativeToolTip": "..\\..\\R-sharp\\R#\\Interpreter\\ExecuteEngine\\ExpressionSymbols\\Operators\\ValueAssignOperator\\MemberValueAssign.vb",
+              "ViewState": "AgIAAF8AAAAAAAAAAAAuwHgAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T20:10:35.554Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "labeler.vb",
+              "DocumentMoniker": "C:\\Users\\Administrator\\AppData\\Local\\SourceServer\\8c5798ecb9209f967d0d436a96fe105b59a243995a7139816931224d03a75680\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "ToolTip": "C:\\Users\\Administrator\\AppData\\Local\\SourceServer\\8c5798ecb9209f967d0d436a96fe105b59a243995a7139816931224d03a75680\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "ViewState": "AgIAAE8BAAAAAAAAAAAuwJABAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T20:09:27.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "labeler.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
               "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
@@ -66,24 +125,22 @@
               "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
               "ViewState": "AgIAAD8BAAAAAAAAAAA2wGkBAABhAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-14T20:08:18.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T20:08:18.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "R-cmd.NET5",
               "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-14T20:06:20.696Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T20:06:20.696Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 7,
               "Title": "geneExpression.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
@@ -91,8 +148,7 @@
               "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
               "ViewState": "AgIAAK8FAAAAAAAAAAAIwMUFAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-14T14:17:51.602Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-14T14:17:51.602Z"
             }
           ]
         },

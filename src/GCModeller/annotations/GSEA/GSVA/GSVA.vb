@@ -65,8 +65,7 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Public Module GSVA
 
     <Extension>
-    Public Function gsva(expr As Matrix,
-                         gsetIdxList As Background,
+    Public Function gsva(expr As Matrix, gsetIdxList As Background,
                          Optional method As Methods = Methods.gsva,
                          Optional kcdf As KCDFs? = Nothing,
                          Optional min_sz As Integer = 1,
