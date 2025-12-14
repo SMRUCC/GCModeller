@@ -66,7 +66,6 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
@@ -463,30 +462,81 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     ''' <param name="matrix"></param>
     ''' <param name="sampleInfo"></param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function MatrixAverage(matrix As Matrix, sampleInfo As SampleInfo(), Optional strict As Boolean = True) As Matrix
+        Return MatrixAggregate(matrix, sampleInfo, AddressOf AggregateAverage, strict, $"average({matrix.tag})")
+    End Function
+
+    ''' <summary>
+    ''' calculate sum value of the gene expression for
+    ''' each sample group.
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function MatrixSum(matrix As Matrix, sampleInfo As SampleInfo(), Optional strict As Boolean = True) As Matrix
+        Return MatrixAggregate(matrix, sampleInfo, AddressOf AggregateSum, strict, $"sum({matrix.tag})")
+    End Function
+
+    ''' <summary>
+    ''' calculate sum value of the gene expression for
+    ''' each sample group.
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="sampleInfo"></param>
+    ''' <returns></returns>
+    Private Shared Function MatrixAggregate(matrix As Matrix,
+                                            sampleInfo As SampleInfo(),
+                                            aggregate As Func(Of DataFrameRow, Dictionary(Of String, Integer()), DataFrameRow),
+                                            strict As Boolean,
+                                            tag As String) As Matrix
+
         Dim groups As Dictionary(Of String, Integer()) = matrix.sampleID.GroupIndexing(sampleInfo, strict)
         Dim genes As DataFrameRow() = matrix.expression _
             .Select(Function(g)
-                        Dim mean As Double() = groups _
-                            .Select(Function(group)
-                                        Return Aggregate index As Integer
-                                               In group.Value
-                                               Let x As Double = g.experiments(index)
-                                               Into Average(x)
-                                    End Function) _
-                            .ToArray
-
-                        Return New DataFrameRow With {
-                            .geneID = g.geneID,
-                            .experiments = mean
-                        }
+                        Return aggregate(g, groups)
                     End Function) _
             .ToArray
 
         Return New Matrix With {
             .sampleID = groups.Keys.ToArray,
             .expression = genes,
-            .tag = $"average({matrix.tag})"
+            .tag = tag
+        }
+    End Function
+
+    Private Shared Function AggregateAverage(g As DataFrameRow, groups As Dictionary(Of String, Integer())) As DataFrameRow
+        Dim mean As Double() = groups _
+            .Select(Function(group)
+                        Return Aggregate index As Integer
+                               In group.Value
+                               Let x As Double = g.experiments(index)
+                               Into Average(x)
+                    End Function) _
+            .ToArray
+
+        Return New DataFrameRow With {
+            .geneID = g.geneID,
+            .experiments = mean
+        }
+    End Function
+
+    Private Shared Function AggregateSum(g As DataFrameRow, groups As Dictionary(Of String, Integer())) As DataFrameRow
+        Dim mean As Double() = groups _
+            .Select(Function(group)
+                        Return Aggregate index As Integer
+                               In group.Value
+                               Let x As Double = g.experiments(index)
+                               Into Sum(x)
+                    End Function) _
+            .ToArray
+
+        Return New DataFrameRow With {
+            .geneID = g.geneID,
+            .experiments = mean
         }
     End Function
 

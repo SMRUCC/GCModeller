@@ -1010,7 +1010,7 @@ Module geneExpression
             Return RInternal.debug.stop("no sample group information for make sample column aggregation", env)
         End If
 
-        Return matrix.average(sampleinfo, strict:=True)
+        Return Matrix.MatrixSum(matrix, sampleinfo, strict:=True)
     End Function
 
     ''' <summary>
