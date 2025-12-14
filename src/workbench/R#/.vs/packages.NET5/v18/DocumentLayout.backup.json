@@ -3,22 +3,14 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\profiles.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{CFBA2697-9A7A-49BF-9636-85A05B46EF75}|..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\imaging.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\gr\\microsoft.visualbasic.imaging\\d3js\\labeler\\labeler.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\pathway\\pathwaymap\\pathwaymap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\repository.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{DBF7724B-AB1C-4632-A822-0BA07AB9116B}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\objects\\pathway\\pathwaymap\\pathway.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,8 +20,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "labeler.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\gr\\Microsoft.VisualBasic.Imaging\\d3js\\labeler\\labeler.vb",
+              "ViewState": "AgIAAD8BAAAAAAAAAAA2wGkBAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T20:08:18.977Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
@@ -53,62 +58,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "PathwayMap.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\PathwayMap.vb",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAowGYAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T22:09:27.746Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Pathway.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\Pathway.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\Pathway.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\Pathway.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\Objects\\Pathway\\PathwayMap\\Pathway.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwE4AAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T22:09:12.045Z"
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-12-14T20:06:20.696Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "repository.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository.vb",
-              "RelativeDocumentMoniker": "kegg_kit\\repository.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\repository.vb",
-              "RelativeToolTip": "kegg_kit\\repository.vb",
-              "ViewState": "AgIAAKMBAAAAAAAAAAAQwMkBAAAfAAAAAAAAAA==",
+              "Title": "geneExpression.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
+              "ViewState": "AgIAAK8FAAAAAAAAAAAIwMUFAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T22:09:01.4Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "PtfCache.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeDocumentMoniker": "annotationKit\\PtfCache.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeToolTip": "annotationKit\\PtfCache.vb",
-              "ViewState": "AgIAAMkAAAAAAAAAAAAowOIAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T21:40:20.454Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "profiles.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\profiles.vb",
-              "RelativeDocumentMoniker": "kegg_kit\\profiles.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\profiles.vb",
-              "RelativeToolTip": "kegg_kit\\profiles.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUBAABBAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-13T21:21:15.786Z",
+              "WhenOpened": "2025-12-14T14:17:51.602Z",
               "EditorCaption": ""
             }
           ]
