@@ -984,6 +984,28 @@ Module geneExpression
         }
     End Function
 
+    <ExportAPI("aggregate_samples")>
+    Public Function aggregate_samples(matrix As Matrix, <RListObjectArgument> groups As list, Optional env As Environment = Nothing) As Object
+        Dim sampleinfo As SampleInfo() = groups.slots _
+            .Select(Iterator Function(a) As IEnumerable(Of SampleInfo)
+                        For Each id As String In CLRVector.asCharacter(a.Value)
+                            Yield New SampleInfo With {
+                                .sample_info = a.Key,
+                                .ID = id,
+                                .sample_name = id
+                            }
+                        Next
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        If sampleinfo.IsNullOrEmpty Then
+            Return RInternal.debug.stop("no sample group information for make sample column aggregation", env)
+        End If
+
+        Return matrix.average(sampleinfo, strict:=True)
+    End Function
+
     ''' <summary>
     ''' calculate average value of the gene expression for
     ''' each sample group.
@@ -1005,6 +1027,7 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("average")>
     <RApiReturn(GetType(Matrix), GetType(Double))>
+    <Extension>
     Public Function average(matrix As Matrix,
                             Optional sampleinfo As SampleInfo() = Nothing,
                             Optional strict As Boolean = True) As Object
@@ -1828,13 +1851,17 @@ Module geneExpression
     ''' merge row or column where the tag is identical
     ''' </summary>
     ''' <param name="x"></param>
-    ''' <param name="byrow"></param>
+    ''' <param name="byrow">
+    ''' default by gene feature row means merge the duplicated genes with the idential gene id as tag.
+    ''' otherwise will merge the duplicated samples with the identical sample id name.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("aggregate")>
     Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
         If byrow Then
             Dim rows As New Dictionary(Of String, std_vec)
 
+            ' merge the duplicated genes
             For Each gene As DataFrameRow In x.expression
                 If rows.ContainsKey(gene.geneID) Then
                     rows(gene.geneID) += gene.experiments
