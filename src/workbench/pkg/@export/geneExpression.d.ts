@@ -24,11 +24,23 @@ declare namespace geneExpression {
     * 
     * 
      * @param x -
-     * @param byrow -
+     * @param byrow default by gene feature row means merge the duplicated genes with the idential gene id as tag.
+     *  otherwise will merge the duplicated samples with the identical sample id name.
      * 
      * + default value Is ``true``.
    */
    function aggregate(x: object, byrow?: boolean): any;
+   /**
+    * function alias of the ``geneExpression::average`` function
+    * 
+    * 
+     * @param matrix -
+     * @param groups -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function aggregate_samples(matrix: object, groups: object, env?: object): any;
    module as {
       /**
        * create gene expression DEG model

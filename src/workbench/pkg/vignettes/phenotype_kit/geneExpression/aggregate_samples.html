@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>merge row or column where the tag is identical</title>
+    <title>function alias of the ``geneExpression::average`` function</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>aggregate {geneExpression}</td>
+                <td>aggregate_samples {geneExpression}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>merge row or column where the tag is identical</h2>
+        <h2>function alias of the ``geneExpression::average`` function</h2>
 
         <h3>Description</h3>
 
@@ -27,21 +27,23 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>aggregate</strong>(<i>x</i>,
-    <i>byrow</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>aggregate_samples</strong>(<i>matrix</i>, <i>...</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>x</dt>
+<dt>matrix</dt>
 <dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
 
 
-<dt>byrow</dt>
-<dd><p>default by gene feature row means merge the duplicated genes with the idential gene id as tag.
- otherwise will merge the duplicated samples with the identical sample id name. [as boolean]</p></dd>
+<dt>groups</dt>
+<dd><p>[as list]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
 
         </table>
 
