@@ -984,6 +984,13 @@ Module geneExpression
         }
     End Function
 
+    ''' <summary>
+    ''' function alias of the ``geneExpression::average`` function
+    ''' </summary>
+    ''' <param name="matrix"></param>
+    ''' <param name="groups"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("aggregate_samples")>
     Public Function aggregate_samples(matrix As Matrix, <RListObjectArgument> groups As list, Optional env As Environment = Nothing) As Object
         Dim sampleinfo As SampleInfo() = groups.slots _
