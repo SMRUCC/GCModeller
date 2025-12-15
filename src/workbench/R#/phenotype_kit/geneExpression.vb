@@ -1500,6 +1500,8 @@ Module geneExpression
                            Optional xlab As String = "Spatial Regions",
                            Optional ylab As String = "z-score(Normalized Intensity)",
                            Optional top_members As Double = 0.2,
+                           <RRawVectorArgument>
+                           Optional margin As Object = "padding:100px 100px 300px 100px;",
                            Optional cluster_label_css As String = CSSFont.PlotSubTitle,
                            Optional legend_title_css As String = CSSFont.Win7Small,
                            Optional legend_tick_css As String = CSSFont.Win7Small,
@@ -1512,6 +1514,7 @@ Module geneExpression
 
         Dim println As Action(Of Object) = env.WriteLineHandler
         Dim size As Size = InteropArgumentHelper.getSize(nsize, env).SizeParser
+        Dim padStr As String = InteropArgumentHelper.getPadding(margin, default:="padding:100px 100px 300px 100px;", env:=env)
 
         If matrix Is Nothing OrElse matrix.size = 0 OrElse matrix.sampleID.IsNullOrEmpty Then
             Call env.AddMessage("The given expression matrix is empty!")
@@ -1536,7 +1539,7 @@ Module geneExpression
                            xlab:=xlab,
                            ylab:=ylab,
                            xAxisLabelRotate:=x_lab_rotate,
-                           padding:="padding:100px 100px 300px 100px;",
+                           padding:=padStr,
                            membershipCutoff:=memberCutoff,
                            topMembers:=top_members,
                            driver:=driver,
