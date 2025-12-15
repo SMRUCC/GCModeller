@@ -144,7 +144,10 @@ Public Module Rscript
     ''' <param name="threshold"></param>
     ''' <param name="prefix$"></param>
     ''' <returns></returns>
-    Public Function FastImports(files As IEnumerable(Of String), Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
+    Public Function FastImports(files As IEnumerable(Of String),
+                                Optional threshold As Double = 0,
+                                Optional prefix$ = Nothing) As WGCNAWeight
+
         Dim fileSet As String() = files.ToArray
         Dim pullAll As IEnumerable(Of Weight) = If(fileSet.Length = 1, fileSet, TqdmWrapper.Wrap(fileSet)) _
             .Select(Function(path)
