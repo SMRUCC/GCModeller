@@ -139,6 +139,20 @@ Public Module Rscript
     ''' <summary>
     ''' load wgcna weight matrix
     ''' </summary>
+    ''' <param name="files">weight edge data in different modules result folder</param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    Public Function FastImports(files As IEnumerable(Of String), Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
+        Dim pullAll As IEnumerable(Of Weight) = files.Select(Function(path) LoadTOMWeights(path, threshold, prefix)).IteratesALL
+        Dim cor As WGCNAWeight = WGCNAWeight.CreateMatrix(pullAll)
+
+        Return cor
+    End Function
+
+    ''' <summary>
+    ''' load wgcna weight matrix
+    ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="threshold"></param>
     ''' <param name="prefix$"></param>

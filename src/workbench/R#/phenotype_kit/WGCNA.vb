@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
@@ -157,8 +158,12 @@ Module WGCNA
     ''' <returns></returns>
     <ExportAPI("read.weight_matrix")>
     <RApiReturn(GetType(WGCNAWeight), GetType(DataMatrix))>
-    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing, Optional as_matrix As Boolean = False) As Object
-        Dim wgcna As WGCNAWeight = FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+    Public Function readWeightMatrix(<RRawVectorArgument> file As Object,
+                                     Optional threshold As Double = 0,
+                                     Optional prefix$ = Nothing,
+                                     Optional as_matrix As Boolean = False) As Object
+
+        Dim wgcna As WGCNAWeight = FastImports(CLRVector.asCharacter(file), threshold:=threshold, prefix:=prefix)
 
         If as_matrix Then
             Return wgcna.AsDataMatrix
