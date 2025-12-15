@@ -116,6 +116,7 @@ Module geneExpression
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEP_iTraq()), AddressOf depDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
         Call REnv.Internal.generic.add(
@@ -124,6 +125,24 @@ Module geneExpression
             [overloads]:=AddressOf getFuzzyPatternMembers
         )
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function limma_df(limma As LimmaTable(), args As list, env As Environment) As Rdataframe
+        Dim df As New Rdataframe With {
+            .rownames = limma.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add(NameOf(LimmaTable.logFC), From g As LimmaTable In limma Select g.logFC)
+        Call df.add(NameOf(LimmaTable.AveExpr), From g As LimmaTable In limma Select g.AveExpr)
+        Call df.add(NameOf(LimmaTable.t), From g As LimmaTable In limma Select g.t)
+        Call df.add("P.Value", From g As LimmaTable In limma Select g.P_Value)
+        Call df.add("adj.P.Val", From g As LimmaTable In limma Select g.adj_P_Val)
+        Call df.add(NameOf(LimmaTable.B), From g As LimmaTable In limma Select g.B)
+        Call df.add(NameOf(LimmaTable.class), From g As LimmaTable In limma Select g.class)
+
+        Return df
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function degTable(degs As DEGModel(), args As list, env As Environment) As Rdataframe
