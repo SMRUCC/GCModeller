@@ -34,7 +34,8 @@ declare namespace network {
      * @param cor default value Is ``null``.
      * @param modules default value Is ``null``.
      * @param names default value Is ``null``.
+     * @param leave_blankName default value Is ``true``.
      * @param env default value Is ``null``.
    */
-   function gsva_network(gsva: any, diff_exprs: any, model: object, cor?: object, modules?: any, names?: object, env?: object): any;
+   function gsva_network(gsva: any, diff_exprs: any, model: object, cor?: object, modules?: any, names?: object, leave_blankName?: boolean, env?: object): any;
 }
