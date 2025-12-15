@@ -1,24 +1,27 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Math.Statistics
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
 ''' limma ``topTable`` output dataframe.
 ''' </summary>
-Public Class LimmaTable
+Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
 
     ''' <summary>
     ''' row names - gene id
     ''' </summary>
     ''' <returns></returns>
-    Public Property id As String
-    Public Property logFC As Double
+    Public Property id As String Implements IDeg.label, INamedValue.Key, IReadOnlyId.Identity
+    Public Property logFC As Double Implements IDeg.log2FC
     Public Property AveExpr As Double
     Public Property t As Double
 
     <Column("P.Value")>
-    Public Property P_Value As Double
+    Public Property P_Value As Double Implements IDeg.pvalue, IStatPvalue.pValue
     <Column("adj.P.Val")>
     Public Property adj_P_Val As Double
 
