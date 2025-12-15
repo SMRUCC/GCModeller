@@ -1,8 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 
 Public Module GSVANetwork
 
@@ -16,12 +17,16 @@ Public Module GSVANetwork
     ''' <param name="names">mapping the molecule id to molecule name, molecule node will only display the molecule id if this mapping is missing.</param>
     ''' <returns></returns>
     Public Function AssemblingNetwork(gsva As LimmaTable(), diffExprs As LimmaTable(), model As Background,
-                                      Optional cor As CorrelationMatrix = Nothing,
+                                      Optional cor As WGCNAWeight = Nothing,
+                                      Optional modules As Dictionary(Of String, ClusterModuleResult) = Nothing,
                                       Optional names As Dictionary(Of String, String) = Nothing) As NetworkGraph
         Dim g As New NetworkGraph
 
         If names Is Nothing Then
             names = New Dictionary(Of String, String)
+        End If
+        If modules Is Nothing Then
+            modules = New Dictionary(Of String, ClusterModuleResult)
         End If
 
         For Each node As LimmaTable In gsva
@@ -35,11 +40,15 @@ Public Module GSVANetwork
         Next
 
         For Each node As LimmaTable In diffExprs
+            Dim color As ClusterModuleResult = modules.TryGetValue(node.id)
+            Dim color_str As String = If(color Is Nothing, "NA", color.color)
+
             Call g.CreateNode(node.id, New NodeData With {
                 .label = names.TryGetValue(node.id, [default]:=node.id),
                 .origID = node.id,
                 .Properties = New Dictionary(Of String, String) From {
-                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "different expression molecule"}
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "different expression molecule"},
+                    {"module", color_str}
                 }
             })
         Next
@@ -67,11 +76,11 @@ Public Module GSVANetwork
                         Continue For
                     End If
 
-                    Dim corVal As Double = cor(a.id, b.id)
+                    Dim corVal As Weight = cor(a.id, b.id)
 
-                    If corVal <> 0 Then
+                    If corVal IsNot Nothing Then
                         Call g.CreateEdge(
-                            g.GetElementByID(a.id), g.GetElementByID(b.id), corVal, New EdgeData With {
+                            g.GetElementByID(a.id), g.GetElementByID(b.id), CDbl(corVal), New EdgeData With {
                                 .Properties = New Dictionary(Of String, String) From {
                                     {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "correlation network"}
                                 }

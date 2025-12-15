@@ -53,6 +53,7 @@
     <ProjectReference Include="..\..\..\workbench\modules\keggReport\keggReport.NET5.vbproj" />
     <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.NET5.vbproj" />
+    <ProjectReference Include="..\..\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
     <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />

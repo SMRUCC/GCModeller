@@ -6,6 +6,42 @@
       "AbsoluteMoniker": "D:0:0:{21432E9A-690B-4D27-81B6-7665FECC3310}|..\\..\\GCModeller\\annotations\\KEGG\\KEGGAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\kegg\\gsvanetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\network\\wgcna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\network\\weightnode.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\network\\cexprmods.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\wgcnamodules.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\rscript.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\clustermoduleresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\weightednetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\tom.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\softlinear.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\result.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\betatest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E47AAF5C-DFB4-4369-828F-8D480D850B8E}|..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\wgcna\\wgcna\\analysis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -25,7 +61,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -45,20 +81,176 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WGCNA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WGCNA.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WGCNA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WGCNA.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WGCNA.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEEAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:49:30.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "WeightNode.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WeightNode.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WeightNode.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WeightNode.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\WeightNode.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:49:24.122Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CExprMods.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\CExprMods.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\CExprMods.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\CExprMods.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Network\\CExprMods.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:49:03.724Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "WGCNAModules.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNAModules.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNAModules.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNAModules.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNAModules.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:49:00.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Rscript.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:48:59.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ClusterModuleResult.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:44.368Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "WeightedNetwork.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\WeightedNetwork.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:29.77Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "TOM.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\TOM.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:28.038Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "SoftLinear.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\SoftLinear.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:26.173Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Result.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\Result.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:25.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BetaTest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\BetaTest.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:24.347Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Analysis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\WGCNA\\WGCNA\\Analysis.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:46:20.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "GSVANetwork.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-15T17:25:10.179Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 16,
               "Title": "Reader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
@@ -71,7 +263,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 15,
               "Title": "Document.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
@@ -84,7 +276,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 14,
               "Title": "LimmaTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
@@ -97,7 +289,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 13,
               "Title": "Limma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
