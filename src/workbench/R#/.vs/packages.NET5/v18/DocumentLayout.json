@@ -3,22 +3,26 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\rscript.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\wgcna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\wgcna.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\clustermoduleresult.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C573B99D-5ADA-4BC9-9020-1A4F6ACD0A15}|gseakit\\gseakit.NET5.vbproj|solutionrelative:gseakit\\gseabackground.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\network.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\network.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42CBCC0A-9AD1-41B9-A9E7-B9B886AC6FD8}|..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\WGCNA.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\wgcna\\rscript.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -33,53 +37,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "geneExpression.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
-              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
-              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
-              "ViewState": "AgIAAC4GAAAAAAAAAAAiwFAGAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T18:38:44.173Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ClusterModuleResult.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\ClusterModuleResult.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T18:23:06.049Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Rscript.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\RNA-Seq\\WGCNA\\Rscript.vb",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAiwJIAAABAAAAAAAAAAA==",
+              "ViewState": "AgIAAG4AAAAAAAAAAAAiwIgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T18:19:53.78Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "WGCNA.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
-              "RelativeDocumentMoniker": "phenotype_kit\\WGCNA.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
-              "RelativeToolTip": "phenotype_kit\\WGCNA.vb",
-              "ViewState": "AgIAAHkAAAAAAAAAAAAYwJIAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T18:18:31.048Z",
+              "WhenOpened": "2025-12-15T18:53:13.68Z",
               "EditorCaption": ""
             },
             {
@@ -100,13 +65,64 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-12-15T18:52:26.419Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "WGCNA.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\WGCNA.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\WGCNA.vb",
+              "RelativeToolTip": "phenotype_kit\\WGCNA.vb",
+              "ViewState": "AgIAAI4AAAAAAAAAAAAYwL0AAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T18:47:59.518Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GSEABackground.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeDocumentMoniker": "gseakit\\GSEABackground.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\gseakit\\GSEABackground.vb",
+              "RelativeToolTip": "gseakit\\GSEABackground.vb",
+              "ViewState": "AgIAAJkBAAAAAAAAAAAkwLMBAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T18:46:19.834Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "geneExpression.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
+              "ViewState": "AgIAADMGAAAAAAAAAAA2wFUGAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T18:44:47.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "network.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\network.vb",
               "RelativeDocumentMoniker": "kegg_kit\\network.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\network.vb",
               "RelativeToolTip": "kegg_kit\\network.vb",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAYwKcAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAAG0AAAAAAAAAAAAYwEUAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-15T17:57:20.699Z",
               "EditorCaption": ""

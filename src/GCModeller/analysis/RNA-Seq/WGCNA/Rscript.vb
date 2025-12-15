@@ -149,7 +149,7 @@ Public Module Rscript
                                 Optional prefix$ = Nothing) As WGCNAWeight
 
         Dim fileSet As String() = files.ToArray
-        Dim pullAll As IEnumerable(Of Weight) = If(fileSet.Length = 1, fileSet, TqdmWrapper.Wrap(fileSet)) _
+        Dim pullAll As IEnumerable(Of Weight) = fileSet _
             .Select(Function(path)
                         Return LoadTOMWeights(path, threshold, prefix)
                     End Function) _
