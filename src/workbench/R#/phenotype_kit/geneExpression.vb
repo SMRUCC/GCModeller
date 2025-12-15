@@ -1619,6 +1619,11 @@ Module geneExpression
         Return x.LmFit(design).ToArray
     End Function
 
+    <ExportAPI("read_limma")>
+    Public Function readLimmaTable(file As String) As LimmaTable()
+        Return LimmaTable.LoadTable(file).ToArray
+    End Function
+
     ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
