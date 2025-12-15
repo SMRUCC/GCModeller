@@ -121,8 +121,10 @@ declare namespace WGCNA {
         * @param file the TOM network nodes text file, should be a tsv file of the cytoscape network export result
         * @param prefix 
         * + default value Is ``null``.
+        * @param result_modules 
+        * + default value Is ``false``.
       */
-      function modules(file: string, prefix?: string): any;
+      function modules(file: any, prefix?: string, result_modules?: boolean): any;
       /**
        * read the TOM correlation network matrix file
        * 
@@ -137,8 +139,12 @@ declare namespace WGCNA {
         * @param as_matrix 
         * + default value Is ``false``.
       */
-      function weight_matrix(file: string, threshold?: number, prefix?: string, as_matrix?: boolean): object|object;
+      function weight_matrix(file: any, threshold?: number, prefix?: string, as_matrix?: boolean): object|object;
    }
+   /**
+     * @param prefix default value Is ``null``.
+   */
+   function read_clusters(file: string, prefix?: string): object;
    /**
     * filter regulation network by WGCNA result weights
     * 

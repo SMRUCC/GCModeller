@@ -511,6 +511,9 @@ declare namespace geneExpression {
    */
    function project(x: object, sampleIds: any): object;
    /**
+   */
+   function read_limma(file: string): object;
+   /**
     * read the cmeans expression pattern result from file
     * 
     * > this function can also read the csv matrix file and 
