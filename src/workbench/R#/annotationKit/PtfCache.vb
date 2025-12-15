@@ -210,7 +210,10 @@ Module PTFCache
     ''' <returns></returns>
     <ExportAPI("name_xrefs")>
     <RApiReturn(TypeCodes.string)>
-    Public Function name_xrefs(<RRawVectorArgument> ptf As Object, Optional env As Environment = Nothing) As Object
+    Public Function name_xrefs(<RRawVectorArgument> ptf As Object,
+                               Optional split As Boolean = True,
+                               Optional env As Environment = Nothing) As Object
+
         Dim proteins As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
 
         If proteins.isError Then
@@ -220,7 +223,11 @@ Module PTFCache
         Dim names As list = list.empty
 
         For Each prot As ProteinAnnotation In proteins.populates(Of ProteinAnnotation)(env)
-            names.slots(prot.geneId) = prot.geneName.StringSplit("\s*,\s*")
+            If split Then
+                names.slots(prot.geneId) = prot.geneName.StringSplit("\s*,\s*")
+            Else
+                names.slots(prot.geneId) = prot.geneName
+            End If
         Next
 
         Return names

@@ -89,10 +89,12 @@ declare namespace ptf {
     * 
     * 
      * @param ptf -
+     * @param split 
+     * + default value Is ``true``.
      * @param env 
      * + default value Is ``null``.
    */
-   function name_xrefs(ptf: any, env?: object): string;
+   function name_xrefs(ptf: any, split?: boolean, env?: object): string;
    module read {
       /**
        * read the protein annotation database
