@@ -30,9 +30,11 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.HTS.DataFrame
 export class LimmaTable {
+   # adj.P.Val（多重检验校正后的P值）
    adj_P_Val: double;
+   # AveExpr（平均表达量）
    AveExpr: double;
-   # B (B-statistic)
+   # B（贝叶斯对数几率统计量）
    #  
    #  B统计量或log-odds，表示基因是差异表达的概率的对数；计算公式：B = log10( (1 - p) / p ) 其中p是基因是差异表达的概率，基于经验贝叶斯方法估计；
    #  B统计量的数学意义：表示"基因差异表达的可信度"（B > 0表示有差异表达证据，B > 1表示强证据）。
@@ -40,8 +42,11 @@ export class LimmaTable {
    class: string;
    # row names - gene id
    id: string;
+   # logFC（对数倍数变化）
    logFC: double;
+   # P.Value（未校正的P值）
    P_Value: double;
+   # t（经验贝叶斯调节的t统计量）
    t: double;
 }
 </code>
