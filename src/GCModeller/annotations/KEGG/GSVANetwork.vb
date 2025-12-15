@@ -42,9 +42,10 @@ Public Module GSVANetwork
         For Each node As LimmaTable In diffExprs
             Dim color As ClusterModuleResult = modules.TryGetValue(node.id)
             Dim color_str As String = If(color Is Nothing, "NA", color.color)
+            Dim nodeName As String = names.TryGetValue(node.id, [default]:=node.id)
 
             Call g.CreateNode(node.id, New NodeData With {
-                .label = names.TryGetValue(node.id, [default]:=node.id),
+                .label = If(nodeName.StringEmpty, node.id, nodeName),
                 .origID = node.id,
                 .Properties = New Dictionary(Of String, String) From {
                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "different expression molecule"},
