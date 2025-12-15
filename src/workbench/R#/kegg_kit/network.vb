@@ -55,9 +55,17 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.KEGG
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
+Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("network")>
 Module network
@@ -117,5 +125,50 @@ Module network
     Public Function assignKeggClass(g As NetworkGraph) As NetworkGraph
         ' first assign the class id to the pathway id node
         Throw New NotImplementedException
+    End Function
+
+    <ExportAPI("gsva_network")>
+    Public Function gsva_network(<RRawVectorArgument> gsva As Object, <RRawVectorArgument> diff_exprs As Object, model As Background,
+                                 Optional cor As WGCNAWeight = Nothing,
+                                 <RRawVectorArgument>
+                                 Optional modules As Object = Nothing,
+                                 Optional names As list = Nothing,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim pull_gsva As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(gsva, env)
+        Dim pull_diff As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(diff_exprs, env)
+        Dim pull_colors As pipeline = If(modules Is Nothing, Nothing, pipeline.TryCreatePipeline(Of ClusterModuleResult)(modules, env))
+
+        If pull_gsva.isError Then
+            Return pull_gsva.getError
+        ElseIf pull_diff.isError Then
+            Return pull_diff.getError
+        ElseIf pull_colors IsNot Nothing AndAlso pull_colors.isError Then
+            Return pull_colors.getError
+        End If
+
+        Dim gsva_result As LimmaTable() = pull_gsva.populates(Of LimmaTable)(env).ToArray
+        Dim diff_result As LimmaTable() = pull_diff.populates(Of LimmaTable)(env).ToArray
+        Dim nameMaps As Dictionary(Of String, String) = Nothing
+        Dim colors As Dictionary(Of String, ClusterModuleResult) = Nothing
+
+        If Not names Is Nothing Then
+            nameMaps = names.AsGeneric(Of String)(env)
+        End If
+        If Not pull_colors Is Nothing Then
+            colors = pull_colors.populates(Of ClusterModuleResult)(env) _
+                .GroupBy(Function(gene) gene.gene_id) _
+                .ToDictionary(Function(gene) gene.Key,
+                              Function(gene)
+                                  Return gene.First
+                              End Function)
+        End If
+
+        Return GSVANetwork.AssemblingNetwork(
+            gsva_result, diff_result, model,
+            cor:=cor,
+            modules:=colors,
+            names:=nameMaps
+        )
     End Function
 End Module
