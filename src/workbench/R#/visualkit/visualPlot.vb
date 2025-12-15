@@ -632,6 +632,8 @@ Module visualPlot
                                       Optional bubbleStyle As Boolean = False,
                                       Optional top_samples As Integer = 16,
                                       Optional sampleinfo As SampleInfo() = Nothing,
+                                      <RRawVectorArgument>
+                                      Optional ignore_categories As Object = Nothing,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -724,6 +726,7 @@ Module visualPlot
             ' visual of the gsva scores in heatmap mode
             Dim multiples As New List(Of NamedValue(Of Dictionary(Of String, BubbleTerm())))
             Dim mat As Matrix = DirectCast(profiles, Matrix)
+            Dim ignores As String() = CLRVector.asCharacter(ignore_categories)
 
             If sampleinfo.IsNullOrEmpty Then
                 ' processing on each sample
@@ -739,6 +742,12 @@ Module visualPlot
                        .Name = groups.Key,
                        .Value = bubbleData
                     }
+
+                    If Not ignores Is Nothing Then
+                        For Each ignore As String In ignores
+                            Call bubbleData.Remove(ignore)
+                        Next
+                    End If
 
                     Call multiples.Add(data)
                 Next
