@@ -473,6 +473,8 @@ declare namespace geneExpression {
      * + default value Is ``'z-score(Normalized Intensity)'``.
      * @param top_members 
      * + default value Is ``0.2``.
+     * @param margin 
+     * + default value Is ``'padding:100px 100px 300px 100px;'``.
      * @param cluster_label_css 
      * + default value Is ``'font-style: normal; font-size: 20; font-family: Bookman Old Style;'``.
      * @param legend_title_css 
@@ -499,7 +501,7 @@ declare namespace geneExpression {
      *  2. 'image' is a bitmap image that plot based on the object cluster patterns data.
      *  3. 'pdf' is a pdf image that could be edit
    */
-   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, grid_fill?: string, grid_draw?: boolean, x_lab_rotate?: number, env?: object): any;
+   function peakCMeans(matrix: object, nsize?: any, threshold?: number, fuzzification?: number, plotSize?: any, colorSet?: string, memberCutoff?: number, empty_shared?: object, max_cluster_shared?: object, xlab?: string, ylab?: string, top_members?: number, margin?: any, cluster_label_css?: string, legend_title_css?: string, legend_tick_css?: string, axis_tick_css?: string, axis_label_css?: string, grid_fill?: string, grid_draw?: boolean, x_lab_rotate?: number, env?: object): any;
    /**
     * make matrix samples column projection
     * 
