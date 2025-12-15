@@ -131,14 +131,18 @@ Module WGCNA
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.modules")>
-    Public Function readModules(file As String, Optional prefix$ = Nothing) As Object
-        Return WGCNAModules _
-            .LoadModules(file) _
+    Public Function readModules(<RRawVectorArgument> file As Object, Optional prefix$ = Nothing) As Object
+        Return CLRVector.asCharacter(file) _
+            .Select(Function(path)
+                        Return WGCNAModules.LoadModules(path)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(g) g.nodeName) _
             .ToDictionary(Function(g)
-                              Return If(prefix Is Nothing, g.nodeName, prefix & g.nodeName)
+                              Return If(prefix Is Nothing, g.Key, prefix & g.Key)
                           End Function,
                           Function(g)
-                              Return CObj(g.nodesPresent)
+                              Return CObj(g.First.nodesPresent)
                           End Function) _
             .DoCall(Function(mods)
                         Return New list With {
