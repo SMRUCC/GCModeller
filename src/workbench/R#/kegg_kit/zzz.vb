@@ -60,5 +60,6 @@ Public Class zzz
     Public Shared Sub onLoad()
         Call repository.Main()
         Call report.Main()
+        Call metabolism.Main()
     End Sub
 End Class

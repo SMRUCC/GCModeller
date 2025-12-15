@@ -59,12 +59,14 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The kegg metabolism model toolkit
@@ -72,9 +74,26 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
-    Sub New()
-
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Compound()), AddressOf compoundSummaryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function compoundSummaryTable(compounds As Compound(), args As list, env As Environment) As dataframe
+        Dim summary As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = compounds _
+                .Select(Function(c) c.entry) _
+                .ToArray
+        }
+
+        Call summary.add("name", From c As Compound In compounds Let [short] = c.commonNames.SafeQuery.OrderBy(Function(name) Len(name)).FirstOrDefault Select If([short], c.entry))
+        Call summary.add("formula", From c As Compound In compounds Select c.formula)
+        Call summary.add("exact mass", From c As Compound In compounds Select c.exactMass)
+        Call summary.add("related enzyme", From c As Compound In compounds Select c.enzyme.JoinBy("; "))
+
+        Return summary
+    End Function
 
     <ExportAPI("load.reaction.cacheIndex")>
     Public Function loadReactionCacheIndex(file As String) As MapCache
