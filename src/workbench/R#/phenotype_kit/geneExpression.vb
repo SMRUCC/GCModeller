@@ -1615,7 +1615,7 @@ Module geneExpression
     ''' <param name="design"></param>
     ''' <returns></returns>
     <ExportAPI("limma")>
-    Public Function limma(x As Matrix, design As DataAnalysis) As DEGModel()
+    Public Function limma(x As Matrix, design As DataAnalysis) As LimmaTable()
         Return x.LmFit(design).ToArray
     End Function
 
