@@ -84,6 +84,15 @@ declare namespace ptf {
    /**
    */
    function loadBackgroundModel(ptf: object, database: string): object;
+   /**
+    * Extract gene_id to gene name mapping
+    * 
+    * 
+     * @param ptf -
+     * @param env 
+     * + default value Is ``null``.
+   */
+   function name_xrefs(ptf: any, env?: object): string;
    module read {
       /**
        * read the protein annotation database

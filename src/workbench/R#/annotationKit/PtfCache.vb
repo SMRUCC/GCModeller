@@ -220,7 +220,7 @@ Module PTFCache
         Dim names As list = list.empty
 
         For Each prot As ProteinAnnotation In proteins.populates(Of ProteinAnnotation)(env)
-            names.slots(prot.geneId) = prot.geneName
+            names.slots(prot.geneId) = prot.geneName.StringSplit("\s*,\s*")
         Next
 
         Return names
