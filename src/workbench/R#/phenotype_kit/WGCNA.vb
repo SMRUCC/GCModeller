@@ -54,6 +54,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -131,24 +132,34 @@ Module WGCNA
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("read.modules")>
-    Public Function readModules(<RRawVectorArgument> file As Object, Optional prefix$ = Nothing) As Object
-        Return CLRVector.asCharacter(file) _
+    Public Function readModules(<RRawVectorArgument> file As Object, Optional prefix$ = Nothing, Optional result_modules As Boolean = False) As Object
+        Dim all = CLRVector.asCharacter(file) _
             .Select(Function(path)
                         Return WGCNAModules.LoadModules(path)
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(g) g.nodeName) _
-            .ToDictionary(Function(g)
-                              Return If(prefix Is Nothing, g.Key, prefix & g.Key)
-                          End Function,
-                          Function(g)
-                              Return CObj(g.First.nodesPresent)
-                          End Function) _
-            .DoCall(Function(mods)
-                        Return New list With {
-                            .slots = mods
-                        }
-                    End Function)
+            .Select(Function(g) g.First) _
+            .ToArray
+        Dim result As list = list.empty
+
+        If result_modules Then
+            For Each gene As CExprMods In all
+                Dim key_ref As String = If(prefix Is Nothing, gene.nodeName, prefix & gene.nodeName)
+
+                Call result.add(key_ref, New ClusterModuleResult With {
+                    .color = gene.nodesPresent,
+                    .gene_id = key_ref,
+                    .[module] = 0
+                })
+            Next
+        Else
+            For Each gene As CExprMods In all
+                Call result.add(If(prefix Is Nothing, gene.nodeName, prefix & gene.nodeName), gene.nodesPresent)
+            Next
+        End If
+
+        Return result
     End Function
 
     ''' <summary>
