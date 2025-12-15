@@ -3,6 +3,9 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{21432E9A-690B-4D27-81B6-7665FECC3310}|..\\..\\GCModeller\\annotations\\KEGG\\KEGGAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\kegg\\gsvanetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -22,7 +25,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,7 +45,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "GSVANetwork.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T17:25:10.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Reader.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Reader.vb",
@@ -55,7 +71,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "Document.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\File\\Document.vb",
@@ -68,7 +84,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "LimmaTable.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
@@ -81,13 +97,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Limma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
-              "ViewState": "AgIAAJ8AAAAAAAAAAAAiwKEAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAKUAAAAAAAAAAAAiwLYAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-15T16:30:43.37Z",
               "EditorCaption": ""
