@@ -25,7 +25,16 @@ Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
     <Column("adj.P.Val")>
     Public Property adj_P_Val As Double
 
+    ''' <summary>
+    ''' B (B-statistic)
+    ''' 
+    ''' B统计量或log-odds，表示基因是差异表达的概率的对数；计算公式：B = log10( (1 - p) / p ) 其中p是基因是差异表达的概率，基于经验贝叶斯方法估计；
+    ''' B统计量的数学意义：表示"基因差异表达的可信度"（B > 0表示有差异表达证据，B > 1表示强证据）。
+    ''' </summary>
+    ''' <returns></returns>
     Public Property B As Double
+
+    Public Property [class] As String
 
     Public Overrides Function ToString() As String
         Return $"{id} - logfc:{logFC}, p-value={P_Value}"

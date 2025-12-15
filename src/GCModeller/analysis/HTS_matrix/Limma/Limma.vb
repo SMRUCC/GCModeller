@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports std = System.Math
 
 ''' <summary>
 ''' The **limma algorithm** (Linear Models for Microarray Data) is a widely used statistical framework in 
@@ -131,12 +132,13 @@ Public Module Limma
     End Sub
 
     <Extension>
-    Public Iterator Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of DEGModel)
+    Public Iterator Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
         Dim control As Integer() = x.IndexOf(design.control)  ' 0
         Dim treat As Integer() = x.IndexOf(design.experiment) ' 1
         Dim xi As Double() = Replicate(0.0, control.Length) _
             .JoinIterates(Replicate(1.0, treat.Length)) _
             .ToArray
+        Dim rawX As Matrix = x
 
         ' transform the expression data to log2 scale
         x = x.log(2)
@@ -145,12 +147,15 @@ Public Module Limma
         Dim logFC As Double() = New Double(x.size - 1) {}
         Dim residuals As Double()() = RectangularArray.Matrix(Of Double)(x.size, control.Length + treat.Length)
         Dim i As Integer = 0
+        Dim mean As Double() = New Double(x.size - 1) {}
+        Dim control_vs_treat As Integer() = control.JoinIterates(treat).ToArray
 
         ' 拟合线性模型（逐基因）
         For Each gene As DataFrameRow In x.expression
-            Dim y As Double() = gene(control).JoinIterates(gene(treat)).ToArray
+            Dim y As Double() = gene(control_vs_treat)
             Dim lm As FitResult = LeastSquares.LinearFit(xi, y)
 
+            mean(i) = rawX(i)(control_vs_treat).Average
             logFC(i) = lm.Slope
             residuals(i) = lm.Residuals
 
@@ -159,8 +164,7 @@ Public Module Limma
 
         ' 经验贝叶斯方差调整
         ' a vs b
-        Dim p As Integer = design.size
-        Dim df_residual = (control.Length + treat.Length) - p
+        Dim df_residual = (control.Length + treat.Length) - design.size
         Dim gene_vars As Double() = residuals _
             .Select(Function(e) (New Vector(e) ^ 2).Sum / df_residual) _
             .ToArray
@@ -176,13 +180,30 @@ Public Module Limma
         Dim t As Vector = t_stats.Abs
         Dim p_values = Hypothesis.t.Pvalue(t, df:=df_total, Hypothesis.Hypothesis.TwoSided)
 
+        Dim p0 As Double = 0.5 ' limma默认先验概率 (p0 = 0.5)
+        Dim BValues As Double() = New Double(logFC.Length - 1) {}
+
         For offset As Integer = 0 To logFC.Length - 1
-            Yield New DEGModel With {
+            ' B = log10( (1 - p) / p )
+            ' 其中 p = p0 + (1 - p0) * (1 - p_value) / 2
+            Dim p As Double = p0 + (1 - p0) * (1 - p_values(offset)) / 2
+
+            If p > 0 AndAlso p < 1 Then
+                BValues(offset) = std.Log10((1 - p) / p)
+            Else
+                BValues(offset) = Double.NaN ' 处理边界情况
+            End If
+        Next
+
+        For offset As Integer = 0 To logFC.Length - 1
+            Yield New LimmaTable With {
                 .logFC = logFC(offset),
-                .label = x(offset).geneID,
-                .pvalue = p_values(offset),
-                .[class] = If(.pvalue < 0.05, If(.logFC > 0, "up", "down"), "not sig"),
-                .t = t(offset)
+                .id = x(offset).geneID,
+                .P_Value = p_values(offset),
+                .[class] = If(.P_Value < 0.05, If(.logFC > 0, "up", "down"), "not sig"),
+                .t = t(offset),
+                .AveExpr = mean(offset),
+                .B = BValues(offset)
             }
         Next
     End Function
