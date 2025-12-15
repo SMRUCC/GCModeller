@@ -10,8 +10,24 @@ Public Class ClusterModuleResult : Implements INamedValue
     Public Property [module] As Integer
     Public Property color As String
 
-    Public Shared Function LoadTable(tsv As String) As IEnumerable(Of ClusterModuleResult)
-        Return tsv.LoadCsv(Of ClusterModuleResult)(tsv:=True)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="tsv"></param>
+    ''' <param name="prefix">
+    ''' append gene id prefix?
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function LoadTable(tsv As String, Optional prefix As String = Nothing) As IEnumerable(Of ClusterModuleResult)
+        If prefix.StringEmpty Then
+            Return tsv.LoadCsv(Of ClusterModuleResult)(tsv:=True, mute:=True)
+        Else
+            Return tsv.LoadCsv(Of ClusterModuleResult)(tsv:=True, mute:=True) _
+                .Select(Function(c)
+                            c.gene_id = prefix & c.gene_id
+                            Return c
+                        End Function)
+        End If
     End Function
 
 End Class

@@ -162,6 +162,11 @@ Module WGCNA
         Return result
     End Function
 
+    <ExportAPI("read_clusters")>
+    Public Function readClusterModuleResult(file As String, Optional prefix$ = Nothing) As ClusterModuleResult()
+        Return ClusterModuleResult.LoadTable(tsv:=file, prefix).ToArray
+    End Function
+
     ''' <summary>
     ''' read the TOM correlation network matrix file
     ''' </summary>
