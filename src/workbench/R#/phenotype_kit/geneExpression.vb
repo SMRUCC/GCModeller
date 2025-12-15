@@ -1624,6 +1624,39 @@ Module geneExpression
         Return LimmaTable.LoadTable(file).ToArray
     End Function
 
+    <ExportAPI("limma_table")>
+    Public Function createlimmaTable(<RRawVectorArgument> id As Object,
+                                     <RRawVectorArgument> logFC As Object,
+                                     <RRawVectorArgument> aveExpr As Object,
+                                     <RRawVectorArgument> t As Object,
+                                     <RRawVectorArgument> pval As Object,
+                                     <RRawVectorArgument> adj_pval As Object,
+                                     <RRawVectorArgument> b As Object) As LimmaTable()
+
+        Dim idcol As String() = CLRVector.asCharacter(id)
+        Dim logFCcol As Double() = CLRVector.asNumeric(logFC)
+        Dim meancol As Double() = CLRVector.asNumeric(aveExpr)
+        Dim tcol As Double() = CLRVector.asNumeric(t)
+        Dim pvalcol As Double() = CLRVector.asNumeric(pval)
+        Dim adjpvalcol As Double() = CLRVector.asNumeric(adj_pval)
+        Dim bcol As Double() = CLRVector.asNumeric(b)
+        Dim table As LimmaTable() = idcol _
+            .Select(Function(gene_id, i)
+                        Return New LimmaTable With {
+                            .id = gene_id,
+                            .adj_P_Val = adjpvalcol(i),
+                            .AveExpr = meancol(i),
+                            .B = bcol(i),
+                            .logFC = logFCcol(i),
+                            .P_Value = pvalcol(i),
+                            .t = tcol(i)
+                        }
+                    End Function) _
+            .ToArray
+
+        Return table
+    End Function
+
     ''' <summary>
     ''' log scale of the HTS raw matrix
     ''' </summary>
