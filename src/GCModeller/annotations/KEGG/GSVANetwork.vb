@@ -60,7 +60,7 @@ Public Module GSVANetwork
 
             For Each mol As LimmaTable In diffExprs
                 If cluster.Intersect({mol.id}).Any Then
-                    Call g.CreateEdge(g.GetElementByID(mol.id), pathway, 0, New EdgeData With {
+                    Call g.CreateEdge(g.GetElementByID(mol.id), pathway, 1, New EdgeData With {
                             .Properties = New Dictionary(Of String, String) From {
                                 {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "pathway member"}
                             }
