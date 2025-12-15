@@ -334,6 +334,9 @@ declare namespace geneExpression {
      * @param design -
    */
    function limma(x: object, design: object): object;
+   /**
+   */
+   function limma_table(id: any, logFC: any, aveExpr: any, t: any, pval: any, adj_pval: any, b: any): object;
    module load {
       /**
        * load an expressin matrix data
