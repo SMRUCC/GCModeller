@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.DataFrame.LimmaTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>LimmaTable {SMRUCC.genomics.Analysis.HTS.DataFrame}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>LimmaTable</h2>
+
+        <h3>Description</h3>
+
+        <p>limma <code>topTable</code> output dataframe.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.DataFrame
+export class LimmaTable {
+   adj_P_Val: double;
+   AveExpr: double;
+   # B (B-statistic)
+   #  
+   #  B统计量或log-odds，表示基因是差异表达的概率的对数；计算公式：B = log10( (1 - p) / p ) 其中p是基因是差异表达的概率，基于经验贝叶斯方法估计；
+   #  B统计量的数学意义：表示"基因差异表达的可信度"（B > 0表示有差异表达证据，B > 1表示强证据）。
+   B: double;
+   class: string;
+   # row names - gene id
+   id: string;
+   logFC: double;
+   P_Value: double;
+   t: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

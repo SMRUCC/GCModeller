@@ -30,4 +30,11 @@ declare namespace network {
      * + default value Is ``true``.
    */
    function fromCompounds(compoundsId: string, graph: object, compounds?: object, enzymeBridged?: boolean): object;
+   /**
+     * @param cor default value Is ``null``.
+     * @param modules default value Is ``null``.
+     * @param names default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function gsva_network(gsva: any, diff_exprs: any, model: object, cor?: object, modules?: any, names?: object, env?: object): any;
 }
