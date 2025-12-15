@@ -19,7 +19,8 @@ Public Module GSVANetwork
     Public Function AssemblingNetwork(gsva As LimmaTable(), diffExprs As LimmaTable(), model As Background,
                                       Optional cor As WGCNAWeight = Nothing,
                                       Optional modules As Dictionary(Of String, ClusterModuleResult) = Nothing,
-                                      Optional names As Dictionary(Of String, String) = Nothing) As NetworkGraph
+                                      Optional names As Dictionary(Of String, String) = Nothing,
+                                      Optional leaveBlankName As Boolean = True) As NetworkGraph
         Dim g As New NetworkGraph
 
         If names Is Nothing Then
@@ -42,10 +43,10 @@ Public Module GSVANetwork
         For Each node As LimmaTable In diffExprs
             Dim color As ClusterModuleResult = modules.TryGetValue(node.id)
             Dim color_str As String = If(color Is Nothing, "NA", color.color)
-            Dim nodeName As String = names.TryGetValue(node.id, [default]:=node.id)
+            Dim nodeName As String = names.TryGetValue(node.id, [default]:=If(leaveBlankName, "", node.id))
 
             Call g.CreateNode(node.id, New NodeData With {
-                .label = If(nodeName.StringEmpty, node.id, nodeName),
+                .label = If(nodeName.StringEmpty AndAlso Not leaveBlankName, node.id, nodeName),
                 .origID = node.id,
                 .Properties = New Dictionary(Of String, String) From {
                     {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "different expression molecule"},
