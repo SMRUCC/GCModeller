@@ -3,6 +3,16 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{1C93DBFB-E988-4F47-8FB3-2390AB1A2212}|..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\DataMining.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\datamining\\datamining\\clustering\\fuzzycmeans\\cmeans.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4E4E76B9-EEE7-4257-98BE-413BF9C8504B}|..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj|g:\\gcmodeller\\src\\r-sharp\\studio\\r-terminal\\r-cmd.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EB4D6E24-1A8E-498F-962E-BAE40225CDAE}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math.statistics\\hypothesistesting\\nullhypothesis.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
@@ -15,10 +25,6 @@
       "AbsoluteMoniker": "D:0:0:{9EEC1DD7-CC97-4F17-B860-BC3B50844997}|..\\..\\GCModeller\\engine\\Dynamics\\Dynamics.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\dynamics\\core\\kinetics\\modularratelaws.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\matrix\\matrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -29,73 +35,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "NullHypothesis.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
-              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
-              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
-              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAABDAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T00:59:37.298Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MetabolismNetworkLoader.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
-              "ViewState": "AgIAANgAAAAAAAAAAAAcwAABAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T00:40:49.488Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "KineticsControls.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T00:40:34.476Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ModularRateLaws.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T00:40:31.804Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Matrix.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
-              "ViewState": "AgIAAKoBAAAAAAAAAAAkwOABAABFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-14T22:03:12.305Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
@@ -114,13 +55,103 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CMeans.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\FuzzyCMeans\\CMeans.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\FuzzyCMeans\\CMeans.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\FuzzyCMeans\\CMeans.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\DataMining\\DataMining\\Clustering\\FuzzyCMeans\\CMeans.vb",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAiwCwBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T01:59:10.292Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "R-cmd.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\R-sharp\\studio\\R-terminal\\R-cmd.NET5.vbproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
+              "WhenOpened": "2025-12-15T01:55:53.564Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "NullHypothesis.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\NullHypothesis.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T00:59:37.298Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 4,
+              "Title": "MetabolismNetworkLoader.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\BootstrapLoader\\BootLoader\\MetabolismNetworkLoader.vb",
+              "ViewState": "AgIAANgAAAAAAAAAAAAcwAABAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T00:40:49.488Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KineticsControls.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\Controls\\KineticsControls.vb",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T00:40:34.476Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ModularRateLaws.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Dynamics\\Core\\Kinetics\\ModularRateLaws.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-15T00:40:31.804Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Matrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Matrix\\Matrix.vb",
+              "ViewState": "AgIAAKoBAAAAAAAAAAAkwOABAABFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-14T22:03:12.305Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "geneExpression.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
-              "ViewState": "AgIAANUDAAAAAAAAAAAcwPQDAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAMcFAAAAAAAAAAAgwAUGAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-14T14:17:51.602Z",
               "EditorCaption": ""
