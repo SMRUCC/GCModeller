@@ -204,6 +204,29 @@ Module PTFCache
     End Function
 
     ''' <summary>
+    ''' Extract gene_id to gene name mapping
+    ''' </summary>
+    ''' <param name="ptf"></param>
+    ''' <returns></returns>
+    <ExportAPI("name_xrefs")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function name_xrefs(<RRawVectorArgument> ptf As Object, Optional env As Environment = Nothing) As Object
+        Dim proteins As pipeline = pipeline.TryCreatePipeline(Of ProteinAnnotation)(ptf, env)
+
+        If proteins.isError Then
+            Return proteins.getError
+        End If
+
+        Dim names As list = list.empty
+
+        For Each prot As ProteinAnnotation In proteins.populates(Of ProteinAnnotation)(env)
+            names.slots(prot.geneId) = prot.geneName
+        Next
+
+        Return names
+    End Function
+
+    ''' <summary>
     ''' load the cross reference id set
     ''' </summary>
     ''' <param name="ptf">a collection of the protein annotation data or the <see cref="StreamPack"/> database connection</param>
