@@ -137,20 +137,30 @@ Module network
 
         Dim pull_gsva As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(gsva, env)
         Dim pull_diff As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(diff_exprs, env)
-        Dim pull_colors As pipeline = If(modules Is Nothing, Nothing, pipeline.TryCreatePipeline(Of ClusterModuleResult)(modules, env))
+        Dim colors As Dictionary(Of String, ClusterModuleResult) = Nothing
+        Dim pull_colors As pipeline = Nothing
+
+        If modules IsNot Nothing AndAlso TypeOf modules Is list Then
+            colors = DirectCast(modules, list).AsGeneric(Of ClusterModuleResult)(env)
+        End If
 
         If pull_gsva.isError Then
             Return pull_gsva.getError
         ElseIf pull_diff.isError Then
             Return pull_diff.getError
-        ElseIf pull_colors IsNot Nothing AndAlso pull_colors.isError Then
-            Return pull_colors.getError
+        End If
+
+        If colors Is Nothing Then
+            pull_colors = If(modules Is Nothing, Nothing, pipeline.TryCreatePipeline(Of ClusterModuleResult)(modules, env))
+
+            If pull_colors IsNot Nothing AndAlso pull_colors.isError Then
+                Return pull_colors.getError
+            End If
         End If
 
         Dim gsva_result As LimmaTable() = pull_gsva.populates(Of LimmaTable)(env).ToArray
         Dim diff_result As LimmaTable() = pull_diff.populates(Of LimmaTable)(env).ToArray
         Dim nameMaps As Dictionary(Of String, String) = Nothing
-        Dim colors As Dictionary(Of String, ClusterModuleResult) = Nothing
 
         If Not names Is Nothing Then
             nameMaps = names.AsGeneric(Of String)(env)
