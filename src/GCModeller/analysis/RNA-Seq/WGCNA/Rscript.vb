@@ -52,6 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -144,7 +145,12 @@ Public Module Rscript
     ''' <param name="prefix$"></param>
     ''' <returns></returns>
     Public Function FastImports(files As IEnumerable(Of String), Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
-        Dim pullAll As IEnumerable(Of Weight) = files.Select(Function(path) LoadTOMWeights(path, threshold, prefix)).IteratesALL
+        Dim fileSet As String() = files.ToArray
+        Dim pullAll As IEnumerable(Of Weight) = If(fileSet.Length = 1, fileSet, TqdmWrapper.Wrap(fileSet)) _
+            .Select(Function(path)
+                        Return LoadTOMWeights(path, threshold, prefix)
+                    End Function) _
+            .IteratesALL
         Dim cor As WGCNAWeight = WGCNAWeight.CreateMatrix(pullAll)
 
         Return cor
