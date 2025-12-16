@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.IO.Compression
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
@@ -87,10 +88,27 @@ Namespace Kmers
                 Call names.Add(bin.ReadString)
             Next
 
-            Dim pk As Integer = bin.ReadInt32
-            Dim m As Integer = bin.ReadInt32
+            Dim pk As Integer = bin.ReadInt32 ' k
+            Dim m As Integer = bin.ReadInt32 ' m
+            Dim compress As Boolean = bin.ReadByte <> 0
             Dim byteSize As Integer = bin.ReadInt32
             Dim bytes As Byte() = bin.ReadBytes(byteSize)
+
+            If compress Then
+#If NET48 Then
+                Throw New NotSupportedException("decompression of brotli stream is not supported in .net 4.8 runtime!")
+#Else
+                Using compressedStream As New MemoryStream(bytes)
+                    Using brotliStream As New BrotliStream(compressedStream, CompressionMode.Decompress)
+                        Using resultStream As New MemoryStream()
+                            brotliStream.CopyTo(resultStream)
+                            bytes = resultStream.ToArray() ' 就是解压后的原始数据
+                        End Using
+                    End Using
+                End Using
+#End If
+            End If
+
             Dim bloom As New BloomFilter(bytes, m, pk)
 
             Return New KmerBloomFilter(k, names, taxid, bloom)
@@ -109,9 +127,27 @@ Namespace Kmers
             Next
 
             Dim bits As Byte() = bloomFilter.ToArray
+            Dim compress As Byte = 0
+
+#If NETCOREAPP Then
+            If bits.Length > ByteSize.KB Then
+                compress = 1
+
+                Using originalStream As New MemoryStream(bits)
+                    Using compressedStream As New MemoryStream()
+                        Using brotliStream As New BrotliStream(compressedStream, CompressionLevel.Optimal)
+                            originalStream.CopyTo(brotliStream)
+                        End Using
+
+                        bits = compressedStream.ToArray()
+                    End Using
+                End Using
+            End If
+#End If
 
             Call bin.Write(bloomFilter.k)
             Call bin.Write(bloomFilter.m)
+            Call bin.Write(compress)
             Call bin.Write(bits.Length)
             Call bin.Write(bits)
             Call bin.Flush()
