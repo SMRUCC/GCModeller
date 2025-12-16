@@ -3,22 +3,32 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limmatable.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{6A88A279-8760-4AB9-96FD-8F82E68BB26D}|annotationKit\\annotationKit.vbproj|solutionrelative:annotationkit\\ptfcache.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{4B352562-978B-4BB6-B034-017085B1CF7E}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Math.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math\\extensions.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\kegg_kit\\network.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{193EE8CB-3597-49DB-86B9-F03B9CB2CFE2}|kegg_kit\\kegg_kit.NET5.vbproj|solutionrelative:kegg_kit\\network.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{21432E9A-690B-4D27-81B6-7665FECC3310}|..\\..\\GCModeller\\annotations\\KEGG\\KEGGAnalysis.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\kegg\\gsvanetwork.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{43F0EABA-7F5C-4CBB-8CD4-BBB812B561CB}|..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Core.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\microsoft.visualbasic.core\\src\\extensions\\math\\statisticsmathextensions\\istatpvalue.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7E46A99A-60D3-4BC0-B5A4-39251A599C1E}|..\\..\\GCModeller\\annotations\\Proteomics\\Proteomics.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\proteomics\\analysiscommon.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BAE91F3A-E2C6-4B2F-BF7B-02EB14C901BB}|..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Fisher.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\annotations\\gsea\\fishercore\\enrichment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EB4D6E24-1A8E-498F-962E-BAE40225CDAE}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\stats-netcore5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math.statistics\\hypothesistesting\\t-test\\ttest.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4B352562-978B-4BB6-B034-017085B1CF7E}|..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Math.NET5.vbproj|g:\\gcmodeller\\src\\runtime\\scibasic#\\data_science\\mathematica\\math\\math\\algebra\\vector\\class\\math.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -28,8 +38,73 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "LimmaTable.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\LimmaTable.vb",
+              "ViewState": "AgIAACoAAAAAAAAAAAAiwFMAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:54:38.759Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IstatPvalue.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\StatisticsMathExtensions\\IstatPvalue.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\StatisticsMathExtensions\\IstatPvalue.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\StatisticsMathExtensions\\IstatPvalue.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Microsoft.VisualBasic.Core\\src\\Extensions\\Math\\StatisticsMathExtensions\\IstatPvalue.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:51:46.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Enrichment.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\GSEA\\FisherCore\\Enrichment.vb",
+              "ViewState": "AgIAALcAAAAAAAAAAAAQwNwAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:49:18.017Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AnalysisCommon.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\Proteomics\\AnalysisCommon.vb",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\Proteomics\\AnalysisCommon.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\Proteomics\\AnalysisCommon.vb",
+              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\Proteomics\\AnalysisCommon.vb",
+              "ViewState": "AgIAAEQAAAAAAAAAAAAcwGoAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:49:05.748Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Extensions.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Extensions.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Extensions.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Extensions.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Extensions.vb",
+              "ViewState": "AgIAAL0AAAAAAAAAAAAYwN4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:48:52.344Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{269a02dc-6af8-11d3-bdc4-00c04f688e50}"
@@ -48,15 +123,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "geneExpression.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
               "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
               "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAAAIoAAABNAAAAAAAAAA==",
+              "ViewState": "AgIAAD8GAAAAAAAAAAAcwGkGAAA7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T19:55:29.9Z",
+              "WhenOpened": "2025-12-16T01:47:44.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Math.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math\\Algebra\\Vector\\Class\\Math.vb",
+              "ViewState": "AgIAAKkAAAAAAAAAAAAuwMsAAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:44:30.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Ttest.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "RelativeToolTip": "..\\..\\runtime\\sciBASIC#\\Data_science\\Mathematica\\Math\\Math.Statistics\\HypothesisTesting\\T-test\\Ttest.vb",
+              "ViewState": "AgIAABUBAAAAAAAAAAAYwDkBAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T01:43:46.342Z",
               "EditorCaption": ""
             },
             {
@@ -67,46 +168,9 @@
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
-              "ViewState": "AgIAAJUAAAAAAAAAAAAAAJ8AAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAiwIcAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T19:55:27.171Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GSVANetwork.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
-              "RelativeToolTip": "..\\..\\GCModeller\\annotations\\KEGG\\GSVANetwork.vb",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABYAAABPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T19:24:22.258Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "PtfCache.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeDocumentMoniker": "annotationKit\\PtfCache.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\annotationKit\\PtfCache.vb",
-              "RelativeToolTip": "annotationKit\\PtfCache.vb",
-              "ViewState": "AgIAAK4AAAAAAAAAAAAcwNUAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T19:28:39.735Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "network.vb",
-              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\network.vb",
-              "RelativeDocumentMoniker": "kegg_kit\\network.vb",
-              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\kegg_kit\\network.vb",
-              "RelativeToolTip": "kegg_kit\\network.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2025-12-15T17:57:20.699Z",
+              "WhenOpened": "2025-12-15T19:55:27.171Z",
               "EditorCaption": ""
             }
           ]

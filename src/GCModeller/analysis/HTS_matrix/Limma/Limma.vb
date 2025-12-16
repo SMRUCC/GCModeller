@@ -132,7 +132,12 @@ Public Module Limma
     End Sub
 
     <Extension>
-    Public Iterator Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
+    Public Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
+        Return x.LmFitInternal(design).FDR
+    End Function
+
+    <Extension>
+    Private Iterator Function LmFitInternal(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
         Dim control As Integer() = x.IndexOf(design.control)  ' 0
         Dim treat As Integer() = x.IndexOf(design.experiment) ' 1
         Dim xi As Double() = Replicate(0.0, control.Length) _
@@ -169,10 +174,13 @@ Public Module Limma
             .Select(Function(e) (New Vector(e) ^ 2).Sum / df_residual) _
             .ToArray
 
+        ' 极小的正数
+        Const epsilon As Double = 0.0000000001
+
         Dim prior_var As Double = gene_vars.Median
         Dim prior_df = 4  ' limma默认先验自由度
-        Dim shrunk_vars = (prior_df * prior_var + df_residual * New Vector(gene_vars)) / (prior_df + df_residual)
-        Dim shrunk_se = Vector.Sqrt(shrunk_vars)
+        Dim shrunk_vars = (prior_df * std.Max(prior_var, 0.00001) + df_residual * New Vector(gene_vars)) / (prior_df + df_residual)
+        Dim shrunk_se As Vector = Vector.Sqrt(shrunk_vars).Select(Function(se) If(se < epsilon, epsilon, se)).AsVector
 
         ' t检验与p值
         Dim t_stats = logFC / shrunk_se

@@ -14,7 +14,8 @@ str(a_vs_b);
 let deg = limma(expr_data, a_vs_b);
 
 deg = deg[order([deg]::P_Value)];
+deg = as.data.frame(deg);
 
-# print(as.data.frame(deg));
+print(deg, max.print = 20);
 
 write.csv(deg, file = "./limma_impl_degs.csv");

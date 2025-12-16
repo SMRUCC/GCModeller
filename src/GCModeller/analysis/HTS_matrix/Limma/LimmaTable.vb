@@ -9,7 +9,7 @@ Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 ''' <summary>
 ''' limma ``topTable`` output dataframe.
 ''' </summary>
-Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
+Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue, IStatFDR
 
     ''' <summary>
     ''' row names - gene id
@@ -82,7 +82,7 @@ Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
     ''' 不同的校正方法（如BH、Bonferroni、Holm等）会得到不同的校正后P值。
     ''' </remarks>
     <Column("adj.P.Val")>
-    Public Property adj_P_Val As Double
+    Public Property adj_P_Val As Double Implements IStatFDR.adjPVal
 
     ''' <summary>
     ''' B（贝叶斯对数几率统计量）
