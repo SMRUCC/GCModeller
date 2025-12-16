@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|g:\\gcmodeller\\src\\workbench\\r#\\phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{42AB5B8D-6BE1-4C81-820E-2CB83E252589}|phenotype_kit\\phenotype_kit.NET5.vbproj|solutionrelative:phenotype_kit\\geneexpression.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E06F8BFA-816F-4D1F-AFA2-88FA15E1C3B9}|..\\..\\GCModeller\\analysis\\HTS_matrix\\HTS_matrix-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\hts_matrix\\limma\\limma.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
@@ -34,12 +38,25 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "geneExpression.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeDocumentMoniker": "phenotype_kit\\geneExpression.vb",
+              "ToolTip": "G:\\GCModeller\\src\\workbench\\R#\\phenotype_kit\\geneExpression.vb",
+              "RelativeToolTip": "phenotype_kit\\geneExpression.vb",
+              "ViewState": "AgIAAD8GAAAAAAAAAAAcwGUGAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-16T02:09:33.607Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Limma.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
               "RelativeToolTip": "..\\..\\GCModeller\\analysis\\HTS_matrix\\Limma\\Limma.vb",
-              "ViewState": "AgIAAJkAAAAAAAAAAAAAwKcAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAYwKwAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-15T19:55:27.171Z",
               "EditorCaption": ""

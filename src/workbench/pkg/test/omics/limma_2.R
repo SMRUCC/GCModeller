@@ -8,7 +8,7 @@ let expr_data = load.expr("expr_demo.csv");
 let sampleinfo = sampleInfo(sample_id(expr_data), sample_id(expr_data));
 let a_vs_b = make.analysis(sampleinfo, "Control", "Treat"); 
 
-str(expr_data);
+print(as.data.frame(expr_data), max.print = 6);
 str(a_vs_b);
 
 let deg = limma(expr_data, a_vs_b);
