@@ -5,7 +5,7 @@
     <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Data.Repository</AssemblyName>
     <Platforms>AnyCPU;ARM32;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <Company>SMRUCC genomics institute</Company>
@@ -28,6 +28,10 @@
     <OutputPath>../../../../.nuget</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
   </PropertyGroup>
@@ -45,6 +49,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|ARM32'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|ARM32'">
     <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -82,6 +90,17 @@
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1</DefineConstants>
     
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">

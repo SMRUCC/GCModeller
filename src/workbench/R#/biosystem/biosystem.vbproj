@@ -4,7 +4,7 @@
     <RootNamespace>biosystem</RootNamespace>
     <TargetFrameworks>net8.0-windows;net8.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;nuget_release</Configurations>
     <OutputPath>../../pkg/assembly/</OutputPath>
    
     <RemoveIntegerChecks>true</RemoveIntegerChecks>

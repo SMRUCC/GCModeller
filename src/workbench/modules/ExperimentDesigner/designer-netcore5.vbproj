@@ -5,7 +5,7 @@
     <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;MEMI-Desktop</Configurations>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;MEMI-Desktop;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <Company>SMRUCC genomics institute</Company>
@@ -34,6 +34,10 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
@@ -55,6 +59,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
