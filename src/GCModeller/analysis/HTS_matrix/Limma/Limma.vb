@@ -169,18 +169,34 @@ Public Module Limma
 
         ' 经验贝叶斯方差调整
         ' a vs b
-        Dim df_residual = (control.Length + treat.Length) - design.size
-        Dim gene_vars As Double() = residuals _
-            .Select(Function(e) (New Vector(e) ^ 2).Sum / df_residual) _
-            .ToArray
+        ' 假设设计矩阵的秩为2 (截距 + 一组处理)
+        Dim rank_of_design As Integer = design.size
+        Dim n As Integer = control.Length + treat.Length
+        Dim df_residual = n - rank_of_design
+        ' 计算每个基因的残差标准差
+        Dim gene_sd As Vector = residuals _
+            .Select(Function(e) std.Sqrt((New Vector(e) ^ 2).Sum / df_residual)) _
+            .AsVector
+        ' 计算标准误 (Standard Error)，而非方差
+        ' 标准误 = 标准差 / sqrt(n)，这里n为样本量
+        Dim gene_se As Vector = gene_sd / std.Sqrt(n)
 
         ' 极小的正数
         Const epsilon As Double = 0.0000000001
 
-        Dim prior_var As Double = gene_vars.Median
+        ' 经验贝叶斯收缩逻辑
+        ' 1. 计算所有基因的原始标准误 (如上一步的 gene_se)
+        ' 2. 计算先验方差（通常使用所有标准误的中位数或拟合一个分布）
+        Dim prior_var As Double = (gene_se ^ 2).Median
+        ' 3. 计算收缩后的标准误
+        ' 简化版：将每个基因的标准误向先验值收缩
+        Dim shrinkage_factor As Double = 0.5 ' 收缩因子，需根据数据调整，或像limma一样估算
         Dim prior_df = 4  ' limma默认先验自由度
-        Dim shrunk_vars = (prior_df * std.Max(prior_var, 0.00001) + df_residual * New Vector(gene_vars)) / (prior_df + df_residual)
-        Dim shrunk_se As Vector = Vector.Sqrt(shrunk_vars).Select(Function(se) If(se < epsilon, epsilon, se)).AsVector
+        ' Dim shrunk_vars = (prior_df * std.Max(prior_var, 0.00001) + df_residual * New Vector(gene_vars)) / (prior_df + df_residual)
+        ' Dim shrunk_se As Vector = Vector.Sqrt(shrunk_vars).Select(Function(se) If(se < epsilon, epsilon, se)).AsVector
+        Dim shrunk_se As Vector = Vector.Sqrt(shrinkage_factor * std.Max(prior_var, 0.00001) + (1 - shrinkage_factor) * (gene_se ^ 2)) _
+            .Select(Function(se) If(se < epsilon, epsilon, se)) _
+            .AsVector
 
         ' t检验与p值
         Dim t_stats = logFC / shrunk_se
