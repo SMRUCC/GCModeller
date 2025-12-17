@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\Bio.Repository\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,26 +42,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeToolTip": "test\\Module1.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAE8AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAuwE8AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T04:25:25.356Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AssemblySummaryGenbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeDocumentMoniker": "NCBI\\AssemblySummaryGenbank.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeToolTip": "NCBI\\AssemblySummaryGenbank.vb",
-              "ViewState": "AgIAAAgAAAAAAAAAAAAqwBcAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAqwCYAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T02:39:57.803Z",
               "EditorCaption": ""

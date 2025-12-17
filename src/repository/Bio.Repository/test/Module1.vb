@@ -79,7 +79,45 @@ Module Module1
     Sub queryTest()
         Dim genbankDb As New AssemblySummaryGenbank(6, "./genbank_index")
 
-        For Each key As String In {"CR931997", "AL591688", "AE009950", "AE014184", "CR931997", "AE009950"}
+        For Each key As String In {"GCA_000001545", "GCA_000002445", "GCF_052956585.1_ASM5295658v1_genomic.fna",
+"GCA_003190765.1_ASM319076v1_genomic.fna",
+"GCA_005281725.1_ASM528172v1_genomic.fna",
+"GCA_025215515.1_ASM2521551v1_genomic.fna",
+"GCA_031102545.1_ASM3110254v1_genomic.fna",
+"GCA_031102585.1_ASM3110258v1_genomic.fna",
+"GCA_031106005.1_ASM3110600v1_genomic.fna",
+"GCA_031127735.1_ASM3112773v1_genomic.fna",
+"GCA_031155695.1_ASM3115569v1_genomic.fna",
+"GCA_038463185.1_ASM3846318v1_genomic.fna",
+"GCA_038687005.1_ASM3868700v1_genomic.fna",
+"GCF_000007545.1_ASM754v1_genomic.fna",
+"GCF_000195955.2_ASM19595v2_genomic.fna",
+"GCF_000208925.1_JCVI_ESG2_1.0_genomic.fna",
+"GCF_000227135.1_ASM22713v2_genomic.fna",
+"GCF_000277165.1_ASM27716v1_genomic.fna",
+"GCF_000524195.1_ASM52419v1_genomic.fna",
+"GCF_000820495.2_ViralMultiSegProj14656_genomic.fna",
+"GCF_000855785.1_ViralMultiSegProj15044_genomic.fna",
+"GCF_000857045.1_ViralProj15142_genomic.fna",
+"GCF_000859625.1_ViralProj15144_genomic.fna",
+"GCF_000862145.1_ViralProj15310_genomic.fna",
+"GCF_000863025.1_ViralProj15315_genomic.fna",
+"GCF_000865725.1_ViralMultiSegProj15521_genomic.fna",
+"GCF_000871845.1_ViralProj20183_genomic.fna",
+"GCF_002073495.2_ASM207349v2_genomic.fna",
+"GCF_003033055.1_ASM303305v1_genomic.fna",
+"GCF_003253775.1_ASM325377v1_genomic.fna",
+"GCF_009858895.2_ASM985889v3_genomic.fna",
+"GCF_022869645.1_ASM2286964v1_genomic.fna",
+"GCF_045865195.1_ASM4586519v1_genomic.fna",
+"GCF_046895985.1_ASM4689598v1_genomic.fna",
+"GCF_050820025.1_ASM5082002v1_genomic.fna",
+"GCF_051549835.1_ASM5154983v1_genomic.fna",
+"GCF_051628085.1_ASM5162808v1_genomic.fna",
+"GCF_051802275.1_ASM5180227v1_genomic.fna",
+"GCF_051905025.1_ASM5190502v1_genomic.fna",
+"GCF_052058455.1_ASM5205845v1_genomic.fna",
+"GCF_052953925.1_ASM5295392v1_genomic.fna"}
             Call genbankDb.GetByAccessionId(key).GetJson.debug
         Next
 
