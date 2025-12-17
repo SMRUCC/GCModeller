@@ -14,10 +14,14 @@ Namespace Kmers
         ReadOnly min_supports As Double = 0.5
         ReadOnly coverage As Double = 0.85
 
-        Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA, Optional minSupports As Double = 0.5)
+        Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA,
+                Optional minSupports As Double = 0.5,
+                Optional coverage As Double = 0.9)
+
             Me.genomes = genomes.ToArray
             Me.NcbiTaxonomyTree = lca
             Me.min_supports = min_supports
+            Me.coverage = coverage
 
             Dim checkKmer = Me.genomes.GroupBy(Function(a) a.k).ToArray
 
