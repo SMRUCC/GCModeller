@@ -266,6 +266,10 @@ Namespace Metagenomics
             Dim path = _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)
             Return path.Any(Function(a) a.taxid = node.taxid)
         End Function
+
+        Public Function GetNode(taxid As Integer) As TaxonomyNode
+            Return _taxonomyTree(taxid)
+        End Function
     End Class
 
     ''' <summary>

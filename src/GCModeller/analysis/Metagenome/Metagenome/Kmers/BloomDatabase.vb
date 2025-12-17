@@ -62,7 +62,19 @@ Namespace Kmers
                          In hits
                          Where tax.Key > 0 AndAlso tax.Value >= numCov
                          Select tax.Key
-            Dim lca_id As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
+            Dim lcaNode As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
+
+            If lcaNode.LCATaxid = 0 Then
+                Dim topHit = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).FirstOrDefault
+
+                If topHit.Key > 0 AndAlso topHit.Value > 0 Then
+                    If topHit.Value / kmers.Length > 0.95 Then
+                        lcaNode = New LcaResult With {
+                            .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key)
+                        }
+                    End If
+                End If
+            End If
 
             Return New KrakenOutputRecord With {
                 .LcaMappings = hits _
@@ -73,7 +85,7 @@ Namespace Kmers
                 .ReadLength = read.length,
                 .ReadName = read.title,
                 .StatusCode = If(hits.Keys.Any(Function(t) t > 0), "C", "U"),
-                .TaxID = lca_id.LCATaxid
+                .TaxID = lcaNode.LCATaxid
             }
         End Function
 
