@@ -37,6 +37,7 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
             })
         Next
 
+        Call flash.Flush()
         Call MyBase.LoadDatabase(memoryIndex)
 
         Return Me
