@@ -249,11 +249,13 @@ Public Module RegPrecise
 
         If TypeOf regprecise Is BacteriaRegulome Then
             Dim target As BacteriaRegulome = DirectCast(regprecise, BacteriaRegulome)
-            Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
+            Dim match As GenomeEntry = ncbi.GetBestMatch(target.genome.name, 0.85)
 
             If Not match Is Nothing Then
-                target.genome.genomeId = $"{match.assembly_accession}_{match.asm_name} - {match.organism_name}"
-                target.genome.taxonomyId = match.taxid
+                With ncbi.GetByAccessionId(match.accession_id)
+                    target.genome.genomeId = $"{ .assembly_accession}_{ .asm_name} - { .organism_name}"
+                    target.genome.taxonomyId = .taxid
+                End With
             Else
                 Call $"the bacterial genome '{target.genome.name}' is not existsed inside ncbi genbank database!".warning
             End If
@@ -267,8 +269,10 @@ Public Module RegPrecise
                 Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
 
                 If Not match Is Nothing Then
-                    target.genome.genomeId = $"{match.assembly_accession}_{match.asm_name} - {match.organism_name}"
-                    target.genome.taxonomyId = match.taxid
+                    With ncbi.GetByAccessionId(match.accession_id)
+                        target.genome.genomeId = $"{ .assembly_accession}_{ .asm_name} - { .organism_name}"
+                        target.genome.taxonomyId = .taxid
+                    End With
                 Else
                     Call missing.Add(target.genome.name)
                 End If
