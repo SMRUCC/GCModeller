@@ -68,7 +68,7 @@ Namespace Kmers
                 Dim topHit = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).FirstOrDefault
 
                 If topHit.Key > 0 AndAlso topHit.Value > 0 Then
-                    If topHit.Value / kmers.Length > 0.95 Then
+                    If topHit.Value / kmers.Length > 0.975 Then
                         lcaNode = New LcaResult With {
                             .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key)
                         }
