@@ -46,7 +46,7 @@ Namespace Kmers.Kraken2
         ''' 0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
         ''' </summary>
         ''' <returns></returns>
-        Public Property LcaMappings As New Dictionary(Of Integer, Integer)
+        Public Property LcaMappings As New Dictionary(Of String, Integer)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenOutputRecord)
@@ -61,7 +61,7 @@ Namespace Kmers.Kraken2
                          line.ReadName,
                          line.TaxID,
                          line.ReadLength,
-                         (From map As KeyValuePair(Of Integer, Integer)
+                         (From map As KeyValuePair(Of String, Integer)
                           In line.LcaMappings
                           Select $"{map.Key}:{map.Value}").JoinBy(" ")
                     }.JoinBy(vbTab))

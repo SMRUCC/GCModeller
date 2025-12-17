@@ -65,7 +65,11 @@ Namespace Kmers
             Dim lca_id As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
 
             Return New KrakenOutputRecord With {
-                .LcaMappings = hits,
+                .LcaMappings = hits _
+                    .ToDictionary(Function(a) a.Key.ToString,
+                                  Function(a)
+                                      Return a.Value
+                                  End Function),
                 .ReadLength = read.length,
                 .ReadName = read.title,
                 .StatusCode = If(hits.Keys.Any(Function(t) t > 0), "C", "U"),

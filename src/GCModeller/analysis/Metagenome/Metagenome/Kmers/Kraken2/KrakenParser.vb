@@ -42,7 +42,7 @@ Namespace Kmers.Kraken2
                         Dim taxId As Long = 0
                         Dim count As Integer = 0
                         If Long.TryParse(kv(0), taxId) AndAlso Integer.TryParse(kv(1), count) Then
-                            record.LcaMappings(taxId) = count
+                            record.LcaMappings(taxId.ToString) = count
                         End If
                     End If
                 Next
