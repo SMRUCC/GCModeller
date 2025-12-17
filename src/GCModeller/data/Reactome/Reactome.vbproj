@@ -22,7 +22,9 @@
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
     <PackageLicenseExpression>gpl3</PackageLicenseExpression>
     <IncludeSymbols>True</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>    
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>    
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows|AnyCPU'">
@@ -563,6 +565,13 @@
 	  <EmbeddedResource Remove="test\**" />
 	  <None Remove="LocalMySQL\**" />
 	  <None Remove="test\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\..\..\images\logo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 	<ItemGroup>

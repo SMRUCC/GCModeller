@@ -8,6 +8,9 @@
     <AssemblyName>SMRUCC.genomics.Analysis.Metagenome.MetaFunction</AssemblyName>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

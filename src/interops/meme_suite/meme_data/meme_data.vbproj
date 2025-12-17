@@ -14,6 +14,8 @@
     <IncludeSymbols>True</IncludeSymbols>
     <AssemblyTitle>Data file output of the meme suite</AssemblyTitle>
     <PackageLicenseExpression>gpl3</PackageLicenseExpression>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
@@ -188,6 +190,13 @@
     <Compile Remove="ParserTest\**" />
     <EmbeddedResource Remove="ParserTest\**" />
     <None Remove="ParserTest\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

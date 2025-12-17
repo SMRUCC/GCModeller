@@ -9,6 +9,10 @@
 	  <DefineConstants>netcore5=1</DefineConstants>
 	  <Company>SMRUCC genomics institute</Company>
 	  <Product>GCModeller</Product>
+	  <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <PackageIcon>logo.png</PackageIcon>
+	  <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -44,6 +48,13 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.keggReport.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Buffers" Version="4.6.1" />

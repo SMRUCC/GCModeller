@@ -13,6 +13,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <UseApplicationFramework>True</UseApplicationFramework>
     <Title>RCSB PDB molecule structure model data reader</Title>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
@@ -124,6 +126,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
