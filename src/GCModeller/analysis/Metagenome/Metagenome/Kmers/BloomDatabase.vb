@@ -12,6 +12,7 @@ Namespace Kmers
         ReadOnly k As Integer
         ReadOnly NcbiTaxonomyTree As LCA
         ReadOnly min_supports As Double = 0.5
+        ReadOnly coverage As Double = 0.85
 
         Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA, Optional minSupports As Double = 0.5)
             Me.genomes = genomes.ToArray
@@ -52,9 +53,13 @@ Namespace Kmers
                 End If
             Next
 
-            Dim lca_id As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(From taxid As Integer
-                                                                             In hits.Keys
-                                                                             Where taxid > 0, min_supports)
+            Dim numCov As Integer = kmers.Length * coverage
+            Dim tax_id = From tax As KeyValuePair(Of Integer, Integer)
+                         In hits
+                         Where tax.Key > 0 AndAlso tax.Value >= numCov
+                         Select tax.Key
+            Dim lca_id As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
+
             Return New KrakenOutputRecord With {
                 .LcaMappings = hits,
                 .ReadLength = read.length,
