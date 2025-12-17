@@ -10,6 +10,10 @@ Namespace Metagenomics
 
     End Interface
 
+    ''' <summary>
+    ''' in-memory name search
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class GenomeNameIndex(Of T As IGenomeObject) : Implements Enumeration(Of T)
 
         ReadOnly qgram As QGramIndex

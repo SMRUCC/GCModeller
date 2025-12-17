@@ -69,13 +69,9 @@ Module Module1
     End Sub
 
     Sub loadIndexTest()
-        Dim pool As New List(Of GenBankAssemblyIndex)
-        Dim qgram As New QGramIndex(6)
+        Dim genbankDb As New AssemblySummaryGenbank(6, "./genbank_index")
 
-        For Each asm In GenBankAssemblyIndex.LoadIndex("D:\datapool\assembly_summary_genbank.txt").Take(1000000)
-            Call pool.Add(asm)
-            Call qgram.AddString(asm.organism_name)
-        Next
+        Call genbankDb.LoadIntoMemory("D:\datapool\assembly_summary_genbank.txt")
 
         Pause()
     End Sub
