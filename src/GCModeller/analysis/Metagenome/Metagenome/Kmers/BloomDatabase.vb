@@ -73,7 +73,7 @@ Namespace Kmers
                 .ReadLength = read.length,
                 .ReadName = read.title,
                 .StatusCode = If(hits.Keys.Any(Function(t) t > 0), "C", "U"),
-                .TaxID = lca_id.lcaNode.taxid
+                .TaxID = lca_id.LCATaxid
             }
         End Function
 

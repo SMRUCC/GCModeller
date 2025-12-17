@@ -277,6 +277,16 @@ Namespace Metagenomics
         Public Property supportRatio As Double
         Public Property supportedTaxids As Integer()
 
+        Public ReadOnly Property LCATaxid As Integer
+            Get
+                If lcaNode Is Nothing Then
+                    Return 0
+                Else
+                    Return lcaNode.taxid
+                End If
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             If lcaNode Is Nothing Then
                 Return "LCA not found"
