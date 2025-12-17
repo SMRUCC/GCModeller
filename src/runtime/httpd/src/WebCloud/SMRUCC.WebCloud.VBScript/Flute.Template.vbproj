@@ -2,13 +2,15 @@
 
   <PropertyGroup>
     <RootNamespace>Flute.Template</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net8.0;net48;net10.0;net10.0-windows</TargetFrameworks>
     <AssemblyName>Flute.Template</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Html template rendering engine</Title>
+    <PackageIcon>icons8-html-96.png</PackageIcon>
+    <PackageOutputPath>..\..\..\.nuget\</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -49,6 +51,13 @@
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\.nuget\icons8-html-96.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

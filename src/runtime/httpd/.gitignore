@@ -238,3 +238,4 @@ _Pvt_Extensions
 .fake/
 /httpd/ftp_publish
 /httpd/ftp_publish
+*.snupkg

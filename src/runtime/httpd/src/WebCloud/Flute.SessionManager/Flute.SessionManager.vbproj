@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Flute.SessionManager</RootNamespace>
-    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net8.0;net48;net10.0;net10.0-windows</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <UseApplicationFramework>True</UseApplicationFramework>
@@ -11,6 +11,8 @@
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <Configurations>Debug;Release;MEMI-Desktop</Configurations>
+    <PackageIcon>icons8-html-96.png</PackageIcon>
+    <PackageOutputPath>..\..\..\.nuget\</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
@@ -114,6 +116,13 @@
     <Optimize>False</Optimize>
     <DebugType>full</DebugType>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\.nuget\icons8-html-96.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.Buffers" Version="4.6.1" />
