@@ -85,8 +85,13 @@ Module NCBI
     End Function
 
     <ExportAPI("genbank_assemblyDb")>
-    Public Function genbank_assemblyDb(file As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
-        Return New AssemblySummaryGenbank(qgram).LoadIntoMemory(file)
+    Public Function genbank_assemblyDb(repo_dir As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
+        Return New AssemblySummaryGenbank(qgram, repo_dir)
+    End Function
+
+    <ExportAPI("create_assemblyDb")>
+    Public Function create_indexdb(file As String, repo_dir As String) As AssemblySummaryGenbank
+        Return AssemblySummaryGenbank.CreateRepository(file, repo_dir)
     End Function
 
     ''' <summary>
@@ -124,10 +129,14 @@ Module NCBI
             Return db.GetBestMatch(q, cutoff)
         Else
             Dim index = db.Query(q, cutoff).ToArray
-            Dim result As GenBankAssemblyIndex() = index.Select(Function(i) i.genome).ToArray
+            Dim result As GenBankAssemblyIndex() = index _
+                .Select(Function(i)
+                            Return db.GetByAccessionId(i.genome.accession_id)
+                        End Function) _
+                .ToArray
             Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
             Dim matches = index.Select(Function(i) i.match).ToArray
-            vec.setAttribute("index", matches)
+            Call vec.setAttribute("index", matches)
             Return vec
         End If
     End Function
