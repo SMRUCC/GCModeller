@@ -3,13 +3,10 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{75AC5F06-D5A3-4EDE-B092-C7662D9BB4EE}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencelogo\\sequencelogo.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\compiler.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{56116DEA-95DF-4AD8-B183-3E484231CB4C}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns.abstract\\sequencepatterns.abstract.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A521B880-95D4-4299-A150-A62B6153442B}|..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\sequencetoolkit\\sequencepatterns\\sequencepatterns.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\model.core.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,7 +16,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -43,38 +40,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "SequenceLogo.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequenceLogo\\SequenceLogo.NET5.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-17T00:33:12.971Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "SequencePatterns.Abstract.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns.Abstract\\SequencePatterns.Abstract.NET5.vbproj",
+              "Title": "Model.Core.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-17T00:32:41.058Z",
+              "WhenOpened": "2025-12-17T00:39:17.782Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SequencePatterns.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\analysis\\SequenceToolkit\\SequencePatterns\\SequencePatterns.NET5.vbproj",
+              "DocumentIndex": 0,
+              "Title": "Compiler.NET5",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
+              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
+              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-17T00:32:06.74Z",
+              "WhenOpened": "2025-12-17T00:39:12.058Z",
               "EditorCaption": ""
             }
           ]

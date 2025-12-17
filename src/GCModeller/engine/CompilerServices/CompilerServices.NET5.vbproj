@@ -13,6 +13,8 @@
     <UseApplicationFramework>True</UseApplicationFramework>
     <Title>Abstract type library for GCModeller vcell model compiler</Title>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -306,6 +308,10 @@
     <Compile Remove="Test\**" />
     <EmbeddedResource Remove="Test\**" />
     <None Remove="Test\**" />
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

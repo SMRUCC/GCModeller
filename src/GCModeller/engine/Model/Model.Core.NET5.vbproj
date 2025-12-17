@@ -7,6 +7,10 @@
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
     <UseApplicationFramework>True</UseApplicationFramework>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -110,6 +114,13 @@
 
   <ItemGroup>
     <Import Include="System.Data" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

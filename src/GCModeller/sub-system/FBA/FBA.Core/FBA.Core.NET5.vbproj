@@ -11,6 +11,8 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageIcon>logo.png</PackageIcon>
     <PackageIconUrl />
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
