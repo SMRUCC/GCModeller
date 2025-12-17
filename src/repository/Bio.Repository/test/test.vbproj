@@ -151,6 +151,10 @@
       <Project>{4ff87ca7-d434-4069-8ea7-b9234c66ce0b}</Project>
       <Name>sbml-netcore5</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\runtime\Darwinism\src\data\BucketDb\BucketDb.vbproj">
+      <Project>{93d10826-a69a-15ae-49e2-0c1575f931bb}</Project>
+      <Name>BucketDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj">
       <Project>{35e1d02a-e2a4-454b-b558-de3cf4aa4fb6}</Project>
       <Name>binarydata-netcore5</Name>

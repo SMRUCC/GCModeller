@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Darwinism.Repository.BucketDb
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
@@ -28,7 +29,7 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
         Dim buf As Byte() = flash.Get("genbank-entry")
         Dim list As JsonArray = BSONFormat.SafeLoadArrayList(buf)
 
-        For Each item As JsonElement In list.AsEnumerable
+        For Each item As JsonElement In TqdmWrapper.Wrap(list.ToArray)
             Yield item.CreateObject(Of GenomeEntry)
         Next
     End Function

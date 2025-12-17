@@ -61,7 +61,8 @@ Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Module Module1
 
     Sub Main()
-        Call loadIndexTest()
+        ' Call loadIndexTest()
+        Call queryTest()
         ' Call write1()
         ' Call read1()
         ' Call readTest()
@@ -71,6 +72,16 @@ Module Module1
     Sub loadIndexTest()
         Dim genbankDb As AssemblySummaryGenbank = AssemblySummaryGenbank.CreateRepository("D:\datapool\assembly_summary_genbank.txt", "./genbank_index")
 
+
+        Pause()
+    End Sub
+
+    Sub queryTest()
+        Dim genbankDb As New AssemblySummaryGenbank(6, "./genbank_index")
+
+        For Each key As String In {"CR931997", "AL591688", "AE009950", "AE014184", "CR931997", "AE009950"}
+            Call genbankDb.GetByAccessionId(key).GetJson.debug
+        Next
 
         Pause()
     End Sub
