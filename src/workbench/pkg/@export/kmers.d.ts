@@ -61,8 +61,9 @@ declare namespace kmers {
    function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
    /**
      * @param min_supports default value Is ``0.5``.
+     * @param coverage default value Is ``0.95``.
    */
-   function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number): object;
+   function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number, coverage?: number): object;
    /**
      * @param env default value Is ``null``.
    */
@@ -91,11 +92,13 @@ declare namespace kmers {
     * 
      * @param db -
      * @param reads -
+     * @param n_threads 
+     * + default value Is ``16``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function make_classify(db: any, reads: any, env?: object): object|object;
+   function make_classify(db: any, reads: any, n_threads?: object, env?: object): object|object;
    /**
    */
    function parse_kraken_output(filepath: string): object;
