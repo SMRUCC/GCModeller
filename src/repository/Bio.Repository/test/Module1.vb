@@ -69,10 +69,10 @@ Module Module1
     End Sub
 
     Sub loadIndexTest()
-        Dim pool As New List(Of FtpIndex)
+        Dim pool As New List(Of GenBankAssemblyIndex)
         Dim qgram As New QGramIndex(6)
 
-        For Each asm In FtpIndex.LoadIndex("D:\datapool\assembly_summary_genbank.txt").Take(1000000)
+        For Each asm In GenBankAssemblyIndex.LoadIndex("D:\datapool\assembly_summary_genbank.txt").Take(1000000)
             Call pool.Add(asm)
             Call qgram.AddString(asm.organism_name)
         Next
