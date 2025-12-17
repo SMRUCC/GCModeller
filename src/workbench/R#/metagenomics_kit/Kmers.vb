@@ -103,7 +103,7 @@ Module KmersTool
     <ExportAPI("bloom_filters")>
     Public Function scanBloomDatabase(repo_dir As String, ncbi_taxonomy As NcbiTaxonomyTree,
                                       Optional min_supports As Double = 0.5,
-                                      Optional coverage As Double = 0.95) As BloomDatabase
+                                      Optional coverage As Double = 0.85) As BloomDatabase
 
         Dim bloomfiles As String() = repo_dir.EnumerateFiles("*.ksbloom").ToArray
         Dim lca As New LCA(ncbi_taxonomy)
@@ -160,7 +160,7 @@ Module KmersTool
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
             Dim rawdata As FastQ() = readsData.ToArray
             Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
-            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
+            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = 1}
 
             Call Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)

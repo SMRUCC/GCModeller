@@ -62,7 +62,10 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="taxids">taxonomy ID集合</param>
         ''' <returns>最近公共祖先的TaxonomyNode</returns>
-        Public Function GetLCA(taxids As IEnumerable(Of Integer), Optional minSupport As Double = 0.5) As TaxonomyNode
+        Public Function GetLCA(taxids As IEnumerable(Of Integer),
+                               Optional minSupport As Double = 0.5,
+                               Optional maxDistance As Integer = 3) As TaxonomyNode
+
             If taxids Is Nothing OrElse Not taxids.Any() Then
                 Return Nothing
             End If
@@ -98,6 +101,18 @@ Namespace Metagenomics
                     allLineages = levelNode.ToArray
                 End If
             Next
+
+            If allLineages.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            Dim averageDistance As Integer = allLineages _
+                .Select(Function(line) line.Length - depth) _
+                .Average
+
+            If averageDistance > maxDistance Then
+                Return Nothing
+            End If
 
             Dim LCA As TaxonomyNode = allLineages(0)(depth)
             Return LCA
