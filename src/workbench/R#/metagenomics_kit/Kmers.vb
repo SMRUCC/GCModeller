@@ -154,8 +154,9 @@ Module KmersTool
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
             Dim rawdata As FastQ() = readsData.ToArray
             Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
+            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = 1}
 
-            Call Parallel.For(0, labels.Length,
+            Call Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)
                           Dim read As FastQ = rawdata(i)
                           Dim label As KrakenOutputRecord = classifier.MakeClassify(read)
