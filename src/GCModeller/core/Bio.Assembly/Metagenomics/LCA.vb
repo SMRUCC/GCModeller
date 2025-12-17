@@ -203,7 +203,10 @@ Namespace Metagenomics
         ''' <param name="taxids">k-mer匹配到的所有taxonomy ID集合</param>
         ''' <param name="minSupport">最小支持度阈值（0-1之间）</param>
         ''' <returns>LCA结果及其支持度信息</returns>
-        Public Function GetLCAForMetagenomics(taxids As IEnumerable(Of Integer), Optional minSupport As Double = 0.5) As LcaResult
+        Public Function GetLCAForMetagenomics(taxids As IEnumerable(Of Integer),
+                                              Optional minSupport As Double = 0.5,
+                                              Optional maxDistance As Integer = 5) As LcaResult
+
             If taxids Is Nothing OrElse Not taxids.Any() Then
                 Return New LcaResult With {
                     .lcaNode = Nothing,
@@ -223,7 +226,7 @@ Namespace Metagenomics
             End If
 
             ' 计算所有taxid的LCA
-            Dim lcaNode As TaxonomyNode = GetLCA(taxidList, minSupport)
+            Dim lcaNode As TaxonomyNode = GetLCA(taxidList, minSupport, maxDistance:=maxDistance)
 
             If lcaNode Is Nothing Then
                 Return New LcaResult With {
