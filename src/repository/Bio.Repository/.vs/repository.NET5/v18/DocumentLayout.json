@@ -3,6 +3,15 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\Bio.Repository\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{93D10826-A69A-15AE-49E2-0C1575F931BB}|..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\BucketDb.vbproj|g:\\gcmodeller\\src\\runtime\\darwinism\\src\\data\\bucketdb\\backgroundworker.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{93D10826-A69A-15AE-49E2-0C1575F931BB}|..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\BucketDb.vbproj|g:\\gcmodeller\\src\\runtime\\darwinism\\src\\data\\bucketdb\\buckets.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{93D10826-A69A-15AE-49E2-0C1575F931BB}|..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\BucketDb.vbproj|g:\\gcmodeller\\src\\runtime\\darwinism\\src\\data\\bucketdb\\index.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
@@ -37,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -61,7 +70,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
+              "Title": "Buckets.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\Buckets.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\Buckets.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\Buckets.vb",
+              "RelativeToolTip": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\Buckets.vb",
+              "ViewState": "AgIAAAUBAAAAAAAAAAAUwCcAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-17T03:31:54.803Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "BackgroundWorker.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\BackgroundWorker.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\BackgroundWorker.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\BackgroundWorker.vb",
+              "RelativeToolTip": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\BackgroundWorker.vb",
+              "ViewState": "AgIAABsAAAAAAAAAAAAiwD8AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-17T03:06:10.8Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Index.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\Index.vb",
+              "RelativeDocumentMoniker": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\Index.vb",
+              "ToolTip": "G:\\GCModeller\\src\\runtime\\Darwinism\\src\\data\\BucketDb\\Index.vb",
+              "RelativeToolTip": "..\\..\\runtime\\Darwinism\\src\\data\\BucketDb\\Index.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAYAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-12-17T03:03:51.677Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "IGenomeObject.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
@@ -74,7 +122,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "GenBankAssemblyIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\GenBankAssemblyIndex.vb",
               "RelativeDocumentMoniker": "NCBI\\GenBankAssemblyIndex.vb",
@@ -87,7 +135,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 7,
               "Title": "Genbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
               "RelativeDocumentMoniker": "NCBI\\Genbank.vb",
@@ -100,7 +148,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "NamesIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\Indexing\\NamesIndex.vb",
               "RelativeDocumentMoniker": "Indexing\\NamesIndex.vb",
@@ -113,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "NamesFactory.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\Indexing\\NamesFactory.vb",
               "RelativeDocumentMoniker": "Indexing\\NamesFactory.vb",
@@ -126,26 +174,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "AssemblySummaryGenbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeDocumentMoniker": "NCBI\\AssemblySummaryGenbank.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeToolTip": "NCBI\\AssemblySummaryGenbank.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T02:39:57.803Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeToolTip": "test\\Module1.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T02:39:31.064Z",
               "EditorCaption": ""
