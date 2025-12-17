@@ -13,6 +13,9 @@
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
     <Copyright>Copyright © SMRUCC genomics 2023</Copyright>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -89,6 +92,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

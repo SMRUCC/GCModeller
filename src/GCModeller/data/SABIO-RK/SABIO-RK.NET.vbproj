@@ -16,6 +16,7 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
 
   </PropertyGroup>
 

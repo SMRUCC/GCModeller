@@ -12,6 +12,8 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -339,6 +341,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>

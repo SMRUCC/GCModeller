@@ -11,6 +11,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>SMRUCC genomics institute</Company>
     <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
     <OutputPath>../../../../.nuget</OutputPath>
@@ -26,6 +28,12 @@
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Buffers" Version="4.6.1" />
