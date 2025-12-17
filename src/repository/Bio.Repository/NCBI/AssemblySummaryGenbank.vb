@@ -17,13 +17,18 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
         flash = New Buckets(database_dir:=repo, partitions:=8)
     End Sub
 
+    Sub New()
+
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetByAccessionId(asm_id As String) As GenBankAssemblyIndex
         Return BSONFormat.Load(flash.Get(asm_id.Split("."c).First)).CreateObject(Of GenBankAssemblyIndex)
     End Function
 
-    Public Function LoadIntoMemory(file As String) As AssemblySummaryGenbank
+    Public Shared Function LoadIntoMemory(file As String, repo As String) As AssemblySummaryGenbank
         Dim memoryIndex As New List(Of GenomeEntry)
+        Dim flash As Buckets
 
         For Each asm As GenBankAssemblyIndex In GenBankAssemblyIndex.LoadIndex(file)
             Dim key As String = asm.assembly_accession.Split("."c).First
@@ -37,6 +42,7 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
             })
         Next
 
+        Call flash.Put("genbank-entry", BSONFormat.SafeGetBuffer(JSONSerializer.CreateJSONElement(memoryIndex.ToArray)).ToArray)
         Call flash.Flush()
         Call MyBase.LoadDatabase(memoryIndex)
 
