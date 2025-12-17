@@ -61,7 +61,7 @@ Imports SMRUCC.genomics.Data.KEGG.Metabolism
 Module Module1
 
     Sub Main()
-        Call loadIndexTest()
+        ' Call loadIndexTest()
         Call queryTest()
         ' Call write1()
         ' Call read1()
