@@ -33,6 +33,10 @@ Namespace Kmers
             Me.bloomFilter = bloomFilter
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"ncbi_taxid: {ncbi_taxid}; " & names(0)
+        End Function
+
         Public Function KmerHits(seq As ISequenceProvider) As Dictionary(Of String, Integer)
             Return KmerHits(KSeq.KmerSpans(seq.GetSequenceData, k))
         End Function

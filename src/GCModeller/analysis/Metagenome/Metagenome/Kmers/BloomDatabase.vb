@@ -27,6 +27,10 @@ Namespace Kmers
             End If
         End Sub
 
+        Public Overrides Function ToString() As String
+            Return $"{genomes.Length} genomics k-mer(len={k}) bloom filters"
+        End Function
+
         Public Function MakeClassify(read As IFastaProvider) As KrakenOutputRecord
             Dim hits As New Dictionary(Of Integer, Integer)
             Dim kmers As String() = KSeq.KmerSpans(read.GetSequenceData, k).ToArray
