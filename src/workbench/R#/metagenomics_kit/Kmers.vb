@@ -127,7 +127,10 @@ Module KmersTool
     ''' </remarks>
     <ExportAPI("make_classify")>
     <RApiReturn(GetType(SequenceHit), GetType(KrakenOutputRecord))>
-    Public Function make_classify(db As Object, <RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+    Public Function make_classify(db As Object, <RRawVectorArgument> reads As Object,
+                                  Optional n_threads As Integer = 16,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
         Dim readsData As IEnumerable(Of FastQ)
 
@@ -157,7 +160,7 @@ Module KmersTool
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
             Dim rawdata As FastQ() = readsData.ToArray
             Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
-            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = 1}
+            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
 
             Call Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)
