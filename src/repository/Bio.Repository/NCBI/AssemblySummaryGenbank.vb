@@ -40,7 +40,7 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
 
     Public Shared Function CreateRepository(file As String, repo As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
         Dim memoryIndex As New List(Of GenomeEntry)
-        Dim flash As New Buckets(repo)
+        Dim flash As New Buckets(repo, buckets:=8)
 
         For Each asm As GenBankAssemblyIndex In GenBankAssemblyIndex.LoadIndex(file)
             Dim key As String = asm.assembly_accession.Split("."c).First

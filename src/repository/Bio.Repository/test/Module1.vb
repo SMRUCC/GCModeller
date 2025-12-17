@@ -69,9 +69,8 @@ Module Module1
     End Sub
 
     Sub loadIndexTest()
-        Dim genbankDb As New AssemblySummaryGenbank(6, "./genbank_index")
+        Dim genbankDb As AssemblySummaryGenbank = AssemblySummaryGenbank.CreateRepository("D:\datapool\assembly_summary_genbank.txt", "./genbank_index")
 
-        Call genbankDb.LoadIntoMemory("D:\datapool\assembly_summary_genbank.txt")
 
         Pause()
     End Sub
