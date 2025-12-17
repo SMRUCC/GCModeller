@@ -36,7 +36,14 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetByAccessionId(asm_id As String) As GenBankAssemblyIndex
-        Return BSONFormat.Load(flash.Get(asm_id.Split("."c).First)).CreateObject(Of GenBankAssemblyIndex)
+        Dim key As String = asm_id.Split("."c).First
+        Dim buf As Byte() = flash.Get(key)
+
+        If buf.IsNullOrEmpty Then
+            Return Nothing
+        Else
+            Return BSONFormat.Load(buf).CreateObject(Of GenBankAssemblyIndex)
+        End If
     End Function
 
     Public Shared Function CreateRepository(file As String, repo As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
