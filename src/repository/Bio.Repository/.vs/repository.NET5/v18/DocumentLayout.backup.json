@@ -3,15 +3,19 @@
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\Bio.Repository\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\assemblysummarygenbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BD223439-452E-430F-ADEB-2926BCD3E432}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\metagenomics\\igenomeobject.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbankassemblyindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:ncbi\\genbankassemblyindex.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BD223439-452E-430F-ADEB-2926BCD3E432}|..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\metagenomics\\igenomeobject.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\ncbi\\genbank.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
@@ -24,10 +28,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\indexing\\namesfactory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{D2AD7CA5-C3CF-4FF0-A17D-0F320A844839}|repository.NET5.vbproj|solutionrelative:indexing\\namesfactory.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|g:\\gcmodeller\\src\\repository\\bio.repository\\test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{F04F1794-7E59-462B-892C-E57A7A04C505}|test\\test.vbproj|solutionrelative:test\\module1.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,11 +37,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "IGenomeObject.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
               "RelativeDocumentMoniker": "..\\..\\GCModeller\\core\\Bio.Assembly\\Metagenomics\\IGenomeObject.vb",
@@ -87,7 +87,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "Genbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\Genbank.vb",
               "RelativeDocumentMoniker": "NCBI\\Genbank.vb",
@@ -100,7 +100,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "NamesIndex.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\Indexing\\NamesIndex.vb",
               "RelativeDocumentMoniker": "Indexing\\NamesIndex.vb",
@@ -113,7 +113,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "NamesFactory.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\Indexing\\NamesFactory.vb",
               "RelativeDocumentMoniker": "Indexing\\NamesFactory.vb",
@@ -126,26 +126,26 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "AssemblySummaryGenbank.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeDocumentMoniker": "NCBI\\AssemblySummaryGenbank.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\NCBI\\AssemblySummaryGenbank.vb",
               "RelativeToolTip": "NCBI\\AssemblySummaryGenbank.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T02:39:57.803Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "Module1.vb",
               "DocumentMoniker": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeDocumentMoniker": "test\\Module1.vb",
               "ToolTip": "G:\\GCModeller\\src\\repository\\Bio.Repository\\test\\Module1.vb",
               "RelativeToolTip": "test\\Module1.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEIAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2025-12-17T02:39:31.064Z",
               "EditorCaption": ""
