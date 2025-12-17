@@ -9,9 +9,12 @@
 */
 declare namespace NCBI {
    /**
+   */
+   function create_assemblyDb(file: string, repo_dir: string): object;
+   /**
      * @param qgram default value Is ``6``.
    */
-   function genbank_assemblyDb(file: string, qgram?: object): object;
+   function genbank_assemblyDb(repo_dir: string, qgram?: object): object;
    /**
     * read ncbi ftp index of the genome assembly
     * 
