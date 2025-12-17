@@ -1,14 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\workbench\\R#\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{2C845B88-1648-4007-AFCE-64FBBEA0D0A9}|..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\compiler\\compiler.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{22BA98C8-4E5F-413E-AF35-6B2B29D1EEAD}|..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\engine\\model\\model.core.net5.vbproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -16,7 +9,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 60,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": -1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -37,30 +30,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Model.Core.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Model\\Model.Core.NET5.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-17T00:39:17.782Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Compiler.NET5",
-              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "RelativeDocumentMoniker": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "RelativeToolTip": "..\\..\\GCModeller\\engine\\Compiler\\Compiler.NET5.vbproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003380|",
-              "WhenOpened": "2025-12-17T00:39:12.058Z",
-              "EditorCaption": ""
             }
           ]
         },
