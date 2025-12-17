@@ -12,11 +12,11 @@ Namespace Kmers
         ReadOnly k As Integer
         ReadOnly NcbiTaxonomyTree As LCA
         ReadOnly min_supports As Double = 0.5
-        ReadOnly coverage As Double = 0.85
+        ReadOnly coverage As Double = 0.95
 
         Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA,
                 Optional minSupports As Double = 0.5,
-                Optional coverage As Double = 0.9)
+                Optional coverage As Double = 0.95)
 
             Me.genomes = genomes.ToArray
             Me.NcbiTaxonomyTree = lca
