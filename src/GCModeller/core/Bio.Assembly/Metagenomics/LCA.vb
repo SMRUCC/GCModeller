@@ -20,8 +20,9 @@ Namespace Metagenomics
         ''' <param name="taxid1">第一个taxonomy ID</param>
         ''' <param name="taxid2">第二个taxonomy ID</param>
         ''' <returns>最近公共祖先的TaxonomyNode，如果找不到返回Nothing</returns>
-        Public Function GetLCA(taxid1 As Integer, taxid2 As Integer) As TaxonomyNode
+        Public Function GetLCA(taxid1 As Integer, taxid2 As Integer, Optional ByRef distance As Integer = -1) As TaxonomyNode
             If taxid1 = taxid2 Then
+                distance = 0
                 Return _taxonomyTree.GetAscendantsWithRanksAndNames(taxid1).FirstOrDefault()
             End If
 
@@ -42,12 +43,16 @@ Namespace Metagenomics
             Dim minLength = Math.Min(reversedPath1.Length, reversedPath2.Length)
 
             For i As Integer = 0 To minLength - 1
+                distance = i
+
                 If reversedPath1(i).taxid = reversedPath2(i).taxid Then
                     lcaNode = reversedPath1(i)
                 Else
                     Exit For
                 End If
             Next
+
+            distance = Math.Max(reversedPath1.Length - distance, reversedPath2.Length - distance)
 
             Return lcaNode
         End Function
@@ -57,30 +62,45 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="taxids">taxonomy ID集合</param>
         ''' <returns>最近公共祖先的TaxonomyNode</returns>
-        Public Function GetLCA(taxids As IEnumerable(Of Integer)) As TaxonomyNode
+        Public Function GetLCA(taxids As IEnumerable(Of Integer), Optional minSupport As Double = 0.5) As TaxonomyNode
             If taxids Is Nothing OrElse Not taxids.Any() Then
                 Return Nothing
             End If
 
             ' 将第一个taxid的路径作为起始的LCA
-            Dim taxidList = taxids.ToList()
-            Dim currentLCA As TaxonomyNode = _taxonomyTree.GetAscendantsWithRanksAndNames(taxidList(0)).FirstOrDefault()
+            Dim taxidList As Integer() = taxids.ToArray
+            Dim allLineages As TaxonomyNode()() = taxidList _
+                .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)) _
+                .Where(Function(line) Not line.IsNullOrEmpty) _
+                .Select(Function(line) line.Reverse.ToArray) _
+                .ToArray
 
-            If currentLCA Is Nothing Then
+            If allLineages.IsNullOrEmpty Then
                 Return Nothing
             End If
 
-            ' 从第二个taxid开始，依次与当前的LCA进行计算
-            For i As Integer = 1 To taxidList.Count - 1
-                Dim nextTaxid As Integer = taxidList(i)
-                currentLCA = GetLCA(currentLCA.taxid, nextTaxid)
+            Dim longPath As Integer = Aggregate line As TaxonomyNode() In allLineages Into Max(line.Length)
+            Dim cutoff As Integer = taxidList.Length * minSupport
+            Dim depth As Integer
 
-                If currentLCA Is Nothing Then
+            For i As Integer = 0 To longPath
+                Dim offset As Integer = i
+                Dim levelNode As IGrouping(Of Integer, TaxonomyNode()) = allLineages _
+                    .Where(Function(line) line.Length > offset) _
+                    .GroupBy(Function(line) line(offset).taxid) _
+                    .OrderByDescending(Function(a) a.Count) _
+                    .First
+
+                If levelNode.Count < cutoff Then
                     Exit For
+                Else
+                    depth = offset
+                    allLineages = levelNode.ToArray
                 End If
             Next
 
-            Return currentLCA
+            Dim LCA As TaxonomyNode = allLineages(0)(depth)
+            Return LCA
         End Function
 
         ''' <summary>
@@ -177,9 +197,9 @@ Namespace Metagenomics
                 }
             End If
 
-            Dim taxidList = taxids.Distinct().ToArray()
+            Dim taxidList As Integer() = taxids.Distinct().ToArray()
 
-            If taxidList.Count = 1 Then
+            If taxidList.Length = 1 Then
                 Return New LcaResult With {
                     .lcaNode = _taxonomyTree.GetAscendantsWithRanksAndNames(taxidList(0)).FirstOrDefault(),
                     .supportRatio = 1.0,
@@ -188,7 +208,7 @@ Namespace Metagenomics
             End If
 
             ' 计算所有taxid的LCA
-            Dim lcaNode As TaxonomyNode = GetLCA(taxidList)
+            Dim lcaNode As TaxonomyNode = GetLCA(taxidList, minSupport)
 
             If lcaNode Is Nothing Then
                 Return New LcaResult With {
