@@ -152,13 +152,22 @@ Module KmersTool
             Return labels.ToArray
         ElseIf TypeOf db Is BloomDatabase Then
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
-            Dim labels As New List(Of KrakenOutputRecord)
+            Dim rawdata As FastQ() = readsData.ToArray
+            Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
 
-            For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
-                Call labels.Add(classifier.MakeClassify(read))
-            Next
+            Call Parallel.For(0, labels.Length,
+                body:=Sub(i)
+                          Dim read As FastQ = rawdata(i)
+                          Dim label As KrakenOutputRecord = classifier.MakeClassify(read)
 
-            Return labels.ToArray
+                          labels(i) = label
+                      End Sub)
+
+            ' For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+            '     Call labels.Add(classifier.MakeClassify(read))
+            ' Next
+
+            Return labels
         Else
             Return Message.InCompatibleType(GetType(DatabaseReader), db.GetType, env)
         End If
