@@ -400,7 +400,7 @@ Module KmersTool
                         Return New SequenceSource With {
                             .accession_id = gb.Accession.AccessionId,
                             .id = gb.GetHashCode,
-                            .name = gb.Source.BiomString,
+                            .name = gb.Definition,
                             .ncbi_taxid = gb.Taxon
                         }
                     End Function) _

@@ -14,5 +14,6 @@
 + [as.bloom_filter](kmers/as.bloom_filter.1) cast the genomics sequence as kmer based bloom filter model
 + [parse_kraken_output](kmers/parse_kraken_output.1) 
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
-+ [host_classification](kmers/host_classification.1) 
++ [filter_classification](kmers/filter_classification.1) 
 + [filter_reads](kmers/filter_reads.1) 
++ [seq_info](kmers/seq_info.1) 
