@@ -52,39 +52,54 @@ Namespace Kmers
             ' get kmer hits number
             For Each genome As KmerBloomFilter In genomes
                 Dim numHits As Integer = genome.KmerHitNumber(kmers)
-                Dim unmap As Integer = kmers.Length - numHits
 
-                If hits.ContainsKey(genome.ncbi_taxid) Then
-                    hits(genome.ncbi_taxid) += numHits
+                If numHits = 0 Then
+                    ' current genome no hits
+                    ' do nothing
                 Else
-                    hits(genome.ncbi_taxid) = numHits
-                End If
-
-                If hits.ContainsKey(0L) Then
-                    hits(0L) += unmap
-                Else
-                    hits(0L) = unmap
+                    If hits.ContainsKey(genome.ncbi_taxid) Then
+                        hits(genome.ncbi_taxid) += numHits
+                    Else
+                        hits(genome.ncbi_taxid) = numHits
+                    End If
                 End If
             Next
 
             ' filter low hits genome, use high hits genome for LCA evaluation
             Dim numCov As Integer = kmers.Length * coverage
-            Dim tax_id = From tax As KeyValuePair(Of Integer, Integer)
-                         In hits
-                         Where tax.Key > 0 AndAlso tax.Value >= numCov
-                         Select tax.Key
-            Dim lcaNode As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
+            Dim candidateTaxIds = From tax As KeyValuePair(Of Integer, Integer)
+                                  In hits
+                                  Where tax.Key > 0 AndAlso tax.Value >= numCov
+                                  Select tax.Key
+            Dim lcaNode As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(candidateTaxIds, min_supports)
 
             ' lca node not found
             If lcaNode.LCATaxid = 0 Then
-                Dim desc = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).ToArray
-                Dim topHit = desc.FirstOrDefault
+                ' filter out key(0) and then sort in desc 
+                Dim descSortedHits = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).ToArray
+                Dim topHit = descSortedHits.FirstOrDefault
 
                 If topHit.Key > 0 AndAlso topHit.Value > 0 Then
                     ' 1 top hits must be nearly identical to the target reads
                     ' 2 top hits is unique hits
                     ' or top hits is significant greater than other genome hits
-                    If topHit.Value / kmers.Length > 0.99 AndAlso (hits.Count = 1 OrElse (hits.Count > 1 AndAlso topHit.Value / desc(1).Value > 2)) Then
+
+                    ' 检查是否存在一个明确、占主导地位的命中
+                    ' 条件1: Read中很大一部分k-mers (例如 >99%) 都命中了这一个基因组
+                    Dim isDominantHit As Boolean = (topHit.Value / kmers.Length) > 0.99
+                    ' 条件2: 这个最佳命中是唯一的，或者显著优于第二名
+                    Dim isUniqueOrSignificant As Boolean = False
+
+                    If descSortedHits.Length = 1 Then
+                        ' 只有一个分类单元被命中
+                        isUniqueOrSignificant = True
+                    ElseIf descsortedHits.Length > 1 Then
+                        ' 检查最佳命中的数量是否至少是第二名的两倍
+                        isUniqueOrSignificant = (topHit.Value / descSortedHits(1).Value) > 2
+                    End If
+
+                    ' 如果同时满足两个条件，则将该最佳命中作为分类结果
+                    If isDominantHit AndAlso isUniqueOrSignificant Then
                         lcaNode = New LcaResult With {
                             .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key)
                         }
@@ -100,7 +115,7 @@ Namespace Kmers
                                   End Function),
                 .ReadLength = read.length,
                 .ReadName = read.title,
-                .StatusCode = If(hits.Keys.Any(Function(t) t > 0), "C", "U"),
+                .StatusCode = If(lcaNode.LCATaxid > 0, "C", "U"), ' C - classfied, U - unmapped, no hits
                 .TaxID = lcaNode.LCATaxid,
                 .Taxonomy = If(lcaNode.LCATaxid = 0, "n/a", lcaNode.lcaNode.name & $"({lcaNode.lcaNode.rank})")
             }
