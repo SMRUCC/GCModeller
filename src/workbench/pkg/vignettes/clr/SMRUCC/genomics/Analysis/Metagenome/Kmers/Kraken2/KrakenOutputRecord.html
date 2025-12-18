@@ -38,6 +38,8 @@ export class KrakenOutputRecord {
    #  格式为 [TaxID]:[k-mer数量]。
    #  0 是一个特殊的 TaxID，通常代表未分类的 k-mer（即数据库中没有匹配的 k-mer）。0:6 表示有 6 个 k-mer 未被分类。
    LcaMappings: list;
+   LCASupport: double;
+   LCATaxids: integer;
    # 该 read 的碱基数量。
    ReadLength: integer;
    # 输入的 FASTQ 文件中该 read 的序列标识符。
@@ -49,6 +51,8 @@ export class KrakenOutputRecord {
    StatusCode: string;
    # 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
    TaxID: integer;
+   # biom style taxonomy string
+   Taxonomy: string;
 }
 </code>
         </pre>

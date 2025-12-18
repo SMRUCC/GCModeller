@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>bloom_filters</title>
+    <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,24 +18,39 @@
             </tr>
         </table>
 
-        <h2>bloom_filters</h2>
+        <h2></h2>
 
         <h3>Description</h3>
 
-        bloom_filters
+        
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>bloom_filters</strong>(<i>repo.dir</i>, <i>ncbi.taxonomy</i>,
-    <i>min.supports</i> = <span style='color: green;'>0.5</span>,
-    <i>coverage</i> = <span style='color: green;'>0.85</span>);</code></pre>
+    <i>min.supports</i> = <span style='color: green;'>0.35</span>,
+    <i>coverage</i> = <span style='color: green;'>0.5</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
+<dt>repo.dir</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>ncbi.taxonomy</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>]</p></dd>
+
+
+<dt>min.supports</dt>
+<dd><p>min supports for LCA, recommended 0.35 as threshold. [as double]</p></dd>
+
+
+<dt>coverage</dt>
+<dd><p>[as double]</p></dd>
+
         </table>
 
 

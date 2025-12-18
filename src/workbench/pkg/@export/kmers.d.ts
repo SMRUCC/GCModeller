@@ -60,8 +60,16 @@ declare namespace kmers {
    */
    function bayes_estimate(background: object, taxonomyDB: object, seq_ids: object): object;
    /**
-     * @param min_supports default value Is ``0.5``.
-     * @param coverage default value Is ``0.85``.
+    * 
+    * 
+     * @param repo_dir -
+     * @param ncbi_taxonomy -
+     * @param min_supports min supports for LCA, recommended 0.35 as threshold
+     * 
+     * + default value Is ``0.35``.
+     * @param coverage -
+     * 
+     * + default value Is ``0.5``.
    */
    function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number, coverage?: number): object;
    /**
