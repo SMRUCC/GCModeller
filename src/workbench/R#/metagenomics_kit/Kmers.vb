@@ -26,10 +26,28 @@ Module KmersTool
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceHit()), AddressOf hitTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KrakenOutputRecord()), AddressOf kraken2Table)
 
         Call RInternal.generic.add("readBin.kmer_bloom", GetType(Stream), AddressOf readKmerBloomFilter)
         Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
+            .rownames = kraken2_result _
+                .Select(Function(a) a.ReadName) _
+                .ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call t.add("status_code", From a As KrakenOutputRecord In kraken2_result Select a.StatusCode)
+        Call t.add("read_length", From a As KrakenOutputRecord In kraken2_result Select a.ReadLength)
+        Call t.add("taxid", From a As KrakenOutputRecord In kraken2_result Select a.TaxID)
+        Call t.add("lca_mapping", From a As KrakenOutputRecord In kraken2_result Select a.LcaMappings.Select(Function(l) $"{l.Key}:{l.Value}").JoinBy(" "))
+
+        Return t
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As dataframe
