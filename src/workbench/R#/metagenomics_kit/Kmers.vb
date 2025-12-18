@@ -313,13 +313,13 @@ Module KmersTool
         Return KrakenReportRecord.ParseDocument(filepath).ToArray
     End Function
 
-    <ExportAPI("host_classification")>
+    <ExportAPI("filter_classification")>
     <RApiReturn(TypeCodes.integer)>
     Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
-                                          <RRawVectorArgument> host_taxids As Object,
+                                          <RRawVectorArgument> taxids As Object,
                                           Optional env As Environment = Nothing) As Object
 
-        Dim taxIndex As Index(Of Long) = CLRVector.asLong(host_taxids)
+        Dim taxIndex As Index(Of Long) = CLRVector.asLong(taxids)
         Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
 
         If kraken2.isError Then
@@ -366,4 +366,5 @@ Module KmersTool
                                                               Where Not fq.SEQ_ID Like filterIndex)
         Return result
     End Function
+
 End Module
