@@ -39,6 +39,8 @@ Namespace Kmers.Kraken2
         ''' </summary>
         ''' <returns></returns>
         Public Property Taxonomy As String
+        Public Property LCASupport As Double
+        Public Property LCATaxids As Integer()
 
         ''' <summary>
         ''' 该 read 的碱基数量。

@@ -61,6 +61,8 @@ Module KmersTool
         Call t.add("read_length", From a As KrakenOutputRecord In kraken2_result Select a.ReadLength)
         Call t.add("taxid", From a As KrakenOutputRecord In kraken2_result Select a.TaxID)
         Call t.add("tax_name", From a As KrakenOutputRecord In kraken2_result Select a.Taxonomy)
+        Call t.add("lca_support", From a As KrakenOutputRecord In kraken2_result Select a.LCASupport)
+        Call t.add("lca_taxids", From a As KrakenOutputRecord In kraken2_result Select a.LCATaxids.JoinBy(", "))
         Call t.add("lca_mapping", From a As KrakenOutputRecord
                                   In kraken2_result
                                   Select a.LcaMappings _

@@ -101,7 +101,9 @@ Namespace Kmers
                     ' 如果同时满足两个条件，则将该最佳命中作为分类结果
                     If isDominantHit AndAlso isUniqueOrSignificant Then
                         lcaNode = New LcaResult With {
-                            .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key)
+                            .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key),
+                            .supportRatio = 1,
+                            .supportedTaxids = {topHit.Key}
                         }
                     End If
                 End If
@@ -117,7 +119,9 @@ Namespace Kmers
                 .ReadName = read.title,
                 .StatusCode = If(lcaNode.LCATaxid > 0, "C", "U"), ' C - classfied, U - unmapped, no hits
                 .TaxID = lcaNode.LCATaxid,
-                .Taxonomy = If(lcaNode.LCATaxid = 0, "n/a", lcaNode.lcaNode.name & $"({lcaNode.lcaNode.rank})")
+                .Taxonomy = If(lcaNode.LCATaxid = 0, "n/a", lcaNode.lcaNode.name & $"({lcaNode.lcaNode.rank})"),
+                .LCASupport = lcaNode.supportRatio,
+                .LCATaxids = lcaNode.supportedTaxids
             }
         End Function
 
