@@ -152,7 +152,7 @@ Namespace Metagenomics
             ' 将第一个taxid的路径作为起始的LCA
             Dim taxidList As Integer() = taxids.ToArray
             Dim allLineages As Lineage() = taxidList _
-                .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)) _
+                .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid, only_std_ranks:=True)) _
                 .Where(Function(line) Not line.IsNullOrEmpty) _
                 .Select(Function(line) New Lineage(line.Reverse)) _
                 .ToArray
@@ -193,7 +193,7 @@ Namespace Metagenomics
                 Return Nothing
             End If
 
-            Dim LCA As TaxonomyNode = allLineages(0).SetOffset(depth)
+            Dim LCA As TaxonomyNode = CType(allLineages(0).SetOffset(depth), TaxonomyNode)
             Return LCA
         End Function
 
@@ -205,7 +205,7 @@ Namespace Metagenomics
         ''' <returns>LCA结果及其支持度信息</returns>
         Public Function GetLCAForMetagenomics(taxids As IEnumerable(Of Integer),
                                               Optional minSupport As Double = 0.35,
-                                              Optional maxDistance As Integer = 9) As LcaResult
+                                              Optional maxDistance As Integer = 3) As LcaResult
 
             If taxids Is Nothing OrElse Not taxids.Any() Then
                 Return New LcaResult With {
