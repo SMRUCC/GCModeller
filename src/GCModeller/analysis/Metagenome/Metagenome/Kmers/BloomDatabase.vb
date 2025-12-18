@@ -45,8 +45,11 @@ Namespace Kmers
 
         Public Function MakeClassify(read As IFastaProvider) As KrakenOutputRecord
             Dim hits As New Dictionary(Of Integer, Integer)
+            ' split reads sequence as kmers
             Dim kmers As String() = KSeq.KmerSpans(read.GetSequenceData, k).ToArray
 
+            ' scan bloom filter model for each background genome
+            ' get kmer hits number
             For Each genome As KmerBloomFilter In genomes
                 Dim numHits As Integer = genome.KmerHitNumber(kmers)
                 Dim unmap As Integer = kmers.Length - numHits
@@ -64,6 +67,7 @@ Namespace Kmers
                 End If
             Next
 
+            ' filter low hits genome, use high hits genome for LCA evaluation
             Dim numCov As Integer = kmers.Length * coverage
             Dim tax_id = From tax As KeyValuePair(Of Integer, Integer)
                          In hits
@@ -71,11 +75,16 @@ Namespace Kmers
                          Select tax.Key
             Dim lcaNode As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(tax_id, min_supports)
 
+            ' lca node not found
             If lcaNode.LCATaxid = 0 Then
-                Dim topHit = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).FirstOrDefault
+                Dim desc = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).ToArray
+                Dim topHit = desc.FirstOrDefault
 
                 If topHit.Key > 0 AndAlso topHit.Value > 0 Then
-                    If topHit.Value / kmers.Length > 0.975 Then
+                    ' 1 top hits must be nearly identical to the target reads
+                    ' 2 top hits is unique hits
+                    ' or top hits is significant greater than other genome hits
+                    If topHit.Value / kmers.Length > 0.99 AndAlso (hits.Count = 1 OrElse (hits.Count > 1 AndAlso topHit.Value / desc(1).Value > 2)) Then
                         lcaNode = New LcaResult With {
                             .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key)
                         }
@@ -92,7 +101,8 @@ Namespace Kmers
                 .ReadLength = read.length,
                 .ReadName = read.title,
                 .StatusCode = If(hits.Keys.Any(Function(t) t > 0), "C", "U"),
-                .TaxID = lcaNode.LCATaxid
+                .TaxID = lcaNode.LCATaxid,
+                .Taxonomy = If(lcaNode.LCATaxid = 0, "n/a", lcaNode.lcaNode.name & $"({lcaNode.lcaNode.rank})")
             }
         End Function
 

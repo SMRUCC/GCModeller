@@ -33,6 +33,13 @@ Namespace Kmers.Kraken2
         ''' </summary>
         ''' <returns></returns>
         Public Property TaxID As Integer
+
+        ''' <summary>
+        ''' biom style taxonomy string
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Taxonomy As String
+
         ''' <summary>
         ''' 该 read 的碱基数量。
         ''' </summary>
