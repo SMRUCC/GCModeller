@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -383,6 +384,27 @@ Module KmersTool
                                                               In reads_data
                                                               Where Not fq.SEQ_ID Like filterIndex)
         Return result
+    End Function
+
+    <ExportAPI("seq_info")>
+    <RApiReturn(GetType(SequenceSource))>
+    Public Function sequenceInfo(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
+        Dim pull_asm As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(genbank, env)
+
+        If pull_asm.isError Then
+            Return pull_asm.getError
+        End If
+
+        Return pull_asm.populates(Of GBFF.File)(env) _
+            .Select(Function(gb)
+                        Return New SequenceSource With {
+                            .accession_id = gb.Accession.AccessionId,
+                            .id = gb.GetHashCode,
+                            .name = gb.Source.BiomString,
+                            .ncbi_taxid = gb.Taxon
+                        }
+                    End Function) _
+            .ToArray
     End Function
 
 End Module
