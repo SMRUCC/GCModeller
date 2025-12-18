@@ -28,10 +28,25 @@ Module KmersTool
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceHit()), AddressOf hitTable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KrakenOutputRecord()), AddressOf kraken2Table)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceSource()), AddressOf seqTable)
 
         Call RInternal.generic.add("readBin.kmer_bloom", GetType(Stream), AddressOf readKmerBloomFilter)
         Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
+            .rownames = source.Select(Function(s) CStr(s.id)).ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call t.add("accession_id", From s As SequenceSource In source Select s.accession_id)
+        Call t.add("ncbi_taxid", From s As SequenceSource In source Select s.ncbi_taxid)
+        Call t.add("name", From s As SequenceSource In source Select s.name)
+
+        Return t
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As dataframe
