@@ -193,23 +193,33 @@ Module KmersTool
             readsData = readsFile.populates(Of FastQ)(env)
         End If
 
+        Dim rawdata As FastQ() = readsData.ToArray
+        Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
+
         If TypeOf db Is DatabaseReader Then
             Dim classifier As New Classifier(DirectCast(db, DatabaseReader))
-            Dim labels As New List(Of SequenceHit)
+            Dim labels As SequenceHit() = New SequenceHit(rawdata.Length - 1) {}
 
-            For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
-                Dim hit = classifier.MakeClassify(read.SequenceData)
+            Call Parallel.For(0, labels.Length, opt,
+                body:=Sub(i)
+                          Dim read As FastQ = rawdata(i)
+                          Dim hit = classifier.MakeClassify(read.SequenceData)
 
-                hit.reads_title = read.SEQ_ID
-                labels.Add(hit)
-            Next
+                          hit.reads_title = read.SEQ_ID
+                          labels(i) = hit
+                      End Sub)
 
-            Return labels.ToArray
+            'For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+            '    Dim hit = classifier.MakeClassify(read.SequenceData)
+
+            '    hit.reads_title = read.SEQ_ID
+            '    labels.Add(hit)
+            'Next
+
+            Return labels
         ElseIf TypeOf db Is BloomDatabase Then
             Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
-            Dim rawdata As FastQ() = readsData.ToArray
             Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
-            Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
 
             Call Parallel.For(0, labels.Length, opt,
                 body:=Sub(i)
