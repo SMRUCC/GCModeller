@@ -205,7 +205,7 @@ Namespace Metagenomics
         ''' <returns>LCA结果及其支持度信息</returns>
         Public Function GetLCAForMetagenomics(taxids As IEnumerable(Of Integer),
                                               Optional minSupport As Double = 0.5,
-                                              Optional maxDistance As Integer = 5) As LcaResult
+                                              Optional maxDistance As Integer = 9) As LcaResult
 
             If taxids Is Nothing OrElse Not taxids.Any() Then
                 Return New LcaResult With {
