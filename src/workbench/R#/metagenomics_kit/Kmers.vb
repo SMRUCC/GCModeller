@@ -134,10 +134,18 @@ Module KmersTool
         Return SequenceCollection.Load(file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="repo_dir"></param>
+    ''' <param name="ncbi_taxonomy"></param>
+    ''' <param name="min_supports">min supports for LCA, recommended 0.35 as threshold</param>
+    ''' <param name="coverage"></param>
+    ''' <returns></returns>
     <ExportAPI("bloom_filters")>
     Public Function scanBloomDatabase(repo_dir As String, ncbi_taxonomy As NcbiTaxonomyTree,
-                                      Optional min_supports As Double = 0.5,
-                                      Optional coverage As Double = 0.85) As BloomDatabase
+                                      Optional min_supports As Double = 0.35,
+                                      Optional coverage As Double = 0.5) As BloomDatabase
 
         Dim bloomfiles As String() = repo_dir.EnumerateFiles("*.ksbloom").ToArray
         Dim lca As New LCA(ncbi_taxonomy)

@@ -58,67 +58,6 @@ Namespace Metagenomics
         End Function
 
         ''' <summary>
-        ''' 计算多个taxid的最近公共祖先
-        ''' </summary>
-        ''' <param name="taxids">taxonomy ID集合</param>
-        ''' <returns>最近公共祖先的TaxonomyNode</returns>
-        Public Function GetLCA(taxids As IEnumerable(Of Integer),
-                               Optional minSupport As Double = 0.5,
-                               Optional maxDistance As Integer = 3) As TaxonomyNode
-
-            If taxids Is Nothing OrElse Not taxids.Any() Then
-                Return Nothing
-            End If
-
-            ' 将第一个taxid的路径作为起始的LCA
-            Dim taxidList As Integer() = taxids.ToArray
-            Dim allLineages As TaxonomyNode()() = taxidList _
-                .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)) _
-                .Where(Function(line) Not line.IsNullOrEmpty) _
-                .Select(Function(line) line.Reverse.ToArray) _
-                .ToArray
-
-            If allLineages.IsNullOrEmpty Then
-                Return Nothing
-            End If
-
-            Dim longPath As Integer = Aggregate line As TaxonomyNode() In allLineages Into Max(line.Length)
-            Dim cutoff As Integer = taxidList.Length * minSupport
-            Dim depth As Integer
-
-            For i As Integer = 0 To longPath
-                Dim offset As Integer = i
-                Dim levelNode As IGrouping(Of Integer, TaxonomyNode()) = allLineages _
-                    .Where(Function(line) line.Length > offset) _
-                    .GroupBy(Function(line) line(offset).taxid) _
-                    .OrderByDescending(Function(a) a.Count) _
-                    .First
-
-                If levelNode.Count < cutoff Then
-                    Exit For
-                Else
-                    depth = offset
-                    allLineages = levelNode.ToArray
-                End If
-            Next
-
-            If allLineages.IsNullOrEmpty Then
-                Return Nothing
-            End If
-
-            Dim averageDistance As Integer = allLineages _
-                .Select(Function(line) line.Length - depth) _
-                .Average
-
-            If averageDistance > maxDistance Then
-                Return Nothing
-            End If
-
-            Dim LCA As TaxonomyNode = allLineages(0)(depth)
-            Return LCA
-        End Function
-
-        ''' <summary>
         ''' 使用倍增法计算LCA（适用于深度较大的树，效率更高）
         ''' </summary>
         ''' <param name="taxid1">第一个taxonomy ID</param>
@@ -198,13 +137,74 @@ Namespace Metagenomics
         End Function
 
         ''' <summary>
+        ''' 计算多个taxid的最近公共祖先
+        ''' </summary>
+        ''' <param name="taxids">taxonomy ID集合</param>
+        ''' <returns>最近公共祖先的TaxonomyNode</returns>
+        Public Function GetLCA(taxids As IEnumerable(Of Integer),
+                               Optional minSupport As Double = 0.35,
+                               Optional maxDistance As Integer = 3) As TaxonomyNode
+
+            If taxids Is Nothing OrElse Not taxids.Any() Then
+                Return Nothing
+            End If
+
+            ' 将第一个taxid的路径作为起始的LCA
+            Dim taxidList As Integer() = taxids.ToArray
+            Dim allLineages As TaxonomyNode()() = taxidList _
+                .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)) _
+                .Where(Function(line) Not line.IsNullOrEmpty) _
+                .Select(Function(line) line.Reverse.ToArray) _
+                .ToArray
+
+            If allLineages.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            Dim longPath As Integer = Aggregate line As TaxonomyNode() In allLineages Into Max(line.Length)
+            Dim cutoff As Integer = taxidList.Length * minSupport
+            Dim depth As Integer = -1
+
+            For i As Integer = 0 To longPath - 1
+                Dim offset As Integer = i
+                Dim levelNode As IGrouping(Of Integer, TaxonomyNode()) = allLineages _
+                    .Where(Function(line) line.Length > offset) _
+                    .GroupBy(Function(line) line(offset).taxid) _
+                    .OrderByDescending(Function(a) a.Count) _
+                    .FirstOrDefault
+
+                If levelNode Is Nothing OrElse levelNode.Count < cutoff Then
+                    Exit For
+                Else
+                    depth = offset
+                    allLineages = levelNode.ToArray
+                End If
+            Next
+
+            If allLineages.IsNullOrEmpty Then
+                Return Nothing
+            End If
+
+            Dim averageDistance As Integer = allLineages _
+                .Select(Function(line) line.Length - depth) _
+                .Average
+
+            If averageDistance > maxDistance Then
+                Return Nothing
+            End If
+
+            Dim LCA As TaxonomyNode = allLineages(0)(depth)
+            Return LCA
+        End Function
+
+        ''' <summary>
         ''' 在宏基因组分类场景中常用的LCA方法：找到覆盖所有输入taxid的最小公共分类单元
         ''' </summary>
         ''' <param name="taxids">k-mer匹配到的所有taxonomy ID集合</param>
         ''' <param name="minSupport">最小支持度阈值（0-1之间）</param>
         ''' <returns>LCA结果及其支持度信息</returns>
         Public Function GetLCAForMetagenomics(taxids As IEnumerable(Of Integer),
-                                              Optional minSupport As Double = 0.5,
+                                              Optional minSupport As Double = 0.35,
                                               Optional maxDistance As Integer = 9) As LcaResult
 
             If taxids Is Nothing OrElse Not taxids.Any() Then
