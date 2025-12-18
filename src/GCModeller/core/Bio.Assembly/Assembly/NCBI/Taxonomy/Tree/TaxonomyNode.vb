@@ -114,7 +114,7 @@ Namespace Assembly.NCBI.Taxonomy
         End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"ncbi_taxid: {taxid} - {name}({rank});  all_childs: {children.JoinBy(", ")}"
         End Function
 
         ''' <summary>

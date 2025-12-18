@@ -151,25 +151,25 @@ Namespace Metagenomics
 
             ' 将第一个taxid的路径作为起始的LCA
             Dim taxidList As Integer() = taxids.ToArray
-            Dim allLineages As TaxonomyNode()() = taxidList _
+            Dim allLineages As Lineage() = taxidList _
                 .Select(Function(taxid) _taxonomyTree.GetAscendantsWithRanksAndNames(taxid)) _
                 .Where(Function(line) Not line.IsNullOrEmpty) _
-                .Select(Function(line) line.Reverse.ToArray) _
+                .Select(Function(line) New Lineage(line.Reverse)) _
                 .ToArray
 
             If allLineages.IsNullOrEmpty Then
                 Return Nothing
             End If
 
-            Dim longPath As Integer = Aggregate line As TaxonomyNode() In allLineages Into Max(line.Length)
+            Dim longPath As Integer = Aggregate line As Lineage In allLineages Into Max(line.length)
             Dim cutoff As Integer = taxidList.Length * minSupport
             Dim depth As Integer = -1
 
             For i As Integer = 0 To longPath - 1
                 Dim offset As Integer = i
-                Dim levelNode As IGrouping(Of Integer, TaxonomyNode()) = allLineages _
-                    .Where(Function(line) line.Length > offset) _
-                    .GroupBy(Function(line) line(offset).taxid) _
+                Dim levelNode As IGrouping(Of Integer, Lineage) = allLineages _
+                    .Where(Function(line) line.length > offset) _
+                    .GroupBy(Function(line) line.SetOffset(offset).taxid) _
                     .OrderByDescending(Function(a) a.Count) _
                     .FirstOrDefault
 
@@ -186,14 +186,14 @@ Namespace Metagenomics
             End If
 
             Dim averageDistance As Integer = allLineages _
-                .Select(Function(line) line.Length - depth) _
+                .Select(Function(line) line.length - depth) _
                 .Average
 
             If averageDistance > maxDistance Then
                 Return Nothing
             End If
 
-            Dim LCA As TaxonomyNode = allLineages(0)(depth)
+            Dim LCA As TaxonomyNode = allLineages(0).SetOffset(depth)
             Return LCA
         End Function
 
@@ -273,6 +273,42 @@ Namespace Metagenomics
         Public Function GetNode(taxid As Integer) As TaxonomyNode
             Return _taxonomyTree(taxid)
         End Function
+    End Class
+
+    Public Class Lineage
+
+        Dim lineage As TaxonomyNode()
+        Dim offset As Integer = 0
+
+        Public ReadOnly Property length As Integer
+            Get
+                Return lineage.Length
+            End Get
+        End Property
+
+        Public ReadOnly Property taxid As Integer
+            Get
+                Return lineage(offset).taxid
+            End Get
+        End Property
+
+        Sub New(lineage As IEnumerable(Of TaxonomyNode))
+            Me.lineage = lineage.ToArray
+        End Sub
+
+        Public Function SetOffset(offset As Integer) As Lineage
+            Me.offset = offset
+            Return Me
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return lineage(offset).ToString
+        End Function
+
+        Public Shared Narrowing Operator CType(lineage As Lineage) As TaxonomyNode
+            Return lineage.lineage(lineage.offset)
+        End Operator
+
     End Class
 
     ''' <summary>
