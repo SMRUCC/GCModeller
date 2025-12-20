@@ -130,8 +130,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="N">满足BHR阈值的基因数</param>
         ''' <param name="p">单个基因满足BHR阈值的经验概率 (p0)</param>
         ''' <returns>Assignment Score (S_KO)</returns>
-        Public Function CalculateAssignmentScore(Sh As Double, m As Integer, n As Integer, x As Integer, N As Integer, p As Double) As Double
-            If Sh <= 0 OrElse m <= 0 OrElse n <= 0 OrElse x <= 0 OrElse p <= 0 OrElse p >= 1 Then
+        Public Function CalculateAssignmentScore(Sh As Double, m As Integer, ni As Integer, x As Integer, N As Integer, p As Double) As Double
+            If Sh <= 0 OrElse m <= 0 OrElse ni <= 0 OrElse x <= 0 OrElse p <= 0 OrElse p >= 1 Then
                 Return Double.NegativeInfinity ' 无效输入
             End If
 
@@ -139,11 +139,11 @@ Namespace LocalBLAST.Application.BBH
             Dim term1 As Double = Sh
 
             ' 第二项: log2(mn)
-            Dim term2 As Double = Log2(m * n)
+            Dim term2 As Double = Log2(m * ni)
 
             ' 第三项: log2( P(k >= N) ) = log2( sum_{k=N}^{x} C_k * p^k * (1-p)^(x-k) )
             ' 为了数值稳定性，我们直接在对数空间计算
-            Dim term3 As Double = Log2BinomialRightTailProbability(x, n, p)
+            Dim term3 As Double = Log2BinomialRightTailProbability(x, N, p)
 
             ' S_KO = S_h - log2(mn) - log2(...)
             Return term1 - term2 - term3
