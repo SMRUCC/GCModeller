@@ -339,6 +339,11 @@ Namespace ModelLoader
                 compart_id:=cellular_id,
                 env:=MassTable)
 
+            Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
+
+            Dim RNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+            Dim DNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
             ' 否则在构建的过程中会出现很多的key not found 的错误
