@@ -177,8 +177,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <summary>
         ''' Calculate BBH through BHR score
         ''' </summary>
-        ''' <param name="query"></param>
-        ''' <param name="refer"></param>
+        ''' <param name="query">localblast alignment result of query vs. subj reference</param>
+        ''' <param name="refer">localblast alignment result of subj reference vs. query</param>
         ''' <param name="threshold">
         ''' The BHR score threshold. (当这个参数为1的时候,算法会变为传统的BBH构建方法)
         ''' </param>
