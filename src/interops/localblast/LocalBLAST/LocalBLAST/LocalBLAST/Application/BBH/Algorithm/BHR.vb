@@ -211,7 +211,13 @@ Namespace LocalBLAST.Application.BBH
                            Group hit By ko = hit.HitName Into Group
 
             ' 2. 为每个KO组计算S_KO
-            Dim candidates As KOAssignmentCandidate() = (From hit_group In hitsByKO Let ko As String = hit_group.ko Let groupHits = hit_group.Group.ToArray Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability)).ToArray
+            Dim candidates As KOAssignmentCandidate() = (
+                From hit_group
+                In hitsByKO
+                Let ko As String = hit_group.ko
+                Let groupHits = hit_group.Group.ToArray
+                Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability)
+            ).ToArray
 
             ' 3. 选择得分最高的KO
             If Not candidates.Any() Then
