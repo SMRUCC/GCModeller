@@ -59,6 +59,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
@@ -328,6 +329,15 @@ Namespace ModelLoader
 
             Dim bar As Tqdm.ProgressBar = Nothing
             Dim duplicatedGenes As New List(Of String)
+            ' try to defiane the total proteins as cellular growth status
+            Dim cellular_growth As New StatusMapFactor(
+                id:="cellular_growth",
+                mass:=MassTable _
+                    .GetRole(MassRoles.protein) _
+                    .Where(Function(c) c.cellular_compartment = cellular_id) _
+                    .Keys,
+                compart_id:=cellular_id,
+                env:=MassTable)
 
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
