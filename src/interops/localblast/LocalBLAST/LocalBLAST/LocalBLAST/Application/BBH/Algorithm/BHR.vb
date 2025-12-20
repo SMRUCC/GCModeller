@@ -64,6 +64,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application.BBH
@@ -180,8 +181,9 @@ Namespace LocalBLAST.Application.BBH
             If k < 0 OrElse k > n Then Return Double.NegativeInfinity
             ' log2(n! / (k! * (n-k)!)) = (ln(n!) - ln(k!) - ln((n-k)!)) / ln(2)
             ' 使用 LogGamma 函数计算 ln(n!), 因为 ln(n!) = LogGamma(n+1)
-            Dim logGammaResult As Double = LogGamma(n + 1) - LogGamma(k + 1) - LogGamma(n - k + 1)
-            Return logGammaResult / Math.Log(2) ' 将自然对数转换为以2为底的对数
+            Dim logGammaResult As Double = MathGamma.lngamm(n + 1) - MathGamma.lngamm(k + 1) - MathGamma.lngamm(n - k + 1)
+            ' 将自然对数转换为以2为底的对数
+            Return logGammaResult / Math.Log(2)
         End Function
 
         ''' <summary>
@@ -208,38 +210,8 @@ Namespace LocalBLAST.Application.BBH
                            Where Not String.IsNullOrEmpty(hit.HitName) ' 确保hit有KO信息
                            Group hit By ko = hit.HitName Into Group
 
-            Dim candidates As New List(Of KOAssignmentCandidate)()
-
             ' 2. 为每个KO组计算S_KO
-            For Each hit_group In hitsByKO
-                Dim ko As String = hit_group.ko
-                Dim groupHits = hit_group.Group.ToList()
-
-                ' 获取KO的总基因数 x
-                If Not koGeneCounts.ContainsKey(ko) Then Continue For
-                Dim x As Integer = koGeneCounts(ko)
-
-                ' 计算最高比特分数 S_h 和对应的参考基因长度 n
-                Dim topHit = groupHits.OrderByDescending(Function(h) h.score).First()
-                Dim Sh As Double = topHit.score
-                Dim m As Integer = topHit.query_length
-                Dim ni As Integer = topHit.hit_length
-
-                ' 计算满足BHR阈值的基因数 N
-                Dim N As Integer = groupHits.Where(Function(h) h.SBHScore >= bhrThreshold).Count
-
-                ' 计算S_KO
-                Dim score As Double = CalculateAssignmentScore(Sh, m, ni, x, N, empiricalProbability)
-
-                candidates.Add(New KOAssignmentCandidate With {
-                    .QueryName = topHit.QueryName,
-                    .KO = ko,
-                    .AssignmentScore = score,
-                    .Sh = Sh,
-                    .N = N,
-                    .X = x
-                })
-            Next
+            Dim candidates As KOAssignmentCandidate() = (From hit_group In hitsByKO Let ko As String = hit_group.ko Let groupHits = hit_group.Group.ToArray Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability)).ToArray
 
             ' 3. 选择得分最高的KO
             If Not candidates.Any() Then
@@ -249,6 +221,38 @@ Namespace LocalBLAST.Application.BBH
             Return candidates.OrderByDescending(Function(c) c.AssignmentScore).First()
         End Function
 
+        <Extension>
+        Private Function KOCandidates(groupHits As BestHit(), ko As String,
+                                      koGeneCounts As Dictionary(Of String, Integer),
+                                      bhrThreshold As Double,
+                                      empiricalProbability As Double) As KOAssignmentCandidate
+            ' 获取KO的总基因数 x
+            If Not koGeneCounts.ContainsKey(ko) Then Return Nothing
+            Dim x As Integer = koGeneCounts(ko)
+
+            ' 计算最高比特分数 S_h 和对应的参考基因长度 n
+            Dim topHit = groupHits.OrderByDescending(Function(h) h.score).First()
+            Dim Sh As Double = topHit.score
+            Dim m As Integer = topHit.query_length
+            Dim ni As Integer = topHit.hit_length
+
+            ' 计算满足BHR阈值的基因数 N
+            Dim N As Integer = Aggregate h As BestHit
+                               In groupHits
+                               Where h.SBHScore >= bhrThreshold
+                               Into Count
+            ' 计算S_KO
+            Dim score As Double = CalculateAssignmentScore(Sh, m, ni, x, N, empiricalProbability)
+
+            Return New KOAssignmentCandidate With {
+                .QueryName = topHit.QueryName,
+                .KO = ko,
+                .AssignmentScore = score,
+                .Sh = Sh,
+                .N = N,
+                .X = x
+            }
+        End Function
     End Module
 
     ''' <summary>
