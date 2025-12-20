@@ -97,10 +97,12 @@ Namespace Engine
         Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
+                Optional n_threads As Integer = 8,
                 Optional showProgress As Boolean = True,
                 Optional debug As Boolean = False)
 
             Call MyBase.New(Nothing, iterations, timeResolution,
+                            n_threads:=n_threads,
                             showProgress:=showProgress,
                             debug:=debug)
 

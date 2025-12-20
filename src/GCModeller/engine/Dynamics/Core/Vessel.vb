@@ -134,10 +134,12 @@ Namespace Core
         ''' parallel odes solver
         ''' </summary>
         Dim parallel_odes As ParallelODEs
+        Dim n_threads As Integer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub New(Optional is_debug As Boolean = False)
-            Me.is_debug = is_debug OrElse True
+        Public Sub New(Optional n_threads As Integer = 8, Optional is_debug As Boolean = False)
+            Me.is_debug = is_debug
+            Me.n_threads = n_threads
 
             If is_debug Then
                 Call VBDebugger.EchoLine("virtual cell engine will be running in debug mode.")
@@ -237,12 +239,12 @@ Namespace Core
                 Call "invalid config of the time resolution parameter: resolution should greater than maxTime!".Warning
             End If
 
-            parallel_odes = New ParallelODEs(m_dynamics, workers:=8)
+            parallel_odes = New ParallelODEs(m_dynamics, workers:=n_threads)
 
-            If is_debug Then
+            If is_debug OrElse n_threads <= 1 Then
                 df = AddressOf fp_dfdx_sequence
             Else
-                Call VBDebugger.EchoLine($"parallel config {parallel_odes.num_threads} threads for solve ODEs!")
+                Call VBDebugger.EchoLine($"parallel config {parallel_odes.num_threads} threads for solve graph network!")
                 Call VBDebugger.EchoLine($"task span size for each worker thread is {parallel_odes.span_size} dynamics system.")
 
                 df = AddressOf fp_dfdx_parallel

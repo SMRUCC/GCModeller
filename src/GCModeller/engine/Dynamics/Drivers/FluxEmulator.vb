@@ -90,6 +90,7 @@ Namespace Engine
                 Optional maxTime As Integer = 50,
                 Optional resolution As Integer = 10000,
                 Optional showProgress As Boolean = True,
+                Optional n_threads As Integer = 8,
                 Optional debug As Boolean = False)
 
             Me.showProgress = showProgress
@@ -99,7 +100,7 @@ Namespace Engine
             If Not core Is Nothing Then
                 Me.core = core
             Else
-                Me.core = New Vessel(is_debug:=debug)
+                Me.core = New Vessel(n_threads, is_debug:=debug)
             End If
         End Sub
 
