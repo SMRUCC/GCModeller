@@ -182,7 +182,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 pos += score.Length
             Next
 
-            For Each x In tmp
+            For Each x As FragmentHit In tmp
                 x.HitLength = subjectInfo.Value
                 x.HitName = subjectInfo.Name
             Next
