@@ -96,5 +96,10 @@ Namespace Core
         ''' metabolite instance molecule object. 小分子化合物
         ''' </summary>
         compound
+
+        ''' <summary>
+        ''' mapping to the cell status view: <see cref="StatusMapFactor"/>
+        ''' </summary>
+        status
     End Enum
 End Namespace

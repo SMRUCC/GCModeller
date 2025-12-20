@@ -76,7 +76,8 @@ Namespace Core
         ''' this unique instance id usually be in format like: ``id@compart_id``
         ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
-        Public ReadOnly Property Value As Double
+
+        Public Overridable ReadOnly Property Value As Double
             Get
                 Return m_mass
             End Get
