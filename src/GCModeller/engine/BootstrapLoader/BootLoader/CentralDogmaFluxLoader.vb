@@ -515,7 +515,7 @@ Namespace ModelLoader
             RPo = MassTable.variable(RPo.mass.ID, cellular_id, RPo.coefficient)
             RPo_RNA = MassTable.variable(RPo_RNA.mass.ID, cellular_id, RPo_RNA.coefficient)
 
-            Return New Channel(RPo_RNA, {RPo, productRNA}) With {
+            Return New Channel({RPo_RNA}, {RPo, productRNA}) With {
                 .ID = $"[termination] RPo·RNA_n({geneId}) = RPo({geneId}) + RNA",
                 .forward = Controls.StaticControl(5),
                 .reverse = Controls.StaticControl(0),
@@ -584,6 +584,7 @@ Namespace ModelLoader
         Private Function RPoGenerator(cd As CentralDogma, regulations As Regulation(), RNAp As Variable, DNAp As Variable, RPo As Variable) As Channel
             Dim cellular_id As String = RPo.mass.cellular_compartment
             ' RNAP + DNA + DNA_P = RPo
+            ' 可逆过程
             Dim activeReg As Variable() = regulations _
                 .Where(Function(r) r.effects > 0) _
                 .Select(Function(r)
@@ -610,10 +611,10 @@ Namespace ModelLoader
                     .activation = activeReg,
                     .inhibition = suppressReg
                 },
-                .reverse = Controls.StaticControl(0),
+                .reverse = Controls.StaticControl(5),
                 .bounds = New Boundary With {
                     .forward = loader.dynamics.transcriptionCapacity * cd.expression_level,
-                    .reverse = 0
+                    .reverse = 5
                 },
                 .name = $"Initial transcription of gene {cd.geneID} to RPo-complex in cell {cellular_id}"
             }
