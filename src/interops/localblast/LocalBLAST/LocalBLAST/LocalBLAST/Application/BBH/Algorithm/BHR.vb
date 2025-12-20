@@ -190,6 +190,65 @@ Namespace LocalBLAST.Application.BBH
         Private Function Log2(value As Double) As Double
             Return Math.Log(value, 2)
         End Function
+
+        ''' <summary>
+        ''' 为单个查询基因分配最佳KO
+        ''' </summary>
+        ''' <param name="allBHRHitsForQuery">该查询基因与所有参考基因的BHR计算结果列表</param>
+        ''' <param name="koGeneCounts">一个字典，包含每个KO的总基因数</param>
+        ''' <param name="bhrThreshold">BHR阈值</param>
+        ''' <param name="empiricalProbability">经验概率 p0</param>
+        ''' <returns>得分最高的KO分配候选，如果没有则返回Nothing</returns>
+        Public Function AssignBestKO(allBHRHitsForQuery As IEnumerable(Of BestHit),
+                                     koGeneCounts As Dictionary(Of String, Integer),
+                                     bhrThreshold As Double,
+                                     empiricalProbability As Double) As KOAssignmentCandidate
+            ' 1. 按KO分组
+            Dim hitsByKO = From hit In allBHRHitsForQuery
+                           Where Not String.IsNullOrEmpty(hit.HitName) ' 确保hit有KO信息
+                           Group hit By ko = hit.HitName Into Group
+
+            Dim candidates As New List(Of KOAssignmentCandidate)()
+
+            ' 2. 为每个KO组计算S_KO
+            For Each hit_group In hitsByKO
+                Dim ko As String = hit_group.ko
+                Dim groupHits = hit_group.Group.ToList()
+
+                ' 获取KO的总基因数 x
+                If Not koGeneCounts.ContainsKey(ko) Then Continue For
+                Dim x As Integer = koGeneCounts(ko)
+
+                ' 计算最高比特分数 S_h 和对应的参考基因长度 n
+                Dim topHit = groupHits.OrderByDescending(Function(h) h.score).First()
+                Dim Sh As Double = topHit.score
+                Dim m As Integer = topHit.query_length
+                Dim ni As Integer = topHit.hit_length
+
+                ' 计算满足BHR阈值的基因数 N
+                Dim N As Integer = groupHits.Where(Function(h) h.SBHScore >= bhrThreshold).Count
+
+                ' 计算S_KO
+                Dim score As Double = CalculateAssignmentScore(Sh, m, ni, x, N, empiricalProbability)
+
+                candidates.Add(New KOAssignmentCandidate With {
+                    .QueryName = topHit.QueryName,
+                    .KO = ko,
+                    .AssignmentScore = score,
+                    .Sh = Sh,
+                    .N = N,
+                    .X = x
+                })
+            Next
+
+            ' 3. 选择得分最高的KO
+            If Not candidates.Any() Then
+                Return Nothing
+            End If
+
+            Return candidates.OrderByDescending(Function(c) c.AssignmentScore).First()
+        End Function
+
     End Module
 
     ''' <summary>
