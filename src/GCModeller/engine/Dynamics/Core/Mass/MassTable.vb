@@ -159,6 +159,8 @@ Namespace Core
                 If mapping.ContainsKey(mass_id) Then
                     instance_id = mass_id
                     compart_id = mapping(mass_id).compart_id
+                ElseIf mass_id.EndsWith("@" & compart_id) Then
+                    instance_id = mass_id
                 Else
                     instance_id = mass_id & "@" & compart_id
                 End If
