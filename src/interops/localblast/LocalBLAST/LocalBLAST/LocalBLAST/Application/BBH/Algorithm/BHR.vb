@@ -91,6 +91,108 @@ Namespace LocalBLAST.Application.BBH
     End Enum
 
     ''' <summary>
+    ''' 用于存储一个查询基因的KO分配候选
+    ''' </summary>
+    Public Class KOAssignmentCandidate
+        Public Property QueryName As String
+        Public Property KO As String
+        Public Property AssignmentScore As Double
+        ''' <summary>
+        ''' 最高比特分数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Sh As Double
+        ''' <summary>
+        ''' 满足BHR阈值的基因数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property N As Integer
+        ''' <summary>
+        ''' KO中的总基因数
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property X As Integer
+    End Class
+
+    ''' <summary>
+    ''' KEGG KAAS Assignment Score (S_KO) 计算模块
+    ''' </summary>
+    Public Module KOAssignment
+
+        ''' <summary>
+        ''' 计算KEGG的KO分配得分 S_KO
+        ''' </summary>
+        ''' <param name="Sh">最高比特分数</param>
+        ''' <param name="m">查询基因长度</param>
+        ''' <param name="n">参考基因长度</param>
+        ''' <param name="x">KO中的总基因数</param>
+        ''' <param name="N">满足BHR阈值的基因数</param>
+        ''' <param name="p">单个基因满足BHR阈值的经验概率 (p0)</param>
+        ''' <returns>Assignment Score (S_KO)</returns>
+        Public Function CalculateAssignmentScore(Sh As Double, m As Integer, n As Integer, x As Integer, N As Integer, p As Double) As Double
+            If Sh <= 0 OrElse m <= 0 OrElse n <= 0 OrElse x <= 0 OrElse p <= 0 OrElse p >= 1 Then
+                Return Double.NegativeInfinity ' 无效输入
+            End If
+
+            ' 第一项: S_h
+            Dim term1 As Double = Sh
+
+            ' 第二项: log2(mn)
+            Dim term2 As Double = Log2(m * n)
+
+            ' 第三项: log2( P(k >= N) ) = log2( sum_{k=N}^{x} C_k * p^k * (1-p)^(x-k) )
+            ' 为了数值稳定性，我们直接在对数空间计算
+            Dim term3 As Double = Log2BinomialRightTailProbability(x, n, p)
+
+            ' S_KO = S_h - log2(mn) - log2(...)
+            Return term1 - term2 - term3
+        End Function
+
+        ''' <summary>
+        ''' 计算二项分布右尾概率的对数 (以2为底)
+        ''' </summary>
+        Private Function Log2BinomialRightTailProbability(x As Integer, N As Integer, p As Double) As Double
+            If N > x Then Return Double.NegativeInfinity ' 概率为0
+            If N <= 0 Then Return 0 ' 概率为1, log2(1)=0
+
+            Dim logTerms As New List(Of Double)()
+            Dim logP As Double = Log2(p)
+            Dim Log1MinusP As Double = Log2(1 - p)
+
+            For k As Integer = N To x
+                ' log2(C_k * p^k * (1-p)^(x-k)) = log2(C_k) + k*log2(p) + (x-k)*log2(1-p)
+                Dim logTerm As Double = Log2BinomialCoefficient(x, k) + k * logP + (x - k) * Log1MinusP
+                logTerms.Add(logTerm)
+            Next
+
+            ' 使用 Log-Sum-Exp 技巧来稳定地计算 log(sum(exp(terms)))
+            ' log2(sum(2^term_i)) = max_term + log2(sum(2^(term_i - max_term)))
+            Dim maxLogTerm As Double = logTerms.Max()
+            Dim sumOfExps As Double = logTerms.Sum(Function(t) 2 ^ (t - maxLogTerm))
+
+            Return maxLogTerm + Log2(sumOfExps)
+        End Function
+
+        ''' <summary>
+        ''' 计算二项式系数的对数 (以2为底) log2(C(n, k))
+        ''' </summary>
+        Private Function Log2BinomialCoefficient(n As Integer, k As Integer) As Double
+            If k < 0 OrElse k > n Then Return Double.NegativeInfinity
+            ' log2(n! / (k! * (n-k)!)) = (ln(n!) - ln(k!) - ln((n-k)!)) / ln(2)
+            ' 使用 LogGamma 函数计算 ln(n!), 因为 ln(n!) = LogGamma(n+1)
+            Dim logGammaResult As Double = LogGamma(n + 1) - LogGamma(k + 1) - LogGamma(n - k + 1)
+            Return logGammaResult / Math.Log(2) ' 将自然对数转换为以2为底的对数
+        End Function
+
+        ''' <summary>
+        ''' 计算以2为底的对数
+        ''' </summary>
+        Private Function Log2(value As Double) As Double
+            Return Math.Log(value, 2)
+        End Function
+    End Module
+
+    ''' <summary>
     ''' **BHR(Bi-directional hit rate)** 
     ''' 
     ''' http://www.genome.jp/tools/kaas/help.html
