@@ -219,7 +219,7 @@ Namespace LocalBLAST.Application.BBH
                                     Return hit.Value
                                 End Function) _
                 .DoCall(Function(scores)
-                            Return Rf.getTopBHR(scores)
+                            Return Rf.GetTopBHR(scores)
                         End Function)
 
             If topBHR.Maps >= threshold Then
@@ -260,7 +260,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="r"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function getTopBHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
+        Private Function GetTopBHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
             Return q.Where(Function(hit) r.ContainsKey(hit.Name)) _
                 .Select(Function(hit)
                             Dim bhr_score = hit.Value * r(hit.Name)
