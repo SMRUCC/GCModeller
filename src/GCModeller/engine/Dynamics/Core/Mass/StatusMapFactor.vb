@@ -24,6 +24,9 @@
 
             Me.mass = mass.ToArray
             Me.env = env
+            Me.template_id = id
+            Me.name = id
+            Me.ID = id & "@" & compart_id
         End Sub
 
         Public Function eval() As Double
