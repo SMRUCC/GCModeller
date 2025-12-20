@@ -65,11 +65,13 @@ Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ModelLoader
 
@@ -282,33 +284,8 @@ Namespace ModelLoader
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim templateDNA As Variable()
-            Dim productsRNA As Variable()
-            Dim templateRNA As Variable()
-            Dim productsPro As Variable()
-            Dim rnaMatrix As Dictionary(Of String, RNAComposition) = RnaMatrixIndexing(cell.Genotype.RNAMatrix)
-            Dim proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
-            Dim TFregulations = cell.Regulations _
-                .Where(Function(reg) reg.type = Processes.Transcription) _
-                .GroupBy(Function(reg) reg.process) _
-                .ToDictionary(Function(reg) reg.Key,
-                              Function(reg)
-                                  Return reg.ToArray
-                              End Function)
-            Dim TLregulations = cell.Regulations _
-                .Where(Function(reg) reg.type = Processes.Translation) _
-                .GroupBy(Function(reg) reg.process) _
-                .ToDictionary(Function(reg) reg.Key,
-                              Function(reg)
-                                  Return reg.ToArray
-                              End Function)
-
             Dim mRNA As New List(Of String)
             Dim componentRNA As New List(Of String)
-            Dim polypeptides As New List(Of String)
-            Dim transcription As Channel
-            Dim translation As Channel
-            Dim regulations As Regulation()
             Dim proteinList As New Dictionary(Of String, String)
             Dim proteinComplex As Dictionary(Of String, String) = loader.massLoader.proteinComplex
             Dim tRNA As New Dictionary(Of String, List(Of String))
@@ -329,20 +306,6 @@ Namespace ModelLoader
 
             Dim bar As Tqdm.ProgressBar = Nothing
             Dim duplicatedGenes As New List(Of String)
-            ' try to defiane the total proteins as cellular growth status
-            Dim cellular_growth As New StatusMapFactor(
-                id:="cellular_growth",
-                mass:=MassTable _
-                    .GetRole(MassRoles.protein) _
-                    .Where(Function(c) c.cellular_compartment = cellular_id) _
-                    .Keys,
-                compart_id:=cellular_id,
-                env:=MassTable)
-
-            Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
-
-            Dim RNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
-            Dim DNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
 
             ' 在这里分开两个循环来完成构建
             ' 第一步需要一次性的将所有的元素对象都加入到mass table之中
@@ -431,6 +394,55 @@ Namespace ModelLoader
 
             Call VBDebugger.EchoLine("build biological process for central dogmas...")
 
+            For Each [event] As Channel In transcriptionEvents()
+                Yield [event]
+            Next
+
+            _mRNA = mRNA
+            _componentRNA = componentRNA
+        End Function
+
+        Private Iterator Function transcriptionEvents() As IEnumerable(Of Channel)
+            Dim cellular_id As String = cell.CellularEnvironmentName
+            Dim templateDNA As Variable()
+            Dim productsRNA As Variable()
+            Dim templateRNA As Variable()
+            Dim productsPro As Variable()
+            Dim transcription As Channel
+            Dim translation As Channel
+            Dim regulations As Regulation()
+            Dim rnaMatrix As Dictionary(Of String, RNAComposition) = RnaMatrixIndexing(cell.Genotype.RNAMatrix)
+            Dim proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
+            Dim TFregulations = cell.Regulations _
+                .Where(Function(reg) reg.type = Processes.Transcription) _
+                .GroupBy(Function(reg) reg.process) _
+                .ToDictionary(Function(reg) reg.Key,
+                              Function(reg)
+                                  Return reg.ToArray
+                              End Function)
+            Dim TLregulations = cell.Regulations _
+                .Where(Function(reg) reg.type = Processes.Translation) _
+                .GroupBy(Function(reg) reg.process) _
+                .ToDictionary(Function(reg) reg.Key,
+                              Function(reg)
+                                  Return reg.ToArray
+                              End Function)
+            ' try to defiane the total proteins as cellular growth status
+            Dim cellular_growth As New StatusMapFactor(
+                id:="cellular_growth",
+                mass:=MassTable _
+                    .GetRole(MassRoles.protein) _
+                    .Where(Function(c) c.cellular_compartment = cellular_id) _
+                    .Keys,
+                compart_id:=cellular_id,
+                env:=MassTable)
+            Dim polypeptides As New List(Of String)
+
+            Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
+
+            Dim RNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+            Dim DNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
             For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, wrap_console:=App.EnableTqdm)
@@ -450,7 +462,7 @@ Namespace ModelLoader
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
-                    translation = New Channel(templateRNA, productsPro) With {
+                    Translation = New Channel(templateRNA, productsPro) With {
                         .ID = DataHelper.GetTranslationId(cd, cellular_id),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
@@ -464,27 +476,27 @@ Namespace ModelLoader
                         .name = $"Translation from mRNA {cd.RNAName} to polypeptide {cd.polypeptide} in cell {cellular_id}"
                     }
 
-                    If translation.isBroken Then
-                        Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
+                    If Translation.isBroken Then
+                        Throw New InvalidDataException(String.Format(Translation.Message, Translation.ID))
                     End If
 
-                    loader.fluxIndex("translation").Add(translation.ID)
+                    loader.fluxIndex("translation").Add(Translation.ID)
 
-                    Yield translation
+                    Yield Translation
                 End If
 
-                regulations = TFregulations _
+                Regulations = TFregulations _
                     .TryGetValue(cd.transcript_unit) _
                     .JoinIterates(TFregulations.TryGetValue(cd.geneID)) _
                     .ToArray
 
-                Dim activeReg As Variable() = regulations _
+                Dim activeReg As Variable() = Regulations _
                     .Where(Function(r) r.effects > 0) _
                     .Select(Function(r)
                                 Return MassTable.variable(r.regulator, cellular_id, r.effects)
                             End Function) _
                     .ToArray
-                Dim suppressReg As Variable() = regulations _
+                Dim suppressReg As Variable() = Regulations _
                     .Where(Function(r) r.effects < 0) _
                     .Select(Function(r)
                                 Return MassTable.variable(r.regulator, cellular_id, r.effects)
@@ -517,8 +529,6 @@ Namespace ModelLoader
                 Yield transcription
             Next
 
-            _mRNA = mRNA
-            _componentRNA = componentRNA
             _polypeptides = polypeptides
         End Function
 
