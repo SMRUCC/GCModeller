@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::ee0efea00a581dfd1209abb530ba0e11, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 248
-    '    Code Lines: 134 (54.03%)
-    ' Comment Lines: 99 (39.92%)
-    '    - Xml Docs: 82.83%
-    ' 
-    '   Blank Lines: 15 (6.05%)
-    '     File Size: 11.93 KB
+' Summaries:
 
 
-    '     Enum Levels
-    ' 
-    '         BBH, NA, PartialBBH, SBH
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    '     Module BHR
-    ' 
-    '         Function: BHRResult, getHitRates, getTopBHR, HitRate, ReverseAssembly
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 248
+'    Code Lines: 134 (54.03%)
+' Comment Lines: 99 (39.92%)
+'    - Xml Docs: 82.83%
+' 
+'   Blank Lines: 15 (6.05%)
+'     File Size: 11.93 KB
+
+
+'     Enum Levels
+' 
+'         BBH, NA, PartialBBH, SBH
+' 
+'  
+' 
+' 
+' 
+'     Module BHR
+' 
+'         Function: BHRResult, getHitRates, getTopBHR, HitRate, ReverseAssembly
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -146,27 +146,32 @@ Namespace LocalBLAST.Application.BBH
         ''' R = bits / max(bits)
         ''' ```
         ''' </summary>
+        ''' <param name="threshold">
+        ''' bit score filter threshold, Those hits with bit scores less than 60 are removed.
+        ''' </param>
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Function HitRate(query As Query) As IEnumerable(Of NamedValue(Of Double))
-            Dim bits = query.SubjectHits _
-                .Select(Function(hit)
-                            Return New NamedValue(Of Double) With {
-                                .Name = hit.Name,
-                                .Value = hit.Score.Score
-                            }
-                        End Function) _
-                .ToArray
-            Dim maxBits As Double = bits.Max(Function(hit) hit.Value)
+        Public Iterator Function HitRate(query As Query, threshold As Double) As IEnumerable(Of NamedValue(Of Double))
+            Dim bits = (From hit As SubjectHit
+                        In query.SubjectHits
+                        Where hit.Score.Score >= threshold
+                        Select New NamedValue(Of Double)(hit.Name, hit.Score.Score)).ToArray
 
-            Return bits _
-                .Select(Function(hit)
-                            Return New NamedValue(Of Double) With {
-                                .Name = hit.Name,
-                                .Value = hit.Value / maxBits
-                            }
-                        End Function)
+            If Not bits.Any Then
+                Return
+            End If
+
+            Dim maxBits As Double = Aggregate score As NamedValue(Of Double)
+                                    In bits
+                                    Into Max(score.Value)
+
+            For Each hit As NamedValue(Of Double) In bits
+                Yield New NamedValue(Of Double) With {
+                    .Name = hit.Name,
+                    .Value = hit.Value / maxBits
+                }
+            Next
         End Function
 
         ''' <summary>
@@ -183,63 +188,69 @@ Namespace LocalBLAST.Application.BBH
         ''' + 假若BBH结果中,A在B中的bit得分并不是最高的那个的话,则按照传统的严格的BBH方法,A将不是B的BBH.(此时将会丢掉一个可能的BBH结果)
         ''' + 但是现在在引入BHR之后,即使A在B中的bit得分不是最高的,但是BHR是最高的,则可以认为A和B此时是BBH(保留下来了一个非常可能存在的BBH结果)
         ''' </remarks>
-        Public Iterator Function BHRResult(query As v228, refer As v228, Optional threshold# = 0.95) As IEnumerable(Of BiDirectionalBesthit)
-            Dim Rf = query.getHitRates
-            Dim Rr = refer.getHitRates _
+        Public Iterator Function BHRResult(query As v228, refer As v228, Optional threshold# = 0.95, Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
+            Dim Rf As NamedCollection(Of NamedValue(Of Double))() = query.GetHitRates(bitsCutoff)
+            Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = refer _
+                .GetHitRates(bitsCutoff) _
                 .ReverseAssembly _
-                .ToDictionary(Function(hit) hit.name)
+                .ToDictionary(Function(hit)
+                                  Return hit.name
+                              End Function)
 
             For Each q As NamedCollection(Of NamedValue(Of Double)) In Rf
-                Dim refHits = Rr.TryGetValue(q.name)
+                Yield q.EvaluateBHR(Rr:=Rr.TryGetValue(q.name), threshold)
+            Next
+        End Function
 
-                If refHits = 0 Then
-                    Yield New BiDirectionalBesthit With {
-                        .QueryName = q.name,
-                        .Length = q.description,
-                        .HitName = HITS_NOT_FOUND,
-                        .Level = Levels.NA
+        <Extension>
+        Private Function EvaluateBHR(Rf As NamedCollection(Of NamedValue(Of Double)), Rr As NamedCollection(Of NamedValue(Of Double)), threshold#) As BiDirectionalBesthit
+            If Rr = 0 Then
+                Return New BiDirectionalBesthit With {
+                    .QueryName = Rf.name,
+                    .length = Rf.description,
+                    .HitName = HITS_NOT_FOUND,
+                    .level = Levels.NA
+                }
+            End If
+
+            Dim topBHR As Map(Of (q$, r$), Double) = Rr _
+                .ToDictionary(Function(hit) hit.Name,
+                                Function(hit)
+                                    Return hit.Value
+                                End Function) _
+                .DoCall(Function(scores)
+                            Return Rf.getTopBHR(scores)
+                        End Function)
+
+            If topBHR.Maps >= threshold Then
+                ' is a BBH
+                Return New BiDirectionalBesthit With {
+                    .level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.PartialBBH),
+                    .QueryName = Rf.name,
+                    .length = Rf.description,
+                    .HitName = topBHR.Key.r
+                }
+            Else
+                Dim maxR = Rf.OrderByDescending(Function(hit) hit.Value).First
+
+                If maxR.Value >= threshold Then
+                    ' is an acceptable sbh hit
+                    Return New BiDirectionalBesthit With {
+                        .level = Levels.SBH,
+                        .QueryName = Rf.name,
+                        .length = Rf.description,
+                        .HitName = maxR.Name
                     }
                 Else
-                    Dim topBHR = refHits _
-                        .ToDictionary(Function(hit) hit.Name,
-                                      Function(hit)
-                                          Return hit.Value
-                                      End Function) _
-                        .DoCall(Function(scores)
-                                    Return q.getTopBHR(scores)
-                                End Function)
-
-                    If topBHR.Maps >= threshold Then
-                        ' is a BBH
-                        Yield New BiDirectionalBesthit With {
-                            .Level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.PartialBBH),
-                            .QueryName = q.name,
-                            .Length = q.description,
-                            .HitName = topBHR.Key.r
-                        }
-                    Else
-                        Dim maxR = q.OrderByDescending(Function(hit) hit.Value).First
-
-                        If maxR.Value >= threshold Then
-                            ' is an acceptable sbh hit
-                            Yield New BiDirectionalBesthit With {
-                                .Level = Levels.SBH,
-                                .QueryName = q.name,
-                                .Length = q.description,
-                                .HitName = maxR.Name
-                            }
-                        Else
-                            ' no hit
-                            Yield New BiDirectionalBesthit With {
-                                .QueryName = q.name,
-                                .Length = q.description,
-                                .HitName = HITS_NOT_FOUND,
-                                .Level = Levels.NA
-                            }
-                        End If
-                    End If
+                    ' no hit
+                    Return New BiDirectionalBesthit With {
+                        .QueryName = Rf.name,
+                        .length = Rf.description,
+                        .HitName = HITS_NOT_FOUND,
+                        .level = Levels.NA
+                    }
                 End If
-            Next
+            End If
         End Function
 
         ''' <summary>
@@ -265,7 +276,7 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         ''' <summary>
-        ''' Reverse assembling of the svq result.
+        ''' Reverse assembling of the subj vs. query result.
         ''' </summary>
         ''' <param name="Rr"></param>
         ''' <returns></returns>
@@ -295,13 +306,13 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         <Extension>
-        Private Function getHitRates(align As v228) As NamedCollection(Of NamedValue(Of Double))()
+        Private Function GetHitRates(align As v228, threshold As Double) As NamedCollection(Of NamedValue(Of Double))()
             Return align.Queries _
                 .Select(Function(q)
                             Return New NamedCollection(Of NamedValue(Of Double)) With {
                                 .name = q.QueryName,
                                 .description = q.QueryLength,
-                                .value = q.HitRate
+                                .value = q.HitRate(threshold)
                             }
                         End Function) _
                 .ToArray
