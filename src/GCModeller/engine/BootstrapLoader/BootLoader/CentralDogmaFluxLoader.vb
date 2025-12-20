@@ -404,13 +404,9 @@ Namespace ModelLoader
 
         Private Iterator Function transcriptionEvents() As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim templateDNA As Variable()
-            Dim productsRNA As Variable()
             Dim templateRNA As Variable()
             Dim productsPro As Variable()
-            Dim transcription As Channel
             Dim translation As Channel
-            Dim regulations As Regulation()
             Dim rnaMatrix As Dictionary(Of String, RNAComposition) = RnaMatrixIndexing(cell.Genotype.RNAMatrix)
             Dim proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
             Dim TFregulations = cell.Regulations _
@@ -442,19 +438,36 @@ Namespace ModelLoader
 
             Dim RNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
             Dim DNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+            Dim PPi As String = loader.define.PPI
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
             ' 之中的不同阶段的生物学过程的模型对象
             For Each cd As CentralDogma In TqdmWrapper.Wrap(cell.Genotype.centralDogmas, wrap_console:=App.EnableTqdm)
-                ' cd.RNA.Name属性值是基因的id，会产生对象引用错误 
-                templateDNA = transcriptionTemplate(cd.geneID, rnaMatrix)
-                productsRNA = {
-                    MassTable.variable(cd.RNAName, cellular_id),
-                    MassTable.variable(loader.define.ADP, cellular_id)
-                }
+                Dim RPo_id As String = "RPo-" & cd.geneID
+                Dim RPo_RNA_id As String = $"{RPo_id}-RNA_n"
+                Dim regulations = TFregulations _
+                    .TryGetValue(cd.transcript_unit) _
+                    .JoinIterates(TFregulations.TryGetValue(cd.geneID)) _
+                    .ToArray
+
+                Call MassTable.addNew(RPo_id, MassRoles.compound, cellular_id)
+                Call MassTable.addNew(RPo_RNA_id, MassRoles.compound, cellular_id)
+
+                Dim RPo As Variable = MassTable.variable(RPo_id, cellular_id, 1)
+                Dim RPo_RNA As Variable = MassTable.variable(RPo_RNA_id, cellular_id, 1)
+
+                ' RNAP + DNA + DNA_P = RPo
+                Dim phase1 = RPoGenerator(cd, regulations, RNAp, DNAp, RPo)
+                ' RPo + n NTP = RPo·RNA_n + n PPi
+                Dim phase2 = RNAElongation(cd, RPo, RPo_RNA, PPi, rnaMatrix)
+                ' RPo·RNA_n = RPo + RNA
+                Dim phase3 = terminateDisassembled(cd, RPo, RPo_RNA)
+
+                Yield phase1
+                Yield phase2
+                Yield phase3
 
                 ' 转录和翻译的反应过程都是不可逆的
-
                 ' 翻译模板过程只针对CDS基因
                 If Not cd.polypeptide Is Nothing Then
                     templateRNA = translationTemplate(cd, proteinMatrix)
@@ -462,7 +475,7 @@ Namespace ModelLoader
                     polypeptides += cd.polypeptide
 
                     ' 针对mRNA对象，创建翻译过程
-                    Translation = New Channel(templateRNA, productsPro) With {
+                    translation = New Channel(templateRNA, productsPro) With {
                         .ID = DataHelper.GetTranslationId(cd, cellular_id),
                         .forward = New AdditiveControls With {
                             .baseline = 0,
@@ -476,85 +489,134 @@ Namespace ModelLoader
                         .name = $"Translation from mRNA {cd.RNAName} to polypeptide {cd.polypeptide} in cell {cellular_id}"
                     }
 
-                    If Translation.isBroken Then
-                        Throw New InvalidDataException(String.Format(Translation.Message, Translation.ID))
+                    If translation.isBroken Then
+                        Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
                     End If
 
-                    loader.fluxIndex("translation").Add(Translation.ID)
+                    loader.fluxIndex("translation").Add(translation.ID)
 
-                    Yield Translation
+                    Yield translation
                 End If
 
-                Regulations = TFregulations _
-                    .TryGetValue(cd.transcript_unit) _
-                    .JoinIterates(TFregulations.TryGetValue(cd.geneID)) _
-                    .ToArray
-
-                Dim activeReg As Variable() = Regulations _
-                    .Where(Function(r) r.effects > 0) _
-                    .Select(Function(r)
-                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
-                            End Function) _
-                    .ToArray
-                Dim suppressReg As Variable() = Regulations _
-                    .Where(Function(r) r.effects < 0) _
-                    .Select(Function(r)
-                                Return MassTable.variable(r.regulator, cellular_id, r.effects)
-                            End Function) _
-                    .ToArray
-
-                ' 针对所有基因对象，创建转录过程
-                ' 转录是以DNA为模板产生RNA分子
-                transcription = New Channel(templateDNA, productsRNA) With {
-                    .ID = DataHelper.GetTranscriptionId(cd, cellular_id),
-                    .forward = New AdditiveControls With {
-                        .baseline = loader.dynamics.transcriptionBaseline * cd.expression_level,
-                        .activation = activeReg,
-                        .inhibition = suppressReg
-                    },
-                    .reverse = Controls.StaticControl(0),
-                    .bounds = New Boundary With {
-                        .forward = loader.dynamics.transcriptionCapacity * cd.expression_level,
-                        .reverse = 0
-                    },
-                    .name = $"Transcription of gene {cd.geneID} to RNA {cd.RNAName} in cell {cellular_id}"
-                }
-
-                If transcription.isBroken Then
-                    Throw New InvalidDataException(String.Format(transcription.Message, transcription.ID))
-                End If
-
-                loader.fluxIndex("transcription").Add(transcription.ID)
-
-                Yield transcription
+                loader.fluxIndex("transcription").Add(phase1.ID)
+                loader.fluxIndex("transcription").Add(phase2.ID)
+                loader.fluxIndex("transcription").Add(phase3.ID)
             Next
 
             _polypeptides = polypeptides
         End Function
 
+        Public Function terminateDisassembled(cd As CentralDogma, RPo As Variable, RPo_RNA As Variable) As Channel
+            Dim cellular_id As String = RPo.mass.cellular_compartment
+            Dim geneId As String = cd.geneID
+            Dim productRNA As Variable = MassTable.variable(cd.RNAName, cellular_id)
+
+            ' RPo·RNA_n = RPo + RNA
+            RPo = MassTable.variable(RPo.mass.ID, cellular_id, RPo.coefficient)
+            RPo_RNA = MassTable.variable(RPo_RNA.mass.ID, cellular_id, RPo_RNA.coefficient)
+
+            Return New Channel(RPo_RNA, {RPo, productRNA}) With {
+                .ID = $"[termination] RPo·RNA_n({geneId}) = RPo({geneId}) + RNA",
+                .forward = Controls.StaticControl(5),
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.transcriptionCapacity,
+                    .reverse = 0
+                },
+                .name = $"Termination of gene {cd.geneID} transcription in cell {cellular_id}"
+            }
+        End Function
+
         ''' <summary>
-        ''' DNA模板加上碱基消耗
+        ''' phase 2
         ''' </summary>
-        ''' <param name="geneID$"></param>
+        ''' <param name="cd"></param>
+        ''' <param name="RPo"></param>
+        ''' <param name="RPo_RNA"></param>
+        ''' <param name="PPi"></param>
         ''' <param name="matrix"></param>
         ''' <returns></returns>
-        Private Function transcriptionTemplate(geneID$, matrix As Dictionary(Of String, RNAComposition)) As Variable()
-            Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim rna As RNAComposition = If(matrix.ContainsKey(geneID), matrix(geneID), New RNAComposition With {
+        Private Function RNAElongation(cd As CentralDogma, RPo As Variable, RPo_RNA As Variable, PPi As String, matrix As Dictionary(Of String, RNAComposition)) As Channel
+            Dim cellular_id As String = RPo.mass.cellular_compartment
+            Dim geneId As String = cd.geneID
+            Dim rna As RNAComposition = If(matrix.ContainsKey(geneId), matrix(geneId), New RNAComposition With {
                 .A = 1,
                 .C = 1,
                 .G = 1,
                 .U = 1,
-                .geneID = geneID
+                .geneID = geneId
             })
+            Dim n As Integer = rna.Length
+            Dim nPPi As Variable = MassTable.variable(PPi, cellular_id, n)
 
-            Return rna _
+            ' RPo + n NTP = RPo·RNA_n + n PPi
+            RPo = MassTable.variable(RPo.mass.ID, cellular_id, RPo.coefficient)
+            RPo_RNA = MassTable.variable(RPo_RNA.mass.ID, cellular_id, RPo_RNA.coefficient)
+
+            Dim NTPs As List(Of Variable) = rna _
                 .Where(Function(i) i.Value > 0) _
                 .Select(Function(base)
                             Dim baseName = loader.define.NucleicAcid(base.Name)
                             Return MassTable.variable(baseName, cellular_id, base.Value)
+                        End Function).AsList
+
+            Return New Channel(RPo + NTPs, {RPo_RNA, nPPi}) With {
+                .ID = $"[elongation] RPo({geneId}) + n NTP = RPo·RNA_n({geneId}) + n PPi",
+                .forward = Controls.StaticControl(5),
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.transcriptionCapacity,
+                    .reverse = 0
+                },
+                .name = $"Elongation transcription of gene {cd.geneID} in cell {cellular_id}"
+            }
+        End Function
+
+        ''' <summary>
+        ''' phase 1
+        ''' </summary>
+        ''' <param name="cd"></param>
+        ''' <param name="regulations"></param>
+        ''' <param name="RNAp"></param>
+        ''' <param name="DNAp"></param>
+        ''' <param name="RPo"></param>
+        ''' <returns></returns>
+        Private Function RPoGenerator(cd As CentralDogma, regulations As Regulation(), RNAp As Variable, DNAp As Variable, RPo As Variable) As Channel
+            Dim cellular_id As String = RPo.mass.cellular_compartment
+            ' RNAP + DNA + DNA_P = RPo
+            Dim activeReg As Variable() = regulations _
+                .Where(Function(r) r.effects > 0) _
+                .Select(Function(r)
+                            Return MassTable.variable(r.regulator, cellular_id, r.effects)
                         End Function) _
-                .AsList + MassTable.template($"[{geneID}]", cellular_id) + MassTable.variable(loader.define.ATP, cellular_id)
+                .ToArray
+            Dim suppressReg As Variable() = regulations _
+                .Where(Function(r) r.effects < 0) _
+                .Select(Function(r)
+                            Return MassTable.variable(r.regulator, cellular_id, r.effects)
+                        End Function) _
+                .ToArray
+
+            RNAp = MassTable.variable(RNAp.mass.ID, cellular_id, RNAp.coefficient)
+            DNAp = MassTable.variable(DNAp.mass.ID, cellular_id, DNAp.coefficient)
+            RPo = MassTable.variable(RPo.mass.ID, cellular_id, RPo.coefficient)
+
+            Dim geneDNA As Variable = MassTable.variable($"[{cd.geneID}]", cellular_id)
+
+            Return New Channel({RNAp, geneDNA, DNAp}, {RPo}) With {
+                .ID = $"[initiation] RNAP + DNA({cd.geneID}) + DNA_P = RPo({cd.geneID})",
+                .forward = New AdditiveControls With {
+                    .baseline = loader.dynamics.transcriptionBaseline * cd.expression_level,
+                    .activation = activeReg,
+                    .inhibition = suppressReg
+                },
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.transcriptionCapacity * cd.expression_level,
+                    .reverse = 0
+                },
+                .name = $"Initial transcription of gene {cd.geneID} to RPo-complex in cell {cellular_id}"
+            }
         End Function
 
         '       ATP + AA   + ADP

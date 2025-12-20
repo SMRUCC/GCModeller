@@ -86,6 +86,16 @@ Namespace Cellular.Vector
         ''' <returns></returns>
         Public Property C As Integer
 
+        ''' <summary>
+        ''' length of the gene sequence
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Length As Integer
+            Get
+                Return A + U + G + C
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return geneID
         End Function
