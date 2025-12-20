@@ -90,6 +90,42 @@ Namespace ModelLoader
                 .Where(Function(s) s <> MetabolicModel.Membrane) _
                 .Distinct _
                 .ToArray
+            Dim cellular_id As String = cell.CellularEnvironmentName
+
+            Dim complexID As String
+            Dim peptideMaps As New Dictionary(Of String, List(Of String))
+            Dim duplicated As New List(Of String)
+
+            ' 20241113 protein id maybe duplicated, due to the reason of
+            ' some gene translate the protein with identicial protein sequence data
+            ' so reference to the identical protein model
+            For Each complex As Protein In cell.Phenotype.proteins
+                ' If complex.isAutoConstructed Then
+                ' complexID = massTable.addNew(complex.ProteinID & ".complex", MassRoles.protein, cell.CellularEnvironmentName)
+                ' Else
+                For Each compart_id As String In defaultCompartment
+                    If Not massTable.Exists(complex.ProteinID, compart_id) Then
+                        complexID = massTable.addNew(complex.ProteinID, MassRoles.protein, compart_id)
+                    End If
+                Next
+                ' End If
+
+                complexID = massTable.addNew(complex.ProteinID, MassRoles.protein, cellular_id)
+
+                For Each id As String In complex.polypeptides
+                    If Not peptideMaps.ContainsKey(id) Then
+                        peptideMaps.Add(id, New List(Of String))
+                    End If
+
+                    Call peptideMaps(id).Add(complexID)
+                Next
+
+                If proteinComplex.ContainsKey(complex.ProteinID) Then
+                    Call duplicated.Add(complex.ProteinID)
+                Else
+                    Call proteinComplex.Add(complex.ProteinID, complexID)
+                End If
+            Next
 
             ' 在这里需要首选构建物质列表
             ' 否则下面的转录和翻译过程的构建会出现找不到物质因子对象的问题
@@ -109,6 +145,7 @@ Namespace ModelLoader
                                 Dim cid As String = CStr(val)
 
                                 For Each compart_id As String In defaultCompartment
+                                    ' try to not overrides the protein molecule its mass role to compound
                                     If Not massTable.Exists(cid, compart_id) Then
                                         Call massTable.addNew(cid, MassRoles.compound, compart_id)
                                     End If
@@ -116,35 +153,6 @@ Namespace ModelLoader
                             End If
                         Next
                     Next
-                End If
-            Next
-
-            Dim complexID As String
-            Dim peptideMaps As New Dictionary(Of String, List(Of String))
-            Dim duplicated As New List(Of String)
-
-            ' 20241113 protein id maybe duplicated, due to the reason of
-            ' some gene translate the protein with identicial protein sequence data
-            ' so reference to the identical protein model
-            For Each complex As Protein In cell.Phenotype.proteins
-                ' If complex.isAutoConstructed Then
-                ' complexID = massTable.addNew(complex.ProteinID & ".complex", MassRoles.protein, cell.CellularEnvironmentName)
-                ' Else
-                complexID = massTable.addNew(complex.ProteinID, MassRoles.protein, cell.CellularEnvironmentName)
-                ' End If
-
-                For Each id As String In complex.polypeptides
-                    If Not peptideMaps.ContainsKey(id) Then
-                        peptideMaps.Add(id, New List(Of String))
-                    End If
-
-                    Call peptideMaps(id).Add(complexID)
-                Next
-
-                If proteinComplex.ContainsKey(complex.ProteinID) Then
-                    Call duplicated.Add(complex.ProteinID)
-                Else
-                    Call proteinComplex.Add(complex.ProteinID, complexID)
                 End If
             Next
 

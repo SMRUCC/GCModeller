@@ -255,6 +255,18 @@ Namespace Core
             End Get
         End Property
 
+        Public ReadOnly Property protein As Factor()
+            Get
+                Return GetRole(MassRoles.protein).ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property statusView As Factor()
+            Get
+                Return GetRole(MassRoles.status).ToArray
+            End Get
+        End Property
+
         Default Public ReadOnly Iterator Property GetVariable(list As IEnumerable(Of CompoundSpecieReference)) As IEnumerable(Of Variable)
             Get
                 For Each ref As CompoundSpecieReference In list
@@ -454,6 +466,9 @@ Namespace Core
         ''' <returns>
         ''' this function returns the entity id back
         ''' </returns>
+        ''' <remarks>
+        ''' 假若目标对象已经存在，则不会进行任何操作，直接返回已经存在的对象id
+        ''' </remarks>
         Public Function addNew(entity As String, role As MassRoles, compart_id As String) As String
             Dim instance_id As String = entity & "@" & compart_id
 
