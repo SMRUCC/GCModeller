@@ -152,7 +152,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Iterator Function HitRate(query As IEnumerable(Of BestHit), threshold As Double) As IEnumerable(Of NamedValue(Of Double))
+        Private Iterator Function HitRate(query As IEnumerable(Of BestHit), threshold As Double) As IEnumerable(Of NamedValue(Of Double))
             Dim bits = (From hit As BestHit
                         In query.SafeQuery
                         Where hit.score >= threshold
@@ -193,7 +193,7 @@ Namespace LocalBLAST.Application.BBH
                                            Optional threshold# = 0.95,
                                            Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
 
-            Dim Rf As NamedCollection(Of NamedValue(Of Double))() = forward.GetHitRates(bitsCutoff).ToArray
+            Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff).ToArray
             Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
                 .GetHitRates(bitsCutoff) _
                 .ReverseAssembly _
@@ -201,19 +201,20 @@ Namespace LocalBLAST.Application.BBH
                                   Return hit.name
                               End Function)
 
-            For Each q As NamedCollection(Of NamedValue(Of Double)) In Rf
-                Yield q.EvaluateBHR(Rr:=Rr.TryGetValue(q.name), threshold)
+            For Each q As TopHitRates In Rf
+                Yield q.EvaluateBHR(Rr:=Rr.TryGetValue(q.queryName), threshold)
             Next
         End Function
 
         <Extension>
-        Private Function EvaluateBHR(Rf As NamedCollection(Of NamedValue(Of Double)), Rr As NamedCollection(Of NamedValue(Of Double)), threshold#) As BiDirectionalBesthit
+        Private Function EvaluateBHR(Rf As TopHitRates, Rr As NamedCollection(Of NamedValue(Of Double)), threshold#) As BiDirectionalBesthit
             If Rr = 0 Then
                 Return New BiDirectionalBesthit With {
-                    .QueryName = Rf.name,
-                    .length = Rf.description,
+                    .QueryName = Rf.queryName,
+                    .length = Rf.queryLength,
                     .HitName = HITS_NOT_FOUND,
-                    .level = Levels.NA
+                    .level = Levels.NA,
+                    .term = HITS_NOT_FOUND
                 }
             End If
 
@@ -225,33 +226,47 @@ Namespace LocalBLAST.Application.BBH
                 .DoCall(Function(scores)
                             Return Rf.GetTopBHR(scores)
                         End Function)
+            Dim term_id As String = topBHR.Key.r
 
             If topBHR.Maps >= threshold Then
+                Dim htop As BestHit = Rf.htop(topBHR.Key.r)
+
                 ' is a BBH
                 Return New BiDirectionalBesthit With {
                     .level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.BHR),
-                    .QueryName = Rf.name,
-                    .length = Rf.description,
-                    .HitName = topBHR.Key.r
+                    .QueryName = Rf.queryName,
+                    .length = Rf.queryLength,
+                    .HitName = topBHR.Key.r,
+                    .term = term_id,
+                    .positive = topBHR.Maps,
+                    .description = htop.description
                 }
             Else
-                Dim maxR = Rf.OrderByDescending(Function(hit) hit.Value).First
+                Dim maxR As NamedValue(Of Double) = Rf.hits _
+                    .OrderByDescending(Function(hit) hit.Value) _
+                    .First
+                Dim maxHit As BestHit = Rf.htop(maxR.Name)
 
                 If maxR.Value >= threshold Then
                     ' is an acceptable sbh hit
                     Return New BiDirectionalBesthit With {
                         .level = Levels.SBH,
-                        .QueryName = Rf.name,
-                        .length = Rf.description,
-                        .HitName = maxR.Name
+                        .QueryName = Rf.queryName,
+                        .length = Rf.queryLength,
+                        .HitName = maxR.Name,
+                        .term = term_id,
+                        .positive = topBHR.Maps,
+                        .description = maxHit.description
                     }
                 Else
                     ' no hit
                     Return New BiDirectionalBesthit With {
-                        .QueryName = Rf.name,
-                        .length = Rf.description,
+                        .QueryName = Rf.queryName,
+                        .length = Rf.queryLength,
                         .HitName = HITS_NOT_FOUND,
-                        .level = Levels.NA
+                        .level = Levels.NA,
+                        .term = HITS_NOT_FOUND,
+                        .positive = 0
                     }
                 End If
             End If
@@ -264,11 +279,11 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="r"></param>
         ''' <returns></returns>
         <Extension>
-        Private Function GetTopBHR(q As NamedCollection(Of NamedValue(Of Double)), r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
-            Return q.Where(Function(hit) r.ContainsKey(hit.Name)) _
+        Private Function GetTopBHR(q As TopHitRates, r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
+            Return q.hits.Where(Function(hit) r.ContainsKey(hit.Name)) _
                 .Select(Function(hit)
                             Dim bhr_score = hit.Value * r(hit.Name)
-                            Dim align = (q.name, hit.Name)
+                            Dim align = (q.queryName, hit.Name)
 
                             Return New Map(Of (String, String), Double) With {
                                 .Key = align,
@@ -285,10 +300,10 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="Rr"></param>
         ''' <returns></returns>
         <Extension>
-        Private Iterator Function ReverseAssembly(Rr As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))) As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))
+        Private Iterator Function ReverseAssembly(Rr As IEnumerable(Of TopHitRates)) As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))
             Dim queryGroups = Rr _
                 .Select(Function(rq)
-                            Return rq.Select(Function(hit) (refer:=rq.name, q:=hit))
+                            Return rq.hits.Select(Function(hit) (refer:=rq.queryName, q:=hit))
                         End Function) _
                 .IteratesALL _
                 .GroupBy(Function(hit) hit.q.Name) _
@@ -310,13 +325,34 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         <Extension>
-        Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double) As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))
+        Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double) As IEnumerable(Of TopHitRates)
             For Each q As NamedCollection(Of BestHit) In align
                 Dim qlen As Integer = If(q.Length = 0, 0, q.First.query_length)
                 Dim hits = q.HitRate(threshold)
+                Dim htop = q.GroupBy(Function(h) h.HitName) _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.OrderByDescending(Function(i) i.score).First
+                                  End Function)
 
-                Yield New NamedCollection(Of NamedValue(Of Double))(q.name, hits, CStr(qlen))
+                Yield New TopHitRates With {
+                    .queryName = q.name,
+                    .hits = hits.ToArray,
+                    .htop = htop,
+                    .nhits = q.Length,
+                    .queryLength = qlen
+                }
             Next
         End Function
     End Module
+
+    Friend Class TopHitRates
+
+        Public Property queryName As String
+        Public Property queryLength As Integer
+        Public Property hits As NamedValue(Of Double)()
+        Public Property htop As Dictionary(Of String, BestHit)
+        Public Property nhits As Integer
+
+    End Class
 End Namespace
