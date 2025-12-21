@@ -185,8 +185,14 @@ Module terms
             Return RInternal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
         End If
 
-        Dim forwardHits = forward.populates(Of BestHit)(env).GroupBy(Function(a) a.QueryName).Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)).ToArray
-        Dim reverseHits = reverse.populates(Of BestHit)(env).GroupBy(Function(a) a.QueryName).Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)).ToArray
+        Dim forwardHits = forward.populates(Of BestHit)(env) _
+            .GroupBy(Function(a) a.QueryName) _
+            .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
+            .ToArray
+        Dim reverseHits = reverse.populates(Of BestHit)(env) _
+            .GroupBy(Function(a) a.QueryName) _
+            .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
+            .ToArray
         Dim bhrResult = BHR.BHRResult(forwardHits, reverseHits, threshold, score_cutoff).ToArray
 
         Return bhrResult
