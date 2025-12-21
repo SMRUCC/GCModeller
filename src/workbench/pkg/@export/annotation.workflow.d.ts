@@ -124,7 +124,14 @@ declare namespace annotation.workflow {
    }
    module stream {
       /**
-        * @param env default value Is ``null``.
+       * Save the annotation rawdata into the given stream file.
+       * 
+       * 
+        * @param data -
+        * @param stream a stream data handler that generated via the ``open.stream`` function.
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function flush(data: object, stream: any, env?: object): any;
    }
