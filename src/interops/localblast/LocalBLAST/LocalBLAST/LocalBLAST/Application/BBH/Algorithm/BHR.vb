@@ -152,11 +152,11 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' 
         <Extension>
-        Public Iterator Function HitRate(query As Query, threshold As Double) As IEnumerable(Of NamedValue(Of Double))
-            Dim bits = (From hit As SubjectHit
-                        In query.SubjectHits
-                        Where hit.Score.Score >= threshold
-                        Select New NamedValue(Of Double)(hit.Name, hit.Score.Score)).ToArray
+        Public Iterator Function HitRate(query As IEnumerable(Of BestHit), threshold As Double) As IEnumerable(Of NamedValue(Of Double))
+            Dim bits = (From hit As BestHit
+                        In query.SafeQuery
+                        Where hit.score >= threshold
+                        Select New NamedValue(Of Double)(hit.HitName, hit.score)).ToArray
 
             If Not bits.Any Then
                 Return
@@ -177,8 +177,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <summary>
         ''' Calculate BBH through BHR score
         ''' </summary>
-        ''' <param name="query">localblast alignment result of query vs. subj reference</param>
-        ''' <param name="refer">localblast alignment result of subj reference vs. query</param>
+        ''' <param name="forward">localblast alignment result of query vs. subj reference</param>
+        ''' <param name="reverse">localblast alignment result of subj reference vs. query</param>
         ''' <param name="threshold">
         ''' The BHR score threshold. (当这个参数为1的时候,算法会变为传统的BBH构建方法)
         ''' </param>
@@ -188,9 +188,12 @@ Namespace LocalBLAST.Application.BBH
         ''' + 假若BBH结果中,A在B中的bit得分并不是最高的那个的话,则按照传统的严格的BBH方法,A将不是B的BBH.(此时将会丢掉一个可能的BBH结果)
         ''' + 但是现在在引入BHR之后,即使A在B中的bit得分不是最高的,但是BHR是最高的,则可以认为A和B此时是BBH(保留下来了一个非常可能存在的BBH结果)
         ''' </remarks>
-        Public Iterator Function BHRResult(query As v228, refer As v228, Optional threshold# = 0.95, Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
-            Dim Rf As NamedCollection(Of NamedValue(Of Double))() = query.GetHitRates(bitsCutoff)
-            Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = refer _
+        Public Iterator Function BHRResult(forward As NamedCollection(Of BestHit)(), reverse As NamedCollection(Of BestHit)(),
+                                           Optional threshold# = 0.95,
+                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
+
+            Dim Rf As NamedCollection(Of NamedValue(Of Double))() = forward.GetHitRates(bitsCutoff).ToArray
+            Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
                 .GetHitRates(bitsCutoff) _
                 .ReverseAssembly _
                 .ToDictionary(Function(hit)
@@ -306,16 +309,13 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         <Extension>
-        Private Function GetHitRates(align As v228, threshold As Double) As NamedCollection(Of NamedValue(Of Double))()
-            Return align.Queries _
-                .Select(Function(q)
-                            Return New NamedCollection(Of NamedValue(Of Double)) With {
-                                .name = q.QueryName,
-                                .description = q.QueryLength,
-                                .value = q.HitRate(threshold)
-                            }
-                        End Function) _
-                .ToArray
+        Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double) As IEnumerable(Of NamedCollection(Of NamedValue(Of Double)))
+            For Each q As NamedCollection(Of BestHit) In align
+                Dim qlen As Integer = If(q.Length = 0, 0, q.First.query_length)
+                Dim hits = q.HitRate(threshold)
+
+                Yield New NamedCollection(Of NamedValue(Of Double))(q.name, hits, CStr(qlen))
+            Next
         End Function
     End Module
 End Namespace
