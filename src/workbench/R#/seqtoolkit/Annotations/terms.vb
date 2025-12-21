@@ -234,12 +234,12 @@ Module terms
             .ToArray
 
         If kaas_rank Then
-            Dim bhrGroups = BHR.BHRGroups(forwardHits, reverseHits, threshold, bitsCutoff:=score_cutoff).ToArray
+            Dim bhrGroups As NamedCollection(Of BestHit)() = BHR.BHRGroups(forwardHits, reverseHits, threshold, bitsCutoff:=score_cutoff).ToArray
             Dim assignments As New List(Of KOAssignmentCandidate)
             Dim geneCounts As Dictionary(Of String, Integer) = reversePool.KOgeneCounts
             Dim totalGenesInDatabase As Integer = geneCounts.Values.Sum()
 
-            For Each bhr As IGrouping(Of String, BestHit) In bhrGroups.GroupBy(Function(a) a.QueryName)
+            For Each bhr As IGrouping(Of String, BestHit) In bhrGroups
                 Dim koSize As Integer = geneCounts(bhr.Key)
                 Dim p As Double = koSize / totalGenesInDatabase
                 Dim assign As KOAssignmentCandidate = bhr.AssignBestKO(geneCounts, threshold, p)

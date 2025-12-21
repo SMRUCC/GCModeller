@@ -190,7 +190,7 @@ Namespace LocalBLAST.Application.BBH
 
         Public Iterator Function BHRGroups(forward As NamedCollection(Of BestHit)(), reverse As NamedCollection(Of BestHit)(),
                                            Optional threshold# = 0.95,
-                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
+                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of NamedCollection(Of BestHit))
 
             Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff, group:=True).ToArray
             Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
@@ -199,6 +199,23 @@ Namespace LocalBLAST.Application.BBH
                 .ToDictionary(Function(hit)
                                   Return hit.name
                               End Function)
+
+            For Each q As TopHitRates In Rf
+                Dim groupRr As NamedCollection(Of NamedValue(Of Double)) = Rr.TryGetValue(q.queryName)
+
+                If Not groupRr.value.IsNullOrEmpty Then
+                    Yield q.MakeBHRGroup(Rr:=groupRr.value, threshold)
+                End If
+            Next
+        End Function
+
+        <Extension>
+        Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As NamedValue(Of Double)(), threshold#) As IEnumerable(Of BestHit)
+            If Rr.IsNullOrEmpty Then
+                Return
+            End If
+
+
         End Function
 
         ''' <summary>
@@ -228,22 +245,24 @@ Namespace LocalBLAST.Application.BBH
                               End Function)
 
             For Each q As TopHitRates In Rf
-                Yield q.EvaluateBHR(Rr:=Rr.TryGetValue(q.queryName), threshold)
+                Dim groupRr As NamedCollection(Of NamedValue(Of Double)) = Rr.TryGetValue(q.queryName)
+
+                If groupRr.value.IsNullOrEmpty Then
+                    Yield New BiDirectionalBesthit With {
+                        .QueryName = q.queryName,
+                        .length = q.queryLength,
+                        .HitName = HITS_NOT_FOUND,
+                        .level = Levels.NA,
+                        .term = HITS_NOT_FOUND
+                    }
+                Else
+                    Yield q.EvaluateBHR(Rr:=groupRr.value, threshold)
+                End If
             Next
         End Function
 
         <Extension>
-        Private Function EvaluateBHR(Rf As TopHitRates, Rr As NamedCollection(Of NamedValue(Of Double)), threshold#) As BiDirectionalBesthit
-            If Rr = 0 Then
-                Return New BiDirectionalBesthit With {
-                    .QueryName = Rf.queryName,
-                    .length = Rf.queryLength,
-                    .HitName = HITS_NOT_FOUND,
-                    .level = Levels.NA,
-                    .term = HITS_NOT_FOUND
-                }
-            End If
-
+        Private Function EvaluateBHR(Rf As TopHitRates, Rr As NamedValue(Of Double)(), threshold#) As BiDirectionalBesthit
             Dim topBHR As Map(Of (q$, r$), Double) = Rr _
                 .ToDictionary(Function(hit) hit.Name,
                                 Function(hit)
@@ -257,7 +276,7 @@ Namespace LocalBLAST.Application.BBH
 
             If topBHR.Maps >= threshold Then
                 Dim htop As BestHit = Rf.htop(topBHR.Key.r)
-                Dim reverse As NamedValue(Of Double) = Rr.value.KeyItem(topBHR.Key.r)
+                Dim reverse As NamedValue(Of Double) = Rr.KeyItem(topBHR.Key.r)
 
                 ' is a BBH
                 Return New BiDirectionalBesthit With {
@@ -276,7 +295,7 @@ Namespace LocalBLAST.Application.BBH
                     .OrderByDescending(Function(hit) hit.Value) _
                     .First
                 Dim maxHit As BestHit = Rf.htop(maxR.Name)
-                Dim reverse As NamedValue(Of Double) = Rr.value.KeyItem(maxR.Name)
+                Dim reverse As NamedValue(Of Double) = Rr.KeyItem(maxR.Name)
 
                 If maxR.Value >= threshold Then
                     ' is an acceptable sbh hit
