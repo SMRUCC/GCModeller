@@ -37,6 +37,100 @@ Namespace LocalBLAST.Application.BBH
     Public Module KOAssignmentScore
 
         ''' <summary>
+        ''' 基于reverse比对计算出每一个ko中的基因总数
+        ''' </summary>
+        ''' <param name="reverse">query is the KO, use input target as subject reference</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function KOgeneCounts(reverse As IEnumerable(Of BestHit)) As Dictionary(Of String, Integer)
+            Return reverse.GroupBy(Function(a) a.QueryName) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.Count
+                              End Function)
+        End Function
+
+        ''' <summary>
+        ''' 根据正向和反向的BLAST结果，计算并生成所有有效的BHR（双向最佳命中）记录。
+        ''' </summary>
+        ''' <param name="forwardHits">查询 vs 参考数据库的BLASTP结果列表。</param>
+        ''' <param name="reverseHits">参考数据库 vs 查询数据库的BLASTP结果列表。</param>
+        ''' <param name="querySelfScores">一个字典，键为查询基因名，值为该基因的自比对bitscore。</param>
+        ''' <param name="refSelfScores">一个字典，键为参考基因名，值为该基因的自比对bitscore。</param>
+        ''' <returns>一个包含所有有效BHR关系的BestHit列表，每个对象的SBHScore属性已被填充。</returns>
+        Public Function GenerateBHRHits(forwardHits As IEnumerable(Of BestHit),
+                                        reverseHits As IEnumerable(Of BestHit),
+                                        querySelfScores As Dictionary(Of String, Double),
+                                        refSelfScores As Dictionary(Of String, Double)) As List(Of BestHit)
+
+            ' 1. 为了高效查找，将反向BLAST结果按参考基因名分组
+            ' Key: 参考基因名, Value: 以该参考基因为查询的所有反向命中列表
+            Dim reverseLookup As Dictionary(Of String, List(Of BestHit)) = reverseHits _
+                .GroupBy(Function(r) r.QueryName) _
+                .ToDictionary(Function(g) g.Key,
+                              Function(g)
+                                  Return g.ToList()
+                              End Function)
+
+            Dim bhrResults As New List(Of BestHit)()
+
+            ' 2. 遍历每一个正向命中，尝试寻找其反向验证
+            For Each fHit As BestHit In forwardHits
+                Dim queryName As String = fHit.QueryName
+                Dim refName As String = fHit.HitName
+
+                ' 检查我们是否有必要的自比对得分
+                If Not querySelfScores.ContainsKey(queryName) OrElse Not refSelfScores.ContainsKey(refName) Then
+                    Continue For ' 缺少数据，跳过
+                End If
+
+                ' 3. 在反向结果中，查找以当前参考基因为查询的记录
+                If reverseLookup.ContainsKey(refName) Then
+                    Dim reverseHitsForThisRef As List(Of BestHit) = reverseLookup(refName)
+
+                    ' 4. 在这些反向命中中，找到得分最高的那一个
+                    Dim bestReverseHit As BestHit = reverseHitsForThisRef.OrderByDescending(Function(r) r.score).FirstOrDefault()
+
+                    ' 5. 验证BHR条件：最佳反向命中的目标是否是原始的查询基因？
+                    If bestReverseHit IsNot Nothing AndAlso bestReverseHit.HitName.Equals(queryName, StringComparison.OrdinalIgnoreCase) Then
+                        ' BHR条件满足！现在计算BHR分数
+                        Dim score_fwd As Double = fHit.score
+                        Dim score_rev As Double = bestReverseHit.score
+                        Dim score_self_query As Double = querySelfScores(queryName)
+                        Dim score_self_ref As Double = refSelfScores(refName)
+
+                        ' 防止除以零
+                        If score_self_query <= 0 OrElse score_self_ref <= 0 Then
+                            Continue For
+                        End If
+
+                        Dim sbhScore As Double = (score_fwd / score_self_ref) * (score_rev / score_self_query)
+
+                        ' 创建一个新的BestHit对象来存储这个BHR结果
+                        ' 我们复用正向命中的信息，并添加计算出的SBHScore
+                        Dim bhrHit As New BestHit With {
+                            .QueryName = fHit.QueryName,
+                            .HitName = fHit.HitName, ' 这个HitName就是KO号
+                            .query_length = fHit.query_length,
+                            .hit_length = fHit.hit_length,
+                            .score = fHit.score, ' 保留原始正向得分作为S_h的候选
+                            .evalue = fHit.evalue,
+                            .identities = fHit.identities,
+                            .positive = fHit.positive,
+                            .length_hit = fHit.length_hit,
+                            .length_query = fHit.length_query,
+                            .length_hsp = fHit.length_hsp,
+                            .SBHScore = sbhScore ' 关键：填入计算出的BHR分数
+                        }
+                        bhrResults.Add(bhrHit)
+                    End If
+                End If
+            Next
+
+            Return bhrResults
+        End Function
+
+        ''' <summary>
         ''' 计算KEGG的KO分配得分 S_KO
         ''' </summary>
         ''' <param name="Sh">最高比特分数</param>

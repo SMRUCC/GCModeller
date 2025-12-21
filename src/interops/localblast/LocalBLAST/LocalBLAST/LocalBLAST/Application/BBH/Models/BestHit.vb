@@ -75,6 +75,10 @@ Namespace LocalBLAST.Application.BBH
 
         <Column("query_length")> Public Property query_length As Integer
         <Column("hit_length")> Public Property hit_length As Integer
+        ''' <summary>
+        ''' usually be the blast raw bit score
+        ''' </summary>
+        ''' <returns></returns>
         <Column("score")> Public Property score As Double
         <Column("e-value")> Public Property evalue As Double
         <Column("identities")> Public Property identities As Double Implements IQueryHits.identities
@@ -94,14 +98,10 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
-        Public ReadOnly Property SBHScore As Double
-            Get
-                Return BBHParser.SBHScore(Me)
-            End Get
-        End Property
+        Public Property SBHScore As Double
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0} --> {1}; E-value:={2}", QueryName, HitName, evalue)
+            Return String.Format("{0} vs. {1}; E-value:={2}", QueryName, HitName, evalue)
         End Function
 
         ''' <summary>

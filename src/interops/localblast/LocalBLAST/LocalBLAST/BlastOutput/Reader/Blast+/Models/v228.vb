@@ -284,7 +284,8 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .length_hit = besthit.LengthHit,
                           .length_query = besthit.LengthQuery,
                           .length_hsp = gaps,
-                          .description = hitName  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
+                          .description = hitName,  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
+                          .SBHScore = .identities * .coverage
                       }
 
             Return sbh
