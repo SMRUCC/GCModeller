@@ -277,7 +277,9 @@ Module terms
                 Dim p As Double = koSize / totalGenesInDatabase
                 Dim assign As KOAssignmentCandidate = bhr.AssignBestKO(geneCounts, threshold, p)
 
-                Call assignments.Add(assign)
+                If Not assign Is Nothing Then
+                    Call assignments.Add(assign)
+                End If
             Next
 
             Return assignments.ToArray
