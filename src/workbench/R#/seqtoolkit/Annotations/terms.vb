@@ -85,6 +85,7 @@ Module terms
         Call RInternal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
 
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BiDirectionalBesthit()), AddressOf bbhTable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
