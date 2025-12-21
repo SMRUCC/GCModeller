@@ -186,10 +186,12 @@ Module terms
         End If
 
         Dim forwardHits = forward.populates(Of BestHit)(env) _
+            .Where(Function(a) a.score > 0) _
             .GroupBy(Function(a) a.QueryName) _
             .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
             .ToArray
         Dim reverseHits = reverse.populates(Of BestHit)(env) _
+            .Where(Function(a) a.score > 0) _
             .GroupBy(Function(a) a.QueryName) _
             .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
             .ToArray

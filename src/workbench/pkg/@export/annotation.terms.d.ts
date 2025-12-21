@@ -18,20 +18,24 @@ declare namespace annotation.terms {
       */
       function GO(): any;
       /**
-       * do KO number assign based on the bbh alignment result.
-       * 
-       * 
-        * @param forward -
-        * @param reverse -
-        * @param env -
-        * 
-        * + default value Is ``null``.
-      */
-      function KO(forward: object, reverse: object, env?: object): object;
-      /**
       */
       function Pfam(): any;
    }
+   /**
+    * do KO number assign based on the bbh alignment result.
+    * 
+    * 
+     * @param forward -
+     * @param reverse -
+     * @param threshold 
+     * + default value Is ``0.95``.
+     * @param score_cutoff 
+     * + default value Is ``60``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function assign_ko(forward: object, reverse: object, threshold?: number, score_cutoff?: number, env?: object): any;
    /**
     * assign the top term by score ranking
     * 
