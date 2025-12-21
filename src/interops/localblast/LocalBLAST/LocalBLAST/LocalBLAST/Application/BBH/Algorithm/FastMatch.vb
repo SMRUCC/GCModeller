@@ -136,7 +136,7 @@ Namespace LocalBLAST.Application.BBH
                         .forward = query.SBHScore,
                         .HitName = query.HitName,
                         .length = query.query_length,
-                        .level = Levels.PartialBBH,
+                        .level = Levels.BHR,
                         .positive = stdNum.Max(query.positive, rev.positive),
                         .reverse = rev.SBHScore,
                         .term = query.HitName

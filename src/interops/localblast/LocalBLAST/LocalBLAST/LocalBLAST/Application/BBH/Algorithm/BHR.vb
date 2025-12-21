@@ -83,7 +83,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <summary>
         ''' A vs B 以及 B vs A 都不是得分最高的,但是BHR得分是最高的 (BHR >= threshold)
         ''' </summary>
-        PartialBBH
+        BHR
         ''' <summary>
         ''' 只有一个方向的比对结果是最高的
         ''' </summary>
@@ -156,7 +156,8 @@ Namespace LocalBLAST.Application.BBH
             Dim bits = (From hit As BestHit
                         In query.SafeQuery
                         Where hit.score >= threshold
-                        Select New NamedValue(Of Double)(hit.HitName, hit.score)).ToArray
+                        Group By hit.HitName Into Group
+                        Select New NamedValue(Of Double)(HitName, Aggregate h As BestHit In Group Into Sum(h.score))).ToArray
 
             If Not bits.Any Then
                 Return
@@ -228,7 +229,7 @@ Namespace LocalBLAST.Application.BBH
             If topBHR.Maps >= threshold Then
                 ' is a BBH
                 Return New BiDirectionalBesthit With {
-                    .level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.PartialBBH),
+                    .level = If(topBHR.Maps = 1.0, Levels.BBH, Levels.BHR),
                     .QueryName = Rf.name,
                     .length = Rf.description,
                     .HitName = topBHR.Key.r
