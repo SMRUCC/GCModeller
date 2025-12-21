@@ -202,7 +202,7 @@ Namespace LocalBLAST.Application.BBH
                 Let groupHits = hit_group.Group.ToArray
                 Let koSize As Integer = koGeneCounts(ko)
                 Let p As Double = koSize / totalGenesInDatabase
-                Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability:=p)
+                Select groupHits.KOCandidates(ko, x:=koSize, bhrThreshold, empiricalProbability:=p)
             ).ToArray
 
             ' 3. 选择得分最高的KO
@@ -213,13 +213,20 @@ Namespace LocalBLAST.Application.BBH
             Return candidates.OrderByDescending(Function(c) c.AssignmentScore).First()
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="groupHits"></param>
+        ''' <param name="ko"></param>
+        ''' <param name="x">获取KO的总基因数 x</param>
+        ''' <param name="bhrThreshold"></param>
+        ''' <param name="empiricalProbability"></param>
+        ''' <returns></returns>
         <Extension>
         Private Function KOCandidates(groupHits As BestHit(), ko As String,
-                                      koGeneCounts As Dictionary(Of String, Integer),
+                                      x As Integer,
                                       bhrThreshold As Double,
                                       empiricalProbability As Double) As KOAssignmentCandidate
-            ' 获取KO的总基因数 x
-            Dim x As Integer = koGeneCounts(ko)
 
             ' 找到该KO组中得分最高的比对，用于获取 S_h, m, n
             Dim topHit = groupHits.OrderByDescending(Function(h) h.score).First()
