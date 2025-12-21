@@ -233,6 +233,7 @@ Namespace LocalBLAST.Application.BBH
 
             If topBHR.Maps >= threshold Then
                 Dim htop As BestHit = Rf.htop(topBHR.Key.r)
+                Dim reverse As NamedValue(Of Double) = Rr.value.KeyItem(topBHR.Key.r)
 
                 ' is a BBH
                 Return New BiDirectionalBesthit With {
@@ -243,14 +244,15 @@ Namespace LocalBLAST.Application.BBH
                     .term = term_id,
                     .positive = topBHR.Maps,
                     .description = htop.description,
-                    .forward = forward.Value,
-                    .reverse = topBHR.Maps
+                    .forward = forward.Description,
+                    .reverse = reverse.Description
                 }
             Else
                 Dim maxR As NamedValue(Of Double) = Rf.hits _
                     .OrderByDescending(Function(hit) hit.Value) _
                     .First
                 Dim maxHit As BestHit = Rf.htop(maxR.Name)
+                Dim reverse As NamedValue(Of Double) = Rr.value.KeyItem(maxR.Name)
 
                 If maxR.Value >= threshold Then
                     ' is an acceptable sbh hit
@@ -261,7 +263,9 @@ Namespace LocalBLAST.Application.BBH
                         .HitName = maxR.Name,
                         .term = term_id,
                         .positive = topBHR.Maps,
-                        .description = maxHit.description
+                        .description = maxHit.description,
+                        .forward = forward.Description,
+                        .reverse = reverse.Description
                     }
                 Else
                     ' no hit
