@@ -122,7 +122,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ExportBestHit(Optional coverage As Double = 0.5, Optional identities As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
-            Return (From query As Query In Queries Select __generateLine(query, coverage, identities)).ToArray
+            Return (From query As Query In Queries Select topHitResult(query, coverage, identities)).ToArray
         End Function
 
         ''' <summary>
@@ -132,7 +132,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="coverage"></param>
         ''' <param name="identities"></param>
         ''' <returns></returns>
-        Private Shared Function __generateLine(query As Query, coverage As Double, identities As Double) As BestHit
+        Private Shared Function topHitResult(query As Query, coverage As Double, identities As Double) As BestHit
             Dim topHit As SubjectHit = query.GetBestHit(coverage, identities)
             Dim locusId As String = query.QueryName.Split.First
             Dim def As String = Mid(query.QueryName, Len(locusId) + 1).Trim
