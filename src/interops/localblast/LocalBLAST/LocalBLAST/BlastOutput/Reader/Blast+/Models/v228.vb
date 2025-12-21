@@ -1,62 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::e726bf365bcd6b91acd75834e10032eb, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 270
-    '    Code Lines: 198 (73.33%)
-    ' Comment Lines: 41 (15.19%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 31 (11.48%)
-    '     File Size: 12.41 KB
+' Summaries:
 
 
-    '     Class v228
-    ' 
-    '         Properties: ParameterSummary, Queries
-    ' 
-    '         Function: Save
-    '         Delegate Function
-    ' 
-    '             Function: __checkIntegrity, __generateLine, __hitsOverview, CheckIntegrity, EmptyHit
-    '                       ExportAllBestHist, ExportBestHit, ExportBesthits, ExportOverview, Grep
-    '                       SBHLines
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 270
+'    Code Lines: 198 (73.33%)
+' Comment Lines: 41 (15.19%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 31 (11.48%)
+'     File Size: 12.41 KB
+
+
+'     Class v228
+' 
+'         Properties: ParameterSummary, Queries
+' 
+'         Function: Save
+'         Delegate Function
+' 
+'             Function: __checkIntegrity, __generateLine, __hitsOverview, CheckIntegrity, EmptyHit
+'                       ExportAllBestHist, ExportBestHit, ExportBesthits, ExportOverview, Grep
+'                       SBHLines
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -151,10 +151,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .HitName = topHit.Name.Trim
                     .query_length = query.QueryLength
                     .hit_length = topHit.Length
-                    .Score = Score.RawScore
+                    .score = Score.RawScore
                     .evalue = Score.Expect
                     .identities = Score.Identities.Value
-                    .Positive = Score.Positives.Value
+                    .positive = Score.Positives.Value
                     .length_hit = topHit.LengthHit
                     .length_query = topHit.LengthQuery
                     .length_hsp = topHit.Score.Gaps.Denominator
@@ -191,7 +191,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function ExportOverview() As Overview
             Dim LQuery As Views.Query() = LinqAPI.Exec(Of Views.Query) <=
- _
+                                                                         _
                 From query As Query
                 In Me.Queries.AsParallel
                 Let hitsOverview As BestHit() = __hitsOverview(query)
@@ -214,7 +214,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Private Shared Function __hitsOverview(query As Query) As BestHit()
             Return LinqAPI.Exec(Of BestHit) _
- _
+                                            _
                 () <= From hit As SubjectHit
                       In query.SubjectHits
                       Let identity As Double = hit.Score.Identities.Value
@@ -228,9 +228,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .length_hit = hit.LengthHit,
                           .length_hsp = hit.LengthQuery,
                           .length_query = hit.LengthQuery,
-                          .Positive = positive,
+                          .positive = positive,
                           .query_length = query.QueryLength,
-                          .Score = hit.Score.Score
+                          .score = hit.Score.Score
                       }
         End Function
 
@@ -241,7 +241,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
             Dim LQuery = LinqAPI.Exec(Of BestHit) _
- _
+                                                  _
                 () <= From query As Query
                       In Queries
                       Select SBHLines(query, coverage, identities_cutoff) '
@@ -249,7 +249,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(Function(hitName) hitName.Split.First)
+        ''' <summary>
+        ''' split name with default fasta header delimiters
+        ''' </summary>
+        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(Function(hitName) hitName.Split(" "c, "|", CChar(vbTab)).First)
 
         Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(),
                                               Optional grepHitId As TextGrepMethod = Nothing,
@@ -258,7 +261,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split(" "c, "|", CChar(vbTab)).First)
             Dim getHitId As TextGrepMethod = grepHitId Or tokenFirst
             Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
- _
+                                                            _
                 () <= From besthit As SubjectHit
                       In Besthits
                       Let Score As Score = besthit.Score
@@ -274,10 +277,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .HitName = hitID,
                           .query_length = QueryLength,
                           .hit_length = besthit.Length,
-                          .Score = rawScore,
+                          .score = rawScore,
                           .evalue = exp,
                           .identities = identity,
-                          .Positive = pos,
+                          .positive = pos,
                           .length_hit = besthit.LengthHit,
                           .length_query = besthit.LengthQuery,
                           .length_hsp = gaps,
@@ -307,7 +310,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function CheckIntegrity(source As FastaFile) As Boolean
             Dim empty = LinqAPI.DefaultFirst(Of Query()) _
- _
+                                                         _
                 () <= From fasta As FastaSeq
                       In source.AsParallel
                       Let list = __checkIntegrity(fasta, Me.Queries)
@@ -320,7 +323,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Private Shared Function __checkIntegrity(Fasta As FASTA.FastaSeq, Queries As Query()) As Query()
             Dim Title As String = Fasta.Title
             Dim GetLQuery = LinqAPI.Exec(Of Query) <=
- _
+                                                     _
                 From query As Query
                 In Queries
                 Where FuzzyMatching(query.QueryName, Title)
