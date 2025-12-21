@@ -62,6 +62,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
@@ -170,7 +171,8 @@ Namespace LocalBLAST.Application.BBH
             For Each hit As NamedValue(Of Double) In bits
                 Yield New NamedValue(Of Double) With {
                     .Name = hit.Name,
-                    .Value = hit.Value / maxBits
+                    .Value = hit.Value / maxBits,
+                    .Description = maxBits
                 }
             Next
         End Function
@@ -227,6 +229,7 @@ Namespace LocalBLAST.Application.BBH
                             Return Rf.GetTopBHR(scores)
                         End Function)
             Dim term_id As String = topBHR.Key.r
+            Dim forward = Rf.hits.KeyItem(topBHR.Key.r)
 
             If topBHR.Maps >= threshold Then
                 Dim htop As BestHit = Rf.htop(topBHR.Key.r)
@@ -239,7 +242,9 @@ Namespace LocalBLAST.Application.BBH
                     .HitName = topBHR.Key.r,
                     .term = term_id,
                     .positive = topBHR.Maps,
-                    .description = htop.description
+                    .description = htop.description,
+                    .forward = forward.Value,
+                    .reverse = topBHR.Maps
                 }
             Else
                 Dim maxR As NamedValue(Of Double) = Rf.hits _
