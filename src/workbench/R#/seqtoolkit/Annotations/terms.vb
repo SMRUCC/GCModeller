@@ -57,6 +57,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -168,8 +169,12 @@ Module terms
     ''' <param name="reverse"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("assign.KO")>
-    Public Function KOannotations(forward As pipeline, reverse As pipeline, Optional env As Environment = Nothing) As pipeline
+    <ExportAPI("assign_ko")>
+    Public Function KOannotations(forward As pipeline, reverse As pipeline,
+                                  Optional threshold As Double = 0.95,
+                                  Optional score_cutoff As Double = 60,
+                                  Optional env As Environment = Nothing) As Object
+
         If forward Is Nothing Then
             Return RInternal.debug.stop("forward data stream is nothing!", env)
         ElseIf reverse Is Nothing Then
@@ -180,7 +185,11 @@ Module terms
             Return RInternal.debug.stop($"reverse is invalid data stream type: {reverse.elementType.fullName}!", env)
         End If
 
-        Return KOAssignment.KOassignmentBBH(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)).DoCall(AddressOf pipeline.CreateFromPopulator)
+        Dim forwardHits = forward.populates(Of BestHit)(env).GroupBy(Function(a) a.QueryName).Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)).ToArray
+        Dim reverseHits = reverse.populates(Of BestHit)(env).GroupBy(Function(a) a.QueryName).Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)).ToArray
+        Dim bhrResult = BHR.BHRResult(forwardHits, reverseHits, threshold, score_cutoff).ToArray
+
+        Return bhrResult
     End Function
 
     <ExportAPI("assign.COG")>
