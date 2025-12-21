@@ -1,14 +1,14 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Distributions
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 
 Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
     ''' 用于存储一个查询基因的KO分配候选
     ''' </summary>
-    Public Class KOAssignmentCandidate
+    Public Class KOAssignmentCandidate : Inherits BHRHit
 
-        Public Property QueryName As String
         Public Property KO As String
         ''' <summary>
         ''' 最终计算出的KO分配得分 S_KO
@@ -29,6 +29,15 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         Public Property X As Integer
 
+        Public Property empiricalProbability As Double
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As BHRHit)
+            Call MyBase.New(copy)
+        End Sub
+
     End Class
 
     ''' <summary>
@@ -43,7 +52,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         <Extension>
         Public Function KOgeneCounts(reverse As IEnumerable(Of BestHit)) As Dictionary(Of String, Integer)
-            Return reverse.GroupBy(Function(a) a.QueryName) _
+            Return reverse.GroupBy(Function(a) v228.FirstToken(a.QueryName)) _
                 .ToDictionary(Function(a) a.Key,
                               Function(a)
                                   Return a.Count
@@ -175,7 +184,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns>得分最高的KO分配候选，如果没有则返回Nothing</returns>
         ''' 
         <Extension>
-        Public Function AssignBestKO(allBHRHitsForQuery As IEnumerable(Of BestHit),
+        Public Function AssignBestKO(allBHRHitsForQuery As IEnumerable(Of BHRHit),
                                      koGeneCounts As Dictionary(Of String, Integer),
                                      bhrThreshold As Double,
                                      empiricalProbability As Double) As KOAssignmentCandidate
@@ -189,6 +198,7 @@ Namespace LocalBLAST.Application.BBH
                 From hit_group
                 In hitsByKO
                 Let ko As String = hit_group.ko
+                Where koGeneCounts.ContainsKey(ko)
                 Let groupHits = hit_group.Group.ToArray
                 Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability)
             ).ToArray
@@ -207,7 +217,6 @@ Namespace LocalBLAST.Application.BBH
                                       bhrThreshold As Double,
                                       empiricalProbability As Double) As KOAssignmentCandidate
             ' 获取KO的总基因数 x
-            If Not koGeneCounts.ContainsKey(ko) Then Return Nothing
             Dim x As Integer = koGeneCounts(ko)
 
             ' 找到该KO组中得分最高的比对，用于获取 S_h, m, n
@@ -217,20 +226,21 @@ Namespace LocalBLAST.Application.BBH
             Dim ni As Integer = topHit.hit_length ' n
 
             ' 计算满足BHR阈值的基因数 N
-            Dim N As Integer = Aggregate h As BestHit
+            Dim N As Integer = Aggregate h As BHRHit
                                In groupHits
-                               Where h.SBHScore >= bhrThreshold
+                               Where h.BHRScore >= bhrThreshold
                                Into Count
             ' 计算S_KO
             Dim score As Double = CalculateAssignmentScore(Sh, m, ni, x, N, empiricalProbability)
 
-            Return New KOAssignmentCandidate With {
+            Return New KOAssignmentCandidate(topHit) With {
                 .QueryName = topHit.QueryName,
                 .KO = ko,
                 .AssignmentScore = score,
                 .Sh = Sh,
                 .N = N,
-                .X = x
+                .X = x,
+                .empiricalProbability = empiricalProbability
             }
         End Function
     End Module

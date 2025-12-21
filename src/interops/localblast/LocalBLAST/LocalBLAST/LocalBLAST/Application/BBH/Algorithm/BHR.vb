@@ -91,6 +91,23 @@ Namespace LocalBLAST.Application.BBH
         SBH
     End Enum
 
+    Public Class BHRHit : Inherits BestHit
+
+        ''' <summary>
+        ''' bi-directional hit rate score
+        ''' </summary>
+        Public Property BHRScore As Double
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As BHRHit)
+            MyBase.New(copy)
+            Me.BHRScore = copy.BHRScore
+        End Sub
+
+    End Class
+
     ''' <summary>
     ''' **BHR(Bi-directional hit rate)** 
     ''' 
@@ -190,7 +207,7 @@ Namespace LocalBLAST.Application.BBH
 
         Public Iterator Function BHRGroups(forward As NamedCollection(Of BestHit)(), reverse As NamedCollection(Of BestHit)(),
                                            Optional threshold# = 0.95,
-                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of NamedCollection(Of BestHit))
+                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of NamedCollection(Of BHRHit))
 
             Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff, group:=True).ToArray
             Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
@@ -212,13 +229,13 @@ Namespace LocalBLAST.Application.BBH
                                           Return a.OrderByDescending(Function(i) i.Value).First
                                       End Function)
 
-                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=RrIndex, threshold))
+                    Yield New NamedCollection(Of BHRHit)(q.queryName, q.MakeBHRGroup(Rr:=RrIndex, threshold))
                 End If
             Next
         End Function
 
         <Extension>
-        Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As Dictionary(Of String, NamedValue(Of Double)), threshold#) As IEnumerable(Of BestHit)
+        Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As Dictionary(Of String, NamedValue(Of Double)), threshold#) As IEnumerable(Of BHRHit)
             For Each fscore As NamedValue(Of Double) In Rf.hits
                 Dim forward As BestHit = Rf.htop(fscore.Name)
                 Dim rscore As NamedValue(Of Double) = Rr.TryGetValue(fscore.Name)
@@ -230,7 +247,7 @@ Namespace LocalBLAST.Application.BBH
                 Dim bhr As Double = fscore.Value * rscore.Value
 
                 If bhr >= threshold Then
-                    Yield New BestHit With {
+                    Yield New BHRHit With {
                         .QueryName = Rf.queryName,
                         .HitName = forward.HitName,
                         .description = forward.description,
@@ -241,7 +258,7 @@ Namespace LocalBLAST.Application.BBH
                         .length_hit = forward.length_hit,
                         .length_query = forward.length_query,
                         .length_hsp = forward.length_hsp,
-                        .SBHScore = bhr,
+                        .BHRScore = bhr,
                         .hit_length = forward.hit_length,
                         .query_length = forward.query_length
                     }

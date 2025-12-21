@@ -252,7 +252,11 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <summary>
         ''' split name with default fasta header delimiters
         ''' </summary>
-        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(Function(hitName) hitName.Split(" "c, "|", CChar(vbTab)).First)
+        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(AddressOf FirstToken)
+
+        Public Shared Function FirstToken(hitName As String) As String
+            Return hitName.Split(" "c, "|", CChar(vbTab)).First
+        End Function
 
         Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(),
                                               Optional grepHitId As TextGrepMethod = Nothing,
@@ -284,8 +288,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .length_hit = besthit.LengthHit,
                           .length_query = besthit.LengthQuery,
                           .length_hsp = gaps,
-                          .description = hitName,  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
-                          .SBHScore = .identities * .coverage
+                          .description = hitName  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的                        
                       }
 
             Return sbh

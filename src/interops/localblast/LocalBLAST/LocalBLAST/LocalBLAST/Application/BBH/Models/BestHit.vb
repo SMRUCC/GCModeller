@@ -98,7 +98,31 @@ Namespace LocalBLAST.Application.BBH
             End Get
         End Property
 
-        Public Property SBHScore As Double
+        Public ReadOnly Property SBHScore As Double
+            Get
+                Return identities * coverage
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(copy As BestHit)
+            With copy
+                Me.QueryName = .QueryName
+                Me.HitName = .HitName
+                Me.description = .description
+                Me.query_length = .query_length
+                Me.hit_length = hit_length
+                Me.score = .score
+                Me.evalue = .evalue
+                Me.identities = .identities
+                Me.positive = .positive
+                Me.length_hit = .length_hit
+                Me.length_query = .length_query
+                Me.length_hsp = .length_hsp
+            End With
+        End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("{0} vs. {1}; E-value:={2}", QueryName, HitName, evalue)
