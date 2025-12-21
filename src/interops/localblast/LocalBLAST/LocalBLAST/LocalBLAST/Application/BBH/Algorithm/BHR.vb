@@ -153,12 +153,23 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' 
         <Extension>
-        Private Iterator Function HitRate(query As IEnumerable(Of BestHit), threshold As Double) As IEnumerable(Of NamedValue(Of Double))
-            Dim bits = (From hit As BestHit
+        Private Iterator Function HitRate(query As IEnumerable(Of BestHit), threshold As Double, BHRGroup As Boolean) As IEnumerable(Of NamedValue(Of Double))
+            Dim qbits As IEnumerable(Of NamedValue(Of Double))
+
+            If BHRGroup Then
+                qbits = From hit As BestHit
+                        In query.SafeQuery
+                        Where hit.score >= threshold
+                        Select New NamedValue(Of Double)(hit.HitName, hit.score)
+            Else
+                qbits = From hit As BestHit
                         In query.SafeQuery
                         Where hit.score >= threshold
                         Group By hit.HitName Into Group
-                        Select New NamedValue(Of Double)(HitName, Aggregate h As BestHit In Group Into Sum(h.score))).ToArray
+                        Select New NamedValue(Of Double)(HitName, Aggregate h As BestHit In Group Into Sum(h.score))
+            End If
+
+            Dim bits As NamedValue(Of Double)() = qbits.ToArray
 
             If Not bits.Any Then
                 Return
@@ -177,8 +188,21 @@ Namespace LocalBLAST.Application.BBH
             Next
         End Function
 
+        Public Iterator Function BHRGroups(forward As NamedCollection(Of BestHit)(), reverse As NamedCollection(Of BestHit)(),
+                                           Optional threshold# = 0.95,
+                                           Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
+
+            Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff, group:=True).ToArray
+            Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
+                .GetHitRates(bitsCutoff, group:=True) _
+                .ReverseAssembly _
+                .ToDictionary(Function(hit)
+                                  Return hit.name
+                              End Function)
+        End Function
+
         ''' <summary>
-        ''' Calculate BBH through BHR score
+        ''' make term assignment directly via calculate BBH through BHR score
         ''' </summary>
         ''' <param name="forward">localblast alignment result of query vs. subj reference</param>
         ''' <param name="reverse">localblast alignment result of subj reference vs. query</param>
@@ -195,9 +219,9 @@ Namespace LocalBLAST.Application.BBH
                                            Optional threshold# = 0.95,
                                            Optional bitsCutoff As Double = 60) As IEnumerable(Of BiDirectionalBesthit)
 
-            Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff).ToArray
+            Dim Rf As TopHitRates() = forward.GetHitRates(bitsCutoff, group:=False).ToArray
             Dim Rr As Dictionary(Of String, NamedCollection(Of NamedValue(Of Double))) = reverse _
-                .GetHitRates(bitsCutoff) _
+                .GetHitRates(bitsCutoff, group:=False) _
                 .ReverseAssembly _
                 .ToDictionary(Function(hit)
                                   Return hit.name
@@ -335,10 +359,10 @@ Namespace LocalBLAST.Application.BBH
         End Function
 
         <Extension>
-        Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double) As IEnumerable(Of TopHitRates)
+        Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double, group As Boolean) As IEnumerable(Of TopHitRates)
             For Each q As NamedCollection(Of BestHit) In align
                 Dim qlen As Integer = If(q.Length = 0, 0, q.First.query_length)
-                Dim hits = q.HitRate(threshold)
+                Dim hits = q.HitRate(threshold, BHRGroup:=group)
                 Dim htop = q.GroupBy(Function(h) h.HitName) _
                     .ToDictionary(Function(a) a.Key,
                                   Function(a)

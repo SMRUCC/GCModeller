@@ -208,6 +208,7 @@ Module terms
     Public Function KOannotations(forward As pipeline, reverse As pipeline,
                                   Optional threshold As Double = 0.95,
                                   Optional score_cutoff As Double = 60,
+                                  Optional kaas_rank As Boolean = True,
                                   Optional env As Environment = Nothing) As Object
 
         If forward Is Nothing Then
@@ -225,14 +226,32 @@ Module terms
             .GroupBy(Function(a) a.QueryName) _
             .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
             .ToArray
-        Dim reverseHits = reverse.populates(Of BestHit)(env) _
+        Dim reversePool = reverse.populates(Of BestHit)(env).ToArray
+        Dim reverseHits = reversePool _
             .Where(Function(a) a.score > 0) _
             .GroupBy(Function(a) a.QueryName) _
             .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
             .ToArray
-        Dim bhrResult = BHR.BHRResult(forwardHits, reverseHits, threshold, score_cutoff).ToArray
 
-        Return bhrResult
+        If kaas_rank Then
+            Dim bhrGroups = BHR.BHRGroups(forwardHits, reverseHits, threshold, bitsCutoff:=score_cutoff).ToArray
+            Dim assignments As New List(Of KOAssignmentCandidate)
+            Dim geneCounts As Dictionary(Of String, Integer) = reversePool.KOgeneCounts
+            Dim totalGenesInDatabase As Integer = geneCounts.Values.Sum()
+
+            For Each bhr As IGrouping(Of String, BestHit) In bhrGroups.GroupBy(Function(a) a.QueryName)
+                Dim koSize As Integer = geneCounts(bhr.Key)
+                Dim p As Double = koSize / totalGenesInDatabase
+                Dim assign As KOAssignmentCandidate = bhr.AssignBestKO(geneCounts, threshold, p)
+
+                Call assignments.Add(assign)
+            Next
+
+            Return assignments.ToArray
+        Else
+            Dim bhrResult = BHR.BHRResult(forwardHits, reverseHits, threshold, score_cutoff).ToArray
+            Return bhrResult
+        End If
     End Function
 
     <ExportAPI("assign.COG")>
