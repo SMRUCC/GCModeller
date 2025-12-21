@@ -262,7 +262,7 @@ Namespace LocalBLAST.Application.BBH
                         .length = Rf.queryLength,
                         .HitName = maxR.Name,
                         .term = term_id,
-                        .positive = topBHR.Maps,
+                        .positive = maxR.Value,
                         .description = maxHit.description,
                         .forward = forward.Description,
                         .reverse = reverse.Description
