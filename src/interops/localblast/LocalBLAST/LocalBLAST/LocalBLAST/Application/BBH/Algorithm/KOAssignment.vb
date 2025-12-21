@@ -180,14 +180,14 @@ Namespace LocalBLAST.Application.BBH
         ''' <param name="allBHRHitsForQuery">该查询基因与所有参考基因的BHR计算结果列表</param>
         ''' <param name="koGeneCounts">一个字典，包含每个KO的总基因数</param>
         ''' <param name="bhrThreshold">BHR阈值</param>
-        ''' <param name="empiricalProbability">经验概率 p0</param>
         ''' <returns>得分最高的KO分配候选，如果没有则返回Nothing</returns>
         ''' 
         <Extension>
         Public Function AssignBestKO(allBHRHitsForQuery As IEnumerable(Of BHRHit),
                                      koGeneCounts As Dictionary(Of String, Integer),
-                                     bhrThreshold As Double,
-                                     empiricalProbability As Double) As KOAssignmentCandidate
+                                     bhrThreshold As Double) As KOAssignmentCandidate
+
+            Dim totalGenesInDatabase As Integer = koGeneCounts.Values.Sum()
             ' 1. 将该查询基因的所有比对结果，按其所属的KO进行分组
             Dim hitsByKO = From hit In allBHRHitsForQuery
                            Where Not String.IsNullOrEmpty(hit.HitName) ' 确保hit有KO信息
@@ -200,7 +200,9 @@ Namespace LocalBLAST.Application.BBH
                 Let ko As String = hit_group.ko
                 Where koGeneCounts.ContainsKey(ko)
                 Let groupHits = hit_group.Group.ToArray
-                Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability)
+                Let koSize As Integer = koGeneCounts(ko)
+                Let p As Double = koSize / totalGenesInDatabase
+                Select groupHits.KOCandidates(ko, koGeneCounts, bhrThreshold, empiricalProbability:=p)
             ).ToArray
 
             ' 3. 选择得分最高的KO

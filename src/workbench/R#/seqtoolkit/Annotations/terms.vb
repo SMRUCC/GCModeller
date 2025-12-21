@@ -268,14 +268,12 @@ Module terms
             Dim bhrGroups As NamedCollection(Of BHRHit)() = BHR.BHRGroups(forwardHits, reverseHits, threshold, bitsCutoff:=score_cutoff).ToArray
             Dim assignments As New List(Of KOAssignmentCandidate)
             Dim geneCounts As Dictionary(Of String, Integer) = reversePool.KOgeneCounts
-            Dim totalGenesInDatabase As Integer = geneCounts.Values.Sum()
 
             For Each bhr As IGrouping(Of String, BHRHit) In bhrGroups
                 Dim koSize As Integer = Aggregate koid As String
                                         In (From a As BHRHit In bhr Select a.HitName Distinct)
                                         Into Sum(geneCounts(koid))
-                Dim p As Double = koSize / totalGenesInDatabase
-                Dim assign As KOAssignmentCandidate = bhr.AssignBestKO(geneCounts, threshold, p)
+                Dim assign As KOAssignmentCandidate = bhr.AssignBestKO(geneCounts, threshold)
 
                 If Not assign Is Nothing Then
                     Call assignments.Add(assign)
