@@ -321,7 +321,8 @@ Namespace LocalBLAST.Application.BBH
                         .Select(Function(hit)
                                     Return New NamedValue(Of Double) With {
                                         .Name = hit.refer,
-                                        .Value = hit.q.Value
+                                        .Value = hit.q.Value,
+                                        .Description = hit.q.Description
                                     }
                                 End Function) _
                         .ToArray
