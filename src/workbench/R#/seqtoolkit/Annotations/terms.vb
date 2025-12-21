@@ -86,7 +86,37 @@ Module terms
 
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BiDirectionalBesthit()), AddressOf bbhTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KOAssignmentCandidate()), AddressOf koTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function koTable(ko As KOAssignmentCandidate(), args As list, env As Environment) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("query_name", From b As KOAssignmentCandidate In ko Select b.QueryName)
+        Call table.add("hit_name", From b As KOAssignmentCandidate In ko Select b.HitName)
+        Call table.add("description", From b As KOAssignmentCandidate In ko Select b.description)
+        Call table.add("KO", From b As KOAssignmentCandidate In ko Let term = b.KO Select term)
+        Call table.add("query_length", From b As KOAssignmentCandidate In ko Select b.query_length)
+        Call table.add("hit_length", From b As KOAssignmentCandidate In ko Select b.hit_length)
+        Call table.add("score", From b As KOAssignmentCandidate In ko Select b.score)
+        Call table.add("e-value", From b As KOAssignmentCandidate In ko Select b.evalue)
+        Call table.add("identities", From b As KOAssignmentCandidate In ko Select b.identities)
+        Call table.add("positive", From b As KOAssignmentCandidate In ko Select b.positive)
+        Call table.add("length_hit", From b As KOAssignmentCandidate In ko Select b.length_hit)
+        Call table.add("length_query", From b As KOAssignmentCandidate In ko Select b.length_query)
+        Call table.add("length_hsp", From b As KOAssignmentCandidate In ko Select b.length_hsp)
+        Call table.add("coverage", From b As KOAssignmentCandidate In ko Select b.coverage)
+        Call table.add("SBH_score", From b As KOAssignmentCandidate In ko Select b.SBHScore)
+        Call table.add("BHR_score", From b As KOAssignmentCandidate In ko Select b.BHRScore)
+        Call table.add("kaas_score", From b As KOAssignmentCandidate In ko Select b.AssignmentScore)
+        Call table.add("sh", From b As KOAssignmentCandidate In ko Select b.Sh)
+        Call table.add("N", From b As KOAssignmentCandidate In ko Select b.N)
+        Call table.add("X", From b As KOAssignmentCandidate In ko Select b.X)
+        Call table.add("empiricalProbability", From b As KOAssignmentCandidate In ko Select b.empiricalProbability)
+
+        Return table
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function bbhTable(result As BiDirectionalBesthit(), args As list, env As Environment) As dataframe
