@@ -160,7 +160,7 @@ Namespace LocalBLAST.Application.BBH
                 qbits = From hit As BestHit
                         In query.SafeQuery
                         Where hit.score >= threshold
-                        Select New NamedValue(Of Double)(hit.HitName, hit.score)
+                        Select New NamedValue(Of Double)(hit.description, hit.score)
             Else
                 qbits = From hit As BestHit
                         In query.SafeQuery
@@ -204,13 +204,13 @@ Namespace LocalBLAST.Application.BBH
                 Dim groupRr As NamedCollection(Of NamedValue(Of Double)) = Rr.TryGetValue(q.queryName)
 
                 If Not groupRr.value.IsNullOrEmpty Then
-                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=groupRr.value, threshold))
+                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=groupRr.ToDictionary(Function(a) a.Name), threshold))
                 End If
             Next
         End Function
 
         <Extension>
-        Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As NamedValue(Of Double)(), threshold#) As IEnumerable(Of BestHit)
+        Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As Dictionary(Of String, NamedValue(Of Double)), threshold#) As IEnumerable(Of BestHit)
             If Rr.IsNullOrEmpty Then
                 Return
             End If
@@ -382,7 +382,7 @@ Namespace LocalBLAST.Application.BBH
             For Each q As NamedCollection(Of BestHit) In align
                 Dim qlen As Integer = If(q.Length = 0, 0, q.First.query_length)
                 Dim hits = q.HitRate(threshold, BHRGroup:=group)
-                Dim htop = q.GroupBy(Function(h) h.HitName) _
+                Dim htop = q.GroupBy(Function(h) If(group, h.description, h.HitName)) _
                     .ToDictionary(Function(a) a.Key,
                                   Function(a)
                                       Return a.OrderByDescending(Function(i) i.score).First
