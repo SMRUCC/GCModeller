@@ -34,7 +34,7 @@ Namespace LocalBLAST.Application.BBH
     ''' <summary>
     ''' KEGG KAAS Assignment Score (S_KO) 计算模块
     ''' </summary>
-    Public Module KOAssignment
+    Public Module KOAssignmentScore
 
         ''' <summary>
         ''' 计算KEGG的KO分配得分 S_KO

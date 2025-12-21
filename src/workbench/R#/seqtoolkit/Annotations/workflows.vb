@@ -269,6 +269,15 @@ Module workflows
         Return New pipeline(queryPopulator(), GetType(Query))
     End Function
 
+    ''' <summary>
+    ''' Save the annotation rawdata into the given stream file.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="stream">
+    ''' a stream data handler that generated via the ``open.stream`` function.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("stream.flush")>
     Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
