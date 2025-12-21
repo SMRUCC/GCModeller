@@ -204,7 +204,7 @@ Namespace LocalBLAST.Application.BBH
                 Dim groupRr As NamedCollection(Of NamedValue(Of Double)) = Rr.TryGetValue(q.queryName)
 
                 If Not groupRr.value.IsNullOrEmpty Then
-                    Yield q.MakeBHRGroup(Rr:=groupRr.value, threshold)
+                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=groupRr.value, threshold))
                 End If
             Next
         End Function
