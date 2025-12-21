@@ -204,18 +204,49 @@ Namespace LocalBLAST.Application.BBH
                 Dim groupRr As NamedCollection(Of NamedValue(Of Double)) = Rr.TryGetValue(q.queryName)
 
                 If Not groupRr.value.IsNullOrEmpty Then
-                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=groupRr.ToDictionary(Function(a) a.Name), threshold))
+                    ' handling of the possible duplicated key name error at here
+                    Dim RrIndex As Dictionary(Of String, NamedValue(Of Double)) = groupRr _
+                        .GroupBy(Function(a) a.Name) _
+                        .ToDictionary(Function(a) a.Key,
+                                      Function(a)
+                                          Return a.OrderByDescending(Function(i) i.Value).First
+                                      End Function)
+
+                    Yield New NamedCollection(Of BestHit)(q.queryName, q.MakeBHRGroup(Rr:=RrIndex, threshold))
                 End If
             Next
         End Function
 
         <Extension>
         Private Iterator Function MakeBHRGroup(Rf As TopHitRates, Rr As Dictionary(Of String, NamedValue(Of Double)), threshold#) As IEnumerable(Of BestHit)
-            If Rr.IsNullOrEmpty Then
-                Return
-            End If
+            For Each fscore As NamedValue(Of Double) In Rf.hits
+                Dim forward As BestHit = Rf.htop(fscore.Name)
+                Dim rscore As NamedValue(Of Double) = Rr.TryGetValue(fscore.Name)
 
+                If rscore.Value = 0 Then
+                    Continue For
+                End If
 
+                Dim bhr As Double = fscore.Value * rscore.Value
+
+                If bhr >= threshold Then
+                    Yield New BestHit With {
+                        .QueryName = Rf.queryName,
+                        .HitName = forward.HitName,
+                        .description = forward.description,
+                        .score = forward.score,
+                        .evalue = forward.evalue,
+                        .identities = forward.identities,
+                        .positive = forward.positive,
+                        .length_hit = forward.length_hit,
+                        .length_query = forward.length_query,
+                        .length_hsp = forward.length_hsp,
+                        .SBHScore = bhr,
+                        .hit_length = forward.hit_length,
+                        .query_length = forward.query_length
+                    }
+                End If
+            Next
         End Function
 
         ''' <summary>
@@ -269,6 +300,7 @@ Namespace LocalBLAST.Application.BBH
                                     Return hit.Value
                                 End Function) _
                 .DoCall(Function(scores)
+                            ' 20251222 Rf * Rr
                             Return Rf.GetTopBHR(scores)
                         End Function)
             Dim term_id As String = topBHR.Key.r
@@ -329,7 +361,7 @@ Namespace LocalBLAST.Application.BBH
         ''' </summary>
         ''' <param name="q"></param>
         ''' <param name="r"></param>
-        ''' <returns></returns>
+        ''' <returns>Rf * Rr</returns>
         <Extension>
         Private Function GetTopBHR(q As TopHitRates, r As Dictionary(Of String, Double)) As Map(Of (q$, r$), Double)
             Return q.hits.Where(Function(hit) r.ContainsKey(hit.Name)) _
