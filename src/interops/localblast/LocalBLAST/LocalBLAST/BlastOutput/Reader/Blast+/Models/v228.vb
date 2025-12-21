@@ -255,7 +255,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                                               Optional grepHitId As TextGrepMethod = Nothing,
                                               Optional keepRawQueryName As Boolean = False) As BestHit()
 
-            Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split.First)
+            Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split(" "c, "|", CChar(vbTab)).First)
             Dim getHitId As TextGrepMethod = grepHitId Or tokenFirst
             Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
  _
