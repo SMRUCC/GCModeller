@@ -182,8 +182,8 @@ Namespace LocalBLAST.Application.BBH
                 qbits = From hit As BestHit
                         In query.SafeQuery
                         Where hit.score >= threshold
-                        Group By hit.HitName Into Group
-                        Select New NamedValue(Of Double)(HitName, Aggregate h As BestHit In Group Into Sum(h.score))
+                        Group By ko_id = v228.FirstToken(hit.HitName) Into Group
+                        Select New NamedValue(Of Double)(ko_id, Aggregate h As BestHit In Group Into Sum(h.score))
             End If
 
             Dim bits As NamedValue(Of Double)() = qbits.ToArray
@@ -313,9 +313,9 @@ Namespace LocalBLAST.Application.BBH
         Private Function EvaluateBHR(Rf As TopHitRates, Rr As NamedValue(Of Double)(), threshold#) As BiDirectionalBesthit
             Dim topBHR As Map(Of (q$, r$), Double) = Rr _
                 .ToDictionary(Function(hit) hit.Name,
-                                Function(hit)
-                                    Return hit.Value
-                                End Function) _
+                              Function(hit)
+                                  Return hit.Value
+                              End Function) _
                 .DoCall(Function(scores)
                             ' 20251222 Rf * Rr
                             Return Rf.GetTopBHR(scores)

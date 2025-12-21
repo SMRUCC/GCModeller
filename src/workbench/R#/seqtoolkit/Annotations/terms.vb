@@ -65,6 +65,7 @@ Imports SMRUCC.genomics
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.Rsharp.Runtime
@@ -259,7 +260,7 @@ Module terms
         Dim reversePool = reverse.populates(Of BestHit)(env).ToArray
         Dim reverseHits = reversePool _
             .Where(Function(a) a.score > 0) _
-            .GroupBy(Function(a) a.QueryName) _
+            .GroupBy(Function(a) If(kaas_rank, a.QueryName, v228.FirstToken(a.QueryName))) _
             .Select(Function(q) New NamedCollection(Of BestHit)(q.Key, q)) _
             .ToArray
 
