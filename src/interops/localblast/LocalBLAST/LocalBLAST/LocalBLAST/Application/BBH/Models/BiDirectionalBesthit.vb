@@ -96,7 +96,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property length As String
+        Public Property length As Integer
         Public Property level As Levels = Levels.NA
 
         <Ignored>
