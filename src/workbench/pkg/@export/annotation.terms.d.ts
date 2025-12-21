@@ -31,11 +31,13 @@ declare namespace annotation.terms {
      * + default value Is ``0.95``.
      * @param score_cutoff 
      * + default value Is ``60``.
+     * @param kaas_rank 
+     * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function assign_ko(forward: object, reverse: object, threshold?: number, score_cutoff?: number, env?: object): any;
+   function assign_ko(forward: object, reverse: object, threshold?: number, score_cutoff?: number, kaas_rank?: boolean, env?: object): any;
    /**
     * assign the top term by score ranking
     * 
