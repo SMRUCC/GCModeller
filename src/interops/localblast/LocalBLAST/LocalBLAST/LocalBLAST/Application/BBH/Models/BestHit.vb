@@ -113,7 +113,7 @@ Namespace LocalBLAST.Application.BBH
                 Me.HitName = .HitName
                 Me.description = .description
                 Me.query_length = .query_length
-                Me.hit_length = hit_length
+                Me.hit_length = .hit_length
                 Me.score = .score
                 Me.evalue = .evalue
                 Me.identities = .identities

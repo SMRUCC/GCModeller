@@ -429,7 +429,9 @@ Namespace LocalBLAST.Application.BBH
         <Extension>
         Private Iterator Function GetHitRates(align As NamedCollection(Of BestHit)(), threshold As Double, group As Boolean) As IEnumerable(Of TopHitRates)
             For Each q As NamedCollection(Of BestHit) In align
-                Dim qlen As Integer = If(q.Length = 0, 0, q.First.query_length)
+                Dim qlen As Integer = If(q.Length = 0, 0, CInt(Aggregate qi As BestHit
+                                                               In q
+                                                               Into Average(qi.query_length)))
                 Dim hits = q.HitRate(threshold, BHRGroup:=group)
                 Dim htop = q.GroupBy(Function(h) If(group, h.description, h.HitName)) _
                     .ToDictionary(Function(a) a.Key,
