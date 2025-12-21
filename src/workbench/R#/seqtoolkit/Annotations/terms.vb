@@ -87,12 +87,46 @@ Module terms
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
     End Sub
 
-    Private Function COGtable(myva As MyvaCOG(), args As list, env As Environment) As dataframe
-        Dim text = myva.ToCsvDoc
+    <RGenericOverloads("as.data.frame")>
+    Private Function bbhTable(result As BiDirectionalBesthit(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
-        For Each column As String() In text.Columns
-            Call table.columns.Add(column(Scan0), column.Skip(1).ToArray)
+        Call table.add("query_name", From b As BiDirectionalBesthit In result Select b.QueryName)
+        Call table.add("hit_name", From b As BiDirectionalBesthit In result Select b.HitName)
+        Call table.add("description", From b As BiDirectionalBesthit In result Select b.description)
+        Call table.add("term", From b As BiDirectionalBesthit In result Select b.term)
+        Call table.add("length", From b As BiDirectionalBesthit In result Select b.length)
+        Call table.add("level", From b As BiDirectionalBesthit In result Select b.level)
+        Call table.add("positive", From b As BiDirectionalBesthit In result Select b.positive)
+        Call table.add("forward", From b As BiDirectionalBesthit In result Select b.forward)
+        Call table.add("reverse", From b As BiDirectionalBesthit In result Select b.reverse)
+
+        Return table
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function COGtable(myva As MyvaCOG(), args As list, env As Environment) As dataframe
+        Dim table As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call table.add("query_name", From r As MyvaCOG In myva Select r.QueryName)
+        Call table.add("length", From r As MyvaCOG In myva Select r.Length)
+        Call table.add("cog_myva", From r As MyvaCOG In myva Select r.MyvaCOG)
+        Call table.add("COG_category", From r As MyvaCOG In myva Select r.Category)
+        Call table.add("COG", From r As MyvaCOG In myva Select r.COG)
+        Call table.add("description", From r As MyvaCOG In myva Select r.Description)
+        Call table.add("Evalue", From r As MyvaCOG In myva Select r.Evalue)
+        Call table.add("Identities", From r As MyvaCOG In myva Select r.Identities)
+        Call table.add("QueryLength", From r As MyvaCOG In myva Select r.QueryLength)
+        Call table.add("LengthQuery", From r As MyvaCOG In myva Select r.LengthQuery)
+
+        For Each name As String In myva _
+            .Select(Function(a)
+                        Return If(a.DataAsset Is Nothing, Enumerable.Empty(Of String), a.DataAsset.Keys)
+                    End Function) _
+            .IteratesALL _
+            .Distinct
+
+            Call table.add(name, From r As MyvaCOG In myva Select If(r.DataAsset Is Nothing, Nothing, r.DataAsset(name)))
         Next
 
         Return table
