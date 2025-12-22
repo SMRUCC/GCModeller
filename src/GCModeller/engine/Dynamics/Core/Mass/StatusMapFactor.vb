@@ -1,4 +1,6 @@
-﻿Namespace Core
+﻿Imports System.Runtime.CompilerServices
+
+Namespace Core
 
     ''' <summary>
     ''' 用于估算细胞内的某些状态的只读的状态视图，例如使用总蛋白质量来估算细胞的生长状态，（ATP，NADH/NADPH）的总量来估算细胞内的能量与代谢活跃度
@@ -18,26 +20,31 @@
         Public Property mass As String()
         Public Property coefficient As Double = 1
 
-        Dim env As MassTable
+        Dim massCache As Factor()
 
         Sub New(id$, mass As IEnumerable(Of String), compart_id As String, env As MassTable)
             Call MyBase.New(id, MassRoles.status, compart_id)
 
             Me.mass = mass.ToArray
-            Me.env = env
             Me.template_id = id
             Me.name = id
             Me.ID = id & "@" & compart_id
+            Me.massCache = (From m As String
+                            In Me.mass
+                            Let factor As Factor = env(m)
+                            Where factor IsNot Nothing
+                            Select factor).ToArray
         End Sub
 
         Sub New(id$, mass As String, compart_id As String, env As MassTable)
             Call Me.New(id, {mass}, compart_id, env)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function eval() As Double
-            Return Aggregate id As String
-                   In mass
-                   Let val As Double = env(id).Value
+            Return Aggregate mass As Factor
+                   In massCache
+                   Let val As Double = mass.Value
                    Into Sum(val)
         End Function
 
