@@ -486,3 +486,4 @@ src/repository/graphquery/kegg/pipeline/itr.hds
 src/repository/graphquery/kegg/pipeline/itr.xml
 src/workbench/.vs/packages.NET5.slnx/v18/DocumentLayout.json
 src/workbench/.vs/packages.NET5.slnx/v18/DocumentLayout.backup.json
+/src/workbench/.vs/packages.NET5/CopilotIndices/18.0.981.45449
