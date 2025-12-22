@@ -65,22 +65,23 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 
 Namespace ModelLoader
 
-    ''' <summary>
-    ''' 构建酶成熟的过程
-    ''' </summary>
-    Public Class ProteinMatureFluxLoader : Inherits FluxLoader
+    Public MustInherit Class ProteinComplexGenerator : Inherits FluxLoader
 
         Public ReadOnly Property polypeptides As String()
         Public ReadOnly Property proteinComplex As String()
 
-        ReadOnly pull As New List(Of String)
-        ReadOnly polypeptideIds As New Index(Of String)
+        Protected ReadOnly pull As New List(Of String)
+        Protected ReadOnly polypeptideIds As New Index(Of String)
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
-
-            loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
         End Sub
+
+        ''' <summary>
+        ''' get a set of the protein complex that defined inside this cell model
+        ''' </summary>
+        ''' <returns></returns>
+        Protected MustOverride Function GetComplexSet() As IEnumerable(Of Protein)
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim polypeptides As New List(Of String)
@@ -92,7 +93,7 @@ Namespace ModelLoader
                 Call polypeptideIds.Add(proteinId)
             Next
 
-            For Each complex As Protein In cell.Phenotype.proteins
+            For Each complex As Protein In GetComplexSet()
                 For Each compound In complex.compounds.SafeQuery
                     If Not MassTable.Exists(compound, cellular_id) Then
                         Call MassTable.addNew(compound, MassRoles.compound, cellular_id)
@@ -145,6 +146,22 @@ Namespace ModelLoader
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
             Return pull
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' 构建酶成熟的过程
+    ''' </summary>
+    Public Class ProteinMatureFluxLoader : Inherits ProteinComplexGenerator
+
+        Public Sub New(loader As Loader)
+            MyBase.New(loader)
+
+            loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+        End Sub
+
+        Protected Overrides Function GetComplexSet() As IEnumerable(Of Protein)
+            Return cell.Phenotype.proteins
         End Function
     End Class
 End Namespace
