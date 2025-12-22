@@ -9,7 +9,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace ModelLoader
 
-    Public Class TranslationEvents
+    Public Class TranslationEvents : Implements Enumeration(Of String)
 
         ReadOnly cdLoader As CentralDogmaFluxLoader
         ReadOnly cell As CellularModule
@@ -91,13 +91,13 @@ Namespace ModelLoader
 
         Private Function initial_assembling(cd As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
             ' 30s + mRNA + 50s + GTP = 70s_mRNA + GDP + Pi
-            Dim rba30s As Variable
-            Dim mRNA As Variable
-            Dim rba50s As Variable
-            Dim GTP As Variable
-            Dim GDP As Variable
-            Dim Pi As Variable
-            Dim rba70s_mRNA As Variable
+            Dim rba30s As Variable = MassTable.variable(RibosomeAssembly.Ribosomal30s, cellular_id)
+            Dim mRNA As Variable = MassTable.variable(cd.RNAName, cellular_id)
+            Dim rba50s As Variable = MassTable.variable(RibosomeAssembly.Ribosomal50s, cellular_id)
+            Dim GTP As Variable = MassTable.variable(loader.define.GTP, cellular_id)
+            Dim GDP As Variable = MassTable.variable(loader.define.GDP, cellular_id)
+            Dim Pi As Variable = MassTable.variable(loader.define.PI, cellular_id)
+            Dim rba70s_mRNA As Variable = MassTable.variable(r70s_mRNA, cellular_id)
 
             Return New Channel({rba30s, mRNA, rba50s, GTP}, {rba70s_mRNA, GDP, Pi}) With {
                 .ID = $"[initial_assembling] 30s + mRNA({cd.geneID}) + 50s + GTP = 70s_mRNA({cd.geneID}) + GDP + Pi",
@@ -122,7 +122,7 @@ Namespace ModelLoader
 
             Dim AAVector As NamedValue(Of Double)() = composit.Where(Function(i) i.Value > 0).ToArray
             ' 70s_mRNA + N * charged-aa-tRNA = 70s_mRNA + polypeptide + N * aa-tRNA + N * Pi
-            Dim rba70s_mRNA As Variable
+            Dim rba70s_mRNA As Variable = MassTable.variable(r70s_mRNA, cellular_id)
             Dim AAtRNA = AAVector _
                 .Select(Function(aa)
                             Return MassTable.variable(charged_tRNA(aa.Name), cellular_id, aa.Value)
@@ -145,11 +145,11 @@ Namespace ModelLoader
 
         Private Function ribosomal_recycle(cd As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
             ' 70s_mRNA = 30s + mRNA + 50s + Pi
-            Dim rba70s_mRNA As Variable
-            Dim rba30s As Variable
-            Dim mRNA As Variable
-            Dim rba50s As Variable
-            Dim Pi As Variable
+            Dim rba70s_mRNA As Variable = MassTable.variable(r70s_mRNA, cellular_id)
+            Dim rba30s As Variable = MassTable.variable(RibosomeAssembly.Ribosomal30s, cellular_id)
+            Dim mRNA As Variable = MassTable.variable(cd.RNAName, cellular_id)
+            Dim rba50s As Variable = MassTable.variable(RibosomeAssembly.Ribosomal50s, cellular_id)
+            Dim Pi As Variable = MassTable.variable(loader.define.PI, cellular_id)
 
             Return New Channel({rba70s_mRNA}, {rba30s, mRNA, rba50s, Pi}) With {
                 .ID = $"[ribosomal_recycle] 70s_mRNA({cd.geneID}) = 30s + mRNA({cd.geneID}) + 50s + Pi",
@@ -221,6 +221,12 @@ Namespace ModelLoader
             ' template of mRNA is not working in ODEs
             ' restore the mRNA in product list at here
             Return AAtRNA + MassTable.variable("*" & peptide, cellular_id) + MassTable.variable(loader.define.PI, cellular_id, N)
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            For Each id As String In polypeptides
+                Yield id
+            Next
         End Function
     End Class
 End Namespace
