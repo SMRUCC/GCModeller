@@ -1,10 +1,8 @@
-﻿Imports System.IO
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
@@ -80,28 +78,7 @@ Namespace ModelLoader
             ' 70s_mRNA = 30s + mRNA + 50s + Pi
             Dim phase3 = ribosomal_recycle(cd, r70s_mRNA, cellular_id)
 
-            templateRNA = translationTemplate(cd, proteinMatrix)
-            productsPro = translationUncharged(cd, cd.polypeptide, proteinMatrix)
             polypeptides += cd.polypeptide
-
-            ' 针对mRNA对象，创建翻译过程
-            translation = New Channel(templateRNA, productsPro) With {
-                .ID = DataHelper.GetTranslationId(cd, cellular_id),
-                .forward = New AdditiveControls With {
-                    .baseline = 0,
-                    .activation = {MassTable.variable(NameOf(RibosomeAssembly), cellular_id)}
-                },
-                .reverse = Controls.StaticControl(0),
-                .bounds = New Boundary With {
-                    .forward = loader.dynamics.translationCapacity,
-                    .reverse = 0  ' RNA can not be revsered to DNA
-                },
-                .name = $"Translation from mRNA {cd.RNAName} to polypeptide {cd.polypeptide} in cell {cellular_id}"
-            }
-
-            If translation.isBroken Then
-                Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
-            End If
 
             loader.fluxIndex("translation").Add(phase1.ID)
             loader.fluxIndex("translation").Add(phase2.ID)
@@ -168,6 +145,22 @@ Namespace ModelLoader
 
         Private Function ribosomal_recycle(cd As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
             ' 70s_mRNA = 30s + mRNA + 50s + Pi
+            Dim rba70s_mRNA As Variable
+            Dim rba30s As Variable
+            Dim mRNA As Variable
+            Dim rba50s As Variable
+            Dim Pi As Variable
+
+            Return New Channel({rba70s_mRNA}, {rba30s, mRNA, rba50s, Pi}) With {
+                .ID = $"[ribosomal_recycle] 70s_mRNA({cd.geneID}) = 30s + mRNA({cd.geneID}) + 50s + Pi",
+                .name = $"Ribosomal recycle of 70s ribosome complex with mRNA of gene {cd.geneID} in cell {cellular_id}",
+                .forward = Controls.StaticControl(100),
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = 100,
+                    .reverse = 0
+                }
+            }
         End Function
 
         Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
