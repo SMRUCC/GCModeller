@@ -176,6 +176,9 @@ Namespace ModelLoader
         ''' is a reversiable process
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' https://stack.xieguigang.me/2025/modelling-virtualcell-translation-event/
+        ''' </remarks>
         Private Iterator Function ribosomeAssembly(rRNA As Dictionary(Of String, List(Of String))) As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim left As New List(Of Variable)
@@ -402,6 +405,13 @@ Namespace ModelLoader
             _componentRNA = componentRNA
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' https://stack.xieguigang.me/2025/modelling-virtualcell-transcription-event/
+        ''' </remarks>
         Private Iterator Function transcriptionEvents() As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim templateRNA As Variable()
