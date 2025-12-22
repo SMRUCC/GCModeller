@@ -134,6 +134,8 @@ Namespace ModelLoader
                 loader.fluxIndex("transcription").Add(phase2.ID)
                 loader.fluxIndex("transcription").Add(phase3.ID)
             Next
+
+            _polypeptides = translation.AsEnumerable.ToArray
         End Function
 
         ''' <summary>
