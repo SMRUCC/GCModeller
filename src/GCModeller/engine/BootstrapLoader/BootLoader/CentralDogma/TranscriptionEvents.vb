@@ -84,7 +84,7 @@ Namespace ModelLoader
                 compart_id:=cellular_id,
                 env:=MassTable)
             Dim totalProteinCount As Integer = cell.Genotype.ProteinMatrix.Length
-            Dim translation As New TranslationEvents(cdLoader)
+            Dim translation As New TranslationEvents(cdLoader, cdLoader.charged_tRNA)
 
             Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
             Call MassTable.AddOrUpdate(New StatusMapFactor(id:="RNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable) With {.coefficient = 1 / totalProteinCount}, $"RNAp@{cellular_id}", cellular_id)

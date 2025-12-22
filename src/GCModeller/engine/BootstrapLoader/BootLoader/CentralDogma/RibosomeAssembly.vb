@@ -8,6 +8,9 @@ Namespace ModelLoader
 
         ReadOnly rRNA_genes As Dictionary(Of String, List(Of String))
 
+        Public Const Ribosomal50s As String = "50sRibosomal"
+        Public Const Ribosomal30s As String = "30sRibosomal"
+
         Public Sub New(loader As Loader, rRNA_genes As Dictionary(Of String, List(Of String)))
             MyBase.New(loader)
             Me.rRNA_genes = rRNA_genes
@@ -27,8 +30,8 @@ Namespace ModelLoader
 
             Call MassTable.AddOrUpdate(L, L.ID, cellular_id)
             Call MassTable.AddOrUpdate(S, S.ID, cellular_id)
-            Call MassTable.addNew("50sRibosomal", MassRoles.protein, cellular_id)
-            Call MassTable.addNew("30sRibosomal", MassRoles.protein, cellular_id)
+            Call MassTable.addNew(Ribosomal50s, MassRoles.protein, cellular_id)
+            Call MassTable.addNew(Ribosomal30s, MassRoles.protein, cellular_id)
 
             ' 5s + 23s + 34 * L = 50s
             ' 16s + 21 * S = 30s
@@ -54,14 +57,14 @@ Namespace ModelLoader
 
             ' 5s + 23s + 34 * L = 50s
             Yield New Model.Cellular.Molecule.Protein() With {
-                .ProteinID = $"50sRibosomal@{cellular_id}",
+                .ProteinID = $"{Ribosomal50s}@{cellular_id}",
                 .compounds = {$"5s_rRNA@{cellular_id}", $"23s_rRNA@{cellular_id}"},
                 .polypeptides = {$"L1-L36 Ribosomal Proteins@{cellular_id}"}
             }
 
             ' 16s + 21 * S = 30s
             Yield New Model.Cellular.Molecule.Protein() With {
-                .ProteinID = $"30sRibosomal@{cellular_id}",
+                .ProteinID = $"{Ribosomal30s}@{cellular_id}",
                 .compounds = {$"16s_rRNA@{cellular_id}"},
                 .polypeptides = {$"S1-S21 Ribosomal Proteins@{cellular_id}"}
             }

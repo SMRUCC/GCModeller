@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -17,8 +18,24 @@ Namespace ModelLoader
 
         Dim proteinMatrix As Dictionary(Of String, ProteinComposition)
         Dim polypeptides As New List(Of String)
+        Dim charged_tRNA As Dictionary(Of String, String)
+        Dim uncharged_tRNA As Dictionary(Of String, String)
+
+        Public ReadOnly Property MassTable As MassTable
+            Get
+                Return cdLoader.MassTable
+            End Get
+        End Property
+
+        Private ReadOnly Property loader As Loader
+            Get
+                Return cdLoader.loader
+            End Get
+        End Property
 
         Sub New(cdLoader As CentralDogmaFluxLoader)
+            Me.charged_tRNA = cdLoader.charged_tRNA
+            Me.uncharged_tRNA = cdLoader.uncharged_tRNA
             Me.cdLoader = cdLoader
             Me.cell = cdLoader.cellModel
             Me.proteinMatrix = ProteinMatrixIndex(cell.Genotype.ProteinMatrix)
@@ -52,9 +69,16 @@ Namespace ModelLoader
         End Function
 
         Public Iterator Function GetEvents(cd As CentralDogma, cellular_id As String) As IEnumerable(Of Channel)
-            Dim templateRNA As Variable()
-            Dim productsPro As Variable()
-            Dim translation As Channel
+            Dim r70s_mRNA As String = $"70s_mRNA({cd.geneID})"
+
+            Call MassTable.addNew(r70s_mRNA, MassRoles.compound, cellular_id)
+
+            ' 30s + mRNA + 50s + GTP = 70s_mRNA + GDP + Pi
+            Dim phase1 = initial_assembling(cd, r70s_mRNA, cellular_id)
+            ' 70s_mRNA + N * charged-aa-tRNA = 70s_mRNA + polypeptide + N * aa-tRNA + N * Pi
+            Dim phase2 = peptide_elongation(cd, r70s_mRNA, cellular_id)
+            ' 70s_mRNA = 30s + mRNA + 50s + Pi
+            Dim phase3 = ribosomal_recycle(cd, r70s_mRNA, cellular_id)
 
             templateRNA = translationTemplate(cd, proteinMatrix)
             productsPro = translationUncharged(cd, cd.polypeptide, proteinMatrix)
@@ -69,7 +93,7 @@ Namespace ModelLoader
                 },
                 .reverse = Controls.StaticControl(0),
                 .bounds = New Boundary With {
-                    .forward = Loader.dynamics.translationCapacity,
+                    .forward = loader.dynamics.translationCapacity,
                     .reverse = 0  ' RNA can not be revsered to DNA
                 },
                 .name = $"Translation from mRNA {cd.RNAName} to polypeptide {cd.polypeptide} in cell {cellular_id}"
@@ -79,9 +103,131 @@ Namespace ModelLoader
                 Throw New InvalidDataException(String.Format(translation.Message, translation.ID))
             End If
 
-            Loader.fluxIndex("translation").Add(translation.ID)
+            loader.fluxIndex("translation").Add(phase1.ID)
+            loader.fluxIndex("translation").Add(phase2.ID)
+            loader.fluxIndex("translation").Add(phase3.ID)
 
-            Yield translation
+            Yield phase1
+            Yield phase2
+            Yield phase3
+        End Function
+
+        Private Function initial_assembling(cd As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
+            ' 30s + mRNA + 50s + GTP = 70s_mRNA + GDP + Pi
+            Dim rba30s As Variable
+            Dim mRNA As Variable
+            Dim rba50s As Variable
+            Dim GTP As Variable
+            Dim GDP As Variable
+            Dim Pi As Variable
+            Dim rba70s_mRNA As Variable
+
+            Return New Channel({rba30s, mRNA, rba50s, GTP}, {rba70s_mRNA, GDP, Pi}) With {
+                .ID = $"[initial_assembling] 30s + mRNA({cd.geneID}) + 50s + GTP = 70s_mRNA({cd.geneID}) + GDP + Pi",
+                .forward = Controls.StaticControl(100),
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.translationCapacity,
+                    .reverse = 0
+                },
+                .name = $"Initial assembling of 70s ribosome complex on mRNA {cd.RNAName} in cell {cellular_id}"
+            }
+        End Function
+
+        Private Function peptide_elongation(gene As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
+            Dim composit As ProteinComposition = If(proteinMatrix.ContainsKey(gene.geneID),
+                proteinMatrix(gene.geneID),
+                proteinMatrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
+            Dim AAVector As NamedValue(Of Double)() = composit.Where(Function(i) i.Value > 0).ToArray
+            ' 70s_mRNA + N * charged-aa-tRNA = 70s_mRNA + polypeptide + N * aa-tRNA + N * Pi
+            Dim rba70s_mRNA As Variable
+            Dim AAtRNA = AAVector _
+                .Select(Function(aa)
+                            Return MassTable.variable(charged_tRNA(aa.Name), cellular_id, aa.Value)
+                        End Function) _
+                .AsList
+            Dim output As Variable() = translationUncharged(gene, gene.polypeptide)
+
+            ' mRNA模板加上氨基酸消耗，请注意，在这里并不是直接消耗的氨基酸，而是消耗的已经荷载的tRNA分子
+            Return New Channel(AAtRNA, output) With {
+                .ID = $"[peptide_elongation] 70s_mRNA({gene.geneID}) + N * charged-aa-tRNA = 70s_mRNA({gene.geneID}) + polypeptide({gene.geneID}) + N * aa-tRNA + N * Pi",
+                .name = $"Peptide elongation of protein {gene.polypeptide} for gene {gene.geneID} in cell {cellular_id}",
+                .forward = New AdditiveControls With {.activation = {rba70s_mRNA}, .baseline = 1},
+                .reverse = Controls.StaticControl(0),
+                .bounds = New Boundary With {
+                    .forward = loader.dynamics.translationCapacity,
+                    .reverse = 0
+                }
+            }
+        End Function
+
+        Private Function ribosomal_recycle(cd As CentralDogma, r70s_mRNA$, cellular_id As String) As Channel
+            ' 70s_mRNA = 30s + mRNA + 50s + Pi
+        End Function
+
+        Private Function MissingAAComposition(gene As CentralDogma) As ProteinComposition
+            Dim warn As String = $"missing protein translation composition for gene: {gene.geneID}"
+
+            Call warn.warning
+            Call warn.debug
+
+            Return New ProteinComposition With {
+                .A = 1,
+                .C = 1,
+                .D = 1,
+                .E = 1,
+                .F = 1,
+                .G = 1,
+                .H = 1,
+                .I = 1,
+                .K = 1,
+                .L = 1,
+                .M = 1,
+                .N = 1,
+                .O = 0,
+                .P = 1,
+                .proteinID = gene.translation,
+                .Q = 1,
+                .R = 1,
+                .S = 1,
+                .T = 1,
+                .U = 1,
+                .V = 1,
+                .W = 1,
+                .Y = 1
+            }
+        End Function
+
+        Private Function translationUncharged(gene As CentralDogma, peptide$) As Variable()
+            Dim cellular_id As String = cell.CellularEnvironmentName
+            Dim composit As ProteinComposition = If(
+                proteinMatrix.ContainsKey(gene.geneID),
+                proteinMatrix(gene.geneID),
+                proteinMatrix.TryGetValue(gene.translation))
+
+            If composit Is Nothing Then
+                composit = MissingAAComposition(gene)
+            End If
+
+            Dim AAVector As NamedValue(Of Double)() = composit.Where(Function(i) i.Value > 0).ToArray
+            Dim AAtRNA = AAVector _
+                .Select(Function(aa)
+                            Return MassTable.variable(uncharged_tRNA(aa.Name), cellular_id, aa.Value)
+                        End Function) _
+                .AsList
+            Dim mRNA As String = gene.RNAName
+            Dim N As Integer = Aggregate aa As NamedValue(Of Double)
+                               In AAVector
+                               Into Sum(aa.Value)
+            ' 20250831
+            ' template of mRNA is not working in ODEs
+            ' restore the mRNA in product list at here
+            Return AAtRNA + MassTable.variable("*" & peptide, cellular_id) + MassTable.variable(loader.define.PI, cellular_id, N)
         End Function
     End Class
 End Namespace

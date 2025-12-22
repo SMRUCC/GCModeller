@@ -96,6 +96,11 @@ Namespace Definitions
         Public Property ATP As String
         Public Property ADP As String
         Public Property PPI As String
+        Public Property PI As String
+
+        Public Property GTP As String
+        Public Property GDP As String
+
 #End Region
 
 #Region "模板或者说无限来源的物质"
@@ -241,6 +246,9 @@ Namespace Definitions
                 .NucleicAcid = ntBase,
                 .AminoAcid = aaResidue,
                 .PPI = "PPI",
+                .PI = "Pi",
+                .GTP = "GTP",
+                .GDP = "GDP",
                 .status = New Dictionary(Of String, Dictionary(Of String, Double)) From {{"default", initStatus}},
                 .GenericCompounds = New Dictionary(Of String, GeneralCompound) From {
                     {"Peptides", GeneralCompound.Protein},
