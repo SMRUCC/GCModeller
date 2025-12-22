@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Numerics
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -114,7 +115,7 @@ Namespace ModelLoader
                 Next
 
                 Dim unformed = MassTable.variables(complex, cellular_id, polypeptideIds).ToArray
-                Dim complexID As String = loader.massLoader.proteinComplex(complex.ProteinID)
+                Dim complexID As String = GetMappedComplexID(complex)
                 Dim mature As Variable = MassTable.variable(complexID, cellular_id)
 
                 proteinComplex += complexID
@@ -145,6 +146,7 @@ Namespace ModelLoader
         End Function
 
         Protected MustOverride Function Title(complex As Protein, cellular_id As String) As String
+        Protected MustOverride Function GetMappedComplexID(protein As Protein) As String
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
             Return pull
@@ -168,6 +170,10 @@ Namespace ModelLoader
 
         Protected Overrides Function Title(complex As Protein, cellular_id As String) As String
             Return $"Protein mature from components {complex.polypeptides.JoinBy(",")} to protein complex {complex.ProteinID} in cell {cellular_id}"
+        End Function
+
+        Protected Overrides Function GetMappedComplexID(complex As Protein) As String
+            Return loader.massLoader.proteinComplex(complex.ProteinID)
         End Function
     End Class
 End Namespace

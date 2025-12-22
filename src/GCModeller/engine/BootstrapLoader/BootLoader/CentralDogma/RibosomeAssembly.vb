@@ -73,5 +73,9 @@ Namespace ModelLoader
         Protected Overrides Function Title(complex As Model.Cellular.Molecule.Protein, cellular_id As String) As String
             Return $"Ribosome assembly of {complex.ProteinID} in cell {cellular_id}"
         End Function
+
+        Protected Overrides Function GetMappedComplexID(protein As Model.Cellular.Molecule.Protein) As String
+            Return protein.ProteinID
+        End Function
     End Class
 End Namespace
