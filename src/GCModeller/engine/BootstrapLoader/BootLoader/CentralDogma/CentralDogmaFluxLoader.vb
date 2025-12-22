@@ -237,14 +237,13 @@ Namespace ModelLoader
             Return index
         End Function
 
-        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
+        Private Iterator Function SetupTranscriptMass(rRNA As Dictionary(Of String, List(Of String))) As IEnumerable(Of Channel)
             Dim cellular_id As String = cell.CellularEnvironmentName
             Dim mRNA As New List(Of String)
             Dim componentRNA As New List(Of String)
             Dim proteinList As New Dictionary(Of String, String)
             Dim proteinComplex As Dictionary(Of String, String) = loader.massLoader.proteinComplex
             Dim tRNA As New Dictionary(Of String, List(Of String))
-            Dim rRNA As New Dictionary(Of String, List(Of String))
 
             Call VBDebugger.WaitOutput()
             Call VBDebugger.EchoLine("initialize of the mass environment for central dogma")
@@ -336,6 +335,14 @@ Namespace ModelLoader
                 Call warn.warning
                 Call warn.debug
             End If
+        End Function
+
+        Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
+            Dim rRNA As New Dictionary(Of String, List(Of String))
+
+            For Each flux As Channel In SetupTranscriptMass(rRNA)
+                Yield flux
+            Next
 
             If rRNA.IsNullOrEmpty Then
                 ' do nothing 
