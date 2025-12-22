@@ -186,6 +186,12 @@ Namespace ModelLoader
             Dim transcript As Variable
             Dim generic As Variable
 
+            ' 5s + 23s + 34 * L = 50s
+            ' 16s + 21 * S = 30s
+            ' 30s + mRNA + 50s + GTP = 70s_mRNA + GDP + Pi
+            ' 70s_mRNA + N * charged-aa-tRNA = 70s_mRNA + polypeptide + N * aa-tRNA + N * Pi
+            ' 70s_mRNA = 30s + mRNA + 50s + Pi
+
             For Each type As KeyValuePair(Of String, List(Of String)) In rRNA
                 Dim rRNA_key As String = $"{type.Key}_rRNA"
 
