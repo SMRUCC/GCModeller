@@ -435,9 +435,11 @@ Namespace ModelLoader
             Dim polypeptides As New List(Of String)
 
             Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
+            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="RNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable), $"RNAp@{cellular_id}", cellular_id)
+            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="DNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable), $"DNAp@{cellular_id}", cellular_id)
 
-            Dim RNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
-            Dim DNAp As Variable = MassTable.variable(cellular_growth.ID, cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+            Dim RNAp As Variable = MassTable.variable($"RNAp@{cellular_id}", cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
+            Dim DNAp As Variable = MassTable.variable($"DNAp@{cellular_id}", cellular_id, 1 / cell.Genotype.ProteinMatrix.Length)
             Dim PPi As String = loader.define.PPI
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程

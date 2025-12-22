@@ -29,6 +29,10 @@
             Me.ID = id & "@" & compart_id
         End Sub
 
+        Sub New(id$, mass As String, compart_id As String, env As MassTable)
+            Call Me.New(id, {mass}, compart_id, env)
+        End Sub
+
         Public Function eval() As Double
             Return Aggregate id As String
                    In mass
