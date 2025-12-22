@@ -71,6 +71,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <returns></returns>
         Public Property OrganismHierarchy As ORGANISM
 
+        ''' <summary>
+        ''' taxonomy lineage string in BIOM format
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property BiomString As String
             Get
                 Return BIOMTaxonomy.TaxonomyString(OrganismHierarchy.Lineage.Join(SpeciesName).ToArray)

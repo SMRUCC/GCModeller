@@ -63,7 +63,17 @@ Namespace Kmers
         Public Property id As UInteger
         Public Property ncbi_taxid As Integer
         Public Property accession_id As String
+        ''' <summary>
+        ''' genomics sequence name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property name As String
+        Public Property taxname As String
+        ''' <summary>
+        ''' taxonomy lineage information in BIOM style string
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property taxonomy As String
 
         Public Overrides Function ToString() As String
             Return $"[{id}, ncbi_taxid:{ncbi_taxid}] {name}"

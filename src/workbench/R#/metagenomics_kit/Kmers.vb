@@ -441,7 +441,9 @@ Module KmersTool
                             .accession_id = gb.Accession.AccessionId,
                             .id = gb.GetHashCode,
                             .name = gb.Definition,
-                            .ncbi_taxid = gb.Taxon
+                            .ncbi_taxid = gb.Taxon,
+                            .taxname = gb.Source.SpeciesName,
+                            .taxonomy = gb.Source.BiomString
                         }
                     End Function) _
             .ToArray
