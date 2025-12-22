@@ -128,7 +128,7 @@ Namespace ModelLoader
                         .forward = loader.dynamics.proteinMatureCapacity,
                         .reverse = 0
                     },
-                    .name = $"Protein mature from components {complex.polypeptides.JoinBy(",")} to protein complex {complex.ProteinID} in cell {cellular_id}"
+                    .name = Title(complex, cellular_id)
                 }
 
                 If flux.isBroken Then
@@ -143,6 +143,8 @@ Namespace ModelLoader
             _polypeptides = polypeptides
             _proteinComplex = proteinComplex
         End Function
+
+        Protected MustOverride Function Title(complex As Protein, cellular_id As String) As String
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)
             Return pull
@@ -162,6 +164,10 @@ Namespace ModelLoader
 
         Protected Overrides Function GetComplexSet() As IEnumerable(Of Protein)
             Return cell.Phenotype.proteins
+        End Function
+
+        Protected Overrides Function Title(complex As Protein, cellular_id As String) As String
+            Return $"Protein mature from components {complex.polypeptides.JoinBy(",")} to protein complex {complex.ProteinID} in cell {cellular_id}"
         End Function
     End Class
 End Namespace

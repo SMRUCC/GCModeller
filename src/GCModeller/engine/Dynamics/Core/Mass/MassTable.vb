@@ -307,8 +307,18 @@ Namespace Core
             Return New Variable(m_massSet.getFactor(compart_id, mass), 1, True)
         End Function
 
+        ''' <summary>
+        ''' check whether the specific mass entity exists inside the current mass environment
+        ''' </summary>
+        ''' <param name="mass_id"></param>
+        ''' <param name="compart_id"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(mass_id As String, compart_id As String) As Boolean
+            If m_massSet.mapping.ContainsKey(mass_id) Then
+                Return True
+            End If
+
             Return m_massSet(compart_id).ContainsKey(mass_id & "@" & compart_id)
         End Function
 

@@ -7,7 +7,7 @@
 
         Public Overrides ReadOnly Property Value As Double
             Get
-                Return eval()
+                Return eval() * coefficient
             End Get
         End Property
 
@@ -16,6 +16,7 @@
         ''' </summary>
         ''' <returns></returns>
         Public Property mass As String()
+        Public Property coefficient As Double = 1
 
         Dim env As MassTable
 

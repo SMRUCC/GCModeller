@@ -65,14 +65,12 @@ Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace ModelLoader
 
@@ -181,71 +179,12 @@ Namespace ModelLoader
         ''' https://stack.xieguigang.me/2025/modelling-virtualcell-translation-event/
         ''' </remarks>
         Private Iterator Function ribosomeAssembly(rRNA_genes As Dictionary(Of String, List(Of String))) As IEnumerable(Of Channel)
-            Dim cellular_id As String = cell.CellularEnvironmentName
-            Dim flux As Channel
-            Dim L As New StatusMapFactor("L1-L36 Ribosomal Proteins", MassTable _
-                .GetRole(MassRoles.protein) _
-                .Where(Function(c) c.cellular_compartment = cellular_id) _
-                .Keys, cellular_id, MassTable)
-            Dim S As New StatusMapFactor("S1-S21 Ribosomal Proteins", MassTable _
-                .GetRole(MassRoles.protein) _
-                .Where(Function(c) c.cellular_compartment = cellular_id) _
-                .Keys, cellular_id, MassTable)
+            Dim rba As New RibosomeAssembly(loader, rRNA_genes)
 
-            Call MassTable.AddOrUpdate(L, L.ID, cellular_id)
-            Call MassTable.AddOrUpdate(S, S.ID, cellular_id)
-            Call MassTable.addNew("50sRibosomal", MassRoles.protein, cellular_id)
-            Call MassTable.addNew("30sRibosomal", MassRoles.protein, cellular_id)
-
-            ' 5s + 23s + 34 * L = 50s
-            ' 16s + 21 * S = 30s
-            ' 30s + mRNA + 50s + GTP = 70s_mRNA + GDP + Pi
-            ' 70s_mRNA + N * charged-aa-tRNA = 70s_mRNA + polypeptide + N * aa-tRNA + N * Pi
-            ' 70s_mRNA = 30s + mRNA + 50s + Pi
-
-            ' gene entity mapping to rRNA terms
-            For Each type As KeyValuePair(Of String, List(Of String)) In rRNA_genes
-                Dim rRNA_key As String = $"{type.Key}_rRNA"
-                Dim rRNA As New StatusMapFactor(
-                    id:=rRNA_key,
-                    mass:=(From gene_id As String
-                           In type.Value
-                           Let mid As String = $"{gene_id}@{cellular_id}"
-                           Select mid),
-                    compart_id:=cellular_id,
-                    env:=MassTable)
-
-                ' add rRNA term mapping
-                Call MassTable.AddOrUpdate(rRNA, rRNA.ID, cellular_id)
+            For Each flux As Channel In rba.CreateFlux
+                Call loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
+                Yield flux
             Next
-
-            Dim totalProteinCount As Integer = cell.Genotype.ProteinMatrix.Length
-
-            ' 5s + 23s + 34 * L = 50s
-            flux = New Channel(
-                {MassTable.variable("5s_rRNA", cellular_id), MassTable.variable("23s_rRNA", cellular_id), MassTable.variable(L.ID, cellular_id, 34 * 1 / totalProteinCount)},
-                {MassTable.variable("50sRibosomal", cellular_id)})
-
-
-            MassTable.addNew(NameOf(ribosomeAssembly), MassRoles.protein, cellular_id)
-            flux = New Channel(left, {MassTable.variable(NameOf(ribosomeAssembly), cellular_id)}) With {
-                .ID = NameOf(ribosomeAssembly) & "@" & cellular_id,
-                .bounds = New Boundary With {
-                    .forward = loader.dynamics.ribosomeAssemblyCapacity,
-                    .reverse = loader.dynamics.ribosomeDisassemblyCapacity
-                },
-                .forward = Controls.StaticControl(loader.dynamics.ribosomeAssemblyBaseline),
-                .reverse = Controls.StaticControl(loader.dynamics.ribosomeDisassemblyBaseline),
-                .name = $"Ribosome assembly in cell {cellular_id}"
-            }
-
-            loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
-
-            If flux.isBroken Then
-                Throw New InvalidDataException(String.Format(flux.Message, flux.ID))
-            End If
-
-            Yield flux
         End Function
 
         Private Shared Function RnaMatrixIndexing(m As IEnumerable(Of RNAComposition)) As Dictionary(Of String, RNAComposition)
@@ -457,14 +396,14 @@ Namespace ModelLoader
                 compart_id:=cellular_id,
                 env:=MassTable)
             Dim polypeptides As New List(Of String)
+            Dim totalProteinCount As Integer = cell.Genotype.ProteinMatrix.Length
 
             Call MassTable.AddOrUpdate(cellular_growth, cellular_growth.ID, cellular_id)
-            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="RNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable), $"RNAp@{cellular_id}", cellular_id)
-            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="DNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable), $"DNAp@{cellular_id}", cellular_id)
+            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="RNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable) With {.coefficient = 1 / totalProteinCount}, $"RNAp@{cellular_id}", cellular_id)
+            Call MassTable.AddOrUpdate(New StatusMapFactor(id:="DNAp", mass:=$"cellular_growth@{cellular_id}", cellular_id, MassTable) With {.coefficient = 1 / totalProteinCount}, $"DNAp@{cellular_id}", cellular_id)
 
-            Dim totalProteinCount As Integer = cell.Genotype.ProteinMatrix.Length
-            Dim RNAp As Variable = MassTable.variable($"RNAp@{cellular_id}", cellular_id, 1 / totalProteinCount)
-            Dim DNAp As Variable = MassTable.variable($"DNAp@{cellular_id}", cellular_id, 1 / totalProteinCount)
+            Dim RNAp As Variable = MassTable.variable($"RNAp@{cellular_id}", cellular_id, 1)
+            Dim DNAp As Variable = MassTable.variable($"DNAp@{cellular_id}", cellular_id, 1)
             Dim PPi As String = loader.define.PPI
 
             ' 在这里创建针对每一个基因的从转录到翻译的整个过程
