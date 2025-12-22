@@ -65,7 +65,6 @@ Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles.Slots
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
@@ -181,7 +180,7 @@ Namespace ModelLoader
         Private Iterator Function ribosomeAssembly(rRNA_genes As Dictionary(Of String, List(Of String))) As IEnumerable(Of Channel)
             Dim rba As New RibosomeAssembly(loader, rRNA_genes)
 
-            For Each flux As Channel In rba.CreateFlux
+            For Each flux As Channel In rba.CreateFlux(cell)
                 Call loader.fluxIndex(NameOf(Me.ribosomeAssembly)).Add(flux.ID)
                 Yield flux
             Next
