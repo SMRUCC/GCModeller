@@ -61,15 +61,12 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Trinity
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
-Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace ModelLoader
 
@@ -294,6 +291,7 @@ Namespace ModelLoader
 
         Protected Overrides Iterator Function CreateFlux() As IEnumerable(Of Channel)
             Dim rRNA As New Dictionary(Of String, List(Of String))
+            Dim transcription As New TranscriptionEvents(Me)
 
             For Each flux As Channel In SetupTranscriptMass(rRNA)
                 Yield flux
@@ -311,23 +309,13 @@ Namespace ModelLoader
 
             Call VBDebugger.EchoLine("build biological process for central dogmas...")
 
-            For Each [event] As Channel In transcriptionEvents()
+            For Each [event] As Channel In transcription.GetEvents
                 Yield [event]
             Next
 
             _mRNA = mRNA
             _componentRNA = componentRNA
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' https://stack.xieguigang.me/2025/modelling-virtualcell-transcription-event/
-        ''' </remarks>
-        Private Iterator Function transcriptionEvents() As IEnumerable(Of Channel)
-
+            _polypeptides = transcription.polypeptides
         End Function
 
         Protected Overrides Function GetMassSet() As IEnumerable(Of String)

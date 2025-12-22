@@ -9,6 +9,9 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 
 Namespace ModelLoader
 
+    ''' <summary>
+    ''' https://stack.xieguigang.me/2025/modelling-virtualcell-transcription-event/
+    ''' </summary>
     Public Class TranscriptionEvents
 
         ReadOnly cdLoader As CentralDogmaFluxLoader
