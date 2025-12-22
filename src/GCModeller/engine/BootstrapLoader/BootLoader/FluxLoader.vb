@@ -71,7 +71,7 @@ Namespace ModelLoader
             End Get
         End Property
 
-        Protected ReadOnly loader As Loader
+        Protected Friend ReadOnly loader As Loader
         Protected cell As CellularModule
 
         Public ReadOnly Property LinkingMassSet As String()
