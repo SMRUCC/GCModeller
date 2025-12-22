@@ -56,7 +56,6 @@
 #End Region
 
 Imports System.IO
-Imports System.Numerics
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -76,6 +75,10 @@ Namespace ModelLoader
 
         Public Sub New(loader As Loader)
             MyBase.New(loader)
+
+            If Not loader.fluxIndex.ContainsKey(NameOf(ProteinMatureFluxLoader)) Then
+                Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+            End If
         End Sub
 
         ''' <summary>
@@ -161,7 +164,9 @@ Namespace ModelLoader
         Public Sub New(loader As Loader)
             MyBase.New(loader)
 
-            loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+            If Not loader.fluxIndex.ContainsKey(NameOf(ProteinMatureFluxLoader)) Then
+                Call loader.fluxIndex.Add(NameOf(ProteinMatureFluxLoader), New List(Of String))
+            End If
         End Sub
 
         Protected Overrides Function GetComplexSet() As IEnumerable(Of Protein)
