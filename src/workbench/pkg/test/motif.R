@@ -27,6 +27,6 @@ motif
 motif = as.data.frame(motif);
 motif = motif[order(motif$score),];
 
-print(motif);
+print(motif, max.print = 13);
 
 write.csv(motif, file = "./LexA.csv");

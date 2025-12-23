@@ -83,7 +83,7 @@ Public Class MSAMotif : Inherits MSAOutput
 
     Public Function CreateMotif() As MotifPWM
         Dim n As Integer = 100  ' normalized as 100 sequence input
-        Dim E As Double = Probability.E(nsize:=100)
+        Dim E As Double = Probability.E(nsize:=n)
 
         Return New MotifPWM With {
             .name = "motif",
@@ -94,11 +94,12 @@ Public Class MSAMotif : Inherits MSAOutput
                             Dim sum As Integer = r.ints.Sum
                             Dim col As Double() = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, r.ints.Sum)
                             Dim Hi As Double = Probability.HI(col)
+                            Dim bits As Double = Probability.CalculatesBits(Hi, E, NtMol:=alphabets.Length = 4)
 
                             Return New ResidueSite With {
                                 .site = i + 1,
                                 .PWM = col,
-                                .bits = Probability.CalculatesBits(Hi, E, NtMol:=alphabets.Length = 4)
+                                .bits = bits
                             }
                         End Function) _
                 .ToArray
