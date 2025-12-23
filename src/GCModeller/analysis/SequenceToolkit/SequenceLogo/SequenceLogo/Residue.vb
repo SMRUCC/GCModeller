@@ -64,8 +64,11 @@ Imports Microsoft.VisualBasic.Math.Information
 Namespace SequenceLogo
 
     ''' <summary>
-    ''' A drawing site in the sequence logo drawing.(所绘制的序列logo图之中的一个位点)
+    ''' A drawing site in the sequence logo drawing.
     ''' </summary>
+    ''' <remarks>
+    ''' (所绘制的序列logo图之中的一个位点)
+    ''' </remarks>
     Public Class Residue : Implements IAddressOf
 
         ''' <summary>
@@ -76,15 +79,20 @@ Namespace SequenceLogo
         ''' <summary>
         ''' The total height of the letters depicts the information content Of the position, 
         ''' In bits.
-        ''' (Bits的值是和比对的序列的数量是有关系的)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (Bits的值是和比对的序列的数量是有关系的)
+        ''' </remarks>
         Public Property Bits As Double
 
         ''' <summary>
-        ''' Position value of this residue in the motif sequence.(这个残基的位点编号)
+        ''' Position value of this residue in the motif sequence.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个残基的位点编号)
+        ''' </remarks>
         Public Property Position As Integer Implements IAddressOf.Address
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign

@@ -145,8 +145,7 @@ Namespace SequenceLogo
             For i As Integer = 0 To npos - 1
                 Dim idx As Integer = i
 
-                ic(i) = 2 + pwm _
-                    .Residues _
+                ic(i) = 2 + pwm.Residues _
                     .Select(Function(x)
                                 If (x.Alphabets(idx).RelativeFrequency > 0) Then
                                     Return x.Alphabets(idx).RelativeFrequency * Math.Log(x.Alphabets(idx).RelativeFrequency, 2)
