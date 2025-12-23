@@ -95,13 +95,14 @@ Namespace ContextModel.Promoter
 
         ''' <summary>
         ''' Get upstream nt sequence in a specific length for target gene.
-        ''' (在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中)
         ''' </summary>
         ''' <param name="gene"></param>
         ''' <param name="nt"></param>
         ''' <param name="len%"></param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' (在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中)
+        ''' </remarks>
         <Extension>
         Public Function GetUpstreamSeq(gene As IGeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location
