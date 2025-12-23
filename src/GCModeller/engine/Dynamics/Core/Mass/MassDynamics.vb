@@ -133,8 +133,8 @@ Namespace Core
                 flux = channels(i)
                 dir = flux.GetCurrentDirection
 
-                Dim forward As Double = SafeFactorValue(flux.forward.coefficient, -100, 100)
-                Dim reverse As Double = SafeFactorValue(flux.reverse.coefficient, -100, 100)
+                Dim forward As Double = MassDynamics.Clip(flux.forward.coefficient, -100, 100)
+                Dim reverse As Double = MassDynamics.Clip(flux.reverse.coefficient, -100, 100)
 
                 Select Case dir
                     Case Directions.forward
@@ -152,8 +152,8 @@ Namespace Core
                         Throw New InvalidProgramException($"Unknown reaction direction status of reaction flux: {flux.ID}!")
                 End Select
 
-                variants = SafeFactorValue(variants, -100, 100)
-                fluxVariant = SafeFactorValue(fluxVariant, -100, 100)
+                variants = MassDynamics.Clip(variants, -100, 100)
+                fluxVariant = MassDynamics.Clip(fluxVariant, -100, 100)
 
                 additions(i) = variants
                 fluxValues(i) = fluxVariant
@@ -166,7 +166,7 @@ Namespace Core
             Return dy * boost
         End Function
 
-        Private Shared Function SafeFactorValue(variants As Double, clipMin As Double, clipMax As Double) As Double
+        Private Shared Function Clip(variants As Double, clipMin As Double, clipMax As Double) As Double
             If Double.IsNaN(variants) Then
                 variants = 0
             ElseIf Double.IsPositiveInfinity(variants) Then
