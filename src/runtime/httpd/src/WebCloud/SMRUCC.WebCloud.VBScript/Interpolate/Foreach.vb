@@ -59,6 +59,25 @@ Namespace Interpolate
 
     Module ForeachInterpolate
 
+        ''' <summary>
+        ''' processing foreach loop in template
+        ''' </summary>
+        ''' <param name="vbhtml"></param>
+        ''' <remarks>
+        ''' syntax for define a for each loop:<br /><br />
+        ''' 
+        ''' <strong>
+        ''' &lt;foreach @array_variable_name&gt;<br />
+        '''     ...template content...<br />
+        ''' &lt;/foreach&gt;
+        ''' </strong><br /><br />
+        ''' 
+        ''' inside the template content, you can use the variable reference like this:
+        ''' 
+        ''' @property_name
+        ''' 
+        ''' where property_name is the property of the object inside the array_variable_name collection 
+        ''' </remarks>
         Public Sub ForeachTemplate(vbhtml As VBHtml)
             Dim templates = VBHtml.foreach.Matches(vbhtml.ToString).ToArray
             Dim str As String
@@ -90,6 +109,9 @@ Namespace Interpolate
         ''' the for each template
         ''' </param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' syntax for define a variable inside the html template is @xxxx 
+        ''' </remarks>
         Private Function FillTemplate(vbhtml As VBHtml, template As String) As String
             Dim foreach As String = array_name.Match(template).Value
             Dim var As String = VBHtml.variable.Match(foreach).Value.Trim("@"c)

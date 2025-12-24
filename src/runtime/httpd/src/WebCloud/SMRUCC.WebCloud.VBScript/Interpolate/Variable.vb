@@ -72,6 +72,20 @@ Namespace Interpolate
             End If
         End Function
 
+        ''' <summary>
+        ''' Parse the variable definitions inside the html template file
+        ''' </summary>
+        ''' <param name="html"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' syntax for define the variable inside the html template file:
+        ''' 
+        ''' &lt;% @variableName=value %&gt;
+        ''' 
+        ''' or
+        ''' 
+        ''' &lt;% @variableName=value /&gt;
+        ''' </remarks>
         Public Iterator Function GetVariables(html As String) As IEnumerable(Of NamedValue(Of Object))
             Dim vars As String() = VBHtml.valueExpression.Matches(html).ToArray
             Dim tuple As NamedValue(Of String)

@@ -85,6 +85,9 @@ Public Class VBHtml
     ''' all of the key inside this dictionary is in lower case,
     ''' due to the reason of vb identifier is not case-sensitive
     ''' </summary>
+    ''' <remarks>
+    ''' syntax for declare a variable inside the template content is @xxx
+    ''' </remarks>
     Friend ReadOnly variables As Dictionary(Of String, Object)
     Friend ReadOnly assigned As New Dictionary(Of String, String)
 
@@ -152,6 +155,9 @@ Public Class VBHtml
     ''' </summary>
     ''' <param name="name"></param>
     ''' <param name="value"></param>
+    ''' <remarks>
+    ''' add value to <see cref="variables"/>
+    ''' </remarks>
     Public Sub AddSymbol(name As String, value As Object)
         name = name.ToLower
 
@@ -175,10 +181,12 @@ Public Class VBHtml
 
     Private Sub Render()
         For Each symbol As NamedValue(Of Object) In VariableInterpolate.GetVariables(ToString)
+            ' removes from the html template
             Call Replace(symbol.Description, "")
             Call AddSymbol(symbol.Name, symbol.Value)
         Next
 
+        ' @xxx
         Call ForeachInterpolate.ForeachTemplate(Me)
         Call IncludeInterpolate.FillIncludes(Me)
         Call VariableInterpolate.FillVariables(Me)

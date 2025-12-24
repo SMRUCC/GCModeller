@@ -2,8 +2,8 @@
   "profiles": {
     "FluteBuild": {
       "commandName": "Project",
-      "commandLineArgs": "/compile /view \"./\" /wwwroot \"../wwwroot\" ",
-      "workingDirectory": "E:\\biodeep\\novocell\\landscape_v2\\views"
+      "commandLineArgs": " /compile /view G:\\gcmodeller.org-website\\template_2026 /wwwroot Z:/html ",
+      "workingDirectory": "Z:\\"
     }
   }
 }

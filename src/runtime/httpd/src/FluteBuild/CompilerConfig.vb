@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.MIME.application.json
+﻿Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
 Public Class CompilerConfig
@@ -51,5 +53,53 @@ Public Class MarkdownConfig
     ''' </summary>
     ''' <returns></returns>
     Public Property source As String
+    Public Property menu As Menu
+
+    Public Shared Iterator Function LoadMenu(source As String) As IEnumerable(Of NamedCollection(Of String))
+        For Each dir As String In source.ListDirectory
+            Yield New NamedCollection(Of String)(dir.BaseName, dir.ListFiles("*.md").BaseName)
+        Next
+    End Function
+
+    Public Function RenderMenuHtml(sections As IEnumerable(Of NamedCollection(Of String))) As String
+        If menu Is Nothing Then
+            Return ""
+        End If
+
+        Return (From li As NamedCollection(Of String)
+                In sections
+                Select menu.RenderMenuHtml(li)).JoinBy(vbCrLf)
+    End Function
+
+End Class
+
+Public Class Menu
+
+    Public Property section As String
+    Public Property list As List
+
+    Public Function RenderMenuHtml(section As NamedCollection(Of String)) As String
+        Dim html As New StringBuilder(Me.section)
+
+        Call html.Replace("@section", section.name)
+        Call html.Append(list.list)
+
+        Dim menuItems As New List(Of String)
+
+        For Each item As String In section
+            Call menuItems.Add(list.item.Replace("@item", item).Replace("@section", section.name))
+        Next
+
+        Call html.Replace("@list", menuItems.JoinBy(""))
+
+        Return html.ToString
+    End Function
+
+End Class
+
+Public Class List
+
+    Public Property list As String
+    Public Property item As String
 
 End Class
