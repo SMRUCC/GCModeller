@@ -119,6 +119,7 @@ Namespace v2
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property bounds As Double()
+        <XmlAttribute> Public Property baseline As Double()
 
         <XmlElement> Public Property ec_number As String()
         ''' <summary>
