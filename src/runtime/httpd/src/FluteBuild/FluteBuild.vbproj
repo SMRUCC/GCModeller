@@ -35,6 +35,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\sciBASIC#\mime\text%markdown\markdown.NET5.vbproj" />
     <ProjectReference Include="..\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj" />
   </ItemGroup>
 

@@ -53,11 +53,13 @@ Imports System.ComponentModel
 Imports System.IO
 Imports System.Threading
 Imports Flute.Template
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.MIME.text.markdown
 Imports Microsoft.VisualBasic.Net.Http
 
 Module Program
@@ -69,11 +71,14 @@ Module Program
     <ExportAPI("/compile")>
     <Description("Compile the html files from a collection of template source files.")>
     <Usage("/compile /view <directory_to_templates> /wwwroot <output_dir_for_html> [--listen]")>
+    <Argument("/view", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String)}, Description:="A directory path to the vbhtml template files.")>
+    <Argument("/wwwroot", False, CLITypes.File, PipelineTypes.undefined, AcceptTypes:={GetType(String)}, Description:="The output directory path to the generated html document files.")>
     Public Function Build(view As String, wwwroot As String, args As CommandLine) As Integer
         Dim name As String
         Dim vars As New Dictionary(Of String, Object)
         Dim excludes As Index(Of String) = {"view", "wwwroot", "args", "listen"}
         Dim listenMode As Boolean = args("--listen")
+        Dim config As CompilerConfig = CompilerConfig.Load($"{view}/config.json")
 
         For Each arg As NamedValue(Of String) In args.AsEnumerable
             name = arg.Name.Trim("-"c, "/"c, "\"c)
@@ -86,45 +91,66 @@ Module Program
         Next
 
         If listenMode Then
-            Dim watcher As New FileSystemWatcher() With {
-                .Path = view,
-                .Filter = "*.*",
-                .NotifyFilter = NotifyFilters.LastWrite Or NotifyFilters.Size Or NotifyFilters.FileName
-            }
-
-            AddHandler watcher.Changed, Sub(sender, e)
-                                            Call "build template folder on updates...".debug
-                                            Call build(view, wwwroot, vars)
-                                        End Sub
-
-            AddHandler watcher.Created, Sub(sender, e)
-                                            Call "build template folder on updates...".debug
-                                            Call build(view, wwwroot, vars)
-                                        End Sub
-
-            watcher.EnableRaisingEvents = True
-
-            Console.WriteLine($"Listening of the html template workdir: {view.GetDirectoryFullPath}")
-            Console.WriteLine("Press key 'q' to exit...")
-
-            ' 保持控制台运行
-            While Console.Read() <> Asc("q")
-                Call Thread.Sleep(500)
-            End While
+            Call listen(view, wwwroot, config.join(vars))
         Else
-            Call build(view, wwwroot, vars)
+            Call build(view, wwwroot, config.join(vars))
         End If
 
         Return 0
     End Function
 
-    Private Sub build(view As String, wwwroot As String, vars As Dictionary(Of String, Object))
+    Private Sub listen(view As String, wwwroot As String, config As CompilerConfig)
+        Dim watcher As New FileSystemWatcher() With {
+            .Path = view,
+            .Filter = "*.*",
+            .NotifyFilter = NotifyFilters.LastWrite Or
+                            NotifyFilters.Size Or
+                            NotifyFilters.FileName
+        }
+        Dim compile As New FileSystemEventHandler(
+            Sub(sender, e)
+                Call "build template folder on updates...".debug
+                Call build(view, wwwroot, config)
+            End Sub)
+
+        AddHandler watcher.Changed, compile
+        AddHandler watcher.Created, compile
+
+        watcher.EnableRaisingEvents = True
+
+        Console.WriteLine($"Listening of the html template workdir: {view.GetDirectoryFullPath}")
+        Console.WriteLine($"Press key 'q' to exit...")
+
+        ' 保持控制台运行
+        While Console.Read() <> Asc("q")
+            Call Thread.Sleep(500)
+        End While
+    End Sub
+
+    Private Sub build(view As String, wwwroot As String, config As CompilerConfig)
         Dim viewfiles As String() = view.EnumerateFiles("*.vbhtml").ToArray
+        Dim doc_template As String = If(config.markdown Is Nothing, Nothing, config.markdown.template).BaseName(allowEmpty:=True)
+        Dim markdown As New MarkdownRender
 
         For Each template As String In viewfiles
+            If doc_template = template.BaseName Then
+                ' is template render
+                For Each file As String In $"{view}/{config.markdown.source}".ListFiles("*.md")
+                    Dim html As String = markdown.Transform(file.ReadAllText)
+                    Dim outputDocs As String = $"{wwwroot}/{PathExtensions.RelativePath(view, file, False).ChangeSuffix("html")}"
+
+                    Call config.set("docs", html)
+                    Call VBHtml _
+                        .ReadHTML(template, config.variables) _
+                        .SaveTo(outputDocs)
+                Next
+
+                Continue For
+            End If
+
             Try
                 Call VBHtml _
-                    .ReadHTML(template, vars) _
+                    .ReadHTML(template, config.variables) _
                     .SaveTo(wwwroot & "/" & template.BaseName & ".html")
             Catch ex As Exception
                 Call ex.Message.warning
