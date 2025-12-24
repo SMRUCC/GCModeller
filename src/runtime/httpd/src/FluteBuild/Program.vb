@@ -105,7 +105,8 @@ Module Program
             .Filter = "*.*",
             .NotifyFilter = NotifyFilters.LastWrite Or
                             NotifyFilters.Size Or
-                            NotifyFilters.FileName
+                            NotifyFilters.FileName,
+            .IncludeSubdirectories = True
         }
         Dim compile As New FileSystemEventHandler(
             Sub(sender, e)
@@ -136,13 +137,17 @@ Module Program
             If doc_template = template.BaseName Then
                 ' is template render
                 For Each file As String In $"{view}/{config.markdown.source}".ListFiles("*.md")
-                    Dim html As String = markdown.Transform(file.ReadAllText)
-                    Dim outputDocs As String = $"{wwwroot}/{PathExtensions.RelativePath(view, file, False).ChangeSuffix("html")}"
+                    Try
+                        Dim html As String = markdown.Transform(file.ReadAllText)
+                        Dim outputDocs As String = $"{wwwroot}/{PathExtensions.RelativePath(view, file, False).ChangeSuffix("html")}"
 
-                    Call config.set("docs", html)
-                    Call VBHtml _
-                        .ReadHTML(template, config.variables) _
-                        .SaveTo(outputDocs)
+                        Call config.set("docs", html)
+                        Call VBHtml _
+                            .ReadHTML(template, config.variables) _
+                            .SaveTo(outputDocs)
+                    Catch ex As Exception
+                        Call ex.Message.warning
+                    End Try
                 Next
 
                 Continue For
