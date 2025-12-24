@@ -50,6 +50,8 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
+Imports System.Threading
 Imports Flute.Template
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -66,12 +68,12 @@ Module Program
 
     <ExportAPI("/compile")>
     <Description("Compile the html files from a collection of template source files.")>
-    <Usage("/compile /view <directory_to_templates> /wwwroot <output_dir_for_html>")>
+    <Usage("/compile /view <directory_to_templates> /wwwroot <output_dir_for_html> [--listen]")>
     Public Function Build(view As String, wwwroot As String, args As CommandLine) As Integer
-        Dim viewfiles As String() = view.EnumerateFiles("*.vbhtml").ToArray
         Dim name As String
         Dim vars As New Dictionary(Of String, Object)
-        Dim excludes As Index(Of String) = {"view", "wwwroot", "args"}
+        Dim excludes As Index(Of String) = {"view", "wwwroot", "args", "listen"}
+        Dim listenMode As Boolean = args("--listen")
 
         For Each arg As NamedValue(Of String) In args.AsEnumerable
             name = arg.Name.Trim("-"c, "/"c, "\"c)
@@ -83,14 +85,52 @@ Module Program
             vars(name) = JsonParser.Parse(arg.Value, strictVectorSyntax:=False)
         Next
 
-        For Each template As String In viewfiles
-            Call VBHtml _
-                .ReadHTML(template, vars) _
-                .SaveTo(wwwroot & "/" & template.BaseName & ".html")
-        Next
+        If listenMode Then
+            Dim watcher As New FileSystemWatcher() With {
+                .Path = view,
+                .Filter = "*.*",
+                .NotifyFilter = NotifyFilters.LastWrite Or NotifyFilters.Size Or NotifyFilters.FileName
+            }
+
+            AddHandler watcher.Changed, Sub(sender, e)
+                                            Call "build template folder on updates...".debug
+                                            Call build(view, wwwroot, vars)
+                                        End Sub
+
+            AddHandler watcher.Created, Sub(sender, e)
+                                            Call "build template folder on updates...".debug
+                                            Call build(view, wwwroot, vars)
+                                        End Sub
+
+            watcher.EnableRaisingEvents = True
+
+            Console.WriteLine($"Listening of the html template workdir: {view.GetDirectoryFullPath}")
+            Console.WriteLine("Press key 'q' to exit...")
+
+            ' 保持控制台运行
+            While Console.Read() <> Asc("q")
+                Call Thread.Sleep(500)
+            End While
+        Else
+            Call build(view, wwwroot, vars)
+        End If
 
         Return 0
     End Function
+
+    Private Sub build(view As String, wwwroot As String, vars As Dictionary(Of String, Object))
+        Dim viewfiles As String() = view.EnumerateFiles("*.vbhtml").ToArray
+
+        For Each template As String In viewfiles
+            Try
+                Call VBHtml _
+                    .ReadHTML(template, vars) _
+                    .SaveTo(wwwroot & "/" & template.BaseName & ".html")
+            Catch ex As Exception
+                Call ex.Message.warning
+            End Try
+        Next
+    End Sub
 
     <ExportAPI("/stress_test")>
     <Usage("/stress_test /url <test_url> [/batch_size <default=10000> /post]")>
