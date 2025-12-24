@@ -107,7 +107,7 @@ Namespace SequenceLogo
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{Alphabet} --> {RelativeFrequency}"
+            Return $"{{{Alphabet}}}: {RelativeFrequency.ToString("F4")}"
         End Function
     End Class
 End Namespace
