@@ -140,9 +140,12 @@ Module Program
                 ' is template render
                 For Each file As String In $"{view}/{config.markdown.source}".ListFiles("*.md")
                     Try
-                        Dim html As String = markdown.Transform(file.ReadAllText)
+                        Dim mdtext As String = file.ReadAllText
+                        Dim html As String = markdown.Transform(mdtext)
                         Dim outputDocs As String = $"{wwwroot}/{PathExtensions.RelativePath(view, file, False, True).ChangeSuffix("html")}"
+                        Dim title As NamedValue(Of Integer) = MarkdownRender.GetTOC(mdtext).Where(Function(h) h.Value = 1).FirstOrDefault
 
+                        Call config.set("title", title.Name)
                         Call config.set("menu", menuHtml)
                         Call config.set("docs", html)
                         Call VBHtml _
