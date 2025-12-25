@@ -55,7 +55,6 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData

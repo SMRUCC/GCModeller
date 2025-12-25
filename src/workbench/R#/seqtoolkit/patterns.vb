@@ -104,9 +104,12 @@ Module patterns
     Friend Sub Main()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
+
         Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
         Call REnv.Internal.generic.add("plot", GetType(MSAMotif), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(Probability), AddressOf plotMotif)
+
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MSAMotif), AddressOf gibbs_table)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
