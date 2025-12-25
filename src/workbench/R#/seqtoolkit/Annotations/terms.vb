@@ -190,8 +190,9 @@ Module terms
     ''' <param name="id">A vector of protein identifier strings.</param>
     ''' <returns>An array of unique protein identifiers with the numeric suffix removed.</returns>
     <ExportAPI("removes_proteinIDSuffix")>
-    Public Function removesProteinIDSuffix(<RRawVectorArgument> id As Object) As String()
+    Public Function removesProteinIDSuffix(<RRawVectorArgument> id As Object, Optional make_unique As Boolean = True) As String()
         Dim dbxref As String() = CLRVector.asCharacter(id)
+        Dim gene_id As IEnumerable(Of String)
 
         If dbxref.IsNullOrEmpty Then
             Return Nothing
@@ -201,12 +202,16 @@ Module terms
         ' removes this integer suffix part from the id
         Const prot_idSuffix = "\.\d+$"
 
-        dbxref = dbxref _
-            .Select(Function(prot_id)
-                        Return Regex.Replace(prot_id, prot_idSuffix, String.Empty)
-                    End Function) _
-            .Distinct _
-            .ToArray
+        If make_unique Then
+            gene_id = From prot_id As String
+                      In dbxref
+                      Select Regex.Replace(prot_id, prot_idSuffix, String.Empty)
+                      Distinct
+        Else
+            gene_id = From prot_id As String In dbxref Select Regex.Replace(prot_id, prot_idSuffix, String.Empty)
+        End If
+
+        dbxref = gene_id.ToArray
 
         Return dbxref
     End Function
