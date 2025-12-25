@@ -3,7 +3,7 @@
 .SH NAME
 motif.find_sites \- Find target loci site based on the given motif model
 .SH SYNOPSIS
-\fImotif.find_sites(\fBmotif\fR as <generic> SequenceMotif, 
+\fImotif.find_sites(\fBmotif\fR as any, 
 \fBtarget\fR as any, 
 \fBcutoff\fR as double = 0.6, 
 \fBminW\fR as double = 8, 
@@ -17,7 +17,7 @@ Find target loci site based on the given motif model
 .PP
 .SH OPTIONS
 .PP
-\fBmotif\fB \fR\- -. 
+\fBmotif\fB \fR\- could be @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif\fR or @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif\fR. 
 .PP
 .PP
 \fBtarget\fB \fR\- a collection of fasta sequence. 

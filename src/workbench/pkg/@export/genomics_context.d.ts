@@ -84,12 +84,16 @@ declare namespace genomics_context {
     * 
     * 
      * @param genome -
-     * @param genes -
+     * @param genes gene list could be omit if the input genome data is a ncbi genbank model object. 
+     *  then all gene features inside the input genbank assembly will be used for export of 
+     *  the TSS upstream site.
+     * 
+     * + default value Is ``null``.
      * @param upstream_len 
      * + default value Is ``150``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function TSS_upstream(genome: any, genes: any, upstream_len?: object, env?: object): any;
+   function TSS_upstream(genome: any, genes?: any, upstream_len?: object, env?: object): any;
 }

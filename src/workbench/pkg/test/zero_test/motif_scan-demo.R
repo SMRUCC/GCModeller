@@ -18,11 +18,12 @@ bitmap(file = "LexA.png") {
 
 let gb_asm = GenBank::read.genbank("G:\BlueprintCAD\demo\Escherichia coli str. K-12 substr. MG1655.gbff");
 let nt = gb_asm |> TSS_upstream( upstream_len =150);
+let motif_sites = motif.find_sites(motif, nt, parallel = TRUE);
 
-#cast motif data result as dataframe and export to table file
-motif = as.data.frame(motif);
-motif = motif[order(motif$score),];
+# cast motif site data result as dataframe and export to table file
+motif_sites = as.data.frame(motif_sites);
+motif_sites = motif_sites[order(motif_sites$identities, decreasing=TRUE),];
 
-print(motif, max.print = 13);
+print(motif_sites, max.print = 13);
 
-write.csv(motif, file = "LexA.csv");
+write.csv(motif_sites, file = "LexA_sites.csv");

@@ -101,7 +101,7 @@ declare namespace bioseq.patterns {
        * Find target loci site based on the given motif model
        * 
        * 
-        * @param motif -
+        * @param motif could be @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif`` or @``T:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif``
         * @param target a collection of fasta sequence
         * @param cutoff 
         * + default value Is ``0.6``.
@@ -116,7 +116,7 @@ declare namespace bioseq.patterns {
         * @param env 
         * + default value Is ``null``.
       */
-      function find_sites(motif: object, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, env?: object): object;
+      function find_sites(motif: any, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, env?: object): object;
    }
    /**
     * 
@@ -175,7 +175,7 @@ declare namespace bioseq.patterns {
       /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(System.Object,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
        * 
         * @param file -
       */
