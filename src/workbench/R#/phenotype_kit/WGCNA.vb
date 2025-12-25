@@ -52,6 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -213,8 +214,19 @@ Module WGCNA
     ''' 
     <ExportAPI("load_TOM_graph")>
     <RApiReturn(GetType(NetworkGraph))>
-    Public Function LoadTOMModuleGraph_call(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
-        Return LoadTOMModuleGraph(edges, nodes, threshold, prefix)
+    Public Function LoadTOMModuleGraph_call(edges As String, nodes As String,
+                                            Optional threshold As Double = 0,
+                                            Optional prefix$ = Nothing,
+                                            <RRawVectorArgument>
+                                            Optional id_subset As Object = Nothing) As NetworkGraph
+
+        Dim idSubset As String() = CLRVector.asCharacter(id_subset)
+
+        Return LoadTOMModuleGraph(
+            edges, nodes,
+            threshold,
+            prefix,
+            subset:=idSubset.Indexing)
     End Function
 
     ''' <summary>

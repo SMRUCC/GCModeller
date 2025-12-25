@@ -241,15 +241,38 @@ Public Module Rscript
     ''' <param name="threshold"></param>
     ''' <param name="prefix"></param>
     ''' <returns></returns>
-    Public Function LoadTOMModuleGraph(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
-        Return LoadTOMModuleGraph(LoadTOMWeights(edges, threshold, prefix), WGCNAModules.LoadModules(nodes))
+    Public Function LoadTOMModuleGraph(edges As String, nodes As String,
+                                       Optional threshold As Double = 0,
+                                       Optional prefix$ = Nothing,
+                                       Optional subset As Index(Of String) = Nothing) As NetworkGraph
+
+        Return LoadTOMModuleGraph(
+            LoadTOMWeights(edges, threshold, prefix),
+            WGCNAModules.LoadModules(nodes),
+            subset:=subset
+        )
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="subset">make subset of the input raw network via a given node id vector</param>
+    ''' <returns></returns>
     <Extension>
-    Public Function LoadTOMModuleGraph(edges As IEnumerable(Of Weight), nodes As IEnumerable(Of CExprMods)) As NetworkGraph
+    Public Function LoadTOMModuleGraph(edges As IEnumerable(Of Weight),
+                                       nodes As IEnumerable(Of CExprMods),
+                                       Optional subset As Index(Of String) = Nothing) As NetworkGraph
         Dim g As New NetworkGraph
 
         For Each node As CExprMods In nodes
+            If subset IsNot Nothing Then
+                If Not (node.nodeName Like subset) Then
+                    Continue For
+                End If
+            End If
+
             Call g.CreateNode(node.nodeName, New NodeData With {
                 .label = node.nodeName,
                 .origID = node.nodeName,
@@ -260,6 +283,12 @@ Public Module Rscript
         Next
 
         For Each edge As Weight In edges
+            If subset IsNot Nothing Then
+                If Not (edge.fromNode Like subset AndAlso edge.toNode Like subset) Then
+                    Continue For
+                End If
+            End If
+
             Call g.CreateEdge(
                 g.GetElementByID(edge.fromNode),
                 g.GetElementByID(edge.toNode),
