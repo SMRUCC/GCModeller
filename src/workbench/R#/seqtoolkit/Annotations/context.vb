@@ -316,6 +316,7 @@ Module context
                                  <RRawVectorArgument>
                                  Optional genes As Object = Nothing,
                                  Optional upstream_len As Integer = 150,
+                                 Optional simple_title As Boolean = True,
                                  Optional env As Environment = Nothing) As Object
         Dim nt As FastaSeq
 
@@ -357,13 +358,19 @@ Module context
                         Dim from = std.Min(left, upstream)
                         Dim [to] = std.Max(left, upstream)
                         Dim seq As String = nt.CutSequenceLinear(from, [to])
+                        Dim title As String()
 
                         If gene_loci.Strand = Strands.Reverse Then
                             seq = NucleicAcid.Complement(seq).Reverse.CharString
                         End If
+                        If simple_title Then
+                            title = {gene.Key, gene.Product}
+                        Else
+                            title = {gene.Key, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}", nt_title}
+                        End If
 
                         Dim promoter_region As New FastaSeq With {
-                            .Headers = {gene.Key, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}", nt_title},
+                            .Headers = title,
                             .SequenceData = seq
                         }
 

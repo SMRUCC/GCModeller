@@ -18,7 +18,7 @@ bitmap(file = "LexA.png") {
 
 let gb_asm = GenBank::read.genbank("G:\BlueprintCAD\demo\Escherichia coli str. K-12 substr. MG1655.gbff");
 let nt = gb_asm |> TSS_upstream( upstream_len =150);
-let motif_sites = motif.find_sites(motif, nt, parallel = TRUE);
+let motif_sites = motif.find_sites(motif, nt, parallel = TRUE, motif_name="LexA");
 
 # cast motif site data result as dataframe and export to table file
 motif_sites = as.data.frame(motif_sites);
