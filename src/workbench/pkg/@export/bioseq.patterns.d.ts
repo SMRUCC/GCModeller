@@ -113,10 +113,12 @@ declare namespace bioseq.patterns {
         * + default value Is ``0.05``.
         * @param parallel 
         * + default value Is ``false``.
+        * @param motif_name 
+        * + default value Is ``null``.
         * @param env 
         * + default value Is ``null``.
       */
-      function find_sites(motif: any, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, env?: object): object;
+      function find_sites(motif: any, target: any, cutoff?: number, minW?: number, identities?: number, pvalue?: number, parallel?: boolean, motif_name?: string, env?: object): object;
    }
    /**
     * 
@@ -175,7 +177,7 @@ declare namespace bioseq.patterns {
       /**
        * read sequence motif json file.
        * 
-       * > apply for search by @``M:seqtoolkit.patterns.matchSites(System.Object,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,SMRUCC.Rsharp.Runtime.Environment)``
+       * > apply for search by @``M:seqtoolkit.patterns.matchSites(System.Object,System.Object,System.Double,System.Double,System.Double,System.Double,System.Boolean,System.String,SMRUCC.Rsharp.Runtime.Environment)``
        * 
         * @param file -
       */

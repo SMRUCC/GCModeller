@@ -91,9 +91,11 @@ declare namespace genomics_context {
      * + default value Is ``null``.
      * @param upstream_len 
      * + default value Is ``150``.
+     * @param simple_title 
+     * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function TSS_upstream(genome: any, genes?: any, upstream_len?: object, env?: object): any;
+   function TSS_upstream(genome: any, genes?: any, upstream_len?: object, simple_title?: boolean, env?: object): any;
 }
