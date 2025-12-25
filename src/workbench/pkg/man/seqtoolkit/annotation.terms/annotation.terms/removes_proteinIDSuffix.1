@@ -1,9 +1,21 @@
 .\" man page create by R# package system.
 .TH ANNOTATION.TERMS 2 2000-Jan "removes_proteinIDSuffix" "removes_proteinIDSuffix"
 .SH NAME
-removes_proteinIDSuffix \- 
+removes_proteinIDSuffix \- Removes the numeric suffix (usually representing an exon index) from protein identifiers.
 .SH SYNOPSIS
 \fIremoves_proteinIDSuffix(\fBid\fR as any);\fR
+.SH DESCRIPTION
+.PP
+Removes the numeric suffix (usually representing an exon index) from protein identifiers.
+.PP
+.SH OPTIONS
+.PP
+\fBid\fB \fR\- A vector of protein identifier strings.. 
+.PP
+.SH VALUE
+.PP
+An array of unique protein identifiers with the numeric suffix removed.
+.PP
 .SH SEE ALSO
 annotation.terms
 .SH FILES

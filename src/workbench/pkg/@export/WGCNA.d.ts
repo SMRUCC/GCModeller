@@ -111,8 +111,10 @@ declare namespace WGCNA {
      * + default value Is ``0``.
      * @param prefix 
      * + default value Is ``null``.
+     * @param id_subset 
+     * + default value Is ``null``.
    */
-   function load_TOM_graph(edges: string, nodes: string, threshold?: number, prefix?: string): object;
+   function load_TOM_graph(edges: string, nodes: string, threshold?: number, prefix?: string, id_subset?: any): object;
    module read {
       /**
        * load TOM module network nodes
@@ -128,6 +130,14 @@ declare namespace WGCNA {
       /**
        * read the TOM correlation network matrix file
        * 
+       * > imports a network edge table file that export from WGCNA TOM module, with data headers: 
+       * >  
+       * >  fromNode
+       * >  toNode
+       * >  weight
+       * >  direction
+       * >  fromAltName
+       * >  toAltName
        * 
         * @param file -
         * @param threshold -

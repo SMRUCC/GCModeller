@@ -82,6 +82,11 @@ declare namespace annotation.terms {
    */
    function read_rankterms(file: string): object;
    /**
+    * Removes the numeric suffix (usually representing an exon index) from protein identifiers.
+    * 
+    * 
+     * @param id A vector of protein identifier strings.
+     * @return An array of unique protein identifiers with the numeric suffix removed.
    */
    function removes_proteinIDSuffix(id: any): string;
    /**
