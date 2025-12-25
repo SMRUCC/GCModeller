@@ -8,7 +8,7 @@ imports "genomics_context" from "seqtoolkit";
 setwd(@dir);
 
 # read sequence data and found motif via gibbs scan method
-let raw = read.fasta("../Staphylococcaceae_LexA___Staphylococcaceae.fasta");
+let raw = read.fasta("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\data\Staphylococcaceae_LexA___Staphylococcaceae.fasta");
 let motif = gibbs_scan(raw, width = 18);
 
 # draw sequence logo of the generated motif

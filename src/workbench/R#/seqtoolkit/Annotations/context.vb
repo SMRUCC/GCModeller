@@ -346,6 +346,8 @@ Module context
             Return pullFeatures.getError
         End If
 
+        Dim nt_title As String = nt.Title
+
         Return pullFeatures _
             .populates(Of IGeneBrief)(env) _
             .Select(Function(gene)
@@ -361,7 +363,7 @@ Module context
                         End If
 
                         Dim promoter_region As New FastaSeq With {
-                            .Headers = {nt.Title, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}"},
+                            .Headers = {gene.Key, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}", nt_title},
                             .SequenceData = seq
                         }
 

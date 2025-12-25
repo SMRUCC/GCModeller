@@ -403,9 +403,11 @@ Module patterns
                                Optional identities As Double = 0.85,
                                Optional pvalue As Double = 0.05,
                                Optional parallel As Boolean = False,
+                               Optional motif_name As String = Nothing,
                                Optional env As Environment = Nothing) As Object
 
         Dim PWM As SequencePatterns.Residue()
+        Dim seedName As String = motif_name
 
         If motif Is Nothing Then
             Call "the required motif PWM model is nothing".warning
@@ -414,6 +416,10 @@ Module patterns
 
         If TypeOf motif Is SequenceMotif Then
             PWM = DirectCast(motif, SequenceMotif).region
+
+            If motif_name Is Nothing Then
+                seedName = DirectCast(motif, SequenceMotif).name
+            End If
         ElseIf TypeOf motif Is MSAMotif Then
             PWM = DirectCast(motif, MSAMotif).PWM.ToArray
         Else
@@ -428,6 +434,10 @@ Module patterns
                 .ScanSites(DirectCast(target, FastaSeq), cutoff, minW,
                            pvalue_cut:=pvalue,
                            identities:=identities) _
+                .Select(Function(s)
+                            s.seeds = {seedName}
+                            Return s
+                        End Function) _
                 .ToArray
         Else
             Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(target, env)
@@ -444,6 +454,10 @@ Module patterns
                                                      pvalue_cut:=pvalue)
                             End Function) _
                     .IteratesALL _
+                    .Select(Function(s)
+                                s.seeds = {seedName}
+                                Return s
+                            End Function) _
                     .ToArray
             End If
         End If
