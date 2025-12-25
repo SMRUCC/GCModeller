@@ -176,6 +176,16 @@ Module WGCNA
     ''' a prefix to the fromNode and toNode id
     ''' </param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' imports a network edge table file that export from WGCNA TOM module, with data headers: 
+    ''' <br /><br />
+    ''' fromNode<br />
+    ''' toNode<br />
+    ''' weight<br />
+    ''' direction<br />
+    ''' fromAltName<br />
+    ''' toAltName<br />
+    ''' </remarks>
     <ExportAPI("read.weight_matrix")>
     <RApiReturn(GetType(WGCNAWeight), GetType(DataMatrix))>
     Public Function readWeightMatrix(<RRawVectorArgument> file As Object,

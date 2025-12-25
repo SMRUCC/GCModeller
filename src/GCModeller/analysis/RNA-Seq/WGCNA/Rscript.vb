@@ -142,8 +142,18 @@ Public Module Rscript
     ''' </summary>
     ''' <param name="files">weight edge data in different modules result folder</param>
     ''' <param name="threshold"></param>
-    ''' <param name="prefix$"></param>
+    ''' <param name="prefix"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' imports a network edge table file that export from WGCNA TOM module, with data headers: 
+    ''' <br /><br />
+    ''' fromNode<br />
+    ''' toNode<br />
+    ''' weight<br />
+    ''' direction<br />
+    ''' fromAltName<br />
+    ''' toAltName<br />
+    ''' </remarks>
     Public Function FastImports(files As IEnumerable(Of String),
                                 Optional threshold As Double = 0,
                                 Optional prefix$ = Nothing) As WGCNAWeight
@@ -164,8 +174,18 @@ Public Module Rscript
     ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="threshold"></param>
-    ''' <param name="prefix$"></param>
+    ''' <param name="prefix"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' imports a network edge table file that export from WGCNA TOM module, with data headers: 
+    ''' <br /><br />
+    ''' fromNode<br />
+    ''' toNode<br />
+    ''' weight<br />
+    ''' direction<br />
+    ''' fromAltName<br />
+    ''' toAltName<br />
+    ''' </remarks>
     Public Function FastImports(path As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
         Return WGCNAWeight.CreateMatrix(dataSet:=LoadTOMWeights(path, threshold, prefix))
     End Function
@@ -219,7 +239,7 @@ Public Module Rscript
     ''' <param name="edges"></param>
     ''' <param name="nodes"></param>
     ''' <param name="threshold"></param>
-    ''' <param name="prefix$"></param>
+    ''' <param name="prefix"></param>
     ''' <returns></returns>
     Public Function LoadTOMModuleGraph(edges As String, nodes As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As NetworkGraph
         Return LoadTOMModuleGraph(LoadTOMWeights(edges, threshold, prefix), WGCNAModules.LoadModules(nodes))
