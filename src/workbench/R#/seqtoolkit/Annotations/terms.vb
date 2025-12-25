@@ -184,6 +184,11 @@ Module terms
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' Removes the numeric suffix (usually representing an exon index) from protein identifiers.
+    ''' </summary>
+    ''' <param name="id">A vector of protein identifier strings.</param>
+    ''' <returns>An array of unique protein identifiers with the numeric suffix removed.</returns>
     <ExportAPI("removes_proteinIDSuffix")>
     Public Function removesProteinIDSuffix(<RRawVectorArgument> id As Object) As String()
         Dim dbxref As String() = CLRVector.asCharacter(id)
@@ -192,6 +197,8 @@ Module terms
             Return Nothing
         End If
 
+        ' protein id is usually be the gene id suffixed with exon index
+        ' removes this integer suffix part from the id
         Const prot_idSuffix = "\.\d+$"
 
         dbxref = dbxref _
