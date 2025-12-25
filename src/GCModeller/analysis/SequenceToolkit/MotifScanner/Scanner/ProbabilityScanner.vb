@@ -159,7 +159,7 @@ Public Module ProbabilityScanner
                                         Next
 
                                         Dim score2 As Double = one.SSM(v.AsVector)
-                                        Dim extremes = zero.Select(Function(si) score(si, PWM)).Count(Function(a) a >= total)
+                                        Dim extremes = zero.Select(Function(si) NullTest.score(si, PWM)).Count(Function(a) a >= total)
                                         Dim pvalue = (extremes + 1) / (n + 1)
 
                                         Return New MotifMatch With {
@@ -177,18 +177,8 @@ Public Module ProbabilityScanner
         Return matches.Take(5)
     End Function
 
-    Friend Function score(seq As String, PWM As IReadOnlyCollection(Of Residue)) As Double
-        Dim total As Double = 0
-
-        For i As Integer = 0 To seq.Length - 1
-            total += PWM(i)(seq(i))
-        Next
-
-        Return total
-    End Function
-
     ''' <summary>
-    ''' 基于PWM的概率匹配
+    ''' 基于PWM的概率匹配，从目标基因组序列中找到Motif位点用于建立调控关系
     ''' </summary>
     ''' <param name="PWM">PWM</param>
     ''' <param name="target"></param>
@@ -206,25 +196,39 @@ Public Module ProbabilityScanner
 
         Dim chars As Char() = target.SequenceData.ToCharArray
         Dim subject As Residue() = target.ToResidues
+        ' define a general smith-waterman symbol comparer
+        ' mapping the char in target sequence as the PWM column object
+        ' example as: A mapping as [1 0 0 0]
+        '             T mapping as [0 1 0 0]
+        '             G mapping as [0 0 1 0]  
+        '             C mapping as [0 0 0 1]
         Dim symbol As New GenericSymbol(Of Residue)(
             equals:=Function(a, b) Compare(a, b) >= 0.85,
             similarity:=AddressOf Compare,
             toChar:=AddressOf Residue.Max,
             empty:=AddressOf Residue.GetEmpty
         )
+        ' create a general smith-waterman(GSW) alignment algorithm
         Dim core As New GSW(Of Residue)(PWM, subject, symbol)
-        Dim result = core.BuildMatrix.GetMatches(cutoff * core.MaxScore) _
+        ' use PWM seuqnece to search target sequence
+        ' find all best local alignment HSP as motif site candidates
+        Dim result As Match() = core.BuildMatrix.GetMatches(cutoff * core.MaxScore) _
             .Where(Function(m) (m.toB - m.fromB) >= minW) _
             .OrderByDescending(Function(a) a.score) _
             .Take(top) _
             .ToArray
         Dim seqTitle As String = target.Title
-        Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
+        Dim background As New ZERO(background:=NT _
+               .ToDictionary(Function(b) b,
+                             Function(b)
+                                 Return target.SequenceData.Count(b) / target.Length
+                             End Function))
 
+        ' evaluate each local best alignment HSP result
         For Each m As Match In result
             Dim len As Integer = std.Min(m.toA - m.fromA, m.toB - m.fromB)
             Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, len)
-            Dim motifSlice = motifSpan.SpanView
+            Dim motifSlice As Residue() = motifSpan.SpanView
             Dim site As New Span(Of Char)(chars, m.fromB, motifSpan.Length)
             Dim motifStr As String = motifSpan.SpanCopy.JoinBy("")
             Dim v As Double() = New Double(motifStr.Length - 1) {}
@@ -249,6 +253,9 @@ Public Module ProbabilityScanner
                 Continue For
             End If
 
+            ' found a significant motif site match on target sequence
+            ' as the TFBS candidates, this site will be used for
+            ' re-construct of the TRN network 
             Yield New MotifMatch With {
                 .identities = score2,
                 .segment = site.SpanCopy.CharString,

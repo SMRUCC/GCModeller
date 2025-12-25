@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 
 Public Class NullTest : Inherits NullHypothesis(Of String)
 
@@ -20,7 +21,18 @@ Public Class NullTest : Inherits NullHypothesis(Of String)
         Next
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function Score(x As String) As Double
-        Return ProbabilityScanner.score(x.ToCharArray, motifSlice)
+        Return score(x.ToCharArray, motifSlice)
+    End Function
+
+    Friend Overloads Shared Function score(seq As String, PWM As IReadOnlyCollection(Of Residue)) As Double
+        Dim total As Double = 0
+
+        For i As Integer = 0 To seq.Length - 1
+            total += PWM(i)(seq(i))
+        Next
+
+        Return total
     End Function
 End Class
