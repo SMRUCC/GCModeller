@@ -199,7 +199,7 @@ Module GSEA
             Return RInternal.debug.stop("the required gsea background model could not be nothing!", env)
         End If
 
-        Dim geneExpression As NamedValue(Of Double)() = Nothing
+        Dim geneExpression As GeneExpressionRank() = Nothing
         Dim permutations As Integer = args.getValue("permutations", env, [default]:=1000)
 
         If Not expr.IsNullOrEmpty Then
@@ -209,7 +209,7 @@ Module GSEA
 
             geneExpression = inputIdset _
                 .Select(Function(id, i)
-                            Return New NamedValue(Of Double)(id, expr(i))
+                            Return New GeneExpressionRank(id, expr(i))
                         End Function) _
                 .ToArray
         End If

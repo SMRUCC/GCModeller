@@ -155,11 +155,11 @@ Public Class PermutationTest : Inherits NullHypothesis(Of GeneExpressionRank())
 
             For i As Integer = 0 To permutedGeneExpression.Length - 1
                 Dim k As Integer = randf.NextInteger(permutedGeneExpression.Length)
-                Dim swapRank = permutedGeneExpression(k).rank
-                Dim temp = permutedGeneExpression(i).rank
+                Dim swapRank As Double = permutedGeneExpression(k).rank
+                Dim temp As Double = permutedGeneExpression(i).rank
 
-                permutedGeneExpression(i) = New GeneExpressionRank With {.gene_id = permutedGeneExpression(i).gene_id, .rank = swapRank}
-                permutedGeneExpression(k) = New GeneExpressionRank With {.gene_id = permutedGeneExpression(k).gene_id, .rank = temp}
+                permutedGeneExpression(i) = New GeneExpressionRank(permutedGeneExpression(i).gene_id, swapRank)
+                permutedGeneExpression(k) = New GeneExpressionRank(permutedGeneExpression(k).gene_id, temp)
             Next
 
             Yield permutedGeneExpression
@@ -180,5 +180,10 @@ Public Class GeneExpressionRank
     ''' </summary>
     ''' <returns></returns>
     Public Property rank As Double
+
+    Sub New(id As String, rank As Double)
+        Me.gene_id = id
+        Me.rank = rank
+    End Sub
 
 End Class
