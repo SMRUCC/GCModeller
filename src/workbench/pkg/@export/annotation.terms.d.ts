@@ -86,9 +86,11 @@ declare namespace annotation.terms {
     * 
     * 
      * @param id A vector of protein identifier strings.
+     * @param make_unique 
+     * + default value Is ``true``.
      * @return An array of unique protein identifiers with the numeric suffix removed.
    */
-   function removes_proteinIDSuffix(id: any): string;
+   function removes_proteinIDSuffix(id: any, make_unique?: boolean): string;
    /**
      * @param excludeNull default value Is ``false``.
    */
