@@ -305,11 +305,16 @@ Module context
     ''' get TSS upstream site sequence data
     ''' </summary>
     ''' <param name="genome"></param>
-    ''' <param name="genes"></param>
+    ''' <param name="genes">
+    ''' gene list could be omit if the input genome data is a ncbi genbank model object. 
+    ''' then all gene features inside the input genbank assembly will be used for export of 
+    ''' the TSS upstream site.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("TSS_upstream")>
-    Public Function TSS_upstream(genome As Object, <RRawVectorArgument> genes As Object,
+    Public Function TSS_upstream(genome As Object,
+                                 <RRawVectorArgument>
+                                 Optional genes As Object = Nothing,
                                  Optional upstream_len As Integer = 150,
                                  Optional env As Environment = Nothing) As Object
         Dim nt As FastaSeq
@@ -319,15 +324,23 @@ Module context
             Return Nothing
         End If
 
+        Dim pullFeatures As pipeline = Nothing
+
         If TypeOf genome Is GBFF.File Then
             nt = DirectCast(genome, GBFF.File).Origin.ToFasta
+
+            If genes Is Nothing Then
+                pullFeatures = pipeline.CreateFromPopulator(DirectCast(genome, GBFF.File).EnumerateGeneFeatures(False).ExportTable)
+            End If
         ElseIf TypeOf genome Is FastaSeq Then
             nt = DirectCast(genome, FastaSeq)
         Else
             Return Message.InCompatibleType(GetType(FastaSeq), genome.GetType, env)
         End If
 
-        Dim pullFeatures As pipeline = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+        If pullFeatures Is Nothing Then
+            pullFeatures = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+        End If
 
         If pullFeatures.isError Then
             Return pullFeatures.getError

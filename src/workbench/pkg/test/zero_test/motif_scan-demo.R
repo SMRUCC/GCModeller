@@ -2,6 +2,7 @@ require(GCModeller);
 
 imports "bioseq.patterns" from "seqtoolkit";
 imports "bioseq.fasta" from "seqtoolkit";
+imports "GenBank" from "seqtoolkit";
 
 setwd(@dir);
 
@@ -11,14 +12,11 @@ let motif = gibbs_scan(raw, width = 18);
 
 # draw sequence logo of the generated motif
 bitmap(file = "LexA.png") {
-    plot.seqLogo(motif, title = "LexA");
+    plot(motif, title = "LexA");
 }
-svg(file = "LexA.svg") {
-    plot.seqLogo(motif, title = "LexA");
-}
-pdf(file = "LexA.pdf") {
-    plot.seqLogo(motif, title = "LexA");
-}
+
+let gb_asm = GenBank::read.genbank("G:\BlueprintCAD\demo\Escherichia coli str. K-12 substr. MG1655.gbff");
+let nt = gb_asm |> 
 
 #cast motif data result as dataframe and export to table file
 motif = as.data.frame(motif);

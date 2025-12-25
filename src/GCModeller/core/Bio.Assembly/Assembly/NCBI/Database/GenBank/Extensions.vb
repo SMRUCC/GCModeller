@@ -341,17 +341,17 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        '''
+        ''' export all gene features: RNA + CDS
         ''' </summary>
         ''' <returns>{locus_tag, gene}</returns>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Export.GeneList")>
         <Extension>
-        Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
+        Public Function GeneList(gbk_asm As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
             Dim GQuery As IEnumerable(Of gbffFeature) =
                 From feature
-                In Gbk.Features
+                In gbk_asm.Features
                 Where String.Equals(feature.KeyName, "gene")
                 Select feature 'Gene list query
             Dim AQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
