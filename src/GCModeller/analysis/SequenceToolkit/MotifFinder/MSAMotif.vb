@@ -53,6 +53,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
@@ -81,6 +82,25 @@ Public Class MSAMotif : Inherits MSAOutput
         End Get
     End Property
 
+    Public Iterator Function PWM() As IEnumerable(Of Residue)
+        Dim i As i32 = 1
+
+        For Each site As ints In countMatrix
+            Dim p As New Dictionary(Of String, Double)
+            Dim sum As Integer = site.ints.Sum
+            Dim col As Double() = SIMD.Divide.int32_op_divide_int32_scalar(site.ints, sum)
+
+            For j As Integer = 0 To alphabets.Length - 1
+                p(alphabets(j).ToString) = col(j)
+            Next
+
+            Yield New Residue With {
+                .index = ++i,
+                .frequency = p
+            }
+        Next
+    End Function
+
     Public Function CreateMotif() As MotifPWM
         Dim n As Integer = 100  ' normalized as 100 sequence input
         Dim E As Double = Probability.E(nsize:=n)
@@ -92,7 +112,7 @@ Public Class MSAMotif : Inherits MSAOutput
             .pwm = countMatrix _
                 .Select(Function(r, i)
                             Dim sum As Integer = r.ints.Sum
-                            Dim col As Double() = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, r.ints.Sum)
+                            Dim col As Double() = SIMD.Divide.int32_op_divide_int32_scalar(r.ints, sum)
                             Dim Hi As Double = Probability.HI(col)
                             Dim bits As Double = Probability.CalculatesBits(Hi, E, NtMol:=alphabets.Length = 4)
 

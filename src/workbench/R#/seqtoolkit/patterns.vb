@@ -388,14 +388,14 @@ Module patterns
     ''' <summary>
     ''' Find target loci site based on the given motif model
     ''' </summary>
-    ''' <param name="motif"></param>
+    ''' <param name="motif">could be <see cref="SequenceMotif"/> or <see cref="MSAMotif"/></param>
     ''' <param name="target">a collection of fasta sequence</param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
     <RApiReturn(GetType(MotifMatch))>
-    Public Function matchSites(motif As SequenceMotif,
+    Public Function matchSites(motif As Object,
                                <RRawVectorArgument>
                                target As Object,
                                Optional cutoff# = 0.6,
@@ -405,17 +405,32 @@ Module patterns
                                Optional parallel As Boolean = False,
                                Optional env As Environment = Nothing) As Object
 
+        Dim PWM As SequencePatterns.Residue()
+
+        If motif Is Nothing Then
+            Call "the required motif PWM model is nothing".warning
+            Return Nothing
+        End If
+
+        If TypeOf motif Is SequenceMotif Then
+            PWM = DirectCast(motif, SequenceMotif).region
+        ElseIf TypeOf motif Is MSAMotif Then
+            PWM = DirectCast(motif, MSAMotif).PWM.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(SequenceMotif), motif.GetType, env)
+        End If
+
         If target Is Nothing Then
             Return RInternal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
             ' scan a simple single sequence
-            Return motif.region _
+            Return PWM _
                 .ScanSites(DirectCast(target, FastaSeq), cutoff, minW,
                            pvalue_cut:=pvalue,
                            identities:=identities) _
                 .ToArray
         Else
-            Dim seqs = GetFastaSeq(target, env)
+            Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(target, env)
 
             ' scan multiple sequence
             If seqs Is Nothing Then
@@ -424,7 +439,9 @@ Module patterns
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Return motif.ScanSites(seq, cutoff, minW, identities, pvalue:=pvalue)
+                                Return PWM.ScanSites(seq, cutoff, minW,
+                                                     identities:=identities,
+                                                     pvalue_cut:=pvalue)
                             End Function) _
                     .IteratesALL _
                     .ToArray

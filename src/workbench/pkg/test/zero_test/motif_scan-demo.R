@@ -3,6 +3,7 @@ require(GCModeller);
 imports "bioseq.patterns" from "seqtoolkit";
 imports "bioseq.fasta" from "seqtoolkit";
 imports "GenBank" from "seqtoolkit";
+imports "genomics_context" from "seqtoolkit";
 
 setwd(@dir);
 
@@ -16,7 +17,7 @@ bitmap(file = "LexA.png") {
 }
 
 let gb_asm = GenBank::read.genbank("G:\BlueprintCAD\demo\Escherichia coli str. K-12 substr. MG1655.gbff");
-let nt = gb_asm |> 
+let nt = gb_asm |> TSS_upstream( upstream_len =150);
 
 #cast motif data result as dataframe and export to table file
 motif = as.data.frame(motif);
