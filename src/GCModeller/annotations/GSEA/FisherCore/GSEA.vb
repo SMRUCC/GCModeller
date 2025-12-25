@@ -54,9 +54,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
@@ -66,14 +66,14 @@ Public Module GSEACalculate
 
     <Extension>
     Public Iterator Function Enrichment(background As Background,
-                                        geneExpression As NamedValue(Of Double)(),
+                                        geneExpression As GeneExpressionRank(),
                                         Optional permutations As Integer = 1000) As IEnumerable(Of EnrichmentResult)
 
         Dim geneInputs As String() = geneExpression.Keys
 
         For Each pathway As Cluster In TqdmWrapper.Wrap(background.clusters, wrap_console:=App.EnableTqdm)
             Dim geneSet As Index(Of String) = pathway.memberIds
-            Dim enrich = geneExpression.ToArray.Enrich(geneSet, permutations)
+            Dim enrich = geneExpression.Enrich(geneSet, permutations)
             Dim intersect = geneInputs.Intersect(geneSet.Objects).ToArray
 
             Yield New EnrichmentResult With {
@@ -101,64 +101,84 @@ Public Module GSEACalculate
     ''' <param name="permutations"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function Enrich(geneExpression As NamedValue(Of Double)(),
-                           geneSet As Index(Of String),
-                           Optional permutations As Integer = 1000) As (score As Double, pvalue As Double)
-
+    Public Function Enrich(geneExpression As GeneExpressionRank(), geneSet As Index(Of String), Optional permutations As Integer = 1000) As (score As Double, pvalue As Double)
         Dim score As Double = geneExpression.enrich_score(geneSet)
-        Dim pval As Double = geneExpression.pvalue(geneSet, score, permutations)
+        Dim nulltest As New PermutationTest(geneSet, geneExpression, permutations)
+        Dim pval As Double = nulltest.Pvalue(score, Hypothesis.Greater)
 
         Return (score, pval)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="geneExpression"></param>
+    ''' <param name="geneSet"></param>
+    ''' <returns></returns>
     <Extension>
-    Private Function enrich_score(geneExpression As NamedValue(Of Double)(), geneSet As Index(Of String)) As Double
-        Dim sortedGenes = geneExpression.OrderByDescending(Function(a) a.Value).ToArray
+    Friend Function enrich_score(geneExpression As GeneExpressionRank(), geneSet As Index(Of String)) As Double
+        Dim sortedGenes = geneExpression.OrderByDescending(Function(a) a.rank).ToArray
         Dim enrichmentScore As Double = 0
         Dim maxEnrichmentScore As Double = Double.MinValue
 
-        For Each gene As NamedValue(Of Double) In sortedGenes
-            If gene.Name Like geneSet Then
-                enrichmentScore += gene.Value
+        For Each gene As GeneExpressionRank In sortedGenes
+            If gene.gene_id Like geneSet Then
+                enrichmentScore += gene.rank
 
                 If enrichmentScore > maxEnrichmentScore Then
                     maxEnrichmentScore = enrichmentScore
                 End If
             Else
-                enrichmentScore -= gene.Value
+                enrichmentScore -= gene.rank
             End If
         Next
 
         Return maxEnrichmentScore
     End Function
+End Module
 
-    <Extension>
-    Private Function pvalue(geneExpression As NamedValue(Of Double)(),
-                            geneSet As Index(Of String),
-                            observedEnrichmentScore As Double,
-                            permutations As Integer) As Double
+Public Class PermutationTest : Inherits NullHypothesis(Of GeneExpressionRank())
 
-        Dim permutedEnrichmentScores As New List(Of Double)
+    ReadOnly geneExpression As GeneExpressionRank()
+    ReadOnly geneSet As Index(Of String)
 
-        For n As Integer = 0 To permutations - 1
+    Sub New(geneSet As Index(Of String), geneExpression As GeneExpressionRank(), permutations As Integer)
+        MyBase.New(permutations)
+        Me.geneExpression = geneExpression
+        Me.geneSet = geneSet
+    End Sub
+
+    Public Overrides Iterator Function ZeroSet() As IEnumerable(Of GeneExpressionRank())
+        For n As Integer = 1 To Permutation
+            ' make copy of the raw array
             Dim permutedGeneExpression = geneExpression.ToArray
 
             For i As Integer = 0 To permutedGeneExpression.Length - 1
                 Dim k As Integer = randf.NextInteger(permutedGeneExpression.Length)
-                Dim swapGene = permutedGeneExpression(k).Value
-                Dim temp = permutedGeneExpression(i).Value
+                Dim swapRank = permutedGeneExpression(k).rank
+                Dim temp = permutedGeneExpression(i).rank
 
-                permutedGeneExpression(i) = New NamedValue(Of Double)(permutedGeneExpression(i).Name, swapGene)
-                permutedGeneExpression(k) = New NamedValue(Of Double)(permutedGeneExpression(k).Name, temp)
+                permutedGeneExpression(i) = New GeneExpressionRank With {.gene_id = permutedGeneExpression(i).gene_id, .rank = swapRank}
+                permutedGeneExpression(k) = New GeneExpressionRank With {.gene_id = permutedGeneExpression(k).gene_id, .rank = temp}
             Next
 
-            Call permutedEnrichmentScores.Add(permutedGeneExpression.enrich_score(geneSet))
+            Yield permutedGeneExpression
         Next
-
-        Dim pval = ((Aggregate score As Double
-                    In permutedEnrichmentScores
-                    Where score >= observedEnrichmentScore
-                    Into Count) + 1) / (permutations + 1)
-        Return pval
     End Function
-End Module
+
+    Public Overrides Function Score(x() As GeneExpressionRank) As Double
+        Return x.enrich_score(geneSet)
+    End Function
+End Class
+
+Public Class GeneExpressionRank
+    Implements INamedValue
+
+    Public Property gene_id As String Implements INamedValue.Key
+    ''' <summary>
+    ''' gene id tagged with the expression ranking value, example as -log10 of t-test pvalue
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property rank As Double
+
+End Class
