@@ -320,14 +320,14 @@ Module GSEA
                 goClusters:=New DAG.Graph(DirectCast(go, GO_OBO).AsEnumerable),
                 showProgress:=showProgress
             ).ToArray _
-             .FDRCorrection _
+             .FDR _
              .OrderBy(Function(e) e.FDR) _
              .ToArray
         ElseIf go.GetType Is GetType(DAG.Graph) Then
             Return background _
                 .Enrichment(geneSet, DirectCast(go, DAG.Graph), showProgress:=showProgress) _
                 .ToArray _
-                .FDRCorrection _
+                .FDR _
                 .OrderBy(Function(e) e.FDR) _
                 .ToArray
         Else

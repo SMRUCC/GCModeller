@@ -121,15 +121,28 @@ Public Module GSEACalculate
         Dim enrichmentScore As Double = 0
         Dim maxEnrichmentScore As Double = Double.MinValue
 
+        ' --- 修改开始：计算分数所需的参数 ---
+        Dim totalGenes As Integer = sortedGenes.Length
+        Dim hitsCount As Integer = geneSet.Count
+
+        ' 预先计算“命中”和“未命中”时的分数步长，避免在循环中重复除法
+        Dim hitStep As Double = 1.0 / hitsCount
+        Dim missStep As Double = 1.0 / (totalGenes - hitsCount)
+        ' --- 修改结束 ---
+
         For Each gene As GeneExpressionRank In sortedGenes
             If gene.gene_id Like geneSet Then
-                enrichmentScore += gene.rank
+                ' 修改前: enrichmentScore += gene.rank
+                ' 修改后: 使用归一化的分数 (1 / N_hits)
+                enrichmentScore += hitStep
 
                 If enrichmentScore > maxEnrichmentScore Then
                     maxEnrichmentScore = enrichmentScore
                 End If
             Else
-                enrichmentScore -= gene.rank
+                ' 修改前: enrichmentScore -= gene.rank
+                ' 修改后: 使用归一化的分数 (1 / (N_total - N_hits))
+                enrichmentScore -= missStep
             End If
         Next
 

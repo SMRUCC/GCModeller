@@ -26,18 +26,25 @@ let design = sample_info |> make.analysis(
         control = "Strain_Y203", 
         treatment = "High_Osmolarity");
 let deg = limma(expr, design);
+let i = ([deg]::class == "up") || ([deg]::class == "down");
 
 cat("\n");
 message("view of the DEG analysis result which is measured via the limma:");
 print(as.data.frame(deg), max.print = 6);
+
+deg = deg[i];
 
 let geneSet = JSON::json_decode(readText("gene_clusters.json"));
 let kb = background::fromList(geneSet);
 let result = kb |> enrichment([deg]::id, expression = -log10([deg]::adj_P_Val),
     permutations = 5000);
 
+result = as.data.frame(result);
+result$class =NULL;
+result$category=NULL;
+
 cat("\n");
 message("get GSEA analysis output:");
-print(as.data.frame(result));
+print(result);
 
 write.csv(result, file = "Strain_Y203_vs_High_Osmolarity.csv");
