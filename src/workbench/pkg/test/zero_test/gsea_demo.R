@@ -28,7 +28,7 @@ print(as.data.frame(deg));
 
 let geneSet = JSON::json_decode(readText("gene_clusters.json"));
 let kb = background::fromList(geneSet);
-let result = kb |> enrichment([deg]::id, expression = abs([deg]::logFC));
+let result = kb |> enrichment([deg]::id, expression = -log10([deg]::adj_P_Val));
 
 print(as.data.frame(result));
 
