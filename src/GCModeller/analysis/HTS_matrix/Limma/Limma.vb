@@ -133,7 +133,7 @@ Public Module Limma
 
     <Extension>
     Public Function LmFit(x As Matrix, design As DataAnalysis) As IEnumerable(Of LimmaTable)
-        Return x.LmFitInternal(design).FDR
+        Return x.LmFitInternal(design).FDR.OrderBy(Function(i) i.adj_P_Val)
     End Function
 
     <Extension>

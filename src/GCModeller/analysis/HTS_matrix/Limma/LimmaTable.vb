@@ -104,7 +104,7 @@ Public Class LimmaTable : Implements IDeg, INamedValue, IReadOnlyId, IStatPvalue
     Public Property [class] As String
 
     Public Overrides Function ToString() As String
-        Return $"{id} - logfc:{logFC}, p-value={P_Value}"
+        Return $"{id} - logfc:{logFC}, p-val:{P_Value.ToString("G3")} adj.pval:{adj_P_Val.ToString("G3")}"
     End Function
 
     Public Shared Iterator Function LoadTable(filepath As String) As IEnumerable(Of LimmaTable)
