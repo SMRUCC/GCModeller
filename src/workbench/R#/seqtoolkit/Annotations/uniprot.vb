@@ -526,7 +526,7 @@ Module uniprotTools
                 }
             End If
         ElseIf db_xrefs IsNot Nothing Then
-            Dim gene_ORF As String = prot.gene.ORF.ElementAtOrDefault(0)
+            Dim gene_ORF As String = prot.ORF
 
             If db_xrefs.IsNullOrEmpty AndAlso Not gene_ORF Is Nothing Then
                 db_xrefs = New String() {gene_ORF}
