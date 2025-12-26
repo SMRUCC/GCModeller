@@ -391,7 +391,8 @@ Namespace Core
             Dim handle$ = TempFileSystem.GetAppSysTempFile(, sessionID:=App.PID)
             Dim result As (error%, message$) = Nothing
 
-            If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) Then
+            ' nodejs is content-length
+            If httpHeaders.ContainsKey(ResponseHeaders.ContentLength) OrElse httpHeaders.ContainsKey("content-length") Then
                 result = flushPOSTPayload(handle)
             End If
 
@@ -410,7 +411,7 @@ Namespace Core
         ''' </param>
         ''' <returns></returns>
         Private Function flushPOSTPayload(handle As String) As (error%, message$)
-            Dim content_len% = Convert.ToInt32(httpHeaders(ResponseHeaders.ContentLength))
+            Dim content_len% = Convert.ToInt32(httpHeaders.TryGetValue({ResponseHeaders.ContentLength, "content-length"}))
 
             ' 小于零的时候不进行限制
             If MAX_POST_SIZE > 0 AndAlso content_len > MAX_POST_SIZE Then
