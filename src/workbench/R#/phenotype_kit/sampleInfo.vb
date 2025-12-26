@@ -147,8 +147,9 @@ Module DEGSample
             .GetColors("Paper", list.Count) _
             .Select(Function(c) c.ToHtmlColor) _
             .ToArray
+        Dim order As i32 = 1
 
-        For Each group In list
+        For Each group As KeyValuePair(Of String, Object) In list
             Dim color As String = colors.Next
 
             For Each sample As String In DirectCast(group.Value, String())
@@ -156,7 +157,10 @@ Module DEGSample
                     .ID = sample,
                     .sample_name = sample,
                     .sample_info = group.Key,
-                    .color = color
+                    .color = color,
+                    .injectionOrder = ++order,
+                    .batch = 1,
+                    .shape = "circle"
                 }
             Next
         Next
