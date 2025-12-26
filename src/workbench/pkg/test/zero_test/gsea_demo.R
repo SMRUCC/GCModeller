@@ -11,17 +11,17 @@ let expr = load.expr("expression_matrix.csv")
 |> totalSumNorm() 
 |> geneExpression::relative(median = TRUE)
 ;
-let sample_info = sampleInfo::guess.sample_groups(
-    matrix_info(expr)$sampleID, 
-    raw.list = FALSE,
-    maxDepth = TRUE
+let sample_info = read.csv("sample_metadata.csv", row.names = NULL, check.names = FALSE);
+sample_info = sampleInfo(
+    ID = sample_info$Sample,
+    sample_info = sample_info$Group
 );
 
 print(as.data.frame(sample_info));
 
 let design = sample_info |> make.analysis(
-        control = "High_Glucose_Rep", 
-        treatment = "Low_Glucose_Rep");
+        control = "Strain_Y203", 
+        treatment = "High_Osmolarity");
 let deg = limma(expr, design);
 
 print(as.data.frame(deg));
@@ -32,4 +32,4 @@ let result = kb |> enrichment([deg]::id, expression = -log10([deg]::adj_P_Val));
 
 print(as.data.frame(result));
 
-write.csv(result, file = "High_Glucose_Rep_vs_Low_Glucose_Rep.csv");
+write.csv(result, file = "Strain_Y203_vs_High_Osmolarity.csv");
