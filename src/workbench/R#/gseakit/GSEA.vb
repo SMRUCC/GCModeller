@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
@@ -245,7 +246,7 @@ Module GSEA
         End If
 
         Return enrich _
-            .FDRCorrection _
+            .FDR _
             .OrderBy(Function(e) e.FDR) _
             .ToArray
     End Function

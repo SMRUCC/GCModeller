@@ -211,20 +211,4 @@ Public Module Enrichment
             .[class] = cluster.class
         }
     End Function
-
-    ''' <summary>
-    ''' 进行计算结果的假阳性FDR控制计算
-    ''' </summary>
-    ''' <param name="enrichments">根据我们所提供的基因列表，对每一个代谢途径的富集计算结果的集合</param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function FDRCorrection(enrichments As IEnumerable(Of EnrichmentResult)) As EnrichmentResult()
-        With enrichments _
-            .OrderBy(Function(t) t.pvalue) _
-            .Shadows
-
-            !FDR = !pvalue.FDR
-            Return .ToArray
-        End With
-    End Function
 End Module

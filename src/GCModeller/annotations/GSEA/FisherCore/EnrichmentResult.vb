@@ -60,7 +60,7 @@ Imports Microsoft.VisualBasic.Math.Statistics
 ''' <summary>
 ''' The GCModeller enrichment analysis output table
 ''' </summary>
-Public Class EnrichmentResult : Implements IStatPvalue
+Public Class EnrichmentResult : Implements IStatPvalue, IStatFDR
 
     Public Property term As String
     Public Property name As String
@@ -71,7 +71,7 @@ Public Class EnrichmentResult : Implements IStatPvalue
 
     Public Property score As Double
     Public Property pvalue As Double Implements IStatPvalue.pValue
-    Public Property FDR As Double
+    Public Property FDR As Double Implements IStatFDR.adjPVal
     Public Property cluster As Integer
     ''' <summary>
     ''' 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
