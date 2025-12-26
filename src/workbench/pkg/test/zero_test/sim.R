@@ -66,7 +66,8 @@ for (i in 1:num_clusters) {
   new_n <- total_genes_in_cluster - overlap_n
   # 生成新基因ID: 主题缩写_数字编号
   theme_abbr <- substr(theme, 1, 3) # 取前3个字母作为缩写
-  start_idx <- length(all_gene_pool) + 1000 # 避免ID数字过小
+  # 使用一个不断增长的计数器来生成ID，防止ID重复
+  start_idx <- length(all_gene_pool) + 1000 
   new_ids <- paste0(toupper(theme_abbr), "_", sprintf("%04d", start_idx:(start_idx + new_n - 1)))
   
   # 合并当前簇的基因
@@ -111,8 +112,10 @@ for (g in groups) {
   }
 }
 
-# 初始化表达矩阵 (行名为基因ID，列名为样本名)
-expr_matrix <- matrix(0, nrow = length(all_gene_pool), nrow = length(samples))
+# --- 错误修正处 ---
+# 错误原因：之前的代码写了两个 nrow 参数
+# 修正：将第二个 nrow 改为 ncol
+expr_matrix <- matrix(0, nrow = length(all_gene_pool), ncol = length(samples))
 rownames(expr_matrix) <- all_gene_pool
 colnames(expr_matrix) <- samples
 
@@ -141,9 +144,8 @@ p_high <- 0.6
 
 cat("开始计算样本表达值...\n")
 
-# 获取所有高表达基因的集合 (用于加速判断)
-# 结构: list(group_name = c(gene1, gene2...))
-group_high_genes <- lapply(group_names <- names(group_active_clusters), function(g_name) {
+# 获取所有高表达基因的集合
+group_high_genes <- lapply(names(group_active_clusters), function(g_name) {
   active_clusts <- group_active_clusters[[g_name]]
   genes_in_active_clusts <- unlist(cluster_info[active_clusts])
   return(unique(genes_in_active_clusts))
@@ -162,6 +164,7 @@ for (s_col in 1:ncol(expr_matrix)) {
   probs <- ifelse(rownames(expr_matrix) %in% high_genes_set, p_high, p_base)
   
   # 生成二项分布随机数
+  # n = nrow(expr_matrix) 表示生成与基因数量相同的随机数
   expr_matrix[, s_col] <- rbinom(n = nrow(expr_matrix), size = size_binom, prob = probs)
 }
 
@@ -174,7 +177,7 @@ csv_output_file <- "expression_matrix.csv"
 write.csv(expr_matrix, file = csv_output_file, quote = FALSE)
 cat(sprintf("表达矩阵已保存至: %s\n", csv_output_file))
 
-# 保存样本分组信息元数据，方便后续分析使用
+# 保存样本分组信息元数据
 metadata <- data.frame(
   Sample = colnames(expr_matrix),
   Group = group_labels,
