@@ -37,7 +37,7 @@ deg = deg[i];
 let geneSet = JSON::json_decode(readText("gene_clusters.json"));
 let kb = background::fromList(geneSet);
 let result = kb |> enrichment([deg]::id, expression = -log10([deg]::adj_P_Val),
-    permutations = 5000);
+    permutations = 3000);
 
 result = as.data.frame(result);
 result[,"class"] =NULL;

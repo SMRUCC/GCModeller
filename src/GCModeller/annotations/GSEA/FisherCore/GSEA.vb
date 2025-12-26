@@ -199,4 +199,8 @@ Public Class GeneExpressionRank
         Me.rank = rank
     End Sub
 
+    Public Overrides Function ToString() As String
+        Return $"{gene_id}, rank:{rank.ToString("F3")}"
+    End Function
+
 End Class
