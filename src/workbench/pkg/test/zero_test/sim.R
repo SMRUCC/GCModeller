@@ -42,7 +42,7 @@ all_gene_pool <- c() # 用于存储所有已生成的基因，以便处理重叠
 for (i in 1:num_clusters) {
   # 随机选择一个生物学主题前缀
   theme <- sample(bio_names$cluster, 1)
-  cluster_name <- paste0(theme, "_Cluster_", sprintf("%02d", i))
+  cluster_name <- paste0(sprintf("%02d", i),"-", theme)
   
   # 确定该簇的基因数量 (20 - 50)
   total_genes_in_cluster <- sample(20:50, 1)
