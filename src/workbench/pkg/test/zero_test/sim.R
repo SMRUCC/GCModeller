@@ -106,7 +106,7 @@ samples <- c()
 group_labels <- c()
 for (g in groups) {
   for (r in 1:replicates_per_group) {
-    sample_name <- paste0(g, "_Rep", sprintf("%02d", r))
+    sample_name <- paste0(g, "_", sprintf("%02d", r))
     samples <- c(samples, sample_name)
     group_labels <- c(group_labels, g)
   }

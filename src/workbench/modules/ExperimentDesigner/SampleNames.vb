@@ -79,8 +79,7 @@ Public Module SampleNames
         ' iBAQ-AAA-2
         ' iBAQ-BBB-1
         ' iBAQ-BBB-25
-        Dim largeGroups As IGrouping(Of String, Char())() = commonTags _
-            .nameMatrix _
+        Dim largeGroups As IGrouping(Of String, Char())() = commonTags.nameMatrix _
             .GroupBy(Function(cs)
                          Return cs.Take(commonTags.MaxColumnIndex + 1).CharString
                      End Function) _
@@ -117,6 +116,11 @@ Public Module SampleNames
             .Select(Function(cs) cs.Take(j).CharString) _
             .First _
             .Trim(" "c, "-"c, "_"c, "~"c, "+"c, "."c)
+
+        'If groupName.EndsWith("[^a-zA-Z]+\d+$", RegexICSng) Then
+        '    Dim suffix As String = groupName.Match("[^a-zA-Z]+\d+$", RegexICSng)
+        '    groupName = groupName.Substring(0, groupName.Length - suffix.Length)
+        'End If
 
         Return New NamedCollection(Of String) With {
             .name = groupName,
