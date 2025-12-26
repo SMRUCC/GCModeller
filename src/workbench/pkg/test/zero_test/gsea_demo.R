@@ -40,8 +40,8 @@ let result = kb |> enrichment([deg]::id, expression = -log10([deg]::adj_P_Val),
     permutations = 5000);
 
 result = as.data.frame(result);
-result$class =NULL;
-result$category=NULL;
+result[,"class"] =NULL;
+result[,"category"]=NULL;
 
 cat("\n");
 message("get GSEA analysis output:");
