@@ -10,6 +10,8 @@ let expr = load.expr("expression_matrix.csv")
 |> totalSumNorm() 
 |> geneExpression::relative(median = TRUE)
 ;
-let sample_info = sampleInfo::guess.sample_groups(matrix_info(expr)$sampleID, raw.list = FALSE);
+let sample_info = sampleInfo::guess.sample_groups(matrix_info(expr)$sampleID, 
+                        raw.list = FALSE,
+                        maxDepth = TRUE);
 
 print(as.data.frame(sample_info));

@@ -98,7 +98,7 @@ Module DEGSample
     Private Function sampleinfoTable(samples As SampleInfo(), args As list, env As Environment) As Rdataframe
         Dim data As New Rdataframe With {.columns = New Dictionary(Of String, Array)}
 
-        data.columns(NameOf(SampleInfo.ID)) = samples.Select(Function(a) a.ID).ToArray
+        ' data.columns(NameOf(SampleInfo.ID)) = samples.Select(Function(a) a.ID).ToArray
         data.columns(NameOf(SampleInfo.sample_name)) = samples.Select(Function(a) a.sample_name).ToArray
         data.columns(NameOf(SampleInfo.sample_info)) = samples.Select(Function(a) a.sample_info).ToArray
         data.columns(NameOf(SampleInfo.injectionOrder)) = samples.Select(Function(a) a.injectionOrder).ToArray
