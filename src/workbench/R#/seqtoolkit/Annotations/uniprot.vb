@@ -526,6 +526,12 @@ Module uniprotTools
                 }
             End If
         ElseIf db_xrefs IsNot Nothing Then
+            Dim gene_ORF As String = prot.gene.ORF.ElementAtOrDefault(0)
+
+            If db_xrefs.IsNullOrEmpty AndAlso Not gene_ORF Is Nothing Then
+                db_xrefs = New String() {gene_ORF}
+            End If
+
             If db_xrefs.IsNullOrEmpty Then
                 Yield New FastaSeq With {
                     .Headers = {prot.accessions(Scan0), fullname},
