@@ -634,6 +634,8 @@ Module visualPlot
                                       Optional sampleinfo As SampleInfo() = Nothing,
                                       <RRawVectorArgument>
                                       Optional ignore_categories As Object = Nothing,
+                                      <RRawVectorArgument>
+                                      Optional sort As Object = Nothing,
                                       Optional ppi As Integer = 300,
                                       Optional env As Environment = Nothing) As Object
 
@@ -650,6 +652,7 @@ Module visualPlot
             .axisStroke = "stroke: black; stroke-width: 1px; stroke-dash: solid;"
         }
         Dim driver As Drivers = env.getDriver
+        Dim sort_groups As String() = CLRVector.asCharacter(sort)
 
         If bubbleSize Like GetType(Message) Then
             Return bubbleSize.TryCast(Of Message)
@@ -753,9 +756,17 @@ Module visualPlot
                 Next
             End If
 
-            multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data) _
-                .OrderBy(Function(a) a.Name) _
-                .AsList
+            If sort_groups.IsNullOrEmpty Then
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data) _
+                    .OrderBy(Function(a) a.Name) _
+                    .AsList
+            Else
+                Dim orders As Index(Of String) = sort_groups
+
+                multiples = MultipleBubble.TopBubbles(multiples, displays, top_samples, Function(b) b.data) _
+                    .OrderBy(Function(a) orders(a.Name)) _
+                    .AsList
+            End If
 
             Dim app As New CatalogHeatMap(multiples, 100, unenrichColor, rankorder:=False, theme)
             Return app.Plot(sizeStr, ppi:=ppi, driver:=driver)
