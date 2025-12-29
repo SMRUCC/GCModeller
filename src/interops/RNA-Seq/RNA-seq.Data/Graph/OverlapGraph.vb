@@ -22,8 +22,10 @@ Namespace Graph
         ''' </summary>
         ReadOnly minIdentity As Double
 
-        Public Sub New(reads As IEnumerable(Of FastQ))
+        Public Sub New(reads As IEnumerable(Of FastQ), Optional minOverlaps As Integer = 9, Optional minIdentities As Double = 0.85)
             MyBase.New(reads)
+            Me.minIdentity = minIdentities
+            Me.minOverlapLen = minOverlaps
         End Sub
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))

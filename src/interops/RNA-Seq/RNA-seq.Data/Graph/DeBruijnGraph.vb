@@ -18,8 +18,9 @@ Namespace Graph
         ReadOnly k As Integer
         ReadOnly uniqueKmers As New HashSet(Of String)
 
-        Public Sub New(reads As IEnumerable(Of FastQ))
+        Public Sub New(reads As IEnumerable(Of FastQ), Optional k As Integer = 31)
             MyBase.New(reads)
+            Me.k = k
         End Sub
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))

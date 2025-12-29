@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 
@@ -19,8 +19,10 @@ Namespace Graph
         ''' </summary>
         ReadOnly threshold As Double
 
-        Public Sub New(reads As IEnumerable(Of FastQ))
+        Public Sub New(reads As IEnumerable(Of FastQ), Optional k As Integer = 31, Optional threshold As Double = 0.95)
             MyBase.New(reads)
+            Me.k = k
+            Me.threshold = threshold
         End Sub
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))
@@ -46,7 +48,7 @@ Namespace Graph
 
                     Dim k1 = kmers(u.label)
                     Dim k2 = kmers(v.label)
-                    Dim kjac As Double = k1.jaccard_coeff(k2)
+                    Dim kjac As Double = k1.JaccardIndex(k2)
 
                     If kjac > threshold Then
                         g.CreateEdge(u, v, kjac)
