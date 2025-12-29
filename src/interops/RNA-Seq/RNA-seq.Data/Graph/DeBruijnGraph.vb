@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -13,11 +12,10 @@ Namespace Graph
     ''' </summary>
     Public Class DeBruijnGraph : Inherits Builder
 
-        ''' <summary>
-        ''' k-mer 长度 (例如 21)
-        ''' </summary>
         ReadOnly k As Integer
-        ReadOnly uniqueKmers As New HashSet(Of String)
+        ' 使用 Dictionary 来存储 K-mer 到节点 ID 的映射，或者直接存储节点对象
+        ' 为了覆盖度统计，这里建议使用 Dictionary(Of String, Integer) 来计数
+        ReadOnly kmerCounts As New Dictionary(Of String, Integer)
 
         Public Sub New(reads As IEnumerable(Of FastQ), Optional k As Integer = 31)
             MyBase.New(reads)
@@ -25,45 +23,63 @@ Namespace Graph
         End Sub
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))
+            ' --- 第一步：统计 K-mer 并创建节点 ---
+            ' 优化点：在遍历 Reads 时直接计数，而不是仅仅去重
             For Each read As FastQ In reads
                 For Each kmer As String In KSeq.KmerSpans(NucleicAcid.Canonical(read.SequenceData), k)
-                    If Not uniqueKmers.Contains(kmer) Then
-                        Call uniqueKmers.Add(kmer)
+                    If kmerCounts.ContainsKey(kmer) Then
+                        kmerCounts(kmer) += 1
+                    Else
+                        kmerCounts(kmer) = 1
+                        ' 创建节点（如果图库允许重复创建检查，也可以在这里创建）
+                        ' 假设 g.CreateNode 内部有去重机制，或者这里仅做数据准备
+                        Call g.CreateNode(kmer)
                     End If
                 Next
             Next
 
-            Dim kmerIds As String() = uniqueKmers.ToArray()
+            ' 获取所有唯一的 K-mer 序列
+            Dim uniqueKmerList As List(Of String) = kmerCounts.Keys.ToList()
 
-            ' --- 第一步：创建所有 K-mer 节点 ---
-            For Each kmerSeq As String In kmerIds
-                ' 这里直接用 K-mer 的序列作为 ID
-                Call g.CreateNode(kmerSeq)
+            ' --- 第二步：构建快速查找索引 ---
+            ' 逻辑：构建一个字典，Key 是 K-1 长度的序列，Value 是以该序列为后缀的 K-mer 列表
+            Dim suffixIndex As New Dictionary(Of String, List(Of String))
+
+            For Each kmer As String In uniqueKmerList
+                ' 获取后缀 (k-1 个碱基)
+                Dim suffix As String = kmer.Substring(1, k - 1)
+
+                If Not suffixIndex.ContainsKey(suffix) Then
+                    suffixIndex(suffix) = New List(Of String)()
+                End If
+                suffixIndex(suffix).Add(kmer)
             Next
 
-            ' --- 第二步：构建 De Bruijn 连边 ---
-            ' 逻辑：如果 KmerA 的后 k-1 个字符 == KmerB 的前 k-1 个字符，则连接
-            For Each i As Integer In TqdmWrapper.Range(0, kmerIds.Length)
-                For j As Integer = 0 To kmerIds.Length - 1
-                    If i <> j Then
-                        Dim kmerA As String = kmerIds(i)
-                        Dim kmerB As String = kmerIds(j)
+            ' --- 第三步：构建边 (复杂度降为 O(N)) ---
+            ' 逻辑：对于每个 KmerA，找它的前缀。如果某 KmerB 的后缀 == A的前缀，则 A->B 有边
+            For Each kmerA As String In uniqueKmerList
+                ' 获取前缀
+                Dim prefixA As String = kmerA.Substring(0, k - 1)
 
-                        ' 获取后缀和前缀 (索引从 1 开始，所以是 2 到 k)
-                        Dim suffixA As String = kmerA.Substring(1, k - 1)
-                        Dim prefixB As String = kmerB.Substring(0, k - 1)
+                ' 查找是否有其他 K-mer 的后缀等于这个前缀
+                If suffixIndex.ContainsKey(prefixA) Then
+                    Dim targets As List(Of String) = suffixIndex(prefixA)
 
-                        ' 核心 De Bruijn 连接条件
-                        If String.Equals(suffixA, prefixB, StringComparison.OrdinalIgnoreCase) Then
-                            ' 权重可以是 1，或者是该边的覆盖度
-                            Dim edge = g.CreateEdge(kmerA, kmerB, weight:=1.0)
+                    For Each kmerB As String In targets
+                        ' 避免自环（如果 De Bruijn 图允许自环，去掉这个判断）
+                        ' 注：在 De Bruijn 图中，如果 kmerA == kmerB，意味着它由完全重复的序列组成（如 AAAA），通常也是允许的边
+                        If kmerA <> kmerB Then
+                            ' 获取权重：这里可以使用 kmerCounts(kmerA) 或 kmerCounts(kmerB) 
+                            ' 或者是更复杂的边覆盖度计算。
+                            ' 简单起见，这里使用源 K-mer 的计数作为边的权重参考
+                            Dim weight As Double = kmerCounts(kmerA)
 
-                            ' 添加边的属性数据
+                            Dim edge = g.CreateEdge(kmerA, kmerB, weight:=weight)
                             edge.data("LinkType") = "DeBruijn"
-                            Edge.data("OverlapSeq") = suffixA ' 记录重叠的那一段序列
+                            edge.data("OverlapSeq") = prefixA ' 记录重叠序列
                         End If
-                    End If
-                Next
+                    Next
+                End If
             Next
         End Sub
     End Class
