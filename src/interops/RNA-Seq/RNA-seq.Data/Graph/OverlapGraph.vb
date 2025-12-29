@@ -6,6 +6,11 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Graph
 
+    ''' <summary>
+    ''' Reads 重叠图
+    ''' 
+    ''' 节点是 Read，边代表 Read A 的末端与 Read B 的前端有足够的重叠。
+    ''' </summary>
     Public Class OverlapGraph : Inherits Builder
 
         ''' <summary>
