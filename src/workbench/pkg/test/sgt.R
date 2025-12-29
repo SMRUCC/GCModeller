@@ -1,6 +1,7 @@
 require(GCModeller);
 
 imports "bioseq.fasta" from "seqtoolkit";
+imports "clustering" from "MLkit";
 
 setwd(@dir);
 
@@ -13,14 +14,24 @@ let vec  = seq_vector(sgt, as.fasta(seqs), as.dataframe = TRUE);
 # run data analysis on the generated embedding vectors
 # embedding the raw matrix from high dimensional space
 # into latent space
-let latent = prcomp(vec, scal=TRUE,center=TRUE, pc=6);
+let latent = prcomp(vec, scal=FALSE,center=FALSE, pc=3); 
 # run clustering
-let clusters = kmeans(latent, centers = 3, bisecting = TRUE);
+let clusters = kmeans(latent$score, centers = 3, bisecting = TRUE);
+
+clusters = as.data.frame(clusters);
 
 message("view of the raw sequence data input");
 print(seqs, max.print = 13);
 message("the input sequence data is embedding as result:");
-print(as.data.frame(clusters), max.print = 6);
+str(latent);
+print(clusters, max.print = 6);
 
-
+bitmap(file = "protein_classification.png",width = 1200, height = 800) {
+    plot(clusters$PC1, clusters$PC2, 
+        class = clusters$Cluster, 
+        colors = "paper", 
+        point.size = 6,
+        grid.fill = "white"
+    );
+}
 
