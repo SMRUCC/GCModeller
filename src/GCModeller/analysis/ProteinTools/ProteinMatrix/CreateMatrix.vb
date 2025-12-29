@@ -95,14 +95,11 @@ Public Class CreateMatrix
     Private Shared Function GetChars(mol As SeqTypes) As String()
         Select Case mol
             Case SeqTypes.Protein
-                Return AminoAcidObjUtility _
-                    .AminoAcidLetters _
-                    .JoinIterates("-") _
+                Return AminoAcidObjUtility.AminoAcidLetters _
                     .AsCharacter _
                     .ToArray
             Case Else
                 Return mol.GetVector _
-                    .JoinIterates({"-"c, "N"c}) _
                     .AsCharacter _
                     .ToArray
         End Select
