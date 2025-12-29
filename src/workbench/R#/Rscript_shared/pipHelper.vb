@@ -41,6 +41,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -123,14 +124,13 @@ Module pipHelper
     End Function
 
     Private Iterator Function fastaFromDataframe(df As dataframe) As IEnumerable(Of FastaSeq)
-        If Not (df.hasName("name") OrElse df.hasName("title")) Then
-            Return
-        ElseIf Not df.hasName("sequence") Then
+        If Not (df.hasName("sequence") OrElse df.hasName("Sequence")) Then
+            Call $"the input dataframe can not be cast to fasta sequence collection due to it contains no sequence data field: {df.colnames.GetJson}".warning
             Return
         End If
 
-        Dim title As String() = CLRVector.asCharacter(If(df("name"), df("title")))
-        Dim seq As String() = CLRVector.asCharacter(df("sequence"))
+        Dim title As String() = CLRVector.asCharacter(If(df("name"), If(df("title"), df.rownames)))
+        Dim seq As String() = CLRVector.asCharacter(If(df("sequence"), df("Sequence")))
 
         For i As Integer = 0 To seq.Length - 1
             Yield New FastaSeq With {
