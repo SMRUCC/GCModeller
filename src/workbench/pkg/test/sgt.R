@@ -6,9 +6,9 @@ setwd(@dir);
 
 # get fasta sequence data
 let seqs = read.csv("./protein_classification.csv", row.names = 1, check.names = FALSE);
-let sgt  = seq_sgt(moltype = "prot");
+let sgt  = seq_sgt(moltype = "prot", kappa = 1,lengthsensitive= FALSE );
 # get sequence embedding result
-let vec  = sgt |> seq_vector(seqs);
+let vec  = sgt |> seq_vector(as.fasta(seqs));
 
 # run data analysis on the generated embedding vectors
 # embedding the raw matrix from high dimensional space
@@ -17,5 +17,10 @@ let latent = prcomp(vec, scal=TRUE,center=TRUE, pc=6);
 # run clustering
 let clusters = kmeans(latent, centers = 3, bisecting = TRUE);
 
+message("view of the raw sequence data input");
+print(seqs, max.print = 13);
+message("the input sequence data is embedding as result:");
 print(as.data.frame(clusters), max.print = 6);
+
+
 

@@ -82,10 +82,13 @@ Public Class CreateMatrix
         End Get
     End Property
 
-    Sub New(Optional mol As SeqTypes = SeqTypes.Protein)
+    Sub New(Optional mol As SeqTypes = SeqTypes.Protein,
+            Optional kappa As Double = 1,
+            Optional lengthsensitive As Boolean = False)
+
         Dim allChars As String() = GetChars(mol)
 
-        sgt = New SequenceGraphTransform
+        sgt = New SequenceGraphTransform(kappa:=kappa, lengthsensitive:=lengthsensitive)
         sgt.set_alphabets(allChars)
     End Sub
 

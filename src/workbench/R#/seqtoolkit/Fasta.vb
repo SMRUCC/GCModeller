@@ -289,8 +289,11 @@ Module Fasta
     ''' <param name="moltype"></param>
     ''' <returns></returns>
     <ExportAPI("seq_sgt")>
-    Public Function seq_sgt(Optional moltype As SeqTypes = SeqTypes.Protein) As CreateMatrix
-        Return New CreateMatrix(moltype)
+    Public Function seq_sgt(Optional moltype As SeqTypes = SeqTypes.Protein,
+                            Optional kappa As Double = 1,
+                            Optional lengthsensitive As Boolean = False) As CreateMatrix
+
+        Return New CreateMatrix(moltype, kappa, lengthsensitive)
     End Function
 
     ''' <summary>
