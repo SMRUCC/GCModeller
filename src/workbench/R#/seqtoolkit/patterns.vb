@@ -362,9 +362,9 @@ Module patterns
     ''' the sequence graph embedding vector data is generates from different method 
     ''' based on the <paramref name="mol_type"/> data:
     ''' 
-    ''' + <see cref="SeqTypes.DNA"/>: <see cref="Builder.DNAGraph"/>
-    ''' + <see cref="SeqTypes.Protein"/>: <see cref="Builder.PolypeptideGraph"/>
-    ''' + <see cref="SeqTypes.RNA"/>: <see cref="Builder.RNAGraph"/>
+    ''' + <see cref="SeqTypes.DNA"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph"/>
+    ''' + <see cref="SeqTypes.Protein"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph"/>
+    ''' + <see cref="SeqTypes.RNA"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph"/>
     ''' </returns>
     <ExportAPI("as.seq_graph")>
     <RApiReturn(GetType(SequenceGraph))>
@@ -377,9 +377,9 @@ Module patterns
         Dim seqList = GetFastaSeq(fasta, env).ToArray
 
         Select Case mol_type
-            Case SeqTypes.DNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.DNAGraph, parallel:=parallel)
-            Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.PolypeptideGraph, parallel:=parallel)
-            Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf Builder.RNAGraph, parallel:=parallel)
+            Case SeqTypes.DNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.DNAGraph, parallel:=parallel)
+            Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.PolypeptideGraph, parallel:=parallel)
+            Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.RNAGraph, parallel:=parallel)
             Case Else
                 Return RInternal.debug.stop("general is not allowed!", env)
         End Select
