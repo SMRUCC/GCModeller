@@ -1,4 +1,5 @@
 require(GCModeller);
+require(umap);
 
 imports "bioseq.fasta" from "seqtoolkit";
 imports "clustering" from "MLkit";
@@ -7,27 +8,29 @@ setwd(@dir);
 
 # get fasta sequence data
 let seqs = read.csv("./protein_classification.csv", row.names = 1, check.names = FALSE);
-let sgt  = seq_sgt(moltype = "prot", kappa = 1,lengthsensitive= FALSE );
+let sgt  = seq_sgt(moltype = "prot", kappa = 3,lengthsensitive= TRUE );
 # get sequence embedding result
 let vec  = seq_vector(sgt, as.fasta(seqs), as.dataframe = TRUE);
 
 # run data analysis on the generated embedding vectors
 # embedding the raw matrix from high dimensional space
 # into latent space
-let latent = prcomp(vec, scal=FALSE,center=FALSE, pc=3); 
+let latent = umap(vec, dimension=6,numberOfNeighbors =32); 
 # run clustering
-let clusters = kmeans(latent$score, centers = 3, bisecting = TRUE);
+let clusters = kmeans(as.data.frame( latent$umap,labels = latent$labels), 
+    centers = 3, 
+    bisecting = TRUE);
 
 clusters = as.data.frame(clusters);
 
 message("view of the raw sequence data input");
-print(seqs, max.print = 13);
+print(seqs, max.print = 6);
 message("the input sequence data is embedding as result:");
 str(latent);
-print(clusters, max.print = 6);
+print(clusters, max.print = 13);
 
-bitmap(file = "protein_classification.png",width = 1200, height = 800) {
-    plot(clusters$PC1, clusters$PC2, 
+bitmap(file = "protein_classification.png",width = 800, height = 600) {
+    plot(clusters$dimension_1, clusters$dimension_2, 
         class = clusters$Cluster, 
         colors = "paper", 
         point.size = 6,
