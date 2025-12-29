@@ -7,6 +7,12 @@ Namespace Graph
 
         Protected ReadOnly g As New NetworkGraph
 
+        Public ReadOnly Property Graph As NetworkGraph
+            Get
+                Return g
+            End Get
+        End Property
+
         Sub New(reads As IEnumerable(Of FastQ))
             Call ProcessReads(reads)
         End Sub

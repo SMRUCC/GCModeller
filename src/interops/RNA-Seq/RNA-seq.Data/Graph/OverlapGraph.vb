@@ -1,5 +1,4 @@
 ﻿Imports System.Buffers
-Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.SequenceModel.FQ
@@ -8,6 +7,15 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Namespace Graph
 
     Public Class OverlapGraph : Inherits Builder
+
+        ''' <summary>
+        ''' 最小重叠长度阈值
+        ''' </summary>
+        ReadOnly minOverlapLen As Integer
+        ''' <summary>
+        ''' 最小相似度阈值
+        ''' </summary>
+        ReadOnly minIdentity As Double
 
         Public Sub New(reads As IEnumerable(Of FastQ))
             MyBase.New(reads)
@@ -31,6 +39,19 @@ Namespace Graph
                     ' 返回一个对象包含: OverlapLength (长度), Identity (相似度)
                     Dim overlapInfo As OverlapResult = CalculateOverlap(reads_u, v!reads)
 
+                    ' 判断条件：如果有重叠 且 长度达标 且 相似度达标
+                    If overlapInfo IsNot Nothing AndAlso
+                       overlapInfo.Length >= minOverlapLen AndAlso
+                       overlapInfo.Identity >= minIdentity Then
+
+                        ' 添加边，权重可以使用重叠长度
+                        edge = g.CreateEdge(u, v, weight:=overlapInfo.Length)
+
+                        ' 添加边的属性数据
+                        edge.data("OverlapLength") = overlapInfo.Length
+                        edge.data("Identity") = overlapInfo.Identity
+                        edge.data("Type") = "Suffix-Prefix" ' 标记这是重叠关系
+                    End If
                 Next
             Next
         End Sub
@@ -113,16 +134,41 @@ Namespace Graph
         End Function
     End Class
 
-    ' ==========================================
-    ' 1. 定义重叠结果的数据结构
-    ' ==========================================
+    ''' <summary>
+    ''' the reads overlaps result data
+    ''' </summary>
     Public Class OverlapResult
-        Public Property Length As Integer          ' 重叠区域的长度
-        Public Property Identity As Double          ' 序列一致性 (0.0 到 1.0)
-        Public Property IsReverseComplement As Boolean ' 是否为反向互补重叠
-        Public Property IsValid As Boolean          ' 是否找到了满足条件的重叠
-        Public Property OffsetA As Integer          ' Read A 中重叠开始的位置
-        Public Property OffsetB As Integer          ' Read B 中重叠开始的位置
+
+        ''' <summary>
+        ''' 重叠区域的长度
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Length As Integer
+        ''' <summary>
+        ''' 序列一致性 (0.0 到 1.0)
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Identity As Double
+        ''' <summary>
+        ''' 是否为反向互补重叠
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsReverseComplement As Boolean
+        ''' <summary>
+        ''' 是否找到了满足条件的重叠
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property IsValid As Boolean
+        ''' <summary>
+        ''' Read A 中重叠开始的位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property OffsetA As Integer
+        ''' <summary>
+        ''' Read B 中重叠开始的位置
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property OffsetB As Integer
 
         Public Sub New(len As Integer, ident As Double, isRev As Boolean)
             Me.Length = len
