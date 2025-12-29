@@ -367,14 +367,13 @@ Namespace SequenceModel.NucleotideModels
 
         ''' <summary>
         ''' Gets the complement sequence of a nucleotide sequence.
-        ''' (获取某一条核酸序列的互补序列，但是新得到的序列并不会首尾反转，
-        ''' 请注意，这个函数所输入的DNA序列字符串必须是大写字母的)
         ''' </summary>
         ''' <param name="DNAseq">
         ''' The target dna nucleotide sequence to complement.(必须全部都是大写字母)
         ''' </param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(获取某一条核酸序列的互补序列，但是新得到的序列并不会首尾反转，
+        ''' 请注意，这个函数所输入的DNA序列字符串必须是大写字母的)</remarks>
         Public Shared Function Complement(DNAseq As String) As String
             Dim sb As New StringBuilder(DNAseq.ToUpper)
 

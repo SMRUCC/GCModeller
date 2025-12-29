@@ -1,7 +1,9 @@
 ﻿Imports System.Buffers
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Graph
 
@@ -19,11 +21,15 @@ Namespace Graph
             Next
 
             For Each u As Node In TqdmWrapper.Wrap(g.vertex.ToArray)
+                Dim reads_u As String = u!reads
+
                 For Each v As Node In g.vertex
                     If u Is v Then
                         Continue For
                     End If
 
+                    ' 返回一个对象包含: OverlapLength (长度), Identity (相似度)
+                    Dim overlapInfo As OverlapResult = CalculateOverlap(reads_u, v!reads)
 
                 Next
             Next
@@ -32,15 +38,15 @@ Namespace Graph
         ' ==========================================
         ' 2. 核心计算逻辑
         ' ==========================================
-        Public Function CalculateOverlap(readA As SequenceRead, readB As SequenceRead) As OverlapResult
+        Public Function CalculateOverlap(readA As String, readB As String) As OverlapResult
             ' 参数设置：
             ' MIN_OVERLAP: 允许的最小重叠长度（例如 20bp），太短没有意义且计算量大
             ' MIN_IDENTITY: 允许的最小相似度（例如 0.8 或 80%）
             Const MIN_OVERLAP As Integer = 20
             Const MIN_IDENTITY As Double = 0.8
 
-            Dim seqA As String = readA.Sequence.ToUpper()
-            Dim seqB As String = readB.Sequence.ToUpper()
+            Dim seqA As String = readA.ToUpper()
+            Dim seqB As String = readB.ToUpper()
 
             ' --- 尝试 1: 正向重叠 ---
             ' 逻辑：Read A 的末端 与 Read B 的前端 重叠
@@ -49,7 +55,7 @@ Namespace Graph
 
             ' --- 尝试 2: 反向互补重叠 ---
             ' 逻辑：Read A 的末端 与 Read B 的反向互补序列的前端 重叠 (这在双端测序或无参组装中很常见)
-            Dim revSeqB As String = GetReverseComplement(seqB)
+            Dim revSeqB As String = NucleicAcid.Complement(seqB).Reverse.CharString
             Dim resultReverse As OverlapResult = TryFindSuffixPrefixOverlap(seqA, revSeqB, MIN_OVERLAP, MIN_IDENTITY, isReverse:=True)
 
             Return resultReverse
@@ -105,30 +111,6 @@ Namespace Graph
 
             Return CDbl(matches) / CDbl(len)
         End Function
-
-        ' ==========================================
-        ' 5. 辅助算法：获取DNA序列的反向互补序列
-        ' ==========================================
-        Private Function GetReverseComplement(seq As String) As String
-            Dim sb As New Text.StringBuilder(seq.Length)
-            Dim dic As New Dictionary(Of Char, Char) From {
-        {'A', 'T'}, {'T', 'A'}, {'C', 'G'}, {'G', 'C'}, 
-        {'N', 'N'} ' 处理未知碱基
-    }
-
-    ' 从后向前遍历，并替换碱基
-            For i As Integer = seq.Length - 1 To 0 Step -1
-                Dim c As Char = Char.ToUpper(seq(i))
-                If dic.ContainsKey(c) Then
-                    sb.Append(dic(c))
-                Else
-                    sb.Append("N") ' 遇到非常规字符视为 N
-                End If
-            Next
-
-            Return sb.ToString()
-        End Function
-
     End Class
 
     ' ==========================================
