@@ -90,7 +90,7 @@ Namespace Graph
             Dim smaller = If(setA.Count < setB.Count, setA, setB)
             Dim larger = If(smaller Is setA, setB, setA)
 
-            For Each k In smaller
+            For Each k As String In smaller
                 If larger.Contains(k) Then intersect += 1
             Next
 
