@@ -390,6 +390,20 @@ Namespace SequenceModel.NucleotideModels
             Return sb.ToString
         End Function
 
+        ''' <summary>
+        ''' 忽略反向互补（reverse complement）
+        ''' 
+        ''' DNA 序列一般需要在两个链上比较，否则来自同一分子的正反链会被判定为不相似。
+        ''' </summary>
+        ''' <param name="DNAseq"></param>
+        ''' <returns></returns>
+        Public Shared Function Canonical(DNAseq As String) As String
+            ' make reverse complement
+            ' 反向互补
+            Dim rc As String = Complement(DNAseq).Reverse.CharString
+            Return If(String.Compare(DNAseq, rc) < 0, DNAseq, rc)
+        End Function
+
         Public Overrides Function ToString() As String
             Return String.Format("({0}bp) {1}...", Len(SequenceData), Mid(Me.SequenceData, 1, 25))
         End Function

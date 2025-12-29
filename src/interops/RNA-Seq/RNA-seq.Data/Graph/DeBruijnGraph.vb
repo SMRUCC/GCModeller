@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Graph
 
@@ -25,7 +26,7 @@ Namespace Graph
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))
             For Each read As FastQ In reads
-                For Each kmer As String In KSeq.KmerSpans(read.SequenceData, k)
+                For Each kmer As String In KSeq.KmerSpans(NucleicAcid.Canonical(read.SequenceData), k)
                     If Not uniqueKmers.Contains(kmer) Then
                         Call uniqueKmers.Add(kmer)
                     End If

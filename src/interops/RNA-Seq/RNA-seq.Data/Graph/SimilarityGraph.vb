@@ -1,8 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Math.Correlations
-Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.FQ
+﻿Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Graph
 
@@ -26,35 +23,79 @@ Namespace Graph
         End Sub
 
         Protected Overrides Sub ProcessReads(reads As IEnumerable(Of FQ.FastQ))
-            Dim kmers As New Dictionary(Of String, String())
+            Dim kmer2reads As New Dictionary(Of String, HashSet(Of String))
+            Dim kmers As New Dictionary(Of String, HashSet(Of String))
 
             ' --- 第一步：创建所有 Read 节点 ---
             For Each read As FastQ In reads
+                Dim read_seq As String = NucleicAcid.Canonical(read.SequenceData)
+
                 With g.CreateNode(read.SEQ_ID)
-                    .data("reads") = read.SequenceData
+                    .data("reads") = read_seq
+                    .data("len") = read.Length
                 End With
 
-                kmers(read.SEQ_ID) = KSeq.KmerSpans(read.SequenceData, k).Distinct.ToArray
+                Dim cache As New HashSet(Of String)
+
+                ' 2. 构建倒排索引：kmer -> {readIDs}
+                ' 生成 canonical k‑mers
+                For i As Integer = 0 To read_seq.Length - k
+                    Dim kmer As String = read_seq.Substring(i, k)
+                    Dim canon As String = NucleicAcid.Canonical(kmer)   ' 见下方函数
+
+                    If Not kmer2reads.ContainsKey(canon) Then
+                        kmer2reads(canon) = New HashSet(Of String)
+                    End If
+
+                    cache.Add(canon)
+                    kmer2reads(canon).Add(read.SEQ_ID)
+                Next
+
+                kmers(read.SEQ_ID) = cache
             Next
 
-            ' --- 第二步：基于相似度矩阵连边 ---
-            For Each u As Node In TqdmWrapper.Wrap(g.vertex.ToArray)
-                Dim reads_u As String = u!reads
-
-                For Each v As Node In g.vertex
-                    If u Is v Then
-                        Continue For
-                    End If
-
-                    Dim k1 = kmers(u.label)
-                    Dim k2 = kmers(v.label)
-                    Dim kjac As Double = k1.JaccardIndex(k2)
-
-                    If kjac > threshold Then
-                        g.CreateEdge(u, v, kjac)
-                    End If
+            ' 3. 收集候选对：共享至少一个 k‑mer 的 read 对
+            Dim candidates As New Dictionary(Of (String, String), Boolean)
+            For Each pair In kmer2reads
+                Dim ids = pair.Value
+                Dim idList = ids.ToArray()
+                For i As Integer = 0 To idList.Length - 1
+                    For j As Integer = i + 1 To idList.Length - 1
+                        Dim idA = idList(i), idB = idList(j)
+                        Dim key = If(String.Compare(idA, idB) < 0, (idA, idB), (idB, idA))
+                        candidates(key) = True
+                    Next
                 Next
             Next
+
+            ' 4. 对候选对精确计算 Jaccard（只计算一次）
+            For Each pair In candidates.Keys
+                Dim idA = pair.Item1
+                Dim idB = pair.Item2
+
+                ' 动态重建 k‑mer 集合（如果内存允许，也可预存）
+                Dim setA = kmers(g.GetElementByID(idA).label)
+                Dim setB = kmers(g.GetElementByID(idB).label)
+
+                Dim jaccard = ComputeJaccard(setA, setB)
+
+                If jaccard > threshold Then
+                    g.CreateEdge(g.GetElementByID(idA), g.GetElementByID(idB), jaccard)   ' 假定 CreateEdge 是无向的
+                End If
+            Next
         End Sub
+
+        Private Shared Function ComputeJaccard(setA As HashSet(Of String), setB As HashSet(Of String)) As Double
+            Dim intersect = 0
+            Dim smaller = If(setA.Count < setB.Count, setA, setB)
+            Dim larger = If(smaller Is setA, setB, setA)
+
+            For Each k In smaller
+                If larger.Contains(k) Then intersect += 1
+            Next
+
+            Dim union = setA.Count + setB.Count - intersect
+            Return If(union = 0, 0.0, intersect / CDbl(union))
+        End Function
     End Class
 End Namespace
