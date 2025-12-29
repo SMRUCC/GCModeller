@@ -169,19 +169,25 @@ declare namespace bioseq.fasta {
      * @param moltype -
      * 
      * + default value Is ``null``.
+     * @param kappa 
+     * + default value Is ``1``.
+     * @param lengthsensitive 
+     * + default value Is ``false``.
    */
-   function seq_sgt(moltype?: object): object;
+   function seq_sgt(moltype?: object, kappa?: number, lengthsensitive?: boolean): object;
    /**
     * embedding the given fasta sequence as vector
     * 
     * 
      * @param sgt -
      * @param seqs -
+     * @param as_dataframe 
+     * + default value Is ``false``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function seq_vector(sgt: object, seqs: any, env?: object): any;
+   function seq_vector(sgt: object, seqs: any, as_dataframe?: boolean, env?: object): number;
    /**
     * get the sequence length
     * 

@@ -61,6 +61,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -315,19 +316,38 @@ Module Fasta
     ''' 
     ''' </example>
     <ExportAPI("seq_vector")>
-    Public Function seq_vector(sgt As CreateMatrix, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+    <RApiReturn(GetType(Double))>
+    Public Function seq_vector(sgt As CreateMatrix, <RRawVectorArgument> seqs As Object,
+                               Optional as_dataframe As Boolean = False,
+                               Optional env As Environment = Nothing) As Object
+
         Dim seq_pool = GetFastaSeq(seqs, env).ToArray
 
         If seq_pool.Length = 1 Then
             Return sgt.ToVector(seq_pool(0))
         Else
-            Dim vec As list = list.empty
+            Dim vec As New Dictionary(Of String, Double())
 
             For Each seq As FastaSeq In seq_pool
-                Call vec.add(seq.Title, sgt.ToVector(seq))
+                Call vec.Add(seq.Title, sgt.ToVector(seq))
             Next
 
-            Return vec
+            If as_dataframe Then
+                Dim vlen As Integer = vec.Values.First.Length
+                Dim vrows = vec.ToArray
+                Dim m As New dataframe With {
+                    .rownames = vrows.Keys,
+                    .columns = New Dictionary(Of String, Array)
+                }
+
+                For i As Integer = 0 To vlen - 1
+                    Call m.add("v" & (i + 1), From s In vrows Let vi As Double = s.Value(i) Select vi)
+                Next
+
+                Return m
+            Else
+                Return New list(vec)
+            End If
         End If
     End Function
 
