@@ -76,6 +76,12 @@ Namespace Definitions
         Protein
     End Enum
 
+    Public Class Transmembrane
+
+        Public Property passive As String()
+
+    End Class
+
     ''' <summary>
     ''' The definition for the mass environment for run the simulation
     ''' </summary>
@@ -130,6 +136,8 @@ Namespace Definitions
         ''' <returns></returns>
         Public Property GenericCompounds As Dictionary(Of String, GeneralCompound)
 #End Region
+
+        Public Property transmembrane As Transmembrane
 
         ''' <summary>
         ''' the compartment id of the Culture medium
@@ -255,6 +263,9 @@ Namespace Definitions
                     {"DNA-Holder", GeneralCompound.DNA},
                     {"RNA-Holder", GeneralCompound.RNA},
                     {"Compounds-Holder-Class", GeneralCompound.Compound}
+                },
+                .transmembrane = New Transmembrane With {
+                    .passive = {"WATER", "OXYGEN-MOLECULE"}
                 }
             }
         End Function

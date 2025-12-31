@@ -78,6 +78,7 @@ Namespace ModelLoader
         Dim centralDogmaFluxLoader As CentralDogmaFluxLoader
         Dim proteinMatureFluxLoader As ProteinMatureFluxLoader
         Dim metabolismNetworkLoader As MetabolismNetworkLoader
+        Dim transmembraneLoader As TransmembraneFluxLoader
 
         ReadOnly unitTest As Boolean = False
 
@@ -146,6 +147,14 @@ Namespace ModelLoader
             Return metabolismNetworkLoader
         End Function
 
+        Public Function GetTransmembraneLoader() As TransmembraneFluxLoader
+            If transmembraneLoader Is Nothing Then
+                transmembraneLoader = New TransmembraneFluxLoader(Me)
+            End If
+
+            Return transmembraneLoader
+        End Function
+
         ''' <summary>
         ''' Convert the virtual cell model as computational network model
         ''' </summary>
@@ -186,11 +195,12 @@ Namespace ModelLoader
             Dim centralDogmas = cell.DoCall(AddressOf GetCentralDogmaFluxLoader().CreateFlux).AsList
             Dim proteinMatrues = cell.DoCall(AddressOf GetProteinMatureFluxLoader().CreateFlux).ToArray
             Dim metabolism = cell.DoCall(AddressOf GetMetabolismNetworkLoader().CreateFlux).ToArray
+            Dim transmembrane = cell.DoCall(AddressOf GetTransmembraneLoader.CreateFlux).ToArray
             Dim degradationFluxLoader As New BioMoleculeDegradation(Me) With {
                 .proteinMatures = proteinMatrues
             }
             Dim degradation = cell.DoCall(AddressOf degradationFluxLoader.CreateFlux).ToArray
-            Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation
+            Dim processes As Channel() = centralDogmas + proteinMatrues + metabolism + degradation + transmembrane
             Dim broken As New List(Of String)
 
             For Each loader In New FluxLoader() {metabolismNetworkLoader, proteinMatureFluxLoader, centralDogmaFluxLoader, degradationFluxLoader}
