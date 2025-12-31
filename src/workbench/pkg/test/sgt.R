@@ -18,7 +18,7 @@ let vec  = seq_vector(sgt, as.fasta(seqs), as.dataframe = TRUE);
 let latent = umap(vec, dimension=9,numberOfNeighbors =3, method = "SpectralCosine"); 
 # run clustering
 let clusters = kmeans(as.data.frame( latent$umap,labels = latent$labels), 
-    centers = 3, 
+    centers = 6, 
     bisecting = TRUE);
 
 clusters = as.data.frame(clusters);
@@ -33,9 +33,9 @@ bitmap(file = "protein_classification.png", size = c( 1200,  800)) {
     plot(clusters$dimension_1, clusters$dimension_2, 
         class = clusters$Cluster, 
         colors = "paper", 
-        point.size = 6,
+        point.size = 8,
         grid.fill = "white",
-        padding = "padding: 5% 10% 15% 20%;"
+        padding = "padding: 5% 10% 15% 15%;"
     );
 }
 
