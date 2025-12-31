@@ -153,6 +153,8 @@ Module Program
                             .SaveTo(outputDocs)
                     Catch ex As Exception
                         Call ex.Message.warning
+                    Finally
+                        Call config.del("title")
                     End Try
                 Next
 

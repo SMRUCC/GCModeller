@@ -16,6 +16,14 @@ Public Class CompilerConfig
         _variables(key) = value
     End Sub
 
+    Public Sub del(name As String)
+        If variables Is Nothing Then
+            variables = New Dictionary(Of String, Object)
+        End If
+
+        _variables.Remove(name)
+    End Sub
+
     Public Function join(args As Dictionary(Of String, Object)) As CompilerConfig
         If variables Is Nothing Then
             variables = New Dictionary(Of String, Object)
