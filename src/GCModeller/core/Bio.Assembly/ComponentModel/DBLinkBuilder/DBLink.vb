@@ -132,5 +132,15 @@ Namespace ComponentModel.DBLinkBuilder
         Public Function GetFormatValue() As String Implements IDBLink.GetFormatValue
             Return ToString(Me)
         End Function
+
+        ''' <summary>
+        ''' cast to xref_id
+        ''' </summary>
+        ''' <param name="db_xref"></param>
+        ''' <returns></returns>
+        Public Shared Narrowing Operator CType(db_xref As DBLink) As String
+            If db_xref Is Nothing Then Return Nothing
+            Return db_xref.entry
+        End Operator
     End Class
 End Namespace
