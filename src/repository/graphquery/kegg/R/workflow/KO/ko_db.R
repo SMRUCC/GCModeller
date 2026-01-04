@@ -8,6 +8,11 @@ const ko_db = function(db = "./", species = NULL) {
     print("load ko index table for make request data:");
     print(ko_index, max.print = 13);
 
+    if (length(species) > 0) {
+        print("KO gene sequence database will be downloaded with a specific genome range:");
+        print(species);
+    }
+
     for(ko in tqdm(as.list(ko_index,byrow=TRUE))) {
         let ko_id = ko$ko;
         let geneId_file = `/ko/${ko_id}.txt`;
@@ -29,7 +34,39 @@ const ko_db = function(db = "./", species = NULL) {
         print("genes that belongs to KO group:");
         print(ko_genes, max.print = 6);
 
+        if (length(species) > 0) {
+            let i = ko_genes$species in species;
 
+            if (sum(i) > 0) {
+                ko_genes = ko_genes[i,];
+            } else {
+                ko_genes = NULL;
+            }            
+        }
+
+        if (nrow(ko_genes) > 0) {
+            let seqfile = `/fasta/${ko_id}.txt`;
+
+            if (!file.exists(seqfile, fs=db)) {
+                let fasta = NULL;
+
+                ko_genes = sprintf("%s:%s", ko_genes$species, ko_genes$gene_id);
+                ko_genes = split(ko_genes, size = 20);
+
+                print("download gene sequence with data task blocks:");
+                print(length(ko_genes));
+                str(ko_genes);
+
+                for(block in ko_genes) {
+                    let url = `https://rest.kegg.jp/get/${paste(block, sep="+")}/ntseq`;
+                    let seqs = REnv::getHtml(url, interval = 3, filetype = "txt");
+                    
+                    fasta = c(fasta, seqs);
+                }
+
+                writeLines(fasta, con = file.allocate(seqfile, fs = db));
+            }
+        }
     }
 }
 
