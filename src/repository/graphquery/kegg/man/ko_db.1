@@ -1,4 +1,4 @@
-﻿.TH KO_DB 1 2026-Jan "" "ko_db"
+﻿.TH KO_DB 1 2026-Jan "" "create ko database"
 .SH NAME
 ko_db \- ko_db(
     <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
@@ -9,14 +9,22 @@ ko_db \- ko_db(
     <i>species</i> = <span style='color: blue !important;'>NULL</span>)\fR
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- './'. 
+\fBdb\fB \fR\- './'. a local repository connection to the target kegg genes database to save and cache the data which is download from
+the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
+which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.
 .PP
 .PP
-\fBspecies\fB \fR\- NULL. 
+\fBspecies\fB \fR\- NULL. a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
+default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
+the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams
+.PP
+.SH VALUE
+.PP
+this function returns nothing
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.ko_db at ko_db.R:line 2
+SMRUCC/R#.declare_function.ko_db at ko_db.R:line 13
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

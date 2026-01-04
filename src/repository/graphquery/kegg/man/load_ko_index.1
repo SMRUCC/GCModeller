@@ -1,4 +1,4 @@
-﻿.TH LOAD_KO_INDEX 1 2026-Jan "" "load_ko_index"
+﻿.TH LOAD_KO_INDEX 1 2026-Jan "" "load KO index table"
 .SH NAME
 load_ko_index \- load_ko_index(db)
 .SH SYNOPSIS
@@ -7,9 +7,16 @@ load_ko_index \- load_ko_index(db)
 .PP
 \fBdb\fB \fR\- . 
 .PP
+.SH VALUE
+.PP
+a dataframe table with data fields:
+ko - the KEGG Orthology id
+gene_names - the kegg gene names
+description - the kegg gene function description text
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.load_ko_index at ko_db.R:line 73
+SMRUCC/R#.declare_function.load_ko_index at ko_db.R:line 114
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

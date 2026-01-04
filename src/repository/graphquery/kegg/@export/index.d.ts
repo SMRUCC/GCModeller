@@ -26,6 +26,10 @@ declare namespace kegg_api {
    */
    function compound_brites(): object;
    /**
+     * @param seqtype default value Is ``Call "c"("ntseq", "aaseq")``.
+   */
+   function download_koseqs(db: any, ko_id: any, ko_genes: any, seqtype?: any): object;
+   /**
      * @param prefix default value Is ````.
      * @param maxChars default value Is ``64``.
    */

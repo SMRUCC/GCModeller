@@ -1,0 +1,31 @@
+﻿.TH DOWNLOAD_KOSEQS 1 2026-Jan "" "download fasta sequence from kegg database"
+.SH NAME
+download_koseqs \- download_koseqs(db, ko.id, ko.genes,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
+.SH SYNOPSIS
+\fIdownload_koseqs(db, ko.id, ko.genes,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH OPTIONS
+.PP
+\fBdb\fB \fR\- . 
+.PP
+.PP
+\fBko.id\fB \fR\- . 
+.PP
+.PP
+\fBko.genes\fB \fR\- . 
+.PP
+.PP
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). the fasta sequence type to download from the kegg database, value could be
+ntseq for gene nucleotide sequence and aaseq for protein amino acid sequence.
+.PP
+.SH VALUE
+.PP
+this function returns nothing
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.download_koseqs at ko_db.R:line 80
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, MIT Licensed 2026
