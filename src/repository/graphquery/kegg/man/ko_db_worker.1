@@ -1,10 +1,12 @@
 ﻿.TH KO_DB_WORKER 1 2026-Jan "internal" "Internal Worker Function for KO Database Creation"
 .SH NAME
 ko_db_worker \- ko_db_worker(db, species,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)
 .SH SYNOPSIS
 \fIko_db_worker(db, species,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)\fR
 .SH DESCRIPTION
 .PP
 This is an internal helper function that implements the core logic for creating
@@ -26,13 +28,16 @@ genes to download. Default is \code{NULL} (no filtering). See
 \code{"ntseq"} (gene nucleotide sequence) or \code{"aaseq"} (protein amino
 acid sequence). Default is \code{"ntseq"}.
 .PP
+.PP
+\fBdownload.seqs\fB \fR\- TRUE. 
+.PP
 .SH VALUE
 .PP
 Returns \code{NULL} invisibly.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 109
+SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 117
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

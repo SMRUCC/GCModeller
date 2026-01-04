@@ -36,8 +36,9 @@ declare namespace kegg_api {
    function enumeratePath(brite: any, prefix?: any, maxChars?: any): object;
    /**
      * @param seqtype default value Is ``Call "c"("ntseq", "aaseq")``.
+     * @param download_seqs default value Is ``true``.
    */
-   function fetch_ko_data(db: any, ko_id: any, species: any, seqtype?: any): object;
+   function fetch_ko_data(db: any, ko_id: any, species: any, seqtype?: any, download_seqs?: any): object;
    /**
      * @param cache_dir default value Is ``null``.
    */
@@ -62,12 +63,14 @@ declare namespace kegg_api {
      * @param db default value Is ``./``.
      * @param species default value Is ``null``.
      * @param seqtype default value Is ``Call "c"("ntseq", "aaseq")``.
+     * @param download_seqs default value Is ``true``.
    */
-   function ko_db(db?: any, species?: any, seqtype?: any): object;
+   function ko_db(db?: any, species?: any, seqtype?: any, download_seqs?: any): object;
    /**
      * @param seqtype default value Is ``Call "c"("ntseq", "aaseq")``.
+     * @param download_seqs default value Is ``true``.
    */
-   function ko_db_worker(db: any, species: any, seqtype?: any): object;
+   function ko_db_worker(db: any, species: any, seqtype?: any, download_seqs?: any): object;
    /**
      * @param org default value Is ``["ko", "map", "hsa"]``.
      * @param cache default value Is ``null``.

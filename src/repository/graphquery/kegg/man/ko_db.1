@@ -3,12 +3,14 @@
 ko_db \- ko_db(
     <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>species</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)
 .SH SYNOPSIS
 \fIko_db(
     <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>species</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)\fR
 .SH DESCRIPTION
 .PP
 This is the main entry function for creating a local KO sequence database repository.
@@ -37,6 +39,9 @@ Must be one of:
 \item \code{"ntseq"} - gene nucleotide sequence (default)
 \item \code{"aaseq"} - protein amino acid sequence
 }
+.PP
+.PP
+\fBdownload.seqs\fB \fR\- TRUE. 
 .PP
 .SH VALUE
 .PP

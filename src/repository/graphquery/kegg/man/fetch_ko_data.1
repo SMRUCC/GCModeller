@@ -1,10 +1,12 @@
 ﻿.TH FETCH_KO_DATA 1 2026-Jan "internal" "Fetch and Download Data for a Specific KO Entry"
 .SH NAME
 fetch_ko_data \- fetch_ko_data(db, ko.id, species,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)
 .SH SYNOPSIS
 \fIfetch_ko_data(db, ko.id, species,
-    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)\fR
 .SH DESCRIPTION
 .PP
 An internal function that downloads gene ID associations for a specific
@@ -27,6 +29,9 @@ will be downloaded.
 \code{"ntseq"} (gene nucleotide sequence) or \code{"aaseq"} (protein amino
 acid sequence). Default is \code{"ntseq"}.
 .PP
+.PP
+\fBdownload.seqs\fB \fR\- TRUE. 
+.PP
 .SH VALUE
 .PP
 Returns \code{NULL} invisibly.
@@ -47,7 +52,7 @@ gene identifier (formatted as \code{species:gene_id}).
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.fetch_ko_data at ko_db.R:line 168
+SMRUCC/R#.declare_function.fetch_ko_data at ko_db.R:line 177
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026
