@@ -143,6 +143,7 @@ Namespace IO
                               End Function)
         End Function
 
+#If DEVELOPMENT Then
         Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
             Dim names As String() = schema.Values _
                 .Select(Function(p)
@@ -161,6 +162,7 @@ Namespace IO
                 End If
             Next
         End Sub
+#End If
 
         ''' <summary>
         ''' Parsing a term object as data model

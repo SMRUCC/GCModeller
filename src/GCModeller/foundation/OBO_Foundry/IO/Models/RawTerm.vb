@@ -57,6 +57,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace IO.Models
@@ -104,6 +105,18 @@ Namespace IO.Models
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        Public Function ExtractBasic() As BasicTerm
+            Dim data As Dictionary(Of String, String()) = GetData()
+
+            Return New BasicTerm With {
+                .id = data.TryGetValue(Key_id).DefaultFirst,
+                .def = data.TryGetValue(Key_def).JoinBy(vbCrLf),
+                .name = data.TryGetValue(Key_name).DefaultFirst,
+                .[namespace] = data.TryGetValue("namespace").DefaultFirst,
+                .is_a = data.TryGetValue(Key_is_a)
+            }
         End Function
     End Structure
 End Namespace
