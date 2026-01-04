@@ -1,31 +1,38 @@
-﻿.TH KO_DB_WORKER 1 2026-Jan "" "An internal function for implements create ko database"
+﻿.TH KO_DB_WORKER 1 2026-Jan "internal" "Internal Worker Function for KO Database Creation"
 .SH NAME
 ko_db_worker \- ko_db_worker(db, species,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
 .SH SYNOPSIS
 \fIko_db_worker(db, species,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH DESCRIPTION
+.PP
+This is an internal helper function that implements the core logic for creating
+the KO sequence database. It iterates through all KO entries in the KO index
+and triggers the download of associated gene sequences.
+.PP
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- . a local repository connection to the target kegg genes database to save and cache the data which is download from
-the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
-which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.
+\fBdb\fB \fR\- . A local repository connection to the target KEGG genes database for
+saving and caching downloaded data. See \code{\link{ko_db}} for details.
 .PP
 .PP
-\fBspecies\fB \fR\- . a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
-default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
-the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams
+\fBspecies\fB \fR\- . A character vector of KEGG organism species codes for filtering
+genes to download. Default is \code{NULL} (no filtering). See
+\code{\link{ko_db}} for details and examples.
 .PP
 .PP
-\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). 
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). The type of FASTA sequence data to download. Must be either
+\code{"ntseq"} (gene nucleotide sequence) or \code{"aaseq"} (protein amino
+acid sequence). Default is \code{"ntseq"}.
 .PP
 .SH VALUE
 .PP
-this function returns nothing
+Returns \code{NULL} invisibly.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 37
+SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 109
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

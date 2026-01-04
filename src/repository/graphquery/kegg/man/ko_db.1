@@ -1,4 +1,4 @@
-﻿.TH KO_DB 1 2026-Jan "" "create ko database"
+﻿.TH KO_DB 1 2026-Jan "" "Create Local KEGG Orthology (KO) Sequence Database"
 .SH NAME
 ko_db \- ko_db(
     <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
@@ -9,27 +9,88 @@ ko_db \- ko_db(
     <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
     <i>species</i> = <span style='color: blue !important;'>NULL</span>,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH DESCRIPTION
+.PP
+This is the main entry function for creating a local KO sequence database repository.
+It downloads KEGG Orthology data and associated gene sequences from the KEGG database
+via the KEGG REST API and caches them locally.
+.PP
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- './'. a local repository connection to the target kegg genes database to save and cache the data which is download from
-the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
-which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.
+\fBdb\fB \fR\- './'. A local repository connection to the target KEGG genes database for saving
+and caching data downloaded from the KEGG website. This parameter can be a local
+directory path or a file connection to an archive file with internal filesystem
+tree management (e.g., a ZIP archive, HDF5 archive, or R# HDS pack file).
+Default is \code{"./"} (current working directory).
 .PP
 .PP
-\fBspecies\fB \fR\- NULL. a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
-default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
-the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams
+\fBspecies\fB \fR\- NULL. A character vector of KEGG organism species codes for taxonomy-based
+filtering of genes to download. Default is \code{NULL}, which means no filtering
+is applied. For example, setting \code{species = c("eco", "hsa", "mmu")} will
+download only KO gene sequences for \emph{Escherichia coli}, \emph{Homo sapiens},
+and \emph{Mus musculus}, ignoring all other organisms.
 .PP
 .PP
-\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). the fasta sequence data type for download from the KEGG database, default is gene nucleotide sequence.
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). The type of FASTA sequence data to download from the KEGG database.
+Must be one of:
+\itemize{
+\item \code{"ntseq"} - gene nucleotide sequence (default)
+\item \code{"aaseq"} - protein amino acid sequence
+}
 .PP
 .SH VALUE
 .PP
-this function returns nothing
+This function returns \code{NULL} invisibly. The primary output is the
+creation of a local database repository containing KO index files and
+sequence FASTA files.
+.PP
+.SH DETAILS
+.PP
+The function operates in several stages:
+\enumerate{
+\item Sets up HTTP caching via global options
+\item Loads or retrieves the KO master index from KEGG
+\item For each KO entry in the index:
+\itemize{
+\item Downloads gene associations via \code{rest.kegg.jp/link/genes/}
+\item Parses and stores gene IDs with species codes
+\item Optionally filters by specified \code{species}
+\item Downloads nucleotide sequences for filtered genes
+}
+}
+HTTP requests are rate-limited with a 3-second interval to respect KEGG API
+usage policies. Progress is displayed using \code{tqdm} for tracking
+download progress.
+The function creates a hierarchical file structure within \code{db}:
+\preformatted{
+db/
+├── ko.csv              # Master KO index
+├── ko/
+│   ├── K00001.txt     # Gene IDs for KO:K00001
+│   ├── K00002.txt     # Gene IDs for KO:K00002
+│   └── ...
+└── fasta/
+├── K00001.txt     # Nucleotide sequences for K00001 genes
+├── K00002.txt     # Nucleotide sequences for K00002 genes
+└── ...
+}
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Create KO database with all organisms in current directory
+ko_db()
+# Create KO database for specific species only
+ko_db(db = "./kegg_db", species = c("eco", "hsa", "mmu"))
+# Create KO database with protein sequences
+ko_db(seqtype = "aaseq")
+
+#}
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.ko_db at ko_db.R:line 16
+SMRUCC/R#.declare_function.ko_db at ko_db.R:line 77
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

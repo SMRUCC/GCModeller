@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>download fasta sequence from kegg database</title>
+    <title>Download FASTA Sequences from KEGG Database</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -18,11 +18,12 @@
             </tr>
         </table>
 
-        <h2>download fasta sequence from kegg database</h2>
+        <h2>Download FASTA Sequences from KEGG Database</h2>
 
         <h3>Description</h3>
 
-        
+        <p>Downloads FASTA sequences for genes associated with a specific KEGG Orthology (KO)
+identifier from the KEGG REST API and saves them to the local database repository.</p>
 
         <h3>Usage</h3>
 
@@ -35,27 +36,42 @@
 
         <table>
             
+<dt>db</dt>
+<dd><p><p>A local repository connection to the target KEGG genes database where
+the FASTA sequences will be saved.</p></p></dd>
+
+
 <dt>ko.id</dt>
-<dd><p><p>ko id</p></p></dd>
+<dd><p><p>A character string specifying the KEGG Orthology identifier
+(e.g., \code{"K00001"}).</p></p></dd>
 
 
 <dt>ko.genes</dt>
-<dd><p><p>a dataframee table of the gene id collection that belongs to current ko_id KEGG Orthology
-should contains two data fields:
-species - the kegg organism specicies code
-gene_id - the gene locus tag</p></p></dd>
+<dd><p><p>A data frame containing gene IDs that belong to the current KO
+group. Must contain the following columns:
+\describe{
+\item{species}{KEGG organism species code (e.g., \code{"eco"}, \code{"hsa"})}
+\item{gene_id}{Gene locus tag within the organism (e.g., \code{"b0001"})}
+}</p></p></dd>
 
 
 <dt>seqtype</dt>
-<dd><p><p>the fasta sequence type to download from the kegg database, value could be
-ntseq for gene nucleotide sequence and aaseq for protein amino acid sequence.</p></p></dd>
+<dd><p><p>The type of FASTA sequence data to download. Must be one of:
+\itemize{
+\item \code{"ntseq"} - gene nucleotide sequence (default)
+\item \code{"aaseq"} - protein amino acid sequence
+}</p></p></dd>
 
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>This function downloads gene sequences in batches of 20 genes per request to
+avoid overwhelming the KEGG REST API. It checks if a cached FASTA file already
+exists for the KO entry and skips download if present.
+The FASTA sequences are saved to \code{/fasta/\{ko_id\}.txt} within the
+repository structure.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -63,7 +79,7 @@ ntseq for gene nucleotide sequence and aaseq for protein amino acid sequence.</p
 
         <h3>Value</h3>
 
-        <p>this function returns nothing</p>
+        <p>Returns \code{NULL} invisibly.</p>
 
         <h3 style="display: none;">Examples</h3>
 

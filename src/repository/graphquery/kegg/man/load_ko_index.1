@@ -1,22 +1,59 @@
-﻿.TH LOAD_KO_INDEX 1 2026-Jan "" "load KO index table"
+﻿.TH LOAD_KO_INDEX 1 2026-Jan "" "Load KO Index Table"
 .SH NAME
 load_ko_index \- load_ko_index(db)
 .SH SYNOPSIS
 \fIload_ko_index(db)\fR
+.SH DESCRIPTION
+.PP
+Loads the KEGG Orthology (KO) index table, which contains metadata for all
+KO entries including KO IDs, gene names, and functional descriptions.
+.PP
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- . 
+\fBdb\fB \fR\- . A local repository connection to the target KEGG genes database.
+The KO index table is cached at \code{/ko.csv} within this repository.
 .PP
 .SH VALUE
 .PP
-a dataframe table with data fields:
-ko - the KEGG Orthology id
-gene_names - the kegg gene names
-description - the kegg gene function description text
+A data frame with three columns:
+\describe{
+\item{ko}{KEGG Orthology identifier (e.g., \code{"K00001"}); also used as row names}
+\item{gene_names}{Comma-separated list of gene names associated with the KO}
+\item{description}{Functional description of the KO, including EC numbers when applicable}
+}
+.PP
+.SH DETAILS
+.PP
+If the cached index file (\code{/ko.csv}) does not exist in the repository,
+this function downloads the KO list from the KEGG REST API at
+\url{https://rest.kegg.jp/list/ko} , parses the response, and saves it locally
+for future use.
+The KEGG API returns data in the format:
+\preformatted{
+K00001\tE1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+K00002\tAKR1A1, adh; alcohol dehydrogenase (NADP+) [EC:1.1.1.2]
+}
+This format is parsed to extract:
+\enumerate{
+\item The KO ID (first element)
+\item Gene names (second element; may be empty)
+\item Functional description (third element)
+}
+The 3-second interval between requests helps avoid overwhelming the KEGG API.
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Load KO index from existing database
+ko_index <- load_ko_index(db = "./kegg_db")
+head(ko_index)
+
+#}
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.load_ko_index at ko_db.R:line 157
+SMRUCC/R#.declare_function.load_ko_index at ko_db.R:line 332
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

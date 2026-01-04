@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>load KO index table</title>
+    <title>Load KO Index Table</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -18,11 +18,12 @@
             </tr>
         </table>
 
-        <h2>load KO index table</h2>
+        <h2>Load KO Index Table</h2>
 
         <h3>Description</h3>
 
-        
+        <p>Loads the KEGG Orthology (KO) index table, which contains metadata for all
+KO entries including KO IDs, gene names, and functional descriptions.</p>
 
         <h3>Usage</h3>
 
@@ -34,12 +35,31 @@
 
         <table>
             
+<dt>db</dt>
+<dd><p><p>A local repository connection to the target KEGG genes database.
+The KO index table is cached at \code{/ko.csv} within this repository.</p></p></dd>
+
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>If the cached index file (\code{/ko.csv}) does not exist in the repository,
+this function downloads the KO list from the KEGG REST API at
+\url<a href='{https://rest.kegg.jp/list/ko}' title='{https://rest.kegg.jp/list/ko}'>{https://rest.kegg.jp/list/ko}</a> , parses the response, and saves it locally
+for future use.
+The KEGG API returns data in the format:
+\preformatted{
+K00001\tE1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+K00002\tAKR1A1, adh; alcohol dehydrogenase (NADP+) [EC:1.1.1.2]
+}
+This format is parsed to extract:
+\enumerate{
+\item The KO ID (first element)
+\item Gene names (second element; may be empty)
+\item Functional description (third element)
+}
+The 3-second interval between requests helps avoid overwhelming the KEGG API.</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -47,14 +67,22 @@
 
         <h3>Value</h3>
 
-        <p>a dataframe table with data fields:
-ko - the KEGG Orthology id
-gene_names - the kegg gene names
-description - the kegg gene function description text</p>
+        <p>A data frame with three columns:
+\describe{
+\item{ko}{KEGG Orthology identifier (e.g., \code{"K00001"}); also used as row names}
+\item{gene_names}{Comma-separated list of gene names associated with the KO}
+\item{description}{Functional description of the KO, including EC numbers when applicable}
+}</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r">#\dontrun{
+
+# Load KO index from existing database
+ko_index <- load_ko_index(db = "./kegg_db")
+head(ko_index)
+
+#}</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>kegg_api</em> version 0.1.0 <a

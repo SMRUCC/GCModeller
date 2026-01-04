@@ -1,13 +1,19 @@
-﻿.TH DOWNLOAD_KOSEQS 1 2026-Jan "" "download fasta sequence from kegg database"
+﻿.TH DOWNLOAD_KOSEQS 1 2026-Jan "internal" "Download FASTA Sequences from KEGG Database"
 .SH NAME
 download_koseqs \- download_koseqs(db, ko.id, ko.genes,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
 .SH SYNOPSIS
 \fIdownload_koseqs(db, ko.id, ko.genes,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH DESCRIPTION
+.PP
+Downloads FASTA sequences for genes associated with a specific KEGG Orthology (KO)
+identifier from the KEGG REST API and saves them to the local database repository.
+.PP
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- . 
+\fBdb\fB \fR\- . A local repository connection to the target KEGG genes database where
+the FASTA sequences will be saved.
 .PP
 .PP
 \fBko.id\fB \fR\- . 
@@ -16,16 +22,27 @@ download_koseqs \- download_koseqs(db, ko.id, ko.genes,
 \fBko.genes\fB \fR\- . 
 .PP
 .PP
-\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). the fasta sequence type to download from the kegg database, value could be
-ntseq for gene nucleotide sequence and aaseq for protein amino acid sequence.
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). The type of FASTA sequence data to download. Must be one of:
+\itemize{
+\item \code{"ntseq"} - gene nucleotide sequence (default)
+\item \code{"aaseq"} - protein amino acid sequence
+}
 .PP
 .SH VALUE
 .PP
-this function returns nothing
+Returns \code{NULL} invisibly.
+.PP
+.SH DETAILS
+.PP
+This function downloads gene sequences in batches of 20 genes per request to
+avoid overwhelming the KEGG REST API. It checks if a cached FASTA file already
+exists for the KO entry and skips download if present.
+The FASTA sequences are saved to \code{/fasta/\{ko_id\}.txt} within the
+repository structure.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.download_koseqs at ko_db.R:line 121
+SMRUCC/R#.declare_function.download_koseqs at ko_db.R:line 256
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

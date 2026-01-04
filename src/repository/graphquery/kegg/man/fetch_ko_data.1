@@ -1,26 +1,53 @@
-﻿.TH FETCH_KO_DATA 1 2026-Jan "" "fetch_ko_data"
+﻿.TH FETCH_KO_DATA 1 2026-Jan "internal" "Fetch and Download Data for a Specific KO Entry"
 .SH NAME
 fetch_ko_data \- fetch_ko_data(db, ko.id, species,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
 .SH SYNOPSIS
 \fIfetch_ko_data(db, ko.id, species,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH DESCRIPTION
+.PP
+An internal function that downloads gene ID associations for a specific
+KEGG Orthology (KO) identifier and optionally filters them by species.
+.PP
 .SH OPTIONS
 .PP
-\fBdb\fB \fR\- . 
+\fBdb\fB \fR\- . A local repository connection to the target KEGG genes database.
 .PP
 .PP
 \fBko.id\fB \fR\- . 
 .PP
 .PP
-\fBspecies\fB \fR\- . 
+\fBspecies\fB \fR\- . A character vector of KEGG organism species codes for filtering.
+Default is \code{NULL} (no filtering). Only genes from the specified organisms
+will be downloaded.
 .PP
 .PP
-\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). 
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). The type of FASTA sequence data to download. Must be either
+\code{"ntseq"} (gene nucleotide sequence) or \code{"aaseq"} (protein amino
+acid sequence). Default is \code{"ntseq"}.
+.PP
+.SH VALUE
+.PP
+Returns \code{NULL} invisibly.
+.PP
+.SH DETAILS
+.PP
+This function performs the following steps:
+\enumerate{
+\item Checks if a cached gene ID list exists for the KO entry
+\item If not cached, downloads the gene ID list from the KEGG REST API
+\item Parses the gene IDs into species code and gene locus tag components
+\item Filters genes by the specified species (if provided)
+\item Triggers the download of FASTA sequences for the filtered genes
+}
+The KEGG API returns gene associations in the format \code{ko:K00001\teco:b0001},
+where the first column is the KO identifier and the second column is the
+gene identifier (formatted as \code{species:gene_id}).
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.fetch_ko_data at ko_db.R:line 59
+SMRUCC/R#.declare_function.fetch_ko_data at ko_db.R:line 168
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, MIT Licensed 2026

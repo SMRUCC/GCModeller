@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create ko database</title>
+    <title>Create Local KEGG Orthology (KO) Sequence Database</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -18,11 +18,13 @@
             </tr>
         </table>
 
-        <h2>create ko database</h2>
+        <h2>Create Local KEGG Orthology (KO) Sequence Database</h2>
 
         <h3>Description</h3>
 
-        
+        <p>This is the main entry function for creating a local KO sequence database repository.
+It downloads KEGG Orthology data and associated gene sequences from the KEGG database
+via the KEGG REST API and caches them locally.</p>
 
         <h3>Usage</h3>
 
@@ -37,27 +39,63 @@
 
         <table>
             
-<dt>species</dt>
-<dd><p><p>a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
-default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
-the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams</p></p></dd>
-
-
 <dt>db</dt>
-<dd><p><p>a local repository connection to the target kegg genes database to save and cache the data which is download from
-the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
-which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.</p></p></dd>
+<dd><p><p>A local repository connection to the target KEGG genes database for saving
+and caching data downloaded from the KEGG website. This parameter can be a local
+directory path or a file connection to an archive file with internal filesystem
+tree management (e.g., a ZIP archive, HDF5 archive, or R# HDS pack file).
+Default is \code{"./"} (current working directory).</p></p></dd>
+
+
+<dt>species</dt>
+<dd><p><p>A character vector of KEGG organism species codes for taxonomy-based
+filtering of genes to download. Default is \code{NULL}, which means no filtering
+is applied. For example, setting \code{species = c("eco", "hsa", "mmu")} will
+download only KO gene sequences for \emph{Escherichia coli}, \emph{Homo sapiens},
+and \emph{Mus musculus}, ignoring all other organisms.</p></p></dd>
 
 
 <dt>seqtype</dt>
-<dd><p><p>the fasta sequence data type for download from the KEGG database, default is gene nucleotide sequence.</p></p></dd>
+<dd><p><p>The type of FASTA sequence data to download from the KEGG database.
+Must be one of:
+\itemize{
+\item \code{"ntseq"} - gene nucleotide sequence (default)
+\item \code{"aaseq"} - protein amino acid sequence
+}</p></p></dd>
 
         </table>
 
 
-        <h3 style="display: none;">Details</h3>
+        <h3 style="display: block;">Details</h3>
 
-        
+        <p>The function operates in several stages:
+\enumerate{
+\item Sets up HTTP caching via global options
+\item Loads or retrieves the KO master index from KEGG
+\item For each KO entry in the index:
+\itemize{
+\item Downloads gene associations via \code{rest.kegg.jp/link/genes/}
+\item Parses and stores gene IDs with species codes
+\item Optionally filters by specified \code{species}
+\item Downloads nucleotide sequences for filtered genes
+}
+}
+HTTP requests are rate-limited with a 3-second interval to respect KEGG API
+usage policies. Progress is displayed using \code{tqdm} for tracking
+download progress.
+The function creates a hierarchical file structure within \code{db}:
+\preformatted{
+db/
+├── ko.csv              # Master KO index
+├── ko/
+│   ├── K00001.txt     # Gene IDs for KO:K00001
+│   ├── K00002.txt     # Gene IDs for KO:K00002
+│   └── ...
+└── fasta/
+├── K00001.txt     # Nucleotide sequences for K00001 genes
+├── K00002.txt     # Nucleotide sequences for K00002 genes
+└── ...
+}</p>
 
         <h3 style="display: block">Authors</h3>
 
@@ -65,11 +103,22 @@ which has internal filesystem tree management, example as connection to a zip ar
 
         <h3>Value</h3>
 
-        <p>this function returns nothing</p>
+        <p>This function returns \code{NULL} invisibly. The primary output is the
+creation of a local database repository containing KO index files and
+sequence FASTA files.</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r">#\dontrun{
+
+# Create KO database with all organisms in current directory
+ko_db()
+# Create KO database for specific species only
+ko_db(db = "./kegg_db", species = c("eco", "hsa", "mmu"))
+# Create KO database with protein sequences
+ko_db(seqtype = "aaseq")
+
+#}</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>kegg_api</em> version 0.1.0 <a
