@@ -52,13 +52,17 @@ declare namespace kegg_api {
    function kegg_referencedb(db_file?: any): object;
    /**
      * @param db default value Is ``./``.
+     * @param species default value Is ``null``.
    */
-   function ko_db(db?: any): object;
+   function ko_db(db?: any, species?: any): object;
    /**
      * @param org default value Is ``["ko", "map", "hsa"]``.
      * @param cache default value Is ``null``.
    */
    function list_pathway(org?: any, cache?: any): object;
+   /**
+   */
+   function load_ko_index(db: any): object;
    /**
    */
    function loadReactionIDs(): object;
