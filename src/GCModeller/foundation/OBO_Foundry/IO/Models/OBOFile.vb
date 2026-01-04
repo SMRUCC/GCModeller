@@ -279,6 +279,14 @@ Namespace IO.Models
             Return file.ToFileURL
         End Function
 
+        ''' <summary>
+        ''' read term data from obo file stream
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this function has cache data, first time call this function will cache term data into memory
+        ''' then second time call this function will populate data from the memory cache directly. 
+        ''' </remarks>
         Public Iterator Function GetRawTerms() As IEnumerable(Of RawTerm)
             If cache.IsNullOrEmpty Then
                 Dim term As RawTerm
