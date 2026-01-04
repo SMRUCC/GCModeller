@@ -1,0 +1,31 @@
+﻿.TH KO_DB_WORKER 1 2026-Jan "" "An internal function for implements create ko database"
+.SH NAME
+ko_db_worker \- ko_db_worker(db, species,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))
+.SH SYNOPSIS
+\fIko_db_worker(db, species,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'))\fR
+.SH OPTIONS
+.PP
+\fBdb\fB \fR\- . a local repository connection to the target kegg genes database to save and cache the data which is download from
+the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
+which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.
+.PP
+.PP
+\fBspecies\fB \fR\- . a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
+default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
+the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams
+.PP
+.PP
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). 
+.PP
+.SH VALUE
+.PP
+this function returns nothing
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 37
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, MIT Licensed 2026

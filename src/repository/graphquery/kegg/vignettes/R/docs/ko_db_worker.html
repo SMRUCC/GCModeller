@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create ko database</title>
+    <title>An internal function for implements create ko database</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>ko_db {kegg_api}</td>
+                <td>ko_db_worker {kegg_api}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>create ko database</h2>
+        <h2>An internal function for implements create ko database</h2>
 
         <h3>Description</h3>
 
@@ -27,9 +27,7 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ko_db</strong>(
-    <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
-    <i>species</i> = <span style='color: blue !important;'>NULL</span>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ko_db_worker</strong>(<i>db</i>, <i>species</i>,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'));</code></pre>
         </div>
 
@@ -47,10 +45,6 @@ the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, i
 <dd><p><p>a local repository connection to the target kegg genes database to save and cache the data which is download from
 the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
 which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.</p></p></dd>
-
-
-<dt>seqtype</dt>
-<dd><p><p>the fasta sequence data type for download from the KEGG database, default is gene nucleotide sequence.</p></p></dd>
 
         </table>
 

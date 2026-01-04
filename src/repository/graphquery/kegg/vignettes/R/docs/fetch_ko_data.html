@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>create ko database</title>
+    <title>fetch_ko_data</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>ko_db {kegg_api}</td>
+                <td>fetch_ko_data {kegg_api}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>create ko database</h2>
+        <h2>fetch_ko_data</h2>
 
         <h3>Description</h3>
 
@@ -27,9 +27,7 @@
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ko_db</strong>(
-    <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
-    <i>species</i> = <span style='color: blue !important;'>NULL</span>,
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>fetch_ko_data</strong>(<i>db</i>, <i>ko.id</i>, <i>species</i>,
     <i>seqtype</i> = 'c'('ntseq', 'aaseq'));</code></pre>
         </div>
 
@@ -37,21 +35,6 @@
 
         <table>
             
-<dt>species</dt>
-<dd><p><p>a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
-default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
-the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams</p></p></dd>
-
-
-<dt>db</dt>
-<dd><p><p>a local repository connection to the target kegg genes database to save and cache the data which is download from
-the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file
-which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.</p></p></dd>
-
-
-<dt>seqtype</dt>
-<dd><p><p>the fasta sequence data type for download from the KEGG database, default is gene nucleotide sequence.</p></p></dd>
-
         </table>
 
 
@@ -65,7 +48,7 @@ which has internal filesystem tree management, example as connection to a zip ar
 
         <h3>Value</h3>
 
-        <p>this function returns nothing</p>
+        This function has no value returns.
 
         <h3 style="display: none;">Examples</h3>
 
