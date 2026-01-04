@@ -11,6 +11,8 @@
 #' 
 #' @return this function returns nothing
 #' 
+#' @remarks the main entry function for the workflow of create a local KO sequence database repository.
+#' 
 const ko_db = function(db = "./", species = NULL, seqtype = c("ntseq","aaseq")) {
     # config local cache dir for REnv::getHtml function
     options(http.cache_dir = "$ko_db.http_cache");
