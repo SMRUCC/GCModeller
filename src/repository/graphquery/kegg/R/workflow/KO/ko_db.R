@@ -34,12 +34,25 @@ const ko_db = function(db = "./", species = NULL) {
         if (!file.exists(geneId_file, fs=db)) {
             let ko_genes = REnv::getHtml(`https://rest.kegg.jp/link/genes/${ko_id}`, interval = 3, filetype = "txt");
 
+            # split each text line with white space
+            # ko:K00001	dme:Dmel_CG3481
+            # ko:K00001	der:6540581
+            # ko:K00001	dse:6611292
+            # ko:K00001	dsi:Dsimw501_GD23968
+            # ko:K00001	dya:Dyak_GE10683
+            #
+            # first column is the KO id
+            # use the second column as gene id
             ko_genes = ko_genes |> textlines() |> strsplit("\s+");
             ko_genes = ko_genes@{2};
 
             writeLines(ko_genes, con = file.allocate(geneId_file, fs = db));
         }        
 
+        # split the kegg gene id by use `:` symbol as delimiter
+        # eco:b0001
+        # first column is the kegg organism species code
+        # second column is the gene locus tag
         ko_genes = readLines(file.allocate(geneId_file, fs = db));
         ko_genes = strsplit(ko_genes,"[:]");
         ko_genes = data.frame(species = ko_genes@{1}, gene_id = ko_genes@{2});
@@ -84,6 +97,8 @@ const download_koseqs = function(db, ko_id, ko_genes, seqtype = c("ntseq","aaseq
     if (!file.exists(seqfile, fs=db)) {
         let fasta = NULL;
 
+        # split the ko_genes id character vector into multiple parts
+        # each part has 20 elements
         ko_genes = sprintf("%s:%s", ko_genes$species, ko_genes$gene_id);
         ko_genes = split(ko_genes, size = 20);
 
@@ -119,9 +134,22 @@ const load_ko_index = function(db) {
             |> strsplit("(\t+)|(;\s+)") 
             |> tqdm() 
             |> lapply(t -> {
+                # ko_id \t+ gene_name    ;\s+ description
+                # 1     2   3            4    5
+                # K00001	E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+                # K00002	AKR1A1, adh; alcohol dehydrogenase (NADP+) [EC:1.1.1.2]
+                # K00003	hom; homoserine dehydrogenase [EC:1.1.1.3]
+
                 if (length(t) == 3) {
+                    # this KO has no gene name
+                    # due to the gene name is missing, so that
+                    # only has 3 elements, gene name is empty
                     c(t[1],"",t[3]);
                 } else {
+                    # pick the 1,3,5
+                    # 1. KO id
+                    # 3. gene name
+                    # 5. gene function text
                     t[c(1,3,5)];
                 }
             })
