@@ -1,6 +1,19 @@
 #' create ko database
+#' 
+#' @param species a character vector of the kegg organism species code for make taxonomy range filter of the gene to downloads.
+#'    default is NULL means no filter. example as set species parameter to c("eco","hsa","mmu") means this function will just download
+#'    the ko gene sequence of taxonomy Escherichia coli, Homo sapiens, Mus musculus, ignores other orgniams
+#' 
+#' @param db a local repository connection to the target kegg genes database to save and cache the data which is download from
+#'    the kegg website via the kegg rest api. this parameter value could be a local directory or file connection to the archive file 
+#'    which has internal filesystem tree management, example as connection to a zip archive file, HDF5 archive file or the R# HDS pack file.
+#' 
+#' @return this function returns nothing
+#' 
 const ko_db = function(db = "./", species = NULL) {
+    # config local cache dir for REnv::getHtml function
     options(http.cache_dir = "$ko_db.http_cache");
+    # set global environment for the repository model
     set(globalenv(),"$ko_db.http_cache", db);
 
     let ko_index = load_ko_index(db);
@@ -45,33 +58,62 @@ const ko_db = function(db = "./", species = NULL) {
         }
 
         if (nrow(ko_genes) > 0) {
-            let seqfile = `/fasta/${ko_id}.txt`;
-
-            if (!file.exists(seqfile, fs=db)) {
-                let fasta = NULL;
-
-                ko_genes = sprintf("%s:%s", ko_genes$species, ko_genes$gene_id);
-                ko_genes = split(ko_genes, size = 20);
-
-                print("download gene sequence with data task blocks:");
-                print(length(ko_genes));
-                str(ko_genes);
-
-                for(block in ko_genes) {
-                    let url = `https://rest.kegg.jp/get/${paste(block, sep="+")}/ntseq`;
-                    let seqs = REnv::getHtml(url, interval = 3, filetype = "txt");
-                    
-                    fasta = c(fasta, seqs);
-                }
-
-                writeLines(fasta, con = file.allocate(seqfile, fs = db));
-            }
+            db |> download_koseqs(ko_id, ko_genes);
         }
     }
+
+    invisible(NULL);
 }
 
+#' download fasta sequence from kegg database
+#' 
+#' @param ko_id ko id
+#' @param ko_genes a dataframee table of the gene id collection that belongs to current ko_id KEGG Orthology
+#'     should contains two data fields:
+#'     species - the kegg organism specicies code
+#'     gene_id - the gene locus tag
+#' @param seqtype the fasta sequence type to download from the kegg database, value could be
+#'     ntseq for gene nucleotide sequence and aaseq for protein amino acid sequence.
+#' 
+#' @return this function returns nothing
+#' 
+const download_koseqs = function(db, ko_id, ko_genes, seqtype = c("ntseq","aaseq")) {
+    let seqfile = `/fasta/${ko_id}.txt`;
+
+    # skip of the existed fasta sequence file
+    if (!file.exists(seqfile, fs=db)) {
+        let fasta = NULL;
+
+        ko_genes = sprintf("%s:%s", ko_genes$species, ko_genes$gene_id);
+        ko_genes = split(ko_genes, size = 20);
+
+        print("download gene sequence with data task blocks:");
+        print(length(ko_genes));
+        str(ko_genes);
+
+        for(block in ko_genes) {
+            let url = `https://rest.kegg.jp/get/${paste(block, sep="+")}/ntseq`;
+            let seqs = REnv::getHtml(url, interval = 3, filetype = "txt");
+            
+            fasta = c(fasta, seqs);
+        }
+
+        writeLines(fasta, con = file.allocate(seqfile, fs = db));
+    }
+
+    invisible(NULL);
+}
+
+#' load KO index table
+#' 
+#' @return a dataframe table with data fields:
+#'    ko - the KEGG Orthology id
+#'    gene_names - the kegg gene names
+#'    description - the kegg gene function description text
+#' 
 const load_ko_index = function(db) {
     if (!file.exists("/ko.csv", fs = db)) {
+        # cache table if table file is missing
         let index = REnv::getHtml("https://rest.kegg.jp/list/ko", interval = 3, filetype = "txt");
         let ko_index = textlines(index) 
             |> strsplit("(\t+)|(;\s+)") 
