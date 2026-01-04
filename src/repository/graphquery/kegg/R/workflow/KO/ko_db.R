@@ -74,13 +74,21 @@
 #' ko_db(seqtype = "aaseq")
 #' }
 #'
-const ko_db = function(db = "./", species = NULL, seqtype = c("ntseq","aaseq")) {
+const ko_db = function(db = "./", 
+                       species = NULL, 
+                       seqtype = c("ntseq","aaseq"), 
+                       download_seqs = TRUE) {
+
     # config local cache dir for REnv::getHtml function
     options(http.cache_dir = "$ko_db.http_cache");
     # set global environment for the repository model
     set(globalenv(),"$ko_db.http_cache", db);
 
-    db |> ko_db_worker(species,seqtype= seqtype);
+    db |> ko_db_worker(
+        species,
+        seqtype = seqtype,
+        download_seqs = download_seqs
+    );
 }
 
 #' Internal Worker Function for KO Database Creation
@@ -106,7 +114,7 @@ const ko_db = function(db = "./", species = NULL, seqtype = c("ntseq","aaseq")) 
 #'
 #' @family ko_db_functions
 #'
-const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq")) {
+const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq"), download_seqs=TRUE) {
     let ko_index = load_ko_index(db);
 
     print("load ko index table for make request data:");
@@ -120,7 +128,8 @@ const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq")) {
     for(ko in as.list(ko_index,byrow=TRUE)) {
         db |> fetch_ko_data(ko_id = ko$ko, 
                             species = species, 
-                            seqtype = seqtype
+                            seqtype = seqtype, 
+                            download_seqs = download_seqs
         );
     }
 
@@ -165,7 +174,7 @@ const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq")) {
 #'
 #' @family ko_db_functions
 #'
-const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq")) {
+const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"), download_seqs=TRUE) {
     let geneId_file = `/ko/${ko_id}.txt`;
     let ko_genes = NULL;
 
@@ -208,7 +217,7 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"))
         }            
     }
 
-    if (nrow(ko_genes) > 0) {
+    if ([nrow(ko_genes) > 0] && download_seqs) {
         db |> download_koseqs(ko_id, ko_genes,seqtype =seqtype );
     }
 

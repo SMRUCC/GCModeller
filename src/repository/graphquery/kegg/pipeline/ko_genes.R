@@ -21,10 +21,10 @@ print(unique(genomes$kingdom));
 
 let bacterial = genomes[genomes$kingdom == "Prokaryotes", ];
 
-print(bacterial);
+print(bacterial, max.print = 6);
 
 write.csv(bacterial, file = relative_work("bacterial.csv"));
 
-kegg_api::ko_db(db = ko_dbfile, species = bacterial$kegg_code);
+kegg_api::ko_db(db = ko_dbfile, species = bacterial$kegg_code, download_seqs=FALSE);
 
 close(ko_dbfile);
