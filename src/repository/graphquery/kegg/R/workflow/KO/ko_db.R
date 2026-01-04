@@ -30,7 +30,38 @@
 #' @export
 #'
 #' @family ko_db_functions
-#'
+#' 
+#' @details The function operates in several stages:
+#'    \enumerate{
+#'      \item Sets up HTTP caching via global options
+#'      \item Loads or retrieves the KO master index from KEGG
+#'      \item For each KO entry in the index:
+#'      \itemize{
+#'        \item Downloads gene associations via \code{rest.kegg.jp/link/genes/}
+#'        \item Parses and stores gene IDs with species codes
+#'        \item Optionally filters by specified \code{species}
+#'        \item Downloads nucleotide sequences for filtered genes
+#'      }
+#'    }
+#' 
+#'    HTTP requests are rate-limited with a 3-second interval to respect KEGG API
+#'    usage policies. Progress is displayed using \code{tqdm} for tracking
+#'    download progress.
+#' 
+#'    The function creates a hierarchical file structure within \code{db}:
+#'    \preformatted{
+#'    db/
+#'    ├── ko.csv              # Master KO index
+#'    ├── ko/
+#'    │   ├── K00001.txt     # Gene IDs for KO:K00001
+#'    │   ├── K00002.txt     # Gene IDs for KO:K00002
+#'    │   └── ...
+#'    └── fasta/
+#'        ├── K00001.txt     # Nucleotide sequences for K00001 genes
+#'        ├── K00002.txt     # Nucleotide sequences for K00002 genes
+#'        └── ...
+#'    }
+#' 
 #' @examples
 #' \dontrun{
 #' # Create KO database with all organisms in current directory
