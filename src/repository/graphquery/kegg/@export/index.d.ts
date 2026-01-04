@@ -51,6 +51,10 @@ declare namespace kegg_api {
    */
    function kegg_referencedb(db_file?: any): object;
    /**
+     * @param db default value Is ``./``.
+   */
+   function ko_db(db?: any): object;
+   /**
      * @param org default value Is ``["ko", "map", "hsa"]``.
      * @param cache default value Is ``null``.
    */
