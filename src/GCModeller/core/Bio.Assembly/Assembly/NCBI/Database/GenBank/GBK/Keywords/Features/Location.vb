@@ -125,6 +125,24 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             End Get
         End Property
 
+        Public ReadOnly Property Location As ComponentModel.Loci.Location Implements ILocationSegment.Location
+            Get
+                Return ContiguousRegion
+            End Get
+        End Property
+
+        Public ReadOnly Property UniqueId As String Implements ILocationSegment.UniqueId
+            Get
+                Return ToString()
+            End Get
+        End Property
+
+        Public ReadOnly Property HasJoinLocation As Boolean
+            Get
+                Return Not JoinLocation Is Nothing
+            End Get
+        End Property
+
         Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
 
         Public Iterator Function JoinLocations() As IEnumerable(Of NucleotideLocation)
@@ -176,40 +194,30 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Return Location
         End Operator
 
-        Public ReadOnly Property HasJoinLocation As Boolean
-            Get
-                Return Not JoinLocation Is Nothing
-            End Get
-        End Property
-
         Public Overrides Function ToString() As String
             Dim lst As String() = (From p As RegionSegment
                                    In Locations
                                    Select p.Left & ".." & p.Right).ToArray
-            Dim sBuilder = String.Join(", ", lst)
+            Dim s = String.Join(", ", lst)
 
             If Complement Then
-                sBuilder = String.Format("complement({0})", sBuilder)
+                s = String.Format("complement({0})", s)
             End If
 
             If HasJoinLocation Then
-                sBuilder &= "  Join with " & JoinLocation.ToString
+                s &= "  Join with " & JoinLocation.ToString
             End If
 
-            Return sBuilder
+            Return s
         End Function
 
-        Public ReadOnly Property Location As ComponentModel.Loci.Location Implements ILocationSegment.Location
-            Get
-                Return ContiguousRegion
-            End Get
-        End Property
-
-        Public ReadOnly Property UniqueId As String Implements ILocationSegment.UniqueId
-            Get
-                Return ToString()
-            End Get
-        End Property
+        Public Shared Narrowing Operator CType(loc As Location) As NucleotideLocation
+            If loc Is Nothing Then
+                Return Nothing
+            Else
+                Return loc.ContiguousRegion
+            End If
+        End Operator
     End Class
 
     ''' <summary>
