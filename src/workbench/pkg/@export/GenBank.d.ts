@@ -90,8 +90,10 @@ declare namespace GenBank {
      * @param title -
      * 
      * + default value Is ``'<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>'``.
+     * @param key 
+     * + default value Is ``["gene","CDS"]``.
    */
-   function export_geneNt_fasta(gb: object, title?: string): object;
+   function export_geneNt_fasta(gb: object, title?: string, key?: any): object;
    /**
     * create new feature site
     * 
