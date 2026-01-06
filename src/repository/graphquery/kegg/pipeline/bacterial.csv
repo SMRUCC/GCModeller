@@ -547,6 +547,7 @@ T07827,etp,Erwinia tracheiphila,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;
 T08392,erp,Erwinia rhapontici,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Erwinia
 T10311,epi,Erwinia pyri,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Erwinia
 T10706,erwe,Erwinia sp. E602,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Erwinia
+T11594,erwl,Erwinia sp. LJJL01,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Erwinia
 T09410,eto,Winslowiella toletana,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Winslowiella
 T04258,ege,Duffyella gerundensis,Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Duffyella
 T00036,buc,Buchnera aphidicola APS (Acyrthosiphon pisum),Prokaryotes,Prokaryotes;Bacteria;Enterobacteria;Buchnera
@@ -1667,6 +1668,7 @@ T09143,alii,Aliiglaciecola sp. LCG003,Prokaryotes,Prokaryotes;Bacteria;other Gam
 T09721,pmaw,Planctobacterium marinum,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Planctobacterium
 T10756,haro,Halioxenophilus aromaticivorans,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halioxenophilus
 T11110,oim,Opacimonas immobilis,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Opacimonas
+T11592,nix,Ningiella algicola,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Ningiella
 T00450,pin,Psychromonas ingrahamii,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Psychromonas
 T02515,psy,Psychromonas sp. CNPT3,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Psychromonas
 T11561,psys,Psychromonas sp. GE-S-Ul-11,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Psychromonas
@@ -1761,6 +1763,7 @@ T07713,lant,Legionella antarctica,Prokaryotes,Prokaryotes;Bacteria;other Gammapr
 T08304,lly,Legionella lytica,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Legionella
 T08869,lcad,Legionella cardiaca,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Legionella
 T03810,tmc,Legionella micdadei,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Legionella
+T11595,legi,Legionella sp. PC997,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Legionella
 T00205,mca,Methylococcus capsulatus,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylococcus
 T06585,metu,Methylococcus geothermalis,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylococcus
 T09468,mmeo,Methylococcus mesophilus,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylococcus
@@ -1787,6 +1790,7 @@ T07025,mein,Methyloprofundus sp. INp10_methR40d,Prokaryotes,Prokaryotes;Bacteria
 T07433,moz,Methylogaea oryzae,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylogaea
 T07434,misz,Methylomagnum ishizawai,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylomagnum
 T08037,mesl,Methylobacter sp. S3L5C,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylobacter
+T11593,maac,Methylobacter arcticus,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylobacter
 T10194,mech,Methylomarinum roseum,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylomarinum
 T10917,mlau,Methylomicrobium lacus,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylomicrobium
 T09124,meiy,Methylomarinovum tepidoasis,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Methylomarinovum
@@ -2341,6 +2345,7 @@ T06044,buu,Burkholderia mayonis,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacte
 T07932,bsav,Burkholderia savannae,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T08266,bhg,Burkholderia humptydooensis FDAARGOS_899,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T04266,bud,Burkholderia humptydooensis MSMB43,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
+T03759,bul,Burkholderia humptydooensis 2002721687,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T00493,bvi,Burkholderia vietnamiensis G4,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T03893,bve,Burkholderia vietnamiensis LMG 10929,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T00286,bur,Burkholderia lata,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
@@ -2383,7 +2388,6 @@ T01464,bgd,Burkholderia gladioli BSR3,Prokaryotes,Prokaryotes;Bacteria;Betaprote
 T03826,bgo,Burkholderia gladioli ATCC 10248,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T01711,byi,Burkholderia sp. YI23,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T02110,buk,Burkholderia sp. KJ006,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
-T03759,bul,Burkholderia sp. 2002721687,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T04094,buq,Burkholderia sp. HB1,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T03632,bgp,Burkholderia plantarii PG1,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
 T04139,bpla,Burkholderia plantarii ATCC 43733,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Burkholderia
@@ -2831,7 +2835,7 @@ T00804,tmz,Thauera aminoaromatica,Prokaryotes,Prokaryotes;Bacteria;Betaproteobac
 T04211,thu,Thauera humireducens SgZ-1,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
 T09509,thau,Thauera humireducens Piv1,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
 T04612,tcl,Thauera chlorobenzoica,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
-T05106,thk,Thauera sp. K11,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
+T05106,thk,Thauera sinica,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
 T05381,tak,Thauera aromatica,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
 T09925,thag,Thauera sp. GDN1,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Thauera
 T06549,azq,Nitrogeniibacter mangrovi,Prokaryotes,Prokaryotes;Bacteria;Betaproteobacteria;Nitrogeniibacter
@@ -3158,6 +3162,7 @@ T11088,rbin,Rhizobium binxianense,Prokaryotes,Prokaryotes;Bacteria;Alphaproteoba
 T11439,rhip,Rhizobium sp. Pop5,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Rhizobium
 T11457,rhik,Rhizobium sp. K102,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Rhizobium
 T11552,rhis,Rhizobium sp. SRDI969,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Rhizobium
+T11601,rhio,Rhizobium sp. 32-5/1,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Rhizobium
 T03208,ngl,Neorhizobium galegae bv. officinalis bv. officinalis HAMBI 1141,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Neorhizobium
 T03244,ngg,Neorhizobium galegae bv. orientalis HAMBI 540,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Neorhizobium
 T05626,neo,Neorhizobium sp. SOG26,Prokaryotes,Prokaryotes;Bacteria;Alphaproteobacteria;Neorhizobium
@@ -5373,6 +5378,7 @@ T10840,fsf,Flavobacterium soyae,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Fl
 T11036,flav,Flavobacterium sp. CLA17,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flavobacterium
 T11516,fly,Flavobacterium sp. YJ01,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flavobacterium
 T11517,flq,Flavobacterium sp. CFS9,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flavobacterium
+T11599,fadi,Flavobacterium adiutor,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flavobacterium
 T00961,coc,Capnocytophaga ochracea,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Capnocytophaga
 T01582,ccm,Capnocytophaga canimorsus,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Capnocytophaga
 T04076,col,Capnocytophaga sp. oral taxon 323,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Capnocytophaga
@@ -5524,6 +5530,8 @@ T10636,fld,Flagellimonas sp. MMG031,Prokaryotes,Prokaryotes;Bacteria;Bacteroidot
 T11189,faj,Flagellimonas alginolytica,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flagellimonas
 T11190,fcx,Flagellimonas cixiensis,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flagellimonas
 T11242,faw,Flagellimonas aurea,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flagellimonas
+T11597,fue,Flagellimonas ulvae,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flagellimonas
+T11598,frh,Flagellimonas rhodophyticola,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flagellimonas
 T07901,sabu,Flaviramulus sp. BrNp1-15,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Flaviramulus
 T08031,zsp,Zhouia spongiae,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Zhouia
 T08096,bia,Bizionia sp. M204,Prokaryotes,Prokaryotes;Bacteria;Bacteroidota;Bizionia
@@ -5856,6 +5864,7 @@ T08534,bpan,Bacillus paranthracis,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacil
 T09323,balu,Bacillus albus,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T11093,baap,Bacillus sp. ABP14,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T11451,bpam,Bacillus paramobilis,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
+T11603,bahb,Bacillus sp. HBCD-sjtu,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T00599,bpu,Bacillus pumilus SAFR-032,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T03175,bpum,Bacillus pumilus MTCC B6033,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T04776,bpus,Bacillus pumilus SH-B9,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
@@ -5906,6 +5915,8 @@ T11394,bawr,Bacillus sp. WR11,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T11424,baaz,Bacillus sp. A260,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T11443,bacn,Bacillus sp. N1-1,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T11450,babd,Bacillus sp. BD59S,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
+T11590,bacd,Bacillus sp. DU-106,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
+T11591,banp,Bacillus sp. NSP9.1,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Bacillus
 T01389,bco,Evansella cellulosilytica,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Evansella
 T04904,bhk,Sutcliffiella horikoshii,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Sutcliffiella
 T06787,bcoh,Sutcliffiella cohnii,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Sutcliffiella
@@ -6074,6 +6085,7 @@ T10148,achp,Aciduricibacillus chroicocephali,Prokaryotes,Prokaryotes;Bacteria;Ba
 T07942,bbad,Pseudobacillus badius,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Pseudobacillus
 T11218,pmaf,Paraperibacillus marinus,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Paraperibacillus
 T11219,pest,Paraperibacillus esterisolvens,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Paraperibacillus
+T11596,rpho,Robertmurraya phoenicis,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Robertmurraya
 T10990,bbam,Bacillaceae bacterium IKA-2,Prokaryotes,Prokaryotes;Bacteria;Bacilli;unclassified Bacillaceae
 T04282,fpn,Fictibacillus phosphorivorans,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Fictibacillus
 T04452,far,Fictibacillus arsenicus,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Fictibacillus
@@ -6227,6 +6239,8 @@ T09786,stap,Staphylococcus sp. AntiMn-1,Prokaryotes,Prokaryotes;Bacteria;Bacilli
 T10123,shsi,Staphylococcus hsinchuensis,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Staphylococcus
 T10418,sgai,Staphylococcus gallinarum,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Staphylococcus
 T11224,ssuc,Staphylococcus succinus,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Staphylococcus
+T11588,staz,Staphylococcus sp. NRL 16/872,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Staphylococcus
+T11589,stam,Staphylococcus sp. 50Mo3-2,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Staphylococcus
 T05176,sscu,Mammaliicoccus sciuri,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Mammaliicoccus
 T06358,sff,Mammaliicoccus fleurettii,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Mammaliicoccus
 T06999,sste,Mammaliicoccus stepanovicii,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Mammaliicoccus
@@ -6992,7 +7006,7 @@ T11391,tya,Tuanshanicoccus yangjingiae,Prokaryotes,Prokaryotes;Bacteria;Bacilli;
 T01452,crn,Carnobacterium sp. 17-4,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
 T02342,cml,Carnobacterium maltaromaticum,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
 T02884,caw,Carnobacterium inhibens,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
-T04230,carc,Carnobacterium sp. CP1,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
+T04230,carc,Carnobacterium antarcticum,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
 T05644,cdj,Carnobacterium divergens,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
 T06316,carn,Carnobacterium sp. PL17GRE32,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
 T08019,cvd,Carnobacterium viridans,Prokaryotes,Prokaryotes;Bacteria;Bacilli;Carnobacterium
@@ -7184,6 +7198,7 @@ T07960,aacx,Acididesulfobacillus acetoxydans,Prokaryotes,Prokaryotes;Bacteria;Cl
 T10992,phos,Phosphitispora sp. TUW77,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Phosphitispora
 T01226,tjr,Thermincola potens,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Thermincola
 T02657,dgi,Desulfoscipio gibsoniae,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Desulfoscipio
+T11602,desl,Desulfoscipio sp. L,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Desulfoscipio
 T00653,hmo,Heliomicrobium modesticaldum,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Heliomicrobium
 T06277,hcv,Heliorestis convoluta,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Heliorestis
 T01336,elm,Eubacterium callanderi,Prokaryotes,Prokaryotes;Bacteria;Clostridia;Eubacterium
@@ -8475,6 +8490,7 @@ T11406,shug,Streptomyces huangiella,Prokaryotes,Prokaryotes;Bacteria;Actinomycet
 T11501,strk,Streptomyces sp. N50,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptomyces
 T11502,stjl,Streptomyces sp. JL2001,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptomyces
 T11535,sthp,Streptomyces sp. HP-A2021,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptomyces
+T11600,strx,Streptomyces sp. S8,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptomyces
 T01646,sct,Streptantibioticus cattleyicolor NRRL 8057 = DSM 46488,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptantibioticus
 T02095,scy,Streptantibioticus cattleyicolor NRRL 8057 = DSM 46488,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Streptantibioticus
 T01648,ksk,Kitasatospora setae,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Kitasatospora
@@ -8922,7 +8938,7 @@ T00443,nca,Nocardioides sp. JS614,Prokaryotes,Prokaryotes;Bacteria;Actinomycetot
 T04431,ndk,Nocardioides dokdonensis,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
 T05931,noy,Nocardioides euryhalodurans,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
 T06163,noi,Nocardioides jishulii,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
-T06354,noo,Nocardioides sp. S-1144,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
+T06354,noo,Nocardioides dongxiaopingii,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
 T05939,ndp,Nocardioides daphniae,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
 T06627,nsn,Nocardioides seonyuensis,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
 T06654,nbe,Nocardioides baekrokdamisoli,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Nocardioides
