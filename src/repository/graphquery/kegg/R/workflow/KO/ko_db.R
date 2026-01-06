@@ -210,26 +210,37 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
     # eco:b0001
     # first column is the kegg organism species code
     # second column is the gene locus tag
-    ko_genes = readLines(file.allocate(geneId_file, fs = db));
-    ko_genes = strsplit(ko_genes,"[:]");
-    ko_genes = data.frame(species = ko_genes@{1}, gene_id = ko_genes@{2});
+    ko_genes = readLines(file.allocate(geneId_file, fs = db))|> which(line -> nchar(line) >0);  
 
-    print("genes that belongs to KO group:");
-    print(ko_genes, max.print = 6);
+    let is_scalar = length(ko_genes) == 1;
+    let is_missing = length(ko_genes) == 0;
 
-    if (length(species) > 0) {
-        let i = ko_genes$species in species;
-
-        if (sum(i) > 0) {
-            ko_genes = ko_genes[i,];
+    if (!is_missing) {
+        if (is_scalar) {
+            ko_genes = strsplit(ko_genes,"[:]") |> unlist();
+            ko_genes = data.frame(species = ko_genes[1], gene_id = ko_genes[2]);
         } else {
-            ko_genes = NULL;
-        }            
-    }
+            ko_genes = strsplit(ko_genes,"[:]");
+            ko_genes = data.frame(species = ko_genes@{1}, gene_id = ko_genes@{2});
+        }
 
-    if ([nrow(ko_genes) > 0] && download_seqs) {
-        db |> download_koseqs(ko_id, ko_genes,seqtype =seqtype );
-    }
+        print("genes that belongs to KO group:");
+        print(ko_genes, max.print = 6);
+
+        if (length(species) > 0) {
+            let i = ko_genes$species in species;
+
+            if (sum(i) > 0) {
+                ko_genes = ko_genes[i,];
+            } else {
+                ko_genes = NULL;
+            }            
+        }
+
+        if ([nrow(ko_genes) > 0] && download_seqs) {
+            db |> download_koseqs(ko_id, ko_genes,seqtype =seqtype );
+        }
+    } 
 
     invisible(NULL);
 }
