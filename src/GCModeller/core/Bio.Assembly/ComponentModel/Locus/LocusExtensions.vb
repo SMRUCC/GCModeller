@@ -177,7 +177,7 @@ Namespace ComponentModel.Loci
         Public Function TryParse(loci As String) As NucleotideLocation
             If loci.StringEmpty Then
                 Return Nothing
-            ElseIf InStr(loci, " ==> ") > 0 OrElse InStr(loci, " ~ ") > 0 Then
+            ElseIf InStr(loci, " ==> ") > 0 OrElse InStr(loci, "~") > 0 Then
                 Return tryParseInternal(loci)
             End If
 
@@ -216,12 +216,13 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' ```
         ''' 388739 ==> 389772 #Forward
+        ''' 388739~389772#Forward
         ''' ```
         ''' </summary>
         ''' <param name="input"></param>
         ''' <returns></returns>
         Private Function tryParseInternal(input As String) As NucleotideLocation
-            Dim t$() = input.Split
+            Dim t As String() = input.Split(" "c, "#"c, "~"c).Where(Function(si) Not si.StringEmpty).ToArray
             Dim left As Integer = CInt(Val(t(0)))
             Dim right As Integer = CInt(Val(t(2)))
             Dim strand As Strands = GetStrand(t(3))

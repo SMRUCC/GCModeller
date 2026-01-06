@@ -58,6 +58,7 @@ Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -149,6 +150,12 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' get current genbank assembly accession id 
+    ''' </summary>
+    ''' <param name="genbank"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("accession_id")>
     <RApiReturn(TypeCodes.string)>
     Public Function accession_id(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
@@ -163,6 +170,12 @@ Module genbankKit
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' check of the given genbank assembly is the data source of a plasmid or not?
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("is.plasmid")>
     <RApiReturn(GetType(Boolean))>
     Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
@@ -311,13 +324,15 @@ Module genbankKit
     ''' <summary>
     ''' create new feature site
     ''' </summary>
-    ''' <param name="keyName$"></param>
+    ''' <param name="keyName"></param>
     ''' <param name="location"></param>
     ''' <param name="data"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("feature")>
-    Public Function createFeature(keyName$, location As NucleotideLocation, data As list,
+    Public Function createFeature(keyName$, location As NucleotideLocation,
+                                  <RListObjectArgument>
+                                  Optional data As list = Nothing,
                                   Optional env As Environment = Nothing) As Feature
 
         Dim loci As New Feature With {
@@ -348,7 +363,17 @@ Module genbankKit
     ''' <param name="gb"></param>
     ''' <param name="feature"></param>
     ''' <returns></returns>
-    <ExportAPI("add.feature")>
+    ''' <example>
+    ''' let gb_asm = read.genbank("./xxx.gbff");
+    ''' let mics_site = GenBank::feature("micsRNA", nucl_location(5656,33,"+"));
+    ''' 
+    ''' # use the operator
+    ''' gb_asm = gb_asm + mics_site;
+    ''' # or use the function
+    ''' gb_asm = gb_asm |> add_feature(mics_site);
+    ''' </example>
+    <ExportAPI("add_feature")>
+    <ROperator("+")>
     Public Function addFeature(gb As GBFF.File, feature As Feature) As GBFF.File
         gb.Features.Add(feature)
         Return gb
@@ -542,21 +567,35 @@ Module genbankKit
         Return New FastaFile(fasta)
     End Function
 
+    ''' <summary>
+    ''' export gene fasta from the given genbank assembly file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="title"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' fasta title is build with a string template, there are some reserved template keyword for this function:
+    ''' 
+    ''' 1. ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly
+    ''' 2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
+    ''' 3. gb_asm_id - the ncbi accession id of the genbank assembly
+    ''' 4. nucl_loc - the nucleotide sequence location on the genomics sequence
+    ''' </remarks>
     <ExportAPI("export_geneNt_fasta")>
-    Public Function exportGeneNtFasta(gb As GBFF.File) As FastaFile
-        Dim geneList = gb.Features.Where(Function(g) g.KeyName = "gene").ToArray
+    Public Function exportGeneNtFasta(gb As GBFF.File, Optional title As String = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>") As FastaFile
+        Dim geneList As gbffFeature() = gb.Features.Where(Function(g) g.KeyName = "gene").ToArray
         Dim fastaFile As New FastaFile
         Dim accessionId As String = gb.Accession.AccessionId
         Dim lineage As String = gb.Source.BiomString
+        Dim template As New StringTemplate(title, defaults:=New Dictionary(Of String, String) From {
+            {"ncbi_taxid", gb.Taxon},
+            {"lineage", lineage},
+            {"gb_asm_id", accessionId}
+        })
 
         For Each gene As Feature In geneList
-            Call fastaFile.Add(New FastaSeq With {
-                .Headers = New String() {
-                    accessionId & "." & gene.Query(FeatureQualifiers.locus_tag) & " " & gene.Location.ContiguousRegion.ToString,
-                    lineage
-                },
-                .SequenceData = gene.SequenceData
-            })
+            Call template.SetDefaultKey("nucl_loc", gene.Location.ContiguousRegion.ToString)
+            Call fastaFile.Add(gene.ToGeneFasta(template))
         Next
 
         Return fastaFile
