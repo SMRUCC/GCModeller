@@ -85,6 +85,14 @@ declare namespace GenBank {
     * >  2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
     * >  3. gb_asm_id - the ncbi accession id of the genbank assembly
     * >  4. nucl_loc - the nucleotide sequence location on the genomics sequence
+    * >  
+    * >  ##### about the salmon duplicated id error
+    * >  
+    * >  if you encounter this error while build sequence index by using salmon tool, please set the ``unique.names`` parameter to TRUE
+    * >  
+    * >  ```
+    * >  counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.
+    * >  ```
     * 
      * @param gb -
      * @param title -
@@ -92,8 +100,11 @@ declare namespace GenBank {
      * + default value Is ``'<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>'``.
      * @param key 
      * + default value Is ``["gene","CDS"]``.
+     * @param unique_names processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
+     * 
+     * + default value Is ``false``.
    */
-   function export_geneNt_fasta(gb: object, title?: string, key?: any): object;
+   function export_geneNt_fasta(gb: object, title?: string, key?: any, unique_names?: boolean): object;
    /**
     * create new feature site
     * 

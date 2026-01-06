@@ -29,7 +29,8 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>export_geneNt_fasta</strong>(<i>gb</i>,
     <i>title</i> = <span style='color: brown;'><strong>"<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>"</strong></span>,
-    <i>key</i> = [<span style='color: brown;'><strong>'CDS'</strong></span>]);</code></pre>
+    <i>key</i> = [<span style='color: brown;'><strong>'CDS'</strong></span>],
+    <i>unique.names</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -43,6 +44,10 @@
 <dt>title</dt>
 <dd><p>[as string]</p></dd>
 
+
+<dt>unique.names</dt>
+<dd><p>processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool. [as boolean]</p></dd>
+
         </table>
 
 
@@ -53,7 +58,17 @@
  1. ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly
  2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
  3. gb<em>asm</em>id - the ncbi accession id of the genbank assembly
- 4. nucl_loc - the nucleotide sequence location on the genomics sequence</p>
+ 4. nucl_loc - the nucleotide sequence location on the genomics sequence
+ 
+ ##### about the salmon duplicated id error
+ 
+ if you encounter this error while build sequence index by using salmon tool, please set the <code>unique.names</code> parameter to TRUE
+
+
+<pre><code class=""> counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.
+</code></pre>
+
+</p>
 
         <h3 style="display: block">Authors</h3>
 

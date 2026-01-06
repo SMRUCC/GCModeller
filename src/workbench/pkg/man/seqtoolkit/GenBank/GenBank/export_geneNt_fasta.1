@@ -5,7 +5,8 @@ export_geneNt_fasta \- export gene fasta from the given genbank assembly file
 .SH SYNOPSIS
 \fIexport_geneNt_fasta(\fBgb\fR as <generic> File, 
 \fBtitle\fR as string = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>", 
-\fBkey\fR as any = ["gene","CDS"]);\fR
+\fBkey\fR as any = ["gene","CDS"], 
+\fBunique_names\fR as boolean = FALSE);\fR
 .SH DESCRIPTION
 .PP
 export gene fasta from the given genbank assembly file
@@ -17,6 +18,11 @@ export gene fasta from the given genbank assembly file
 .PP
 \fBtitle\fB \fR\- -. 
 .PP
+.PP
+\fBunique_names\fB \fR\- 
+ processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
+. 
+.PP
 .SH DETAILS
 .PP
 fasta title is build with a string template, there are some reserved template keyword for this function:
@@ -25,6 +31,14 @@ fasta title is build with a string template, there are some reserved template ke
  2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
  3. gb_asm_id - the ncbi accession id of the genbank assembly
  4. nucl_loc - the nucleotide sequence location on the genomics sequence
+ 
+ ##### about the salmon duplicated id error
+ 
+ if you encounter this error while build sequence index by using salmon tool, please set the \fBunique.names\fR parameter to TRUE
+ 
+ \fB
+ counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.
+ \fR`
 .PP
 .SH SEE ALSO
 GenBank
