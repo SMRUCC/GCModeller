@@ -1,70 +1,72 @@
 ﻿#Region "Microsoft.VisualBasic::5b8e2d4a233a5a649a34c3b255d55a3e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 345
-    '    Code Lines: 236 (68.41%)
-    ' Comment Lines: 53 (15.36%)
-    '    - Xml Docs: 96.23%
-    ' 
-    '   Blank Lines: 56 (16.23%)
-    '     File Size: 14.09 KB
+' Summaries:
 
 
-    '     Class Feature
-    ' 
-    '         Properties: Count, IsReadOnly, KeyName, Keys, Location
-    '                     PairedValues, SequenceData, Values
-    ' 
-    '         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
-    '                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
-    '                   SetValue, ToString, TryGetValue
-    ' 
-    '         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 345
+'    Code Lines: 236 (68.41%)
+' Comment Lines: 53 (15.36%)
+'    - Xml Docs: 96.23%
+' 
+'   Blank Lines: 56 (16.23%)
+'     File Size: 14.09 KB
+
+
+'     Class Feature
+' 
+'         Properties: Count, IsReadOnly, KeyName, Keys, Location
+'                     PairedValues, SequenceData, Values
+' 
+'         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
+'                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
+'                   SetValue, ToString, TryGetValue
+' 
+'         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
@@ -120,13 +122,24 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' 请注意在值中有拼接断行所产生的空格，在导出CDS序列的时候，请注意消除该空格
         ''' </summary>
         ''' <remarks>这里不能够使用字典来进行储存数据，因为字典对大小写敏感并且这里面会有重复的Key出现</remarks>
-        Protected innerList As New List(Of NamedValue(Of String))
+        Protected attrSet As New List(Of NamedValue(Of String))
 
         Public ReadOnly Property PairedValues As NamedValue(Of String)()
             Get
-                Return innerList.ToArray
+                Return attrSet.ToArray
             End Get
         End Property
+
+        ''' <summary>
+        ''' create fasta sequence model for the gene nucleotide sequence
+        ''' </summary>
+        ''' <param name="title"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToGeneFasta(title As StringTemplate) As FastaSeq
+            Return New FastaSeq(SequenceData, title:=title.CreateString(Me))
+        End Function
 
         ''' <summary>
         ''' 
@@ -142,7 +155,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
                                                            _
                 From profileData As NamedValue(Of String)
-                In innerList
+                In attrSet
                 Where String.Equals(profileData.Name, key)
                 Select profileData.Value
 
@@ -195,7 +208,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Public Function QueryDuplicated(key As String) As String()
             Dim LQuery As String() = LinqAPI.Exec(Of String) <=
                 From pairedObj As NamedValue(Of String)
-                In innerList
+                In attrSet
                 Where String.Equals(pairedObj.Name, key)
                 Select pairedObj.Value '
 
@@ -209,7 +222,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             Call sb.AppendFormat("Located:='{0}'{1}", Location.ToString, vbCrLf)
             Call sb.AppendLine("{")
 
-            For Each Line As NamedValue(Of String) In innerList
+            For Each Line As NamedValue(Of String) In attrSet
                 Call sb.AppendFormat("  {0}{1}", Line.ToString, vbCrLf)
             Next
 
@@ -226,7 +239,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
             }
 
             For Each e As NamedValue(Of String) In ReadingQualifiers(strData.Skip(1).ToArray)
-                Call Feature.innerList.Add(e)
+                Call Feature.attrSet.Add(e)
             Next
 
             Return Feature
@@ -265,9 +278,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Public Function SetValue(key As FeatureQualifiers, value As String) As Feature
             Dim keyName As String = key.ToString
 
-            For i As Integer = 0 To innerList.Count - 1
-                If keyName = innerList(i).Name Then
-                    innerList(i) = New NamedValue(Of String) With {
+            For i As Integer = 0 To attrSet.Count - 1
+                If keyName = attrSet(i).Name Then
+                    attrSet(i) = New NamedValue(Of String) With {
                         .Name = keyName,
                         .Value = value
                     }
@@ -285,15 +298,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 #Region "Implements IDictionary(Of String, String)"
 
         Public Sub Add(item As KeyValuePair(Of String, String)) Implements ICollection(Of KeyValuePair(Of String, String)).Add
-            Call innerList.Add(New NamedValue(Of String)(item.Key, item.Value))
+            Call attrSet.Add(New NamedValue(Of String)(item.Key, item.Value))
         End Sub
 
         Public Sub Clear() Implements ICollection(Of KeyValuePair(Of String, String)).Clear
-            Call innerList.Clear()
+            Call attrSet.Clear()
         End Sub
 
         Public Function Contains(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Contains
-            Dim LQuery = (From n In innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n.Name).FirstOrDefault
+            Dim LQuery = (From n In attrSet Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n.Name).FirstOrDefault
             Return Not LQuery Is Nothing
         End Function
 
@@ -303,10 +316,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public ReadOnly Property Count As Integer Implements ICollection(Of KeyValuePair(Of String, String)).Count
             Get
-                If innerList.IsNullOrEmpty Then
+                If attrSet.IsNullOrEmpty Then
                     Return 0
                 Else
-                    Return innerList.Count
+                    Return attrSet.Count
                 End If
             End Get
         End Property
@@ -318,9 +331,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Property
 
         Public Function Remove(item As KeyValuePair(Of String, String)) As Boolean Implements ICollection(Of KeyValuePair(Of String, String)).Remove
-            Dim LQuery = (From n In innerList Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n).ToArray
+            Dim LQuery = (From n In attrSet Where String.Equals(item.Key, n.Name) AndAlso String.Equals(item.Value, n.Value) Select n).ToArray
             For Each n In LQuery
-                Call innerList.Remove(n)
+                Call attrSet.Remove(n)
             Next
 
             Return Not LQuery.IsNullOrEmpty
@@ -332,11 +345,11 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <param name="key"></param>
         ''' <param name="value"></param>
         Public Sub Add(key As String, value As String) Implements IDictionary(Of String, String).Add
-            Call innerList.Add(New NamedValue(Of String)(key, value))
+            Call attrSet.Add(New NamedValue(Of String)(key, value))
         End Sub
 
         Public Function ContainsKey(skey As String) As Boolean Implements IDictionary(Of String, String).ContainsKey
-            Dim LQuery = (From stored In innerList Where String.Equals(skey, stored.Name, StringComparison.OrdinalIgnoreCase) Select stored.Name).FirstOrDefault
+            Dim LQuery = (From stored In attrSet Where String.Equals(skey, stored.Name, StringComparison.OrdinalIgnoreCase) Select stored.Name).FirstOrDefault
             Return Not LQuery Is Nothing
         End Function
 
@@ -367,14 +380,14 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public ReadOnly Property Keys As ICollection(Of String) Implements IDictionary(Of String, String).Keys
             Get
-                Return (From item In innerList Select item.Name Distinct).ToArray
+                Return (From item In attrSet Select item.Name Distinct).ToArray
             End Get
         End Property
 
         Public Function Remove(key As String) As Boolean Implements IDictionary(Of String, String).Remove
-            Dim LQuery = (From item In innerList Where String.Equals(key, item.Name) Select item).ToArray
-            For Each Item As NamedValue(Of String) In innerList
-                Call innerList.Remove(Item)
+            Dim LQuery = (From item In attrSet Where String.Equals(key, item.Name) Select item).ToArray
+            For Each Item As NamedValue(Of String) In attrSet
+                Call attrSet.Remove(Item)
             Next
 
             Return Not LQuery.IsNullOrEmpty
@@ -393,12 +406,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
         Public ReadOnly Property Values As ICollection(Of String) Implements IDictionary(Of String, String).Values
             Get
-                Return (From item In innerList Select item.Value).ToArray
+                Return (From item In attrSet Select item.Value).ToArray
             End Get
         End Property
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KeyValuePair(Of String, String)) Implements IEnumerable(Of KeyValuePair(Of String, String)).GetEnumerator
-            For Each Item As NamedValue(Of String) In innerList
+            For Each Item As NamedValue(Of String) In attrSet
                 Yield New KeyValuePair(Of String, String)(Item.Name, Item.Value)
             Next
         End Function
