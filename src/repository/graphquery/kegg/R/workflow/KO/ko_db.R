@@ -240,7 +240,7 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
         if ([nrow(ko_genes) > 0] && download_seqs) {
             db |> download_koseqs(ko_id, ko_genes,seqtype =seqtype );
         }
-    } 
+    }
 
     invisible(NULL);
 }
