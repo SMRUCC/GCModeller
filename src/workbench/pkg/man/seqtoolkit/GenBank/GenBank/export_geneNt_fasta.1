@@ -1,9 +1,30 @@
 .\" man page create by R# package system.
 .TH GENBANK 4 2000-Jan "export_geneNt_fasta" "export_geneNt_fasta"
 .SH NAME
-export_geneNt_fasta \- 
+export_geneNt_fasta \- export gene fasta from the given genbank assembly file
 .SH SYNOPSIS
-\fIexport_geneNt_fasta(\fBgb\fR as <generic> File);\fR
+\fIexport_geneNt_fasta(\fBgb\fR as <generic> File, 
+\fBtitle\fR as string = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>");\fR
+.SH DESCRIPTION
+.PP
+export gene fasta from the given genbank assembly file
+.PP
+.SH OPTIONS
+.PP
+\fBgb\fB \fR\- -. 
+.PP
+.PP
+\fBtitle\fB \fR\- -. 
+.PP
+.SH DETAILS
+.PP
+fasta title is build with a string template, there are some reserved template keyword for this function:
+ 
+ 1. ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly
+ 2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
+ 3. gb_asm_id - the ncbi accession id of the genbank assembly
+ 4. nucl_loc - the nucleotide sequence location on the genomics sequence
+.PP
 .SH SEE ALSO
 GenBank
 .SH FILES

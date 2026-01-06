@@ -10,18 +10,16 @@
 */
 declare namespace GenBank {
    /**
-     * @param env default value Is ``null``.
+    * get current genbank assembly accession id
+    * 
+    * 
+     * @param genbank -
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function accession_id(genbank: any, env?: object): string;
    module add {
-      /**
-       * add feature into a given genbank object
-       * 
-       * 
-        * @param gb -
-        * @param feature -
-      */
-      function feature(gb: object, feature: object): object;
       module RNA {
          /**
            * @param env default value Is ``null``.
@@ -29,6 +27,14 @@ declare namespace GenBank {
          function gene(gb: object, RNA: any, env?: object): object;
       }
    }
+   /**
+    * add feature into a given genbank object
+    * 
+    * 
+     * @param gb -
+     * @param feature -
+   */
+   function add_feature(gb: object, feature: object): object;
    /**
     * add metadata into a given feature object
     * 
@@ -71,19 +77,35 @@ declare namespace GenBank {
    */
    function enumerateFeatures(gb: object, keys?: string): object;
    /**
+    * export gene fasta from the given genbank assembly file
+    * 
+    * > fasta title is build with a string template, there are some reserved template keyword for this function:
+    * >  
+    * >  1. ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly
+    * >  2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
+    * >  3. gb_asm_id - the ncbi accession id of the genbank assembly
+    * >  4. nucl_loc - the nucleotide sequence location on the genomics sequence
+    * 
+     * @param gb -
+     * @param title -
+     * 
+     * + default value Is ``'<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>'``.
    */
-   function export_geneNt_fasta(gb: object): object;
+   function export_geneNt_fasta(gb: object, title?: string): object;
    /**
     * create new feature site
     * 
     * 
+     * @param keyName -
      * @param location -
      * @param data -
+     * 
+     * + default value Is ``null``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function feature(keyName: string, location: object, data: object, env?: object): object;
+   function feature(keyName: string, location: object, data?: object, env?: object): object;
    /**
     * get all feature key names
     * 
@@ -117,7 +139,13 @@ declare namespace GenBank {
    }
    module is {
       /**
-        * @param env default value Is ``null``.
+       * check of the given genbank assembly is the data source of a plasmid or not?
+       * 
+       * 
+        * @param gb -
+        * @param env -
+        * 
+        * + default value Is ``null``.
       */
       function plasmid(gb: any, env?: object): boolean;
    }
