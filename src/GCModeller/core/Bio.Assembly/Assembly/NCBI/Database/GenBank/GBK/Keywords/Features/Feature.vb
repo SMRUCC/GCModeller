@@ -62,6 +62,7 @@
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -75,6 +76,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
     ''' <remarks>(基因组序列上面的特性区域片段)</remarks>
     Public Class Feature : Inherits IgbComponent
         Implements IDictionary(Of String, String)
+        Implements IKeyDataReader
 
         ''' <summary>
         ''' 第6至第20列的小字段的字段名
@@ -136,9 +138,9 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <remarks>
         ''' query by a <see cref="FeatureQualifiers"/> key string name
         ''' </remarks>
-        Public Function Query(key$) As String
+        Public Function Query(key As String) As String Implements IKeyDataReader.GetData
             Dim LQuery = LinqAPI.DefaultFirst(Of String) <=
- _
+                                                           _
                 From profileData As NamedValue(Of String)
                 In innerList
                 Where String.Equals(profileData.Name, key)
