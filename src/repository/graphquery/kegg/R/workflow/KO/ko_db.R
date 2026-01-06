@@ -190,9 +190,19 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
         #
         # first column is the KO id
         # use the second column as gene id
-        ko_genes = ko_genes |> textlines() |> strsplit("\s+");
-        ko_genes = ko_genes@{2};
-
+        ko_genes = ko_genes |> textlines() |> which(line -> nchar(line) >0);
+        
+        if (length(ko_genes) == 0) {
+            ko_genes = NULL;
+            warning(`KO:${ko_id} has no gene id mapping!`);
+        } else if (length(ko_genes) == 1) {
+            ko_genes = ko_genes |> strsplit("\s+") |> unlist();
+            ko_genes = ko_genes[2];
+        } else {
+            ko_genes = ko_genes |> strsplit("\s+");
+            ko_genes = ko_genes@{2};
+        }        
+        
         writeLines(ko_genes, con = file.allocate(geneId_file, fs = db));
     }        
 
