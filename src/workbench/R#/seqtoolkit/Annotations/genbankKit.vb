@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -600,9 +601,12 @@ Module genbankKit
             {"lineage", lineage},
             {"gb_asm_id", accessionId}
         })
+        Dim i As i32 = 1
 
         For Each gene As Feature In geneList
             Call template.SetDefaultKey("nucl_loc", gene.Location.ContiguousRegion.ToString)
+            Call template.SetDefaultKey("locus_tag", $"locus_{++i}")
+
             Call fastaFile.Add(gene.ToGeneFasta(template))
         Next
 
