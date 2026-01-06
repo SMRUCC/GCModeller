@@ -76,6 +76,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
 Imports REnv = SMRUCC.Rsharp.Runtime
@@ -582,8 +583,15 @@ Module genbankKit
     ''' 4. nucl_loc - the nucleotide sequence location on the genomics sequence
     ''' </remarks>
     <ExportAPI("export_geneNt_fasta")>
-    Public Function exportGeneNtFasta(gb As GBFF.File, Optional title As String = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>") As FastaFile
-        Dim geneList As gbffFeature() = gb.Features.Where(Function(g) g.KeyName = "gene").ToArray
+    Public Function exportGeneNtFasta(gb As GBFF.File,
+                                      Optional title As String = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>",
+                                      <RRawVectorArgument(TypeCodes.string)>
+                                      Optional key As Object = "gene|CDS") As FastaFile
+
+        Dim keyStr As String = If(CLRVector.asScalarCharacter(key), "gene")
+        Dim geneList As gbffFeature() = gb.Features _
+            .Where(Function(g) g.KeyName = keyStr) _
+            .ToArray
         Dim fastaFile As New FastaFile
         Dim accessionId As String = gb.Accession.AccessionId
         Dim lineage As String = gb.Source.BiomString
