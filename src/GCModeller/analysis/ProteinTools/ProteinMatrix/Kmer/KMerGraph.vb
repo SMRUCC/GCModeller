@@ -117,7 +117,7 @@ Namespace Kmer
             Dim u As ULong? = Nothing
             Dim graph As New Dictionary(Of ULong, Dictionary(Of ULong, KmerEdge))
 
-            For Each kmer As KSeq In KSeq.Kmers(seq, k)
+            For Each kmer As String In KSeq.KmerSpans(seq, k)
                 Dim key As ULong = HashKMer(kmer)
 
                 If Not koffset.ContainsKey(key) Then
@@ -125,7 +125,7 @@ Namespace Kmer
                     Call kmers.Add(New KmerNode With {
                         .Code = key,
                         .Index = kmers.Count,
-                        .Type = New String(kmer.Seq)
+                        .Type = New String(kmer)
                     })
                 End If
 
@@ -143,18 +143,18 @@ Namespace Kmer
                         })
                     End If
 
-                    graph(u.Value)(key).NSize += 1
                     u = key
+                    graph(u.Value)(key).NSize += 1
                 End If
             Next
 
             Return New KMerGraph(kmers, graph.Values.Select(Function(a) a.Values).IteratesALL)
         End Function
 
-        Public Shared Function HashKMer(kmer As KSeq) As ULong
+        Public Shared Function HashKMer(kmer As String) As ULong
             Dim hashcode As ULong = 0
 
-            For Each c As Char In kmer.Seq
+            For Each c As Char In kmer
                 hashcode = HashMap.HashCodePair(hashcode, CULng(Asc(c)))
             Next
 
