@@ -8,10 +8,12 @@ Public Class KmerTFIDFVectorizer
     ReadOnly vec As New TFIDF
     ReadOnly kmers As String()
     ReadOnly k As Integer
+    ReadOnly type As SeqTypes
 
     Sub New(Optional type As SeqTypes = SeqTypes.Protein, Optional k As Integer = 6)
         Me.k = k
-        Me.kmers = New KSeqCartesianProduct(type).KmerSeeds(k).ToArray
+        ' Me.kmers = New KSeqCartesianProduct(type).KmerSeeds(k).ToArray
+        Me.type = type
     End Sub
 
     Public Sub Add(seq As FastaSeq)
@@ -25,7 +27,7 @@ Public Class KmerTFIDFVectorizer
     End Sub
 
     Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
-        Call vec.SetWords(kmers)
+        ' Call vec.SetWords(kmers)
         Return vec.TfidfVectorizer(normalize)
     End Function
 

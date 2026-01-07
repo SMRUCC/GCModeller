@@ -13,6 +13,7 @@ Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
 <Package("kmers")>
@@ -97,7 +98,17 @@ Module kmersTools
 
         Dim latent As New KmerTFIDFVectorizer(type, k)
         Call latent.AddRange(seqs)
-        Return latent.TfidfVectorizer(L2_norm)
+        Dim vec = latent.TfidfVectorizer(L2_norm)
+        Dim df As New dataframe With {
+            .rownames = vec.rownames,
+            .columns = vec.featureSet _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return a.vector
+                              End Function)
+        }
+
+        Return df
     End Function
 
 End Module
