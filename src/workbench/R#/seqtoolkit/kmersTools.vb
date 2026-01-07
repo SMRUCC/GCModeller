@@ -70,6 +70,18 @@ Module kmersTools
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x">should be a collection of the <see cref="FastaSeq"/> sequence collection</param>
+    ''' <param name="type">the sequence data type, default is protein sequence</param>
+    ''' <param name="k">the length of the k-mers</param>
+    ''' <param name="L2_norm">do L2 normalized of the generated matrix data?</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' make sequence embedding via TF-IDF algorithm which is implemented via <see cref="KmerTFIDFVectorizer"/>
+    ''' </remarks>
     <ExportAPI("tfidf_vectorizer")>
     Public Function tfidf_vectorizer(<RRawVectorArgument> x As Object,
                                      Optional type As SeqTypes = SeqTypes.Protein,
