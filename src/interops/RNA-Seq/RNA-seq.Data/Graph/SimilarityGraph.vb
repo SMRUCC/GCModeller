@@ -80,7 +80,8 @@ Namespace Graph
                 Dim jaccard = ComputeJaccard(setA, setB)
 
                 If jaccard > threshold Then
-                    g.CreateEdge(g.GetElementByID(idA), g.GetElementByID(idB), jaccard)   ' 假定 CreateEdge 是无向的
+                    ' 假定 CreateEdge 是无向的
+                    g.CreateEdge(g.GetElementByID(idA), g.GetElementByID(idB), jaccard)
                 End If
             Next
         End Sub

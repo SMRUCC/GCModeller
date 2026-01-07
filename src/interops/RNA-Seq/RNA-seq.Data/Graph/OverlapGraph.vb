@@ -57,7 +57,8 @@ Namespace Graph
                         ' 添加边的属性数据
                         edge.data("OverlapLength") = overlapInfo.Length
                         edge.data("Identity") = overlapInfo.Identity
-                        edge.data("Type") = "Suffix-Prefix" ' 标记这是重叠关系
+                        ' 标记这是重叠关系
+                        edge.data("Type") = "Suffix-Prefix"
                     End If
                 Next
             Next
