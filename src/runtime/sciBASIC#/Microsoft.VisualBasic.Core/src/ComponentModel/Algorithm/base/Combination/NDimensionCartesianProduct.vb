@@ -4,7 +4,7 @@
 
         Private Class InternalLambda(Of T)
 
-            Public sequences As IEnumerable(Of T)()
+            Public sequences As T()()
 
             ' 递归辅助函数
             Public Function helper(depth As Integer, currentCombination As List(Of T)) As IEnumerable(Of T())
@@ -12,7 +12,8 @@
                     Return {currentCombination.ToArray()}
                 Else
                     Dim result As New List(Of T())()
-                    For Each item In sequences(depth)
+
+                    For Each item As T In sequences(depth)
                         Dim newCombination As New List(Of T)(currentCombination)
 
                         Call newCombination.Add(item)
@@ -32,7 +33,11 @@
                 Return
             End If
 
-            Dim recursive As New InternalLambda(Of T) With {.sequences = sequences}
+            Dim recursive As New InternalLambda(Of T) With {
+                .sequences = sequences _
+                    .Select(Function(a) a.ToArray) _
+                    .ToArray
+            }
 
             For Each combo As T() In recursive.helper(0, New List(Of T)())
                 Yield combo
