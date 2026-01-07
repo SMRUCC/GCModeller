@@ -1,6 +1,12 @@
 ﻿Namespace ComponentModel.Algorithm.base
 
-    Public Class NDimensionCartesianProduct
+    ''' <summary>
+    ''' Create a vs b vs c ...
+    ''' </summary>
+    Public NotInheritable Class NDimensionCartesianProduct
+
+        Private Sub New()
+        End Sub
 
         Private Class InternalLambda(Of T)
 
