@@ -6,6 +6,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.Rsharp.Runtime
@@ -66,6 +68,24 @@ Module kmersTools
             .sampleID = features,
             .tag = $"k-mer(k={k})"
         }
+    End Function
+
+    <ExportAPI("tfidf_vectorizer")>
+    Public Function tfidf_vectorizer(<RRawVectorArgument> x As Object,
+                                     Optional type As SeqTypes = SeqTypes.Protein,
+                                     Optional k As Integer = 6,
+                                     Optional L2_norm As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim latent As New KmerTFIDFVectorizer(type, k)
+        Call latent.AddRange(seqs)
+        Return latent.TfidfVectorizer(L2_norm)
     End Function
 
 End Module
