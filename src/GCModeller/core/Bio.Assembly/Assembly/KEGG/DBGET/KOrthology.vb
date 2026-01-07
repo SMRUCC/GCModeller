@@ -46,5 +46,13 @@ Namespace Assembly.KEGG.DBGET
             Next
         End Function
 
+        ''' <summary>
+        ''' request of the KEGG orthology class data via the kegg rest api
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Function RequestKEGG() As IEnumerable(Of KOrthology)
+            Return ParseText("https://rest.kegg.jp/list/ko".GET)
+        End Function
+
     End Class
 End Namespace

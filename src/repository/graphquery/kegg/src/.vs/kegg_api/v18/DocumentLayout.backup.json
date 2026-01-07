@@ -1,7 +1,22 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFBFC0F-2D65-4C44-B359-9ABC574D9560}|..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\korthology.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3CFBFC0F-2D65-4C44-B359-9ABC574D9560}|..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\biocore-netcore5.vbproj|g:\\gcmodeller\\src\\gcmodeller\\core\\bio.assembly\\assembly\\kegg\\dbget\\keggobjects.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\parsemap.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|g:\\gcmodeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{8336AD52-C1CA-4E8E-9338-061AFB52192A}|kegg_api\\kegg_api.vbproj|solutionrelative:kegg_api\\html\\webquery.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +24,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,6 +41,58 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "KEGGObjects.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KEGGObjects.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KEGGObjects.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KEGGObjects.vb",
+              "RelativeToolTip": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KEGGObjects.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-01-07T14:05:23.74Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "KOrthology.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KOrthology.vb",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KOrthology.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KOrthology.vb",
+              "RelativeToolTip": "..\\..\\..\\..\\GCModeller\\core\\Bio.Assembly\\Assembly\\KEGG\\DBGET\\KOrthology.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-01-07T14:05:21.79Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ParseMap.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
+              "RelativeDocumentMoniker": "kegg_api\\Html\\ParseMap.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\ParseMap.vb",
+              "RelativeToolTip": "kegg_api\\Html\\ParseMap.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEcAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-01-07T14:04:55.628Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "WebQuery.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
+              "RelativeDocumentMoniker": "kegg_api\\Html\\WebQuery.vb",
+              "ToolTip": "G:\\GCModeller\\src\\repository\\graphquery\\kegg\\src\\kegg_api\\Html\\WebQuery.vb",
+              "RelativeToolTip": "kegg_api\\Html\\WebQuery.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-01-07T14:04:53.734Z",
+              "EditorCaption": ""
             }
           ]
         },
