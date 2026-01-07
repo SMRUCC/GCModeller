@@ -9,7 +9,7 @@ Public Class KmerTFIDFVectorizer
 
     Sub New(Optional type As SeqTypes = SeqTypes.Protein, Optional k As Integer = 6)
         Me.k = k
-        Me.kmers = Kmer
+        Me.kmers = New KSeqCartesianProduct(type).KmerSeeds(k).ToArray
     End Sub
 
 End Class

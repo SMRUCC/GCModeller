@@ -26,7 +26,7 @@ Namespace SequenceModel
         ''' 根据序列类型和长度生成所有可能的排列组合
         ''' </summary>
         ''' <returns>包含所有排列组合结果的列表</returns>
-        Public Iterator Function GenerateCombinations(k As Integer) As IEnumerable(Of String)
+        Public Iterator Function KmerSeeds(k As Integer) As IEnumerable(Of String)
             If k <= 0 Then
                 Return
             ElseIf k = 1 Then
