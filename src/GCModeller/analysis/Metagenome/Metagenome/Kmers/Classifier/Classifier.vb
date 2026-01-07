@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Kmers
 

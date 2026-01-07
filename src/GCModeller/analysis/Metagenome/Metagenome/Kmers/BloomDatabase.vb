@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Kmers
@@ -93,7 +94,7 @@ Namespace Kmers
                     If descSortedHits.Length = 1 Then
                         ' 只有一个分类单元被命中
                         isUniqueOrSignificant = True
-                    ElseIf descsortedHits.Length > 1 Then
+                    ElseIf descSortedHits.Length > 1 Then
                         ' 检查最佳命中的数量是否至少是第二名的两倍
                         isUniqueOrSignificant = (topHit.Value / descSortedHits(1).Value) > 2
                     End If

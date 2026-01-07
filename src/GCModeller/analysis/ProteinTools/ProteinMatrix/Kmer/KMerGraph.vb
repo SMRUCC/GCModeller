@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::caff3a1a5f5b154a1216c8a5f055d008, analysis\ProteinTools\ProteinMatrix\Kmer\KMerGraph.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 107
-    '    Code Lines: 80 (74.77%)
-    ' Comment Lines: 9 (8.41%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 18 (16.82%)
-    '     File Size: 4.28 KB
+' Summaries:
 
 
-    '     Class KMerGraph
-    ' 
-    '         Properties: Graph, KMers
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) FromSequence, GetFingerprint, GetVectorGraph, HashKMer
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 107
+'    Code Lines: 80 (74.77%)
+' Comment Lines: 9 (8.41%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 18 (16.82%)
+'     File Size: 4.28 KB
+
+
+'     Class KMerGraph
+' 
+'         Properties: Graph, KMers
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: (+2 Overloads) FromSequence, GetFingerprint, GetVectorGraph, HashKMer
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.Bootstrapping
 Imports Microsoft.VisualBasic.MachineLearning.Bootstrapping.node2vec
 Imports Microsoft.VisualBasic.Math.HashMaps
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Kmer

@@ -1,6 +1,7 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.MachineLearning.Transformer
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Module EnzymeGenerator
@@ -18,7 +19,7 @@ Public Module EnzymeGenerator
             Dim kmer As KSeq() = KSeq.Kmers(seq, k).ToArray
 
             Call ec_number.Add(seq.Headers(0).Split("."c).AsList)
-            Call kmers.Add(kmer.Select(Function(ki) ki.Seq).AsList)
+            Call kmers.Add(kmer.Select(Function(ki) ki.seq).AsList)
         Next
     End Sub
 

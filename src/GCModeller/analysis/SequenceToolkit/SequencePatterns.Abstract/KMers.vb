@@ -54,6 +54,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -89,7 +90,7 @@ Public Class KMers
     End Function
 
     Public Shared Iterator Function Create(seq As ISequenceProvider, Optional k As Integer = 3) As IEnumerable(Of KMers)
-        For Each group As IGrouping(Of String, KSeq) In KSeq.Kmers(seq, k).GroupBy(Function(a) a.Seq)
+        For Each group As IGrouping(Of String, KSeq) In KSeq.Kmers(seq, k).GroupBy(Function(a) a.seq)
             Yield New KMers With {
                 .Tag = group.Key,
                 .Count = group.Count
