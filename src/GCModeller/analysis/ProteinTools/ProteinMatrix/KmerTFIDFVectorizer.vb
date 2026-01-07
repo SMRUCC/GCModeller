@@ -1,5 +1,7 @@
-﻿Imports Microsoft.VisualBasic.Data.NLP
+﻿Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.NLP
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Public Class KmerTFIDFVectorizer
 
@@ -11,5 +13,28 @@ Public Class KmerTFIDFVectorizer
         Me.k = k
         Me.kmers = New KSeqCartesianProduct(type).KmerSeeds(k).ToArray
     End Sub
+
+    Public Sub Add(seq As FastaSeq)
+        Call vec.Add(seq.Title, KSeq.KmerSpans(seq.SequenceData, k))
+    End Sub
+
+    Public Sub AddRange(seqs As IEnumerable(Of FastaSeq))
+        For Each seq As FastaSeq In seqs
+            Call Add(seq)
+        Next
+    End Sub
+
+    Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
+        Call vec.SetWords(kmers)
+        Return vec.TfidfVectorizer(normalize)
+    End Function
+
+    ''' <summary>
+    ''' n-gram One-hot(Bag-of-n-grams)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function OneHotVectorizer() As DataFrame
+        Return vec.OneHotVectorizer
+    End Function
 
 End Class
