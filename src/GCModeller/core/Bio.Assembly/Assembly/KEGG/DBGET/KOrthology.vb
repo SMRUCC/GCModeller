@@ -14,12 +14,13 @@ Namespace Assembly.KEGG.DBGET
 
         Const EC_pattern As String = "\[EC[:]\d+.+\]"
 
-        Public ReadOnly Property EC_number As String
+        Public ReadOnly Property EC_number As String()
             Get
                 Return [function].Match(EC_pattern, RegexICSng) _
                     .GetStackValue("[", "]") _
                     .Split(":"c) _
-                    .LastOrDefault
+                    .LastOrDefault _
+                    .StringSplit("\s+")
             End Get
         End Property
 
