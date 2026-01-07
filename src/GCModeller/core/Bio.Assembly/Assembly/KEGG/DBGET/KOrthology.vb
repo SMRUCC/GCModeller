@@ -14,6 +14,9 @@ Namespace Assembly.KEGG.DBGET
 
         Const EC_pattern As String = "\[EC[:]\d+.+\]"
 
+        ' K00001  E1.1.1.1, adh; alcohol dehydrogenase [EC:1.1.1.1]
+        ' K00004  BDH, butB; (R,R)-butanediol dehydrogenase / meso-butanediol dehydrogenase / diacetyl reductase [EC:1.1.1.4 1.1.1.- 1.1.1.303]
+
         Public ReadOnly Property EC_number As String()
             Get
                 Return [function].Match(EC_pattern, RegexICSng) _
