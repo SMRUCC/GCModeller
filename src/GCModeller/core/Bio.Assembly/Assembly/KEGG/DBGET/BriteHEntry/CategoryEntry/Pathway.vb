@@ -68,9 +68,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
     ''' The brief entry information for the pathway objects in the KEGG database.
-    ''' (KEGG数据库之中的代谢途径对象的分类以及入口点信息) 
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(KEGG数据库之中的代谢途径对象的分类以及入口点信息) </remarks>
     Public Class Pathway : Implements IReadOnlyId
 
         ''' <summary>
