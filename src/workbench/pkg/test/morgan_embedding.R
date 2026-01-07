@@ -4,7 +4,7 @@ imports "clustering" from "MLkit";
 
 setwd(@dir);
 
-let mat = read.csv("./morgan.csv", row.names = 1);
+let mat = read.csv("./tf-idf.csv", row.names = 1);
 let latent = umap(mat, dimension=9,numberOfNeighbors =32, method = "TanimotoFingerprint"); 
 # run clustering
 let clusters = kmeans(as.data.frame( latent$umap,labels = latent$labels), 
