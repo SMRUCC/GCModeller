@@ -69,6 +69,8 @@ Public Class TFIDF
         Return m
     End Function
 
+
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function DF(v As String) As Integer
         Return Aggregate seq As Dictionary(Of String, Integer)
