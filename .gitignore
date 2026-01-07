@@ -489,3 +489,6 @@ src/workbench/.vs/packages.NET5.slnx/v18/DocumentLayout.backup.json
 /src/workbench/.vs/packages.NET5/CopilotIndices/18.0.981.45449
 src/repository/graphquery/kegg/pipeline/ko_genes.dat
 /src/workbench/pkg/test/morgan.csv
+/src/workbench/pkg/test/tf-idf.csv
+*.csv
+/src/workbench/pkg/test/tf-idf.csv
