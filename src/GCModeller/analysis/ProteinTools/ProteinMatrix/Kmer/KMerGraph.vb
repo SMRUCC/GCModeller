@@ -143,8 +143,12 @@ Namespace Kmer
                         })
                     End If
 
-                    u = key
+                    ' 20260107
+                    ' connect u -> v
                     graph(u.Value)(key).NSize += 1
+                    ' and then move v to u
+                    ' to join next kmer edge in next loop
+                    u = key
                 End If
             Next
 
