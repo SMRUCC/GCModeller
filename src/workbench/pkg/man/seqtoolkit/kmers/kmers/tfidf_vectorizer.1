@@ -1,0 +1,36 @@
+.\" man page create by R# package system.
+.TH KMERS 1 2000-Jan "tfidf_vectorizer" "tfidf_vectorizer"
+.SH NAME
+tfidf_vectorizer \- 
+.SH SYNOPSIS
+\fItfidf_vectorizer(\fBx\fR as any, 
+\fBtype\fR as <integer> SeqTypes = [Protein], 
+\fBk\fR as integer = 6, 
+\fBL2_norm\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH OPTIONS
+.PP
+\fBx\fB \fR\- should be a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR sequence collection. 
+.PP
+.PP
+\fBtype\fB \fR\- the sequence data type, default is protein sequence. 
+.PP
+.PP
+\fBk\fB \fR\- the length of the k-mers. 
+.PP
+.PP
+\fBL2_norm\fB \fR\- do L2 normalized of the generated matrix data?. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH DETAILS
+.PP
+make sequence embedding via TF-IDF algorithm which is implemented via @\fBT:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer\fR
+.PP
+.SH SEE ALSO
+kmers
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

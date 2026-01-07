@@ -125,6 +125,25 @@ declare namespace kmers {
      * @param env default value Is ``null``.
    */
    function seq_info(genbank: any, env?: object): object;
+   /**
+    * 
+    * > make sequence embedding via TF-IDF algorithm which is implemented via @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer``
+    * 
+     * @param x should be a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` sequence collection
+     * @param type the sequence data type, default is protein sequence
+     * 
+     * + default value Is ``null``.
+     * @param k the length of the k-mers
+     * 
+     * + default value Is ``6``.
+     * @param L2_norm do L2 normalized of the generated matrix data?
+     * 
+     * + default value Is ``false``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function tfidf_vectorizer(x: any, type?: object, k?: object, L2_norm?: boolean, env?: object): any;
    module write {
       /**
       */
