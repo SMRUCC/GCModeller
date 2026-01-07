@@ -4,6 +4,9 @@ Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
 
+    ''' <summary>
+    ''' kmer sequence generator
+    ''' </summary>
     Public Class KSeqCartesianProduct
 
         ReadOnly alphabet As Char()
@@ -37,6 +40,7 @@ Namespace SequenceModel
                     nddata(i) = alphabet.ToArray
                 Next
 
+                ' create kmers via N-dimension cartesian product
                 For Each chs As Char() In NDimensionCartesianProduct.CreateMultiCartesianProduct(Of Char)(nddata)
                     Yield New String(chs)
                 Next
