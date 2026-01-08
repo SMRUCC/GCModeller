@@ -41,7 +41,7 @@ Namespace Assembly.KEGG.DBGET
                 Yield New KOrthology With {
                     .KO_id = ko_id,
                     .geneNames = t(0).StringSplit("\s*,\s+"),
-                    .[function] = t.Skip(1).JoinBy(";")
+                    .[function] = t.Skip(1).JoinBy(";").Trim
                 }
             Next
         End Function
