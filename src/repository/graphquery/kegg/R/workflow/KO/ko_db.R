@@ -186,7 +186,8 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
     let ko_genes = NULL;
 
     if (!file.exists(geneId_file, fs=db)) {
-        let ko_genes = REnv::getHtml(`https://rest.kegg.jp/link/genes/${ko_id}`, interval = 3, filetype = "txt");
+        let url = `https://rest.kegg.jp/link/genes/${ko_id}`;
+        let ko_genes = REnv::getHtml(url, interval = 3, filetype = "txt");
 
         # split each text line with white space
         # ko:K00001	dme:Dmel_CG3481
@@ -198,7 +199,9 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
         # first column is the KO id
         # use the second column as gene id
         ko_genes = ko_genes |> textlines() |> which(line -> nchar(line) >0);
-        
+
+        message(sprintf("   -> %s | get %s genes", url, length(ko_genes)));
+
         if (length(ko_genes) == 0) {
             ko_genes = NULL;
             warning(`KO:${ko_id} has no gene id mapping!`);
