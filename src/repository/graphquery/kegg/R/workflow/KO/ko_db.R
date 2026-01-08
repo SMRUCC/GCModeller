@@ -116,6 +116,7 @@ const ko_db = function(db = "./",
 #'
 const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq"), download_seqs=TRUE) {
     let ko_index = load_ko_index(db);
+    let i = 1;
 
     print("load ko index table for make request data:");
     print(ko_index, max.print = 13);
@@ -125,7 +126,13 @@ const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq"), downloa
         print(species);
     }
 
+    # ko = ko_index@{1},
+    # gene_names = ko_index@{2},
+    # description = ko_index@{3}
+
     for(ko in as.list(ko_index,byrow=TRUE)) {
+        message(sprintf("fetch ko data of %s - %s .... %s", ko$ko, ko$description, `${round(100*(i=i+1)/nrow(ko_index),2)}%`));
+
         db |> fetch_ko_data(ko_id = ko$ko, 
                             species = species, 
                             seqtype = seqtype, 
@@ -215,7 +222,7 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
     let is_scalar = length(ko_genes) == 1;
     let is_missing = length(ko_genes) == 0;
 
-    if (!is_missing) {
+    if (download_seqs && !is_missing) {
         if (is_scalar) {
             ko_genes = strsplit(ko_genes,"[:]") |> unlist();
             ko_genes = data.frame(species = ko_genes[1], gene_id = ko_genes[2]);
@@ -224,7 +231,7 @@ const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"),
             ko_genes = data.frame(species = ko_genes@{1}, gene_id = ko_genes@{2});
         }
 
-        print("genes that belongs to KO group:");
+        print(sprintf("genes that belongs to KO[%s] group:", ko_id));
         print(ko_genes, max.print = 6);
 
         if (length(species) > 0) {
