@@ -86,7 +86,6 @@ Public Class CenterStar
     Dim globalAlign$() = New String(2) {}
     Dim multipleAlign$()
     Dim sequence$()
-    Dim totalScore# = 0
     Dim names$()
     Dim kband As KBandSearch
 
@@ -159,6 +158,7 @@ Public Class CenterStar
     ''' 
     Private Function calculateTotalCost(matrix As IScore(Of Char), n%) As Double
         Dim length = multipleAlign(0).Length
+        Dim totalScore# = 0
 
         For i As Integer = 0 To n - 1
             For j As Integer = 0 To n - 1
@@ -189,7 +189,7 @@ Public Class CenterStar
                 Continue For
             End If
 
-            kband.CalculateEditDistance(centerString, sequence(i))
+            kband.CalculateEditDistance(centerString2, sequence(i))
             multipleAlign(i) = globalAlign(1)
 
             If (globalAlign(0).Length > centerString2.Length) Then
