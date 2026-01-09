@@ -5,7 +5,7 @@ require(REnv);
 imports "dbget" from "kegg_api";
 imports "kegg_api" from "kegg_api";
 
-let ko_dbfile = HDS::openStream(relative_work("ko_genes.dat"), allowCreate = TRUE, meta_size = 32[MB]);
+let ko_dbfile = dir.open( relative_work("ko_genes"));
 let genomes = kegg_api::listing("organism");
 
 genomes <- lapply(genomes, str -> strsplit(str, "\t"));

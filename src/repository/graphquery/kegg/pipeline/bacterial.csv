@@ -1969,7 +1969,6 @@ T10290,haxh,Halomonas sp. XH26,Prokaryotes,Prokaryotes;Bacteria;other Gammaprote
 T10426,habd,Halomonas sp. BDJS001,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
 T10463,hqn,Halomonas qinghailakensis,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
 T10697,hafn,Halomonas sp. FeN2,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
-T10913,hamc,Halomonas sp. MCCC 1A13316,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
 T10914,hany,Halomonas sp. NyZ770,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
 T10930,hadn,Halomonas sp. DN3,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
 T10931,haaz,Halomonas sp. A020,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Halomonas
@@ -1993,6 +1992,7 @@ T11229,vrs,Vreelandella sp. SM1641,Prokaryotes,Prokaryotes;Bacteria;other Gammap
 T08035,hsx,Billgrantia sulfidoxydans,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Billgrantia
 T08051,htx,Billgrantia tianxiuensis,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Billgrantia
 T08036,hsv,Billgrantia antri,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Billgrantia
+T10913,hamc,Billgrantia diversa,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Billgrantia
 T00403,crp,Candidatus Carsonella ruddii PV,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Carsonella
 T02194,cru,Candidatus Carsonella ruddii CE,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Carsonella
 T02195,crc,Candidatus Carsonella ruddii CS,Prokaryotes,Prokaryotes;Bacteria;other Gammaproteobacteria;Carsonella
@@ -7951,7 +7951,7 @@ T02682,mabb,Mycobacteroides abscessus subsp. bolletii 50594,Prokaryotes,Prokaryo
 T03694,mabl,Mycobacteroides abscessus subsp. massiliense CCUG 48898 = JCM 15300,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
 T04665,mche,Mycobacteroides chelonae,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
 T04755,miz,Mycobacteroides immunogenum,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
-T05257,mste,Mycobacterium stephanolepidis,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
+T05257,mste,Mycobacteroides stephanolepidis,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
 T05445,msao,Mycobacteroides saopaulense,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
 T06041,msal,Mycobacteroides salmoniphilum,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycobacteroides
 T01512,mjd,Mycolicibacter sinensis,Prokaryotes,Prokaryotes;Bacteria;Actinomycetota;Mycolicibacter
