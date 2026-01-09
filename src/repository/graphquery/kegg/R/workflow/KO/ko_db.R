@@ -182,7 +182,8 @@ const ko_db_worker = function(db, species, seqtype = c("ntseq","aaseq"), downloa
 #' @family ko_db_functions
 #'
 const fetch_ko_data = function(db, ko_id, species, seqtype = c("ntseq","aaseq"), download_seqs=TRUE) {
-    let geneId_file = `/ko/${ko_id}.txt`;
+    let int = as.integer( $"\d+"(ko_id));
+    let geneId_file = `/ko/${int % 300}/${ko_id}.txt`;
     let ko_genes = NULL;
 
     if (!file.exists(geneId_file, fs=db)) {
