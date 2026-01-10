@@ -57,7 +57,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -66,7 +65,7 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Module EnrichBubbles
 
@@ -130,7 +129,7 @@ Public Module EnrichBubbles
                 enrichColors:= .ByRef,
                 showBubbleBorder:=bubbleBorder,
                 displays:=New LabelDisplayStrategy With {.displays = displays, .serialTopn = serialTopn},
-                pvalue:=-stdNum.Log10(pvalue),
+                pvalue:=-std.Log10(pvalue),
                 unenrich:=unenrichColor.TranslateColor,
                 theme:=theme,
                 bubbleSize:=radius.Split(","c).Select(AddressOf Val).ToArray

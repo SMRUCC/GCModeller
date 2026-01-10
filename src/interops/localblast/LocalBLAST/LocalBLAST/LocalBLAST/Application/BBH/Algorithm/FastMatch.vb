@@ -53,7 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace LocalBLAST.Application.BBH
 
@@ -122,7 +122,7 @@ Namespace LocalBLAST.Application.BBH
                         .HitName = query.HitName,
                         .length = query.query_length,
                         .level = Levels.BBH,
-                        .positive = stdNum.Max(query.positive, rev.positive),
+                        .positive = std.Max(query.positive, rev.positive),
                         .reverse = rev.SBHScore,
                         .term = query.HitName
                     }
@@ -137,7 +137,7 @@ Namespace LocalBLAST.Application.BBH
                         .HitName = query.HitName,
                         .length = query.query_length,
                         .level = Levels.BHR,
-                        .positive = stdNum.Max(query.positive, rev.positive),
+                        .positive = std.Max(query.positive, rev.positive),
                         .reverse = rev.SBHScore,
                         .term = query.HitName
                     }
