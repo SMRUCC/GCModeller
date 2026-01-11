@@ -54,6 +54,9 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Rhea
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
 
 ''' <summary>
 ''' Rhea is an expert-curated knowledgebase of chemical and transport reactions of biological interest 
@@ -62,6 +65,28 @@ Imports SMRUCC.genomics.Data.Rhea
 ''' </summary>
 <Package("rhea")>
 Module Rhea
+
+    Sub Main()
+        Call Converts.makeDataframe.addHandler(GetType(Reaction()), AddressOf reactionTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function reactionTable(rhea As Reaction(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .rownames = rhea _
+                .Select(Function(r) r.entry) _
+                .ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add("definition", From r As Reaction In rhea Select r.definition)
+        Call df.add("equation", From r As Reaction In rhea Let str = r.equation.ToString Select str)
+        Call df.add("enzyme", From r As Reaction In rhea Select r.enzyme.JoinBy("; "))
+        Call df.add("is_transport", From r As Reaction In rhea Select r.isTransport)
+        Call df.add("comment", From r As Reaction In rhea Select r.comment)
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' open the rdf data pack of Rhea database
@@ -81,6 +106,15 @@ Module Rhea
     ''' </summary>
     ''' <param name="rhea"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' imports "rhea" from "annotationKit";
+    ''' 
+    ''' # wget https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
+    ''' # gunzip -k rhea.rdf.gz
+    '''
+    ''' let rhea = rhea::open.rdf("./rhea.rdf");
+    ''' rhea = rheareactions(rhea);
+    ''' </example>
     <ExportAPI("reactions")>
     Public Function load_reactions(rhea As RheaRDF) As Reaction()
         Return rhea.GetReactions.ToArray
