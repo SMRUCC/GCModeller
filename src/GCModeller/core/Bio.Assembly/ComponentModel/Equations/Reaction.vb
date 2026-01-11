@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::e9bc85b8550aa2f1a5e9138045d90826, data\Rhea\Reaction.vb"
 
     ' Author:
     ' 
@@ -34,37 +34,76 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 15
-    '    Code Lines: 11 (73.33%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 47
+    '    Code Lines: 30 (63.83%)
+    ' Comment Lines: 8 (17.02%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (26.67%)
-    '     File Size: 478 B
+    '   Blank Lines: 9 (19.15%)
+    '     File Size: 1.51 KB
 
 
-    '     Class Reaction
+    ' Class Reaction
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __equals
+    '     Properties: comment, compounds, db_xrefs, definition, entry
+    '                 enzyme, equation, isTransport
     ' 
+    '     Function: EquationParser, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+
 Namespace ComponentModel.EquaionModel
 
-    Public Class Reaction(Of T As ICompoundSpecies) : Inherits Equation(Of T)
+    ''' <summary>
+    ''' A general reaction model
+    ''' </summary>
+    Public Class Reaction : Implements INamedValue
 
-        ReadOnly _equals As Func(Of T, T, Boolean, Boolean)
+        <XmlAttribute> Public Property entry As String Implements INamedValue.Key
 
-        Sub New(equals As Func(Of T, T, Boolean, Boolean))
-            _equals = equals
-        End Sub
+        ''' <summary>
+        ''' the reaction equation in character string type
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property definition As String
+        ''' <summary>
+        ''' the parsed reaction equaltion object based on the definition property
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property equation As Equation
+        <XmlElement>
+        Public Property enzyme As String()
+        Public Property compounds As SideCompound()
+        <XmlAttribute>
+        Public Property isTransport As Boolean
+        Public Property db_xrefs As NamedValue()
+        Public Property comment As String
 
-        Protected Overrides Function __equals(a As T, b As T, strict As Boolean) As Object
-            Return _equals(a, b, strict)
+        Public Shared Function EquationParser(text As String) As Equation
+            Dim eq As Equation = Equation.TryParse(text)
+
+            For Each cpd As CompoundSpecieReference In eq.Reactants
+                If cpd.ID.IndexOf(","c) > -1 Then
+                    Dim t = cpd.ID.Split(","c)
+
+                    cpd.Stoichiometry = t.Length
+                    cpd.ID = t(Scan0)
+                End If
+            Next
+
+            Return eq
         End Function
+
+        Public Overrides Function ToString() As String
+            Return definition
+        End Function
+
     End Class
 End Namespace

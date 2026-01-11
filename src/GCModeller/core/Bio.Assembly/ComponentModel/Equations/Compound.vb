@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9cf68723251821ca4d3924551e8ea45, data\Rhea\SideCompound.vb"
+﻿#Region "Microsoft.VisualBasic::9360ecc8443ca9478691d43a07998d00, data\Rhea\Compound.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 21
-    '    Code Lines: 15 (71.43%)
+    '   Total Lines: 15
+    '    Code Lines: 11 (73.33%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (28.57%)
-    '     File Size: 428 B
+    '   Blank Lines: 4 (26.67%)
+    '     File Size: 401 B
 
 
-    ' Class SideCompound
+    ' Class Compound
     ' 
-    '     Properties: compound, side
+    '     Properties: entry, enzyme, formula, name, reactions
     ' 
-    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/
@@ -56,22 +55,19 @@
 
 Imports System.Xml.Serialization
 
-Public Class SideCompound
+Namespace ComponentModel.EquaionModel
 
-    <XmlAttribute>
-    Public Property side As String
-    Public Property compound As Compound
+    Public Class Compound
 
-    Sub New(side As String, compound As Compound)
-        _side = side
-        _compound = compound
-    End Sub
+        <XmlAttribute> Public Property entry As String
+        Public Property name As String
+        Public Property formula As String
+        <XmlElement> Public Property reactions As String()
+        <XmlElement> Public Property enzyme As String()
 
-    Sub New()
-    End Sub
+        Public Overrides Function ToString() As String
+            Return name
+        End Function
 
-    Public Overrides Function ToString() As String
-        Return compound.ToString
-    End Function
-
-End Class
+    End Class
+End Namespace

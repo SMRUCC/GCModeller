@@ -53,8 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
-Imports System.Text.RegularExpressions
 
 Namespace ComponentModel.EquaionModel
 
