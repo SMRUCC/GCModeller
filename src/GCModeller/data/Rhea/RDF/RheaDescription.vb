@@ -62,6 +62,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 <XmlType("Description", [Namespace]:=RheaRDF.rh)>
 Public Class RheaDescription : Inherits Description
@@ -150,8 +151,8 @@ Public Class RheaDescription : Inherits Description
         Next
     End Function
 
-    Public Function GetCompound() As Compound
-        Return New Compound With {
+    Public Function GetCompound() As CompoundSpecies
+        Return New CompoundSpecies With {
             .entry = accession,
             .name = name,
             .formula = formula

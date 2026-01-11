@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 ''' <summary>
@@ -172,7 +173,7 @@ Public Class RheaRDF : Inherits RDF(Of RheaDescription)
             "GenericPolypeptide", "GenericPolynucleotide", "GenericHeteropolysaccharide",
             "GenericSmallMolecule", "Polymer"}
 
-    Private Shared Iterator Function GetCompounds(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As IEnumerable(Of Compound)
+    Private Shared Iterator Function GetCompounds(ref As Resource, objs As Dictionary(Of String, RheaDescription())) As IEnumerable(Of CompoundSpecies)
         Dim links = objs(ref.resource)
 
         If links.Length = 1 AndAlso links(0).GetClassType Like compoundType Then

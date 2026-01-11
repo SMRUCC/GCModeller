@@ -57,7 +57,7 @@ Imports System.Xml.Serialization
 
 Namespace ComponentModel.EquaionModel
 
-    Public Class Compound
+    Public Class CompoundSpecies
 
         <XmlAttribute> Public Property entry As String
         Public Property name As String

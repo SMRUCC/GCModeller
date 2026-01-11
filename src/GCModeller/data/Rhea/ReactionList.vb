@@ -52,7 +52,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
+''' <summary>
+''' A list of reaction data for save in xml file
+''' </summary>
 Public Class ReactionList : Inherits XmlList(Of Reaction)
 
 End Class

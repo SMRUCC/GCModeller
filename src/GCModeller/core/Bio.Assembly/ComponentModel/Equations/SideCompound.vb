@@ -62,9 +62,9 @@ Namespace ComponentModel.EquaionModel
 
         <XmlAttribute>
         Public Property side As String
-        Public Property compound As Compound
+        Public Property compound As CompoundSpecies
 
-        Sub New(side As String, compound As Compound)
+        Sub New(side As String, compound As CompoundSpecies)
             _side = side
             _compound = compound
         End Sub
