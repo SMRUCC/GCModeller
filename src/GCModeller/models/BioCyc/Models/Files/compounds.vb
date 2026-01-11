@@ -103,6 +103,13 @@ Public Class compounds : Inherits Model
     <AttributeField("REGULATES")>
     Public Property regulates As String()
 
+    ''' <summary>
+    ''' atom group class
+    ''' </summary>
+    ''' <returns></returns>
+    <AttributeField("SUPERATOMS")>
+    Public Property superAtoms As String
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FormulaString(meta As compounds) As String
         If meta.chemicalFormula.IsNullOrEmpty Then

@@ -73,12 +73,20 @@ Public Class AttrDataCollection(Of T As Model)
         End Get
     End Property
 
+    ''' <summary>
+    ''' index by model unique id entry key
+    ''' </summary>
     Protected ReadOnly models As Dictionary(Of String, T)
 
-    Default Public ReadOnly Property getFeature(i As String) As T
+    ''' <summary>
+    ''' get model by its unique id as key
+    ''' </summary>
+    ''' <param name="id">model unique id</param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property getFeature(id As String) As T
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return models.TryGetValue(i)
+            Return models.TryGetValue(id)
         End Get
     End Property
 
