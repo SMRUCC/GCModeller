@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::6fc24251cc499a9da83a78f279276dfd, models\Networks\KEGG\ReactionNetwork\Models\ReactionTable.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 190
-    '    Code Lines: 112 (58.95%)
-    ' Comment Lines: 58 (30.53%)
-    '    - Xml Docs: 70.69%
-    ' 
-    '   Blank Lines: 20 (10.53%)
-    '     File Size: 7.70 KB
+' Summaries:
 
 
-    '     Class ReactionTable
-    ' 
-    '         Properties: definition, EC, entry, geneNames, KO
-    '                     name, products, substrates
-    ' 
-    '         Function: creates, (+2 Overloads) Load, LoadFolder, LoadXmls, MatchAllCompoundsId
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 190
+'    Code Lines: 112 (58.95%)
+' Comment Lines: 58 (30.53%)
+'    - Xml Docs: 70.69%
+' 
+'   Blank Lines: 20 (10.53%)
+'     File Size: 7.70 KB
+
+
+'     Class ReactionTable
+' 
+'         Properties: definition, EC, entry, geneNames, KO
+'                     name, products, substrates
+' 
+'         Function: creates, (+2 Overloads) Load, LoadFolder, LoadXmls, MatchAllCompoundsId
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,7 +63,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
@@ -151,7 +151,7 @@ Namespace ReactionNetwork
 
             For Each file As String In (ls - l - r - {"*.XML", "*.xml"} <= br08201)
                 Try
-                    model = Reaction _
+                    model = DBGET.bGetObject.Reaction _
                         .LoadXml(handle:=file) _
                         .DoCall(Function(r)
                                     Return creates(r, KOnames)
@@ -171,7 +171,7 @@ Namespace ReactionNetwork
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function LoadFolder(dir As String) As IEnumerable(Of ReactionTable)
-            Return Load((ls - l - r - {"*.xml", "*.XML"} <= dir).Select(AddressOf Reaction.LoadXml))
+            Return Load((ls - l - r - {"*.xml", "*.XML"} <= dir).Select(AddressOf DBGET.bGetObject.Reaction.LoadXml))
         End Function
 
         ''' <summary>
@@ -179,7 +179,7 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="repo"></param>
         ''' <returns></returns>
-        Public Shared Function Load(repo As IEnumerable(Of Reaction)) As IEnumerable(Of ReactionTable)
+        Public Shared Function Load(repo As IEnumerable(Of DBGET.bGetObject.Reaction)) As IEnumerable(Of ReactionTable)
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
             Dim table = repo _
                 .Where(Function(r) Not r.ID.StringEmpty) _
@@ -198,7 +198,7 @@ Namespace ReactionNetwork
             Return table
         End Function
 
-        Private Shared Function creates(xml As Reaction, KOnames As Dictionary(Of String, BriteHText)) As ReactionTable
+        Private Shared Function creates(xml As DBGET.bGetObject.Reaction, KOnames As Dictionary(Of String, BriteHText)) As ReactionTable
             Dim eq As DefaultTypes.Equation = xml.ReactionModel
             Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
             Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys

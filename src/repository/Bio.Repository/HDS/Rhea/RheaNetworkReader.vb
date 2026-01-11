@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
 Public Class RheaNetworkReader
@@ -90,7 +91,7 @@ Public Class RheaNetworkReader
 
     End Function
 
-    Public Iterator Function GetByEnzymeNumber(ec_number As String) As IEnumerable(Of Rhea.Reaction)
+    Public Iterator Function GetByEnzymeNumber(ec_number As String) As IEnumerable(Of Reaction)
         Dim idlist As String()
 
         If Not enzyme_numbers.ContainsKey(ec_number) Then
@@ -104,7 +105,7 @@ Public Class RheaNetworkReader
         Next
     End Function
 
-    Public Function GetByEntryId(id As String) As Rhea.Reaction
+    Public Function GetByEntryId(id As String) As Reaction
         Dim path As String = $"/rhea/{id}.dat"
         Dim pack = stream.OpenBlock(path)
         Dim file As New BinaryReader(pack)
@@ -116,7 +117,7 @@ Public Class RheaNetworkReader
 
         Call file.Read(buffer, Scan0, size)
 
-        Return New Rhea.Reaction With {
+        Return New Reaction With {
             .entry = entry,
             .definition = def,
             .equation = Equation.ParseBuffer(New MemoryStream(buffer)),

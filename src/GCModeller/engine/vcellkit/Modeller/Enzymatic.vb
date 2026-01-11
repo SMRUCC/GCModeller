@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Rhea
 Imports SMRUCC.genomics.Data.SABIORK
@@ -73,7 +74,7 @@ Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Dat
 Module Enzymatic
 
     <ExportAPI("query_reaction")>
-    Public Function QueryReaction(reaction As Rhea.Reaction, Optional cache As Object = "./.cache/") As Object
+    Public Function QueryReaction(reaction As Reaction, Optional cache As Object = "./.cache/") As Object
         Dim list As New Dictionary(Of String, sbXML)
 
         For Each id As String In reaction.enzyme.SafeQuery
@@ -114,7 +115,7 @@ Module Enzymatic
                                 repo As String,
                                 Optional env As Environment = Nothing) As Object
 
-        Dim reactions = pipeline.TryCreatePipeline(Of Rhea.Reaction)(rhea, env)
+        Dim reactions = pipeline.TryCreatePipeline(Of Reaction)(rhea, env)
 
         If reactions.isError Then
             Return reactions.getError
@@ -123,7 +124,7 @@ Module Enzymatic
         Using file As Stream = New FileStream(repo, FileMode.OpenOrCreate)
             Dim writer As New RheaNetworkWriter(New StreamPack(file, meta_size:=32 * 1024 * 1024))
 
-            For Each reaction As Rhea.Reaction In reactions.populates(Of Rhea.Reaction)(env)
+            For Each reaction As Reaction In reactions.populates(Of Reaction)(env)
                 Call writer.AddReaction(reaction)
             Next
 

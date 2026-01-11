@@ -57,8 +57,8 @@ Imports Microsoft.VisualBasic.DataStorage.HDSPack
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Serialization.Bencoding
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
-Imports SMRUCC.genomics.Data.Rhea
 
 Public Class RheaNetworkWriter : Implements IDisposable
 

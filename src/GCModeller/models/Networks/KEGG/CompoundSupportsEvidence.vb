@@ -53,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 
 ''' <summary>
@@ -83,7 +83,7 @@ Public Module CompoundSupportsEvidence
             Return 0
         End If
 
-        Dim model As Reaction = repo.GetByKey(rxnId)
+        Dim model As DBGET.bGetObject.Reaction = repo.GetByKey(rxnId)
         ' 获取所需要的酶的列表
         Dim enzymes = model.Orthology.EntityList
         ' 获取在当前的background之下所能够得到的酶的列表
