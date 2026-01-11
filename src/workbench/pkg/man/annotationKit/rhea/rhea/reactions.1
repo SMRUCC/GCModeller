@@ -12,6 +12,16 @@ Load reaction models from rhea rdf database file
 .PP
 \fBrhea\fB \fR\- -. 
 .PP
+.SH EXAMPLES
+.PP
+imports "rhea" from "annotationKit";
+ 
+ # wget https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
+ # gunzip -k rhea.rdf.gz
+
+ let rhea = rhea::open.rdf("./rhea.rdf");
+ rhea = rheareactions(rhea);
+.PP
 .SH SEE ALSO
 rhea
 .SH FILES

@@ -50,11 +50,17 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Data/Rhea/Reaction.html">Reaction[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Data/Rhea/Reaction.html">Reaction[]</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/Reaction.html">Reaction[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/Reaction.html">Reaction[]</a></li></ul>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r"> imports "rhea" from "annotationKit";
+ 
+ # wget https://ftp.expasy.org/databases/rhea/rdf/rhea.rdf.gz
+ # gunzip -k rhea.rdf.gz
+
+ let rhea = rhea::open.rdf("./rhea.rdf");
+ rhea = rheareactions(rhea);</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>rhea</em> version 1.0.0.0 <a
