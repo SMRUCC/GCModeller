@@ -78,6 +78,11 @@ Namespace ComponentModel.EquaionModel
         ''' </summary>
         ''' <returns></returns>
         Public Property equation As Equation
+
+        ''' <summary>
+        ''' should be the EC number
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property enzyme As String()
         Public Property compounds As SideCompound()
