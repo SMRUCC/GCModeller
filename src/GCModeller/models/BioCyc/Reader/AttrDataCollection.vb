@@ -58,7 +58,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
-Public Class AttrDataCollection(Of T As Model)
+Public Class AttrDataCollection(Of T As Model) : Implements Enumeration(Of T)
 
     Public ReadOnly Property fileMeta As FileMeta
 
@@ -139,4 +139,9 @@ Public Class AttrDataCollection(Of T As Model)
         Return New AttrDataCollection(Of T)(dataFile.fileMeta, data)
     End Function
 
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+        For Each model As T In features
+            Yield model
+        Next
+    End Function
 End Class
