@@ -118,9 +118,9 @@ Namespace ComponentModel.EquaionModel
             Dim right As SideCompound() = model.Products.Select(Function(a) New SideCompound With {.side = "right", .compound = New CompoundSpecies(a.ID)}).ToArray
 
             Return New Reaction With {
-                .comment = r.Comments,
+                .comment = If(r.Comments.StringEmpty, r.Definition, r.Comments),
                 .entry = r.ID,
-                .definition = r.Equation,
+                .definition = If(r.CommonNames.DefaultFirst, r.Definition),
                 .enzyme = r.Enzyme,
                 .equation = model,
                 .compounds = left.JoinIterates(right).ToArray
