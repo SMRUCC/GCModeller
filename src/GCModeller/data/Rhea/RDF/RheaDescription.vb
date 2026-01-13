@@ -75,6 +75,7 @@ Public Class RheaDescription : Inherits Description
     <XmlElement("formula", [Namespace]:=RheaRDF.rh)> Public Property formula As String
     <XmlElement("chebi", [Namespace]:=RheaRDF.rh)> Public Property chebi As String
     <XmlElement("equation", [Namespace]:=RheaRDF.rh)> Public Property equation As String
+    <XmlElement("htmlEquation", [Namespace]:=RheaRDF.rh)> Public Property htmlEquation As String
     <XmlElement("status", [Namespace]:=RheaRDF.rh)> Public Property status As Resource
     <XmlElement("ec", [Namespace]:=RheaRDF.rh)> Public Property ec As Resource()
 
