@@ -560,7 +560,7 @@ Namespace Assembly.Uniprot.XML
         End Operator
     End Class
 
-    Public Class dbReference
+    Public Class dbReference : Implements INamedValue
 
         ''' <summary>
         ''' 外部数据库的名称
@@ -570,7 +570,7 @@ Namespace Assembly.Uniprot.XML
         ''' 对于RefSeq而言，RefSeq的编号是蛋白序列在NCBI数据库之中的编号，如果需要找到对应的核酸编号，
         ''' 则会需要通过<see cref="properties"/>列表之中的``nucleotide sequence ID``键值对来获取
         ''' </remarks>
-        <XmlAttribute> Public Property type As String
+        <XmlAttribute> Public Property type As String Implements INamedValue.Key
         ''' <summary>
         ''' 外部数据库的编号
         ''' </summary>
