@@ -57,7 +57,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI.Taxonomy
 
