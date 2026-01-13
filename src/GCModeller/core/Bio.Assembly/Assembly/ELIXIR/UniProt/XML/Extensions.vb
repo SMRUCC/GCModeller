@@ -279,6 +279,20 @@ Namespace Assembly.Uniprot.XML
         End Function
 
         <Extension>
+        Public Function geneName(prot As entry) As String
+            If prot.gene Is Nothing OrElse Not prot.gene.HaveKey("primary") Then
+                Return Nothing
+            Else
+                Return prot.gene.Primary.First
+            End If
+        End Function
+
+        ''' <summary>
+        ''' try get ORF locus_tag value
+        ''' </summary>
+        ''' <param name="protein"></param>
+        ''' <returns></returns>
+        <Extension>
         Public Function ORF(protein As entry) As String
             If protein?.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
                 Return Nothing
@@ -294,8 +308,7 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Function SubCellularLocations(protein As entry) As String()
-            Dim cellularComments = protein _
-                .CommentList _
+            Dim cellularComments = protein.CommentList _
                 .TryGetValue("subcellular location", [default]:={})
 
             Return cellularComments _
