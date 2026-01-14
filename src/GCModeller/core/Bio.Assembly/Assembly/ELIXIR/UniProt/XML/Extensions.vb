@@ -280,7 +280,7 @@ Namespace Assembly.Uniprot.XML
 
         <Extension>
         Public Function geneName(prot As entry) As String
-            If prot.gene Is Nothing OrElse Not prot.gene.HaveKey("primary") Then
+            If prot.gene Is Nothing OrElse prot.gene.Primary.IsNullOrEmpty Then
                 Return Nothing
             Else
                 Return prot.gene.Primary.First
@@ -294,7 +294,7 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Function ORF(protein As entry) As String
-            If protein.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
+            If protein.gene Is Nothing OrElse protein.gene.ORF.IsNullOrEmpty Then
                 Return Nothing
             Else
                 Return protein.gene.ORF.First
