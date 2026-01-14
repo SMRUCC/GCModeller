@@ -72,7 +72,7 @@ Namespace Assembly.KEGG.WebServices.KGML
                 .Where(Function(entry) entry.type = type) _
                 .Select(Function(entry)
                             Return entry.name _
-                                .StringSplit("\s+") _
+                                .SafeQuery _
                                 .Select(Function(id)
                                             Return id.GetTagValue(":").Value
                                         End Function)
