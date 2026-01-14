@@ -10,15 +10,39 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 Public Class KGMLRender
 
     ReadOnly kgml As pathway
-    ReadOnly graph As NetworkGraph
+
+    Friend ReadOnly graph As NetworkGraph
 
     ReadOnly entryIndex As New Dictionary(Of entry)
 
+    Default Public ReadOnly Property Item(key As String) As entry
+        Get
+            Return entryIndex.TryGetValue(key)
+        End Get
+    End Property
+
     Sub New(kgml As pathway)
-        Me.entryIndex = kgml.entries.SafeQuery.ToDictionary
+        For Each entry As (id$, entry As entry) In MakeEntryIndex(kgml)
+            entryIndex(entry.id) = entry.entry
+        Next
+
         Me.kgml = kgml
         Me.graph = GetNetwork(kgml)
     End Sub
+
+    Public Shared Iterator Function MakeEntryIndex(kgml As pathway) As IEnumerable(Of (String, entry))
+        For Each entry As entry In kgml.entries.SafeQuery
+            Yield (entry.id, entry)
+
+            If Not entry.reaction.StringEmpty Then
+                Yield (entry.reaction, entry)
+            End If
+
+            For Each name As String In entry.name
+                Yield (name, entry)
+            Next
+        Next
+    End Function
 
     Public Shared Function GetNetwork(pathway As pathway) As NetworkGraph
         Dim g As New NetworkGraph
