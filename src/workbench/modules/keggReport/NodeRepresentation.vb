@@ -1,15 +1,19 @@
-﻿Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 
 Public Class NodeRepresentation
 
-    Public Property images As Dictionary(Of String, IGraphicsData)
+    Public Property images As Dictionary(Of String, GraphicsData)
 
     Public Const Representation As String = "representation"
 
+    Dim g As NetworkGraph
+
     Public Function MakeSubNetwork(pathway As KGMLRender) As NetworkGraph
-        Dim g As New NetworkGraph
+        g = New NetworkGraph
 
         For Each id As String In images.Keys
             Dim entry As entry = pathway(id)
@@ -29,6 +33,17 @@ Public Class NodeRepresentation
         Next
 
         Return g
+    End Function
+
+    Public Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single(), center As PointF) As RectangleF
+        Dim node As Node = Me.g.GetElementByID(id)
+        Dim imageKey As String = node(Representation)
+        Dim represent As GraphicsData = images(imageKey)
+        Dim rect As New RectangleF(center, New SizeF(radius(0), radius.ElementAtOrDefault(1, radius(0))))
+
+        Call g.DrawImage(represent, center)
+
+        Return rect
     End Function
 
 End Class

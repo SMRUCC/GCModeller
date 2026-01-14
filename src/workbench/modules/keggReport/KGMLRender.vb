@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
@@ -107,11 +109,23 @@ Public Class KGMLRender
         Return g
     End Function
 
-    Public Function Render(nodes As NodeRepresentation) As IGraphicsData
+    Public Function Render(size As Size, nodes As NodeRepresentation,
+                           Optional padding$ = "padding: 5% 5% 5% 5%;",
+                           Optional driver As Drivers = Drivers.Default) As IGraphicsData
+
         Dim g As NetworkGraph = nodes.MakeSubNetwork(Me).DoLayout
+        Dim size_str As String = $"{size.Width},{size.Height}"
+        Dim img As IGraphicsData = NetworkVisualizer.DrawImage(
+            net:=g,
+            canvasSize:=size_str,
+            padding:=padding,
+            drawNodeShape:=AddressOf nodes.DrawNodeShape,
+            displayId:=False,
+            throwEx:=False,
+            driver:=driver
+        )
 
-
-
+        Return img
     End Function
 
 End Class
