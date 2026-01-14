@@ -68,7 +68,7 @@ Namespace Assembly.KEGG.WebServices.KGML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function GetIdlistByType(kgml As pathway, type$) As String()
-            Return kgml.items _
+            Return kgml.entries _
                 .Where(Function(entry) entry.type = type) _
                 .Select(Function(entry)
                             Return entry.name _
