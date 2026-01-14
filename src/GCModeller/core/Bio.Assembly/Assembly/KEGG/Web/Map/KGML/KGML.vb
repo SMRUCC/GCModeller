@@ -61,7 +61,7 @@ Imports System.Xml.Serialization
 Namespace Assembly.KEGG.WebServices.KGML
 
     ''' <summary>
-    ''' The kegg pathway map data in KGML file format.
+    ''' The kegg pathway map layout data in KGML file format.
     ''' 
     ''' + pathway map: http://www.kegg.jp/kegg-bin/download?entry=xcb00280&amp;format=kgml
     ''' </summary>

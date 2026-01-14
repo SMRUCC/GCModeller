@@ -120,6 +120,10 @@ Namespace Assembly.KEGG.WebServices.KGML
     End Class
 
     Public Class reaction : Inherits Link
+
+        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property name As String
+
         <XmlElement("substrate")>
         Public Property substrates As compound()
         <XmlElement("product")>
@@ -136,14 +140,16 @@ Namespace Assembly.KEGG.WebServices.KGML
     Public Class entry
 
         <XmlAttribute> Public Property id As String
-        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property name As String()
         <XmlAttribute> Public Property type As String
         <XmlAttribute> Public Property link As String
+
+        <XmlAttribute> Public Property reaction As String
 
         Public Property graphics As graphics
 
         Public Overrides Function ToString() As String
-            Return name
+            Return name.JoinBy("; ")
         End Function
     End Class
 
