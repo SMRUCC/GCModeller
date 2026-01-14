@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 
 Public Class KGMLRender
@@ -50,7 +51,7 @@ Public Class KGMLRender
         Dim g As New NetworkGraph
 
         For Each entry As entry In pathway.entries.SafeQuery
-            Dim gr As graphics = entry.graphics
+            Dim gr As KGML.graphics = entry.graphics
             Dim w As Double = gr.width
             Dim h As Double = gr.height
             Dim x As Double = gr.x
