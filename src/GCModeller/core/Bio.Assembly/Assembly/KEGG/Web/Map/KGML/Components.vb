@@ -260,10 +260,10 @@ Namespace Assembly.KEGG.WebServices.KGML
         <XmlAttribute> Public Property fgcolor As String
         <XmlAttribute> Public Property bgcolor As String
         <XmlAttribute> Public Property type As String
-        <XmlAttribute> Public Property x As String
-        <XmlAttribute> Public Property y As String
-        <XmlAttribute> Public Property width As String
-        <XmlAttribute> Public Property height As String
+        <XmlAttribute> Public Property x As Double
+        <XmlAttribute> Public Property y As Double
+        <XmlAttribute> Public Property width As Double
+        <XmlAttribute> Public Property height As Double
 
         Public Overrides Function ToString() As String
             Return name
