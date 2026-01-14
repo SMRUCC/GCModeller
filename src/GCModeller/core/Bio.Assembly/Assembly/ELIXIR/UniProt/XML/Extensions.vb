@@ -294,7 +294,7 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Function ORF(protein As entry) As String
-            If protein?.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
+            If protein.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
                 Return Nothing
             Else
                 Return protein.gene.ORF.First
