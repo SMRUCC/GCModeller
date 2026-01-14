@@ -783,6 +783,11 @@ Public Module repository
         Return file.LoadCsv(Of Prokaryote)
     End Function
 
+    <ExportAPI("read.kgml")>
+    Public Function read_kgml(file As String) As KGML.pathway
+        Return file.LoadXml(Of KGML.pathway)
+    End Function
+
     ''' <summary>
     ''' construct a new kegg compound data model
     ''' </summary>
