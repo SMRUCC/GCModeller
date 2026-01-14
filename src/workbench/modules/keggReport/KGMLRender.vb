@@ -2,6 +2,8 @@
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 
@@ -79,6 +81,13 @@ Public Class KGMLRender
         Next
 
         Return g
+    End Function
+
+    Public Function Render(nodes As NodeRepresentation) As IGraphicsData
+        Dim g As NetworkGraph = nodes.MakeSubNetwork(Me).DoLayout
+
+
+
     End Function
 
 End Class
