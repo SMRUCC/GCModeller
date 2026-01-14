@@ -87,6 +87,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 
@@ -207,13 +208,13 @@ Namespace Assembly.KEGG.WebServices.KGML
     ''' 每个&lt;entry>元素的核心作用是定义通路中的一个节点实体。例如，在糖酵解通路中，一个&lt;entry>可以表示己糖激酶（基因/酶），另一个可以表示葡萄糖-6-磷酸（代谢物）。
     ''' 节点之间通过&lt;reaction>和&lt;relation>元素连接，从而形成网络。
     ''' </remarks>
-    Public Class entry
+    Public Class entry : Implements INamedValue
 
         ''' <summary>
         ''' 该条目的唯一标识符（在当前通路中唯一），是一个正整数。
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property id As String
+        <XmlAttribute> Public Property id As String Implements INamedValue.Key
         ''' <summary>
         ''' 该条目对应的KEGG数据库标识符，通常以“数据库:ID”的形式表示。例如，name="hsa:124"表示人类基因ID 124，name="cpd:C00031"表示化合物C00031（葡萄糖）。name属性可以包含多个值（多个基因或化合物），多个值之间用空格分隔。
         ''' </summary>
