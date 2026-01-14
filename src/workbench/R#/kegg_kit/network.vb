@@ -61,7 +61,9 @@ Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -69,6 +71,11 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("network")>
 Module network
+
+    <ExportAPI("fromKGML")>
+    Public Function fromKgml(kgml As KGML.pathway) As NetworkGraph
+        Return KGMLRender.GetNetwork(kgml)
+    End Function
 
     ''' <summary>
     ''' create metabolism graph from a given set of compounds
