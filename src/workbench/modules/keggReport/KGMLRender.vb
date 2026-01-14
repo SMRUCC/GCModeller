@@ -112,11 +112,11 @@ Public Class KGMLRender
 
     Public Function Render(size As Size, nodes As NodeRepresentation,
                            Optional padding$ = "padding: 5% 5% 5% 5%;",
-                           Optional driver As Drivers = Drivers.Default) As IGraphicsData
+                           Optional driver As Drivers = Drivers.Default) As GraphicsData
 
         Dim g As NetworkGraph = nodes.MakeSubNetwork(Me).DoLayout
         Dim size_str As String = $"{size.Width},{size.Height}"
-        Dim img As IGraphicsData = NetworkVisualizer.DrawImage(
+        Dim img As GraphicsData = NetworkVisualizer.DrawImage(
             net:=g,
             canvasSize:=size_str,
             padding:=padding,

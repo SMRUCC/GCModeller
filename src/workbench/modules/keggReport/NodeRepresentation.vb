@@ -1,12 +1,11 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Driver
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 
 Public Class NodeRepresentation
 
-    Public Property images As Dictionary(Of String, GraphicsData)
+    Public Property images As Dictionary(Of String, Image)
 
     Public Const Representation As String = "representation"
 
@@ -38,7 +37,7 @@ Public Class NodeRepresentation
     Public Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single(), center As PointF) As RectangleF
         Dim node As Node = Me.g.GetElementByID(id)
         Dim imageKey As String = node(Representation)
-        Dim represent As GraphicsData = images(imageKey)
+        Dim represent As Image = images(imageKey)
         Dim rect As New RectangleF(center, New SizeF(radius(0), radius.ElementAtOrDefault(1, radius(0))))
 
         Call g.DrawImage(represent, center)

@@ -1,64 +1,66 @@
 ﻿#Region "Microsoft.VisualBasic::af4544a2edac6bfa850e5b8cf954041a, R#\kegg_kit\report.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 344
-    '    Code Lines: 236 (68.60%)
-    ' Comment Lines: 72 (20.93%)
-    '    - Xml Docs: 91.67%
-    ' 
-    '   Blank Lines: 36 (10.47%)
-    '     File Size: 14.46 KB
+' Summaries:
 
 
-    ' Module report
-    ' 
-    '     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
-    '               parseHighlightTuples, parseUrl, plotKEGGMap, renderMapHighlights, renderMapHtml
-    '               showReportHtml, singleColor, url
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 344
+'    Code Lines: 236 (68.60%)
+' Comment Lines: 72 (20.93%)
+'    - Xml Docs: 91.67%
+' 
+'   Blank Lines: 36 (10.47%)
+'     File Size: 14.46 KB
+
+
+' Module report
+' 
+'     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
+'               parseHighlightTuples, parseUrl, plotKEGGMap, renderMapHighlights, renderMapHtml
+'               showReportHtml, singleColor, url
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -70,6 +72,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -425,6 +428,28 @@ Module report
         result.slots("objects") = kegg_objects.ToArray
 
         Return result
+    End Function
+
+    <ExportAPI("node_images")>
+    Public Function loadNodeImages(dir As String) As NodeRepresentation
+        Dim imgs = dir.ListFiles("*.jpg", "*.png", "*.bmp").GroupBy(Function(file) file.BaseName).ToDictionary(Function(file) file.Key, Function(file) DriverLoad.LoadFromStream(file.First.OpenReadonly))
+        Return New NodeRepresentation With {
+            .images = imgs
+        }
+    End Function
+
+    <ExportAPI("render_kgml")>
+    <RApiReturn(GetType(GraphicsData))>
+    Public Function render_kgml(kgml As KGML.pathway, images As NodeRepresentation,
+                                <RRawVectorArgument(TypeCodes.integer)>
+                                Optional size As Object = "3000,3000",
+                                Optional env As Environment = Nothing) As Object
+
+        Dim render As New KGMLRender(kgml)
+        Dim sizeInt As Integer() = CLRVector.asInteger(size)
+        Dim driver As Drivers = env.getDriver
+        Dim img As GraphicsData = render.Render(New Size(sizeInt(0), sizeInt(1)), images, driver:=driver)
+        Return img
     End Function
 
 End Module
