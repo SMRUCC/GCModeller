@@ -653,6 +653,7 @@ Public Module GSEABackground
                                          Optional isLocusTag As Boolean = False,
                                          Optional get_clusterID As Boolean = False,
                                          Optional term_map As Boolean = False,
+                                         Optional id_map As Boolean = False,
                                          Optional env As Environment = Nothing) As Object
         If cluster Is Nothing Then
             Return Nothing
@@ -668,7 +669,17 @@ Public Module GSEABackground
                     If gene Is Nothing Then
                         Call map_term.Add("")
                     Else
-                        Call map_term.Add(gene.term_id.SafeQuery.FirstOrDefault?.name)
+                        Dim term = gene.term_id.SafeQuery.FirstOrDefault
+
+                        If Not term Is Nothing Then
+                            id = term.name
+                        ElseIf id_map Then
+                            id = id
+                        Else
+                            id = Nothing
+                        End If
+
+                        Call map_term.Add(id)
                     End If
                 Next
 
