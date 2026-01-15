@@ -160,7 +160,7 @@ Namespace CytoscapeGraphView
                             .edgeBendHandles _
                             .Select(Function(a)
                                         Dim raw As PointF = a.pointAuto(sx, sy, tx, ty)
-                                        Dim xy As XYMetaHandle = XYMetaHandle.CreateVector(ps, pt, raw)
+                                        Dim xy As WayPointVector = WayPointVector.CreateVector(ps, pt, raw)
 
                                         Return xy
                                     End Function) _
