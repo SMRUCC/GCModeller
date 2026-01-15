@@ -1,4 +1,5 @@
 ﻿Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -19,7 +20,7 @@ Public Module PlainTextParser
                    End Function) _
             .ToArray
 
-        For Each block As String() In blocks
+        For Each block As String() In TqdmWrapper.Wrap(blocks)
             Yield ParseArticle(block)
         Next
     End Function
