@@ -114,7 +114,7 @@ Public Class KGMLRender
                            Optional padding$ = "padding: 5% 5% 5% 5%;",
                            Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-        Dim g As NetworkGraph = nodes.MakeSubNetwork(Me).DoLayout
+        Dim g As NetworkGraph = nodes.MakeSubNetwork(Me) '.DoLayout
         Dim size_str As String = $"{size.Width},{size.Height}"
         Dim img As GraphicsData = NetworkVisualizer.DrawImage(
             net:=g,
