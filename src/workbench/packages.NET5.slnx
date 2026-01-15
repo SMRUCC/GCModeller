@@ -4523,7 +4523,7 @@
     <Platform Solution="nuget_release|x64" Project="x64" />
     <Platform Solution="Rsharp_app_release|x64" Project="x64" />
   </Project>
-  <Project Path="R#/cytoscape_toolkit/cytoscape_toolkit.vbproj">
+  <Project Path="R#/cytoscape_toolkit/cytoscape.vbproj">
     <BuildType Solution="BioDeep_database|*" Project="Debug" />
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />

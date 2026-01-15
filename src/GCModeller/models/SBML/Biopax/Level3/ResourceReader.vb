@@ -171,7 +171,7 @@ Namespace Level3
                     desc = reaction.comment.Select(Function(c) c.value).JoinBy(vbCrLf)
                 End If
                 If Not reaction.eCNumber Is Nothing Then
-                    ecNumbers = {reaction.eCNumber.value}
+                    ecNumbers = reaction.eCNumber.value
                 End If
 
                 Yield New MetabolicReaction With {

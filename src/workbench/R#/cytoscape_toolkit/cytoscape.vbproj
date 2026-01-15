@@ -9,8 +9,10 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>GPL3</PackageLicenseExpression>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <AssemblyName>cytoscape_toolkit</AssemblyName>
-	  <DocumentationFile>cytoscape_toolkit.xml</DocumentationFile>
+    <AssemblyName>cytoscape</AssemblyName>
+	  <DocumentationFile>cytoscape.xml</DocumentationFile>
+	  <AssemblyTitle>Cytoscape Toolkit</AssemblyTitle>
+	  <UseApplicationFramework>True</UseApplicationFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
@@ -55,6 +57,14 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
     <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|AnyCPU'">
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|AnyCPU'">
+    <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
   <ItemGroup>

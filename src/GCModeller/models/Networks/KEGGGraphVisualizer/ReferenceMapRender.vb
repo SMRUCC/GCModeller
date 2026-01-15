@@ -267,7 +267,7 @@ Namespace PathwayMaps
                                Optional canvasSize$ = "11480,9200",
                                Optional padding$ = "padding: 300px 300px 300px 300px;",
                                Optional renderStyle As RenderStyle = Nothing,
-                               Optional enzymeColorSchema$ = "Set1:c8",
+                               Optional enzymeColorSchema$ = "Set1",
                                Optional compoundColorSchema$ = "Clusters",
                                Optional reactionShapeStrokeCSS$ = "stroke: white; stroke-width: 5px; stroke-dash: dash;",
                                Optional hideCompoundCircle As Boolean = True,
@@ -332,20 +332,25 @@ Namespace PathwayMaps
                 End If
             Next
 
+            graph = If(edgeColorByNodeMixed AndAlso renderStyle IsNot Nothing, graph.mixEdgeColor(renderStyle, degrees), graph)
+
+            Dim hull = renderStyle.getHullPolygonGroups
+            Dim nodeLabeler = GetNodeLabel(compoundNames, reactionNames)
+
             Return NetworkVisualizer.DrawImage(
-                net:=If(edgeColorByNodeMixed, graph.mixEdgeColor(renderStyle, degrees), graph),
+                net:=graph,
                 background:="white",'"transparent",
                 padding:=padding,
                 canvasSize:=canvasSize,
                 labelerIterations:=-1000,
                 drawNodeShape:=AddressOf renderStyle.drawNode,
-                hullPolygonGroups:=renderStyle.getHullPolygonGroups,
+                hullPolygonGroups:=hull,
                 minLinkWidth:=5,
                 nodeRadius:=300,
                 edgeShadowDistance:=0,
                 edgeDashTypes:=renderStyle.edgeDashType,
                 defaultEdgeColor:="brown",
-                getNodeLabel:=GetNodeLabel(compoundNames, reactionNames),
+                getNodeLabel:=nodeLabeler,
                 getLabelPosition:=getLabelPositoon，
                 labelTextStroke:=Nothing,
                 labelFontBase:=nodeLabelFontBase,

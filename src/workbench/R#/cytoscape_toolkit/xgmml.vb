@@ -97,7 +97,7 @@ Module xgmmlToolkit
                                 Optional edgeBends As Boolean = False,
                                 Optional altStyle As Boolean = False,
                                 Optional rewriteGroupCategoryColors$ = "TSF",
-                                Optional enzymeColorSchema$ = "Set1:c8",
+                                Optional enzymeColorSchema$ = "Set1",
                                 Optional compoundColorSchema$ = "Clusters",
                                 Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
                                 Optional compoundNames As Dictionary(Of String, String) = Nothing) As GraphicsData
@@ -135,7 +135,8 @@ Module xgmmlToolkit
             compoundNames:=compoundNames,
             edgeBends:=edgeBends,
             renderStyle:=style,
-            reactionKOMapping:=reactionKOMapping
+            reactionKOMapping:=reactionKOMapping,
+            edgeColorByNodeMixed:=False
         )
     End Function
 End Module
