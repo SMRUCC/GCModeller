@@ -293,6 +293,9 @@ Namespace PubMed
         Public Property Title As String
         Public Property ISOAbbreviation As String
 
+        Sub New()
+        End Sub
+
         Sub New(title As String)
             _Title = title
         End Sub
