@@ -53,7 +53,10 @@ Public Class NodeRepresentation
         Dim h As Single = 300
         Dim rect As New RectangleF(center, New SizeF(w, h))
 
-        Call g.DrawImage(represent, rect)
+        rect = New RectangleF(center, New SizeF(10, 10))
+
+        ' Call g.DrawImage(represent, rect)
+        Call g.FillRectangle(brush, rect)
 
         Return rect
     End Function
