@@ -652,14 +652,37 @@ Public Module GSEABackground
     Public Function ClusterIntersections(cluster As Object, geneSet$(),
                                          Optional isLocusTag As Boolean = False,
                                          Optional get_clusterID As Boolean = False,
+                                         Optional term_map As Boolean = False,
                                          Optional env As Environment = Nothing) As Object
         If cluster Is Nothing Then
             Return Nothing
         End If
         If TypeOf cluster Is Cluster Then
-            Return DirectCast(cluster, Cluster) _
-                .Intersect(geneSet, isLocusTag) _
-                .ToArray
+            If term_map Then
+                Dim c As Cluster = DirectCast(cluster, Cluster)
+                Dim map_term As New List(Of String)
+
+                For Each id As String In geneSet
+                    Dim gene As BackgroundGene = c.GetMemberById(id)
+
+                    If gene Is Nothing Then
+                        Call map_term.Add("")
+                    Else
+                        Call map_term.Add(gene.term_id.SafeQuery.FirstOrDefault?.name)
+                    End If
+                Next
+
+                Return New dataframe With {
+                    .columns = New Dictionary(Of String, Array) From {
+                        {"id", geneSet},
+                        {"term", map_term.ToArray}
+                    }
+                }
+            Else
+                Return DirectCast(cluster, Cluster) _
+                    .Intersect(geneSet, isLocusTag) _
+                    .ToArray
+            End If
         ElseIf TypeOf cluster Is Background Then
             If get_clusterID Then
                 Return DirectCast(cluster, Background).clusters _
