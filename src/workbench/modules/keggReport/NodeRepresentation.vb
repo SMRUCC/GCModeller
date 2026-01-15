@@ -1,4 +1,5 @@
 ﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
@@ -16,6 +17,11 @@ Public Class NodeRepresentation
 
         For Each id As String In images.Keys
             Dim entry As entry = pathway(id)
+
+            If entry Is Nothing Then
+                Continue For
+            End If
+
             Dim v = pathway.graph.GetElementByID("entry_" & entry.id)
             Dim data As NodeData = v.data.Clone
 
@@ -32,6 +38,10 @@ Public Class NodeRepresentation
             End If
         Next
 
+        Call g.ComputeNodeDegrees
+        Call g.RemovesIsolatedNodes()
+        Call g.ToString.debug
+
         Return g
     End Function
 
@@ -39,9 +49,11 @@ Public Class NodeRepresentation
         Dim node As Node = Me.g.GetElementByID(id)
         Dim imageKey As String = node(Representation)
         Dim represent As Image = images(imageKey)
-        Dim rect As New RectangleF(center, New SizeF(radius(0), radius.ElementAtOrDefault(1, radius(0))))
+        Dim w As Single = 500
+        Dim h As Single = 300
+        Dim rect As New RectangleF(center, New SizeF(w, h))
 
-        Call g.DrawImage(represent, center)
+        Call g.DrawImage(represent, rect)
 
         Return rect
     End Function
