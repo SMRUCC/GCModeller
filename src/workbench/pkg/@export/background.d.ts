@@ -230,11 +230,13 @@ declare namespace background {
         * + default value Is ``false``.
         * @param term_map 
         * + default value Is ``false``.
+        * @param id_map 
+        * + default value Is ``false``.
         * @param env 
         * + default value Is ``null``.
         * @return a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
       */
-      function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, term_map?: boolean, env?: object): string;
+      function intersects(cluster: any, geneSet: string, isLocusTag?: boolean, get_clusterID?: boolean, term_map?: boolean, id_map?: boolean, env?: object): string;
    }
    /**
     * Create a cluster for gsea background
