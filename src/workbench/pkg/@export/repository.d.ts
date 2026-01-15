@@ -203,6 +203,9 @@ declare namespace repository {
         * + default value Is ``null``.
       */
       function KEGG_pathway(file: string, env?: object): object;
+      /**
+      */
+      function kgml(file: string): object;
    }
    module save {
       /**

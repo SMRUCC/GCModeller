@@ -4,7 +4,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
@@ -114,7 +113,7 @@ Public Class KGMLRender
                            Optional padding$ = "padding: 5% 5% 5% 5%;",
                            Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-        Dim g As NetworkGraph = nodes.MakeSubNetwork(Me) '.DoLayout
+        Dim g As NetworkGraph = nodes.MakeSubNetwork(Me)
         Dim size_str As String = $"{size.Width},{size.Height}"
         Dim img As GraphicsData = NetworkVisualizer.DrawImage(
             net:=g,

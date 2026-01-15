@@ -1,6 +1,7 @@
 ﻿Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.Orthogonal
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 
@@ -41,6 +42,7 @@ Public Class NodeRepresentation
         Call g.ComputeNodeDegrees
         Call g.RemovesIsolatedNodes()
         Call g.ToString.debug
+        Call g.AstarRouter
 
         Return g
     End Function

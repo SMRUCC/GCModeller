@@ -69,6 +69,9 @@ declare namespace report.utils {
       */
       function local_render(maps: object): object;
    }
+   /**
+   */
+   function node_images(dir: string): object;
    module nodes {
       /**
       */
@@ -119,4 +122,9 @@ declare namespace report.utils {
      * + default value Is ``'green'``.
    */
    function parseKeggUrl(url: string, compound?: string, gene?: string, reaction?: string): object;
+   /**
+     * @param size default value Is ``[3000,3000]``.
+     * @param env default value Is ``null``.
+   */
+   function render_kgml(kgml: object, images: object, size?: any, env?: object): object;
 }

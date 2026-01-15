@@ -11,3 +11,5 @@ the kegg pathway map report helper tool
 + [keggMap.url](report.utils/keggMap.url.1) generate the url that used for view the highlight result on kegg website.
 + [parse.highlight_tuples](report.utils/parse.highlight_tuples.1) Parse the kegg pathway node highlight information
 + [parseKeggUrl](report.utils/parseKeggUrl.1) 
++ [node_images](report.utils/node_images.1) 
++ [render_kgml](report.utils/render_kgml.1) 

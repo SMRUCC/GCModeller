@@ -31,6 +31,9 @@ declare namespace network {
    */
    function fromCompounds(compoundsId: string, graph: object, compounds?: object, enzymeBridged?: boolean): object;
    /**
+   */
+   function fromKGML(kgml: object): object;
+   /**
      * @param cor default value Is ``null``.
      * @param modules default value Is ``null``.
      * @param names default value Is ``null``.
