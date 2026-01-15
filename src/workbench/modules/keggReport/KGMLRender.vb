@@ -38,11 +38,11 @@ Public Class KGMLRender
             Yield (entry.id, entry)
 
             If Not entry.reaction.StringEmpty Then
-                Yield (entry.reaction, entry)
+                Yield (entry.reaction.GetTagValue(":").Value, entry)
             End If
 
             For Each name As String In entry.name
-                Yield (name, entry)
+                Yield (name.GetTagValue(":").Value, entry)
             Next
         Next
     End Function
@@ -57,7 +57,7 @@ Public Class KGMLRender
             Dim x As Double = gr.x
             Dim y As Double = gr.y
 
-            Call g.CreateNode(entry.id, New NodeData With {
+            Call g.CreateNode("entry_" & entry.id, New NodeData With {
                 .label = entry.name.JoinBy("; "),
                 .mass = entry.name.Length,
                 .origID = entry.id,
@@ -73,8 +73,8 @@ Public Class KGMLRender
 
         For Each rel As relation In pathway.relations.SafeQuery
             Call g.CreateEdge(
-                g.GetElementByID(rel.entry1),
-                g.GetElementByID(rel.entry2),
+                g.GetElementByID("entry_" & rel.entry1),
+                g.GetElementByID("entry_" & rel.entry2),
                 1,
                 New EdgeData With {
                     .label = "relation",
@@ -96,13 +96,13 @@ Public Class KGMLRender
 
         For Each rxn As reaction In pathway.reactions.SafeQuery
             For Each entry As entry In reactionEntries.TryGetValue(rxn.name).SafeQuery
-                Dim node As Node = g.GetElementByID(entry.id)
+                Dim node As Node = g.GetElementByID("entry_" & entry.id)
 
                 For Each left As compound In rxn.substrates.SafeQuery
-                    Call g.CreateEdge(g.GetElementByID(left.id), node, 1)
+                    Call g.CreateEdge(g.GetElementByID("entry_" & left.id), node, 1)
                 Next
                 For Each right As compound In rxn.products.SafeQuery
-                    Call g.CreateEdge(node, g.GetElementByID(right.id), 1)
+                    Call g.CreateEdge(node, g.GetElementByID("entry_" & right.id), 1)
                 Next
             Next
         Next

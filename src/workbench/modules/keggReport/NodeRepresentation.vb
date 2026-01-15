@@ -16,15 +16,16 @@ Public Class NodeRepresentation
 
         For Each id As String In images.Keys
             Dim entry As entry = pathway(id)
-            Dim data As NodeData = pathway.graph.GetElementByID(entry.id).data.Clone
+            Dim v = pathway.graph.GetElementByID("entry_" & entry.id)
+            Dim data As NodeData = v.data.Clone
 
             data(Representation) = id
-            g.CreateNode(entry.id, data)
+            g.CreateNode(v.label, data)
         Next
 
         For Each edge As Edge In pathway.graph.graphEdges
-            Dim u = pathway.graph.GetElementByID(edge.U.label)
-            Dim v = pathway.graph.GetElementByID(edge.V.label)
+            Dim u = g.GetElementByID(edge.U.label)
+            Dim v = g.GetElementByID(edge.V.label)
 
             If u IsNot Nothing AndAlso v IsNot Nothing Then
                 Call g.CreateEdge(u, v, edge.weight, edge.data.Clone)
