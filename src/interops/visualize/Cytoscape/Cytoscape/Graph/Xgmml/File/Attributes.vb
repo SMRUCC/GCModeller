@@ -109,6 +109,14 @@ Namespace CytoscapeGraphView.XGMML.File
                 .Type = ATTR_VALUE_TYPE_STRING
             }
         End Function
+
+        Public Shared Narrowing Operator CType(attr As Attribute) As String
+            If attr Is Nothing Then
+                Return Nothing
+            Else
+                Return attr.Value
+            End If
+        End Operator
     End Class
 
     Public MustInherit Class AttributeDictionary

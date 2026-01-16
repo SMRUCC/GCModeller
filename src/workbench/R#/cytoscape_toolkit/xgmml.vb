@@ -81,6 +81,21 @@ Module xgmmlToolkit
         Return XGMML.RDFXml.Load(path:=file)
     End Function
 
+    <ExportAPI("set_images")>
+    Public Function SetImages(model As XGMMLgraph, dir As String, attr As String) As XGMMLgraph
+        Dim nodes As NodeRepresentation = NodeRepresentation.LoadFromFolder(dir)
+
+        For Each node As XGMMLnode In model.nodes
+            Dim attrKey As String = node(attr)
+            Dim filepath As String = nodes.imagefiles(attrKey)
+            Dim uri As String = $"org.cytoscape.ding.customgraphics.bitmap.URLImageCustomGraphics,2,file:/{filepath},bitmap image"
+
+            node.graphics.SetAttribute("NODE_CUSTOMGRAPHICS_1", uri)
+        Next
+
+        Return model
+    End Function
+
     ''' <summary>
     ''' render the cytoscape network graph model as image
     ''' </summary>
@@ -167,7 +182,8 @@ Module xgmmlToolkit
                 labelerIterations:=-1,
                 minLinkWidth:=5,
                 drawNodeShape:=drawNode,
-                driver:=driver
+                driver:=driver,
+                displayId:=False
             )
         End If
     End Function

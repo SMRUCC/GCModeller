@@ -432,10 +432,7 @@ Module report
 
     <ExportAPI("node_images")>
     Public Function loadNodeImages(dir As String) As NodeRepresentation
-        Dim imgs = dir.ListFiles("*.jpg", "*.png", "*.bmp").GroupBy(Function(file) file.BaseName).ToDictionary(Function(file) file.Key, Function(file) DriverLoad.LoadFromStream(file.First.OpenReadonly))
-        Return New NodeRepresentation With {
-            .images = imgs
-        }
+        Return NodeRepresentation.LoadFromFolder(dir)
     End Function
 
     <ExportAPI("render_kgml")>
