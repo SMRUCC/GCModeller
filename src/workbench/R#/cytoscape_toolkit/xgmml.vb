@@ -147,7 +147,7 @@ Module xgmmlToolkit
                 driver:=driver
             )
         Else
-            Return NetworkVisualizer.DrawImage(graph, canvasSize:=size, driver:=driver)
+            Return NetworkVisualizer.DrawImage(graph, canvasSize:=size, drawEdgeBends:=edgeBends, driver:=driver)
         End If
     End Function
 End Module

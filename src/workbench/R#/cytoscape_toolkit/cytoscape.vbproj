@@ -88,6 +88,7 @@
     <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.Automation\Cytoscape.Automation.vbproj" />
     <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
