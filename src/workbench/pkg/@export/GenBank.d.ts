@@ -100,11 +100,13 @@ declare namespace GenBank {
      * + default value Is ``'<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>'``.
      * @param key 
      * + default value Is ``["gene","CDS"]``.
+     * @param required 
+     * + default value Is ``null``.
      * @param unique_names processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
      * 
      * + default value Is ``false``.
    */
-   function export_geneNt_fasta(gb: object, title?: string, key?: any, unique_names?: boolean): object;
+   function export_geneNt_fasta(gb: object, title?: string, key?: any, required?: string, unique_names?: boolean): object;
    /**
     * create new feature site
     * 
