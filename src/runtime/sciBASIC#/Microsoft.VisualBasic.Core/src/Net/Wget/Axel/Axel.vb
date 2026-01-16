@@ -1,54 +1,54 @@
 ﻿#Region "Microsoft.VisualBasic::9d387955ccd0aa2103114c275a1d6e20, Microsoft.VisualBasic.Core\src\Net\Wget\Axel.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 169
-    '    Code Lines: 115 (68.05%)
-    ' Comment Lines: 24 (14.20%)
-    '    - Xml Docs: 12.50%
-    ' 
-    '   Blank Lines: 30 (17.75%)
-    '     File Size: 8.10 KB
+' Summaries:
 
 
-    '     Class Axel
-    ' 
-    '         Sub: ShowProgress
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 169
+'    Code Lines: 115 (68.05%)
+' Comment Lines: 24 (14.20%)
+'    - Xml Docs: 12.50%
+' 
+'   Blank Lines: 30 (17.75%)
+'     File Size: 8.10 KB
+
+
+'     Class Axel
+' 
+'         Sub: ShowProgress
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -56,6 +56,7 @@ Imports System.IO
 Imports System.Net.Http
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.ConsoleProgressBar
+Imports Microsoft.VisualBasic.ValueTypes
 
 Namespace Net.WebClient
 
@@ -69,9 +70,10 @@ Namespace Net.WebClient
         ' --- 配置结束 ---
 
         ' 用于跟踪已下载的总字节数，用于进度显示
-        Private Shared totalBytesDownloaded As Long = 0
-        Private Shared totalFileSize As Long = 0
-        Private Shared lockObject As New Object()
+        Friend totalBytesDownloaded As Long = 0
+        Friend totalFileSize As Long = 0
+
+        Friend ReadOnly lockObject As New Object()
 
         <STAThread>
         Public Async Function Download(url As String, fileName As String, Optional nThreads As Integer? = Nothing) As Task
@@ -177,29 +179,6 @@ Namespace Net.WebClient
             End Using
         End Function
 
-        Private Async Function DownloadChunkAsync(url As String, startByte As Long, endByte As Long, destinationPath As String) As Task
-            Using httpClient As New HttpClient()
-                Using request As New HttpRequestMessage(HttpMethod.Get, url)
-                    ' 设置 Range 请求头
-                    request.Headers.Range = New Headers.RangeHeaderValue(startByte, endByte)
-
-                    Using response = Await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead)
-                        response.EnsureSuccessStatusCode()
-
-                        Using contentStream = Await response.Content.ReadAsStreamAsync()
-                            Using fileStream = New FileStream(destinationPath, FileMode.Create, FileAccess.Write, FileShare.None, 8192, True)
-                                Await contentStream.CopyToAsync(fileStream)
-                                ' 更新已下载字节数（用于进度条）
-                                SyncLock lockObject
-                                    totalBytesDownloaded += (endByte - startByte + 1)
-                                End SyncLock
-                            End Using
-                        End Using
-                    End Using
-                End Using
-            End Using
-        End Function
-
         Private Async Function MergeFilesAsync(sourceFiles As List(Of String), destinationPath As String) As Task
             Using destinationStream As New FileStream(destinationPath, FileMode.Create)
                 For Each sourceFile In sourceFiles
@@ -211,12 +190,22 @@ Namespace Net.WebClient
         End Function
 
         Private Sub ShowProgress()
+            Dim t0 As Double = Now.UnixTimeStamp
+            Dim dt As Double
+            Dim speed As Double
+
             Using bar As New ProgressBar With {.Maximum = totalFileSize}
-                Call bar.Text.Description.Processing.AddNew.SetValue(Function(b) $"[{b.Value}/{StringFormats.Lanudry(totalFileSize)}]")
+                Call bar.Text.Description.Processing _
+                    .AddNew _
+                    .SetValue(Function(b)
+                                  Return $"下载进度 {(b.Value / totalFileSize * 100).ToString("F2")}%  {StringFormats.Lanudry(speed)}/s  [{StringFormats.Lanudry(b.Value)}/{StringFormats.Lanudry(totalFileSize)}]"
+                              End Function)
 
                 While totalBytesDownloaded < totalFileSize
-                    Thread.Sleep(10) ' 每200ms更新一次
+                    Thread.Sleep(300)
                     bar.SetValue(totalBytesDownloaded)
+                    dt = (Now.UnixTimeStamp - t0) + 0.00001
+                    speed = totalBytesDownloaded / dt
                 End While
             End Using
         End Sub
