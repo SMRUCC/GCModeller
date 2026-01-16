@@ -81,7 +81,7 @@ Public Class NodeRepresentation
         Dim imageKey As String = node(representationKey)
         Dim represent As Image = images(imageKey)
         Dim w As Single = 900
-        Dim h As Single = 700
+        Dim h As Single = 600
         Dim x = center.X - w / 2
         Dim y = center.Y - h / 2
         Dim rect As New RectangleF(New PointF(x, y), New SizeF(w, h))
