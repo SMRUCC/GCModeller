@@ -11,6 +11,8 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
+    <AssemblyTitle>Virtual Cell Component Model Repository</AssemblyTitle>
+    <Title>Virtual Cell Component Model Repository</Title>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
