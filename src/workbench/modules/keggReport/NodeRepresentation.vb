@@ -12,6 +12,7 @@ Public Class NodeRepresentation
     Public Const Representation As String = "representation"
 
     Dim g As NetworkGraph
+    Dim representationKey As String = Representation
 
     Public Function MakeSubNetwork(pathway As KGMLRender) As NetworkGraph
         g = New NetworkGraph
@@ -47,14 +48,16 @@ Public Class NodeRepresentation
         Return g
     End Function
 
-    Public Function SetGraph(g As NetworkGraph) As NodeRepresentation
+    Public Function SetGraph(g As NetworkGraph, key As String) As NodeRepresentation
+        Me.representationKey = key
         Me.g = g
+
         Return Me
     End Function
 
     Public Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single(), center As PointF) As RectangleF
         Dim node As Node = Me.g.GetElementByID(id)
-        Dim imageKey As String = node(Representation)
+        Dim imageKey As String = node(representationKey)
         Dim represent As Image = images(imageKey)
         Dim w As Single = 500
         Dim h As Single = 300
