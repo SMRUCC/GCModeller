@@ -57,12 +57,15 @@ Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
 Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("xgmml")>
 <RTypeExport("xgmml", GetType(XGMMLgraph))>
@@ -103,7 +106,10 @@ Module xgmmlToolkit
                                 Optional compoundColorSchema$ = "Clusters",
                                 Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
                                 Optional renderStyle As Boolean = False,
+                                Optional nodes As NodeRepresentation = Nothing,
                                 Optional compoundNames As Dictionary(Of String, String) = Nothing,
+                                <RRawVectorArgument(TypeCodes.string)>
+                                Optional attrs As Object = "label|class",
                                 Optional env As Environment = Nothing) As GraphicsData
 
         Dim style As RenderStyle = Nothing
@@ -114,7 +120,7 @@ Module xgmmlToolkit
         ElseIf model.GetType Is GetType(NetworkGraph) Then
             graph = model
         ElseIf model.GetType Is GetType(XGMMLgraph) Then
-            graph = DirectCast(model, XGMMLgraph).ToNetworkGraph("label", "class", "group.category", "group.category.color")
+            graph = DirectCast(model, XGMMLgraph).ToNetworkGraph(CLRVector.asCharacter(attrs))
         Else
             Return Nothing
         End If
@@ -147,6 +153,12 @@ Module xgmmlToolkit
                 driver:=driver
             )
         Else
+            Dim drawNode As DrawNodeShape = Nothing
+
+            If nodes IsNot Nothing Then
+                drawNode = AddressOf nodes.DrawNodeShape
+            End If
+
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
                 padding:="padding: 500px 500px 500px 500px;",
@@ -154,6 +166,7 @@ Module xgmmlToolkit
                 drawEdgeBends:=edgeBends,
                 labelerIterations:=-1,
                 minLinkWidth:=5,
+                drawNodeShape:=drawNode,
                 driver:=driver
             )
         End If
