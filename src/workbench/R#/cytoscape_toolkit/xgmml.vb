@@ -1,58 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::b31adf2eecccdc23f448cf209bcf646e, R#\cytoscape_toolkit\xgmml.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 88
-    '    Code Lines: 61 (69.32%)
-    ' Comment Lines: 19 (21.59%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 8 (9.09%)
-    '     File Size: 3.79 KB
+' Summaries:
 
 
-    ' Module xgmmlToolkit
-    ' 
-    '     Function: loadXgmml, XgmmlRender
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 88
+'    Code Lines: 61 (69.32%)
+' Comment Lines: 19 (21.59%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 8 (9.09%)
+'     File Size: 3.79 KB
+
+
+' Module xgmmlToolkit
+' 
+'     Function: loadXgmml, XgmmlRender
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -60,6 +61,7 @@ Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps
 Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("xgmml")>
@@ -100,7 +102,9 @@ Module xgmmlToolkit
                                 Optional enzymeColorSchema$ = "Set1",
                                 Optional compoundColorSchema$ = "Clusters",
                                 Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
-                                Optional compoundNames As Dictionary(Of String, String) = Nothing) As GraphicsData
+                                Optional renderStyle As Boolean = False,
+                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
+                                Optional env As Environment = Nothing) As GraphicsData
 
         Dim style As RenderStyle = Nothing
         Dim graph As NetworkGraph
@@ -128,15 +132,22 @@ Module xgmmlToolkit
             )
         End If
 
-        Return ReferenceMapRender.Render(
-            graph:=graph,
-            canvasSize:=size,
-            convexHull:=convexHull.Indexing,
-            compoundNames:=compoundNames,
-            edgeBends:=edgeBends,
-            renderStyle:=style,
-            reactionKOMapping:=reactionKOMapping,
-            edgeColorByNodeMixed:=False
-        )
+        Dim driver As Drivers = env.getDriver
+
+        If renderStyle Then
+            Return ReferenceMapRender.Render(
+                graph:=graph,
+                canvasSize:=size,
+                convexHull:=convexHull.Indexing,
+                compoundNames:=compoundNames,
+                edgeBends:=edgeBends,
+                renderStyle:=style,
+                reactionKOMapping:=reactionKOMapping,
+                edgeColorByNodeMixed:=False,
+                driver:=driver
+            )
+        Else
+            Return NetworkVisualizer.DrawImage(graph, canvasSize:=size, driver:=driver)
+        End If
     End Function
 End Module

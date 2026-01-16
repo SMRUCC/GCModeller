@@ -278,7 +278,9 @@ Namespace PathwayMaps
                                Optional edgeBends As Boolean = False,
                                Optional edgeColorByNodeMixed As Boolean = True,
                                Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
-                               Optional nodeLabelFontBase$ = CSSFont.Win7VeryVeryLarge) As GraphicsData
+                               Optional nodeLabelFontBase$ = CSSFont.Win7VeryVeryLarge,
+                               Optional driver As Drivers = Drivers.Default,
+                               Optional ppi As Integer = 100) As GraphicsData
 
             Dim reactionNames As Dictionary(Of String, String) = getReactionNames(reactionKOMapping)
 
@@ -362,7 +364,9 @@ Namespace PathwayMaps
                 convexHullCurveDegree:=1,
                 fillConvexHullPolygon:=False,
                 drawEdgeBends:=edgeBends,
-                labelWordWrapWidth:=wordWrapWidth
+                labelWordWrapWidth:=wordWrapWidth,
+                driver:=driver,
+                ppi:=ppi
             )
         End Function
 
