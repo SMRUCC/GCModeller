@@ -192,15 +192,20 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' </remarks>
         Const queryInfoRegexp$ = "Query\s*[=]\s*(.+?)?Length\s*[=]\s*\d+"
 
-        <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
-            Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
-            Dim tuple = Strings.Split(info, "Length=")
-            Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
+        <Extension>
+        Friend Function queryInfo(block$) As NamedValue(Of Integer)
+            If block = "" Then
+                Return Nothing
+            Else
+                Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
+                Dim tuple = Strings.Split(info, "Length=")
+                Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
 
-            Return New NamedValue(Of Integer) With {
-                .Name = name,
-                .Value = Val(tuple(1).Trim.Split.First)
-            }
+                Return New NamedValue(Of Integer) With {
+                    .Name = name,
+                    .Value = Val(tuple(1).Trim.Split.First)
+                }
+            End If
         End Function
 
         <Extension>

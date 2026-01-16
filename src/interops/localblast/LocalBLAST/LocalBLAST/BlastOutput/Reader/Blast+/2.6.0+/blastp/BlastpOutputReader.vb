@@ -108,7 +108,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim source As IEnumerable(Of String) = QueryBlockIterates(path, encoding)
 
             For Each queryText As String In source
-                Yield queryText.QueryParser(fast)
+                If queryText <> "" Then
+                    Yield queryText.QueryParser(fast)
+                End If
             Next
         End Function
 
