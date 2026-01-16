@@ -156,7 +156,7 @@ Module xgmmlToolkit
             Dim drawNode As DrawNodeShape = Nothing
 
             If nodes IsNot Nothing Then
-                drawNode = AddressOf nodes.DrawNodeShape
+                drawNode = AddressOf nodes.SetGraph(graph).DrawNodeShape
             End If
 
             Return NetworkVisualizer.DrawImage(

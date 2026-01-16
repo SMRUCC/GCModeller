@@ -47,6 +47,11 @@ Public Class NodeRepresentation
         Return g
     End Function
 
+    Public Function SetGraph(g As NetworkGraph) As NodeRepresentation
+        Me.g = g
+        Return Me
+    End Function
+
     Public Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single(), center As PointF) As RectangleF
         Dim node As Node = Me.g.GetElementByID(id)
         Dim imageKey As String = node(Representation)
