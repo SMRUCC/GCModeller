@@ -81,6 +81,11 @@ Module xgmmlToolkit
         Return XGMML.RDFXml.Load(path:=file)
     End Function
 
+    <ExportAPI("write.xgmml")>
+    Public Function write_xgmml(model As XGMMLgraph, file As String) As Boolean
+        Return model.GetXml.SaveTo(file)
+    End Function
+
     <ExportAPI("set_images")>
     Public Function SetImages(model As XGMMLgraph, dir As String, attr As String) As XGMMLgraph
         Dim nodes As NodeRepresentation = NodeRepresentation.LoadFromFolder(dir)
