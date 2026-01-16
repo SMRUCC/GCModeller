@@ -1,7 +1,9 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
+//    imports "cytoscape.kegg" from "cytoscape";
 //    imports "cytoscape.kegg" from "cytoscape_toolkit";
 //
+// ref=cytoscape_toolkit.kegg@cytoscape, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 // ref=cytoscape_toolkit.kegg@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
