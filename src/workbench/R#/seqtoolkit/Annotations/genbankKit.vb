@@ -600,6 +600,7 @@ Module genbankKit
                                       Optional title As String = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>",
                                       <RRawVectorArgument(TypeCodes.string)>
                                       Optional key As Object = "gene|CDS",
+                                      Optional required As String() = Nothing,
                                       Optional unique_names As Boolean = False) As FastaFile
 
         Dim keyStr As String = If(CLRVector.asScalarCharacter(key), "gene")
