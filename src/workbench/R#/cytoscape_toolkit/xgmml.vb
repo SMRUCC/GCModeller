@@ -149,9 +149,11 @@ Module xgmmlToolkit
         Else
             Return NetworkVisualizer.DrawImage(
                 net:=graph,
+                padding:="padding: 500px 500px 500px 500px;",
                 canvasSize:=size,
                 drawEdgeBends:=edgeBends,
                 labelerIterations:=-1,
+                minLinkWidth:=5,
                 driver:=driver
             )
         End If
