@@ -32,6 +32,8 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
         Dim buf As Byte() = flash.Get("genbank-entry")
         Dim list As JsonArray = BSONFormat.SafeLoadArrayList(buf)
 
+        Call "load fulltext search index...".info
+
         For Each item As JsonElement In TqdmWrapper.Wrap(list.ToArray)
             Yield item.CreateObject(Of GenomeEntry)
         Next
