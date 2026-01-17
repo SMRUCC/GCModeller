@@ -84,11 +84,23 @@ Module NCBI
         End If
     End Function
 
+    ''' <summary>
+    ''' load the index db
+    ''' </summary>
+    ''' <param name="repo_dir"></param>
+    ''' <param name="qgram"></param>
+    ''' <returns></returns>
     <ExportAPI("genbank_assemblyDb")>
     Public Function genbank_assemblyDb(repo_dir As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
         Return New AssemblySummaryGenbank(qgram, repo_dir)
     End Function
 
+    ''' <summary>
+    ''' create the index db
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="repo_dir"></param>
+    ''' <returns></returns>
     <ExportAPI("create_assemblyDb")>
     Public Function create_indexdb(file As String, repo_dir As String) As AssemblySummaryGenbank
         Return AssemblySummaryGenbank.CreateRepository(file, repo_dir)
