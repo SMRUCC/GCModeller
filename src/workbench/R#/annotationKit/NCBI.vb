@@ -53,6 +53,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -132,22 +133,37 @@ Module NCBI
     ''' </returns>
     <ExportAPI("query")>
     <RApiReturn(GetType(GenBankAssemblyIndex))>
-    Public Function find(db As AssemblySummaryGenbank, q As String,
+    Public Function find(db As AssemblySummaryGenbank, <RRawVectorArgument> q As Object,
                          Optional cutoff As Double = 0.8,
                          Optional best_match As Boolean = False) As Object
 
+        Dim q_str As String() = CLRVector.asCharacter(q)
+
         If best_match Then
-            Return db.GetBestMatch(q, cutoff)
-        Else
-            Dim index = db.Query(q, cutoff).ToArray
-            Dim result As GenBankAssemblyIndex() = index _
-                .Select(Function(i)
-                            Return db.GetByAccessionId(i.genome.accession_id)
+            Return q_str.SafeQuery _
+                .Select(Function(query)
+                            Return db.GetBestMatch(query, cutoff)
                         End Function) _
                 .ToArray
-            Dim vec As New vector(result, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
-            Dim matches = index.Select(Function(i) i.match).ToArray
-            Call vec.setAttribute("index", matches)
+        Else
+            Dim output As New List(Of GenBankAssemblyIndex)
+            Dim indexOut As New List(Of FindResult)
+
+            For Each query As String In q_str.SafeQuery
+                Dim index = db.Query(q, cutoff).ToArray
+                Dim result As GenBankAssemblyIndex() = index _
+                    .Select(Function(i)
+                                Return db.GetByAccessionId(i.genome.accession_id)
+                            End Function) _
+                    .ToArray
+                Dim matches = index.Select(Function(i) i.match).ToArray
+
+                Call output.AddRange(result)
+                Call indexOut.AddRange(matches)
+            Next
+
+            Dim vec As New vector(output.ToArray, RType.GetRSharpType(GetType(GenBankAssemblyIndex)))
+            Call vec.setAttribute("index", indexOut.ToArray)
             Return vec
         End If
     End Function
