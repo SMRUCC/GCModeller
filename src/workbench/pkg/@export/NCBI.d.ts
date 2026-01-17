@@ -9,10 +9,21 @@
 */
 declare namespace NCBI {
    /**
+    * create the index db
+    * 
+    * 
+     * @param file -
+     * @param repo_dir -
    */
-   function create_assemblyDb(file: string, repo_dir: string): object;
+   function create_assemblyDb(file: string, repo_dir: string): ;
    /**
-     * @param qgram default value Is ``6``.
+    * load the index db
+    * 
+    * 
+     * @param repo_dir -
+     * @param qgram -
+     * 
+     * + default value Is ``6``.
    */
    function genbank_assemblyDb(repo_dir: string, qgram?: object): object;
    /**

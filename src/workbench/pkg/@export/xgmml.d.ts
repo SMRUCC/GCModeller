@@ -19,6 +19,14 @@ declare namespace xgmml {
       */
       function xgmml(file: string): object;
    }
+   /**
+   */
+   function set_images(model: object, dir: string, attr: string): object;
+   module write {
+      /**
+      */
+      function xgmml(model: object, file: string): boolean;
+   }
    module xgmml {
       /**
        * render the cytoscape network graph model as image
