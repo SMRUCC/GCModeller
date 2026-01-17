@@ -91,8 +91,8 @@ Module NCBI
     ''' <param name="qgram"></param>
     ''' <returns></returns>
     <ExportAPI("genbank_assemblyDb")>
-    Public Function genbank_assemblyDb(repo_dir As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
-        Return New AssemblySummaryGenbank(qgram, repo_dir)
+    Public Function genbank_assemblyDb(repo_dir As String, Optional qgram As Integer = 6, Optional in_memory As Boolean = True) As AssemblySummaryGenbank
+        Return New AssemblySummaryGenbank(qgram, repo_dir, in_memory:=in_memory)
     End Function
 
     ''' <summary>

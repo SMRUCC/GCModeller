@@ -17,8 +17,8 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
 
     Private disposedValue As Boolean
 
-    Sub New(qgram As Integer, repo As String)
-        Call Me.New(qgram, New Buckets(database_dir:=repo, buckets:=8))
+    Sub New(qgram As Integer, repo As String, Optional in_memory As Boolean = True)
+        Call Me.New(qgram, New Buckets(database_dir:=repo, buckets:=8, in_memory:=in_memory))
     End Sub
 
     Sub New(qgram As Integer, repo As Buckets)
