@@ -24,8 +24,10 @@ declare namespace NCBI {
      * @param qgram -
      * 
      * + default value Is ``6``.
+     * @param in_memory 
+     * + default value Is ``true``.
    */
-   function genbank_assemblyDb(repo_dir: string, qgram?: object): object;
+   function genbank_assemblyDb(repo_dir: string, qgram?: object, in_memory?: boolean): object;
    /**
     * read ncbi ftp index of the genome assembly
     * 
