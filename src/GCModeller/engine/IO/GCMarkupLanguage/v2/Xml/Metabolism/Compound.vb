@@ -19,6 +19,9 @@ Namespace v2
 
         <XmlText> Public Property name As String
 
+        <XmlAttribute>
+        Public Property formula As String
+
         ''' <summary>
         ''' the cross reference id of this compound, used for search on the workbench ui
         ''' </summary>
