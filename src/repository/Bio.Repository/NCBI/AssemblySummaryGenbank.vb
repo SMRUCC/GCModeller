@@ -49,7 +49,7 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
         End If
     End Function
 
-    Public Shared Function CreateRepository(file As String, repo As String, Optional qgram As Integer = 6) As AssemblySummaryGenbank
+    Public Shared Sub CreateRepository(file As String, repo As String, Optional qgram As Integer = 6)
         Dim memoryIndex As New List(Of GenomeEntry)
         Dim flash As New Buckets(repo, buckets:=8)
 
@@ -67,9 +67,8 @@ Public Class AssemblySummaryGenbank : Inherits GenomeNameIndex(Of GenomeEntry)
 
         Call flash.Put("genbank-entry", BSONFormat.SafeGetBuffer(JSONSerializer.CreateJSONElement(memoryIndex.ToArray)).ToArray)
         Call flash.Flush()
-
-        Return New AssemblySummaryGenbank(qgram, flash)
-    End Function
+        Call flash.Dispose()
+    End Sub
 
     Protected Overridable Sub Dispose(disposing As Boolean)
         If Not disposedValue Then

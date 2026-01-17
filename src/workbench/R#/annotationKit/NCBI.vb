@@ -100,11 +100,10 @@ Module NCBI
     ''' </summary>
     ''' <param name="file"></param>
     ''' <param name="repo_dir"></param>
-    ''' <returns></returns>
     <ExportAPI("create_assemblyDb")>
-    Public Function create_indexdb(file As String, repo_dir As String) As AssemblySummaryGenbank
-        Return AssemblySummaryGenbank.CreateRepository(file, repo_dir)
-    End Function
+    Public Sub create_indexdb(file As String, repo_dir As String)
+        Call AssemblySummaryGenbank.CreateRepository(file, repo_dir)
+    End Sub
 
     ''' <summary>
     ''' make data subset via a given collection of the acession id
