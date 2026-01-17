@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -133,7 +134,7 @@ Module NCBI
     ''' </returns>
     <ExportAPI("query")>
     <RApiReturn(GetType(GenBankAssemblyIndex))>
-    Public Function find(db As AssemblySummaryGenbank, <RRawVectorArgument> q As Object,
+    Public Function find(db As AssemblySummaryGenbank, <RRawVectorArgument(TypeCodes.string)> q As Object,
                          Optional cutoff As Double = 0.8,
                          Optional best_match As Boolean = False) As Object
 
