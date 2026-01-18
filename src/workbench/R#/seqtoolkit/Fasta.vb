@@ -75,6 +75,7 @@ Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.Model.OperonMapper
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 Imports SMRUCC.Rsharp.Runtime
@@ -640,6 +641,15 @@ Module Fasta
             Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
 
             If collection Is Nothing Then
+                Dim pullFq As pipeline = pipeline.TryCreatePipeline(Of FastQ)(x, env)
+
+                If Not pullFq.isError Then
+                    If TypeOf x Is FastQFile Then
+                        pullFq = pipeline.CreateFromPopulator(DirectCast(x, FastQFile).ToArray)
+                    End If
+                    Return New FastaFile(From fq As FastQ In pullFq.populates(Of FastQ)(env) Select New FastaSeq(fq.SequenceData, title:=fq.SEQ_ID))
+                End If
+
                 If x.GetType.IsArray Then
                     If DirectCast(x, Array).AsObjectEnumerator.All(Function(a) TypeOf a Is SimpleSegment) Then
                         Return DirectCast(x, Array) _
@@ -806,7 +816,7 @@ Module Fasta
             Return s.TryCast(Of Message)
         End If
 
-        Return New FingerprintMatrixWriter(s.TryCast(Of Stream))
+        Return New FingerprintMatrixWriter(s.TryCast(Of IO.Stream))
     End Function
 
     <ExportAPI("write_fingerprint")>
@@ -844,7 +854,7 @@ Module Fasta
             Return s.TryCast(Of Message)
         End If
 
-        Return FingerprintMatrixWriter.BSONReader(s.TryCast(Of Stream))
+        Return FingerprintMatrixWriter.BSONReader(s.TryCast(Of IO.Stream))
     End Function
 
     <ExportAPI("make_clusterTree")>
