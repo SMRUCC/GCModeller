@@ -1,10 +1,17 @@
 ﻿Namespace WebJSON
 
     Public Class Molecule
+
+        ''' <summary>
+        ''' usually be an integer id of this metabolite molecule
+        ''' </summary>
+        ''' <returns></returns>
         Public Property id As String
         Public Property name As String
+        Public Property symbol As String
         Public Property formula As String
         Public Property db_xrefs As DBXref()
+
     End Class
 
     Public Class DBXref
