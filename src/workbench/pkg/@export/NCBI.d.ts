@@ -58,5 +58,5 @@ declare namespace NCBI {
      * @return a vector of @``T:SMRUCC.genomics.Data.GenBankAssemblyIndex``. and this vector data has the attribute data 
      *  of query ``index`` result with clr type @``T:Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository.FindResult``.
    */
-   function query(db: object, q: string, cutoff?: number, best_match?: boolean): object;
+   function query(db: object, q: any, cutoff?: number, best_match?: boolean): object;
 }
