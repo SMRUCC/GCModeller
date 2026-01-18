@@ -168,7 +168,7 @@ Namespace v2
         Public Property compound As String
         <XmlAttribute>
         Public Property compartment As String
-        Public Property cid As UInteger
+        <XmlAttribute> Public Property cid As UInteger
 
         Sub New()
         End Sub
