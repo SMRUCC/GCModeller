@@ -86,6 +86,7 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
+Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -664,23 +665,7 @@ Public Module GSEABackground
                 Dim map_term As New List(Of String)
 
                 For Each id As String In geneSet
-                    Dim gene As BackgroundGene = c.GetMemberById(id)
-
-                    If gene Is Nothing Then
-                        Call map_term.Add("")
-                    Else
-                        Dim term = gene.term_id.SafeQuery.FirstOrDefault
-
-                        If Not term Is Nothing Then
-                            id = term.name
-                        ElseIf id_map Then
-                            id = id
-                        Else
-                            id = Nothing
-                        End If
-
-                        Call map_term.Add(id)
-                    End If
+                    Call map_term.Add(c.GetMemberById(id).getTermId(id, id_map))
                 Next
 
                 Return New dataframe With {
@@ -710,21 +695,7 @@ Public Module GSEABackground
                         End If
                     Next
 
-                    If gene Is Nothing Then
-                        Call map_term.Add("")
-                    Else
-                        Dim term = gene.term_id.SafeQuery.FirstOrDefault
-
-                        If Not term Is Nothing Then
-                            id = term.name
-                        ElseIf id_map Then
-                            id = id
-                        Else
-                            id = Nothing
-                        End If
-
-                        Call map_term.Add(id)
-                    End If
+                    Call map_term.Add(gene.getTermId(id, id_map))
                 Next
 
                 Return New dataframe With {
@@ -733,8 +704,7 @@ Public Module GSEABackground
                         {"term", map_term.ToArray}
                     }
                 }
-            End If
-            If get_clusterID Then
+            ElseIf get_clusterID Then
                 Return DirectCast(cluster, Background).clusters _
                     .Where(Function(c)
                                Return c.Intersect(geneSet, isLocusTag).Any
@@ -752,6 +722,25 @@ Public Module GSEABackground
             End If
         Else
             Return Message.InCompatibleType(GetType(Background), cluster.GetType, env)
+        End If
+    End Function
+
+    <Extension>
+    Private Function getTermId(gene As BackgroundGene, id As String, id_map As Boolean) As String
+        If gene Is Nothing Then
+            Return ""
+        Else
+            Dim term = gene.term_id.SafeQuery.FirstOrDefault
+
+            If Not term Is Nothing Then
+                id = term.name
+            ElseIf id_map Then
+                id = id
+            Else
+                id = Nothing
+            End If
+
+            Return id
         End If
     End Function
 
