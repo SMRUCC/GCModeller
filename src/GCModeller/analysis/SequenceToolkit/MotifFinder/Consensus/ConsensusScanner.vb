@@ -107,23 +107,23 @@ Public Class ConsensusScanner
     End Function
 
     Private Shared Function GetKOMaps(genomes As genomic()) As Dictionary(Of String, String())
-        Return genomes.Select(Function(genome)
-                                  Return genome.organism _
-                                    .genome _
-                                    .Select(Function(pathway) pathway.genes) _
-                                    .IteratesALL _
-                                    .Where(Function(g)
-                                               Return Not g.KO.StringEmpty
-                                           End Function)
-                              End Function) _
-            .IteratesALL _
-            .GroupBy(Function(gene) gene.KO) _
-            .ToDictionary(Function(id) id.Key,
-                        Function(genes)
-                            ' KEGG之中的基因编号都会存在一个物种缩写的前缀
-                            ' 在这里移除掉
-                            Return genes.Select(Function(g) g.geneId).ToArray
-                        End Function)
+        'Return genomes.Select(Function(genome)
+        '                          Return genome.organism _
+        '                              .genome _
+        '                              .Select(Function(pathway) pathway.genes) _
+        '                              .IteratesALL _
+        '                              .Where(Function(g)
+        '                                         Return Not g.KO.StringEmpty
+        '                                     End Function)
+        '                                     End Function) _
+        '    .IteratesALL _
+        '    .GroupBy(Function(gene) gene.KO) _
+        '    .ToDictionary(Function(id) id.Key,
+        '                  Function(genes)
+        '                      ' KEGG之中的基因编号都会存在一个物种缩写的前缀
+        '                      ' 在这里移除掉
+        '                      Return genes.Select(Function(g) g.geneId).ToArray
+        '                  End Function)
     End Function
 
     Private Shared Function ParseUpstream(genomic As genomic, length As PrefixLength) As Dictionary(Of String, FastaSeq)
