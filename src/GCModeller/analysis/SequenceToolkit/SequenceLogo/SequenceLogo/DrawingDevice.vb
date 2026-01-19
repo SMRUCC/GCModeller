@@ -155,6 +155,7 @@ For example, we identified a new domain, likely to have a role downstream of the
         <Extension>
         Public Function DrawFrequency(pwm As MotifPWM, title$,
                                       Optional height As Integer = 75,
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 10%;",
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim model As New DrawingModel With {.ModelsId = title}
@@ -177,7 +178,13 @@ For example, we identified a new domain, likely to have a role downstream of the
                         }  ' residues
                     End Function
 
-            Return InvokeDrawing(model, True, height:=height, driver:=driver)
+            Return InvokeDrawing(
+                model:=model,
+                frequencyOrder:=True,
+                height:=height,
+                driver:=driver,
+                logoPadding:=logoPadding
+            )
         End Function
 
         ''' <summary>
@@ -251,12 +258,12 @@ For example, we identified a new domain, likely to have a role downstream of the
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
-                                      Optional logoPadding$ = "padding: 30% 5% 20% 5%;",
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 10%;",
                                       Optional reverse As Boolean = False,
                                       Optional height As Integer = 75,
                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            Dim width! = (model.Residues.Length + 5) * WordSize
+            Dim width! = (model.Residues.Length + 8) * WordSize
             Dim size1 As New Size(width, (model.Alphabets + 3) * height)
             Dim theme As New Theme With {
                 .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
