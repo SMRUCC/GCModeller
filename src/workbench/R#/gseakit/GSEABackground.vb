@@ -695,6 +695,45 @@ Public Module GSEABackground
                     .ToArray
             End If
         ElseIf TypeOf cluster Is Background Then
+            If term_map Then
+                Dim kb As Background = DirectCast(cluster, Background)
+                Dim map_term As New List(Of String)
+
+                For Each id As String In geneSet
+                    Dim gene As BackgroundGene = Nothing
+
+                    For Each c As Cluster In kb.clusters
+                        gene = c.GetMemberById(id)
+
+                        If Not gene Is Nothing Then
+                            Exit For
+                        End If
+                    Next
+
+                    If gene Is Nothing Then
+                        Call map_term.Add("")
+                    Else
+                        Dim term = gene.term_id.SafeQuery.FirstOrDefault
+
+                        If Not term Is Nothing Then
+                            id = term.name
+                        ElseIf id_map Then
+                            id = id
+                        Else
+                            id = Nothing
+                        End If
+
+                        Call map_term.Add(id)
+                    End If
+                Next
+
+                Return New dataframe With {
+                    .columns = New Dictionary(Of String, Array) From {
+                        {"id", geneSet},
+                        {"term", map_term.ToArray}
+                    }
+                }
+            End If
             If get_clusterID Then
                 Return DirectCast(cluster, Background).clusters _
                     .Where(Function(c)
