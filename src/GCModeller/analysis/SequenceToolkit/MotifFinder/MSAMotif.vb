@@ -74,6 +74,10 @@ Public Class MSAMotif : Inherits MSAOutput
     Public Property p As Double()
     Public Property q As Double()
 
+    ''' <summary>
+    ''' usually be the ACGT
+    ''' </summary>
+    ''' <returns></returns>
     <XmlAttribute> Public Property alphabets As Char()
 
     Public ReadOnly Property score As Double()

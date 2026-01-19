@@ -66,7 +66,7 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace Motif
 
-    Public Class MotifPWM
+    Public Class MotifPWM : Implements Enumeration(Of ResidueSite)
 
         <XmlElement> Public Property pwm As ResidueSite()
         <XmlAttribute> Public Property alphabets As Char()
@@ -96,6 +96,24 @@ Namespace Motif
                 .alphabets = SequenceModel.AA,
                 .pwm = sites.ToArray
             }
+        End Function
+
+        Public Shared Narrowing Operator CType(pwm As MotifPWM) As Double()()
+            If pwm Is Nothing Then
+                Return Nothing
+            Else
+                Return pwm.AsEnumerable.Select(Function(c) c.PWM).ToArray
+            End If
+        End Operator
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of ResidueSite) Implements Enumeration(Of ResidueSite).GenericEnumerator
+            If pwm Is Nothing Then
+                Return
+            End If
+
+            For Each col As ResidueSite In pwm
+                Yield col
+            Next
         End Function
     End Class
 
