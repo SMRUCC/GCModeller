@@ -115,7 +115,7 @@ Public Class GibbsSampler
         m_sequences = fastaFile.ToArray
         m_sequenceCount = m_sequences.Length
         m_motifLength = motifLength
-        m_sequences = (From seq As FastaSeq In m_sequences Where seq.Length >= motifLength).ToArray
+        m_sequences = FillNNNN(m_sequences, motifLength).ToArray
         m_ignored = m_sequenceCount - m_sequences.Length
         m_sequenceLength = m_sequences _
             .Select(Function(a) a.Length) _
@@ -124,6 +124,16 @@ Public Class GibbsSampler
         ' 预计算全局背景概率
         m_globalBackground = CalculateGlobalBackground(m_sequences)
     End Sub
+
+    Private Iterator Function FillNNNN(sites As IEnumerable(Of FastaSeq), motifLength As Integer) As IEnumerable(Of FastaSeq)
+        For Each seq As FastaSeq In sites
+            If seq.Length < motifLength Then
+                Yield New FastaSeq(seq.SequenceData & New String("N"c, motifLength - seq.Length + 1), title:=seq.Title)
+            Else
+                Yield seq
+            End If
+        Next
+    End Function
 
     Private Function CalculateGlobalBackground(sequences As FastaSeq()) As Double()
         Dim counts = New Double() {0, 0, 0, 0}
