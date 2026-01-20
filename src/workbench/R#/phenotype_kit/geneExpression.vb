@@ -1681,7 +1681,7 @@ Module geneExpression
     ''' </summary>
     ''' <param name="expr">should be a HTS expression matrix object</param>
     ''' <param name="base"></param>
-    ''' <returns></returns>
+    ''' <returns>this function may produce negative expression value if the value number is less than 1.</returns>
     <ExportAPI("log")>
     <RApiReturn(GetType(Matrix))>
     Public Function log(<RRawVectorArgument> expr As Object, Optional base As Double = std.E) As Object
