@@ -160,6 +160,7 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim buffer As Char()()
             Dim coden = CodenTable
             Dim ch As Char
+            Dim aa As AminoAcid
 
             If checkNt Then
                 nucleicAcid = NtHelper.DoCheckNtDirection(Me, nucleicAcid.ToUpper, operations)
@@ -180,8 +181,6 @@ Namespace SequenceModel.NucleotideModels.Translation
                             Exit For
                         End If
                     Else
-                        Dim aa As AminoAcid = coden(hash)
-
                         If coden.ContainsKey(hash) Then
                             aa = coden(hash)
                             ch = Polypeptide.ToChar(aa)
