@@ -122,6 +122,9 @@ declare namespace annotation.workflow {
       */
       function blast(file: string, type?: string, fastMode?: boolean, env?: object): object;
    }
+   /**
+   */
+   function read_m8(file: string): object;
    module stream {
       /**
        * Save the annotation rawdata into the given stream file.

@@ -12,3 +12,4 @@ A pipeline collection for proteins' biological function
 + [besthit_filter](annotation.workflow/besthit_filter.1) make filter of the blast best hits via the given parameter combinations
 + [read.besthits](annotation.workflow/read.besthits.1) 
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer
++ [read_m8](annotation.workflow/read_m8.1) 
