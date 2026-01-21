@@ -317,7 +317,10 @@ Module terms
     ''' <summary>
     ''' assign the top term by score ranking
     ''' </summary>
-    ''' <param name="alignment"></param>
+    ''' <param name="alignment">
+    ''' the ncbi localblast alignment result, it can be the <see cref="BestHit"/> array or 
+    ''' the <see cref="DiamondAnnotation"/> array.
+    ''' </param>
     ''' <param name="term_maps"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
