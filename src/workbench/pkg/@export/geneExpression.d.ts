@@ -388,6 +388,7 @@ declare namespace geneExpression {
      * @param base -
      * 
      * + default value Is ``2.718281828459045``.
+     * @return this function may produce negative expression value if the value number is less than 1.
    */
    function log(expr: any, base?: number): object;
    /**
