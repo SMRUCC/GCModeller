@@ -1,7 +1,10 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+
+''' <summary>
 ''' 代表 DIAMOND BLASTP 结果文件 (.m8) 中的一行记录
 ''' </summary>
 Public Class DiamondAnnotation
+
     ' 1. 查询序列ID
     Public Property QseqId As String
 
@@ -43,5 +46,18 @@ Public Class DiamondAnnotation
     ''' </summary>
     Public Overrides Function ToString() As String
         Return $"{QseqId} vs {SseqId} | Identity: {Pident}% | E-value: {EValue}"
+    End Function
+
+    Public Function GetSingleHit() As BestHit
+        Return New BestHit With {
+            .QueryName = Me.QseqId,
+            .HitName = SseqId,
+            .identities = Pident,
+            .length_hsp = Length,
+            .evalue = EValue,
+            .score = BitScore,
+            .length_query = QEnd - QStart,
+            .length_hit = SEnd - SStart
+        }
     End Function
 End Class
