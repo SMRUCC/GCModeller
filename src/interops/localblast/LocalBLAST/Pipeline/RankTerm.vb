@@ -109,7 +109,14 @@ Namespace Pipeline
         End Function
 
         Private Shared Iterator Function MakeTerms(scores As IEnumerable(Of NamedValue(Of Double)), queryId As String, termMaps As Dictionary(Of String, String)) As IEnumerable(Of RankTerm)
-            For Each term As IGrouping(Of String, NamedValue(Of Double)) In scores.GroupBy(Function(a) If(termMaps Is Nothing, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown")))
+            Dim missingMap As Boolean = termMaps.IsNullOrEmpty
+            Dim buildTerms = From a As NamedValue(Of Double)
+                             In scores
+                             Let term As String = If(missingMap, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown"))
+                             Group By term Into Group
+                             Select New NamedCollection(Of NamedValue(Of Double))(term, Group.Select(Function(i) i.a))
+
+            For Each term As IGrouping(Of String, NamedValue(Of Double)) In buildTerms
                 Dim scoreSet As NamedValue(Of Double)() = term.ToArray
                 Dim termName As String = term.Key
                 Dim sourceNames As String() = scoreSet.Select(Function(a) a.Name).ToArray
