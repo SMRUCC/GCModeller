@@ -331,7 +331,7 @@ Module terms
                                     Optional top_best As Boolean = True,
                                     Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env, suppress:=True)
 
         If pull.isError Then
             pull = pipeline.TryCreatePipeline(Of DiamondAnnotation)(alignment, env)
@@ -349,6 +349,10 @@ Module terms
         End If
 
         Dim maps As New Dictionary(Of String, String)
+
+        If term_maps Is Nothing Then
+            term_maps = list.empty
+        End If
 
         For Each term As KeyValuePair(Of String, Object) In term_maps.slots
             For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
