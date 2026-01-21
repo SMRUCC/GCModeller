@@ -16,3 +16,4 @@ FastQ toolkit
 + [assemble](FastQ/assemble.1) Do short reads assembling
 + [quality_score](FastQ/quality_score.1) In FASTQ files, quality scores are encoded into a compact form, 
 + [simulate_reads](FastQ/simulate_reads.1) 
++ [gene_indexstats](FastQ/gene_indexstats.1) 

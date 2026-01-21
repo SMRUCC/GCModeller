@@ -30,6 +30,9 @@ declare namespace FastQ {
    function assemble(reads: any, env?: object): object;
    /**
    */
+   function gene_indexstats(file: string): object;
+   /**
+   */
    function illumina_fastQ_id(fq: object): object;
    /**
     * In FASTQ files, quality scores are encoded into a compact form, 
