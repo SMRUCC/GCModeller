@@ -172,6 +172,91 @@ Namespace LinearAlgebra.Matrix
             Call Me.New(v.Row, v.Col, v.X)
         End Sub
 
+        Sub New(m As Double()())
+            ' 1. 基本的参数检查
+            If m Is Nothing Then
+                Throw New ArgumentNullException(NameOf(m))
+            End If
+
+            ' 2. 初始化矩阵维度
+            Me.m = m.Length    ' 获取行数
+
+            ' 处理空矩阵的情况，避免访问 m(0) 时报错
+            If Me.m = 0 Then
+                Me.n = 0
+                Return
+            End If
+
+            ' 假设矩阵是规则的，所有行的长度都等于第一行的长度
+            ' (注意：如果传入的是锯齿状数组，可能需要额外的逻辑)
+            Me.n = m(0).Length ' 获取列数
+
+            ' 3. 遍历稠密矩阵，提取非零元素填充稀疏结构
+            ' 使用 UInteger 以匹配 Dictionary 的键类型
+            For i As UInteger = 0 To CUInt(Me.m) - 1
+                Dim rowData As Double() = m(i)
+
+                ' 安全检查：如果某一行是空的，跳过
+                If rowData Is Nothing Then Continue For
+
+                For j As UInteger = 0 To CUInt(Me.n) - 1
+                    Dim val As Double = rowData(j)
+
+                    ' 核心逻辑：只存储非零元素
+                    If val <> 0 Then
+                        ' 检查外层字典（行索引）是否存在
+                        If Not Me.rows.ContainsKey(i) Then
+                            ' 如果不存在，为这一行创建一个新的字典
+                            Me.rows(i) = New Dictionary(Of UInteger, Double)()
+                        End If
+
+                        ' 将值存入内层字典（列索引 -> 值）
+                        Me.rows(i)(j) = val
+                    End If
+                Next
+            Next
+        End Sub
+
+        Public Function Multiply(x As Double()) As Double()
+            ' 1. 边界检查：确保输入向量 x 的长度与矩阵的列数 n 一致
+            If x Is Nothing Then
+                Throw New ArgumentNullException(NameOf(x))
+            End If
+
+            If x.Length <> Me.n Then
+                Throw New ArgumentException($"输入向量的长度 ({x.Length}) 必须与矩阵的列数 ({Me.n}) 相等。")
+            End If
+
+            ' 2. 初始化结果向量
+            ' 创建一个长度为 m (行数) 的数组，默认值即为 0.0
+            Dim result(Me.m - 1) As Double
+
+            ' 3. 执行稀疏矩阵乘法
+            ' 遍历所有包含非零元素的行
+            ' rows 是一个 Dictionary，Key 是行号，Value 是该行的非零元素字典
+            For Each rowPair In Me.rows
+                Dim rowIndex As Integer = rowPair.Key          ' 获取当前行索引
+                Dim currentRow As Dictionary(Of UInteger, Double) = rowPair.Value ' 获取该行的列数据
+
+                Dim rowSum As Double = 0
+
+                ' 遍历当前行中所有包含非零元素的列
+                For Each colPair In currentRow
+                    Dim colIndex As Integer = colPair.Key      ' 获取当前列索引
+                    Dim matrixValue As Double = colPair.Value  ' 获取矩阵元素值 A[i, j]
+
+                    ' 核心计算：乘法并累加
+                    ' result[rowIndex] += matrixValue * x[colIndex]
+                    rowSum += matrixValue * x(colIndex)
+                Next
+
+                ' 将该行的计算结果存入结果向量
+                result(rowIndex) = rowSum
+            Next
+
+            Return result
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
