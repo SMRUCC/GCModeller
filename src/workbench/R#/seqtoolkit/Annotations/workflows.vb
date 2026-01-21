@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
@@ -423,5 +424,11 @@ Module workflows
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
         End Select
+    End Function
+
+    <ExportAPI("read_m8")>
+    <RApiReturn(GetType(DiamondAnnotation))>
+    Public Function read_m8(file As String) As Object
+        Return DiamondM8Parser.ParseFile(file).ToArray
     End Function
 End Module
