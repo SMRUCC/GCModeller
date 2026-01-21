@@ -1,4 +1,7 @@
-﻿Namespace SAM
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Language
+
+Namespace SAM
 
     ''' <summary>
     ''' gene abundance result
@@ -22,6 +25,28 @@
         Public Property Length As Integer
         Public Property RawCount As Integer
         Public Property UnmappedBases As Integer
+
+        Public Shared Iterator Function Parse(file As Stream) As IEnumerable(Of IndexStats)
+            Using str As New StreamReader(file)
+                Dim line As Value(Of String) = ""
+
+                Do While (line = str.ReadLine) IsNot Nothing
+                    If String.IsNullOrWhiteSpace(line) OrElse line.StartsWith("*") OrElse line.StartsWith("@") Then
+                        Continue Do
+                    End If
+
+                    Dim fields As String() = line.Split(vbTab)
+                    Dim gene_count As New IndexStats With {
+                        .GeneID = fields(0),
+                        .Length = CInt(fields(1)),
+                        .RawCount = CInt(fields(2)),
+                        .UnmappedBases = CInt(Val(fields.ElementAtOrNull(3)))
+                    }
+
+                    Yield gene_count
+                Loop
+            End Using
+        End Function
 
         Public Shared Iterator Function ConvertCountsToTPM(stats As IEnumerable(Of IndexStats)) As IEnumerable(Of GeneData)
             Dim genes As New List(Of GeneData)()

@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.SAM
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
@@ -220,5 +221,11 @@ Public Module FastQTools
                                        .SEQ_Info = $"+ seq_{++i} {s.Length}bp"
                                    })
         Return reads
+    End Function
+
+    <ExportAPI("gene_indexstats")>
+    <RApiReturn(GetType(GeneData))>
+    Public Function sample_indexstats(file As String) As Object
+        Return IndexStats.ConvertCountsToTPM(IndexStats.Parse(file.OpenReadonly)).ToArray
     End Function
 End Module
