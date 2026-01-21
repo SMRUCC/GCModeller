@@ -42,7 +42,8 @@ declare namespace annotation.terms {
     * assign the top term by score ranking
     * 
     * 
-     * @param alignment -
+     * @param alignment the ncbi localblast alignment result, it can be the @``T:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit`` array or 
+     *  the @``T:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation`` array.
      * @param term_maps -
      * 
      * + default value Is ``null``.
