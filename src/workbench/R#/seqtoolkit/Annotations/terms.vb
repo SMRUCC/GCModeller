@@ -64,6 +64,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
@@ -330,7 +331,18 @@ Module terms
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env)
 
         If pull.isError Then
-            Return pull.getError
+            pull = pipeline.TryCreatePipeline(Of DiamondAnnotation)(alignment, env)
+
+            If pull.isError Then
+                Return pull.getError
+            Else
+                Dim hits As BestHit() = pull _
+                    .populates(Of DiamondAnnotation)(env) _
+                    .Select(Function(a) a.GetSingleHit) _
+                    .ToArray
+
+                pull = pipeline.CreateFromPopulator(hits)
+            End If
         End If
 
         Dim maps As New Dictionary(Of String, String)
