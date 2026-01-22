@@ -462,7 +462,7 @@ Public Module GSEABackground
         Dim takes As Index(Of String) = CLRVector.asCharacter(annotated).Indexing
 
         If takes.Count = 0 Then
-            Call "no annotated id for make the background dynamic cut!".Warning
+            Call "no annotated id for make the background dynamic cut!".warning
             Return Nothing
         End If
 
@@ -1413,7 +1413,7 @@ Public Module GSEABackground
                 instance_idlist(id(i)) = (map_id(i), map_name(i))
             Next
 
-            model.clusters _
+            model.clusters = model.clusters _
                 .Where(Function(c)
                            Return instance_idlist.ContainsKey(c.ID.Match("\d+"))
                        End Function) _

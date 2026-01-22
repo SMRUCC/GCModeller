@@ -281,10 +281,12 @@ declare namespace background {
         * + default value Is ``false``.
         * @param term_db 
         * + default value Is ``'unknown'``.
+        * @param instance_map 
+        * + default value Is ``null``.
         * @param env 
         * + default value Is ``null``.
       */
-      function background(genes: any, maps: any, size?: object, genomeName?: string, id_map?: any, multiple_omics?: boolean, term_db?: string, env?: object): object;
+      function background(genes: any, maps: any, size?: object, genomeName?: string, id_map?: any, multiple_omics?: boolean, term_db?: string, instance_map?: object, env?: object): object;
       /**
        * convert the background model to a data table
        * 
