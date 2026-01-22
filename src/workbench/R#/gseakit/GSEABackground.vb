@@ -1315,6 +1315,7 @@ Public Module GSEABackground
                                        Optional id_map As Object = Nothing,
                                        Optional multiple_omics As Boolean = False,
                                        Optional term_db As String = "unknown",
+                                       Optional instance_map As Rdataframe = Nothing,
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO, name As String
         Dim kegg As GetClusterTerms
@@ -1399,7 +1400,37 @@ Public Module GSEABackground
             define:=kegg,
             genomeName:=genomeName
         )
-        model.size = size
+
+        If Not instance_map Is Nothing Then
+            Dim id As String() = CLRVector.asCharacter(instance_map!id) _
+                .Select(Function(map) map.Match("\d+")) _
+                .ToArray
+            Dim map_name As String() = CLRVector.asCharacter(instance_map!name)
+            Dim map_id As String() = CLRVector.asCharacter(instance_map!id)
+            Dim instance_idlist As New Dictionary(Of String, (String, String))
+
+            For i As Integer = 0 To id.Length - 1
+                instance_idlist(id(i)) = (map_id(i), map_name(i))
+            Next
+
+            model.clusters _
+                .Where(Function(c)
+                           Return instance_idlist.ContainsKey(c.ID.Match("\d+"))
+                       End Function) _
+                .Select(Function(c)
+                            Dim instance_info = instance_idlist(c.ID.Match("\d+"))
+                            c.ID = instance_info.Item1
+                            c.names = instance_info.Item2
+                            Return c
+                        End Function) _
+                .ToArray
+        End If
+
+        If size > 0 Then
+            model.size = size
+        Else
+            model.size = model.clusters.BackgroundSize
+        End If
 
         Return model
     End Function
