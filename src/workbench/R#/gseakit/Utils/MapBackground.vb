@@ -62,6 +62,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 Module MapBackground
@@ -98,14 +99,16 @@ Module MapBackground
                     .ToArray
             End If
         ElseIf TypeOf genes Is Rdataframe Then
-            Dim idVec As String() = DirectCast(genes, Rdataframe).columns(geneId)
-            Dim koVec As String() = DirectCast(genes, Rdataframe).columns(KO)
+            Dim idVec As String() = CLRVector.asCharacter(DirectCast(genes, Rdataframe).columns(geneId))
+            Dim koVec As String() = CLRVector.asCharacter(DirectCast(genes, Rdataframe).columns(KO))
+            Dim nameVec As String() = CLRVector.asCharacter(If(name.StringEmpty, Nothing, DirectCast(genes, Rdataframe).columns(name)))
 
             Return idVec _
                 .Select(Function(id, i)
                             Return New NamedValue(Of String) With {
                                 .Name = id,
-                                .Value = koVec(i)
+                                .Value = koVec(i),
+                                .Description = nameVec.ElementAtOrNull(i)
                             }
                         End Function) _
                 .ToArray
