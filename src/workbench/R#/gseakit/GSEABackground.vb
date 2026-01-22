@@ -1311,6 +1311,7 @@ Public Module GSEABackground
                                        <RRawVectorArgument> maps As Object,
                                        Optional size% = -1,
                                        Optional genomeName$ = "unknown",
+                                       <RRawVectorArgument>
                                        Optional id_map As Object = Nothing,
                                        Optional multiple_omics As Boolean = False,
                                        Optional env As Environment = Nothing) As Object
