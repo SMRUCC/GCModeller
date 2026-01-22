@@ -1627,7 +1627,6 @@ RC01869	C8x-C8y:*-C1b:C8y+C8y-C8y+C8y
 RC01870	C2x-C4a:N2y+*-*+O4a:N1y-N1y N2y-N1b:C2x-*:C1y+C8y-C1c+C8y
 RC01871	C1b-C2b:*-*:C1b+C5a-C1b+C2y C5a-C2y:O5a+*-*+O2x:C1b+C1b-C1x+C2b O1a-O2x:*-C2y:C1y-C1y
 RC01872	O1a-O2a:*-O1a:R-R
-RC01874	C5x-C6a:C8y+*-*+O6a:C8y+O5x-C8y+O6a C8y-C8y:C5x+*-*+O1a:C8x+C8y-C8x+C8y
 RC01875	C1b-C3b:*-*:C8y+N1a-C8y+N3a N1a-N3a:*-*:C1b-C3b
 RC01877	C2b-C2b:*-*:C2c+C4a-C2c+C4a C2c-C2c:*-*:C1a+C1b+C2b-C1a+C1b+C2b
 RC01878	C1y-C2x:O1a-*:C1x+C1y-C1x+C2y C1y-C2y:*-*:C1a+C1y+C1y-C1a+C1y+C2x
@@ -1788,7 +1787,6 @@ RC02055	O1a-O7a:*-C7a:C1c-C1c O1a-O7a:*-C7a:C1c-C1c
 RC02056	C1b-C1x:O2b+*-*+C1z:C2b-C1y C1y-C1z:*-C1x:C1b+C1z+C2y-C1x+C1z+C1y C2a-C1x:*-C1y:C2y-C1y C2b-C1y:*-C1x:C1b+C2c-C1x+C1z C2c-C1z:*-O1a:C1a+C1b+C2b-C1a+C1x+C1y C2y-C1y:*-*:C1x+C1y+C2a-C1x+C1z+C1x
 RC02057	C1a-C2a:*-*:C2c-C2y C1b-C1x:O2b+*-*+C1z:C2b-C1y C1y-C1z:*-C1x:C1b+C1z+C2y-C1x+C1z+C1y C2a-C1x:*-C1y:C2y-C1y C2b-C1y:*-C1x:C1b+C2c-C1x+C2y C2y-C1y:*-*:C1x+C1y+C2a-C1x+C1z+C1x
 RC02058	C1b-C1x:O2b+*-*+C1z:C2b-C1y C1b-C2x:*-*:C1b+C2c-C1x+C2y C1y-C1z:*-C1x:C1b+C1z+C2y-C1x+C1z+C1y C2a-C1x:*-C1y:C2y-C1y C2b-C1y:*-C1x:C1b+C2c-C1x+C2y C2y-C1y:*-*:C1x+C1y+C2a-C1x+C1z+C1x
-RC02059	C1x-C1y:*-O1a:C1x+C1z-C1x+C1z C1x-C1y:*-O1a:C1x+C2y-C5x+C2y C1x-C1y:*-O1a:C1y+C1y-C1y+C1z C1x-C5x:*-O5x:C1x+C1z-C1y+C1z C1y-C1y:O1a+*-*+O2x:C1x+C2y-C1x+C1z C1y-C1z:*-O1a:C1x+C1x+C1z-C1x+C1y+C1z C2a-C1x:*-O2x:C2y-C1z C2y-C1z:*-O7a:C1y+C1y+C2a-C1y+C1y+C1x
 RC02061	C1y-C8x:C8y-*:C1y+C5x-C8y+C8y C1y-C8y:O1a+*-*+C8y:C1y+O2x-C8x+O2x C8y-C8y:C1y+*-*+C8y:C8x+C8x-C8x+C8x
 RC02063	C2y-C8y:C5x+*-*+C8y:C2y+C5x-C8y+C5x C5x-C8x:C2y+O5x+*-*+*+C8y:C8y-C8y
 RC02065	C1y-C8x:O7a-*:C1y+C1z-C8y+C8y C1y-C8x:O7a-*:C1z+C2y-C8y+C8y C1y-C8y:*-*:C1y+C2y+O1a-C8x+C8y+O1a C1z-C8y:O1a-*:C1a+C1y+C1y-C1a+C8x+C8x
@@ -3192,3 +3190,19 @@ RC03584	C5a-C6a:C8y+*-*+O6a:C1a+O5a-C1a+O6a
 RC03585	C2b-C2b:*-*:C2b+C2c-C2b+C2c C2c-C2c:*-*:C1a+C2b+C5a-C1a+C2b+C5a C2y-C8y:O1a+*-*+N1b:C2y+C5x-C8y+C8y C5x-C8y:*-*:C2y+C8y+O5x-C8y+C8y+O1a C5x-C8y:*-*:C2y+C8y+O5x-C8y+C8y+O1a N1a-N1b:*-C8y:C5a-C5a
 RC03586	C2y-C2y:O1a+*-*+X:C2x+C5x-C2x+C5x
 RC03587	C5a-C5a:C1c+*-*+S2a:C1a+O5a-C1a+O5a
+RC03588	C1a-C1b:*-O1a:C2b-C2b
+RC03589	C1y-C2y:*-*:C1y+C1y+C1y-C1y+C2y+C4a C1y-C2y:*-*:C1y+C1z+N1x-C2y+C1z+N1x C1y-C4a:O2x-*:C1y+O1a-C2y+O4a O2x-O1a:C1y-*:C1x-C1b
+RC03590	N1x-N1y:*-C5a:C1y+C8y-C1y+C8y
+RC03591	C1x-C2x:*-*:C2y+N1y-C2y+N2y N1y-N2y:*-*:C1x+C1x+C1x-C1x+C1x+C2x
+RC03592	C1b-C2b:*-*:C1a+C1y-C1a+C2y C1y-C2y:*-*:C1b+C1y+C2x-C2b+C1y+C2x
+RC03593	C1y-C2x:C1z-*:C1x+N1y-C1x+N2y C1z-C8y:C1y-*:C1x+C2y+C8y-C1x+C8y+C8y N1y-N2y:*-*:C1x+C1x+C1y-C1x+C1x+C2x N2x-N4x:*-*:C2y+C8y-C8y+C8y
+RC03594	C1x-C2x:*-*:C1x+N1y-C1x+N2y N1y-N2y:*-*:C1x+C1x+C1x-C1x+C1x+C2x
+RC03595	C7a-C7a:O7a-O7a:C1c+O6a-C1c+O6a
+RC03597	C1b-C2b:*-*:C1c+C5a-C2b+C5a C1c-C2b:O1a-*:C1b+C1y-C2b+C1y
+RC03598	C1b-C2b:*-*:C1b+C1c-C2b+C1c C1b-C2b:*-*:C1b+C5a-C2b+C5a
+RC03599	C1b-C2b:*-*:C1c+C5a-C2b+C5a C1c-C2b:O1a-*:C1b+C1c-C2b+C1c
+RC03600	C1b-C1c:*-C2b:C1c+O7a-C1c+O1a C1c-C1c:O7a+*-*+N1b:C1b+C1b-C1b+C1c O7a-O1a:C7a-*:C1b-C1c
+RC03601	C1a-C2a:*-*:C1b-C2b C1b-C2b:*-*:C1a+C6a-C2a+C6a
+RC03602	C8x-C8y:*-O1a:C8x+C8y-C8x+C8y C8y-C8y:N1b+*-*+O1a:C8x+C8x-C8x+C8y
+RC03603	C1a-C1b:*-O1a:O7a-O7a
+RC03604	C1b-C4a:S4a+*-*+O4a:C1y-C1y
