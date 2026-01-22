@@ -1,59 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::c7444c9dfbbeec5ff77aff18ab32dccd, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 81
-    '    Code Lines: 48 (59.26%)
-    ' Comment Lines: 19 (23.46%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 14 (17.28%)
-    '     File Size: 2.18 KB
+' Summaries:
 
 
-    ' Class BackgroundGene
-    ' 
-    '     Properties: locus_tag, name, term_id
-    ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: EnumerateAllIds, ToString, UnknownTerms
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 81
+'    Code Lines: 48 (59.26%)
+' Comment Lines: 19 (23.46%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 14 (17.28%)
+'     File Size: 2.18 KB
+
+
+' Class BackgroundGene
+' 
+'     Properties: locus_tag, name, term_id
+' 
+'     Constructor: (+3 Overloads) Sub New
+'     Function: EnumerateAllIds, ToString, UnknownTerms
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -125,7 +126,7 @@ Public Class BackgroundGene : Inherits Synonym
         Next
     End Function
 
-    Public Shared Iterator Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+    Public Shared Iterator Function TermSet(termName As String, ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
         If term_ids Is Nothing Then
             Return
         End If
@@ -136,10 +137,15 @@ Public Class BackgroundGene : Inherits Synonym
             End If
 
             Yield New NamedValue With {
-                .name = "Unknown",
+                .name = termName,
                 .text = id
             }
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        Return TermSet("Unknown", term_ids)
     End Function
 
 End Class

@@ -1393,7 +1393,7 @@ Public Module GSEABackground
             db:=keggSet,
             createGene:=AddressOf createGene,
             getTerms:=Function(gene)
-                          Return gene.value
+                          Return {gene.name}
                       End Function,
             define:=kegg,
             genomeName:=genomeName
