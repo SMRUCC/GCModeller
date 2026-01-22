@@ -66,32 +66,32 @@ Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 Namespace ComponentModel.Annotation
 
     ''' <summary>
-    ''' The basically information of a gene object.(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)
+    ''' The basically information of a gene object.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(这个接口对象表示了一个在计算机程序之中的最基本的基因信息的载体对象)</remarks>
     Public Interface IGeneBrief : Inherits IFeatureDigest, IContig
 
         ''' <summary>
-        ''' The protein function annotation data of the gene coding product.(所编码的蛋白质产物的功能注释)
+        ''' The protein function annotation data of the gene coding product.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(所编码的蛋白质产物的功能注释)</remarks>
         Property Product As String
         ''' <summary>
-        ''' The nucleotide sequence length.(基因的长度)
+        ''' The nucleotide sequence length.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(基因的长度)</remarks>
         Property Length As Integer
 
     End Interface
 
     ''' <summary>
-    ''' The feature annotation data of the genes.(基因对象的特征注释结果)
+    ''' The feature annotation data of the genes.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(基因对象的特征注释结果)</remarks>
     Public Interface IFeatureDigest : Inherits INamedValue
 
         ''' <summary>
@@ -110,11 +110,11 @@ Namespace ComponentModel.Annotation
     Public Interface ICOGCatalog : Inherits INamedValue
 
         ''' <summary>
-        ''' The gene object COG classification.(COG功能分类)
+        ''' The gene object COG classification.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(COG功能分类)</remarks>
         Property COG As String
         Property Catalog As String
 
