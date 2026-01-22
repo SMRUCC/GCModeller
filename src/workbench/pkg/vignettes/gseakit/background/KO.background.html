@@ -30,7 +30,9 @@
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>KO.background</strong>(<i>genes</i>, <i>maps</i>,
     <i>size</i> = <span style='color: green;'>-1</span>,
     <i>genomeName</i> = <span style='color: brown;'><strong>"unknown"</strong></span>,
-    <i>id.map</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>id.map</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>multiple.omics</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>term.db</i> = <span style='color: brown;'><strong>"unknown"</strong></span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -38,19 +40,19 @@
         <table>
             
 <dt>genes</dt>
-<dd><p>-</p></dd>
+<dd><p>a set of molecules with the kegg orthology/compound id mapping</p></dd>
 
 
 <dt>maps</dt>
-<dd><p>-</p></dd>
+<dd><p>the kegg maps model</p></dd>
 
 
-<dt>size%</dt>
-<dd><p>-</p></dd>
+<dt>size</dt>
+<dd><p>the background gene size, default -1 or zero means auto calculation. [as integer]</p></dd>
 
 
-<dt>genomeName$</dt>
-<dd><p>-</p></dd>
+<dt>genomeName</dt>
+<dd><p>the genome name that tagged with this background model. [as string]</p></dd>
 
         </table>
 

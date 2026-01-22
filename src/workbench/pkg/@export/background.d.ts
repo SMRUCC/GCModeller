@@ -267,18 +267,24 @@ declare namespace background {
        * create kegg background model
        * 
        * 
-        * @param genes -
-        * @param maps -
-        * @param size 
+        * @param genes a set of molecules with the kegg orthology/compound id mapping
+        * @param maps the kegg maps model
+        * @param size the background gene size, default -1 or zero means auto calculation.
+        * 
         * + default value Is ``-1``.
-        * @param genomeName 
+        * @param genomeName the genome name that tagged with this background model.
+        * 
         * + default value Is ``'unknown'``.
         * @param id_map 
         * + default value Is ``null``.
+        * @param multiple_omics 
+        * + default value Is ``false``.
+        * @param term_db 
+        * + default value Is ``'unknown'``.
         * @param env 
         * + default value Is ``null``.
       */
-      function background(genes: any, maps: any, size?: object, genomeName?: string, id_map?: any, env?: object): object;
+      function background(genes: any, maps: any, size?: object, genomeName?: string, id_map?: any, multiple_omics?: boolean, term_db?: string, env?: object): object;
       /**
        * convert the background model to a data table
        * 
