@@ -1374,13 +1374,26 @@ Public Module GSEABackground
             mapping = mapsResult
         End If
 
+        Dim keggSet = mapping _
+            .Where(Function(gene) Not gene.Value.StringEmpty(, True)) _
+            .GroupBy(Function(gene) gene.Value) _
+            .Select(Function(ko_set)
+                        Return New NamedCollection(Of String)(
+                            ko_set.Key,
+                            ko_set.Keys,
+                            ko_set.Select(Function(i) i.Description) _
+                                .Where(Function(desc)
+                                           Return Not desc.StringEmpty(, True)
+                                       End Function) _
+                                .Distinct _
+                                .JoinBy("; "))
+                    End Function) _
+            .ToArray
         Dim model As Background = GSEATools.CreateBackground(
-            db:=mapping _
-                .Where(Function(gene) Not gene.Value.StringEmpty(, True)) _
-                .ToArray,
+            db:=keggSet,
             createGene:=AddressOf createGene,
             getTerms:=Function(gene)
-                          Return {gene.Value}
+                          Return gene.value
                       End Function,
             define:=kegg,
             genomeName:=genomeName
@@ -1390,15 +1403,15 @@ Public Module GSEABackground
         Return model
     End Function
 
-    Private Function createGene(gene As NamedValue(Of String), terms As String()) As BackgroundGene
+    Private Function createGene(gene As NamedCollection(Of String), terms As String()) As BackgroundGene
         Return New BackgroundGene With {
-            .accessionID = gene.Name,
-            .[alias] = {gene.Name, gene.Value},
+            .accessionID = gene.name,
+            .[alias] = gene.value,
             .locus_tag = New NamedValue With {
-                .name = gene.Name,
-                .text = gene.Value
+                .name = gene.name,
+                .text = If(gene.description.StringEmpty, gene.value.JoinBy("; "), gene.description)
             },
-            .name = gene.Name,
+            .name = gene.name,
             .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
