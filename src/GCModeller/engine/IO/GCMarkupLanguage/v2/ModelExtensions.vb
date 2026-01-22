@@ -419,8 +419,10 @@ Namespace v2
             Dim KO As NamedValue(Of Catalysis)()
             Dim bounds As Double()
             Dim kinetics As Kinetics()
-            Dim transporters As Index(Of String) = model.metabolismStructure.reactions.transportation.Indexing
             Dim location As String
+            Dim transporters As Index(Of String) = model.metabolismStructure.reactions.transportation _
+                .Keys _
+                .Indexing
 
             For Each reaction As Reaction In model.metabolismStructure.reactions.AsEnumerable
                 equation = reaction.BuildEquation
