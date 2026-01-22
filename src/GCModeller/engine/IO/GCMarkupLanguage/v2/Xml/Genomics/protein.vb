@@ -13,6 +13,8 @@ Namespace v2
         <XmlElement> Public Property ligand As String()
         <XmlElement> Public Property peptide_chains As String()
 
+        <XmlAttribute> Public Property cellular_location As String
+
         Public Property note As String
 
         Public Shared Iterator Function ProteinRoutine(list As protein(), protein_id As String, visited As Index(Of String)) As IEnumerable(Of protein)
