@@ -78,67 +78,6 @@ Public Module [Imports]
     Public Delegate Function GetClusterTerms(geneID As String) As NamedValue(Of String)()
 
     ''' <summary>
-    ''' ``KO ~ map id[]`` 
-    ''' </summary>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function KEGGMapRelation(maps As IEnumerable(Of Map), Optional multipleOmics As  Boolean = False) As Dictionary(Of String, String())
-        Return maps.Select(Function(m)
-                               Return m.SelectTerms(multipleOmics)
-                           End Function) _
-                   .IteratesALL _
-                   .GroupBy(Function(ko) ko.KO) _
-                   .ToDictionary(Function(g) g.Key,
-                                   Function(g)
-                                       Return g.Select(Function(t) t.mapID) _
-                                               .Distinct _
-                                               .ToArray
-                                   End Function)
-    End Function
-
-    <Extension>
-    Private Function SelectTerms(map As Map, Optional multipleOmics As Boolean = False) As IEnumerable(Of (mapID As String, ko As String))
-         Return map.shapes.mapdata _
-            .Select(Function(a) a.IDVector) _
-            .IteratesALL _
-            .Where(Function(id)
-                       If multipleOmics Then
-                           Return id.IsPattern("[KC]\d+")
-                       Else
-                           Return id.IsPattern("K\d+")
-                       End If
-                   End Function) _
-            .Distinct _
-            .Select(Function(id)
-                        Return (mapID:=map.entryID, KO:=id)
-                    End Function)
-    End Function
-
-    Public Function KOIDMap(maps As IEnumerable(Of Map), Optional multipleOmics As Boolean = False) As GetClusterTerms
-        Dim index = maps.ToDictionary(Function(a) a.EntryId)
-        Dim termMaps As Dictionary(Of String, String()) = index.Values.KEGGMapRelation(multipleOmics)
-
-        Return Function(koid As String)
-                   If Not termMaps.ContainsKey(koid) Then
-                       Return {}
-                   End If
-
-                   Return termMaps(koid) _
-                       .Select(Function(map_id)
-                                   Dim map As Map = index(map_id)
-
-                                   Return New NamedValue(Of String)(
-                                       name:=map.EntryId,
-                                       value:=map.name,
-                                       describ:=map.description
-                                   )
-                               End Function) _
-                       .ToArray
-               End Function
-    End Function
-
-    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="db">从UniProt数据库之中下载的基因组Xml文件的迭代器</param>
