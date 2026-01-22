@@ -15,6 +15,10 @@ Namespace Pipeline
         Public Property source As String()
         Public Property scores As Double()
 
+        ''' <summary>
+        ''' SUM of the all scores for this term
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property score As Double
             Get
                 Return scores.SafeQuery.Sum
