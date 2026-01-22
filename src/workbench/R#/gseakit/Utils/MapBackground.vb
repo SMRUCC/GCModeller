@@ -76,7 +76,7 @@ Module MapBackground
     ''' <returns>
     ''' [geneId -> KO]
     ''' </returns>
-    Public Function KOMaps(genes As Object, geneId$, KO$, env As Environment) As Object
+    Public Function KOMaps(genes As Object, geneId$, KO$, name$, env As Environment) As Object
         If TypeOf genes Is list Then
             If KO.StringEmpty OrElse geneId.StringEmpty Then
                 Return DirectCast(genes, list).slots _

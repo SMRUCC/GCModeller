@@ -1312,8 +1312,9 @@ Public Module GSEABackground
                                        Optional size% = -1,
                                        Optional genomeName$ = "unknown",
                                        Optional id_map As Object = Nothing,
+                                       Optional multiple_omics As Boolean = False,
                                        Optional env As Environment = Nothing) As Object
-        Dim geneId, KO As String
+        Dim geneId, KO, name As String
         Dim kegg As GetClusterTerms
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of Map)(maps, env, suppress:=True)
 
@@ -1327,27 +1328,44 @@ Public Module GSEABackground
             End If
         Else
             Dim kegg_maps As Map() = pull.populates(Of Map)(env).ToArray
+            Dim clusters As New KOMapCluster(kegg_maps, multipleOmics:=multiple_omics)
 
+            kegg = AddressOf clusters.KOIDMap
         End If
 
         If Not id_map Is Nothing Then
             If TypeOf id_map Is list Then
                 With DirectCast(id_map, list)
-                    geneId = .slots.Keys.First
-                    KO = any.ToString([single](.slots(geneId)))
+                    If .length = 1 Then
+                        ' list(geneid = ko);
+                        geneId = .slots.Keys.First
+                        KO = any.ToString([single](.slots(geneId)))
+                        name = Nothing
+                    Else
+                        ' list(geneid = xxx, ko = xxx, name = xxx);
+                        geneId = CLRVector.asScalarCharacter(.getBySynonyms("geneid", "geneID", "gene_id", "GeneID", "Gene ID"))
+                        KO = CLRVector.asScalarCharacter(.getBySynonyms("ko", "KO", "kegg_id", "KEGG", "KEGG ID"))
+                        name = CLRVector.asScalarCharacter(.getBySynonyms("name", "Name", "gene_name", "gene name", "commonName", "common name", "symbol"))
+                    End If
                 End With
             Else
-                geneId = any.ToString(id_map)
-                KO = Nothing
+                ' is vector
+                ' c(gene_id, ko, name);
+                Dim vec As String() = CLRVector.asCharacter(id_map)
+
+                geneId = vec.ElementAtOrNull(0)
+                KO = vec.ElementAtOrNull(1)
+                name = vec.ElementAtOrNull(2)
             End If
         Else
             KO = Nothing
             geneId = Nothing
+            name = Nothing
         End If
 
         ' [geneID -> KO] mapping
         Dim mapping As NamedValue(Of String)()
-        Dim mapsResult = MapBackground.KOMaps(genes, geneId, KO, env)
+        Dim mapsResult = MapBackground.KOMaps(genes, geneId, KO, name, env)
 
         If TypeOf mapsResult Is Message Then
             Return mapsResult
