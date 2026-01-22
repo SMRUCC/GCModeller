@@ -1314,6 +1314,7 @@ Public Module GSEABackground
                                        <RRawVectorArgument>
                                        Optional id_map As Object = Nothing,
                                        Optional multiple_omics As Boolean = False,
+                                       Optional term_db As String = "unknown",
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO, name As String
         Dim kegg As GetClusterTerms
