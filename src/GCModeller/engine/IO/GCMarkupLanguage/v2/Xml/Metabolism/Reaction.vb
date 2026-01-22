@@ -7,6 +7,15 @@ Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
 
+    Public Class Transportation : Implements INamedValue
+
+        <XmlAttribute> Public Property guid As String Implements INamedValue.Key
+        <XmlAttribute> Public Property membrane As String()
+
+        Public Property enzymes As String()
+
+    End Class
+
     ''' <summary>
     ''' the reaction collection
     ''' </summary>
