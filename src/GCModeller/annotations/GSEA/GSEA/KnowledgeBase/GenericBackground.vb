@@ -66,11 +66,13 @@ Public Module GenericBackground
     ''' 
     <Extension>
     Public Function CreateKOGeneric(KO_terms As String(), kegg As IEnumerable(Of Map), nsize As Integer) As Background
+        Dim clusterInfo As New KOMapCluster(kegg)
+
         Return GSEA.CreateBackground(
             db:=KO_terms,
             createGene:=AddressOf createTermGenericGene,
             getTerms:=Function(term) {term},
-            define:=GSEA.KEGGClusters(kegg),
+            define:=AddressOf clusterInfo.KOIDMap,
             genomeName:="generic",
             taxonomy:="generic",
             outputAll:=False
