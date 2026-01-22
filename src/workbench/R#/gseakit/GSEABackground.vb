@@ -67,7 +67,6 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -86,7 +85,6 @@ Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -1317,13 +1315,19 @@ Public Module GSEABackground
                                        Optional env As Environment = Nothing) As Object
         Dim geneId, KO As String
         Dim kegg As GetClusterTerms
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of Map)(maps, env, suppress:=True)
 
-        If TypeOf maps Is MapRepository Then
-            kegg = GSEATools.KEGGClusters(DirectCast(maps, MapRepository).Maps)
-        ElseIf TypeOf maps Is htext Then
-            kegg = GSEATools.KEGGClusters(DirectCast(maps, htext))
+        If pull.isError Then
+            If TypeOf maps Is MapRepository Then
+                kegg = GSEATools.KEGGClusters(DirectCast(maps, MapRepository).Maps)
+            ElseIf TypeOf maps Is htext Then
+                kegg = GSEATools.KEGGClusters(DirectCast(maps, htext))
+            Else
+                Return Message.InCompatibleType(GetType(htext), maps.GetType, env)
+            End If
         Else
-            Return Message.InCompatibleType(GetType(htext), maps.GetType, env)
+            Dim kegg_maps As Map() = pull.populates(Of Map)(env).ToArray
+
         End If
 
         If Not id_map Is Nothing Then
