@@ -12,7 +12,7 @@ Namespace v2
         <XmlAttribute> Public Property guid As String Implements INamedValue.Key
         <XmlAttribute> Public Property membrane As String()
 
-        Public Property enzymes As String()
+        <XmlElement> Public Property enzymes As String()
 
     End Class
 
@@ -46,7 +46,7 @@ Namespace v2
         ''' a collection of the reaction id index that used for transportation between compartments
         ''' </summary>
         ''' <returns></returns>
-        Public Property transportation As String()
+        Public Property transportation As Transportation()
 
         Default Public ReadOnly Property Item(id As String) As Reaction
             Get
