@@ -1302,10 +1302,10 @@ Public Module GSEABackground
     ''' <summary>
     ''' create kegg background model
     ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <param name="maps"></param>
-    ''' <param name="size%"></param>
-    ''' <param name="genomeName$"></param>
+    ''' <param name="genes">a set of molecules with the kegg orthology/compound id mapping</param>
+    ''' <param name="maps">the kegg maps model</param>
+    ''' <param name="size">the background gene size, default -1 or zero means auto calculation.</param>
+    ''' <param name="genomeName">the genome name that tagged with this background model.</param>
     ''' <returns></returns>
     <ExportAPI("KO.background")>
     <RApiReturn(GetType(Background))>
