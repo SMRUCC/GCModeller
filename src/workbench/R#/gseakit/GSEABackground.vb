@@ -1376,7 +1376,7 @@ Public Module GSEABackground
 
         Dim model As Background = GSEATools.CreateBackground(
             db:=mapping _
-                .Where(Function(gene) Not gene.Value.StringEmpty) _
+                .Where(Function(gene) Not gene.Value.StringEmpty(, True)) _
                 .ToArray,
             createGene:=AddressOf createGene,
             getTerms:=Function(gene)
