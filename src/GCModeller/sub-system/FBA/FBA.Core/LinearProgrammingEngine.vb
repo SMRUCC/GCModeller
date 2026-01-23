@@ -90,7 +90,7 @@ Public Class LinearProgrammingEngine
     ''' 将细胞之中的代谢网络定义转换为数字矩阵用于后续的计算
     ''' </summary>
     ''' <param name="model"></param>
-    ''' <param name="targets$"></param>
+    ''' <param name="targets">需要流量最大化的目标代谢反应的ID集合</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 可以将这个函数在继承类之中进行重写，就可以添加诸如调控信息之类的额外的模型信息了
