@@ -10,6 +10,7 @@ GCModeller DEG experiment analysis designer toolkit
 + [sample_groups](sampleInfo/sample_groups.1) 
 + [write.sampleinfo](sampleInfo/write.sampleinfo.1) save sampleinfo data as csv file
 + [sampleInfo](sampleInfo/sampleInfo.1) create ``sample_info`` data table
++ [sampleinfo_gsub](sampleInfo/sampleinfo_gsub.1) 
 + [sampleId](sampleInfo/sampleId.1) Get sample id collection from a speicifc sample data groups
 + [sampleinfo.text.groups](sampleInfo/sampleinfo.text.groups.1) Create sampleInfo table from text files
 + [make.analysis](sampleInfo/make.analysis.1) 

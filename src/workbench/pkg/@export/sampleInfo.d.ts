@@ -120,6 +120,10 @@ declare namespace sampleInfo {
    */
    function sampleInfo(ID: string, sample_info: string, sample_name?: string, color?: string, env?: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function sampleinfo_gsub(sampleinfo: any, find: any, replace_as: string, env?: object): object;
+   /**
    */
    function shuffle_groups(x: object): object;
    module write {
