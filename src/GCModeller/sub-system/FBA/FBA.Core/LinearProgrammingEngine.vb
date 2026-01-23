@@ -120,8 +120,7 @@ Public Class LinearProgrammingEngine
         Return New Matrix With {
             .Matrix = matrix,
             .Compounds = allCompounds,
-            .Flux = model.Phenotype _
-                .fluxes _
+            .Flux = model.Phenotype.fluxes _
                 .ToDictionary(Function(flux) flux.ID,
                               Function(flux)
                                   Return New DoubleRange(flux.bounds)
