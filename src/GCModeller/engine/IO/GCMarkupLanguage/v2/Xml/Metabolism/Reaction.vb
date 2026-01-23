@@ -3,6 +3,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace v2
@@ -13,6 +14,10 @@ Namespace v2
         <XmlAttribute> Public Property membrane As String()
 
         <XmlElement> Public Property enzymes As String()
+
+        Public Overrides Function ToString() As String
+            Return $"{enzymes.GetJson}@{membrane.JoinBy(",")}"
+        End Function
 
     End Class
 
