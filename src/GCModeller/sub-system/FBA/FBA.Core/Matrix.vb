@@ -105,14 +105,19 @@ Public Class Matrix
         End Get
     End Property
 
+    Public ReadOnly Property FluxNames As String()
+        Get
+            Return Flux.Keys.ToArray
+        End Get
+    End Property
+
     ''' <summary>
     ''' 生成目标函数对未知变量，即flux的系数向量
     ''' </summary>
     ''' <returns></returns>
     Public Function GetTargetCoefficients() As Double()
         With Targets.Indexing
-            Return Flux _
-                .Keys _
+            Return Flux.Keys _
                 .Select(Function(name)
                             If .IndexOf(name) > -1 Then
                                 Return 1.0
