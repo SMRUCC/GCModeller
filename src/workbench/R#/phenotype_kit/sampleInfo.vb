@@ -435,6 +435,31 @@ Module DEGSample
         Return list.ToArray
     End Function
 
+    <ExportAPI("sampleinfo_gsub")>
+    <RApiReturn(GetType(SampleInfo))>
+    Public Function sampleinfo_gsub(<RRawVectorArgument> sampleinfo As Object,
+                                    <RRawVectorArgument> find As Object,
+                                    replace_as As String,
+                                    Optional env As Environment = Nothing) As Object
+
+        Dim pull = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim clean As New List(Of SampleInfo)
+        Dim find_str As String() = CLRVector.asCharacter(find)
+
+        For Each sample As SampleInfo In pull.populates(Of SampleInfo)(env)
+            For Each str As String In find_str
+                sample.sample_info = sample.sample_info.Replace(str, replace_as)
+            Next
+        Next
+
+        Return clean.ToArray
+    End Function
+
     ''' <summary>
     ''' Get sample id collection from a speicifc sample data groups
     ''' </summary>
