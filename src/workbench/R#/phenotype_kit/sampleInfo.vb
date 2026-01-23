@@ -455,6 +455,8 @@ Module DEGSample
             For Each str As String In find_str
                 sample.sample_info = sample.sample_info.Replace(str, replace_as)
             Next
+
+            Call clean.Add(sample)
         Next
 
         Return clean.ToArray
