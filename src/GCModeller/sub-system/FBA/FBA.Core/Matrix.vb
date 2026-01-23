@@ -106,6 +106,7 @@ Public Class Matrix
     End Property
 
     Public ReadOnly Property FluxNames As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Flux.Keys.ToArray
         End Get

@@ -133,6 +133,8 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
     Public Class Equation : Inherits Equation(Of CompoundSpecieReference)
         Implements IEquation(Of CompoundSpecieReference)
 
+        Public Property name As String
+
         Sub New()
         End Sub
 
