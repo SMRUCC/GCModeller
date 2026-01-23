@@ -987,7 +987,7 @@ Module geneExpression
     ''' take top n expression feature by rank expression MAD value desc
     ''' </summary>
     ''' <param name="x"></param>
-    ''' <param name="top"></param>
+    ''' <param name="top">take top N gene features</param>
     ''' <returns></returns>
     <ExportAPI("sort_mad")>
     Public Function sort_mad(x As Matrix, Optional top As Integer = 10000) As Matrix
