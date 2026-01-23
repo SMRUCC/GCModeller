@@ -162,7 +162,7 @@ Public Class LinearProgrammingEngine
             objectiveFunctionValue:=0
         )
 
-        Return engine.solve(showProgress:=True)
+        Return engine.solve(showProgress:=True, strict:=False)
     End Function
 
 End Class
