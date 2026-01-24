@@ -373,6 +373,7 @@ Module KmersTool
     End Function
 
     <ExportAPI("read_brackens")>
+    <RApiReturn(GetType(Bracken))>
     Public Function read_bracken(<RRawVectorArgument> files As Object) As Object
         Return CLRVector.asCharacter(files) _
             .Select(Function(path) Bracken.LoadTable(path)) _
