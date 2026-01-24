@@ -317,45 +317,6 @@ Module KmersTool
         Return abundance
     End Function
 
-    <ExportAPI("as.abundance_matrix")>
-    <RApiReturn(GetType(Matrix))>
-    Public Function metagenome_matrix(<RRawVectorArgument> samples As Object,
-                                      Optional normalized As Boolean = False,
-                                      Optional env As Environment = Nothing) As Object
-
-        Dim sampleList As New List(Of NamedValue(Of Dictionary(Of String, Double)))
-        Dim input As list = TryCast(samples, list)
-
-        If input Is Nothing Then
-            Throw New NotImplementedException
-        End If
-
-        For Each name As String In input.getNames
-            Dim data As Object = input.getByName(name)
-            Dim v As Dictionary(Of String, Double)
-
-            If TypeOf data Is list Then
-                v = DirectCast(data, list).AsGeneric(Of Double)(env)
-            ElseIf TypeOf data Is Dictionary(Of String, Double) Then
-                v = DirectCast(data, Dictionary(Of String, Double))
-            ElseIf TypeOf data Is Dictionary(Of String, Integer) Then
-                v = DirectCast(data, Dictionary(Of String, Integer)).AsNumeric
-            ElseIf TypeOf data Is Dictionary(Of Integer, Double) Then
-                v = DirectCast(data, Dictionary(Of Integer, Double)) _
-                    .ToDictionary(Function(a) a.ToString,
-                                  Function(a)
-                                      Return a.Value
-                                  End Function)
-            Else
-                Throw New NotImplementedException
-            End If
-
-            Call sampleList.Add(New NamedValue(Of Dictionary(Of String, Double))(name, v))
-        Next
-
-        Return AbundanceMatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
-    End Function
-
     ''' <summary>
     ''' cast the genomics sequence as kmer based bloom filter model
     ''' </summary>
