@@ -58,6 +58,9 @@ declare namespace FastQ {
       function fastq(file: string): object;
    }
    /**
+   */
+   function read_genedata(file: string): object;
+   /**
      * @param n default value Is ``100000``.
      * @param len default value Is ``[350,550]``.
      * @param genome_weights default value Is ``null``.
