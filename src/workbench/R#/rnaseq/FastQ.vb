@@ -55,6 +55,7 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -227,5 +228,11 @@ Public Module FastQTools
     <RApiReturn(GetType(GeneData))>
     Public Function sample_indexstats(file As String) As Object
         Return IndexStats.ConvertCountsToTPM(IndexStats.Parse(file.OpenReadonly)).ToArray
+    End Function
+
+    <ExportAPI("read_genedata")>
+    <RApiReturn(GetType(GeneData))>
+    Public Function read_genedata(file As String) As GeneData()
+        Return file.LoadCsv(Of GeneData)(mute:=True)
     End Function
 End Module
