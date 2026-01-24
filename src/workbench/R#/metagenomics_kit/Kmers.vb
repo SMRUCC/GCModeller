@@ -29,10 +29,26 @@ Module KmersTool
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceHit()), AddressOf hitTable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KrakenOutputRecord()), AddressOf kraken2Table)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceSource()), AddressOf seqTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Bracken()), AddressOf bracken_table)
 
         Call RInternal.generic.add("readBin.kmer_bloom", GetType(Stream), AddressOf readKmerBloomFilter)
         Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("name", From r As Bracken In expr Select r.name)
+        Call df.add("taxonomy_id", From r As Bracken In expr Select r.taxonomy_id)
+        Call df.add("taxonomy_lvl", From r As Bracken In expr Select r.taxonomy_lvl)
+        Call df.add("kraken_assigned_reads", From r As Bracken In expr Select r.kraken_assigned_reads)
+        Call df.add("added_reads", From r As Bracken In expr Select r.added_reads)
+        Call df.add("new_est_reads", From r As Bracken In expr Select r.new_est_reads)
+        Call df.add("fraction_total_reads", From r As Bracken In expr Select r.fraction_total_reads)
+
+        Return df
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As dataframe
