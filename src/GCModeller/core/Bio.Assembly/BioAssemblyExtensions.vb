@@ -55,7 +55,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -63,6 +62,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -74,6 +74,21 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 ''' </summary>
 <Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
+
+    <Extension>
+    Public Function ExpressionValue(Of T As IExpressionValue)(genes As IEnumerable(Of T)) As Dictionary(Of String, Double)
+        Dim v As New Dictionary(Of String, Double)
+
+        For Each gene As IExpressionValue In genes
+            If v.ContainsKey(gene.Identity) Then
+                v(gene.Identity) += gene.ExpressionValue
+            Else
+                v.Add(gene.Identity, gene.ExpressionValue)
+            End If
+        Next
+
+        Return v
+    End Function
 
     <Extension>
     Public Function AsSegment(gene As GeneTable) As SimpleSegment
@@ -144,8 +159,8 @@ Public Module BioAssemblyExtensions
     ''' <param name="str"></param>
     ''' <returns></returns>
     ''' 
-    <ExportAPI("TrimText.COG")>
-    <Extension> Public Function GetCOGCategory(str As String) As String
+    <Extension>
+    Public Function GetCOGCategory(str As String) As String
         If String.IsNullOrEmpty(str) OrElse String.Equals("-", str) Then
             Return "-"
         Else
@@ -161,9 +176,9 @@ Public Module BioAssemblyExtensions
     ''' <typeparam name="TFasta"><see cref="FastaSeq"/></typeparam>
     ''' <param name="data">Target fasta source collection which its elements base type is <see cref="FastaSeq"/></param>
     ''' <returns></returns>
-    <Extension> Public Function [DirectCast](Of TFasta As FastaSeq)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
-        Dim FastaFile As New FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaSeq))
-        Return FastaFile
+    <Extension>
+    Public Function [DirectCast](Of TFasta As FastaSeq)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
+        Return New FastaFile(From fa As TFasta In data Select DirectCast(fa, FastaSeq))
     End Function
 
     ''' <summary>
@@ -174,7 +189,8 @@ Public Module BioAssemblyExtensions
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetBriefStrandCode(strand As String) As String
+    <Extension>
+    Public Function GetBriefStrandCode(strand As String) As String
         Return GetStrand(strand).Description
     End Function
 
@@ -186,7 +202,8 @@ Public Module BioAssemblyExtensions
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetStrands(c As Char) As Strands
+    <Extension>
+    Public Function GetStrands(c As Char) As Strands
         Return CStr(c).GetStrand
     End Function
 

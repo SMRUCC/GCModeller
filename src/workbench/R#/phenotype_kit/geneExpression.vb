@@ -74,6 +74,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -86,9 +87,12 @@ Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime
@@ -1985,28 +1989,44 @@ Module geneExpression
             Throw New NotImplementedException
         End If
 
+        Dim null As New List(Of String)
+
         For Each name As String In input.getNames
             Dim data As Object = input.getByName(name)
             Dim v As Dictionary(Of String, Double)
 
-            If TypeOf data Is list Then
-                v = DirectCast(data, list).AsGeneric(Of Double)(env)
-            ElseIf TypeOf data Is Dictionary(Of String, Double) Then
-                v = DirectCast(data, Dictionary(Of String, Double))
-            ElseIf TypeOf data Is Dictionary(Of String, Integer) Then
-                v = DirectCast(data, Dictionary(Of String, Integer)).AsNumeric
-            ElseIf TypeOf data Is Dictionary(Of Integer, Double) Then
-                v = DirectCast(data, Dictionary(Of Integer, Double)) _
-                    .ToDictionary(Function(a) a.ToString,
-                                  Function(a)
-                                      Return a.Value
-                                  End Function)
+            If data Is Nothing Then
+                Call null.Add(name)
+            End If
+
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of IExpressionValue)(data, env, suppress:=True)
+
+            If Not pull.isError Then
+                v = pull.populates(Of IExpressionValue)(env).ExpressionValue
             Else
-                Throw New NotImplementedException
+                If TypeOf data Is list Then
+                    v = DirectCast(data, list).AsGeneric(Of Double)(env)
+                ElseIf TypeOf data Is Dictionary(Of String, Double) Then
+                    v = DirectCast(data, Dictionary(Of String, Double))
+                ElseIf TypeOf data Is Dictionary(Of String, Integer) Then
+                    v = DirectCast(data, Dictionary(Of String, Integer)).AsNumeric
+                ElseIf TypeOf data Is Dictionary(Of Integer, Double) Then
+                    v = DirectCast(data, Dictionary(Of Integer, Double)) _
+                        .ToDictionary(Function(a) a.ToString,
+                                      Function(a)
+                                          Return a.Value
+                                      End Function)
+                Else
+                    Throw New NotImplementedException(data.GetType.FullName)
+                End If
             End If
 
             Call sampleList.Add(New NamedValue(Of Dictionary(Of String, Double))(name, v))
         Next
+
+        If null.Any Then
+            Call $"the sample data of '{null.JoinBy(", ")}' is nothing".warning
+        End If
 
         Return MatrixBuilder.BuildAndNormalizeAbundanceMatrix(sampleList.ToArray, normalized)
     End Function
