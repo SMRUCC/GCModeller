@@ -1,7 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Framework.DATA
-Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 ''' <summary>
@@ -17,77 +16,58 @@ Public Module MatrixBuilder
     ''' <returns>一个包含物种和样本丰度信息的DataTable。</returns>
     Public Function BuildAndNormalizeAbundanceMatrix(allSampleAbundances As NamedValue(Of Dictionary(Of String, Double))(), Optional performNormalization As Boolean = True) As Matrix
         If allSampleAbundances.IsNullOrEmpty Then
-            Console.WriteLine("警告: 没有样本数据可用于构建丰度矩阵。")
-            Return New Matrix
+            Call "no sample data to build expression matrix!".warning
+
+            Return New Matrix With {
+                .tag = "empty_samples",
+                .expression = {},
+                .sampleID = {}
+            }
         End If
 
-        Dim allSampleIds As String() = Nothing
-        Dim table As DataTable = allSampleAbundances _
+        Dim allSampleIds As String() = allSampleAbundances.Keys.ToArray
+        Dim table As DataFrameRow() = allSampleAbundances _
             .ToDictionary(Function(a) a.Name,
                           Function(a)
                               Return a.Value
                           End Function) _
-            .MatrixInternal(performNormalization, allSampleIds)
-
-        Return New Matrix With {
+            .MatrixInternal(allSampleIds) _
+            .ToArray
+        Dim matrix As New Matrix With {
             .sampleID = allSampleIds,
-            .expression = table _
-                .GetMatrix _
-                .Select(Function(r)
-                            Return New DataFrameRow(r.ID, r(allSampleIds))
-                        End Function) _
-                .ToArray
+            .expression = table,
+            .tag = "expression_matrix"
         }
+
+        If performNormalization Then
+            Return TPM.Normalize(matrix)
+        Else
+            Return matrix
+        End If
     End Function
 
     <Extension>
-    Private Function MatrixInternal(allSampleAbundances As Dictionary(Of String, Dictionary(Of String, Double)), performNormalization As Boolean, ByRef allSampleIds As String()) As DataTable
+    Private Iterator Function MatrixInternal(allSamples As Dictionary(Of String, Dictionary(Of String, Double)), allSampleIds As String()) As IEnumerable(Of DataFrameRow)
         ' --- 步骤 1: 识别所有唯一的物种和样本 ---
-        Dim allSpeciesIds As List(Of String) = allSampleAbundances.Values.
-            SelectMany(Function(dict) dict.Keys).
-            Distinct().
-            OrderBy(Function(id) id).ToList()
+        Dim featuresIds As List(Of String) = allSamples.Values _
+            .SelectMany(Function(dict) dict.Keys) _
+            .Distinct() _
+            .OrderBy(Function(id) id) _
+            .ToList()
 
-        allSampleIds = allSampleAbundances.Keys.OrderBy(Function(id) id).ToArray
+        Call VBDebugger.EchoLine($"found {featuresIds.Count} unique features and {allSampleIds.Length} unique samples.")
 
-        Console.WriteLine($"找到 {allSpeciesIds.Count} 个唯一物种和 {allSampleIds.Count} 个唯一样本。")
+        For Each id As String In featuresIds
+            Dim v As IEnumerable(Of Double) =
+                From sample_id As String
+                In allSampleIds
+                Let sample As Dictionary(Of String, Double) = allSamples(sample_id)
+                Select sample.TryGetValue(id)
 
-        ' --- 步骤 2: 初始化 DataTable ---
-        Dim abundanceTable As New DataTable()
-
-        ' --- 步骤 3: 填充矩阵 ---
-        For Each speciesId In allSpeciesIds
-            Dim row = abundanceTable.NewRow(speciesId)
-
-            For Each sampleId As String In allSampleIds
-                Dim abundance As Double = 0.0
-                ' 尝试从样本数据中获取物种丰度，如果不存在则默认为0
-                allSampleAbundances(sampleId).TryGetValue(speciesId, abundance)
-                row(sampleId) = abundance
-            Next
+            Yield New DataFrameRow With {
+                .experiments = v.ToArray,
+                .geneID = id
+            }
         Next
-
-        Console.WriteLine("原始丰度矩阵填充完成。")
-
-        ' --- 步骤 4: (可选) 按列进行总和归一化 ---
-        If performNormalization Then
-            Console.WriteLine("开始执行按列归一化...")
-            For Each sampleId As String In allSampleIds
-                ' 计算该列的总和
-                Dim columnSum As Double = abundanceTable.GetMatrix.Sum(Function(row) row(sampleId))
-
-                ' 避免除以零
-                If columnSum > 0 Then
-                    ' 用该列的每个值除以总和
-                    For Each row As DataSet In abundanceTable.GetMatrix
-                        Dim currentValue As Double = row(sampleId)
-                        row(sampleId) = currentValue / columnSum
-                    Next
-                End If
-            Next
-            Console.WriteLine("归一化完成。")
-        End If
-
-        Return abundanceTable
     End Function
 End Module
