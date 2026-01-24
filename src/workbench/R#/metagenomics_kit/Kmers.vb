@@ -372,6 +372,14 @@ Module KmersTool
         Return KrakenReportRecord.ParseDocument(filepath).ToArray
     End Function
 
+    <ExportAPI("read_brackens")>
+    Public Function read_bracken(<RRawVectorArgument> files As Object) As Object
+        Return CLRVector.asCharacter(files) _
+            .Select(Function(path) Bracken.LoadTable(path)) _
+            .IteratesALL _
+            .ToArray
+    End Function
+
     <ExportAPI("filter_classification")>
     <RApiReturn(TypeCodes.integer)>
     Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
