@@ -1,18 +1,19 @@
 ﻿Imports System.IO
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace SAM
 
     ''' <summary>
     ''' gene abundance result
     ''' </summary>
-    Public Class GeneData
+    Public Class GeneData : Implements IExpressionValue
 
-        Public Property GeneID As String
+        Public Property GeneID As String Implements IExpressionValue.Identity
         Public Property Length As Double
         Public Property RawCount As Double
         Public Property RPK As Double
-        Public Property TPM As Double
+        Public Property TPM As Double Implements IExpressionValue.ExpressionValue
 
     End Class
 
