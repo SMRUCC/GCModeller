@@ -120,6 +120,9 @@ declare namespace kmers {
    }
    /**
    */
+   function read_brackens(files: any): object;
+   /**
+   */
    function read_seqid(file: string): object;
    /**
      * @param env default value Is ``null``.

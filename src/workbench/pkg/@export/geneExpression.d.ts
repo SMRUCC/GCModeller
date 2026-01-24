@@ -611,7 +611,7 @@ declare namespace geneExpression {
     * 
     * 
      * @param x -
-     * @param top -
+     * @param top take top N gene features
      * 
      * + default value Is ``10000``.
    */
