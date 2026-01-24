@@ -13,11 +13,6 @@
 declare namespace kmers {
    module as {
       /**
-        * @param normalized default value Is ``false``.
-        * @param env default value Is ``null``.
-      */
-      function abundance_matrix(samples: any, normalized?: boolean, env?: object): object;
-      /**
        * cast the genomics sequence as kmer based bloom filter model
        * 
        * 

@@ -54,3 +54,4 @@ the gene expression matrix data toolkit
 + [joinFeatures](geneExpression/joinFeatures.1) merge multiple gene expression matrix by gene features
 + [aggregate](geneExpression/aggregate.1) merge row or column where the tag is identical
 + [add_gauss](geneExpression/add_gauss.1) add random gauss noise to the matrix
++ [as.abundance_matrix](geneExpression/as.abundance_matrix.1) 

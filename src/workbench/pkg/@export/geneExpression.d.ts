@@ -43,6 +43,11 @@ declare namespace geneExpression {
    function aggregate_samples(matrix: object, groups: object, env?: object): any;
    module as {
       /**
+        * @param normalized default value Is ``false``.
+        * @param env default value Is ``null``.
+      */
+      function abundance_matrix(samples: any, normalized?: boolean, env?: object): object;
+      /**
        * create gene expression DEG model
        * 
        * 
