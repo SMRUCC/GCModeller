@@ -75,6 +75,12 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 <Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
 
+    ''' <summary>
+    ''' Extract of the gene expression value
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="genes"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function ExpressionValue(Of T As IExpressionValue)(genes As IEnumerable(Of T)) As Dictionary(Of String, Double)
         Dim v As New Dictionary(Of String, Double)
