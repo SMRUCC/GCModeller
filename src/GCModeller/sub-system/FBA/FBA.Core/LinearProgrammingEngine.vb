@@ -162,6 +162,8 @@ Public Class LinearProgrammingEngine
             objectiveFunctionValue:=0
         )
 
+        Call "run solver for FBA lpp problem!".info
+
         Return engine.solve(showProgress:=True, strict:=False)
     End Function
 
