@@ -196,6 +196,10 @@ declare namespace bioseq.fasta {
    */
    function size(fa: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function takes(x: any, gene_ids: any, env?: object): object;
+   /**
     * Do translation of the nt sequence to protein sequence
     * 
     * 
