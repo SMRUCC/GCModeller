@@ -69,6 +69,7 @@ Imports SMRUCC.genomics.Data
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object].Converts
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
@@ -79,6 +80,35 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <Package("ptf")>
 <RTypeExport("protein_data", GetType(ProteinAnnotation))>
 Module PTFCache
+
+    Sub Main()
+        Call makeDataframe.addHandler(GetType(ProteinAnnotation()), AddressOf ptfTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function ptfTable(proteins As ProteinAnnotation(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .rownames = proteins.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim attrKeys As String() = proteins.Select(Function(prot) prot.attributes.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .OrderBy(Function(k) k) _
+            .ToArray
+
+        Call df.add(NameOf(ProteinAnnotation.geneId), From gene As ProteinAnnotation In proteins Select gene.geneId)
+        Call df.add(NameOf(ProteinAnnotation.locus_id), From gene As ProteinAnnotation In proteins Select gene.locus_id)
+        Call df.add(NameOf(ProteinAnnotation.geneName), From gene As ProteinAnnotation In proteins Select gene.geneName)
+        Call df.add(NameOf(ProteinAnnotation.description), From gene As ProteinAnnotation In proteins Select gene.description)
+        Call df.add(NameOf(ProteinAnnotation.sequence), From gene As ProteinAnnotation In proteins Select gene.sequence)
+
+        For Each key As String In attrKeys
+            Call df.add(key, From gene As ProteinAnnotation In proteins Select gene(key))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Create the protein annotation data model from a given dataframe object

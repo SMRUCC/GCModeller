@@ -56,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Ptf
@@ -63,13 +64,13 @@ Namespace Ptf
     ''' <summary>
     ''' A uniy protein annotation model in GCModeller softwares
     ''' </summary>
-    Public Class ProteinAnnotation
+    Public Class ProteinAnnotation : Implements INamedValue
 
         ''' <summary>
         ''' A unique symbol id
         ''' </summary>
         ''' <returns></returns>
-        Public Property geneId As String
+        Public Property geneId As String Implements INamedValue.Key
         Public Property locus_id As String
         Public Property geneName As String
 
