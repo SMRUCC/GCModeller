@@ -59,6 +59,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -368,6 +369,35 @@ Module terms
             .ToArray
 
         Return terms
+    End Function
+
+    <ExportAPI("term_table")>
+    <RApiReturn(GetType(EntityObject))>
+    Public Function term_table(<RRawVectorArgument> annotations As list, Optional env As Environment = Nothing) As Object
+        Dim genes As New Dictionary(Of String, EntityObject)
+
+        For Each term_name As String In annotations.getNames
+            Dim pull = pipeline.TryCreatePipeline(Of RankTerm)(annotations(term_name), env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Dim uniqueTerms = pull.populates(Of RankTerm)(env) _
+                .GroupBy(Function(t) t.queryName) _
+                .Select(Function(t) t.OrderByDescending(Function(a) a.score).First) _
+                .ToArray
+
+            For Each gene As RankTerm In uniqueTerms
+                If Not genes.ContainsKey(gene.queryName) Then
+                    Call genes.Add(gene.queryName, New EntityObject With {.ID = gene.queryName})
+                End If
+
+                Call genes(gene.queryName).Add(term_name, gene.term)
+            Next
+        Next
+
+        Return genes.ToArray
     End Function
 
     <ExportAPI("assign.Pfam")>
