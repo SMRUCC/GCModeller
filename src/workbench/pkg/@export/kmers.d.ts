@@ -104,7 +104,7 @@ declare namespace kmers {
    function make_classify(db: any, reads: any, n_threads?: object, env?: object): object|object;
    /**
    */
-   function parse_kraken_output(filepath: string): object;
+   function parse_kraken_output(filepath: any): object;
    /**
    */
    function parse_kraken_report(filepath: string): object;
