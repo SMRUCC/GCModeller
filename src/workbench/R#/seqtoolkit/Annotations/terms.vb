@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.ComponentModel
@@ -415,5 +416,11 @@ Module terms
     <ExportAPI("read_vfdb_seqs")>
     Public Function read_vfdb(file As String) As VFs()
         Return VFs.Parse(FastaFile.Read(file, strict:=False, deli:="|")).ToArray
+    End Function
+
+    <ExportAPI("write_simple_vfdb")>
+    Public Function write_simple_vfdb(vfdb As VFs(), file As String) As Boolean
+        Return New FastaFile(From vf As VFs In vfdb Select New FastaSeq(vf.sequence, title:=vf.VFID)) _
+            .Save(-1, file, encoding:=Encodings.ASCII.CodePage)
     End Function
 End Module
