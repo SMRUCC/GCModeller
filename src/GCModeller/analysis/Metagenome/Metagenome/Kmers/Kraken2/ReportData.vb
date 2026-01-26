@@ -128,7 +128,7 @@ Namespace Kmers.Kraken2
         ''' 该分类单元的 NCBI Taxonomy ID。
         ''' </summary>
         ''' <returns></returns>
-        Public Property TaxID As Long
+        Public Property TaxID As UInteger
         ''' <summary>
         ''' 该分类单元的科学名称。
         ''' </summary>
