@@ -255,7 +255,7 @@ Module geneExpression
     ''' <summary>
     ''' get summary information about the HTS matrix dimensions
     ''' </summary>
-    ''' <param name="mat">
+    ''' <param name="x">
     ''' a HTS data matrix of samples in column and gene features in row
     ''' </param>
     ''' <returns>
@@ -269,15 +269,42 @@ Module geneExpression
     ''' </returns>
     <ExportAPI("dims")>
     <RApiReturn("feature_size", "feature_names", "sample_size", "sample_names")>
-    Public Function dims(mat As Matrix) As list
-        Return New list With {
-            .slots = New Dictionary(Of String, Object) From {
-                {"feature_size", mat.expression.Length},
-                {"feature_names", mat.rownames},
-                {"sample_size", mat.sampleID.Length},
-                {"sample_names", mat.sampleID}
+    Public Function dims(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf x Is Matrix Then
+            Dim mat As Matrix = DirectCast(x, Matrix)
+
+            Return New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"feature_size", mat.expression.Length},
+                    {"feature_names", mat.rownames},
+                    {"sample_size", mat.sampleID.Length},
+                    {"sample_names", mat.sampleID}
+                }
             }
-        }
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of IGeneExpression)(x, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            Dim matrix As IGeneExpression() = pull.populates(Of IGeneExpression)(env).ToArray
+            Dim sample_ids As String() = matrix _
+                .Select(Function(g) g.Expression.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .OrderBy(Function(id) id) _
+                .ToArray
+
+            Return New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"feature_size", matrix.Length},
+                    {"feature_names", matrix.Select(Function(g) g.Identity).ToArray},
+                    {"sample_size", sample_ids.Length},
+                    {"sample_names", sample_ids}
+                }
+            }
+        End If
     End Function
 
     ''' <summary>
