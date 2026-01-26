@@ -107,7 +107,7 @@ declare namespace kmers {
    function parse_kraken_output(filepath: any): object;
    /**
    */
-   function parse_kraken_report(filepath: string): object;
+   function parse_kraken_report(filepath: any): object;
    module read {
       /**
       */

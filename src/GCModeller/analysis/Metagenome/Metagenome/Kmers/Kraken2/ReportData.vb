@@ -1,7 +1,9 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.ComponentModel
 
 Namespace Kmers.Kraken2
 
@@ -86,7 +88,7 @@ Namespace Kmers.Kraken2
     ''' <remarks>
     ''' --report 文件是 taxon-centric 的，关注点是“每个分类单元包含了多少 reads”。
     ''' </remarks>
-    Public Class KrakenReportRecord
+    Public Class KrakenReportRecord : Implements IExpressionValue
 
         ' [百分比]\t[该节点及子节点读数]\t[直接分配到该节点的读数]\t[等级代码]\t[TaxID]\t[分类名称]
 
@@ -94,7 +96,7 @@ Namespace Kmers.Kraken2
         ''' 分配到该分类单元（及其所有后代）的 reads 数量占样本中总分类 reads 数量的百分比。
         ''' </summary>
         ''' <returns></returns>
-        Public Property Percentage As Double
+        Public Property Percentage As Double Implements IExpressionValue.ExpressionValue
         ''' <summary>
         ''' 分配到该分类单元或其任何下级分类单元的 reads 总数。(该节点及子节点读数)
         ''' </summary>
@@ -121,6 +123,7 @@ Namespace Kmers.Kraken2
         ''' </summary>
         ''' <returns></returns>
         Public Property RankCode As String
+
         ''' <summary>
         ''' 该分类单元的 NCBI Taxonomy ID。
         ''' </summary>
@@ -131,6 +134,12 @@ Namespace Kmers.Kraken2
         ''' </summary>
         ''' <returns></returns>
         Public Property ScientificName As String
+
+        Private ReadOnly Property uniqueId As String Implements IReadOnlyId.Identity
+            Get
+                Return $"{TaxID}.{ScientificName}"
+            End Get
+        End Property
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenReportRecord)

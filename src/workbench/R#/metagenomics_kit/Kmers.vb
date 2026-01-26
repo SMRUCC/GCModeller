@@ -1,10 +1,9 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -17,7 +16,6 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
-Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kmers")>
@@ -36,8 +34,8 @@ Module KmersTool
     End Sub
 
     <RGenericOverloads("as.data.frame")>
-    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As dataframe
-        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As DataFrame
+        Dim df As New DataFrame With {.columns = New Dictionary(Of String, Array)}
 
         Call df.add("name", From r As Bracken In expr Select r.name)
         Call df.add("taxonomy_id", From r As Bracken In expr Select r.taxonomy_id)
@@ -51,8 +49,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As dataframe
-        Dim t As New dataframe With {
+    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As DataFrame
+        Dim t As New DataFrame With {
             .rownames = source.Select(Function(s) CStr(s.id)).ToArray,
             .columns = New Dictionary(Of String, Array)
         }
@@ -65,8 +63,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As dataframe
-        Dim t As New dataframe With {
+    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As DataFrame
+        Dim t As New DataFrame With {
             .rownames = kraken2_result _
                 .Select(Function(a) a.ReadName) _
                 .ToArray,
@@ -89,8 +87,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As dataframe
-        Dim df As New dataframe With {
+    Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As DataFrame
+        Dim df As New DataFrame With {
             .columns = New Dictionary(Of String, Array)
         }
 
@@ -355,6 +353,11 @@ Module KmersTool
             .Select(Function(path) KrakenReportRecord.ParseDocument(path)) _
             .IteratesALL _
             .ToArray
+    End Function
+
+    <ExportAPI("read.kraken2")>
+    Public Function read_kraken_report(file As String) As KrakenReportRecord()
+        Return file.LoadCsv(Of KrakenReportRecord)(mute:=True)
     End Function
 
     <ExportAPI("read_brackens")>
