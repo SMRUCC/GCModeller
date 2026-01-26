@@ -83,6 +83,13 @@ declare namespace annotation.terms {
    */
    function read_rankterms(file: string): object;
    /**
+    * read VFDB fasta sequence database
+    * 
+    * 
+     * @param file -
+   */
+   function read_vfdb_seqs(file: string): object;
+   /**
     * Removes the numeric suffix (usually representing an exon index) from protein identifiers.
     * 
     * 
@@ -101,4 +108,7 @@ declare namespace annotation.terms {
       */
       function id_maps(maps: object, file: string): boolean;
    }
+   /**
+   */
+   function write_simple_vfdb(vfdb: object, file: string): boolean;
 }
