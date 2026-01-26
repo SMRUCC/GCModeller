@@ -413,7 +413,7 @@ Module terms
             Next
         Next
 
-        Return genes.ToArray
+        Return genes.Values.ToArray
     End Function
 
     <ExportAPI("assign.Pfam")>
