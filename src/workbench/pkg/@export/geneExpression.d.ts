@@ -166,7 +166,9 @@ declare namespace geneExpression {
     * get summary information about the HTS matrix dimensions
     * 
     * 
-     * @param mat a HTS data matrix of samples in column and gene features in row
+     * @param x a HTS data matrix of samples in column and gene features in row
+     * @param env 
+     * + default value Is ``null``.
      * @return a tuple list that contains the dimension information of the 
      *  gene expression matrix data:
      *  
@@ -175,7 +177,7 @@ declare namespace geneExpression {
      *  + sample_size: the number of the samples, or number of the matrix columns
      *  + sample_names: the matrix column names, the sample id set
    */
-   function dims(mat: object): object;
+   function dims(x: any, env?: object): object;
    /**
    */
    function exp(x: object, p: number): object;
