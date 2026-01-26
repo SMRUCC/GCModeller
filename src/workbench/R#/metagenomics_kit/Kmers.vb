@@ -16,6 +16,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kmers")>
@@ -34,8 +35,8 @@ Module KmersTool
     End Sub
 
     <RGenericOverloads("as.data.frame")>
-    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As DataFrame
-        Dim df As New DataFrame With {.columns = New Dictionary(Of String, Array)}
+    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
 
         Call df.add("name", From r As Bracken In expr Select r.name)
         Call df.add("taxonomy_id", From r As Bracken In expr Select r.taxonomy_id)
@@ -49,8 +50,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As DataFrame
-        Dim t As New DataFrame With {
+    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
             .rownames = source.Select(Function(s) CStr(s.id)).ToArray,
             .columns = New Dictionary(Of String, Array)
         }
@@ -63,8 +64,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As DataFrame
-        Dim t As New DataFrame With {
+    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
             .rownames = kraken2_result _
                 .Select(Function(a) a.ReadName) _
                 .ToArray,
@@ -87,8 +88,8 @@ Module KmersTool
     End Function
 
     <RGenericOverloads("as.data.frame")>
-    Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As DataFrame
-        Dim df As New DataFrame With {
+    Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array)
         }
 
