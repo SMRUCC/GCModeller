@@ -52,8 +52,10 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -63,6 +65,7 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object].Converts
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
@@ -91,6 +94,27 @@ Imports Vector = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 <Package("OTU_table")>
 <RTypeExport("OTU_table", GetType(OTUTable))>
 Module OTUTableTools
+
+    Sub Main()
+        Call makeDataframe.addHandler(GetType(OTUTable()), AddressOf castTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function castTable(otutable As OTUTable(), args As list, env As Environment) As DataFrame
+        Dim df As New rdataframe With {
+            .rownames = otutable.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim sample_ids As String() = otutable.PropertyNames
+
+        Call df.add("taxonomy", From otu As OTUTable In otutable Select otu.taxonomy.BIOMTaxonomyString)
+
+        For Each name As String In sample_ids
+            Call df.add(name, From otu As OTUTable In otutable Select otu(name))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Transform abundance data in an otu_table to relative abundance, sample-by-sample. 

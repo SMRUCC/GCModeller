@@ -96,7 +96,7 @@ Module TaxonomyKit
 
     Private Function getOTUDataframe(table As OTUTable(), args As list, env As Environment) As rdataframe
         Dim OTU_num As String() = table.Select(Function(r) r.ID).ToArray
-        Dim taxonomy As String() = table.Select(Function(r) r.taxonomy.ToString).ToArray
+        Dim taxonomy As String() = table.Select(Function(r) r.taxonomy.BIOMTaxonomyString).ToArray
         Dim sampleNames As String() = table.PropertyNames
         Dim matrix As New rdataframe With {
             .columns = New Dictionary(Of String, Array) From {
