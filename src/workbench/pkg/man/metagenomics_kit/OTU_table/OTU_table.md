@@ -23,3 +23,4 @@ Tools for handling OTU table data
 + [otu_from_matrix](OTU_table/otu_from_matrix.1) cast the expression matrix to the otu data
 + [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
++ [make_otu_table](OTU_table/make_otu_table.1) 
