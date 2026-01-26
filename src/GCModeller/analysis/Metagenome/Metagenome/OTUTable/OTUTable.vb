@@ -57,7 +57,6 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
