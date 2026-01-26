@@ -61,7 +61,7 @@ Namespace VFDB
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function BuildVFDIndex(data As IEnumerable(Of FastaHeader)) As Dictionary(Of String, Index(Of String))
+        Public Function BuildVFDIndex(data As IEnumerable(Of VFs)) As Dictionary(Of String, Index(Of String))
             Return data _
                 .GroupBy(Function(a) a.organism) _
                 .ToDictionary(Function(org) org.Key,
