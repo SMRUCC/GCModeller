@@ -437,6 +437,27 @@ Module Fasta
         Return fasta
     End Function
 
+    <ExportAPI("takes")>
+    <RApiReturn(GetType(FastaSeq))>
+    Public Function take_byId(<RRawVectorArgument> x As Object, <RRawVectorArgument> gene_ids As Object, Optional env As Environment = Nothing) As Object
+        Dim idIndex As Index(Of String) = CLRVector.asCharacter(gene_ids).Indexing
+        Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If collection Is Nothing Then
+            Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+        Else
+            Dim subset = (From s As FastaSeq
+                          In collection.ToArray.AsParallel
+                          Let key As String = s.Title _
+                              .Split({" "c, "|"c, "("c, ASCII.TAB}) _
+                              .First
+                          Where key Like idIndex
+                          Select s).ToArray
+
+            Return subset
+        End If
+    End Function
+
     ''' <summary>
     ''' write a fasta sequence or a collection of fasta sequence object
     ''' </summary>
