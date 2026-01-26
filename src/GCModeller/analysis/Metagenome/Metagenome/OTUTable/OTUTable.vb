@@ -57,6 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
@@ -83,6 +84,7 @@ Imports SMRUCC.genomics.Metagenomics
 ''' 这个对象的数据结构与<see cref="OTUData(Of Double)"/>类似, 二者可以做等价替换
 ''' </remarks>
 Public Class OTUTable : Inherits DataSet
+    Implements IGeneExpression
 
     ''' <summary>
     ''' OTU编号所对应的物种分类信息
@@ -91,6 +93,15 @@ Public Class OTUTable : Inherits DataSet
     ''' 
     <Column("taxonomy", GetType(BIOMTaxonomyParser))>
     Public Property taxonomy As Taxonomy
+
+    Public Overrides Property Properties As Dictionary(Of String, Double) Implements IGeneExpression.Expression
+        Get
+            Return MyBase.Properties
+        End Get
+        Set(value As Dictionary(Of String, Double))
+            MyBase.Properties = value
+        End Set
+    End Property
 
     Public Overrides Function ToString() As String
         Return $"{ID} - {taxonomy} [{Properties.Keys.JoinBy(", ")}]"
