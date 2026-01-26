@@ -88,7 +88,7 @@ Namespace Kmers.Kraken2
     ''' <remarks>
     ''' --report 文件是 taxon-centric 的，关注点是“每个分类单元包含了多少 reads”。
     ''' </remarks>
-    Public Class KrakenReportRecord : Implements IExpressionValue
+    Public Class KrakenReportRecord : Implements IExpressionValue, ITaxonomyAbundance
 
         ' [百分比]\t[该节点及子节点读数]\t[直接分配到该节点的读数]\t[等级代码]\t[TaxID]\t[分类名称]
 
@@ -128,7 +128,7 @@ Namespace Kmers.Kraken2
         ''' 该分类单元的 NCBI Taxonomy ID。
         ''' </summary>
         ''' <returns></returns>
-        Public Property TaxID As UInteger
+        Public Property TaxID As UInteger Implements ITaxonomyAbundance.ncbi_taxid
         ''' <summary>
         ''' 该分类单元的科学名称。
         ''' </summary>
