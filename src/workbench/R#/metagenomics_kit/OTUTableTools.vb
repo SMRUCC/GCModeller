@@ -300,7 +300,10 @@ Module OTUTableTools
 
     <ExportAPI("make_otu_table")>
     <RApiReturn(GetType(OTUTable))>
-    Public Function MakeOTUTable(<RRawVectorArgument> samples As Object, taxonomy_tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As Object
+    Public Function MakeOTUTable(<RRawVectorArgument> samples As Object, taxonomy_tree As NcbiTaxonomyTree,
+                                 Optional filter_missing As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+
         Dim samplesData As New List(Of NamedCollection(Of ITaxonomyAbundance))
 
         If samples Is Nothing Then
@@ -326,7 +329,15 @@ Module OTUTableTools
             Return Message.InCompatibleType(GetType(ITaxonomyAbundance), samples.GetType, env)
         End If
 
-        Return samplesData.MakeOUTTable(taxonomy_tree).ToArray
+        Dim otuTable = samplesData.MakeOUTTable(taxonomy_tree).ToArray
+
+        If filter_missing Then
+            otuTable = otuTable _
+                .Where(Function(o) Not o.taxonomy.IsMissing) _
+                .ToArray
+        End If
+
+        Return otuTable
     End Function
 
 End Module

@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.ComponentModel
-Imports SMRUCC.genomics.Metagenomics
 
 Public Interface ITaxonomyAbundance : Inherits IExpressionValue
 
@@ -12,6 +11,15 @@ Public Interface ITaxonomyAbundance : Inherits IExpressionValue
 End Interface
 
 Public Module OTUTableBuilder
+
+    <Extension>
+    Public Function IsMissing(tax As Metagenomics.Taxonomy) As Boolean
+        If tax Is Nothing Then
+            Return True
+        Else
+            Return tax.ToArray.SafeQuery.All(Function(si) Strings.Trim(si).StringEmpty(, True))
+        End If
+    End Function
 
     <Extension>
     Public Iterator Function MakeOUTTable(Of T As ITaxonomyAbundance)(samples As IEnumerable(Of NamedCollection(Of T)), taxonomyTree As NcbiTaxonomyTree) As IEnumerable(Of OTUTable)
