@@ -74,7 +74,7 @@ Namespace Kmers.Kraken2
                 Long.TryParse(parts(1).Trim(), record.ReadsAtRank)
                 Long.TryParse(parts(2).Trim(), record.ReadsDirect)
                 record.RankCode = parts(3).Trim()
-                Long.TryParse(parts(4).Trim(), record.TaxID)
+                Call UInteger.TryParse(parts(4).Trim(), record.TaxID)
                 record.ScientificName = parts(5).Trim()
 
                 Yield record
