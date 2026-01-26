@@ -158,6 +158,10 @@ Namespace Metagenomics
             species = lineage(NcbiTaxonomyTree.species)
         End Sub
 
+        ''' <summary>
+        ''' construct of the taxonomy information from the ncbi taxonomy tree lineage data
+        ''' </summary>
+        ''' <param name="taxonomyNodes"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(taxonomyNodes As IEnumerable(Of TaxonomyNode))
             Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))

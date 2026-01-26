@@ -91,7 +91,6 @@ Module TaxonomyKit
         RInternal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
         RInternal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
-        RInternal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf OTUTableTools.castTable)
     End Sub
 
     Private Function lineageTable(x As Object, args As list, env As Environment) As rdataframe
