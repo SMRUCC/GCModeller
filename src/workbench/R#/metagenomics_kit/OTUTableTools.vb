@@ -52,14 +52,17 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
@@ -268,4 +271,36 @@ Module OTUTableTools
                     End Function) _
             .ToArray
     End Function
+
+    <ExportAPI("make_otu_table")>
+    <RApiReturn(GetType(OTUTable))>
+    Public Function MakeOTUTable(<RRawVectorArgument> samples As Object, taxonomy_tree As NcbiTaxonomyTree, Optional env As Environment = Nothing) As Object
+        Dim samplesData As New List(Of NamedCollection(Of ITaxonomyAbundance))
+
+        If samples Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf samples Is list Then
+            Dim list As list = DirectCast(samples, list)
+
+            For Each sample_name As String In list.getNames
+                Dim data As pipeline = pipeline.TryCreatePipeline(Of ITaxonomyAbundance)(list(sample_name), env)
+
+                If data.isError Then
+                    Return data.getError
+                End If
+
+                Call samplesData.Add(New NamedCollection(Of ITaxonomyAbundance)(
+                     sample_name,
+                     data.populates(Of ITaxonomyAbundance)(env))
+                )
+            Next
+        Else
+            Return Message.InCompatibleType(GetType(ITaxonomyAbundance), samples.GetType, env)
+        End If
+
+        Return samplesData.MakeOUTTable(taxonomy_tree).ToArray
+    End Function
+
 End Module
