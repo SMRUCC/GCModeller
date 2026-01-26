@@ -419,7 +419,7 @@ Module microbiomeKit
     <ExportAPI("taxonomy.rank_table")>
     <RApiReturn(GetType(RankLevelView), GetType(HTSMatrix))>
     Public Function taxonomyRankTable(<RRawVectorArgument> otus As Object, Optional as_matrix As Boolean = False, Optional env As Environment = Nothing) As Object
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUData(Of Double))(otus, env)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUData(Of Double))(otus, env, suppress:=True)
         Dim all_ranks As NamedCollection(Of RankLevelView)()
         Dim ranks As list = list.empty
 
@@ -429,7 +429,7 @@ Module microbiomeKit
                 .ExportByRanks _
                 .ToArray
         Else
-            pull = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
+            pull = pipeline.TryCreatePipeline(Of OTUTable)(otus, env, suppress:=True)
 
             If pull.isError Then
                 Return pull.getError
