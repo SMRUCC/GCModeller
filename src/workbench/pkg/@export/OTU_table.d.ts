@@ -61,9 +61,10 @@ declare namespace OTU_table {
    */
    function filter(x: object, relative_abundance: number): object;
    /**
+     * @param filter_missing default value Is ``true``.
      * @param env default value Is ``null``.
    */
-   function make_otu_table(samples: any, taxonomy_tree: object, env?: object): object;
+   function make_otu_table(samples: any, taxonomy_tree: object, filter_missing?: boolean, env?: object): object;
    /**
     * cast the expression matrix to the otu data
     * 
