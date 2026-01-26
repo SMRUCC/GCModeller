@@ -112,6 +112,9 @@ declare namespace kmers {
       /**
       */
       function kmers_background(dirpath: string): object;
+      /**
+      */
+      function kraken2(file: string): object;
    }
    /**
    */
