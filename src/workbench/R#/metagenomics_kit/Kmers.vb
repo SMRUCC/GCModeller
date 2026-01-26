@@ -349,8 +349,12 @@ Module KmersTool
     End Function
 
     <ExportAPI("parse_kraken_report")>
-    Public Function parse_kraken_report(filepath As String) As KrakenReportRecord()
-        Return KrakenReportRecord.ParseDocument(filepath).ToArray
+    Public Function parse_kraken_report(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenReportRecord()
+        Return CLRVector.asCharacter(filepath) _
+            .SafeQuery _
+            .Select(Function(path) KrakenReportRecord.ParseDocument(path)) _
+            .IteratesALL _
+            .ToArray
     End Function
 
     <ExportAPI("read_brackens")>
