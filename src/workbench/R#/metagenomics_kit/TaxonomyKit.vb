@@ -91,28 +91,8 @@ Module TaxonomyKit
         RInternal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
 
         RInternal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
-        RInternal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf getOTUDataframe)
+        RInternal.Object.Converts.addHandler(GetType(OTUTable()), AddressOf OTUTableTools.castTable)
     End Sub
-
-    Private Function getOTUDataframe(table As OTUTable(), args As list, env As Environment) As rdataframe
-        Dim OTU_num As String() = table.Select(Function(r) r.ID).ToArray
-        Dim taxonomy As String() = table.Select(Function(r) r.taxonomy.BIOMTaxonomyString).ToArray
-        Dim sampleNames As String() = table.PropertyNames
-        Dim matrix As New rdataframe With {
-            .columns = New Dictionary(Of String, Array) From {
-                {"OTU_num", OTU_num},
-                {"taxonomy", taxonomy}
-            }
-        }
-
-        For Each name As String In sampleNames
-            matrix.columns(name) = table _
-                .Select(Function(r) r(name)) _
-                .ToArray
-        Next
-
-        Return matrix
-    End Function
 
     Private Function lineageTable(x As Object, args As list, env As Environment) As rdataframe
         Dim tree As NcbiTaxonomyTree = DirectCast(x, NcbiTaxonomyTree)

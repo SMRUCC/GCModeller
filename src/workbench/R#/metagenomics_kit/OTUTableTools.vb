@@ -100,14 +100,16 @@ Module OTUTableTools
     End Sub
 
     <RGenericOverloads("as.data.frame")>
-    Private Function castTable(otutable As OTUTable(), args As list, env As Environment) As DataFrame
+    Friend Function castTable(otutable As OTUTable(), args As list, env As Environment) As rdataframe
         Dim df As New rdataframe With {
             .rownames = otutable.Keys,
             .columns = New Dictionary(Of String, Array)
         }
         Dim sample_ids As String() = otutable.PropertyNames
 
-        Call df.add("taxonomy", From otu As OTUTable In otutable Select otu.taxonomy.BIOMTaxonomyString)
+        Call df.add("taxonomy", From otu As OTUTable
+                                In otutable
+                                Select otu.taxonomy.BIOMTaxonomyString)
 
         For Each name As String In sample_ids
             Call df.add(name, From otu As OTUTable In otutable Select otu(name))
