@@ -75,13 +75,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property QueryLength As Integer
-        ''' <summary>
-        ''' Description for the <see cref="MPCsvArchive.QueryName"></see> protein.
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Description As String
+
         <Column("query.pfam-string")> Public Property QueryPfamString As String
         <Column("subject.pfam-string")> Public Property SubjectPfamString As String
 
