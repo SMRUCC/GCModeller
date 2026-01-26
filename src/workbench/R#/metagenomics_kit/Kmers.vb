@@ -340,8 +340,12 @@ Module KmersTool
     End Function
 
     <ExportAPI("parse_kraken_output")>
-    Public Function parse_kraken_output(filepath As String) As KrakenOutputRecord()
-        Return KrakenOutputRecord.ParseDocument(filepath).ToArray
+    Public Function parse_kraken_output(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenOutputRecord()
+        Return CLRVector.asCharacter(filepath) _
+            .SafeQuery _
+            .Select(Function(path) KrakenOutputRecord.ParseDocument(path)) _
+            .IteratesALL _
+            .ToArray
     End Function
 
     <ExportAPI("parse_kraken_report")>
@@ -359,7 +363,7 @@ Module KmersTool
     End Function
 
     <ExportAPI("filter_classification")>
-    <RApiReturn(TypeCodes.integer)>
+    <RApiReturn(GetType(KrakenOutputRecord))>
     Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
                                           <RRawVectorArgument> taxids As Object,
                                           Optional env As Environment = Nothing) As Object
