@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -7,9 +8,9 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace Pipeline
 
-    Public Class RankTerm
+    Public Class RankTerm : Implements INamedValue
 
-        Public Property queryName As String
+        Public Property queryName As String Implements INamedValue.Key
         Public Property term As String
 
         Public Property source As String()

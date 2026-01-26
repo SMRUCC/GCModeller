@@ -57,6 +57,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
@@ -93,7 +94,22 @@ Module terms
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BiDirectionalBesthit()), AddressOf bbhTable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KOAssignmentCandidate()), AddressOf koTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(RankTerm()), AddressOf term_dataframe_table)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function term_dataframe_table(terms As RankTerm(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.rownames = terms.Keys, .columns = New Dictionary(Of String, Array)}
+
+        Call df.add(NameOf(RankTerm.term), From t As RankTerm In terms Select t.term)
+        Call df.add(NameOf(RankTerm.topHit), From t As RankTerm In terms Select t.topHit)
+        Call df.add(NameOf(RankTerm.score), From t As RankTerm In terms Select t.score)
+        Call df.add(NameOf(RankTerm.supports), From t As RankTerm In terms Select t.supports)
+        Call df.add(NameOf(RankTerm.source), From t As RankTerm In terms Select t.source.JoinBy(", "))
+        Call df.add(NameOf(RankTerm.scores), From t As RankTerm In terms Select t.scores.JoinBy(", "))
+
+        Return df
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function koTable(ko As KOAssignmentCandidate(), args As list, env As Environment) As dataframe
