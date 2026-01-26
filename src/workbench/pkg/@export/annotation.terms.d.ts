@@ -103,6 +103,10 @@ declare namespace annotation.terms {
      * @param excludeNull default value Is ``false``.
    */
    function synonym(idlist: string, idmap: object, excludeNull?: boolean): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function term_table(annotations: object, env?: object): object;
    module write {
       /**
       */

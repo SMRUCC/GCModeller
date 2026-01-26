@@ -8,6 +8,7 @@ tools for make ontology term annotation based on the proteins sequence data
 + [assign_ko](annotation.terms/assign_ko.1) do KO number assign based on the bbh alignment result.
 + [assign.COG](annotation.terms/assign.COG.1) 
 + [assign_terms](annotation.terms/assign_terms.1) assign the top term by score ranking
++ [term_table](annotation.terms/term_table.1) 
 + [assign.Pfam](annotation.terms/assign.Pfam.1) 
 + [assign.GO](annotation.terms/assign.GO.1) 
 + [write.id_maps](annotation.terms/write.id_maps.1) 
