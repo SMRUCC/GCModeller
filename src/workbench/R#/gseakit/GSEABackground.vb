@@ -1225,15 +1225,28 @@ Public Module GSEABackground
     ''' gsva(data, geneSet, method="gsva", ...);
     ''' </example>
     <ExportAPI("as.geneSet")>
-    Public Function asGenesetList(background As Background) As list
+    Public Function asGenesetList(background As Background, Optional export_alias As Boolean = False) As list
+        Dim export As Func(Of Cluster, String())
+
+        If export_alias Then
+            export = Function(c) c.members _
+                .Select(Function(d) d.alias) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+        Else
+            export = Function(c) c.members _
+                .Select(Function(d) d.accessionID) _
+                .ToArray
+        End If
+
         Return New list With {
-            .slots = background _
-                .clusters _
+            .slots = background.clusters _
                 .ToDictionary(Function(c)
                                   Return $"{c.ID} - {c.names}"
                               End Function,
                               Function(c)
-                                  Return CObj(c.members.Select(Function(d) d.accessionID).ToArray)
+                                  Return CObj(export(c))
                               End Function)
         }
     End Function
