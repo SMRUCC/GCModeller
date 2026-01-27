@@ -59,6 +59,7 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
@@ -67,11 +68,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
+Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
@@ -102,7 +105,7 @@ Module microbiomeKit
         Return New MetaBinaryReader(file)
     End Function
 
-    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
+    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As DataFrame
         Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
         Dim taxonomy As String() = data.Select(Function(otu) otu.taxonomy).ToArray
         Dim allNames As String() = data _
@@ -110,7 +113,7 @@ Module microbiomeKit
             .IteratesALL _
             .Distinct _
             .ToArray
-        Dim table As New dataframe With {
+        Dim table As New DataFrame With {
             .rownames = id,
             .columns = New Dictionary(Of String, Array) From {
                 {"taxonomy", taxonomy}
@@ -210,8 +213,8 @@ Module microbiomeKit
             pull = pipeline.TryCreatePipeline(Of OTUData(Of Double))(table, env)
 
             If pull.isError Then
-                If TypeOf table Is dataframe Then
-                    OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
+                If TypeOf table Is DataFrame Then
+                    OTUtable = DirectCast(table, DataFrame).OTUtable.ToArray
                 ElseIf TypeOf table Is HTSMatrix Then
                     OTUtable = DirectCast(table, HTSMatrix).OTUtable.ToArray
                 Else
@@ -254,7 +257,7 @@ Module microbiomeKit
     End Function
 
     <Extension>
-    Private Iterator Function OTUtable(table As dataframe) As IEnumerable(Of OTUData(Of Double))
+    Private Iterator Function OTUtable(table As DataFrame) As IEnumerable(Of OTUData(Of Double))
         Dim i As i32 = 1
         Dim sampleNames As String() = table.colnames
 
@@ -450,5 +453,15 @@ Module microbiomeKit
         Next
 
         Return ranks
+    End Function
+
+    ''' <summary>
+    ''' make vfdb gsea background model for run enrichment analysis
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("make_vfdb_model")>
+    Public Function make_vfdb_model(file As String) As Background
+        Return file.LoadCsv(Of VFDBInfo)(mute:=True).CreateModel
     End Function
 End Module
