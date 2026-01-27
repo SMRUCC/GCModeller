@@ -66,7 +66,9 @@ Namespace VFDB
     ''' </summary>
     Public Class VFs : Implements IPolymerSequenceModel, INamedValue
 
-        Public Property VFID As String Implements INamedValue.Key
+        Public Property VFGeneID As String Implements INamedValue.Key
+        Public Property VFID As String
+        Public Property VFCID As String
         Public Property xref As String
         Public Property geneName As String
         Public Property fullName As String
@@ -94,20 +96,25 @@ Namespace VFDB
 
             Dim geneName = title.Matches("\(.+?\)").First
             Dim external = xref.Match("\(.+\)")
-            Dim VFID = xref.Remove(external, RegexOptions.None)
+            Dim VFGeneID = xref.Remove(external, RegexOptions.None)
 
             title = title.Remove(geneName, RegexOptions.None).Trim
             xref = external.GetStackValue("(", ")")
             orgName = orgName.GetStackValue("[", "]")
             geneName = geneName.GetStackValue("(", ")")
 
+            Dim VFID As String = title.Match("VF\d+")
+            Dim VFCID As String = title.Match("VFC\d+")
+
             Return New VFs With {
-                .VFID = VFID,
+                .VFGeneID = VFGeneID,
                 .xref = xref,
                 .geneName = geneName,
                 .fullName = title,
                 .organism = orgName,
-                .sequence = fasta.SequenceData
+                .sequence = fasta.SequenceData,
+                .VFCID = VFCID,
+                .VFID = VFID
             }
         End Function
     End Class
