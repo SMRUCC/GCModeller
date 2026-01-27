@@ -16,6 +16,8 @@ Tools for handling OTU table data
 >  clusters.
 
 + [relative_abundance](OTU_table/relative_abundance.1) Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
++ [median_scale](OTU_table/median_scale.1) 
++ [impute_missing](OTU_table/impute_missing.1) 
 + [filter](OTU_table/filter.1) filter the otu data which has relative abundance greater than the given threshold
 + [read.OTUtable](OTU_table/read.OTUtable.1) read 16s OTU table
 + [read.OTUdata](OTU_table/read.OTUdata.1) 
