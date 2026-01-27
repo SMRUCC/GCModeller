@@ -65,6 +65,13 @@ declare namespace microbiome {
       */
       function entropy(v1: object, v2: object, rank?: object, env?: object): number;
    }
+   /**
+    * make vfdb gsea background model for run enrichment analysis
+    * 
+    * 
+     * @param file -
+   */
+   function make_vfdb_model(file: string): object;
    module parse {
       /**
        * parse the otu taxonomy data file

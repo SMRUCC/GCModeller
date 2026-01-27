@@ -10,3 +10,4 @@ tools for metagenomics and microbiome
 + [compounds.origin.profile](microbiome/compounds.origin.profile.1) 
 + [compound_origins](microbiome/compound_origins.1) create compound origin profile dataset
 + [taxonomy.rank_table](microbiome/taxonomy.rank_table.1) Generate a serials of the otu table in different rank level
++ [make_vfdb_model](microbiome/make_vfdb_model.1) make vfdb gsea background model for run enrichment analysis
