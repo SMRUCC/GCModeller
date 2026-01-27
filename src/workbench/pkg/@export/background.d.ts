@@ -67,6 +67,8 @@ declare namespace background {
        * >  for the gsva analysis.
        * 
         * @param background -
+        * @param export_alias 
+        * + default value Is ``false``.
         * @return a tuple list object that contains the gene set information,
         *  data result in format like:
         *  
@@ -78,7 +80,7 @@ declare namespace background {
         *  )
         *  ```
       */
-      function geneSet(background: object): object;
+      function geneSet(background: object, export_alias?: boolean): object;
    }
    module background {
       /**
