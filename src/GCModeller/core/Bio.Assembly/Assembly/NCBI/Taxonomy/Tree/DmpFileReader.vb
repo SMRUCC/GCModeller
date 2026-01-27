@@ -168,8 +168,10 @@ Namespace Assembly.NCBI.Taxonomy
             Call root_children.Remove("1")
 
             ' 20260128
-            ' fix bug for bacteria
-            taxonomy("2").rank = NcbiTaxonomyTree.superkingdom
+            ' fix bug for domain
+            taxonomy("2").rank = NcbiTaxonomyTree.superkingdom  ' bacterial
+            taxonomy("2759").rank = NcbiTaxonomyTree.superkingdom ' eukaryota
+            taxonomy("2157").rank = NcbiTaxonomyTree.superkingdom ' archaea
 
             With taxonomy("1")
                 .parent = Nothing
