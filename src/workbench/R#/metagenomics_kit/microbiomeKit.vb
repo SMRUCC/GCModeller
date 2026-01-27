@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::f84587b85bfeb1fd6aaa620fdfd5b14e, R#\metagenomics_kit\microbiomeKit.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 317
-    '    Code Lines: 219 (69.09%)
-    ' Comment Lines: 59 (18.61%)
-    '    - Xml Docs: 94.92%
-    ' 
-    '   Blank Lines: 39 (12.30%)
-    '     File Size: 13.39 KB
+' Summaries:
 
 
-    ' Module microbiomeKit
-    ' 
-    '     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
-    '               (+2 Overloads) OTUtable, parsegreenGenesTaxonomy, predict_metagenomes, readPICRUSt, readPICRUStMatrix
-    '               similar
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 317
+'    Code Lines: 219 (69.09%)
+' Comment Lines: 59 (18.61%)
+'    - Xml Docs: 94.92%
+' 
+'   Blank Lines: 39 (12.30%)
+'     File Size: 13.39 KB
+
+
+' Module microbiomeKit
+' 
+'     Function: asTaxonomyVector, castTable, CompoundOrigin, createEmptyCompoundOriginProfile, indexMatrix
+'               (+2 Overloads) OTUtable, parsegreenGenesTaxonomy, predict_metagenomes, readPICRUSt, readPICRUStMatrix
+'               similar
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -72,7 +72,6 @@ Imports SMRUCC.genomics.Analysis.HTS.GSEA
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
-Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.PICRUSt
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -85,6 +84,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -105,7 +105,7 @@ Module microbiomeKit
         Return New MetaBinaryReader(file)
     End Function
 
-    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As DataFrame
+    Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
         Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
         Dim taxonomy As String() = data.Select(Function(otu) otu.taxonomy).ToArray
         Dim allNames As String() = data _
@@ -113,7 +113,7 @@ Module microbiomeKit
             .IteratesALL _
             .Distinct _
             .ToArray
-        Dim table As New DataFrame With {
+        Dim table As New dataframe With {
             .rownames = id,
             .columns = New Dictionary(Of String, Array) From {
                 {"taxonomy", taxonomy}
@@ -213,8 +213,8 @@ Module microbiomeKit
             pull = pipeline.TryCreatePipeline(Of OTUData(Of Double))(table, env)
 
             If pull.isError Then
-                If TypeOf table Is DataFrame Then
-                    OTUtable = DirectCast(table, DataFrame).OTUtable.ToArray
+                If TypeOf table Is dataframe Then
+                    OTUtable = DirectCast(table, dataframe).OTUtable.ToArray
                 ElseIf TypeOf table Is HTSMatrix Then
                     OTUtable = DirectCast(table, HTSMatrix).OTUtable.ToArray
                 Else
@@ -257,7 +257,7 @@ Module microbiomeKit
     End Function
 
     <Extension>
-    Private Iterator Function OTUtable(table As DataFrame) As IEnumerable(Of OTUData(Of Double))
+    Private Iterator Function OTUtable(table As dataframe) As IEnumerable(Of OTUData(Of Double))
         Dim i As i32 = 1
         Dim sampleNames As String() = table.colnames
 
