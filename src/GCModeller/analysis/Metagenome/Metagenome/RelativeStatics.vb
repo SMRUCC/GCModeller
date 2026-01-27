@@ -175,10 +175,12 @@ Public Module RelativeStatics
                                                                            Return oo.Value
                                                                        End Function) / 100
                                                 End Function)
+            Dim taxon = DirectCast(gg.First.taxonomy, gast.Taxonomy)
+            Dim depth As Integer = taxon.GetDepth
 
             Yield New RankLevelView With {
                 .OTUs = gg.Select(Function(x) x.ID).ToArray,
-                .TaxonomyName = DirectCast(gg.First.taxonomy, gast.Taxonomy)(rank.i),
+                .TaxonomyName = If(taxon(rank.i).StringEmpty, If(depth < 0, "Unknown", taxon(depth)), taxon(rank.i)),
                 .Tree = g.tree,
                 .Samples = sampleData
             }
