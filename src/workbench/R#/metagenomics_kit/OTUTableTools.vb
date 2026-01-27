@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -130,11 +131,7 @@ Module OTUTableTools
     <ExportAPI("relative_abundance")>
     <RApiReturn(GetType(OTUTable))>
     Public Function relativeAbundance(x As OTUTable()) As Object
-        Dim sample_ids As String() = x _
-            .Select(Function(otu) otu.Properties.Keys) _
-            .IteratesALL _
-            .Distinct _
-            .ToArray
+        Dim sample_ids As String() = x.PropertyNames
         Dim v As Vector
 
         For Each name As String In sample_ids
@@ -144,6 +141,48 @@ Module OTUTableTools
             For i As Integer = 0 To x.Length - 1
                 x(i)(name) = v(i)
             Next
+        Next
+
+        Return x
+    End Function
+
+    <ExportAPI("median_scale")>
+    Public Function median_scale(x As OTUTable()) As Object
+        Dim sample_ids As String() = x.PropertyNames
+
+        For Each otu As OTUTable In x.SafeQuery
+            Dim pos As Double() = otu.Vector.Where(Function(a) a > 0).ToArray
+
+            If pos.Length > 0 Then
+                ' not all zero
+                Dim median As Double = otu.Vector.Median
+
+                For Each id As String In sample_ids
+                    otu(id) = otu(id) / median
+                Next
+            End If
+        Next
+
+        Return x
+    End Function
+
+    <ExportAPI("impute_missing")>
+    Public Function impute_missing(x As OTUTable()) As Object
+        Dim sample_ids As String() = x.PropertyNames
+
+        For Each otu As OTUTable In x.SafeQuery
+            Dim pos As Double() = otu.Vector.Where(Function(a) a > 0).ToArray
+
+            If pos.Length > 0 Then
+                ' not all zero
+                Dim min_pos As Double = pos.Min / 2
+
+                For Each id As String In sample_ids
+                    If otu(id) <= 0 Then
+                        otu(id) = min_pos
+                    End If
+                Next
+            End If
         Next
 
         Return x
