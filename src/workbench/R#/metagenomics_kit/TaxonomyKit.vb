@@ -351,10 +351,15 @@ Module TaxonomyKit
     ''' <returns></returns>
     <ExportAPI("lineage")>
     Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> tax As String(), Optional fullName As Boolean = False) As Taxonomy()
+        Dim std_rank As Boolean = Not fullName
+
         Return tax _
             .Select(Function(ncbi_taxid)
                         If ncbi_taxid.IsPattern("\d+") Then
-                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=Not fullName))
+                            Dim path As TaxonomyNode() = tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=std_rank)
+                            Dim taxon As New Taxonomy(path)
+
+                            Return taxon
                         Else
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
                         End If

@@ -108,6 +108,15 @@ Namespace Assembly.NCBI.Taxonomy
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(taxid As Integer, name As String, Optional rank As String = "no_rank")
+            Me.taxid = taxid
+            Me.name = name
+            Me.rank = rank
+        End Sub
+
         Public Function HasChilds() As Boolean
             Return Not children.IsNullOrEmpty
         End Function

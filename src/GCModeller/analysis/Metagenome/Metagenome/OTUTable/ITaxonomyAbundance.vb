@@ -40,6 +40,10 @@ Public Module OTUTableBuilder
             Dim lineage = taxonomyTree.GetAscendantsWithRanksAndNames(taxon.Key, only_std_ranks:=True)
             Dim tree As New Metagenomics.Taxonomy(lineage)
 
+            If lineage.IsNullOrEmpty Then
+                tree = New Metagenomics.Taxonomy({New TaxonomyNode(0, "Unknown")})
+            End If
+
             For Each sample As (sample_id$, taxon_data As T) In taxon
                 If abundance.ContainsKey(sample.sample_id) Then
                     abundance(sample.sample_id) += sample.taxon_data.ExpressionValue
