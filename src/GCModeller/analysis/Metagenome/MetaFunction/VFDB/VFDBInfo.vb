@@ -1,5 +1,8 @@
 ﻿Namespace VFDB
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
     Public Class VFDBInfo
 
         Public Property VFID As String
