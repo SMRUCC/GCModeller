@@ -167,6 +167,10 @@ Namespace Assembly.NCBI.Taxonomy
             Dim root_children = taxonomy("1").children
             Call root_children.Remove("1")
 
+            ' 20260128
+            ' fix bug for bacteria
+            taxonomy("2").rank = NcbiTaxonomyTree.superkingdom
+
             With taxonomy("1")
                 .parent = Nothing
                 .children = root_children
