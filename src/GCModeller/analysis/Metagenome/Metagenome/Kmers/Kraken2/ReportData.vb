@@ -1,6 +1,7 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel
@@ -24,7 +25,7 @@ Namespace Kmers.Kraken2
         ''' U: Unclassified (未分类)。表示该 read 未能被分配到任何数据库中的分类单元。
         ''' </summary>
         ''' <returns></returns>
-        Public Property StatusCode As String
+        <Column("status_code")> Public Property StatusCode As String
         ''' <summary>
         ''' 输入的 FASTQ 文件中该 read 的序列标识符。
         ''' </summary>
@@ -34,21 +35,21 @@ Namespace Kmers.Kraken2
         ''' 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
         ''' </summary>
         ''' <returns></returns>
-        Public Property TaxID As Integer
+        <Column("taxid")> Public Property TaxID As Integer
 
         ''' <summary>
         ''' biom style taxonomy string
         ''' </summary>
         ''' <returns></returns>
-        Public Property Taxonomy As String
-        Public Property LCASupport As Double
-        Public Property LCATaxids As Integer()
+        <Column("tax_name")> Public Property Taxonomy As String
+        <Column("lca_support")> Public Property LCASupport As Double
+        <Column("lca_taxids")> Public Property LCATaxids As Integer()
 
         ''' <summary>
         ''' 该 read 的碱基数量。
         ''' </summary>
         ''' <returns></returns>
-        Public Property ReadLength As Integer
+        <Column("read_length")> Public Property ReadLength As Integer
         ''' <summary>
         ''' LCA映射详情, 使用字典来存储 k-mer 的分配详情，键是 TaxID，值是 k-mer 数量
         ''' 
