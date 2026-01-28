@@ -101,10 +101,34 @@ Module microbiomeKit
         Call RInternal.generic.add("readBin.PICRUSt", GetType(Stream), AddressOf readPICRUSt)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
+    Private Function leveltable(data As RankLevelView(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .rownames = data.Select(Function(o) o.TaxonomyName).ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add("Tree", From o As RankLevelView In data Select o.Tree)
+        Call df.add("OTUs", From o As RankLevelView In data Select o.OTUs.JoinBy(", "))
+
+        Dim sample_ids As String() = data _
+            .Select(Function(o) o.Samples.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        For Each id As String In sample_ids
+            Call df.add(id, From o As RankLevelView In data Select o.Samples.TryGetValue(id))
+        Next
+
+        Return df
+    End Function
+
     Private Function readPICRUSt(file As Stream, args As list, env As Environment) As Object
         Return New MetaBinaryReader(file)
     End Function
 
+    <RGenericOverloads("as.data.frame")>
     Private Function castTable(data As OTUData(Of Double)(), args As list, env As Environment) As dataframe
         Dim id As String() = data.Select(Function(otu) otu.OTU).ToArray
         Dim taxonomy As String() = data.Select(Function(otu) otu.taxonomy).ToArray

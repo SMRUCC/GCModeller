@@ -89,6 +89,18 @@ declare namespace kmers {
    */
    function kmers_matrix(x: any, k?: object, env?: object): object;
    /**
+    * extract gene/genomics sequences from genbank file for kraken2 sequence classification
+    * 
+    * 
+     * @param gb -
+     * @param geneset 
+     * + default value Is ``false``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function kraken_seqs(gb: any, geneset?: boolean, env?: object): any;
+   /**
     * just make reads classify of the fastq reads based on the k-mer distribution
     * 
     * > apply this method for do host sequence filter

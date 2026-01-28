@@ -18,3 +18,4 @@
 + [filter_classification](kmers/filter_classification.1) 
 + [filter_reads](kmers/filter_reads.1) 
 + [seq_info](kmers/seq_info.1) 
++ [kraken_seqs](kmers/kraken_seqs.1) extract gene/genomics sequences from genbank file for kraken2 sequence classification
