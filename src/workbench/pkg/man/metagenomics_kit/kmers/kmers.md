@@ -15,6 +15,8 @@
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
 + [read.kraken2](kmers/read.kraken2.1) 
 + [read_brackens](kmers/read_brackens.1) 
++ [read.kraken2_reads](kmers/read.kraken2_reads.1) 
++ [hits_matrix](kmers/hits_matrix.1) 
 + [filter_classification](kmers/filter_classification.1) filter the reads data that has the specific taxonomy id assignment.
 + [filter_reads](kmers/filter_reads.1) 
 + [seq_info](kmers/seq_info.1) 

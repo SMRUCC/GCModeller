@@ -85,6 +85,10 @@ declare namespace kmers {
    */
    function filter_reads(kraken_output: any, reads: any, env?: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function hits_matrix(samples: object, env?: object): object;
+   /**
     * generate sequence k-mer count data matrix
     * 
     * 
@@ -136,6 +140,9 @@ declare namespace kmers {
       /**
       */
       function kraken2(file: string): object;
+      /**
+      */
+      function kraken2_reads(file: string): object;
    }
    /**
    */
