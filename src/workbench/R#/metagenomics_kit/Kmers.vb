@@ -372,10 +372,19 @@ Module KmersTool
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' filter the reads data that has the specific taxonomy id assignment.
+    ''' </summary>
+    ''' <param name="kraken_output">the kraken2 reads taxonomy assignment result</param>
+    ''' <param name="taxids">a set of the target taxonomy id to make filter</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("filter_classification")>
     <RApiReturn(GetType(KrakenOutputRecord))>
     Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
-                                          <RRawVectorArgument> taxids As Object,
+                                          <RRawVectorArgument(TypeCodes.integer)>
+                                          taxids As Object,
+                                          Optional ncbi_taxonomy As NcbiTaxonomyTree = Nothing,
                                           Optional env As Environment = Nothing) As Object
 
         Dim taxIndex As Index(Of Long) = CLRVector.asLong(taxids)
@@ -385,9 +394,27 @@ Module KmersTool
             Return kraken2.getError
         End If
 
-        Return pipeline.CreateFromPopulator(From c As KrakenOutputRecord
-                                            In kraken2.populates(Of KrakenOutputRecord)(env)
-                                            Where c.TaxID Like taxIndex)
+        Dim filtered = From c As KrakenOutputRecord
+                       In kraken2.populates(Of KrakenOutputRecord)(env)
+                       Where c.TaxID Like taxIndex
+
+        If Not ncbi_taxonomy Is Nothing Then
+            filtered = filtered.ToArray _
+                .Select(Function(r)
+                            Dim node As TaxonomyNode() = ncbi_taxonomy.GetAscendantsWithRanksAndNames(r.TaxID, only_std_ranks:=True)
+
+                            If node Is Nothing Then
+                                r.Taxonomy = "Unknown"
+                            Else
+                                r.Taxonomy = New SMRUCC.genomics.Metagenomics.Taxonomy(node).ToString(BIOMstyle:=True)
+                            End If
+
+                            Return r
+                        End Function) _
+                .ToArray
+        End If
+
+        Return pipeline.CreateFromPopulator(filtered)
     End Function
 
     <ExportAPI("filter_reads")>
