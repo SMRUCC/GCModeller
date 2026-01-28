@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
@@ -7,6 +8,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -447,4 +449,54 @@ Module KmersTool
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' extract gene/genomics sequences from genbank file for kraken2 sequence classification
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kraken_seqs")>
+    Public Function format_kraken_seqs(<RRawVectorArgument> gb As Object,
+                                       Optional geneset As Boolean = False,
+                                       Optional env As Environment = Nothing) As Object
+
+        Dim pullGenbank As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(gb, env)
+
+        If pullGenbank.isError Then
+            Return pullGenbank.getError
+        End If
+
+        Dim seq As IEnumerable(Of FastaSeq)
+
+        If geneset Then
+            seq = pullGenbank.populates(Of GBFF.File)(env).gene_seqs()
+        Else
+            seq = pullGenbank.populates(Of GBFF.File)(env).genomics_nt()
+        End If
+
+        Return pipeline.CreateFromPopulator(seq)
+    End Function
+
+    <Extension>
+    Private Iterator Function genomics_nt(genbank As IEnumerable(Of GBFF.File)) As IEnumerable(Of FastaSeq)
+        For Each gb As GBFF.File In genbank
+            Dim origin As FastaSeq = gb.Origin.ToFasta
+            origin.Headers = {gb.Accession.AccessionId, "kraken:taxid", gb.Taxon}
+            Yield origin
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function gene_seqs(genbank As IEnumerable(Of GBFF.File)) As IEnumerable(Of FastaSeq)
+        For Each gb As GBFF.File In genbank
+            Dim taxid As String = gb.Taxon
+
+            For Each gene As Feature In gb.EnumerateGeneFeatures(ORF:=False)
+                Dim seq As String = gene.SequenceData
+                Dim headers As String() = {gene(FeatureQualifiers.locus_tag), "kraken:taxid", taxid}
+
+                Yield New FastaSeq(headers, seq)
+            Next
+        Next
+    End Function
 End Module
