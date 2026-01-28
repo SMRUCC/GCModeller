@@ -60,6 +60,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -185,6 +186,20 @@ Module TaxonomyKit
             .ToArray
 
         Return taxlist
+    End Function
+
+    <ExportAPI("taxonomy_name")>
+    Public Function taxonomy_name(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim taxons = ParseBIOMString(taxonomy, env)
+
+        If TypeOf taxons Is Message Then
+            Return taxons
+        End If
+
+        Dim taxList As Taxonomy() = DirectCast(taxons, Taxonomy())
+        Dim names As String() = taxList.Select(Function(t) If(t.ToArray.LastOrDefault, "Unknown")).ToArray
+
+        Return names
     End Function
 
     ''' <summary>
