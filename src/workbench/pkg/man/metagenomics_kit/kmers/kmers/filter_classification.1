@@ -1,11 +1,26 @@
 .\" man page create by R# package system.
 .TH KMERS 1 2000-Jan "filter_classification" "filter_classification"
 .SH NAME
-filter_classification \- 
+filter_classification \- filter the reads data that has the specific taxonomy id assignment.
 .SH SYNOPSIS
 \fIfilter_classification(\fBkraken_output\fR as any, 
 \fBtaxids\fR as any, 
+\fBncbi_taxonomy\fR as <generic> NcbiTaxonomyTree = \fB<NULL>\fR, 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+filter the reads data that has the specific taxonomy id assignment.
+.PP
+.SH OPTIONS
+.PP
+\fBkraken_output\fB \fR\- the kraken2 reads taxonomy assignment result. 
+.PP
+.PP
+\fBtaxids\fB \fR\- a set of the target taxonomy id to make filter. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 kmers
 .SH FILES

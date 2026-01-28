@@ -15,7 +15,7 @@
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
 + [read.kraken2](kmers/read.kraken2.1) 
 + [read_brackens](kmers/read_brackens.1) 
-+ [filter_classification](kmers/filter_classification.1) 
++ [filter_classification](kmers/filter_classification.1) filter the reads data that has the specific taxonomy id assignment.
 + [filter_reads](kmers/filter_reads.1) 
 + [seq_info](kmers/seq_info.1) 
 + [kraken_seqs](kmers/kraken_seqs.1) extract gene/genomics sequences from genbank file for kraken2 sequence classification

@@ -68,9 +68,18 @@ declare namespace kmers {
    */
    function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number, coverage?: number): object;
    /**
-     * @param env default value Is ``null``.
+    * filter the reads data that has the specific taxonomy id assignment.
+    * 
+    * 
+     * @param kraken_output the kraken2 reads taxonomy assignment result
+     * @param taxids a set of the target taxonomy id to make filter
+     * @param ncbi_taxonomy 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function filter_classification(kraken_output: any, taxids: any, env?: object): object;
+   function filter_classification(kraken_output: any, taxids: any, ncbi_taxonomy?: object, env?: object): object;
    /**
      * @param env default value Is ``null``.
    */
