@@ -97,6 +97,7 @@ Module microbiomeKit
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(OTUData(Of Double)()), AddressOf castTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(RankLevelView()), AddressOf leveltable)
 
         Call RInternal.generic.add("readBin.PICRUSt", GetType(Stream), AddressOf readPICRUSt)
     End Sub
