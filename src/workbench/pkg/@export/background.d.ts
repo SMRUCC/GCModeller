@@ -111,6 +111,9 @@ declare namespace background {
    */
    function background_summary(background: object, gene_names?: boolean): object;
    /**
+   */
+   function cluster_names(background: object, idset: any): string;
+   /**
     * get all of the cluster id set from the given background model object
     * 
     * 

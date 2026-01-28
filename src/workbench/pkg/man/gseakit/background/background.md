@@ -3,6 +3,7 @@
 tools for handling GSEA background model.
 
 + [clusterIDs](background/clusterIDs.1) get all of the cluster id set from the given background model object
++ [cluster_names](background/cluster_names.1) 
 + [moleculeIDs](background/moleculeIDs.1) get all of the molecule id set from the given background model object
 + [meta_background](background/meta_background.1) 
 + [dag.background](background/dag.background.1) create gsea background from a given obo ontology file data.
