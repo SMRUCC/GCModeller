@@ -127,6 +127,10 @@ declare namespace taxonomy_kit {
       function filter(tree: object, range: string, taxid?: object): object|object;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function taxonomy_name(taxonomy: any, env?: object): any;
+   /**
    */
    function taxonomy_range(tax: object, rank: object): object;
    /**
