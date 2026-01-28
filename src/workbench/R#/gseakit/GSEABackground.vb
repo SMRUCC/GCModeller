@@ -176,6 +176,20 @@ Public Module GSEABackground
         Return background.clusters.Select(Function(a) a.ID).ToArray
     End Function
 
+    <ExportAPI("cluster_names")>
+    Public Function clusterNames(background As Background, <RRawVectorArgument(TypeCodes.string)> idset As Object) As String()
+        Return CLRVector.asCharacter(idset) _
+            .Select(Function(gene_id)
+                        Return (From c As Cluster
+                                In background.clusters
+                                Where c.Intersect({gene_id}).Any
+                           ) _
+                            .FirstOrDefault _
+                           ?.names
+                    End Function) _
+            .ToArray
+    End Function
+
     ''' <summary>
     ''' get all of the molecule id set from the given background model object
     ''' </summary>
