@@ -31,6 +31,9 @@ declare namespace geneExpression {
    */
    function aggregate(x: object, byrow?: boolean): any;
    /**
+   */
+   function aggregate_genes(x: object): object;
+   /**
     * function alias of the ``geneExpression::average`` function
     * 
     * 
@@ -40,7 +43,7 @@ declare namespace geneExpression {
      * 
      * + default value Is ``null``.
    */
-   function aggregate_samples(matrix: object, groups: object, env?: object): any;
+   function aggregate_samples(matrix: object, groups: object, env?: object): object;
    module as {
       /**
         * @param normalized default value Is ``false``.

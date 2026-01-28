@@ -26,6 +26,7 @@ the gene expression matrix data toolkit
 + [mad](geneExpression/mad.1) evaluate the MAD value for each gene features
 + [sort_mad](geneExpression/sort_mad.1) take top n expression feature by rank expression MAD value desc
 + [aggregate_samples](geneExpression/aggregate_samples.1) function alias of the ``geneExpression::average`` function
++ [aggregate_genes](geneExpression/aggregate_genes.1) 
 + [average](geneExpression/average.1) calculate average value of the gene expression for
 + [z_score](geneExpression/z_score.1) Z-score normalized of the expression data matrix
 + [pca](geneExpression/pca.1) do PCA on a gene expressin matrix
