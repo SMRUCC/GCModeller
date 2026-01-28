@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -19,6 +20,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("kmers")>
@@ -360,7 +362,7 @@ Module KmersTool
 
     <ExportAPI("read.kraken2")>
     Public Function read_kraken_report(file As String) As KrakenReportRecord()
-        Return file.LoadCsv(Of KrakenReportRecord)(mute:=True)
+        Return file.LoadCsv(Of KrakenReportRecord)(mute:=True).ToArray
     End Function
 
     <ExportAPI("read_brackens")>
@@ -370,6 +372,53 @@ Module KmersTool
             .Select(Function(path) Bracken.LoadTable(path)) _
             .IteratesALL _
             .ToArray
+    End Function
+
+    <ExportAPI("read.kraken2_reads")>
+    Public Function read_kraken_reads(file As String) As KrakenOutputRecord()
+        Return file.LoadCsv(Of KrakenOutputRecord)(mute:=True).ToArray
+    End Function
+
+    <ExportAPI("hits_matrix")>
+    <RApiReturn(GetType(HTSMatrix))>
+    Public Function reads_hits_matrix(<RRawVectorArgument> samples As list, Optional env As Environment = Nothing) As Object
+        Dim readsData As New Dictionary(Of String, KrakenOutputRecord())
+
+        For Each name As String In samples.getNames
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(samples(name), env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            readsData.Add(name, pull.populates(Of KrakenOutputRecord)(env).ToArray)
+        Next
+
+        Dim taxonomy As New List(Of DataFrameRow)
+        Dim sample_ids As String() = readsData.Keys.ToArray
+
+        For Each taxon In readsData.Select(Function(s) s.Value.Select(Function(r) (s.Key, r))).IteratesALL.GroupBy(Function(r) r.r.TaxID)
+            Dim sampleGroups As Dictionary(Of String, Double) = taxon _
+                .GroupBy(Function(r) r.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return CDbl(r.Count)
+                              End Function)
+            Dim hits As Double() = sample_ids _
+                .Select(Function(id) sampleGroups.TryGetValue(id)) _
+                .ToArray
+
+            Call taxonomy.Add(New DataFrameRow With {
+                .geneID = taxon.First.r.Taxonomy,
+                .experiments = hits
+            })
+        Next
+
+        Return New HTSMatrix With {
+            .expression = taxonomy.ToArray,
+            .sampleID = sample_ids,
+            .tag = "reads_hits_matrix"
+        }
     End Function
 
     ''' <summary>
