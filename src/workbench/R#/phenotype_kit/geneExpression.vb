@@ -618,29 +618,31 @@ Module geneExpression
                                    Optional exclude_samples As String() = Nothing,
                                    Optional rm_ZERO As Boolean = False,
                                    Optional makeNames As Boolean = False,
+                                   Optional makeUnique As Boolean = True,
                                    Optional env As Environment = Nothing) As Object
 
         Dim ignores As Index(Of String) = If(exclude_samples, {})
+        Dim x As Matrix = Nothing
 
         If TypeOf file Is String Then
             Dim filepath As String = DirectCast(file, String)
             Dim mat As Matrix = Matrix.LoadData(filepath, ignores, rm_ZERO)
 
-            Return mat.uniqueGeneId(makeNames)
+            x = mat
         ElseIf TypeOf file Is Rdataframe Then
-            Return DirectCast(file, Rdataframe) _
-                .loadFromDataFrame(rm_ZERO, ignores) _
-                .uniqueGeneId(makeNames)
+            x = DirectCast(file, Rdataframe).loadFromDataFrame(rm_ZERO, ignores)
         ElseIf REnv.isVector(Of DataSet)(file) Then
-            Return DirectCast(REnv.asVector(Of DataSet)(file), DataSet()) _
-                .loadFromGenericDataSet(rm_ZERO, ignores) _
-                .uniqueGeneId(makeNames)
+            x = DirectCast(REnv.asVector(Of DataSet)(file), DataSet()).loadFromGenericDataSet(rm_ZERO, ignores)
         ElseIf TypeOf file Is clr_df Then
-            Return DirectCast(file, clr_df) _
-                .loadFromClrDataframe(rm_ZERO, ignores) _
-                .uniqueGeneId(makeNames)
+            x = DirectCast(file, clr_df).loadFromClrDataframe(rm_ZERO, ignores)
         Else
             Return Message.InCompatibleType(GetType(Rdataframe), file.GetType, env)
+        End If
+
+        If makeUnique Then
+            Return x.uniqueGeneId(makeNames)
+        Else
+            Return x
         End If
     End Function
 
