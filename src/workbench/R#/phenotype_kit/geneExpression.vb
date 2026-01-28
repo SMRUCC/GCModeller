@@ -1043,6 +1043,7 @@ Module geneExpression
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("aggregate_samples")>
+    <RApiReturn(GetType(Matrix))>
     Public Function aggregate_samples(matrix As Matrix, <RListObjectArgument> groups As list, Optional env As Environment = Nothing) As Object
         Dim sampleinfo As SampleInfo() = groups.slots _
             .Select(Iterator Function(a) As IEnumerable(Of SampleInfo)
@@ -1062,6 +1063,12 @@ Module geneExpression
         End If
 
         Return Matrix.MatrixSum(matrix, sampleinfo, strict:=True)
+    End Function
+
+    <ExportAPI("aggregate_genes")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function aggregate_genes(x As Matrix) As Object
+        Return x.Aggregate(byrow:=True)
     End Function
 
     ''' <summary>
@@ -1956,6 +1963,7 @@ Module geneExpression
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("aggregate")>
+    <Extension>
     Public Function Aggregate(x As Matrix, Optional byrow As Boolean = True) As Object
         If byrow Then
             Dim rows As New Dictionary(Of String, std_vec)
