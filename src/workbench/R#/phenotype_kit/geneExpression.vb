@@ -74,7 +74,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
-Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -92,7 +91,6 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
-Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ExpressionPattern
 Imports SMRUCC.Rsharp.Runtime

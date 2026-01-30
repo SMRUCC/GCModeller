@@ -264,6 +264,24 @@ Public Class FeatureVector : Implements IReadOnlyId
         Return type Like primitiveSupports
     End Function
 
+    Public Shared Function FromScalar(Of T)(name As String, val As T) As FeatureVector
+        If val Is Nothing Then
+            Return FromGeneral(name, New T() {})
+        Else
+            Return FromGeneral(name, New T() {val})
+        End If
+    End Function
+
+    Public Shared Function FromScalar(name As String, val As Object) As FeatureVector
+        If val Is Nothing Then
+            Return FromGeneral(name, New String() {})
+        Else
+            Dim scalar As Array = Array.CreateInstance(val.GetType, 1)
+            Call scalar.SetValue(val, 0)
+            Return FromGeneral(name, scalar)
+        End If
+    End Function
+
     Public Shared Function FromGeneral(name As String, vec As Array) As FeatureVector
         Select Case vec.GetType.GetElementType
             Case GetType(Integer) : Return New FeatureVector(name, DirectCast(vec, Integer()))
@@ -288,6 +306,34 @@ Public Class FeatureVector : Implements IReadOnlyId
 
     Public Shared Narrowing Operator CType(col As FeatureVector) As StringVector
         Return New StringVector(From xi As Object In col.vector Select any.ToString(xi))
+    End Operator
+
+    Public Shared Narrowing Operator CType(col As FeatureVector) As String()
+        If col Is Nothing Then
+            Return Nothing
+        End If
+        Return col.TryCast(Of String)
+    End Operator
+
+    Public Shared Narrowing Operator CType(col As FeatureVector) As Double()
+        If col Is Nothing Then
+            Return Nothing
+        End If
+        Return col.TryCast(Of Double)
+    End Operator
+
+    Public Shared Narrowing Operator CType(col As FeatureVector) As Integer()
+        If col Is Nothing Then
+            Return Nothing
+        End If
+        Return col.TryCast(Of Integer)
+    End Operator
+
+    Public Shared Narrowing Operator CType(col As FeatureVector) As Date()
+        If col Is Nothing Then
+            Return Nothing
+        End If
+        Return col.TryCast(Of Date)
     End Operator
 
 End Class

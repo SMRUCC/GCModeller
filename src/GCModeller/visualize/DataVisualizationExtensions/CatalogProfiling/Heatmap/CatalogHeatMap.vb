@@ -221,8 +221,8 @@ Namespace CatalogProfiling
             Next
 
             ' draw sample labels
-            x = region.Left + dw
-            y += gap * 1.25
+            x = region.Left + dw ' * 2
+            y += gap * 1.25 ' + 100
 
             ' Dim text As New GraphicsText(DirectCast(g, Graphics2D).Graphics)
 
