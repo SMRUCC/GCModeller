@@ -446,7 +446,7 @@ Partial Module CLI
         Dim taxDIR$ = args("/tax")
         Dim tax As NcbiTaxonomyTree = Nothing
         Dim trimLong As Boolean = args("/trim")
-        Dim taxid As New Value(Of Integer)
+        Dim taxid As New Value(Of UInteger)
         Dim mapping As TaxidMaps.Mapping = If(
             is_gi2taxid,
             TaxidMaps.MapByGI(x2taxid),
