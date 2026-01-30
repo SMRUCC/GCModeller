@@ -22,7 +22,7 @@
 
         <h3>Description</h3>
 
-        
+        <p>A general reaction model</p>
 
         <h3>Declare</h3>        
 
@@ -33,9 +33,12 @@ export class Reaction {
    comment: string;
    compounds: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/SideCompound.html">SideCompound[]</a>;
    db_xrefs: <a href="/vignettes/clr/Microsoft/VisualBasic/Text/Xml/Models/NamedValue.html">NamedValue[]</a>;
+   # the reaction equation in character string type
    definition: string;
    entry: string;
+   # should be the EC number
    enzyme: string;
+   # the parsed reaction equaltion object based on the definition property
    equation: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/EquaionModel/DefaultTypes/Equation.html">Equation</a>;
    isTransport: boolean;
 }

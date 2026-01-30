@@ -60,3 +60,4 @@ WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a syste
 + [connectivity](WGCNA/connectivity.1) export a dataframe of the node information with connectivity value
 + [applyModuleColors](WGCNA/applyModuleColors.1) 
 + [cor_network](WGCNA/cor_network.1) Create correlation network based on WGCNA method
++ [phenotype_matrix](WGCNA/phenotype_matrix.1) 

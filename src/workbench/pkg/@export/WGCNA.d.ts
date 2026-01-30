@@ -115,6 +115,10 @@ declare namespace WGCNA {
      * + default value Is ``null``.
    */
    function load_TOM_graph(edges: string, nodes: string, threshold?: number, prefix?: string, id_subset?: any): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function phenotype_matrix(x: any, env?: object): any;
    module read {
       /**
        * load TOM module network nodes
