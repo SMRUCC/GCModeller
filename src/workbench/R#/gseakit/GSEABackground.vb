@@ -756,6 +756,23 @@ Public Module GSEABackground
         End If
     End Function
 
+    <ExportAPI("cluster_filter")>
+    Public Function clusterFilter(background As Background, <RRawVectorArgument(TypeCodes.string)> id_removes As Object, Optional env As Environment = Nothing) As Object
+        Dim id_filter As Index(Of String) = CLRVector.asCharacter(id_removes).Indexing
+        Dim clean As New Background With {
+            .build = Now,
+            .comments = background.comments,
+            .id = background.id,
+            .name = background.name,
+            .clusters = background.clusters _
+                .Where(Function(c) Not (c.ID Like id_filter)) _
+                .ToArray,
+            .size = .clusters.BackgroundSize
+        }
+
+        Return clean
+    End Function
+
     ''' <summary>
     ''' make filter of the background model 
     ''' </summary>
