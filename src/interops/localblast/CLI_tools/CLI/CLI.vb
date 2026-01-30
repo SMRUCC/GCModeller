@@ -375,7 +375,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
         Dim out As String = args("/out") Or ([in].TrimSuffix & "_output.json")
         Dim hits = BlastpOutputReader _
             .RunParser([in]) _
-            .ExportHistResult _
+            .ExportHitsResult _
             .ToArray
 
         Using s As Stream = out.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
