@@ -111,6 +111,16 @@ declare namespace background {
    */
    function background_summary(background: object, gene_names?: boolean): object;
    /**
+    * make filter of the background model
+    * 
+    * 
+     * @param background -
+     * @param env 
+     * + default value Is ``null``.
+     * @return a new background model that has cluster filtered by the given rule.
+   */
+   function cluster_filter(background: object, id_removes: any, env?: object): any;
+   /**
    */
    function cluster_names(background: object, idset: any): string;
    /**
