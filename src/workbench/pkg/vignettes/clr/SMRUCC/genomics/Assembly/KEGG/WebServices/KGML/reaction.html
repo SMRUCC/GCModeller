@@ -22,9 +22,7 @@
 
         <h3>Description</h3>
 
-        <p><reaction>元素表示通路中的一种生化反应，用于连接代谢物节点，形成代谢网络中的化学转化关系。在代谢通路中，<reaction>元素主要涉及底物（substrates）
- 和产物（products）两类代谢物节点。它描述了一个化学反应如何将一组底物转化为另一组产物，以及该反应是否可逆等信息。<reaction>元素在KGML中通常用于
- 表示化学网络（chemical network），即以代谢物为节点、反应为边的关系网络。</p>
+        
 
         <h3>Declare</h3>        
 
@@ -32,13 +30,9 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
 export class reaction extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/Link.html">Link</a> {
-   # 该反应的唯一标识符，在通路范围内唯一。通常是一个整数，用于在KGML中引用该反应。
    id: string;
-   # 该反应的名称，通常以KEGG REACTION数据库的ID表示，例如name="rn:R00710"。
    name: string;
-   # 一个或多个<product>子元素，表示该反应的产物。每个<product>同样通过id引用代谢物节点ID，并通过name提供代谢物KEGG ID。
    products: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound[]</a>;
-   # 一个或多个<substrate>子元素，表示该反应的底物。每个<substrate>通过id属性引用一个代谢物节点的ID（即对应<entry>的id），并通过name属性提供该代谢物的KEGG ID。
    substrates: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound[]</a>;
    type: string;
 }

@@ -61,6 +61,8 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
@@ -276,5 +278,33 @@ Module WGCNA
                                 Optional env As Environment = Nothing) As Object
 
         Return Analysis.Run(x, adjacency, pca_layout)
+    End Function
+
+    <ExportAPI("phenotype_matrix")>
+    Public Function phenotype_matrix(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(x, env)
+
+        If samples.isError Then
+            Return samples.getError
+        End If
+
+        Dim all_samples = samples.populates(Of SampleInfo)(env).ToArray
+        Dim sample_ids As Index(Of String) = all_samples.Keys.Indexing
+        Dim phenotypes As New dataframe With {
+            .rownames = sample_ids.Objects,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        For Each sample_group As IGrouping(Of String, SampleInfo) In all_samples.GroupBy(Function(s) s.sample_info)
+            Dim v As Integer() = New Integer(all_samples.Length - 1) {}
+
+            For Each sample As SampleInfo In sample_group
+                v(sample_ids(sample.ID)) = 1
+            Next
+
+            Call phenotypes.add(sample_group.Key, v)
+        Next
+
+        Return phenotypes
     End Function
 End Module
