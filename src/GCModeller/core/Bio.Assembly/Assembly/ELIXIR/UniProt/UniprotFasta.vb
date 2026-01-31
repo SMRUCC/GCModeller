@@ -200,8 +200,8 @@ Namespace Assembly.Uniprot
 
             uniprot.EntryName = entry.ElementAtOrDefault(0)
             uniprot.UniprotID = If(entry.ElementAtOrDefault(1), id)
-            uniprot.OrgnsmSpName = Regex.Match(s, "OS=[^=]+").Value.Split("="c).ElementAtOrDefault(1)
-            uniprot.GN = Regex.Match(s, "GN=[^=]+").Value.GetTagValue("=").Value
+            uniprot.OrgnsmSpName = Regex.Match(s, "OS=[^=]+").GetTagValue("="c).Value
+            uniprot.GN = Regex.Match(s, "GN=[^=]+").GetTagValue("=").Value
             uniprot.PE = Regex.Match(s, "PE=\d+").Value
             uniprot.SV = Regex.Match(s, "SV=\d+").Value
 
