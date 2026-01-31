@@ -44,6 +44,7 @@ the gene expression matrix data toolkit
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision
 + [limma](geneExpression/limma.1) The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
 + [read_limma](geneExpression/read_limma.1) 
++ [limma_impactsort](geneExpression/limma_impactsort.1) 
 + [limma_table](geneExpression/limma_table.1) 
 + [log](geneExpression/log.1) log scale of the HTS raw matrix
 + [minmax01Norm](geneExpression/minmax01Norm.1) min max normalization

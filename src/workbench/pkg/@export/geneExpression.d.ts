@@ -345,6 +345,11 @@ declare namespace geneExpression {
    */
    function limma(x: object, design: object): object;
    /**
+     * @param top default value Is ``2147483647``.
+     * @param env default value Is ``null``.
+   */
+   function limma_impactsort(x: any, top?: object, env?: object): object;
+   /**
    */
    function limma_table(id: any, logFC: any, aveExpr: any, t: any, pval: any, adj_pval: any, b: any): object;
    module load {
