@@ -120,14 +120,14 @@ Namespace Assembly.Uniprot
         Public Shared Function Parse(title As String) As FastaHeader
             Try
                 If title Is Nothing Then
-                    Return Nothing
+                    Return New FastaHeader
                 Else
                     title = title.Trim("-"c, "&"c, " "c, "|"c, "+"c)
                 End If
 
                 Return UniprotFasta.ParseHeader(title, Nothing)
             Catch ex As Exception
-                Return Nothing
+                Return New FastaHeader
             End Try
         End Function
     End Class
