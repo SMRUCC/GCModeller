@@ -137,6 +137,9 @@ Module geneExpression
             .columns = New Dictionary(Of String, Array)
         }
 
+        Call df.add("name", From gene As ImpactResult In genes Select gene.name)
+        Call df.add("category", From gene As ImpactResult In genes Select gene.class)
+
         Call df.add("impacts_total", From gene As ImpactResult In genes Select gene.total)
         Call df.add("top", From gene As ImpactResult In genes Select gene.top_group)
         Call df.add("max_impact", From gene As ImpactResult In genes Select gene.max)
