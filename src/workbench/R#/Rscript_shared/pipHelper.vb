@@ -74,7 +74,7 @@ Module pipHelper
     ''' </summary>
     ''' <param name="a"></param>
     ''' <returns></returns>
-    Public Function GetFastaSeq(a As Object, env As Environment) As IEnumerable(Of FastaSeq)
+    Public Function GetFastaSeq(a As Object, env As Environment, Optional allowString As Boolean = True) As IEnumerable(Of FastaSeq)
         If a Is Nothing Then
             Return {}
         ElseIf TypeOf a Is vector Then
@@ -100,7 +100,7 @@ Module pipHelper
                 If type.IsArray Then
                     If REnv.MeasureArrayElementType(a) Is GetType(FastaSeq) Then
                         Return fastaFromCollection(a)
-                    ElseIf REnv.MeasureArrayElementType(a) Is GetType(String) Then
+                    ElseIf REnv.MeasureArrayElementType(a) Is GetType(String) AndAlso allowString Then
                         Return fastaFromStrings(a)
                     End If
                 ElseIf type Is GetType(pipeline) Then
@@ -108,12 +108,12 @@ Module pipHelper
 
                     If pip.elementType Like GetType(FastaSeq) Then
                         Return pip.populates(Of FastaSeq)(env)
-                    ElseIf pip.elementType Like GetType(String) Then
+                    ElseIf pip.elementType Like GetType(String) AndAlso allowString Then
                         Return fastaFromStrings(a)
                     Else
                         Return Nothing
                     End If
-                ElseIf type Is GetType(String) Then
+                ElseIf type Is GetType(String) AndAlso allowString Then
                     Return fastaFromStrings(a)
                 Else
                     Return Nothing

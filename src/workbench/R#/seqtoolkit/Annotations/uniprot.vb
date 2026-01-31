@@ -193,7 +193,7 @@ Module uniprotTools
     <ExportAPI("parseHeader")>
     <RApiReturn(GetType(FastaHeader))>
     Public Function parseHeader(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
-        Dim fasta As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+        Dim fasta As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env, allowString:=False)
 
         If fasta Is Nothing Then
             ' is a collection of the header text
