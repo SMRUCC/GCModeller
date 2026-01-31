@@ -1762,7 +1762,7 @@ Module geneExpression
         End If
         If Not nameSet.IsNullOrEmpty Then
             For Each gene As ImpactResult In impacts
-                gene.name = nameSet.TryGetValue(gene.id, [default]:=gene.id)
+                gene.name = nameSet.TryGetValue(gene.id)
             Next
         End If
 
