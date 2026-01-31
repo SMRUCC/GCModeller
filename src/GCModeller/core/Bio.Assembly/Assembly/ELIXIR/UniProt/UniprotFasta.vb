@@ -103,6 +103,9 @@ Namespace Assembly.Uniprot
         ''' </summary>
         ''' <returns></returns>
         Public Property SV As String
+
+        Public Property OX As String
+
         ''' <summary>
         ''' ProteinName Is the recommended name of the UniProtKB entry as annotated in the RecName field. For UniProtKB/TrEMBL entries without a RecName field, the SubName field Is used. 
         ''' In case of multiple SubNames, the first one Is used. The 'precursor' attribute is excluded, 'Fragment' is included with the name if applicable.
@@ -198,26 +201,32 @@ Namespace Assembly.Uniprot
 
             s = tokens.Value
 
-            uniprot.EntryName = entry.ElementAtOrDefault(0)
-            uniprot.UniprotID = If(entry.ElementAtOrDefault(1), id)
-            uniprot.OrgnsmSpName = Regex.Match(s, "OS=[^=]+").GetTagValue("="c).Value
-            uniprot.GN = Regex.Match(s, "GN=[^=]+").GetTagValue("=").Value
+            uniprot.EntryName = entry.ElementAtOrDefault(1)
+            uniprot.UniprotID = If(entry.ElementAtOrDefault(2), id)
+            uniprot.OrgnsmSpName = TrimSuffix(Regex.Match(s, "OS=[^=]+").GetTagValue("="c).Value)
+            uniprot.GN = TrimSuffix(Regex.Match(s, "GN=[^=]+").GetTagValue("=").Value)
             uniprot.PE = Regex.Match(s, "PE=\d+").Value
             uniprot.SV = Regex.Match(s, "SV=\d+").Value
+            uniprot.OX = Regex.Match(s, "OX=\d+").Value
 
-            If Not String.IsNullOrEmpty(uniprot.OrgnsmSpName) Then s = s.Replace(uniprot.OrgnsmSpName, "")
+            If Not String.IsNullOrEmpty(uniprot.OrgnsmSpName) Then s = s.Replace("OS=" & uniprot.OrgnsmSpName, "")
+            If Not String.IsNullOrEmpty(uniprot.GN) Then s = s.Replace("GN=" & uniprot.GN, "")
             If Not String.IsNullOrEmpty(uniprot.PE) Then s = s.Replace(uniprot.PE, "")
-            If Not String.IsNullOrEmpty(uniprot.GN) Then s = s.Replace(uniprot.GN, "")
             If Not String.IsNullOrEmpty(uniprot.SV) Then s = s.Replace(uniprot.SV, "")
-            If Not String.IsNullOrEmpty(uniprot.EntryName) Then s = s.Replace(uniprot.EntryName, "").Trim
+            If Not String.IsNullOrEmpty(uniprot.OX) Then s = s.Replace(uniprot.OX, "")
 
-            uniprot.ProtName = s
-            uniprot.OrgnsmSpName = Mid(uniprot.OrgnsmSpName, 4).Trim
-            uniprot.GN = Mid(uniprot.GN, 4)
-            uniprot.PE = Mid(uniprot.PE, 4)
-            uniprot.SV = Mid(uniprot.SV, 4)
+            uniprot.ProtName = Strings.Trim(s).GetTagValue("&&", trim:=True).Name
+            uniprot.PE = CStr(uniprot.PE.GetTagValue("="))
+            uniprot.SV = CStr(uniprot.SV.GetTagValue("="))
+            uniprot.OX = CStr(uniprot.OX.GetTagValue("="))
 
             Return uniprot
+        End Function
+
+        Private Shared Function TrimSuffix(si As String) As String
+            Dim t = si.StringSplit("\s+")
+            si = t.Take(t.Length - 1).JoinBy(" ")
+            Return si
         End Function
 
         Public Shared Function SimpleHeaderParser(header$) As Dictionary(Of String, String)
