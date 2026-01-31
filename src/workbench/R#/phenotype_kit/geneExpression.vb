@@ -120,6 +120,7 @@ Module geneExpression
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(Matrix), AddressOf expDataTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(DEGModel()), AddressOf degTable)
         REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(LimmaTable()), AddressOf limma_df)
+        REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(ImpactResult()), AddressOf impact_table)
         REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of DEGModel)(Function(a) a.ToString)
 
         Call REnv.Internal.generic.add(
@@ -128,6 +129,18 @@ Module geneExpression
             [overloads]:=AddressOf getFuzzyPatternMembers
         )
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function impact_table(genes As ImpactResult(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .rownames = genes.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+
+
+        Return df
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function limma_df(limma As LimmaTable(), args As list, env As Environment) As Rdataframe
@@ -1680,6 +1693,43 @@ Module geneExpression
     <ExportAPI("read_limma")>
     Public Function readLimmaTable(file As String) As LimmaTable()
         Return LimmaTable.LoadTable(file).ToArray
+    End Function
+
+    <ExportAPI("limma_impactsort")>
+    <RApiReturn(GetType(ImpactResult))>
+    Public Function limma_impactSort(<RRawVectorArgument> x As Object,
+                                     Optional top As Integer = Integer.MaxValue,
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim groups As New List(Of NamedCollection(Of LimmaTable))
+
+        If TypeOf x Is list Then
+            For Each group In DirectCast(x, list).slots
+                Dim limma_genes As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(group.Value, env)
+
+                If limma_genes.isError Then
+                    Return limma_genes.getError
+                End If
+
+                Call groups.Add(New NamedCollection(Of LimmaTable)(
+                     name:=group.Key,
+                     data:=limma_genes.populates(Of LimmaTable)(env))
+                )
+            Next
+        Else
+            Dim single_group As pipeline = pipeline.TryCreatePipeline(Of LimmaTable)(x, env)
+
+            If single_group.isError Then
+                Return single_group.getError
+            End If
+
+            Call groups.Add(New NamedCollection(Of LimmaTable)(
+                name:="single group",
+                data:=single_group.populates(Of LimmaTable)(env)
+            ))
+        End If
+
+        Return groups.ImpactSort().Take(top).ToArray
     End Function
 
     <ExportAPI("limma_table")>

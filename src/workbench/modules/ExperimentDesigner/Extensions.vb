@@ -369,20 +369,54 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Public Function ImpactSort(Of T As IDeg)(analysis As IEnumerable(Of NamedCollection(Of T))) As IEnumerable(Of NamedValue(Of Double))
+    Public Function ImpactSort(Of T As IDeg)(analysis As IEnumerable(Of NamedCollection(Of T))) As IEnumerable(Of ImpactResult)
         Dim pool = analysis.Select(Function(group) group.Select(Function(gene) (group.name, gene))).IteratesALL
         Dim genes = From gene As (name As String, gene As T)
                     In pool
                     Group By gene.gene.label Into Group
-                    Let impacts As Double() = Group _
-                        .Select(Function(i) i.gene) _
-                        .ImpactFactor _
-                        .ToArray
-                    Let total As Double = impacts.Sum
-                    Order By total Descending
-                    Select New NamedValue(Of Double)(label, total)
+                    Let impacts As Dictionary(Of String, Double) = Group.ToDictionary(Function(g) g.name, Function(g) g.gene.ImpactFactor)
+                    Let factor As ImpactResult = New ImpactResult With {
+                        .id = label,
+                        .impacts = impacts
+                    }
+                    Order By factor.total Descending
+                    Select factor
 
         Return genes
     End Function
 
 End Module
+
+Public Class ImpactResult : Implements INamedValue
+
+    Public Property id As String Implements INamedValue.Key
+    Public Property impacts As Dictionary(Of String, Double)
+    Public ReadOnly Property total As Double
+        Get
+            Return impacts.Values.Sum
+        End Get
+    End Property
+
+    Public ReadOnly Property top_group As String
+        Get
+            Return impacts _
+                .OrderByDescending(Function(a) a.Value) _
+                .First.Key
+        End Get
+    End Property
+    Public ReadOnly Property max As Double
+        Get
+            Return impacts.Values.Max
+        End Get
+    End Property
+    Public ReadOnly Property significant As Integer
+        Get
+            Return impacts.Count
+        End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+        Return $"{id} = {total}"
+    End Function
+
+End Class
