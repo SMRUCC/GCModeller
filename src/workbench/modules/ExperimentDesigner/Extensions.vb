@@ -369,12 +369,20 @@ Public Module Extensions
     End Function
 
     <Extension>
-    Public Function ImpactSort(Of T As IDeg)(analysis As IEnumerable(Of NamedCollection(Of T))) As IEnumerable(Of ImpactResult)
+    Public Function ImpactSort(Of T As IDeg)(analysis As IEnumerable(Of NamedCollection(Of T)), Optional FCImpact As Boolean = False) As IEnumerable(Of ImpactResult)
         Dim pool = analysis.Select(Function(group) group.Select(Function(gene) (group.name, gene))).IteratesALL
         Dim genes = From gene As (name As String, gene As T)
                     In pool
                     Group By gene.gene.label Into Group
-                    Let impacts As Dictionary(Of String, Double) = Group.ToDictionary(Function(g) g.name, Function(g) g.gene.ImpactFactor)
+                    Let impacts As Dictionary(Of String, Double) = Group _
+                        .ToDictionary(Function(g) g.name,
+                                      Function(g)
+                                          If FCImpact Then
+                                              Return std.Abs(g.gene.log2FC)
+                                          Else
+                                              Return g.gene.ImpactFactor
+                                          End If
+                                      End Function)
                     Let factor As ImpactResult = New ImpactResult With {
                         .id = label,
                         .impacts = impacts

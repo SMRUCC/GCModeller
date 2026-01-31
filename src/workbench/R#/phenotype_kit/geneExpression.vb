@@ -1706,6 +1706,7 @@ Module geneExpression
     <RApiReturn(GetType(ImpactResult))>
     Public Function limma_impactSort(<RRawVectorArgument> x As Object,
                                      Optional top As Integer = Integer.MaxValue,
+                                     Optional logfc_impact As Boolean = False,
                                      Optional [class] As list = Nothing,
                                      Optional names As list = Nothing,
                                      Optional env As Environment = Nothing) As Object
@@ -1753,7 +1754,7 @@ Module geneExpression
             ))
         End If
 
-        Dim impacts = groups.ImpactSort().Take(top).ToArray
+        Dim impacts = groups.ImpactSort(FCImpact:=logfc_impact).Take(top).ToArray
 
         If Not class_labels.IsNullOrEmpty Then
             For Each gene As ImpactResult In impacts
