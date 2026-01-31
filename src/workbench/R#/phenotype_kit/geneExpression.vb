@@ -1755,7 +1755,7 @@ Module geneExpression
 
         Dim impacts = groups.ImpactSort().Take(top).ToArray
 
-        If class_labels.IsNullOrEmpty Then
+        If Not class_labels.IsNullOrEmpty Then
             For Each gene As ImpactResult In impacts
                 gene.class = class_labels.TryGetValue(gene.id)
             Next
