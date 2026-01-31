@@ -113,6 +113,10 @@ Namespace Assembly.Uniprot
         Public Overrides Function ToString() As String
             Return String.Format("sp|{0}|{1} {2} OS={3} GN={4} PE={5} SV={6}", EntryName, UniprotID, ProtName, OrgnsmSpName, GN, PE, SV)
         End Function
+
+        Public Shared Function Parse(title As String) As FastaHeader
+
+        End Function
     End Class
 
     ''' <summary>
@@ -174,8 +178,8 @@ Namespace Assembly.Uniprot
         ''' <summary>
         ''' Parse the fasta header of the sequence from UniProt database.
         ''' </summary>
-        ''' <param name="s$"></param>
-        ''' <param name="id$"></param>
+        ''' <param name="s"></param>
+        ''' <param name="id"></param>
         ''' <returns></returns>
         Public Shared Function ParseHeader(s$, id$) As FastaHeader
             Dim uniprot As New FastaHeader

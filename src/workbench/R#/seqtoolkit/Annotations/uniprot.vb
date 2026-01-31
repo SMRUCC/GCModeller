@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -181,6 +182,31 @@ Module uniprotTools
         Dim proteins As entry() = uniprot.entries
 
         Return proteins
+    End Function
+
+    ''' <summary>
+    ''' Parse the uniprot fasta header text 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("parseHeader")>
+    <RApiReturn(GetType(FastaHeader))>
+    Public Function parseHeader(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim fasta As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If fasta Is Nothing Then
+            ' is a collection of the header text
+            Dim headers As String() = CLRVector.asCharacter(x)
+            Dim data As FastaHeader() = headers.Select(AddressOf FastaHeader.Parse).ToArray
+
+            Return data
+        Else
+            Dim seqs = fasta.Select(Function(fa) UniprotFasta.CreateObject(fa)).ToArray
+            Dim data As FastaHeader() = seqs.Select(Function(fa) fa.UniProtHeader).ToArray
+
+            Return data
+        End If
     End Function
 
     ''' <summary>
