@@ -90,6 +90,16 @@ declare namespace uniprot {
       function uniprot(files: any, isUniParc?: boolean, ignoreError?: boolean, tqdm?: boolean, env?: object): object;
    }
    /**
+    * Parse the uniprot fasta header text
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function parseHeader(x: any, env?: object): object;
+   /**
    */
    function parseUniProt(xml: string): object;
    module protein {

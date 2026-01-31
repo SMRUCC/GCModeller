@@ -4,6 +4,7 @@ The Universal Protein Resource (UniProt)
 
 + [open.uniprot](uniprot/open.uniprot.1) open a uniprot database file
 + [parseUniProt](uniprot/parseUniProt.1) 
++ [parseHeader](uniprot/parseHeader.1) Parse the uniprot fasta header text
 + [read.proteinTable](uniprot/read.proteinTable.1) read uniprot protein export output tsv file
 + [proteinTable](uniprot/proteinTable.1) export protein annotation data as data frame.
 + [get_sequence](uniprot/get_sequence.1) 
