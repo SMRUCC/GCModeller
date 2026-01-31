@@ -137,7 +137,11 @@ Module geneExpression
             .columns = New Dictionary(Of String, Array)
         }
 
-
+        Call df.add("impacts_total", From gene As ImpactResult In genes Select gene.total)
+        Call df.add("top", From gene As ImpactResult In genes Select gene.top_group)
+        Call df.add("max_impact", From gene As ImpactResult In genes Select gene.max)
+        Call df.add("significants", From gene As ImpactResult In genes Select gene.significant)
+        Call df.add("impacts", From gene As ImpactResult In genes Select gene.impacts.Select(Function(a) $"{a.Key}:{a.Value}").JoinBy("; "))
 
         Return df
     End Function
