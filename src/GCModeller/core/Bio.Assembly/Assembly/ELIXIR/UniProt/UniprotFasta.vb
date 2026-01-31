@@ -115,7 +115,17 @@ Namespace Assembly.Uniprot
         End Function
 
         Public Shared Function Parse(title As String) As FastaHeader
+            Try
+                If title Is Nothing Then
+                    Return Nothing
+                Else
+                    title = title.Trim("-"c, "&"c, " "c, "|"c, "+"c)
+                End If
 
+                Return UniprotFasta.ParseHeader(title, Nothing)
+            Catch ex As Exception
+                Return Nothing
+            End Try
         End Function
     End Class
 
@@ -183,12 +193,15 @@ Namespace Assembly.Uniprot
         ''' <returns></returns>
         Public Shared Function ParseHeader(s$, id$) As FastaHeader
             Dim uniprot As New FastaHeader
+            Dim tokens = s.GetTagValue(" ")
+            Dim entry = tokens.Name.Split("|"c)
 
-            uniprot.EntryName = s.Split.First
-            uniprot.UniprotID = id
-            uniprot.OrgnsmSpName = Regex.Match(s, "OS=[^=]+GN\s*=").Value
-            uniprot.OrgnsmSpName = Regex.Replace(uniprot.OrgnsmSpName, "\s*GN\s*=", "")
-            uniprot.GN = Regex.Replace(Regex.Match(s, "GN=[^=]+PE\s*=").Value, "\s*PE\s*=", "").Trim
+            s = tokens.Value
+
+            uniprot.EntryName = entry.ElementAtOrDefault(0)
+            uniprot.UniprotID = If(entry.ElementAtOrDefault(1), id)
+            uniprot.OrgnsmSpName = Regex.Match(s, "OS=[^=]+").Value.Split("="c).ElementAtOrDefault(1)
+            uniprot.GN = Regex.Match(s, "GN=[^=]+").Value.GetTagValue("=").Value
             uniprot.PE = Regex.Match(s, "PE=\d+").Value
             uniprot.SV = Regex.Match(s, "SV=\d+").Value
 
