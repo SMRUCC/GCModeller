@@ -1703,9 +1703,21 @@ Module geneExpression
     <RApiReturn(GetType(ImpactResult))>
     Public Function limma_impactSort(<RRawVectorArgument> x As Object,
                                      Optional top As Integer = Integer.MaxValue,
+                                     Optional [class] As list = Nothing,
                                      Optional env As Environment = Nothing) As Object
 
         Dim groups As New List(Of NamedCollection(Of LimmaTable))
+        Dim class_labels As New Dictionary(Of String, String)
+
+        If Not [class] Is Nothing Then
+            Dim class_groups = [class].AsGeneric(Of String())(env)
+
+            For Each group In class_groups
+                For Each id As String In group.Value
+                    class_labels(id) = group.Key
+                Next
+            Next
+        End If
 
         If TypeOf x Is list Then
             For Each group In DirectCast(x, list).slots
@@ -1733,9 +1745,28 @@ Module geneExpression
             ))
         End If
 
-        Return groups.ImpactSort().Take(top).ToArray
+        Dim impacts = groups.ImpactSort().Take(top).ToArray
+
+        If class_labels.IsNullOrEmpty Then
+            For Each gene As ImpactResult In impacts
+                gene.class = class_labels.TryGetValue(gene.id)
+            Next
+        End If
+
+        Return impacts
     End Function
 
+    ''' <summary>
+    ''' build limma table model from the dataframe columns
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <param name="logFC"></param>
+    ''' <param name="aveExpr"></param>
+    ''' <param name="t"></param>
+    ''' <param name="pval"></param>
+    ''' <param name="adj_pval"></param>
+    ''' <param name="b"></param>
+    ''' <returns></returns>
     <ExportAPI("limma_table")>
     Public Function createlimmaTable(<RRawVectorArgument> id As Object,
                                      <RRawVectorArgument> logFC As Object,

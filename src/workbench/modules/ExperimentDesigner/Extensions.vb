@@ -391,6 +391,10 @@ Public Class ImpactResult : Implements INamedValue
 
     Public Property id As String Implements INamedValue.Key
     Public Property impacts As Dictionary(Of String, Double)
+
+    Public Property name As String
+    Public Property [class] As String
+
     Public ReadOnly Property total As Double
         Get
             Return impacts.Values.Sum
