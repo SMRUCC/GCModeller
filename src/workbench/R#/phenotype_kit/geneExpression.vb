@@ -1707,11 +1707,16 @@ Module geneExpression
     Public Function limma_impactSort(<RRawVectorArgument> x As Object,
                                      Optional top As Integer = Integer.MaxValue,
                                      Optional [class] As list = Nothing,
+                                     Optional names As list = Nothing,
                                      Optional env As Environment = Nothing) As Object
 
         Dim groups As New List(Of NamedCollection(Of LimmaTable))
         Dim class_labels As New Dictionary(Of String, String)
+        Dim nameSet As New Dictionary(Of String, String)
 
+        If Not names Is Nothing Then
+            nameSet = names.AsGeneric(Of String)(env)
+        End If
         If Not [class] Is Nothing Then
             Dim class_groups = [class].AsGeneric(Of String())(env)
 
@@ -1753,6 +1758,11 @@ Module geneExpression
         If class_labels.IsNullOrEmpty Then
             For Each gene As ImpactResult In impacts
                 gene.class = class_labels.TryGetValue(gene.id)
+            Next
+        End If
+        If Not nameSet.IsNullOrEmpty Then
+            For Each gene As ImpactResult In impacts
+                gene.name = nameSet.TryGetValue(gene.id, [default]:=gene.id)
             Next
         End If
 
