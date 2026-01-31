@@ -58,6 +58,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
@@ -122,7 +123,26 @@ Module uniprotTools
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FastaHeader()), AddressOf uniprotFastaHeaderTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function uniprotFastaHeaderTable(headers As FastaHeader(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .rownames = headers.Keys,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add("entry name", From prot As FastaHeader In headers Select prot.EntryName)
+        Call df.add("gene name", From prot As FastaHeader In headers Select prot.GN)
+        Call df.add("PE", From prot As FastaHeader In headers Select prot.PE)
+        Call df.add("SV", From prot As FastaHeader In headers Select prot.SV)
+        Call df.add("OX", From prot As FastaHeader In headers Select prot.OX)
+        Call df.add("organism species", From prot As FastaHeader In headers Select prot.OrgnsmSpName)
+        Call df.add("protein name", From prot As FastaHeader In headers Select prot.ProtName)
+
+        Return df
+    End Function
 
     <RGenericOverloads("as.data.frame")>
     Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
