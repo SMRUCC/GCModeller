@@ -128,10 +128,17 @@ Module uniprotTools
 
     <RGenericOverloads("as.data.frame")>
     Private Function uniprotFastaHeaderTable(headers As FastaHeader(), args As list, env As Environment) As dataframe
+        Dim rownames As Boolean = args.getValue({"row.names"}, env, [default]:=True)
         Dim df As New dataframe With {
-            .rownames = headers.Keys,
+            .rownames = If(rownames, headers.Keys, Nothing),
             .columns = New Dictionary(Of String, Array)
         }
+
+        If Not rownames Then
+            Call df.add("uniprot id", From prot As FastaHeader
+                                      In headers
+                                      Select prot.UniprotID)
+        End If
 
         Call df.add("entry name", From prot As FastaHeader In headers Select prot.EntryName)
         Call df.add("gene name", From prot As FastaHeader In headers Select prot.GN)
