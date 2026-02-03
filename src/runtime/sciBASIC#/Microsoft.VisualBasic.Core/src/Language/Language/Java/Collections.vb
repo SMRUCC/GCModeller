@@ -328,6 +328,60 @@ Namespace Language.Java
             Loop
             Return -(low + 1) ' key not found
         End Function
+
+        ''' <summary>
+        ''' 模拟 Java Collection 中的 retainAll 方法。
+        ''' 仅保留当前集合中包含在指定集合中的元素（即求交集）。
+        ''' 如果集合发生了更改，则返回 True。
+        ''' </summary>
+        ''' <typeparam name="T">集合元素类型</typeparam>
+        ''' <param name="source">原集合（会被修改）</param>
+        ''' <param name="itemsToKeep">要保留的元素集合</param>
+        ''' <returns>如果原集合被修改了返回 True，否则返回 False</returns>
+        <Extension()>
+        Public Function retainAll(Of T)(source As IList(Of T), itemsToKeep As IEnumerable(Of T)) As Boolean
+            ' 1. 检查 Null
+            If source Is Nothing Then Throw New ArgumentNullException(NameOf(source))
+            If itemsToKeep Is Nothing Then Throw New ArgumentNullException(NameOf(itemsToKeep))
+
+            ' 2. 将 itemsToKeep 转换为 HashSet 以提高查找效率 (O(1) 查找时间)
+            ' 这比在 List 中循环查找要快得多
+            Dim keepSet As New HashSet(Of T)(itemsToKeep)
+
+            ' 3. 记录原始数量，用于判断是否发生了变化
+            Dim originalCount As Integer = source.Count
+
+            ' 4. 倒序遍历原集合，移除不在 keepSet 中的元素
+            ' 倒序是为了防止移除元素后索引变化导致的问题
+            For i As Integer = source.Count - 1 To 0 Step -1
+                If Not keepSet.Contains(source(i)) Then
+                    source.RemoveAt(i)
+                End If
+            Next
+
+            ' 5. 如果数量变了，说明发生了移除操作，返回 True
+            Return source.Count <> originalCount
+        End Function
+
+        Public Sub shuffle(Of T)(list As IList(Of T), r As Random)
+
+            ' 基本的空引用检查
+            If list Is Nothing Then Return
+
+            ' Fisher-Yates 洗牌算法
+            ' 从列表的最后一个元素开始，向前遍历到第二个元素（索引 1）
+            For i As Integer = list.Count - 1 To 1 Step -1
+
+                ' 生成一个 0 到 i 之间的随机索引 j（包含 i）
+                ' 注意：Random.Next(maxValue) 是不包含 maxValue 的，所以用 i + 1
+                Dim j As Integer = r.Next(i + 1)
+
+                ' 交换 list(i) 和 list(j)
+                Dim temp As T = list(i)
+                list(i) = list(j)
+                list(j) = temp
+            Next
+        End Sub
     End Module
 
 End Namespace
