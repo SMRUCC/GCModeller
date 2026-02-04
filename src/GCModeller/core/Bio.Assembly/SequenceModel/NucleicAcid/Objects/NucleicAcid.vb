@@ -391,6 +391,24 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         ''' <summary>
+        ''' 获取DNA序列的反向互补序列。
+        ''' </summary>
+        Public Shared Function GetReverseComplement(sequence As String) As String
+            Dim sb As New StringBuilder(sequence.Length)
+            For i As Integer = sequence.Length - 1 To 0 Step -1
+                Dim c As Char = sequence(i)
+                Select Case Char.ToUpper(c)
+                    Case "A"c : sb.Append("T")
+                    Case "T"c : sb.Append("A")
+                    Case "C"c : sb.Append("G")
+                    Case "G"c : sb.Append("C")
+                    Case Else : sb.Append(c) ' 处理N或其他字符
+                End Select
+            Next
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
         ''' 忽略反向互补（reverse complement）
         ''' 
         ''' DNA 序列一般需要在两个链上比较，否则来自同一分子的正反链会被判定为不相似。
@@ -400,7 +418,7 @@ Namespace SequenceModel.NucleotideModels
         Public Shared Function Canonical(DNAseq As String) As String
             ' make reverse complement
             ' 反向互补
-            Dim rc As String = Complement(DNAseq).Reverse.CharString
+            Dim rc As String = GetReverseComplement(DNAseq)
             Return If(String.Compare(DNAseq, rc) < 0, DNAseq, rc)
         End Function
 

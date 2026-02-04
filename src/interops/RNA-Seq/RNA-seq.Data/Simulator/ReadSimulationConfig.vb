@@ -31,4 +31,26 @@ Public Class ReadSimulationConfig
     ''' 如果未提供或某个基因组未在此字典中，则认为该基因组没有热点，read在其上均匀分布。
     ''' </summary>
     Public Property RegionHotspots As New Dictionary(Of String, List(Of RegionHotspot))()
+
+    ''' <summary>
+    ''' 是否生成双端reads (Paired-End)。
+    ''' </summary>
+    Public Property IsPairedEnd As Boolean = False
+
+    ''' <summary>
+    ''' 插入片段长度范围（双端测序时有效）。
+    ''' </summary>
+    Public Property InsertSizeRange As IntRange
+
+    ''' <summary>
+    ''' 测序错误率 (0.0 - 1.0)。
+    ''' </summary>
+    Public Property ErrorRate As Double = 0.0
+
+    ''' <summary>
+    ''' 模拟的FastQ质量分数范围 (Phred Score)。
+    ''' 默认为 30-40 (Illumina typical range)。
+    ''' </summary>
+    Public Property QualityScoreRange As IntRange = New IntRange(30, 40)
+
 End Class

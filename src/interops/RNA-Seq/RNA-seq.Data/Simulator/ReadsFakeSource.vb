@@ -1,4 +1,7 @@
-﻿Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+﻿Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
@@ -12,7 +15,7 @@ Public Module ReadsFakeSource
     ''' </summary>
     ''' <param name="config">一个包含所有模拟参数的 <see cref="ReadSimulationConfig"/> 对象。</param>
     ''' <returns>一个IEnumerable(Of String)，通过迭代器模式逐个返回模拟的read序列。</returns>
-    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of SimpleSegment)
+    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of FastQ)
         ' --- 参数验证 ---
         If config Is Nothing Then
             Throw New ArgumentNullException(NameOf(config))
@@ -27,6 +30,14 @@ Public Module ReadsFakeSource
             Throw New ArgumentException("长度范围无效。min必须大于0，且max必须大于等于min。", NameOf(config.ReadLengthRange))
         End If
 
+
+        ' 双端特有验证
+        If config.IsPairedEnd Then
+            If config.InsertSizeRange Is Nothing OrElse config.InsertSizeRange.Min < config.ReadLengthRange.Min Then
+                Throw New ArgumentException("双端模式下InsertSize Min必须大于等于ReadLength Max。", NameOf(config.InsertSizeRange))
+            End If
+        End If
+
         ' 过滤掉长度为0的无效基因组
         Dim validGenomes = config.Genomes.Where(Function(g) Not String.IsNullOrEmpty(g.SequenceData)).ToArray()
         If validGenomes.Length = 0 Then
@@ -36,7 +47,6 @@ Public Module ReadsFakeSource
         ' --- 预计算：构建加权选择所需的数据结构 ---
         ' 1. 构建基因组权重选择器
         Dim genomeSelector = BuildWeightedSelector(validGenomes, config.GenomeAbundanceWeights)
-        Dim totalGenomeWeight As Double = genomeSelector.TotalWeight
         ' 2. 为每个基因组构建其区域热点选择器
         Dim hotspotSelectors As New Dictionary(Of String, WeightedSelector(Of RegionHotspot))()
         For Each genome In validGenomes
@@ -58,34 +68,109 @@ Public Module ReadsFakeSource
             ' 2. 随机确定read的长度
             Dim readLength As Integer = randf.NextInteger(lenMin, lenMax + 1)
 
-            ' 3. 处理边界情况：如果选中的基因组比期望的read长度还短
-            If sequence.Length < readLength Then
-                readLength = sequence.Length
+            ' 3. 确定Fragment信息 (单端模式下Fragment长度=Read长度)
+            Dim fragmentStart As Integer
+            Dim fragmentLength As Integer
+
+            If config.IsPairedEnd Then
+                fragmentLength = randf.NextInteger(config.InsertSizeRange.Min, config.InsertSizeRange.Max + 1)
+            Else
+                fragmentLength = readLength
             End If
+
+            ' 3. 处理边界情况：如果选中的基因组比期望的read长度还短
+            If sequence.Length < readLength Then readLength = sequence.Length
+            If fragmentLength < readLength Then readLength = fragmentLength ' 保护逻辑
             If readLength = 0 Then Continue For
 
             ' 4. 加权随机选择起始位置
-            Dim startIndex As Integer
             If hotspotSelectors.ContainsKey(selectedGenome.ID) AndAlso hotspotSelectors(selectedGenome.ID).Items.Any() Then
                 ' 如果存在热点，则进行偏向性选择
-                startIndex = SelectStartIndexFromHotspots(sequence, readLength, hotspotSelectors(selectedGenome.ID))
+                fragmentStart = SelectStartIndexFromHotspots(sequence, readLength, hotspotSelectors(selectedGenome.ID))
             Else
                 ' 如果没有热点，则使用原始的均匀随机选择
-                startIndex = randf.NextInteger(0, sequence.Length - readLength + 1)
+                fragmentStart = randf.NextInteger(0, sequence.Length - readLength + 1)
             End If
 
-            ' 5. 截取子序列作为模拟的read
-            Dim simulatedRead As String = sequence.Substring(startIndex, readLength)
+            ' 5. 生成 Reads
+            If config.IsPairedEnd Then
+                ' --- Read 1 (Forward) ---
+                Dim seq1 = sequence.Substring(fragmentStart, readLength)
+                Dim qual1 = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq1 = SimulateSequencingErrors(seq1, config.ErrorRate)
 
-            ' 6. 使用Yield返回当前生成的read
-            Yield New SimpleSegment With {
-                .SequenceData = simulatedRead,
-                .ID = selectedGenome.ID,
-                .Start = startIndex + 1,
-                .Ends = .Start + .Length,
-                .Strand = "+"
-            }
+                Yield New FastQ With {
+                    .SequenceData = seq1,
+                    .Quality = qual1,
+                    .SEQ_ID = $"{selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]",
+                    .SEQ_Info = $"{selectedGenome.ID}_FRAG{i}/2"
+                }
+
+                ' --- Read 2 (Reverse) ---
+                ' R2 起始位置：Fragment末尾向前推Read长度
+                Dim r2Start = fragmentStart + fragmentLength - readLength
+                Dim seq2Raw = sequence.Substring(r2Start, readLength)
+                Dim seq2 = NucleicAcid.GetReverseComplement(seq2Raw) ' 反向互补
+                Dim qual2 = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq2 = SimulateSequencingErrors(seq2, config.ErrorRate)
+
+                Yield New FastQ With {
+                    .SequenceData = seq2,
+                    .Quality = qual2,
+                    .SEQ_ID = $"{selectedGenome.ID}_FRAG{i}/2 [complement({r2Start + 1}..{r2Start + readLength})]",
+                    .SEQ_Info = $"{selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]"
+                }
+
+            Else
+                ' --- Single End ---
+                Dim seq = sequence.Substring(fragmentStart, readLength)
+                Dim qual = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq = SimulateSequencingErrors(seq, config.ErrorRate)
+
+                Yield New FastQ With {
+                    .SequenceData = seq,
+                    .Quality = qual,
+                    .SEQ_ID = $"{selectedGenome.ID}_READ{i}",
+                    .SEQ_Info = $"[{fragmentStart + 1}-{fragmentStart + readLength}, +]"
+                }
+            End If
         Next
+    End Function
+
+    ''' <summary>
+    ''' 模拟测序错误：随机替换碱基。
+    ''' </summary>
+    Private Function SimulateSequencingErrors(sequence As String, errorRate As Double) As String
+        Dim chars As Char() = sequence.ToCharArray()
+        Dim bases As Char() = {"A"c, "T"c, "C"c, "G"c}
+
+        For i As Integer = 0 To chars.Length - 1
+            If randf.NextDouble() < errorRate Then
+                ' 发生错误，随机替换为其他碱基
+                Dim original As Char = chars(i)
+                Dim newBase As Char
+                Do
+                    newBase = bases(randf.NextInteger(0, 4))
+                Loop While newBase = original
+                chars(i) = newBase
+            End If
+        Next
+
+        Return New String(chars)
+    End Function
+
+    ''' <summary>
+    ''' 生成FastQ质量分数字符串。
+    ''' </summary>
+    Private Function GenerateQualityString(length As Integer, range As IntRange) As String
+        Dim sb As New StringBuilder(length)
+        For i As Integer = 1 To length
+            ' 在范围内随机生成一个Phred分数
+            Dim phred As Integer = randf.NextInteger(range.Min, range.Max + 1)
+            ' 转换为ASCII字符 (Phred+33)
+            sb.Append(Chr(phred + 33))
+        Next
+        Return sb.ToString()
     End Function
 
     ''' <summary>

@@ -212,15 +212,7 @@ Public Module FastQTools
                 New Dictionary(Of String, Double)
             )
         }
-        Dim i As i32 = 1
-        Dim reads As New FastQFile(From s As SimpleSegment
-                                   In ReadsFakeSource.FakeReads(config)
-                                   Select New FastQ With {
-                                       .Quality = "I".RepeatString(s.Length),
-                                       .SequenceData = s.SequenceData,
-                                       .SEQ_ID = s.ID,
-                                       .SEQ_Info = $"+ seq_{++i} {s.Length}bp"
-                                   })
+        Dim reads As New FastQFile(ReadsFakeSource.FakeReads(config))
         Return reads
     End Function
 
