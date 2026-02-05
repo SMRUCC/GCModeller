@@ -2,8 +2,8 @@
   "profiles": {
     "FluteBuild": {
       "commandName": "Project",
-      "commandLineArgs": " /compile /view G:\\gcmodeller.org-website\\template_2026 /wwwroot Z:/html ",
-      "workingDirectory": "Z:\\"
+      "commandLineArgs": " /compile /view ./ /wwwroot ../release/ ",
+      "workingDirectory": "G:\\gcmodeller.org-website\\template_2026"
     }
   }
 }
