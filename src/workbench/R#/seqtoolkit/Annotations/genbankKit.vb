@@ -656,7 +656,7 @@ Module genbankKit
     ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("export_protein_fasta")>
+    <ExportAPI("protein_seqs")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
                                   <RRawVectorArgument>
@@ -678,12 +678,19 @@ Module genbankKit
 
         If seqs Is Nothing Then
             Return RInternal.debug.stop("no protein sequence data provided!", env)
+        Else
+            Call SetProteinSeqs(gb, seqs)
         End If
 
+        Return gb
+    End Function
+
+    Private Sub SetProteinSeqs(gb As GBFF.File, seqs As IEnumerable(Of FastaSeq))
         ' make input sequence fasta index
         Dim seqTable = seqs.ToDictionary(Function(fa) fa.Title.Split.First)
         Dim geneId As String
         Dim prot As FastaSeq
+        Dim missing As New List(Of String)
 
         ' set protein fasta sequence
         For Each feature In gb.Features.Where(Function(a) a.KeyName = "CDS")
@@ -691,7 +698,7 @@ Module genbankKit
             prot = seqTable.TryGetValue(geneId)
 
             If prot Is Nothing Then
-                env.AddMessage($"missing protein sequence for '{geneId}'...", MSG_TYPES.WRN)
+                Call missing.Add(geneId)
                 Continue For
             End If
 
@@ -699,8 +706,10 @@ Module genbankKit
             feature.SetValue(FeatureQualifiers.product, prot.Title)
         Next
 
-        Return gb
-    End Function
+        If missing.Any Then
+            Call $"found {missing.Count} missing protein sequence of {missing.JoinBy(", ")} while make updates of the genbank CDS feature translation data...".warning
+        End If
+    End Sub
 
     <ExportAPI("add.RNA.gene")>
     <RApiReturn(GetType(GBFF.File))>
