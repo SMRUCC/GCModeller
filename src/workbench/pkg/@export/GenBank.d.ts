@@ -108,21 +108,6 @@ declare namespace GenBank {
    */
    function export_geneNt_fasta(gb: object, title?: string, key?: any, required?: string, unique_names?: boolean): object;
    /**
-    * get or set fasta sequence of all CDS feature in the given genbank assembly file.
-    * 
-    * 
-     * @param gb -
-     * @param proteins set the genbank feature CDS protein sequence if this value is existsed.
-     * 
-     * + default value Is ``null``.
-     * @param title 
-     * + default value Is ``null``.
-     * @param env -
-     * 
-     * + default value Is ``null``.
-   */
-   function export_protein_fasta(gb: object, proteins?: any, title?: string, env?: object): object;
-   /**
     * create new feature site
     * 
     * 
@@ -211,6 +196,21 @@ declare namespace GenBank {
      *  the modified genbank assembly object.
    */
    function origin_fasta(gb: object, nt?: object, mol_type?: string): object|object;
+   /**
+    * get or set fasta sequence of all CDS feature in the given genbank assembly file.
+    * 
+    * 
+     * @param gb -
+     * @param proteins set the genbank feature CDS protein sequence if this value is existsed.
+     * 
+     * + default value Is ``null``.
+     * @param title 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function protein_seqs(gb: object, proteins?: any, title?: string, env?: object): object;
    module read {
       /**
        * read the given genbank assembly file.

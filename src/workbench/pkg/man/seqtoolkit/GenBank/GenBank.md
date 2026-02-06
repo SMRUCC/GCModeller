@@ -20,5 +20,5 @@ NCBI genbank assembly file I/O toolkit
 + [origin_fasta](GenBank/origin_fasta.1) get, add or replace the genome origin fasta sequence in the given genbank assembly file.
 + [getRNA.fasta](GenBank/getRNA.fasta.1) get all of the RNA gene its gene sequence in fasta sequence format.
 + [export_geneNt_fasta](GenBank/export_geneNt_fasta.1) export gene fasta from the given genbank assembly file
-+ [export_protein_fasta](GenBank/export_protein_fasta.1) get or set fasta sequence of all CDS feature in the given genbank assembly file.
++ [protein_seqs](GenBank/protein_seqs.1) get or set fasta sequence of all CDS feature in the given genbank assembly file.
 + [add.RNA.gene](GenBank/add.RNA.gene.1) 
