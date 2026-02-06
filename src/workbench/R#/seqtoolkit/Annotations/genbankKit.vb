@@ -654,6 +654,9 @@ Module genbankKit
     ''' </summary>
     ''' <param name="gb"></param>
     ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
+    ''' <param name="filter_empty">
+    ''' Filter out the empty protein sequence when do export of the protein sequence data.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("protein_seqs")>
@@ -663,6 +666,7 @@ Module genbankKit
                                   <RByRefValueAssign>
                                   Optional proteins As Object = Nothing,
                                   Optional title As String = Nothing,
+                                  Optional filter_empty As Boolean = True,
                                   Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq)
@@ -671,7 +675,7 @@ Module genbankKit
             If title.StringEmpty(, True) Then
                 Return gb.ExportProteins_Short
             Else
-                Return pipeline.CreateFromPopulator(gb.ExportProteins(New StringTemplate(title)))
+                Return pipeline.CreateFromPopulator(gb.ExportProteins(New StringTemplate(title), filterEmpty:=filter_empty))
             End If
         Else
             seqs = GetFastaSeq(proteins, env)

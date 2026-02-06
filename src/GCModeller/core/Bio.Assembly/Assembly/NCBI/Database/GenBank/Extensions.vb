@@ -230,14 +230,23 @@ Namespace Assembly.NCBI.GenBank
         ''' <param name="gbk"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File) As FastaFile
+        Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File, Optional filterEmpty As Boolean = False) As FastaFile
             Dim template As New StringTemplate("gi|<gb_asm_id>|gb|<protein_id>|<locus_tag>|<gene>|<nucl_loc>|<product>")
-            Dim fasta As New FastaFile(gbk.ExportProteins(template))
-            Return Fasta
+            Dim fasta As New FastaFile(gbk.ExportProteins(template, filterEmpty:=filterEmpty))
+            Return fasta
         End Function
 
+        ''' <summary>
+        ''' Export protein sequence with custom annotation title with given template.
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <param name="headers">the fasta sequence header template</param>
+        ''' <param name="filterEmpty"></param>
+        ''' <returns></returns>
         <Extension>
-        Public Iterator Function ExportProteins(gb As GBFF.File, headers As StringTemplate) As IEnumerable(Of FastaSeq)
+        Public Iterator Function ExportProteins(gb As GBFF.File,
+                                                headers As StringTemplate,
+                                                Optional filterEmpty As Boolean = False) As IEnumerable(Of FastaSeq)
             Dim i As i32 = 1
             Dim accessionId As String = gb.Accession.AccessionId
             Dim lineage As String = gb.Source.BiomString
@@ -256,6 +265,10 @@ Namespace Assembly.NCBI.GenBank
 
                 Dim prot_seq As String = feature.Query(FeatureQualifiers.translation)
                 Dim title_str As String = headers.CreateString(feature)
+
+                If filterEmpty AndAlso prot_seq.StringEmpty Then
+                    Continue For
+                End If
 
                 Yield New FastaSeq(prot_seq, title:=title_str)
             Next
