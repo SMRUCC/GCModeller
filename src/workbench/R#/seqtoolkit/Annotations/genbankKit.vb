@@ -653,7 +653,7 @@ Module genbankKit
     ''' get or set fasta sequence of all CDS feature in the given genbank assembly file. 
     ''' </summary>
     ''' <param name="gb"></param>
-    ''' <param name="proteins"></param>
+    ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("protein.fasta")>
@@ -675,10 +675,12 @@ Module genbankKit
             Return RInternal.debug.stop("no protein sequence data provided!", env)
         End If
 
+        ' make input sequence fasta index
         Dim seqTable = seqs.ToDictionary(Function(fa) fa.Title.Split.First)
         Dim geneId As String
         Dim prot As FastaSeq
 
+        ' set protein fasta sequence
         For Each feature In gb.Features.Where(Function(a) a.KeyName = "CDS")
             geneId = feature.Query(FeatureQualifiers.locus_tag)
             prot = seqTable.TryGetValue(geneId)
