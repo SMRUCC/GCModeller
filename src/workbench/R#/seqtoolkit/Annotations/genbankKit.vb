@@ -660,6 +660,7 @@ Module genbankKit
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
                                   <RRawVectorArgument>
+                                  <RByRefValueAssign>
                                   Optional proteins As Object = Nothing,
                                   Optional title As String = Nothing,
                                   Optional env As Environment = Nothing) As Object
