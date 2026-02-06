@@ -6,6 +6,7 @@ protein_seqs \- get or set fasta sequence of all CDS feature in the given genban
 \fIprotein_seqs(\fBgb\fR as <generic> File, 
 \fBproteins\fR as any = \fB<NULL>\fR, 
 \fBtitle\fR as string = \fB<NULL>\fR, 
+\fBfilter_empty\fR as boolean = TRUE, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -17,6 +18,11 @@ get or set fasta sequence of all CDS feature in the given genbank assembly file.
 .PP
 .PP
 \fBproteins\fB \fR\- set the genbank feature CDS protein sequence if this value is existsed.. 
+.PP
+.PP
+\fBfilter_empty\fB \fR\- 
+ Filter out the empty protein sequence when do export of the protein sequence data.
+. 
 .PP
 .PP
 \fBenv\fB \fR\- -. 

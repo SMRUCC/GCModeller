@@ -206,11 +206,14 @@ declare namespace GenBank {
      * + default value Is ``null``.
      * @param title 
      * + default value Is ``null``.
+     * @param filter_empty Filter out the empty protein sequence when do export of the protein sequence data.
+     * 
+     * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function protein_seqs(gb: object, proteins?: any, title?: string, env?: object): object;
+   function protein_seqs(gb: object, proteins?: any, title?: string, filter_empty?: boolean, env?: object): object;
    module read {
       /**
        * read the given genbank assembly file.

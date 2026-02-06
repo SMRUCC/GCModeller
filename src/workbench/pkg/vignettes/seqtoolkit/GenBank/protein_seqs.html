@@ -29,7 +29,8 @@
         <div style="width: 100%; padding-left: 3%; color: black;">
             <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>protein_seqs</strong>(<i>gb</i>,
     <i>proteins</i> = <span style='color: blue !important;'>NULL</span>,
-    <i>title</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+    <i>title</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>filter.empty</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
@@ -42,6 +43,10 @@
 
 <dt>proteins</dt>
 <dd><p>set the genbank feature CDS protein sequence if this value is existsed.</p></dd>
+
+
+<dt>filter.empty</dt>
+<dd><p>Filter out the empty protein sequence when do export of the protein sequence data. [as boolean]</p></dd>
 
 
 <dt>env</dt>
