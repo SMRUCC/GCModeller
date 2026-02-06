@@ -671,7 +671,7 @@ Module genbankKit
             If title.StringEmpty(, True) Then
                 Return gb.ExportProteins_Short
             Else
-                Return gb.ExportProteins(New StringTemplate(title))
+                Return pipeline.CreateFromPopulator(gb.ExportProteins(New StringTemplate(title)))
             End If
         Else
             seqs = GetFastaSeq(proteins, env)
