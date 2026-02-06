@@ -57,10 +57,12 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -229,25 +231,34 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         <Extension>
         Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File) As FastaFile
-            Dim LQuery = From feature As gbffFeature
-                         In gbk.Features
-                         Where String.Equals(feature.KeyName, "CDS")
-                         Let attrs As String() = New String() {
-                             "gi",
-                             gbk.Accession.ToString,
-                             "gb",
-                             feature.Query("protein_id"),
-                             feature.Query("locus_tag"),
-                             feature.Query("gene"),
-                             feature.Location.ToString,
-                             feature.Query("product")
-                         }
-                         Select New FastaSeq With {
-                             .Headers = attrs,
-                             .SequenceData = feature.Query("translation")
-                         } '
-            Dim Fasta As New FastaFile(LQuery)
+            Dim template As New StringTemplate("gi|<gb_asm_id>|gb|<protein_id>|<locus_tag>|<gene>|<nucl_loc>|<product>")
+            Dim fasta As New FastaFile(gbk.ExportProteins(template))
             Return Fasta
+        End Function
+
+        <Extension>
+        Public Iterator Function ExportProteins(gb As GBFF.File, headers As StringTemplate) As IEnumerable(Of FastaSeq)
+            Dim i As i32 = 1
+            Dim accessionId As String = gb.Accession.AccessionId
+            Dim lineage As String = gb.Source.BiomString
+
+            Call headers.SetDefaultKey("ncbi_taxid", gb.Taxon)
+            Call headers.SetDefaultKey("lineage", lineage)
+            Call headers.SetDefaultKey("gb_asm_id", accessionId)
+
+            For Each feature As gbffFeature In gb.Features.AsEnumerable
+                If feature.KeyName <> "CDS" Then
+                    Continue For
+                Else
+                    Call headers.SetDefaultKey("locus_tag", $"locus_{++i}")
+                    Call headers.SetDefaultKey("nucl_loc", feature.Location.ContiguousRegion.ToString)
+                End If
+
+                Dim prot_seq As String = feature.Query(FeatureQualifiers.translation)
+                Dim title_str As String = headers.CreateString(feature)
+
+                Yield New FastaSeq(prot_seq, title:=title_str)
+            Next
         End Function
 
         ''' <summary>

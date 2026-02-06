@@ -656,17 +656,22 @@ Module genbankKit
     ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("protein.fasta")>
+    <ExportAPI("protein_fasta")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
                                   <RRawVectorArgument>
                                   Optional proteins As Object = Nothing,
+                                  Optional title As String = Nothing,
                                   Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq)
 
         If proteins Is Nothing Then
-            Return gb.ExportProteins_Short
+            If title.StringEmpty(, True) Then
+                Return gb.ExportProteins_Short
+            Else
+                Return gb.ExportProteins(New StringTemplate(title))
+            End If
         Else
             seqs = GetFastaSeq(proteins, env)
         End If
