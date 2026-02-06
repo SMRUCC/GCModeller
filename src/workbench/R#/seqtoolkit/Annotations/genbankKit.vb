@@ -656,7 +656,7 @@ Module genbankKit
     ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("protein_fasta")>
+    <ExportAPI("export_protein_fasta")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
                                   <RRawVectorArgument>
