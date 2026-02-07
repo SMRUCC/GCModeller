@@ -41,7 +41,7 @@ declare namespace annotation.workflow {
        * Export single side besthit
        * 
        * 
-        * @param query -
+        * @param query the blast reader result from the ``read.blast`` iterator function.
         * @param idetities -
         * 
         * + default value Is ``0.3``.
@@ -119,6 +119,7 @@ declare namespace annotation.workflow {
         * @param env -
         * 
         * + default value Is ``null``.
+        * @return a collection of the query hits result details
       */
       function blast(file: string, type?: string, fastMode?: boolean, env?: object): object;
    }
