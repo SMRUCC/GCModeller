@@ -494,3 +494,10 @@ src/repository/graphquery/kegg/pipeline/ko_genes.dat
 /src/workbench/pkg/test/tf-idf.csv
 src/repository/graphquery/kegg/pipeline/ko_genes - Copy.dat
 /src/repository/graphquery/kegg/pipeline/package_updater/reaction_cache - Copy.db
+src/repository/graphquery/ath.txt
+src/repository/graphquery/eco.txt
+src/repository/graphquery/kegg/pipeline/mmu.txt
+src/repository/graphquery/kegg/pipeline/xcb.txt
+src/repository/graphquery/kegg/pipeline/xcc.txt
+src/repository/graphquery/kegg/pipeline/zma.txt
+src/repository/graphquery/taes.txt
