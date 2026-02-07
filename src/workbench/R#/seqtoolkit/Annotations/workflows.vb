@@ -86,8 +86,9 @@ Module workflows
     ''' <param name="file"></param>
     ''' <param name="type">``nucl`` or ``prot``</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>a collection of the query hits result details</returns>
     <ExportAPI("read.blast")>
+    <RApiReturn(GetType(Query))>
     Public Function openBlastReader(file As String,
                                     Optional type As String = "nucl",
                                     Optional fastMode As Boolean = True,
@@ -130,7 +131,7 @@ Module workflows
     ''' <summary>
     ''' Export single side besthit
     ''' </summary>
-    ''' <param name="query"></param>
+    ''' <param name="query">the blast reader result from the ``read.blast`` iterator function.</param>
     ''' <param name="idetities"></param>
     ''' <param name="coverage"></param>
     ''' <param name="topBest"></param>
