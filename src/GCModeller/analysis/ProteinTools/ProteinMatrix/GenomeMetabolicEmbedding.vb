@@ -1,0 +1,30 @@
+﻿Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.NLP
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+
+Public Class GenomeMetabolicEmbedding
+
+    ReadOnly vec As New TFIDF
+
+    Public Sub Add(genome As GenomeVector)
+        Call vec.Add(genome.assembly_id, genome.terms)
+    End Sub
+
+    Public Sub AddGenomes(seqs As IEnumerable(Of GenomeVector))
+        For Each annotation As GenomeVector In seqs
+            Call Add(annotation)
+        Next
+    End Sub
+
+    Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
+        Return vec.TfidfVectorizer(normalize)
+    End Function
+
+    ''' <summary>
+    ''' n-gram One-hot(Bag-of-n-grams)
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function OneHotVectorizer() As DataFrame
+        Return vec.OneHotVectorizer
+    End Function
+End Class
