@@ -374,6 +374,12 @@ Module workflows
         End If
     End Function
 
+    ''' <summary>
+    ''' read the hits data in pipeline stream style
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="encoding"></param>
+    ''' <returns></returns>
     <ExportAPI("read.besthits")>
     <RApiReturn(GetType(BestHit))>
     Public Function read_besthits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
