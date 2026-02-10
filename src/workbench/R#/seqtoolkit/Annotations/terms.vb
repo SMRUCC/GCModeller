@@ -73,6 +73,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -469,4 +470,31 @@ Module terms
         Return New FastaFile(From vf As VFs In vfdb Select New FastaSeq(vf.sequence, title:=vf.VFID)) _
             .Save(-1, file, encoding:=Encodings.ASCII.CodePage)
     End Function
+
+    <ExportAPI("tfidf_vectorizer")>
+    Public Function tfidf_vectorizer(<RRawVectorArgument>
+                                     annotations As Object,
+                                     Optional L2_norm As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
+        Dim genomes As pipeline = pipeline.TryCreatePipeline(Of GenomeVector)(annotations, env)
+
+        If genomes.isError Then
+            Return genomes.getError
+        End If
+
+        Dim idf As New GenomeMetabolicEmbedding
+        idf.AddGenomes(genomes.populates(Of GenomeVector)(env))
+        Dim vec = idf.TfidfVectorizer(normalize:=L2_norm)
+        Dim df As New dataframe With {
+            .rownames = vec.rownames,
+            .columns = vec.featureSet _
+                .ToDictionary(Function(a) a.name,
+                              Function(a)
+                                  Return a.vector
+                              End Function)
+        }
+
+        Return df
+    End Function
+
 End Module
