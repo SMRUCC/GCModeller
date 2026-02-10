@@ -494,6 +494,7 @@ Module terms
     Public Function tfidf_vectorizer(<RRawVectorArgument>
                                      annotations As Object,
                                      Optional L2_norm As Boolean = False,
+                                     Optional union_contigs As Integer = 1000,
                                      Optional env As Environment = Nothing) As Object
         Dim genomes As pipeline = pipeline.TryCreatePipeline(Of GenomeVector)(annotations, env)
 
@@ -501,8 +502,8 @@ Module terms
             Return genomes.getError
         End If
 
-        Dim idf As New GenomeMetabolicEmbedding
-        idf.AddGenomes(genomes.populates(Of GenomeVector)(env))
+        Dim genome_asm As IEnumerable(Of GenomeVector) = GenomeVector.GroupByTaxonomy(genomes.populates(Of GenomeVector)(env), union_contigs)
+        Dim idf As GenomeMetabolicEmbedding = New GenomeMetabolicEmbedding().AddGenomes(genome_asm)
         Dim vec = idf.TfidfVectorizer(normalize:=L2_norm)
         Dim df As New dataframe With {
             .rownames = vec.rownames,

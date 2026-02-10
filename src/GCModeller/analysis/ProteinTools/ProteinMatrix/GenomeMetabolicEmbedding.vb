@@ -10,11 +10,13 @@ Public Class GenomeMetabolicEmbedding
         Call vec.Add(genome.assembly_id, genome.terms)
     End Sub
 
-    Public Sub AddGenomes(seqs As IEnumerable(Of GenomeVector))
+    Public Function AddGenomes(seqs As IEnumerable(Of GenomeVector)) As GenomeMetabolicEmbedding
         For Each annotation As GenomeVector In seqs
             Call Add(annotation)
         Next
-    End Sub
+
+        Return Me
+    End Function
 
     Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
         Return vec.TfidfVectorizer(normalize)
