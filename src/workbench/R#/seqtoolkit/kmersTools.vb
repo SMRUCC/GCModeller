@@ -18,8 +18,14 @@ Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("kmers")>
 Module kmersTools
 
+    ''' <summary>
+    ''' Create kmers from a given sequence
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="k"></param>
+    ''' <returns></returns>
     <ExportAPI("kmers")>
-    Public Function kmers(seq As String, k As Integer) As String()
+    Public Function kmers_from_seq(seq As String, k As Integer) As String()
         Return KSeq.KmerSpans(seq, k).ToArray
     End Function
 
@@ -103,16 +109,26 @@ Module kmersTools
         Dim latent As New KmerTFIDFVectorizer(type, k)
         Call latent.AddRange(seqs)
         Dim vec = latent.TfidfVectorizer(L2_norm)
-        Dim df As New dataframe With {
-            .rownames = vec.rownames,
-            .columns = vec.featureSet _
-                .ToDictionary(Function(a) a.name,
-                              Function(a)
-                                  Return a.vector
-                              End Function)
-        }
-
+        Dim df As dataframe = vec.toDataframe(list.empty, env)
         Return df
     End Function
 
+    <ExportAPI("onehot_vectorizer")>
+    Public Function oneHot_vectorizer(<RRawVectorArgument> x As Object,
+                                      Optional type As SeqTypes = SeqTypes.Protein,
+                                      Optional k As Integer = 6,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim latent As New KmerTFIDFVectorizer(type, k)
+        Call latent.AddRange(seqs)
+        Dim vec = latent.OneHotVectorizer
+        Dim df As dataframe = vec.toDataframe(list.empty, env)
+        Return df
+    End Function
 End Module
