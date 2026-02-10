@@ -7,7 +7,7 @@ Public Class GenomeMetabolicEmbedding
     ReadOnly vec As New TFIDF
 
     Public Sub Add(genome As GenomeVector)
-        Call vec.Add(genome.assembly_id, genome.terms)
+        Call vec.Add(genome.taxonomy, genome.terms)
     End Sub
 
     Public Function AddGenomes(seqs As IEnumerable(Of GenomeVector)) As GenomeMetabolicEmbedding
@@ -19,7 +19,7 @@ Public Class GenomeMetabolicEmbedding
     End Function
 
     Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
-        Call $"make metabolic embedding with: ".info
+        Call $"Make metabolic embedding with: ".info
         Call $"  * {vec.N} genomes".debug
         Call $"  * {vec.Words.Length} total enzyme terms".debug
         Call VBDebugger.EchoLine("")
