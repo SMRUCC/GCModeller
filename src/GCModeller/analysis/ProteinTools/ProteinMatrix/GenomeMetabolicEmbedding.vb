@@ -20,8 +20,9 @@ Public Class GenomeMetabolicEmbedding
 
     Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
         Call $"make metabolic embedding with: ".info
-        Call $"    - {vec.N} genomes".debug
-        Call $"    - {vec.Words.Length} total enzyme terms".debug
+        Call $"  * {vec.N} genomes".debug
+        Call $"  * {vec.Words.Length} total enzyme terms".debug
+        Call VBDebugger.EchoLine("")
 
         Return vec.TfidfVectorizer(normalize)
     End Function

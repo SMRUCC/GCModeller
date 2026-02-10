@@ -39,6 +39,8 @@ Namespace Pipeline
         ''' <param name="size_cutoff">test of the contigby gene size cutoff.</param>
         ''' <returns></returns>
         Public Shared Iterator Function GroupByTaxonomy(vectors As IEnumerable(Of GenomeVector), Optional size_cutoff As Integer = 1000) As IEnumerable(Of GenomeVector)
+            Call $"Make union of the taxonomy assembly contig result via annotated gene size cutoff {size_cutoff}".debug
+
             For Each taxonomy As IGrouping(Of String, GenomeVector) In vectors.GroupBy(Function(vec) vec.taxonomy)
                 Dim contigs As New List(Of GenomeVector)
 
