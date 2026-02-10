@@ -471,6 +471,18 @@ Module terms
             .Save(-1, file, encoding:=Encodings.ASCII.CodePage)
     End Function
 
+    <ExportAPI("make_vectors")>
+    <RApiReturn(GetType(GenomeVector))>
+    Public Function make_vectors(<RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+        Dim termList As pipeline = pipeline.TryCreatePipeline(Of RankTerm)(terms, env)
+
+        If termList.isError Then
+            Return termList.getError
+        End If
+
+        Return GenomeVector.CreateVectors(termList.populates(Of RankTerm)(env)).ToArray
+    End Function
+
     ''' <summary>
     ''' make embedding of the genomics metabolic model 
     ''' </summary>
