@@ -26,7 +26,7 @@ Public Class GenomeMetabolicEmbedding
         Call $"  * {vec.Words.Length} total enzyme terms".debug
         Call VBDebugger.EchoLine("")
 
-        Dim df = vec.TfidfVectorizer(normalize)
+        Dim df As DataFrame = vec.TfidfVectorizer(normalize)
         Call df.add("taxonomy", From id As String In df.rownames Select taxonomy(id))
         Return df
     End Function
