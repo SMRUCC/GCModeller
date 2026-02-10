@@ -32,6 +32,12 @@ Namespace Pipeline
                    Select New NamedCollection(Of RankTerm)(Name, Group.Select(Function(a) a.term))
         End Function
 
+        ''' <summary>
+        ''' Make union of the taxonomy assembly contig result
+        ''' </summary>
+        ''' <param name="vectors"></param>
+        ''' <param name="size_cutoff">test of the contigby gene size cutoff.</param>
+        ''' <returns></returns>
         Public Shared Iterator Function GroupByTaxonomy(vectors As IEnumerable(Of GenomeVector), Optional size_cutoff As Integer = 1000) As IEnumerable(Of GenomeVector)
             For Each taxonomy As IGrouping(Of String, GenomeVector) In vectors.GroupBy(Function(vec) vec.taxonomy)
                 Dim contigs As New List(Of GenomeVector)
