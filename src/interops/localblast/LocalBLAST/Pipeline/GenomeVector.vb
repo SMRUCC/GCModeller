@@ -32,11 +32,25 @@ Namespace Pipeline
                    Select New NamedCollection(Of RankTerm)(Name, Group.Select(Function(a) a.term))
         End Function
 
-        Public Shared Iterator Function GroupByTaxonomy(vectors As IEnumerable(Of GenomeVector)) As IEnumerable(Of GenomeVector)
+        Public Shared Iterator Function GroupByTaxonomy(vectors As IEnumerable(Of GenomeVector), Optional size_cutoff As Integer = 1000) As IEnumerable(Of GenomeVector)
             For Each taxonomy As IGrouping(Of String, GenomeVector) In vectors.GroupBy(Function(vec) vec.taxonomy)
+                Dim contigs As New List(Of GenomeVector)
+
+                For Each asm As GenomeVector In taxonomy
+                    If asm.size < size_cutoff Then
+                        Call contigs.Add(asm)
+                    Else
+                        Yield asm
+                    End If
+                Next
+
+                If Not contigs.Any Then
+                    Continue For
+                End If
+
                 Dim union As New Dictionary(Of String, Integer)
 
-                For Each part As GenomeVector In taxonomy
+                For Each part As GenomeVector In contigs
                     For Each term As KeyValuePair(Of String, Integer) In part.terms
                         If union.ContainsKey(term.Key) Then
                             union(term.Key) += term.Value
@@ -48,7 +62,7 @@ Namespace Pipeline
 
                 Yield New GenomeVector With {
                     .taxonomy = taxonomy.Key,
-                    .assembly_id = taxonomy.Keys.JoinBy(","),
+                    .assembly_id = contigs.Keys.JoinBy(","),
                     .terms = union
                 }
             Next
