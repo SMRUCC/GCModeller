@@ -507,12 +507,16 @@ Module terms
         Dim vec = idf.TfidfVectorizer(normalize:=L2_norm)
         Dim df As New dataframe With {
             .rownames = vec.rownames,
-            .columns = vec.featureSet _
-                .ToDictionary(Function(a) a.name,
-                              Function(a)
-                                  Return a.vector
-                              End Function)
+            .columns = New Dictionary(Of String, Array)
         }
+
+        Call df.add("taxonomy", vec("taxonomy").vector)
+
+        For Each term As String In vec.featureNames
+            If term <> "taxonomy" Then
+                Call df.add(term, vec(term).vector)
+            End If
+        Next
 
         Return df
     End Function

@@ -5,9 +5,11 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Public Class GenomeMetabolicEmbedding
 
     ReadOnly vec As New TFIDF
+    ReadOnly taxonomy As New Dictionary(Of String, String)
 
     Public Sub Add(genome As GenomeVector)
-        Call vec.Add(genome.taxonomy, genome.terms)
+        Call vec.Add(genome.assembly_id, genome.terms)
+        Call taxonomy.Add(genome.assembly_id, genome.taxonomy)
     End Sub
 
     Public Function AddGenomes(seqs As IEnumerable(Of GenomeVector)) As GenomeMetabolicEmbedding
@@ -24,7 +26,9 @@ Public Class GenomeMetabolicEmbedding
         Call $"  * {vec.Words.Length} total enzyme terms".debug
         Call VBDebugger.EchoLine("")
 
-        Return vec.TfidfVectorizer(normalize)
+        Dim df = vec.TfidfVectorizer(normalize)
+        Call df.add("taxonomy", From id As String In df.rownames Select taxonomy(id))
+        Return df
     End Function
 
     ''' <summary>
