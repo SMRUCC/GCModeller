@@ -188,8 +188,18 @@ Module TaxonomyKit
         Return taxlist
     End Function
 
+    ''' <summary>
+    ''' get taxonomy name
+    ''' </summary>
+    ''' <param name="taxonomy">a collection of <see cref="Taxonomy"/> model object</param>
+    ''' <param name="rank">a specific taxonomy rank level for get the label names</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("taxonomy_name")>
-    Public Function taxonomy_name(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+    Public Function taxonomy_name(<RRawVectorArgument> taxonomy As Object,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.NA,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim taxons = ParseBIOMString(taxonomy, env)
 
         If TypeOf taxons Is Message Then
@@ -197,7 +207,17 @@ Module TaxonomyKit
         End If
 
         Dim taxList As Taxonomy() = DirectCast(taxons, Taxonomy())
-        Dim names As String() = taxList.Select(Function(t) If(t.ToArray.LastOrDefault, "Unknown")).ToArray
+        Dim names As String()
+
+        If rank = TaxonomyRanks.NA Then
+            names = taxList.Select(Function(t) If(t.ToArray.LastOrDefault, "Unknown")).ToArray
+        Else
+            names = taxList _
+                .Select(Function(t)
+                            Return If(t.Select(rank).LastOrDefault, "Unknown")
+                        End Function) _
+                .ToArray
+        End If
 
         Return names
     End Function
