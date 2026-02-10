@@ -18,6 +18,11 @@ Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 <Package("kmers")>
 Module kmersTools
 
+    <ExportAPI("kmers")>
+    Public Function kmers(seq As String, k As Integer) As String()
+        Return KSeq.KmerSpans(seq, k).ToArray
+    End Function
+
     ''' <summary>
     ''' generate sequence k-mer count data matrix
     ''' </summary>
