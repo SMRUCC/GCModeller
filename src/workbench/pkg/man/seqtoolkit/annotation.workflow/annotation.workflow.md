@@ -10,6 +10,6 @@ A pipeline collection for proteins' biological function
 + [grep.names](annotation.workflow/grep.names.1) 
 + [stream.flush](annotation.workflow/stream.flush.1) Save the annotation rawdata into the given stream file.
 + [besthit_filter](annotation.workflow/besthit_filter.1) make filter of the blast best hits via the given parameter combinations
-+ [read.besthits](annotation.workflow/read.besthits.1) 
++ [read.besthits](annotation.workflow/read.besthits.1) read the hits data in pipeline stream style
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer
 + [read_m8](annotation.workflow/read_m8.1) 

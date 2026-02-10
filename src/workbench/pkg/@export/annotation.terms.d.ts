@@ -61,6 +61,10 @@ declare namespace annotation.terms {
      * @param descriptions the gene functional product description strings.
    */
    function geneNames(descriptions: any): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function make_vectors(terms: any, env?: object): object;
    module read {
       /**
        * 
@@ -107,6 +111,21 @@ declare namespace annotation.terms {
      * @param env default value Is ``null``.
    */
    function term_table(annotations: object, env?: object): object;
+   /**
+    * make embedding of the genomics metabolic model
+    * 
+    * 
+     * @param annotations -
+     * @param L2_norm -
+     * 
+     * + default value Is ``false``.
+     * @param union_contigs 
+     * + default value Is ``1000``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function tfidf_vectorizer(annotations: any, L2_norm?: boolean, union_contigs?: object, env?: object): any;
    module write {
       /**
       */

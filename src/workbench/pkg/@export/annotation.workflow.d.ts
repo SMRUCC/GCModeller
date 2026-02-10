@@ -103,7 +103,13 @@ declare namespace annotation.workflow {
    }
    module read {
       /**
-        * @param encoding default value Is ``null``.
+       * read the hits data in pipeline stream style
+       * 
+       * 
+        * @param file -
+        * @param encoding -
+        * 
+        * + default value Is ``null``.
       */
       function besthits(file: string, encoding?: object): object;
       /**
