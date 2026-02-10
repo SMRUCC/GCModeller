@@ -471,6 +471,13 @@ Module terms
             .Save(-1, file, encoding:=Encodings.ASCII.CodePage)
     End Function
 
+    ''' <summary>
+    ''' make embedding of the genomics metabolic model 
+    ''' </summary>
+    ''' <param name="annotations"></param>
+    ''' <param name="L2_norm"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("tfidf_vectorizer")>
     Public Function tfidf_vectorizer(<RRawVectorArgument>
                                      annotations As Object,
