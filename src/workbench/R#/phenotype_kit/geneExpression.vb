@@ -1702,6 +1702,19 @@ Module geneExpression
         Return LimmaTable.LoadTable(file).ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="top"></param>
+    ''' <param name="logfc_impact"></param>
+    ''' <param name="class">
+    ''' the id class data, example as: 
+    ''' list(class1 = c(...), class2 = c(...), class3 = c(...))
+    ''' </param>
+    ''' <param name="names"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("limma_impactsort")>
     <RApiReturn(GetType(ImpactResult))>
     Public Function limma_impactSort(<RRawVectorArgument> x As Object,
@@ -1721,11 +1734,21 @@ Module geneExpression
         If Not [class] Is Nothing Then
             Dim class_groups = [class].AsGeneric(Of String())(env)
 
-            For Each group In class_groups
-                For Each id As String In group.Value
-                    class_labels(id) = group.Key
+            If class_groups.All(Function(a) a.Value.Length = 1) Then
+                ' is in format of [id => class]
+                class_labels = class_groups _
+                    .ToDictionary(Function(a) a.Key,
+                                  Function(a)
+                                      Return a.Value(0)
+                                  End Function)
+            Else
+                ' is in format of list(class1 = c(...), class2 = c(...), ...)
+                For Each group In class_groups
+                    For Each id As String In group.Value
+                        class_labels(id) = group.Key
+                    Next
                 Next
-            Next
+            End If
         End If
 
         If TypeOf x Is list Then
