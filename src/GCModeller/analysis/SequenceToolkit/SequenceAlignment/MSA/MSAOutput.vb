@@ -105,14 +105,22 @@ Namespace MSA
         End Function
 
         Public Sub Print(Optional maxNameWidth% = 10, Optional dev As TextWriter = Nothing)
-            Dim n = MSA.Length
+            Dim n As Integer = MSA.Length
             Dim names = Me.names.ToArray
             Dim out As TextWriter = dev Or Console.Out.AsDefault
+            Dim maxPadEditWidth As Integer = 8
+
+            Call out.WriteLine()
+            Call out.WriteLine("> seq_name".PadRight(maxNameWidth, " "c) & vbTab & "edits".PadRight(maxPadEditWidth, " "c) & " " & "MSA Result")
+            Call out.WriteLine()
 
             For i As Integer = 0 To n - 1
                 names(i) = Mid(names(i), 1, maxNameWidth)
-                names(i) = names(i) & New String(" "c, maxNameWidth - names(i).Length)
-                out.WriteLine(names(i) & vbTab & MSA(i))
+                names(i) = names(i).PadLeft(maxNameWidth, " "c)
+
+                Call out.WriteLine(names(i) & vbTab &
+                                   edits(i).ToString.PadRight(maxPadEditWidth, " "c) & " " &
+                                   MSA(i))
             Next
 
             Dim conserved$ = ""
@@ -129,10 +137,12 @@ Namespace MSA
             Next
 
             If Not Strings.Trim(conserved).StringEmpty Then
-                out.WriteLine(New String(" "c, maxNameWidth) & vbTab & conserved)
+                Call out.WriteLine(New String(" "c, maxNameWidth) & vbTab &
+                                   New String(" "c, maxPadEditWidth) & " " &
+                                   conserved)
             End If
 
-            out.Flush()
+            Call out.Flush()
         End Sub
     End Class
 End Namespace

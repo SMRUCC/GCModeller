@@ -29,6 +29,8 @@ let msa = seq.fasta
 |> MSA.of
 ;
 
+print(msa);
+
 bitmap( file = logo.png ){
     plot.seqLogo(msa, title);
 }
