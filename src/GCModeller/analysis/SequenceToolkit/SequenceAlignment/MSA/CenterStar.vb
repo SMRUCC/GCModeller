@@ -54,7 +54,10 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace MSA
 
@@ -63,12 +66,44 @@ Namespace MSA
         Dim algorithm As DynamicProgramming.CenterStar
 
         Sub New(seqs As IEnumerable(Of String))
-            algorithm = New DynamicProgramming.CenterStar(seqs)
+            algorithm = New DynamicProgramming.CenterStar(ProcessingSeqs(seqs))
         End Sub
 
         Sub New(seqs As IEnumerable(Of FastaSeq))
-            algorithm = New DynamicProgramming.CenterStar(seqs.Select(Function(f) New NamedValue(Of String)(f.Title, f.SequenceData)))
+            algorithm = New DynamicProgramming.CenterStar(ProcessingSeqs(seqs))
         End Sub
+
+        Private Shared Iterator Function ProcessingSeqs(seqs As IEnumerable(Of FastaSeq)) As IEnumerable(Of NamedValue(Of String))
+            Dim allSeqs As FastaSeq() = seqs.SafeQuery.ToArray
+            Dim is_prot As Boolean = allSeqs.Any(Function(si) si.IsProtSource)
+
+            If is_prot Then
+                ' populate sequence directly
+                For Each seq As FastaSeq In allSeqs
+                    Yield New NamedValue(Of String)(seq.Title, seq.SequenceData)
+                Next
+            Else
+                For Each seq As FastaSeq In allSeqs
+                    Yield New NamedValue(Of String)(seq.Title, NucleicAcid.Canonical(seq.SequenceData))
+                Next
+            End If
+        End Function
+
+        Private Shared Iterator Function ProcessingSeqs(seqs As IEnumerable(Of String)) As IEnumerable(Of NamedValue(Of String))
+            Dim allSeqs As String() = seqs.SafeQuery.ToArray
+            Dim is_prot As Boolean = allSeqs.Any(Function(si) CheckSeqType(si) = SeqTypes.Protein)
+
+            If is_prot Then
+                ' populate sequence directly
+                For i As Integer = 0 To allSeqs.Length - 1
+                    Yield New NamedValue(Of String)($"seq_{i + 1}", allSeqs(i))
+                Next
+            Else
+                For i As Integer = 0 To allSeqs.Length - 1
+                    Yield New NamedValue(Of String)($"seq{i + 1}", NucleicAcid.Canonical(allSeqs(i)))
+                Next
+            End If
+        End Function
 
         Public Function Compute(matrix As ScoreMatrix) As MSAOutput
             Dim alignments As String() = Nothing

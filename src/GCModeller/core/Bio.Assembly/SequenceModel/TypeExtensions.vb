@@ -156,6 +156,18 @@ Namespace SequenceModel
             End If
         End Function
 
+        Public Function CheckSeqType(seq As String) As SeqTypes
+            If seq.StringEmpty(, True) Then
+                Return SeqTypes.Generic
+            ElseIf IsProteinSource(seq) Then
+                Return SeqTypes.Protein
+            ElseIf seq.Any(Function(c) c = "U"c) Then
+                Return SeqTypes.RNA
+            Else
+                Return SeqTypes.DNA
+            End If
+        End Function
+
         ''' <summary>
         ''' 目标序列数据是否为一条蛋白质序列
         ''' </summary>
@@ -164,7 +176,18 @@ Namespace SequenceModel
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsProteinSource(seq As IPolymerSequenceModel) As Boolean
-            Return seq.SequenceData _
+            Return IsProteinSource(seq.SequenceData)
+        End Function
+
+        ''' <summary>
+        ''' 目标序列数据是否为一条蛋白质序列
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function IsProteinSource(seq As String) As Boolean
+            Return seq _
                 .ToUpper _
                 .Where(Function(c) c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1) _
                 .FirstOrDefault _
