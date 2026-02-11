@@ -1,4 +1,5 @@
 require(GCModeller);
+require(jsonlite);
 
 # Demo script for create sequence logo based on the MSA alignment analysis
 # nt base frequency is created based on the MSA alignment operation.
@@ -22,8 +23,13 @@ let title as string     = ?"--title" || basename(seq.fasta);
 # finally count the nucleotide base frequency
 # and then draw the sequence logo
 # by invoke sequence logo drawer api
-seq.fasta
+let msa = seq.fasta
 |> read.fasta
 |> MSA.of
-|> plot.seqLogo(title)
-|> bitmap( file = logo.png );
+;
+
+bitmap( file = logo.png ){
+    plot.seqLogo(msa, title);
+}
+
+writeLines(jsonlite::toJSON(msa), con = "LexA-MSA.json");
