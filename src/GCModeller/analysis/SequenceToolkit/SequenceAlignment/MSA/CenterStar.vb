@@ -107,11 +107,13 @@ Namespace MSA
 
         Public Function Compute(matrix As ScoreMatrix) As MSAOutput
             Dim alignments As String() = Nothing
-            Dim cost As Double = algorithm.Compute(matrix Or ScoreMatrix.DefaultMatrix, alignments)
+            Dim edits As Integer() = Nothing
+            Dim cost As Double = algorithm.Compute(matrix Or ScoreMatrix.DefaultMatrix, alignments, edits)
             Dim output As New MSAOutput With {
                 .cost = cost,
                 .MSA = alignments,
-                .names = algorithm.NameList
+                .names = algorithm.NameList,
+                .edits = edits
             }
 
             Return output

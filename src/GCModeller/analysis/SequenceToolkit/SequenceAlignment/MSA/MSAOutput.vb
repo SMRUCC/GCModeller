@@ -70,6 +70,7 @@ Namespace MSA
 
         Public Property names As String()
         Public Property MSA As String()
+        Public Property edits As Integer()
 
         <XmlAttribute>
         Public Property cost As Double
