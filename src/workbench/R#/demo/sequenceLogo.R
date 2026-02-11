@@ -1,8 +1,10 @@
+require(GCModeller);
+
 # Demo script for create sequence logo based on the MSA alignment analysis
 # nt base frequency is created based on the MSA alignment operation.
 
-imports "bioseq.patterns" from "seqtoolkit.dll";
-imports "bioseq.fasta" from "seqtoolkit.dll";
+imports "bioseq.patterns" from "seqtoolkit";
+imports "bioseq.fasta" from "seqtoolkit";
 
 # script cli usage
 #
@@ -21,8 +23,7 @@ let title as string     = ?"--title" || basename(seq.fasta);
 # and then draw the sequence logo
 # by invoke sequence logo drawer api
 seq.fasta
-:> read.fasta
-:> MSA.of
-:> as.fasta
-:> plot.seqLogo(title)
-:> save.graphics( file = logo.png );
+|> read.fasta
+|> MSA.of
+|> plot.seqLogo(title)
+|> bitmap( file = logo.png );
