@@ -111,7 +111,7 @@ Namespace MSA
             Dim maxPadEditWidth As Integer = 8
 
             Call out.WriteLine()
-            Call out.WriteLine("> seq_name".PadRight(maxNameWidth, " "c) & vbTab & "edits".PadRight(maxPadEditWidth, " "c) & " " & "MSA Result")
+            Call out.WriteLine($"> seq_name({n})".PadRight(maxNameWidth, " "c) & vbTab & "edits".PadRight(maxPadEditWidth, " "c) & " " & $"MSA Result(cost={cost})")
             Call out.WriteLine()
 
             For i As Integer = 0 To n - 1
@@ -131,6 +131,8 @@ Namespace MSA
 
                 If column.Distinct.Count = 1 Then
                     conserved &= "*"
+                ElseIf column.Count(CenterStar.GapChar) / n > 0.8 Then
+                    conserved &= "-"
                 Else
                     conserved &= " "
                 End If

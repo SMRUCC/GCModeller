@@ -65,6 +65,8 @@ Namespace MSA
 
         Dim algorithm As DynamicProgramming.CenterStar
 
+        Public Const GapChar As Char = DynamicProgramming.CenterStar.GapChar
+
         Sub New(seqs As IEnumerable(Of String))
             algorithm = New DynamicProgramming.CenterStar(ProcessingSeqs(seqs))
         End Sub
