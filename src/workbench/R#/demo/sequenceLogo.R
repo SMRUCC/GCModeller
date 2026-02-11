@@ -16,7 +16,8 @@ imports "bioseq.fasta" from "seqtoolkit";
 # fix for the optional arguments default value
 # by apply or default syntax for non-logical values
 let seq.fasta as string = ?"--seq"   || stop("No sequence data provided!");
-let logo.png as string  = ?"--save"  || `${seq.fasta}.logo.png`;
+let workdir = dirname(seq.fasta);
+let logo.png as string  = ?"--save"  || file.path(workdir, `${basename(seq.fasta)}-seqlogo.png`);
 let title as string     = ?"--title" || basename(seq.fasta);
 
 # read sequence and then do MSA alignment
@@ -32,4 +33,4 @@ bitmap( file = logo.png ){
     plot.seqLogo(msa, title);
 }
 
-writeLines(jsonlite::toJSON(msa), con = "LexA-MSA.json");
+writeLines(jsonlite::toJSON(msa), con = file.path( workdir, "LexA-MSA.json"));
