@@ -22,12 +22,12 @@ Public Class MotifComparison : Inherits ComparisonProvider
     End Function
 
     Private Function SmithWatermanAlignment(pwm1 As Probability, pwm2 As Probability) As Double
-        Dim top As Match = SmithWaterman.MakeAlignment(pwm1.region, pwm2.region, top:=1).FirstOrDefault
+        Dim top As Match = SmithWaterman.MakeAlignment(pwm1.region, pwm2.region, top:=1, norm:=True).FirstOrDefault
 
         If top Is Nothing Then
             Return 0
         Else
-
+            Return top.score
         End If
     End Function
 
