@@ -391,7 +391,7 @@ Module OTUTableTools
     <ExportAPI("makeTreeGraph")>
     <RApiReturn(GetType(NetworkGraph))>
     Public Function makeTreeGraph(<RRawVectorArgument> otus As Object,
-                                  Optional equals As Double = 0.85,
+                                  Optional equals As Double = 0.95,
                                   Optional gt As Double = 0.6,
                                   Optional env As Environment = Nothing) As Object
 
