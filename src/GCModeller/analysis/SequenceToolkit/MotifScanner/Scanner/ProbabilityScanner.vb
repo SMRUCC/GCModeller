@@ -194,29 +194,17 @@ Public Module ProbabilityScanner
                                        Optional n As Integer = 500,
                                        Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
 
-        Dim chars As Char() = target.SequenceData.ToCharArray
-        Dim subject As Residue() = target.ToResidues
         ' define a general smith-waterman symbol comparer
         ' mapping the char in target sequence as the PWM column object
         ' example as: A mapping as [1 0 0 0]
         '             T mapping as [0 1 0 0]
         '             G mapping as [0 0 1 0]  
         '             C mapping as [0 0 0 1]
-        Dim symbol As New GenericSymbol(Of Residue)(
-            equals:=Function(a, b) Compare(a, b) >= 0.85,
-            similarity:=AddressOf Compare,
-            toChar:=AddressOf Residue.Max,
-            empty:=AddressOf Residue.GetEmpty
-        )
-        ' create a general smith-waterman(GSW) alignment algorithm
-        Dim core As New GSW(Of Residue)(PWM, subject, symbol)
+        Dim chars As Char() = target.SequenceData.ToCharArray
+        Dim subject As Residue() = target.ToResidues.ToArray
         ' use PWM seuqnece to search target sequence
         ' find all best local alignment HSP as motif site candidates
-        Dim result As Match() = core.BuildMatrix.GetMatches(cutoff * core.MaxScore) _
-            .Where(Function(m) (m.toB - m.fromB) >= minW) _
-            .OrderByDescending(Function(a) a.score) _
-            .Take(top) _
-            .ToArray
+        Dim result As Match() = SmithWaterman.MakeAlignment(PWM, subject, cutoff:=cutoff, minW:=minW, top:=top).ToArray
         Dim seqTitle As String = target.Title
         Dim background As New ZERO(background:=NT _
                .ToDictionary(Function(b) b,
@@ -295,44 +283,22 @@ Public Module ProbabilityScanner
         Return New Location(m.fromB, m.toB)
     End Function
 
-    Private Function Compare(prob As Residue, base As Residue) As Double
-        For Each b As Char In NT
-            ' 如果当前的碱基是b的时候
-            If base.frequency(b) = 1.0R Then
-                ' 则比较的得分就是当前的碱基b在motif模型中
-                ' 对应的出现频率的高低
-                ' 很明显，出现的频率越高，得分越高
-                Return prob.frequency(b) * 10
-            End If
-        Next
-
-        ' 当前的序列位点为N任意碱基的时候
-        ' 则取最大的出现频率的得分
-        With prob.frequency.ToArray
-            Return .ElementAt(which.Min(.Values)) _
-                   .Value * 10
-        End With
-    End Function
-
     <Extension>
-    Public Function ToResidues(seq As FastaSeq) As Residue()
-        Return seq _
-            .SequenceData _
-            .Select(Function(base)
-                        Dim frq As New Dictionary(Of String, Double)
+    Public Iterator Function ToResidues(seq As FastaSeq) As IEnumerable(Of Residue)
+        For Each base As Char In seq.SequenceData
+            Dim frq As New Dictionary(Of String, Double)
 
-                        For Each b As Char In NT
-                            If base = b Then
-                                frq(b) = 1
-                            Else
-                                frq(b) = 0
-                            End If
-                        Next
+            For Each b As Char In NT
+                If base = b Then
+                    frq(b) = 1
+                Else
+                    frq(b) = 0
+                End If
+            Next
 
-                        Return New Residue With {
-                            .frequency = frq
-                        }
-                    End Function) _
-            .ToArray
+            Yield New Residue With {
+                .frequency = frq
+            }
+        Next
     End Function
 End Module
