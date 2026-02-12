@@ -1,10 +1,25 @@
 .\" man page create by R# package system.
 .TH TAXONOMY_KIT 4 2000-Jan "taxonomy_name" "taxonomy_name"
 .SH NAME
-taxonomy_name \- 
+taxonomy_name \- get taxonomy name
 .SH SYNOPSIS
 \fItaxonomy_name(\fBtaxonomy\fR as any, 
+\fBrank\fR as <integer> TaxonomyRanks = [NA], 
 [\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get taxonomy name
+.PP
+.SH OPTIONS
+.PP
+\fBtaxonomy\fB \fR\- a collection of @\fBT:SMRUCC.genomics.Metagenomics.Taxonomy\fR model object. 
+.PP
+.PP
+\fBrank\fB \fR\- a specific taxonomy rank level for get the label names. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
 .SH SEE ALSO
 taxonomy_kit
 .SH FILES

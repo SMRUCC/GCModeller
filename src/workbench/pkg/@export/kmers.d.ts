@@ -89,6 +89,14 @@ declare namespace kmers {
    */
    function hits_matrix(samples: object, env?: object): object;
    /**
+    * Create kmers from a given sequence
+    * 
+    * 
+     * @param seq -
+     * @param k -
+   */
+   function kmers(seq: string, k: object): string;
+   /**
     * generate sequence k-mer count data matrix
     * 
     * 
@@ -127,6 +135,12 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function make_classify(db: any, reads: any, n_threads?: object, env?: object): object|object;
+   /**
+     * @param type default value Is ``null``.
+     * @param k default value Is ``6``.
+     * @param env default value Is ``null``.
+   */
+   function onehot_vectorizer(x: any, type?: object, k?: object, env?: object): any;
    /**
    */
    function parse_kraken_output(filepath: any): object;

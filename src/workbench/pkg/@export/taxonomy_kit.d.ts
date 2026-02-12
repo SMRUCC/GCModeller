@@ -127,9 +127,18 @@ declare namespace taxonomy_kit {
       function filter(tree: object, range: string, taxid?: object): object|object;
    }
    /**
-     * @param env default value Is ``null``.
+    * get taxonomy name
+    * 
+    * 
+     * @param taxonomy a collection of @``T:SMRUCC.genomics.Metagenomics.Taxonomy`` model object
+     * @param rank a specific taxonomy rank level for get the label names
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
-   function taxonomy_name(taxonomy: any, env?: object): any;
+   function taxonomy_name(taxonomy: any, rank?: object, env?: object): any;
    /**
    */
    function taxonomy_range(tax: object, rank: object): object;

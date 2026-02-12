@@ -7,7 +7,7 @@ toolkit for process ncbi taxonomy tree data
 
 + [biom.string](taxonomy_kit/biom.string.1) cast taxonomy object to biom style taxonomy string
 + [biom_string.parse](taxonomy_kit/biom_string.parse.1) parse the taxonomy string in BIOM style
-+ [taxonomy_name](taxonomy_kit/taxonomy_name.1) 
++ [taxonomy_name](taxonomy_kit/taxonomy_name.1) get taxonomy name
 + [unique_taxonomy](taxonomy_kit/unique_taxonomy.1) make taxonomy object unique
 + [Ncbi.taxonomy_tree](taxonomy_kit/Ncbi.taxonomy_tree.1) load ncbi taxonomy tree model from the given data files
 + [ranks](taxonomy_kit/ranks.1) cast the ncbi taxonomy tree model to taxonomy ranks data
