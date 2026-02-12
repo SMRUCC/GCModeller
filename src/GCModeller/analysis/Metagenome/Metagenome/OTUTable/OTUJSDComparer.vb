@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.DataMining.BinaryTree
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 
-Public Class OTUComparer : Inherits ComparisonProvider
+Public Class OTUJSDComparer : Inherits ComparisonProvider
 
     ReadOnly OTUs As New Dictionary(Of String, OTUTable)
     ReadOnly sampleids As String()
