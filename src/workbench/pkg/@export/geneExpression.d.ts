@@ -345,11 +345,25 @@ declare namespace geneExpression {
    */
    function limma(x: object, design: object): object;
    /**
-     * @param top default value Is ``2147483647``.
-     * @param logfc_impact default value Is ``false``.
-     * @param class default value Is ``null``.
-     * @param names default value Is ``null``.
-     * @param env default value Is ``null``.
+    * 
+    * 
+     * @param x -
+     * @param top -
+     * 
+     * + default value Is ``2147483647``.
+     * @param logfc_impact -
+     * 
+     * + default value Is ``false``.
+     * @param class the id class data, example as: 
+     *  list(class1 = c(...), class2 = c(...), class3 = c(...))
+     * 
+     * + default value Is ``null``.
+     * @param names -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function limma_impactsort(x: any, top?: object, logfc_impact?: boolean, class?: object, names?: object, env?: object): object;
    /**

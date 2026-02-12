@@ -69,6 +69,22 @@ declare namespace OTU_table {
    */
    function make_otu_table(samples: any, taxonomy_tree: object, filter_missing?: boolean, env?: object): object;
    /**
+    * make OTU tree graph via JSD correlation method
+    * 
+    * 
+     * @param otus -
+     * @param equals -
+     * 
+     * + default value Is ``0.85``.
+     * @param gt -
+     * 
+     * + default value Is ``0.6``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function makeTreeGraph(otus: any, equals?: number, gt?: number, env?: object): object;
+   /**
    */
    function median_scale(x: object): any;
    /**
