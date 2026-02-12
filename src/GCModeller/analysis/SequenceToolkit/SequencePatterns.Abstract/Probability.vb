@@ -74,8 +74,16 @@ Public Class Probability : Implements INamedValue, IReadOnlyId
     <XmlAttribute> Public Property pvalue As Double
     <XmlAttribute> Public Property score As Double
 
+    ''' <summary>
+    ''' the unique id/name reference of the motif PWM model
+    ''' </summary>
+    ''' <returns></returns>
     Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
 
+    ''' <summary>
+    ''' motif residue number
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property width As Integer
         Get
             Return region.TryCount
