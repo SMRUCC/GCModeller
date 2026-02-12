@@ -57,6 +57,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
@@ -393,6 +395,7 @@ Module OTUTableTools
     Public Function makeTreeGraph(<RRawVectorArgument> otus As Object,
                                   Optional equals As Double = 0.85,
                                   Optional gt As Double = 0.6,
+                                  Optional rank_colors As TaxonomyRanks = TaxonomyRanks.Phylum,
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
@@ -408,6 +411,15 @@ Module OTUTableTools
             Next
         End If
 
-        Return OtuHashset.BuildClusterTree(equals, gt)
+        Dim graph As NetworkGraph = OtuHashset.BuildClusterTree(equals, gt)
+        Dim nodes As Node() = graph.vertex.ToArray
+        Dim labels As String() = nodes.Select(Function(v) v.data(rank_colors.ToString.ToLower)).ToArray
+        Dim colorset As New CategoryColorProfile(labels.Distinct, colorSet:="paper")
+
+        For i As Integer = 0 To nodes.Length - 1
+            nodes(i).data.color = New SolidBrush(colorset.GetColor(labels(i)))
+        Next
+
+        Return graph
     End Function
 End Module
