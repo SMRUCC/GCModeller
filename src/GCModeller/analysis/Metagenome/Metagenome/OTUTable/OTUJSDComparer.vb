@@ -1,7 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.BinaryTree
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Correlations
+Imports Cosine = Microsoft.VisualBasic.Math
 
 Public Class OTUJSDComparer : Inherits ComparisonProvider
 
@@ -30,7 +30,7 @@ Public Class OTUJSDComparer : Inherits ComparisonProvider
         Dim P As Double() = otu1(sampleids)
         Dim Q As Double() = otu2(sampleids)
 
-        Return Correlations.JSD(P, Q)
+        Return Cosine.SSM_SIMD(P, Q)
     End Function
 
     Public Overrides Function GetObject(id As String) As Object
