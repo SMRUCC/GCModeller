@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.DataMining.BinaryTree
 
 ''' <summary>
 ''' Protocol module to produce enterotype clusters
@@ -109,5 +110,10 @@ Public Module Enterotype
             .ToArray
 
         Return result
+    End Function
+
+    <Extension>
+    Public Function BuildClusterTree(table As OTUTable()) As BTreeCluster
+
     End Function
 End Module

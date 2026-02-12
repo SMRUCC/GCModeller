@@ -61,10 +61,23 @@
 
 Public Module UniFracCalculator
 
-    ' 定义系统发育树分支结构
+    ''' <summary>
+    ''' 定义系统发育树分支结构
+    ''' </summary>
     Public Class PhylogeneticBranch
-        Public Property BranchLength As Double   ' 分支的进化距离
-        Public Property OTUIDs As List(Of Integer)  ' 该分支下的OTU索引列表
+
+        ''' <summary>
+        ''' 分支的进化距离
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property BranchLength As Double
+
+        ''' <summary>
+        ''' 该分支下的OTU索引列表
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property OTUIDs As List(Of Integer)
+
     End Class
 
     ''' <summary>
@@ -74,7 +87,7 @@ Public Module UniFracCalculator
     ''' <param name="sample2">样本2的OTU丰度数组</param>
     ''' <param name="branches">系统发育树分支列表</param>
     Public Function UnweightedUniFrac(sample1 As Double(), sample2 As Double(), branches As List(Of PhylogeneticBranch)) As Double
-        ValidateInput(sample1, sample2, branches)
+        Call ValidateInput(sample1, sample2, branches)
 
         Dim totalLength As Double = branches.Sum(Function(b) b.BranchLength)
         If totalLength = 0 Then Return 0.0
