@@ -1,17 +1,20 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
+﻿Imports Microsoft.VisualBasic.DataMining.BinaryTree
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 
 Public Class MotifTree
 
-    Dim motifs As MotifComparison
+    Dim clusters As BTreeCluster()
 
-    Sub New(motifs As IEnumerable(Of Probability), equals As Double, gt As Double)
-        Me.motifs = New MotifComparison(motifs, equals, gt)
-    End Sub
+    Public Shared Function MakeTree(motifs As IEnumerable(Of Probability), equals As Double, gt As Double) As MotifTree
+        Dim motifSet As New MotifComparison(motifs, equals, gt)
+        Dim tree As BTreeCluster = motifSet.motifIDs.BTreeCluster(alignment:=motifs)
+        Dim clusters As New List(Of BTreeCluster)
 
-    Public Function MakeTree()
-        Dim tree As AVLClusterTree(Of Probability)
+        Call BTreeCluster.PullAllClusterNodes(tree, pull:=clusters)
 
+        Return New MotifTree With {
+            .clusters = clusters.ToArray
+        }
     End Function
 
 End Class

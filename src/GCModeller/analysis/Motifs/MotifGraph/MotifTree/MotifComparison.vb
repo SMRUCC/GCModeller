@@ -8,6 +8,12 @@ Public Class MotifComparison : Inherits ComparisonProvider
 
     ReadOnly motifs As New Dictionary(Of String, Probability)
 
+    Public ReadOnly Property motifIDs As IEnumerable(Of String)
+        Get
+            Return motifs.Keys
+        End Get
+    End Property
+
     Public Sub New(motifs As IEnumerable(Of Probability), equals As Double, gt As Double)
         MyBase.New(equals, gt)
 
