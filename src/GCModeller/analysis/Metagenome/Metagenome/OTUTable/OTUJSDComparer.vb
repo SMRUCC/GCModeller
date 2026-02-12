@@ -8,6 +8,12 @@ Public Class OTUJSDComparer : Inherits ComparisonProvider
     ReadOnly OTUs As New Dictionary(Of String, OTUTable)
     ReadOnly sampleids As String()
 
+    Public ReadOnly Property OTU_ids As IEnumerable(Of String)
+        Get
+            Return OTUs.Keys
+        End Get
+    End Property
+
     Public Sub New(OTUs As IEnumerable(Of OTUTable), equals As Double, gt As Double)
         MyBase.New(equals, gt)
 

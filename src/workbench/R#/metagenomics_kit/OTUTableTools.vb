@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
@@ -379,4 +380,19 @@ Module OTUTableTools
         Return otuTable
     End Function
 
+    <ExportAPI("makeTreeGraph")>
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function makeTreeGraph(<RRawVectorArgument> otus As Object,
+                                  Optional equals As Double = 0.85,
+                                  Optional gt As Double = 0.6,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of OTUTable)(env).BuildClusterTree(equals, gt)
+    End Function
 End Module

@@ -116,17 +116,16 @@ Public Module Enterotype
     End Function
 
     <Extension>
-    Public Function BuildClusterTree(table As OTUTable(),
+    Public Function BuildClusterTree(table As IEnumerable(Of OTUTable),
                                      Optional equals As Double = 0.85,
                                      Optional gt As Double = 0.6) As NetworkGraph
 
         Dim jsd As New OTUJSDComparer(table, equals, gt)
-        Dim tree As BTreeCluster = table.Keys.BTreeCluster(alignment:=jsd)
+        Dim tree As BTreeCluster = jsd.OTU_ids.BTreeCluster(alignment:=jsd)
         Dim g As NetworkGraph = tree.MakeTreeGraph(
             metadata:=Function(id)
                           Return MakeMetadata(otu:=jsd.GetObject(id))
                       End Function)
-
         Return g
     End Function
 
