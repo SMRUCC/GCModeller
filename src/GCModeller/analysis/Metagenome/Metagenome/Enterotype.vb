@@ -133,14 +133,17 @@ Public Module Enterotype
         Dim data As New Dictionary(Of String, String)
         Dim tax As Taxonomy = otu.taxonomy
 
-        Call data.Add("taxonomy", otu.taxonomy.BIOMTaxonomyString)
+        Call data.Add("text", otu.taxonomy.BIOMTaxonomyString)
+        Call data.Add("value", otu.Vector.Sum)
+
+        Call data.Add(NameOf(Taxonomy.kingdom), tax.kingdom)
+        Call data.Add(NameOf(Taxonomy.phylum), tax.phylum)
         Call data.Add(NameOf(Taxonomy.class), tax.class)
         Call data.Add(NameOf(Taxonomy.order), tax.order)
         Call data.Add(NameOf(Taxonomy.family), tax.family)
         Call data.Add(NameOf(Taxonomy.genus), tax.genus)
         Call data.Add(NameOf(Taxonomy.species), tax.species)
-        Call data.Add(NameOf(Taxonomy.phylum), tax.phylum)
-        Call data.Add(NameOf(Taxonomy.kingdom), tax.kingdom)
+
         Call data.Add(NameOf(Taxonomy.scientificName), tax.scientificName)
         Call data.Add(NameOf(Taxonomy.ncbi_taxid), tax.ncbi_taxid)
 
