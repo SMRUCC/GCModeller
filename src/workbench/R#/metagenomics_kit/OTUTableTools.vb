@@ -225,7 +225,7 @@ Module OTUTableTools
                 .LoadOTUTaxonAnalysis(file, tsv:=Not file.ExtensionSuffix("csv")) _
                 .ToArray
         Else
-            otus = file.LoadCsv(Of OTUTable)(mute:=True).ToArray
+            otus = DataSet.LoadDataSet(Of OTUTable)(file, mute:=True).ToArray
         End If
 
         If sum_duplicated Then
