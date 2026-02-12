@@ -380,6 +380,14 @@ Module OTUTableTools
         Return otuTable
     End Function
 
+    ''' <summary>
+    ''' make OTU tree graph via JSD correlation method
+    ''' </summary>
+    ''' <param name="otus"></param>
+    ''' <param name="equals"></param>
+    ''' <param name="gt"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("makeTreeGraph")>
     <RApiReturn(GetType(NetworkGraph))>
     Public Function makeTreeGraph(<RRawVectorArgument> otus As Object,
