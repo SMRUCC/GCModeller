@@ -1,70 +1,71 @@
 ﻿#Region "Microsoft.VisualBasic::d206145d973986a528bdf0fc51e75984, analysis\Metagenome\Metagenome\Mothur\MothurRankTree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 129
-    '    Code Lines: 99 (76.74%)
-    ' Comment Lines: 7 (5.43%)
-    '    - Xml Docs: 0.00%
-    ' 
-    '   Blank Lines: 23 (17.83%)
-    '     File Size: 4.30 KB
+' Summaries:
 
 
-    ' Class MothurRankTree
-    ' 
-    '     Properties: QualifyName, taxonmy
-    ' 
-    '     Function: GetOTUTable, LoadTaxonomySummary
-    ' 
-    '     Sub: PullLeafNode
-    ' 
-    ' Class MothurData
-    ' 
-    '     Properties: daughterlevels, parentID, rankID, samples, taxlevel
-    '                 taxon, total
-    ' 
-    '     Function: ToString
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 129
+'    Code Lines: 99 (76.74%)
+' Comment Lines: 7 (5.43%)
+'    - Xml Docs: 0.00%
+' 
+'   Blank Lines: 23 (17.83%)
+'     File Size: 4.30 KB
+
+
+' Class MothurRankTree
+' 
+'     Properties: QualifyName, taxonmy
+' 
+'     Function: GetOTUTable, LoadTaxonomySummary
+' 
+'     Sub: PullLeafNode
+' 
+' Class MothurData
+' 
+'     Properties: daughterlevels, parentID, rankID, samples, taxlevel
+'                 taxon, total
+' 
+'     Function: ToString
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Text
 
 Public Class MothurRankTree : Inherits Tree(Of MothurData)
 
@@ -138,7 +139,7 @@ Public Class MothurRankTree : Inherits Tree(Of MothurData)
     End Sub
 
     Public Shared Function LoadTaxonomySummary(file As String) As MothurRankTree
-        Dim rows As MothurData() = file.LoadTsv(Of MothurData).ToArray
+        Dim rows As MothurData() = file.LoadTsv(Of MothurData)(encoding:=Encodings.UTF8, mute:=True).ToArray
         Dim i As i32 = Scan0
         Dim root As New MothurRankTree With {
             .Data = rows(Scan0),

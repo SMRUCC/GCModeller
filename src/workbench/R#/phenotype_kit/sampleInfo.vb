@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
@@ -303,7 +304,7 @@ Module DEGSample
 
         If tsv Then
             samples = file _
-                .LoadTsv(Of SampleInfo)(nameMaps:=nameMaps, mute:=True) _
+                .LoadTsv(Of SampleInfo)(Encodings.UTF8, nameMaps:=nameMaps, mute:=True) _
                 .ToArray
         Else
             samples = file _
