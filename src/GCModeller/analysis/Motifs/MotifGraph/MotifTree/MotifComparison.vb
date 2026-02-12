@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.BinaryTree
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 
@@ -21,7 +22,13 @@ Public Class MotifComparison : Inherits ComparisonProvider
     End Function
 
     Private Function SmithWatermanAlignment(pwm1 As Probability, pwm2 As Probability) As Double
+        Dim top As Match = SmithWaterman.MakeAlignment(pwm1.region, pwm2.region, top:=1).FirstOrDefault
 
+        If top Is Nothing Then
+            Return 0
+        Else
+
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>

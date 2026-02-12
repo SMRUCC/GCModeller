@@ -45,19 +45,28 @@ Public Module SmithWaterman
     Public Function MakeAlignment(pwm1 As IEnumerable(Of Residue), pwm2 As IEnumerable(Of Residue),
                                   Optional cutoff As Double = 0.6,
                                   Optional minW As Integer = 6,
-                                  Optional top As Integer = 9) As IEnumerable(Of Match)
+                                  Optional top As Integer = 9,
+                                  Optional norm As Boolean = False) As IEnumerable(Of Match)
 
         Dim symbol As GenericSymbol(Of Residue) = SmithWaterman.MakeSymbol(equals:=0.85)
         ' create a general smith-waterman(GSW) alignment algorithm
         Dim core As New GSW(Of Residue)(pwm1, pwm2, symbol)
-        Dim score_cutoff As Double = cutoff * core.MaxScore
+        Dim max As Double = core.MaxScore
+        Dim score_cutoff As Double = cutoff * max
+        Dim query As IEnumerable(Of Match) = From hsp As Match
+                                             In core _
+                                                .BuildMatrix _
+                                                .GetMatches(score_cutoff)
+                                             Where (hsp.toB - hsp.fromB) >= minW
+                                             Order By hsp.score Descending
+                                             Take top
 
-        Return From hsp As Match
-               In core _
-                   .BuildMatrix _
-                   .GetMatches(score_cutoff)
-               Where (hsp.toB - hsp.fromB) >= minW
-               Order By hsp.score Descending
-               Take top
+        If norm Then
+            Return From hsp As Match
+                   In query
+                   Select hsp / max
+        Else
+            Return query
+        End If
     End Function
 End Module
