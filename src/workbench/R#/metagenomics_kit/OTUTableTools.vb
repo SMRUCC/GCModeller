@@ -396,11 +396,18 @@ Module OTUTableTools
                                   Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
+        Dim OtuHashSet As New List(Of OTUTable)
 
         If pull.isError Then
             Return pull.getError
+        Else
+            For Each otu As OTUTable In pull.populates(Of OTUTable)(env)
+                otu = New OTUTable(otu)
+                otu.ID = otu.ID.MD5
+                OtuHashSet.Add(otu)
+            Next
         End If
 
-        Return pull.populates(Of OTUTable)(env).BuildClusterTree(equals, gt)
+        Return OtuHashSet.BuildClusterTree(equals, gt)
     End Function
 End Module

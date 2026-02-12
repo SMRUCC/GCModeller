@@ -103,6 +103,19 @@ Public Class OTUTable : Inherits DataSet
         End Set
     End Property
 
+    Sub New()
+    End Sub
+
+    ''' <summary>
+    ''' make otu data copy
+    ''' </summary>
+    ''' <param name="otudata"></param>
+    Sub New(otudata As OTUTable)
+        ID = otudata.ID
+        taxonomy = otudata.taxonomy
+        propertyTable = New Dictionary(Of String, Double)(otudata.propertyTable)
+    End Sub
+
     Public Overrides Function ToString() As String
         Return $"{ID} - {taxonomy} [{Properties.Keys.JoinBy(", ")}]"
     End Function
