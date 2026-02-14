@@ -71,8 +71,10 @@ Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
-''' https://github.com/graph1994/UPGMA-Tree-Building-Application/blob/master/UPGMATreeCreator.py
-''' https://en.wikipedia.org/wiki/UPGMA
+''' 基于矩阵数据结构（两两比较的得分/距离矩阵），最常用的从零构建进化树的算法是 UPGMA（Unweighted Pair Group Method with Arithmetic Mean）算法。
+''' 
+''' UPGMA 是一种自底向上的聚类算法，它假设分子钟假说（即所有物种的进化速率相同），最终生成一棵有根树。
+''' > https://en.wikipedia.org/wiki/UPGMA
 ''' </summary>
 Public Module UPGMATree
 
@@ -124,10 +126,10 @@ Public Module UPGMATree
 
     Private Function form_taxas(species As Taxa()) As Dictionary(Of Integer, Taxa)
         Dim taxas As New Dictionary(Of Integer, Taxa)
-        Dim ids = 1
+        Dim ids As Integer = 1
 
-        For Each item In species
-            Dim x As New Taxa(ids, {item}, 1, 0)
+        For Each taxa As Taxa In species
+            Dim x As New Taxa(ids, {taxa}, 1, 0)
             taxas(x.ID) = x
             ids = ids + 1
         Next
@@ -137,13 +139,13 @@ Public Module UPGMATree
 
     Private Function findMin(dic%(), array As List(Of Double())) As (i%, j%, lowest#)
         Dim lowest# = Integer.MaxValue
-        Dim iMin = 0
-        Dim jMin = 0
+        Dim iMin As Integer = 0
+        Dim jMin As Integer = 0
 
-        For Each i In dic
-            For Each j In dic
+        For Each i As Integer In dic
+            For Each j As Integer In dic
                 If j > i Then
-                    Dim tmp = array(j - 1)(i - 1)
+                    Dim tmp As Double = array(j - 1)(i - 1)
 
                     If tmp <= lowest Then
                         iMin = i
@@ -153,30 +155,31 @@ Public Module UPGMATree
                 End If
             Next
         Next
+
         Return (iMin, jMin, lowest)
     End Function
 
     Private Function combine(dicTaxas As Dictionary(Of Integer, Taxa), matrix As List(Of Double())) As Taxa
-        Dim n% = dicTaxas.Count
+        Dim n As Integer = dicTaxas.Count
 
         Do While dicTaxas.Count <> 1
             Dim x As (i%, j%, dij#) = findMin(dicTaxas.Keys.ToArray, matrix)
             Dim i = x.i
             Dim j = x.j
             Dim dij = x.dij
-            Dim icluster = dicTaxas(i)
-            Dim jcluster = dicTaxas(j)
+            Dim icluster As Taxa = dicTaxas(i)
+            Dim jcluster As Taxa = dicTaxas(j)
+            Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, icluster.Size + jcluster.Size, dij)
 
-            Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, (icluster.Size + jcluster.Size), (dij))
-            dicTaxas.Remove(i)
-            dicTaxas.Remove(j)
-
-            matrix.Add(New Vector(u.ID - 1))
+            Call dicTaxas.Remove(i)
+            Call dicTaxas.Remove(j)
+            Call matrix.Add(New Vector(u.ID - 1))
 
             For Each l In dicTaxas.Keys
                 Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
                 Dim djl = matrix(Max(j, l) - 1)(Min(j, l) - 1)
                 Dim dul = (dil * icluster.Size + djl * jcluster.Size) / (icluster.Size + jcluster.Size)
+
                 matrix(u.ID - 1)(l - 1) = dul
             Next
 
@@ -187,13 +190,18 @@ Public Module UPGMATree
         Return dicTaxas.Values.First
     End Function
 
+    ''' <summary>
+    ''' Create taxonomy tree from a matrix
+    ''' </summary>
+    ''' <param name="data">rows in a numeric matrix</param>
+    ''' <returns></returns>
     <Extension>
     Public Function BuildTree(data As IEnumerable(Of DataSet)) As Taxa
-        Dim array = data.ToArray
-        Dim inputs = array.Select(Function(x) New Taxa(0, x.ID, 0, 0)).ToArray
-        Dim matrix = array.Matrix
-        Dim table = form_taxas(inputs)
-        Dim tree = combine(table, matrix.AsList)
+        Dim rows As DataSet() = data.ToArray
+        Dim inputs As Taxa() = rows.Select(Function(x) New Taxa(0, x.ID, 0, 0)).ToArray
+        Dim matrix As IEnumerable(Of Double()) = rows.Matrix
+        Dim table As Dictionary(Of Integer, Taxa) = form_taxas(inputs)
+        Dim tree As Taxa = combine(table, matrix.AsList)
         Return tree
     End Function
 End Module
