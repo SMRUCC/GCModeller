@@ -66,9 +66,9 @@
 Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.GraphTheory
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' 基于矩阵数据结构（两两比较的得分/距离矩阵），最常用的从零构建进化树的算法是 UPGMA（Unweighted Pair Group Method with Arithmetic Mean）算法。
@@ -79,8 +79,13 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Public Module UPGMATree
 
     Public Class Value
-        Public size%
-        Public distance#
+
+        Public Property size%
+        Public Property distance#
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
     End Class
 
     ''' <summary>
@@ -104,9 +109,15 @@ Public Module UPGMATree
             End Get
         End Property
 
+        Public Property taxonomy As Taxonomy
+
         Sub New(id%, data As Taxa(), size%, distance#)
             Me.ID = id
-            Me.Childs = data.Select(Function(x) CType(x, Tree(Of Value))).ToDictionary
+            Me.Childs = data _
+                .ToDictionary(Function(a) a.label,
+                              Function(x)
+                                  Return CType(x, Tree(Of Value))
+                              End Function)
             Me.Data = New Value With {
                 .size = size,
                 .distance = distance
@@ -177,16 +188,16 @@ Public Module UPGMATree
 
         Do While dicTaxas.Count <> 1
             Dim x As (i%, j%, dij#) = findMin(dicTaxas.Keys.ToArray, matrix)
-            Dim i = x.i
-            Dim j = x.j
-            Dim dij = x.dij
+            Dim i As Integer = x.i
+            Dim j As Integer = x.j
+            Dim dij As Double = x.dij
             Dim icluster As Taxa = dicTaxas(i)
             Dim jcluster As Taxa = dicTaxas(j)
             Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, icluster.Size + jcluster.Size, dij)
 
             Call dicTaxas.Remove(i)
             Call dicTaxas.Remove(j)
-            Call matrix.Add(New Vector(u.ID - 1))
+            Call matrix.Add(New Double(u.ID - 1) {})
 
             For Each l In dicTaxas.Keys
                 Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
@@ -206,12 +217,18 @@ Public Module UPGMATree
     ''' <summary>
     ''' run UPGMATree algorithm: create taxonomy tree from a matrix
     ''' </summary>
-    ''' <param name="data">rows in a numeric matrix</param>
+    ''' <param name="data">rows in a numeric matrix, each dataset object is row data inside a matrix</param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildTree(data As IEnumerable(Of DataSet)) As Taxa
-        Dim rows As DataSet() = data.ToArray
-        Dim inputs As Taxa() = rows.Select(Function(x) New Taxa(0, x.ID, 0, 0)).ToArray
+    Public Function BuildTree(Of T As OTUTable)(data As IEnumerable(Of T)) As Taxa
+        Dim rows As T() = data.ToArray
+        Dim inputs As Taxa() = rows _
+            .Select(Function(x)
+                        Return New Taxa(0, x.ID, 0, 0) With {
+                            .taxonomy = x.taxonomy
+                        }
+                    End Function) _
+            .ToArray
         Dim matrix As IEnumerable(Of Double()) = rows.Matrix
         Dim table As Dictionary(Of Integer, Taxa) = form_taxas(inputs)
         Dim tree As Taxa = combine(table, matrix.AsList)
