@@ -73,7 +73,7 @@ Imports SMRUCC.genomics.Metagenomics
 ''' <summary>
 ''' 基于矩阵数据结构（两两比较的得分/距离矩阵），最常用的从零构建进化树的算法是 UPGMA（Unweighted Pair Group Method with Arithmetic Mean）算法。
 ''' 
-''' UPGMA 是一种自底向上的聚类算法，它假设分子钟假说（即所有物种的进化速率相同），最终生成一棵有根树。
+''' UPGMA 是一种自底向上的聚类算法，它假设分子钟假说（即所有物种的进化速率相同），最终生成一棵有根树。本质上是基于平均连接值得层次聚类树。
 ''' > https://en.wikipedia.org/wiki/UPGMA
 ''' </summary>
 Public Module UPGMATree

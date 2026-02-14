@@ -87,6 +87,10 @@ declare namespace OTU_table {
    */
    function makeTreeGraph(otus: any, equals?: number, gt?: number, rank_colors?: object, env?: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function makeUPGMATree(otus: any, env?: object): object;
+   /**
    */
    function median_scale(x: object): any;
    /**

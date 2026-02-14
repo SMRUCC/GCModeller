@@ -27,3 +27,4 @@ Tools for handling OTU table data
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
 + [make_otu_table](OTU_table/make_otu_table.1) 
 + [makeTreeGraph](OTU_table/makeTreeGraph.1) make OTU tree graph via JSD correlation method
++ [makeUPGMATree](OTU_table/makeUPGMATree.1) 
