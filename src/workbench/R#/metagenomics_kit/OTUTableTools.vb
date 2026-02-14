@@ -51,21 +51,26 @@
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -424,7 +429,7 @@ Module OTUTableTools
     End Function
 
     <ExportAPI("makeUPGMATree")>
-    <RApiReturn(GetType(UPGMATree.Taxa))>
+    <RApiReturn(GetType(Taxa))>
     Public Function makeUPGMATree(<RRawVectorArgument> otus As Object,
                                   Optional as_graph As Boolean = False,
                                   Optional env As Environment = Nothing) As Object
@@ -451,7 +456,16 @@ Module OTUTableTools
         End If
     End Function
 
-    Public Function drawUPGMATree()
+    <ExportAPI("drawUPGMATree")>
+    Public Function drawUPGMATree(tree As Taxa,
+                                  <RListObjectArgument>
+                                  Optional args As list = Nothing,
+                                  Optional env As Environment = Nothing) As Object
+        Dim theme As New Theme
+        Dim taxonomyTree As New UPGMATreeDrawer(tree, theme)
+        Dim size = graphicsPipeline.getSize(args, env, New Size(3000, 3000))
+        Dim driver As Drivers = env.getDriver
 
+        Return taxonomyTree.Plot(size, driver:=driver)
     End Function
 End Module
