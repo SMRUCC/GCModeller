@@ -425,7 +425,10 @@ Module OTUTableTools
 
     <ExportAPI("makeUPGMATree")>
     <RApiReturn(GetType(UPGMATree.Taxa))>
-    Public Function makeUPGMATree(<RRawVectorArgument> otus As Object, Optional env As Environment = Nothing) As Object
+    Public Function makeUPGMATree(<RRawVectorArgument> otus As Object,
+                                  Optional as_graph As Boolean = False,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
         Dim OtuHashset As New List(Of OTUTable)
 
@@ -439,6 +442,12 @@ Module OTUTableTools
             Next
         End If
 
-        Return UPGMATree.BuildTree(OtuHashset)
+        Dim tree As Taxa = UPGMATree.BuildTree(OtuHashset)
+
+        If as_graph Then
+            Return UPGMATree.TaxaTreeGraph(tree)
+        Else
+            Return tree
+        End If
     End Function
 End Module

@@ -67,6 +67,7 @@ Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 
@@ -125,7 +126,7 @@ Public Module UPGMATree
         End Sub
 
         Sub New(id%, data$, size%, distance#)
-            Me.id = id
+            Me.ID = id
             Me.label = data
             Me.Data = New Value With {
                 .size = size,
@@ -135,7 +136,7 @@ Public Module UPGMATree
 
         Public Overrides Function ToString() As String
             If Childs.IsNullOrEmpty Then
-                Return Label
+                Return label
             Else
                 With Childs
                     If .Count = 1 Then
@@ -234,4 +235,36 @@ Public Module UPGMATree
         Dim tree As Taxa = combine(table, matrix.AsList)
         Return tree
     End Function
+
+    <Extension>
+    Public Function TaxaTreeGraph(tree As Taxa) As NetworkGraph
+        Dim g As New NetworkGraph
+        Call BuildTreeGraph(g, tree:=tree)
+        Return g
+    End Function
+
+    Private Sub BuildTreeGraph(g As NetworkGraph, tree As Taxa)
+        Dim root As Node = g.CreateNode("#" & tree.ID.ToString)
+
+        If tree.taxonomy IsNot Nothing Then
+            root.data.origID = tree.taxonomy.BIOMTaxonomyString
+
+            root.SetMetadata(NameOf(Taxonomy.kingdom), tree.taxonomy.kingdom)
+            root.SetMetadata(NameOf(Taxonomy.class), tree.taxonomy.class)
+            root.SetMetadata(NameOf(Taxonomy.phylum), tree.taxonomy.phylum)
+            root.SetMetadata(NameOf(Taxonomy.order), tree.taxonomy.order)
+            root.SetMetadata(NameOf(Taxonomy.family), tree.taxonomy.family)
+            root.SetMetadata(NameOf(Taxonomy.genus), tree.taxonomy.genus)
+            root.SetMetadata(NameOf(Taxonomy.species), tree.taxonomy.species)
+            root.SetMetadata(NameOf(Taxonomy.scientificName), tree.taxonomy.scientificName)
+            root.SetMetadata(NameOf(Taxonomy.ncbi_taxid), tree.taxonomy.ncbi_taxid)
+        End If
+
+        If Not tree.Childs.IsNullOrEmpty Then
+            For Each subtree As Taxa In From n As Tree(Of Value) In tree.Childs.Values Select DirectCast(n, Taxa)
+                Call BuildTreeGraph(g, subtree)
+                Call g.CreateEdge(root, g.GetElementByID("#" & subtree.ID))
+            Next
+        End If
+    End Sub
 End Module
