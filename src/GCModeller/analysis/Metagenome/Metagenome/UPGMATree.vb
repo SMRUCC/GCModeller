@@ -83,7 +83,20 @@ Public Module UPGMATree
         Public distance#
     End Class
 
+    ''' <summary>
+    ''' Taxonomy tree model
+    ''' </summary>
+    ''' <remarks>
+    ''' is a sub-class of the abstract tree base class 
+    ''' </remarks>
     Public Class Taxa : Inherits Tree(Of Value)
+
+        ' tree base class type has properties:
+        '
+        '       id - the unique reference id of the tree model,
+        '    label - the display name label of the tree model,
+        '   childs - the child tree nodes, is a dictionary of tree node
+        ' and data - the node data
 
         Public ReadOnly Property Size As Double
             Get
@@ -191,7 +204,7 @@ Public Module UPGMATree
     End Function
 
     ''' <summary>
-    ''' Create taxonomy tree from a matrix
+    ''' run UPGMATree algorithm: create taxonomy tree from a matrix
     ''' </summary>
     ''' <param name="data">rows in a numeric matrix</param>
     ''' <returns></returns>
