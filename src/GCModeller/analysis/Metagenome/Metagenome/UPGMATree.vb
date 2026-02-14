@@ -114,6 +114,7 @@ Public Module UPGMATree
 
         Sub New(id%, data As Taxa(), size%, distance#)
             Me.ID = id
+            Me.label = "#" & id.ToString
             Me.Childs = data _
                 .ToDictionary(Function(a) a.label,
                               Function(x)
@@ -127,7 +128,7 @@ Public Module UPGMATree
 
         Sub New(id%, data$, size%, distance#)
             Me.ID = id
-            Me.label = data
+            Me.label = If(data, "#" & id.ToString)
             Me.Data = New Value With {
                 .size = size,
                 .distance = distance
