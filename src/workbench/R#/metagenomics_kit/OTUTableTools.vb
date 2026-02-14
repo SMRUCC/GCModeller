@@ -450,4 +450,8 @@ Module OTUTableTools
             Return tree
         End If
     End Function
+
+    Public Function drawUPGMATree()
+
+    End Function
 End Module
