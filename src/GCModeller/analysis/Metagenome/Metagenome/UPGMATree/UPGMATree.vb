@@ -1,0 +1,202 @@
+﻿#Region "Microsoft.VisualBasic::cf64b12d04f4410ad04eb7741d242ab9, analysis\Metagenome\Metagenome\UPGMATree.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 108 (80.60%)
+    ' Comment Lines: 5 (3.73%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 21 (15.67%)
+    '     File Size: 4.31 KB
+
+
+    ' Module UPGMATree
+    ' 
+    '     Function: BuildTree, combine, findMin, form_taxas
+    '     Class Value
+    ' 
+    ' 
+    ' 
+    '     Class Taxa
+    ' 
+    '         Properties: Size
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Math
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports SMRUCC.genomics.Metagenomics
+
+Namespace UPGMATree
+
+    ''' <summary>
+    ''' 基于矩阵数据结构（两两比较的得分/距离矩阵），最常用的从零构建进化树的算法是 UPGMA（Unweighted Pair Group Method with Arithmetic Mean）算法。
+    ''' 
+    ''' UPGMA 是一种自底向上的聚类算法，它假设分子钟假说（即所有物种的进化速率相同），最终生成一棵有根树。本质上是基于平均连接值得层次聚类树。
+    ''' > https://en.wikipedia.org/wiki/UPGMA
+    ''' </summary>
+    Public Module UPGMATree
+
+        Private Function form_taxas(species As Taxa()) As Dictionary(Of Integer, Taxa)
+            Dim taxas As New Dictionary(Of Integer, Taxa)
+            Dim ids As Integer = 1
+
+            For Each taxa As Taxa In species
+                Dim x As New Taxa(ids, {taxa}, 1, 0)
+                taxas(x.ID) = x
+                ids = ids + 1
+            Next
+
+            Return taxas
+        End Function
+
+        Private Function findMin(dic%(), array As List(Of Double())) As (i%, j%, lowest#)
+            Dim lowest# = Integer.MaxValue
+            Dim iMin As Integer = 0
+            Dim jMin As Integer = 0
+
+            For Each i As Integer In dic
+                For Each j As Integer In dic
+                    If j > i Then
+                        Dim tmp As Double = array(j - 1)(i - 1)
+
+                        If tmp <= lowest Then
+                            iMin = i
+                            jMin = j
+                            lowest = tmp
+                        End If
+                    End If
+                Next
+            Next
+
+            Return (iMin, jMin, lowest)
+        End Function
+
+        Private Function combine(dicTaxas As Dictionary(Of Integer, Taxa), matrix As List(Of Double())) As Taxa
+            Dim n As Integer = dicTaxas.Count
+
+            Do While dicTaxas.Count <> 1
+                Dim x As (i%, j%, dij#) = findMin(dicTaxas.Keys.ToArray, matrix)
+                Dim i As Integer = x.i
+                Dim j As Integer = x.j
+                Dim dij As Double = x.dij
+                Dim icluster As Taxa = dicTaxas(i)
+                Dim jcluster As Taxa = dicTaxas(j)
+                Dim u As New Taxa(dicTaxas.Keys.Max + 1, {icluster, jcluster}, icluster.Size + jcluster.Size, dij)
+
+                Call dicTaxas.Remove(i)
+                Call dicTaxas.Remove(j)
+                Call matrix.Add(New Double(u.ID - 1) {})
+
+                For Each l In dicTaxas.Keys
+                    Dim dil = matrix(Max(i, l) - 1)(Min(i, l) - 1)
+                    Dim djl = matrix(Max(j, l) - 1)(Min(j, l) - 1)
+                    Dim dul = (dil * icluster.Size + djl * jcluster.Size) / (icluster.Size + jcluster.Size)
+
+                    matrix(u.ID - 1)(l - 1) = dul
+                Next
+
+                dicTaxas(u.ID) = u
+            Loop
+
+            ' 循环的退出条件为字典之中只有一个值
+            Return dicTaxas.Values.First
+        End Function
+
+        ''' <summary>
+        ''' run UPGMATree algorithm: create taxonomy tree from a matrix
+        ''' </summary>
+        ''' <param name="data">rows in a numeric matrix, each dataset object is row data inside a matrix</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function BuildTree(Of T As OTUTable)(data As IEnumerable(Of T)) As Taxa
+            Dim rows As T() = data.ToArray
+            Dim inputs As Taxa() = rows _
+                .Select(Function(x, i)
+                            Return New Taxa(i + 1, x.ID, 0, 0) With {
+                                .taxonomy = x.taxonomy
+                            }
+                        End Function) _
+                .ToArray
+            Dim matrix As IEnumerable(Of Double()) = rows.Matrix
+            Dim table As Dictionary(Of Integer, Taxa) = form_taxas(inputs)
+            Dim tree As Taxa = combine(table, matrix.AsList)
+            Return tree
+        End Function
+
+        <Extension>
+        Public Function TaxaTreeGraph(tree As Taxa) As NetworkGraph
+            Dim g As New NetworkGraph
+            Call BuildTreeGraph(g, tree:=tree)
+            Return g
+        End Function
+
+        Private Sub BuildTreeGraph(g As NetworkGraph, tree As Taxa)
+            Dim root As Node = g.CreateNode(tree.label)
+
+            If tree.taxonomy IsNot Nothing Then
+                root.data.origID = tree.taxonomy.BIOMTaxonomyString
+
+                root.SetMetadata(NameOf(Taxonomy.kingdom), tree.taxonomy.kingdom)
+                root.SetMetadata(NameOf(Taxonomy.class), tree.taxonomy.class)
+                root.SetMetadata(NameOf(Taxonomy.phylum), tree.taxonomy.phylum)
+                root.SetMetadata(NameOf(Taxonomy.order), tree.taxonomy.order)
+                root.SetMetadata(NameOf(Taxonomy.family), tree.taxonomy.family)
+                root.SetMetadata(NameOf(Taxonomy.genus), tree.taxonomy.genus)
+                root.SetMetadata(NameOf(Taxonomy.species), tree.taxonomy.species)
+                root.SetMetadata(NameOf(Taxonomy.scientificName), tree.taxonomy.scientificName)
+                root.SetMetadata(NameOf(Taxonomy.ncbi_taxid), tree.taxonomy.ncbi_taxid)
+            End If
+
+            If Not tree.Childs.IsNullOrEmpty Then
+                For Each subtree As Taxa In From n As Tree(Of Value) In tree.Childs.Values Select DirectCast(n, Taxa)
+                    Call BuildTreeGraph(g, subtree)
+                    Call g.CreateEdge(root, g.GetElementByID(subtree.label))
+                Next
+            End If
+        End Sub
+    End Module
+End Namespace
