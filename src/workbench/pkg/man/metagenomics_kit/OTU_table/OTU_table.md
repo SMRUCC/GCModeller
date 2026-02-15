@@ -28,3 +28,4 @@ Tools for handling OTU table data
 + [make_otu_table](OTU_table/make_otu_table.1) 
 + [makeTreeGraph](OTU_table/makeTreeGraph.1) make OTU tree graph via JSD correlation method
 + [makeUPGMATree](OTU_table/makeUPGMATree.1) 
++ [drawUPGMATree](OTU_table/drawUPGMATree.1) 

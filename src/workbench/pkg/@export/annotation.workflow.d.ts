@@ -130,8 +130,15 @@ declare namespace annotation.workflow {
       function blast(file: string, type?: string, fastMode?: boolean, env?: object): object;
    }
    /**
+    * read the diamond m8 annotation table file output
+    * 
+    * 
+     * @param file -
+     * @param stream -
+     * 
+     * + default value Is ``false``.
    */
-   function read_m8(file: string): object;
+   function read_m8(file: string, stream?: boolean): object;
    module stream {
       /**
        * Save the annotation rawdata into the given stream file.

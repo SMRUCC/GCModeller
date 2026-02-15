@@ -53,6 +53,11 @@ declare namespace OTU_table {
    */
    function batch_combine(batch1: object, batch2: object): object;
    /**
+     * @param args default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function drawUPGMATree(tree: object, args?: object, env?: object): any;
+   /**
     * filter the otu data which has relative abundance greater than the given threshold
     * 
     * 
@@ -87,9 +92,10 @@ declare namespace OTU_table {
    */
    function makeTreeGraph(otus: any, equals?: number, gt?: number, rank_colors?: object, env?: object): object;
    /**
+     * @param as_graph default value Is ``false``.
      * @param env default value Is ``null``.
    */
-   function makeUPGMATree(otus: any, env?: object): object;
+   function makeUPGMATree(otus: any, as_graph?: boolean, env?: object): object;
    /**
    */
    function median_scale(x: object): any;
