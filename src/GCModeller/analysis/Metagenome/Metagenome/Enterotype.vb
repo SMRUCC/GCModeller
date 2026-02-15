@@ -120,7 +120,7 @@ Public Module Enterotype
                                      Optional equals As Double = 0.85,
                                      Optional gt As Double = 0.6) As NetworkGraph
 
-        Dim jsd As New OTUJSDComparer(table, equals, gt)
+        Dim jsd As New OTUCosineComparer(table, equals, gt)
         Dim tree As BTreeCluster = jsd.OTU_ids.BTreeCluster(alignment:=jsd)
         Dim g As NetworkGraph = tree.MakeTreeGraph(
             metadata:=Function(id)

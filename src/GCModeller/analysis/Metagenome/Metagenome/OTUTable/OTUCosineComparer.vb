@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.DataMining.BinaryTree
 Imports Microsoft.VisualBasic.Linq
 Imports Cosine = Microsoft.VisualBasic.Math
 
-Public Class OTUJSDComparer : Inherits ComparisonProvider
+Public Class OTUCosineComparer : Inherits ComparisonProvider
 
     ReadOnly OTUs As New Dictionary(Of String, OTUTable)
     ReadOnly sampleids As String()
