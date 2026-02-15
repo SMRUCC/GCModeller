@@ -488,14 +488,24 @@ Module terms
 
     <ExportAPI("make_vectors")>
     <RApiReturn(GetType(GenomeVector))>
-    Public Function make_vectors(<RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+    Public Function make_vectors(<RRawVectorArgument> terms As Object,
+                                 Optional stream As Boolean = False,
+                                 Optional env As Environment = Nothing) As Object
+
         Dim termList As pipeline = pipeline.TryCreatePipeline(Of RankTerm)(terms, env)
 
         If termList.isError Then
             Return termList.getError
         End If
 
-        Return GenomeVector.CreateVectors(termList.populates(Of RankTerm)(env)).ToArray
+        Dim termSet As IEnumerable(Of RankTerm) = termList.populates(Of RankTerm)(env)
+        Dim genomes As IEnumerable(Of GenomeVector) = GenomeVector.CreateVectors(termSet, stream)
+
+        If stream Then
+            Return pipeline.CreateFromPopulator(genomes)
+        Else
+            Return genomes.ToArray
+        End If
     End Function
 
     ''' <summary>
