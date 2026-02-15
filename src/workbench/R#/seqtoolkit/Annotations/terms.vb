@@ -89,9 +89,10 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 ''' tools for make ontology term annotation based on the proteins sequence data
 ''' </summary>
 <Package("annotation.terms", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("genome_vector", GetType(GenomeVector))>
 Module terms
 
-    Sub New()
+    Sub Main()
         Call RInternal.ConsolePrinter.AttachConsoleFormatter(Of SecondaryIDSolver)(AddressOf printIDSolver)
 
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MyvaCOG()), AddressOf COGtable)
