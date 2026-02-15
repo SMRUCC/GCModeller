@@ -54,6 +54,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -63,6 +64,7 @@ Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
@@ -506,6 +508,37 @@ Module terms
         Else
             Return genomes.ToArray
         End If
+    End Function
+
+    <ExportAPI("write_genomes_jsonl")>
+    Public Function write_genomes(<RRawVectorArgument> genomes As Object, file As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of GenomeVector)(genomes, env)
+        Dim is_file As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, System.IO.FileAccess.Write, env, is_filepath:=is_file)
+
+        If pull.isError Then
+            Return pull.getError
+        ElseIf s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Using jsonl As New System.IO.StreamWriter(s.TryCast(Of Stream))
+            For Each genome As GenomeVector In pull.populates(Of GenomeVector)(env)
+                Call jsonl.WriteLine(genome.GetJson)
+            Next
+
+            Call jsonl.Flush()
+        End Using
+
+        If is_file Then
+            Try
+                Call s.TryCast(Of Stream).Dispose()
+            Catch ex As Exception
+
+            End Try
+        End If
+
+        Return True
     End Function
 
     ''' <summary>
