@@ -1,5 +1,7 @@
 ﻿Imports System.Globalization
 Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Language
 
 ''' <summary>
@@ -16,40 +18,73 @@ Public Class DiamondM8Parser
         ' 检查文件是否存在
         If Not File.Exists(filePath) Then
             Call ("无法找到文件: " & filePath).warning
-            Return
+        Else
+            Dim lineCounter As Integer = 0
+            Dim hit As DiamondAnnotation
+            Dim stream As IEnumerable(Of String)
+
+            If filePath.FileLength > 512 * ByteSize.MB Then
+                stream = TqdmStreamLoader(filePath)
+            Else
+                stream = SimpleStreamLoader(filePath)
+            End If
+
+            For Each line As String In stream
+                lineCounter += 1
+                hit = ParseLine(line, lineCounter)
+
+                If Not hit Is Nothing Then
+                    Yield hit
+                End If
+            Next
         End If
+    End Function
+
+    Private Shared Iterator Function TqdmStreamLoader(filepath As String) As IEnumerable(Of String)
+        Dim s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+
+        For Each line As String In TextDoc.ReadLines(New StreamReader(s))
+            ' 去除首尾空白
+            line = line.Trim()
+
+            ' 跳过空行
+            If String.IsNullOrEmpty(line) Then
+                Continue For
+                ' 跳过注释行 (以 # 开头)
+            ElseIf line.StartsWith("#") Then
+                Continue For
+            End If
+
+            Yield line
+        Next
 
         Try
-            ' 使用 StreamReader 读取文件
-            Using reader As New StreamReader(filePath)
-                Dim line As Value(Of String) = ""
-                Dim lineCounter As Integer = 0
-
-                ' 逐行读取
-                While (line = reader.ReadLine()) IsNot Nothing
-                    lineCounter += 1
-                    ' 去除首尾空白
-                    line = line.Trim()
-
-                    ' 跳过空行
-                    If String.IsNullOrEmpty(line) Then
-                        Continue While
-                        ' 跳过注释行 (以 # 开头)
-                    ElseIf line.StartsWith("#") Then
-                        Continue While
-                    End If
-
-                    Dim hit As DiamondAnnotation = ParseLine(line, lineCounter)
-
-                    If Not hit Is Nothing Then
-                        Yield hit
-                    End If
-                End While
-            End Using
+            Call s.Dispose()
         Catch ex As Exception
-            ' 捕获 IO 异常或格式转换异常
-            Throw New ApplicationException("解析文件时发生错误: " & ex.Message, ex)
+
         End Try
+    End Function
+
+    Private Shared Iterator Function SimpleStreamLoader(filepath As String) As IEnumerable(Of String)
+        Dim line As Value(Of String) = ""
+
+        Using reader As New StreamReader(filepath)
+            ' 逐行读取
+            While (line = reader.ReadLine()) IsNot Nothing
+                ' 去除首尾空白
+                line = line.Trim()
+
+                ' 跳过空行
+                If String.IsNullOrEmpty(line) Then
+                    Continue While
+                    ' 跳过注释行 (以 # 开头)
+                ElseIf line.StartsWith("#") Then
+                    Continue While
+                End If
+
+                Yield line
+            End While
+        End Using
     End Function
 
     Private Shared Function ParseLine(line As String, lineNum As Integer) As DiamondAnnotation
