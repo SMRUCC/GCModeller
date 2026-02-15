@@ -6,7 +6,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 ''' <summary>
 ''' 代表 DIAMOND BLASTP 结果文件 (.m8) 中的一行记录
 ''' </summary>
-Public Class DiamondAnnotation : Implements IBlastHit, IMap
+Public Class DiamondAnnotation : Implements IBlastHit, IMap, IQueryHits
 
     ''' <summary>
     ''' 1. 查询序列ID
@@ -24,7 +24,7 @@ Public Class DiamondAnnotation : Implements IBlastHit, IMap
     ''' 3. 比对一致性百分比
     ''' </summary>
     ''' <returns></returns>
-    Public Property Pident As Double
+    Public Property Pident As Double Implements IQueryHits.identities
 
     ''' <summary>
     ''' 4. 比对长度

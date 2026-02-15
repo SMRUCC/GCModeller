@@ -136,7 +136,17 @@ Namespace Pipeline
             Next
         End Function
 
-        Private Shared Function MeasureTopTerm(Of T As IQueryHits)(group As IGrouping(Of String, T), eval As Func(Of T, Double), termMaps As Dictionary(Of String, String)) As RankTerm()
+        ''' <summary>
+        ''' make terms assignment result 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="group"></param>
+        ''' <param name="eval"></param>
+        ''' <param name="termMaps"></param>
+        ''' <returns>
+        ''' terms has been ordered by its score in desc order
+        ''' </returns>
+        Public Shared Function MeasureTopTerm(Of T As IQueryHits)(group As IGrouping(Of String, T), eval As Func(Of T, Double), termMaps As Dictionary(Of String, String)) As RankTerm()
             Dim scores As NamedValue(Of Double)() = ScoreQuery(group, eval).ToArray
             Dim terms As RankTerm() = MakeTerms(scores, group.Key, termMaps) _
                 .OrderByDescending(Function(ti) ti.score) _

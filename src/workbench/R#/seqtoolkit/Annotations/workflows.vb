@@ -433,9 +433,19 @@ Module workflows
         End Select
     End Function
 
+    ''' <summary>
+    ''' read the diamond m8 annotation table file output
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="stream"></param>
+    ''' <returns></returns>
     <ExportAPI("read_m8")>
     <RApiReturn(GetType(DiamondAnnotation))>
-    Public Function read_m8(file As String) As Object
-        Return DiamondM8Parser.ParseFile(file).ToArray
+    Public Function read_m8(file As String, Optional stream As Boolean = False) As Object
+        If stream Then
+            Return pipeline.CreateFromPopulator(DiamondM8Parser.ParseFile(file))
+        Else
+            Return DiamondM8Parser.ParseFile(file).ToArray
+        End If
     End Function
 End Module
