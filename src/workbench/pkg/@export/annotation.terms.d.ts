@@ -66,9 +66,10 @@ declare namespace annotation.terms {
    */
    function m8_metabolic_terms(m8: any, env?: object): object;
    /**
+     * @param stream default value Is ``false``.
      * @param env default value Is ``null``.
    */
-   function make_vectors(terms: any, env?: object): object;
+   function make_vectors(terms: any, stream?: boolean, env?: object): object;
    module read {
       /**
        * 
@@ -135,6 +136,10 @@ declare namespace annotation.terms {
       */
       function id_maps(maps: object, file: string): boolean;
    }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function write_genomes_jsonl(genomes: any, file: any, env?: object): any;
    /**
    */
    function write_simple_vfdb(vfdb: object, file: string): boolean;

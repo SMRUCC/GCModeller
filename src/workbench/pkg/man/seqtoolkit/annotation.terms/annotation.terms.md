@@ -19,4 +19,5 @@ tools for make ontology term annotation based on the proteins sequence data
 + [read_vfdb_seqs](annotation.terms/read_vfdb_seqs.1) read VFDB fasta sequence database
 + [write_simple_vfdb](annotation.terms/write_simple_vfdb.1) 
 + [make_vectors](annotation.terms/make_vectors.1) 
++ [write_genomes_jsonl](annotation.terms/write_genomes_jsonl.1) 
 + [tfidf_vectorizer](annotation.terms/tfidf_vectorizer.1) make embedding of the genomics metabolic model
