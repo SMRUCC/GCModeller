@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.Metagenome.MetaFunction.VFDB
+Imports SMRUCC.genomics.Analysis.Metagenome.Settings.Programs
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
@@ -75,6 +76,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline.COG
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp.Development.Components
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -386,6 +388,22 @@ Module terms
             .ToArray
 
         Return terms
+    End Function
+
+    <ExportAPI("m8_metabolic_terms")>
+    <RApiReturn(GetType(GenomeVector))>
+    Public Function m8_metabolic_terms(<RRawVectorArgument> m8 As Object, Optional env As Environment = Nothing) As Object
+        Dim pull = pipeline.TryCreatePipeline(Of DiamondAnnotation)(m8, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim m8hits As IEnumerable(Of DiamondAnnotation) = pull.populates(Of DiamondAnnotation)(env)
+        Dim terms As IEnumerable(Of RankTerm) = TermStreamAssignment.MakeTerms(m8hits, topBest:=True)
+        Dim genomes = GenomeVector.CreateVectors(terms).ToArray
+
+        Return genomes
     End Function
 
     <ExportAPI("term_table")>
