@@ -32,6 +32,30 @@ Namespace Pipeline
                    Select New NamedCollection(Of RankTerm)(Name, Group.Select(Function(a) a.term))
         End Function
 
+        Private Shared Iterator Function streamGroupByAssembly(terms As IEnumerable(Of RankTerm)) As IEnumerable(Of NamedCollection(Of RankTerm))
+            Dim asm_id As String = ""
+            Dim group As New List(Of RankTerm)
+
+            For Each term As RankTerm In terms
+                Dim tag As NamedValue(Of String) = term.queryName.GetTagValue(".")
+
+                If tag.Name <> asm_id Then
+                    If group.Count > 0 Then
+                        Yield New NamedCollection(Of RankTerm)(asm_id, group)
+                        group.Clear()
+                    End If
+
+                    asm_id = tag.Name
+                End If
+
+                Call group.Add(term)
+            Next
+
+            If group.Count > 0 Then
+                Yield New NamedCollection(Of RankTerm)(asm_id, group)
+            End If
+        End Function
+
         ''' <summary>
         ''' Make union of the taxonomy assembly contig result
         ''' </summary>
@@ -76,8 +100,8 @@ Namespace Pipeline
             Next
         End Function
 
-        Public Shared Iterator Function CreateVectors(terms As IEnumerable(Of RankTerm)) As IEnumerable(Of GenomeVector)
-            For Each asm As NamedCollection(Of RankTerm) In groupByAssembly(terms)
+        Public Shared Iterator Function CreateVectors(terms As IEnumerable(Of RankTerm), Optional stream As Boolean = False) As IEnumerable(Of GenomeVector)
+            For Each asm As NamedCollection(Of RankTerm) In If(stream, streamGroupByAssembly(terms), groupByAssembly(terms))
                 Dim id As String = asm.name
                 Dim taxon As String = asm.First.queryName.GetTagValue(" ").Value
                 Dim counts As Dictionary(Of String, Integer) = asm _
