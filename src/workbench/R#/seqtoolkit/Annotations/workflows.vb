@@ -67,6 +67,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -292,6 +293,8 @@ Module workflows
             Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         ElseIf data.elementType Like GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
             Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
+        ElseIf data.elementType Like GetType(RankTerm) AndAlso Not TypeOf stream Is WriteStream(Of RankTerm) Then
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         End If
 
         Select Case data.elementType.raw
@@ -301,6 +304,8 @@ Module workflows
                 Call writeStreamHelper(Of BiDirectionalBesthit)(stream, data, env)
             Case GetType(BlastnMapping)
                 Call writeStreamHelper(Of BlastnMapping)(stream, data, env)
+            Case GetType(RankTerm)
+                Call writeStreamHelper(Of RankTerm)(stream, data, env)
             Case Else
                 Return RInternal.debug.stop(New NotImplementedException, env)
         End Select
@@ -422,11 +427,20 @@ Module workflows
             Case TableTypes.Mapping
                 If ioRead Then
                     Return file _
-                       .OpenHandle(encoding.CodePage) _
-                       .AsLinq(Of BlastnMapping) _
-                       .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of BlastnMapping) _
+                        .DoCall(AddressOf pipeline.CreateFromPopulator)
                 Else
                     Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding, metaKeys:={})
+                End If
+            Case TableTypes.Terms
+                If ioRead Then
+                    Return file _
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of RankTerm) _
+                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                Else
+                    Return New WriteStream(Of RankTerm)(file, encoding:=encoding, metaKeys:={})
                 End If
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
