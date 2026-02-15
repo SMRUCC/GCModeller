@@ -1,7 +1,10 @@
-﻿Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+﻿Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 
 Public Class UPGMATreeDrawer : Inherits Plot
@@ -14,6 +17,9 @@ Public Class UPGMATreeDrawer : Inherits Plot
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-        Call TreeDrawer.DrawCircularTree(g, tree, canvas.Size)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim region As Rectangle = canvas.PlotRegion(css)
+
+        Call TreeDrawer.DrawCircularTree(g, tree, region.Size, region.Location)
     End Sub
 End Class

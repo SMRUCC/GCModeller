@@ -461,7 +461,8 @@ Module OTUTableTools
                                   <RListObjectArgument>
                                   Optional args As list = Nothing,
                                   Optional env As Environment = Nothing) As Object
-        Dim theme As New Theme
+
+        Dim theme As New Theme With {.padding = "padding:5% 5% 5% 5%;"}
         Dim taxonomyTree As New UPGMATreeDrawer(tree, theme)
         Dim size = graphicsPipeline.getSize(args, env, New Size(3000, 3000))
         Dim driver As Drivers = env.getDriver

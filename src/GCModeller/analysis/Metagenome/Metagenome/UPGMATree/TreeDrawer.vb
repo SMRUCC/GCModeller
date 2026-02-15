@@ -134,7 +134,7 @@ Namespace UPGMATree
         ''' <param name="g">绘图对象</param>
         ''' <param name="tree">Taxa 进化树</param>
         ''' <param name="size">绘图区域大小（宽度即为上半圆直径）</param>
-        Public Sub DrawCircularTree(g As IGraphics, tree As Taxa, size As Size)
+        Public Sub DrawCircularTree(g As IGraphics, tree As Taxa, size As Size, Optional offset As PointF = Nothing)
             If tree Is Nothing Then Return
 
             ' 1. 计算布局信息
