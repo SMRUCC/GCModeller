@@ -64,6 +64,10 @@ declare namespace annotation.terms {
    /**
      * @param env default value Is ``null``.
    */
+   function m8_metabolic_terms(m8: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
    function make_vectors(terms: any, env?: object): object;
    module read {
       /**

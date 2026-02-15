@@ -389,7 +389,7 @@ Module terms
     End Function
 
     <ExportAPI("m8_metabolic_terms")>
-    <RApiReturn(GetType(GenomeVector))>
+    <RApiReturn(GetType(RankTerm))>
     Public Function m8_metabolic_terms(<RRawVectorArgument> m8 As Object, Optional env As Environment = Nothing) As Object
         Dim pull = pipeline.TryCreatePipeline(Of DiamondAnnotation)(m8, env)
 
@@ -399,9 +399,8 @@ Module terms
 
         Dim m8hits As IEnumerable(Of DiamondAnnotation) = pull.populates(Of DiamondAnnotation)(env)
         Dim terms As IEnumerable(Of RankTerm) = TermStreamAssignment.MakeTerms(m8hits, topBest:=True)
-        Dim genomes = GenomeVector.CreateVectors(terms).ToArray
 
-        Return genomes
+        Return pipeline.CreateFromPopulator(terms)
     End Function
 
     <ExportAPI("term_table")>
