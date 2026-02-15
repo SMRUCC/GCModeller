@@ -103,7 +103,8 @@ Namespace Pipeline
         Public Shared Iterator Function CreateVectors(terms As IEnumerable(Of RankTerm), Optional stream As Boolean = False) As IEnumerable(Of GenomeVector)
             For Each asm As NamedCollection(Of RankTerm) In If(stream, streamGroupByAssembly(terms), groupByAssembly(terms))
                 Dim id As String = asm.name
-                Dim taxon As String = asm.First.queryName.GetTagValue(" ").Value
+                Dim title As String = asm.First.queryName
+                Dim taxon As String = title.GetTagValue(" ").Value
                 Dim counts As Dictionary(Of String, Integer) = asm _
                     .GroupBy(Function(t) t.term) _
                     .ToDictionary(Function(a) a.Key,
