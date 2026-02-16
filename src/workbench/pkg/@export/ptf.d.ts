@@ -80,7 +80,7 @@ declare namespace ptf {
      * @param env 
      * + default value Is ``null``.
    */
-   function load_xref(ptf: any, database: string, flip?: boolean, env?: object): any;
+   function load_xref(ptf: any, database: string, flip?: boolean, env?: object): object;
    /**
    */
    function loadBackgroundModel(ptf: object, database: string): object;

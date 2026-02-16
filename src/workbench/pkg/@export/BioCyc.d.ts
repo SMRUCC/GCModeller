@@ -27,7 +27,7 @@ declare namespace BioCyc {
      * @param env 
      * + default value Is ``null``.
    */
-   function db_links(meta: object, env?: object): any;
+   function db_links(meta: object, env?: object): object;
    /**
     * get formula string of the given object model
     * 

@@ -57,7 +57,7 @@ declare namespace repository {
     * 
     * 
    */
-   function enzyme_description(): any;
+   function enzyme_description(): object;
    module fetch {
       /**
        * Fetch the kegg organism table data from a given resource
