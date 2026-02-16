@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Data.IO</RootNamespace>
-    <TargetFrameworks>net8.0-windows;net8.0;net48;net10.0;net10.0-windows</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.Data.BinaryData</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;PlantMAT;mzkit;NPSearch;mzkit_win32;gcmodeller_desktop;Docker;CFD_win32;nuget_release;Desktop;MEMI-Desktop</Configurations>
@@ -731,12 +731,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Buffers" Version="4.6.1" />
-    <PackageReference Include="System.Composition" Version="10.0.2" />
-    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2" />
+    <PackageReference Include="System.Composition" Version="11.0.0-preview.1.26104.118" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="11.0.0-preview.1.26104.118" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.2" />
+    <PackageReference Include="System.Resources.Extensions" Version="11.0.0-preview.1.26104.118" />
   </ItemGroup>
 
   <ItemGroup>

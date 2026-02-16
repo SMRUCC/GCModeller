@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.Math</RootNamespace>
-    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.Math.Randomizer</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
@@ -263,10 +263,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Buffers" Version="4.6.1" />
-    <PackageReference Include="System.Composition" Version="10.0.2" />
-    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-    <PackageReference Include="System.Resources.Extensions" Version="10.0.2" />
+    <PackageReference Include="System.Composition" Version="11.0.0-preview.1.26104.118" />
+    <PackageReference Include="System.Resources.Extensions" Version="11.0.0-preview.1.26104.118" />
   </ItemGroup>
 
   <ItemGroup>
