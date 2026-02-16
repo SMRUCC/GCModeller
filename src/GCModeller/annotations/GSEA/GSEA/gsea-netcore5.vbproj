@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.HTS.GSEA</RootNamespace>
-    <TargetFrameworks>net8.0-windows;net8.0;net48</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSEA</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;Desktop</Configurations>
