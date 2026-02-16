@@ -119,7 +119,8 @@ Namespace TabularDump
         Public Property PubMed As String()
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
-        Public Property xref As Dictionary(Of String, NamedCollection(Of String))
+        Public Property substrates As Dictionary(Of String, NamedCollection(Of String))
+        Public Property products As Dictionary(Of String, NamedCollection(Of String))
         Public Property uniprot_id As String()
         Public Property rhea_id As String
 
@@ -140,8 +141,9 @@ Namespace TabularDump
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _
                 .ToArray
-            Dim xrefs As Dictionary(Of String, NamedCollection(Of String)) = Nothing
-            Dim equation As String = doc.ToString(rxn, xrefs)
+            Dim left As Dictionary(Of String, NamedCollection(Of String)) = Nothing
+            Dim right As Dictionary(Of String, NamedCollection(Of String)) = Nothing
+            Dim equation As String = doc.ToString(rxn, left, right)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)
             Dim ci As String() = rxn.kineticLaw.math.apply.ci _
@@ -183,7 +185,8 @@ Namespace TabularDump
                 .KEGGReactionId = SBMLInternalIndexer.GetKeggReactionId(rxn).FirstOrDefault,
                 .reaction = equation,
                 .parameters = args,
-                .xref = xrefs,
+                .substrates = left,
+                .products = right,
                 .enzyme = enzymes.ToDictionary(Function(e) e.id, Function(e) e.name),
                 .compartment = locations,
                 .uniprot_id = enzymes _

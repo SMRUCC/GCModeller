@@ -136,22 +136,34 @@ Namespace SBML
             Next
         End Sub
 
-        Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, NamedCollection(Of String))) As String
+        Public Overloads Function ToString(rxn As SBMLReaction,
+                                           ByRef substrates As Dictionary(Of String, NamedCollection(Of String)),
+                                           ByRef products As Dictionary(Of String, NamedCollection(Of String))) As String
+
             Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
             Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
 
-            If xrefs Is Nothing Then
-                xrefs = New Dictionary(Of String, NamedCollection(Of String))
+            If substrates Is Nothing Then
+                substrates = New Dictionary(Of String, NamedCollection(Of String))
+            End If
+            If products Is Nothing Then
+                products = New Dictionary(Of String, NamedCollection(Of String))
             End If
 
-            For Each factor In left.JoinIterates(right)
+            For Each factor In left
                 ' 20241223 duplicated compounds maybe existsed
-                If Not xrefs.ContainsKey(factor.rawId) Then
-                    Call xrefs.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
+                If Not substrates.ContainsKey(factor.rawId) Then
+                    Call substrates.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
                 End If
             Next
 
-            Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
+            For Each factor In right
+                If Not products.ContainsKey(factor.rawId) Then
+                    Call products.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
+                End If
+            Next
+
+            Return $"{left.Select(Function(i) i.Item2).JoinBy(" + ")} -> {right.Select(Function(i) i.Item2).JoinBy(" + ")}"
         End Function
 
         Private Function factorString(factor As SpeciesReference) As (rawId$, String, name As String, xref As String())
