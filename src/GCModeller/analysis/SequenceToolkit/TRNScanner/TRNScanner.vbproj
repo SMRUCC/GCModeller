@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>TRNScanner</RootNamespace>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;gcmodeller_desktop</Configurations>
     <AssemblyTitle>Parallel task for scan motif site on sequence database</AssemblyTitle>
