@@ -81,6 +81,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.xml.MathML
@@ -118,7 +119,7 @@ Namespace TabularDump
         Public Property PubMed As String()
         Public Property parameters As Dictionary(Of String, String)
         Public Property lambda As String
-        Public Property xref As Dictionary(Of String, String())
+        Public Property xref As Dictionary(Of String, NamedCollection(Of String))
         Public Property uniprot_id As String()
         Public Property rhea_id As String
 
@@ -139,7 +140,7 @@ Namespace TabularDump
                 .Where(Function(li) Strings.InStr(li.resource, "pubmed") > 0) _
                 .Select(Function(li) li.resource) _
                 .ToArray
-            Dim xrefs As Dictionary(Of String, String()) = Nothing
+            Dim xrefs As Dictionary(Of String, NamedCollection(Of String)) = Nothing
             Dim equation As String = doc.ToString(rxn, xrefs)
             Dim enzymes = doc.getEnzymes(rxn).ToArray
             Dim args As New Dictionary(Of String, String)

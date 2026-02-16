@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::3f837d22bbfd1dce24befb326440cea7, data\SABIO-RK\SBML\SBMLInternalIndexer.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 171
-    '    Code Lines: 118 (69.01%)
-    ' Comment Lines: 28 (16.37%)
-    '    - Xml Docs: 96.43%
-    ' 
-    '   Blank Lines: 25 (14.62%)
-    '     File Size: 7.16 KB
+' Summaries:
 
 
-    '     Class SBMLInternalIndexer
-    ' 
-    '         Properties: molecules, reactions
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: factorString, getCompartmentName, getEnzymes, getKEGGCompoundId, GetKeggReactionId
-    '                   getKEGGreactions, getKineticLaw, getSpecies, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 171
+'    Code Lines: 118 (69.01%)
+' Comment Lines: 28 (16.37%)
+'    - Xml Docs: 96.43%
+' 
+'   Blank Lines: 25 (14.62%)
+'     File Size: 7.16 KB
+
+
+'     Class SBMLInternalIndexer
+' 
+'         Properties: molecules, reactions
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: factorString, getCompartmentName, getEnzymes, getKEGGCompoundId, GetKeggReactionId
+'                   getKEGGreactions, getKineticLaw, getSpecies, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -136,25 +136,25 @@ Namespace SBML
             Next
         End Sub
 
-        Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, String())) As String
+        Public Overloads Function ToString(rxn As SBMLReaction, ByRef xrefs As Dictionary(Of String, NamedCollection(Of String))) As String
             Dim left = rxn.listOfReactants.Select(AddressOf factorString).ToArray
             Dim right = rxn.listOfProducts.Select(AddressOf factorString).ToArray
 
             If xrefs Is Nothing Then
-                xrefs = New Dictionary(Of String, String())
+                xrefs = New Dictionary(Of String, NamedCollection(Of String))
             End If
 
             For Each factor In left.JoinIterates(right)
                 ' 20241223 duplicated compounds maybe existsed
                 If Not xrefs.ContainsKey(factor.rawId) Then
-                    Call xrefs.Add(factor.rawId, factor.xref)
+                    Call xrefs.Add(factor.rawId, New NamedCollection(Of String)(factor.name, factor.xref))
                 End If
             Next
 
             Return $"{left.Select(Function(i) i.Item1).JoinBy(" + ")} -> {right.Select(Function(i) i.Item1).JoinBy(" + ")}"
         End Function
 
-        Private Function factorString(factor As SpeciesReference) As (rawId$, String, ref As String, xref As String())
+        Private Function factorString(factor As SpeciesReference) As (rawId$, String, name As String, xref As String())
             Dim ref = getSpecies(factor.species)
             Dim reference = ref.annotation?.RDF.description(0).is
             Dim annos As String() = reference _
@@ -164,9 +164,9 @@ Namespace SBML
                 .Select(Function(li) li.resource.Split("/"c).Last) _
                 .Distinct _
                 .ToArray
-            Dim i As String = ref.name.StringReplace("(\s+)|([*-])", "_")
+            Dim i As String = If(factor.stoichiometry <= 1, ref.name, factor.stoichiometry & " " & ref.name)
 
-            Return (factor.species, $"{factor.stoichiometry} {i}", i, annos)
+            Return (factor.species, i, ref.name, annos)
         End Function
 
         ''' <summary>
