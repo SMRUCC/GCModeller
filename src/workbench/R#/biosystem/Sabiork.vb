@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Data.SABIORK
 Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.Data.SABIORK.TabularDump
@@ -115,7 +116,7 @@ Public Module sabiork_repository
         If x.empty Then
             Return {}
         Else
-            Return SabiorkRepository.CreateKineticsData(x) _
+            Return ModelHelper.CreateKineticsData(x) _
                 .Select(Function(a)
                             Return a.Item2
                         End Function) _
