@@ -125,7 +125,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Composition" Version="10.0.2" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 

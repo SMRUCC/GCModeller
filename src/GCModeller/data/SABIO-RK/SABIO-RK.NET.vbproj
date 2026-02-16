@@ -126,10 +126,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Composition" Version="10.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
