@@ -164,7 +164,8 @@ Namespace SBML
                 .Select(Function(li) li.resource.Split("/"c).Last) _
                 .Distinct _
                 .ToArray
-            Dim i As String = If(factor.stoichiometry <= 1, ref.name, factor.stoichiometry & " " & ref.name)
+            Dim ref_name = ref.name.StringReplace("[\s-]+", "_")
+            Dim i As String = If(factor.stoichiometry <= 1, ref_name, factor.stoichiometry & " " & ref_name)
 
             Return (factor.species, i, ref.name, annos)
         End Function
