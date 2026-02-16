@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</RootNamespace>
-    <TargetFrameworks>net8.0-windows;net8.0;net48;net10.0</TargetFrameworks>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
 		<AssemblyName>SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
@@ -578,17 +578,16 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="System.Composition" Version="10.0.2" />
-		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.2" />
+		<PackageReference Include="System.Composition" Version="10.0.3" />
+		<PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.3" />
 		<PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
 		<PackageReference Include="System.Net.Http" Version="4.3.4" />
 		<PackageReference Include="System.Net.Requests" Version="4.3.0" />
 		<PackageReference Include="System.Net.WebHeaderCollection" Version="4.3.0" />
-		<PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
-		<PackageReference Include="System.Resources.Extensions" Version="10.0.2" />
+		<PackageReference Include="System.Resources.Extensions" Version="10.0.3" />
 		<PackageReference Include="System.Runtime" Version="4.3.1" />
-		<PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.2" />
-		<PackageReference Include="System.Text.Encodings.Web" Version="10.0.2" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.3" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="10.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
