@@ -1,14 +1,10 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
 //    imports "automation" from "cytoscape";
-//    imports "automation" from "cytoscape_toolkit";
 //
 // ref=cytoscape_toolkit.automation@cytoscape, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-// ref=cytoscape_toolkit.automation@cytoscape_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
- * accession the cytoscape function via http service
- * 
 */
 declare namespace automation {
    /**
@@ -26,15 +22,9 @@ declare namespace automation {
    */
    function layout(networkId: any, algorithmName?: string, version?: string, port?: object, host?: string, env?: object): any;
    /**
-    * GET list of layout algorithms
-    * 
-    * 
-     * @param version 
-     * + default value Is ``'v1'``.
-     * @param port 
-     * + default value Is ``1234``.
-     * @param host 
-     * + default value Is ``'localhost'``.
+     * @param version default value Is ``'v1'``.
+     * @param port default value Is ``1234``.
+     * @param host default value Is ``'localhost'``.
    */
    function layouts(version?: string, port?: object, host?: string): string;
    /**
