@@ -62,6 +62,12 @@ Namespace ComponentModel.Annotation
     ''' </summary>
     ''' <remarks></remarks>
     Public Enum EnzymeClasses
+
+        ''' <summary>
+        ''' no needs for enzyme catalysis
+        ''' </summary>
+        Spontaneous = 0
+
         ''' <summary>
         ''' Oxido Reductase.(氧化还原酶)
         ''' </summary>
