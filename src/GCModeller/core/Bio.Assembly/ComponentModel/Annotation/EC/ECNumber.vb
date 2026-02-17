@@ -174,28 +174,36 @@ Namespace ComponentModel.Annotation
         ''' <param name="expr"></param>
         ''' <returns></returns>
         Public Shared Function ValueParser(expr As String) As ECNumber
-            Dim m As Match = r.Match(expr)
-
-            ' 格式错误，没有找到相应的编号格式字符串
-            If Not m.Success Then
-                Call $"invalid EC_number to parse: {expr}".Warning
+            If expr.StringEmpty(, True) Then
                 Return Nothing
-            End If
+            Else
+                Dim m As Match = r.Match(expr)
 
-            Dim tokens As String() = m.Value.Split("."c)
+                ' 格式错误，没有找到相应的编号格式字符串
+                If Not m.Success Then
+                    Call $"invalid EC_number to parse: {expr}".warning
+                    Return Nothing
+                Else
+                    Return NumberParserInternal(m.Value, expr)
+                End If
+            End If
+        End Function
+
+        Private Shared Function NumberParserInternal(ec_num As String, expr As String) As ECNumber
+            Dim tokens As String() = ec_num.Split("."c)
 
             If tokens.Length < 3 AndAlso Not expr.IsPattern("EC[-]" & PatternECNumber) Then
-                Call $"probably none EC_number was parsed from expression: {expr}".Warning
+                Call $"probably none EC_number was parsed from expression: {expr}".warning
             End If
 
             Dim ecNum As New ECNumber With {
-                .Type = CInt(Val(tokens(0))),
-                .SubType = CInt(Val(tokens.ElementAtOrDefault(1))),
-                .SubCategory = CInt(Val(tokens.ElementAtOrDefault(2))),
-                .SerialNumber = CInt(Val(tokens.ElementAtOrDefault(3)))
+                .type = CInt(Val(tokens(0))),
+                .subType = CInt(Val(tokens.ElementAtOrDefault(1))),
+                .subCategory = CInt(Val(tokens.ElementAtOrDefault(2))),
+                .serialNumber = CInt(Val(tokens.ElementAtOrDefault(3)))
             }
 
-            If ecNum.Type > 7 OrElse ecNum.Type < 0 Then
+            If ecNum.type > 7 OrElse ecNum.type < 0 Then
                 ' 格式错误
                 Return Nothing
             Else
@@ -209,7 +217,11 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Format("[EC: {0}.{1}.{2}.{3}]", CInt(Type), SubType, SubCategory, SerialNumber)
+            Return String.Format("[EC: {0}.{1}.{2}.{3}]",
+                                 CInt(type),
+                                 If(subType <= 0, "-", subType),
+                                 If(subCategory <= 0, "-", subCategory),
+                                 If(serialNumber <= 0, "-", serialNumber))
         End Function
 
         ''' <summary>
