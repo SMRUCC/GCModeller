@@ -44,6 +44,7 @@ Public Class BrendaEnzymeData
     Public Property ki_value As ValueData()
     Public Property expression As ValueData()
     Public Property general_information As ValueData()
+    Public Property ic50_value As ValueData()
 
 
 End Class
