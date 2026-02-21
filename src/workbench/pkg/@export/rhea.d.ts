@@ -11,6 +11,10 @@
  * 
 */
 declare namespace rhea {
+   /**
+     * @param env default value Is ``null``.
+   */
+   function load_brenda_enzymes(file: any, env?: object): object;
    module open {
       /**
        * open the rdf data pack of Rhea database
