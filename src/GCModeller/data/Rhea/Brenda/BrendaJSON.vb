@@ -62,6 +62,10 @@ Public Class ReferenceData
     Public Property vol As String
     Public Property pmid As String
 
+    Public Overrides Function ToString() As String
+        Return title
+    End Function
+
 End Class
 
 Public Class ProteinData
@@ -73,7 +77,6 @@ Public Class ProteinData
     Public Property source As String
     Public Property accessions As String()
 
-
 End Class
 
 Public Class ValueData
@@ -82,5 +85,9 @@ Public Class ValueData
     Public Property proteins As String()
     Public Property references As String()
     Public Property comment As String
+
+    Public Overrides Function ToString() As String
+        Return value
+    End Function
 
 End Class
