@@ -46,7 +46,9 @@ Public Class BrendaEnzymeData
     Public Property general_information As ValueData()
     Public Property ic50_value As ValueData()
 
-
+    Public Overrides Function ToString() As String
+        Return $"[{id}] {recommended_name}"
+    End Function
 End Class
 
 Public Class ReferenceData
