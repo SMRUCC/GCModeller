@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>kegg_api</RootNamespace>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
     <OutputPath>../../assembly/</OutputPath>
