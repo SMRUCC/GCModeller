@@ -88,11 +88,15 @@ Namespace Metagenomics
         ''' <summary>
         ''' parse auto
         ''' </summary>
-        ''' <param name="biomString"></param>
+        ''' <param name="biomString">
+        ''' [Bifidobacterium [indicum] DSM 20214 = LMG 11587] k__Bacteria;p__Bacillati;c__Actinomycetota;o__Actinomycetes;f__Bifidobacteriales;g__Bifidobacteriaceae;s__Bifidobacterium.
+        ''' </param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Parse(biomString As String) As Taxonomy
-            Dim name As String = biomString.Match("\[.*?\]\s+")
+            ' start from [
+            ' and end with ] kingdom flag
+            Dim name As String = biomString.Match("\[.*?\]\s+k")
 
             If (Not name.StringEmpty(, True)) AndAlso biomString.StartsWith(name) Then
                 biomString = Strings.Mid(biomString, name.Length).Trim
