@@ -8,8 +8,9 @@ declare namespace GCModeller {
       */
       function cast_CLR_metpa(metpa: any): object;
       /**
+        * @param quietly default value Is ``false``.
       */
-      function onLoad(): object;
+      function onLoad(quietly?: any): object;
       /**
         * @param entryName default value Is ``null``.
       */
