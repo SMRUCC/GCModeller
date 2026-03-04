@@ -86,6 +86,16 @@ declare namespace kmers {
    */
    function filter_classification(kraken_output: any, taxids: any, ncbi_taxonomy?: object, env?: object): object;
    /**
+    * 
+    * 
+     * @param kraken_output quantification table which could be read from file via the function: ``parse_kraken_report``.
+     * @param host_id -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function filter_hostId(kraken_output: any, host_id: any, env?: object): object;
+   /**
      * @param env default value Is ``null``.
    */
    function filter_reads(kraken_output: any, reads: any, env?: object): object;
@@ -114,6 +124,16 @@ declare namespace kmers {
      * + default value Is ``null``.
    */
    function kmers_matrix(x: any, k?: object, env?: object): object;
+   /**
+    * extract the kraken2 quantify result data
+    * 
+    * 
+     * @param kraken_output -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function kraken_data(kraken_output: any, env?: object): object;
    /**
     * extract gene/genomics sequences from genbank file for kraken2 sequence classification
     * 
