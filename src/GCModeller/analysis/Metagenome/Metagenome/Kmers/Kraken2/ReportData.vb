@@ -148,8 +148,8 @@ Namespace Kmers.Kraken2
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function FilterHost(report As KrakenReportRecord(), hostIDs As Long()) As KrakenReportRecord()
-            Return ReportFilter.FilterHumanReadsAndRecalculate(report, hostIDs)
+        Public Shared Function FilterHost(report As IEnumerable(Of KrakenReportRecord), hostIDs As Long()) As KrakenReportRecord()
+            Return ReportFilter.FilterHumanReadsAndRecalculate(report.ToArray, hostIDs)
         End Function
     End Class
 End Namespace

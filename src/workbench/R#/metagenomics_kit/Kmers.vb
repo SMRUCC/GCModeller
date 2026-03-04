@@ -549,6 +549,18 @@ Module KmersTool
         Return pipeline.CreateFromPopulator(filtered)
     End Function
 
+    <ExportAPI("filter_hostId")>
+    <RApiReturn(GetType(KrakenReportRecord))>
+    Public Function filter_hostId(<RRawVectorArgument> kraken_output As Object, <RRawVectorArgument> host_id As Object, Optional env As Environment = Nothing) As Object
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenReportRecord)(kraken_output, env)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        End If
+
+        Return KrakenReportRecord.FilterHost(kraken2.populates(Of KrakenReportRecord)(env), CLRVector.asLong(host_id))
+    End Function
+
     <ExportAPI("filter_reads")>
     <RApiReturn(GetType(FastQ))>
     Public Function filter_reads(<RRawVectorArgument> kraken_output As Object,
