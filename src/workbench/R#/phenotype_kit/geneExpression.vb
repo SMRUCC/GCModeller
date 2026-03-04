@@ -333,12 +333,16 @@ Module geneExpression
     ''' is the vector of expression value of a gene, slot key name is the 
     ''' corresponding gene id.</returns>
     <ExportAPI("as.expr_list")>
-    Public Function createVectorList(expr0 As Matrix) As list
+    Public Function createVectorList(expr0 As Matrix, Optional dataset As Boolean = False) As list
         Return New list With {
             .slots = expr0.expression _
                 .ToDictionary(Function(a) a.geneID,
-                              Function(a)
-                                  Return CObj(a.experiments)
+                              Function(a) As Object
+                                  If dataset Then
+                                      Return a.ToDataSet(expr0.sampleID)
+                                  Else
+                                      Return a.experiments
+                                  End If
                               End Function)
         }
     End Function

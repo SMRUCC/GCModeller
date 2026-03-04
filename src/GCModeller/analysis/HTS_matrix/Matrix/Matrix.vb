@@ -540,6 +540,16 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
         }
     End Function
 
+    Public Function CreateGeneDataSet() As Dictionary(Of String, Dictionary(Of String, Double))
+        Dim genes As New Dictionary(Of String, Dictionary(Of String, Double))
+
+        For Each gene As DataFrameRow In expression
+            genes(gene.geneID) = gene.ToDataSet(sampleID)
+        Next
+
+        Return genes
+    End Function
+
     Public Iterator Function GenericEnumerator() As IEnumerator(Of DataFrameRow) Implements Enumeration(Of DataFrameRow).GenericEnumerator
         For Each gene As DataFrameRow In expression
             Yield gene
