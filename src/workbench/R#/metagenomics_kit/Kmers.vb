@@ -549,6 +549,15 @@ Module KmersTool
         Return pipeline.CreateFromPopulator(filtered)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="kraken_output">
+    ''' quantification table which could be read from file via the function: ``parse_kraken_report``.
+    ''' </param>
+    ''' <param name="host_id"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("filter_hostId")>
     <RApiReturn(GetType(KrakenReportRecord))>
     Public Function filter_hostId(<RRawVectorArgument> kraken_output As Object, <RRawVectorArgument> host_id As Object, Optional env As Environment = Nothing) As Object
