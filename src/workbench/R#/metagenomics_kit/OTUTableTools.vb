@@ -366,6 +366,7 @@ Module OTUTableTools
     Public Function set_taxonomyName(<RRawVectorArgument> x As Object,
                                      Optional rank As TaxonomyRanks = TaxonomyRanks.Species,
                                      Optional env As Environment = Nothing) As Object
+
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
 
         If pull.isError Then
