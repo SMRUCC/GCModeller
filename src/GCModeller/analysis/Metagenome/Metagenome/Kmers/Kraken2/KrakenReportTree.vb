@@ -55,7 +55,9 @@ Namespace Kmers.Kraken2
             Dim nodeStack As New Stack(Of KrakenReportTree)()
 
             For Each record In flatRecords
-                Dim newNode As New KrakenReportTree(record)
+                Dim newNode As New KrakenReportTree(record) With {
+                    .Childs = New Dictionary(Of String, Tree(Of KrakenReportRecord))
+                }
 
                 ' 检查当前记录的 RankCode 是否在我们定义的层级中
                 If Not RankHierarchy.ContainsKey(record.RankCode) Then
