@@ -205,7 +205,9 @@ Public Module RelativeStatics
                                   Return a(sample_id)
                               End Function)
 
-            Yield New NamedValue(Of Dictionary(Of String, Double))(sample_id, dominant)
+            If dominant.Any Then
+                Yield New NamedValue(Of Dictionary(Of String, Double))(sample_id, dominant)
+            End If
         Next
     End Function
 
