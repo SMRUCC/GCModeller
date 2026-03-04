@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.Rsharp.Runtime
@@ -152,6 +153,20 @@ Module OTUTableTools
         Next
 
         Return x
+    End Function
+
+    <ExportAPI("average")>
+    Public Function average(<RRawVectorArgument> x As Object, <RRawVectorArgument> sampleinfo As Object, Optional env As Environment = Nothing) As Object
+        Dim otus As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
+        Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+        If otus.isError Then
+            Return otus.getError
+        ElseIf samples.isError Then
+            Return samples.getError
+        End If
+
+
     End Function
 
     <ExportAPI("median_scale")>

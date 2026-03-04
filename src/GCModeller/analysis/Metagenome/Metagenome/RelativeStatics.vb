@@ -56,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Metagenomics
 
 Public Module RelativeStatics
@@ -206,5 +207,10 @@ Public Module RelativeStatics
 
             Yield New NamedValue(Of Dictionary(Of String, Double))(sample_id, dominant)
         Next
+    End Function
+
+    <Extension>
+    Public Function Average(otus As IEnumerable(Of OTUTable), sampleinfo As SampleInfo()) As OTUTable
+
     End Function
 End Module
