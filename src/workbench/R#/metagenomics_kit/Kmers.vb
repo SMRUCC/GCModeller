@@ -567,7 +567,10 @@ Module KmersTool
             Return kraken2.getError
         End If
 
-        Return KrakenReportRecord.FilterHost(kraken2.populates(Of KrakenReportRecord)(env), CLRVector.asLong(host_id))
+        Dim taxon As IEnumerable(Of KrakenReportRecord) = kraken2.populates(Of KrakenReportRecord)(env)
+        Dim idlist As Long() = CLRVector.asLong(host_id)
+
+        Return KrakenReportRecord.FilterHost(taxon, idlist)
     End Function
 
     ''' <summary>
