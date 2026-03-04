@@ -300,6 +300,11 @@ Module OTUTableTools
         Return otu_table.CastMatrix
     End Function
 
+    <ExportAPI("read.rankdata")>
+    Public Function readLevelAggregateData(file As String) As RankLevelView()
+        Return RankLevelView.ReadTable(file).ToArray
+    End Function
+
     ''' <summary>
     ''' convert the mothur rank tree as the OTU table
     ''' </summary>
@@ -320,6 +325,10 @@ Module OTUTableTools
             Return DirectCast(x, MothurRankTree).GetOTUTable
         ElseIf TypeOf x Is rdataframe Then
             Return asOTUTable(DirectCast(x, rdataframe), id, taxonomy)
+        ElseIf TypeOf x Is RankLevelView() Then
+            Return DirectCast(x, RankLevelView()) _
+                .Select(Function(otu) otu.ToOtuTable) _
+                .ToArray
         Else
             Return Message.InCompatibleType(GetType(MothurRankTree), x.GetType, env)
         End If
