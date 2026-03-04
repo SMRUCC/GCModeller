@@ -367,6 +367,8 @@ Module OTUTableTools
                                      x As Object,
                                      Optional cutoff As Double = 0.01,
                                      Optional k As Integer = 10,
+                                     <RRawVectorArgument>
+                                     Optional sampleinfo As Object = Nothing,
                                      Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
@@ -375,7 +377,21 @@ Module OTUTableTools
             Return pull.getError
         End If
 
-        Return pull.populates(Of OTUTable)(env) _
+        Dim otus As IEnumerable(Of OTUTable) = pull.populates(Of OTUTable)(env)
+
+        If Not sampleinfo Is Nothing Then
+            Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
+
+            If samples.isError Then
+                Return samples.getError
+            End If
+
+            otus = otus _
+                .Average(samples.populates(Of SampleInfo)(env)) _
+                .AsList
+        End If
+
+        Return otus _
             .DominantSpecies(cutoff, k:=k) _
             .ToDictionary(Function(a) a.Name,
                           Function(a)
