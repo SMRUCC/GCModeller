@@ -25,6 +25,7 @@ Tools for handling OTU table data
 + [batch_combine](OTU_table/batch_combine.1) combine of two batch data
 + [otu_from_matrix](OTU_table/otu_from_matrix.1) cast the expression matrix to the otu data
 + [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
++ [read.rankdata](OTU_table/read.rankdata.1) 
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
 + [set_taxonomyName](OTU_table/set_taxonomyName.1) 
 + [dominant_species](OTU_table/dominant_species.1) 

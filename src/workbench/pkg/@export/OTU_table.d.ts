@@ -133,6 +133,9 @@ declare namespace OTU_table {
         * + default value Is ``false``.
       */
       function OTUtable(file: string, sum_duplicated?: boolean, OTUTaxonAnalysis?: boolean): object;
+      /**
+      */
+      function rankdata(file: string): object;
    }
    /**
     * Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
