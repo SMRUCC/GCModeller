@@ -54,6 +54,7 @@ Namespace Kmers.Kraken2
         Public Iterator Function BuildTaxonomyTree(flatRecords As IEnumerable(Of KrakenReportRecord)) As IEnumerable(Of KrakenReportTree)
             ' 使用一个栈来跟踪当前路径上的节点
             Dim nodeStack As New Stack(Of KrakenReportTree)()
+            Dim skip_warns As New List(Of String)
 
             For Each record In flatRecords
                 Dim newNode As New KrakenReportTree(record) With {
@@ -63,7 +64,8 @@ Namespace Kmers.Kraken2
                 ' 检查当前记录的 RankCode 是否在我们定义的层级中
                 If Not RankHierarchy.ContainsKey(record.RankCode) Then
                     ' 如果是未知等级，跳过或可以抛出异常
-                    Call $"警告: 未知的 RankCode '{record.RankCode}' 在记录 '{record.ScientificName}' 中，已跳过。".warning
+                    ' Call $"警告: 未知的 RankCode '{record.RankCode}' 在记录 '{record.ScientificName}' 中，已跳过。".warning
+                    Call skip_warns.Add($"{record.RankCode}.{record.ScientificName}")
                     Continue For
                 End If
                 Dim currentRankLevel As Integer = RankHierarchy(record.RankCode)
@@ -88,6 +90,10 @@ Namespace Kmers.Kraken2
                 ' 将当前节点压入栈中，作为后续节点的潜在父节点
                 nodeStack.Push(newNode)
             Next
+
+            If skip_warns.Any Then
+                Call $"found {skip_warns.Count} unknown rankcode records: {skip_warns.JoinBy("; ")}, these records has been skipped".warning
+            End If
         End Function
     End Module
 
