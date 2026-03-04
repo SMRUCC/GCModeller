@@ -62,7 +62,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' the different expression analysis design
@@ -71,7 +71,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 ''' a collection of the sample <see cref="DataGroup"/> for run the different expression analysis.
 ''' usually be <see cref="experiment"/> vs <see cref="control"/>.
 ''' </remarks>
-Public Class DataAnalysis
+Public Class DataAnalysis : Implements Enumeration(Of DataGroup)
 
     ''' <summary>
     ''' show be contains at least two sample group
@@ -121,5 +121,10 @@ Public Class DataAnalysis
         Return designs.Keys.JoinBy(" vs ")
     End Function
 
+    Public Iterator Function GenericEnumerator() As IEnumerator(Of DataGroup) Implements Enumeration(Of DataGroup).GenericEnumerator
+        For Each group As DataGroup In designs
+            Yield group
+        Next
+    End Function
 End Class
 

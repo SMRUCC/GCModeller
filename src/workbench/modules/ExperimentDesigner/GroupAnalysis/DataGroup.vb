@@ -1,5 +1,6 @@
 ﻿
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ''' <summary>
 ''' the group view of the <see cref="SampleInfo"/> data
@@ -24,6 +25,19 @@ Public Class DataGroup : Implements INamedValue
             Return _sample_id(index)
         End Get
     End Property
+
+    Public Overrides Function ToString() As String
+        Return sampleGroup
+    End Function
+
+    Public Function GetData(Of T As IDynamicMeta(Of Double))(geneExpression As T) As IEnumerable(Of Double)
+        Dim table As Dictionary(Of String, Double) = geneExpression.Properties
+
+        Return From id As String
+               In sample_id
+               Let expr As Double = If(table.ContainsKey(id), table(id), 0.0)
+               Select expr
+    End Function
 
     ''' <summary>
     ''' create a collection of the <see cref="DataGroup"/> from the given <see cref="SampleInfo"/>

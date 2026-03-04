@@ -132,6 +132,15 @@ Public Module SampleNames
         }
     End Function
 
+    ''' <summary>
+    ''' apply for create vector index
+    ''' </summary>
+    ''' <param name="sampleId">the vector names, provides the vector element ordinal index</param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="strict"></param>
+    ''' <returns>
+    ''' a set of the vector element ordinal index in groups for read vector data
+    ''' </returns>
     <Extension>
     Public Function GroupIndexing(sampleId As IEnumerable(Of String), sampleinfo As IEnumerable(Of SampleInfo), Optional strict As Boolean = True) As Dictionary(Of String, Integer())
         Dim sampleIndex As Index(Of String) = sampleId.Indexing
