@@ -94,6 +94,10 @@ Public Class OTUTable : Inherits DataSet
     <Column("taxonomy", GetType(BIOMTaxonomyParser))>
     Public Property taxonomy As Taxonomy
 
+    ''' <summary>
+    ''' sample data
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides Property Properties As Dictionary(Of String, Double) Implements IGeneExpression.Expression
         Get
             Return MyBase.Properties

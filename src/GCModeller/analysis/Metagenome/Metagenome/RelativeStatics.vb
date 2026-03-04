@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Metagenomics
@@ -184,6 +185,26 @@ Public Module RelativeStatics
                 .Tree = g.tree,
                 .Samples = sampleData
             }
+        Next
+    End Function
+
+    <Extension>
+    Public Iterator Function DominantSpecies(otus As IEnumerable(Of OTUTable),
+                                             Optional cutoff As Double = 0.01,
+                                             Optional k As Integer = 10) As IEnumerable(Of NamedValue(Of Dictionary(Of String, Double)))
+        Dim table As OTUTable() = otus.ToArray
+
+        For Each sample_id As String In table.PropertyNames
+            Dim dominant As Dictionary(Of String, Double) = table _
+                .Where(Function(x) x(sample_id) >= cutoff) _
+                .OrderByDescending(Function(x) x(sample_id)) _
+                .Take(k) _
+                .ToDictionary(Function(a) a.taxonomy.BIOMTaxonomyString,
+                              Function(a)
+                                  Return a(sample_id)
+                              End Function)
+
+            Yield New NamedValue(Of Dictionary(Of String, Double))(sample_id, dominant)
         Next
     End Function
 End Module

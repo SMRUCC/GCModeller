@@ -345,6 +345,22 @@ Module OTUTableTools
             .ToArray
     End Function
 
+    <ExportAPI("dominant_species")>
+    Public Function dominant_species(<RRawVectorArgument> x As Object, Optional cutoff As Double = 0.01, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of OTUTable)(env) _
+            .DominantSpecies(cutoff) _
+            .ToDictionary(Function(a) a.Name,
+                          Function(a)
+                              Return a.Value
+                          End Function)
+    End Function
+
     <ExportAPI("make_otu_table")>
     <RApiReturn(GetType(OTUTable))>
     Public Function MakeOTUTable(<RRawVectorArgument> samples As Object, taxonomy_tree As NcbiTaxonomyTree,
