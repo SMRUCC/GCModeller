@@ -346,7 +346,12 @@ Module OTUTableTools
     End Function
 
     <ExportAPI("dominant_species")>
-    Public Function dominant_species(<RRawVectorArgument> x As Object, Optional cutoff As Double = 0.01, Optional env As Environment = Nothing) As Object
+    Public Function dominant_species(<RRawVectorArgument>
+                                     x As Object,
+                                     Optional cutoff As Double = 0.01,
+                                     Optional k As Integer = 10,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
 
         If pull.isError Then
@@ -354,7 +359,7 @@ Module OTUTableTools
         End If
 
         Return pull.populates(Of OTUTable)(env) _
-            .DominantSpecies(cutoff) _
+            .DominantSpecies(cutoff, k:=k) _
             .ToDictionary(Function(a) a.Name,
                           Function(a)
                               Return a.Value
