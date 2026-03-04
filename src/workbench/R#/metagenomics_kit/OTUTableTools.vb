@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
@@ -365,6 +366,7 @@ Module OTUTableTools
     <ExportAPI("set_taxonomyName")>
     Public Function set_taxonomyName(<RRawVectorArgument> x As Object,
                                      Optional rank As TaxonomyRanks = TaxonomyRanks.Species,
+                                     Optional sum_duplicates As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
@@ -374,13 +376,20 @@ Module OTUTableTools
         End If
 
         Dim rename As New List(Of OTUTable)
+        Dim otus As IEnumerable(Of OTUTable) = pull.populates(Of OTUTable)(env)
 
-        For Each otu As OTUTable In pull.populates(Of OTUTable)(env)
+        If sum_duplicates Then
+            otus = OTUTable.SumDuplicatedOTU(otus, rank).ToArray
+        End If
+
+        Dim i As i32 = 1
+
+        For Each otu As OTUTable In otus
             Dim name As String = otu.taxonomy _
                 .Select(rank) _
                 .LastOrDefault
 
-            name = If(name, "Unknown")
+            name = If(name, $"noname_{++i}")
             otu = New OTUTable(otu) With {.ID = name}
             rename.Add(otu)
         Next

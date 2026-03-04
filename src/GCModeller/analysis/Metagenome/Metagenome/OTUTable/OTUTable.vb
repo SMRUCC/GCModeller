@@ -54,6 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
@@ -124,6 +125,11 @@ Public Class OTUTable : Inherits DataSet
         Return $"{ID} - {taxonomy} [{Properties.Keys.JoinBy(", ")}]"
     End Function
 
+    ''' <summary>
+    ''' make group by <see cref="OTUTable.taxonomy"/> and then sum sample data in each group
+    ''' </summary>
+    ''' <param name="otus"></param>
+    ''' <returns></returns>
     Public Shared Iterator Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable)) As IEnumerable(Of OTUTable)
         For Each otu As IGrouping(Of String, OTUTable) In otus.GroupBy(Function(o) o.taxonomy.ToString)
             Dim allSampleName As String() = otu.PropertyNames
@@ -135,13 +141,24 @@ Public Class OTUTable : Inherits DataSet
                                          In otu
                                          Into Sum(m(name))
                               End Function)
+            Dim unionNames As String = otu.Keys.JoinBy("+")
 
             Yield New OTUTable With {
-                .ID = otu.Select(Function(m) m.ID).JoinBy("+"),
+                .ID = unionNames,
                 .taxonomy = taxonomy,
                 .Properties = v
             }
         Next
+    End Function
+
+    Public Shared Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable), rank As TaxonomyRanks) As IEnumerable(Of OTUTable)
+        Return SumDuplicatedOTU(
+            From otu As OTUTable
+            In otus
+            Let tax_atrank As Taxonomy = otu.taxonomy.Rank(rank)
+            Select New OTUTable(otu) With {
+                .taxonomy = tax_atrank
+            })
     End Function
 
     ''' <summary>
