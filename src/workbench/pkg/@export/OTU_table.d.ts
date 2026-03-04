@@ -45,6 +45,10 @@ declare namespace OTU_table {
       function OTU_table(x: any, id?: string, taxonomy?: string, env?: object): object;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function average(x: any, sampleinfo: any, env?: object): any;
+   /**
     * combine of two batch data
     * 
     * 
@@ -52,6 +56,13 @@ declare namespace OTU_table {
      * @param batch2 -
    */
    function batch_combine(batch1: object, batch2: object): object;
+   /**
+     * @param cutoff default value Is ``0.01``.
+     * @param k default value Is ``10``.
+     * @param sampleinfo default value Is ``null``.
+     * @param env default value Is ``null``.
+   */
+   function dominant_species(x: any, cutoff?: number, k?: object, sampleinfo?: any, env?: object): any;
    /**
      * @param args default value Is ``null``.
      * @param env default value Is ``null``.
@@ -134,4 +145,10 @@ declare namespace OTU_table {
      * @param x -
    */
    function relative_abundance(x: object): object;
+   /**
+     * @param rank default value Is ``null``.
+     * @param sum_duplicates default value Is ``false``.
+     * @param env default value Is ``null``.
+   */
+   function set_taxonomyName(x: any, rank?: object, sum_duplicates?: boolean, env?: object): any;
 }

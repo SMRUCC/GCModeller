@@ -53,27 +53,37 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
 ''' samples data aggregate in a specific taxonomy rank
 ''' </summary>
-Public Class RankLevelView : Implements IDynamicMeta(Of Double), INamedValue
+Public Class RankLevelView : Implements IDynamicMeta(Of Double), INamedValue, IGeneExpression
 
     ''' <summary>
     ''' the otu id in current taxonomy rank
     ''' </summary>
     ''' <returns></returns>
     Public Property OTUs As String()
-    Public Property TaxonomyName As String Implements INamedValue.Key
+    Public Property TaxonomyName As String Implements INamedValue.Key, IReadOnlyId.Identity
+    ''' <summary>
+    ''' the taxonomy tree string
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Tree As String
 
+    ''' <summary>
+    ''' otu abundance data across multiple samples
+    ''' </summary>
+    ''' <returns></returns>
     <Meta(GetType(Double))>
-    Public Property Samples As Dictionary(Of String, Double) Implements IDynamicMeta(Of Double).Properties
+    Public Property Samples As Dictionary(Of String, Double) Implements IDynamicMeta(Of Double).Properties, IGeneExpression.Expression
 
     Public Function Vector(sampleIds As IEnumerable(Of String), Optional [default] As Double = 0) As IEnumerable(Of Double)
         Return From id As String
@@ -83,6 +93,15 @@ Public Class RankLevelView : Implements IDynamicMeta(Of Double), INamedValue
 
     Public Overrides Function ToString() As String
         Return Tree & $" ({OTUs.JoinBy(", ")})"
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ToOtuTable() As OTUTable
+        Return New OTUTable With {
+            .ID = TaxonomyName,
+            .Properties = Samples,
+            .taxonomy = BIOMTaxonomyParser.Parse(Tree)
+        }
     End Function
 
     Public Shared Function ToMatrix(otus As IEnumerable(Of RankLevelView), Optional rank As String = Nothing) As Matrix

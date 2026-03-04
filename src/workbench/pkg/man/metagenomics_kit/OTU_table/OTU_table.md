@@ -16,6 +16,7 @@ Tools for handling OTU table data
 >  clusters.
 
 + [relative_abundance](OTU_table/relative_abundance.1) Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
++ [average](OTU_table/average.1) 
 + [median_scale](OTU_table/median_scale.1) 
 + [impute_missing](OTU_table/impute_missing.1) 
 + [filter](OTU_table/filter.1) filter the otu data which has relative abundance greater than the given threshold
@@ -25,6 +26,8 @@ Tools for handling OTU table data
 + [otu_from_matrix](OTU_table/otu_from_matrix.1) cast the expression matrix to the otu data
 + [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
 + [as.OTU_table](OTU_table/as.OTU_table.1) convert the mothur rank tree as the OTU table
++ [set_taxonomyName](OTU_table/set_taxonomyName.1) 
++ [dominant_species](OTU_table/dominant_species.1) 
 + [make_otu_table](OTU_table/make_otu_table.1) 
 + [makeTreeGraph](OTU_table/makeTreeGraph.1) make OTU tree graph via JSD correlation method
 + [makeUPGMATree](OTU_table/makeUPGMATree.1) 
