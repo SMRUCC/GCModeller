@@ -11,6 +11,18 @@ Namespace Kmers.Kraken2
         Sub New()
         End Sub
 
+        Public Iterator Function GetQuantifyData() As IEnumerable(Of KrakenReportRecord)
+            If IsLeaf Then
+                Yield Data
+            Else
+                For Each child As Tree(Of KrakenReportRecord) In Childs.Values
+                    For Each data As KrakenReportRecord In DirectCast(child, KrakenReportTree).GetQuantifyData
+                        Yield data
+                    Next
+                Next
+            End If
+        End Function
+
         Public Shared Function BuildTree(nodes As IEnumerable(Of KrakenReportRecord)) As KrakenReportTree
             Dim root As New KrakenReportTree(New KrakenReportRecord With {.Percentage = 100, .TaxID = 0})
 

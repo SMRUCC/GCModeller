@@ -570,6 +570,26 @@ Module KmersTool
         Return KrakenReportRecord.FilterHost(kraken2.populates(Of KrakenReportRecord)(env), CLRVector.asLong(host_id))
     End Function
 
+    ''' <summary>
+    ''' extract the kraken2 quantify result data
+    ''' </summary>
+    ''' <param name="kraken_output"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kraken_data")>
+    <RApiReturn(GetType(KrakenReportRecord))>
+    Public Function get_kraken_data(<RRawVectorArgument> kraken_output As Object, Optional env As Environment = Nothing) As Object
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenReportRecord)(kraken_output, env)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        End If
+
+        Return KrakenReportTree.BuildTree(kraken2.populates(Of KrakenReportRecord)(env)) _
+            .GetQuantifyData _
+            .ToArray
+    End Function
+
     <ExportAPI("filter_reads")>
     <RApiReturn(GetType(FastQ))>
     Public Function filter_reads(<RRawVectorArgument> kraken_output As Object,
