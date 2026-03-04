@@ -15,6 +15,7 @@ the gene expression matrix data toolkit
 + [filterZeroGenes](geneExpression/filterZeroGenes.1) removes the rows which all gene expression result is ZERO
 + [filterNaNMissing](geneExpression/filterNaNMissing.1) set the NaN missing value to default value
 + [impute_missing](geneExpression/impute_missing.1) set the zero value to the half of the min positive value
++ [is_empty](geneExpression/is_empty.1) 
 + [load.expr](geneExpression/load.expr.1) load an expressin matrix data
 + [load.expr0](geneExpression/load.expr0.1) read the binary matrix data file
 + [load.matrixView](geneExpression/load.matrixView.1) Load the HTS matrix into a lazy matrix viewer

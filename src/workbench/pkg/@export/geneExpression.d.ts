@@ -74,11 +74,13 @@ declare namespace geneExpression {
        * 
        * 
         * @param expr0 -
+        * @param dataset 
+        * + default value Is ``false``.
         * @return a tuple list of the expression numeric vector, each slot data 
         *  is the vector of expression value of a gene, slot key name is the 
         *  corresponding gene id.
       */
-      function expr_list(expr0: object): object;
+      function expr_list(expr0: object, dataset?: boolean): object;
       /**
        * cast the HTS matrix object to the general dataset
        * 
@@ -311,6 +313,9 @@ declare namespace geneExpression {
      * @return An expression data matrix with missing data filled
    */
    function impute_missing(x: object, by_features?: boolean): object;
+   /**
+   */
+   function is_empty(x: object): boolean;
    /**
     * merge multiple gene expression matrix by gene features
     * 
