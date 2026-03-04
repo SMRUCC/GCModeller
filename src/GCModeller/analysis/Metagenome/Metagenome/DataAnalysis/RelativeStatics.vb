@@ -216,7 +216,7 @@ Public Module RelativeStatics
         Dim groups As New DataAnalysis(sampleinfo)
 
         For Each otu As OTUTable In otus
-            Dim mean As OTUTable = otus.GroupAverage(groups)
+            Dim mean As OTUTable = otu.GroupAverage(groups)
             mean.taxonomy = otu.taxonomy
             Yield mean
         Next
