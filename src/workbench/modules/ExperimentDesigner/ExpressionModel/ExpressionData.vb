@@ -10,16 +10,21 @@ Public Module ExpressionData
         Dim groups As New DataAnalysis(sampleinfo)
 
         For Each gene As T In genes
-            Dim data As New Dictionary(Of String, Double)
-
-            For Each group As DataGroup In groups.AsEnumerable
-                Call data.Add(group.sampleGroup, group.GetData(gene).Average)
-            Next
-
-            Yield New T With {
-                .Key = gene.Key,
-                .Properties = data
-            }
+            Yield gene.GroupAverage(groups)
         Next
+    End Function
+
+    <Extension>
+    Public Function GroupAverage(Of T As {New, INamedValue, DynamicPropertyBase(Of Double)})(gene As T, groups As DataAnalysis) As T
+        Dim data As New Dictionary(Of String, Double)
+
+        For Each group As DataGroup In groups.AsEnumerable
+            Call data.Add(group.sampleGroup, group.GetData(gene).Average)
+        Next
+
+        Return New T With {
+            .Key = gene.Key,
+            .Properties = data
+        }
     End Function
 End Module

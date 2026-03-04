@@ -210,7 +210,13 @@ Public Module RelativeStatics
     End Function
 
     <Extension>
-    Public Function Average(otus As IEnumerable(Of OTUTable), sampleinfo As SampleInfo()) As OTUTable
+    Public Iterator Function Average(otus As IEnumerable(Of OTUTable), sampleinfo As IEnumerable(Of SampleInfo)) As IEnumerable(Of OTUTable)
+        Dim groups As New DataAnalysis(sampleinfo)
 
+        For Each otu As OTUTable In otus
+            Dim mean As OTUTable = otus.GroupAverage(groups)
+            mean.taxonomy = otu.taxonomy
+            Yield mean
+        Next
     End Function
 End Module

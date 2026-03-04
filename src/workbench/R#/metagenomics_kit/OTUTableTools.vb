@@ -166,7 +166,9 @@ Module OTUTableTools
             Return samples.getError
         End If
 
-
+        Return otus.populates(Of OTUTable)(env) _
+            .Average(samples.populates(Of SampleInfo)(env)) _
+            .ToArray
     End Function
 
     <ExportAPI("median_scale")>
