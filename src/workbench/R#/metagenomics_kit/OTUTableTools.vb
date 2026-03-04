@@ -80,7 +80,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object].Converts
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports rbase = SMRUCC.Rsharp.Runtime.Internal.Invokes.base
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports renv = SMRUCC.Rsharp.Runtime
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 Imports Vector = Microsoft.VisualBasic.Math.LinearAlgebra.Vector
 
@@ -312,13 +314,17 @@ Module OTUTableTools
     ''' <returns></returns>
     <ExportAPI("as.OTU_table")>
     <RApiReturn(GetType(OTUTable))>
-    Public Function asOTUTable(x As Object,
+    Public Function asOTUTable(<RRawVectorArgument> x As Object,
                                Optional id As String = "OTU_num",
                                Optional taxonomy As String = "taxonomy",
                                Optional env As Environment = Nothing) As Object
 
         If x Is Nothing Then
             Return Nothing
+        End If
+
+        If rbase.length(x) = 1 Then
+            x = renv.getFirst(x)
         End If
 
         If TypeOf x Is MothurRankTree Then
