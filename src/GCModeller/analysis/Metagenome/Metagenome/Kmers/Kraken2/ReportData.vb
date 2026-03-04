@@ -142,6 +142,10 @@ Namespace Kmers.Kraken2
             End Get
         End Property
 
+        Public Overrides Function ToString() As String
+            Return $"{uniqueId} [rank:{RankCode} {Percentage}%]"
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenReportRecord)
             Return KrakenParser.ParseReportFile(filepath)

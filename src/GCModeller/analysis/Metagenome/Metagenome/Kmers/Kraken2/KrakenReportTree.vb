@@ -6,6 +6,7 @@ Namespace Kmers.Kraken2
 
         Sub New(data As KrakenReportRecord)
             Me.Data = data
+            Me.label = data.TaxID.ToString
         End Sub
 
         Sub New()
