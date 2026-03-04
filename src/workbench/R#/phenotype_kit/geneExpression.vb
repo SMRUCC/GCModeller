@@ -613,6 +613,11 @@ Module geneExpression
         Return x
     End Function
 
+    <ExportAPI("is_empty")>
+    Public Function is_empty(x As Matrix) As Boolean
+        Return x.IsNullOrEmpty
+    End Function
+
     ''' <summary>
     ''' load an expressin matrix data
     ''' </summary>
@@ -1598,7 +1603,7 @@ Module geneExpression
         Dim size As Size = InteropArgumentHelper.getSize(nsize, env).SizeParser
         Dim padStr As String = InteropArgumentHelper.getPadding(margin, default:="padding:100px 100px 300px 100px;", env:=env)
 
-        If matrix Is Nothing OrElse matrix.size = 0 OrElse matrix.sampleID.IsNullOrEmpty Then
+        If matrix.IsNullOrEmpty Then
             Call env.AddMessage("The given expression matrix is empty!")
             Return Nothing
         End If

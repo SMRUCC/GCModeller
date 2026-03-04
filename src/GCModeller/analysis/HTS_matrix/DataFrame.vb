@@ -60,6 +60,22 @@ Imports Microsoft.VisualBasic.Linq
 Public Module HTSDataFrame
 
     ''' <summary>
+    ''' Check of the given expression matrix object is nothing or else has no data?
+    ''' </summary>
+    ''' <param name="m"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function IsNullOrEmpty(m As Matrix) As Boolean
+        If m Is Nothing Then
+            Return True
+        ElseIf m.size = 0 OrElse m.sampleID.IsNullOrEmpty Then
+            Return True
+        Else
+            Return False
+        End If
+    End Function
+
+    ''' <summary>
     ''' merge multiple batches data directly
     ''' </summary>
     ''' <param name="batches">
