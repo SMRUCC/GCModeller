@@ -362,6 +362,31 @@ Module OTUTableTools
             .ToArray
     End Function
 
+    <ExportAPI("set_taxonomyName")>
+    Public Function set_taxonomyName(<RRawVectorArgument> x As Object,
+                                     Optional rank As TaxonomyRanks = TaxonomyRanks.Species,
+                                     Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim rename As New List(Of OTUTable)
+
+        For Each otu As OTUTable In pull.populates(Of OTUTable)(env)
+            Dim name As String = otu.taxonomy _
+                .Select(rank) _
+                .LastOrDefault
+
+            name = If(name, "Unknown")
+            otu = New OTUTable(otu) With {.ID = name}
+            rename.Add(otu)
+        Next
+
+        Return rename.ToArray
+    End Function
+
     <ExportAPI("dominant_species")>
     Public Function dominant_species(<RRawVectorArgument>
                                      x As Object,
