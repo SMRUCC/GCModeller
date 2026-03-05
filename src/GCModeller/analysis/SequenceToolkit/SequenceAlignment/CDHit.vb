@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -7,6 +8,9 @@ Public Class CDHit
 
     ReadOnly k As Integer = 31
 
+    ''' <summary>
+    ''' sort by sequence length in desc order
+    ''' </summary>
     Dim seqPool As FastaSeq()
     Dim minHash As SequenceItem()
 
@@ -60,9 +64,8 @@ Public Class CDHit
     ''' <summary>
     ''' implements of the CD-hit liked sequence similarity clustering
     ''' </summary>
-    ''' <param name="seqs"></param>
     ''' <returns></returns>
-    Public Iterator Function FindSimilar(seqs As IEnumerable(Of FastaSeq), Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
+    Public Iterator Function FindSimilar(Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
         ' 提前计算所有相似对，构建图结构
         Dim adjList As New Dictionary(Of Integer, HashSet(Of Integer))()
 
@@ -105,6 +108,26 @@ Public Class CDHit
         Next
     End Function
 
+    Public Iterator Function NrSeqs(Optional threshold As Double = 0.8) As IEnumerable(Of FastaSeq)
+        Dim seqIndex = seqPool.ToDictionary(Function(s) s.Title)
+
+        For Each cluster As SimilarHit In FindSimilar(threshold)
+            Dim nr_rep = seqIndex(cluster.SeqID)
+
+            If cluster.IsUniqued Then
+                Yield nr_rep
+            Else
+                Yield New FastaSeq(nr_rep.SequenceData) With {
+                    .Headers = {
+                        cluster.SeqID,
+                        $"{cluster.Size} cluster members",
+                        cluster.Similar.Keys.GetJson
+                    }
+                }
+            End If
+        Next
+    End Function
+
 End Class
 
 Public Class SimilarHit
@@ -117,5 +140,15 @@ Public Class SimilarHit
             Return Similar.IsNullOrEmpty
         End Get
     End Property
+
+    Public ReadOnly Property Size As Integer
+        Get
+            Return Similar.TryCount
+        End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+        Return SeqID
+    End Function
 
 End Class
