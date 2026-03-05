@@ -85,12 +85,17 @@ Public Class CDHit
 
         ' 2. CD-HIT 核心：贪婪聚类
         Dim isClustered(seqPool.Length - 1) As Boolean ' 标记是否已被归入某个簇
+        Dim cluster As SimilarHit
 
         For i As Integer = 0 To seqPool.Length - 1
-            If isClustered(i) Then Continue For ' 如果已经被归簇，跳过
-
-            ' i 作为代表序列
-            Dim cluster As New SimilarHit With {.SeqID = seqPool(i).Title}
+            If isClustered(i) Then
+                Continue For ' 如果已经被归簇，跳过
+            Else
+                ' i 作为代表序列
+                cluster = New SimilarHit With {
+                    .SeqID = seqPool(i).Title
+                }
+            End If
 
             ' 遍历所有与 i 相似的邻居
             If adjList.ContainsKey(i) Then
