@@ -12,7 +12,7 @@ Public Class CDHit
     End Sub
 
     Public Iterator Function FindSimilar(seqs As IEnumerable(Of FastaSeq)) As IEnumerable(Of SimilarHit)
-        Dim seqPool = seqs.ToArray
+        Dim seqPool = (From seq As FastaSeq In seqs Order By seq.Length Descending).ToArray
         Dim seqHash = seqPool.SeqIterator.ToArray _
             .AsParallel _
             .Select(Function(s)
