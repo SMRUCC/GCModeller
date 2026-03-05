@@ -6,7 +6,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module minhashtest
 
-
     Sub Main()
         Dim seqset = FastaFile.Read("U:\metagenomics_LLMs\demo\seq.fa")
         Dim seqs As New List(Of SequenceItem)
