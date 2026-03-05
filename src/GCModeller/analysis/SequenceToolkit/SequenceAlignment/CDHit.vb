@@ -62,17 +62,19 @@ Public Class CDHit
     ''' </summary>
     ''' <param name="seqs"></param>
     ''' <returns></returns>
-    Public Iterator Function FindSimilar(seqs As IEnumerable(Of FastaSeq)) As IEnumerable(Of SimilarHit)
+    Public Iterator Function FindSimilar(seqs As IEnumerable(Of FastaSeq), Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
         ' 提前计算所有相似对，构建图结构
         Dim adjList As New Dictionary(Of Integer, HashSet(Of Integer))()
 
         For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=False)
-            ' 构建邻接表：u -> v 和 v -> u
-            If Not adjList.ContainsKey(result.U) Then adjList(result.U) = New HashSet(Of Integer)()
-            If Not adjList.ContainsKey(result.V) Then adjList(result.V) = New HashSet(Of Integer)()
+            If result.Similarity >= threshold Then
+                ' 构建邻接表：u -> v 和 v -> u
+                If Not adjList.ContainsKey(result.U) Then adjList(result.U) = New HashSet(Of Integer)()
+                If Not adjList.ContainsKey(result.V) Then adjList(result.V) = New HashSet(Of Integer)()
 
-            adjList(result.U).Add(result.V)
-            adjList(result.V).Add(result.U)
+                adjList(result.U).Add(result.V)
+                adjList(result.V).Add(result.U)
+            End If
         Next
 
         ' 2. CD-HIT 核心：贪婪聚类
