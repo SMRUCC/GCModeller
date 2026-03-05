@@ -473,12 +473,13 @@ Module Fasta
     ''' <returns></returns>
     ''' <keywords>save data</keywords>
     <ExportAPI("write.fasta")>
+    <RApiReturn(TypeCodes.boolean)>
     Public Function writeFasta(<RRawVectorArgument> seq As Object, file As Object,
                                Optional lineBreak% = -1,
                                Optional delimiter As String = " ",
                                Optional filter_empty As Boolean = False,
                                Optional encoding As Encodings = Encodings.ASCII,
-                               Optional env As Environment = Nothing) As Boolean
+                               Optional env As Environment = Nothing) As Object
 
         If TypeOf seq Is pipeline Then
             If TypeOf file Is FastaWriter Then
@@ -520,9 +521,38 @@ Module Fasta
                            Return True
                        End Function) _
                 .ToArray
-            Dim fasta As New FastaFile(seqs)
+            Dim fasta As FastaFile
+            Dim is_filepath As Boolean
+            Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
 
-            Return fasta.Save(lineBreak, file, encoding:=encoding)
+            If seqs Is Nothing Then
+                If TypeOf seq Is FastQFile Then
+                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, FastQFile).AsEnumerable Select New FastaSeq(fq.SEQ_ID, fq.SequenceData))
+                ElseIf TypeOf seq Is FastQ() Then
+                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, IEnumerable(Of FastQ)) Select New FastaSeq(fq.SEQ_ID, fq.SequenceData))
+                Else
+                    Return Message.InCompatibleType(GetType(FastaSeq), seq.GetType, env)
+                End If
+            Else
+                fasta = New FastaFile(seqs)
+            End If
+
+            If s Like GetType(Message) Then
+                Return s.TryCast(Of Message)
+            End If
+
+            Dim result = fasta.Save(lineBreak, s.TryCast(Of System.IO.Stream), encoding:=encoding.CodePage)
+
+            Try
+                If is_filepath Then
+                    Call s.TryCast(Of System.IO.Stream).Flush()
+                    Call s.TryCast(Of System.IO.Stream).Dispose()
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Return result
         End If
     End Function
 
