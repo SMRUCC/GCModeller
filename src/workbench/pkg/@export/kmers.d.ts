@@ -73,6 +73,12 @@ declare namespace kmers {
    */
    function bloom_vector(x: any, k?: object, env?: object): any;
    /**
+     * @param k default value Is ``12``.
+     * @param identities default value Is ``0.8``.
+     * @param env default value Is ``null``.
+   */
+   function cdhit_nr(x: any, k?: object, identities?: number, env?: object): any;
+   /**
     * filter the reads data that has the specific taxonomy id assignment.
     * 
     * 
