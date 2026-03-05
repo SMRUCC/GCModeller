@@ -519,9 +519,9 @@ Module Fasta
 
             If seqs Is Nothing Then
                 If TypeOf seq Is FastQFile Then
-                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, FastQFile).AsEnumerable Select New FastaSeq(fq.SEQ_ID, fq.SequenceData))
+                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, FastQFile).AsEnumerable Select New FastaSeq(fq.SequenceData, fq.SEQ_ID))
                 ElseIf TypeOf seq Is FastQ() Then
-                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, IEnumerable(Of FastQ)) Select New FastaSeq(fq.SEQ_ID, fq.SequenceData))
+                    fasta = New FastaFile(From fq As FastQ In DirectCast(seq, IEnumerable(Of FastQ)) Select New FastaSeq(fq.SequenceData, fq.SEQ_ID))
                 Else
                     Return Message.InCompatibleType(GetType(FastaSeq), seq.GetType, env)
                 End If
