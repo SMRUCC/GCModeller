@@ -54,7 +54,9 @@ Namespace FQ.NanoPlot
         ''' 计算一条序列的平均质量
         ''' </summary>
         Private Function CalculateMeanQuality(read As FastQ) As Double
-            If String.IsNullOrEmpty(read.Quality) OrElse read.Quality.Length = 0 Then Return 0.0
+            If String.IsNullOrEmpty(read.Quality) OrElse read.Quality.Length = 0 Then
+                Return 0.0
+            End If
 
             Dim q = FastQ.GetQualityOrder(read.Quality).ToArray
             Return q.Average
@@ -94,9 +96,9 @@ Namespace FQ.NanoPlot
         ''' <summary>
         ''' 计算 N50 值
         ''' </summary>
-        Private Function CalculateN50(sortedLengths As Integer(), totalBases As Long) As Long
-            Dim halfTotal As Long = totalBases \ 2
-            Dim runningSum As Long = 0
+        Private Function CalculateN50(sortedLengths As Double(), totalBases As Double) As Double
+            Dim halfTotal As Double = totalBases / 2
+            Dim runningSum As Double = 0
 
             ' sortedLengths 应该已经是升序排列，但N50通常是从大到小累加
             ' 为了性能，我们从后向前遍历（相当于降序）
