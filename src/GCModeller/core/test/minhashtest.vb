@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Language
+﻿Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -12,12 +13,12 @@ Module minhashtest
         Dim idset As New List(Of String)
         Dim id As i32 = 0
 
-        For Each seq As FastaSeq In seqset.Take(100)
+        For Each seq As FastaSeq In TqdmWrapper.Wrap(seqset.Take(10000).ToArray)
             Call idset.Add(seq.Title)
-            Call seqs.Add(KSeq.KmerSpans(seq.SequenceData, k:=31).CreateSequenceData(++id))
+            Call seqs.Add(KSeq.KmerSpans(seq.SequenceData, k:=12).CreateSequenceData(++id))
         Next
 
-        For Each result In LSH.FindSimilarItems(seqs.ToArray)
+        For Each result As SimilarityIndex In LSH.FindSimilarItems(seqs.ToArray)
             Call Console.WriteLine(result)
         Next
 
