@@ -5,6 +5,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.SequenceAlignment
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
 Imports SMRUCC.genomics.SequenceModel
@@ -130,5 +131,23 @@ Module kmersTools
         Dim vec = latent.OneHotVectorizer
         Dim df As dataframe = vec.toDataframe(list.empty, env)
         Return df
+    End Function
+
+    <ExportAPI("cdhit_nr")>
+    Public Function cdhit_nr(<RRawVectorArgument> x As Object,
+                             Optional k As Integer = 12,
+                             Optional identities As Double = 0.8,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim cdhit As CDHit = New CDHit(k).Setup(seqs)
+        Dim nr = cdhit.NrSeqs(threshold:=identities).ToArray
+
+        Return nr
     End Function
 End Module
