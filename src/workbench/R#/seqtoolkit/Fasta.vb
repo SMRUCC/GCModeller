@@ -512,15 +512,7 @@ Module Fasta
             Return True
         Else
             ' save a collection of the fasta sequence
-            Dim seqs = pipHelper.GetFastaSeq(seq, env) _
-                .Where(Function(f)
-                           If filter_empty AndAlso f.Length = 0 Then
-                               Return False
-                           End If
-
-                           Return True
-                       End Function) _
-                .ToArray
+            Dim seqs = pipHelper.GetFastaSeq(seq, env)
             Dim fasta As FastaFile
             Dim is_filepath As Boolean
             Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env, is_filepath:=is_filepath)
@@ -534,7 +526,9 @@ Module Fasta
                     Return Message.InCompatibleType(GetType(FastaSeq), seq.GetType, env)
                 End If
             Else
-                fasta = New FastaFile(seqs)
+                fasta = New FastaFile(From fa As FastaSeq
+                                      In seqs
+                                      Where If(filter_empty AndAlso fa.Length = 0, False, True))
             End If
 
             If s Like GetType(Message) Then
