@@ -185,7 +185,7 @@ Module DEBUG_MAIN
         Dim c As New SimpleSegment With {.Start = 6, .Ends = 13, .SequenceData = "67890abc", .Strand = "+"}
         Dim d As New SimpleSegment With {.Start = 11, .Ends = 15, .SequenceData = "abcde", .Strand = "+"}
 
-        Dim assembl = {a, b, c, d}.SegmentAssembler
+        ' Dim assembl = {a, b, c, d}.SegmentAssembler
 
         Dim tax As New NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
 
