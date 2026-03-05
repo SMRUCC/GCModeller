@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports std = System.Math
 
 Public Class CDHit
 
@@ -68,6 +69,7 @@ Public Class CDHit
     Public Iterator Function FindSimilar(Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
         ' 提前计算所有相似对，构建图结构
         Dim adjList As New Dictionary(Of Integer, HashSet(Of Integer))()
+        Dim similarityCache As New Dictionary(Of (Integer, Integer), Double)()
 
         For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=False)
             If result.Similarity >= threshold Then
@@ -75,6 +77,7 @@ Public Class CDHit
                 If Not adjList.ContainsKey(result.U) Then adjList(result.U) = New HashSet(Of Integer)()
                 If Not adjList.ContainsKey(result.V) Then adjList(result.V) = New HashSet(Of Integer)()
 
+                similarityCache((result.U, result.V)) = result.Similarity
                 adjList(result.U).Add(result.V)
                 adjList(result.V).Add(result.U)
             End If
@@ -93,13 +96,16 @@ Public Class CDHit
             If adjList.ContainsKey(i) Then
                 For Each neighbor In adjList(i)
                     If Not isClustered(neighbor) Then
+                        Dim pairKey = (std.Min(i, neighbor), std.Max(i, neighbor))
+                        Dim actualSimilarity As Double = similarityCache(pairKey)
+
                         ' 这里可以加上阈值的二次确认，虽然 LSH 已经筛选过了
                         ' CD-HIT 逻辑：将邻居标记为已归簇
                         isClustered(neighbor) = True
 
                         ' 记录相似度信息 (需要从之前的计算中获取，或重新计算)
                         ' 为了简化示例，这里假设记录 ID 即可
-                        cluster.Similar.Add(seqPool(neighbor).Title, 1.0) ' Similarity 需从 result 获取
+                        cluster.Similar.Add(seqPool(neighbor).Title, actualSimilarity)
                     End If
                 Next
             End If
