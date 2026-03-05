@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports std = System.Math
 
 Public Class CDHit
 
@@ -69,9 +68,10 @@ Public Class CDHit
     Public Iterator Function FindSimilar(Optional threshold As Double = 0.8) As IEnumerable(Of SimilarHit)
         ' 提前计算所有相似对，构建图结构
         Dim adjList As New Dictionary(Of Integer, Dictionary(Of Integer, Double))()
+        Dim jaccardTh = LSHParameterEstimator.GetThresholdFromIdentity(threshold, k)
 
         For Each result As SimilarityIndex In LSH.FindSimilarItems(minHash, produceUniqueHit:=False)
-            If result.Similarity >= threshold Then
+            If result.Similarity >= jaccardTh Then
                 ' 构建邻接表：u -> v 和 v -> u
                 If Not adjList.ContainsKey(result.U) Then adjList(result.U) = New Dictionary(Of Integer, Double)()
                 If Not adjList.ContainsKey(result.V) Then adjList(result.V) = New Dictionary(Of Integer, Double)()
