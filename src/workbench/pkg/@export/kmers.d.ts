@@ -176,11 +176,13 @@ declare namespace kmers {
      * + default value Is ``null``.
      * @param as_matrix 
      * + default value Is ``false``.
+     * @param test 
+     * + default value Is ``-1``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function make_vector(bloom: object, x: any, file?: any, as_matrix?: boolean, env?: object): any;
+   function make_vector(bloom: object, x: any, file?: any, as_matrix?: boolean, test?: object, env?: object): any;
    /**
      * @param type default value Is ``null``.
      * @param k default value Is ``6``.
