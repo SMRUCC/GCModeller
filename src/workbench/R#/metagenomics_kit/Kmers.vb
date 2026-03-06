@@ -215,6 +215,7 @@ Module KmersTool
     Public Function make_vector(bloom As BloomVectorizer, <RRawVectorArgument> x As Object,
                                 Optional file As Object = Nothing,
                                 Optional as_matrix As Boolean = False,
+                                Optional test As Integer = -1,
                                 Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(x, env)
@@ -253,6 +254,10 @@ Module KmersTool
             Return True
         Else
             Dim vecs As New List(Of ClusterEntity)
+
+            If test > 0 Then
+                seqs = seqs.ToArray.Take(test)
+            End If
 
             For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs.ToArray)
                 Call vecs.Add(New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
