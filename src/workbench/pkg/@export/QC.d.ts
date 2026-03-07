@@ -13,6 +13,14 @@ declare namespace QC {
    */
    function nano_plot(reads: any, env?: object): object;
    /**
+    * generates the fastq reads QC summary text
+    * 
+    * 
+     * @param nanoplot -
+     * @param file -
+   */
+   function nano_report(nanoplot: object, file: string): boolean;
+   /**
      * @param quality default value Is ``20``.
      * @param env default value Is ``null``.
    */
