@@ -423,7 +423,7 @@ Module KmersTool
     Public Function bloom_filter(<RRawVectorArgument> genomics As Object,
                                  Optional ncbi_taxid As Integer = 0,
                                  Optional k As Integer = 35,
-                                 Optional fpr As Double = 0.00001,
+                                 Optional fpr As Double = 0.001,
                                  Optional spanSize As Integer = 500 * ByteSize.MB,
                                  Optional env As Environment = Nothing) As Object
 
