@@ -7,6 +7,7 @@ as.bloom_filter \- cast the genomics sequence as kmer based bloom filter model
 \fBncbi_taxid\fR as integer = 0, 
 \fBk\fR as integer = 35, 
 \fBfpr\fR as double = 1E-05, 
+\fBspanSize\fR as integer = 524288000, 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -14,10 +15,10 @@ cast the genomics sequence as kmer based bloom filter model
 .PP
 .SH OPTIONS
 .PP
-\fBgenomics\fB \fR\- -. 
+\fBgenomics\fB \fR\- the genomics sequence. 
 .PP
 .PP
-\fBncbi_taxid\fB \fR\- -. 
+\fBncbi_taxid\fB \fR\- ncbi tax id of this sequence data. 
 .PP
 .PP
 \fBk\fB \fR\- -. 

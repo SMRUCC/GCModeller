@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
@@ -423,10 +424,11 @@ Module KmersTool
                                  Optional ncbi_taxid As Integer = 0,
                                  Optional k As Integer = 35,
                                  Optional fpr As Double = 0.00001,
+                                 Optional spanSize As Integer = 500 * ByteSize.MB,
                                  Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(genomics, env)
-        Dim kmers As KmerBloomFilter = KmerBloomFilter.Create(seqs, ncbi_taxid, k, fpr)
+        Dim kmers As KmerBloomFilter = KmerBloomFilter.Create(seqs, ncbi_taxid, k, fpr, spanSize:=spanSize)
         Return kmers
     End Function
 

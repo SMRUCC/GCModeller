@@ -16,8 +16,8 @@ declare namespace kmers {
        * cast the genomics sequence as kmer based bloom filter model
        * 
        * 
-        * @param genomics -
-        * @param ncbi_taxid -
+        * @param genomics the genomics sequence
+        * @param ncbi_taxid ncbi tax id of this sequence data
         * 
         * + default value Is ``0``.
         * @param k -
@@ -26,11 +26,13 @@ declare namespace kmers {
         * @param fpr -
         * 
         * + default value Is ``1E-05``.
+        * @param spanSize 
+        * + default value Is ``524288000``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function bloom_filter(genomics: any, ncbi_taxid?: object, k?: object, fpr?: number, env?: object): object;
+      function bloom_filter(genomics: any, ncbi_taxid?: object, k?: object, fpr?: number, spanSize?: object, env?: object): object;
    }
    /**
     * quantify of the metagenome community via kmers and bayes method
