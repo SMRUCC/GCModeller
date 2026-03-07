@@ -39,13 +39,13 @@
         ''' Top 5 最长序列 (Item1=Length, Item2=Quality)
         ''' </summary>
         ''' <returns></returns>
-        Public Property LongestReads As List(Of Tuple(Of Double, Double))
+        Public Property LongestReads As ReadsValue()
 
         ''' <summary>
         ''' Top 5 质量最高序列 (Item1=Quality, Item2=Length)
         ''' </summary>
         ''' <returns></returns>
-        Public Property HighestQualityReads As List(Of Tuple(Of Double, Double))
+        Public Property HighestQualityReads As ReadsValue()
 
         ''' <summary>
         ''' Q值阈值统计
@@ -65,6 +65,17 @@
         Public Property Q20 As New QThresholdStats
         Public Property Q25 As New QThresholdStats
         Public Property Q30 As New QThresholdStats
+    End Class
+
+    Public Class ReadsValue
+
+        Public Property Quality As Double
+        Public Property Length As Double
+
+        Public Overrides Function ToString() As String
+            Return $"(quality={Quality}, length={Length})"
+        End Function
+
     End Class
 
     ''' <summary>

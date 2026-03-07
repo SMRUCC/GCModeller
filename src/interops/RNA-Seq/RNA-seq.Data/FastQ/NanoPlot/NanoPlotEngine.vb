@@ -76,6 +76,8 @@ Namespace FQ.NanoPlot
                 .MeanLength = .TotalBases / .TotalReads  ' 计算平均长度
             }
 
+            ' 计算标准差 (总体标准差)
+            summary.ReadLengthStdev = data.Select(Function(r) r.Length).StandardDeviation
 
             ' 计算中位数 (注意：大数据集排序可能较慢)
             Dim sortedLengths = data.Select(Function(r) r.Length).OrderBy(Function(x) x).ToArray
@@ -90,8 +92,47 @@ Namespace FQ.NanoPlot
             ' 计算 N50
             summary.N50 = CalculateN50(sortedLengths, summary.TotalBases)
 
+            ' 计算 Top 5 Longest Reads
+            ' 使用 LINQ 排序取前5，保留长度和质量
+            summary.LongestReads = (From r As ReadStats
+                                    In data
+                                    Order By r.Length Descending
+                                    Take 5
+                                    Select New ReadsValue With {
+                                        .Length = r.Length,
+                                        .Quality = r.MeanQuality
+                                    }).ToArray()
+
+            ' 计算 Top 5 Highest Quality Reads
+            summary.HighestQualityReads = (From r As ReadStats
+                                           In data
+                                           Order By r.MeanQuality Descending
+                                           Take 5
+                                           Select New ReadsValue With {
+                                               .Quality = r.MeanQuality,
+                                               .Length = r.Length
+                                           }).ToArray()
+            ' 计算 Q 阈值统计
+            CalculateQStats(summary, data, 10, summary.Q10)
+            CalculateQStats(summary, data, 15, summary.Q15)
+            CalculateQStats(summary, data, 20, summary.Q20)
+            CalculateQStats(summary, data, 25, summary.Q25)
+            CalculateQStats(summary, data, 30, summary.Q30)
+
             Return summary
         End Function
+
+        ''' <summary>
+        ''' 计算 Q 阈值统计辅助函数
+        ''' </summary>
+        Private Sub CalculateQStats(summary As NanoSummary, data As List(Of ReadStats), threshold As Integer, stat As NanoSummary.QThresholdStats)
+            ' 筛选满足条件的 Reads
+            Dim filtered = data.Where(Function(r) r.MeanQuality >= threshold).ToList()
+
+            stat.Count = filtered.Count
+            stat.Percentage = (stat.Count / summary.TotalReads) * 100
+            stat.TotalBasesMb = filtered.Sum(Function(r) r.Length) / 1000000.0
+        End Sub
 
         ''' <summary>
         ''' 计算 N50 值

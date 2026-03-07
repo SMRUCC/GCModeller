@@ -38,7 +38,7 @@ Namespace FQ.NanoPlot
             If s.LongestReads IsNot Nothing Then
                 For i As Integer = 0 To Math.Min(s.LongestReads.Count - 1, 4)
                     Dim item = s.LongestReads(i)
-                    sb.AppendLine($"longest_read_(with_Q):{i + 1}{vbTab}{CInt(item.Item1)} ({item.Item2:F1})")
+                    sb.AppendLine($"longest_read_(with_Q):{i + 1}{vbTab}{CInt(item.Length)} ({item.Quality:F1})")
                 Next
             End If
 
@@ -47,7 +47,7 @@ Namespace FQ.NanoPlot
             If s.HighestQualityReads IsNot Nothing Then
                 For i As Integer = 0 To Math.Min(s.HighestQualityReads.Count - 1, 4)
                     Dim item = s.HighestQualityReads(i)
-                    sb.AppendLine($"highest_Q_read_(with_length):{i + 1}{vbTab}{item.Item1:F1} ({CInt(item.Item2)})")
+                    sb.AppendLine($"highest_Q_read_(with_length):{i + 1}{vbTab}{item.Quality:F1} ({CInt(item.Length)})")
                 Next
             End If
 
