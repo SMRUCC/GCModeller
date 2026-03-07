@@ -65,4 +65,15 @@ Module QC
         Return nanoplot
     End Function
 
+    ''' <summary>
+    ''' generates the fastq reads QC summary text
+    ''' </summary>
+    ''' <param name="nanoplot"></param>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("nano_report")>
+    Public Function nano_report(nanoplot As NanoPlotResult, file As String) As Boolean
+        Return nanoplot.ToString.SaveTo(file)
+    End Function
+
 End Module

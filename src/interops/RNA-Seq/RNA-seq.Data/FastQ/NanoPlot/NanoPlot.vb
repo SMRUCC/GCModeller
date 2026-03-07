@@ -10,6 +10,10 @@ Namespace FQ.NanoPlot
         Public Property QualHist As HistogramBin()
         Public Property ScatterData As Point2D()
 
+        ''' <summary>
+        ''' generates the summary text
+        ''' </summary>
+        ''' <returns></returns>
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
             Call GetNanoPlotReport(sb)
