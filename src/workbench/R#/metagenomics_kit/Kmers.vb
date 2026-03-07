@@ -411,8 +411,8 @@ Module KmersTool
     ''' <summary>
     ''' cast the genomics sequence as kmer based bloom filter model
     ''' </summary>
-    ''' <param name="genomics"></param>
-    ''' <param name="ncbi_taxid"></param>
+    ''' <param name="genomics">the genomics sequence</param>
+    ''' <param name="ncbi_taxid">ncbi tax id of this sequence data</param>
     ''' <param name="k"></param>
     ''' <param name="fpr"></param>
     ''' <param name="env"></param>
