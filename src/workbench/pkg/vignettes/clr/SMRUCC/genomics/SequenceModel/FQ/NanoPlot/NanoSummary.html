@@ -30,6 +30,10 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.SequenceModel.FQ.NanoPlot
 export class NanoSummary {
+   # Top 5 质量最高序列 (Item1=Quality, Item2=Length)
+   HighestQualityReads: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue[]</a>;
+   # Top 5 最长序列 (Item1=Length, Item2=Quality)
+   LongestReads: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue[]</a>;
    MaxLength: integer;
    MaxQuality: double;
    MeanLength: double;
@@ -39,6 +43,13 @@ export class NanoSummary {
    MinLength: integer;
    MinQuality: double;
    N50: double;
+   Q10: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q15: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q20: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q25: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q30: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   # 长度标准差
+   ReadLengthStdev: double;
    TotalBases: double;
    TotalReads: double;
 }
@@ -47,7 +58,15 @@ export class NanoSummary {
 
         <h3>.NET clr type reference tree</h3>
 
-        this clr type has no other .net clr type reference.
+        <ol>
+<li>use by <i>property</i> member <code>HighestQualityReads</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue</a></li>
+<li>use by <i>property</i> member <code>LongestReads</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue</a></li>
+<li>use by <i>property</i> member <code>Q10</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q15</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q20</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q25</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q30</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+</ol>
 
 
         <hr />
