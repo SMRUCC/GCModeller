@@ -59,7 +59,7 @@ declare namespace kmers {
    /**
     * 
     * 
-     * @param repo_dir -
+     * @param repo -
      * @param ncbi_taxonomy -
      * @param min_supports min supports for LCA, recommended 0.35 as threshold
      * 
@@ -67,8 +67,10 @@ declare namespace kmers {
      * @param coverage -
      * 
      * + default value Is ``0.5``.
+     * @param env 
+     * + default value Is ``null``.
    */
-   function bloom_filters(repo_dir: string, ncbi_taxonomy: object, min_supports?: number, coverage?: number): object;
+   function bloom_filters(repo: any, ncbi_taxonomy: object, min_supports?: number, coverage?: number, env?: object): object;
    /**
      * @param k default value Is ``35``.
      * @param env default value Is ``null``.
@@ -104,7 +106,15 @@ declare namespace kmers {
    */
    function filter_hostId(kraken_output: any, host_id: any, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * usually be apply for host removal
+    * 
+    * 
+     * @param kraken_output host reads information data
+     * @param reads the raw reads fastq data
+     * @param env -
+     * 
+     * + default value Is ``null``.
+     * @return read result with host reads removals
    */
    function filter_reads(kraken_output: any, reads: any, env?: object): object;
    /**

@@ -3,13 +3,14 @@
 .SH NAME
 bloom_filters \- 
 .SH SYNOPSIS
-\fIbloom_filters(\fBrepo_dir\fR as string, 
+\fIbloom_filters(\fBrepo\fR as any, 
 \fBncbi_taxonomy\fR as <generic> NcbiTaxonomyTree, 
 \fBmin_supports\fR as double = 0.35, 
-\fBcoverage\fR as double = 0.5);\fR
+\fBcoverage\fR as double = 0.5, 
+[\fB<Environment>\fR]);\fR
 .SH OPTIONS
 .PP
-\fBrepo_dir\fB \fR\- -. 
+\fBrepo\fB \fR\- -. 
 .PP
 .PP
 \fBncbi_taxonomy\fB \fR\- -. 

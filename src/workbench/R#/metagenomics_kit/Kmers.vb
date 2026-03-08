@@ -621,6 +621,15 @@ Module KmersTool
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' usually be apply for host removal
+    ''' </summary>
+    ''' <param name="kraken_output">host reads information data</param>
+    ''' <param name="reads">the raw reads fastq data</param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' read result with host reads removals
+    ''' </returns>
     <ExportAPI("filter_reads")>
     <RApiReturn(GetType(FastQ))>
     Public Function filter_reads(<RRawVectorArgument> kraken_output As Object,
@@ -643,6 +652,8 @@ Module KmersTool
             reads_data = readsData.populates(Of FastQ)(env)
         End If
 
+        ' 20260308
+        ' create a filter index by the host reads title id
         Dim filterIndex As Index(Of String) = kraken2 _
             .populates(Of KrakenOutputRecord)(env) _
             .Select(Iterator Function(k) As IEnumerable(Of String)
@@ -651,6 +662,7 @@ Module KmersTool
                     End Function) _
             .IteratesALL _
             .Indexing
+        ' read result with host reads removals
         Dim result As pipeline = pipeline.CreateFromPopulator(From fq As FastQ
                                                               In reads_data
                                                               Where Not fq.SEQ_ID Like filterIndex)

@@ -22,6 +22,6 @@
 + [filter_classification](kmers/filter_classification.1) filter the reads data that has the specific taxonomy id assignment.
 + [filter_hostId](kmers/filter_hostId.1) 
 + [kraken_data](kmers/kraken_data.1) extract the kraken2 quantify result data
-+ [filter_reads](kmers/filter_reads.1) 
++ [filter_reads](kmers/filter_reads.1) usually be apply for host removal
 + [seq_info](kmers/seq_info.1) 
 + [kraken_seqs](kmers/kraken_seqs.1) extract gene/genomics sequences from genbank file for kraken2 sequence classification
