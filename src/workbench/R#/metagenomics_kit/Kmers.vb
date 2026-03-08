@@ -178,22 +178,35 @@ Module KmersTool
     ''' <summary>
     ''' 
     ''' </summary>
-    ''' <param name="repo_dir"></param>
+    ''' <param name="repo"></param>
     ''' <param name="ncbi_taxonomy"></param>
     ''' <param name="min_supports">min supports for LCA, recommended 0.35 as threshold</param>
     ''' <param name="coverage"></param>
     ''' <returns></returns>
     <ExportAPI("bloom_filters")>
-    Public Function scanBloomDatabase(repo_dir As String, ncbi_taxonomy As NcbiTaxonomyTree,
+    Public Function scanBloomDatabase(<RRawVectorArgument> repo As Object, ncbi_taxonomy As NcbiTaxonomyTree,
                                       Optional min_supports As Double = 0.35,
-                                      Optional coverage As Double = 0.5) As BloomDatabase
+                                      Optional coverage As Double = 0.5,
+                                      Optional env As Environment = Nothing) As BloomDatabase
 
-        Dim bloomfiles As String() = repo_dir.EnumerateFiles("*.ksbloom").ToArray
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of KmerBloomFilter)(repo, env)
+        Dim genomes As IEnumerable(Of KmerBloomFilter)
+
+        If pull.isError Then
+            Dim bloomfiles As String() = (From dir As String
+                                          In CLRVector.asCharacter(repo)
+                                          Select dir.EnumerateFiles("*.ksbloom")) _
+                      .IteratesALL _
+                      .ToArray
+
+            genomes = From file As String
+                      In TqdmWrapper.Wrap(bloomfiles)
+                      Select KmerBloomFilter.LoadFromFile(file)
+        Else
+            genomes = pull.populates(Of KmerBloomFilter)(env)
+        End If
+
         Dim lca As New LCA(ncbi_taxonomy)
-        Dim genomes As IEnumerable(Of KmerBloomFilter) =
-            From file As String
-            In TqdmWrapper.Wrap(bloomfiles)
-            Select KmerBloomFilter.LoadFromFile(file)
         Dim kdb As New BloomDatabase(genomes, lca, min_supports, coverage)
         Return kdb
     End Function
