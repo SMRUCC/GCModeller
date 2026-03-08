@@ -25,7 +25,7 @@ declare namespace kmers {
         * + default value Is ``35``.
         * @param fpr -
         * 
-        * + default value Is ``1E-05``.
+        * + default value Is ``0.001``.
         * @param spanSize 
         * + default value Is ``524288000``.
         * @param env -
