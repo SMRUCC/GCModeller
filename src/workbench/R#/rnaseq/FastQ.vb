@@ -53,6 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.Framework
@@ -117,6 +118,50 @@ Public Module FastQTools
 
             Return New FastQFile(reads)
         End If
+    End Function
+
+    <ExportAPI("merge_raw")>
+    Public Function merge_raw(<RRawVectorArgument> file As Object, merge As Object,
+                              Optional make_unique As Boolean = True,
+                              Optional env As Environment = Nothing) As Object
+
+        Dim is_file As Boolean = False
+        Dim out = SMRUCC.Rsharp.GetFileStream(merge, System.IO.FileAccess.Write, env, is_filepath:=is_file)
+
+        If out Like GetType(Message) Then
+            Return out.TryCast(Of Message)
+        End If
+
+        Using s As New System.IO.StreamWriter(out.TryCast(Of System.IO.Stream))
+            Dim nameUniques As New Dictionary(Of String, Counter)
+            Dim duplicates As New List(Of String)
+
+            For Each filepath As String In CLRVector.asCharacter(file).SafeQuery
+                Dim base As String = filepath.BaseName
+
+                Call VBDebugger.EchoLine(base)
+
+                For Each reads As FastQ In FastQFile.LoadStream(filepath)
+                    Dim name As String = base & "_" & reads.SEQ_ID
+RE0:
+                    If nameUniques.ContainsKey(name) Then
+                        nameUniques(name).Hit()
+                        duplicates.Add(name)
+                        name = name & "_" & nameUniques(name).Value
+                        GoTo RE0
+                    Else
+                        nameUniques.Add(name, Scan0)
+                    End If
+
+                    reads.SEQ_ID = name
+                    s.WriteLine(reads.AsReadsNode)
+                Next
+            Next
+
+            Call s.Flush()
+        End Using
+
+        Return True
     End Function
 
     <ExportAPI("write.fastq")>
