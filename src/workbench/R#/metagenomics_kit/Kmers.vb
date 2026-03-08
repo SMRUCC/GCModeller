@@ -588,17 +588,41 @@ Module KmersTool
     ''' <returns></returns>
     <ExportAPI("filter_hostId")>
     <RApiReturn(GetType(KrakenReportRecord))>
-    Public Function filter_hostId(<RRawVectorArgument> kraken_output As Object, <RRawVectorArgument> host_id As Object, Optional env As Environment = Nothing) As Object
+    Public Function filter_hostId(<RRawVectorArgument> kraken_output As Object,
+                                  <RRawVectorArgument> host_id As Object,
+                                  Optional coverage As Double = 0.999,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenReportRecord)(kraken_output, env)
-
-        If kraken2.isError Then
-            Return kraken2.getError
-        End If
-
-        Dim taxon As IEnumerable(Of KrakenReportRecord) = kraken2.populates(Of KrakenReportRecord)(env)
         Dim idlist As Long() = CLRVector.asLong(host_id)
 
-        Return KrakenReportRecord.FilterHost(taxon, idlist)
+        If kraken2.isError Then
+            kraken2 = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+
+            If Not kraken2.isError Then
+                Dim reads As IEnumerable(Of KrakenOutputRecord) = kraken2.populates(Of KrakenOutputRecord)(env)
+                Dim host_idset = idlist.Indexing
+                Dim host_reads = reads.ToArray _
+                    .AsParallel _
+                    .Where(Function(r)
+                               If CLng(r.TaxID) Like host_idset Then
+                                   Return r.LcaMappings(r.TaxID.ToString) / r.ReadLength >= coverage
+                               Else
+                                   Return False
+                               End If
+                           End Function) _
+                    .ToArray
+
+                Return host_reads
+            End If
+
+            Return kraken2.getError
+        Else
+            Dim taxon As IEnumerable(Of KrakenReportRecord) = kraken2.populates(Of KrakenReportRecord)(env)
+            Dim clean = KrakenReportRecord.FilterHost(taxon, idlist)
+
+            Return clean
+        End If
     End Function
 
     ''' <summary>
