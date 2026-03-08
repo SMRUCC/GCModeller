@@ -35,6 +35,11 @@ declare namespace FastQ {
    */
    function illumina_fastQ_id(fq: object): object;
    /**
+     * @param make_unique default value Is ``true``.
+     * @param env default value Is ``null``.
+   */
+   function merge_raw(file: any, merge: any, make_unique?: boolean, env?: object): any;
+   /**
     * In FASTQ files, quality scores are encoded into a compact form, 
     *  which uses only 1 byte per quality value. In this encoding, the 
     *  quality score is represented as the character with an ASCII 

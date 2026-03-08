@@ -142,7 +142,8 @@ Public Module FastQTools
                 Call VBDebugger.EchoLine(base)
 
                 For Each reads As FastQ In FastQFile.LoadStream(filepath)
-                    Dim name As String = base & "_" & reads.SEQ_ID
+                    ' 20260308 ERROR: Fasta/q sequence header has ‘@’ symbol in file: /mnt/assembly/rawdata.fq, entry 0
+                    Dim name As String = base & "_" & reads.SEQ_ID.Replace("@", "-")
 RE0:
                     If nameUniques.ContainsKey(name) Then
                         nameUniques(name).Hit()

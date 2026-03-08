@@ -12,6 +12,7 @@ FastQ toolkit
 
 + [illumina_fastQ_id](FastQ/illumina_fastQ_id.1) 
 + [read.fastq](FastQ/read.fastq.1) read the fastq file
++ [merge_raw](FastQ/merge_raw.1) 
 + [write.fastq](FastQ/write.fastq.1) 
 + [random_sampling](FastQ/random_sampling.1) make reads data random sampling
 + [assemble](FastQ/assemble.1) Do short reads assembling
