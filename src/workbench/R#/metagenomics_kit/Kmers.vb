@@ -11,7 +11,6 @@ Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
@@ -117,6 +116,15 @@ Module KmersTool
         Return df
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' <see cref="KmerBloomFilter"/>
+    ''' </returns>
     Public Function readKmerBloomFilter(file As System.IO.Stream, args As list, env As Environment) As Object
         Return KmerBloomFilter.LoadFromFile(file)
     End Function
