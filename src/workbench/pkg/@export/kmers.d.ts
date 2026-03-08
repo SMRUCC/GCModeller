@@ -100,11 +100,13 @@ declare namespace kmers {
     * 
      * @param kraken_output quantification table which could be read from file via the function: ``parse_kraken_report``.
      * @param host_id -
+     * @param coverage 
+     * + default value Is ``0.999``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function filter_hostId(kraken_output: any, host_id: any, env?: object): object;
+   function filter_hostId(kraken_output: any, host_id: any, coverage?: number, env?: object): object;
    /**
     * usually be apply for host removal
     * 
