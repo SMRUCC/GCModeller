@@ -40,7 +40,7 @@ Module KmersTool
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceSource()), AddressOf seqTable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Bracken()), AddressOf bracken_table)
 
-        Call RInternal.generic.add("readBin.kmer_bloom", GetType(Stream), AddressOf readKmerBloomFilter)
+        Call RInternal.generic.add("readBin.kmer_bloom", GetType(System.IO.Stream), AddressOf readKmerBloomFilter)
         Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
     End Sub
 
