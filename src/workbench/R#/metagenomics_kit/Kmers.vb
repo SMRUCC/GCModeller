@@ -462,7 +462,15 @@ Module KmersTool
         Return kmers
     End Function
 
+    ''' <summary>
+    ''' Parse the reads annotation result generated from the kraken2
+    ''' </summary>
+    ''' <param name="filepath">
+    ''' a character vector of the file path of the reads annotation files.
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("parse_kraken_output")>
+    <RApiReturn(GetType(KrakenOutputRecord))>
     Public Function parse_kraken_output(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenOutputRecord()
         Return CLRVector.asCharacter(filepath) _
             .SafeQuery _
@@ -494,6 +502,11 @@ Module KmersTool
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' read reads annotation result generated from the kraken2
+    ''' </summary>
+    ''' <param name="file">the csv table file path</param>
+    ''' <returns></returns>
     <ExportAPI("read.kraken2_reads")>
     Public Function read_kraken_reads(file As String) As KrakenOutputRecord()
         Return file.LoadCsv(Of KrakenOutputRecord)(mute:=True).ToArray
