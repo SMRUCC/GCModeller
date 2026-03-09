@@ -67,19 +67,29 @@ Namespace Kmers.Kraken2
                                   Return r.Key
                               End Function,
                               Function(r)
-                                  If r.Count = 1 Then
-                                      Return r.First.TaxID
-                                  Else
-                                      Return r.Where(Function(ri) ri.TaxID > 0) _
-                                         .OrderByDescending(Function(ri)
-                                                                Return ri.LcaMappings(ri.TaxID.ToString)
-                                                            End Function) _
-                                         .First _
-                                         .TaxID
-                                  End If
+                                  Return GetTaxID(r)
                               End Function)
 
             Return annotation
+        End Function
+
+        Private Shared Function GetTaxID(r As IGrouping(Of String, KrakenOutputRecord)) As Integer
+            Dim filter As KrakenOutputRecord() = r.Where(Function(ri) ri.TaxID > 0).ToArray
+
+            If filter.Length = 0 Then
+                Return 0
+            End If
+            If filter.Length = 1 Then
+                Return filter.First.TaxID
+            Else
+                Dim top = filter _
+                   .OrderByDescending(Function(ri)
+                                          Return ri.LcaMappings(ri.TaxID.ToString)
+                                      End Function) _
+                   .First
+
+                Return top.TaxID
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
