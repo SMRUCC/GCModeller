@@ -28,8 +28,10 @@ declare namespace OTU_table {
        * 
        * 
         * @param otu_table -
+        * @param taxon_as_id 
+        * + default value Is ``true``.
       */
-      function hts_matrix(otu_table: object): object;
+      function hts_matrix(otu_table: object, taxon_as_id?: boolean): object;
       /**
        * convert the mothur rank tree as the OTU table
        * 
