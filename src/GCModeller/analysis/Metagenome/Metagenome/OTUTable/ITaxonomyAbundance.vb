@@ -49,7 +49,7 @@ Public Module OTUTableBuilder
 
         For Each taxon As IGrouping(Of UInteger, (sample_id$, taxon_data As T)) In taxon_groups
             Dim abundance As New Dictionary(Of String, Double)
-            Dim lineage = taxonomyTree.GetAscendantsWithRanksAndNames(taxon.Key, only_std_ranks:=True)
+            Dim lineage As TaxonomyNode() = taxonomyTree.GetAscendantsWithRanksAndNames(taxon.Key, only_std_ranks:=True)
             Dim tree As New Metagenomics.Taxonomy(lineage)
 
             If lineage.IsNullOrEmpty Then

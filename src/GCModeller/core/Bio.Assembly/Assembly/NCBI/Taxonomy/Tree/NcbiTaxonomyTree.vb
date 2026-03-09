@@ -283,12 +283,16 @@ Namespace Assembly.NCBI.Taxonomy
         ''' 请注意：返回来的数据是从小到大排列的
         ''' </remarks>
         Public Function GetAscendantsWithRanksAndNames(taxid As Integer, Optional only_std_ranks As Boolean = False) As TaxonomyNode()
-            Dim key As String = taxid.ToString
-
-            If Not Taxonomy.ContainsKey(key) Then
+            If taxid = 0 Then
                 Return {}
             Else
-                Return ascendantsWithRanksAndNames(key, only_std_ranks)
+                Dim key As String = taxid.ToString
+
+                If Not Taxonomy.ContainsKey(key) Then
+                    Return {}
+                Else
+                    Return ascendantsWithRanksAndNames(key, only_std_ranks)
+                End If
             End If
         End Function
 
