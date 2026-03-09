@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
 Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -733,6 +734,46 @@ Module KmersTool
                             .ncbi_taxid = gb.Taxon,
                             .taxname = gb.Source.SpeciesName,
                             .taxonomy = gb.Source.BiomString
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("taxonomy_expression")>
+    <RApiReturn(GetType(ContigResult))>
+    Public Function taxonomy_expression(<RRawVectorArgument(TypeCodes.string)> id As Object,
+                                        <RRawVectorArgument(TypeCodes.double)> expr As Object,
+                                        <RRawVectorArgument>
+                                        taxdata As Object,
+                                        Optional env As Environment = Nothing) As Object
+
+        Dim pullReads As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(taxdata, env)
+        Dim ncbi_taxid As Integer()
+        Dim contig_idset As String() = CLRVector.asCharacter(id)
+        Dim expr_vals As Double() = CLRVector.asNumeric(expr)
+
+        If pullReads.isError Then
+            ncbi_taxid = CLRVector.asInteger(taxdata)
+        Else
+            Dim tax_index = KrakenOutputRecord.MakeAnnotationResult(pullReads.populates(Of KrakenOutputRecord)(env))
+
+            ncbi_taxid = contig_idset _
+                .Select(Function(strid)
+                            If tax_index.ContainsKey(strid) Then
+                                Return tax_index(strid)
+                            Else
+                                Return 0
+                            End If
+                        End Function) _
+                .ToArray
+        End If
+
+        Return contig_idset _
+            .Select(Function(strid, i)
+                        Return New ContigResult With {
+                            .contig_id = strid,
+                            .expression_value = expr_vals(i),
+                            .ncbi_taxid = ncbi_taxid(i)
                         }
                     End Function) _
             .ToArray

@@ -60,7 +60,7 @@ Namespace Kmers.Kraken2
         ''' <returns></returns>
         Public Property LcaMappings As New Dictionary(Of String, Integer)
 
-        Public Shared Function MakeAnnotationResult(reads As IEnumerable(Of KrakenOutputRecord)) As Dictionary(Of String, String)
+        Public Shared Function MakeAnnotationResult(reads As IEnumerable(Of KrakenOutputRecord)) As Dictionary(Of String, Integer)
             Dim readsIndex = reads.GroupBy(Function(r) r.ReadName)
             Dim annotation = readsIndex _
                 .ToDictionary(Function(r)
@@ -68,14 +68,14 @@ Namespace Kmers.Kraken2
                               End Function,
                               Function(r)
                                   If r.Count = 1 Then
-                                      Return r.First.TaxID.ToString
+                                      Return r.First.TaxID
                                   Else
                                       Return r.Where(Function(ri) ri.TaxID > 0) _
                                          .OrderByDescending(Function(ri)
                                                                 Return ri.LcaMappings(ri.TaxID.ToString)
                                                             End Function) _
-                                         .First.TaxID _
-                                         .ToString
+                                         .First _
+                                         .TaxID
                                   End If
                               End Function)
 
