@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Parse the reads annotation result generated from the kraken2</title>
+    <title>taxonomy_expression</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,30 +13,27 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>parse_kraken_output {kmers}</td>
+                <td>taxonomy_expression {kmers}</td>
                 <td style="text-align: right;">R Documentation</td>
             </tr>
         </table>
 
-        <h2>Parse the reads annotation result generated from the kraken2</h2>
+        <h2>taxonomy_expression</h2>
 
         <h3>Description</h3>
 
-        
+        taxonomy_expression
 
         <h3>Usage</h3>
 
         <div style="width: 100%; padding-left: 3%; color: black;">
-            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>parse_kraken_output</strong>(<i>filepath</i>);</code></pre>
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>taxonomy_expression</strong>(<i>id</i>, <i>expr</i>, <i>taxdata</i>);</code></pre>
         </div>
 
         <h3>Arguments</h3>
 
         <table>
             
-<dt>filepath</dt>
-<dd><p>a character vector of the file path of the reads annotation files.</p></dd>
-
         </table>
 
 
@@ -50,7 +47,7 @@
 
         <h3>Value</h3>
 
-        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord[]</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord[]</a></li></ul>
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/ContigResult.html">ContigResult</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/ContigResult.html">ContigResult</a></li></ul>
 
         <h3 style="display: none;">Examples</h3>
 

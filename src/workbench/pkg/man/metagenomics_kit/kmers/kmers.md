@@ -13,15 +13,16 @@
 + [bayes_estimate](kmers/bayes_estimate.1) 
 + [bayes_abundance](kmers/bayes_abundance.1) quantify of the metagenome community via kmers and bayes method
 + [as.bloom_filter](kmers/as.bloom_filter.1) cast the genomics sequence as kmer based bloom filter model
-+ [parse_kraken_output](kmers/parse_kraken_output.1) 
++ [parse_kraken_output](kmers/parse_kraken_output.1) Parse the reads annotation result generated from the kraken2
 + [parse_kraken_report](kmers/parse_kraken_report.1) 
 + [read.kraken2](kmers/read.kraken2.1) 
 + [read_brackens](kmers/read_brackens.1) 
-+ [read.kraken2_reads](kmers/read.kraken2_reads.1) 
++ [read.kraken2_reads](kmers/read.kraken2_reads.1) read reads annotation result generated from the kraken2
 + [hits_matrix](kmers/hits_matrix.1) 
 + [filter_classification](kmers/filter_classification.1) filter the reads data that has the specific taxonomy id assignment.
 + [filter_hostId](kmers/filter_hostId.1) 
 + [kraken_data](kmers/kraken_data.1) extract the kraken2 quantify result data
 + [filter_reads](kmers/filter_reads.1) usually be apply for host removal
 + [seq_info](kmers/seq_info.1) 
++ [taxonomy_expression](kmers/taxonomy_expression.1) 
 + [kraken_seqs](kmers/kraken_seqs.1) extract gene/genomics sequences from genbank file for kraken2 sequence classification

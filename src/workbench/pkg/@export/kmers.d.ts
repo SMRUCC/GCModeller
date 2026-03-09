@@ -206,6 +206,10 @@ declare namespace kmers {
    */
    function onehot_vectorizer(x: any, type?: object, k?: object, env?: object): any;
    /**
+    * Parse the reads annotation result generated from the kraken2
+    * 
+    * 
+     * @param filepath a character vector of the file path of the reads annotation files.
    */
    function parse_kraken_output(filepath: any): object;
    /**
@@ -219,6 +223,10 @@ declare namespace kmers {
       */
       function kraken2(file: string): object;
       /**
+       * read reads annotation result generated from the kraken2
+       * 
+       * 
+        * @param file the csv table file path
       */
       function kraken2_reads(file: string): object;
    }
@@ -232,6 +240,10 @@ declare namespace kmers {
      * @param env default value Is ``null``.
    */
    function seq_info(genbank: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function taxonomy_expression(id: any, expr: any, taxdata: any, env?: object): object;
    /**
     * 
     * > make sequence embedding via TF-IDF algorithm which is implemented via @``T:SMRUCC.genomics.Model.MotifGraph.ProteinStructure.KmerTFIDFVectorizer``
