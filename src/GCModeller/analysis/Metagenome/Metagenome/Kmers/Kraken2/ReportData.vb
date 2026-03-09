@@ -60,6 +60,28 @@ Namespace Kmers.Kraken2
         ''' <returns></returns>
         Public Property LcaMappings As New Dictionary(Of String, Integer)
 
+        Public Shared Function MakeAnnotationResult(reads As IEnumerable(Of KrakenOutputRecord)) As Dictionary(Of String, String)
+            Dim readsIndex = reads.GroupBy(Function(r) r.ReadName)
+            Dim annotation = readsIndex _
+                .ToDictionary(Function(r)
+                                  Return r.Key
+                              End Function,
+                              Function(r)
+                                  If r.Count = 1 Then
+                                      Return r.First.TaxID.ToString
+                                  Else
+                                      Return r.Where(Function(ri) ri.TaxID > 0) _
+                                         .OrderByDescending(Function(ri)
+                                                                Return ri.LcaMappings(ri.TaxID.ToString)
+                                                            End Function) _
+                                         .First.TaxID _
+                                         .ToString
+                                  End If
+                              End Function)
+
+            Return annotation
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ParseDocument(filepath As String) As IEnumerable(Of KrakenOutputRecord)
             Return Kraken2.KrakenParser.ParseOutputFile(filepath)
