@@ -4,6 +4,9 @@ Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.ComponentModel
 
+''' <summary>
+''' [id, ncbi_taxid, expression_value]
+''' </summary>
 Public Interface ITaxonomyAbundance : Inherits IExpressionValue
 
     Property ncbi_taxid As UInteger
