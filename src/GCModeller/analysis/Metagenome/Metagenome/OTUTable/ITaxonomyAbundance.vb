@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -12,6 +13,14 @@ Public Interface ITaxonomyAbundance : Inherits IExpressionValue
     Property ncbi_taxid As UInteger
 
 End Interface
+
+Public Class ContigResult : Implements ITaxonomyAbundance
+
+    Public Property contig_id As String Implements IReadOnlyId.Identity
+    Public Property ncbi_taxid As UInteger Implements ITaxonomyAbundance.ncbi_taxid
+    Public Property expression_value As Double Implements IExpressionValue.ExpressionValue
+
+End Class
 
 Public Module OTUTableBuilder
 
