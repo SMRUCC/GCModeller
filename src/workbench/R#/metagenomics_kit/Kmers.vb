@@ -238,6 +238,7 @@ Module KmersTool
                                 Optional file As Object = Nothing,
                                 Optional as_matrix As Boolean = False,
                                 Optional test As Integer = -1,
+                                Optional parallel As Boolean = True,
                                 Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(x, env)
@@ -281,9 +282,17 @@ Module KmersTool
                 seqs = seqs.ToArray.Take(test)
             End If
 
-            For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs.ToArray)
-                Call vecs.Add(New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
-            Next
+            If parallel Then
+                Call vecs.AddRange(From seq As FastaSeq
+                                   In seqs _
+                                       .ToArray _
+                                       .AsParallel
+                                   Select New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
+            Else
+                For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs.ToArray)
+                    Call vecs.Add(New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
+                Next
+            End If
 
             If as_matrix Then
                 Return New DataMatrix(vecs.Keys, From v As ClusterEntity In vecs Select v.entityVector)
