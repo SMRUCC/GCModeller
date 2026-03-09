@@ -584,6 +584,7 @@ Module KmersTool
         If Not ncbi_taxonomy Is Nothing Then
             filtered = filtered.ToArray _
                 .Select(Function(r)
+                            ' just addthe ncbi taxonomy tree lineage information at here 
                             Dim node As TaxonomyNode() = ncbi_taxonomy.GetAscendantsWithRanksAndNames(r.TaxID, only_std_ranks:=True)
 
                             If node Is Nothing Then

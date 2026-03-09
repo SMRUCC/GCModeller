@@ -298,8 +298,8 @@ Module OTUTableTools
     ''' <returns></returns>
     <ExportAPI("as.hts_matrix")>
     <RApiReturn(GetType(Matrix))>
-    Public Function cast_matrix(otu_table As OTUTable()) As Object
-        Return otu_table.CastMatrix
+    Public Function cast_matrix(otu_table As OTUTable(), Optional taxon_as_id As Boolean = True) As Object
+        Return otu_table.CastMatrix(taxon_as_id:=True)
     End Function
 
     <ExportAPI("read.rankdata")>
