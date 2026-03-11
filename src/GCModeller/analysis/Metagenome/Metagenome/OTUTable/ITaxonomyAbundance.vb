@@ -22,6 +22,13 @@ Public Class ContigResult : Implements ITaxonomyAbundance
 
 End Class
 
+Public Interface ITaxonomy(Of T As IComparable)
+
+    Property ncbi_taxid As T
+    Property taxonomy_string As String
+
+End Interface
+
 Public Module OTUTableBuilder
 
     <Extension>

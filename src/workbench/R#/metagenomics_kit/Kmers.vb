@@ -568,6 +568,7 @@ Module KmersTool
                                           <RRawVectorArgument(TypeCodes.integer)>
                                           taxids As Object,
                                           Optional ncbi_taxonomy As NcbiTaxonomyTree = Nothing,
+                                          Optional strict As Boolean = True,
                                           Optional env As Environment = Nothing) As Object
 
         Dim taxIndex As Index(Of Long) = CLRVector.asLong(taxids)
@@ -575,6 +576,15 @@ Module KmersTool
 
         If kraken2.isError Then
             Return kraken2.getError
+        ElseIf (Not strict) AndAlso ncbi_taxonomy IsNot Nothing Then
+            ' add upper range
+            Dim alltaxlist As New List(Of Long)(taxIndex.Objects)
+
+            For Each id As Long In taxIndex.Objects
+
+            Next
+
+            taxIndex = alltaxlist.Indexing
         End If
 
         Dim filtered = From c As KrakenOutputRecord
