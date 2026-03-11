@@ -592,20 +592,7 @@ Module KmersTool
                        Where c.TaxID Like taxIndex
 
         If Not ncbi_taxonomy Is Nothing Then
-            filtered = filtered.ToArray _
-                .Select(Function(r)
-                            ' just addthe ncbi taxonomy tree lineage information at here 
-                            Dim node As TaxonomyNode() = ncbi_taxonomy.GetAscendantsWithRanksAndNames(r.TaxID, only_std_ranks:=True)
-
-                            If node Is Nothing Then
-                                r.Taxonomy = "Unknown"
-                            Else
-                                r.Taxonomy = New SMRUCC.genomics.Metagenomics.Taxonomy(node).ToString(BIOMstyle:=True)
-                            End If
-
-                            Return r
-                        End Function) _
-                .ToArray
+            filtered = filtered.TaxonomyAssignment(ncbi_taxonomy).ToArray
         End If
 
         Return pipeline.CreateFromPopulator(filtered)
