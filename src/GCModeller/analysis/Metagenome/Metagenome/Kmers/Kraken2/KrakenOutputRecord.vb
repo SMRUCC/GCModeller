@@ -1,10 +1,8 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.ComponentModel
 
 Namespace Kmers.Kraken2
 
@@ -14,7 +12,7 @@ Namespace Kmers.Kraken2
     ''' <remarks>
     ''' --output 文件是 read-centric 的，关注点是“每一条 read 被分到了哪里”。
     ''' </remarks>
-    Public Class KrakenOutputRecord
+    Public Class KrakenOutputRecord : Implements ITaxonomy(Of Integer)
 
         ' [状态码/分类代码]\t[Read名称]\t[TaxID]\t[Read长度]\t[LCA映射详情]
 
@@ -35,13 +33,13 @@ Namespace Kmers.Kraken2
         ''' 这是 Kraken2 最终分配给该 read 的分类单元的 NCBI Taxonomy ID。这个分类单元是该 read 上所有 k-mer 的最低共同祖先。
         ''' </summary>
         ''' <returns></returns>
-        <Column("taxid")> Public Property TaxID As Integer
+        <Column("taxid")> Public Property TaxID As Integer Implements ITaxonomy(Of Integer).ncbi_taxid
 
         ''' <summary>
         ''' biom style taxonomy string
         ''' </summary>
         ''' <returns></returns>
-        <Column("tax_name")> Public Property Taxonomy As String
+        <Column("tax_name")> Public Property Taxonomy As String Implements ITaxonomy(Of Integer).taxonomy_string
         <Column("lca_support")> Public Property LCASupport As Double
         <Column("lca_taxids")> Public Property LCATaxids As Integer()
 
