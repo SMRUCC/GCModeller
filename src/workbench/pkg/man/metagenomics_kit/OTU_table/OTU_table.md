@@ -15,6 +15,7 @@ Tools for handling OTU table data
 >  even better the use Of exact amplicon sequence variants (ASV) instead Of OTU sequence 
 >  clusters.
 
++ [sample_id](OTU_table/sample_id.1) get sample id from the otu table
 + [relative_abundance](OTU_table/relative_abundance.1) Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
 + [average](OTU_table/average.1) 
 + [median_scale](OTU_table/median_scale.1) 

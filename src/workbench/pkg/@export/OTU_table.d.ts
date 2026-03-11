@@ -49,7 +49,7 @@ declare namespace OTU_table {
    /**
      * @param env default value Is ``null``.
    */
-   function average(x: any, sampleinfo: any, env?: object): any;
+   function average(x: any, sampleinfo: any, env?: object): object;
    /**
     * combine of two batch data
     * 
@@ -150,6 +150,16 @@ declare namespace OTU_table {
      * @param x -
    */
    function relative_abundance(x: object): object;
+   /**
+    * get sample id from the otu table
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function sample_id(x: any, env?: object): any;
    /**
      * @param rank default value Is ``null``.
      * @param sum_duplicates default value Is ``false``.

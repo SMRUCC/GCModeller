@@ -132,6 +132,23 @@ Module OTUTableTools
     End Function
 
     ''' <summary>
+    ''' get sample id from the otu table
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("sample_id")>
+    Public Function sample_id(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of OTUTable)(env).PropertyNames
+    End Function
+
+    ''' <summary>
     ''' Transform abundance data in an otu_table to relative abundance, sample-by-sample. 
     ''' 
     ''' Transform abundance data into relative abundance, i.e. proportional data. This is 
@@ -159,6 +176,7 @@ Module OTUTableTools
     End Function
 
     <ExportAPI("average")>
+    <RApiReturn(GetType(OTUTable))>
     Public Function average(<RRawVectorArgument> x As Object, <RRawVectorArgument> sampleinfo As Object, Optional env As Environment = Nothing) As Object
         Dim otus As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(x, env)
         Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(sampleinfo, env)
