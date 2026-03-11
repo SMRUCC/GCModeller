@@ -90,11 +90,13 @@ declare namespace kmers {
      * @param taxids a set of the target taxonomy id to make filter
      * @param ncbi_taxonomy 
      * + default value Is ``null``.
+     * @param strict 
+     * + default value Is ``true``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function filter_classification(kraken_output: any, taxids: any, ncbi_taxonomy?: object, env?: object): object;
+   function filter_classification(kraken_output: any, taxids: any, ncbi_taxonomy?: object, strict?: boolean, env?: object): object;
    /**
     * 
     * 
