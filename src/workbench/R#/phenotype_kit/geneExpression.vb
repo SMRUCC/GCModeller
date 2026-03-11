@@ -63,6 +63,7 @@
 
 #End Region
 
+Imports System.Composition
 Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
@@ -334,17 +335,55 @@ Module geneExpression
     ''' corresponding gene id.</returns>
     <ExportAPI("as.expr_list")>
     Public Function createVectorList(expr0 As Matrix, Optional dataset As Boolean = False) As list
+        Dim nr_genes = expr0.expression.GroupBy(Function(a) a.geneID)
+        Dim sample_ids As String() = expr0.sampleID
+
         Return New list With {
-            .slots = expr0.expression _
-                .ToDictionary(Function(a) a.geneID,
-                              Function(a) As Object
-                                  If dataset Then
-                                      Return a.ToDataSet(expr0.sampleID)
-                                  Else
-                                      Return a.experiments
-                                  End If
+            .slots = nr_genes _
+                .ToDictionary(Function(a) a.Key,
+                              Function(group) As Object
+                                  Return group.expressionData(sample_ids, dataset)
                               End Function)
         }
+    End Function
+
+    <Extension>
+    Private Function expressionData(group As IGrouping(Of String, DataFrameRow), sample_ids As String(), dataset As Boolean) As Object
+        If group.Count = 1 Then
+            Dim a = group.First
+
+            If dataset Then
+                Return a.ToDataSet(sample_ids)
+            Else
+                Return a.experiments
+            End If
+        Else
+            If dataset Then
+                Dim v As New Dictionary(Of String, Double)
+
+                For Each duplicated As DataFrameRow In group
+                    Dim list = duplicated.ToDataSet(sample_ids)
+
+                    For Each sample As KeyValuePair(Of String, Double) In list
+                        If v.ContainsKey(sample.Key) Then
+                            v(sample.Key) += sample.Value
+                        Else
+                            v.Add(sample.Key, sample.Value)
+                        End If
+                    Next
+                Next
+
+                Return v
+            Else
+                Dim v As std_vec = Nothing
+
+                For Each duplicated As DataFrameRow In group
+                    v = v + duplicated.CreateVector
+                Next
+
+                Return v.ToArray
+            End If
+        End If
     End Function
 
     ''' <summary>
