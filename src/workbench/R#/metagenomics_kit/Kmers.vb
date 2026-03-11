@@ -10,6 +10,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
+Imports Microsoft.VisualBasic.MIME.application.xml
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -581,7 +582,11 @@ Module KmersTool
             Dim alltaxlist As New List(Of Long)(taxIndex.Objects)
 
             For Each id As Long In taxIndex.Objects
+                Dim parent = ncbi_taxonomy.GetParent(id)
 
+                If parent IsNot Nothing Then
+                    Call alltaxlist.Add(parent.taxid)
+                End If
             Next
 
             taxIndex = alltaxlist.Indexing
