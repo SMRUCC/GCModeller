@@ -81,6 +81,38 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <Package("annotation.workflow", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module workflows
 
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BlastnMapping()), AddressOf blastn_table)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function blastn_table(blastn As BlastnMapping(), args As list, env As Environment) As Object
+        Dim tbl As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call tbl.add("query", From n As BlastnMapping In blastn Select n.ReadQuery)
+        Call tbl.add("reference", From n As BlastnMapping In blastn Select n.Reference)
+        Call tbl.add("query_len", From n As BlastnMapping In blastn Select n.QueryLength)
+        Call tbl.add("score(bits)", From n As BlastnMapping In blastn Select n.Score)
+        Call tbl.add("score(raw)", From n As BlastnMapping In blastn Select n.RawScore)
+        Call tbl.add("e-value", From n As BlastnMapping In blastn Select n.Evalue)
+        Call tbl.add("identities%", From n As BlastnMapping In blastn Select n.identitiesValue)
+        Call tbl.add("identities", From n As BlastnMapping In blastn Select n.IdentitiesFraction)
+        Call tbl.add("gaps%", From n As BlastnMapping In blastn Select n.gapsValue)
+        Call tbl.add("gaps", From n As BlastnMapping In blastn Select n.GapsFraction)
+        Call tbl.add("query_strand", From n As BlastnMapping In blastn Select n.QueryStrand)
+        Call tbl.add("reference_strand", From n As BlastnMapping In blastn Select n.ReferenceStrand)
+        Call tbl.add("strand", From n As BlastnMapping In blastn Select n.Strand)
+        Call tbl.add("query_left", From n As BlastnMapping In blastn Select n.QueryLeft)
+        Call tbl.add("query_right", From n As BlastnMapping In blastn Select n.QueryRight)
+        Call tbl.add("reference_left", From n As BlastnMapping In blastn Select n.ReferenceLeft)
+        Call tbl.add("reference_right", From n As BlastnMapping In blastn Select n.ReferenceRight)
+        Call tbl.add("is_unique", From n As BlastnMapping In blastn Select n.Unique)
+        Call tbl.add("is_full_len", From n As BlastnMapping In blastn Select n.AlignmentFullLength)
+        Call tbl.add("is_perfect", From n As BlastnMapping In blastn Select n.PerfectAlignment)
+
+        Return tbl
+    End Function
+
     ''' <summary>
     ''' Open the blast output text file for parse data result.
     ''' </summary>
@@ -115,6 +147,7 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("blastn.maphit")>
+    <RApiReturn(GetType(BlastnMapping))>
     Public Function parseBlastnMaps(query As pipeline,
                                     Optional top_best As Boolean = False,
                                     Optional env As Environment = Nothing) As pipeline

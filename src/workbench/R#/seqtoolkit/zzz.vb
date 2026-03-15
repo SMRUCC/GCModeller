@@ -61,5 +61,6 @@ Public Class zzz
         Call patterns.Main()
         Call uniprotTools.Main()
         Call terms.Main()
+        Call workflows.Main()
     End Sub
 End Class
