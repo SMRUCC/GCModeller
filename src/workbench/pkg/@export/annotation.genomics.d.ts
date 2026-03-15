@@ -24,6 +24,10 @@ declare namespace annotation.genomics {
       function tabular(genes: object, title?: string, size?: object, format?: string, env?: object): object;
    }
    /**
+     * @param env default value Is ``null``.
+   */
+   function extract_gff_seqs(gff3: object, seqs: any, env?: object): any;
+   /**
     * Extract all gene features from a given genomics context assembly data
     * 
     * 
@@ -54,6 +58,10 @@ declare namespace annotation.genomics {
    function operon_set(file?: string): object;
    module read {
       /**
+       * read the gff3 file
+       * 
+       * 
+        * @param file -
       */
       function gff(file: string): object;
       /**
