@@ -228,7 +228,7 @@ Module genomics
                                     Optional file$ = Nothing,
                                     Optional encoding As Encodings = Encodings.ASCII,
                                     Optional env As Environment = Nothing) As Object
-        Dim dev As StreamWriter
+        Dim dev As System.IO.StreamWriter
 
         If file.StringEmpty Then
             ' std_output
