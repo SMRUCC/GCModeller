@@ -1,8 +1,10 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports std = System.Math
 
 Public Module SequenceParser
 
@@ -14,12 +16,14 @@ Public Module SequenceParser
                               Return s.Title
                           End Function)
 
-        For Each feature As Feature In gff.features
-            Dim parent_id As String = feature.attributes("Parent")
+        For Each feature As Feature In TqdmWrapper.Wrap(gff.features)
+            Dim parent_id As String = feature.attributes("parent")
             Dim title As String = $"{parent_id} {feature.feature}.{feature.frame} [{feature.start}-{feature.ends}]"
-            Dim chr_id As String = feature.source
+            Dim chr_id As String = feature.seqname
             Dim seq As FastaSeq = seqdata(chr_id)
-            Dim seq_cut As SimpleSegment = seq.CutSequenceLinear(feature.start, feature.ends, title)
+            Dim left = std.Min(feature.start, feature.ends)
+            Dim right = std.Max(feature.start, feature.ends)
+            Dim seq_cut As SimpleSegment = seq.CutSequenceLinear(left, right, title)
 
             Yield New FastaSeq(seq_cut)
         Next
