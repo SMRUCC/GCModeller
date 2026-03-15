@@ -72,6 +72,19 @@ declare namespace bioseq.fasta {
       function titles(fa: any, env?: object): string;
    }
    /**
+    * make sequence list index
+    * 
+    * 
+     * @param x -
+     * @param ids -
+     * 
+     * + default value Is ``null``.
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function list_index(x: any, ids?: any, env?: object): any;
+   /**
      * @param env default value Is ``null``.
    */
    function make_clusterTree(fingerprints: any, env?: object): object;
