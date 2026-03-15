@@ -62,6 +62,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -456,6 +457,47 @@ Module Fasta
 
             Return subset
         End If
+    End Function
+
+    ''' <summary>
+    ''' make sequence list index
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="ids"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("list_index")>
+    Public Function list_index(<RRawVectorArgument> x As Object,
+                               <RRawVectorArgument>
+                               Optional ids As Object = Nothing,
+                               Optional env As Environment = Nothing) As Object
+
+        Dim collection As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If collection Is Nothing Then
+            Return REnv.Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+        End If
+
+        Dim seqs As FastaSeq() = collection.ToArray
+        Dim idset As String() = CLRVector.asCharacter(ids)
+
+        If idset.IsNullOrEmpty Then
+            idset = seqs _
+                .Select(Function(s)
+                            Return s.Headers.First.Split.First
+                        End Function) _
+                .ToArray
+        End If
+
+        idset = idset.UniqueNames
+
+        Dim index As New Dictionary(Of String, Object)
+
+        For i As Integer = 0 To idset.Length - 1
+            Call index.Add(idset(i), seqs(i))
+        Next
+
+        Return New list(index)
     End Function
 
     ''' <summary>
