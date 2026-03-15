@@ -73,7 +73,7 @@ Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
-    'http://www.sanger.ac.uk/resources/software/gff/spec.html
+    ' http://www.sanger.ac.uk/resources/software/gff/spec.html
 
     ''' <summary>
     ''' GFF (General Feature Format) specifications document

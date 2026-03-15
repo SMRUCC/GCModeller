@@ -259,6 +259,11 @@ AAGCGAACAAATGTTCTATA"
             Me.Headers = (attributeParser Or defaultTitleAttributes)(seq.title)
         End Sub
 
+        Sub New(seq As SimpleSegment)
+            Me.SequenceData = seq.SequenceData
+            Me.Headers = {seq.ID}
+        End Sub
+
         Sub New(attrs$(), seq As IPolymerSequenceModel)
             Call Me.New(attrs, seq.SequenceData)
         End Sub
