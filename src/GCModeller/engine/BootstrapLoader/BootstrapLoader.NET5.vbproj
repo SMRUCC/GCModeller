@@ -16,7 +16,7 @@
 		<PackageIcon>logo.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;gcmodeller_desktop</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;gcmodeller_desktop;CellaLAB-Desktop</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
@@ -91,6 +91,17 @@
 		<DebugType>full</DebugType>
 		<DefineDebug>false</DefineDebug>
     <OutputPath>../../../workbench/win32_desktop\Apps\Rstudio\host\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
+	  <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.xml</DocumentationFile>
+	  <DefineConstants>netcore5=1,UNIX=0</DefineConstants>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <OutputPath>../../../workbench/win32_desktop\Apps\Rstudio\host\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
@@ -175,12 +186,27 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0-windows|AnyCPU'">
+	  <RemoveIntegerChecks>True</RemoveIntegerChecks>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net8.0|AnyCPU'">
 	  <RemoveIntegerChecks>True</RemoveIntegerChecks>
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0|AnyCPU'">
+	  <RemoveIntegerChecks>True</RemoveIntegerChecks>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|AnyCPU'">
+	  <RemoveIntegerChecks>True</RemoveIntegerChecks>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|AnyCPU'">
 	  <RemoveIntegerChecks>True</RemoveIntegerChecks>
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
@@ -276,11 +302,23 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0-windows|x64'">
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net8.0|x64'">
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0|x64'">
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='gcmodeller_desktop|net48|x64'">
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|x64'">
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 

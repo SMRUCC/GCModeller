@@ -5,7 +5,7 @@
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSEA.Fisher.Core</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;Desktop;MEMI-Desktop</Configurations>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;Desktop;MEMI-Desktop;CellaLAB-Desktop</Configurations>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Company>SMRUCC genomics institute</Company>
@@ -71,6 +71,11 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.Fisher.Core.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.Fisher.Core.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -106,6 +111,18 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.Fisher.Core.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSEA.Fisher.Core.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>

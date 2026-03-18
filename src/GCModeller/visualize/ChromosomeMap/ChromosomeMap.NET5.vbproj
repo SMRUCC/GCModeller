@@ -5,7 +5,7 @@
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Visualize.ChromosomeMap</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;CellaLAB-Desktop</Configurations>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageIcon>logo.png</PackageIcon>
@@ -30,12 +30,22 @@
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Visualize.ChromosomeMap.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <DocumentationFile>SMRUCC.genomics.Visualize.ChromosomeMap.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Visualize.ChromosomeMap.xml</DocumentationFile>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <DocumentationFile>SMRUCC.genomics.Visualize.ChromosomeMap.xml</DocumentationFile>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>

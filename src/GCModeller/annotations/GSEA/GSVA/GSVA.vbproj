@@ -7,7 +7,7 @@
     <PackageReleaseNotes>Gene set variation analysis</PackageReleaseNotes>
     <PackageTags>GSVA</PackageTags>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;CellaLAB-Desktop</Configurations>
     <AssemblyName>SMRUCC.genomics.Analysis.HTS.GSVA</AssemblyName>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
@@ -29,6 +29,10 @@
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSVA.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSVA.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSVA.xml</DocumentationFile>
   </PropertyGroup>
@@ -38,6 +42,10 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSVA.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <DocumentationFile>SMRUCC.genomics.Analysis.HTS.GSVA.xml</DocumentationFile>
   </PropertyGroup>
 

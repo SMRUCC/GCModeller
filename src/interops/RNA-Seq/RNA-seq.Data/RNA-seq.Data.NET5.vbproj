@@ -5,7 +5,7 @@
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.SequenceModel.RNA-seq.Data</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;LipidSearch;mzkit;NPSearch;Rsharp_app_release;CellaLAB-Desktop</Configurations>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -43,6 +43,10 @@
     <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NPSearch|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
   </PropertyGroup>
@@ -67,6 +71,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <DocumentationFile>SMRUCC.genomics.SequenceModel.RNA-seq.Data.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>

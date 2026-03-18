@@ -17,7 +17,7 @@
 		<PackageIcon>logo.png</PackageIcon>
 		<RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
 		<Platforms>AnyCPU;x64</Platforms>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;PlantMAT;mzkit;NPSearch;CellaLAB-Desktop</Configurations>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<Description>The core runtime module of sciBASIC# scientific computing project.</Description>
@@ -70,6 +70,10 @@
 		<DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+	  <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|AnyCPU'">
 		<DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
 	</PropertyGroup>
@@ -114,6 +118,19 @@
 		<DefineDebug>false</DefineDebug>
 		<DefineTrace>true</DefineTrace>
 		<OutputPath>../../../workbench/pkg/assembly\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
+	  <DocumentationFile>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Debugger.xml</DocumentationFile>
+	  <DefineConstants>netcore5=1,UNIX=1,FRAMEWORD_CORE=1</DefineConstants>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <BaseAddress>4194304</BaseAddress>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineTrace>true</DefineTrace>
+	  <OutputPath>../../../workbench/pkg/assembly\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='PlantMAT|x64'">
@@ -245,7 +262,21 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0-windows|AnyCPU'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|AnyCPU'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0|AnyCPU'">
 	  <BaseAddress />
 	  <PlatformTarget>x64</PlatformTarget>
 	  <DebugType>full</DebugType>
@@ -259,7 +290,21 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|AnyCPU'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|x64'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0-windows|x64'">
 	  <BaseAddress />
 	  <PlatformTarget>x64</PlatformTarget>
 	  <DebugType>full</DebugType>
@@ -273,7 +318,21 @@
 	  <DefineTrace>True</DefineTrace>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net8.0|x64'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net48|x64'">
+	  <BaseAddress />
+	  <PlatformTarget>x64</PlatformTarget>
+	  <DebugType>full</DebugType>
+	  <DefineTrace>True</DefineTrace>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='CellaLAB-Desktop|net48|x64'">
 	  <BaseAddress />
 	  <PlatformTarget>x64</PlatformTarget>
 	  <DebugType>full</DebugType>

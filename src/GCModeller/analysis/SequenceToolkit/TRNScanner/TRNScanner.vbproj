@@ -4,7 +4,7 @@
     <RootNamespace>TRNScanner</RootNamespace>
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;gcmodeller_desktop</Configurations>
+    <Configurations>Debug;Release;gcmodeller_desktop;CellaLAB-Desktop</Configurations>
     <AssemblyTitle>Parallel task for scan motif site on sequence database</AssemblyTitle>
     <UseApplicationFramework>True</UseApplicationFramework>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -34,7 +34,18 @@
     <DefineTrace>True</DefineTrace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DefineTrace>True</DefineTrace>
+    <OutputPath>../../../../../../../../../../BlueprintCAD\App</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <RemoveIntegerChecks>True</RemoveIntegerChecks>
     <DefineTrace>True</DefineTrace>
     <OutputPath>../../../../../../../../../../BlueprintCAD\App</OutputPath>

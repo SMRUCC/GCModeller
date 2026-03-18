@@ -5,7 +5,7 @@
     <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;MEMI-Desktop;nuget_release</Configurations>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;MEMI-Desktop;nuget_release;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <Company>SMRUCC genomics institute</Company>
@@ -52,6 +52,10 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
@@ -91,6 +95,17 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
