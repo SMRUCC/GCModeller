@@ -194,11 +194,20 @@ Public Class ProteinAnnotator
 
     ''' <summary>
     ''' 使用Viterbi算法计算序列得分
+    ''' 正确处理Profile HMM的三种状态（M, I, D)及其转移
     ''' </summary>
     ''' <param name="sequence">氨基酸序列</param>
     ''' <param name="model">Profile HMM模型</param>
-    ''' <returns>Viterbi得分</returns>
-    Private Function CalculateViterbiScore(sequence As String, model As ProfileHMM) As Double
+    ''' <returns>比特得分</returns>
+    ''' <remarks>
+    ''' HMMER3模型中的概率都是对数几率比（log-odds scores)
+    ''' - 发射概率: 20个氨基酸的对数几率
+    ''' - 插入发射概率: 20个氨基酸的对数几率
+    ''' - 转移概率: 7个转移概率 (m->m, m->i, m->d, i->m, i->i, d->m, d->d)
+    ''' 
+    ''' 在计算时， 我们直接相加这些对数几率
+    ''' </remarks>
+    Public Function CalculateViterbiScore(sequence As String, model As ProfileHMM) As Double
         Dim seqLength As Integer = sequence.Length
         Dim modelLength As Integer = model.MatchEmissions.Count
 
@@ -206,92 +215,135 @@ Public Class ProteinAnnotator
             Return 0.0
         End If
 
-        ' 使用简化的Viterbi算法
-        ' 状态：M(匹配), I(插入), D(删除)
-        ' 使用对数空间计算以避免下溢
-
-        Dim NEG_INF As Double = Double.NegativeInfinity
+        ' 定义负无穷大
+        Const NEG_INF As Double = Double.NegativeInfinity
 
         ' 初始化DP矩阵
-        Dim M As Double() = New Double(modelLength) {}  ' 匹配状态
-        Dim I As Double() = New Double(modelLength) {}  ' 插入状态
-        Dim D As Double() = New Double(modelLength) {}  ' 删除状态
+        ' M(k,j) 表示：序列位置i，模型位置k，处于匹配状态的最大得分
+        ' I(k,j) 表示：序列位置i，模型位置k, 处于插入状态的最大得分
+        ' D(k,j) 表示：序列位置i，模型位置k, 处于删除状态的最大得分
+        ' 注意：在HMMER3中，状态索引从1开始
+        Dim M As Double() = New Double(modelLength + 1) {}
+        Dim I As Double() = New Double(modelLength + 1) {}
+        Dim D As Double() = New Double(modelLength + 1) {}
 
-        ' 初始化第一列
-        For idx As Integer = 0 To modelLength
-            M(idx) = NEG_INF
-            I(idx) = NEG_INF
-            D(idx) = NEG_INF
-        Next
-
-        ' 初始状态
+        ' 初始化：从虚拟的起始状态开始
+        ' 在HMMER3中，通常有一个隐式的开始状态
+        ' M(0) = 0, I(0) = -inf, D(0) = -inf (简化处理)
         M(0) = 0.0
+        I(0) = NEG_INF
+        D(0) = NEG_INF
 
         ' 处理第一个残基
         Dim firstAA As Char = Char.ToUpper(sequence(0))
         Dim firstAAIdx As Integer = GetAminoAcidIndex(firstAA)
 
-        If firstAAIdx >= 0 AndAlso model.MatchEmissions.Count > 0 Then
+        ' 对于第一个残基，我们可以从M(0)转移到M(1), I(1), 或 D(1)
+        ' 或者直接开始匹配
+        If firstAAIdx >= 0 Then
             Dim emissionScore As Double = GetEmissionScore(model, 0, firstAAIdx)
-            M(1) = emissionScore
+            Dim transM As Double = GetTransitionScore(model, 0, 0) ' M_0 -> M_1
+            M(1) = M(0) + transM + emissionScore
+
+            ' 也可以选择插入状态
+            Dim transI As Double = GetTransitionScore(model, 0, 1) ' M_0 -> I_1
+            Dim insertEmissionScore As Double = GetInsertEmissionScore(model, 0, firstAAIdx)
+            I(1) = M(0) + transI + insertEmissionScore
+
+            ' 删除状态
+            Dim transD As Double = GetTransitionScore(model, 0, 2)
+            D(1) = M(0) + transD
         End If
 
-        ' 动态规划
+        ' 动态规划：处理剩余的残基
         For pos As Integer = 1 To seqLength - 1
             Dim aa As Char = Char.ToUpper(sequence(pos))
             Dim aaIdx As Integer = GetAminoAcidIndex(aa)
 
-            Dim newM As Double() = New Double(modelLength) {}
-            Dim newI As Double() = New Double(modelLength) {}
-            Dim newD As Double() = New Double(modelLength) {}
+            ' 如果是未知氨基酸，跳过
+            If aaIdx < 0 Then Continue For
 
-            For idx As Integer = 0 To modelLength
-                newM(idx) = NEG_INF
-                newI(idx) = NEG_INF
-                newD(idx) = NEG_INF
+            ' 新的状态数组
+            Dim newM As Double() = New Double(modelLength + 1) {}
+            Dim newI As Double() = New Double(modelLength + 1) {}
+            Dim newD As Double() = New Double(modelLength + 1) {}
+
+            ' 初始化新状态
+            For k As Integer = 0 To modelLength
+                newM(k) = NEG_INF
+                newI(k) = NEG_INF
+                newD(k) = NEG_INF
             Next
 
-            If aaIdx >= 0 Then
-                For k As Integer = 1 To modelLength
-                    ' 计算匹配状态得分
-                    Dim emissionScore As Double = GetEmissionScore(model, k - 1, aaIdx)
+            ' 对每个模型位置k (从1到modelLength)
+            For k As Integer = 1 To modelLength
+                ' 计算匹配状态得分 M(k)
+                ' M(k) 可以从以下状态转移而来：
+                ' 1. 从M(k-1)通过m->m转移
+                Dim transMM As Double = GetTransitionScore(model, k - 1, 0)
+                Dim fromM As Double = M(k - 1) + transMM
 
-                    ' 从M(k-1)转移到M(k)
-                    Dim transMM As Double = GetTransitionScore(model, k - 1, 0)
-                    Dim scoreFromM As Double = M(k - 1) + transMM + emissionScore
+                ' 2. 从I(k-1)通过i->m转移
+                Dim transIM As Double = GetTransitionScore(model, k - 1, 3)
+                Dim fromI As Double = I(k - 1) + transIM
 
-                    ' 从I(k-1)转移到M(k)
-                    Dim transIM As Double = GetTransitionScore(model, k - 1, 3)
-                    Dim scoreFromI As Double = I(k - 1) + transIM + emissionScore
+                ' 3. 从D(k-1)通过d->m转移
+                Dim transDM As Double = GetTransitionScore(model, k - 1, 5)
+                Dim fromD As Double = D(k - 1) + transDM
 
-                    ' 从D(k-1)转移到M(k)
-                    Dim transDM As Double = GetTransitionScore(model, k - 1, 5)
-                    Dim scoreFromD As Double = D(k - 1) + transDM + emissionScore
+                ' 计算发射得分
+                Dim emissionScore As Double = GetEmissionScore(model, k, aaIdx)
 
-                    newM(k) = Math.Max(Math.Max(scoreFromM, scoreFromI), scoreFromD)
+                ' 取最大值
+                newM(k) = Math.Max(Math.Max(fromM, fromI), fromD) + emissionScore
 
-                    ' 计算插入状态得分
-                    Dim transMI As Double = GetTransitionScore(model, k - 1, 1)
-                    Dim insertScore As Double = GetInsertEmissionScore(model, k - 1, aaIdx)
-                    newI(k) = M(k) + transMI + insertScore
+                ' 计算插入状态得分 I(k)
+                ' I(k) 可以从以下状态转移而来：
+                ' 1. 从M(k)通过m->i转移
+                Dim transMI As Double = GetTransitionScore(model, k, 1)
+                fromM = M(k) + transMI
 
-                    ' 计算删除状态得分
-                    Dim transMD As Double = GetTransitionScore(model, k - 1, 2)
-                    Dim transDD As Double = GetTransitionScore(model, k - 1, 6)
-                    newD(k) = Math.Max(M(k - 1) + transMD, D(k - 1) + transDD)
-                Next
-            End If
+                ' 2. 从I(k)通过i->i转移
+                Dim transII As Double = GetTransitionScore(model, k, 4)
+                fromI = I(k) + transII
+
+                ' 计算插入发射得分
+                Dim insertEmissionScore As Double = GetInsertEmissionScore(model, k, aaIdx)
+
+                ' 取最大值
+                newI(k) = Math.Max(fromM, fromI) + insertEmissionScore
+
+                ' 计算删除状态得分 D(k)
+                ' D(k) 可以从以下状态转移而来：
+                '  局部比对中，删除状态通常只从M(k-1)或D(k-1)转移
+                ' 1. 从M(k-1)通过m->d转移
+                Dim transMD As Double = GetTransitionScore(model, k, 2)
+                fromM = M(k - 1) + transMD
+
+                ' 2. 从D(k-1)通过d->d转移
+                Dim transDD As Double = GetTransitionScore(model, k, 6)
+                fromD = D(k - 1) + transDD
+
+                ' 取最大值 (删除状态没有发射得分)
+                newD(k) = Math.Max(fromM, fromD)
+            Next
 
             ' 更新状态
-            Array.Copy(newM, M, modelLength + 1)
-            Array.Copy(newI, I, modelLength + 1)
-            Array.Copy(newD, D, modelLength + 1)
+            For k As Integer = 0 To modelLength
+                M(k) = newM(k)
+                I(k) = newI(k)
+                D(k) = newD(k)
+            Next
         Next
 
-        ' 返回最终得分
+        ' 计算最终得分
+        ' 在HMMER3中，最终得分是所有结束状态的最大值
+        ' 简化处理：取M(modelLength)的最大值
         Dim finalScore As Double = NEG_INF
         For k As Integer = 1 To modelLength
-            finalScore = Math.Max(finalScore, M(k))
+            If M(k) > finalScore Then
+                finalScore = M(k)
+            End If
         Next
 
         If Double.IsNegativeInfinity(finalScore) Then
