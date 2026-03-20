@@ -7,11 +7,9 @@
 ' Copyright (c) 2024 GPL3 Licensed
 ' ============================================================================
 
-Imports System.IO
-Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports HMMER3
-Imports HMMER3.HMMER3
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace HMMER3.Examples
@@ -29,12 +27,12 @@ Namespace HMMER3.Examples
             Dim annotator As New ProteinAnnotator()
 
             ' 加载HMMER3模型文件
-            annotator.LoadModel("K00001.hmm.txt")
+            annotator.LoadModel("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\test\K02313.hmm.txt")
 
             ' 创建蛋白质序列
             Dim protein As New FastaSeq With {
-                .Headers = {"test_protein_1", "Test protein sequence"},
-                .SequenceData = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
+                .Headers = {"dnaA", "chromosomal replication initiator protein"},
+                .SequenceData = "MSNSNFSIEEHFPDMWDAIMHDWLADSSSANPDPDLPVISPKQRSLLRKVTPVGLMGRIVVLETPNKWTKESIEKDLIDPIKHVLKTRLDLSVSLAITSTNGESENRAEAADDSHTRVDAVGDTHEGASQKGSVATADDLSMSQVEELVNKAEQRDGASQAGVSSAAETAEEAARRREHDADELAGQYSATENHIDPNPSPTPTRWTNKETAHRPAPRHTSPHTPSPQPSSSFNDGLDGESLLNKNYTFENFVVGSSNNFAAAACRAVAEAPAKAYNPLFIWGESGLGKTHLLHAIGHYAKELQPNMRVKYVSSEELTNDFINSIANDTRESFKRRYRNLDMLIVDDIQFLQNKESTQEEFFHTFNALHQANKQIVLSSDRPPRQLTTLEDRLRTRFEGGLITDVQTPDLETRIAILTKKAESDNVQLPEDVKVLIASRYEKSIRELDGALIRVTAYCALSHEPLTVETAEIALRDISPADQDVEIVPQHVIEVVANYFNLTTDELVGKGRAKKFVQARQIAMYLCRELTDLSLPKLGSAFGGRDHTTVMYAERRVRESLSENKKVFDQVQELTQKIKSHARD"
             }
 
             ' 进行注释

@@ -2,6 +2,6 @@ Imports System
 
 Module Program
     Sub Main(args As String())
-        Console.WriteLine("Hello World!")
+        HMMER3.Examples.Example1_BasicUsage()
     End Sub
 End Module
