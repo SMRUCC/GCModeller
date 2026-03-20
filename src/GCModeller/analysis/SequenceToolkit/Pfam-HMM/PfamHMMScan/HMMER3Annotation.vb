@@ -1,3 +1,10 @@
+Imports System.IO
+Imports System.Text
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports Microsoft.VisualBasic.My.JavaScript
+
 ' ============================================================================
 ' HMMER3蛋白质序列分类注释完整模块
 ' 
@@ -22,12 +29,6 @@
 '   annotator.AnnotateAll(proteins)
 '   File.WriteAllText("results.tsv", AnnotationOutput.ToTsv(proteins))
 ' ============================================================================
-
-Imports System.IO
-Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
-Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace HMMER3
 
@@ -960,7 +961,7 @@ Namespace HMMER3
             ' 初始化第一列
             For i As Integer = 0 To modelLength
                 M(i) = NEG_INF
-                I(i) = NEG_INF
+                i(i) = NEG_INF
                 D(i) = NEG_INF
             Next
 
@@ -1099,7 +1100,7 @@ Namespace HMMER3
         Private Function CalculateConfidence(bitScore As Double, eValue As Double) As Double
             ' 基于比特得分和E值计算置信度
             ' 使用sigmoid函数将得分映射到[0,1]区间
-            Dim x As Double = bitScore / 100.0 - Math.Log10(Math.Max(eValue, 1e-300))
+            Dim x As Double = bitScore / 100.0 - Math.Log10(Math.Max(eValue, 1.0E-300))
             Return 1.0 / (1.0 + Math.Exp(-x))
         End Function
 
