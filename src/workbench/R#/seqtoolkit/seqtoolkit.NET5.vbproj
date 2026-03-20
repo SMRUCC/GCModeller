@@ -110,6 +110,7 @@
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\gwANI\gwANI.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifFinder\MotifFinder.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\MotifScanner\MotifScanner.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMMER3.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceAlignment\SequenceAlignment.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequenceLogo\SequenceLogo.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\SequenceToolkit\SequencePatterns.Abstract\SequencePatterns.Abstract.NET5.vbproj" />

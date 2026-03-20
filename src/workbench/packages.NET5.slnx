@@ -1985,6 +1985,34 @@
       <BuildType Solution="Voyager1|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
+    <Project Path="../GCModeller/analysis/SequenceToolkit/Pfam-HMM/PfamHMMScan/HMMER3.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep|*" Project="Release" />
+      <BuildType Solution="Biostack-Debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biostack|*" Project="Rsharp_app_release" />
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="DEMO|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Desktop|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="docs|*" Project="Release" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="installer_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="MetaCardio|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
+      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Voyager1|*" Project="mzkit_win32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../GCModeller/data/GO_gene-ontology/GO_Annotation/GO_Annotation.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Debug" />
       <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
