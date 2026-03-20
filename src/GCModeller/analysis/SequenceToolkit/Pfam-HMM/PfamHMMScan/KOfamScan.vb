@@ -43,11 +43,15 @@ Public Class KOFamScan
                     Continue Do
                 End If
 
-                Dim hit As KOFamScan = ParseTableLine(line)
+                Try
+                    Dim hit As KOFamScan = ParseTableLine(line)
 
-                If Not hit Is Nothing Then
-                    Yield hit
-                End If
+                    If Not hit Is Nothing Then
+                        Yield hit
+                    End If
+                Catch ex As Exception
+                    Call CStr(line).warning
+                End Try
             Loop
         End Using
     End Function
