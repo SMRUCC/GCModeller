@@ -131,7 +131,7 @@ Public Class HMMER3Parser
             i += 1
         End While
 
-        Return model
+        Return model.InitializeHMMParameters()
     End Function
 
     ''' <summary>

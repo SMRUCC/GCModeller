@@ -80,20 +80,22 @@ Public Class ProfileHMM
     ''' <summary>
     ''' 初始化HMM参数，将HMMER3的对数几率比转换为概率
     ''' </summary>
-    Public Sub InitializeHMMParameters()
+    Public Function InitializeHMMParameters() As ProfileHMM
         ' 将对数几率比转换为概率
         ' HMMER3使用的是以2为底的对数几率比（单位：bits）
         ' 需要转换回概率形式以适配现有HMM框架
 
         Dim numStates As Integer = MatchEmissions.Count
 
-        If numStates = 0 Then Return
-
-        ' 创建状态对象
-        ' 每个匹配位置对应一个状态
-        ' 状态命名：M1, M2, ..., Mn
-        ReDim HMMStates(numStates - 1)
-        ReDim HMMInitialProb(numStates - 1)
+        If numStates = 0 Then
+            Return Me
+        Else
+            ' 创建状态对象
+            ' 每个匹配位置对应一个状态
+            ' 状态命名：M1, M2, ..., Mn
+            ReDim HMMStates(numStates - 1)
+            ReDim HMMInitialProb(numStates - 1)
+        End If
 
         ' 初始概率：均匀分布或基于第一个状态的发射概率
         Dim initProb As Double = 1.0 / numStates
@@ -166,7 +168,9 @@ Public Class ProfileHMM
                 .prob = emissionProbs
             }
         Next
-    End Sub
+
+        Return Me
+    End Function
 
     ''' <summary>
     ''' 将对数几率比转换为概率
