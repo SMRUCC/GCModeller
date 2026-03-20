@@ -1,5 +1,6 @@
 ﻿Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
@@ -167,6 +168,40 @@ Public Module Extensions
                 End If
             Next
         Next
+    End Function
+
+    <Extension>
+    Public Function ScanSequential(pwm As Dictionary(Of String, Probability()), regions As IEnumerable(Of FastaSeq),
+                                   Optional identities_cutoff As Double = 0.8,
+                                   Optional minW As Double = 0.85,
+                                   Optional top As Integer = 3,
+                                   Optional permutation As Integer = 2500,
+                                   Optional tqdm_bar As Boolean = True) As Dictionary(Of String, MotifMatch())
+
+        Dim bar As Tqdm.ProgressBar = Nothing
+        Dim tfbsList As New Dictionary(Of String, MotifMatch())
+
+        For Each region As FastaSeq In Tqdm.Wrap(regions.ToArray, bar:=bar, wrap_console:=tqdm_bar)
+            Dim list As New List(Of MotifMatch)
+
+            For Each family In pwm
+                Dim result As MotifMatch() = region.ScanRegion(family.Key, family.Value,
+                                                               identities_cutoff:=identities_cutoff,
+                                                               minW:=minW,
+                                                               top:=top,
+                                                               permutation:=permutation).ToArray
+                Call list.AddRange(result)
+            Next
+
+            Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                             In list
+                                             Where Not site Is Nothing).ToArray)
+            If bar IsNot Nothing Then
+                Call bar.SetLabel(region.Title)
+            End If
+        Next
+
+        Return tfbsList
     End Function
 
     <Extension>
