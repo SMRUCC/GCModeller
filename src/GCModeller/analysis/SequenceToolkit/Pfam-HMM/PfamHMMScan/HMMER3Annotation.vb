@@ -280,7 +280,8 @@ Public Class ProfileHMM
 
         If lambda = 0 Then lambda = 0.69886 ' 默认值
 
-        Dim eValue As Double = databaseSize * Math.Exp(-lambda * bitScore + mu)
+        Dim p = -lambda * bitScore + mu
+        Dim eValue As Double = databaseSize * Math.Exp(p)
         Return eValue
     End Function
 
