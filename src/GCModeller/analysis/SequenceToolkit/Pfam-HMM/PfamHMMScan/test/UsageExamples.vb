@@ -28,6 +28,7 @@ Namespace HMMER3.Examples
 
             ' 加载HMMER3模型文件
             annotator.LoadModel("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\test\K02313.hmm.txt")
+            annotator.LoadModel("G:\GCModeller\src\GCModeller\analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\test\K03551.hmm.txt")
 
             ' 创建蛋白质序列
             Dim protein As New FastaSeq With {
