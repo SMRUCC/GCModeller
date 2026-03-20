@@ -131,9 +131,6 @@ Public Class HMMER3Parser
             i += 1
         End While
 
-        ' 初始化模型参数
-        model.InitializeHMMParameters()
-
         Return model
     End Function
 
