@@ -12,6 +12,7 @@ Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports HMMER3
 Imports HMMER3.HMMER3
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace HMMER3.Examples
 
@@ -31,10 +32,9 @@ Namespace HMMER3.Examples
             annotator.LoadModel("K00001.hmm.txt")
 
             ' 创建蛋白质序列
-            Dim protein As New ProteinSequence With {
-                .ID = "test_protein_1",
-                .Description = "Test protein sequence",
-                .Sequence = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
+            Dim protein As New FastaSeq With {
+                .Headers = {"test_protein_1", "Test protein sequence"},
+                .SequenceData = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
             }
 
             ' 进行注释
@@ -54,33 +54,33 @@ Namespace HMMER3.Examples
         ''' 示例2：批量处理FASTA文件
         ''' </summary>
         Public Sub Example2_BatchProcessing()
-            ' 创建注释器
-            Dim annotator As New ProteinAnnotator()
+            '' 创建注释器
+            'Dim annotator As New ProteinAnnotator()
 
-            ' 设置参数
-            annotator.EValueThreshold = 0.01
-            annotator.BitScoreThreshold = 25.0
-            annotator.DatabaseSize = 100000
+            '' 设置参数
+            'annotator.EValueThreshold = 0.01
+            'annotator.BitScoreThreshold = 25.0
+            'annotator.DatabaseSize = 100000
 
-            ' 加载多个模型
-            annotator.LoadModelsFromDirectory("./hmm_models/", "*.hmm")
-            Console.WriteLine($"Loaded {annotator.ModelCount} models")
+            '' 加载多个模型
+            'annotator.LoadModelsFromDirectory("./hmm_models/", "*.hmm")
+            'Console.WriteLine($"Loaded {annotator.ModelCount} models")
 
-            ' 解析FASTA文件
-            Dim proteins As List(Of ProteinSequence) = FastaParser.Parse("proteins.fasta")
-            Console.WriteLine($"Loaded {proteins.Count} protein sequences")
+            '' 解析FASTA文件
+            'Dim proteins As List(Of ProteinSequence) = FastaParser.Parse("proteins.fasta")
+            'Console.WriteLine($"Loaded {proteins.Count} protein sequences")
 
-            ' 批量注释
-            annotator.AnnotateAll(proteins)
+            '' 批量注释
+            'annotator.AnnotateAll(proteins)
 
-            ' 输出结果到文件
-            File.WriteAllText("annotation_results.tsv", AnnotationOutput.ToTsv(proteins))
-            File.WriteAllText("annotation_results.csv", AnnotationOutput.ToCsv(proteins))
-            File.WriteAllText("annotation_results.json", AnnotationOutput.ToJson(proteins))
+            '' 输出结果到文件
+            'File.WriteAllText("annotation_results.tsv", AnnotationOutput.ToTsv(proteins))
+            'File.WriteAllText("annotation_results.csv", AnnotationOutput.ToCsv(proteins))
+            'File.WriteAllText("annotation_results.json", AnnotationOutput.ToJson(proteins))
 
-            ' 输出统计信息
-            Dim significantCount As Integer = proteins.Count(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant)
-            Console.WriteLine($"Significant annotations: {significantCount}/{proteins.Count}")
+            '' 输出统计信息
+            'Dim significantCount As Integer = proteins.Count(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant)
+            'Console.WriteLine($"Significant annotations: {significantCount}/{proteins.Count}")
         End Sub
 
         ''' <summary>
@@ -99,9 +99,9 @@ Namespace HMMER3.Examples
             annotator.LoadModelContent(modelContent)
 
             ' 进行注释
-            Dim protein As New ProteinSequence With {
-                .ID = "test",
-                .Sequence = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
+            Dim protein As New FastaSeq With {
+                .Headers = {"test"},
+                .SequenceData = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
             }
             annotator.Annotate(protein)
         End Sub
@@ -137,125 +137,125 @@ Namespace HMMER3.Examples
         ''' 示例5：自定义阈值和过滤
         ''' </summary>
         Public Sub Example5_CustomThresholds()
-            Dim annotator As New ProteinAnnotator()
-            annotator.LoadModel("K00001.hmm.txt")
+            'Dim annotator As New ProteinAnnotator()
+            'annotator.LoadModel("K00001.hmm.txt")
 
-            ' 设置严格的阈值
-            annotator.EValueThreshold = 0.00001
-            annotator.BitScoreThreshold = 50.0
+            '' 设置严格的阈值
+            'annotator.EValueThreshold = 0.00001
+            'annotator.BitScoreThreshold = 50.0
 
-            Dim proteins As List(Of ProteinSequence) = FastaParser.Parse("proteins.fasta")
-            annotator.AnnotateAll(proteins)
+            'Dim proteins As List(Of ProteinSequence) = FastaParser.Parse("proteins.fasta")
+            'annotator.AnnotateAll(proteins)
 
-            ' 过滤显著结果
-            Dim significantProteins As List(Of ProteinSequence) = proteins _
-                .Where(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant) _
-                .ToList()
+            '' 过滤显著结果
+            'Dim significantProteins As List(Of ProteinSequence) = proteins _
+            '    .Where(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant) _
+            '    .ToList()
 
-            ' 按比特得分排序
-            significantProteins.Sort(Function(a, b) b.Annotation.BitScore.CompareTo(a.Annotation.BitScore))
+            '' 按比特得分排序
+            'significantProteins.Sort(Function(a, b) b.Annotation.BitScore.CompareTo(a.Annotation.BitScore))
 
-            ' 输出Top 10
-            Console.WriteLine("Top 10 significant annotations:")
-            For i As Integer = 0 To Math.Min(9, significantProteins.Count - 1)
-                Dim p As ProteinSequence = significantProteins(i)
-                Console.WriteLine($"{i + 1}. {p.ID}: Score={p.Annotation.BitScore:F2}, E={p.Annotation.EValue:G3}")
-            Next
+            '' 输出Top 10
+            'Console.WriteLine("Top 10 significant annotations:")
+            'For i As Integer = 0 To Math.Min(9, significantProteins.Count - 1)
+            '    Dim p As ProteinSequence = significantProteins(i)
+            '    Console.WriteLine($"{i + 1}. {p.ID}: Score={p.Annotation.BitScore:F2}, E={p.Annotation.EValue:G3}")
+            'Next
         End Sub
 
         ''' <summary>
         ''' 示例6：完整工作流程
         ''' </summary>
         Public Sub Example6_CompleteWorkflow()
-            Console.WriteLine("=== HMMER3 Protein Annotation Workflow ===")
-            Console.WriteLine()
+            'Console.WriteLine("=== HMMER3 Protein Annotation Workflow ===")
+            'Console.WriteLine()
 
-            ' Step 1: 初始化注释器
-            Console.WriteLine("Step 1: Initializing annotator...")
-            Dim annotator As New ProteinAnnotator With {
-                .EValueThreshold = 0.01,
-                .BitScoreThreshold = 25.0,
-                .DatabaseSize = 1000000
-            }
+            '' Step 1: 初始化注释器
+            'Console.WriteLine("Step 1: Initializing annotator...")
+            'Dim annotator As New ProteinAnnotator With {
+            '    .EValueThreshold = 0.01,
+            '    .BitScoreThreshold = 25.0,
+            '    .DatabaseSize = 1000000
+            '}
 
-            ' Step 2: 加载模型
-            Console.WriteLine("Step 2: Loading HMM models...")
-            Dim modelPath As String = "K00001.hmm.txt"
-            If File.Exists(modelPath) Then
-                annotator.LoadModel(modelPath)
-                Console.WriteLine($"  Loaded model: {annotator.ModelNames.FirstOrDefault()}")
-            Else
-                Console.WriteLine($"  Model file not found: {modelPath}")
-                Return
-            End If
+            '' Step 2: 加载模型
+            'Console.WriteLine("Step 2: Loading HMM models...")
+            'Dim modelPath As String = "K00001.hmm.txt"
+            'If File.Exists(modelPath) Then
+            '    annotator.LoadModel(modelPath)
+            '    Console.WriteLine($"  Loaded model: {annotator.ModelNames.FirstOrDefault()}")
+            'Else
+            '    Console.WriteLine($"  Model file not found: {modelPath}")
+            '    Return
+            'End If
 
-            ' Step 3: 加载蛋白质序列
-            Console.WriteLine("Step 3: Loading protein sequences...")
-            Dim fastaPath As String = "proteins.fasta"
-            Dim proteins As List(Of ProteinSequence)
+            '' Step 3: 加载蛋白质序列
+            'Console.WriteLine("Step 3: Loading protein sequences...")
+            'Dim fastaPath As String = "proteins.fasta"
+            'Dim proteins As List(Of ProteinSequence)
 
-            If File.Exists(fastaPath) Then
-                proteins = FastaParser.Parse(fastaPath)
-                Console.WriteLine($"  Loaded {proteins.Count} sequences")
-            Else
-                ' 使用示例序列
-                proteins = New List(Of ProteinSequence) From {
-                    New ProteinSequence With {
-                        .ID = "example_protein_1",
-                        .Description = "Example protein for testing",
-                        .Sequence = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
-                    },
-                    New ProteinSequence With {
-                        .ID = "example_protein_2",
-                        .Description = "Another example protein",
-                        .Sequence = "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
-                    }
-                }
-                Console.WriteLine($"  Using {proteins.Count} example sequences")
-            End If
+            'If File.Exists(fastaPath) Then
+            '    proteins = FastaParser.Parse(fastaPath)
+            '    Console.WriteLine($"  Loaded {proteins.Count} sequences")
+            'Else
+            '    ' 使用示例序列
+            '    proteins = New List(Of ProteinSequence) From {
+            '        New ProteinSequence With {
+            '            .ID = "example_protein_1",
+            '            .Description = "Example protein for testing",
+            '            .Sequence = "MAGVKQLADDRTLLMAGVSHDLRTPLTRIRLATEMMSEQDGYLAESINKDIEEQ"
+            '        },
+            '        New ProteinSequence With {
+            '            .ID = "example_protein_2",
+            '            .Description = "Another example protein",
+            '            .Sequence = "MKTVRQERLKSIVRILERSKEPVSGAQLAEELSVSRQVIVQDIAYLRSLGYNIVATPRGYVLAGG"
+            '        }
+            '    }
+            '    Console.WriteLine($"  Using {proteins.Count} example sequences")
+            'End If
 
-            ' Step 4: 执行注释
-            Console.WriteLine("Step 4: Annotating sequences...")
-            annotator.AnnotateAll(proteins)
+            '' Step 4: 执行注释
+            'Console.WriteLine("Step 4: Annotating sequences...")
+            'annotator.AnnotateAll(proteins)
 
-            ' Step 5: 输出结果
-            Console.WriteLine("Step 5: Output results...")
-            Console.WriteLine()
+            '' Step 5: 输出结果
+            'Console.WriteLine("Step 5: Output results...")
+            'Console.WriteLine()
 
-            ' 输出到控制台
-            Console.WriteLine("Annotation Results:")
-            Console.WriteLine("-" & StrDup(80, "-"c))
-            For Each protein As ProteinSequence In proteins
-                Console.WriteLine($"ID: {protein.ID}")
-                Console.WriteLine($"Length: {protein.Length}")
-                If protein.Annotation IsNot Nothing Then
-                    Console.WriteLine($"Best Match: {protein.Annotation.ModelName}")
-                    Console.WriteLine($"Bit Score: {protein.Annotation.BitScore:F2}")
-                    Console.WriteLine($"E-value: {protein.Annotation.EValue:G3}")
-                    Console.WriteLine($"Significant: {protein.Annotation.IsSignificant}")
-                    Console.WriteLine($"Confidence: {protein.Annotation.Confidence:P1}")
-                Else
-                    Console.WriteLine("No significant match found")
-                End If
-                Console.WriteLine("-" & StrDup(80, "-"c))
-            Next
+            '' 输出到控制台
+            'Console.WriteLine("Annotation Results:")
+            'Console.WriteLine("-" & StrDup(80, "-"c))
+            'For Each protein As ProteinSequence In proteins
+            '    Console.WriteLine($"ID: {protein.ID}")
+            '    Console.WriteLine($"Length: {protein.Length}")
+            '    If protein.Annotation IsNot Nothing Then
+            '        Console.WriteLine($"Best Match: {protein.Annotation.ModelName}")
+            '        Console.WriteLine($"Bit Score: {protein.Annotation.BitScore:F2}")
+            '        Console.WriteLine($"E-value: {protein.Annotation.EValue:G3}")
+            '        Console.WriteLine($"Significant: {protein.Annotation.IsSignificant}")
+            '        Console.WriteLine($"Confidence: {protein.Annotation.Confidence:P1}")
+            '    Else
+            '        Console.WriteLine("No significant match found")
+            '    End If
+            '    Console.WriteLine("-" & StrDup(80, "-"c))
+            'Next
 
-            ' Step 6: 保存结果
-            Console.WriteLine("Step 6: Saving results to files...")
-            File.WriteAllText("results.tsv", AnnotationOutput.ToTsv(proteins))
-            File.WriteAllText("results.csv", AnnotationOutput.ToCsv(proteins))
-            File.WriteAllText("results.json", AnnotationOutput.ToJson(proteins))
-            Console.WriteLine("  Results saved to results.tsv, results.csv, results.json")
+            '' Step 6: 保存结果
+            'Console.WriteLine("Step 6: Saving results to files...")
+            'File.WriteAllText("results.tsv", AnnotationOutput.ToTsv(proteins))
+            'File.WriteAllText("results.csv", AnnotationOutput.ToCsv(proteins))
+            'File.WriteAllText("results.json", AnnotationOutput.ToJson(proteins))
+            'Console.WriteLine("  Results saved to results.tsv, results.csv, results.json")
 
-            ' Step 7: 统计摘要
-            Console.WriteLine()
-            Console.WriteLine("Summary:")
-            Console.WriteLine($"  Total sequences: {proteins.Count}")
-            Console.WriteLine($"  Annotated: {proteins.Count(Function(p) p.Annotation IsNot Nothing)}")
-            Console.WriteLine($"  Significant: {proteins.Count(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant)}")
+            '' Step 7: 统计摘要
+            'Console.WriteLine()
+            'Console.WriteLine("Summary:")
+            'Console.WriteLine($"  Total sequences: {proteins.Count}")
+            'Console.WriteLine($"  Annotated: {proteins.Count(Function(p) p.Annotation IsNot Nothing)}")
+            'Console.WriteLine($"  Significant: {proteins.Count(Function(p) p.Annotation IsNot Nothing AndAlso p.Annotation.IsSignificant)}")
 
-            Console.WriteLine()
-            Console.WriteLine("=== Workflow Complete ===")
+            'Console.WriteLine()
+            'Console.WriteLine("=== Workflow Complete ===")
         End Sub
 
     End Module
