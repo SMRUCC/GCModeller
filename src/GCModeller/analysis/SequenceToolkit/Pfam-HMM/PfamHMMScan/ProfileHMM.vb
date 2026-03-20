@@ -227,10 +227,10 @@ Public Class ProfileHMM
 
         ' 初始化：所有状态初始化为负无穷
         For k = 0 To modelLength
-            For I = 0 To seqLength
-                M(k, I) = NEG_INF
-                I(k, I) = NEG_INF
-                D(k, I) = NEG_INF
+            For idx = 0 To seqLength
+                M(k, idx) = NEG_INF
+                I(k, idx) = NEG_INF
+                D(k, idx) = NEG_INF
             Next
         Next
 
@@ -252,8 +252,8 @@ Public Class ProfileHMM
         End If
 
         ' 动态规划填充
-        For I = 1 To seqLength
-            Dim aa As Char = Char.ToUpper(sequence(I - 1))
+        For idx = 1 To seqLength
+            Dim aa As Char = Char.ToUpper(sequence(idx - 1))
             Dim aaIdx As Integer = GetAminoAcidIndex(aa)
 
             If aaIdx < 0 Then Continue For
@@ -264,84 +264,84 @@ Public Class ProfileHMM
                 Dim bestTrace As New TracePointer(TraceState.NONE, 0, 0)
 
                 ' 从M(k-1, i-1)转移
-                If I > 1 Then
-                    Dim fromM = M(k - 1, I - 1) + GetTransitionScore(k - 1, TransitionType.M_TO_M)
+                If idx > 1 Then
+                    Dim fromM = M(k - 1, idx - 1) + GetTransitionScore(k - 1, TransitionType.M_TO_M)
                     If fromM > bestM Then
                         bestM = fromM
-                        bestTrace = New TracePointer(TraceState.MATCH, k - 1, I - 1)
+                        bestTrace = New TracePointer(TraceState.MATCH, k - 1, idx - 1)
                     End If
                 End If
 
                 ' 从I(k-1, i-1)转移
-                If I > 1 Then
-                    Dim fromI = I(k - 1, I - 1) + GetTransitionScore(k - 1, TransitionType.I_TO_M)
+                If idx > 1 Then
+                    Dim fromI = I(k - 1, idx - 1) + GetTransitionScore(k - 1, TransitionType.I_TO_M)
                     If fromI > bestM Then
                         bestM = fromI
-                        bestTrace = New TracePointer(TraceState.INSERT, k - 1, I - 1)
+                        bestTrace = New TracePointer(TraceState.INSERT, k - 1, idx - 1)
                     End If
                 End If
 
                 ' 从D(k-1, i-1)转移
-                If I > 1 Then
-                    Dim fromD = D(k - 1, I - 1) + GetTransitionScore(k - 1, TransitionType.D_TO_M)
+                If idx > 1 Then
+                    Dim fromD = D(k - 1, idx - 1) + GetTransitionScore(k - 1, TransitionType.D_TO_M)
                     If fromD > bestM Then
                         bestM = fromD
-                        bestTrace = New TracePointer(TraceState.DELETE, k - 1, I - 1)
+                        bestTrace = New TracePointer(TraceState.DELETE, k - 1, idx - 1)
                     End If
                 End If
 
                 ' 加上发射得分
                 Dim emissionScore = GetEmissionScore(k, aaIdx)
-                M(k, I) = bestM + emissionScore
-                traceM(k, I) = bestTrace
+                M(k, idx) = bestM + emissionScore
+                traceM(k, idx) = bestTrace
 
                 ' 计算I(k,i)
                 Dim bestI As Double = NEG_INF
                 Dim bestTraceI As New TracePointer(TraceState.NONE, 0, 0)
 
                 ' 从M(k, i-1)转移
-                If I > 1 Then
-                    Dim fromM = M(k, I - 1) + GetTransitionScore(k, TransitionType.M_TO_I)
+                If idx > 1 Then
+                    Dim fromM = M(k, idx - 1) + GetTransitionScore(k, TransitionType.M_TO_I)
                     If fromM > bestI Then
                         bestI = fromM
-                        bestTraceI = New TracePointer(TraceState.MATCH, k, I - 1)
+                        bestTraceI = New TracePointer(TraceState.MATCH, k, idx - 1)
                     End If
                 End If
 
                 ' 从I(k, i-1)转移
-                If I > 1 Then
-                    Dim fromI = I(k, I - 1) + GetTransitionScore(k, TransitionType.I_TO_I)
+                If idx > 1 Then
+                    Dim fromI = I(k, idx - 1) + GetTransitionScore(k, TransitionType.I_TO_I)
                     If fromI > bestI Then
                         bestI = fromI
-                        bestTraceI = New TracePointer(TraceState.INSERT, k, I - 1)
+                        bestTraceI = New TracePointer(TraceState.INSERT, k, idx - 1)
                     End If
                 End If
 
                 ' 加上插入发射得分
                 Dim insertEmissionScore = GetInsertEmissionScore(k, aaIdx)
-                I(k, I) = bestI + insertEmissionScore
-                traceI(k, I) = bestTraceI
+                I(k, idx) = bestI + insertEmissionScore
+                traceI(k, idx) = bestTraceI
 
                 ' 计算D(k,i)
                 Dim bestD As Double = NEG_INF
                 Dim bestTraceD As New TracePointer(TraceState.NONE, 0, 0)
 
                 ' 从M(k-1, i)转移
-                Dim fromM_d = M(k - 1, I) + GetTransitionScore(k - 1, TransitionType.M_TO_D)
+                Dim fromM_d = M(k - 1, idx) + GetTransitionScore(k - 1, TransitionType.M_TO_D)
                 If fromM_d > bestD Then
                     bestD = fromM_d
-                    bestTraceD = New TracePointer(TraceState.MATCH, k - 1, I)
+                    bestTraceD = New TracePointer(TraceState.MATCH, k - 1, idx)
                 End If
 
                 ' 从D(k-1, i)转移
-                Dim fromD_d = D(k - 1, I) + GetTransitionScore(k - 1, TransitionType.D_TO_D)
+                Dim fromD_d = D(k - 1, idx) + GetTransitionScore(k - 1, TransitionType.D_TO_D)
                 If fromD_d > bestD Then
                     bestD = fromD_d
-                    bestTraceD = New TracePointer(TraceState.DELETE, k - 1, I)
+                    bestTraceD = New TracePointer(TraceState.DELETE, k - 1, idx)
                 End If
 
-                D(k, I) = bestD
-                traceD(k, I) = bestTraceD
+                D(k, idx) = bestD
+                traceD(k, idx) = bestTraceD
             Next
         Next
 
