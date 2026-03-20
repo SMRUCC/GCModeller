@@ -21,6 +21,10 @@ Public Class KOFamScan
 
     Public Property flag As Boolean
 
+    Public Overrides Function ToString() As String
+        Return If(flag, "*", "") & $"{KO} - {definition} [e-value:{Evalue}]"
+    End Function
+
     Public Shared Iterator Function ParseTable(s As Stream) As IEnumerable(Of KOFamScan)
         Dim line As Value(Of String) = ""
 
@@ -50,16 +54,15 @@ Public Class KOFamScan
 
     Private Shared Function ParseTableLine(line As String) As KOFamScan
         ' 使用制表符分割行
-        Dim parts As String() = line.Split(New Char() {ControlChars.Tab}, StringSplitOptions.RemoveEmptyEntries)
+        Dim parts As String() = line.StringSplit("\s+", trimTrailingEmptyStrings:=False)
 
         ' 根据是否以*开头判断数据格式
-        Dim startIndex As Integer = 0
+        Dim startIndex As Integer = 1
         Dim hasFlag As Boolean = False
 
         If parts.Length > 0 AndAlso parts(0).Trim() = "*" Then
             ' 数据行以*开头，设置flag为True
             hasFlag = True
-            startIndex = 1
         End If
 
         ' 验证字段数量是否足够（至少需要5个字段：gene_name, KO, thrshld, score, E-value）
@@ -88,7 +91,7 @@ Public Class KOFamScan
 
         ' 处理definition字段（可能包含空格，是最后一个字段）
         If dataLength >= 6 Then
-            item.definition = parts(startIndex + 5).Trim()
+            item.definition = parts.Skip(startIndex + 5).JoinBy(" ")
         End If
 
         Return item
