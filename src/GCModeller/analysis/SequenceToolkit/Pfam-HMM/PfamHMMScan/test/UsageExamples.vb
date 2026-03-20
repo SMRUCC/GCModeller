@@ -10,6 +10,8 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Imports HMMER3
+Imports HMMER3.HMMER3
+Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 
 Namespace HMMER3.Examples
 
@@ -139,7 +141,7 @@ Namespace HMMER3.Examples
             annotator.LoadModel("K00001.hmm.txt")
 
             ' 设置严格的阈值
-            annotator.EValueThreshold = 1e-5
+            annotator.EValueThreshold = 0.00001
             annotator.BitScoreThreshold = 50.0
 
             Dim proteins As List(Of ProteinSequence) = FastaParser.Parse("proteins.fasta")
