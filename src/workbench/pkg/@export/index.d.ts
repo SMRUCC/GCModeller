@@ -175,6 +175,15 @@ declare namespace GCModeller {
    */
    function reference_genome(ncbi_taxid: any): object;
    /**
+     * @param identities_cutoff default value Is ``0.8``.
+     * @param minW default value Is ``0.85``.
+     * @param top default value Is ``3``.
+     * @param permutation default value Is ``2500``.
+     * @param workdir default value Is ``./``.
+     * @param n_threads default value Is ``8``.
+   */
+   function scan_motifs(db: any, seqs: any, identities_cutoff?: any, minW?: any, top?: any, permutation?: any, workdir?: any, n_threads?: any): object;
+   /**
    */
    function split_omics_idset(IDs: any): object;
    taxonomy_query: any;

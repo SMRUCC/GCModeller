@@ -1,3 +1,11 @@
+
+#' Make motif site search in parallel
+#' 
+#' @param db the file path to the motif PWM database
+#' @param seqs the file path to the TSS upstream site for make motif site matches
+#' 
+#' @return a dataframe of the motif site matches result
+#' 
 const scan_motifs = function(db, seqs, 
                              identities_cutoff = 0.8,
                              minW = 0.85,
