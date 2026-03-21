@@ -11,11 +11,11 @@ Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 ''' </summary>
 Public Class PWMDatabase : Implements IDisposable
 
-    ReadOnly fs As IFileSystemEnvironment
+    Protected ReadOnly fs As IFileSystemEnvironment
 
     Dim disposedValue As Boolean
 
-    Public ReadOnly Property FamilyList As String()
+    Public Overridable ReadOnly Property FamilyList As String()
         Get
             Dim folder As FileSystemTree = FileSystemTree.BuildTree(fs.GetFiles("/motifs/"))
             Dim subtree = folder.GetFile("motifs").Files
@@ -33,7 +33,7 @@ Public Class PWMDatabase : Implements IDisposable
         Me.fs = fs
     End Sub
 
-    Public Sub AddPWM(family As String, pwm As IEnumerable(Of Probability))
+    Public Overridable Sub AddPWM(family As String, pwm As IEnumerable(Of Probability))
         For Each model As Probability In pwm.SafeQuery
             Dim json As JsonElement = model.CreateJSONElement
             Dim bson As MemoryStream = BSONFormat.SafeGetBuffer(json)
@@ -48,7 +48,7 @@ Public Class PWMDatabase : Implements IDisposable
         Next
     End Sub
 
-    Public Iterator Function LoadFamilyMotifs(family As String) As IEnumerable(Of Probability)
+    Public Overridable Iterator Function LoadFamilyMotifs(family As String) As IEnumerable(Of Probability)
         Dim dir As String = $"/motifs/{family}/"
 
         For Each file As String In fs.EnumerateFiles(dir, "*.motif")

@@ -3,6 +3,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports MotifSet = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase
 
+''' <summary>
+''' Save motif dataset inside a HDS package file
+''' </summary>
 Public Class PWMDatabase : Inherits MotifSet
 
     Public Sub New(s As Stream, Optional is_readonly As Boolean = False)
