@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Interops.NBCR
@@ -34,6 +35,12 @@ Module MotifsTool
         Next
 
         Return tbl
+    End Function
+
+    <ExportAPI("load_motifs")>
+    <RApiReturn(GetType(Probability))>
+    Public Function load_motifs(db As SequencePatterns.PWMDatabase, name As String) As Object
+        Return db.LoadFamilyMotifs(name).ToArray
     End Function
 
     ''' <summary>
