@@ -123,7 +123,12 @@ Public Module Extensions
         Return mastSite
     End Function
 
-    Public Iterator Function ParsePWNFile(file As String) As IEnumerable(Of MotifPWM)
+    ''' <summary>
+    ''' Parse the meme text file
+    ''' </summary>
+    ''' <param name="file">the PWM meme text file(*.meme)</param>
+    ''' <returns></returns>
+    Public Iterator Function ParsePWMFile(file As String) As IEnumerable(Of MotifPWM)
         Dim lines As String() = file.ReadAllLines
         Dim alphabets As Char() = Nothing
         Dim offset As Integer = 0
