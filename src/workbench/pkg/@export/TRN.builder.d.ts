@@ -22,7 +22,7 @@ declare namespace TRN.builder {
    /**
      * @param env default value Is ``null``.
    */
-   function open_motifdb(file: any, env?: object): any;
+   function open_motifdb(file: any, env?: object): object;
    module read {
       /**
        * read a footprint site model data file
