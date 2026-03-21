@@ -115,6 +115,34 @@ Namespace Motif
                 Yield col
             Next
         End Function
+
+        Public Function MakeData() As Probability
+            Return New Probability With {
+                .name = name,
+                .pvalue = 0,
+                .score = 0,
+                .region = Me.AsEnumerable _
+                    .Select(Function(site, offset)
+                                Return New Residue With {
+                                    .index = offset,
+                                    .frequency = site(alphabets) _
+                                        .ToDictionary(Function(a) a.Key.ToString,
+                                                      Function(a)
+                                                          Return a.Value
+                                                      End Function)
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        End Function
+
+        Public Shared Narrowing Operator CType(pwm As MotifPWM) As Probability
+            If pwm Is Nothing Then
+                Return Nothing
+            Else
+                Return pwm.MakeData
+            End If
+        End Operator
     End Class
 
     ''' <summary>
