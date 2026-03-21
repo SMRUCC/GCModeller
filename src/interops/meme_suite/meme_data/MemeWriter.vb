@@ -44,6 +44,7 @@ Public Class MemeWriter
 
         For Each motif As Probability In motifs
             Call WriteMotif(str, motif, "Motif_" & ++i)
+            Call str.WriteLine()
         Next
     End Sub
 
