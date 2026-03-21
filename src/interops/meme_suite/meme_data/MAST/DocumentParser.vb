@@ -234,11 +234,6 @@ Namespace DocumentFormat.MAST.HTML
             Return result
         End Function
 
-        <ExportAPI("Write.Csv.MEME_Matches")>
-        Public Function SaveMatches(data As IEnumerable(Of MEME.HTML.MEMEOutput), <Parameter("Path.Save")> SaveTo As String) As Boolean
-            Return data.SaveTo(SaveTo, False)
-        End Function
-
         Private Function __createMEMEOutPut(ObjectId As String,
                                             motif As MEME.HTML.Motif,
                                             sites As MASTHtml) As MEME.HTML.MEMEOutput()
