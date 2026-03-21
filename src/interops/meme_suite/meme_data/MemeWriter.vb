@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 
@@ -102,13 +103,14 @@ Public Module ProbabilityExtensions
     ''' <summary>
     ''' 扩展方法：直接保存PWM模型为MEME格式文件
     ''' </summary>
-    <Runtime.CompilerServices.Extension>
+    <Extension>
     Public Sub SaveToMeme(motif As Probability,
                           outputPath As String,
                           Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
                           Optional nsites As Integer = 100,
                           Optional motifId As String = Nothing,
                           Optional url As String = Nothing)
+
         MemeWriter.WriteMemeFormat(motif, outputPath, backgroundFreq, nsites, motifId, url)
     End Sub
 
