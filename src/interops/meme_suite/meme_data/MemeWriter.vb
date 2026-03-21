@@ -1,61 +1,62 @@
 ﻿Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 
 Public Class MemeWriter
 
-    ''' <summary>
-    ''' 将PWM模型保存为MEME格式的文本文件
-    ''' </summary>
-    ''' <param name="motif">PWM模型对象</param>
-    ''' <param name="outputPath">输出文件路径</param>
-    ''' <param name="backgroundFreq">背景碱基频率（可选）</param>
-    ''' <param name="nsites">位点数量（可选，默认为100）</param>
-    ''' <param name="motifId">Motif ID（可选）</param>
-    ''' <param name="url">URL链接（可选）</param>
-    Public Shared Function WriteMemeFormat(motif As Probability, outputPath As String,
-                                           Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
-                                           Optional nsites As Integer = 100,
-                                           Optional motifId As String = Nothing,
-                                           Optional url As String = Nothing) As Boolean
-        ' 设置默认背景频率
-        If backgroundFreq Is Nothing Then
-            backgroundFreq = New Dictionary(Of String, Double) From {
-                {"A", 0.25},
-                {"C", 0.25},
-                {"G", 0.25},
-                {"T", 0.25}
-            }
-        End If
+    ReadOnly motifs As Probability()
+    ReadOnly background As Dictionary(Of String, Double)
+    ReadOnly nsites As Integer
+    ReadOnly url_base As String
 
-        ' 获取motif ID
-        If String.IsNullOrEmpty(motifId) Then
-            motifId = $"MP{motif.name.GetHashCode().ToString("000000")}"
-        End If
+    Sub New(motifs As IEnumerable(Of Probability),
+            Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
+            Optional nsites As Integer = 100,
+            Optional url_base As String = Nothing)
 
-        Dim sb As New StringBuilder()
+        Me.motifs = motifs.ToArray
+        Me.background = If(backgroundFreq, New Dictionary(Of String, Double) From {
+            {"A", 0.25},
+            {"C", 0.25},
+            {"G", 0.25},
+            {"T", 0.25}
+        })
+        Me.nsites = nsites
+        Me.url_base = url_base
+    End Sub
 
+    Public Sub WriteDocument(str As TextWriter)
         ' 1. 写入文件头
-        sb.AppendLine("MEME version 4.4")
-        sb.AppendLine("ALPHABET= ACGT")
-        sb.AppendLine("strands: + -")
-        sb.AppendLine("Background letter frequencies (from file `background.bg'):")
+        str.WriteLine("MEME version 4.4")
+        str.WriteLine("ALPHABET= ACGT")
+        str.WriteLine("strands: + -")
+        str.WriteLine("Background letter frequencies (from file `background.bg'):")
 
         ' 2. 写入背景频率
-        Dim bgFreqStr As String = String.Join(" ", backgroundFreq.Select(
-            Function(kv) $"{kv.Key} {kv.Value.ToString("0.00000")}"))
-        sb.AppendLine(bgFreqStr)
+        Dim bgFreqStr As String = background.Select(Function(kv) $"{kv.Key} {kv.Value.ToString("0.00000")}").JoinBy(" ")
 
+        str.WriteLine(bgFreqStr)
+        str.WriteLine()
+
+        Dim i As i32 = 1
+
+        For Each motif As Probability In motifs
+            Call WriteMotif(str, motif, "Motif_" & ++i)
+        Next
+    End Sub
+
+    Private Sub WriteMotif(str As TextWriter, motif As Probability, motifID As String)
         ' 3. 写入MOTIF行
-        sb.AppendLine($"MOTIF {motif.name} {motifId}")
+        str.WriteLine($"MOTIF {motif.name} {motifID}")
 
         ' 4. 写入letter-probability matrix
-        sb.AppendLine("letter-probability matrix:")
+        str.WriteLine("letter-probability matrix:")
 
         ' 5. 写入矩阵参数
         Dim eValue As String = If(motif.pvalue > 0, motif.pvalue.ToString("0.0e-000"), "1.0e-999")
-        sb.AppendLine($"alength= 4 w= {motif.width} nsites= {nsites} E= {eValue}")
+        str.WriteLine($"alength= 4 w= {motif.width} nsites= {nsites} E= {eValue}")
 
         ' 6. 写入PWM矩阵数据
         ' 定义碱基顺序：A, C, G, T
@@ -72,13 +73,33 @@ Public Class MemeWriter
                 values.Add(freq.ToString("0.000000"))
             Next
 
-            sb.AppendLine(String.Join(" ", values))
+            str.WriteLine(String.Join(" ", values))
         Next
 
         ' 7. 写入URL（如果有）
-        If Not String.IsNullOrEmpty(url) Then
-            sb.AppendLine($"URL {url}")
+        If Not String.IsNullOrEmpty(url_base) Then
+            str.WriteLine($"URL {url_base}?id={motif.name.UrlEncode}")
         End If
+    End Sub
+
+    ''' <summary>
+    ''' 将PWM模型保存为MEME格式的文本文件
+    ''' </summary>
+    ''' <param name="motif">PWM模型对象</param>
+    ''' <param name="outputPath">输出文件路径</param>
+    ''' <param name="backgroundFreq">背景碱基频率（可选）</param>
+    ''' <param name="nsites">位点数量（可选，默认为100）</param>
+    ''' <param name="url">URL链接（可选）</param>
+    Public Shared Function WriteMemeFormat(motif As Probability, outputPath As String,
+                                           Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
+                                           Optional nsites As Integer = 100,
+                                           Optional url As String = Nothing) As Boolean
+        Dim sb As New StringBuilder()
+        Dim doc As New StringWriter(sb)
+        Dim writer As New MemeWriter({motif}, backgroundFreq, nsites, url_base:=url)
+
+        Call writer.WriteDocument(doc)
+        Call doc.Flush()
 
         ' 8. 保存到文件
         Return sb.SaveTo(outputPath, Encoding.UTF8)
@@ -88,9 +109,8 @@ Public Class MemeWriter
     ''' 重载方法：使用默认参数保存
     ''' </summary>
     Public Shared Sub WriteMemeFormat(motif As Probability, outputPath As String)
-        WriteMemeFormat(motif, outputPath, Nothing, 100, Nothing, Nothing)
+        WriteMemeFormat(motif, outputPath, Nothing, 100, Nothing)
     End Sub
-
 End Class
 
 ''' <summary>
@@ -105,10 +125,9 @@ Public Module ProbabilityExtensions
     Public Function SaveToMeme(motif As Probability, outputPath As String,
                                Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
                                Optional nsites As Integer = 100,
-                               Optional motifId As String = Nothing,
                                Optional url As String = Nothing) As Boolean
 
-        Return MemeWriter.WriteMemeFormat(motif, outputPath, backgroundFreq, nsites, motifId, url)
+        Return MemeWriter.WriteMemeFormat(motif, outputPath, backgroundFreq, nsites, url)
     End Function
 
 End Module
