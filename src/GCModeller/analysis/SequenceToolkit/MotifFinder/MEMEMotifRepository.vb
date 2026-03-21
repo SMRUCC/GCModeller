@@ -1,4 +1,6 @@
-﻿Imports Microsoft.VisualBasic.FileIO
+﻿Imports System.IO
+Imports SMRUCC.genomics.Interops.NBCR
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite
 Imports MotifSet = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase
 
 ''' <summary>
@@ -15,14 +17,22 @@ Public Class MEMEMotifRepository : Inherits MotifSet
     End Property
 
     Public Sub New(dir As String)
-        MyBase.New(Directory.FromLocalFileSystem(dir))
+        MyBase.New(Microsoft.VisualBasic.FileIO.Directory.FromLocalFileSystem(dir))
     End Sub
 
     Public Overrides Sub AddPWM(family As String, pwm As IEnumerable(Of Probability))
+        Dim writer As New MemeWriter(pwm)
+        Dim file As Stream = fs.OpenFile($"/{family.NormalizePathString(False)}.meme", FileMode.OpenOrCreate, FileAccess.Write)
 
+        Using doc As New StreamWriter(file)
+            Call writer.WriteDocument(doc)
+            Call doc.Flush()
+        End Using
     End Sub
 
     Public Overrides Function LoadFamilyMotifs(family As String) As IEnumerable(Of Probability)
-        Return MyBase.LoadFamilyMotifs(family)
+        Return From pwm As MotifPWM
+               In MEME_Suite.ParsePWMFile(DirectCast(fs, Microsoft.VisualBasic.FileIO.Directory).GetFullPath($"/{family}.meme"))
+               Select CType(pwm, Probability)
     End Function
 End Class
