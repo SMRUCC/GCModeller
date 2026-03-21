@@ -10,6 +10,9 @@
 declare namespace motif_tool {
    /**
    */
+   function load_motifs(db: object, name: string): object;
+   /**
+   */
    function open_meme_dir(dir: string): object;
    /**
     * read meme motif text file
