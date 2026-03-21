@@ -76,6 +76,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Module TRNBuilder
 
     <ExportAPI("open_motifdb")>
+    <RApiReturn(GetType(PWMDatabase))>
     Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
 
@@ -88,7 +89,7 @@ Module TRNBuilder
 
     <ExportAPI("motif_search")>
     <RApiReturn(GetType(MotifMatch))>
-    Public Function motif_search(db As Motif.PWMDatabase, <RRawVectorArgument> search_regions As Object,
+    Public Function motif_search(db As PWMDatabase, <RRawVectorArgument> search_regions As Object,
                                  <RRawVectorArgument(TypeCodes.string)>
                                  Optional family As Object = Nothing,
                                  Optional identities_cutoff As Double = 0.8,
