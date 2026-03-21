@@ -59,6 +59,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -78,13 +79,17 @@ Module TRNBuilder
     <ExportAPI("open_motifdb")>
     <RApiReturn(GetType(PWMDatabase))>
     Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
-        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+        If isScalarVector(file) AndAlso TypeOf getFirst(file) Is String AndAlso CLRVector.asScalarCharacter(file).DirectoryExists Then
+            Return New MEMEMotifRepository(CLRVector.asScalarCharacter(file))
+        Else
+            Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
 
-        If s Like GetType(Message) Then
-            Return s.TryCast(Of Message)
+            If s Like GetType(Message) Then
+                Return s.TryCast(Of Message)
+            End If
+
+            Return Motif.PWMDatabase.OpenReadOnly(s.TryCast(Of Stream))
         End If
-
-        Return Motif.PWMDatabase.OpenReadOnly(s.TryCast(Of Stream))
     End Function
 
     <ExportAPI("motif_search")>
