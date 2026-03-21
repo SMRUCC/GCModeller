@@ -14,13 +14,11 @@ Public Class MemeWriter
     ''' <param name="nsites">位点数量（可选，默认为100）</param>
     ''' <param name="motifId">Motif ID（可选）</param>
     ''' <param name="url">URL链接（可选）</param>
-    Public Shared Sub WriteMemeFormat(motif As Probability,
-                                      outputPath As String,
-                                      Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
-                                      Optional nsites As Integer = 100,
-                                      Optional motifId As String = Nothing,
-                                      Optional url As String = Nothing)
-
+    Public Shared Function WriteMemeFormat(motif As Probability, outputPath As String,
+                                           Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
+                                           Optional nsites As Integer = 100,
+                                           Optional motifId As String = Nothing,
+                                           Optional url As String = Nothing) As Boolean
         ' 设置默认背景频率
         If backgroundFreq Is Nothing Then
             backgroundFreq = New Dictionary(Of String, Double) From {
@@ -83,8 +81,8 @@ Public Class MemeWriter
         End If
 
         ' 8. 保存到文件
-        File.WriteAllText(outputPath, sb.ToString(), Encoding.UTF8)
-    End Sub
+        Return sb.SaveTo(outputPath, Encoding.UTF8)
+    End Function
 
     ''' <summary>
     ''' 重载方法：使用默认参数保存
@@ -104,14 +102,13 @@ Public Module ProbabilityExtensions
     ''' 扩展方法：直接保存PWM模型为MEME格式文件
     ''' </summary>
     <Extension>
-    Public Sub SaveToMeme(motif As Probability,
-                          outputPath As String,
-                          Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
-                          Optional nsites As Integer = 100,
-                          Optional motifId As String = Nothing,
-                          Optional url As String = Nothing)
+    Public Function SaveToMeme(motif As Probability, outputPath As String,
+                               Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
+                               Optional nsites As Integer = 100,
+                               Optional motifId As String = Nothing,
+                               Optional url As String = Nothing) As Boolean
 
-        MemeWriter.WriteMemeFormat(motif, outputPath, backgroundFreq, nsites, motifId, url)
-    End Sub
+        Return MemeWriter.WriteMemeFormat(motif, outputPath, backgroundFreq, nsites, motifId, url)
+    End Function
 
 End Module
