@@ -1,67 +1,72 @@
 ﻿#Region "Microsoft.VisualBasic::f1995bff75da5ac8424857856c48d9b4, R#\TRNtoolkit\TRNBuilder.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 216
-    '    Code Lines: 127 (58.80%)
-    ' Comment Lines: 61 (28.24%)
-    '    - Xml Docs: 32.79%
-    ' 
-    '   Blank Lines: 28 (12.96%)
-    '     File Size: 9.79 KB
+' Summaries:
 
 
-    ' Module TRNBuilder
-    ' 
-    '     Function: readFootprintSites, readRegulations, RegulationFootprint, writeRegulationFootprints
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 216
+'    Code Lines: 127 (58.80%)
+' Comment Lines: 61 (28.24%)
+'    - Xml Docs: 32.79%
+' 
+'   Blank Lines: 28 (12.96%)
+'     File Size: 9.79 KB
+
+
+' Module TRNBuilder
+' 
+'     Function: readFootprintSites, readRegulations, RegulationFootprint, writeRegulationFootprints
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
@@ -70,10 +75,59 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 <Package("TRN.builder")>
 Module TRNBuilder
 
-    '<ExportAPI("as.promoter.models")>
-    'Public Function ParsePromoterReport(text As String) As GeneReport()
-    '    Return ReportParser.ParseReport(text).ToArray
-    'End Function
+    <ExportAPI("open_motifdb")>
+    Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Return Motif.PWMDatabase.OpenReadOnly(s.TryCast(Of Stream))
+    End Function
+
+    <ExportAPI("motif_search")>
+    <RApiReturn(GetType(MotifMatch))>
+    Public Function motif_search(db As Motif.PWMDatabase, <RRawVectorArgument> search_regions As Object,
+                                 <RRawVectorArgument(TypeCodes.string)>
+                                 Optional family As Object = Nothing,
+                                 Optional identities_cutoff As Double = 0.8,
+                                 Optional minW As Double = 0.85,
+                                 Optional top As Integer = 3,
+                                 Optional permutation As Integer = 2500,
+                                 Optional tqdm_bar As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(search_regions, env)
+        Dim familyIds As String() = CLRVector.asCharacter(family)
+
+        If seqs Is Nothing Then
+            Return RInternal.debug.stop("invalid fasta sequence source for run TFBS motif site search!", env)
+        End If
+
+        Dim motifs As Dictionary(Of String, Probability())
+
+        If familyIds.IsNullOrEmpty Then
+            motifs = db.LoadMotifs
+        Else
+            motifs = familyIds _
+                .Distinct _
+                .ToDictionary(Function(name) name,
+                              Function(name)
+                                  Return db _
+                                      .LoadFamilyMotifs(name) _
+                                      .ToArray
+                              End Function)
+        End If
+
+        Dim tfbs_hits = motifs.ScanSequential(seqs,
+                                              identities_cutoff:=identities_cutoff,
+                                              minW:=minW,
+                                              top:=top,
+                                              permutation:=permutation,
+                                              tqdm_bar:=tqdm_bar)
+        Return tfbs_hits
+    End Function
 
     ''' <summary>
     ''' read a footprint site model data file
@@ -263,7 +317,7 @@ Module TRNBuilder
                        Next
                    Next
                End Function() _
- _
+                              _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 End Module

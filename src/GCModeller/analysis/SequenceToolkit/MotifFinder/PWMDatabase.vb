@@ -9,6 +9,10 @@ Public Class PWMDatabase : Inherits MotifSet
         MyBase.New(New StreamPack(s, [readonly]:=is_readonly))
     End Sub
 
+    Public Shared Function OpenReadOnly(s As Stream) As PWMDatabase
+        Return New PWMDatabase(s, is_readonly:=True)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overloads Shared Function LoadMotifs(s As Stream) As Dictionary(Of String, Probability())
         Return LoadMotifs(New StreamPack(s, [readonly]:=True))

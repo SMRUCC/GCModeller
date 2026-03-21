@@ -6,6 +6,9 @@ Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 
+''' <summary>
+''' PWM database with internal virtual file system
+''' </summary>
 Public Class PWMDatabase : Implements IDisposable
 
     ReadOnly fs As IFileSystemEnvironment
