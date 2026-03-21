@@ -74,6 +74,16 @@ declare namespace annotation.workflow {
       */
       function maphit(query: object, top_best?: boolean, env?: object): object;
    }
+   /**
+    * Make query group and convert to alignment hit collection
+    * 
+    * 
+     * @param x -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function diamond_hitgroups(x: any, env?: object): object;
    module grep {
       /**
         * @param applyOnHits default value Is ``false``.

@@ -13,3 +13,4 @@ A pipeline collection for proteins' biological function
 + [read.besthits](annotation.workflow/read.besthits.1) read the hits data in pipeline stream style
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer
 + [read_m8](annotation.workflow/read_m8.1) read the diamond m8 annotation table file output
++ [diamond_hitgroups](annotation.workflow/diamond_hitgroups.1) Make query group and convert to alignment hit collection
