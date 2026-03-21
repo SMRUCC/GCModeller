@@ -68,6 +68,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMappin
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -494,5 +495,25 @@ Module workflows
         Else
             Return DiamondM8Parser.ParseFile(file).ToArray
         End If
+    End Function
+
+    ''' <summary>
+    ''' Make query group and convert to alignment hit collection
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("diamond_hitgroups")>
+    <RApiReturn(GetType(HitCollection))>
+    Public Function diamond_hitgroups(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of DiamondAnnotation)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of DiamondAnnotation)(env) _
+            .HitCollection _
+            .ToArray
     End Function
 End Module

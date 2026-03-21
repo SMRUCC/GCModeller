@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Public Module TermStreamAssignment
 
@@ -51,5 +52,32 @@ Public Module TermStreamAssignment
                 Yield term
             Next
         End If
+    End Function
+
+    ''' <summary>
+    ''' Make query group and convert as query hit collection
+    ''' </summary>
+    ''' <param name="diamond"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function HitCollection(diamond As IEnumerable(Of DiamondAnnotation)) As IEnumerable(Of HitCollection)
+        For Each query As IGrouping(Of String, DiamondAnnotation) In diamond
+            Yield New HitCollection With {
+                .QueryName = query.Key,
+                .hits = query _
+                    .Select(Function(hit)
+                                Return New Hit With {
+                                    .evalue = hit.EValue,
+                                    .gaps = hit.GapOpen,
+                                    .hitName = hit.SseqId,
+                                    .identities = hit.Pident,
+                                    .positive = hit.Pident,
+                                    .score = hit.BitScore,
+                                    .tag = hit.SseqId
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        Next
     End Function
 End Module
