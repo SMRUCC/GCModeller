@@ -9,6 +9,9 @@
 */
 declare namespace motif_tool {
    /**
+   */
+   function open_meme_dir(dir: string): object;
+   /**
     * read meme motif text file
     * 
     * 
