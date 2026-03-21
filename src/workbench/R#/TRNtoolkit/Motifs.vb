@@ -23,4 +23,9 @@ Module MotifsTool
         Return motif.SaveToMeme(file)
     End Function
 
+    <ExportAPI("open_meme_dir")>
+    Public Function open_meme_dir(dir As String) As MEMEMotifRepository
+        Return New MEMEMotifRepository(dir)
+    End Function
+
 End Module
