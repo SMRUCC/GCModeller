@@ -15,4 +15,7 @@ declare namespace motif_tool {
      * @param file file path to the meme motif text file(*.meme)
    */
    function read_meme(file: string): object;
+   /**
+   */
+   function save_meme(motif: object, file: string): any;
 }
