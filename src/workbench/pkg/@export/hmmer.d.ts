@@ -9,6 +9,13 @@
 */
 declare namespace hmmer {
    /**
+     * @param env default value Is ``null``.
+   */
+   function hmmer_search(hmmer: object, x: any, env?: object): object;
+   /**
+   */
+   function load_hmmer(x: any): object;
+   /**
    */
    function parse_hmmer_model(x: string): object;
    /**
