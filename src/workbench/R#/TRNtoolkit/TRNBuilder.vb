@@ -77,7 +77,7 @@ Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Module TRNBuilder
 
     <ExportAPI("open_motifdb")>
-    <RApiReturn(GetType(PWMDatabase))>
+    <RApiReturn(GetType(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase))>
     Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
         If isScalarVector(file) AndAlso TypeOf getFirst(file) Is String AndAlso CLRVector.asScalarCharacter(file).DirectoryExists Then
             Return New MEMEMotifRepository(CLRVector.asScalarCharacter(file))
@@ -94,7 +94,7 @@ Module TRNBuilder
 
     <ExportAPI("motif_search")>
     <RApiReturn(GetType(MotifMatch))>
-    Public Function motif_search(db As PWMDatabase, <RRawVectorArgument> search_regions As Object,
+    Public Function motif_search(db As SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase, <RRawVectorArgument> search_regions As Object,
                                  <RRawVectorArgument(TypeCodes.string)>
                                  Optional family As Object = Nothing,
                                  Optional identities_cutoff As Double = 0.8,
