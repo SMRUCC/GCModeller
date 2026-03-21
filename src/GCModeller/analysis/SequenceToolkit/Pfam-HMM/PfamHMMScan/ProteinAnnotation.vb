@@ -8,6 +8,7 @@
 ' ============================================================================
 
 Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 ''' <summary>
@@ -130,7 +131,37 @@ Public Class ProteinAnnotator
     ''' </summary>
     ''' <param name="protein">蛋白质序列</param>
     ''' <returns>最佳注释结果</returns>
-    Public Function Annotate(protein As FastaSeq) As AnnotationResult
+    Public Function Annotate(protein As FastaSeq) As IEnumerable(Of AnnotationResult)
+        If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
+            Return Nothing
+        End If
+
+        Dim all As New List(Of AnnotationResult)
+
+        For Each kvp As KeyValuePair(Of String, ProfileHMM) In _models
+            Dim model As ProfileHMM = kvp.Value
+            Dim result As AnnotationResult = CompareSequence(protein.SequenceData, model)
+
+            If result IsNot Nothing Then
+                result.SeqId = protein.Headers(0)
+                result.IsSignificant = (result.EValue <= _eValueThreshold AndAlso
+                                         result.BitScore >= _bitScoreThreshold)
+                result.Confidence = CalculateConfidence(result.BitScore, result.EValue)
+                all.Add(result)
+            End If
+        Next
+
+        Return From result As AnnotationResult
+               In all
+               Order By result.BitScore Descending
+    End Function
+
+    ''' <summary>
+    ''' 对单个蛋白质序列进行注释
+    ''' </summary>
+    ''' <param name="protein">蛋白质序列</param>
+    ''' <returns>最佳注释结果</returns>
+    Public Function AnnotateTop(protein As FastaSeq) As AnnotationResult
         If protein Is Nothing OrElse String.IsNullOrEmpty(protein.SequenceData) Then
             Return Nothing
         End If
@@ -162,11 +193,11 @@ Public Class ProteinAnnotator
     ''' 对蛋白质序列列表进行批量注释
     ''' </summary>
     ''' <param name="proteins">蛋白质序列列表</param>
-    Public Sub AnnotateAll(proteins As IEnumerable(Of FastaSeq))
+    Public Iterator Function AnnotateAll(proteins As IEnumerable(Of FastaSeq)) As IEnumerable(Of AnnotationResult)
         For Each protein As FastaSeq In proteins
-            Annotate(protein)
+            Yield AnnotateTop(protein)
         Next
-    End Sub
+    End Function
 
     ''' <summary>
     ''' 使用指定模型对序列进行比对
@@ -176,11 +207,12 @@ Public Class ProteinAnnotator
     ''' <returns>注释结果</returns>
 
     Private Function CompareSequence(sequence As String, model As ProfileHMM) As AnnotationResult
-        Dim result As New AnnotationResult()
-        result.ModelName = model.Name
+        Dim result As New AnnotationResult() With {
+            .ModelName = model.Name
+        }
 
         ' 计算比特得分
-        Dim scoreResult = model.CalculateBitScore(sequence)
+        Dim scoreResult As BitScoreResult = model.CalculateBitScore(sequence)
         result.BitScore = scoreResult.Score
 
         ' 计算E值

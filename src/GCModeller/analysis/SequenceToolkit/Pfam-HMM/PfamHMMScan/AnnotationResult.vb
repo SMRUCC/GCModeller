@@ -3,6 +3,8 @@
 ''' </summary>
 Public Class AnnotationResult
 
+    Public Property SeqId As String
+
     ''' <summary>
     ''' 匹配的模型名称
     ''' </summary>
