@@ -111,19 +111,30 @@ declare namespace uniprot {
         * @param extractAll populate the sequence with all uniprot accession id
         * 
         * + default value Is ``false``.
-        * @param KOseq 
-        * + default value Is ``false``.
-        * @param db_xref 
-        * + default value Is ``null``.
+        * @param title the fasta title header template, data keys for template could be:
+        *  
+        *  1. uniprot_id
+        *  2. fullname
+        *  3. name
+        *  4. ncbi_taxid
+        *  5. organism
+        *  6. ec_number
+        *  7. go_id
+        *  8. gene_name
+        *  9. ORF
+        *  10. subcellular_location
+        *  11. db_xrefs...
+        * 
+        * + default value Is ``'<uniprot_id> <fullname>'``.
         * @param env -
         * 
         * + default value Is ``null``.
         * @return a collection of the @``T:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq`` that export from the given protein set.
         *  
         *  the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
-        *  the db_xref is optional if the parameter **`db_xref`** is not be omited.
+        *  the db_xref is optional if the parameter "db_xref" is not be omited.
       */
-      function seqs(uniprot: any, extractAll?: boolean, KOseq?: boolean, db_xref?: string, env?: object): object;
+      function seqs(uniprot: any, extractAll?: boolean, title?: string, env?: object): object;
    }
    /**
     * export protein annotation data as data frame.

@@ -5,8 +5,7 @@ protein.seqs \- populate all protein fasta sequence from the given uniprot datab
 .SH SYNOPSIS
 \fIprotein.seqs(\fBuniprot\fR as any, 
 \fBextractAll\fR as boolean = FALSE, 
-\fBKOseq\fR as boolean = FALSE, 
-\fBdb_xref\fR as string = \fB<NULL>\fR, 
+\fBtitle\fR as string = "<uniprot_id> <fullname>", 
 [\fB<Environment>\fR]);\fR
 .SH DESCRIPTION
 .PP
@@ -20,6 +19,23 @@ populate all protein fasta sequence from the given uniprot database reader
 \fBextractAll\fB \fR\- populate the sequence with all uniprot accession id. 
 .PP
 .PP
+\fBtitle\fB \fR\- 
+ the fasta title header template, data keys for template could be:
+ 
+ 1. uniprot_id
+ 2. fullname
+ 3. name
+ 4. ncbi_taxid
+ 5. organism
+ 6. ec_number
+ 7. go_id
+ 8. gene_name
+ 9. ORF
+ 10. subcellular_location
+ 11. db_xrefs...
+. 
+.PP
+.PP
 \fBenv\fB \fR\- -. 
 .PP
 .SH VALUE
@@ -27,7 +43,7 @@ populate all protein fasta sequence from the given uniprot database reader
 a collection of the @\fBT:SMRUCC.genomics.SequenceModel.FASTA.FastaSeq\fR that export from the given protein set.
  
  the generated fasta sequence header title in format: \fBuniprot_id|db_xref|protein function\fR.
- the db_xref is optional if the parameter **`db_xref`** is not be omited.
+ the db_xref is optional if the parameter "db_xref" is not be omited.
 .PP
 .SH SEE ALSO
 uniprot
