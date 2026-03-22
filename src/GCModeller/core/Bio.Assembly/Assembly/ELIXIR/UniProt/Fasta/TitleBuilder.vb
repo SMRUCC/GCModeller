@@ -5,7 +5,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Assembly.Uniprot
 
-    Public Class TitleTemplate : Implements IKeyDataReader
+    Public Class TitleBuilder : Implements IKeyDataReader
 
         ReadOnly template As StringTemplate
         ReadOnly extractAll As Boolean
