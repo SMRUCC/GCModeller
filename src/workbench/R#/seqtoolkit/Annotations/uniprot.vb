@@ -530,88 +530,47 @@ Module uniprotTools
     ''' </summary>
     ''' <param name="uniprot">a collection of the uniprot protein <see cref="entry"/> data.</param>
     ''' <param name="extractAll">populate the sequence with all uniprot accession id</param>
+    ''' <param name="title">
+    ''' the fasta title header template, data keys for template could be:
+    ''' 
+    ''' 1. uniprot_id
+    ''' 2. fullname
+    ''' 3. name
+    ''' 4. ncbi_taxid
+    ''' 5. organism
+    ''' 6. ec_number
+    ''' 7. go_id
+    ''' 8. gene_name
+    ''' 9. ORF
+    ''' 10. subcellular_location
+    ''' 11. db_xrefs...
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns>
     ''' a collection of the <see cref="FastaSeq"/> that export from the given protein set.
     ''' 
     ''' the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
-    ''' the db_xref is optional if the parameter <paramref name="db_xref"/> is not be omited.
+    ''' the db_xref is optional if the parameter "db_xref" is not be omited.
     ''' </returns>
     <ExportAPI("protein.seqs")>
     <RApiReturn(GetType(FastaSeq))>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
-                                  Optional KOseq As Boolean = False,
-                                  Optional db_xref As String = Nothing,
+                                  Optional title As String = "<uniprot_id> <fullname>",
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)
-        Dim protFa = Function(prot As entry) makeFasta(prot, KOseq, extractAll, db_xref)
+        Dim builder As New TitleBuilder(title, extractAll)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
         Else
             Return source.TryCast(Of IEnumerable(Of protein)) _
                 .Select(Function(prot)
-                            Return protFa(prot)
+                            Return builder.Fasta(prot)
                         End Function) _
                 .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
-        End If
-    End Function
-
-    Private Iterator Function makeFasta(prot As protein, KOseq As Boolean, extractAll As Boolean, db_xref As String) As IEnumerable(Of FastaSeq)
-        Dim fullname As String = prot.proteinFullName
-        Dim db_xrefs As String() = Nothing
-        Dim prot_seq As String = prot.ProteinSequence
-
-        If Not db_xref Is Nothing Then
-            db_xrefs = prot.DbReferenceIds(db_xref).ToArray
-        End If
-
-        If KOseq Then
-            Dim KO As dbReference = prot.KO
-
-            If Not KO Is Nothing Then
-                Yield New FastaSeq With {
-                    .Headers = {KO.id, fullname},
-                    .SequenceData = prot_seq
-                }
-            End If
-        ElseIf db_xrefs IsNot Nothing Then
-            Dim gene_ORF As String = prot.ORF
-
-            If db_xrefs.IsNullOrEmpty AndAlso Not gene_ORF Is Nothing Then
-                db_xrefs = New String() {gene_ORF}
-            End If
-
-            If db_xrefs.IsNullOrEmpty Then
-                Yield New FastaSeq With {
-                    .Headers = {prot.accessions(Scan0), fullname},
-                    .SequenceData = prot_seq
-                }
-            Else
-                For Each id As String In db_xrefs
-                    Yield New FastaSeq With {
-                        .Headers = {prot.accessions(Scan0), id, fullname},
-                        .SequenceData = prot_seq
-                    }
-                Next
-            End If
-        Else
-            If extractAll Then
-                For Each accid As String In prot.accessions
-                    Yield New FastaSeq With {
-                        .Headers = {accid, fullname},
-                        .SequenceData = prot_seq
-                    }
-                Next
-            Else
-                Yield New FastaSeq With {
-                    .Headers = {prot.accessions(Scan0), fullname},
-                    .SequenceData = prot_seq
-                }
-            End If
         End If
     End Function
 
