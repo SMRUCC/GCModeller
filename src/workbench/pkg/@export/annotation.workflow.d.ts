@@ -147,8 +147,10 @@ declare namespace annotation.workflow {
      * @param stream -
      * 
      * + default value Is ``false``.
+     * @param filter 
+     * + default value Is ``'unknown'``.
    */
-   function read_m8(file: string, stream?: boolean): object;
+   function read_m8(file: string, stream?: boolean, filter?: string): object;
    module stream {
       /**
        * Save the annotation rawdata into the given stream file.
