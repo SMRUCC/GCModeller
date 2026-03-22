@@ -133,9 +133,9 @@ Module workflows
         End If
 
         If LCase(type) = "nucl" Then
-            Return BlastPlus.TryParseUltraLarge(file).Queries.DoCall(AddressOf pipeline.CreateFromPopulator)
+            Return BlastPlus.TryParseUltraLarge(file).Queries.as_iterator
         ElseIf LCase(type) = "prot" Then
-            Return pipeline.CreateFromPopulator(BlastpOutputReader.RunParser(file, fast:=fastMode))
+            Return BlastpOutputReader.RunParser(file, fast:=fastMode).as_iterator
         Else
             Return RInternal.debug.stop($"invalid program type: {type}!", env)
         End If
@@ -160,7 +160,7 @@ Module workflows
 
         Return query.populates(Of Query)(env) _
             .Export(parallel:=False, topBest:=top_best) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .as_iterator
     End Function
 
     ''' <summary>
@@ -207,7 +207,7 @@ Module workflows
                             End Function
         End If
 
-        Return New pipeline(hitsPopulator().IteratesALL, GetType(BestHit))
+        Return hitsPopulator().IteratesALL.as_iterator
     End Function
 
     <ExportAPI("blasthit.bbh")>
@@ -250,7 +250,7 @@ Module workflows
                         qvs:=forward.populates(Of BestHit)(env),
                         svq:=reverse.populates(Of BestHit)(env)
                     ) _
-                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    .as_iterator
 
             Case BBHAlgorithm.BHR
                 Throw New NotImplementedException
@@ -259,7 +259,7 @@ Module workflows
             Case BBHAlgorithm.HybridBHR
                 Return FastMatch _
                     .BinaryMatch(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)) _
-                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    .as_iterator
             Case Else
                 Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
         End Select
@@ -309,7 +309,7 @@ Module workflows
                              End Function
         End If
 
-        Return New pipeline(queryPopulator(), GetType(Query))
+        Return queryPopulator().as_iterator
     End Function
 
     ''' <summary>
@@ -413,7 +413,7 @@ Module workflows
                                 .OrderByDescending(Function(hit) hit.score) _
                                 .First
                         End Function) _
-                .DoCall(AddressOf pipeline.CreateFromPopulator)
+                .as_iterator
         Else
             Return pipeline.CreateFromPopulator(stream)
         End If
@@ -431,7 +431,7 @@ Module workflows
         Return file _
             .OpenHandle(encoding.CodePage) _
             .AsLinq(Of BestHit) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .as_iterator
     End Function
 
     ''' <summary>
@@ -460,7 +460,7 @@ Module workflows
                     Return file _
                         .OpenHandle(encoding.CodePage) _
                         .AsLinq(Of BiDirectionalBesthit) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .as_iterator
                 Else
                     Return New WriteStream(Of BiDirectionalBesthit)(file, encoding:=encoding)
                 End If
@@ -469,7 +469,7 @@ Module workflows
                     Return file _
                         .OpenHandle(encoding.CodePage) _
                         .AsLinq(Of BlastnMapping) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .as_iterator
                 Else
                     Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding, metaKeys:={})
                 End If
@@ -478,7 +478,7 @@ Module workflows
                     Return file _
                         .OpenHandle(encoding.CodePage) _
                         .AsLinq(Of RankTerm) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .as_iterator
                 Else
                     Return New WriteStream(Of RankTerm)(file, encoding:=encoding, metaKeys:={})
                 End If
@@ -497,7 +497,7 @@ Module workflows
     <RApiReturn(GetType(DiamondAnnotation))>
     Public Function read_m8(file As String, Optional stream As Boolean = False) As Object
         If stream Then
-            Return pipeline.CreateFromPopulator(DiamondM8Parser.ParseFile(file))
+            Return DiamondM8Parser.ParseFile(file).as_iterator
         Else
             Return DiamondM8Parser.ParseFile(file).ToArray
         End If
