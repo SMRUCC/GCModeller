@@ -495,11 +495,26 @@ Module workflows
     ''' <returns></returns>
     <ExportAPI("read_m8")>
     <RApiReturn(GetType(DiamondAnnotation))>
-    Public Function read_m8(file As String, Optional stream As Boolean = False) As Object
-        If stream Then
-            Return DiamondM8Parser.ParseFile(file).as_iterator
+    Public Function read_m8(file As String,
+                            Optional stream As Boolean = False,
+                            Optional filter As String = "unknown") As Object
+
+        Dim source As IEnumerable(Of DiamondAnnotation) = DiamondM8Parser.ParseFile(file)
+        Dim output As IEnumerable(Of DiamondAnnotation)
+
+        If Not filter.StringEmpty Then
+            output = From a As DiamondAnnotation
+                     In source
+                     Where a.QseqId <> filter AndAlso
+                         a.SseqId <> filter
         Else
-            Return DiamondM8Parser.ParseFile(file).ToArray
+            output = source
+        End If
+
+        If stream Then
+            Return output.as_iterator
+        Else
+            Return output.ToArray
         End If
     End Function
 
