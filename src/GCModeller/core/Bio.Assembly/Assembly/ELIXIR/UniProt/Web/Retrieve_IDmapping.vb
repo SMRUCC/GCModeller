@@ -76,9 +76,7 @@ Namespace Assembly.Uniprot.Web
 
     Public Module Retrieve_IDmapping
 
-        ReadOnly idTypes As Dictionary(Of String, ID_types) =
-            Enums(Of ID_types) _
-            .ToDictionary(Function(id) id.Description)
+        ReadOnly idTypes As Dictionary(Of String, ID_types) = Enums(Of ID_types).ToDictionary(Function(id) id.Description)
 
         Public Function IDTypeParser(value$, Optional [default] As ID_types = ID_types.P_REFSEQ_AC) As ID_types
             value = value.ToUpper
@@ -315,47 +313,4 @@ Namespace Assembly.Uniprot.Web
             Return MappingReader(path).Values.Unlist.Distinct.ToArray
         End Function
     End Module
-
-    Public Enum Formats
-        ''' <summary>
-        ''' FASTA (canonical)
-        ''' </summary>
-        canonical
-        ''' <summary>
-        ''' FASTA (canonical &amp; isoform)
-        ''' </summary>
-        isoform
-        ''' <summary>
-        ''' Tab-separated
-        ''' </summary>
-        tab
-        ''' <summary>
-        ''' Text
-        ''' </summary>
-        txt
-        ''' <summary>
-        ''' Excel
-        ''' </summary>
-        xlsx
-        ''' <summary>
-        ''' GFF
-        ''' </summary>
-        gff
-        ''' <summary>
-        ''' XML
-        ''' </summary>
-        xml
-        ''' <summary>
-        ''' Mapping Table
-        ''' </summary>         
-        mappingTable
-        ''' <summary>
-        ''' RDF/XML
-        ''' </summary>
-        rdf
-        ''' <summary>
-        ''' Target List
-        ''' </summary>
-        list
-    End Enum
 End Namespace
