@@ -94,7 +94,10 @@ Public Class DiamondAnnotation : Implements IBlastHit, IMap, IQueryHits
             .evalue = EValue,
             .score = BitScore,
             .length_query = QEnd - QStart,
-            .length_hit = SEnd - SStart
+            .length_hit = SEnd - SStart,
+            .hit_length = .length_hit,
+            .query_length = .length_query,
+            .positive = .identities
         }
     End Function
 End Class
