@@ -87,7 +87,7 @@ Public Class DiamondAnnotation : Implements IBlastHit, IMap, IQueryHits
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetSingleHit() As BestHit
         Return New BestHit With {
-            .QueryName = Me.QseqId,
+            .QueryName = QseqId,
             .HitName = SseqId,
             .identities = Pident,
             .length_hsp = Length,

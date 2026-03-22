@@ -229,6 +229,12 @@ Module workflows
             reverse = reverse.ExportSBHHits(env:=env)
             env.AddMessage($"Best hit result from raw query in reverse direction with default parameters.", MSG_TYPES.WRN)
         End If
+        If forward.elementType Like GetType(DiamondAnnotation) Then
+            forward = pipeline.CreateFromPopulator(forward.populates(Of DiamondAnnotation)(env).Select(Function(a) a.GetSingleHit))
+        End If
+        If reverse.elementType Like GetType(DiamondAnnotation) Then
+            reverse = pipeline.CreateFromPopulator(reverse.populates(Of DiamondAnnotation)(env).Select(Function(a) a.GetSingleHit))
+        End If
 
         If Not forward.elementType Like GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in forward direction for create bbh result!", env)
