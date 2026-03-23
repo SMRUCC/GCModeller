@@ -73,15 +73,23 @@ Namespace Motif
         <XmlAttribute> Public Property name As String
         Public Property note As String
 
-        Public Overrides Function ToString() As String
-            Return name & " - " & pwm _
-                .Select(Function(p)
-                            Dim max As Integer = which.Max(p.PWM)
-                            Dim c As Char = alphabets(max)
+        Public ReadOnly Property site_pattern As String
+            Get
+                Return PatternChars.CharString
+            End Get
+        End Property
 
-                            Return ResidueSite.ToChar(c, p.PWM.Max)
-                        End Function) _
-                .CharString
+        Public Iterator Function PatternChars() As IEnumerable(Of Char)
+            For Each p As ResidueSite In pwm
+                Dim max As Integer = which.Max(p.PWM)
+                Dim c As Char = alphabets(max)
+
+                Yield ResidueSite.ToChar(c, p.PWM.Max)
+            Next
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return name & " - " & site_pattern
         End Function
 
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
