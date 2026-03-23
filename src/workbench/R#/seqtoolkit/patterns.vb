@@ -316,8 +316,13 @@ Module patterns
     ''' <param name="file">should be a file path to a csv table file.</param>
     ''' <returns></returns>
     <ExportAPI("read.scans")>
-    Public Function readSites(file As String) As MotifMatch()
-        Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
+    <RApiReturn(GetType(MotifMatch))>
+    Public Function readSites(file As String, Optional tqdm As Boolean = False) As Object
+        If tqdm Then
+            Return file.OpenHandle.AsLinq(Of MotifMatch).as_iterator
+        Else
+            Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
+        End If
     End Function
 
     <ExportAPI("top_sites")>
