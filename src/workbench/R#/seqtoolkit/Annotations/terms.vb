@@ -355,6 +355,7 @@ Module terms
                                     Optional top_best As Boolean = True,
                                     Optional direct_term_maps As Boolean = False,
                                     Optional filter_unknown As Boolean = False,
+                                    Optional identities_cut As Double = 0,
                                     Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env, suppress:=True)
@@ -390,8 +391,11 @@ Module terms
             Next
         End If
 
+        Dim clean = From hit As BestHit
+                    In pull.populates(Of BestHit)(env)
+                    Where hit.identities > identities_cut
         Dim terms As RankTerm() = RankTerm _
-            .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=top_best) _
+            .RankTopTerm(clean, maps, topBest:=top_best) _
             .ToArray
 
         If filter_unknown Then
