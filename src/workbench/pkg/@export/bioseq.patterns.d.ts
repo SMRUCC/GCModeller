@@ -187,8 +187,10 @@ declare namespace bioseq.patterns {
        * 
        * 
         * @param file should be a file path to a csv table file.
+        * @param tqdm 
+        * + default value Is ``false``.
       */
-      function scans(file: string): object;
+      function scans(file: string, tqdm?: boolean): object;
    }
    module scaffold {
       /**
