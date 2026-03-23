@@ -1,3 +1,7 @@
+#' Fetch protein data from uniprot via rest api
+#' 
+#' @param q the query term
+#' 
 const download_proteins = function(q, tax_id = NULL, as_fasta = TRUE) {
     imports "UniProt" from "annotationKit";
 

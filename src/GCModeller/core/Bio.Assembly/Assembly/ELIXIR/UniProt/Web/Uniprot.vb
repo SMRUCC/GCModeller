@@ -94,6 +94,13 @@ Namespace Assembly.Uniprot.Web
         End Function
 
         Const UNIPROT_FASTA_DOWNLOAD_URL As String = "http://www.uniprot.org/uniprot/{0}.fasta"
+        Const UNIPROT_ENTRY_DOWNLOAD_URL As String = "https://rest.uniprot.org/uniprotkb/{0}.xml"
+
+        Public Function DownloadProteinData(UniprotId As String) As XML.entry
+            Dim url As String = String.Format(UNIPROT_ENTRY_DOWNLOAD_URL, UniprotId)
+            Dim xml As String = url.GET
+            Return xml.LoadFromXml(Of XML.entry)
+        End Function
 
         ''' <summary>
         ''' Download a protein sequence fasta data from http://www.uniprot.org/ 

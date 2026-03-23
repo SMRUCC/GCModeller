@@ -54,6 +54,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -135,5 +136,10 @@ Public Module UniProt
     <ExportAPI("rest_query")>
     Public Function uniprot_query(q As String, Optional tax_id As UInteger? = Nothing) As RestQueryResult()
         Return WebServices.CreateQuery(q, tax_id)
+    End Function
+
+    <ExportAPI("rest_uniprot")>
+    Public Function download_protein(uniprot_id As String) As XML.entry
+        Return WebServices.DownloadProteinData(uniprot_id)
     End Function
 End Module
