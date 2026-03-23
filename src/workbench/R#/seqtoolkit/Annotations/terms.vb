@@ -353,6 +353,8 @@ Module terms
     Public Function TermAnnotations(<RRawVectorArgument> alignment As Object,
                                     Optional term_maps As list = Nothing,
                                     Optional top_best As Boolean = True,
+                                    Optional direct_term_maps As Boolean = False,
+                                    Optional filter_unknown As Boolean = False,
                                     Optional env As Environment = Nothing) As Object
 
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of BestHit)(alignment, env, suppress:=True)
@@ -378,15 +380,27 @@ Module terms
             term_maps = list.empty
         End If
 
-        For Each term As KeyValuePair(Of String, Object) In term_maps.slots
-            For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
-                maps(id) = term.Key
+        If direct_term_maps Then
+            maps = term_maps.AsGeneric(Of String)(env)
+        Else
+            For Each term As KeyValuePair(Of String, Object) In term_maps.slots
+                For Each id As String In CLRVector.asCharacter(term.Value).SafeQuery
+                    maps(id) = term.Key
+                Next
             Next
-        Next
+        End If
 
         Dim terms As RankTerm() = RankTerm _
             .RankTopTerm(pull.populates(Of BestHit)(env), maps, topBest:=top_best) _
             .ToArray
+
+        If filter_unknown Then
+            terms = terms _
+                .Where(Function(t)
+                           Return t.term <> RankTerm.Unknown
+                       End Function) _
+                .ToArray
+        End If
 
         Return terms
     End Function

@@ -113,11 +113,13 @@ Namespace Pipeline
                    Select New NamedValue(Of Double)(key, score)
         End Function
 
+        Public Const Unknown As String = NameOf(Unknown)
+
         Private Shared Iterator Function MakeTerms(scores As IEnumerable(Of NamedValue(Of Double)), queryId As String, termMaps As Dictionary(Of String, String)) As IEnumerable(Of RankTerm)
             Dim missingMap As Boolean = termMaps.IsNullOrEmpty
             Dim buildTerms = From a As NamedValue(Of Double)
                              In scores
-                             Let term As String = If(missingMap, a.Name, termMaps.TryGetValue(a.Name, [default]:="Unknown"))
+                             Let term As String = If(missingMap, a.Name, termMaps.TryGetValue(a.Name, [default]:=Unknown))
                              Group By term Into Group
                              Select New NamedCollection(Of NamedValue(Of Double))(term, Group.Select(Function(i) i.a))
 
