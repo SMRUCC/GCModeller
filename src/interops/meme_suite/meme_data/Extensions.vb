@@ -159,6 +159,7 @@ Public Module Extensions
 
             Dim name As String = block(0)
             Dim notes As String = block(1) & vbCrLf & block.Last
+            Dim nsites = Integer.Parse(block(1).Match("nsites\s*[=]\s*\d+").GetTagValue("=").Value)
 
             block = block.Skip(2).Take(block.Length - 3).ToArray
             offset = 1
@@ -177,13 +178,13 @@ Public Module Extensions
                 matrix.Add(row)
             Next
 
-            Dim n As Integer = 100
-            Dim base As Integer = 4
-            Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
+            Dim alphabetSize As Integer = alphabets.Length
+            Dim logAlphabet As Double = Math.Log(alphabetSize, 2)
+            Dim e_n As Double = (alphabetSize - 1) / (2 * Math.Log(2) * nsites)
             Dim H As Double() = matrix.Select(Function(x) Probability.HI(x(alphabets))).ToArray
 
             For i As Integer = 0 To matrix.Count - 1
-                matrix(i).bits = Math.Log(n, 2) - (H(i) + E)
+                matrix(i).bits = logAlphabet - (H(i) + e_n)
             Next
 
             Yield New MotifPWM With {
