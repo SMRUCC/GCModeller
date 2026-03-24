@@ -73,11 +73,3 @@ Public Class PanGenomeResult
     Public Property GeneticDistanceMatrix As New Dictionary(Of String, Double)()
 
 End Class
-
-Public Class PangenomeCurveData
-
-    Public Property GenomeCount As Integer
-    Public Property TotalGenes As Integer
-    Public Property CoreGenes As Integer
-
-End Class

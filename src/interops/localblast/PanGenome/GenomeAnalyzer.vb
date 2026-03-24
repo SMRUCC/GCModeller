@@ -1,4 +1,3 @@
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -87,22 +86,12 @@ Public Class GenomeAnalyzer
         Next
     End Sub
 
-    ''' <summary>
-    ''' 执行泛基因组分析的主函数
-    ''' </summary>
-    ''' <param name="orthologDict">直系同源比对结果</param>
-    ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
-        Dim dispensableGeneFamilies As New List(Of String)
-        Dim coreGeneFamilies As New List(Of String)
-        Dim singleCopyOrthologFamilies As New List(Of String)
-        Dim specificGeneFamilies As New List(Of String)
-
+    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As Dictionary(Of String, List(Of String))
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
-                    uf.Union(ortho.QueryName, ortho.HitName)
+                    Call uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
         Next
@@ -117,6 +106,20 @@ Public Class GenomeAnalyzer
             familyMap(root).Add(geneId)
         Next
 
+        Return familyMap
+    End Function
+
+    ''' <summary>
+    ''' 执行泛基因组分析的主函数
+    ''' </summary>
+    ''' <param name="orthologDict">直系同源比对结果</param>
+    ''' <returns>分析结果对象</returns>
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
+        Dim dispensableGeneFamilies As New List(Of String)
+        Dim coreGeneFamilies As New List(Of String)
+        Dim singleCopyOrthologFamilies As New List(Of String)
+        Dim specificGeneFamilies As New List(Of String)
+        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict)
 
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建
@@ -161,7 +164,7 @@ Public Class GenomeAnalyzer
         result.DispensableGeneFamilies = dispensableGeneFamilies.ToArray
         result.CoreGeneFamilies = coreGeneFamilies.ToArray
 
-        CategorizeGeneFamilies(result, totalGenomes)
+        Call CategorizeGeneFamilies(result, totalGenomes)
 
         ' ==========================================
         ' 步骤 3: 泛基因组曲线计算
@@ -182,7 +185,7 @@ Public Class GenomeAnalyzer
         ' ==========================================
         ' 步骤 7: 遗传距离矩阵 (新增)
         ' ==========================================
-        CalculateGeneticDistance(result, orthologDict, genomeNames.ToList())
+        Call CalculateGeneticDistance(result, orthologDict, genomeNames.ToList())
 
         Return result
     End Function
