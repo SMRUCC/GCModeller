@@ -445,6 +445,19 @@ Module workflows
         End If
     End Function
 
+    <ExportAPI("filter_low_level")>
+    Public Function filter_low_level(<RRawVectorArgument> bbh As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(bbh, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return New CLRIterator(From hit As BiDirectionalBesthit
+                               In pull.populates(Of BiDirectionalBesthit)(env)
+                               Where hit.level <> Levels.NA AndAlso hit.level <> Levels.SBH, GetType(BiDirectionalBesthit))
+    End Function
+
     ''' <summary>
     ''' read the hits data in pipeline stream style
     ''' </summary>
