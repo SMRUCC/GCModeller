@@ -84,6 +84,10 @@ declare namespace annotation.workflow {
      * + default value Is ``null``.
    */
    function diamond_hitgroups(x: any, env?: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function filter_low_level(bbh: any, env?: object): any;
    module grep {
       /**
         * @param applyOnHits default value Is ``false``.

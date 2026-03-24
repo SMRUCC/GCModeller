@@ -11,6 +11,7 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 
 <Package("pangenome")>
+<RTypeExport("pangenome", GetType(PanGenomeResult))>
 Module pangenome
 
     Sub Main()
