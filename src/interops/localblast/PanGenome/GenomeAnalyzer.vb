@@ -416,21 +416,47 @@ Public Class GenomeAnalyzer
         ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
 
     End Function
+
+    ''' <summary>
+    ''' 执行扩展的基因家族分类
+    ''' </summary>
+    Private Sub CategorizeGeneFamilies(result As PanGenomeResult, totalGenomes As Integer)
+        ' 定义阈值百分比
+        Dim coreThreshold As Double = 1.0 ' 100%
+        Dim softCoreThreshold As Double = 0.95 ' 95%
+        Dim shellThreshold As Double = 0.15 ' 15%
+
+        For Each familyKvp In result.GeneFamilies
+            Dim familyId = familyKvp.Key
+            Dim pavRow = result.PAVMatrix(familyId)
+
+            ' 计算该家族在多少个基因组中存在
+            Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
+            Dim presenceRatio = presenceCount / totalGenomes
+
+            ' 分类判断
+            If presenceRatio = coreThreshold Then
+                ' 1. 核心基因
+                result.CoreGeneFamilies.Add(familyId)
+
+            ElseIf presenceRatio >= softCoreThreshold AndAlso presenceRatio < coreThreshold Then
+                ' 2. 软核心基因
+                result.SoftCoreGeneFamilies.Add(familyId)
+
+            ElseIf presenceRatio >= shellThreshold AndAlso presenceRatio < softCoreThreshold Then
+                ' 3. 壳基因
+                result.ShellGeneFamilies.Add(familyId)
+
+            Else ' presenceRatio < shellThreshold
+                ' 4. 云基因
+                result.CloudGeneFamilies.Add(familyId)
+
+                ' 5. 特异基因 (云基因的特例)
+                If presenceCount = 1 Then
+                    result.SpecificGeneFamilies.Add(familyId)
+                End If
+            End If
+        Next
+    End Sub
 End Class
 
-Public Class OrthologyLink
-
-    <XmlAttribute>
-    Public Property Tuple As String()
-
-    Sub New()
-    End Sub
-
-    Sub New(ParamArray geneSet As String())
-        Tuple = geneSet
-    End Sub
-
-    Public Overrides Function ToString() As String
-        Return $"[{Tuple.JoinBy(", ")}]"
-    End Function
-End Class
