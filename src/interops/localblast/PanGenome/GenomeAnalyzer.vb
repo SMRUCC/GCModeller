@@ -533,6 +533,11 @@ Public Class GenomeAnalyzer
             Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
             Dim presenceRatio = presenceCount / totalGenomes
 
+            ' 5. 特异基因 (云基因的特例)
+            If presenceCount = 1 Then
+                specificGeneFamilies.Add(familyId)
+            End If
+
             ' 分类判断
             If presenceRatio = CoreThreshold Then
                 ' 1. 核心基因
@@ -549,12 +554,7 @@ Public Class GenomeAnalyzer
             Else
                 ' presenceRatio < shellThreshold
                 ' 4. 云基因
-                cloudGeneFamilies.Add(familyId)
-
-                ' 5. 特异基因 (云基因的特例)
-                If presenceCount = 1 Then
-                    specificGeneFamilies.Add(familyId)
-                End If
+                Call cloudGeneFamilies.Add(familyId)
             End If
         Next
 

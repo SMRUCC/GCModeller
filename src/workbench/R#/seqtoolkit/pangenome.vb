@@ -20,7 +20,10 @@ Module pangenome
     ''' <returns></returns>
     <ExportAPI("build_context")>
     <RApiReturn(GetType(GenomeAnalyzer))>
-    Public Function build_context(<RRawVectorArgument> genomes As Object, Optional env As Environment = Nothing) As Object
+    Public Function build_context(<RRawVectorArgument> genomes As Object,
+                                  Optional soft_core_threshold As Double = 0.95,
+                                  Optional env As Environment = Nothing) As Object
+
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of GFFTable)(genomes, env)
 
         If pull.isError Then
@@ -28,7 +31,9 @@ Module pangenome
         End If
 
         Dim genomeList As IEnumerable(Of GFFTable) = pull.populates(Of GFFTable)(env)
-        Dim context As New GenomeAnalyzer(genomeList)
+        Dim context As New GenomeAnalyzer(genomeList) With {
+            .SoftCoreThreshold = soft_core_threshold
+        }
 
         Return context
     End Function

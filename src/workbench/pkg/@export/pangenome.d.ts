@@ -17,11 +17,13 @@ declare namespace pangenome {
     * 
     * 
      * @param genomes should be a collection of the genome GFF feature tables
+     * @param soft_core_threshold 
+     * + default value Is ``0.95``.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function build_context(genomes: any, env?: object): object;
+   function build_context(genomes: any, soft_core_threshold?: number, env?: object): object;
    /**
    */
    function report_html(result: object): string;
