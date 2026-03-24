@@ -3,13 +3,20 @@
 
 Public Class GenomeAnalyzer
 
+    Dim genomeNames As New HashSet(Of String)()
+    Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
+    Dim result As New PanGenomeResult()
+    Dim uf As New UnionFind()
+    Dim geneAnnotations As Dictionary(Of String, GeneInfo)
+    Dim totalGenomes As Integer
+
     ''' <summary>
-    ''' 执行泛基因组分析的主函数（扩展版）
+    ''' 
     ''' </summary>
-    ''' <param name="orthologDict">直系同源比对结果</param>
-    ''' <param name="geneAnnotations">所有基因的详细信息字典，Key为GeneID</param>
-    ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog()), geneAnnotations As Dictionary(Of String, GeneInfo)) As PanGenomeResult
+    ''' <param name="geneAnnotations">
+    ''' 所有基因的详细信息字典，Key为GeneID
+    ''' </param>
+    Sub New(geneAnnotations As Dictionary(Of String, GeneInfo))
         ' 0. 预处理：构建基因组列表和基因集合
         Dim genomeNames As New HashSet(Of String)()
         Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
@@ -24,24 +31,31 @@ Public Class GenomeAnalyzer
             genomeGeneSets(gInfo.GenomeName).Add(gInfo.GeneID)
         Next
 
-        Dim totalGenomes As Integer = genomeNames.Count
-        Dim result As New PanGenomeResult()
+        totalGenomes = genomeNames.Count
 
         ' 统计总数
         For Each kvp In genomeGeneSets
             result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
         Next
 
-
         ' ==========================================
         ' 步骤 1: 并查集聚类 (逻辑不变)
         ' ==========================================
-        Dim uf As New UnionFind()
+
         ' 初始化所有基因
         For Each geneId In geneAnnotations.Keys
             uf.AddElement(geneId)
         Next
 
+        Me.geneAnnotations = geneAnnotations
+    End Sub
+
+    ''' <summary>
+    ''' 执行泛基因组分析的主函数（扩展版）
+    ''' </summary>
+    ''' <param name="orthologDict">直系同源比对结果</param>
+    ''' <returns>分析结果对象</returns>
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog())) As PanGenomeResult
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
