@@ -169,6 +169,10 @@ Module pangenome
 
         For i As Integer = 0 To subset.Length - 1
             subset(i).FamilyID = idc(i).Key
+
+            If subset(i).PAV Is Nothing Then
+                subset(i).PAV = New Dictionary(Of String, Integer)
+            End If
         Next
 
         Return subset

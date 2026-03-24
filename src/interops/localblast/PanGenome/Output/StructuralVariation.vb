@@ -4,7 +4,11 @@
 ''' 结构变异类型枚举
 ''' </summary>
 ''' 
-<DataContract> Public Enum SVType
+<DataContract> Public Enum SVType As Integer
+
+    <EnumMember(Value:=NameOf(None))>
+    None = 0
+
     ''' <summary>
     ''' 缺失：该基因组相对于其他基因组缺少该基因家族
     ''' </summary>
