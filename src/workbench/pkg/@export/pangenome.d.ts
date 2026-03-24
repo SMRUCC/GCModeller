@@ -25,8 +25,10 @@ declare namespace pangenome {
    */
    function build_context(genomes: any, soft_core_threshold?: number, env?: object): object;
    /**
+     * @param index default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function pav_table(result: object): object;
+   function pav_table(result: object, index?: object, env?: object): object;
    /**
    */
    function report_html(result: object): string;
@@ -34,6 +36,8 @@ declare namespace pangenome {
    */
    function source_id(genome: object, source_name: string): object;
    /**
+     * @param index default value Is ``null``.
+     * @param env default value Is ``null``.
    */
-   function sv_table(result: object): object;
+   function sv_table(result: object, index?: object, env?: object): object;
 }
