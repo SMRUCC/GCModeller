@@ -63,22 +63,34 @@ Namespace ComponentModel.Annotation
     Public Module ClusterExtensions
 
         <Extension>
+        Private Iterator Function MakeFlat(Of T As IOrthologyCluster)(clusters As IEnumerable(Of T)) As IEnumerable(Of (id$, cluster As T))
+            For Each c As T In clusters
+                Yield (c.FamilyID, c)
+
+                For Each id As String In c.GeneCluster.SafeQuery
+                    Yield (id, c)
+                Next
+            Next
+        End Function
+
+        Private Function GetLargest(Of T As IOrthologyCluster)(group As IGrouping(Of String, (id$, cluster As T))) As T
+            Dim largest As (id$, cluster As T) = group _
+                .OrderByDescending(Function(i)
+                                       Return i.cluster.GeneCluster.TryCount
+                                   End Function) _
+                .First
+
+            Return largest.cluster
+        End Function
+
+        <Extension>
         Public Iterator Function GetClusters(Of T As {New, IOrthologyCluster})(index As Dictionary(Of String, String()), clusters As IEnumerable(Of T)) As IEnumerable(Of T)
             Dim geneIndex As Dictionary(Of String, T) = clusters _
-                .Select(Iterator Function(c) As IEnumerable(Of (id$, cluster As T))
-                            Yield (c.FamilyID, c)
-
-                            For Each id As String In c.GeneCluster.SafeQuery
-                                Yield (id, c)
-                            Next
-                        End Function) _
-                .IteratesALL _
-                .GroupBy(Function(a) a.id) _
-                .ToDictionary(Function(a) a.Key,
-                              Function(a)
-                                  Return a.OrderByDescending(Function(i) i.cluster.GeneCluster.TryCount) _
-                                      .First _
-                                      .cluster
+                .MakeFlat _
+                .GroupBy(Function(cluster) cluster.id) _
+                .ToDictionary(Function(group) group.Key,
+                              Function(group)
+                                  Return GetLargest(group)
                               End Function)
 
             For Each offset As KeyValuePair(Of String, String()) In index

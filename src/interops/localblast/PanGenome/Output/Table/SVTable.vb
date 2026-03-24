@@ -1,6 +1,7 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+﻿Imports System.Runtime.Serialization
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
-Public Class SVData : Implements IOrthologyCluster
+<DataContract> Public Class SVData : Implements IOrthologyCluster
 
     Public Property SV_ID As String
     Public Property Type As SVType

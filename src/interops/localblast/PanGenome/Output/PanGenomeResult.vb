@@ -1,8 +1,11 @@
 ﻿
+Imports System.Runtime.Serialization
+
 ''' <summary>
 ''' 分析结果存储结构（修改为支持多基因组）
 ''' </summary>
-Public Class PanGenomeResult
+''' 
+<DataContract> Public Class PanGenomeResult
     ''' <summary>
     ''' Key为基因家族ID，Value为该家族包含的所有基因ID列表
     ''' </summary>
