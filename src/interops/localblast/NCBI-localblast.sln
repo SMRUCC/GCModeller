@@ -5,8 +5,6 @@ VisualStudioVersion = 18.0.11111.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "framework", "framework", "{F4AFD3F1-B7DF-4CAC-A094-F9FBB0742AFA}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "localblast", "CLI_tools\localblast.vbproj", "{DB85640A-0767-4B91-983E-66738D81BD6D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "toolkits", "toolkits", "{E008AF84-8089-4C1E-B884-0108AA0A1B52}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Core", "..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj", "{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}"
@@ -80,84 +78,6 @@ Global
 		Surveillance-of-infectious-diseases|x86 = Surveillance-of-infectious-diseases|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|x64.Build.0 = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep_UNIX_x64|x86.Build.0 = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|x64.Build.0 = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biodeep|x86.Build.0 = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|x64.Build.0 = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack|x86.Build.0 = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|x64.ActiveCfg = Debug|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|x64.Build.0 = Debug|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|x86.ActiveCfg = Debug|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Biostack-Debug|x86.Build.0 = Debug|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|x64.ActiveCfg = Debug|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|x64.Build.0 = Debug|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|x86.ActiveCfg = Debug|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Debug|x86.Build.0 = Debug|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|Any CPU.ActiveCfg = docs|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|Any CPU.Build.0 = docs|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|x64.ActiveCfg = docs|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|x64.Build.0 = docs|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|x86.ActiveCfg = docs|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.docs|x86.Build.0 = docs|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|x64.ActiveCfg = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|x64.Build.0 = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(Release_X64)|x86.Build.0 = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = GCModeller(UNIX-Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = GCModeller(UNIX-Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = GCModeller(UNIX-Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.GCModeller(UNIX-Release_X64)|x86.Build.0 = GCModeller(UNIX-Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|x64.Build.0 = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.installer_x64|x86.Build.0 = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|Any CPU.ActiveCfg = Publish|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|Any CPU.Build.0 = Publish|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|x64.ActiveCfg = Publish|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|x64.Build.0 = Publish|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|x86.ActiveCfg = Publish|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Publish|x86.Build.0 = Publish|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|x64.ActiveCfg = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|x64.Build.0 = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|x86.ActiveCfg = Release|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release|x86.Build.0 = Release|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|Any CPU.ActiveCfg = Release|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|Any CPU.Build.0 = Release|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|x64.ActiveCfg = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|x64.Build.0 = Release|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|x86.ActiveCfg = Release|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Release2|x86.Build.0 = Release|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|x64.ActiveCfg = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|x64.Build.0 = GCModeller(Release_X64)|x64
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|x86.ActiveCfg = GCModeller(Release_X64)|x86
-		{DB85640A-0767-4B91-983E-66738D81BD6D}.Surveillance-of-infectious-diseases|x86.Build.0 = GCModeller(Release_X64)|x86
 		{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
 		{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}.Biodeep_UNIX_x64|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{D6A933D3-A04D-0D7B-C14A-D8F9A9F8FA51}.Biodeep_UNIX_x64|x64.ActiveCfg = Rsharp_app_release|x64
@@ -1270,11 +1190,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6CDB3A0-748E-4D64-976D-6271C66C97AB}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		..\..\Settings\Shared\InternalApps_CLI\InternalApps_CLI.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 5
-		..\..\Settings\Shared\RepositoryCommon\RepositoryCommon.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 5
-		..\..\Settings\Shared\Settings.Configuration\Settings.Configuration.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 5
-		..\..\Settings\Shared\Settings.FileSystem\Settings.FileSystem.projitems*{db85640a-0767-4b91-983e-66738d81bd6d}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
