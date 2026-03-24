@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -144,7 +145,9 @@ Module pangenome
         End If
 
         Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
+        Dim subset = idset.GetClusters(table).ToArray
 
+        Return subset
     End Function
 
     <ExportAPI("pav_table")>
@@ -156,5 +159,8 @@ Module pangenome
         End If
 
         Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
+        Dim subset = idset.GetClusters(table).ToArray
+
+        Return subset
     End Function
 End Module
