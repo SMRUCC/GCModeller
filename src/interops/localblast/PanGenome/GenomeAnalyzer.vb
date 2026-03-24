@@ -1,3 +1,4 @@
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Public Class GenomeAnalyzer
@@ -42,6 +43,10 @@ Public Class GenomeAnalyzer
         totalGenomes = genomeNames.Count
 
         Call Initialize()
+    End Sub
+
+    Sub New(genomes As IEnumerable(Of GFFTable))
+        Call Me.New(genomes.ToDictionary(Function(gn) gn.species, Function(gn) GeneInfo.CreateGeneModel(gn).ToArray))
     End Sub
 
     Private Sub Initialize()
