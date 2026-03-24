@@ -17,6 +17,13 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property RelatedGenes As String()
+
+    Public ReadOnly Property ClusterSize As Integer
+        Get
+            Return RelatedGenes.TryCount
+        End Get
+    End Property
+
     ''' <summary>
     ''' 描述信息
     ''' </summary>

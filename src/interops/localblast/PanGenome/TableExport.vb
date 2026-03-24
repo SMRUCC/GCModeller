@@ -6,18 +6,29 @@ Public Module TableExport
 
     <Extension>
     Public Iterator Function SVTable(result As PanGenomeResult) As IEnumerable(Of SVTable)
+        Dim cat As New CategoryHashSet(result)
+
         For Each var As StructuralVariation In result.StructuralVariations.SafeQuery
-            Yield New SVTable(var)
+            Yield New SVTable(var) With {
+                .Category = cat.MakeCategory(.FamilyID),
+                .Dispensable = .FamilyID Like cat.DispensableGeneFamilies,
+                .SingleCopyOrtholog = .FamilyID Like cat.SingleCopyOrthologFamilies
+            }
         Next
     End Function
 
     <Extension>
     Public Iterator Function PAVTable(result As PanGenomeResult) As IEnumerable(Of PAVTable)
+        Dim cat As New CategoryHashSet(result)
+
         For Each family In result.PAVMatrix.SafeQuery
             Yield New PAVTable With {
                 .FamilyID = family.Key,
                 .PAV = family.Value,
-                .ClusterGenes = result.GeneFamilies(family.Key)
+                .ClusterGenes = result.GeneFamilies(family.Key),
+                .Category = cat.MakeCategory(.FamilyID),
+                .Dispensable = .FamilyID Like cat.DispensableGeneFamilies,
+                .SingleCopyOrtholog = .FamilyID Like cat.SingleCopyOrthologFamilies
             }
         Next
     End Function
@@ -41,6 +52,20 @@ Public Module TableExport
             ShellGeneFamilies = result.ShellGeneFamilies
             CloudGeneFamilies = result.CloudGeneFamilies
         End Sub
+
+        Public Function MakeCategory(id As String) As GeneCategoryType
+            If id Like CoreGeneFamilies Then
+                Return GeneCategoryType.Core
+            ElseIf id Like SpecificGeneFamilies Then
+                Return GeneCategoryType.Unique
+            ElseIf id Like SoftCoreGeneFamilies Then
+                Return GeneCategoryType.SoftCore
+            ElseIf id Like ShellGeneFamilies Then
+                Return GeneCategoryType.Shell
+            Else
+                Return GeneCategoryType.Cloud
+            End If
+        End Function
 
     End Class
 
