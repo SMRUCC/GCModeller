@@ -99,7 +99,6 @@ Module UniProtTable
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {
-                {"uniprotId", uniprotId},
                 {"name", name},
                 {"orf", orf},
                 {"geneName", geneName},
@@ -109,6 +108,7 @@ Module UniProtTable
                 {"GO", GOterms},
                 {"EMBL", EMBL},
                 {"Ensembl", Ensembl},
+                {"EnsemblPlants", EnsemblPlants},
                 {"Ensembl_protein", Ensembl_protein},
                 {"Ensembl_geneID", Ensembl_geneID},
                 {"Proteomes", Proteomes},
@@ -126,7 +126,8 @@ Module UniProtTable
                 {"subcellularLocation", locations},
                 {"NCBI_taxonomyId", NCBITaxonomyId},
                 {"organism", organism}
-            }
+            },
+            .rownames = uniprotId
         }
     End Function
 
