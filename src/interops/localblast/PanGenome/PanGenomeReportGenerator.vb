@@ -7,12 +7,7 @@ Public Class PanGenomeReportGenerator
     ''' 生成泛基因组分析HTML报告
     ''' </summary>
     ''' <param name="result">泛基因组分析结果</param>
-    ''' <param name="templatePath">HTML模板文件路径</param>
-    ''' <param name="outputPath">输出HTML文件路径</param>
-    Public Sub GenerateReport(result As PanGenomeResult, templatePath As String, outputPath As String)
-        ' 读取模板文件
-        Dim templateContent As String = File.ReadAllText(templatePath, Encoding.UTF8)
-
+    Public Function GenerateReport(result As PanGenomeResult, templateContent As String) As String
         ' 创建StringBuilder进行替换
         Dim sb As New StringBuilder(templateContent)
 
@@ -98,9 +93,8 @@ Public Class PanGenomeReportGenerator
         ' ============================================
         sb.Replace("{$GENE_FAMILY_TABLE}", GenerateGeneFamilyTable(result))
 
-        ' 写入输出文件
-        File.WriteAllText(outputPath, sb.ToString(), Encoding.UTF8)
-    End Sub
+        Return sb.ToString()
+    End Function
 
     ''' <summary>
     ''' 生成基因组统计表格HTML
