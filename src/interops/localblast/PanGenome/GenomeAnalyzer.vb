@@ -1,8 +1,8 @@
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Class GenomeAnalyzer
 
@@ -16,6 +16,11 @@ Public Class GenomeAnalyzer
     ''' </summary>
     Dim geneAnnotations As Dictionary(Of String, GeneInfo)
     Dim totalGenomes As Integer
+
+    ' 定义阈值百分比
+    Dim coreThreshold As Double = 1.0 ' 100%
+    Dim softCoreThreshold As Double = 0.95 ' 95%
+    Dim shellThreshold As Double = 0.15 ' 15%
 
     ''' <summary>
     ''' 
@@ -69,7 +74,7 @@ Public Class GenomeAnalyzer
         Next
 
         ' ==========================================
-        ' 步骤 1: 并查集聚类 (逻辑不变)
+        ' 步骤 1: 并查集聚类
         ' ==========================================
 
         ' 初始化所有基因
@@ -79,7 +84,7 @@ Public Class GenomeAnalyzer
     End Sub
 
     ''' <summary>
-    ''' 执行泛基因组分析的主函数（扩展版）
+    ''' 执行泛基因组分析的主函数
     ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
@@ -201,17 +206,16 @@ Public Class GenomeAnalyzer
     ''' 计算泛基因组曲线（基于蒙特卡洛模拟）
     ''' </summary>
     Private Iterator Function CalculatePangenomeCurve(result As PanGenomeResult, genomeList As List(Of String), iterations As Integer) As IEnumerable(Of PangenomeCurveData)
-        Dim rand As New Random()
         ' 曲线点：Key为加入的基因组数量，Value为(总基因平均, 核心基因平均)
         Dim curvePoints As New Dictionary(Of Integer, (SumPan As Long, SumCore As Long, Count As Integer))
 
         ' 模拟 iterations 次
         For i As Integer = 1 To iterations
             ' 随机打乱基因组顺序
-            Dim shuffled = genomeList.OrderBy(Function(x) rand.Next()).ToList()
-
+            Dim shuffled = genomeList.OrderBy(Function(x) rand.NextDouble()).ToList()
             Dim currentPanGenes As New HashSet(Of String)()
-            Dim currentCoreCandidates As HashSet(Of String) = Nothing ' 初始化为第一个基因组的所有基因
+            ' 初始化为第一个基因组的所有基因
+            Dim currentCoreCandidates As HashSet(Of String) = Nothing
 
             ' 逐个添加基因组
             For [step] = 0 To shuffled.Count - 1
@@ -325,6 +329,7 @@ Public Class GenomeAnalyzer
                 If orthologyLinks.Count > 0 Then
                     ' 实际上这里应该对Block进行切割，因为一个Block可能跨越不同染色体
                     ' 这里仅作为示例代码，不实现复杂的切割逻辑
+                    ' TODO: Block切割
                     currentBlock.OrthologyLinks = orthologyLinks.ToArray
                     Yield currentBlock
                 End If
@@ -406,6 +411,7 @@ Public Class GenomeAnalyzer
                         }
                     ElseIf copyNum < medianCopy AndAlso copyNum > 0 Then
                         ' 这种情况较少见（核心基因拷贝减少），可视具体情况添加
+                        ' TODO
                     End If
                 End If
             Next
@@ -429,10 +435,6 @@ Public Class GenomeAnalyzer
     ''' 执行扩展的基因家族分类
     ''' </summary>
     Private Sub CategorizeGeneFamilies(result As PanGenomeResult, totalGenomes As Integer)
-        ' 定义阈值百分比
-        Dim coreThreshold As Double = 1.0 ' 100%
-        Dim softCoreThreshold As Double = 0.95 ' 95%
-        Dim shellThreshold As Double = 0.15 ' 15%
         Dim coreGeneFamilies As New List(Of String)
         Dim specificGeneFamilies As New List(Of String)
         Dim softCoreGeneFamilies As New List(Of String)
@@ -460,7 +462,8 @@ Public Class GenomeAnalyzer
                 ' 3. 壳基因
                 shellGeneFamilies.Add(familyId)
 
-            Else ' presenceRatio < shellThreshold
+            Else
+                ' presenceRatio < shellThreshold
                 ' 4. 云基因
                 cloudGeneFamilies.Add(familyId)
 

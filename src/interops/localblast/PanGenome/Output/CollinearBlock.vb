@@ -12,7 +12,7 @@ Public Class CollinearBlock
     ''' <returns></returns>
     Public Property OrthologyLinks As OrthologyLink()
     ''' <summary>
-    ''' 评估指标：得分或E-value（可选）
+    ''' TODO: 评估指标：得分或E-value
     ''' </summary>
     ''' <returns></returns>
     Public Property Score As Double
