@@ -42,6 +42,17 @@ Module UniProtTable
                         End If
                     End Function) _
             .fill
+        Dim EnsemblPlants As String() = all _
+            .Select(Function(p)
+                        Dim ref = p.xrefs.TryGetValue("EnsemblPlants")?.FirstOrDefault
+
+                        If ref Is Nothing Then
+                            Return ""
+                        Else
+                            Return ref("gene ID")
+                        End If
+                    End Function) _
+            .fill
         Dim GeneID As String() = all.Select(Function(p) p.DbReferenceId("GeneID")).fill
         Dim Proteomes As String() = all.Select(Function(p) p.DbReferenceId("Proteomes")).fill
         Dim Bgee As String() = all.Select(Function(p) p.DbReferenceId("Bgee")).fill
