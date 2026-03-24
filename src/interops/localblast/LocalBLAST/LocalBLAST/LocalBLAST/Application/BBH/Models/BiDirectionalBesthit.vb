@@ -69,9 +69,11 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
-    ''' Best hit result from the binary direction blastp result.(最佳双向比对结果，BBH，直系同源)
+    ''' Best hit result from the binary direction blastp result. Ortholog mapping result.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (最佳双向比对结果，BBH，直系同源)
+    ''' </remarks>
     Public Class BiDirectionalBesthit : Inherits I_BlastQueryHit
         Implements IKeyValuePair, IQueryHits
 
@@ -127,7 +129,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Format("{0} <==> {1}", QueryName, HitName)
+            Return $"[{level.ToString}]({QueryName}, {HitName}) identities:{identities} [{forward},{reverse}]"
         End Function
 
         Public Function ShadowCopy(Of T As {New, BiDirectionalBesthit})() As T
