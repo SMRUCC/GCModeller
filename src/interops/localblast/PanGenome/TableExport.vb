@@ -1,4 +1,5 @@
 ﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 
 Public Module TableExport
@@ -20,5 +21,27 @@ Public Module TableExport
             }
         Next
     End Function
+
+    Private Class CategoryHashSet
+
+        Public CoreGeneFamilies As Index(Of String)
+        Public DispensableGeneFamilies As Index(Of String)
+        Public SpecificGeneFamilies As Index(Of String)
+        Public SingleCopyOrthologFamilies As Index(Of String)
+        Public SoftCoreGeneFamilies As Index(Of String)
+        Public ShellGeneFamilies As Index(Of String)
+        Public CloudGeneFamilies As Index(Of String)
+
+        Sub New(result As PanGenomeResult)
+            CoreGeneFamilies = result.CoreGeneFamilies
+            DispensableGeneFamilies = result.DispensableGeneFamilies
+            SpecificGeneFamilies = result.SpecificGeneFamilies
+            SingleCopyOrthologFamilies = result.SingleCopyOrthologFamilies
+            SoftCoreGeneFamilies = result.SoftCoreGeneFamilies
+            ShellGeneFamilies = result.ShellGeneFamilies
+            CloudGeneFamilies = result.CloudGeneFamilies
+        End Sub
+
+    End Class
 
 End Module

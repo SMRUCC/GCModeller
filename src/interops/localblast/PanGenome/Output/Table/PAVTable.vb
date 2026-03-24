@@ -5,6 +5,9 @@ Public Class PAVTable : Implements IDynamicMeta(Of Integer)
     Public Property FamilyID As String
     Public Property PAV As Dictionary(Of String, Integer) Implements IDynamicMeta(Of Integer).Properties
     Public Property ClusterGenes As String()
+    Public Property Category As GeneCategoryType
+    Public Property Dispensable As Boolean
+    Public Property SingleCopyOrtholog As Boolean
 
     Default Public Property GenomeData(name As String) As Integer
         Get

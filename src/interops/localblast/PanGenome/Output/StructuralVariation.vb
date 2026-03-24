@@ -27,7 +27,7 @@ End Enum
 ''' <summary>
 ''' 结构变异事件记录
 ''' </summary>
-Public Class StructuralVariation : Inherits SVTable
+Public Class StructuralVariation : Inherits SVData
 
     ''' <summary>
     ''' 如果是共线性断裂，记录断点信息

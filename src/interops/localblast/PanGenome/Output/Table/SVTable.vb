@@ -1,4 +1,4 @@
-﻿Public Class SVTable
+﻿Public Class SVData
 
     Public Property SV_ID As String
     Public Property Type As SVType
@@ -22,6 +22,14 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property Description As String
+
+End Class
+
+Public Class SVTable : Inherits SVData
+
+    Public Property Category As GeneCategoryType
+    Public Property Dispensable As Boolean
+    Public Property SingleCopyOrtholog As Boolean
 
     Sub New()
     End Sub
