@@ -62,5 +62,6 @@ Public Class zzz
         Call uniprotTools.Main()
         Call terms.Main()
         Call workflows.Main()
+        Call pangenome.Main()
     End Sub
 End Class
