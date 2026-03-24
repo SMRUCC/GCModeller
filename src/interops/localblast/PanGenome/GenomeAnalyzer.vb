@@ -107,7 +107,9 @@ Public Class GenomeAnalyzer
         Dim familyMap As New Dictionary(Of String, List(Of String))()
         For Each geneId In geneAnnotations.Keys
             Dim root = uf.Find(geneId)
-            If Not familyMap.ContainsKey(root) Then familyMap.Add(root, New List(Of String)())
+            If Not familyMap.ContainsKey(root) Then
+                familyMap.Add(root, New List(Of String)())
+            End If
             familyMap(root).Add(geneId)
         Next
 
@@ -126,9 +128,12 @@ Public Class GenomeAnalyzer
 
             For Each gName In genomeNames
                 ' 计算该家族在当前基因组中的拷贝数
-                Dim count = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).Count()
-                pavRow.Add(gName, count)
-                If count > 0 Then presenceCount += 1
+                Dim n As Integer = Aggregate g As String
+                                   In genes
+                                   Where geneAnnotations(g).GenomeName = gName
+                                   Into Count
+                pavRow.Add(gName, n)
+                If n > 0 Then presenceCount += 1
             Next
 
             result.PAVMatrix.Add(familyId, pavRow)
@@ -396,7 +401,8 @@ Public Class GenomeAnalyzer
                 ' --- 情况 C: 拷贝数变异 (CNV) ---
                 ' 如果家族普遍存在，计算“正常”拷贝数（例如中位数）
                 If isCoreFamily AndAlso copyNum > 0 Then
-                    Dim medianCopy = pavRow.Values.Median
+                    Dim nonZeroCopies = pavRow.Values.Where(Function(c) c > 0).ToList()
+                    Dim medianCopy = If(nonZeroCopies.Any, nonZeroCopies.Median, 0)
 
                     ' 如果拷贝数显著高于中位数（如 >= 2倍），视为扩增
                     If copyNum >= medianCopy * 2 AndAlso copyNum > 1 Then
