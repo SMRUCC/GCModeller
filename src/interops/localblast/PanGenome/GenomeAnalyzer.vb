@@ -82,6 +82,9 @@ Public Class GenomeAnalyzer
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
         Dim dispensableGeneFamilies As New List(Of String)
+        Dim coreGeneFamilies As New List(Of String)
+        Dim singleCopyOrthologFamilies As New List(Of String)
+        Dim specificGeneFamilies As New List(Of String)
 
         ' 建立连接
         For Each kvp In orthologDict
@@ -126,34 +129,36 @@ Public Class GenomeAnalyzer
 
             ' 分类逻辑
             If presenceCount = totalGenomes Then
-                result.CoreGeneFamilies.Add(familyId)
+                coreGeneFamilies.Add(familyId)
                 ' 单拷贝判断
                 If pavRow.Values.All(Function(c) c = 1) Then
-                    result.SingleCopyOrthologFamilies.Add(familyId)
+                    singleCopyOrthologFamilies.Add(familyId)
                 End If
             ElseIf presenceCount = 1 Then
-                result.SpecificGeneFamilies.Add(familyId)
+                specificGeneFamilies.Add(familyId)
                 dispensableGeneFamilies.Add(familyId)
             Else
                 dispensableGeneFamilies.Add(familyId)
             End If
         Next
 
+        result.SpecificGeneFamilies = specificGeneFamilies.ToArray
+        result.SingleCopyOrthologFamilies = singleCopyOrthologFamilies.ToArray
         result.DispensableGeneFamilies = dispensableGeneFamilies.ToArray
+        result.CoreGeneFamilies = coreGeneFamilies.ToArray
 
         ' ==========================================
         ' 步骤 3: 泛基因组曲线计算
         ' ==========================================
         ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
         ' 这里实现随机抽样模拟方法，适用于任意数量基因组
-        CalculatePangenomeCurve(result, genomeNames.ToList(), 100)
-
+        result.PangenomeCurveData = CalculatePangenomeCurve(result, genomeNames.ToList(), 100).ToArray
 
         ' ==========================================
         ' 步骤 4: 共线性分析
         ' ==========================================
         ' 针对每一对基因组，寻找共线性区块
-        CalculateCollinearity(result, orthologDict, geneAnnotations, genomeNames.ToList())
+        result.CollinearBlocks = CalculateCollinearity(result, orthologDict, geneAnnotations, genomeNames.ToList()).ToArray
 
         Return result
     End Function
@@ -184,7 +189,7 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 计算泛基因组曲线（基于蒙特卡洛模拟）
     ''' </summary>
-    Private Sub CalculatePangenomeCurve(result As PanGenomeResult, genomeList As List(Of String), iterations As Integer)
+    Private Iterator Function CalculatePangenomeCurve(result As PanGenomeResult, genomeList As List(Of String), iterations As Integer) As IEnumerable(Of PangenomeCurveData)
         Dim rand As New Random()
         ' 曲线点：Key为加入的基因组数量，Value为(总基因平均, 核心基因平均)
         Dim curvePoints As New Dictionary(Of Integer, (SumPan As Long, SumCore As Long, Count As Integer))
@@ -230,18 +235,23 @@ Public Class GenomeAnalyzer
                 Dim stat = curvePoints(i)
                 Dim avgPan = stat.SumPan / stat.Count
                 Dim avgCore = stat.SumCore / stat.Count
-                result.PangenomeCurveData.Add((i, CInt(avgPan), CInt(avgCore)))
+
+                Yield New PangenomeCurveData With {
+                    .GenomeCount = i,
+                    .TotalGenes = CInt(avgPan),
+                    .CoreGenes = CInt(avgCore)
+                }
             End If
         Next
-    End Sub
+    End Function
 
     ''' <summary>
     ''' 计算基因组间的共线性区块（简化版算法：滑动窗口聚类）
     ''' </summary>
-    Private Sub CalculateCollinearity(result As PanGenomeResult,
+    Private Iterator Function CalculateCollinearity(result As PanGenomeResult,
                                       orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
                                       geneAnnotations As Dictionary(Of String, GeneInfo),
-                                      genomeList As List(Of String))
+                                      genomeList As List(Of String)) As IEnumerable(Of CollinearBlock)
 
         ' 1. 重新整理Ortholog关系：建立 GeneID -> List<Ortholog> 的映射
         Dim orthoLookup As New Dictionary(Of String, List(Of BiDirectionalBesthit))()
@@ -304,10 +314,10 @@ Public Class GenomeAnalyzer
                 If currentBlock.GenePairs.Count > 5 Then
                     ' 实际上这里应该对Block进行切割，因为一个Block可能跨越不同染色体
                     ' 这里仅作为示例代码，不实现复杂的切割逻辑
-                    result.CollinearBlocks.Add(currentBlock)
+                    Yield currentBlock
                 End If
             Next
         Next
-    End Sub
+    End Function
 
 End Class
