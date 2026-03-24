@@ -7,6 +7,10 @@ Public Class GenomeAnalyzer
     Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
     Dim result As New PanGenomeResult()
     Dim uf As New UnionFind()
+
+    ''' <summary>
+    ''' 全局基因注释字典（用于查询基因所属基因组）
+    ''' </summary>
     Dim geneAnnotations As Dictionary(Of String, GeneInfo)
     Dim totalGenomes As Integer
 
@@ -143,6 +147,29 @@ Public Class GenomeAnalyzer
         CalculateCollinearity(result, orthologDict, geneAnnotations, genomeNames.ToList())
 
         Return result
+    End Function
+
+    ''' <summary>
+    ''' 计算特定基因家族在特定基因组中的拷贝数
+    ''' </summary>
+    ''' <param name="familyGenes">该基因家族包含的所有基因ID列表</param>
+    ''' <param name="targetGenomeName">目标基因组名称</param>
+    ''' <returns>拷贝数</returns>
+    Public Function CalculateCopyNumber(familyGenes As List(Of String), targetGenomeName As String) As Integer
+        Dim count As Integer = 0
+
+        ' 遍历该家族内的每一个基因
+        For Each geneId In familyGenes
+            ' 安全校验：确保基因ID存在于注释信息中
+            If geneAnnotations.ContainsKey(geneId) Then
+                ' 判断该基因是否属于目标基因组
+                If geneAnnotations(geneId).GenomeName = targetGenomeName Then
+                    count += 1
+                End If
+            End If
+        Next
+
+        Return count
     End Function
 
     ''' <summary>
