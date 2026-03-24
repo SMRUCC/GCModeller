@@ -1,35 +1,25 @@
 Public Class GenomeAnalyzer
 
     ''' <summary>
-    ''' 执行泛基因组分析的主函数
+    ''' 执行泛基因组分析的主函数（支持任意多个基因组）
     ''' </summary>
-    ''' <param name="orthologDict">包含三组比对结果的字典，Key为比对组名称(如"AvsB")</param>
-    ''' <param name="allGenesGenome1">基因组1的所有基因ID列表（用于识别特异性基因）</param>
-    ''' <param name="allGenesGenome2">基因组2的所有基因ID列表</param>
-    ''' <param name="allGenesGenome3">基因组3的所有基因ID列表</param>
+    ''' <param name="orthologDict">包含比对结果的字典，Key为比对组名称(如"Genome1vsGenome2")</param>
+    ''' <param name="genomeGenes">所有基因组及其基因的字典，Key为基因组名称，Value为该基因组所有基因ID列表</param>
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog()),
-                                     allGenesGenome1 As HashSet(Of String),
-                                     allGenesGenome2 As HashSet(Of String),
-                                     allGenesGenome3 As HashSet(Of String)) As PanGenomeResult
+                                     genomeGenes As Dictionary(Of String, HashSet(Of String))) As PanGenomeResult
 
         ' 1. 初始化并查集
         Dim uf As New UnionFind()
 
-        ' 将所有基因加入并查集（这一步确保特异性基因也被包含进来）
-        ' 注意：实际项目中，如果基因量极大(几十万)，这里直接Add不影响性能，UnionFind内部会处理
-        For Each gene In allGenesGenome1
-            uf.AddElement(gene)
-        Next
-        For Each gene In allGenesGenome2
-            uf.AddElement(gene)
-        Next
-        For Each gene In allGenesGenome3
-            uf.AddElement(gene)
+        ' 将所有基因加入并查集（确保特异性基因也被包含进来）
+        For Each genomeKvp In genomeGenes
+            For Each gene In genomeKvp.Value
+                uf.AddElement(gene)
+            Next
         Next
 
         ' 2. 处理直系同源表格，建立连接关系
-        ' 遍历字典中的所有Ortholog数组
         For Each kvp In orthologDict
             Dim orthologs = kvp.Value
             If orthologs Is Nothing Then Continue For
@@ -41,7 +31,6 @@ Public Class GenomeAnalyzer
                 End If
 
                 ' 核心逻辑：如果两个基因互为直系同源，则将它们在并查集中连接
-                ' 这实现了基因家族的聚类
                 uf.Union(ortho.gene1, ortho.gene2)
             Next
         Next
@@ -50,10 +39,11 @@ Public Class GenomeAnalyzer
         ' Key: 家族根节点ID, Value: 该家族所有基因ID列表
         Dim familyMap As New Dictionary(Of String, List(Of String))()
 
-        ' 我们需要遍历所有参与的基因来构建家族
-        Dim allProcessedGenes = New HashSet(Of String)(allGenesGenome1)
-        allProcessedGenes.UnionWith(allGenesGenome2)
-        allProcessedGenes.UnionWith(allGenesGenome3)
+        ' 遍历所有参与的基因来构建家族
+        Dim allProcessedGenes As New HashSet(Of String)()
+        For Each genomeKvp In genomeGenes
+            allProcessedGenes.UnionWith(genomeKvp.Value)
+        Next
 
         For Each gene In allProcessedGenes
             Dim root = uf.Find(gene)
@@ -66,11 +56,11 @@ Public Class GenomeAnalyzer
         ' 4. 分类分析
         Dim result As New PanGenomeResult()
         Dim familyId As Integer = 0
+        Dim genomeNames = genomeGenes.Keys.ToList()
+        Dim totalGenomes As Integer = genomeNames.Count
 
-        ' 辅助HashSet用于快速判断基因所属品种
-        Dim g1Set = allGenesGenome1
-        Dim g2Set = allGenesGenome2
-        Dim g3Set = allGenesGenome3
+        ' 预先构建基因组基因集合的字典，用于快速查找
+        Dim genomeGeneSets = genomeGenes
 
         For Each family In familyMap
             familyId += 1
@@ -78,22 +68,30 @@ Public Class GenomeAnalyzer
             result.GeneFamilies.Add(familyId, genes)
 
             ' 统计该家族在每个品种中的基因数量
-            Dim countG1 = genes.Where(Function(g) g1Set.Contains(g)).Count()
-            Dim countG2 = genes.Where(Function(g) g2Set.Contains(g)).Count()
-            Dim countG3 = genes.Where(Function(g) g3Set.Contains(g)).Count()
-
+            Dim genomeGeneCounts As New Dictionary(Of String, Integer)()
             Dim presenceCount As Integer = 0
-            If countG1 > 0 Then presenceCount += 1
-            If countG2 > 0 Then presenceCount += 1
-            If countG3 > 0 Then presenceCount += 1
+
+            For Each genomeName In genomeNames
+                Dim count = genes.Where(Function(g) genomeGeneSets(genomeName).Contains(g)).Count()
+                genomeGeneCounts(genomeName) = count
+                If count > 0 Then presenceCount += 1
+            Next
 
             ' 分类逻辑
-            If presenceCount = 3 Then
-                ' 核心基因：三个品种都存在
+            If presenceCount = totalGenomes Then
+                ' 核心基因：所有品种都存在
                 result.CoreGeneFamilies.Add(familyId)
 
-                ' 检查是否为单拷贝直系同源：三个品种都存在，且每个品种仅1个拷贝
-                If countG1 = 1 AndAlso countG2 = 1 AndAlso countG3 = 1 Then
+                ' 检查是否为单拷贝直系同源：所有品种都存在，且每个品种仅1个拷贝
+                Dim isSingleCopy As Boolean = True
+                For Each genomeName In genomeNames
+                    If genomeGeneCounts(genomeName) <> 1 Then
+                        isSingleCopy = False
+                        Exit For
+                    End If
+                Next
+
+                If isSingleCopy Then
                     result.SingleCopyOrthologFamilies.Add(familyId)
                 End If
 
@@ -103,17 +101,17 @@ Public Class GenomeAnalyzer
                 ' 注意：特异性基因也是附属基因的一部分
                 result.DispensableGeneFamilies.Add(familyId)
 
-            Else ' presenceCount = 2
-                ' 附属基因：在两个品种中存在
+            Else ' presenceCount > 1 AndAlso presenceCount < totalGenomes
+                ' 附属基因：在部分品种中存在（但不是全部）
                 result.DispensableGeneFamilies.Add(familyId)
             End If
 
         Next
 
         ' 填充统计信息
-        result.TotalGenesInGenome1 = allGenesGenome1.Count
-        result.TotalGenesInGenome2 = allGenesGenome2.Count
-        result.TotalGenesInGenome3 = allGenesGenome3.Count
+        For Each genomeKvp In genomeGenes
+            result.TotalGenesInGenomes.Add(genomeKvp.Key, genomeKvp.Value.Count)
+        Next
 
         Return result
     End Function
