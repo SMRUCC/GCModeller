@@ -24,5 +24,8 @@ declare namespace pangenome {
    function build_context(genomes: any, env?: object): object;
    /**
    */
+   function report_html(result: object): string;
+   /**
+   */
    function source_id(genome: object, source_name: string): object;
 }
