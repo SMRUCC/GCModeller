@@ -9,9 +9,7 @@ Public Class GenomeAnalyzer
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <param name="geneAnnotations">所有基因的详细信息字典，Key为GeneID</param>
     ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog()),
-                                     geneAnnotations As Dictionary(Of String, GeneInfo)) As PanGenomeResult
-
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog()), geneAnnotations As Dictionary(Of String, GeneInfo)) As PanGenomeResult
         ' 0. 预处理：构建基因组列表和基因集合
         Dim genomeNames As New HashSet(Of String)()
         Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()

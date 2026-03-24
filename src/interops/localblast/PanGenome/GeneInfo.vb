@@ -2,6 +2,7 @@
 ''' 基因详细信息，增加位置信息以支持共线性分析
 ''' </summary>
 Public Class GeneInfo
+
     Public Property GeneID As String
     Public Property GenomeName As String
     Public Property Chromosome As String
@@ -14,4 +15,6 @@ Public Class GeneInfo
             Return [End] - Start + 1
         End Get
     End Property
+
+
 End Class
