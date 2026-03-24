@@ -64,11 +64,13 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -265,6 +267,30 @@ Module workflows
         End Select
 
         Return REnv.Internal.debug.stop(New NotImplementedException, env)
+    End Function
+
+    ''' <summary>
+    ''' removes protein suffix id
+    ''' </summary>
+    ''' <param name="hits"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("remove_protein_suffix")>
+    Public Function removeProteinSufifx(<RRawVectorArgument> hits As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of I_BlastQueryHit)(hits, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim cleanup As IEnumerable = pull.populates(Of I_BlastQueryHit)(env) _
+            .Select(Function(hit)
+                        hit.QueryName = HeaderFormats.TrimAccessionVersion(hit.QueryName)
+                        hit.HitName = HeaderFormats.TrimAccessionVersion(hit.HitName)
+                        Return hit
+                    End Function)
+
+        Return New CLRIterator(cleanup, pull.elementType.GetRawElementType)
     End Function
 
     <ExportAPI("grep.names")>
