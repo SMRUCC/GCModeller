@@ -18,9 +18,6 @@ Public Class GenomeAnalyzer
     ''' </param>
     Sub New(geneAnnotations As Dictionary(Of String, GeneInfo))
         ' 0. 预处理：构建基因组列表和基因集合
-        Dim genomeNames As New HashSet(Of String)()
-        Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
-
         For Each geneKvp In geneAnnotations
             Dim gInfo = geneKvp.Value
             genomeNames.Add(gInfo.GenomeName)
@@ -31,8 +28,24 @@ Public Class GenomeAnalyzer
             genomeGeneSets(gInfo.GenomeName).Add(gInfo.GeneID)
         Next
 
+        Me.totalGenomes = genomeNames.Count
+        Me.geneAnnotations = geneAnnotations
+
+        Call Initialize()
+    End Sub
+
+    Sub New(genomes As Dictionary(Of String, GeneInfo()))
+        For Each genome In genomes
+            Call genomeNames.Add(genome.Key)
+            Call genomeGeneSets.Add(genome.Key, New HashSet(Of String)(From gene In genome.Value Select gene.GeneID))
+        Next
+
         totalGenomes = genomeNames.Count
 
+        Call Initialize()
+    End Sub
+
+    Private Sub Initialize()
         ' 统计总数
         For Each kvp In genomeGeneSets
             result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
@@ -46,8 +59,6 @@ Public Class GenomeAnalyzer
         For Each geneId In geneAnnotations.Keys
             uf.AddElement(geneId)
         Next
-
-        Me.geneAnnotations = geneAnnotations
     End Sub
 
     ''' <summary>
