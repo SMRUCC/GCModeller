@@ -95,6 +95,15 @@ Namespace ComponentModel.Annotation
                               End Function)
 
             For Each offset As KeyValuePair(Of String, String()) In index
+                If offset.Value Is Nothing Then
+                    Yield New T With {
+                        .FamilyID = offset.Key,
+                        .GeneCluster = offset.Value
+                    }
+
+                    Continue For
+                End If
+
                 Dim hits As T() = offset.Value _
                     .Where(Function(id) geneIndex.ContainsKey(id)) _
                     .Select(Function(id) geneIndex(id)) _
