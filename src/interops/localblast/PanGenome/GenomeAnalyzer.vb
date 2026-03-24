@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -382,22 +383,29 @@ Public Class GenomeAnalyzer
     ''' </summary>
     ''' <param name="block"></param>
     ''' <returns></returns>
-    Private Function DetectInversion(block As CollinearBlock) As Boolean
+    Private Function DetectInversion(block As CollinearBlock) As InversionInfo
+        ' 提取基因位置序列
+        Dim positions1 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(0)).Start)).ToArray
+        Dim positions2 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(1)).Start)).ToArray
 
-        ' 检查基因在两个基因组中的顺序
-        Dim genes1 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(0)).Start)).ToArray
-        Dim genes2 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(1)).Start)).ToArray
-
-        ' 计算顺序相关性
-        Dim correlation = Correlations.Spearman(genes1, genes2)
+        ' 计算Spearman秩相关系数
+        Dim correlation = Correlations.Spearman(positions1, positions2)
 
         ' 负相关表示倒位
-        Return correlation < -0.5
+        Dim isInversion As Boolean = correlation < -0.7
+
+        Return New InversionInfo With {
+            .isInversion = isInversion,
+            .correlation = correlation
+        }
     End Function
 
     ''' <summary>
     ''' 基于泛基因组聚类结果和共线性分析结构变异
     ''' </summary>
+    ''' <remarks>
+    ''' 这个函数要求在调用前需要完成共线性检测计算
+    ''' </remarks>
     Private Iterator Function DetectStructuralVariations(result As PanGenomeResult,
                                            geneAnnotations As Dictionary(Of String, GeneInfo),
                                            genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
@@ -468,9 +476,15 @@ Public Class GenomeAnalyzer
                             .Description = $"Copy number expansion in {gName} (Copy: {copyNum}, Median: {medianCopy}).",
                             .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray
                         }
-                    ElseIf copyNum < medianCopy AndAlso copyNum > 0 Then
-                        ' 这种情况较少见（核心基因拷贝减少），可视具体情况添加
-                        ' TODO
+                    ElseIf copyNum > 0 AndAlso medianCopy > 1 AndAlso copyNum <= medianCopy * CNV_Loss_Factor Then
+                        svIdCounter += 1
+                        Yield New StructuralVariation With {
+                            .SV_ID = "SV_" & svIdCounter,
+                            .Type = SVType.CNV_Loss,
+                            .GenomeName = gName,
+                            .FamilyID = familyId,
+                            .Description = $"Copy number loss in {gName} (Copy: {copyNum}, Median: {medianCopy:F1})."
+                        }
                     End If
                 End If
             Next
@@ -487,7 +501,15 @@ Public Class GenomeAnalyzer
         ' 由于之前的 CollinearBlocks 是正向的，我们可以检查“落单”的基因
 
         ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
-
+        For Each block In result.CollinearBlocks
+            If block.Chr1 <> block.Chr2 Then
+                ' 检测易位事件
+                Yield New StructuralVariation With {
+                    .Type = SVType.Collinearity_Break,
+                    .Description = $"Translocation: {block.Chr1} -> {block.Chr2}"
+                }
+            End If
+        Next
     End Function
 
     ''' <summary>
@@ -509,15 +531,15 @@ Public Class GenomeAnalyzer
             Dim presenceRatio = presenceCount / totalGenomes
 
             ' 分类判断
-            If presenceRatio = coreThreshold Then
+            If presenceRatio = CoreThreshold Then
                 ' 1. 核心基因
                 coreGeneFamilies.Add(familyId)
 
-            ElseIf presenceRatio >= softCoreThreshold AndAlso presenceRatio < coreThreshold Then
+            ElseIf presenceRatio >= SoftCoreThreshold AndAlso presenceRatio < CoreThreshold Then
                 ' 2. 软核心基因
                 softCoreGeneFamilies.Add(familyId)
 
-            ElseIf presenceRatio >= shellThreshold AndAlso presenceRatio < softCoreThreshold Then
+            ElseIf presenceRatio >= ShellThreshold AndAlso presenceRatio < SoftCoreThreshold Then
                 ' 3. 壳基因
                 shellGeneFamilies.Add(familyId)
 
