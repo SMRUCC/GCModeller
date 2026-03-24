@@ -146,6 +146,11 @@ Module pangenome
 
         Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
         Dim subset = idset.GetClusters(table).ToArray
+        Dim idc = idset.ToArray
+
+        For i As Integer = 0 To subset.Length - 1
+            subset(i).FamilyID = idc(i).Key
+        Next
 
         Return subset
     End Function
@@ -160,6 +165,11 @@ Module pangenome
 
         Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
         Dim subset = idset.GetClusters(table).ToArray
+        Dim idc = idset.ToArray
+
+        For i As Integer = 0 To subset.Length - 1
+            subset(i).FamilyID = idc(i).Key
+        Next
 
         Return subset
     End Function
