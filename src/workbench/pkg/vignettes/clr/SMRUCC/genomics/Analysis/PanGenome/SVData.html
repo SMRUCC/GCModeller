@@ -30,12 +30,14 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
 export class SVData {
+   CopyNumber: integer;
    # 描述信息
    Description: string;
    # 关联的基因家族ID
    FamilyID: string;
    # 发生变异的基因组
    GenomeName: string;
+   Median: double;
    # 涉及的基因ID
    RelatedGenes: string;
    SV_ID: string;
