@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PanGenome
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -38,9 +39,24 @@ Module pangenome
         Dim orthologDict As New Dictionary(Of String, BiDirectionalBesthit())
 
         For Each compareMap In orthologSet.slotKeys
-            Call orthologDict.Add(compareMap, orthologSet.getValue(Of BiDirectionalBesthit())(compareMap, env))
+            Dim linkSet As BiDirectionalBesthit() = orthologSet _
+                .getValue(Of BiDirectionalBesthit())(compareMap, env) _
+                .ToArray
+
+            For i As Integer = 0 To linkSet.Length - 1
+                linkSet(i).QueryName = HeaderFormats.TrimAccessionVersion(linkSet(i).QueryName)
+                linkSet(i).HitName = HeaderFormats.TrimAccessionVersion(linkSet(i).HitName)
+            Next
+
+            Call orthologDict.Add(compareMap, linkSet)
         Next
 
         Return pangenome.AnalyzePanGenome(orthologDict)
+    End Function
+
+    <ExportAPI("source_id")>
+    Public Function set_sourceID(genome As GFFTable, source_name As String) As GFFTable
+        genome.species = source_name
+        Return genome
     End Function
 End Module

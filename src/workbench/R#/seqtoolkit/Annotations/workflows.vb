@@ -434,6 +434,15 @@ Module workflows
             .as_iterator
     End Function
 
+    <ExportAPI("read.bbh_hits")>
+    <RApiReturn(GetType(BiDirectionalBesthit))>
+    Public Function read_bbhhits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
+        Return file _
+            .OpenHandle(encoding.CodePage) _
+            .AsLinq(Of BiDirectionalBesthit) _
+            .as_iterator
+    End Function
+
     ''' <summary>
     ''' Open result table stream writer
     ''' </summary>

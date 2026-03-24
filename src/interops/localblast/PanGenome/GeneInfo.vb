@@ -27,7 +27,7 @@ Public Class GeneInfo
             Yield New GeneInfo With {
                 .Chromosome = gene.seqname,
                 .GeneID = gene.ID,
-                .GenomeName = genome.species,
+                .GenomeName = If(genome.species, gene.source),
                 .Start = gene.left,
                 .[End] = gene.right
             }
