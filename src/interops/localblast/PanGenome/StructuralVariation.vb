@@ -39,7 +39,7 @@ Public Class StructuralVariation
     ''' 关联的基因家族ID
     ''' </summary>
     ''' <returns></returns>
-    Public Property FamilyID As Integer
+    Public Property FamilyID As String
     ''' <summary>
     ''' 涉及的基因ID
     ''' </summary>
