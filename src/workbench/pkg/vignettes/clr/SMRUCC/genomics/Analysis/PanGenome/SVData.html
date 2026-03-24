@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>SMRUCC.genomics.Analysis.PanGenome.PAVTable</title>
+    <title>SMRUCC.genomics.Analysis.PanGenome.SVData</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -13,12 +13,12 @@
 
         <table style="width: 100%;">
             <tr>
-                <td>PAVTable {SMRUCC.genomics.Analysis.PanGenome}</td>
+                <td>SVData {SMRUCC.genomics.Analysis.PanGenome}</td>
                 <td style="text-align: right;">.NET clr documentation</td>
             </tr>
         </table>
 
-        <h2>PAVTable</h2>
+        <h2>SVData</h2>
 
         <h3>Description</h3>
 
@@ -29,14 +29,17 @@
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
-export class PAVTable {
-   Category: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/GeneCategoryType.html">GeneCategoryType</a>;
-   ClusterGenes: string;
-   Dispensable: boolean;
+export class SVData {
+   # 描述信息
+   Description: string;
+   # 关联的基因家族ID
    FamilyID: string;
-   PAV: list;
-   SingleCopyOrtholog: boolean;
-   Size: integer;
+   # 发生变异的基因组
+   GenomeName: string;
+   # 涉及的基因ID
+   RelatedGenes: string;
+   SV_ID: string;
+   Type: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a>;
 }
 </code>
         </pre>
@@ -44,8 +47,7 @@ export class PAVTable {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
-<li>use by <i>property</i> member <code>Category</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/GeneCategoryType.html">GeneCategoryType</a></li>
-<li>use by <i>property</i> member <code>PAV</code>: list</li>
+<li>use by <i>property</i> member <code>Type</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
 </ol>
 
 

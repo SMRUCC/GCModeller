@@ -29,15 +29,15 @@
         <pre>
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
-export class SVTable {
-   # 描述信息
+export class SVTable extends <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a> {
+   Category: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/GeneCategoryType.html">GeneCategoryType</a>;
+   ClusterSize: integer;
    Description: string;
-   # 关联的基因家族ID
+   Dispensable: boolean;
    FamilyID: string;
-   # 发生变异的基因组
    GenomeName: string;
-   # 涉及的基因ID
    RelatedGenes: string;
+   SingleCopyOrtholog: boolean;
    SV_ID: string;
    Type: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a>;
 }
@@ -47,6 +47,8 @@ export class SVTable {
         <h3>.NET clr type reference tree</h3>
 
         <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVData.html">SVData</a></li>
+<li>use by <i>property</i> member <code>Category</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/GeneCategoryType.html">GeneCategoryType</a></li>
 <li>use by <i>property</i> member <code>Type</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
 </ol>
 
