@@ -41,6 +41,7 @@ Module pangenome
         For Each compareMap In orthologSet.slotKeys
             Dim linkSet As BiDirectionalBesthit() = orthologSet _
                 .getValue(Of BiDirectionalBesthit())(compareMap, env) _
+                .Where(Function(link) link.level <> Levels.NA) _
                 .ToArray
 
             For i As Integer = 0 To linkSet.Length - 1
