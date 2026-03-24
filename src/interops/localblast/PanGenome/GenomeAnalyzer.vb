@@ -39,9 +39,15 @@ Public Class GenomeAnalyzer
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneInfo()))
+        geneAnnotations = New Dictionary(Of String, GeneInfo)
+
         For Each genome In genomes
             Call genomeNames.Add(genome.Key)
             Call genomeGeneSets.Add(genome.Key, New HashSet(Of String)(From gene In genome.Value Select gene.GeneID))
+
+            For Each gene As GeneInfo In genome.Value
+                Call geneAnnotations.Add(gene.GeneID, gene)
+            Next
         Next
 
         totalGenomes = genomeNames.Count
