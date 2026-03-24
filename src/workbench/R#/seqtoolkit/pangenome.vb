@@ -38,6 +38,9 @@ Module pangenome
         Call df.add(NameOf(SVTable.Dispensable), From svi As SVTable In sv Select svi.Dispensable)
         Call df.add(NameOf(SVTable.SingleCopyOrtholog), From svi As SVTable In sv Select svi.SingleCopyOrtholog)
 
+        Call df.add(NameOf(SVTable.CopyNumber), From svi As SVTable In sv Select svi.CopyNumber)
+        Call df.add(NameOf(SVTable.Median), From svi As SVTable In sv Select svi.Median)
+
         Call df.add(NameOf(SVTable.Description), From svi As SVTable In sv Select svi.Description)
 
         Return df

@@ -17,7 +17,8 @@
     ''' </summary>
     ''' <returns></returns>
     Public Property RelatedGenes As String()
-
+    Public Property CopyNumber As Integer
+    Public Property Median As Double
     ''' <summary>
     ''' 描述信息
     ''' </summary>
@@ -48,6 +49,8 @@ Public Class SVTable : Inherits SVData
         FamilyID = sv.FamilyID
         RelatedGenes = sv.RelatedGenes
         Description = sv.Description
+        CopyNumber = sv.CopyNumber
+        Median = sv.Median
     End Sub
 
 End Class

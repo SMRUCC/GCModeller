@@ -430,8 +430,11 @@ Public Class GenomeAnalyzer
             ' 这里简化逻辑：如果 >50% 的基因组有该基因，则认为它是“潜在核心”
             Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
             Dim isCoreFamily = (presenceCount > genomeNames.Count / 2)
+            Dim nonZeroCopies = pavRow.Values.Where(Function(c) c > 0).ToList()
+            Dim medianCopy = If(nonZeroCopies.Any, nonZeroCopies.Median, 0)
 
-            For Each gName In genomeNames
+            ' lookup each genome for this gene family
+            For Each gName As String In genomeNames
                 Dim copyNum = pavRow(gName)
 
                 ' --- 情况 A: 缺失 ---
@@ -444,7 +447,9 @@ Public Class GenomeAnalyzer
                         .GenomeName = gName,
                         .FamilyID = familyId,
                         .Description = $"Genome {gName} lacks gene family {familyId} which is present in most genomes.",
-                        .RelatedGenes = genes ' 列出家族所有基因供参考
+                        .RelatedGenes = genes,' 列出家族所有基因供参考
+                        .CopyNumber = copyNum,
+                        .Median = medianCopy
                     }
                 End If
 
@@ -458,16 +463,15 @@ Public Class GenomeAnalyzer
                         .GenomeName = gName,
                         .FamilyID = familyId,
                         .Description = $"Genome {gName} contains unique gene family {familyId}.",
-                        .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray
+                        .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray,
+                        .CopyNumber = copyNum,
+                        .Median = medianCopy
                     }
                 End If
 
                 ' --- 情况 C: 拷贝数变异 (CNV) ---
                 ' 如果家族普遍存在，计算“正常”拷贝数（例如中位数）
                 If isCoreFamily AndAlso copyNum > 0 Then
-                    Dim nonZeroCopies = pavRow.Values.Where(Function(c) c > 0).ToList()
-                    Dim medianCopy = If(nonZeroCopies.Any, nonZeroCopies.Median, 0)
-
                     ' 如果拷贝数显著高于中位数（如 >= 2倍），视为扩增
                     If copyNum >= medianCopy * 2 AndAlso copyNum > 1 Then
                         svIdCounter += 1
@@ -477,7 +481,9 @@ Public Class GenomeAnalyzer
                             .GenomeName = gName,
                             .FamilyID = familyId,
                             .Description = $"Copy number expansion in {gName} (Copy: {copyNum}, Median: {medianCopy}).",
-                            .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray
+                            .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray,
+                            .CopyNumber = copyNum,
+                            .Median = medianCopy
                         }
                     ElseIf copyNum > 0 AndAlso medianCopy > 1 AndAlso copyNum <= medianCopy * CNV_Loss_Factor Then
                         svIdCounter += 1
@@ -486,7 +492,9 @@ Public Class GenomeAnalyzer
                             .Type = SVType.CNV_Loss,
                             .GenomeName = gName,
                             .FamilyID = familyId,
-                            .Description = $"Copy number loss in {gName} (Copy: {copyNum}, Median: {medianCopy:F1})."
+                            .Description = $"Copy number loss in {gName} (Copy: {copyNum}, Median: {medianCopy:F1}).",
+                            .CopyNumber = copyNum,
+                            .Median = medianCopy
                         }
                     End If
                 End If
@@ -504,7 +512,7 @@ Public Class GenomeAnalyzer
         ' 由于之前的 CollinearBlocks 是正向的，我们可以检查“落单”的基因
 
         ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
-        For Each block In result.CollinearBlocks
+        For Each block As CollinearBlock In result.CollinearBlocks
             If block.Chr1 <> block.Chr2 Then
                 ' 检测易位事件
                 Yield New StructuralVariation With {
