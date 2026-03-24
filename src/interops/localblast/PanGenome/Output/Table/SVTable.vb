@@ -55,4 +55,18 @@ Public Class SVTable : Inherits SVData
         Median = sv.Median
     End Sub
 
+    Sub New(copy As SVTable)
+        SV_ID = copy.SV_ID
+        Type = copy.Type
+        GenomeName = copy.GenomeName
+        FamilyID = copy.FamilyID
+        RelatedGenes = copy.RelatedGenes.ToArray
+        CopyNumber = copy.CopyNumber
+        Median = copy.Median
+        Description = copy.Description
+        Category = copy.Category
+        Dispensable = copy.Dispensable
+        SingleCopyOrtholog = copy.SingleCopyOrtholog
+    End Sub
+
 End Class

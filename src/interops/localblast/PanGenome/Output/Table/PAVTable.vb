@@ -34,6 +34,18 @@ Public Class PAVTable : Implements IDynamicMeta(Of Integer), IOrthologyCluster, 
         End Get
     End Property
 
+    Sub New()
+    End Sub
+
+    Sub New(copy As PAVTable)
+        FamilyID = copy.FamilyID
+        PAV = New Dictionary(Of String, Integer)(copy.PAV)
+        ClusterGenes = copy.ClusterGenes.ToArray
+        Category = copy.Category
+        Dispensable = copy.Dispensable
+        SingleCopyOrtholog = copy.SingleCopyOrtholog
+    End Sub
+
     Public Overrides Function ToString() As String
         Return FamilyID
     End Function
