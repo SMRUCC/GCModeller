@@ -22,4 +22,7 @@ declare namespace pangenome {
      * + default value Is ``null``.
    */
    function build_context(genomes: any, env?: object): object;
+   /**
+   */
+   function source_id(genome: object, source_name: string): object;
 }

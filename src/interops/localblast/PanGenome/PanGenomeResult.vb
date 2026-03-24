@@ -9,7 +9,7 @@ Public Class PanGenomeResult
     ' 核心基因家族（所有品种都有）
     Public Property CoreGeneFamilies As New List(Of Integer)()
     ' 附属基因家族（部分品种有，但不是全部）
-    Public Property DispensableGeneFamilies As New List(Of Integer)()
+    Public Property DispensableGeneFamilies As String()
     ' 特异性基因家族（仅1个品种有）
     Public Property SpecificGeneFamilies As New List(Of Integer)()
     ' 单拷贝直系同源基因家族（每个品种仅1个拷贝）

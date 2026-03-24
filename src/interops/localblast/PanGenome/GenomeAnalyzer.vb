@@ -81,6 +81,8 @@ Public Class GenomeAnalyzer
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
+        Dim dispensableGeneFamilies As New List(Of String)
+
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
