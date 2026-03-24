@@ -43,7 +43,15 @@ Public Class UnionFind
         Dim root2 = Find(elem2)
         If root1 Is Nothing OrElse root2 Is Nothing OrElse root1 = root2 Then
             Return
+        Else
+            If Not rank.ContainsKey(root1) Then
+                rank.Add(root1, 0)
+            End If
+            If Not rank.ContainsKey(root2) Then
+                rank.Add(root2, 0)
+            End If
         End If
+
         If rank(root1) < rank(root2) Then
             parent(root1) = root2
         ElseIf rank(root1) > rank(root2) Then
