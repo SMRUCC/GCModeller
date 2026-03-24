@@ -1,7 +1,13 @@
-﻿Imports System.IO
-Imports System.Text
+﻿Imports System.Text
+Imports SMRUCC.genomics.Analysis.PanGenome.My.Resources
 
-Public Class PanGenomeReportGenerator
+Public Module PanGenomeReportGenerator
+
+    Public ReadOnly Property DefaultHtmlTemplate As String
+        Get
+            Return DefaultTemplate.ResourceManager.GetString("Report")
+        End Get
+    End Property
 
     ''' <summary>
     ''' 生成泛基因组分析HTML报告
@@ -441,4 +447,4 @@ Public Class PanGenomeReportGenerator
         End Select
     End Function
 
-End Class
+End Module

@@ -60,4 +60,9 @@ Module pangenome
         genome.species = source_name
         Return genome
     End Function
+
+    <ExportAPI("report_html")>
+    Public Function report_html(result As PanGenomeResult) As String
+        Return PanGenomeReportGenerator.GenerateReport(result, PanGenomeReportGenerator.DefaultHtmlTemplate)
+    End Function
 End Module

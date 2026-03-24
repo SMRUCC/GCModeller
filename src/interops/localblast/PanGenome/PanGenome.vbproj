@@ -272,7 +272,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Report.html" />
+    <None Remove="Report.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -309,6 +309,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="DefaultTemplate.Designer.vb">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DefaultTemplate.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -316,6 +321,11 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="DefaultTemplate.resx">
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>DefaultTemplate.Designer.vb</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
