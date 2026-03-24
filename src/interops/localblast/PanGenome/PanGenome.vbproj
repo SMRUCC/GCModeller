@@ -272,6 +272,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Report.html" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\..\..\..\images\logo.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
