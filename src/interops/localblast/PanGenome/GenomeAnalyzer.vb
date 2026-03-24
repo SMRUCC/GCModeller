@@ -1,3 +1,4 @@
+Imports System.Xml.Serialization
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
@@ -107,11 +108,9 @@ Public Class GenomeAnalyzer
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建
         ' ==========================================
-        Dim familyId As Integer = 0
-
         For Each family In familyMap
-            familyId += 1
-            Dim genes = family.Value
+            Dim familyId As String = family.Key
+            Dim genes As String() = family.Value.ToArray
             result.GeneFamilies.Add(familyId, genes)
 
             ' 构建PAV行
@@ -281,6 +280,7 @@ Public Class GenomeAnalyzer
                     .Genome1 = g1,
                     .Genome2 = g2
                 }
+                Dim orthologyLinks As New List(Of OrthologyLink)
 
                 ' 滑动窗口或简单的连续性检查
                 ' 这里演示一种简单逻辑：如果相邻的基因在g2中也相邻或距离很近，则认为共线性延续
@@ -304,20 +304,38 @@ Public Class GenomeAnalyzer
                         ' 检查是否与上一个块连续 (简化版逻辑)
                         ' 实际开发中需要更复杂的动态规划算法
                         ' 这里简单地将每一对加入到块中（实际应用中需要过滤噪声）
-                        currentBlock.GenePairs.Add((g1Gene.GeneID, g2GeneId))
+                        orthologyLinks.Add(New OrthologyLink(g1Gene.GeneID, g2GeneId))
                         currentBlock.Chr1 = g1Gene.Chromosome
                         currentBlock.Chr2 = g2Info.Chromosome
                     End If
                 Next
 
                 ' 仅保留有意义的共线性区块 (例如包含 > 5个基因对)
-                If currentBlock.GenePairs.Count > 5 Then
+                If orthologyLinks.Count > 0 Then
                     ' 实际上这里应该对Block进行切割，因为一个Block可能跨越不同染色体
                     ' 这里仅作为示例代码，不实现复杂的切割逻辑
+                    currentBlock.OrthologyLinks = orthologyLinks.ToArray
                     Yield currentBlock
                 End If
             Next
         Next
     End Function
 
+End Class
+
+Public Class OrthologyLink
+
+    <XmlAttribute>
+    Public Property Tuple As String()
+
+    Sub New()
+    End Sub
+
+    Sub New(ParamArray geneSet As String())
+        Tuple = geneSet
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"[{Tuple.JoinBy(", ")}]"
+    End Function
 End Class

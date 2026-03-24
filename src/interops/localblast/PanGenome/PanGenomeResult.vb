@@ -4,7 +4,7 @@
 ''' </summary>
 Public Class PanGenomeResult
     ' Key为基因家族ID，Value为该家族包含的所有基因ID列表
-    Public Property GeneFamilies As New Dictionary(Of String, List(Of String))()
+    Public Property GeneFamilies As New Dictionary(Of String, String())()
 
     ' 核心基因家族（所有品种都有）
     Public Property CoreGeneFamilies As String()
