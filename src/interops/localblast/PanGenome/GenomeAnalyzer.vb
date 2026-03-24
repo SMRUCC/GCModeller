@@ -578,8 +578,12 @@ Public Class GenomeAnalyzer
 
                         If target = g2 Then
                             ' 找到了配对
-                            Dim gName1 = g1.Split("_"c)(0) ' 假设基因ID格式包含基因组名，或者需查表
-                            Dim gName2 = g2.Split("_"c)(0)
+                            If Not geneAnnotations.ContainsKey(g1) OrElse Not geneAnnotations.ContainsKey(g2) Then
+                                Continue For
+                            End If
+
+                            Dim gName1 = geneAnnotations(g1).GenomeName
+                            Dim gName2 = geneAnnotations(g2).GenomeName
 
                             ' 这里的命名解析需根据实际情况调整，这里演示逻辑
                             ' 更好的方式是查 geneAnnotations
