@@ -64,9 +64,9 @@ Public Class PanGenomeResult
     Public Property StructuralVariations As StructuralVariation()
 
     ' 新增：扩展分类结果
-    Public Property SoftCoreGeneFamilies As New List(Of Integer)()
-    Public Property ShellGeneFamilies As New List(Of Integer)()
-    Public Property CloudGeneFamilies As New List(Of Integer)()
+    Public Property SoftCoreGeneFamilies As String()
+    Public Property ShellGeneFamilies As String()
+    Public Property CloudGeneFamilies As String()
 
     ' 新增：遗传距离矩阵
     ' Key为 "GenomeA_vs_GenomeB"，Value为平均遗传距离

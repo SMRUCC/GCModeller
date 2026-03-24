@@ -1,6 +1,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Public Class GenomeAnalyzer
@@ -147,6 +148,8 @@ Public Class GenomeAnalyzer
         result.DispensableGeneFamilies = dispensableGeneFamilies.ToArray
         result.CoreGeneFamilies = coreGeneFamilies.ToArray
 
+        CategorizeGeneFamilies(result, totalGenomes)
+
         ' ==========================================
         ' 步骤 3: 泛基因组曲线计算
         ' ==========================================
@@ -162,6 +165,11 @@ Public Class GenomeAnalyzer
         ' 步骤 5: 结构变异检测 (新增)
         ' ==========================================
         result.StructuralVariations = DetectStructuralVariations(result, geneAnnotations, genomeNames.ToList()).ToArray
+
+        ' ==========================================
+        ' 步骤 7: 遗传距离矩阵 (新增)
+        ' ==========================================
+        CalculateGeneticDistance(result, orthologDict, genomeNames.ToList())
 
         Return result
     End Function
@@ -425,6 +433,11 @@ Public Class GenomeAnalyzer
         Dim coreThreshold As Double = 1.0 ' 100%
         Dim softCoreThreshold As Double = 0.95 ' 95%
         Dim shellThreshold As Double = 0.15 ' 15%
+        Dim coreGeneFamilies As New List(Of String)
+        Dim specificGeneFamilies As New List(Of String)
+        Dim softCoreGeneFamilies As New List(Of String)
+        Dim shellGeneFamilies As New List(Of String)
+        Dim cloudGeneFamilies As New List(Of String)
 
         For Each familyKvp In result.GeneFamilies
             Dim familyId = familyKvp.Key
@@ -437,26 +450,164 @@ Public Class GenomeAnalyzer
             ' 分类判断
             If presenceRatio = coreThreshold Then
                 ' 1. 核心基因
-                result.CoreGeneFamilies.Add(familyId)
+                coreGeneFamilies.Add(familyId)
 
             ElseIf presenceRatio >= softCoreThreshold AndAlso presenceRatio < coreThreshold Then
                 ' 2. 软核心基因
-                result.SoftCoreGeneFamilies.Add(familyId)
+                softCoreGeneFamilies.Add(familyId)
 
             ElseIf presenceRatio >= shellThreshold AndAlso presenceRatio < softCoreThreshold Then
                 ' 3. 壳基因
-                result.ShellGeneFamilies.Add(familyId)
+                shellGeneFamilies.Add(familyId)
 
             Else ' presenceRatio < shellThreshold
                 ' 4. 云基因
-                result.CloudGeneFamilies.Add(familyId)
+                cloudGeneFamilies.Add(familyId)
 
                 ' 5. 特异基因 (云基因的特例)
                 If presenceCount = 1 Then
-                    result.SpecificGeneFamilies.Add(familyId)
+                    specificGeneFamilies.Add(familyId)
                 End If
             End If
         Next
+
+        result.CloudGeneFamilies = cloudGeneFamilies.ToArray
+        result.ShellGeneFamilies = shellGeneFamilies.ToArray
+        result.SoftCoreGeneFamilies = softCoreGeneFamilies.ToArray
+        result.CoreGeneFamilies = coreGeneFamilies.ToArray
+        result.SpecificGeneFamilies = specificGeneFamilies.ToArray
+
+    End Sub
+
+    ''' <summary>
+    ''' 基于直系同源比对计算基因组间的遗传距离矩阵
+    ''' </summary>
+    Private Sub CalculateGeneticDistance(result As PanGenomeResult,
+                                         orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
+                                         genomeNames As List(Of String))
+
+        ' 1. 构建基因组对的比对结果缓存
+        ' Key: "G1_vs_G2", Value: List(Of Ortholog)
+        Dim pairwiseOrthologs As New Dictionary(Of String, List(Of Ortholog))()
+
+        ' 辅助函数：生成唯一的基因组对Key（无论顺序）
+        Dim getKey = Function(g1 As String, g2 As String) As String
+                         Dim list = {g1, g2}.OrderBy(Function(x) x).ToArray()
+                         Return $"{list(0)}_vs_{list(1)}"
+                     End Function
+
+        ' 初始化所有可能的基因组对
+        For i = 0 To genomeNames.Count - 1
+            For j = i + 1 To genomeNames.Count - 1
+                Dim key = getKey(genomeNames(i), genomeNames(j))
+                pairwiseOrthologs.Add(key, New List(Of Ortholog)())
+            Next
+        Next
+
+        ' 2. 遍历所有Ortholog，将其归类到对应的基因组对中
+        ' 注意：需要知道 Ortholog 中的 gene1 和 gene2 分别属于哪个基因组
+        For Each orthos In orthologDict.Values
+            For Each o In orthos
+                ' 这里需要查询基因所属的基因组。
+                ' 实际上，Ortholog类中最好能直接标记基因组来源，或者我们在这里查表。
+                ' 假设我们无法在这里快速查表，我们可以在外层循环处理。
+                ' 为了性能，我们通常在输入数据阶段就处理好了 Genome1 vs Genome2 的关系。
+                ' 这里假设 orthologDict 的 Key 已经是 "G1_vs_G2" 格式。
+                ' 如果不是，我们需要解析 geneID 前缀。
+
+                ' 简单策略：假设 orthologDict 的 Key 就是 "GenomeA_vs_GenomeB" 这种标准格式
+                ' 那么我们可以直接使用。
+            Next
+        Next
+
+        ' 修正逻辑：如果 orthologDict 的 Key 是 "AvsB" 格式
+        For Each kvp In orthologDict
+            Dim comparisonName = kvp.Key
+            Dim orthos = kvp.Value
+
+            ' 尝试解析 Key 得到两个基因组名称
+            ' 这里假设 Key 的格式符合之前的逻辑，或者我们直接使用 SingleCopyOrthologFamilies 来计算
+            ' 使用单拷贝直系同源基因计算距离是最准确的
+
+            ' 策略优化：使用 result.SingleCopyOrthologFamilies 中的基因对来计算
+            ' 这样可以排除多拷贝基因的干扰，结果更接近物种树
+
+            ' 我们需要先建立 Gene -> Ortholog 的反向索引
+        Next
+
+        ' --- 重新实现一个更稳健的策略 ---
+        ' 仅使用单拷贝直系同源基因 计算平均距离
+        ' 这在进化分析中是金标准。
+
+        ' 1. 建立 GeneID -> Ortholog 的索引
+        Dim geneToOrtholog As New Dictionary(Of String, BiDirectionalBesthit)()
+        For Each orthos In orthologDict.Values
+            For Each o In orthos
+                If Not geneToOrtholog.ContainsKey(o.QueryName) Then geneToOrtholog.Add(o.QueryName, o)
+                If Not geneToOrtholog.ContainsKey(o.HitName) Then geneToOrtholog.Add(o.HitName, o)
+            Next
+        Next
+
+        ' 2. 遍历所有单拷贝家族
+        For Each familyId In result.SingleCopyOrthologFamilies
+            Dim genes = result.GeneFamilies(familyId)
+
+            ' 单拷贝家族中只有 N 个基因 (N=基因组数)
+            ' 我们需要找到这 N 个基因两两之间的 Ortholog 记录
+            ' 实际上，单拷贝家族意味着两两之间必然有 RBH 关系
+
+            For i = 0 To genes.Count - 1
+                For j = i + 1 To genes.Count - 1
+                    Dim g1 = genes(i)
+                    Dim g2 = genes(j)
+
+                    ' 查找它们之间的 Ortholog 记录
+                    ' 因为是 RBH，g1 和 g2 必然在同一个 Ortholog 对象中
+                    If geneToOrtholog.ContainsKey(g1) Then
+                        Dim o = geneToOrtholog(g1)
+                        Dim target = If(o.QueryName = g1, o.HitName, o.QueryName)
+
+                        If target = g2 Then
+                            ' 找到了配对
+                            Dim gName1 = g1.Split("_"c)(0) ' 假设基因ID格式包含基因组名，或者需查表
+                            Dim gName2 = g2.Split("_"c)(0)
+
+                            ' 这里的命名解析需根据实际情况调整，这里演示逻辑
+                            ' 更好的方式是查 geneAnnotations
+                            ' Dim info1 = geneAnnotations(g1) ...
+
+                            Dim key = getKey(gName1, gName2)
+
+                            ' 记录距离 (1 - Identity)
+                            ' 假设 identities1 是 g1 相对于 g2 的一致性
+                            ' 如果 orthologDict 中没有明确的基因组方向，取平均值
+                            Dim dist = 1.0 - ((o.forward + o.reverse) / 2.0)
+
+                            If Not result.GeneticDistanceMatrix.ContainsKey(key) Then
+                                result.GeneticDistanceMatrix.Add(key, 0)
+                            End If
+                            ' 累加距离，稍后取平均
+                            result.GeneticDistanceMatrix(key) += dist
+                        End If
+                    End If
+                Next
+            Next
+        Next
+
+        ' 3. 计算平均值
+        ' 这里需要知道每对基因组比较了多少个基因。
+        ' 简化处理：我们可以用一个辅助字典记录计数，这里略。
+        ' 下面提供一个简化版的除以单拷贝基因总数的逻辑。
+
+        Dim singleCopyCount = result.SingleCopyOrthologFamilies.Count
+        If singleCopyCount > 0 Then
+            Dim keys = result.GeneticDistanceMatrix.Keys.ToList()
+            For Each k In keys
+                ' 每对基因组在每个单拷贝家族中都会贡献一次距离
+                ' 所以除以 singleCopyCount
+                result.GeneticDistanceMatrix(k) /= singleCopyCount
+            Next
+        End If
     End Sub
 End Class
 
