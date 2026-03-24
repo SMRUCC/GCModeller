@@ -1,4 +1,5 @@
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
@@ -152,12 +153,15 @@ Public Class GenomeAnalyzer
         ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
         ' 这里实现随机抽样模拟方法，适用于任意数量基因组
         result.PangenomeCurveData = CalculatePangenomeCurve(result, genomeNames.ToList(), 100).ToArray
-
         ' ==========================================
         ' 步骤 4: 共线性分析
         ' ==========================================
         ' 针对每一对基因组，寻找共线性区块
-        result.CollinearBlocks = CalculateCollinearity(result, orthologDict, geneAnnotations, genomeNames.ToList()).ToArray
+        result.CollinearBlocks = CalculateCollinearity(orthologDict, geneAnnotations, genomeNames.ToList()).ToArray
+        ' ==========================================
+        ' 步骤 5: 结构变异检测 (新增)
+        ' ==========================================
+        result.StructuralVariations = DetectStructuralVariations(result, geneAnnotations, genomeNames.ToList()).ToArray
 
         Return result
     End Function
@@ -247,8 +251,7 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 计算基因组间的共线性区块（简化版算法：滑动窗口聚类）
     ''' </summary>
-    Private Iterator Function CalculateCollinearity(result As PanGenomeResult,
-                                      orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
+    Private Iterator Function CalculateCollinearity(orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
                                       geneAnnotations As Dictionary(Of String, GeneInfo),
                                       genomeList As List(Of String)) As IEnumerable(Of CollinearBlock)
 
@@ -321,6 +324,98 @@ Public Class GenomeAnalyzer
         Next
     End Function
 
+    ''' <summary>
+    ''' 基于泛基因组聚类结果和共线性分析结构变异
+    ''' </summary>
+    Private Iterator Function DetectStructuralVariations(result As PanGenomeResult,
+                                           geneAnnotations As Dictionary(Of String, GeneInfo),
+                                           genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
+
+        Dim svIdCounter As Integer = 0
+
+        ' =========================================
+        ' 1. 基于 PAV 和 CNV 的检测
+        ' =========================================
+        ' 定义“核心拷贝数”：大多数基因组在该家族中的拷贝数模式
+        ' 或者简单定义：如果大多数基因组都有，则定义为“存在”
+
+        For Each familyKvp In result.GeneFamilies
+            Dim familyId = familyKvp.Key
+            Dim genes = familyKvp.Value
+            Dim pavRow = result.PAVMatrix(familyId)
+
+            ' 计算平均拷贝数（排除0）作为基准，或者以众数为基准
+            ' 这里简化逻辑：如果 >50% 的基因组有该基因，则认为它是“潜在核心”
+            Dim presenceCount = pavRow.Values.Where(Function(c) c > 0).Count()
+            Dim isCoreFamily = (presenceCount > genomeNames.Count / 2)
+
+            For Each gName In genomeNames
+                Dim copyNum = pavRow(gName)
+
+                ' --- 情况 A: 缺失 ---
+                ' 如果该家族在其他大部分基因组中存在，但在此基因组中为0
+                If isCoreFamily AndAlso copyNum = 0 Then
+                    svIdCounter += 1
+                    Yield New StructuralVariation With {
+                        .SV_ID = "SV_" & svIdCounter,
+                        .Type = SVType.PAV_Absence,
+                        .GenomeName = gName,
+                        .FamilyID = familyId,
+                        .Description = $"Genome {gName} lacks gene family {familyId} which is present in most genomes.",
+                        .RelatedGenes = genes ' 列出家族所有基因供参考
+                    }
+                End If
+
+                ' --- 情况 B: 特有/获得 ---
+                ' 如果该家族仅在极少基因组中存在（特异性基因），且当前基因组有
+                If Not isCoreFamily AndAlso presenceCount <= 2 AndAlso copyNum > 0 Then
+                    svIdCounter += 1
+                    Yield New StructuralVariation With {
+                        .SV_ID = "SV_" & svIdCounter,
+                        .Type = SVType.PAV_Presence,
+                        .GenomeName = gName,
+                        .FamilyID = familyId,
+                        .Description = $"Genome {gName} contains unique gene family {familyId}.",
+                        .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray
+                    }
+                End If
+
+                ' --- 情况 C: 拷贝数变异 (CNV) ---
+                ' 如果家族普遍存在，计算“正常”拷贝数（例如中位数）
+                If isCoreFamily AndAlso copyNum > 0 Then
+                    Dim medianCopy = pavRow.Values.Median
+
+                    ' 如果拷贝数显著高于中位数（如 >= 2倍），视为扩增
+                    If copyNum >= medianCopy * 2 AndAlso copyNum > 1 Then
+                        svIdCounter += 1
+                        Yield New StructuralVariation With {
+                            .SV_ID = "SV_" & svIdCounter,
+                            .Type = SVType.CNV_Gain,
+                            .GenomeName = gName,
+                            .FamilyID = familyId,
+                            .Description = $"Copy number expansion in {gName} (Copy: {copyNum}, Median: {medianCopy}).",
+                            .RelatedGenes = genes.Where(Function(g) geneAnnotations(g).GenomeName = gName).ToArray
+                        }
+                    ElseIf copyNum < medianCopy AndAlso copyNum > 0 Then
+                        ' 这种情况较少见（核心基因拷贝减少），可视具体情况添加
+                    End If
+                End If
+            Next
+        Next
+
+        ' =========================================
+        ' 2. 基于共线性的 SV 检测 (简易版)
+        ' =========================================
+        ' 遍历之前计算的共线性区块，寻找断裂点
+        ' 注意：这部分通常需要比较复杂的算法，这里演示如何利用已有的 CollinearBlocks
+        ' 实际上，真正的 SV 检测通常是在构建共线性之前，通过扫描基因组窗口来做
+
+        ' 这里补充一种思路：如果在染色体上，原本应该连续的同源基因对出现了跳跃，则标记为 Break
+        ' 由于之前的 CollinearBlocks 是正向的，我们可以检查“落单”的基因
+
+        ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
+
+    End Function
 End Class
 
 Public Class OrthologyLink

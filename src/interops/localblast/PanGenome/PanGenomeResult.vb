@@ -57,6 +57,11 @@ Public Class PanGenomeResult
     ''' <returns></returns>
     Public Property CollinearBlocks As CollinearBlock()
 
+    ''' <summary>
+    ''' 结构变异列表
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property StructuralVariations As StructuralVariation()
 End Class
 
 Public Class PangenomeCurveData
