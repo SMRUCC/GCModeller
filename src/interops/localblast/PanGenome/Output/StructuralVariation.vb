@@ -27,29 +27,7 @@ End Enum
 ''' <summary>
 ''' 结构变异事件记录
 ''' </summary>
-Public Class StructuralVariation
-    Public Property SV_ID As String
-    Public Property Type As SVType
-    ''' <summary>
-    ''' 发生变异的基因组
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property GenomeName As String
-    ''' <summary>
-    ''' 关联的基因家族ID
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property FamilyID As String
-    ''' <summary>
-    ''' 涉及的基因ID
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property RelatedGenes As String()
-    ''' <summary>
-    ''' 描述信息
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property Description As String
+Public Class StructuralVariation : Inherits SVTable
 
     ''' <summary>
     ''' 如果是共线性断裂，记录断点信息
@@ -57,4 +35,5 @@ Public Class StructuralVariation
     ''' <returns></returns>
     Public Property Breakpoint_Chromosome As String
     Public Property Breakpoint_Position As Integer
+
 End Class
