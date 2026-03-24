@@ -2,7 +2,7 @@
 ' 分析结果存储结构
 Public Class PanGenomeResult
     ' Key为基因家族ID，Value为该家族包含的所有基因ID列表
-    Public Property GeneFamilies As New Dictionary(Of Integer, List(Of String))()
+    Public Property GeneFamilies As New Dictionary(Of String, List(Of String))()
 
     ' 核心基因家族（三个品种都有）
     Public Property CoreGeneFamilies As New List(Of Integer)()

@@ -36,13 +36,13 @@ Public Class GenomeAnalyzer
 
             For Each ortho In orthologs
                 ' 忽略无效数据
-                If ortho Is Nothing OrElse String.IsNullOrEmpty(ortho.genome1) OrElse String.IsNullOrEmpty(ortho.genome2) Then
+                If ortho Is Nothing OrElse String.IsNullOrEmpty(ortho.gene1) OrElse String.IsNullOrEmpty(ortho.gene2) Then
                     Continue For
                 End If
 
                 ' 核心逻辑：如果两个基因互为直系同源，则将它们在并查集中连接
                 ' 这实现了基因家族的聚类
-                uf.Union(ortho.genome1, ortho.genome2)
+                uf.Union(ortho.gene1, ortho.gene2)
             Next
         Next
 

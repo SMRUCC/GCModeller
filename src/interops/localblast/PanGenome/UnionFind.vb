@@ -1,8 +1,6 @@
-﻿
-' ========================================
-' 并查集辅助类
-' 用于高效处理基因家族的聚类
-' ========================================
+﻿''' <summary>
+''' 并查集辅助类，用于高效处理基因家族的聚类
+''' </summary>
 Public Class UnionFind
     Private parent As New Dictionary(Of String, String)()
 
