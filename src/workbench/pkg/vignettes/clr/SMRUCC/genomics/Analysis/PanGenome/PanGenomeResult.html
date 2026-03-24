@@ -30,14 +30,28 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
 export class PanGenomeResult {
+   # 3. 共线性区块
    CollinearBlocks: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/CollinearBlock.html">CollinearBlock[]</a>;
+   # 核心基因家族（所有品种都有）
    CoreGeneFamilies: string;
+   # 附属基因家族（部分品种有，但不是全部）
    DispensableGeneFamilies: string;
+   # Key为基因家族ID，Value为该家族包含的所有基因ID列表
    GeneFamilies: list;
+   # 2. 泛基因组曲线数据
+   #  列表项为：加入的第N个基因组，总基因数，核心基因数
    PangenomeCurveData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PangenomeCurveData.html">PangenomeCurveData[]</a>;
+   # 1. PAV 矩阵
+   #  
+   #  Key为基因家族ID，Value为字典(Key为基因组名，Value为拷贝数/存在与否)
    PAVMatrix: list;
+   # 单拷贝直系同源基因家族（每个品种仅1个拷贝）
    SingleCopyOrthologFamilies: string;
+   # 特异性基因家族（仅1个品种有）
    SpecificGeneFamilies: string;
+   # 结构变异列表
+   StructuralVariations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/StructuralVariation.html">StructuralVariation[]</a>;
+   # 统计数据（修改为字典，Key为基因组名称，Value为该基因组基因总数）
    TotalGenesInGenomes: list;
 }
 </code>
@@ -50,6 +64,7 @@ export class PanGenomeResult {
 <li>use by <i>property</i> member <code>GeneFamilies</code>: list</li>
 <li>use by <i>property</i> member <code>PangenomeCurveData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PangenomeCurveData.html">PangenomeCurveData</a></li>
 <li>use by <i>property</i> member <code>PAVMatrix</code>: list</li>
+<li>use by <i>property</i> member <code>StructuralVariations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/StructuralVariation.html">StructuralVariation</a></li>
 <li>use by <i>property</i> member <code>TotalGenesInGenomes</code>: list</li>
 </ol>
 
