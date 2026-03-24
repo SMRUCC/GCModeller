@@ -23,4 +23,16 @@
     ''' <returns></returns>
     Public Property Description As String
 
+    Sub New()
+    End Sub
+
+    Sub New(sv As StructuralVariation)
+        SV_ID = sv.SV_ID
+        Type = sv.Type
+        GenomeName = sv.GenomeName
+        FamilyID = sv.FamilyID
+        RelatedGenes = sv.RelatedGenes
+        Description = sv.Description
+    End Sub
+
 End Class
