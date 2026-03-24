@@ -7,6 +7,7 @@ A pipeline collection for proteins' biological function
 + [blastn.maphit](annotation.workflow/blastn.maphit.1) export results of fastq reads mapping to genome sequence.
 + [blasthit.sbh](annotation.workflow/blasthit.sbh.1) Export single side besthit
 + [blasthit.bbh](annotation.workflow/blasthit.bbh.1) 
++ [remove_protein_suffix](annotation.workflow/remove_protein_suffix.1) removes protein suffix id
 + [grep.names](annotation.workflow/grep.names.1) 
 + [stream.flush](annotation.workflow/stream.flush.1) Save the annotation rawdata into the given stream file.
 + [besthit_filter](annotation.workflow/besthit_filter.1) make filter of the blast best hits via the given parameter combinations

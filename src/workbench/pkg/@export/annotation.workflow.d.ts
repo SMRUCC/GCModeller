@@ -155,6 +155,16 @@ declare namespace annotation.workflow {
      * + default value Is ``'unknown'``.
    */
    function read_m8(file: string, stream?: boolean, filter?: string): object;
+   /**
+    * removes protein suffix id
+    * 
+    * 
+     * @param hits -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function remove_protein_suffix(hits: any, env?: object): any;
    module stream {
       /**
        * Save the annotation rawdata into the given stream file.
