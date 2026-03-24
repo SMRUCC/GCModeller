@@ -6,8 +6,14 @@ Public Class CollinearBlock
     Public Property Genome2 As String
     Public Property Chr1 As String
     Public Property Chr2 As String
-    ' 区块包含的基因对
+    ''' <summary>
+    ''' 区块包含的基因对
+    ''' </summary>
+    ''' <returns></returns>
     Public Property OrthologyLinks As OrthologyLink()
-    ' 评估指标：得分或E-value（可选）
+    ''' <summary>
+    ''' 评估指标：得分或E-value（可选）
+    ''' </summary>
+    ''' <returns></returns>
     Public Property Score As Double
 End Class
