@@ -18,12 +18,6 @@
     ''' <returns></returns>
     Public Property RelatedGenes As String()
 
-    Public ReadOnly Property ClusterSize As Integer
-        Get
-            Return RelatedGenes.TryCount
-        End Get
-    End Property
-
     ''' <summary>
     ''' 描述信息
     ''' </summary>
@@ -37,6 +31,12 @@ Public Class SVTable : Inherits SVData
     Public Property Category As GeneCategoryType
     Public Property Dispensable As Boolean
     Public Property SingleCopyOrtholog As Boolean
+
+    Public ReadOnly Property ClusterSize As Integer
+        Get
+            Return RelatedGenes.TryCount
+        End Get
+    End Property
 
     Sub New()
     End Sub

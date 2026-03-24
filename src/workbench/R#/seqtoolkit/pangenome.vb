@@ -28,7 +28,13 @@ Module pangenome
         Call df.add(NameOf(SVTable.Type), From svi As SVTable In sv Let label As String = svi.Type.ToString Select label)
         Call df.add(NameOf(SVTable.GenomeName), From svi As SVTable In sv Select svi.GenomeName)
         Call df.add(NameOf(SVTable.FamilyID), From svi As SVTable In sv Select svi.FamilyID)
+        Call df.add(NameOf(SVTable.ClusterSize), From svi As SVTable In sv Select svi.ClusterSize)
         Call df.add(NameOf(SVTable.RelatedGenes), From svi As SVTable In sv Select svi.RelatedGenes.JoinBy("; "))
+
+        Call df.add(NameOf(SVTable.Category), From svi As SVTable In sv Select svi.Category)
+        Call df.add(NameOf(SVTable.Dispensable), From svi As SVTable In sv Select svi.Dispensable)
+        Call df.add(NameOf(SVTable.SingleCopyOrtholog), From svi As SVTable In sv Select svi.SingleCopyOrtholog)
+
         Call df.add(NameOf(SVTable.Description), From svi As SVTable In sv Select svi.Description)
 
         Return df
@@ -48,6 +54,10 @@ Module pangenome
 
         Call df.add("cluster_genes", From a As PAVTable In pav Select a.ClusterGenes.JoinBy("; "))
         Call df.add("size", From a As PAVTable In pav Select a.ClusterGenes.Length)
+
+        Call df.add("category", From a As PAVTable In pav Select CStr(a.Category))
+        Call df.add("dispensable", From a As PAVTable In pav Select a.Dispensable)
+        Call df.add("singlecopy_ortholog", From a As PAVTable In pav Select a.SingleCopyOrtholog)
 
         For Each genome_name As String In genome_names
             Call df.add(genome_name, From a As PAVTable In pav Select a(genome_name))
