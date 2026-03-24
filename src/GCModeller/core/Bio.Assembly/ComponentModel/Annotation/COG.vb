@@ -50,4 +50,10 @@
 
 Namespace ComponentModel.Annotation
 
+    Public Interface IOrthologyCluster
+
+        Property FamilyID As String
+        Property GeneCluster As String()
+
+    End Interface
 End Namespace

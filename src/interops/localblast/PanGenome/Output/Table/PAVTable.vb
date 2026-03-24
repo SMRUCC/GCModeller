@@ -1,10 +1,12 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
-Public Class PAVTable : Implements IDynamicMeta(Of Integer)
+Public Class PAVTable : Implements IDynamicMeta(Of Integer), IOrthologyCluster, INamedValue
 
-    Public Property FamilyID As String
+    Public Property FamilyID As String Implements IOrthologyCluster.FamilyID, INamedValue.Key
     Public Property PAV As Dictionary(Of String, Integer) Implements IDynamicMeta(Of Integer).Properties
-    Public Property ClusterGenes As String()
+    Public Property ClusterGenes As String() Implements IOrthologyCluster.GeneCluster
     Public Property Category As GeneCategoryType
     Public Property Dispensable As Boolean
     Public Property SingleCopyOrtholog As Boolean

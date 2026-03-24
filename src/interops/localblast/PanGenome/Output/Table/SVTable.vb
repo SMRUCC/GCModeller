@@ -1,4 +1,6 @@
-﻿Public Class SVData
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+
+Public Class SVData : Implements IOrthologyCluster
 
     Public Property SV_ID As String
     Public Property Type As SVType
@@ -11,12 +13,12 @@
     ''' 关联的基因家族ID
     ''' </summary>
     ''' <returns></returns>
-    Public Property FamilyID As String
+    Public Property FamilyID As String Implements IOrthologyCluster.FamilyID
     ''' <summary>
     ''' 涉及的基因ID
     ''' </summary>
     ''' <returns></returns>
-    Public Property RelatedGenes As String()
+    Public Property RelatedGenes As String() Implements IOrthologyCluster.GeneCluster
     Public Property CopyNumber As Integer
     Public Property Median As Double
     ''' <summary>

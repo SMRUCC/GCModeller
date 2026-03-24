@@ -136,12 +136,25 @@ Module pangenome
     End Function
 
     <ExportAPI("sv_table")>
-    Public Function sv_table(result As PanGenomeResult) As SVTable()
-        Return result.SVTable.ToArray
+    Public Function sv_table(result As PanGenomeResult, Optional index As list = Nothing, Optional env As Environment = Nothing) As SVTable()
+        Dim table = result.SVTable.ToArray
+
+        If index Is Nothing Then
+            Return table
+        End If
+
+        Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
+
     End Function
 
     <ExportAPI("pav_table")>
-    Public Function pav_table(result As PanGenomeResult) As PAVTable()
-        Return result.PAVTable.ToArray
+    Public Function pav_table(result As PanGenomeResult, Optional index As list = Nothing, Optional env As Environment = Nothing) As PAVTable()
+        Dim table = result.PAVTable.ToArray
+
+        If index Is Nothing Then
+            Return table
+        End If
+
+        Dim idset As Dictionary(Of String, String()) = index.AsGeneric(Of String())(env)
     End Function
 End Module
