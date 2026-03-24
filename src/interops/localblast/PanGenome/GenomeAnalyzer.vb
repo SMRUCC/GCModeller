@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
@@ -17,10 +18,12 @@ Public Class GenomeAnalyzer
     Dim geneAnnotations As Dictionary(Of String, GeneInfo)
     Dim totalGenomes As Integer
 
-    ' 定义阈值百分比
-    Dim coreThreshold As Double = 1.0 ' 100%
-    Dim softCoreThreshold As Double = 0.95 ' 95%
-    Dim shellThreshold As Double = 0.15 ' 15%
+    Public Property CoreThreshold As Double = 1.0  ' 100%
+    Public Property SoftCoreThreshold As Double = 0.95  ' 95% 
+    Public Property ShellThreshold As Double = 0.15   ' 15%
+    Public Property CNV_Gain_Factor As Double = 2.0
+    Public Property CNV_Loss_Factor As Double = 0.5
+    Public Property MinCollinearGenes As Integer = 5
 
     ''' <summary>
     ''' 
@@ -125,13 +128,12 @@ Public Class GenomeAnalyzer
             ' 构建PAV行
             Dim pavRow As New Dictionary(Of String, Integer)()
             Dim presenceCount As Integer = 0
+            ' 先按基因组分组
+            Dim genesByGenome = genes.GroupBy(Function(g) geneAnnotations(g).GenomeName).ToDictionary(Function(a) a.Key)
 
             For Each gName In genomeNames
                 ' 计算该家族在当前基因组中的拷贝数
-                Dim n As Integer = Aggregate g As String
-                                   In genes
-                                   Where geneAnnotations(g).GenomeName = gName
-                                   Into Count
+                Dim n As Integer = If(genesByGenome.ContainsKey(gName), genesByGenome(gName).Count(), 0)
                 pavRow.Add(gName, n)
                 If n > 0 Then presenceCount += 1
             Next
@@ -336,10 +338,61 @@ Public Class GenomeAnalyzer
                     ' 这里仅作为示例代码，不实现复杂的切割逻辑
                     ' TODO: Block切割
                     currentBlock.OrthologyLinks = orthologyLinks.ToArray
-                    Yield currentBlock
+
+                    For Each subBlock As CollinearBlock In SplitBlockByChromosome(currentBlock)
+                        Yield subBlock
+                    Next
                 End If
             Next
         Next
+    End Function
+
+    ''' <summary>
+    ''' 检测染色体切换时自动切割区块
+    ''' </summary>
+    ''' <param name="block"></param>
+    ''' <returns></returns>
+    Private Iterator Function SplitBlockByChromosome(block As CollinearBlock) As IEnumerable(Of CollinearBlock)
+        Dim currentSubBlock As New List(Of OrthologyLink)()
+        Dim lastChr As String = Nothing
+
+        For Each link In block.OrthologyLinks
+            Dim currentChr = geneAnnotations(link.Tuple(0)).Chromosome
+
+            If lastChr IsNot Nothing AndAlso currentChr <> lastChr Then
+                ' 染色体切换，切割区块
+                If currentSubBlock.Count >= MinCollinearGenes Then
+                    Yield New CollinearBlock(block, currentSubBlock)
+                End If
+                currentSubBlock.Clear()
+            End If
+
+            currentSubBlock.Add(link)
+            lastChr = currentChr
+        Next
+
+        ' 保存最后一个子区块
+        If currentSubBlock.Count >= MinCollinearGenes Then
+            Yield New CollinearBlock(block, currentSubBlock)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 检测基因顺序反向的区块 
+    ''' </summary>
+    ''' <param name="block"></param>
+    ''' <returns></returns>
+    Private Function DetectInversion(block As CollinearBlock) As Boolean
+
+        ' 检查基因在两个基因组中的顺序
+        Dim genes1 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(0)).Start)).ToArray
+        Dim genes2 = block.OrthologyLinks.Select(Function(l) CDbl(geneAnnotations(l.Tuple(1)).Start)).ToArray
+
+        ' 计算顺序相关性
+        Dim correlation = Correlations.Spearman(genes1, genes2)
+
+        ' 负相关表示倒位
+        Return correlation < -0.5
     End Function
 
     ''' <summary>

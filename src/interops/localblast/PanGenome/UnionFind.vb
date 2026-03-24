@@ -4,6 +4,7 @@
 Public Class UnionFind
 
     ReadOnly parent As New Dictionary(Of String, String)()
+    ReadOnly rank As New Dictionary(Of String, Integer)()
 
     ''' <summary>
     ''' 添加元素
@@ -40,10 +41,16 @@ Public Class UnionFind
     Public Sub Union(elem1 As String, elem2 As String)
         Dim root1 = Find(elem1)
         Dim root2 = Find(elem2)
-
-        If root1 IsNot Nothing AndAlso root2 IsNot Nothing AndAlso root1 <> root2 Then
-            ' 简单合并策略
+        If root1 Is Nothing OrElse root2 Is Nothing OrElse root1 = root2 Then
+            Return
+        End If
+        If rank(root1) < rank(root2) Then
             parent(root1) = root2
+        ElseIf rank(root1) > rank(root2) Then
+            parent(root2) = root1
+        Else
+            parent(root1) = root2
+            rank(root2) += 1
         End If
     End Sub
 End Class
