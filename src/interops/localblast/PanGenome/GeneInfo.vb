@@ -24,6 +24,10 @@ Public Class GeneInfo
 
     Public Shared Iterator Function CreateGeneModel(genome As GFFTable) As IEnumerable(Of GeneInfo)
         For Each gene As Feature In genome.features
+            If gene.feature <> "gene" Then
+                Continue For
+            End If
+
             Yield New GeneInfo With {
                 .Chromosome = gene.seqname,
                 .GeneID = gene.ID,
