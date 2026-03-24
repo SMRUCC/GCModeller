@@ -1,5 +1,4 @@
-
-' ========================== 2. 核心分析类 ==========================
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Public Class GenomeAnalyzer
 
@@ -66,12 +65,12 @@ Public Class GenomeAnalyzer
     ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, Ortholog())) As PanGenomeResult
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
-                If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.gene1) AndAlso Not String.IsNullOrEmpty(ortho.gene2) Then
-                    uf.Union(ortho.gene1, ortho.gene2)
+                If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
+                    uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
         Next
@@ -199,18 +198,18 @@ Public Class GenomeAnalyzer
     ''' 计算基因组间的共线性区块（简化版算法：滑动窗口聚类）
     ''' </summary>
     Private Sub CalculateCollinearity(result As PanGenomeResult,
-                                      orthologDict As Dictionary(Of String, Ortholog()),
+                                      orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
                                       geneAnnotations As Dictionary(Of String, GeneInfo),
                                       genomeList As List(Of String))
 
         ' 1. 重新整理Ortholog关系：建立 GeneID -> List<Ortholog> 的映射
-        Dim orthoLookup As New Dictionary(Of String, List(Of Ortholog))()
+        Dim orthoLookup As New Dictionary(Of String, List(Of BiDirectionalBesthit))()
         For Each orthos In orthologDict.Values
             For Each o In orthos
-                If Not orthoLookup.ContainsKey(o.gene1) Then orthoLookup.Add(o.gene1, New List(Of Ortholog)())
-                If Not orthoLookup.ContainsKey(o.gene2) Then orthoLookup.Add(o.gene2, New List(Of Ortholog)())
-                orthoLookup(o.gene1).Add(o)
-                orthoLookup(o.gene2).Add(o)
+                If Not orthoLookup.ContainsKey(o.QueryName) Then orthoLookup.Add(o.QueryName, New List(Of BiDirectionalBesthit)())
+                If Not orthoLookup.ContainsKey(o.HitName) Then orthoLookup.Add(o.HitName, New List(Of BiDirectionalBesthit)())
+                orthoLookup(o.QueryName).Add(o)
+                orthoLookup(o.HitName).Add(o)
             Next
         Next
 
@@ -241,14 +240,14 @@ Public Class GenomeAnalyzer
 
                     ' 找到该基因在g2中的同源基因
                     Dim targetOrthos = orthoLookup(g1Gene.GeneID).Where(Function(o)
-                                                                            Dim otherId = If(o.gene1 = g1Gene.GeneID, o.gene2, o.gene1)
+                                                                            Dim otherId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
                                                                             Return geneAnnotations(otherId).GenomeName = g2
                                                                         End Function).ToList()
 
                     ' 为了简化，这里只处理一对一的情况
                     If targetOrthos.Count = 1 Then
                         Dim o = targetOrthos(0)
-                        Dim g2GeneId = If(o.gene1 = g1Gene.GeneID, o.gene2, o.gene1)
+                        Dim g2GeneId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
                         Dim g2Info = geneAnnotations(g2GeneId)
 
                         ' 检查是否与上一个块连续 (简化版逻辑)
