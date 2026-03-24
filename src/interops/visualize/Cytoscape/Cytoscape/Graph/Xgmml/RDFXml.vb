@@ -71,7 +71,7 @@ Namespace CytoscapeGraphView.XGMML
 
         Public Shared Function XmlDocumentText(graph As XGMMLgraph) As String
             If graph.networkMetadata Is Nothing Then
-                graph.attributes.Add(NetworkMetadata.createAttribute)
+                graph.attributes.Append(NetworkMetadata.createAttribute)
             Else
                 graph.networkMetadata.about = "http://www.cytoscape.org/"
             End If

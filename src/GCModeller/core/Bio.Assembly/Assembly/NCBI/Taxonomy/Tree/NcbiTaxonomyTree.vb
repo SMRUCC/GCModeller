@@ -592,7 +592,7 @@ Namespace Assembly.NCBI.Taxonomy
                           In children
                           Select preorderTraversal(Integer.Parse(child)) ', taxid )
 
-                result.Add(taxid)
+                result.Append(taxid)
             Else
                 result = {taxid}
             End If

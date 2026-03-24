@@ -85,7 +85,7 @@ Module EditorAPI
     ''' <returns></returns>
     <ExportAPI("add_author")>
     Public Function __add_author(model As ModelBaseType, value As String) As ModelBaseType
-        model.properties.authors.Add(value)
+        model.properties.authors.Append(value)
         Return model
     End Function
 
@@ -133,7 +133,7 @@ Module EditorAPI
     ''' <returns></returns>
     <ExportAPI("add_email")>
     Public Function __add_email(model As ModelBaseType, value As String) As ModelBaseType
-        model.properties.Emails.Add(value)
+        model.properties.Emails.Append(value)
         Return model
     End Function
 
@@ -145,13 +145,13 @@ Module EditorAPI
 
     <ExportAPI("Publication.Add")>
     Public Function __add_publication(model As ModelBaseType, value As String) As ModelBaseType
-        model.properties.publications.Add(value)
+        model.properties.publications.Append(value)
         Return model
     End Function
 
     <ExportAPI("Url.Add")>
     Public Function __add_URL(model As ModelBaseType, value As String) As ModelBaseType
-        model.properties.URLs.Add(value)
+        model.properties.URLs.Append(value)
         Return model
     End Function
 

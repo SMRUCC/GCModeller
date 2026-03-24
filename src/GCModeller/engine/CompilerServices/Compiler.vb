@@ -180,7 +180,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
                 "http://gcmodeller.org/"
             }
         Else
-            Call model.properties.URLs.Add("http://gcmodeller.org/")
+            Call model.properties.URLs.Append("http://gcmodeller.org/")
         End If
 
         If model.properties.authors.IsNullOrEmpty Then

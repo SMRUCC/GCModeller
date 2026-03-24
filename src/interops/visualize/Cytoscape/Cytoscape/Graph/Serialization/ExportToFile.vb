@@ -124,7 +124,7 @@ Namespace CytoscapeGraphView.Serialization
                                                  EdgeTypeMapping:=GetType(Edge).GetDataFrameworkTypeSchema(False),
                                                  schema:=interMaps)
             Model.attributes = ModelAttributes
-            Model.attributes.Add(NetworkMetadata.createAttribute("GCModeller Exports: " & title, "https://gcmodeller.org"))
+            Model.attributes.Append(NetworkMetadata.createAttribute("GCModeller Exports: " & title, "https://gcmodeller.org"))
 
             VBDebugger.Mute = True
 

@@ -132,7 +132,7 @@ Namespace Regprecise
                     }
                 }
                 genome.regulome = regulog
-                genomes.Add(genome)
+                genomes.Append(genome)
 
                 Return True
             End If

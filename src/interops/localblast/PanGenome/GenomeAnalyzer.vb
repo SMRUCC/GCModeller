@@ -133,12 +133,13 @@ Public Class GenomeAnalyzer
                 End If
             ElseIf presenceCount = 1 Then
                 result.SpecificGeneFamilies.Add(familyId)
-                result.DispensableGeneFamilies.Add(familyId)
+                dispensableGeneFamilies.Add(familyId)
             Else
-                result.DispensableGeneFamilies.Add(familyId)
+                dispensableGeneFamilies.Add(familyId)
             End If
         Next
 
+        result.DispensableGeneFamilies = dispensableGeneFamilies.ToArray
 
         ' ==========================================
         ' 步骤 3: 泛基因组曲线计算
