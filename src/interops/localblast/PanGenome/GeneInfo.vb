@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+
+''' <summary>
 ''' 基因详细信息，增加位置信息以支持共线性分析
 ''' </summary>
 Public Class GeneInfo
@@ -16,5 +18,20 @@ Public Class GeneInfo
         End Get
     End Property
 
+    Public Overrides Function ToString() As String
+        Return GeneID
+    End Function
+
+    Public Shared Iterator Function CreateGeneModel(genome As GFFTable) As IEnumerable(Of GeneInfo)
+        For Each gene As Feature In genome.features
+            Yield New GeneInfo With {
+                .Chromosome = gene.seqname,
+                .GeneID = gene.ID,
+                .GenomeName = genome.species,
+                .Start = gene.left,
+                .[End] = gene.right
+            }
+        Next
+    End Function
 
 End Class
