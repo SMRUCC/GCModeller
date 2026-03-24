@@ -87,6 +87,7 @@ Namespace ComponentModel.Annotation
         Public Iterator Function GetClusters(Of T As {New, IOrthologyCluster})(index As Dictionary(Of String, String()), clusters As IEnumerable(Of T)) As IEnumerable(Of T)
             Dim geneIndex As Dictionary(Of String, T) = clusters _
                 .MakeFlat _
+                .Where(Function(cluster) Not cluster.id.StringEmpty) _
                 .GroupBy(Function(cluster) cluster.id) _
                 .ToDictionary(Function(group) group.Key,
                               Function(group)
