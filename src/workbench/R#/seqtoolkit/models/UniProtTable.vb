@@ -7,6 +7,19 @@ Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Module UniProtTable
 
     <Extension>
+    Private Iterator Function annotationIDs(all As entry(), db_xref As String, key As String) As IEnumerable(Of String)
+        For Each p As entry In all
+            Dim ref = p.xrefs.TryGetValue(db_xref)?.FirstOrDefault
+
+            If ref Is Nothing Then
+                Yield ""
+            Else
+                Yield ref(key)
+            End If
+        Next
+    End Function
+
+    <Extension>
     Public Function ProteinTable(prot As IEnumerable(Of entry)) As dataframe
         Dim all As entry() = prot.ToArray
         Dim orf As String() = all.Select(Function(p) p.ORF).fill
@@ -20,39 +33,9 @@ Module UniProtTable
         Dim GOterms As String() = all.Select(Function(p) p.GO.Select(Function(r) r.id).Distinct.JoinBy("; ")).fill
         Dim EMBL As String() = all.Select(Function(p) p.DbReferenceId("EMBL")).fill
         Dim Ensembl As String() = all.Select(Function(p) p.DbReferenceId("Ensembl")).fill
-        Dim Ensembl_protein As String() = all _
-            .Select(Function(p)
-                        Dim ref = p.xrefs.TryGetValue("Ensembl")?.FirstOrDefault
-
-                        If ref Is Nothing Then
-                            Return ""
-                        Else
-                            Return ref("protein sequence ID")
-                        End If
-                    End Function) _
-            .fill
-        Dim Ensembl_geneID As String() = all _
-            .Select(Function(p)
-                        Dim ref = p.xrefs.TryGetValue("Ensembl")?.FirstOrDefault
-
-                        If ref Is Nothing Then
-                            Return ""
-                        Else
-                            Return ref("gene ID")
-                        End If
-                    End Function) _
-            .fill
-        Dim EnsemblPlants As String() = all _
-            .Select(Function(p)
-                        Dim ref = p.xrefs.TryGetValue("EnsemblPlants")?.FirstOrDefault
-
-                        If ref Is Nothing Then
-                            Return ""
-                        Else
-                            Return ref("gene ID")
-                        End If
-                    End Function) _
-            .fill
+        Dim Ensembl_protein As String() = all.annotationIDs("Ensembl", "protein sequence ID").fill
+        Dim Ensembl_geneID As String() = all.annotationIDs("Ensembl", "gene ID").fill
+        Dim EnsemblPlants As String() = all.annotationIDs("EnsemblPlants", "gene ID").fill
         Dim GeneID As String() = all.Select(Function(p) p.DbReferenceId("GeneID")).fill
         Dim Proteomes As String() = all.Select(Function(p) p.DbReferenceId("Proteomes")).fill
         Dim Bgee As String() = all.Select(Function(p) p.DbReferenceId("Bgee")).fill
@@ -66,6 +49,33 @@ Module UniProtTable
                             .JoinBy("+")
                     End Function) _
             .fill
+        Dim pfam = all.Select(Function(p)
+                                  Dim hmmer = p.xrefs.TryGetValue("Pfam")
+
+                                  If hmmer.IsNullOrEmpty Then
+                                      Return ""
+                                  Else
+                                      Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
+                                  End If
+                              End Function).fill
+        Dim interpro = all.Select(Function(p)
+                                      Dim hmmer = p.xrefs.TryGetValue("InterPro")
+
+                                      If hmmer.IsNullOrEmpty Then
+                                          Return ""
+                                      Else
+                                          Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
+                                      End If
+                                  End Function).fill
+        Dim SUPFAM = all.Select(Function(p)
+                                    Dim hmmer = p.xrefs.TryGetValue("SUPFAM")
+
+                                    If hmmer.IsNullOrEmpty Then
+                                        Return ""
+                                    Else
+                                        Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
+                                    End If
+                                End Function).fill
         Dim signal_peptide = all _
             .Select(Function(p)
                         Return p.features _
@@ -117,6 +127,9 @@ Module UniProtTable
                 {"RefSeq", RefSeq},
                 {"KEGG", KEGG},
                 {"motif", motif},
+                {"Pfam", pfam},
+                {"InterPro", interpro},
+                {"SUPFAM", SUPFAM},
                 {"chain", chain},
                 {"region of interest", region_of_interest},
                 {"transmembrane_region", transmembrane_region},
