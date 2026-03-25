@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -44,6 +45,16 @@ Namespace Pipeline
 
         Public Overrides Function ToString() As String
             Return $"[{term}] {queryName} = {score}"
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function WrapID(id As String) As RankTerm
+            Return New RankTerm With {
+                .queryName = id,
+                .term = id,
+                .scores = {100},
+                .source = {id}
+            }
         End Function
 
         Public Shared Iterator Function RankTopTerm(hits As IEnumerable(Of BestHit),
