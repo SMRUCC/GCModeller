@@ -66,6 +66,7 @@ Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 
 <Package("WGCNA")>
 Module WGCNA
@@ -170,7 +171,7 @@ Module WGCNA
         Dim corvec As New List(Of Double)
         Dim pvalvec As New List(Of Double)
 
-        For Each tuple In GetVectorElement.Zip(idset1, idset2)
+        For Each tuple In TqdmWrapper.Wrap(GetVectorElement.Zip(idset1, idset2).ToArray)
             Dim x As String = CStr(tuple.Item1)
             Dim y As String = CStr(tuple.Item2)
             Dim corResult = cor.Correlation(x, y)
