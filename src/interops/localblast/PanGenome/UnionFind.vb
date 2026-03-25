@@ -36,8 +36,8 @@ Public Class UnionFind
     ''' <summary>
     ''' 合并两个集合
     ''' </summary>
-    ''' <param name="elem1"></param>
-    ''' <param name="elem2"></param>
+    ''' <param name="elem1">推荐使用参考基因ID，这样子比较容易生成有意义的家族ID</param>
+    ''' <param name="elem2">待分析的基因组内的基因ID</param>
     Public Sub Union(elem1 As String, elem2 As String)
         Dim root1 = Find(elem1)
         Dim root2 = Find(elem2)
@@ -61,4 +61,23 @@ Public Class UnionFind
             rank(root2) += 1
         End If
     End Sub
+
+    ''' <summary>
+    ''' 提取聚类结果
+    ''' </summary>
+    ''' <returns>构建家族映射</returns>
+    Public Function GetClusters() As Dictionary(Of String, List(Of String))
+        Dim clusters As New Dictionary(Of String, List(Of String))()
+
+        ' 遍历 parent.Keys 中的所有基因
+        For Each gene As String In parent.Keys
+            Dim root As String = Find(gene)  ' 找到根节点
+            If Not clusters.ContainsKey(root) Then
+                clusters.Add(root, New List(Of String)())
+            End If
+            clusters(root).Add(gene)
+        Next
+
+        Return clusters
+    End Function
 End Class

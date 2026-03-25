@@ -97,16 +97,7 @@ Public Class GenomeAnalyzer
         Next
 
         ' 构建家族映射
-        Dim familyMap As New Dictionary(Of String, List(Of String))()
-        For Each geneId In geneAnnotations.Keys
-            Dim root = uf.Find(geneId)
-            If Not familyMap.ContainsKey(root) Then
-                familyMap.Add(root, New List(Of String)())
-            End If
-            familyMap(root).Add(geneId)
-        Next
-
-        Return familyMap
+        Return uf.GetClusters
     End Function
 
     ''' <summary>
