@@ -30,20 +30,22 @@
             <code id="clr_ts">
 # namespace SMRUCC.genomics.Analysis.PanGenome
 export class SVType extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   None: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 0;
+
    # 缺失：该基因组相对于其他基因组缺少该基因家族
-   PAV_Absence: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 0;
+   PAV_Absence: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 1;
 
    # 获得：该基因组相对于其他基因组特有该基因家族
-   PAV_Presence: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 1;
+   PAV_Presence: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 2;
 
    # 拷贝数增加：相对于核心拷贝数增加
-   CNV_Gain: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 2;
+   CNV_Gain: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 3;
 
    # 拷贝数减少：相对于核心拷贝数减少
-   CNV_Loss: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 3;
+   CNV_Loss: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 4;
 
    # 共线性断裂（倒位/易位）
-   Collinearity_Break: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 4;
+   Collinearity_Break: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a> = 5;
 
 }
 </code>
@@ -53,6 +55,7 @@ export class SVType extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
 
         <ol>
 <li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>None</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
 <li>use by <i>field</i> member <code>PAV_Absence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
 <li>use by <i>field</i> member <code>PAV_Presence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>
 <li>use by <i>field</i> member <code>CNV_Gain</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/SVType.html">SVType</a></li>

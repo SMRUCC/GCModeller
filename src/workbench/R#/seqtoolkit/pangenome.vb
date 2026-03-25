@@ -10,6 +10,7 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("pangenome")>
 <RTypeExport("pangenome", GetType(PanGenomeResult))>
@@ -59,9 +60,10 @@ Module pangenome
             .IteratesALL _
             .Distinct _
             .ToArray
+        Dim prefixPAV As Boolean = CLRVector.asScalarLogical(args.getBySynonyms("prefix.pav", "prefix_pav", "pav_prefix", "pav.prefix"))
 
         Call df.add("cluster_genes", From a As PAVTable In pav Select a.ClusterGenes.JoinBy("; "))
-        Call df.add("size", From a As PAVTable In pav Select a.ClusterGenes.Length)
+        Call df.add("size", From a As PAVTable In pav Select a.ClusterGenes.TryCount)
 
         Call df.add("category", From a As PAVTable
                                 In pav
@@ -71,7 +73,7 @@ Module pangenome
         Call df.add("singlecopy_ortholog", From a As PAVTable In pav Select a.SingleCopyOrtholog)
 
         For Each genome_name As String In genome_names
-            Call df.add(genome_name, From a As PAVTable In pav Select a(genome_name))
+            Call df.add(If(prefixPAV, "PAV-" & genome_name, genome_name), From a As PAVTable In pav Select a(genome_name))
         Next
 
         Return df
