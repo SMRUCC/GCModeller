@@ -151,37 +151,41 @@ Module WGCNA
 
             If Not GetVectorElement.DoesSizeMatch(idset1, idset2) Then
                 Return RInternal.debug.stop($"the dimension size of id1({idset1.size}) is not matched with the dimension size of id2({idset2.size})!", env)
+            Else
+                Return expr_cor(cor, idset1, idset2)
             End If
-
-            Dim eval As New dataframe With {
-               .columns = New Dictionary(Of String, Array)
-            }
-            Dim id1vec As New List(Of String)
-            Dim id2vec As New List(Of String)
-            Dim corvec As New List(Of Double)
-            Dim pvalvec As New List(Of Double)
-
-            For Each tuple In GetVectorElement.Zip(idset1, idset2)
-                Dim x As String = CStr(tuple.Item1)
-                Dim y As String = CStr(tuple.Item2)
-                Dim corResult = cor.Correlation(x, y)
-
-                Call id1vec.Add(x)
-                Call id2vec.Add(y)
-                Call corvec.Add(corResult.cor)
-                Call pvalvec.Add(corResult.pval)
-            Next
-
-            Call eval.add("id1", id1vec)
-            Call eval.add("id2", id2vec)
-            Call eval.add("cor", corvec)
-            Call eval.add("pval", pvalvec)
-
-            Return eval
         ElseIf TypeOf expr Is HTSMatrix Then
             Return New LazyCorrelationMatrix(DirectCast(expr, HTSMatrix))
         Else
             Return Message.InCompatibleType(GetType(HTSMatrix), expr.GetType, env)
         End If
+    End Function
+
+    Private Function expr_cor(cor As LazyCorrelationMatrix, idset1 As GetVectorElement, idset2 As GetVectorElement) As dataframe
+        Dim eval As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim id1vec As New List(Of String)
+        Dim id2vec As New List(Of String)
+        Dim corvec As New List(Of Double)
+        Dim pvalvec As New List(Of Double)
+
+        For Each tuple In GetVectorElement.Zip(idset1, idset2)
+            Dim x As String = CStr(tuple.Item1)
+            Dim y As String = CStr(tuple.Item2)
+            Dim corResult = cor.Correlation(x, y)
+
+            Call id1vec.Add(x)
+            Call id2vec.Add(y)
+            Call corvec.Add(corResult.cor)
+            Call pvalvec.Add(corResult.pval)
+        Next
+
+        Call eval.add("id1", id1vec)
+        Call eval.add("id2", id2vec)
+        Call eval.add("cor", corvec)
+        Call eval.add("pval", pvalvec)
+
+        Return eval
     End Function
 End Module
