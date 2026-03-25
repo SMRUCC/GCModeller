@@ -76,7 +76,14 @@ declare namespace genomics_context {
    */
    function relationship(a: any, b: any, env?: object): object;
    /**
-     * @param env default value Is ``null``.
+    * set genomics context of the matched motif site
+    * 
+    * 
+     * @param sites a collection of the motif sites
+     * @param genomics the genomics feature information as the context for make location assignment.
+     * @param env -
+     * 
+     * + default value Is ``null``.
    */
    function set_context(sites: any, genomics: object, env?: object): any;
    /**

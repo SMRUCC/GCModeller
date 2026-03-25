@@ -2,7 +2,7 @@
 
 the tools for processing of the genomics context information
 
-+ [set_context](genomics_context/set_context.1) 
++ [set_context](genomics_context/set_context.1) set genomics context of the matched motif site
 + [filter_strand](genomics_context/filter_strand.1) filter genes by given strand direction
 + [location](genomics_context/location.1) create a new nucleotide location object
 + [is.forward](genomics_context/is.forward.1) assert that does the given nucleotide location is in forward direction?
