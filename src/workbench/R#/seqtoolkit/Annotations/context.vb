@@ -119,6 +119,13 @@ Module context
         Return sb.ToString
     End Function
 
+    ''' <summary>
+    ''' set genomics context of the matched motif site
+    ''' </summary>
+    ''' <param name="sites">a collection of the motif sites</param>
+    ''' <param name="genomics">the genomics feature information as the context for make location assignment.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("set_context")>
     Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprint)(sites, env)
