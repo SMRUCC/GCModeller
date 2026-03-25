@@ -10,7 +10,7 @@ Public Class GenomeAnalyzer
     Dim genomeNames As New HashSet(Of String)()
     Dim genomeGeneSets As New Dictionary(Of String, HashSet(Of String))()
     Dim result As New PanGenomeResult()
-    Dim uf As New UnionFind()
+    Dim uf As UnionFind
 
     ''' <summary>
     ''' 全局基因注释字典（用于查询基因所属基因组）
@@ -31,7 +31,7 @@ Public Class GenomeAnalyzer
     ''' <param name="geneAnnotations">
     ''' 所有基因的详细信息字典，Key为GeneID
     ''' </param>
-    Sub New(geneAnnotations As Dictionary(Of String, GeneInfo))
+    Sub New(geneAnnotations As Dictionary(Of String, GeneInfo), Optional uf As UnionFind = Nothing)
         ' 0. 预处理：构建基因组列表和基因集合
         For Each geneKvp In geneAnnotations
             Dim gInfo = geneKvp.Value
@@ -46,10 +46,10 @@ Public Class GenomeAnalyzer
         Me.totalGenomes = genomeNames.Count
         Me.geneAnnotations = geneAnnotations
 
-        Call Initialize()
+        Call Initialize(uf)
     End Sub
 
-    Sub New(genomes As Dictionary(Of String, GeneInfo()))
+    Sub New(genomes As Dictionary(Of String, GeneInfo()), Optional uf As UnionFind = Nothing)
         geneAnnotations = New Dictionary(Of String, GeneInfo)
 
         For Each genome In genomes
@@ -63,17 +63,19 @@ Public Class GenomeAnalyzer
 
         totalGenomes = genomeNames.Count
 
-        Call Initialize()
+        Call Initialize(uf)
     End Sub
 
-    Sub New(genomes As IEnumerable(Of GFFTable))
-        Call Me.New(genomes.ToDictionary(Function(gn) gn.species, Function(gn) GeneInfo.CreateGeneModel(gn).ToArray))
+    Sub New(genomes As IEnumerable(Of GFFTable), Optional uf As UnionFind = Nothing)
+        Call Me.New(GeneInfo.GenomeSet(genomes), uf)
     End Sub
 
-    Private Sub Initialize()
+    Private Sub Initialize(uf As UnionFind)
+        Me.uf = If(uf, New UnionFind)
+
         ' 统计总数
         For Each kvp In genomeGeneSets
-            result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
+            Call result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
         Next
 
         ' ==========================================
@@ -81,8 +83,8 @@ Public Class GenomeAnalyzer
         ' ==========================================
 
         ' 初始化所有基因
-        For Each geneId In geneAnnotations.Keys
-            uf.AddElement(geneId)
+        For Each geneId As String In geneAnnotations.Keys
+            Call uf.AddElement(geneId)
         Next
     End Sub
 

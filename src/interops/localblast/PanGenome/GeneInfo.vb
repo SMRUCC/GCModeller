@@ -38,4 +38,14 @@ Public Class GeneInfo
         Next
     End Function
 
+    Public Shared Function GenomeSet(genomes As IEnumerable(Of GFFTable)) As Dictionary(Of String, GeneInfo())
+        Return genomes _
+            .ToDictionary(Function(gn) gn.species,
+                          Function(gn)
+                              Return GeneInfo _
+                                  .CreateGeneModel(gn) _
+                                  .ToArray
+                          End Function)
+    End Function
+
 End Class

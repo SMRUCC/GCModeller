@@ -14,6 +14,7 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("pangenome")>
 <RTypeExport("pangenome", GetType(PanGenomeResult))>
+<RTypeExport("ortho_groups", GetType(UnionFind))>
 Module pangenome
 
     Sub Main()

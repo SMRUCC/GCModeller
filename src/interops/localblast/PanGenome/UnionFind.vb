@@ -36,11 +36,12 @@ Public Class UnionFind
     ''' <summary>
     ''' 合并两个集合
     ''' </summary>
-    ''' <param name="elem1">推荐使用参考基因ID，这样子比较容易生成有意义的家族ID</param>
-    ''' <param name="elem2">待分析的基因组内的基因ID</param>
-    Public Sub Union(elem1 As String, elem2 As String)
-        Dim root1 = Find(elem1)
-        Dim root2 = Find(elem2)
+    ''' <param name="referID">推荐使用参考基因ID，这样子比较容易生成有意义的家族ID</param>
+    ''' <param name="geneID">待分析的基因组内的基因ID</param>
+    Public Sub Union(referID As String, geneID As String)
+        Dim root1 = Find(referID)
+        Dim root2 = Find(geneID)
+
         If root1 Is Nothing OrElse root2 Is Nothing OrElse root1 = root2 Then
             Return
         Else
