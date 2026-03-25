@@ -28,6 +28,11 @@ Public Class LazyCorrelationMatrix
             Dim v1 = expr(gene1)
             Dim v2 = expr(gene2)
 
+            ' no correlation result for missing data
+            If v1 Is Nothing OrElse v2 Is Nothing Then
+                Return (0, 1)
+            End If
+
             c = Correlations.GetPearson(v1.experiments, v2.experiments, p, throwMaxIterError:=False)
 
             Call cor.SetValue(gene1, gene2, c)
