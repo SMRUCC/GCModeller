@@ -266,13 +266,14 @@ Module OTUTableTools
                                  Optional sum_duplicated As Boolean = False,
                                  Optional OTUTaxonAnalysis As Boolean = False) As OTUTable()
         Dim otus As OTUTable()
+        Dim checkTable As Boolean = Not file.ExtensionSuffix("csv")
 
         If OTUTaxonAnalysis Then
             otus = OTU _
-                .LoadOTUTaxonAnalysis(file, tsv:=Not file.ExtensionSuffix("csv")) _
+                .LoadOTUTaxonAnalysis(file, tsv:=checkTable) _
                 .ToArray
         Else
-            otus = DataSet.LoadDataSet(Of OTUTable)(file, mute:=True).ToArray
+            otus = DataSet.LoadDataSet(Of OTUTable)(file, mute:=True, isTsv:=checkTable).ToArray
         End If
 
         If sum_duplicated Then
