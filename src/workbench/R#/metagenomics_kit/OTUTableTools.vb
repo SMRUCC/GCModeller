@@ -288,17 +288,6 @@ Module OTUTableTools
     End Function
 
     ''' <summary>
-    ''' combine of two batch data
-    ''' </summary>
-    ''' <param name="batch1"></param>
-    ''' <param name="batch2"></param>
-    ''' <returns></returns>
-    <ExportAPI("batch_combine")>
-    Public Function batch_combine(batch1 As OTUTable(), batch2 As OTUTable()) As OTUTable()
-        Return batch1.BatchCombine(batch2).ToArray
-    End Function
-
-    ''' <summary>
     ''' cast the expression matrix to the otu data
     ''' </summary>
     ''' <param name="x">
@@ -632,5 +621,16 @@ Module OTUTableTools
             .populates(Of OTUTable)(env) _
             .MergePhyloseq(batch2data.populates(Of OTUTable)(env)) _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' combine of two batch data directly via the taxonomy string group
+    ''' </summary>
+    ''' <param name="batch1"></param>
+    ''' <param name="batch2"></param>
+    ''' <returns></returns>
+    <ExportAPI("batch_combine")>
+    Public Function batch_combine(batch1 As OTUTable(), batch2 As OTUTable()) As OTUTable()
+        Return batch1.BatchCombine(batch2).ToArray
     End Function
 End Module
