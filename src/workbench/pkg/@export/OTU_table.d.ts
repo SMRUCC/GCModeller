@@ -87,6 +87,10 @@ declare namespace OTU_table {
    */
    function make_otu_table(samples: any, taxonomy_tree: object, filter_missing?: boolean, env?: object): object;
    /**
+     * @param env default value Is ``null``.
+   */
+   function make_repseq_id(otus: any, rep: any, env?: object): object;
+   /**
     * make OTU tree graph via JSD correlation method
     * 
     * 
@@ -112,6 +116,10 @@ declare namespace OTU_table {
    /**
    */
    function median_scale(x: object): any;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function merge_phyloseq(batch1: any, batch2: any, env?: object): object;
    /**
     * cast the expression matrix to the otu data
     * 

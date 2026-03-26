@@ -34,3 +34,5 @@ Tools for handling OTU table data
 + [makeTreeGraph](OTU_table/makeTreeGraph.1) make OTU tree graph via JSD correlation method
 + [makeUPGMATree](OTU_table/makeUPGMATree.1) 
 + [drawUPGMATree](OTU_table/drawUPGMATree.1) 
++ [make_repseq_id](OTU_table/make_repseq_id.1) 
++ [merge_phyloseq](OTU_table/merge_phyloseq.1) 
