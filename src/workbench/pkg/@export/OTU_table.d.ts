@@ -51,7 +51,7 @@ declare namespace OTU_table {
    */
    function average(x: any, sampleinfo: any, env?: object): object;
    /**
-    * combine of two batch data
+    * combine of two batch data directly via the taxonomy string group
     * 
     * 
      * @param batch1 -

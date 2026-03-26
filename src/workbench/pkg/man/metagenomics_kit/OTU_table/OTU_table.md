@@ -23,7 +23,6 @@ Tools for handling OTU table data
 + [filter](OTU_table/filter.1) filter the otu data which has relative abundance greater than the given threshold
 + [read.OTUtable](OTU_table/read.OTUtable.1) read 16s OTU table
 + [read.OTUdata](OTU_table/read.OTUdata.1) 
-+ [batch_combine](OTU_table/batch_combine.1) combine of two batch data
 + [otu_from_matrix](OTU_table/otu_from_matrix.1) cast the expression matrix to the otu data
 + [as.hts_matrix](OTU_table/as.hts_matrix.1) Create expression matrix data from a given otu table
 + [read.rankdata](OTU_table/read.rankdata.1) 
@@ -36,3 +35,4 @@ Tools for handling OTU table data
 + [drawUPGMATree](OTU_table/drawUPGMATree.1) 
 + [make_repseq_id](OTU_table/make_repseq_id.1) 
 + [merge_phyloseq](OTU_table/merge_phyloseq.1) 
++ [batch_combine](OTU_table/batch_combine.1) combine of two batch data directly via the taxonomy string group
