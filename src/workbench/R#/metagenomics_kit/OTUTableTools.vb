@@ -614,6 +614,7 @@ Module OTUTableTools
     End Function
 
     <ExportAPI("merge_phyloseq")>
+    <RApiReturn(GetType(OTUTable))>
     Public Function merge_phyloseq(<RRawVectorArgument> batch1 As Object,
                                    <RRawVectorArgument> batch2 As Object,
                                    Optional env As Environment = Nothing) As Object
