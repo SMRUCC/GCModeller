@@ -72,6 +72,7 @@ Imports SMRUCC.genomics.Analysis.Metagenome.UPGMATree
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
@@ -590,5 +591,45 @@ Module OTUTableTools
         Dim driver As Drivers = env.getDriver
 
         Return taxonomyTree.Plot(size, driver:=driver)
+    End Function
+
+    <ExportAPI("make_repseq_id")>
+    <RApiReturn(GetType(OTUTable))>
+    Public Function make_repseq_id(<RRawVectorArgument> otus As Object,
+                                   <RRawVectorArgument> rep As Object,
+                                   Optional env As Environment = Nothing) As Object
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(otus, env)
+        Dim rep_seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(rep, env)
+
+        If pull.isError Then
+            Return pull.getError
+        ElseIf rep_seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Return pull.populates(Of OTUTable)(env) _
+            .AssignRepresentativeSeqID(rep_seqs) _
+            .ToArray
+    End Function
+
+    <ExportAPI("merge_phyloseq")>
+    Public Function merge_phyloseq(<RRawVectorArgument> batch1 As Object,
+                                   <RRawVectorArgument> batch2 As Object,
+                                   Optional env As Environment = Nothing) As Object
+
+        Dim batch1data As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(batch1, env)
+        Dim batch2data As pipeline = pipeline.TryCreatePipeline(Of OTUTable)(batch2, env)
+
+        If batch1data.isError Then
+            Return batch1data.getError
+        ElseIf batch2data.isError Then
+            Return batch2data.getError
+        End If
+
+        Return batch1data _
+            .populates(Of OTUTable)(env) _
+            .MergePhyloseq(batch2data.populates(Of OTUTable)(env)) _
+            .ToArray
     End Function
 End Module
