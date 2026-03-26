@@ -131,7 +131,7 @@ Module TaxonomyKit
     End Function
 
     Private Function printTaxonomy(taxonomy As Taxonomy) As String
-        Return $"<{taxonomy.lowestLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
+        Return $"<{taxonomy.RankLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
     End Function
 
     ''' <summary>
@@ -330,7 +330,7 @@ Module TaxonomyKit
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
                         End If
                     End Function) _
-            .Where(Function(t) t.lowestLevel <> TaxonomyRanks.NA) _
+            .Where(Function(t) t.RankLevel <> TaxonomyRanks.NA) _
             .ToArray
 
         If taxid Is Nothing Then

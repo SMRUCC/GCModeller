@@ -3,6 +3,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports ncbi_tax = SMRUCC.genomics.Metagenomics.Taxonomy
 
 Public Module OTUTableBuilder
 
@@ -71,6 +75,85 @@ Public Module OTUTableBuilder
             End If
 
             Yield otu
+        Next
+    End Function
+
+    <Extension>
+    Public Iterator Function AssignRepresentativeSeqID(otutable As IEnumerable(Of OTUTable), rep As IEnumerable(Of FastaSeq)) As IEnumerable(Of OTUTable)
+        Dim repIndex As Dictionary(Of String, String) = rep _
+            .ToDictionary(Function(fa)
+                              ' fasta title is the ASV ID
+                              Return fa.Title
+                          End Function,
+                          Function(fa)
+                              Return NucleicAcid.Canonical(fa.SequenceData).ToUpper.MD5
+                          End Function)
+
+        For Each otu As OTUTable In otutable
+            otu = New OTUTable With {
+                .ID = repIndex(otu.ID),
+                .Properties = otu.Properties,
+                .taxonomy = otu.taxonomy
+            }
+
+            Yield otu
+        Next
+    End Function
+
+    ''' <summary>
+    ''' A helper function for merge otu table across two batch data
+    ''' </summary>
+    ''' <param name="batch1">otutable, otu id should be re-generated via the md5 of rep.fasta by <see cref="AssignRepresentativeSeqID"/> function.</param>
+    ''' <param name="batch2">otutable, otu id should be re-generated via the md5 of rep.fasta by <see cref="AssignRepresentativeSeqID"/> function.</param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function MergePhyloseq(batch1 As IEnumerable(Of OTUTable), batch2 As IEnumerable(Of OTUTable)) As IEnumerable(Of OTUTable)
+        For Each otu As IGrouping(Of String, OTUTable) In batch1 _
+            .JoinIterates(batch2) _
+            .GroupBy(Function(otu_seq)
+                         ' direct merge two batch otu table via unique md5 representive sequence ID
+                         Return otu_seq.ID
+                     End Function)
+
+            Dim taxGroup As IGrouping(Of String, OTUTable)() = otu _
+                .GroupBy(Function(seq)
+                             Return seq.taxonomy.BIOMTaxonomyString
+                         End Function) _
+                .ToArray
+            Dim mergeSamples As New Dictionary(Of String, Double)
+
+            For Each batch As OTUTable In otu
+                For Each sample As KeyValuePair(Of String, Double) In batch.Properties
+                    If mergeSamples.ContainsKey(sample.Key) Then
+                        mergeSamples(sample.Key) += sample.Value
+                    Else
+                        mergeSamples.Add(sample.Key, sample.Value)
+                    End If
+                Next
+            Next
+
+            Dim finalTax As ncbi_tax
+
+            If taxGroup.Length > 1 Then
+                ' has conflict sequence annotation result
+                ' use the longest taxonomy lineage
+                finalTax = taxGroup _
+                    .OrderByDescending(Function(tax)
+                                           Return BIOMTaxonomy.TaxonomyParser(tax.Key).AsTaxonomy.RankLevel
+                                       End Function) _
+                    .ThenBy(Function(tax) tax.Key) _
+                    .First _
+                    .First _
+                    .taxonomy
+            Else
+                finalTax = taxGroup.First.First.taxonomy
+            End If
+
+            Yield New OTUTable With {
+                .ID = otu.Key,
+                .Properties = mergeSamples,
+                .taxonomy = finalTax
+            }
         Next
     End Function
 

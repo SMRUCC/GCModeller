@@ -59,7 +59,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
@@ -118,7 +117,7 @@ Namespace Metagenomics
         ''' 获取当前的这个分类结果值的最小分类单元的等级
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property lowestLevel As TaxonomyRanks
+        Public ReadOnly Property RankLevel As TaxonomyRanks
             Get
                 If kingdom.StringEmpty(True) Then
                     Return TaxonomyRanks.NA
