@@ -1,4 +1,4 @@
-﻿.TH DOWNLOAD_PROTEINS 1 2026-3月 "" "Fetch protein data from uniprot via rest api"
+﻿.TH DOWNLOAD_PROTEINS 1 2026-3月 "" "Fetch Protein Data from UniProt via REST API"
 .SH NAME
 download_proteins \- download_proteins(q,
     <i>tax.id</i> = <span style='color: blue !important;'>NULL</span>,
@@ -7,9 +7,20 @@ download_proteins \- download_proteins(q,
 \fIdownload_proteins(q,
     <i>tax.id</i> = <span style='color: blue !important;'>NULL</span>,
     <i>as.fasta</i> = <span style='color: blue !important;'>TRUE</span>)\fR
+.SH DESCRIPTION
+.PP
+
+
+Queries the UniProt database for protein information based on a search term
+and an optional taxonomy ID. This function acts as a wrapper around the
+UniProt REST API, allowing for the retrieval of either raw query results
+or formatted protein sequences in FASTA format.
+.PP
 .SH OPTIONS
 .PP
-\fBq\fB \fR\- . the query term
+\fBq\fB \fR\- . Character. The query term used to search UniProt.
+This can be a protein name, gene name, UniProt accession, or any valid
+UniProt query string (e.g., "insulin", "P12345").
 .PP
 .PP
 \fBtax.id\fB \fR\- NULL. 
@@ -17,9 +28,30 @@ download_proteins \- download_proteins(q,
 .PP
 \fBas.fasta\fB \fR\- TRUE. 
 .PP
+.SH VALUE
+.PP
+The return value depends on the \code{as_fasta} argument:
+\itemize{
+\item If \code{as_fasta = TRUE}: Returns the protein sequences in FASTA
+format (typically as a character vector or raw text).
+\item If \code{as_fasta = FALSE}: Returns the raw response object from
+\code{UniProt::rest_query}.
+}
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Search for insulin protein sequences in humans (TaxID: 9606)
+fasta_seqs <- download_proteins(q = "insulin", tax_id = 9606)
+# Search for a specific accession and get the raw result object
+raw_data <- download_proteins(q = "P69905", as_fasta = FALSE)
+
+#}
+.PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.download_proteins at uniprot.R:line 5
+SMRUCC/R#.declare_function.download_proteins at uniprot.R:line 44
 .PP
 .SH COPYRIGHT
 Copyright © xieguigang, GPL3 Licensed 2026

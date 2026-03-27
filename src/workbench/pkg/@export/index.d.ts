@@ -137,6 +137,11 @@ declare namespace GCModeller {
    */
    function kegg_reactions(raw?: any): object;
    /**
+     * @param cache default value Is ``./tmp``.
+     * @param batch_size default value Is ``100``.
+   */
+   function link_ko(kegg_id: any, cache?: any, batch_size?: any): object;
+   /**
      * @param raw_maps default value Is ``true``.
    */
    function load_kegg_maps(raw_maps?: any): object;
@@ -203,6 +208,10 @@ declare namespace GCModeller {
      * @param kegg_maps default value Is ``null``.
    */
    function union_render(union_data: any, outputdir?: any, id?: any, compound?: any, gene?: any, protein?: any, text.color?: any, kegg_maps?: any): object;
+   /**
+     * @param id_key default value Is ``row.names``.
+   */
+   function uniprot_background(proteinTable: any, ko_maps: any, id_key?: any): object;
    module url {
       /**
       */

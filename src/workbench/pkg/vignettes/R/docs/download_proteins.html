@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Fetch protein data from uniprot via rest api</title>
+    <title>Fetch Protein Data from UniProt via REST API</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
     <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
@@ -18,11 +18,14 @@
             </tr>
         </table>
 
-        <h2>Fetch protein data from uniprot via rest api</h2>
+        <h2>Fetch Protein Data from UniProt via REST API</h2>
 
         <h3>Description</h3>
 
-        
+        <p>Queries the UniProt database for protein information based on a search term
+and an optional taxonomy ID. This function acts as a wrapper around the
+UniProt REST API, allowing for the retrieval of either raw query results
+or formatted protein sequences in FASTA format.</p>
 
         <h3>Usage</h3>
 
@@ -37,7 +40,25 @@
         <table>
             
 <dt>q</dt>
-<dd><p><p>the query term</p></p></dd>
+<dd><p><p>Character. The query term used to search UniProt.
+This can be a protein name, gene name, UniProt accession, or any valid
+UniProt query string (e.g., "insulin", "P12345").</p></p></dd>
+
+
+<dt>tax.id</dt>
+<dd><p><p>Character or Integer. An optional NCBI taxonomy identifier
+to restrict the search to a specific organism (e.g., 9606 for humans).
+If NULL (default), the search is performed across all organisms.</p></p></dd>
+
+
+<dt>as.fasta</dt>
+<dd><p><p>Logical. Determines the format of the output.
+\itemize{
+\item If \code{TRUE} (default), the function extracts and returns
+protein sequences in FASTA format.
+\item If \code{FALSE}, the raw result object from the REST query
+is returned.
+}</p></p></dd>
 
         </table>
 
@@ -52,11 +73,24 @@
 
         <h3>Value</h3>
 
-        This function has no value returns.
+        <p>The return value depends on the \code{as_fasta} argument:
+\itemize{
+\item If \code{as_fasta = TRUE}: Returns the protein sequences in FASTA
+format (typically as a character vector or raw text).
+\item If \code{as_fasta = FALSE}: Returns the raw response object from
+\code{UniProt::rest_query}.
+}</p>
 
-        <h3 style="display: none;">Examples</h3>
+        <h3 style="display: block;">Examples</h3>
 
-        
+        <pre><code id="example_r">#\dontrun{
+
+# Search for insulin protein sequences in humans (TaxID: 9606)
+fasta_seqs <- download_proteins(q = "insulin", tax_id = 9606)
+# Search for a specific accession and get the raw result object
+raw_data <- download_proteins(q = "P69905", as_fasta = FALSE)
+
+#}</code></pre>
 
         <hr />
         <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a

@@ -226,7 +226,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
             # combined groupped dataframe partitions as dataframe
             geneset = bind_rows(geneset);
             geneset = data.frame(
-                xref = geneset[,id_key];
+                xref = geneset[,id_key],
                 name = geneset$name,
                 alias = geneset$geneName,
                 KEGG = geneset$KEGG,
