@@ -168,25 +168,7 @@ const uniprot_background = function(proteinTable, ko_maps,
     imports "background" from "gseakit";
 
     if (!is.data.frame(ko_maps)) {
-        # load gene_id map to KO dataframe from local repository directory files
-        message("load document files of link ko from a local directory...");
-
-        ko_maps = list.files(ko_maps, pattern = "*.txt");
-        ko_maps = lapply(tqdm(ko_maps), file => {
-            let link_ko = read.table(
-                file, row.names = NULL, header = FALSE, 
-                check.names= FALSE, 
-                sep = "\t"
-            );
-            
-            if (ncol(link_ko) != 2) {
-                NULL;
-            } else {
-                colnames(link_ko) = c("kegg_id","KO");
-                link_ko;
-            }
-        });
-        ko_maps = bind_rows(ko_maps);
+        ko_maps <- load_komap(ko_maps);
     }
 
     # load standard reference KO map as background
@@ -232,10 +214,10 @@ const uniprot_background = function(proteinTable, ko_maps,
         # get gene id set from ko_maps via reference ko id list
         let geneset  = ko_maps[ko_ids];
 
-        map_id = names(map_info) |> gsub("map", species_code);
+        map_id <- names(map_info) |> gsub("map", species_code);
 
         if (length(cluster_idset) > 0) {
-            if (![map_id in cluster_idset]) {
+            if (!{map_id in cluster_idset}) {
                 # current reference map id is not exists in the given cluster_idset
                 # make geneset to nothing for skip build of current map cluster
                 # this is usefull for make a correct gsea background model

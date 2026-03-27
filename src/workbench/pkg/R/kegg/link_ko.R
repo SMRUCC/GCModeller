@@ -95,3 +95,26 @@ const link_ko = function(kegg_id, cache = "./tmp", batch_size = 100) {
         sleep(1);
     }
 }
+
+const load_komap = function(ko_maps) {
+    # load gene_id map to KO dataframe from local repository directory files
+    message("load document files of link ko from a local directory...");
+
+    ko_maps = list.files(ko_maps, pattern = "*.txt");
+    ko_maps = lapply(tqdm(ko_maps), file => {
+        let link_ko = read.table(
+            file, row.names = NULL, header = FALSE, 
+            check.names= FALSE, 
+            sep = "\t"
+        );
+        
+        if (ncol(link_ko) != 2) {
+            NULL;
+        } else {
+            colnames(link_ko) = c("kegg_id","KO");
+            link_ko;
+        }
+    });
+    
+    bind_rows(ko_maps);
+}

@@ -211,8 +211,9 @@ declare namespace GCModeller {
    /**
      * @param id_key default value Is ``row.names``.
      * @param species_code default value Is ``map``.
+     * @param cluster_idset default value Is ``null``.
    */
-   function uniprot_background(proteinTable: any, ko_maps: any, id_key?: any, species_code?: any): object;
+   function uniprot_background(proteinTable: any, ko_maps: any, id_key?: any, species_code?: any, cluster_idset?: any): object;
    module url {
       /**
       */
