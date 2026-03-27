@@ -160,7 +160,7 @@ const download_proteins = function(q, tax_id = NULL, as_fasta = TRUE) {
 #' `Background` class.
 #'
 #' @export
-const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names") {
+const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names", species_code = "map") {
     imports "background" from "gseakit";
 
     if (!is.data.frame(ko_maps)) {
@@ -250,7 +250,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
 
                 return(gsea_cluster(
                     x = geneset,
-                    clusterId = names(map_info), 
+                    clusterId = names(map_info) |> gsub("map", species_code), 
                     clusterName = unlist(map_info)
                 ));
             } else {
@@ -260,6 +260,6 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
     }) |> which(c -> !is.null(c));
 
     # cast the gene cluster collection to gsea background model
-    as.background(clusters);
+    as.background(clusters, tax_id = species_code);
 }
 

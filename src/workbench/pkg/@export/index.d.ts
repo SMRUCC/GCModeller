@@ -210,8 +210,9 @@ declare namespace GCModeller {
    function union_render(union_data: any, outputdir?: any, id?: any, compound?: any, gene?: any, protein?: any, text.color?: any, kegg_maps?: any): object;
    /**
      * @param id_key default value Is ``row.names``.
+     * @param species_code default value Is ``map``.
    */
-   function uniprot_background(proteinTable: any, ko_maps: any, id_key?: any): object;
+   function uniprot_background(proteinTable: any, ko_maps: any, id_key?: any, species_code?: any): object;
    module url {
       /**
       */

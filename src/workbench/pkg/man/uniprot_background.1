@@ -1,10 +1,12 @@
 ﻿.TH UNIPROT_BACKGROUND 1 2026-3月 "" "Make a KEGG GSEA background from UniProt protein tables and KEGG KO links"
 .SH NAME
 uniprot_background \- uniprot_background(proteinTable, ko.maps,
-    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>)
+    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>,
+    <i>species.code</i> = <span style='color: brown;'><strong>'map'</strong></span>)
 .SH SYNOPSIS
 \fIuniprot_background(proteinTable, ko.maps,
-    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>)\fR
+    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>,
+    <i>species.code</i> = <span style='color: brown;'><strong>'map'</strong></span>)\fR
 .SH DESCRIPTION
 .PP
 
@@ -36,6 +38,9 @@ as the gene identifier for linking to KO mappings.
 .PP
 .PP
 \fBid.key\fB \fR\- 'row.names'. 
+.PP
+.PP
+\fBspecies.code\fB \fR\- 'map'. 
 .PP
 .SH VALUE
 .PP
