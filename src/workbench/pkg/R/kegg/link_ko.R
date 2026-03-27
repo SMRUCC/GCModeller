@@ -96,8 +96,8 @@ const link_ko = function(kegg_id, cache = "./tmp", batch_size = 100) {
     }
 }
 
+#' load gene_id map to KO dataframe from local repository directory files
 const load_komap = function(ko_maps) {
-    # load gene_id map to KO dataframe from local repository directory files
     message("load document files of link ko from a local directory...");
 
     ko_maps = list.files(ko_maps, pattern = "*.txt");
