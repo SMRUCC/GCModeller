@@ -201,13 +201,12 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
     # str(ko_maps);
 
     proteinTable = as.data.frame(proteinTable);
-    
+    proteinTable[,"xref_id"] = rownames(proteinTable);
+
     # id_key is the gene id of the ko_maps
     if (id_key == "row.names" || id_key == "0") {
         id_key = "id_key";
         proteinTable[,"id_key"] = rownames(proteinTable);
-    } else {
-        proteinTable[,"xref_id"] = rownames(proteinTable);
     }
 
     proteinTable = proteinTable |> groupBy(id_key);
