@@ -160,7 +160,11 @@ const download_proteins = function(q, tax_id = NULL, as_fasta = TRUE) {
 #' `Background` class.
 #'
 #' @export
-const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names", species_code = "map") {
+const uniprot_background = function(proteinTable, ko_maps, 
+                                    id_key = "row.names", 
+                                    species_code = "map", 
+                                    cluster_idset = NULL) {
+
     imports "background" from "gseakit";
 
     if (!is.data.frame(ko_maps)) {
@@ -228,6 +232,19 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names",
         # get gene id set from ko_maps via reference ko id list
         let geneset  = ko_maps[ko_ids];
 
+        map_id = names(map_info) |> gsub("map", species_code);
+
+        if (length(cluster_idset) > 0) {
+            if (![map_id in cluster_idset]) {
+                # current reference map id is not exists in the given cluster_idset
+                # make geneset to nothing for skip build of current map cluster
+                # this is usefull for make a correct gsea background model
+                # example as avoid create pathway maps inside the human disease category
+                # for plant model, example as Triticum aestivum (Wheat)
+                geneset <- NULL;
+            }
+        }
+
         if (length(geneset) == 0) {
             return(NULL);
         } else {
@@ -250,7 +267,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names",
 
                 return(gsea_cluster(
                     x = geneset,
-                    clusterId = names(map_info) |> gsub("map", species_code), 
+                    clusterId = map_id, 
                     clusterName = unlist(map_info)
                 ));
             } else {
