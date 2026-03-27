@@ -165,15 +165,22 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
 
     if (!is.data.frame(ko_maps)) {
         # load gene_id map to KO dataframe from local repository directory files
+        message("load document files of link ko from a local directory...");
+
         ko_maps = list.files(ko_maps, pattern = "*.txt");
-        ko_maps = lapply(ko_maps, file => {
+        ko_maps = lapply(tqdm(ko_maps), file => {
             let link_ko = read.table(
                 file, row.names = NULL, header = FALSE, 
                 check.names= FALSE, 
                 sep = "\t"
             );
-            colnames(link_ko) = c("kegg_id","KO");
-            link_ko;
+            
+            if (ncol(link_ko) != 2) {
+                NULL;
+            } else {
+                colnames(link_ko) = c("kegg_id","KO");
+                link_ko;
+            }
         });
         ko_maps = bind_rows(ko_maps);
     }
@@ -185,25 +192,30 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
     message("inspect of the reference KO set:");
     str(koSet);
 
-    ko_maps = ko 
-    |> group_by("KO") 
+    ko_maps = ko_maps
+    |> groupBy("KO") 
     |> lapply(link => link$kegg_id)
     ;
 
-    message("inspect of the gene id to ko mapping:");
-    str(ko_maps);
+    # message("inspect of the gene id to ko mapping:");
+    # str(ko_maps);
 
     proteinTable = as.data.frame(proteinTable);
     
     # id_key is the gene id of the ko_maps
-    if (id_key = "row.names" || id_key == "0") {
+    if (id_key == "row.names" || id_key == "0") {
         id_key = "id_key";
         proteinTable[,"id_key"] = rownames(proteinTable);
+    } else {
+        proteinTable[,"xref_id"] = rownames(proteinTable);
     }
 
-    proteinTable = proteinTable |> group_by(id_key);
+    proteinTable = proteinTable |> groupBy(id_key);
+
+    message("processing background gene cluster models...");
 
     let clusters = as.list(names(koSet), names = names(koSet)) 
+    |> tqdm()
     |> lapply(function(map_id) {
         # map_id is string in pattern:
         # pathway_id - pathway_name
@@ -213,7 +225,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
         # [1] pathway_name
         let map_info = tagvalue(map_id, "-", as.list = TRUE);
         # get a list of reference ko in current reference map
-        let ko_ids   = koSet[[names(map_info)]];
+        let ko_ids   = `ko:${koSet[[map_id]]}`;
         # get gene id set from ko_maps via reference ko id list
         let geneset  = ko_maps[ko_ids];
 
@@ -222,22 +234,29 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
         } else {
             # get protein information from proteinTable list
             # via the mapped gene id
+            geneset = unique(unlist(geneset));
             geneset = proteinTable[geneset];
-            # combined groupped dataframe partitions as dataframe
-            geneset = bind_rows(geneset);
-            geneset = data.frame(
-                xref = geneset[,id_key],
-                name = geneset$name,
-                alias = geneset$geneName,
-                KEGG = geneset$KEGG,
-                uniprot = rownames(geneset)
-            );
 
-            return(gsea_cluster(
-                x = geneset,
-                clusterId = names(map_info), 
-                clusterName = unlist(map_info)
-            ));
+            if (length(geneset) > 0) {
+                # combined groupped dataframe partitions as dataframe
+                geneset = bind_rows(geneset);
+                geneset = data.frame(
+                    xref = geneset[,"xref_id"],
+                    name = geneset$name,
+                    alias = geneset$geneName,
+                    KEGG = geneset$KEGG,
+                    fullName = geneset$fullName,
+                    EC_number = geneset$EC_number
+                );
+
+                return(gsea_cluster(
+                    x = geneset,
+                    clusterId = names(map_info), 
+                    clusterName = unlist(map_info)
+                ));
+            } else {
+                return(NULL);
+            }
         }
     }) |> which(c -> !is.null(c));
 
