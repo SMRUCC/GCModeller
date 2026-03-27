@@ -146,6 +146,9 @@ declare namespace GCModeller {
    */
    function load_kegg_maps(raw_maps?: any): object;
    /**
+   */
+   function load_komap(ko_maps: any): object;
+   /**
      * @param compoundcolors default value Is ``red``.
      * @param gene_highights default value Is ``blue``.
      * @param outputdir default value Is ``./``.
