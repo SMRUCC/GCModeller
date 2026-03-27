@@ -26,6 +26,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
     imports "background" from "gseakit";
 
     if (!is.data.frame(ko_maps)) {
+        # load gene_id map to KO dataframe from local repository directory files
         ko_maps = list.files(ko_maps, pattern = "*.txt");
         ko_maps = lapply(ko_maps, file => {
             let link_ko = read.table(
@@ -39,6 +40,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
         ko_maps = bind_rows(ko_maps);
     }
 
+    # load standard reference KO map as background
     let ko = background::KO_reference();
     let koSet = as.geneSet(ko);
 
@@ -55,6 +57,7 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
 
     proteinTable = as.data.frame(proteinTable);
     
+    # id_key is the gene id of the ko_maps
     if (id_key = "row.names" || id_key == "0") {
         id_key = "id_key";
         proteinTable[,"id_key"] = rownames(proteinTable);
@@ -64,14 +67,25 @@ const uniprot_background = function(proteinTable, ko_maps, id_key = "row.names")
 
     let clusters = as.list(names(koSet), names = names(koSet)) 
     |> lapply(function(map_id) {
+        # map_id is string in pattern:
+        # pathway_id - pathway_name
+        # parsed as tagged value with - as delimiter
+        # 
+        # $pathway_id
+        # [1] pathway_name
         let map_info = tagvalue(map_id, "-", as.list = TRUE);
-        let ko_ids = koSet[[names(map_info)]];
-        let geneset = ko_maps[ko_ids];
+        # get a list of reference ko in current reference map
+        let ko_ids   = koSet[[names(map_info)]];
+        # get gene id set from ko_maps via reference ko id list
+        let geneset  = ko_maps[ko_ids];
 
         if (length(geneset) == 0) {
             return(NULL);
         } else {
+            # get protein information from proteinTable list
+            # via the mapped gene id
             geneset = proteinTable[geneset];
+            # combined groupped dataframe partitions as dataframe
             geneset = bind_rows(geneset);
             geneset = data.frame(
                 xref = geneset[,id_key];
