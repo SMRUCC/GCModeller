@@ -17,6 +17,9 @@ declare namespace hmmer {
    function load_hmmer(x: any): object;
    /**
    */
+   function load_interprodb(file: string): object;
+   /**
+   */
    function parse_hmmer_model(x: string): object;
    /**
     * Parse the kofamscan table output
