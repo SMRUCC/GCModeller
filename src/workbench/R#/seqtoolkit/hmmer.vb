@@ -15,7 +15,7 @@ Module hmmer
 
     <ExportAPI("load_interprodb")>
     Public Function load_interprodb(file As String) As Interpro()
-        Return interprodb.ReadTerms(file)
+        Return interprodb.ReadTerms(file).ToArray
     End Function
 
     <ExportAPI("parse_hmmer_model")>
