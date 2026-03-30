@@ -130,7 +130,7 @@ Namespace Interpro.Xml
         <XmlAttribute> Public Property id As String
         Public Property author_list As String
         Public Property title As String
-        Public Property db_xref As DbXref
+        Public Property db_xref As db_xref
         Public Property journal As String
         Public Property location As Location
         Public Property year As String
@@ -152,7 +152,7 @@ Namespace Interpro.Xml
     End Class
 
     <XmlType("db_xref")>
-    Public Class DbXref
+    Public Class db_xref
         <XmlAttribute> Public Property db As String
         <XmlAttribute> Public Property dbkey As String
         <XmlAttribute> Public Property protein_count As Integer

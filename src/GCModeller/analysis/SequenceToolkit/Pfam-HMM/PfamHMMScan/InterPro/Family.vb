@@ -67,7 +67,7 @@ Namespace Interpro.Xml
                         Select x.dbkey).ToArray
             Dim LQuery = (From inter As Xml.Interpro
                           In includes
-                          Select (From d As DbXref
+                          Select (From d As db_xref
                                   In inter.member_list
                                   Where String.Equals(d.db, "PFAM", StringComparison.OrdinalIgnoreCase)
                                   Select d.dbkey).ToArray).ToArray.ToVector
