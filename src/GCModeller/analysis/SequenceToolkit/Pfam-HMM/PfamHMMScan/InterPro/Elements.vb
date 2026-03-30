@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
 
-Namespace Interpro
+Namespace InterPro.Xml
 
     <XmlType("publication")>
     Public Class Publication

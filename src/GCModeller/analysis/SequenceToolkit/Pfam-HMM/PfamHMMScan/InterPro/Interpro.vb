@@ -1,7 +1,7 @@
 ﻿Imports System.Xml.Serialization
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER.Interpro.Xml
 
-Namespace Interpro
+Namespace InterPro.Xml
 
     <XmlType("interpro")>
     Public Class Interpro : Inherits LLMDocument
@@ -28,7 +28,12 @@ Namespace Interpro
     End Class
 
     Public Class abstract : Inherits LLMDocument
+
         <XmlElement("p")> Public Property p As String()
+
+        Public Shared Function CleanText(text As String) As String
+
+        End Function
 
     End Class
 End Namespace

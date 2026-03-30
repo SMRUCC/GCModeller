@@ -93,10 +93,12 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Xml.Linq.Data
 
-Namespace Interpro.Xml
+Namespace InterPro.Xml
 
     ''' <summary>
     ''' ftp://ftp.ebi.ac.uk/pub/databases/interpro/current_release/
@@ -105,11 +107,19 @@ Namespace Interpro.Xml
     Public Class interprodb
 
         Public Property release As dbinfo()
-        <XmlElement> Public Property interpro As Interpro()
+
+        <XmlElement>
+        Public Property interpro As Interpro()
 
         Public Function Save(FilePath As String, Optional Encoding As Encoding = Nothing) As Boolean
             Return Me.GetXml.SaveTo(FilePath, Encoding)
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ReadTerms(file As String) As IEnumerable(Of Interpro)
+            Return LoadUltraLargeXMLDataSet(Of Interpro)(file, "interpro", preprocess:=AddressOf abstract.CleanText, tqdm:=True)
+        End Function
+
     End Class
 
     <XmlType("dbinfo")>

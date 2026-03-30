@@ -7,9 +7,9 @@
 ' Copyright (c) 2024 GPL3 Licensed
 ' ============================================================================
 
-Imports HMMER3
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace HMMER3.Examples

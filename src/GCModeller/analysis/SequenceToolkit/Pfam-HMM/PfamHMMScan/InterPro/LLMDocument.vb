@@ -1,6 +1,6 @@
 ﻿Imports System.Xml.Serialization
 
-Namespace Interpro
+Namespace InterPro.Xml
 
     Public MustInherit Class LLMDocument
 

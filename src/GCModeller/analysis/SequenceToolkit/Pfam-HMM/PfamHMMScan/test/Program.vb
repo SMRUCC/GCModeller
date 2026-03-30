@@ -1,5 +1,4 @@
-Imports System
-Imports HMMER3
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
 
 Module Program
     Sub Main(args As String())

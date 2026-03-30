@@ -43,8 +43,9 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER.InterPro.Xml
 
-Namespace Interpro.Xml
+Namespace InterPro
 
     ''' <summary>
     ''' protein family data information
