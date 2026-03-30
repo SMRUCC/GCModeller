@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER
+Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER.InterPro.Xml
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -11,6 +12,11 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("hmmer")>
 Module hmmer
+
+    <ExportAPI("load_interprodb")>
+    Public Function load_interprodb(file As String) As Interpro()
+        Return interprodb.ReadTerms(file)
+    End Function
 
     <ExportAPI("parse_hmmer_model")>
     Public Function parse_hmmer_model(x As String) As ProfileHMM
