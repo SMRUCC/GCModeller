@@ -57,13 +57,13 @@ Namespace Interpro.Xml
 
         <ExportAPI("LoadDB")>
         Public Function LoadDb(<Parameter("Interpro.Xml", "If this parameter is null, then the default file path in the GCModeller repository database will be used.")>
-                               Optional path As String = "") As DbArchive
+                               Optional path As String = "") As interprodb
             If Not path.FileExists Then
                 path = GCModeller.FileSystem.InterproXml
             End If
 
             Dim Trim As String = __trim(path)
-            Dim DbXml As DbArchive = Trim.LoadFromXml(Of DbArchive)()
+            Dim DbXml As interprodb = Trim.LoadFromXml(Of interprodb)()
             Return DbXml
         End Function
 
@@ -96,7 +96,7 @@ Namespace Interpro.Xml
         End Function
 
         <ExportAPI("FamilyView.Build")>
-        Public Function BuildFamilies(DbXml As DbArchive) As Family()
+        Public Function BuildFamilies(DbXml As interprodb) As Family()
             Dim dict = DbXml.interpro.ToDictionary(Function(x) x.id)
             Dim LQuery = (From interpro In dict.AsParallel
                           Where String.Equals(interpro.Value.type, "family", StringComparison.OrdinalIgnoreCase)
