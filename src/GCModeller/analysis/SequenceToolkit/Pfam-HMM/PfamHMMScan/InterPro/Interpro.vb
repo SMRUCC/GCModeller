@@ -1,4 +1,6 @@
-﻿Imports System.Xml.Serialization
+﻿Imports System.Text
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace InterPro.Xml
 
@@ -33,7 +35,35 @@ Namespace InterPro.Xml
         Public Shared Function CleanText(text As String) As String
             Dim abstract = text.Match("[<]abstract.+[<][/]abstract[>]", RegexICSng)
 
-            Return text
+            If abstract = "" Then
+                Return text
+            Else
+                Return text.Replace(abstract, TrimInternalMarkup(abstract))
+            End If
+        End Function
+
+        Private Shared Function TrimInternalMarkup(abstract As String) As String
+            Dim cites = abstract.Matches("<cite idref[=]"".*?"" />").ToArray
+            Dim idref As String() = cites.Select(Function(m) m.attr("idref")).ToArray
+            Dim str As New StringBuilder(abstract)
+
+            For i As Integer = 0 To cites.Length - 1
+                Call str.Replace(cites(i), idref(i))
+            Next
+
+            Dim dbxref = abstract.Matches("<db_xref .*? />").ToArray
+
+            For i As Integer = 0 To dbxref.Length - 1
+                Call str.Replace(dbxref(i), dbxref(i).attr("db") & ":" & dbxref(i).attr("dbkey"))
+            Next
+
+            Call str _
+                .Replace("<sup>", "&lt;sup>") _
+                .Replace("</sup>", "&lt;/sup>") _
+                .Replace("<sub>", "&lt;sub>") _
+                .Replace("</sub>", "&lt;/sub>")
+
+            Return str.ToString.TrimNewLine.StringReplace("\s{2,}", " ").Trim
         End Function
 
     End Class
