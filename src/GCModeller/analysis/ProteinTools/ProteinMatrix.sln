@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35828.75 d17.13
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11620.152 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProteinMatrix", "ProteinMatrix\ProteinMatrix.vbproj", "{66488E52-69DC-8B2D-F9CE-F6C6FFFE2D1F}"
 EndProject
