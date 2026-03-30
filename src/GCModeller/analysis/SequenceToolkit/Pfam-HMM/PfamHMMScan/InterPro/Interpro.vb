@@ -1,5 +1,4 @@
 ﻿Imports System.Xml.Serialization
-Imports SMRUCC.genomics.Analysis.SequenceTools.HMMER.Interpro.Xml
 
 Namespace InterPro.Xml
 
@@ -32,7 +31,9 @@ Namespace InterPro.Xml
         <XmlElement("p")> Public Property p As String()
 
         Public Shared Function CleanText(text As String) As String
+            Dim abstract = text.Match("[<]abstract.+[<][/]abstract[>]", RegexICSng)
 
+            Return text
         End Function
 
     End Class
