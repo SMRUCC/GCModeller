@@ -14,8 +14,9 @@ Imports SMRUCC.Rsharp.Runtime.Vectorization
 Module hmmer
 
     <ExportAPI("load_interprodb")>
-    Public Function load_interprodb(file As String) As Interpro()
-        Return interprodb.ReadTerms(file).ToArray
+    <RApiReturn(GetType(Interpro))>
+    Public Function load_interprodb(file As String) As Object
+        Return pipeline.CreateFromPopulator(interprodb.ReadTerms(file))
     End Function
 
     <ExportAPI("parse_hmmer_model")>
