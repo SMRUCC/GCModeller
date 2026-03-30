@@ -46,6 +46,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Interpro.Xml
 
+    ''' <summary>
+    ''' protein family data information
+    ''' </summary>
     Public Class Family
         Public Property Interpro As String
         Public Property Name As String

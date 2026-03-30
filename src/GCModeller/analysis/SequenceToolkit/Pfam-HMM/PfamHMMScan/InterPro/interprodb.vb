@@ -98,6 +98,9 @@ Imports System.Xml.Serialization
 
 Namespace Interpro.Xml
 
+    ''' <summary>
+    ''' ftp://ftp.ebi.ac.uk/pub/databases/interpro/current_release/
+    ''' </summary>
     <XmlType("interprodb")>
     Public Class interprodb
 
