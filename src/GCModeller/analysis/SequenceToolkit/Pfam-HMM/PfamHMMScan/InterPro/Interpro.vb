@@ -32,6 +32,10 @@ Namespace InterPro.Xml
 
         <XmlText> Public Property html As String
 
+        Public Overrides Function ToString() As String
+            Return html
+        End Function
+
         Public Shared Function CleanText(text As String) As String
             Dim abstract = text.Match("[<]abstract.+[<][/]abstract[>]", RegexICSng)
 
