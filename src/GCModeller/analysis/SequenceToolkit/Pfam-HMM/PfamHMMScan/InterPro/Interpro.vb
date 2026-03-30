@@ -43,27 +43,10 @@ Namespace InterPro.Xml
         End Function
 
         Private Shared Function TrimInternalMarkup(abstract As String) As String
-            Dim cites = abstract.Matches("<cite idref[=]"".*?"" />").ToArray
-            Dim idref As String() = cites.Select(Function(m) m.attr("idref")).ToArray
-            Dim str As New StringBuilder(abstract)
+            Dim text As String = abstract.GetStackValue(">", "<")
+            Dim escape As String = text.Replace("<", "&lt;")
 
-            For i As Integer = 0 To cites.Length - 1
-                Call str.Replace(cites(i), idref(i))
-            Next
-
-            Dim dbxref = abstract.Matches("<db_xref .*? />").ToArray
-
-            For i As Integer = 0 To dbxref.Length - 1
-                Call str.Replace(dbxref(i), dbxref(i).attr("db") & ":" & dbxref(i).attr("dbkey"))
-            Next
-
-            Call str _
-                .Replace("<sup>", "&lt;sup>") _
-                .Replace("</sup>", "&lt;/sup>") _
-                .Replace("<sub>", "&lt;sub>") _
-                .Replace("</sub>", "&lt;/sub>")
-
-            Return str.ToString.TrimNewLine.StringReplace("\s{2,}", " ").Trim
+            Return abstract.Replace(text, escape)
         End Function
 
     End Class
