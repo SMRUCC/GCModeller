@@ -30,7 +30,7 @@ Namespace InterPro.Xml
 
     Public Class abstract : Inherits LLMDocument
 
-        <XmlElement("p")> Public Property p As String()
+        <XmlText> Public Property html As String
 
         Public Shared Function CleanText(text As String) As String
             Dim abstract = text.Match("[<]abstract.+[<][/]abstract[>]", RegexICSng)
