@@ -13,6 +13,9 @@ declare namespace uniprot {
    */
    function get_description(prot: object): string;
    /**
+   */
+   function get_domain(prot: object): object;
+   /**
     * get keyword dataframe about the given protein data
     * 
     * 

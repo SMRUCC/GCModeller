@@ -7,6 +7,7 @@ The Universal Protein Resource (UniProt)
 + [parseHeader](uniprot/parseHeader.1) Parse the uniprot fasta header text
 + [read.proteinTable](uniprot/read.proteinTable.1) read uniprot protein export output tsv file
 + [proteinTable](uniprot/proteinTable.1) export protein annotation data as data frame.
++ [get_domain](uniprot/get_domain.1) 
 + [get_sequence](uniprot/get_sequence.1) 
 + [get_description](uniprot/get_description.1) 
 + [get_subcellularlocation](uniprot/get_subcellularlocation.1) get subcellular location of current protein
