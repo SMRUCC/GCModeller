@@ -20,6 +20,23 @@ Module UniProtTable
     End Function
 
     <Extension>
+    Private Iterator Function hmmerProfiles(prot As IEnumerable(Of entry), name As String) As IEnumerable(Of String)
+        For Each p As entry In prot
+            Dim hmmer = p.xrefs.TryGetValue(name)
+
+            If hmmer.IsNullOrEmpty Then
+                Yield ""
+            Else
+                Yield hmmer _
+                    .Select(Function(a)
+                                Return $"{a.id}({a("entry name")})"
+                            End Function) _
+                    .JoinBy("; ")
+            End If
+        Next
+    End Function
+
+    <Extension>
     Public Function ProteinTable(prot As IEnumerable(Of entry)) As dataframe
         Dim all As entry() = prot.ToArray
         Dim orf As String() = all.Select(Function(p) p.ORF).fill
@@ -45,37 +62,13 @@ Module UniProtTable
         Dim motif As String() = all _
             .Select(Function(p)
                         Return p.GetDomainData _
-                            .Select(Function(d) $"{d.DomainId}({d.start}|{d.ends})") _
+                            .Select(Function(d) $"{d.ID}:{d.name}({d.start}|{d.ends})") _
                             .JoinBy("+")
                     End Function) _
             .fill
-        Dim pfam = all.Select(Function(p)
-                                  Dim hmmer = p.xrefs.TryGetValue("Pfam")
-
-                                  If hmmer.IsNullOrEmpty Then
-                                      Return ""
-                                  Else
-                                      Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
-                                  End If
-                              End Function).fill
-        Dim interpro = all.Select(Function(p)
-                                      Dim hmmer = p.xrefs.TryGetValue("InterPro")
-
-                                      If hmmer.IsNullOrEmpty Then
-                                          Return ""
-                                      Else
-                                          Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
-                                      End If
-                                  End Function).fill
-        Dim SUPFAM = all.Select(Function(p)
-                                    Dim hmmer = p.xrefs.TryGetValue("SUPFAM")
-
-                                    If hmmer.IsNullOrEmpty Then
-                                        Return ""
-                                    Else
-                                        Return hmmer.Select(Function(a) $"{a.id}({a("entry name")})").JoinBy("; ")
-                                    End If
-                                End Function).fill
+        Dim pfam As String() = all.hmmerProfiles("Pfam").fill
+        Dim interpro As String() = all.hmmerProfiles("InterPro").fill
+        Dim SUPFAM As String() = all.hmmerProfiles("SUPFAM").fill
         Dim signal_peptide = all _
             .Select(Function(p)
                         Return p.features _
@@ -102,10 +95,7 @@ Module UniProtTable
                                                   Return p.features.SafeQuery.Where(Function(f) f.type = "transmembrane region").Select(Function(f) $"{f.description}({f.location.begin}|{f.location.end})").JoinBy("; ")
                                               End Function).fill
 
-        Dim locations = all.Select(Function(p)
-                                       Return p.SubCellularLocations.JoinBy("; ")
-                                   End Function) _
-                           .fill
+        Dim locations = all.Select(Function(p) p.SubCellularLocations.JoinBy("; ")).fill
 
         Return New dataframe With {
             .columns = New Dictionary(Of String, Array) From {

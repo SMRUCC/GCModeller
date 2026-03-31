@@ -68,11 +68,13 @@ Namespace ProteinModel
         Implements IMotifSite
         Implements IMotifDomain
 
-        Public Property DomainId As String Implements INamedValue.Key,
+        Public Property ID As String Implements INamedValue.Key,
             IKeyValuePairObject(Of String, Location).Key,
             IMotifSite.name,
             IMotifSite.family,
             IMotifDomain.Id
+
+        Public Property name As String
         Public Property start As Integer
         Public Property ends As Integer
 
@@ -89,7 +91,7 @@ Namespace ProteinModel
         End Property
 
         Sub New(domainId As String, Location As Location)
-            Me.DomainId = domainId
+            Me.ID = domainId
             Me.Location = Location
         End Sub
 
@@ -97,7 +99,7 @@ Namespace ProteinModel
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", DomainId, Location.ToString)
+            Return String.Format("{0}: {1}", ID, Location.ToString)
         End Function
     End Class
 End Namespace
