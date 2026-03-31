@@ -110,6 +110,18 @@ Public Class Residue : Implements IPatternSite
         End Get
     End Property
 
+    Sub New()
+    End Sub
+
+    Sub New(freq As Double(), alphabets As String, Optional index As Integer = 1)
+        Me.index = index
+        Me.frequency = New Dictionary(Of String, Double)
+
+        For i As Integer = 0 To freq.Length - 1
+            Me.frequency(alphabets(i).ToString) = freq(i)
+        Next
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Dim max As Double = -99999
