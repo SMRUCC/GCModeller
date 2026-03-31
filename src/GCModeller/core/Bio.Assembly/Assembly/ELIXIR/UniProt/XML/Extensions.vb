@@ -338,41 +338,38 @@ Namespace Assembly.Uniprot.XML
         ''' get domain type feature information
         ''' </returns>
         <Extension>
-        Public Function GetDomainData(prot As entry) As DomainModel()
+        Public Iterator Function GetDomainData(prot As entry) As IEnumerable(Of DomainModel)
             Dim features As feature() = prot.features.SafeQuery.Takes("domain").ToArray
-            Dim xref = prot.dbReferences _
+            Dim xref As Dictionary(Of String, String) = prot.dbReferences _
                 .Where(Function(ref) ref.hasDbReference("entry name")) _
                 .GroupBy(Function(ref) ref("entry name")) _
                 .ToDictionary(Function(r) r.Key,
                               Function(id)
                                   Return id.First().id
                               End Function)
-            Dim out As DomainModel() = features _
-                .Select(Function(f)
-                            Dim key As String = f.description
-                            Dim loci = f.location
 
-                            If xref.ContainsKey(key) Then
-                                key = $"{xref(key)}:{key}"
-                            End If
+            For Each f As feature In features
+                Dim key As String = f.description
+                Dim loci = f.location
 
-                            If loci.IsRegion Then
-                                Return New DomainModel With {
-                                    .DomainId = key,
-                                    .start = loci.begin.position,
-                                    .ends = loci.end.position
-                                }
-                            Else
-                                Return New DomainModel With {
-                                   .DomainId = key,
-                                   .ends = loci.position,
-                                   .start = loci.position
-                                }
-                            End If
-                        End Function) _
-                .ToArray
+                If xref.ContainsKey(key) Then
+                    key = $"{xref(key)}:{key}"
+                End If
 
-            Return out
+                If loci.IsRegion Then
+                    Yield New DomainModel With {
+                        .DomainId = key,
+                        .start = loci.begin.position,
+                        .ends = loci.end.position
+                    }
+                Else
+                    Yield New DomainModel With {
+                       .DomainId = key,
+                       .ends = loci.position,
+                       .start = loci.position
+                    }
+                End If
+            Next
         End Function
 
         ''' <summary>
