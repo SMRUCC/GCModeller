@@ -126,11 +126,11 @@ Namespace Pipeline.LocalBlast
                 }
             End If
 
-            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray
+            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.ID)}:{d.name}" Distinct).ToArray
             Dim pfamString$() = domains _
                 .OrderBy(Function(d) d.start) _
                 .Select(Function(x)
-                            Return $"{x.DomainId}({x.start}|{x.ends})"
+                            Return $"{x.ID}:{x.name}({x.start}|{x.ends})"
                         End Function) _
                 .Distinct _
                 .ToArray
@@ -313,7 +313,7 @@ Namespace Pipeline.LocalBlast
         <Extension>
         Private Iterator Function doGroupingAndTrimOverlap(source As IEnumerable(Of DomainModel), lenOffset As Integer) As IEnumerable(Of DomainModel())
             Dim group = (From domain As IGrouping(Of String, DomainModel)
-                         In source.GroupBy(Function(d) d.DomainId)
+                         In source.GroupBy(Function(d) d.ID)
                          Let locations As DomainModel() = domain _
                              .OrderBy(Function(n) DirectCast(n, IMotifSite).site.left) _
                              .ToArray

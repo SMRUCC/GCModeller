@@ -397,8 +397,8 @@ Public Module DomainAnalysis
             .ProteinId = locusId,
             .Description = Description,
             .Length = query.QueryLength,
-            .Domains = (From d As DomainModel In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
-            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.ends})").Distinct.ToArray
+            .Domains = (From d As DomainModel In Domains Select $"{d.ID}:{d.name}" Distinct).ToArray,
+            .PfamString = Domains.Select(Function(x) $"{x.ID}:{x.name}({x.start}|{x.ends})").Distinct.ToArray
         }
         Return Protein
     End Function

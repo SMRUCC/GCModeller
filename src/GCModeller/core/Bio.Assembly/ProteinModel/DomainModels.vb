@@ -99,7 +99,11 @@ Namespace ProteinModel
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", ID, Location.ToString)
+            If name.StringEmpty Then
+                Return $"{ID}({start}|{ends})"
+            Else
+                Return $"{ID}:{name}({start}|{ends})"
+            End If
         End Function
     End Class
 End Namespace
