@@ -86,6 +86,29 @@ Public Class MemeWriter
     ''' <summary>
     ''' 将PWM模型保存为MEME格式的文本文件
     ''' </summary>
+    ''' <param name="motifs">PWM模型对象集合</param>
+    ''' <param name="outputPath">输出文件路径</param>
+    ''' <param name="backgroundFreq">背景碱基频率（可选）</param>
+    ''' <param name="nsites">位点数量（可选，默认为100）</param>
+    ''' <param name="url">URL链接（可选）</param>
+    Public Shared Function WriteMemeFormat(motifs As IEnumerable(Of Probability), outputPath As String,
+                                           Optional backgroundFreq As Dictionary(Of String, Double) = Nothing,
+                                           Optional nsites As Integer = 100,
+                                           Optional url As String = Nothing) As Boolean
+        Dim sb As New StringBuilder()
+        Dim doc As New StringWriter(sb)
+        Dim writer As New MemeWriter(motifs, backgroundFreq, nsites, url_base:=url)
+
+        Call writer.WriteDocument(doc)
+        Call doc.Flush()
+
+        ' 8. 保存到文件
+        Return sb.SaveTo(outputPath, Encoding.UTF8)
+    End Function
+
+    ''' <summary>
+    ''' 将PWM模型保存为MEME格式的文本文件
+    ''' </summary>
     ''' <param name="motif">PWM模型对象</param>
     ''' <param name="outputPath">输出文件路径</param>
     ''' <param name="backgroundFreq">背景碱基频率（可选）</param>
