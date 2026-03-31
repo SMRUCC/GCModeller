@@ -53,12 +53,28 @@ Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 ''' </summary>
 Public Class OperonRow : Implements INamedValue
 
+    ''' <summary>
+    ''' the operon cluster id
+    ''' </summary>
+    ''' <returns></returns>
     Public Property koid As String Implements IKeyedEntity(Of String).Key
     Public Property org As String
+    ''' <summary>
+    ''' the operon name
+    ''' </summary>
+    ''' <returns></returns>
     Public Property name As String
+    ''' <summary>
+    ''' the operon member gene ids, separated by comma
+    ''' </summary>
+    ''' <returns></returns>
     Public Property op As String()
     Public Property definition As String
     Public Property source As String
+
+    Public Overrides Function ToString() As String
+        Return name
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function LoadInternalResource() As IEnumerable(Of OperonRow)
