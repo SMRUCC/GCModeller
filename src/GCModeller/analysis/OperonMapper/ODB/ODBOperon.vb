@@ -51,7 +51,7 @@ Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 ''' <summary>
 ''' A row of the data in ODB dataset ``known_operon.download.txt``
 ''' </summary>
-Public Class OperonRow : Implements INamedValue
+Public Class ODBOperon : Implements INamedValue
 
     ''' <summary>
     ''' the operon cluster id
@@ -77,14 +77,14 @@ Public Class OperonRow : Implements INamedValue
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function LoadInternalResource() As IEnumerable(Of OperonRow)
+    Public Shared Function LoadInternalResource() As IEnumerable(Of ODBOperon)
         Return Load(Encoding.UTF8.GetString(My.Resources.Data.known_operon_download))
     End Function
 
-    Public Shared Iterator Function Load(file As String) As IEnumerable(Of OperonRow)
+    Public Shared Iterator Function Load(file As String) As IEnumerable(Of ODBOperon)
         For Each line As String In file.SolveStream.LineTokens.Skip(1)
             Dim tokens As String() = line.Split(ASCII.TAB)
-            Dim operon As New OperonRow With {
+            Dim operon As New ODBOperon With {
                 .koid = tokens(Scan0),
                 .org = tokens(1),
                 .name = tokens(2),
