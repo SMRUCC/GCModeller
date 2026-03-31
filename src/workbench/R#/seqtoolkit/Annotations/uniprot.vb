@@ -65,6 +65,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
+Imports SMRUCC.genomics.ProteinModel
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
@@ -271,6 +272,11 @@ Module uniprotTools
         Else
             Return source.TryCast(Of IEnumerable(Of entry)).ProteinTable
         End If
+    End Function
+
+    <ExportAPI("get_domain")>
+    Public Function get_domains(prot As entry) As DomainModel()
+        Return prot.GetDomainData.ToArray
     End Function
 
     <ExportAPI("get_sequence")>

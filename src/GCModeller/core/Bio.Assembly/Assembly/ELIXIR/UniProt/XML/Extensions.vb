@@ -341,7 +341,9 @@ Namespace Assembly.Uniprot.XML
         Public Iterator Function GetDomainData(prot As entry) As IEnumerable(Of DomainModel)
             Dim features As feature() = prot.features.SafeQuery.Takes("domain").ToArray
             Dim xref As Dictionary(Of String, String) = prot.dbReferences _
-                .Where(Function(ref) ref.hasDbReference("entry name")) _
+                .Where(Function(ref)
+                           Return ref.hasDbReference("entry name")
+                       End Function) _
                 .GroupBy(Function(ref) ref("entry name")) _
                 .ToDictionary(Function(r) r.Key,
                               Function(id)
