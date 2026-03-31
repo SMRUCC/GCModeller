@@ -124,6 +124,7 @@ Module uniprotTools
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FastaHeader()), AddressOf uniprotFastaHeaderTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(DomainModel()), AddressOf doaminTable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -154,6 +155,18 @@ Module uniprotTools
     <RGenericOverloads("as.data.frame")>
     Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
         Return proteinTable(uniprot, env)
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function doaminTable(domains As DomainModel(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("id", From d In domains Select d.ID)
+        Call df.add("name", From d In domains Select d.name)
+        Call df.add("start", From d In domains Select d.start)
+        Call df.add("ends", From d In domains Select d.ends)
+
+        Return df
     End Function
 
     ''' <summary>
