@@ -34,7 +34,7 @@ Public Module OperonAnnotator
     Public Iterator Function AnnotateOperons(
     allGenes As GeneTable(),
     blastResults As HitCollection(),
-    knownOperonsDict As Dictionary(Of String, WebJSON.Operon),
+    knownOperonsDict As Dictionary(Of String, ODBOperon),
     Optional geneDistCutoff As Integer = 100
 ) As IEnumerable(Of AnnotatedOperon)
 
@@ -137,12 +137,12 @@ Public Module OperonAnnotator
     ''' </summary>
     Private Function ClassifyOperonBlock(block As List(Of GeneTable),
                                          operonId As String,
-                                         knownOperon As WebJSON.Operon,
+                                         knownOperon As ODBOperon,
                                          blastDict As Dictionary(Of String, HitCollection),
                                          geneToOperonMap As Dictionary(Of String, (operonId As String, score As Double))) As AnnotatedOperon
         ' 1. 准备数据
         Dim blockLocusIds = block.Select(Function(g) g.locus_id).ToHashSet()
-        Dim knownHitNames = knownOperon.members.ToHashSet() ' 假设members是基因ID列表
+        Dim knownHitNames = knownOperon.op.ToHashSet() ' 假设members是基因ID列表
 
         ' 2. 识别匹配的基因
         Dim matchedHitNames = blockLocusIds _
