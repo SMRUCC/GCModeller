@@ -61,7 +61,7 @@ Public Module TermStreamAssignment
     ''' <returns></returns>
     <Extension>
     Public Iterator Function HitCollection(diamond As IEnumerable(Of DiamondAnnotation)) As IEnumerable(Of HitCollection)
-        For Each query As IGrouping(Of String, DiamondAnnotation) In diamond
+        For Each query As IGrouping(Of String, DiamondAnnotation) In diamond.GroupBy(Function(a) a.QseqId)
             Yield New HitCollection With {
                 .QueryName = query.Key,
                 .hits = query _
