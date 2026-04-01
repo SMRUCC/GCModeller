@@ -46,6 +46,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Linq
 Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
@@ -71,6 +72,15 @@ Public Class ODBOperon : Implements INamedValue
     Public Property op As String()
     Public Property definition As String
     Public Property source As String
+
+    Sub New()
+    End Sub
+
+    Sub New(operonID As String, name As String, members As IEnumerable(Of String))
+        Me.koid = operonID
+        Me.name = name
+        Me.op = members.SafeQuery.ToArray
+    End Sub
 
     Public Overrides Function ToString() As String
         Return name
