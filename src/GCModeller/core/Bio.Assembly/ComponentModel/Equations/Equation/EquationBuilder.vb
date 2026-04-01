@@ -183,17 +183,17 @@ Namespace ComponentModel.EquaionModel
         End Function
 
         Public Function ToString(LeftSide As KeyValuePair(Of Double, String)(), RightSide As KeyValuePair(Of Double, String)(), Reversible As Boolean) As String
-            Dim sBuilder As New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
             Dim DirectionFlag As String =
                 If(Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
                 EQUATION_DIRECTIONS_INREVERSIBLE)
 
-            Call EquationBuilder.AppendSides(sBuilder, Compounds:=LeftSide)
-            Call sBuilder.Append(DirectionFlag)
-            Call EquationBuilder.AppendSides(sBuilder, Compounds:=RightSide)
+            Call EquationBuilder.AppendSides(sb, Compounds:=LeftSide)
+            Call sb.Append(DirectionFlag)
+            Call EquationBuilder.AppendSides(sb, Compounds:=RightSide)
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
         Private Sub AppendSides(sb As StringBuilder, Compounds As KeyValuePair(Of Double, String)())
@@ -201,17 +201,17 @@ Namespace ComponentModel.EquaionModel
         End Sub
 
         Public Function ToString(Of TCompound As ICompoundSpecies)(Equation As IEquation(Of TCompound)) As String
-            Dim sBuilder As StringBuilder = New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
             Dim DirectionFlag As String =
                 If(Equation.Reversible,
                 EQUATION_DIRECTIONS_REVERSIBLE,
                 EQUATION_DIRECTIONS_INREVERSIBLE)
 
-            Call EquationBuilder.AppendSides(sBuilder, Compounds:=Equation.Reactants)
-            Call sBuilder.Append(DirectionFlag)
-            Call EquationBuilder.AppendSides(sBuilder, Compounds:=Equation.Products)
+            Call EquationBuilder.AppendSides(sb, Compounds:=Equation.Reactants)
+            Call sb.Append(DirectionFlag)
+            Call EquationBuilder.AppendSides(sb, Compounds:=Equation.Products)
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
         Public Function ToString(Equation As DefaultTypes.Equation) As String

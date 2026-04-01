@@ -115,6 +115,10 @@ Namespace ComponentModel.EquaionModel
         Protected leftTable As Dictionary(Of String, T())
         Protected rightTable As Dictionary(Of String, T())
 
+        ''' <summary>
+        ''' the reaction id, which should be uniqued in the reaction collection.
+        ''' </summary>
+        ''' <returns></returns>
         Public Overridable Property Id As String Implements INamedValue.Key
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
