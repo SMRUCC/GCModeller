@@ -51,13 +51,12 @@ Public Class MemeWriter
     Private Sub WriteMotif(str As TextWriter, motif As Probability, motifID As String)
         ' 3. 写入MOTIF行
         str.WriteLine($"MOTIF {motif.name} {motifID}")
+        str.WriteLine()
 
         ' 4. 写入letter-probability matrix
-        str.WriteLine("letter-probability matrix:")
-
         ' 5. 写入矩阵参数
         Dim eValue As String = If(motif.pvalue > 0, motif.pvalue.ToString("0.0e-000"), "1.0e-999")
-        str.WriteLine($"alength= 4 w= {motif.width} nsites= {nsites} E= {eValue}")
+        str.WriteLine($"letter-probability matrix: alength= 4 w= {motif.width} nsites= {nsites} E= {eValue}")
 
         ' 6. 写入PWM矩阵数据
         ' 定义碱基顺序：A, C, G, T
@@ -77,9 +76,13 @@ Public Class MemeWriter
             str.WriteLine(String.Join(" ", values))
         Next
 
+        Call str.WriteLine()
+
         ' 7. 写入URL（如果有）
         If Not String.IsNullOrEmpty(url_base) Then
             str.WriteLine($"URL {url_base}?id={motif.name.UrlEncode}")
+        Else
+            str.WriteLine($"URL n/a")
         End If
     End Sub
 
