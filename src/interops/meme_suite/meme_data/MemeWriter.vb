@@ -69,8 +69,15 @@ Public Class MemeWriter
                 Dim freq As Double = 0.0
                 If residue.frequency IsNot Nothing AndAlso residue.frequency.ContainsKey(baseChar) Then
                     freq = residue.frequency(baseChar)
+
+                    If freq.IsNaNImaginary Then
+                        freq = 0
+                    End If
+                Else
+                    freq = 0
                 End If
-                values.Add(freq.ToString("0.000000"))
+
+                Call values.Add(freq.ToString("0.000000"))
             Next
 
             str.WriteLine(String.Join(" ", values))
