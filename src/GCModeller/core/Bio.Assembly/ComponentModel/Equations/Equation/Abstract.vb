@@ -93,4 +93,25 @@ Namespace ComponentModel.EquaionModel
         Property Products As TCompound()
         Property Reversible As Boolean
     End Interface
+
+    ''' <summary>
+    ''' Represents the direction of a reaction
+    ''' </summary>
+    Public Enum ReactionDirection
+        ''' <summary>
+        ''' Reaction proceeds in the forward direction
+        ''' </summary>
+        Forward
+
+        ''' <summary>
+        ''' Reaction proceeds in the reverse direction
+        ''' </summary>
+        Reverse
+
+        ''' <summary>
+        ''' Reaction is at or near equilibrium
+        ''' </summary>
+        Equilibrium
+    End Enum
+
 End Namespace
