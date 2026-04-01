@@ -274,11 +274,11 @@ Module genomics
     ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
     ''' <returns></returns>
     <ExportAPI("operon_set")>
-    Public Function operon_set(Optional file As String = Nothing) As OperonRow()
+    Public Function operon_set(Optional file As String = Nothing) As ODBOperon()
         If file.StringEmpty(, True) Then
-            Return OperonRow.LoadInternalResource.ToArray
+            Return ODBOperon.LoadInternalResource.ToArray
         Else
-            Return OperonRow.Load(file).ToArray
+            Return ODBOperon.Load(file).ToArray
         End If
     End Function
 
