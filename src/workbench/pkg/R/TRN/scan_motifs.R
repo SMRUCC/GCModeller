@@ -76,6 +76,7 @@ const scan_motifs = function(db, seqs,
 
     let motifdb = TRN.builder::open_motifdb(db);
     let familyList = [motifdb]::FamilyList;
+    let temp_work = normalizePath( workdir);
 
     close(motifdb );
 
@@ -83,7 +84,7 @@ const scan_motifs = function(db, seqs,
     Parallel::parallel(family = familyList, n_threads = n_threads, 
             ignoreError = FALSE, 
             debug = FALSE,
-            log_tmp = `${workdir}/.local_debug/`,
+            log_tmp = `${temp_work}/.local_debug/`,
             compress = FALSE) {
 
         require(GCModeller);
@@ -93,7 +94,9 @@ const scan_motifs = function(db, seqs,
 
         let family_name <- unlist(family);
         let upstream <- read.fasta(unlist(seqs));
-        let outputdir <- file.path(unlist(workdir), "results");
+        let outputdir <- unlist(temp_work);
+        
+        outputdir <- file.path(outputdir , "results");
 
         # view verbose debug echo 
         print("get motif family name for make search processing:");
