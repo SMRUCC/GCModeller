@@ -64,19 +64,22 @@ Public Module TermStreamAssignment
         For Each query As IGrouping(Of String, DiamondAnnotation) In diamond.GroupBy(Function(a) a.QseqId)
             Yield New HitCollection With {
                 .QueryName = query.Key,
-                .hits = query _
-                    .Select(Function(hit)
-                                Return New Hit With {
-                                    .evalue = hit.EValue,
-                                    .gaps = hit.GapOpen,
-                                    .hitName = hit.SseqId,
-                                    .identities = hit.Pident,
-                                    .positive = hit.Pident,
-                                    .score = hit.BitScore,
-                                    .tag = hit.SseqId
-                                }
-                            End Function) _
-                    .ToArray
+                .hits = query.HitsCollection.ToArray
+            }
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function HitsCollection(query As IGrouping(Of String, DiamondAnnotation)) As IEnumerable(Of Hit)
+        For Each hit As DiamondAnnotation In query
+            Yield New Hit With {
+                .evalue = hit.EValue,
+                .gaps = hit.GapOpen,
+                .hitName = hit.SseqId,
+                .identities = hit.Pident,
+                .positive = hit.Pident,
+                .score = hit.BitScore,
+                .tag = hit.SseqId
             }
         Next
     End Function
