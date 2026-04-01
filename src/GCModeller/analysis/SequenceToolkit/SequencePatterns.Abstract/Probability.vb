@@ -71,6 +71,8 @@ Public Class Probability : Implements INamedValue, IReadOnlyId
     ''' <returns></returns>
     Public Property region As Residue()
 
+    Public Property background As Dictionary(Of String, Double)
+
     <XmlAttribute> Public Property pvalue As Double
     <XmlAttribute> Public Property score As Double
 
