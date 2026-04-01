@@ -60,7 +60,7 @@ Public Class MemeWriter
 
         ' 6. 写入PWM矩阵数据
         ' 定义碱基顺序：A, C, G, T
-        Dim baseOrder As String() = {"A", "C", "G", "T"}
+        Dim baseOrder As String() = If(motif.background.IsNullOrEmpty, {"A", "C", "G", "T"}, motif.background.Keys.ToArray)
 
         For Each residue As Residue In motif.region
             Dim values As New List(Of String)
