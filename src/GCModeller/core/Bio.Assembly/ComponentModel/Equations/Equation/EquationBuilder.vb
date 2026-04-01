@@ -75,19 +75,19 @@ Namespace ComponentModel.EquaionModel
         Public Const EQUATION_DIRECTIONS_RIGHT_TO_LEFT As String = " <-- "
         Public Const EQUATION_SPECIES_CONNECTOR As String = " + "
 
-        Private Function MeasureDelimiter(eq_str As String) As (direction As Integer, delimiter As String)
+        Private Function MeasureDelimiter(eq_str As String) As (direction As ReactionDirection, delimiter As String)
             If InStr(eq_str, EQUATION_DIRECTIONS_REVERSIBLE) > 0 Then
-                Return (0, EQUATION_DIRECTIONS_REVERSIBLE)
+                Return (ReactionDirection.Equilibrium, EQUATION_DIRECTIONS_REVERSIBLE)
             ElseIf InStr(eq_str, EQUATION_DIRECTIONS_INREVERSIBLE) > 0 Then
-                Return (1, EQUATION_DIRECTIONS_INREVERSIBLE)
+                Return (ReactionDirection.Forward, EQUATION_DIRECTIONS_INREVERSIBLE)
             ElseIf InStr(eq_str, " => ") > 0 Then
-                Return (1, " => ")
+                Return (ReactionDirection.Forward, " => ")
             ElseIf InStr(eq_str, EQUATION_DIRECTIONS_RIGHT_TO_LEFT) > 0 Then
-                Return (-1, EQUATION_DIRECTIONS_RIGHT_TO_LEFT)
+                Return (ReactionDirection.Reverse, EQUATION_DIRECTIONS_RIGHT_TO_LEFT)
             ElseIf InStr(eq_str, " <= ") > 0 Then
-                Return (-1, " <= ")
+                Return (ReactionDirection.Reverse, " <= ")
             ElseIf InStr(eq_str, " = ") > 0 Then
-                Return (0, " = ")
+                Return (ReactionDirection.Equilibrium, " = ")
             Else
                 Throw New NotImplementedException(eq_str)
             End If

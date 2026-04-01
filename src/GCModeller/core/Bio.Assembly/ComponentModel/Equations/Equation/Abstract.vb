@@ -97,21 +97,22 @@ Namespace ComponentModel.EquaionModel
     ''' <summary>
     ''' Represents the direction of a reaction
     ''' </summary>
-    Public Enum ReactionDirection
-        ''' <summary>
-        ''' Reaction proceeds in the forward direction
-        ''' </summary>
-        Forward
-
-        ''' <summary>
-        ''' Reaction proceeds in the reverse direction
-        ''' </summary>
-        Reverse
+    Public Enum ReactionDirection As Integer
 
         ''' <summary>
         ''' Reaction is at or near equilibrium
         ''' </summary>
-        Equilibrium
+        Equilibrium = 0
+
+        ''' <summary>
+        ''' Reaction proceeds in the forward direction
+        ''' </summary>
+        Forward = 1
+
+        ''' <summary>
+        ''' Reaction proceeds in the reverse direction
+        ''' </summary>
+        Reverse = -1
     End Enum
 
 End Namespace
