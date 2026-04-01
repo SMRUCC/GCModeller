@@ -75,7 +75,7 @@ Namespace ComponentModel.EquaionModel
         Public Const EQUATION_DIRECTIONS_RIGHT_TO_LEFT As String = " <-- "
         Public Const EQUATION_SPECIES_CONNECTOR As String = " + "
 
-        Private Function MeasureDelimiter(eq_str As String) As (direction As ReactionDirection, delimiter As String)
+        Public Function CheckArrow(eq_str As String) As (direction As ReactionDirection, arrow As String)
             If InStr(eq_str, EQUATION_DIRECTIONS_REVERSIBLE) > 0 Then
                 Return (ReactionDirection.Equilibrium, EQUATION_DIRECTIONS_REVERSIBLE)
             ElseIf InStr(eq_str, EQUATION_DIRECTIONS_INREVERSIBLE) > 0 Then
@@ -103,8 +103,8 @@ Namespace ComponentModel.EquaionModel
         <Extension>
         Public Function CreateObject(Of TCompound As ICompoundSpecies, TEquation As IEquation(Of TCompound))(eqStr As String) As TEquation
             With Activator.CreateInstance(Of TEquation)()
-                Dim deli = MeasureDelimiter(eq_str:=eqStr)
-                Dim tokens As String() = Strings.Split(eqStr, deli.delimiter)
+                Dim deli = CheckArrow(eq_str:=eqStr)
+                Dim tokens As String() = Strings.Split(eqStr, deli.arrow)
 
                 If tokens.Length < 2 Then
                     Throw New FormatException($"Invalid format text: {eqStr}, it should be in syntax like: left <=> right.")

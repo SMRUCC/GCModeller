@@ -122,7 +122,7 @@ Namespace ComponentModel.EquaionModel.DefaultTypes
         End Sub
 
         Public Overloads Function GetCoEfficient(id As String, Optional directional As Boolean = False) As Double
-            Dim factor As Double = MyBase.GetCoEfficient(id)
+            Dim factor As Double = MyBase.GetCoefficient(id)
 
             If reversible AndAlso directional Then
                 Return factor / 2

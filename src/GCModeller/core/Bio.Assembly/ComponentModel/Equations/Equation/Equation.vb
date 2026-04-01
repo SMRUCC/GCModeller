@@ -159,7 +159,7 @@ Namespace ComponentModel.EquaionModel
         ''' </summary>
         ''' <param name="ID"></param>
         ''' <returns></returns>
-        Public Overridable Function GetCoEfficient(ID As String) As Double
+        Public Overridable Function GetCoefficient(ID As String) As Double
             If Not (leftTable.ContainsKey(ID) OrElse rightTable.ContainsKey(ID)) Then
                 ID = ID.ToLower
             End If
