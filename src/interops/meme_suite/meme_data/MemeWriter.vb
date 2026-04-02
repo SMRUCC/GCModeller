@@ -40,17 +40,15 @@ Public Class MemeWriter
         str.WriteLine(bgFreqStr)
         str.WriteLine()
 
-        Dim i As i32 = 1
-
         For Each motif As Probability In motifs
-            Call WriteMotif(str, motif, "Motif_" & ++i)
+            Call WriteMotif(str, motif)
             Call str.WriteLine()
         Next
     End Sub
 
-    Private Sub WriteMotif(str As TextWriter, motif As Probability, motifID As String)
+    Private Sub WriteMotif(str As TextWriter, motif As Probability)
         ' 3. 写入MOTIF行
-        str.WriteLine($"MOTIF {motif.name} {motifID}")
+        str.WriteLine($"MOTIF {motif.name}")
         str.WriteLine()
 
         ' 4. 写入letter-probability matrix
