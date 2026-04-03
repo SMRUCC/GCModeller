@@ -90,4 +90,19 @@ Public Class HomologyPair
     Public Overrides Function ToString() As String
         Return $"[{GenomeA}]{GeneA} <--> [{GenomeB}]{GeneB} (via {BridgeRef})"
     End Function
+
+    Public Function CreateAlignmentHit() As BiDirectionalBesthit
+        Return New BiDirectionalBesthit With {
+            .QueryName = GeneA,
+            .HitName = GeneB,
+            .description = Me.ToString,
+            .term = BridgeRef,
+            .forward = 1,
+            .reverse = 1,
+            .length = 1,
+            .level = Levels.BHR,
+            .positive = 1
+        }
+    End Function
+
 End Class

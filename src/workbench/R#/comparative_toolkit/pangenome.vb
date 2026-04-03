@@ -144,6 +144,20 @@ Module pangenome
             End If
         Next
 
+        If Not referenceMap.IsNullOrEmpty Then
+            Dim linkSet = OrthoGroupsHelper.BuildHomologyRelations(referenceMap) _
+                .GroupBy(Function(a) $"{a.GenomeA}_vs_{a.GenomeB}") _
+                .ToArray
+
+            orthologDict = linkSet _
+                .ToDictionary(Function(group) group.Key,
+                              Function(group)
+                                  Return (From link As HomologyPair
+                                          In group
+                                          Select link.CreateAlignmentHit).ToArray
+                              End Function)
+        End If
+
         Return pangenome.AnalyzePanGenome(orthologDict)
     End Function
 
