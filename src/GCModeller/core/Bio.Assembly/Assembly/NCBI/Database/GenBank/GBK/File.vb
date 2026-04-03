@@ -181,6 +181,18 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
+        ''' the organism species name and strain information of this genbank data, 
+        ''' this property is a combination of the source feature's species name and 
+        ''' the source feature's strain qualifier value.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Species As String
+            Get
+                Return Source.SpeciesName & " " & Features.source.Query("strain")
+            End Get
+        End Property
+
+        ''' <summary>
         ''' get ncbi taxonomy id
         ''' </summary>
         ''' <returns></returns>

@@ -116,7 +116,7 @@ Namespace Assembly.NCBI.GenBank
             Call obj.TryGetValue("function", gene.function)
             Call obj.TryGetValue("transl_table", gene.transl_table)
 
-            gene.species = obj.gb.Definition.Value
+            gene.species = obj.gb.Species
             gene.replicon_accessionID = obj.gb.Locus.AccessionID
             gene.type = obj.KeyName
 
@@ -126,9 +126,9 @@ Namespace Assembly.NCBI.GenBank
                 gene.strand = If(obj.Location.Complement, "-", "+")
             Catch ex As Exception
                 Dim msg As String = $"{gene.locus_id}@{obj.gb.Accession.AccessionId} nucleotide location data is null!"
-                ex = New Exception(msg)
+
                 Call VBDebugger.warning(msg)
-                Call App.LogException(ex)
+                Call App.LogException(New Exception(msg))
             End Try
 
             Return gene
