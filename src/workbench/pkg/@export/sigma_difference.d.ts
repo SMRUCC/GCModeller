@@ -1,8 +1,8 @@
 ﻿// export R# package module type define for javascript/typescript language
 //
-//    imports "sigma_difference" from "seqtoolkit";
+//    imports "sigma_difference" from "comparative_toolkit";
 //
-// ref=seqtoolkit.SigmaDifference@seqtoolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+// ref=comparative_toolkit.SigmaDifference@comparative_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
  * Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.

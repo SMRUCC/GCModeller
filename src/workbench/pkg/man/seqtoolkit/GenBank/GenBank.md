@@ -6,6 +6,7 @@ NCBI genbank assembly file I/O toolkit
 + [taxon_id](GenBank/taxon_id.1) get ncbi taxonomy id from the given genbank assembly file.
 + [taxonomy_lineage](GenBank/taxonomy_lineage.1) extract the taxonomy lineage information from the genbank file
 + [as_tabular](GenBank/as_tabular.1) extract all gene features from genbank and cast to tabular data
++ [read_genetable](GenBank/read_genetable.1) 
 + [accession_id](GenBank/accession_id.1) get current genbank assembly accession id
 + [is.plasmid](GenBank/is.plasmid.1) check of the given genbank assembly is the data source of a plasmid or not?
 + [load_genbanks](GenBank/load_genbanks.1) populate a list of genbank data objects from a given list of files or stream.

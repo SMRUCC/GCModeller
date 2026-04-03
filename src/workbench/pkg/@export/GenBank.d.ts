@@ -230,6 +230,9 @@ declare namespace GenBank {
       function genbank(file: string, repliconTable?: boolean, env?: object): object;
    }
    /**
+   */
+   function read_genetable(file: string): object;
+   /**
     * get ncbi taxonomy id from the given genbank assembly file.
     * 
     * 
