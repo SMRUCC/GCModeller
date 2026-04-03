@@ -98,8 +98,8 @@ Public Class GenomeAnalyzer
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
-                    Call uf.AddElement(ortho.QueryName)
-                    Call uf.Union(ortho.QueryName, ortho.HitName)
+                    Call uf.AddElement(ortho.HitName)
+                    Call uf.Union(ortho.HitName, ortho.QueryName)
                 End If
             Next
         Next
