@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Public Module OrthoGroupsHelper
 
@@ -21,7 +22,7 @@ Public Module OrthoGroupsHelper
     ''' <summary>
     ''' 处理基因组比对数据，生成两两同源关系
     ''' </summary>
-    Public Iterator Function BuildHomologyRelations(genomeData As Dictionary(Of String, BiDirectionalBesthit())) As IEnumerable(Of HomologyPair)
+    Public Iterator Function BuildHomologyRelations(Of T As IBlastHit)(genomeData As Dictionary(Of String, T())) As IEnumerable(Of HomologyPair)
         ' 第一步：构建倒排索引
         ' Key: 参考序列ID (Hit)
         ' Value: 比对到该参考序列的基因组及其基因列表
@@ -29,7 +30,7 @@ Public Module OrthoGroupsHelper
 
         For Each genomeKvp In genomeData
             Dim genomeName As String = genomeKvp.Key
-            Dim alignments As BiDirectionalBesthit() = genomeKvp.Value
+            Dim alignments As T() = genomeKvp.Value
 
             For Each aln In alignments
                 If Not refIndex.ContainsKey(aln.HitName) Then
@@ -79,6 +80,7 @@ End Module
 ''' 定义最终输出的两两同源关系结构
 ''' </summary>
 Public Class HomologyPair
+
     Public Property GenomeA As String
     Public Property GeneA As String
     Public Property GenomeB As String

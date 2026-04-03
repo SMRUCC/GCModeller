@@ -113,8 +113,7 @@ Module pangenome
     <RApiReturn(GetType(PanGenomeResult))>
     Public Function analysis(pangenome As GenomeAnalyzer, orthologSet As list, Optional env As Environment = Nothing) As Object
         Dim orthologDict As New Dictionary(Of String, BiDirectionalBesthit())
-        Dim linkSet As BiDirectionalBesthit()
-        Dim referenceMap As Boolean = False
+        Dim referenceMap As New Dictionary(Of String, RankTerm())
 
         For Each compareMap As String In orthologSet.slotKeys
             Dim maps_val As Object = orthologSet(compareMap)
@@ -124,27 +123,12 @@ Module pangenome
                 cast = pipeline.TryCreatePipeline(Of RankTerm)(maps_val, env)
 
                 If Not cast.isError Then
-                    referenceMap = True
-                    linkSet = cast.populates(Of RankTerm)(env) _
-                        .Select(Function(term)
-                                    Return New BiDirectionalBesthit With {
-                                        .QueryName = HeaderFormats.TrimAccessionVersion(term.queryName),
-                                        .HitName = term.term,
-                                        .level = Levels.BBH,
-                                        .description = term.topHit,
-                                        .term = term.term,
-                                        .positive = term.score,
-                                        .forward = 1,
-                                        .reverse = 1,
-                                        .length = 1
-                                    }
-                                End Function) _
-                        .ToArray
+                    Call referenceMap.Add(compareMap, cast.populates(Of RankTerm)(env).ToArray)
                 Else
                     Return cast.getError
                 End If
             Else
-                linkSet = cast.populates(Of BiDirectionalBesthit)(env) _
+                Dim linkSet As BiDirectionalBesthit() = cast.populates(Of BiDirectionalBesthit)(env) _
                     .Where(Function(link)
                                Return link.level <> Levels.NA AndAlso
                                     link.level <> Levels.SBH
@@ -155,12 +139,12 @@ Module pangenome
                     linkSet(i).QueryName = HeaderFormats.TrimAccessionVersion(linkSet(i).QueryName)
                     linkSet(i).HitName = HeaderFormats.TrimAccessionVersion(linkSet(i).HitName)
                 Next
-            End If
 
-            Call orthologDict.Add(compareMap, linkSet)
+                Call orthologDict.Add(compareMap, linkSet)
+            End If
         Next
 
-        Return pangenome.AnalyzePanGenome(orthologDict, referenceMap:=referenceMap)
+        Return pangenome.AnalyzePanGenome(orthologDict)
     End Function
 
     ''' <summary>

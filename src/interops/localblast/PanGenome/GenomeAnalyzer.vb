@@ -81,25 +81,11 @@ Public Class GenomeAnalyzer
         Next
     End Sub
 
-    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), referenceMap As Boolean) As Dictionary(Of String, List(Of String))
+    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As Dictionary(Of String, List(Of String))
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
-                    If referenceMap Then
-                        Call uf.AddElement(ortho.HitName)
-
-                        If Not geneAnnotations.ContainsKey(ortho.HitName) Then
-                            Call geneAnnotations.Add(ortho.HitName, New GeneInfo With {
-                                .Chromosome = "n/a",
-                                .GeneID = ortho.HitName,
-                                .GenomeName = "ReferenceMap",
-                                .Start = geneAnnotations.Count * 1000,
-                                .[End] = .Start + 999
-                            })
-                        End If
-                    End If
-
                     Call uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
@@ -114,12 +100,12 @@ Public Class GenomeAnalyzer
     ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), Optional referenceMap As Boolean = False) As PanGenomeResult
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
         Dim dispensableGeneFamilies As New List(Of String)
         Dim coreGeneFamilies As New List(Of String)
         Dim singleCopyOrthologFamilies As New List(Of String)
         Dim specificGeneFamilies As New List(Of String)
-        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict, referenceMap)
+        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict)
 
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建

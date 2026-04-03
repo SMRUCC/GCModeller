@@ -9,10 +9,10 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 
 Namespace Pipeline
 
-    Public Class RankTerm : Implements INamedValue
+    Public Class RankTerm : Implements INamedValue, IBlastHit
 
-        Public Property queryName As String Implements INamedValue.Key
-        Public Property term As String
+        Public Property queryName As String Implements INamedValue.Key, IBlastHit.queryName
+        Public Property term As String Implements IBlastHit.hitName, IBlastHit.description
 
         Public Property source As String()
         Public Property scores As Double()
