@@ -3,6 +3,8 @@
   <PropertyGroup>
     <RootNamespace>comparative_toolkit</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
