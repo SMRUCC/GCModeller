@@ -6,6 +6,7 @@ Imports SMRUCC.genomics.Analysis.PanGenome
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -126,6 +127,30 @@ Module pangenome
         Next
 
         Return pangenome.AnalyzePanGenome(orthologDict)
+    End Function
+
+    ''' <summary>
+    ''' set orthology group for make gene family
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="uf"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_ortho_group")>
+    Public Function set_ortho_group(<RRawVectorArgument> x As Object, uf As UnionFind, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of RankTerm)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        For Each gene As RankTerm In pull.populates(Of RankTerm)(env)
+            Call uf.AddElement(gene.queryName)
+            Call uf.AddElement(gene.term)
+            Call uf.Union(referID:=gene.term, gene.queryName)
+        Next
+
+        Return uf
     End Function
 
     <ExportAPI("source_id")>
