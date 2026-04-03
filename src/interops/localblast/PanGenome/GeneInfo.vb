@@ -66,7 +66,8 @@ Public Class GeneInfo
                           Function(g)
                               Return (From gene As GeneTable
                                       In g.Value
-                                      Select New GeneInfo(gene)).ToArray
+                                      Group By gene.locus_id Into Group
+                                      Select New GeneInfo(Group.First)).ToArray
                           End Function)
     End Function
 
