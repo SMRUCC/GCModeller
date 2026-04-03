@@ -1,12 +1,13 @@
-﻿Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ComponentModel.Annotation
 
 ''' <summary>
 ''' 基因详细信息，增加位置信息以支持共线性分析
 ''' </summary>
-Public Class GeneInfo
+Public Class GeneInfo : Implements INamedValue
 
-    Public Property GeneID As String
+    Public Property GeneID As String Implements INamedValue.Key
     Public Property GenomeName As String
     Public Property Chromosome As String
     Public Property Start As Integer
