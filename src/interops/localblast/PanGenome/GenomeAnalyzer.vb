@@ -150,6 +150,7 @@ Public Class GenomeAnalyzer
         result.CoreGeneFamilies = coreGeneFamilies.ToArray
 
         Call CategorizeGeneFamilies(result, totalGenomes)
+        Call CalculateGeneticDistance(orthologDict, genomeNames.ToList())
 
         ' ==========================================
         ' 步骤 4: 共线性分析
@@ -159,19 +160,14 @@ Public Class GenomeAnalyzer
         ' ==========================================
         ' 步骤 5: 结构变异检测 (新增)
         ' ==========================================
-        result.StructuralVariations = DetectStructuralVariations(result, genomeNames.ToList()).ToArray
-
-        ' ==========================================
-        ' 步骤 7: 遗传距离矩阵 (新增)
-        ' ==========================================
-        Call CalculateGeneticDistance(result, orthologDict, genomeNames.ToList())
+        result.StructuralVariations = DetectStructuralVariations(genomeNames.ToList()).ToArray
 
         ' ==========================================
         ' 步骤 3: 泛基因组曲线计算
         ' ==========================================
         ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
         ' 这里实现随机抽样模拟方法，适用于任意数量基因组
-        result.PangenomeCurveData = CalculatePangenomeCurve(result, genomeNames.ToList(), 100).ToArray
+        result.PangenomeCurveData = CalculatePangenomeCurve(genomeNames.ToList(), 100).ToArray
 
         Return result
     End Function
@@ -202,7 +198,7 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 计算泛基因组曲线（基于蒙特卡洛模拟）
     ''' </summary>
-    Private Iterator Function CalculatePangenomeCurve(result As PanGenomeResult, genomeList As List(Of String), iterations As Integer) As IEnumerable(Of PangenomeCurveData)
+    Private Iterator Function CalculatePangenomeCurve(genomeList As List(Of String), iterations As Integer) As IEnumerable(Of PangenomeCurveData)
         ' 曲线点：Key为加入的基因组数量，Value为(总基因平均, 核心基因平均)
         Dim curvePoints As New Dictionary(Of Integer, (SumPan As Long, SumCore As Long, Count As Integer))
 
@@ -392,7 +388,7 @@ Public Class GenomeAnalyzer
     ''' <remarks>
     ''' 这个函数要求在调用前需要完成共线性检测计算
     ''' </remarks>
-    Private Iterator Function DetectStructuralVariations(result As PanGenomeResult, genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
+    Private Iterator Function DetectStructuralVariations(genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
         Dim svIdCounter As Integer = 0
 
         ' =========================================
@@ -490,17 +486,18 @@ Public Class GenomeAnalyzer
 
         ' 这里补充一种思路：如果在染色体上，原本应该连续的同源基因对出现了跳跃，则标记为 Break
         ' 由于之前的 CollinearBlocks 是正向的，我们可以检查“落单”的基因
-
-        ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
-        For Each block As CollinearBlock In result.CollinearBlocks
-            If block.Chr1 <> block.Chr2 Then
-                ' 检测易位事件
-                Yield New StructuralVariation With {
-                    .Type = SVType.Collinearity_Break,
-                    .Description = $"Translocation: {block.Chr1} -> {block.Chr2}"
-                }
-            End If
-        Next
+        If result.CollinearBlocks IsNot Nothing Then
+            ' (此处仅为逻辑占位，实际工程中建议使用专门的SV caller如MUMmer的show-diff)
+            For Each block As CollinearBlock In result.CollinearBlocks
+                If block.Chr1 <> block.Chr2 Then
+                    ' 检测易位事件
+                    Yield New StructuralVariation With {
+                        .Type = SVType.Collinearity_Break,
+                        .Description = $"Translocation: {block.Chr1} -> {block.Chr2}"
+                    }
+                End If
+            Next
+        End If
     End Function
 
     ''' <summary>
@@ -557,10 +554,7 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 基于直系同源比对计算基因组间的遗传距离矩阵
     ''' </summary>
-    Private Sub CalculateGeneticDistance(result As PanGenomeResult,
-                                         orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
-                                         genomeNames As List(Of String))
-
+    Private Sub CalculateGeneticDistance(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), genomeNames As List(Of String))
         ' 1. 构建基因组对的比对结果缓存
         ' Key: "G1_vs_G2", Value: List(Of Ortholog)
         Dim pairwiseOrthologs As New Dictionary(Of String, List(Of Ortholog))()
