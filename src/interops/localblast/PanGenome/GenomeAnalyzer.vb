@@ -2,6 +2,7 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -64,6 +65,10 @@ Public Class GenomeAnalyzer
         totalGenomes = genomeNames.Count
 
         Call Initialize(uf)
+    End Sub
+
+    Sub New(genomes As Dictionary(Of String, GeneTable()), Optional uf As UnionFind = Nothing)
+        Call Me.New(GeneInfo.CastTable(genomes), uf)
     End Sub
 
     Sub New(genomes As IEnumerable(Of GFFTable), Optional uf As UnionFind = Nothing)

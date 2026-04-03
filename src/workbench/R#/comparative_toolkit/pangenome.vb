@@ -93,16 +93,18 @@ Module pangenome
                                   Optional soft_core_threshold As Double = 0.95,
                                   Optional env As Environment = Nothing) As Object
 
-        Dim pull As pipeline = pipeline.TryCreatePipeline(Of GFFTable)(genomes, env)
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of GFFTable)(genomes, env, suppress:=True)
+        Dim context As GenomeAnalyzer
 
-        If pull.isError Then
+        If Not pull.isError Then
+            context = New GenomeAnalyzer(pull.populates(Of GFFTable)(env))
+        ElseIf TypeOf genomes Is list Then
+            context = New GenomeAnalyzer(DirectCast(genomes, list).AsGeneric(Of GeneTable())(env))
+        Else
             Return pull.getError
         End If
 
-        Dim genomeList As IEnumerable(Of GFFTable) = pull.populates(Of GFFTable)(env)
-        Dim context As New GenomeAnalyzer(genomeList) With {
-            .SoftCoreThreshold = soft_core_threshold
-        }
+        context.SoftCoreThreshold = soft_core_threshold
 
         Return context
     End Function

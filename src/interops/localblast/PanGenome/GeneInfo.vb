@@ -1,4 +1,5 @@
 ﻿Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 ''' <summary>
 ''' 基因详细信息，增加位置信息以支持共线性分析
@@ -17,6 +18,17 @@ Public Class GeneInfo
             Return [End] - Start + 1
         End Get
     End Property
+
+    Sub New()
+    End Sub
+
+    Sub New(gene As GeneTable)
+        GeneID = gene.locus_id
+        GenomeName = gene.species
+        Chromosome = gene.replicon_accessionID
+        Start = gene.left
+        [End] = gene.right
+    End Sub
 
     Public Overrides Function ToString() As String
         Return GeneID
@@ -45,6 +57,16 @@ Public Class GeneInfo
                               Return GeneInfo _
                                   .CreateGeneModel(gn) _
                                   .ToArray
+                          End Function)
+    End Function
+
+    Public Shared Function CastTable(genomes As Dictionary(Of String, GeneTable())) As Dictionary(Of String, GeneInfo())
+        Return genomes _
+            .ToDictionary(Function(g) g.Key,
+                          Function(g)
+                              Return (From gene As GeneTable
+                                      In g.Value
+                                      Select New GeneInfo(gene)).ToArray
                           End Function)
     End Function
 

@@ -60,6 +60,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
@@ -150,6 +151,11 @@ Module genbankKit
                 .Select(Function(gene) gene.DumpExportFeature) _
                 .ToArray
         End If
+    End Function
+
+    <ExportAPI("read_genetable")>
+    Public Function read_genetable(file As String) As GeneTable()
+        Return file.LoadCsv(Of GeneTable)(mute:=True).ToArray
     End Function
 
     ''' <summary>
