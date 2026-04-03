@@ -114,6 +114,7 @@ Module pangenome
     Public Function analysis(pangenome As GenomeAnalyzer, orthologSet As list, Optional env As Environment = Nothing) As Object
         Dim orthologDict As New Dictionary(Of String, BiDirectionalBesthit())
         Dim linkSet As BiDirectionalBesthit()
+        Dim referenceMap As Boolean = False
 
         For Each compareMap As String In orthologSet.slotKeys
             Dim maps_val As Object = orthologSet(compareMap)
@@ -123,6 +124,7 @@ Module pangenome
                 cast = pipeline.TryCreatePipeline(Of RankTerm)(maps_val, env)
 
                 If Not cast.isError Then
+                    referenceMap = True
                     linkSet = cast.populates(Of RankTerm)(env) _
                         .Select(Function(term)
                                     Return New BiDirectionalBesthit With {
@@ -158,7 +160,7 @@ Module pangenome
             Call orthologDict.Add(compareMap, linkSet)
         Next
 
-        Return pangenome.AnalyzePanGenome(orthologDict)
+        Return pangenome.AnalyzePanGenome(orthologDict, referenceMap:=referenceMap)
     End Function
 
     ''' <summary>

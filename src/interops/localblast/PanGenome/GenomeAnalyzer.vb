@@ -99,7 +99,7 @@ Public Class GenomeAnalyzer
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
                     Call uf.AddElement(ortho.HitName)
-                    Call uf.Union(ortho.HitName, ortho.QueryName)
+                    Call uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
         Next
@@ -113,7 +113,7 @@ Public Class GenomeAnalyzer
     ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
+    Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), Optional referenceMap As Boolean = False) As PanGenomeResult
         Dim dispensableGeneFamilies As New List(Of String)
         Dim coreGeneFamilies As New List(Of String)
         Dim singleCopyOrthologFamilies As New List(Of String)
@@ -125,9 +125,7 @@ Public Class GenomeAnalyzer
         ' ==========================================
         For Each family In TqdmWrapper.Wrap(familyMap)
             Dim familyId As String = family.Key
-            Dim genes As String() = family.Value.ToArray
-            result.GeneFamilies.Add(familyId, genes)
-
+            Dim genes As String() = If(referenceMap, family.Value.Where(Function(id) id <> familyId), family.Value).ToArray
             ' 构建PAV行
             Dim pavRow As New Dictionary(Of String, Integer)()
             Dim presenceCount As Integer = 0
@@ -141,6 +139,7 @@ Public Class GenomeAnalyzer
                 If n > 0 Then presenceCount += 1
             Next
 
+            Call result.GeneFamilies.Add(familyId, genes)
             Call result.PAVMatrix.Add(familyId, pavRow)
 
             ' 分类逻辑
