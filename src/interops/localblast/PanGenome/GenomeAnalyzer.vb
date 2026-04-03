@@ -110,6 +110,15 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 执行泛基因组分析的主函数
     ''' </summary>
+    ''' <param name="orthologSet">直系同源比对结果</param>
+    ''' <returns>分析结果对象</returns>
+    Public Function AnalyzePanGenome(orthologSet As UnionFind) As PanGenomeResult
+
+    End Function
+
+    ''' <summary>
+    ''' 执行泛基因组分析的主函数
+    ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult

@@ -111,19 +111,43 @@ Module pangenome
 
     <ExportAPI("analysis")>
     <RApiReturn(GetType(PanGenomeResult))>
-    Public Function analysis(pangenome As GenomeAnalyzer, <RRawVectorArgument> orthologSet As list, Optional env As Environment = Nothing) As Object
+    Public Function analysis(pangenome As GenomeAnalyzer, orthologSet As list, Optional env As Environment = Nothing) As Object
         Dim orthologDict As New Dictionary(Of String, BiDirectionalBesthit())
+        Dim linkSet As BiDirectionalBesthit()
 
-        For Each compareMap In orthologSet.slotKeys
-            Dim linkSet As BiDirectionalBesthit() = orthologSet _
-                .getValue(Of BiDirectionalBesthit())(compareMap, env) _
-                .Where(Function(link) link.level <> Levels.NA AndAlso link.level <> Levels.SBH) _
-                .ToArray
+        For Each compareMap As String In orthologSet.slotKeys
+            Dim maps_val As Object = orthologSet(compareMap)
+            Dim cast As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(maps_val, env)
 
-            For i As Integer = 0 To linkSet.Length - 1
-                linkSet(i).QueryName = HeaderFormats.TrimAccessionVersion(linkSet(i).QueryName)
-                linkSet(i).HitName = HeaderFormats.TrimAccessionVersion(linkSet(i).HitName)
-            Next
+            If cast.isError Then
+                cast = pipeline.TryCreatePipeline(Of RankTerm)(maps_val, env)
+
+                If Not cast.isError Then
+                    linkSet = cast.populates(Of RankTerm)(env) _
+                        .Select(Function(term)
+                                    Return New BiDirectionalBesthit With {
+                                        .QueryName = HeaderFormats.TrimAccessionVersion(term.queryName),
+                                        .HitName = term.term,
+                                        .level = Levels.BBH
+                                    }
+                                End Function) _
+                        .ToArray
+                Else
+                    Return cast.getError
+                End If
+            Else
+                linkSet = cast.populates(Of BiDirectionalBesthit)(env) _
+                    .Where(Function(link)
+                               Return link.level <> Levels.NA AndAlso
+                                    link.level <> Levels.SBH
+                           End Function) _
+                    .ToArray
+
+                For i As Integer = 0 To linkSet.Length - 1
+                    linkSet(i).QueryName = HeaderFormats.TrimAccessionVersion(linkSet(i).QueryName)
+                    linkSet(i).HitName = HeaderFormats.TrimAccessionVersion(linkSet(i).HitName)
+                Next
+            End If
 
             Call orthologDict.Add(compareMap, linkSet)
         Next
