@@ -99,6 +99,10 @@ export class File {
    Source: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/SOURCE.html">SOURCE</a>;
    # Gets the original source brief entry information of this genome.(获取这个基因组的摘要信息)
    SourceFeature: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/FEATURES/Feature.html">Feature</a>;
+   # the organism species name and strain information of this genbank data, 
+   #  this property is a combination of the source feature's species name and 
+   #  the source feature's strain qualifier value.
+   Species: string;
    # get ncbi taxonomy id
    Taxon: string;
    Version: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/GenBank/GBFF/Keywords/VERSION.html">VERSION</a>;
