@@ -81,12 +81,25 @@ Public Class GenomeAnalyzer
         Next
     End Sub
 
-    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As Dictionary(Of String, List(Of String))
+    Private Function MakeFamilyMapping(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), referenceMap As Boolean) As Dictionary(Of String, List(Of String))
         ' 建立连接
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
-                    Call uf.AddElement(ortho.HitName)
+                    If referenceMap Then
+                        Call uf.AddElement(ortho.HitName)
+
+                        If Not geneAnnotations.ContainsKey(ortho.HitName) Then
+                            Call geneAnnotations.Add(ortho.HitName, New GeneInfo With {
+                                .Chromosome = "n/a",
+                                .GeneID = ortho.HitName,
+                                .GenomeName = "ReferenceMap",
+                                .Start = geneAnnotations.Count * 1000,
+                                .[End] = .Start + 999
+                            })
+                        End If
+                    End If
+
                     Call uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
@@ -106,14 +119,14 @@ Public Class GenomeAnalyzer
         Dim coreGeneFamilies As New List(Of String)
         Dim singleCopyOrthologFamilies As New List(Of String)
         Dim specificGeneFamilies As New List(Of String)
-        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict)
+        Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict, referenceMap)
 
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建
         ' ==========================================
         For Each family In TqdmWrapper.Wrap(familyMap)
             Dim familyId As String = family.Key
-            Dim genes As String() = If(referenceMap, family.Value.Where(Function(id) id <> familyId), family.Value).ToArray
+            Dim genes As String() = family.Value.ToArray
             ' 构建PAV行
             Dim pavRow As New Dictionary(Of String, Integer)()
             Dim presenceCount As Integer = 0
@@ -153,12 +166,6 @@ Public Class GenomeAnalyzer
         Call CategorizeGeneFamilies(result, totalGenomes)
 
         ' ==========================================
-        ' 步骤 3: 泛基因组曲线计算
-        ' ==========================================
-        ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
-        ' 这里实现随机抽样模拟方法，适用于任意数量基因组
-        result.PangenomeCurveData = CalculatePangenomeCurve(result, genomeNames.ToList(), 100).ToArray
-        ' ==========================================
         ' 步骤 4: 共线性分析
         ' ==========================================
         ' 针对每一对基因组，寻找共线性区块
@@ -172,6 +179,13 @@ Public Class GenomeAnalyzer
         ' 步骤 7: 遗传距离矩阵 (新增)
         ' ==========================================
         Call CalculateGeneticDistance(result, orthologDict, genomeNames.ToList())
+
+        ' ==========================================
+        ' 步骤 3: 泛基因组曲线计算
+        ' ==========================================
+        ' 算法：使用排列组合（若基因组数量<10）或多次随机抽样计算平均值
+        ' 这里实现随机抽样模拟方法，适用于任意数量基因组
+        result.PangenomeCurveData = CalculatePangenomeCurve(result, genomeNames.ToList(), 100).ToArray
 
         Return result
     End Function
@@ -279,9 +293,7 @@ Public Class GenomeAnalyzer
                 Dim g2 = genomeList(j)
 
                 ' 获取g1的所有基因并按染色体和位置排序
-                Dim g1Genes = geneAnnotations.Values.Where(Function(g) g.GenomeName = g1).
-                             OrderBy(Function(g) g.Chromosome).
-                             ThenBy(Function(g) g.Start).ToList()
+                Dim g1Genes = geneAnnotations.Values.AsParallel.Where(Function(g) g.GenomeName = g1).OrderBy(Function(g) g.Chromosome).ThenBy(Function(g) g.Start).AsList()
 
                 ' 寻找共线性区块
                 ' 简单策略：寻找连续的共线性基因对
@@ -299,10 +311,12 @@ Public Class GenomeAnalyzer
                     If Not orthoLookup.ContainsKey(g1Gene.GeneID) Then Continue For
 
                     ' 找到该基因在g2中的同源基因
-                    Dim targetOrthos = orthoLookup(g1Gene.GeneID).Where(Function(o)
-                                                                            Dim otherId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
-                                                                            Return geneAnnotations(otherId).GenomeName = g2
-                                                                        End Function).ToList()
+                    Dim targetOrthos = orthoLookup(g1Gene.GeneID) _
+                        .Where(Function(o)
+                                   Dim otherId = If(o.QueryName = g1Gene.GeneID, o.HitName, o.QueryName)
+                                   Return geneAnnotations(otherId).GenomeName = g2
+                               End Function) _
+                        .ToList()
 
                     ' 为了简化，这里只处理一对一的情况
                     If targetOrthos.Count = 1 Then
