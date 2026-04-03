@@ -117,7 +117,7 @@ Module pangenome
 
         For Each compareMap As String In orthologSet.slotKeys
             Dim maps_val As Object = orthologSet(compareMap)
-            Dim cast As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(maps_val, env)
+            Dim cast As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(maps_val, env, suppress:=True)
 
             If cast.isError Then
                 cast = pipeline.TryCreatePipeline(Of RankTerm)(maps_val, env)
