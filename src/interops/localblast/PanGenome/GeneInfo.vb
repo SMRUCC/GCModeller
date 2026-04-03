@@ -12,7 +12,10 @@ Public Class GeneInfo
     Public Property Start As Integer
     Public Property [End] As Integer
 
-    ' 用于排序和距离计算
+    ''' <summary>
+    ''' 用于排序和距离计算
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property Length As Integer
         Get
             Return [End] - Start + 1
