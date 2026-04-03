@@ -110,15 +110,6 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 执行泛基因组分析的主函数
     ''' </summary>
-    ''' <param name="orthologSet">直系同源比对结果</param>
-    ''' <returns>分析结果对象</returns>
-    Public Function AnalyzePanGenome(orthologSet As UnionFind) As PanGenomeResult
-
-    End Function
-
-    ''' <summary>
-    ''' 执行泛基因组分析的主函数
-    ''' </summary>
     ''' <param name="orthologDict">直系同源比对结果</param>
     ''' <returns>分析结果对象</returns>
     Public Function AnalyzePanGenome(orthologDict As Dictionary(Of String, BiDirectionalBesthit())) As PanGenomeResult
@@ -183,11 +174,11 @@ Public Class GenomeAnalyzer
         ' 步骤 4: 共线性分析
         ' ==========================================
         ' 针对每一对基因组，寻找共线性区块
-        result.CollinearBlocks = CalculateCollinearity(orthologDict, geneAnnotations, genomeNames.ToList()).ToArray
+        result.CollinearBlocks = CalculateCollinearity(orthologDict, genomeNames.ToList()).ToArray
         ' ==========================================
         ' 步骤 5: 结构变异检测 (新增)
         ' ==========================================
-        result.StructuralVariations = DetectStructuralVariations(result, geneAnnotations, genomeNames.ToList()).ToArray
+        result.StructuralVariations = DetectStructuralVariations(result, genomeNames.ToList()).ToArray
 
         ' ==========================================
         ' 步骤 7: 遗传距离矩阵 (新增)
@@ -281,10 +272,7 @@ Public Class GenomeAnalyzer
     ''' <summary>
     ''' 计算基因组间的共线性区块（简化版算法：滑动窗口聚类）
     ''' </summary>
-    Private Iterator Function CalculateCollinearity(orthologDict As Dictionary(Of String, BiDirectionalBesthit()),
-                                      geneAnnotations As Dictionary(Of String, GeneInfo),
-                                      genomeList As List(Of String)) As IEnumerable(Of CollinearBlock)
-
+    Private Iterator Function CalculateCollinearity(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), genomeList As List(Of String)) As IEnumerable(Of CollinearBlock)
         ' 1. 重新整理Ortholog关系：建立 GeneID -> List<Ortholog> 的映射
         Dim orthoLookup As New Dictionary(Of String, List(Of BiDirectionalBesthit))()
         For Each orthos In orthologDict.Values
@@ -416,10 +404,7 @@ Public Class GenomeAnalyzer
     ''' <remarks>
     ''' 这个函数要求在调用前需要完成共线性检测计算
     ''' </remarks>
-    Private Iterator Function DetectStructuralVariations(result As PanGenomeResult,
-                                           geneAnnotations As Dictionary(Of String, GeneInfo),
-                                           genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
-
+    Private Iterator Function DetectStructuralVariations(result As PanGenomeResult, genomeNames As List(Of String)) As IEnumerable(Of StructuralVariation)
         Dim svIdCounter As Integer = 0
 
         ' =========================================
@@ -620,21 +605,6 @@ Public Class GenomeAnalyzer
                 ' 简单策略：假设 orthologDict 的 Key 就是 "GenomeA_vs_GenomeB" 这种标准格式
                 ' 那么我们可以直接使用。
             Next
-        Next
-
-        ' 修正逻辑：如果 orthologDict 的 Key 是 "AvsB" 格式
-        For Each kvp In orthologDict
-            Dim comparisonName = kvp.Key
-            Dim orthos = kvp.Value
-
-            ' 尝试解析 Key 得到两个基因组名称
-            ' 这里假设 Key 的格式符合之前的逻辑，或者我们直接使用 SingleCopyOrthologFamilies 来计算
-            ' 使用单拷贝直系同源基因计算距离是最准确的
-
-            ' 策略优化：使用 result.SingleCopyOrthologFamilies 中的基因对来计算
-            ' 这样可以排除多拷贝基因的干扰，结果更接近物种树
-
-            ' 我们需要先建立 Gene -> Ortholog 的反向索引
         Next
 
         ' --- 重新实现一个更稳健的策略 ---
