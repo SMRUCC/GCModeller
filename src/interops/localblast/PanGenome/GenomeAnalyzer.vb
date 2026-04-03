@@ -1,3 +1,4 @@
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -122,7 +123,7 @@ Public Class GenomeAnalyzer
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建
         ' ==========================================
-        For Each family In familyMap
+        For Each family In TqdmWrapper.Wrap(familyMap)
             Dim familyId As String = family.Key
             Dim genes As String() = family.Value.ToArray
             result.GeneFamilies.Add(familyId, genes)
@@ -140,7 +141,7 @@ Public Class GenomeAnalyzer
                 If n > 0 Then presenceCount += 1
             Next
 
-            result.PAVMatrix.Add(familyId, pavRow)
+            Call result.PAVMatrix.Add(familyId, pavRow)
 
             ' 分类逻辑
             If presenceCount = totalGenomes Then
@@ -219,7 +220,7 @@ Public Class GenomeAnalyzer
         Dim curvePoints As New Dictionary(Of Integer, (SumPan As Long, SumCore As Long, Count As Integer))
 
         ' 模拟 iterations 次
-        For i As Integer = 1 To iterations
+        For Each i As Integer In TqdmWrapper.Range(0, iterations)
             ' 随机打乱基因组顺序
             Dim shuffled = genomeList.OrderBy(Function(x) rand.NextDouble()).ToList()
             Dim currentPanGenes As New HashSet(Of String)()
@@ -227,12 +228,12 @@ Public Class GenomeAnalyzer
             Dim currentCoreCandidates As HashSet(Of String) = Nothing
 
             ' 逐个添加基因组
-            For [step] = 0 To shuffled.Count - 1
+            For [step] As Integer = 0 To shuffled.Count - 1
                 Dim gName = shuffled([step])
                 Dim genesInGenome = result.PAVMatrix.Where(Function(pav) pav.Value(gName) > 0).Select(Function(pav) pav.Key).ToList()
 
                 ' 更新Pan基因集合 (并集)
-                For Each gId In genesInGenome
+                For Each gId As String In genesInGenome
                     currentPanGenes.Add(gId)
                 Next
 
@@ -285,7 +286,7 @@ Public Class GenomeAnalyzer
         Next
 
         ' 2. 遍历所有基因组对 (Genome1 vs Genome2)
-        For i As Integer = 0 To genomeList.Count - 1
+        For Each i As Integer In TqdmWrapper.Range(0, genomeList.Count)
             For j As Integer = i + 1 To genomeList.Count - 1
                 Dim g1 = genomeList(i)
                 Dim g2 = genomeList(j)
@@ -413,7 +414,7 @@ Public Class GenomeAnalyzer
         ' 定义“核心拷贝数”：大多数基因组在该家族中的拷贝数模式
         ' 或者简单定义：如果大多数基因组都有，则定义为“存在”
 
-        For Each familyKvp In result.GeneFamilies
+        For Each familyKvp In TqdmWrapper.Wrap(result.GeneFamilies)
             Dim familyId = familyKvp.Key
             Dim genes = familyKvp.Value
             Dim pavRow = result.PAVMatrix(familyId)
@@ -525,7 +526,7 @@ Public Class GenomeAnalyzer
         Dim shellGeneFamilies As New List(Of String)
         Dim cloudGeneFamilies As New List(Of String)
 
-        For Each familyKvp In result.GeneFamilies
+        For Each familyKvp In TqdmWrapper.Wrap(result.GeneFamilies)
             Dim familyId = familyKvp.Key
             Dim pavRow = result.PAVMatrix(familyId)
 
@@ -621,7 +622,7 @@ Public Class GenomeAnalyzer
         Next
 
         ' 2. 遍历所有单拷贝家族
-        For Each familyId In result.SingleCopyOrthologFamilies
+        For Each familyId In TqdmWrapper.Wrap(result.SingleCopyOrthologFamilies)
             Dim genes = result.GeneFamilies(familyId)
 
             ' 单拷贝家族中只有 N 个基因 (N=基因组数)
