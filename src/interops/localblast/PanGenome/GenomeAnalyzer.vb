@@ -77,18 +77,17 @@ Public Class GenomeAnalyzer
 
     Private Sub Initialize(uf As UnionFind)
         Me.uf = If(uf, New UnionFind)
+        Me.SetGenesElements(geneAnnotations.Keys)
 
         ' 统计总数
         For Each kvp In genomeGeneSets
             Call result.TotalGenesInGenomes.Add(kvp.Key, kvp.Value.Count)
         Next
+    End Sub
 
-        ' ==========================================
-        ' 步骤 1: 并查集聚类
-        ' ==========================================
-
+    Private Sub SetGenesElements(gene_ids As IEnumerable(Of String))
         ' 初始化所有基因
-        For Each geneId As String In geneAnnotations.Keys
+        For Each geneId As String In gene_ids
             Call uf.AddElement(geneId)
         Next
     End Sub
@@ -98,6 +97,7 @@ Public Class GenomeAnalyzer
         For Each kvp In orthologDict
             For Each ortho In kvp.Value
                 If ortho IsNot Nothing AndAlso Not String.IsNullOrEmpty(ortho.QueryName) AndAlso Not String.IsNullOrEmpty(ortho.HitName) Then
+                    Call uf.AddElement(ortho.QueryName)
                     Call uf.Union(ortho.QueryName, ortho.HitName)
                 End If
             Next
