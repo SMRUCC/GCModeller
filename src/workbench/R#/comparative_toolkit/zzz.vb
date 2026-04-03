@@ -8,7 +8,7 @@ Public NotInheritable Class zzz
     End Sub
 
     Public Shared Sub onLoad()
-
+        Call pangenome.Main()
     End Sub
 
 End Class
