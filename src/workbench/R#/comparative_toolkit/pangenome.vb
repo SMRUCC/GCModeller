@@ -128,7 +128,13 @@ Module pangenome
                                     Return New BiDirectionalBesthit With {
                                         .QueryName = HeaderFormats.TrimAccessionVersion(term.queryName),
                                         .HitName = term.term,
-                                        .level = Levels.BBH
+                                        .level = Levels.BBH,
+                                        .description = term.topHit,
+                                        .term = term.term,
+                                        .positive = term.score,
+                                        .forward = 1,
+                                        .reverse = 1,
+                                        .length = 1
                                     }
                                 End Function) _
                         .ToArray
