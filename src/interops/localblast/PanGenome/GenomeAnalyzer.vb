@@ -1,4 +1,5 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -52,20 +53,7 @@ Public Class GenomeAnalyzer
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneInfo()), Optional uf As UnionFind = Nothing)
-        geneAnnotations = New Dictionary(Of String, GeneInfo)
-
-        For Each genome In genomes
-            Call genomeNames.Add(genome.Key)
-            Call genomeGeneSets.Add(genome.Key, New HashSet(Of String)(From gene In genome.Value Select gene.GeneID))
-
-            For Each gene As GeneInfo In genome.Value
-                Call geneAnnotations.Add(gene.GeneID, gene)
-            Next
-        Next
-
-        totalGenomes = genomeNames.Count
-
-        Call Initialize(uf)
+        Call Me.New(genomes.Values.IteratesALL.ToDictionary(Function(gene) gene.GeneID), uf)
     End Sub
 
     Sub New(genomes As Dictionary(Of String, GeneTable()), Optional uf As UnionFind = Nothing)
