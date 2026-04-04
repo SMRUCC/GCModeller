@@ -565,9 +565,13 @@ Public Class GenomeAnalyzer
     ''' <param name="g1"></param>
     ''' <param name="g2"></param>
     ''' <returns></returns>
-    Private Shared Function OrderKey(g1 As String, g2 As String) As String
-        Dim list = {g1, g2}.OrderBy(Function(x) x).ToArray()
-        Return $"{list(0)}_vs_{list(1)}"
+    Private Function OrderKey(g1 As String, g2 As String) As String
+        ' 按字母顺序排序，确保 G1_vs_G2 和 G2_vs_G1 生成相同的 Key
+        If String.Compare(g1, g2, StringComparison.Ordinal) <= 0 Then
+            Return $"{g1}_vs_{g2}"
+        Else
+            Return $"{g2}_vs_{g1}"
+        End If
     End Function
 
     ''' <summary>
