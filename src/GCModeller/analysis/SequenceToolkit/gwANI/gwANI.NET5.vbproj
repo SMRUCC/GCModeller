@@ -12,6 +12,7 @@
     <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
     <PackageIcon>logo.png</PackageIcon>
     <PackageOutputPath>..\..\..\..\..\.nuget</PackageOutputPath>
+    <AssemblyTitle>ANI (Average Nucleotide Identity)</AssemblyTitle>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

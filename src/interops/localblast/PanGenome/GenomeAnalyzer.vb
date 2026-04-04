@@ -106,6 +106,7 @@ Public Class GenomeAnalyzer
         Dim singleCopyOrthologFamilies As New List(Of String)
         Dim specificGeneFamilies As New List(Of String)
         Dim familyMap As Dictionary(Of String, List(Of String)) = MakeFamilyMapping(orthologDict)
+        Dim strictSingleCopy As Boolean = False
 
         ' ==========================================
         ' 步骤 2: 分类分析与 PAV 矩阵构建
@@ -131,10 +132,17 @@ Public Class GenomeAnalyzer
 
             ' 分类逻辑
             If presenceCount = totalGenomes Then
-                coreGeneFamilies.Add(familyId)
+                Call coreGeneFamilies.Add(familyId)
+
                 ' 单拷贝判断
-                If pavRow.Values.All(Function(c) c = 1) Then
-                    singleCopyOrthologFamilies.Add(familyId)
+                If strictSingleCopy Then
+                    If pavRow.Values.All(Function(c) c = 1) Then
+                        singleCopyOrthologFamilies.Add(familyId)
+                    End If
+                Else
+                    If pavRow.Values.All(Function(c) c < 5) Then
+                        singleCopyOrthologFamilies.Add(familyId)
+                    End If
                 End If
             ElseIf presenceCount = 1 Then
                 specificGeneFamilies.Add(familyId)
