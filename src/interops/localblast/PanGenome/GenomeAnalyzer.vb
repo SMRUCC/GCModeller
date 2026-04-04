@@ -552,6 +552,17 @@ Public Class GenomeAnalyzer
     End Sub
 
     ''' <summary>
+    ''' 辅助函数：生成唯一的基因组对Key（无论顺序）
+    ''' </summary>
+    ''' <param name="g1"></param>
+    ''' <param name="g2"></param>
+    ''' <returns></returns>
+    Private Shared Function OrderKey(g1 As String, g2 As String) As String
+        Dim list = {g1, g2}.OrderBy(Function(x) x).ToArray()
+        Return $"{list(0)}_vs_{list(1)}"
+    End Function
+
+    ''' <summary>
     ''' 基于直系同源比对计算基因组间的遗传距离矩阵
     ''' </summary>
     Private Sub CalculateGeneticDistance(orthologDict As Dictionary(Of String, BiDirectionalBesthit()), genomeNames As List(Of String))
@@ -559,37 +570,14 @@ Public Class GenomeAnalyzer
         ' Key: "G1_vs_G2", Value: List(Of Ortholog)
         Dim pairwiseOrthologs As New Dictionary(Of String, List(Of Ortholog))()
 
-        ' 辅助函数：生成唯一的基因组对Key（无论顺序）
-        Dim getKey = Function(g1 As String, g2 As String) As String
-                         Dim list = {g1, g2}.OrderBy(Function(x) x).ToArray()
-                         Return $"{list(0)}_vs_{list(1)}"
-                     End Function
-
         ' 初始化所有可能的基因组对
         For i = 0 To genomeNames.Count - 1
             For j = i + 1 To genomeNames.Count - 1
-                Dim key = getKey(genomeNames(i), genomeNames(j))
+                Dim key = OrderKey(genomeNames(i), genomeNames(j))
                 pairwiseOrthologs.Add(key, New List(Of Ortholog)())
             Next
         Next
 
-        ' 2. 遍历所有Ortholog，将其归类到对应的基因组对中
-        ' 注意：需要知道 Ortholog 中的 gene1 和 gene2 分别属于哪个基因组
-        For Each orthos In orthologDict.Values
-            For Each o In orthos
-                ' 这里需要查询基因所属的基因组。
-                ' 实际上，Ortholog类中最好能直接标记基因组来源，或者我们在这里查表。
-                ' 假设我们无法在这里快速查表，我们可以在外层循环处理。
-                ' 为了性能，我们通常在输入数据阶段就处理好了 Genome1 vs Genome2 的关系。
-                ' 这里假设 orthologDict 的 Key 已经是 "G1_vs_G2" 格式。
-                ' 如果不是，我们需要解析 geneID 前缀。
-
-                ' 简单策略：假设 orthologDict 的 Key 就是 "GenomeA_vs_GenomeB" 这种标准格式
-                ' 那么我们可以直接使用。
-            Next
-        Next
-
-        ' --- 重新实现一个更稳健的策略 ---
         ' 仅使用单拷贝直系同源基因 计算平均距离
         ' 这在进化分析中是金标准。
 
@@ -634,7 +622,7 @@ Public Class GenomeAnalyzer
                             ' 更好的方式是查 geneAnnotations
                             ' Dim info1 = geneAnnotations(g1) ...
 
-                            Dim key = getKey(gName1, gName2)
+                            Dim key = OrderKey(gName1, gName2)
 
                             ' 记录距离 (1 - Identity)
                             ' 假设 identities1 是 g1 相对于 g2 的一致性
