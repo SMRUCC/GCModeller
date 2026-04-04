@@ -158,7 +158,12 @@ Public Class GenomeAnalyzer
         result.CoreGeneFamilies = coreGeneFamilies.ToArray
 
         Call CategorizeGeneFamilies(result, totalGenomes)
-        Call CalculateGeneticDistance(orthologDict, genomeNames.ToList())
+
+        If result.SingleCopyOrthologFamilies.IsNullOrEmpty Then
+            Call CalculatePanGenomeJaccardDistance(familyMap)
+        Else
+            Call CalculateGeneticDistance(orthologDict, genomeNames.ToList())
+        End If
 
         ' ==========================================
         ' 步骤 4: 共线性分析
@@ -573,6 +578,88 @@ Public Class GenomeAnalyzer
             Return $"{g2}_vs_{g1}"
         End If
     End Function
+
+    ''' <summary>
+    ''' 基于泛基因组基因家族计算基因组间的 Jaccard 遗传距离矩阵
+    ''' </summary>
+    ''' <param name="clusters">
+    ''' 从并查集提取 "基因 -> 家族ID" 的映射关系
+    ''' </param>
+    Private Sub CalculatePanGenomeJaccardDistance(clusters As Dictionary(Of String, List(Of String)))
+        Dim geneToFamily As New Dictionary(Of String, String)(StringComparer.OrdinalIgnoreCase)
+
+        For Each kvp In clusters
+            Dim familyId = kvp.Key
+            ' 将该家族下的所有基因映射到该家族ID
+            For Each geneId In kvp.Value
+                If Not geneToFamily.ContainsKey(geneId) Then
+                    geneToFamily.Add(geneId, familyId)
+                End If
+            Next
+        Next
+
+        ' 2. 将 "基因组 -> 基因集合" 转换为 "基因组 -> 基因家族集合"
+        Dim genomeFamilySets As New Dictionary(Of String, HashSet(Of String))(StringComparer.OrdinalIgnoreCase)
+
+        For Each kvp In genomeGeneSets
+            Dim genomeName = kvp.Key
+            Dim genes = kvp.Value
+            Dim families As New HashSet(Of String)(StringComparer.OrdinalIgnoreCase)
+
+            For Each geneId In genes
+                ' 注意：如果某个基因没有成功聚类（孤儿基因），这里会找不到，直接跳过
+                ' 在泛基因组分析中，通常只计算被归入家族的基因
+                If geneToFamily.ContainsKey(geneId) Then
+                    families.Add(geneToFamily(geneId))
+                End If
+            Next
+
+            genomeFamilySets.Add(genomeName, families)
+        Next
+
+        ' 3. 初始化距离矩阵
+        result.GeneticDistanceMatrix = New Dictionary(Of String, Double)()
+        Dim genomeNames = genomeGeneSets.Keys.ToList()
+
+        ' 4. 两两计算 Jaccard 距离
+        For i As Integer = 0 To genomeNames.Count - 1
+            For j As Integer = i + 1 To genomeNames.Count - 1
+                Dim g1 = genomeNames(i)
+                Dim g2 = genomeNames(j)
+
+                Dim set1 = genomeFamilySets(g1)
+                Dim set2 = genomeFamilySets(g2)
+
+                ' 性能优化：确保 set1 是较小的集合，以减少 HashSet.Contains 的调用次数
+                Dim smallerSet As HashSet(Of String) = If(set1.Count <= set2.Count, set1, set2)
+                Dim largerSet As HashSet(Of String) = If(set1.Count <= set2.Count, set2, set1)
+
+                ' 计算交集大小
+                Dim intersectionCount As Integer = 0
+                For Each familyId In smallerSet
+                    If largerSet.Contains(familyId) Then
+                        intersectionCount += 1
+                    End If
+                Next
+
+                ' 计算并集大小: |A ∪ B| = |A| + |B| - |A ∩ B|
+                Dim unionCount As Integer = set1.Count + set2.Count - intersectionCount
+
+                ' 计算 Jaccard 距离 = 1 - (交集 / 并集)
+                Dim jaccardDistance As Double = 0.0
+                If unionCount > 0 Then
+                    jaccardDistance = 1.0 - (CDbl(intersectionCount) / CDbl(unionCount))
+                Else
+                    ' 如果两个基因组都没有被分配到任何家族（极端情况），距离设为 0
+                    jaccardDistance = 0.0
+                End If
+
+                ' 存入矩阵 (使用之前定义的 OrderKey 保证键的顺序一致性)
+                Dim key = OrderKey(g1, g2)
+                result.GeneticDistanceMatrix.Add(key, jaccardDistance)
+            Next
+        Next
+    End Sub
 
     ''' <summary>
     ''' 基于直系同源比对计算基因组间的遗传距离矩阵
