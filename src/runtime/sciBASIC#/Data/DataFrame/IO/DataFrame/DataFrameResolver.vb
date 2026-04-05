@@ -201,10 +201,10 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' Get the lines data for the convinent data operation.(为了保持一致的顺序，这个函数是非并行化的)
+        ''' Get the lines data for the convinent data operation.
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(为了保持一致的顺序，这个函数是非并行化的)</remarks>
         Public Function CreateDataSource() As DynamicObjectLoader()
             Dim rowNumbers = table.Count.Sequence
             Dim LQuery As DynamicObjectLoader() = LinqAPI.Exec(Of DynamicObjectLoader) _
