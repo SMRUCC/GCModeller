@@ -127,7 +127,8 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
     Default Public ReadOnly Property gene(geneId As String) As DataFrameRow
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return expression.KeyItem(geneId)
+            Call EnsureGeneIndex()
+            Return m_geneIndex(geneId)
         End Get
     End Property
 
@@ -152,16 +153,7 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
 
     Default Public ReadOnly Property gene(gene_ids As IEnumerable(Of String)) As Matrix
         Get
-            If m_geneIndex Is Nothing AndAlso Not expression Is Nothing Then
-                m_geneIndex = expression _
-                    .GroupBy(Function(c) c.geneID) _
-                    .ToDictionary(Function(g)
-                                      Return g.Key
-                                  End Function,
-                                  Function(duplicated)
-                                      Return duplicated.First
-                                  End Function)
-            End If
+            Call EnsureGeneIndex()
 
             Return New Matrix With {
                 .sampleID = sampleID,
@@ -222,6 +214,22 @@ Public Class Matrix : Implements INamedValue, Enumeration(Of DataFrameRow), INum
 
     Dim m_sampleIndex As Index(Of String)
     Dim m_geneIndex As Dictionary(Of String, DataFrameRow)
+
+    ''' <summary>
+    ''' make ensure that <see cref="m_geneIndex"/> index hash been build
+    ''' </summary>
+    Private Sub EnsureGeneIndex()
+        If m_geneIndex Is Nothing AndAlso Not expression Is Nothing Then
+            m_geneIndex = expression _
+                .GroupBy(Function(c) c.geneID) _
+                .ToDictionary(Function(g)
+                                  Return g.Key
+                              End Function,
+                              Function(duplicated)
+                                  Return duplicated.First
+                              End Function)
+        End If
+    End Sub
 
     ''' <summary>
     ''' get sample data column vector

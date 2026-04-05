@@ -61,6 +61,7 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports std = System.Math
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
 ''' <summary>
 ''' WGCNA模块与表型相关性分析模块
@@ -89,7 +90,7 @@ Public Module ModulePhenotype
     ''' <param name="moduleGenes">模块内的基因ID列表</param>
     ''' <param name="moduleName">模块名称</param>
     ''' <returns>模块特征基因计算结果</returns>
-    Public Function CalculateModuleEigengene(expressionMatrix As NumericMatrix, moduleGenes As String(), moduleName As String) As ModuleEigengeneResult
+    Public Function CalculateModuleEigengene(expressionMatrix As Matrix, moduleGenes As String(), moduleName As String) As ModuleEigengeneResult
         ' 验证输入参数
         If moduleGenes Is Nothing OrElse moduleGenes.Length = 0 Then
             Throw New ArgumentException("模块基因列表不能为空")
@@ -100,10 +101,8 @@ Public Module ModulePhenotype
         Dim validGenes As New List(Of String)
 
         For Each geneId As String In moduleGenes
-            If expressionMatrix.expression.ContainsKey(geneId) Then
-                moduleExpression.Add(expressionMatrix.expression(geneId).experiments)
-                validGenes.Add(geneId)
-            End If
+            moduleExpression.Add(expressionMatrix(geneId).experiments)
+            validGenes.Add(geneId)
         Next
 
         If validGenes.Count = 0 Then
@@ -211,7 +210,7 @@ Public Module ModulePhenotype
     ''' <param name="modules">模块字典（模块名→基因列表）</param>
     ''' <param name="phenotypeData">表型数据字典（表型名→值数组）</param>
     ''' <returns>模块-表型相关性结果列表</returns>
-    Public Function CalculateAllModulePhenotypeCorrelations(expressionMatrix As NumericMatrix,
+    Public Function CalculateAllModulePhenotypeCorrelations(expressionMatrix As Matrix,
                                                              modules As Dictionary(Of String, String()),
                                                              phenotypeData As Dictionary(Of String, Double())) As List(Of ModulePhenotypeCorrelation)
         Dim results As New List(Of ModulePhenotypeCorrelation)
@@ -304,7 +303,7 @@ Public Module ModulePhenotype
     ''' <param name="phenotypeValues">表型值</param>
     ''' <param name="phenotypeName">表型名称</param>
     ''' <returns>基因显著性结果列表</returns>
-    Public Function CalculateAllGeneSignificance(expressionMatrix As NumericMatrix,
+    Public Function CalculateAllGeneSignificance(expressionMatrix As Matrix,
                                                   phenotypeValues As Double(),
                                                   phenotypeName As String) As List(Of GeneSignificanceResult)
         Dim results As New List(Of GeneSignificanceResult)
@@ -312,9 +311,9 @@ Public Module ModulePhenotype
         For Each geneKvp In expressionMatrix.expression
             Try
                 Dim gsResult = CalculateGeneSignificance(
-                    geneKvp.Value.experiments,
+                    geneKvp.experiments,
                     phenotypeValues,
-                    geneKvp.Key,
+                    geneKvp.geneID,
                     phenotypeName
                 )
                 results.Add(gsResult)
@@ -399,9 +398,9 @@ Public Module ModulePhenotype
             For Each eigengeneKvp In eigengenes
                 Try
                     Dim mmResult = CalculateModuleMembership(
-                        geneKvp.Value.experiments,
+                        geneKvp.experiments,
                         eigengeneKvp.Value,
-                        geneKvp.Key,
+                        geneKvp.geneID,
                         eigengeneKvp.Key
                     )
                     results.Add(mmResult)
