@@ -134,6 +134,116 @@ Public Module Analysis
         }
     End Function
 
+    ''' <summary>
+    ''' 运行完整的WGCNA分析（包含表型相关性分析）
+    ''' 
+    ''' 这是新增的主要分析函数，在基础WGCNA分析的基础上，
+    ''' 增加了模块与表型相关性的计算功能。
+    ''' </summary>
+    ''' <param name="samples">基因表达矩阵（基因×样本）</param>
+    ''' <param name="phenotypeData">表型数据字典（表型名→值数组），数组长度应与样本数相同</param>
+    ''' <param name="adjacency">邻接矩阵阈值，默认0.6</param>
+    ''' <param name="pcaLayout">是否使用PCA布局，默认True</param>
+    ''' <returns>完整的WGCNA分析结果，包含模块-表型相关性</returns>
+    Public Function RunWithPhenotype(samples As Matrix,
+                                      phenotypeData As Dictionary(Of String, Double()),
+                                      Optional adjacency As Double = 0.6,
+                                      Optional pcaLayout As Boolean = True) As Result
+        ' 首先运行基础WGCNA分析
+        Call VBDebugger.EchoLine("=== Starting WGCNA Analysis with Phenotype Correlation ===")
+
+        Dim result As Result = Run(samples, adjacency, pcaLayout)
+
+        ' 验证表型数据
+        If phenotypeData Is Nothing OrElse phenotypeData.Count = 0 Then
+            Call VBDebugger.EchoLine("Warning: No phenotype data provided, skipping phenotype correlation analysis.")
+            Return result
+        End If
+
+        ' 获取样本数量
+        Dim nSamples As Integer = samples.expression.Values.First().experiments.Length
+
+        ' 验证表型数据长度
+        For Each kvp In phenotypeData
+            If kvp.Value.Length <> nSamples Then
+                Throw New ArgumentException($"表型 '{kvp.Key}' 的数据长度({kvp.Value.Length})与样本数量({nSamples})不匹配")
+            End If
+        Next
+
+        Call VBDebugger.EchoLine("=== Calculating Module Eigengenes ===")
+
+        ' 计算每个模块的特征基因
+        Dim eigengeneDict As New Dictionary(Of String, Double())
+        Dim eigengeneResults As New List(Of ModuleEigengeneResult)
+
+        For Each moduleKvp In result.modules
+            Try
+                Dim meResult = ModulePhenotype.CalculateModuleEigengene(samples, moduleKvp.Value, moduleKvp.Key)
+                eigengeneDict(moduleKvp.Key) = meResult.Eigengene
+                eigengeneResults.Add(meResult)
+                Call VBDebugger.EchoLine($"  Module '{moduleKvp.Key}': {moduleKvp.Value.Length} genes, variance explained: {meResult.VarianceExplained:P}")
+            Catch ex As Exception
+                Call VBDebugger.EchoLine($"  Warning: Failed to calculate eigengene for module '{moduleKvp.Key}': {ex.Message}")
+            End Try
+        Next
+
+        result.moduleEigengenes = eigengeneDict
+        result.moduleEigengeneResults = eigengeneResults
+
+        Call VBDebugger.EchoLine("=== Calculating Module-Phenotype Correlations ===")
+
+        ' 计算模块与表型的相关性
+        Dim modulePhenotypeCorrs = ModulePhenotype.CalculateAllModulePhenotypeCorrelations(samples, result.modules, phenotypeData)
+        result.modulePhenotypeCorrelations = modulePhenotypeCorrs
+
+        ' 输出显著相关的模块
+        Dim significantCorrs = modulePhenotypeCorrs.Where(Function(c) c.PValue < 0.05).ToList()
+        Call VBDebugger.EchoLine($"  Found {significantCorrs.Count} significant module-phenotype correlations (p < 0.05)")
+        For Each corr In significantCorrs.OrderByDescending(Function(c) c.AbsoluteCorrelation).Take(10)
+            Call VBDebugger.EchoLine($"    {corr.ModuleName} vs {corr.PhenotypeName}: r={corr.Correlation:F3}, p={corr.PValue:F4}")
+        Next
+
+        Call VBDebugger.EchoLine("=== Calculating Gene Significance ===")
+
+        ' 计算基因显著性
+        Dim allGeneSignificance As New List(Of GeneSignificanceResult)
+        For Each phenotypeKvp In phenotypeData
+            Dim gsResults = ModulePhenotype.CalculateAllGeneSignificance(samples, phenotypeKvp.Value, phenotypeKvp.Key)
+            allGeneSignificance.AddRange(gsResults)
+        Next
+        result.geneSignificance = allGeneSignificance
+
+        Call VBDebugger.EchoLine("=== Calculating Module Membership ===")
+
+        ' 计算模块成员
+        Dim moduleMembershipResults = ModulePhenotype.CalculateAllModuleMembership(samples, result.modules)
+        result.moduleMembership = moduleMembershipResults
+
+        Call VBDebugger.EchoLine("=== WGCNA Analysis Complete ===")
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 运行WGCNA分析（使用单个表型）
+    ''' </summary>
+    ''' <param name="samples">基因表达矩阵</param>
+    ''' <param name="phenotypeName">表型名称</param>
+    ''' <param name="phenotypeValues">表型值数组</param>
+    ''' <param name="adjacency">邻接矩阵阈值</param>
+    ''' <param name="pcaLayout">是否使用PCA布局</param>
+    ''' <returns>WGCNA分析结果</returns>
+    Public Function RunWithPhenotype(samples As Matrix,
+                                      phenotypeName As String,
+                                      phenotypeValues As Double(),
+                                      Optional adjacency As Double = 0.6,
+                                      Optional pcaLayout As Boolean = True) As Result
+        Dim phenotypeData As New Dictionary(Of String, Double()) From {
+            {phenotypeName, phenotypeValues}
+        }
+        Return RunWithPhenotype(samples, phenotypeData, adjacency, pcaLayout)
+    End Function
+
     <Extension>
     Private Function setModules(g As NetworkGraph, modules As Dictionary(Of String, String())) As NetworkGraph
         Dim colors As LoopArray(Of SolidBrush) = Designer _
