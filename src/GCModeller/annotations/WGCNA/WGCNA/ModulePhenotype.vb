@@ -162,9 +162,9 @@ Public Module ModulePhenotype
     ''' <param name="moduleName">模块名称</param>
     ''' <param name="phenotypeName">表型名称</param>
     ''' <returns>模块-表型相关性结果</returns>
-    Public Function CalculateModulePhenotypeCorrelation(eigengene As Double(), 
-                                                        phenotypeValues As Double(), 
-                                                        moduleName As String, 
+    Public Function CalculateModulePhenotypeCorrelation(eigengene As Double(),
+                                                        phenotypeValues As Double(),
+                                                        moduleName As String,
                                                         phenotypeName As String) As ModulePhenotypeCorrelation
         ' 验证输入
         If eigengene.Length <> phenotypeValues.Length Then
@@ -563,10 +563,10 @@ Public Module ModulePhenotype
     ''' 计算Gamma函数的对数（使用Stirling近似）
     ''' </summary>
     Private Function LogGamma(x As Double) As Double
-        Dim cof() As Double = {76.18009172947146, -86.50532032941677,
-                               24.01409824083091, -1.231739572450155,
+        Dim cof() As Double = {76.180091729471457, -86.505320329416776,
+                               24.014098240830911, -1.231739572450155,
                                0.001208650973866179, -0.000005395239384953}
-        Dim ser As Double = 1.000000000190015
+        Dim ser As Double = 1.0000000001900149
         Dim tmp As Double = x + 5.5
         tmp -= (x + 0.5) * std.Log(tmp)
         Dim y As Double = x

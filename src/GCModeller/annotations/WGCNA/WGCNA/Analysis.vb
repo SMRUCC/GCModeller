@@ -161,7 +161,7 @@ Public Module Analysis
         End If
 
         ' 获取样本数量
-        Dim nSamples As Integer = samples.expression.Values.First().experiments.Length
+        Dim nSamples As Integer = samples.sampleID.Length
 
         ' 验证表型数据长度
         For Each kvp In phenotypeData
@@ -177,14 +177,10 @@ Public Module Analysis
         Dim eigengeneResults As New List(Of ModuleEigengeneResult)
 
         For Each moduleKvp In result.modules
-            Try
-                Dim meResult = ModulePhenotype.CalculateModuleEigengene(samples, moduleKvp.Value, moduleKvp.Key)
-                eigengeneDict(moduleKvp.Key) = meResult.Eigengene
-                eigengeneResults.Add(meResult)
-                Call VBDebugger.EchoLine($"  Module '{moduleKvp.Key}': {moduleKvp.Value.Length} genes, variance explained: {meResult.VarianceExplained:P}")
-            Catch ex As Exception
-                Call VBDebugger.EchoLine($"  Warning: Failed to calculate eigengene for module '{moduleKvp.Key}': {ex.Message}")
-            End Try
+            Dim meResult = ModulePhenotype.CalculateModuleEigengene(samples, moduleKvp.Value, moduleKvp.Key)
+            eigengeneDict(moduleKvp.Key) = meResult.Eigengene
+            eigengeneResults.Add(meResult)
+            Call VBDebugger.EchoLine($"  Module '{moduleKvp.Key}': {moduleKvp.Value.Length} genes, variance explained: {meResult.VarianceExplained:P}")
         Next
 
         result.moduleEigengenes = eigengeneDict
