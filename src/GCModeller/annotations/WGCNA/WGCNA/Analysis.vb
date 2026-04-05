@@ -77,6 +77,9 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports System.Drawing
 #End If
 
+''' <summary>
+''' WGCNA分析主模块
+''' </summary>
 Public Module Analysis
 
     ''' <summary>
