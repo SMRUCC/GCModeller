@@ -52,17 +52,14 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports Microsoft.VisualBasic.Math.Matrix
-Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
-Imports std = System.Math
-Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports std = System.Math
 
 ''' <summary>
 ''' WGCNA模块与表型相关性分析模块
@@ -131,13 +128,13 @@ Public Module ModulePhenotype
         Next
 
         ' 执行PCA
-        Dim pcaResult = pcaInput.PrincipalComponentAnalysis(maxPC:=1)
+        Dim pcaResult As MultivariateAnalysisResult = pcaInput.CommonDataSet(validGenes.ToArray).PrincipalComponentAnalysis(maxPC:=1)
 
         ' 获取第一主成分得分作为模块特征基因
-        Dim eigengene As Double() = pcaResult.GetPCAScore(0)
+        Dim eigengene As Double() = pcaResult.GetPCAScore()!PC1
 
         ' 计算方差解释比例
-        Dim varianceExplained As Double = pcaResult.ProportionOfVariance(0)
+        Dim varianceExplained As Double = pcaResult.Contributions(0)
 
         Return New ModuleEigengeneResult With {
             .ModuleName = moduleName,
