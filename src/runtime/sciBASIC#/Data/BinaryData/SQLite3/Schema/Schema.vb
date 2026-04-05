@@ -68,15 +68,25 @@ Namespace ManagedSqlite.Core.SQLSchema
         Public Property columns As NamedValue(Of String)()
         Public Property tableName As String
 
+        ReadOnly fieldSchema As New Dictionary(Of String, Integer)
+
         Public ReadOnly Property RawSql As String
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(sql$, Optional removeNameEscape As Boolean = True)
             Me.RawSql = sql
             Me.columns = ParseColumns(sql, removeNameEscape).ToArray
+
+            For Each col As NamedValue(Of String) In columns
+                Call fieldSchema.Add(col.Name, fieldSchema.Count)
+            Next
         End Sub
 
         Public Function GetOrdinal(column As String) As Integer
+            If fieldSchema.ContainsKey(column) Then
+                Return fieldSchema(column)
+            End If
+
             For i As Integer = 0 To columns.Length - 1
                 If column = columns(i).Name Then
                     Return i
