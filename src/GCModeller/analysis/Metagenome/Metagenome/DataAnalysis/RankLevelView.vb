@@ -57,7 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
@@ -150,7 +150,7 @@ Public Class RankLevelView : Implements IDynamicMeta(Of Double), INamedValue, IG
             Dim abundance As New Dictionary(Of String, Double)
             Dim otuList As String() = table.GetString(otus).StringSplit("\s*;\s*")
 
-            For Each sample In samples
+            For Each sample As KeyValuePair(Of String, Integer) In samples
                 Call abundance.Add(sample.Key, table.GetDouble(sample.Value))
             Next
 

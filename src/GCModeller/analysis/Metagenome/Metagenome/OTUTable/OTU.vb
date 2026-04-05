@@ -55,6 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -68,24 +69,23 @@ Public Module OTU
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateGastCountTabel(table As IEnumerable(Of OTUTable), sampleName$) As IEnumerable(Of gast.gastOUT)
-        Return table _
-            .Select(Function(OTU)
-                        Return New gast.gastOUT With {
-                            .counts = OTU(sampleName),
-                            .distance = 0,
-                            .max_pcts = 1,
-                            .minrank = 1,
-                            .na_pcts = 0,
-                            .rank = 1,
-                            .read_id = OTU.ID,
-                            .refhvr_ids = 1,
-                            .refssu_count = 1,
-                            .taxa_counts = 1,
-                            .taxonomy = OTU.taxonomy.ToString(BIOMstyle:=True),
-                            .vote = 1
-                        }
-                    End Function)
+    Iterator Public Function CreateGastCountTabel(table As IEnumerable(Of OTUTable), sampleName$) As IEnumerable(Of gast.gastOUT)
+        For Each OTU As OTUTable In table
+            Yield New gast.gastOUT With {
+                .counts = OTU(sampleName),
+                .distance = 0,
+                .max_pcts = 1,
+                .minrank = 1,
+                .na_pcts = 0,
+                .rank = 1,
+                .read_id = OTU.ID,
+                .refhvr_ids = 1,
+                .refssu_count = 1,
+                .taxa_counts = 1,
+                .taxonomy = OTU.taxonomy.ToString(BIOMstyle:=True),
+                .vote = 1
+            }
+        Next
     End Function
 
     ''' <summary>

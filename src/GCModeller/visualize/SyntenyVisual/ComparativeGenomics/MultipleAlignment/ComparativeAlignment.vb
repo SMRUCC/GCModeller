@@ -70,6 +70,8 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+
 
 #If NET48 Then
 Imports Brush = System.Drawing.Brush
