@@ -119,7 +119,7 @@ Public Class BetaTest
                             .medianK = K.Median,
                             .Power = beta,
                             .sftRsq = If(linear.R_square.IsNaNImaginary, 0, linear.R_square),
-                            .slope = If(linear.Slope.IsNaNImaginary, 0, linear.R_square),
+                            .slope = If(linear.Slope.IsNaNImaginary, 0, linear.Slope),
                             .truncatedRsq = If(linear.AdjustR_square.IsNaNImaginary, 0, linear.AdjustR_square)
                         }
                     End Function)

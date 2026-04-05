@@ -97,7 +97,7 @@ Public Module TOM
         Dim wmat As Double()() = W.Array
 
         For i As Integer = 0 To wmat.Length - 1
-            For j As Integer = 0 To wmat.Length - 1
+            For j As Integer = 0 To wmat(i).Length - 1
                 wmat(i)(j) = (Imat(i, j) + A(i, j)) / (std.Min(K(i), K(j)) + 1 - A(i, j))
             Next
         Next
