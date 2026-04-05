@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.ModulePhenotypeCorrelation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ModulePhenotypeCorrelation {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ModulePhenotypeCorrelation</h2>
+
+        <h3>Description</h3>
+
+        <p>模块与表型相关性结果</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.WGCNA
+export class ModulePhenotypeCorrelation {
+   # 相关系数的绝对值
+   AbsoluteCorrelation: double;
+   # 相关系数
+   Correlation: double;
+   # 是否显著（默认p < 0.05）
+   IsSignificant: boolean;
+   # 模块名称
+   ModuleName: string;
+   # 表型名称
+   PhenotypeName: string;
+   # p值（统计显著性）
+   PValue: double;
+   # 样本数量
+   SampleCount: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
