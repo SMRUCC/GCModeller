@@ -81,9 +81,22 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             End Get
         End Property
 
+        ''' <summary>
+        ''' Get ncbi taxonomy information
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetTaxonomy() As Metagenomics.Taxonomy
-            Return OrganismHierarchy.ToTaxonomy
+            Dim tax = OrganismHierarchy.ToTaxonomy
+            Dim strain = gb.SourceFeature.Query("strain")
+
+            If Not strain.StringEmpty Then
+                tax.scientificName = tax.scientificName & " " & strain
+            End If
+
+            tax.ncbi_taxid = gb.Taxon
+
+            Return tax
         End Function
 
         Public Overrides Function ToString() As String
