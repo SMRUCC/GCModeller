@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c95d63a557d9eb9114972214b0f91370, R#\kegg_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::43d74dd1c3ddebec47d6cde8c4cf47b8, R#\kegg_kit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 11
-    '    Code Lines: 8 (72.73%)
+    '   Total Lines: 12
+    '    Code Lines: 9 (75.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (27.27%)
-    '     File Size: 205 B
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 237 B
 
 
     ' Class zzz

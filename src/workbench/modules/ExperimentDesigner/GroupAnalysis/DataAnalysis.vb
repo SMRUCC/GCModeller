@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae31dfd4bd762e886dfcc60716521b04, modules\ExperimentDesigner\DataAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::1313884a71b3d8d40d7b6baeff3357ea, modules\ExperimentDesigner\GroupAnalysis\DataAnalysis.vb"
 
     ' Author:
     ' 
@@ -34,27 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 94
-    '    Code Lines: 55 (58.51%)
-    ' Comment Lines: 26 (27.66%)
+    '   Total Lines: 67
+    '    Code Lines: 43 (64.18%)
+    ' Comment Lines: 15 (22.39%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (13.83%)
-    '     File Size: 2.92 KB
+    '   Blank Lines: 9 (13.43%)
+    '     File Size: 1.95 KB
 
 
     ' Class DataAnalysis
     ' 
     '     Properties: control, designs, experiment, size
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: ToString
-    ' 
-    ' Class DataGroup
-    ' 
-    '     Properties: color, sample_id, sampleGroup, shape
-    ' 
-    '     Function: CreateDataGroups
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: GenericEnumerator, ToString
     ' 
     ' /********************************************************************************/
 
@@ -127,4 +121,3 @@ Public Class DataAnalysis : Implements Enumeration(Of DataGroup)
         Next
     End Function
 End Class
-

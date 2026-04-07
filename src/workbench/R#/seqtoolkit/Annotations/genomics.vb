@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15f6d92030985c9fa2786adb4f2d5e7e, R#\seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::f49a007690fc609d91a662140fe3ecd7, R#\seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 175
-    '    Code Lines: 132 (75.43%)
-    ' Comment Lines: 21 (12.00%)
-    '    - Xml Docs: 90.48%
+    '   Total Lines: 247
+    '    Code Lines: 174 (70.45%)
+    ' Comment Lines: 43 (17.41%)
+    '    - Xml Docs: 95.35%
     ' 
-    '   Blank Lines: 22 (12.57%)
-    '     File Size: 6.71 KB
+    '   Blank Lines: 30 (12.15%)
+    '     File Size: 9.33 KB
 
 
     ' Module genomics
     ' 
-    '     Function: asPTT, asTable, genes, getUpstream, getUpStream
-    '               PTT2Dump, readGtf, writePPTTabular
+    '     Function: asPTT, asTable, extract_gff_seqs, genes, getUpstream
+    '               getUpStream, gff_features, operon_set, PTT2Dump, read_nucmer
+    '               readGff, readGtf, writePPTTabular
     ' 
     ' /********************************************************************************/
 

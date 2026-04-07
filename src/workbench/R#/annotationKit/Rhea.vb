@@ -1,53 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::63b759e8670b42da4f65f275790c3b83, R#\annotationKit\Rhea.vb"
+﻿#Region "Microsoft.VisualBasic::ef58476319d10fe7f97aee9a0bdd987a, R#\annotationKit\Rhea.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 35
-'    Code Lines: 14 (40.00%)
-' Comment Lines: 18 (51.43%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 3 (8.57%)
-'     File Size: 1.24 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Rhea
-' 
-'     Function: load_reactions, openRDF
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 61 (60.40%)
+    ' Comment Lines: 27 (26.73%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 13 (12.87%)
+    '     File Size: 3.99 KB
+
+
+    ' Module Rhea
+    ' 
+    '     Function: load_brenda_enzymes, load_reactions, LoadEnzymes, openRDF, reactionTable
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

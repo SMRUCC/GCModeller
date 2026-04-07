@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::af4544a2edac6bfa850e5b8cf954041a, R#\kegg_kit\report.vb"
+﻿#Region "Microsoft.VisualBasic::e458e8dbc78ec7420152d75fe1ed92e6, R#\kegg_kit\report.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 344
-'    Code Lines: 236 (68.60%)
-' Comment Lines: 72 (20.93%)
-'    - Xml Docs: 91.67%
-' 
-'   Blank Lines: 36 (10.47%)
-'     File Size: 14.46 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module report
-' 
-'     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, MapRender
-'               parseHighlightTuples, parseUrl, plotKEGGMap, renderMapHighlights, renderMapHtml
-'               showReportHtml, singleColor, url
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 395
+    '    Code Lines: 255 (64.56%)
+    ' Comment Lines: 101 (25.57%)
+    '    - Xml Docs: 87.13%
+    ' 
+    '   Blank Lines: 39 (9.87%)
+    '     File Size: 16.47 KB
+
+
+    ' Module report
+    ' 
+    '     Function: checkIntersection, fromTable, getHighlightObjects, loadMap, loadNodeImages
+    '               MapRender, parseHighlightTuples, parseUrl, plotKEGGMap, render_kgml
+    '               renderMapHighlights, renderMapHtml, showReportHtml, singleColor, url
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

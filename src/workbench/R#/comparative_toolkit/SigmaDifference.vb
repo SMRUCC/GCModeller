@@ -1,59 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::dc392762c7734fec32a780a5b2e2a66e, R#\seqtoolkit\SigmaDifference.vb"
+﻿#Region "Microsoft.VisualBasic::741247dc33fabb0ea321caafe55687cc, R#\comparative_toolkit\SigmaDifference.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 920
-'    Code Lines: 666 (72.39%)
-' Comment Lines: 131 (14.24%)
-'    - Xml Docs: 86.26%
-' 
-'   Blank Lines: 123 (13.37%)
-'     File Size: 47.20 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module SigmaDifference
-' 
-'     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
-'               __compileSigma, __genomeSigmaDiff, __getSequence, __group, __mergeDelta
-'               (+2 Overloads) __process, __query, __readSeq, __readSequence, __samples
-'               __sigmaCompareWith, BatchCalculation, BatchCalculation2, Compile, CompileCABIAS
-'               CompileCAIBIASCalculationThread, CreateChromesomePartitioningData, GenerateDeltaDiffReport, GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity
-'               MergeDelta, PartionDataCreates, PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData
-'               ReadPartitioningData, SigmaCompareWith, SiteDataLoad, WritePartionalData
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 921
+    '    Code Lines: 667 (72.42%)
+    ' Comment Lines: 131 (14.22%)
+    '    - Xml Docs: 86.26%
+    ' 
+    '   Blank Lines: 123 (13.36%)
+    '     File Size: 47.17 KB
+
+
+    ' Module SigmaDifference
+    ' 
+    '     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
+    '               __compileSigma, __genomeSigmaDiff, __getSequence, __group, __mergeDelta
+    '               (+2 Overloads) __process, __query, __readSeq, __readSequence, __samples
+    '               __sigmaCompareWith, BatchCalculation, BatchCalculation2, Compile, CompileCABIAS
+    '               CompileCAIBIASCalculationThread, CreateChromesomePartitioningData, GenerateDeltaDiffReport, GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity
+    '               MergeDelta, PartionDataCreates, PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData
+    '               ReadPartitioningData, SigmaCompareWith, SiteDataLoad, WritePartionalData
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

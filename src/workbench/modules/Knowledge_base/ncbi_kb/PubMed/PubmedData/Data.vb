@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a80fe60307ee3cf8781e8e4da836e5ad, modules\Knowledge_base\ncbi_kb\PubMed\PubmedData\Data.vb"
+﻿#Region "Microsoft.VisualBasic::a07d5e8ca31f28fb7ebe0e26bca6fea6, modules\Knowledge_base\ncbi_kb\PubMed\PubmedData\Data.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 27
-    '    Code Lines: 19 (70.37%)
+    '   Total Lines: 35
+    '    Code Lines: 25 (71.43%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (29.63%)
-    '     File Size: 659 B
+    '   Blank Lines: 10 (28.57%)
+    '     File Size: 813 B
 
 
     '     Class History
@@ -53,6 +53,7 @@
     ' 
     '         Properties: ID, IdType
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 

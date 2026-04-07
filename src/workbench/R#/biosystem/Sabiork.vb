@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b4af0aef0b0a6f6a3b7d32b5ce310ed, R#\biosystem\Sabiork.vb"
+﻿#Region "Microsoft.VisualBasic::58add8d380b01372499685aac9d62308, R#\biosystem\Sabiork.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 127
-    '    Code Lines: 90 (70.87%)
-    ' Comment Lines: 23 (18.11%)
+    '   Total Lines: 128
+    '    Code Lines: 91 (71.09%)
+    ' Comment Lines: 23 (17.97%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (11.02%)
-    '     File Size: 4.94 KB
+    '   Blank Lines: 14 (10.94%)
+    '     File Size: 4.97 KB
 
 
     ' Module sabiork_repository

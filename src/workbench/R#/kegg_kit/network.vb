@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::75abb30cb0308c471a6ce085f99650cd, R#\kegg_kit\network.vb"
+﻿#Region "Microsoft.VisualBasic::2fffc62aae6f627cb305f524a4a5f3df, R#\kegg_kit\network.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 68
-'    Code Lines: 43 (63.24%)
-' Comment Lines: 18 (26.47%)
-'    - Xml Docs: 88.89%
-' 
-'   Blank Lines: 7 (10.29%)
-'     File Size: 2.70 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module network
-' 
-'     Function: assignKeggClass, fromCompoundId
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 105 (75.00%)
+    ' Comment Lines: 18 (12.86%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 17 (12.14%)
+    '     File Size: 5.92 KB
+
+
+    ' Module network
+    ' 
+    '     Function: assignKeggClass, fromCompoundId, fromKgml, gsva_network
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

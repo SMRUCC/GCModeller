@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::854177ea1acb81ca2050acb7de43ff6e, modules\ExperimentDesigner\Templates\Time_series.vb"
+﻿#Region "Microsoft.VisualBasic::ebe84e8c6edd38a49cb459011aab8047, modules\ExperimentDesigner\Templates\Time_series.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 3
-    '    Code Lines: 2 (66.67%)
+    '   Total Lines: 5
+    '    Code Lines: 3 (60.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 1 (33.33%)
-    '     File Size: 59 B
+    '   Blank Lines: 2 (40.00%)
+    '     File Size: 102 B
 
 
     ' Class Time_series
     ' 
-    ' 
+    '     Properties: TimePoint
     ' 
     ' /********************************************************************************/
 

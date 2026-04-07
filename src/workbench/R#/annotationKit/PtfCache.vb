@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b00603ba2816840afed27b79cc49629e, R#\annotationKit\PtfCache.vb"
+﻿#Region "Microsoft.VisualBasic::324de6496e35f026c99041d2dc635cec, R#\annotationKit\PtfCache.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 277
-    '    Code Lines: 206 (74.37%)
-    ' Comment Lines: 42 (15.16%)
+    '   Total Lines: 511
+    '    Code Lines: 380 (74.36%)
+    ' Comment Lines: 66 (12.92%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 29 (10.47%)
-    '     File Size: 10.90 KB
+    '   Blank Lines: 65 (12.72%)
+    '     File Size: 20.48 KB
 
 
     ' Module PTFCache
     ' 
-    '     Function: createCluster, getDatabaseList, IDMapping, loadModel, loadXrefs
-    '               readPtf, summaryofXrefs, writePtfFile, writePtfInternal
+    '     Function: createCluster, fromDataframe, getDatabaseList, IDMapping, loadModel
+    '               loadXrefs, name_xrefs, ptfTable, readPtf, summaryofXrefs
+    '               (+2 Overloads) writePtfFile, writePtfInternal
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 

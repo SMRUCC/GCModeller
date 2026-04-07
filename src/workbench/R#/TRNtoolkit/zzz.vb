@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6ebc3b59ed7ad6c41625bfaa79aaaea, R#\TRNtoolkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::fc72c7d5f96f9c3f87cc1e51d031ee72, R#\TRNtoolkit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 7
-    '    Code Lines: 4 (57.14%)
+    '   Total Lines: 10
+    '    Code Lines: 7 (70.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (42.86%)
-    '     File Size: 100 B
+    '   Blank Lines: 3 (30.00%)
+    '     File Size: 177 B
 
 
     ' Class zzz
     ' 
-    ' 
+    '     Sub: onLoad
     ' 
     ' /********************************************************************************/
 

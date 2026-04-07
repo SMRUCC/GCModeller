@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, R#\TRNtoolkit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::9f45018c285691ac4204fa96674d86f7, R#\TRNtoolkit\WGCNA.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 73
-    '    Code Lines: 47 (64.38%)
-    ' Comment Lines: 15 (20.55%)
+    '   Total Lines: 139
+    '    Code Lines: 103 (74.10%)
+    ' Comment Lines: 15 (10.79%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (15.07%)
-    '     File Size: 2.68 KB
+    '   Blank Lines: 21 (15.11%)
+    '     File Size: 5.71 KB
 
 
     ' Module WGCNA
     ' 
-    '     Function: CorrelationNetwork, FilterRegulation
+    '     Function: CorrelationNetwork, (+2 Overloads) expr_cor, FilterRegulation
     ' 
     ' /********************************************************************************/
 

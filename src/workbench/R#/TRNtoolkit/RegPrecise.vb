@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::f6291955274e322858805c3063e26d94, R#\TRNtoolkit\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::7e2adbaae9d5f79bddbae6d73780e33d, R#\TRNtoolkit\RegPrecise.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 150
-'    Code Lines: 118 (78.67%)
-' Comment Lines: 14 (9.33%)
-'    - Xml Docs: 35.71%
-' 
-'   Blank Lines: 18 (12.00%)
-'     File Size: 10.90 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module RegPrecise
-' 
-'     Function: exportRegPrecise, FromGenome, readMotifSites, readOperon, readRegPrecise
-'               readRegulators, readRegulome, regJoin
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 236
+    '    Code Lines: 179 (75.85%)
+    ' Comment Lines: 26 (11.02%)
+    '    - Xml Docs: 61.54%
+    ' 
+    '   Blank Lines: 31 (13.14%)
+    '     File Size: 14.52 KB
+
+
+    ' Module RegPrecise
+    ' 
+    '     Function: exportRegPrecise, FromGenome, match_taxonomy, readMotifSites, readOperon
+    '               readRegPrecise, readRegulators, readRegulome, regJoin, writeRegprecise
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::3645e9393ece5c9e64325b1ecbc9c030, R#\kegg_kit\profiles.vb"
+﻿#Region "Microsoft.VisualBasic::52b52d642500428a6da457978df24ced, R#\kegg_kit\profiles.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 235
-'    Code Lines: 187 (79.57%)
-' Comment Lines: 19 (8.09%)
-'    - Xml Docs: 89.47%
-' 
-'   Blank Lines: 29 (12.34%)
-'     File Size: 10.25 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module profiles
-' 
-'     Function: CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping, KEGGCategoryProfiles
-'               KOpathwayProfiles, MapCategory
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 355
+    '    Code Lines: 282 (79.44%)
+    ' Comment Lines: 34 (9.58%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 39 (10.99%)
+    '     File Size: 15.28 KB
+
+
+    ' Module profiles
+    ' 
+    '     Function: AssembleBackground, CompoundPathwayIndex, CompoundPathwayProfiles, FluxMapProfiles, GetProfileMapping
+    '               KEGGCategoryProfiles, KOpathwayProfiles, MapCategory, MapToCluster
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

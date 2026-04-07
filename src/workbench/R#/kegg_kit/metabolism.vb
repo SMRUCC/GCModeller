@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c3174b9215a20e7916eb45a4ec0270a, R#\kegg_kit\metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::88c74ccbedf287d7a458bfbb4d448a95, R#\kegg_kit\metabolism.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 156
-    '    Code Lines: 90 (57.69%)
-    ' Comment Lines: 45 (28.85%)
-    '    - Xml Docs: 82.22%
+    '   Total Lines: 185
+    '    Code Lines: 114 (61.62%)
+    ' Comment Lines: 47 (25.41%)
+    '    - Xml Docs: 82.98%
     ' 
-    '   Blank Lines: 21 (13.46%)
-    '     File Size: 5.78 KB
+    '   Blank Lines: 24 (12.97%)
+    '     File Size: 7.70 KB
 
 
     ' Module metabolism
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex, PickNetwork
+    '     Function: compoundSummaryTable, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
+    '               PickNetwork
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 

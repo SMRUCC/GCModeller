@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af487e681c1b6aa927f2c849f62cf196, modules\Knowledge_base\ncbi_kb\PubMed\PubMedServicesExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::6cf5ce26f5210d47b162a05546f273f7, modules\Knowledge_base\ncbi_kb\PubMed\PubMedServicesExtensions.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 179
-    '    Code Lines: 108 (60.34%)
-    ' Comment Lines: 46 (25.70%)
+    '   Total Lines: 101
+    '    Code Lines: 41 (40.59%)
+    ' Comment Lines: 46 (45.54%)
     '    - Xml Docs: 13.04%
     ' 
-    '   Blank Lines: 25 (13.97%)
-    '     File Size: 7.49 KB
+    '   Blank Lines: 14 (13.86%)
+    '     File Size: 4.35 KB
 
 
     '     Module PubMedServicesExtensions
     ' 
-    '         Function: GetArticleInfo, MetaLines, ParseArticles, QueryPubmed, QueryPubmedRaw
-    ' 
-    '         Sub: setDoi
+    '         Function: ParseArticles, QueryPubmed, QueryPubmedRaw
     ' 
     ' 
     ' /********************************************************************************/

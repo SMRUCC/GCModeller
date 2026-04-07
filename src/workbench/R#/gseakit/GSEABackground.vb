@@ -1,60 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::c19d5458783c9bff25937cc971cd262b, R#\gseakit\GSEABackground.vb"
+﻿#Region "Microsoft.VisualBasic::33f0c4dec31b5917b2b403554d13463d, R#\gseakit\GSEABackground.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 1006
-'    Code Lines: 675 (67.10%)
-' Comment Lines: 231 (22.96%)
-'    - Xml Docs: 94.81%
-' 
-'   Blank Lines: 100 (9.94%)
-'     File Size: 41.05 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module GSEABackground
-' 
-'     Function: appendIdTerms, asGenesetList, assembleBackground, BackgroundIDmapping, backgroundSummary
-'               backgroundTabular, clusterIDs, ClusterIntersections, create_metpa, CreateCluster
-'               createGene, CreateKOBackground, CreateKOReference, DAGbackground, flatDAGBackground
-'               (+2 Overloads) geneSetAnnotation, GetCluster, getMemberItem, (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground
-'               KOTable, metabolismBackground, MetaEnrichBackground, moleculeIDs, ParsePathwayObject
-'               PrintBackground, ReadBackground, WriteBackground
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 1447
+    '    Code Lines: 965 (66.69%)
+    ' Comment Lines: 342 (23.64%)
+    '    - Xml Docs: 92.69%
+    ' 
+    '   Blank Lines: 140 (9.68%)
+    '     File Size: 59.70 KB
+
+
+    ' Module GSEABackground
+    ' 
+    '     Function: appendIdTerms, asGenesetList, assembleBackground, backgroundFromList, backgroundGeneIdTable
+    '               BackgroundIDmapping, backgroundSummary, backgroundTabular, clusterFilter, ClusterFilter
+    '               clusterIDs, ClusterIntersections, clusterNames, create_metpa, CreateCluster
+    '               (+2 Overloads) createGene, CreateKOBackground, CreateKOReference, cut_background, DAGbackground
+    '               flatDAGBackground, (+2 Overloads) geneSetAnnotation, GetCluster, getMemberItem, getTermId
+    '               (+2 Overloads) id_translation, KEGGCompoundBriteClassBackground, KOTable, metabolismBackground, MetaEnrichBackground
+    '               moleculeIDs, ParsePathwayObject, PrintBackground, ReadBackground, WriteBackground
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

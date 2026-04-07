@@ -1,4 +1,65 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::66d7fa39709ff8551e59b7fb5fae2a17, R#\metagenomics_kit\Kmers.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 835
+    '    Code Lines: 593 (71.02%)
+    ' Comment Lines: 116 (13.89%)
+    '    - Xml Docs: 83.62%
+    ' 
+    '   Blank Lines: 126 (15.09%)
+    '     File Size: 36.41 KB
+
+
+    ' Module KmersTool
+    ' 
+    '     Function: bayes_background, bayes_estimate, bloom_filter, bloom_vector, bracken_table
+    '               filter_classification, filter_hostId, filter_reads, format_kraken_seqs, gene_seqs
+    '               genomics_nt, get_kraken_data, hitTable, kraken2Table, load_background
+    '               make_classify, make_vector, parse_kraken_output, parse_kraken_report, quantify
+    '               read_bracken, read_kraken_reads, read_kraken_report, readKmerBloomFilter, reads_hits_matrix
+    '               readSequenceDb, scanBloomDatabase, seqTable, sequenceInfo, taxonomy_expression
+    '               write_background, writeKmerBloomFilter
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -833,3 +894,4 @@ Module KmersTool
         Next
     End Function
 End Module
+

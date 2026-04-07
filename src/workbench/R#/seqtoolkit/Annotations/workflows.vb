@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efeecf06cd055cce3005fd3ce1f0a853, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::13e91d2e0f99be416b37d9fb18530b03, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 338
-    '    Code Lines: 268 (79.29%)
-    ' Comment Lines: 35 (10.36%)
+    '   Total Lines: 532
+    '    Code Lines: 399 (75.00%)
+    ' Comment Lines: 77 (14.47%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 35 (10.36%)
-    '     File Size: 15.77 KB
+    '   Blank Lines: 56 (10.53%)
+    '     File Size: 24.80 KB
 
 
     ' Module workflows
     ' 
-    '     Function: ExportBBHHits, ExportSBHHits, FilterBesthitStream, flush, grepNames
-    '               openBlastReader, openWriter, parseBlastnMaps
+    '     Function: blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits, filter_low_level
+    '               FilterBesthitStream, flush, grepNames, openBlastReader, openWriter
+    '               parseBlastnMaps, read_bbhhits, read_besthits, read_m8, removeProteinSufifx
     ' 
-    '     Sub: writeStreamHelper
+    '     Sub: Main, writeStreamHelper
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4edda3117569b3af7f57ccdd51ef2f3e, modules\keggReport\ReportRender.vb"
+﻿#Region "Microsoft.VisualBasic::fe867d67f4c3a237ca17f57eb1758a50, modules\keggReport\ReportRender.vb"
 
     ' Author:
     ' 
@@ -34,24 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 149
-    '    Code Lines: 112 (75.17%)
-    ' Comment Lines: 21 (14.09%)
-    '    - Xml Docs: 85.71%
+    '   Total Lines: 131
+    '    Code Lines: 102 (77.86%)
+    ' Comment Lines: 17 (12.98%)
+    '    - Xml Docs: 82.35%
     ' 
-    '   Blank Lines: 16 (10.74%)
-    '     File Size: 5.59 KB
+    '   Blank Lines: 12 (9.16%)
+    '     File Size: 5.16 KB
 
 
     ' Class ReportRender
     ' 
     '     Function: (+3 Overloads) CreateMap, (+3 Overloads) Render
-    ' 
-    ' Class MapShape
-    ' 
-    '     Properties: entities, isEntity, location, shape, title
-    ' 
-    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -188,5 +182,3 @@ Public Class ReportRender
         Return Render(map, MapHighlights.CreateAuto(highlights), text_color)
     End Function
 End Class
-
-

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae5a7cd9c004ad7c345fd5ecd51d7a60, R#\seqtoolkit\proteinKit.vb"
+﻿#Region "Microsoft.VisualBasic::dcd8b858bb0b2ea176c0b60d458982d4, R#\seqtoolkit\proteinKit.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 287
-    '    Code Lines: 121 (42.16%)
-    ' Comment Lines: 138 (48.08%)
-    '    - Xml Docs: 91.30%
+    '   Total Lines: 343
+    '    Code Lines: 169 (49.27%)
+    ' Comment Lines: 139 (40.52%)
+    '    - Xml Docs: 90.65%
     ' 
-    '   Blank Lines: 28 (9.76%)
-    '     File Size: 12.96 KB
+    '   Blank Lines: 35 (10.20%)
+    '     File Size: 15.26 KB
 
 
     ' Module proteinKit
     ' 
-    '     Function: (+2 Overloads) ChouFasman, kmer_fingerprint, kmer_graph, parsePdb, pdbModels
-    '               readPdb
+    '     Function: (+2 Overloads) ChouFasman, enzymeBuilder, kmer_fingerprint, kmer_graph, ligands
+    '               parsePdb, pdb_centroid, pdbModels, predict_sequence, readPdb
     ' 
     ' /********************************************************************************/
 

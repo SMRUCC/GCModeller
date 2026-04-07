@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::526c669b2b106372d1f36af1e529f4a4, R#\gseakit\UniProt.vb"
+﻿#Region "Microsoft.VisualBasic::09c4ef26696980af7978b4f1a609085c, R#\gseakit\UniProt.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 115
-    '    Code Lines: 79 (68.70%)
-    ' Comment Lines: 24 (20.87%)
+    '   Total Lines: 121
+    '    Code Lines: 83 (68.60%)
+    ' Comment Lines: 24 (19.83%)
     '    - Xml Docs: 95.83%
     ' 
-    '   Blank Lines: 12 (10.43%)
-    '     File Size: 4.42 KB
+    '   Blank Lines: 14 (11.57%)
+    '     File Size: 4.67 KB
 
 
     ' Module UniProt

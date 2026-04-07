@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccac4366411fb0dc3f3d83d915679889, R#\metagenomics_kit\BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::4996f7e15b54b86abcdf5038b7866791, R#\metagenomics_kit\BIOMkit.vb"
 
     ' Author:
     ' 

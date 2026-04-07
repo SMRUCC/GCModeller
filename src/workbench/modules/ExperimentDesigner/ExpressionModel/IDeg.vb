@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::604211e1740ebb171e1a90d78a320032, modules\ExperimentDesigner\Ideg.vb"
+﻿#Region "Microsoft.VisualBasic::604211e1740ebb171e1a90d78a320032, modules\ExperimentDesigner\ExpressionModel\IDeg.vb"
 
     ' Author:
     ' 

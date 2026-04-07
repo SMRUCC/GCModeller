@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74bb28df70462b87d6eefae558c36d94, R#\kegg_kit\repository.vb"
+﻿#Region "Microsoft.VisualBasic::78a6a7211c1bd2671210da55d9f1820a, R#\kegg_kit\repository.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 918
-    '    Code Lines: 667 (72.66%)
-    ' Comment Lines: 160 (17.43%)
+    '   Total Lines: 922
+    '    Code Lines: 670 (72.67%)
+    ' Comment Lines: 160 (17.35%)
     '    - Xml Docs: 96.25%
     ' 
-    '   Blank Lines: 91 (9.91%)
-    '     File Size: 39.31 KB
+    '   Blank Lines: 92 (9.98%)
+    '     File Size: 39.39 KB
 
 
     ' Module repository
@@ -48,10 +48,11 @@
     '     Function: createCompound, FetchKEGGOrganism, getCompoundsId, getEnzymeClassDescription, getReactionsId
     '               index, keggMap, LoadCompoundRepo, loadMapRepository, LoadPathways
     '               loadReactionClassRaw, loadReactionClassTable, LoadReactionRepo, parseMapsFromFile, pathway
-    '               reaction, reaction_class, readKeggCompounds, readKeggMaps, ReadKEGGOrganism
-    '               readKEGGpathway, readKeggReactions, SaveKEGGOrganism, SaveKEGGPathway, shapeAreas
-    '               showMapTable, showTable, TableOfReactions, writeKeggCompounds, writeKeggCompoundSet
-    '               writeKeggMaps, writeKeggMapSet, writeKeggReactions, writeKeggReactionSet, writeMessagePack
+    '               reaction, reaction_class, read_kgml, readKeggCompounds, readKeggMaps
+    '               ReadKEGGOrganism, readKEGGpathway, readKeggReactions, SaveKEGGOrganism, SaveKEGGPathway
+    '               shapeAreas, showMapTable, showTable, TableOfReactions, writeKeggCompounds
+    '               writeKeggCompoundSet, writeKeggMaps, writeKeggMapSet, writeKeggReactions, writeKeggReactionSet
+    '               writeMessagePack
     ' 
     '     Sub: Main
     ' 

@@ -1,53 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::f1995bff75da5ac8424857856c48d9b4, R#\TRNtoolkit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::ef4e77d7e7e3247e42f94b574c9b2731, R#\TRNtoolkit\TRNBuilder.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 216
-'    Code Lines: 127 (58.80%)
-' Comment Lines: 61 (28.24%)
-'    - Xml Docs: 32.79%
-' 
-'   Blank Lines: 28 (12.96%)
-'     File Size: 9.79 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module TRNBuilder
-' 
-'     Function: readFootprintSites, readRegulations, RegulationFootprint, writeRegulationFootprints
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 276
+    '    Code Lines: 183 (66.30%)
+    ' Comment Lines: 57 (20.65%)
+    '    - Xml Docs: 35.09%
+    ' 
+    '   Blank Lines: 36 (13.04%)
+    '     File Size: 12.80 KB
+
+
+    ' Module TRNBuilder
+    ' 
+    '     Function: motif_search, open_motifdb, readFootprintSites, readRegulations, RegulationFootprint
+    '               writeRegulationFootprints
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

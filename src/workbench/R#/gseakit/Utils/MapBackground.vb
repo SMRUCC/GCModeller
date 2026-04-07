@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0913bc59a74837bef8cd594c787702c0, R#\gseakit\Utils\MapBackground.vb"
+﻿#Region "Microsoft.VisualBasic::c3850c63ef4ea7ce5946ac525f990ae7, R#\gseakit\Utils\MapBackground.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 143
-    '    Code Lines: 119 (83.22%)
-    ' Comment Lines: 10 (6.99%)
+    '   Total Lines: 146
+    '    Code Lines: 122 (83.56%)
+    ' Comment Lines: 10 (6.85%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (9.79%)
-    '     File Size: 6.21 KB
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 6.52 KB
 
 
     ' Module MapBackground

@@ -1,58 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::0f2df20fc8a584d7d787020aaf7debf1, R#\seqtoolkit\Annotations\context.vb"
+﻿#Region "Microsoft.VisualBasic::5ecb2eda0ff4df8905a817015b7a6e96, R#\seqtoolkit\Annotations\context.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 203
-'    Code Lines: 138 (67.98%)
-' Comment Lines: 40 (19.70%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 25 (12.32%)
-'     File Size: 7.62 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module context
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: context, contextSummary, getNtLocation, getStrand, isForward
-'               location, offsetLocation, relationship, strandFilter
-' 
-'     Sub: Main
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 330
+    '    Code Lines: 228 (69.09%)
+    ' Comment Lines: 60 (18.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 42 (12.73%)
+    '     File Size: 13.43 KB
+
+
+    ' Module context
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: context, contextSummary, getNtLocation, getStrand, isForward
+    '               location, offsetLocation, relationship, set_context, strandFilter
+    '               TSS_upstream
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

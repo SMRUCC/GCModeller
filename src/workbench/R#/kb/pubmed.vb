@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf42a09661a9b4d09ad095dbfd004f41, R#\kb\pubmed.vb"
+﻿#Region "Microsoft.VisualBasic::d83a51a93d689cd8eaa8e99ebef42f12, R#\kb\pubmed.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 202
-    '    Code Lines: 130 (64.36%)
-    ' Comment Lines: 49 (24.26%)
+    '   Total Lines: 204
+    '    Code Lines: 132 (64.71%)
+    ' Comment Lines: 49 (24.02%)
     '    - Xml Docs: 89.80%
     ' 
-    '   Blank Lines: 23 (11.39%)
-    '     File Size: 8.23 KB
+    '   Blank Lines: 23 (11.27%)
+    '     File Size: 8.26 KB
 
 
     ' Module pubmed_tools

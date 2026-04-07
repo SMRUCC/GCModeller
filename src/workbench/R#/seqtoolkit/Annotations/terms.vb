@@ -1,56 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::384b5df159833b117e5acd310e689986, R#\seqtoolkit\Annotations\terms.vb"
+﻿#Region "Microsoft.VisualBasic::53bc9c179f00e67c0eba24d6191b5109, R#\seqtoolkit\Annotations\terms.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 147
-'    Code Lines: 104 (70.75%)
-' Comment Lines: 22 (14.97%)
-'    - Xml Docs: 95.45%
-' 
-'   Blank Lines: 21 (14.29%)
-'     File Size: 6.22 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module terms
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: COGannotations, COGtable, geneNames, GOannotations, KOannotations
-'               Pfamannotations, printIDSolver, readIdMappings, readMyvaCOG, saveIdMappings
-'               Synonyms
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 546
+    '    Code Lines: 400 (73.26%)
+    ' Comment Lines: 59 (10.81%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 87 (15.93%)
+    '     File Size: 24.88 KB
+
+
+    ' Module terms
+    ' 
+    '     Function: bbhTable, COGannotations, COGtable, geneNames, GOannotations
+    '               KOannotations, koTable, m8_metabolic_terms, make_vectors, Pfamannotations
+    '               printIDSolver, read_rankterms, read_vfdb, readIdMappings, readMyvaCOG
+    '               removesProteinIDSuffix, saveIdMappings, Synonyms, term_dataframe_table, term_table
+    '               TermAnnotations, tfidf_vectorizer, write_genomes, write_simple_vfdb
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

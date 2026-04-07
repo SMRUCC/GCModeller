@@ -1,56 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::ebd0f6501151744fbdff69bd0a551b9f, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::56a986a65ca2900327f5912714397994, R#\seqtoolkit\Annotations\genbankKit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 557
-'    Code Lines: 382 (68.58%)
-' Comment Lines: 109 (19.57%)
-'    - Xml Docs: 97.25%
-' 
-'   Blank Lines: 66 (11.85%)
-'     File Size: 21.64 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module genbankKit
-' 
-'     Function: accession_id, addFeature, addMeta, addproteinSeq, addRNAGene
-'               asGenbank, create_tabular, createFeature, enumerateFeatures, featureMeta
-'               getOrAddNtOrigin, getRNASeq, isPlasmidSource, keyNames, populateGenbanks
-'               Populates, readGenbank, Taxon_Id, writeGenbank
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 721
+    '    Code Lines: 473 (65.60%)
+    ' Comment Lines: 169 (23.44%)
+    '    - Xml Docs: 93.49%
+    ' 
+    '   Blank Lines: 79 (10.96%)
+    '     File Size: 29.15 KB
+
+
+    ' Module genbankKit
+    ' 
+    '     Function: accession_id, addFeature, addMeta, addproteinSeq, addRNAGene
+    '               asGenbank, create_tabular, createFeature, enumerateFeatures, exportGeneNtFasta
+    '               featureMeta, getOrAddNtOrigin, getRNASeq, isPlasmidSource, keyNames
+    '               populateGenbanks, Populates, read_genetable, readGenbank, Taxon_Id
+    '               taxonomy, writeGenbank
+    ' 
+    '     Sub: SetProteinSeqs
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

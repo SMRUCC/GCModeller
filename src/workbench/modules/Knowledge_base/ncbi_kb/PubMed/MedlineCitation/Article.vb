@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1e5d545db2ea3c6ce1eb625947e95c7, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Article.vb"
+﻿#Region "Microsoft.VisualBasic::53edbba1b1ac298c764839df62bb37a1, modules\Knowledge_base\ncbi_kb\PubMed\MedlineCitation\Article.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 181
-    '    Code Lines: 139 (76.80%)
+    '   Total Lines: 199
+    '    Code Lines: 152 (76.38%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 42 (23.20%)
-    '     File Size: 5.34 KB
+    '   Blank Lines: 47 (23.62%)
+    '     File Size: 5.69 KB
 
 
     '     Class PMID
     ' 
     '         Properties: ID, Version
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class Article
@@ -89,7 +90,7 @@
     ' 
     '         Properties: AbstractText, CopyrightInformation
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class ELocationID
@@ -108,6 +109,7 @@
     ' 
     '         Properties: ISOAbbreviation, ISSN, JournalIssue, Title
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class ISSN

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b16fb0ce153e06ae1b4b1693ae0b7a46, R#\seqtoolkit\Annotations\blastPlus.vb"
+﻿#Region "Microsoft.VisualBasic::ff2e0e9b31319610fcf5f6ce4513772e, R#\seqtoolkit\Annotations\blastPlus.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 78
-    '    Code Lines: 43 (55.13%)
-    ' Comment Lines: 21 (26.92%)
+    '   Total Lines: 77
+    '    Code Lines: 42 (54.55%)
+    ' Comment Lines: 21 (27.27%)
     '    - Xml Docs: 90.48%
     ' 
-    '   Blank Lines: 14 (17.95%)
-    '     File Size: 2.61 KB
+    '   Blank Lines: 14 (18.18%)
+    '     File Size: 2.57 KB
 
 
     ' Module blastPlusInterop

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7dadf2a47e74e8cf0a5b9f9be06d06df, R#\visualkit\visualPlot.vb"
+﻿#Region "Microsoft.VisualBasic::af06eb91e016d21f59bfa7baee317379, R#\visualkit\visualPlot.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 978
-    '    Code Lines: 723 (73.93%)
-    ' Comment Lines: 173 (17.69%)
-    '    - Xml Docs: 92.49%
+    '   Total Lines: 1080
+    '    Code Lines: 808 (74.81%)
+    ' Comment Lines: 178 (16.48%)
+    '    - Xml Docs: 90.45%
     ' 
-    '   Blank Lines: 82 (8.38%)
-    '     File Size: 45.53 KB
+    '   Blank Lines: 94 (8.70%)
+    '     File Size: 51.30 KB
 
 
     ' Module visualPlot
     ' 
     '     Function: CategoryProfilePlots, class_heatmap, ClassChangePlot, colorBends, delete
     '               DEMBarPlot, GoEnrichBubbles, KEGGCategoryProfile, KEGGCategoryProfilePlots, KEGGEnrichBubbles
-    '               keggEnrichmentBubble2, Plot, PlotCMeans3D, PlotExpressionPatterns, plotGSVA
-    '               plotSingle, toBubbles, VolcanoPlot
+    '               keggEnrichmentBubble2, MultipleComparesVolcano, PlotCMeans3D, PlotCMeansPatterns, PlotExpressionPatterns
+    '               plotGSVA, plotSingle, toBubbles, VolcanoPlot
     ' 
     '     Sub: DrawSampleColorBend, Main
     ' 

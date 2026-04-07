@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4876c71cad7217cc45866aef51f2974, R#\metagenomics_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::ca45b6ef1298b6d5e4ef7bb2c132f771, R#\metagenomics_kit\zzz.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 12
-    '    Code Lines: 9 (75.00%)
+    '   Total Lines: 14
+    '    Code Lines: 11 (78.57%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (25.00%)
-    '     File Size: 257 B
+    '   Blank Lines: 3 (21.43%)
+    '     File Size: 323 B
 
 
     ' Class zzz

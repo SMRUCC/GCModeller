@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a7c15a34a7267be3114b8bf60695c8f, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticle.vb"
+﻿#Region "Microsoft.VisualBasic::0ab818255adf408c14ab902f5c13d1a7, modules\Knowledge_base\ncbi_kb\PubMed\PubmedArticle.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 262
-    '    Code Lines: 169 (64.50%)
-    ' Comment Lines: 57 (21.76%)
+    '   Total Lines: 293
+    '    Code Lines: 194 (66.21%)
+    ' Comment Lines: 57 (19.45%)
     '    - Xml Docs: 91.23%
     ' 
-    '   Blank Lines: 36 (13.74%)
-    '     File Size: 10.91 KB
+    '   Blank Lines: 42 (14.33%)
+    '     File Size: 11.90 KB
 
 
     '     Class PubmedArticle
@@ -48,7 +48,7 @@
     '         Properties: MedlineCitation, PMID, PubmedData
     ' 
     '         Function: GetAbstractText, GetArticleDoi, GetAuthors, GetJournal, GetMeshTerms
-    '                   GetPublishYear, GetTitle, ToString
+    '                   GetOtherTerms, GetPublishYear, GetTitle, ToString
     ' 
     '     Class KeywordList
     ' 
@@ -60,6 +60,7 @@
     ' 
     '         Properties: Keyword, MajorTopicYN
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class MedlineCitation
@@ -74,6 +75,7 @@
     ' 
     '         Properties: DescriptorName, QualifierName
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     '     Class PubmedData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd10aa7e705b0b1e54584aa8f194f0f5, R#\annotationKit\NCBI.vb"
+﻿#Region "Microsoft.VisualBasic::9d03c6d3cd2b7073e3eb8e6a91a26271, R#\annotationKit\NCBI.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 13 (65.00%)
-    ' Comment Lines: 4 (20.00%)
+    '   Total Lines: 119
+    '    Code Lines: 73 (61.34%)
+    ' Comment Lines: 31 (26.05%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (15.00%)
-    '     File Size: 627 B
+    '   Blank Lines: 15 (12.61%)
+    '     File Size: 4.77 KB
 
 
     ' Module NCBI
     ' 
-    '     Function: genome_assembly_index
+    '     Function: find, genbank_assemblyDb, genome_assembly_index, index_subset
+    ' 
+    '     Sub: create_indexdb
     ' 
     ' /********************************************************************************/
 
