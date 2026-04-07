@@ -69,6 +69,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
 
+''' <summary>
+''' pan-genome analysis toolkit
+''' </summary>
 <Package("pangenome")>
 <RTypeExport("pangenome", GetType(PanGenomeResult))>
 <RTypeExport("ortho_groups", GetType(UnionFind))>

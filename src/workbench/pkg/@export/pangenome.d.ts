@@ -5,6 +5,7 @@
 // ref=comparative_toolkit.pangenome@comparative_toolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 
 /**
+ * pan-genome analysis toolkit
  * 
 */
 declare namespace pangenome {
