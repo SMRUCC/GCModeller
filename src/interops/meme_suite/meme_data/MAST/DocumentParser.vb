@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a708fa6475441a1dee263a95537a60e8, meme_suite\MEME.DocParser\MAST\DocumentParser.vb"
+﻿#Region "Microsoft.VisualBasic::d5fcd3be29112815d5885c335eca986e, meme_suite\meme_data\MAST\DocumentParser.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 231
+    '    Code Lines: 184 (79.65%)
+    ' Comment Lines: 14 (6.06%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 33 (14.29%)
+    '     File Size: 12.45 KB
+
+
     '     Module DocumentParser
     ' 
     '         Function: __createMEMEOutPut, __footPrintMatched, __getSiteId, __matchedResult, LoadDocument
-    '                   LoadDocument_v410, MatchMEMEAndMast, SaveMastCsv, SaveMastXml, SaveMatches
+    '                   LoadDocument_v410, MatchMEMEAndMast, SaveMastCsv, SaveMastXml
     ' 
     ' 
     ' /********************************************************************************/

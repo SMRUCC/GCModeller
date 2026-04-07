@@ -1,46 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::1704d236899a0ed2e66e058a9f122b7b, meme_suite\MEME.DocParser\ComponentModel\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::4de7f79a65fb2b21d0deae671679c594, meme_suite\meme_data\ComponentModel\MotifSite.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class MotifSite
-' 
-'         Properties: EValue, Family, gStart, gStop, Locus_tag
-'                     PValue, RightEndDownStream, Sequence, Signature, Start
-'                     Strand, Tag, uid
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 23 (39.66%)
+    ' Comment Lines: 27 (46.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (13.79%)
+    '     File Size: 2.23 KB
+
+
+    '     Class MotifSite
+    ' 
+    '         Properties: EValue, Family, gStart, gStop, Locus_tag
+    '                     PValue, RightEndDownStream, Sequence, Signature, Start
+    '                     Strand, Tag, uid
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

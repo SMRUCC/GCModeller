@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::048ba96c8636614c761a20ea41e0b0ff, meme_suite\MEME.DocParser\MAST\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::048ba96c8636614c761a20ea41e0b0ff, meme_suite\meme_data\MAST\Fasta.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 41 (85.42%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 2.40 KB
+
 
     '     Class FastaToken
     ' 

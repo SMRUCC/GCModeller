@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9fa7e26c66e639f738c4a43c44e4101, localblast\LocalBLAST\Pipeline\COG\Reports\MyvaCOG.vb"
+﻿#Region "Microsoft.VisualBasic::b10ea48e42ea4cb1aa2503f6a4a521d2, localblast\LocalBLAST\Pipeline\COG\Reports\MyvaCOG.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 68
-    '    Code Lines: 37 (54.41%)
-    ' Comment Lines: 23 (33.82%)
+    '   Total Lines: 67
+    '    Code Lines: 36 (53.73%)
+    ' Comment Lines: 23 (34.33%)
     '    - Xml Docs: 95.65%
     ' 
-    '   Blank Lines: 8 (11.76%)
-    '     File Size: 2.75 KB
+    '   Blank Lines: 8 (11.94%)
+    '     File Size: 2.69 KB
 
 
     '     Class MyvaCOG

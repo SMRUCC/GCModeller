@@ -1,62 +1,73 @@
-﻿#Region "Microsoft.VisualBasic::ee0efea00a581dfd1209abb530ba0e11, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb"
+﻿#Region "Microsoft.VisualBasic::a18e2b535088f2b6e215dde32a964c32, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BHR.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 248
-'    Code Lines: 134 (54.03%)
-' Comment Lines: 99 (39.92%)
-'    - Xml Docs: 82.83%
-' 
-'   Blank Lines: 15 (6.05%)
-'     File Size: 11.93 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Enum Levels
-' 
-'         BBH, NA, PartialBBH, SBH
-' 
-'  
-' 
-' 
-' 
-'     Module BHR
-' 
-'         Function: BHRResult, getHitRates, getTopBHR, HitRate, ReverseAssembly
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 400
+    '    Code Lines: 253 (63.25%)
+    ' Comment Lines: 107 (26.75%)
+    '    - Xml Docs: 82.24%
+    ' 
+    '   Blank Lines: 40 (10.00%)
+    '     File Size: 19.00 KB
+
+
+    '     Enum Levels
+    ' 
+    '         BBH, BHR, NA, SBH
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    '     Class BHRHit
+    ' 
+    '         Properties: BHRScore
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Module BHR
+    ' 
+    '         Function: BHRGroups, BHRResult, EvaluateBHR, GetHitRates, GetTopBHR
+    '                   HitRate, MakeBHRGroup, ReverseAssembly
+    ' 
+    '     Class TopHitRates
+    ' 
+    '         Properties: hits, htop, nhits, queryLength, queryName
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

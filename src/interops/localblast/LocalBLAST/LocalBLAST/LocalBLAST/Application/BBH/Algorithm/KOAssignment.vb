@@ -1,4 +1,66 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::2149d6a708549af759b8e951893013c8, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\KOAssignment.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 116 (45.31%)
+    ' Comment Lines: 109 (42.58%)
+    '    - Xml Docs: 73.39%
+    ' 
+    '   Blank Lines: 31 (12.11%)
+    '     File Size: 11.81 KB
+
+
+    '     Class KOAssignmentCandidate
+    ' 
+    '         Properties: AssignmentScore, empiricalProbability, KO, N, Sh
+    '                     X
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Module KOAssignmentScore
+    ' 
+    '         Function: AssignBestKO, CalculateAssignmentScore, KOCandidates, KOgeneCounts, Log2
+    '                   Log2BinomialCoefficient, Log2BinomialRightTailProbability
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
 

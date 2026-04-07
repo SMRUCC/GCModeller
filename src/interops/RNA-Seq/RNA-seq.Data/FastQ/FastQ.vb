@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94b1046252803bd7683e97fe908cbae5, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::ee88d26c4ae45f1aa54c0236630ae0fd, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 128
-    '    Code Lines: 39 (30.47%)
-    ' Comment Lines: 78 (60.94%)
-    '    - Xml Docs: 91.03%
+    '   Total Lines: 131
+    '    Code Lines: 43 (32.82%)
+    ' Comment Lines: 76 (58.02%)
+    '    - Xml Docs: 90.79%
     ' 
-    '   Blank Lines: 11 (8.59%)
-    '     File Size: 5.98 KB
+    '   Blank Lines: 12 (9.16%)
+    '     File Size: 6.14 KB
 
 
     '     Class FastQ
     ' 
-    '         Properties: Headers, Quality, SEQ_ID, SEQ_ID2, Title
+    '         Properties: Headers, Length, Quality, SEQ_ID, SEQ_Info
     ' 
-    '         Function: FastaqParser, (+2 Overloads) GetQualityOrder, ToString
+    '         Function: FastQParser, (+2 Overloads) GetQualityOrder, GetSequenceData, ToString
     ' 
     ' 
     ' /********************************************************************************/

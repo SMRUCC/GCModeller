@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d20c1b69781fa9e082eef269ba355c, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
+﻿#Region "Microsoft.VisualBasic::c0f49618dd907c6dadb89c7a1ba8ee5b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.89%
     ' 
     '   Blank Lines: 12 (12.63%)
-    '     File Size: 4.45 KB
+    '     File Size: 4.43 KB
 
 
     '     Class Operation

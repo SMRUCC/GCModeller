@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb94a86496b796171ed5d6621598698a, localblast\CLI_tools\CLI\BBH\SBH.vb"
+﻿#Region "Microsoft.VisualBasic::814fff8f28f311a93718d292eaeb4829, localblast\CLI_tools\CLI\BBH\SBH.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 385
-    '    Code Lines: 313 (81.30%)
-    ' Comment Lines: 7 (1.82%)
+    '   Total Lines: 402
+    '    Code Lines: 326 (81.09%)
+    ' Comment Lines: 7 (1.74%)
     '    - Xml Docs: 71.43%
     ' 
-    '   Blank Lines: 65 (16.88%)
-    '     File Size: 16.80 KB
+    '   Blank Lines: 69 (17.16%)
+    '     File Size: 17.45 KB
 
 
     ' Module CLI
     ' 
     '     Function: __evalueRow, __HitsRow, _2_KOBASOutput, AlignUnion, EvalueMatrix
-    '               ExportOverviews, ExportSBH, ExportSBHLargeSize, SBH_topHits
+    '               ExportBlastp, ExportOverviews, ExportSBH, ExportSBHLargeSize, SBH_topHits
     ' 
     ' /********************************************************************************/
 

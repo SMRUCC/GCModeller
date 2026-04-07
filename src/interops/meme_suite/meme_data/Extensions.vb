@@ -1,41 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::7a0d3a95e6a1b6d8c65cde25cf4281af, meme_suite\MEME.DocParser\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::20711e2db83301ab3eab76c43f422bf7, meme_suite\meme_data\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Extensions
-' 
-'     Function: (+2 Overloads) __createObject, __toSites, MASTSites, TraceName
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 117 (74.52%)
+    ' Comment Lines: 16 (10.19%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 24 (15.29%)
+    '     File Size: 6.05 KB
+
+
+    ' Module Extensions
+    ' 
+    '     Function: (+2 Overloads) __createObject, __toSites, MASTSites, ParsePWMFile, TraceName
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5959b7718ea7206da59d6e3a7a19e845, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::ce7fe439268913307c0ddb40ac3decfd, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Attributes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 126
-    '    Code Lines: 95 (75.40%)
-    ' Comment Lines: 13 (10.32%)
+    '   Total Lines: 134
+    '    Code Lines: 102 (76.12%)
+    ' Comment Lines: 13 (9.70%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 18 (14.29%)
-    '     File Size: 4.68 KB
+    '   Blank Lines: 19 (14.18%)
+    '     File Size: 4.93 KB
 
 
     '     Class Attribute

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7b0ca27ef0b614670d74db93e9be357, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::363b40c7ea37905d1ba4634b2e67ead7, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
 
     ' Author:
     ' 
@@ -34,23 +34,15 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 21 (58.33%)
-    ' Comment Lines: 9 (25.00%)
+    '   Total Lines: 28
+    '    Code Lines: 15 (53.57%)
+    ' Comment Lines: 9 (32.14%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 6 (16.67%)
-    '     File Size: 1.28 KB
+    '   Blank Lines: 4 (14.29%)
+    '     File Size: 1.08 KB
 
 
-    '     Interface IBlastHit
-    ' 
-    '         Properties: hitName, queryName
-    ' 
-    '     Interface IQueryHits
-    ' 
-    '         Properties: identities
-    ' 
     '     Module Extensions
     ' 
     '         Function: isEmpty

@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::b43e1f475542d7b03ff6f7fb5576e56b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::cc253ba428673597563d28420decc59f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 89
-'    Code Lines: 54 (60.67%)
-' Comment Lines: 26 (29.21%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 9 (10.11%)
-'     File Size: 3.47 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class I_BlastQueryHit
-' 
-'         Properties: BBH_ID, HitName, isMatched, isSelfHit, QueryName
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 56 (58.33%)
+    ' Comment Lines: 30 (31.25%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (10.42%)
+    '     File Size: 3.76 KB
+
+
+    '     Class I_BlastQueryHit
+    ' 
+    '         Properties: BBH_ID, description, HitName, isMatched, isSelfHit
+    '                     QueryName
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

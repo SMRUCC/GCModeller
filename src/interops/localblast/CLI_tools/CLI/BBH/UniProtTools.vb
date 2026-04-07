@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::539c30b42d58723e57578332ff8a1031, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 62.50%
     ' 
     '   Blank Lines: 34 (11.93%)
-    '     File Size: 13.07 KB
+    '     File Size: 13.10 KB
 
 
     ' Module CLI

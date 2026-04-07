@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4915908f28a7333d6b57b04f60d19f7d, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
+﻿#Region "Microsoft.VisualBasic::eb7b22e7a937ef1098ed9b8c5a97d01e, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
 
     ' Author:
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1aaf38e20f8a6b51daad49521520882f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::d90988e8330487d1309d795fb153d166, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 394
-    '    Code Lines: 253 (64.21%)
-    ' Comment Lines: 100 (25.38%)
-    '    - Xml Docs: 84.00%
+    '   Total Lines: 381
+    '    Code Lines: 248 (65.09%)
+    ' Comment Lines: 93 (24.41%)
+    '    - Xml Docs: 83.87%
     ' 
-    '   Blank Lines: 41 (10.41%)
-    '     File Size: 18.19 KB
+    '   Blank Lines: 40 (10.50%)
+    '     File Size: 17.57 KB
 
 
     '     Module BBHParser
     ' 
     '         Function: __topBesthit, BBHScore, BBHTop, bhTopTable, generateBBH
     '                   get_DiReBh, GetBBHTop, GetDirreBhAll, (+2 Overloads) GetDirreBhAll2, hashSet
-    '                   MapsNames, QueryNames, SBHScore, StripTopBest, TopHit
+    '                   MapsNames, QueryNames, StripTopBest, TopHit
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9c370c613a3ceac14e4bf551112fb48, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::3d43b084396a3f580bc35534a6408ccd, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 24 (13.11%)
-    '     File Size: 9.48 KB
+    '     File Size: 9.53 KB
 
 
     '     Class ProgramProfiles

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c9f4fcfa144885fac8e960c5c452f24, meme_suite\MEME.DocParser\ComponentModel\ISiteReader.vb"
+﻿#Region "Microsoft.VisualBasic::5c9f4fcfa144885fac8e960c5c452f24, meme_suite\meme_data\ComponentModel\ISiteReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 11 (84.62%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (15.38%)
+    '     File Size: 433 B
+
 
     '     Interface ISiteReader
     ' 

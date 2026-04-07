@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27afe8e233f3742567a9c6ac0b3123c1, meme_suite\MEME.DocParser\MEME\HtmlParser\ParserAPI.vb"
+﻿#Region "Microsoft.VisualBasic::27afe8e233f3742567a9c6ac0b3123c1, meme_suite\meme_data\MEME\HtmlParser\ParserAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 36 (70.59%)
+    ' Comment Lines: 6 (11.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (17.65%)
+    '     File Size: 2.35 KB
+
 
     '     Module ParserAPI
     ' 

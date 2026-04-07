@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, localblast\LocalBLAST\Pipeline\Models\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::61702658fffd724d0f3e6a664c5ea1e0, localblast\LocalBLAST\Pipeline\Models\Hit.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 32
-    '    Code Lines: 13 (40.62%)
-    ' Comment Lines: 15 (46.88%)
+    '   Total Lines: 37
+    '    Code Lines: 17 (45.95%)
+    ' Comment Lines: 15 (40.54%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (12.50%)
-    '     File Size: 1.10 KB
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.27 KB
 
 
     '     Class Hit
     ' 
-    '         Properties: hitName, identities, positive, tag
+    '         Properties: evalue, gaps, hitName, identities, positive
+    '                     score, tag
     ' 
     '         Function: ToString
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8df896f14aeea2f7bf73750f21efe4a4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::13a10afc86db44e648db2d5439708eb2, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\MapsAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 67.74%
     ' 
     '   Blank Lines: 36 (12.81%)
-    '     File Size: 12.11 KB
+    '     File Size: 12.09 KB
 
 
     '     Module MapsAPI

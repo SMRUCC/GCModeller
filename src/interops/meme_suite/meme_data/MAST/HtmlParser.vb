@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e928a695d5843c7f0ea10b52bf80b1d2, meme_suite\MEME.DocParser\MAST\HtmlParser.vb"
+﻿#Region "Microsoft.VisualBasic::30db42d6c8d84d9912e719a10e43e9bd, meme_suite\meme_data\MAST\HtmlParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 99 (71.22%)
+    ' Comment Lines: 15 (10.79%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 25 (17.99%)
+    '     File Size: 6.59 KB
+
 
     '     Module HtmlParser
     ' 

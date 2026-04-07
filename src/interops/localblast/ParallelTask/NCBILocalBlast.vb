@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e024a623f8400628a3cf576f0daf82b, localblast\ParallelTask\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::29cb7b5d770a47b679ce851c6660a4cb, localblast\ParallelTask\NCBILocalBlast.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 397
-    '    Code Lines: 268 (67.51%)
-    ' Comment Lines: 82 (20.65%)
+    '   Total Lines: 390
+    '    Code Lines: 262 (67.18%)
+    ' Comment Lines: 82 (21.03%)
     '    - Xml Docs: 97.56%
     ' 
-    '   Blank Lines: 47 (11.84%)
-    '     File Size: 20.47 KB
+    '   Blank Lines: 46 (11.79%)
+    '     File Size: 20.18 KB
 
 
     ' Module NCBILocalBlast

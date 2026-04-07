@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d44ca4afa012c3dcf16055e59fcb4d3, visualize\Cytoscape\Cytoscape\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::4b22835f704a7ee6883e52de133b17bb, visualize\Cytoscape\Cytoscape\test\Module1.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 95
-    '    Code Lines: 51 (53.68%)
-    ' Comment Lines: 8 (8.42%)
+    '    Code Lines: 43 (45.26%)
+    ' Comment Lines: 16 (16.84%)
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 36 (37.89%)
-    '     File Size: 2.91 KB
+    '     File Size: 2.82 KB
 
 
     ' Class vTable

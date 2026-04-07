@@ -1,60 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::7819844f7257d1aaba72c2554ec66455, localblast\CLI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::5854893b823d49ab0dc61ccadb59a35d, localblast\CLI_tools\CLI\CLI.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 305
-'    Code Lines: 246 (80.66%)
-' Comment Lines: 16 (5.25%)
-'    - Xml Docs: 87.50%
-' 
-'   Blank Lines: 43 (14.10%)
-'     File Size: 15.04 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module CLI
-' 
-'     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
-'               XmlToExcelBatch
-'     Delegate Function
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: __assignAddition, Copys, ParseAllbbhhits, ParsebbhBesthit, SelfBlast
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 333
+    '    Code Lines: 269 (80.78%)
+    ' Comment Lines: 16 (4.80%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 48 (14.41%)
+    '     File Size: 16.08 KB
+
+
+    ' Module CLI
+    ' 
+    '     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
+    '               XmlToExcelBatch
+    '     Delegate Function
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: __assignAddition, Copys, ExportSubjectHitCollection, ParseAllbbhhits, ParsebbhBesthit
+    '                   SelfBlast
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

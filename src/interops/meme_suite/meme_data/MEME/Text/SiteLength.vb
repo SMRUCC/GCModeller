@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9beda8137da2018c632fdbf67b53d9d, meme_suite\MEME.DocParser\MEME\Text\SiteLength.vb"
+﻿#Region "Microsoft.VisualBasic::f9beda8137da2018c632fdbf67b53d9d, meme_suite\meme_data\MEME\Text\SiteLength.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 32 (25.60%)
+    ' Comment Lines: 81 (64.80%)
+    '    - Xml Docs: 3.70%
+    ' 
+    '   Blank Lines: 12 (9.60%)
+    '     File Size: 8.12 KB
+
 
     '     Module SiteLength
     ' 

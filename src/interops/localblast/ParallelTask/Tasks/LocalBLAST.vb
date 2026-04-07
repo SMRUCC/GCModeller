@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::888cc7cc8b81f52ec0be6076784b0080, localblast\ParallelTask\Tasks\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::6842b88bf5051e069ababf5b34fcbb2f, localblast\ParallelTask\Tasks\LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 14 (22.22%)
-    '     File Size: 2.52 KB
+    '     File Size: 2.51 KB
 
 
     '     Module LocalBLAST

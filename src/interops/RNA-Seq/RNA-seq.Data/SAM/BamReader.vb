@@ -1,4 +1,64 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::aded33335fff35196c616f602189265d, RNA-Seq\RNA-seq.Data\SAM\BamReader.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 123 (64.06%)
+    ' Comment Lines: 39 (20.31%)
+    '    - Xml Docs: 23.08%
+    ' 
+    '   Blank Lines: 30 (15.62%)
+    '     File Size: 7.46 KB
+
+
+    ' Module BamReader
+    ' 
+    '     Function: GetBaseChar, Read
+    ' 
+    '     Sub: ReadBamHeader, ReadFirstAlignment, ReadReferenceSequences
+    '     Structure BamAlignment
+    ' 
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports System.Text
 
 Module BamReader
@@ -190,3 +250,4 @@ Module BamReader
     End Function
 
 End Module
+

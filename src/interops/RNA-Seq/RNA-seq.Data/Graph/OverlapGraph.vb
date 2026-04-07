@@ -1,4 +1,69 @@
-﻿Imports System.Buffers
+﻿#Region "Microsoft.VisualBasic::2a9034a7884df559208da59ffe3ff041, RNA-Seq\RNA-seq.Data\Graph\OverlapGraph.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 96 (48.48%)
+    ' Comment Lines: 70 (35.35%)
+    '    - Xml Docs: 52.86%
+    ' 
+    '   Blank Lines: 32 (16.16%)
+    '     File Size: 8.15 KB
+
+
+    '     Class OverlapGraph
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: CalculateIdentity, CalculateOverlap, TryFindSuffixPrefixOverlap
+    ' 
+    '         Sub: ProcessReads
+    ' 
+    '     Class OverlapResult
+    ' 
+    '         Properties: Empty, Identity, IsReverseComplement, IsValid, Length
+    '                     OffsetA, OffsetB
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Buffers
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports SMRUCC.genomics.SequenceModel.FQ

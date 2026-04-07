@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::337f3bd7aa5ba66b4b1a3e56ba6c949c, meme_suite\MEME.DocParser\MEME\HtmlParser\LDM\Motif.vb"
+﻿#Region "Microsoft.VisualBasic::33df47851f67a4026e52ef9532817090, meme_suite\meme_data\MEME\HtmlParser\LDM\Motif.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 66 (75.00%)
+    ' Comment Lines: 6 (6.82%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (18.18%)
+    '     File Size: 4.29 KB
+
 
     '     Class Motif
     ' 

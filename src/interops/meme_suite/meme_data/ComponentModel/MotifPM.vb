@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dd6966fa69b6aabcb6230aca4aef7432, meme_suite\MEME.DocParser\ComponentModel\MotifPM.vb"
+﻿#Region "Microsoft.VisualBasic::65b9d7ec35fba4c5a9f0c604dcf24fc8, meme_suite\meme_data\ComponentModel\MotifPM.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 254
+    '    Code Lines: 175 (68.90%)
+    ' Comment Lines: 45 (17.72%)
+    '    - Xml Docs: 95.56%
+    ' 
+    '   Blank Lines: 34 (13.39%)
+    '     File Size: 9.07 KB
+
 
     '     Class MotifPM
     ' 

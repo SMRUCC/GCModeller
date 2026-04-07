@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bf9857ad893d055061201085a3095f2, visualize\Cytoscape\Cytoscape\Graph\VizModel.vb"
+﻿#Region "Microsoft.VisualBasic::5f3cda48d328abad4a00e7aa35b4b588, visualize\Cytoscape\Cytoscape\Graph\VizModel.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 16 (12.90%)
-    '     File Size: 5.24 KB
+    '     File Size: 5.25 KB
 
 
     '     Module VizModel

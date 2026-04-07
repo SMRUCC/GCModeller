@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151a78f8c2305adc1c0c30df4ca4837d, localblast\CLI_tools\CLI\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::c4042c388b7d006b3e1d2b363621a60a, localblast\CLI_tools\CLI\Tree.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 11 (13.75%)
-    '     File Size: 3.66 KB
+    '     File Size: 3.68 KB
 
 
     ' Module CLI

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e52ca30ec62dca07dcdb1ca18fe0f8c, meme_suite\MEME.DocParser\XmlOutput\XmlBaseAbstract.vb"
+﻿#Region "Microsoft.VisualBasic::f8c7a6333e951064b1eaa81ab92a3378, meme_suite\meme_data\XmlOutput\XmlBaseAbstract.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 21 (72.41%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (27.59%)
+    '     File Size: 814 B
+
 
     '     Class MEMEXmlBase
     ' 

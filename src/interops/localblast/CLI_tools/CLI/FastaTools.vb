@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7eef05cf9a0afd39c5f2ad51bbd3c500, localblast\CLI_tools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::7e73191d8cc54dce7ec48e1653da7bf1, localblast\CLI_tools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 20 (14.49%)
-    '     File Size: 6.10 KB
+    '     File Size: 6.07 KB
 
 
     ' Module CLI

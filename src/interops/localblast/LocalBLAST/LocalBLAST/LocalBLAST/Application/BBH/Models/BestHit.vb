@@ -1,58 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::9d8d88542f909453fabff8b545f129ff, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
+﻿#Region "Microsoft.VisualBasic::22356d0dd314d10e224d57ae0777ce1e, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 95
-'    Code Lines: 64 (67.37%)
-' Comment Lines: 20 (21.05%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 11 (11.58%)
-'     File Size: 4.29 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class BestHit
-' 
-'         Properties: coverage, description, evalue, hit_length, identities
-'                     length_hit, length_hsp, length_query, positive, query_length
-'                     SBHScore, score
-' 
-'         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 82 (71.93%)
+    ' Comment Lines: 20 (17.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (10.53%)
+    '     File Size: 4.93 KB
+
+
+    '     Class BestHit
+    ' 
+    '         Properties: coverage, evalue, hit_length, identities, length_hit
+    '                     length_hsp, length_query, positive, query_length, SBHScore
+    '                     score
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79900489206d5b6dc0102e4baf22e434, meme_suite\MEME.DocParser\XmlOutput\MEME.vb"
+﻿#Region "Microsoft.VisualBasic::bd39876b31e2039fcdf7923464dadf5c, meme_suite\meme_data\XmlOutput\MEME.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 333
+    '    Code Lines: 241 (72.37%)
+    ' Comment Lines: 41 (12.31%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 51 (15.32%)
+    '     File Size: 15.39 KB
+
+
     '     Class Model
     ' 
     '         Properties: BackgroundFrequencies, Beta, Distance, EndGaps, EValueThreshold
@@ -50,7 +62,7 @@
     ' 
     '         Properties: Values
     ' 
-    '         Function: GetValue
+    '         Function: CreateTable, GetValue
     '         Class Value
     ' 
     '             Properties: LetterId, Value
@@ -65,14 +77,17 @@
     ' 
     '     Class Motif
     ' 
-    '         Properties: BayesThreshold, ContributingSites, ElapsedTime, EValue, Ic
-    '                     Id, Llr, Name, Probabilities, Re
-    '                     RegularExpression, Scores, Sites, Width
+    '         Properties: alt, BayesThreshold, ContributingSites, ElapsedTime, EValue
+    '                     Ic, Id, Llr, Name, Probabilities
+    '                     pvalue, Re, RegularExpression, Scores, Sites
+    '                     Width
     ' 
     '         Function: GetEvalue, ToString
     '         Class ProbabilitiesArray
     ' 
     '             Properties: AlphabetMatrix
+    ' 
+    '             Function: GenericEnumerator
     ' 
     '         Class ContributingSite
     ' 
@@ -90,11 +105,11 @@
     ' 
     ' 
     ' 
-    '     Class MEME
+    '     Class MEMEXml
     ' 
     '         Properties: Model, Motifs, ScannedSitesSummary, TrainingSet
     ' 
-    '         Function: LoadDocument, ToMEMEHtml, ToString
+    '         Function: GetMotifs, LoadDocument, ToMEMEHtml, ToString
     ' 
     '     Class ScannedSitesSummary
     ' 
@@ -114,7 +129,7 @@
     ' 
     '     Class TrainingSet
     ' 
-    '         Properties: Alphabet, Ambigs, DataFile, Length, LetterFrequencies
+    '         Properties: Alphabet, Ambigs, Length, LetterFrequencies, primary_sequences
     '                     Sequences
     ' 
     '         Function: GetObject, ToString
@@ -136,12 +151,13 @@
     ' 
     '     Class Alphabet
     ' 
-    '         Properties: Id, Length, Letters
+    '         Properties: [like], Letters, name
     ' 
     '         Function: ToString
     '         Class Letter
     ' 
-    '             Properties: Id, Symbol
+    '             Properties: aliases, colour, complement, equalsTo, Id
+    '                         name, Symbol
     ' 
     '             Function: ToString
     ' 

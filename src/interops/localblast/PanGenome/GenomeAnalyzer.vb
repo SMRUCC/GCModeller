@@ -1,3 +1,65 @@
+﻿#Region "Microsoft.VisualBasic::4e5ee06af668f633bbb4569cad2d5506, localblast\PanGenome\GenomeAnalyzer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 758
+    '    Code Lines: 456 (60.16%)
+    ' Comment Lines: 191 (25.20%)
+    '    - Xml Docs: 30.89%
+    ' 
+    '   Blank Lines: 111 (14.64%)
+    '     File Size: 35.10 KB
+
+
+    ' Class GenomeAnalyzer
+    ' 
+    '     Properties: CNV_Gain_Factor, CNV_Loss_Factor, CoreThreshold, MinCollinearGenes, ShellThreshold
+    '                 SoftCoreThreshold
+    ' 
+    '     Constructor: (+4 Overloads) Sub New
+    ' 
+    '     Function: AnalyzePanGenome, CalculateCollinearity, CalculateCopyNumber, CalculatePangenomeCurve, DetectInversion
+    '               DetectStructuralVariations, MakeFamilyMapping, OrderKey, SplitBlockByChromosome
+    ' 
+    '     Sub: CalculateGeneticDistance, CalculatePanGenomeJaccardDistance, CategorizeGeneFamilies, Initialize, SetGenesElements
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
@@ -755,4 +817,5 @@ Public Class GenomeAnalyzer
         End If
     End Sub
 End Class
+
 

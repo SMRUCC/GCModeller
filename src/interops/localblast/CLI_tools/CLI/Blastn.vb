@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::938980ca6a055b284409f15070bc2a4a, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::e4ed2071f46f10714ac807b85ba4c32f, localblast\CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 51.61%
     ' 
     '   Blank Lines: 70 (13.54%)
-    '     File Size: 24.25 KB
+    '     File Size: 24.24 KB
 
 
     ' Module CLI

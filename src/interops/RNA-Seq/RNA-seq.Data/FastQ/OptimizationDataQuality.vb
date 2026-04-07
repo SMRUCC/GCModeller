@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1e529762aafbe3f08302726d33765ab, RNA-Seq\RNA-seq.Data\FastQ\OptimizationDataQuality.vb"
+﻿#Region "Microsoft.VisualBasic::f02dfb612dc449a5568a3e9c1d18f816, RNA-Seq\RNA-seq.Data\FastQ\OptimizationDataQuality.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 87
-    '    Code Lines: 47 (54.02%)
-    ' Comment Lines: 28 (32.18%)
-    '    - Xml Docs: 75.00%
+    '   Total Lines: 104
+    '    Code Lines: 54 (51.92%)
+    ' Comment Lines: 35 (33.65%)
+    '    - Xml Docs: 68.57%
     ' 
-    '   Blank Lines: 12 (13.79%)
-    '     File Size: 3.80 KB
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 4.77 KB
 
 
     '     Module OptimizationDataQuality
     ' 
-    '         Function: TrimLowQuality, TrimShortReads
+    '         Function: (+2 Overloads) TrimLowQuality, TrimShortReads
     ' 
     ' 
     ' /********************************************************************************/

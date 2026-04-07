@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efd18058644081208505d28dee6f6660, meme_suite\MEME.DocParser\TomTom\Xml.vb"
+﻿#Region "Microsoft.VisualBasic::efd18058644081208505d28dee6f6660, meme_suite\meme_data\TomTom\Xml.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 120 (82.19%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 26 (17.81%)
+    '     File Size: 4.78 KB
+
 
     '     Class TOMXml
     ' 

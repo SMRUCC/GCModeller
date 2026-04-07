@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe3337ab665c978d17782eb8a9724099, localblast\LocalBLAST\Pipeline\Models\Hits.vb"
+﻿#Region "Microsoft.VisualBasic::1b0db1bc8f14ce206d966b5ab364c61b, localblast\LocalBLAST\Pipeline\Models\Hits.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
-    '    Code Lines: 71 (58.68%)
-    ' Comment Lines: 37 (30.58%)
+    '   Total Lines: 132
+    '    Code Lines: 80 (60.61%)
+    ' Comment Lines: 37 (28.03%)
     '    - Xml Docs: 94.59%
     ' 
-    '   Blank Lines: 13 (10.74%)
-    '     File Size: 4.55 KB
+    '   Blank Lines: 15 (11.36%)
+    '     File Size: 4.95 KB
 
 
     '     Class HitCollection
     ' 
     '         Properties: description, hits, QueryName
     ' 
-    '         Function: getDictionary, GetHitByTagInfo, orderBySp, Take, ToString
+    '         Function: GenericEnumerator, getDictionary, GetHitByTagInfo, orderBySp, Take
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

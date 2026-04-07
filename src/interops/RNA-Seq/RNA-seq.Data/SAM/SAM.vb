@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::883989d92273ba99741808d0461c01d9, RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
+﻿#Region "Microsoft.VisualBasic::538b91d6646092ab2adf627700f7e0c4, RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 246
-    '    Code Lines: 142 (57.72%)
-    ' Comment Lines: 57 (23.17%)
+    '   Total Lines: 245
+    '    Code Lines: 141 (57.55%)
+    ' Comment Lines: 57 (23.27%)
     '    - Xml Docs: 87.72%
     ' 
-    '   Blank Lines: 47 (19.11%)
-    '     File Size: 12.22 KB
+    '   Blank Lines: 47 (19.18%)
+    '     File Size: 12.23 KB
 
 
     '     Class SAM

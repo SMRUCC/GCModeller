@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::66aa5f04007478aeaf232d0ccf3556a3, localblast\CLI_tools\CLI\BBH\BBH.vb"
+﻿#Region "Microsoft.VisualBasic::44de5f059f57b0d25d4cbaa768007c9a, localblast\CLI_tools\CLI\BBH\BBH.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 472
-'    Code Lines: 344 (72.88%)
-' Comment Lines: 78 (16.53%)
-'    - Xml Docs: 33.33%
-' 
-'   Blank Lines: 50 (10.59%)
-'     File Size: 23.87 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module CLI
-' 
-'     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, ExportLocus
-'               LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread, SBHTrim
-'               SelectsMeta, vennBlastAll, VennCache
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 473
+    '    Code Lines: 345 (72.94%)
+    ' Comment Lines: 78 (16.49%)
+    '    - Xml Docs: 33.33%
+    ' 
+    '   Blank Lines: 50 (10.57%)
+    '     File Size: 23.81 KB
+
+
+    ' Module CLI
+    ' 
+    '     Function: __sbhHelper, BBHExport2, BBHExportFile, BBHTopBest, ExportLocus
+    '               LocusSelects, MergeBBH, SBH_BBH_Batch, SBHThread, SBHTrim
+    '               SelectsMeta, vennBlastAll, VennCache
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

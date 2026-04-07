@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9834f95683e3e3e191a6cc413cfe2c99, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::04d5a7d4fb86690e755b0efc83b7a30e, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 98.58%
     ' 
     '   Blank Lines: 54 (10.69%)
-    '     File Size: 19.87 KB
+    '     File Size: 19.85 KB
 
 
     '     Class LocalBLAST

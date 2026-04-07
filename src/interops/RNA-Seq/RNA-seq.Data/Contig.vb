@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, RNA-Seq\RNA-seq.Data\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::541731c094dad478931f78af0c1cd9d2, RNA-Seq\RNA-seq.Data\Contig.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 30 (83.33%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 40
+    '    Code Lines: 30 (75.00%)
+    ' Comment Lines: 3 (7.50%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (16.67%)
-    '     File Size: 1.17 KB
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.26 KB
 
 
-    ' Class Contig
+    ' Class ContigSequence
     ' 
     '     Properties: FLAGS, Headers, Location, SequenceData, Title
     ' 

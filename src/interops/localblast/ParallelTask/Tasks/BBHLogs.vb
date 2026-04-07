@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d72031f33913d16be40a6a4585941bf5, localblast\ParallelTask\Tasks\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::657c24b6f978b7242303edc4e6acbe91, localblast\ParallelTask\Tasks\BBHLogs.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 397
-    '    Code Lines: 268 (67.51%)
-    ' Comment Lines: 79 (19.90%)
+    '   Total Lines: 396
+    '    Code Lines: 267 (67.42%)
+    ' Comment Lines: 79 (19.95%)
     '    - Xml Docs: 88.61%
     ' 
-    '   Blank Lines: 50 (12.59%)
-    '     File Size: 20.47 KB
+    '   Blank Lines: 50 (12.63%)
+    '     File Size: 20.44 KB
 
 
     '     Module BBHLogs

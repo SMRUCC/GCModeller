@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e550815267d9d5a29300dff0a24514c5, meme_suite\MEME.DocParser\MEME\HtmlParser\LDM\SiteInfo.vb"
+﻿#Region "Microsoft.VisualBasic::e550815267d9d5a29300dff0a24514c5, meme_suite\meme_data\MEME\HtmlParser\LDM\SiteInfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 26 (50.00%)
+    ' Comment Lines: 17 (32.69%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 9 (17.31%)
+    '     File Size: 2.02 KB
+
 
     '     Class SiteInfo
     ' 

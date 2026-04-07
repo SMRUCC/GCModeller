@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4dbb6aa6e93c496c90e3ce7caf94b39, meme_suite\MEME.DocParser\MEME\HtmlParser\MEME_HTML.vb"
+﻿#Region "Microsoft.VisualBasic::e4dbb6aa6e93c496c90e3ce7caf94b39, meme_suite\meme_data\MEME\HtmlParser\MEME_HTML.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17 (65.38%)
+    ' Comment Lines: 5 (19.23%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (15.38%)
+    '     File Size: 940 B
+
 
     '     Class MEMEHtml
     ' 

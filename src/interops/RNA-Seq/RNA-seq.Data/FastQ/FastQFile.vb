@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53e3beb8e4433e730e97aa459a65573a, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
+﻿#Region "Microsoft.VisualBasic::c3bea38b366f778bd220f8bc4c0bf454, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 147
-    '    Code Lines: 103 (70.07%)
-    ' Comment Lines: 13 (8.84%)
+    '   Total Lines: 151
+    '    Code Lines: 106 (70.20%)
+    ' Comment Lines: 13 (8.61%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 31 (21.09%)
-    '     File Size: 5.62 KB
+    '   Blank Lines: 32 (21.19%)
+    '     File Size: 5.86 KB
 
 
     '     Class FastQFile
     ' 
     '         Properties: IsReadOnly, NumOfReads
     ' 
-    '         Function: __trim, Contains, GetEnumerator, GetEnumerator1, IndexOf
-    '                   Load, Remove, Save, ToFasta
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: __trim, Contains, GenericEnumerator, IEnumerable_GetEnumerator, IndexOf
+    '                   Load, LoadStream, Remove, Save, ToFasta
     ' 
     '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a6e1928956e9f35924998a197c4dee6, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::615f8640fe9bee5b16b705eab6b54c97, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 61.54%
     ' 
     '   Blank Lines: 19 (18.63%)
-    '     File Size: 4.08 KB
+    '     File Size: 4.05 KB
 
 
     ' Module Assembler

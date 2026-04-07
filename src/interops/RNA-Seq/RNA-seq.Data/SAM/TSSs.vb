@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3ddd50de8b77acb7aa4402200ce1275, RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::7d0f11e55d7e7f1beb9e255fed48dace, RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 23 (19.01%)
-    '     File Size: 7.09 KB
+    '     File Size: 7.07 KB
 
 
     ' Module SAM_TSSs

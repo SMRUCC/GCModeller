@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8edfe849d1443fe5804d5b3f3cb7ae36, meme_suite\MEME.DocParser\MAST\MastHtml.vb"
+﻿#Region "Microsoft.VisualBasic::8edfe849d1443fe5804d5b3f3cb7ae36, meme_suite\meme_data\MAST\MastHtml.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 59 (83.10%)
+    ' Comment Lines: 1 (1.41%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (15.49%)
+    '     File Size: 3.22 KB
+
 
     '     Class MASTHtml
     ' 

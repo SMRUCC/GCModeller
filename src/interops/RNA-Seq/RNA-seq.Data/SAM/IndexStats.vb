@@ -1,4 +1,64 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::4081901616496600bd30aa74c49b7801, RNA-Seq\RNA-seq.Data\SAM\IndexStats.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 61 (71.76%)
+    ' Comment Lines: 7 (8.24%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 17 (20.00%)
+    '     File Size: 2.94 KB
+
+
+    '     Class GeneData
+    ' 
+    '         Properties: GeneID, Length, RawCount, RPK, TPM
+    ' 
+    '     Class IndexStats
+    ' 
+    '         Properties: GeneID, Length, RawCount, UnmappedBases
+    ' 
+    '         Function: ConvertCountsToTPM, Parse
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cd9d3851f344eec8c8ab10f03675050, meme_suite\MEME.DocParser\ModuleMotif.vb"
+﻿#Region "Microsoft.VisualBasic::1cd9d3851f344eec8c8ab10f03675050, meme_suite\meme_data\ModuleMotif.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 13 (31.71%)
+    ' Comment Lines: 27 (65.85%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (2.44%)
+    '     File Size: 1.07 KB
+
 
     ' Class ModuleMotif
     ' 

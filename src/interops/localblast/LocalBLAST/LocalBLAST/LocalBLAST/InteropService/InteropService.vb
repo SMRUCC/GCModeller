@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68b97573f24d4c15ac6ff204ae3f60f6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
+﻿#Region "Microsoft.VisualBasic::c9e059866daed21e870e59c41c6e2e67, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 91.84%
     ' 
     '   Blank Lines: 26 (10.16%)
-    '     File Size: 10.63 KB
+    '     File Size: 10.64 KB
 
 
     '     Class LocalBlastProgramGroup

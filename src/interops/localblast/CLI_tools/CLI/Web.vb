@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a992e756e51d3808693892d174053f40, localblast\CLI_tools\CLI\Web.vb"
+﻿#Region "Microsoft.VisualBasic::4ae2c7814e10dbb9c4320c009b62d6b1, localblast\CLI_tools\CLI\Web.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 9 (13.04%)
-    '     File Size: 2.78 KB
+    '     File Size: 2.77 KB
 
 
     ' Module CLI
