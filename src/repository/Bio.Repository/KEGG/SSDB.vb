@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb97d55691fe4bc0fd4a319cef833fdf, Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::22d1f1bc1fe17be128799d25ff4987cc, Bio.Repository\KEGG\SSDB.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 64.29%
     ' 
     '   Blank Lines: 12 (17.14%)
-    '     File Size: 2.69 KB
+    '     File Size: 2.68 KB
 
 
     ' Module SSDB

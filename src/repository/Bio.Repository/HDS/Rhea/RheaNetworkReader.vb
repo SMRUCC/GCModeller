@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::798d3024847c54534a55da2a4d055cf6, Bio.Repository\HDS\Rhea\RheaNetworkReader.vb"
+﻿#Region "Microsoft.VisualBasic::57999bd16ef3c224f292e667ee6e8fb3, Bio.Repository\HDS\Rhea\RheaNetworkReader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 63 (81.82%)
+    '   Total Lines: 78
+    '    Code Lines: 64 (82.05%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 14 (18.18%)
-    '     File Size: 2.77 KB
+    '   Blank Lines: 14 (17.95%)
+    '     File Size: 2.81 KB
 
 
     ' Class RheaNetworkReader

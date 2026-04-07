@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e90197780c68082f4b87e964474fb587, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
+﻿#Region "Microsoft.VisualBasic::c9c0ec449d2f54197bc76cbd79e892e5, Bio.Repository\KEGG\ReactionRepository\CompoundRepository.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 90.00%
     ' 
     '   Blank Lines: 29 (14.57%)
-    '     File Size: 7.72 KB
+    '     File Size: 7.71 KB
 
 
     ' Class CompoundRepository

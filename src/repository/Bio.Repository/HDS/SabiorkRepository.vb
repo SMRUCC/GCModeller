@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a71ee0b318bb2659b2aa64efb03c2f8, Bio.Repository\HDS\SabiorkRepository.vb"
+﻿#Region "Microsoft.VisualBasic::0442686c8578fe93d075cc251613e849, Bio.Repository\HDS\SabiorkRepository.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 147
-    '    Code Lines: 99 (67.35%)
-    ' Comment Lines: 26 (17.69%)
-    '    - Xml Docs: 30.77%
+    '   Total Lines: 122
+    '    Code Lines: 78 (63.93%)
+    ' Comment Lines: 25 (20.49%)
+    '    - Xml Docs: 32.00%
     ' 
-    '   Blank Lines: 22 (14.97%)
-    '     File Size: 5.96 KB
+    '   Blank Lines: 19 (15.57%)
+    '     File Size: 4.70 KB
 
 
     ' Class SabiorkRepository
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: CreateKineticsData, GetByECNumber, getEcNumberDirectoryPath, GetKineticisLaw
+    '     Function: GetByECNumber, getEcNumberDirectoryPath, GetKineticisLaw
     ' 
     '     Sub: (+2 Overloads) Dispose, saveKineticsModel
     ' 

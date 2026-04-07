@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fa8fcc70639507fb4af77bdcb2a0127, Bio.Repository\HDS\Rhea\RheaNetworkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::ff3419a1ac3ef6103618cb9661be4645, Bio.Repository\HDS\Rhea\RheaNetworkWriter.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 13 (16.88%)
-    '     File Size: 2.98 KB
+    '     File Size: 3.00 KB
 
 
     ' Class RheaNetworkWriter

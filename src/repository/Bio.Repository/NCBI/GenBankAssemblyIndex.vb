@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad461e5977adb49159bbb42bbf3455fa, Bio.Repository\NCBI\FtpIndex.vb"
+﻿#Region "Microsoft.VisualBasic::fa9040dfe944ad1aa7a19ef4256bcacc, Bio.Repository\NCBI\GenBankAssemblyIndex.vb"
 
     ' Author:
     ' 
@@ -34,16 +34,16 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 432
-    '    Code Lines: 47 (10.88%)
-    ' Comment Lines: 380 (87.96%)
+    '   Total Lines: 433
+    '    Code Lines: 48 (11.09%)
+    ' Comment Lines: 380 (87.76%)
     '    - Xml Docs: 95.79%
     ' 
-    '   Blank Lines: 5 (1.16%)
-    '     File Size: 22.12 KB
+    '   Blank Lines: 5 (1.15%)
+    '     File Size: 22.31 KB
 
 
-    ' Class FtpIndex
+    ' Class GenBankAssemblyIndex
     ' 
     '     Properties: annotation_date, annotation_name, annotation_provider, asm_name, asm_not_live_date
     '                 asm_submitter, assembly_accession, assembly_level, assembly_type, bioproject

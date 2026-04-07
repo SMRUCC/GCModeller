@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f345e393055d85b87375b071dc7a89c, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::d2197a2c220fb692b21309d4d1dd125b, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 27 (17.09%)
-    '     File Size: 5.58 KB
+    '     File Size: 5.56 KB
 
 
     ' Class KEGGOrthology
