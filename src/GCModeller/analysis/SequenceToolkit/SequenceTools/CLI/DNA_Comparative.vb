@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a79b4da77a40c330ddcb477fa25edfc3, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
+﻿#Region "Microsoft.VisualBasic::d4f90f0167a15ddabb6fcfd67898d922, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 83.33%
     ' 
     '   Blank Lines: 19 (11.73%)
-    '     File Size: 7.85 KB
+    '     File Size: 7.84 KB
 
 
     ' Module Utilities

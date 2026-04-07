@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b4d9cb661b08e0e6195fa0288ed9c0d, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
+﻿#Region "Microsoft.VisualBasic::18875fc2023a9376da3c9753affb1008, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 43 (74.14%)
-    ' Comment Lines: 8 (13.79%)
+    '   Total Lines: 66
+    '    Code Lines: 50 (75.76%)
+    ' Comment Lines: 8 (12.12%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (12.07%)
-    '     File Size: 2.31 KB
+    '   Blank Lines: 8 (12.12%)
+    '     File Size: 2.55 KB
 
 
     '     Class Weight
     ' 
-    '         Properties: direction, fromAltName, FromNode, toAltName, ToNode
-    '                     Weight
+    '         Properties: direction, fromAltName, fromNode, toAltName, toNode
+    '                     weight
     ' 
     '         Function: (+2 Overloads) Find, GetOpposite, ToString
     ' 

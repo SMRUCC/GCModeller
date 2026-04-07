@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d5b1bd2af58e88e84ee885d0ec40a5e, engine\BootstrapLoader\Definition\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::70ef2dbad540ff58a1b8cb299157357f, engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 148
-    '    Code Lines: 52 (35.14%)
-    ' Comment Lines: 88 (59.46%)
+    '   Total Lines: 152
+    '    Code Lines: 54 (35.53%)
+    ' Comment Lines: 88 (57.89%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 8 (5.41%)
-    '     File Size: 4.43 KB
+    '   Blank Lines: 10 (6.58%)
+    '     File Size: 4.51 KB
 
 
     '     Class AminoAcid
     ' 
-    '         Properties: A, C, D, E, F
-    '                     G, H, I, K, L
-    '                     M, N, O, P, Q
-    '                     R, S, T, U, V
-    '                     W, Y
+    '         Properties: A, B, C, D, E
+    '                     F, G, H, I, K
+    '                     L, M, N, O, P
+    '                     Q, R, S, T, U
+    '                     V, W, Y, Z
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: GenericEnumerator, ToString

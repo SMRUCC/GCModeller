@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6ae7395b22e627000bb4c9490622e04, analysis\ProteinTools\ProteinMatrix\CreateMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::b91cd07693e66e5fcdf6ed797588db82, analysis\ProteinTools\ProteinMatrix\CreateMatrix.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 69
-    '    Code Lines: 46 (66.67%)
+    '    Code Lines: 45 (65.22%)
     ' Comment Lines: 13 (18.84%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (14.49%)
-    '     File Size: 2.21 KB
+    '   Blank Lines: 11 (15.94%)
+    '     File Size: 2.25 KB
 
 
     ' Class CreateMatrix

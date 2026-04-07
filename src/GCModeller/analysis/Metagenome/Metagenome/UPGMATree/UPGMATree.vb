@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf64b12d04f4410ad04eb7741d242ab9, analysis\Metagenome\Metagenome\UPGMATree.vb"
+﻿#Region "Microsoft.VisualBasic::f127913e905938fa154e7a2a04496d66, analysis\Metagenome\Metagenome\UPGMATree\UPGMATree.vb"
 
     ' Author:
     ' 
@@ -34,29 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 134
-    '    Code Lines: 108 (80.60%)
-    ' Comment Lines: 5 (3.73%)
-    '    - Xml Docs: 80.00%
+    '   Total Lines: 137
+    '    Code Lines: 103 (75.18%)
+    ' Comment Lines: 12 (8.76%)
+    '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 21 (15.67%)
-    '     File Size: 4.31 KB
+    '   Blank Lines: 22 (16.06%)
+    '     File Size: 5.91 KB
 
 
-    ' Module UPGMATree
+    '     Module UPGMATree
     ' 
-    '     Function: BuildTree, combine, findMin, form_taxas
-    '     Class Value
+    '         Function: BuildTree, combine, findMin, form_taxas, TaxaTreeGraph
     ' 
-    ' 
-    ' 
-    '     Class Taxa
-    ' 
-    '         Properties: Size
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
+    '         Sub: BuildTreeGraph
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81afaaa259b13aa4da9bf9474e701744, engine\Dynamics\Drivers\Driver.vb"
+﻿#Region "Microsoft.VisualBasic::a88633448a865bd2a60a3a1618a719d7, engine\Dynamics\Drivers\Driver.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 50
-    '    Code Lines: 24 (48.00%)
-    ' Comment Lines: 14 (28.00%)
+    '   Total Lines: 58
+    '    Code Lines: 30 (51.72%)
+    ' Comment Lines: 14 (24.14%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (24.00%)
-    '     File Size: 1.77 KB
+    '   Blank Lines: 14 (24.14%)
+    '     File Size: 2.28 KB
 
 
     '     Delegate Sub
@@ -50,14 +50,14 @@
     ' 
     '         Properties: mass
     ' 
-    '         Sub: FluxSnapshot, MassSnapshot
+    '         Sub: FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     '     Class FinalSnapshotDriver
     ' 
     '         Properties: flux, mass, massIndex
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: FluxSnapshot, MassSnapshot
+    '         Sub: FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     ' 
     ' 

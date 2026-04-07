@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 49 (64.47%)
+    ' Comment Lines: 15 (19.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (15.79%)
+    '     File Size: 3.11 KB
+
+
     ' Module OrthologAPI
     ' 
     ' 

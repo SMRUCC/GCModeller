@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41fa03c7e9381ed49b559db860d230ff, data\RCSB PDB\PDB\Keywords\Headers\Journal.vb"
+﻿#Region "Microsoft.VisualBasic::1020101c23fd80f916ec391b8b808f93, data\RCSB PDB\PDB\Keywords\Headers\Journal.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 12 (15.79%)
-    '     File Size: 2.86 KB
+    '     File Size: 2.87 KB
 
 
     '     Class Journal

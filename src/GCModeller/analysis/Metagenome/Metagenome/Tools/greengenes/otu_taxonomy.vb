@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f2bae4782fe825e7bf5ca38bd5fe041, analysis\Metagenome\Metagenome\greengenes\otu_taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::c184a53d1b6ea462224cfc55b4a3abc1, analysis\Metagenome\Metagenome\Tools\greengenes\otu_taxonomy.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 37 (80.43%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 59
+    '    Code Lines: 39 (66.10%)
+    ' Comment Lines: 11 (18.64%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (19.57%)
-    '     File Size: 1.64 KB
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 2.06 KB
 
 
     '     Class otu_taxonomy

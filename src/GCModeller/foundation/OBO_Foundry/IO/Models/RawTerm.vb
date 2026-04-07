@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f0e53130d61d52c030913283520e371, foundation\OBO_Foundry\IO\Models\RawTerm.vb"
+﻿#Region "Microsoft.VisualBasic::6a4007ddeb648baf1e40e3e7eb7328ea, foundation\OBO_Foundry\IO\Models\RawTerm.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 53
-    '    Code Lines: 34 (64.15%)
-    ' Comment Lines: 12 (22.64%)
+    '   Total Lines: 66
+    '    Code Lines: 45 (68.18%)
+    ' Comment Lines: 12 (18.18%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (13.21%)
-    '     File Size: 2.01 KB
+    '   Blank Lines: 9 (13.64%)
+    '     File Size: 2.57 KB
 
 
     '     Structure RawTerm
     ' 
     '         Properties: data, type
     ' 
-    '         Function: GetData, GetValueSet, ToString
+    '         Function: ExtractBasic, GetData, GetValueSet, ToString
     ' 
     ' 
     ' /********************************************************************************/

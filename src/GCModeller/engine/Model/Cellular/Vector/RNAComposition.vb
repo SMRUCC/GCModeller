@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15971589a19651f052e767859b018b17, engine\Model\Cellular\Vector\RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::50957bfe603ec5f0517cc7f24a00ee5c, engine\Model\Cellular\Vector\RNAComposition.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 70
-    '    Code Lines: 41 (58.57%)
-    ' Comment Lines: 21 (30.00%)
-    '    - Xml Docs: 80.95%
+    '   Total Lines: 87
+    '    Code Lines: 49 (56.32%)
+    ' Comment Lines: 28 (32.18%)
+    '    - Xml Docs: 85.71%
     ' 
-    '   Blank Lines: 8 (11.43%)
-    '     File Size: 2.61 KB
+    '   Blank Lines: 10 (11.49%)
+    '     File Size: 3.15 KB
 
 
     '     Class RNAComposition
     ' 
-    '         Properties: A, C, G, geneID, U
+    '         Properties: A, C, G, geneID, Length
+    '                     U
     ' 
-    '         Function: FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: Blank, FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/

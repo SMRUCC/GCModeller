@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1bbb0e34d94b7bfa647b649a2e58fe59, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::fe2433908abea885294840fa06ae2f60, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLink.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 79
-    '    Code Lines: 50 (63.29%)
-    ' Comment Lines: 15 (18.99%)
+    '   Total Lines: 89
+    '    Code Lines: 54 (60.67%)
+    ' Comment Lines: 20 (22.47%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (17.72%)
-    '     File Size: 2.75 KB
+    '   Blank Lines: 15 (16.85%)
+    '     File Size: 3.10 KB
 
 
     '     Class DBLink

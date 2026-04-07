@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8598a9bbab3a691a0ff7f5e36f918ce5, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::83ffeb321ed12617f449e6633b1014eb, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 218
-    '    Code Lines: 163 (74.77%)
-    ' Comment Lines: 28 (12.84%)
-    '    - Xml Docs: 92.86%
+    '   Total Lines: 226
+    '    Code Lines: 165 (73.01%)
+    ' Comment Lines: 34 (15.04%)
+    '    - Xml Docs: 94.12%
     ' 
-    '   Blank Lines: 27 (12.39%)
-    '     File Size: 10.61 KB
+    '   Blank Lines: 27 (11.95%)
+    '     File Size: 11.03 KB
 
 
     '     Class TranscriptionFactors

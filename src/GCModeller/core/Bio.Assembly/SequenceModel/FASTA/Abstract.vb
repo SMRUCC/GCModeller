@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a90a9991115df48f8aed7799699157a, core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::2dd51f8c2d9c3f0bb9897f28a7df53c2, core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 12 (26.67%)
-    ' Comment Lines: 27 (60.00%)
+    '   Total Lines: 53
+    '    Code Lines: 13 (24.53%)
+    ' Comment Lines: 31 (58.49%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (13.33%)
-    '     File Size: 1.87 KB
+    '   Blank Lines: 9 (16.98%)
+    '     File Size: 2.00 KB
 
 
     '     Interface IFastaProvider
     ' 
-    '         Properties: title
+    '         Properties: length, title
     ' 
     '     Interface IAbstractFastaToken
     ' 

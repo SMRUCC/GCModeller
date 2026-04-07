@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b60c9edfee80f2c232748fa4b9317da9, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\DmpFileReader.vb"
+﻿#Region "Microsoft.VisualBasic::dec9e17589ea0d15c8a0e10115b575c7, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\DmpFileReader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 120
-    '    Code Lines: 70 (58.33%)
-    ' Comment Lines: 31 (25.83%)
-    '    - Xml Docs: 16.13%
+    '   Total Lines: 126
+    '    Code Lines: 73 (57.94%)
+    ' Comment Lines: 33 (26.19%)
+    '    - Xml Docs: 15.15%
     ' 
-    '   Blank Lines: 19 (15.83%)
-    '     File Size: 5.11 KB
+    '   Blank Lines: 20 (15.87%)
+    '     File Size: 5.37 KB
 
 
     '     Class DmpFileReader

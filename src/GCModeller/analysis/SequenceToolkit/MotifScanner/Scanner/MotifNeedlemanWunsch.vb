@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e588d996d78b09ded8f7483ebb6dab6a, analysis\SequenceToolkit\MotifFinder\Scanner\MotifNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::603fbbb2a4c64141e5ad4c6d4de03835, analysis\SequenceToolkit\MotifScanner\Scanner\MotifNeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 52
-    '    Code Lines: 42 (80.77%)
-    ' Comment Lines: 1 (1.92%)
+    '   Total Lines: 56
+    '    Code Lines: 42 (75.00%)
+    ' Comment Lines: 5 (8.93%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 9 (17.31%)
-    '     File Size: 1.80 KB
+    '   Blank Lines: 9 (16.07%)
+    '     File Size: 2.10 KB
 
 
     ' Class MotifNeedlemanWunsch

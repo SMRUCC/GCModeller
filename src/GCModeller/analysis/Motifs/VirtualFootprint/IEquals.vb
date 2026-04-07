@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27b1f525bca2bc84a709b62881bf8e5c, analysis\Motifs\SharedDataModels\IEquals.vb"
+﻿#Region "Microsoft.VisualBasic::e6cfadeb85a555c0929b4164632bf427, analysis\Motifs\VirtualFootprint\IEquals.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 50 (61.73%)
+    ' Comment Lines: 24 (29.63%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 7 (8.64%)
+    '     File Size: 3.16 KB
+
 
     ' Module IEqualsAPI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fc8b53315efc777c8b55409a4d35124, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
+﻿#Region "Microsoft.VisualBasic::4f90d2ac8d5400bb58d09ae5ad05feb1, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 9 (23.08%)
-    '     File Size: 1.23 KB
+    '     File Size: 1.22 KB
 
 
     '     Structure SeedData

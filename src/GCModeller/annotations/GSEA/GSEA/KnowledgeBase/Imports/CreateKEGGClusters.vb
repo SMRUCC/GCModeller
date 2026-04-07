@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1f9dd76a4b58520a07e4a624d8a162d, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
+﻿#Region "Microsoft.VisualBasic::3fa8b349d802faed2ef5a9a260345fd1, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 95
-    '    Code Lines: 82 (86.32%)
-    ' Comment Lines: 5 (5.26%)
+    '   Total Lines: 72
+    '    Code Lines: 61 (84.72%)
+    ' Comment Lines: 5 (6.94%)
     '    - Xml Docs: 80.00%
     ' 
-    '   Blank Lines: 8 (8.42%)
-    '     File Size: 4.36 KB
+    '   Blank Lines: 6 (8.33%)
+    '     File Size: 3.27 KB
 
 
     ' Module CreateKEGGClusters
     ' 
-    '     Function: (+3 Overloads) KEGGClusters
+    '     Function: (+2 Overloads) KEGGClusters
     ' 
     ' /********************************************************************************/
 

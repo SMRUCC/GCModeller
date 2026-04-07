@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8242282d49ea0e8ffb49ea28b71bfd7, annotations\WGCNA\WGCNA\Result.vb"
+﻿#Region "Microsoft.VisualBasic::a66cba47e995f584e5e77f98a6f1369b, annotations\WGCNA\WGCNA\Result.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 20
-    '    Code Lines: 13 (65.00%)
-    ' Comment Lines: 4 (20.00%)
+    '   Total Lines: 152
+    '    Code Lines: 60 (39.47%)
+    ' Comment Lines: 77 (50.66%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (15.00%)
-    '     File Size: 709 B
+    '   Blank Lines: 15 (9.87%)
+    '     File Size: 6.05 KB
 
 
     ' Class Result
     ' 
-    '     Properties: beta, hclust, K, modules, network
+    '     Properties: beta, geneSignificance, hclust, K, moduleEigengeneResults
+    '                 moduleEigengenes, moduleMembership, modulePhenotypeCorrelations, modules, network
     '                 softBeta, TOM
+    ' 
+    '     Function: GetModuleEigengene, GetModulePhenotypeCorrelation, GetSignificantModules, GetTopModuleMembers, GetTopSignificantGenes
     ' 
     ' /********************************************************************************/
 

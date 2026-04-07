@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad05da8180a8ccd65970a058122fc6fe, analysis\Metagenome\Metagenome\gast\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::4020d25376e153524accd8beacc02e57, analysis\Metagenome\Metagenome\Tools\gast\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 245
-    '    Code Lines: 133 (54.29%)
-    ' Comment Lines: 80 (32.65%)
+    '   Total Lines: 249
+    '    Code Lines: 137 (55.02%)
+    ' Comment Lines: 80 (32.13%)
     '    - Xml Docs: 57.50%
     ' 
-    '   Blank Lines: 32 (13.06%)
-    '     File Size: 8.46 KB
+    '   Blank Lines: 32 (12.85%)
+    '     File Size: 8.64 KB
 
 
     '     Class Taxonomy

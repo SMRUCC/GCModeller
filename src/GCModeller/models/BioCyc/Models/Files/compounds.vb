@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc8a8e54d82d42dc02007b621f25a753, models\BioCyc\Models\Files\compounds.vb"
+﻿#Region "Microsoft.VisualBasic::b9dc8331f7027eca5ef56db74d1073c8, models\BioCyc\Models\Files\compounds.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 90
-    '    Code Lines: 62 (68.89%)
-    ' Comment Lines: 16 (17.78%)
-    '    - Xml Docs: 81.25%
+    '   Total Lines: 97
+    '    Code Lines: 64 (65.98%)
+    ' Comment Lines: 20 (20.62%)
+    '    - Xml Docs: 85.00%
     ' 
-    '   Blank Lines: 12 (13.33%)
-    '     File Size: 3.44 KB
+    '   Blank Lines: 13 (13.40%)
+    '     File Size: 3.62 KB
 
 
     ' Class compounds
     ' 
     '     Properties: atomCharges, chemicalFormula, componentOf, dbLinks, exactMass
     '                 Gibbs0, InChI, InChIKey, molecularWeight, nonStandardInChI
-    '                 regulates, SMILES
+    '                 regulates, SMILES, superAtoms
     ' 
     '     Function: FormulaString, GetDbLinks, (+2 Overloads) OpenFile, ParseText
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::06cd3b6e829fd0ce64b159bfae34ac25, engine\BootstrapLoader\Definition\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::6a6c765dafb2fe4344beb28c000c271e, engine\BootstrapLoader\Definition\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 24 (52.17%)
-    ' Comment Lines: 16 (34.78%)
+    '   Total Lines: 48
+    '    Code Lines: 25 (52.08%)
+    ' Comment Lines: 16 (33.33%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 6 (13.04%)
-    '     File Size: 1.25 KB
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 1.29 KB
 
 
     '     Class NucleicAcid
     ' 
-    '         Properties: A, C, G, U
+    '         Properties: A, C, G, T, U
     ' 
     '         Function: ToString
     ' 

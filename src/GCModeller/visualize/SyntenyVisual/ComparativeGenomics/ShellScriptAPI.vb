@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d52e720ae019f239b7e287e85d894da, visualize\SyntenyVisual\ComparativeGenomics\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::69f97dc3fc7cfe2653942a3ecf5483cb, visualize\SyntenyVisual\ComparativeGenomics\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 160 (83.33%)
+    ' Comment Lines: 8 (4.17%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 24 (12.50%)
+    '     File Size: 8.77 KB
+
 
     '     Module ShellScriptAPI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69fcbf49df0b99ff06c56ff4bcc173f1, analysis\SequenceToolkit\SmithWaterman\CoreDump.vb"
+﻿#Region "Microsoft.VisualBasic::be06642c99307618408c8d0bc296f672, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\CoreDump.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 108
-    '    Code Lines: 69 (63.89%)
-    ' Comment Lines: 24 (22.22%)
+    '   Total Lines: 111
+    '    Code Lines: 71 (63.96%)
+    ' Comment Lines: 24 (21.62%)
     '    - Xml Docs: 66.67%
     ' 
-    '   Blank Lines: 15 (13.89%)
-    '     File Size: 3.86 KB
+    '   Blank Lines: 16 (14.41%)
+    '     File Size: 4.26 KB
 
 
-    ' Module CoreDump
+    '     Module CoreDump
     ' 
-    '     Sub: (+2 Overloads) printAlignments, printDPMatrix
+    '         Sub: (+2 Overloads) printAlignments, printDPMatrix
+    ' 
     ' 
     ' /********************************************************************************/
 

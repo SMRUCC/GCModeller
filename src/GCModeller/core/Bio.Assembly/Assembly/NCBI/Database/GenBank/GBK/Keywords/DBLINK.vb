@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0927759d5155b62a6414cc9b3a2a976, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
+﻿#Region "Microsoft.VisualBasic::0dccc0e3fda456a94b9aaca9384b1785, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 52
-    '    Code Lines: 31 (59.62%)
-    ' Comment Lines: 11 (21.15%)
+    '   Total Lines: 71
+    '    Code Lines: 47 (66.20%)
+    ' Comment Lines: 11 (15.49%)
     '    - Xml Docs: 90.91%
     ' 
-    '   Blank Lines: 10 (19.23%)
-    '     File Size: 1.76 KB
+    '   Blank Lines: 13 (18.31%)
+    '     File Size: 2.34 KB
 
 
     '     Class DBLINK
     ' 
-    '         Properties: Links
+    '         Properties: assembly_id, bioproject, biosample, Links
     ' 
     '         Function: Parser, ToString
     ' 

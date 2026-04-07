@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70c149bec1159c8378c443a93a1dac51, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::0d0a3d26f369f2a10c046e4557a399fa, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 89.47%
     ' 
     '   Blank Lines: 19 (14.96%)
-    '     File Size: 4.76 KB
+    '     File Size: 4.75 KB
 
 
     ' Class IdentityResult

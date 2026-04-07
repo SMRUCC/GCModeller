@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d433fb656f6aac29ae700b352aad239, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
+﻿#Region "Microsoft.VisualBasic::e0a4f955fe0ee3a3530a097343525162, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.30%
     ' 
     '   Blank Lines: 12 (12.90%)
-    '     File Size: 4.67 KB
+    '     File Size: 4.66 KB
 
 
     '     Class AlignmentOutput

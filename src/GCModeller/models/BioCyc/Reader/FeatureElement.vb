@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d1058a3f5f71ab13762d9658016374f, models\BioCyc\Reader\FeatureElement.vb"
+﻿#Region "Microsoft.VisualBasic::5f02a181928904318a2fcf91ccce7d95, models\BioCyc\Reader\FeatureElement.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 118
-    '    Code Lines: 95 (80.51%)
-    ' Comment Lines: 1 (0.85%)
+    '   Total Lines: 123
+    '    Code Lines: 99 (80.49%)
+    ' Comment Lines: 1 (0.81%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 22 (18.64%)
-    '     File Size: 3.94 KB
+    '   Blank Lines: 23 (18.70%)
+    '     File Size: 4.10 KB
 
 
     ' Class FeatureElement

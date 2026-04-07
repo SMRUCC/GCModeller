@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::15a9d034829f293ab22c1d5a1424571a, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 107
-'    Code Lines: 82 (76.64%)
-' Comment Lines: 4 (3.74%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 21 (19.63%)
-'     File Size: 5.00 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Protein
-' 
-'         Function: CreateQuery, GetEntry
-' 
-'     Class Entry
-' 
-'         Properties: FASTAUrl, GetBacterial, LocusTag
-' 
-'         Function: (+2 Overloads) FetchSeq, GetLocusTag, Parse, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 84 (76.36%)
+    ' Comment Lines: 4 (3.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (20.00%)
+    '     File Size: 5.01 KB
+
+
+    '     Class Protein
+    ' 
+    '         Function: CreateQuery, GetEntry
+    ' 
+    '     Class EntrezEntry
+    ' 
+    '         Properties: FASTAUrl, GetBacterial, LocusTag
+    ' 
+    '         Function: (+2 Overloads) FetchSeq, GetLocusTag, Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

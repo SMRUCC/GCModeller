@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6714231e149d643474c4af77bd026e36, annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
+﻿#Region "Microsoft.VisualBasic::0a5e11d5abdd90969cdee6a232940e98, annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 191
-    '    Code Lines: 137 (71.73%)
-    ' Comment Lines: 32 (16.75%)
-    '    - Xml Docs: 96.88%
+    '   Total Lines: 164
+    '    Code Lines: 116 (70.73%)
+    ' Comment Lines: 27 (16.46%)
+    '    - Xml Docs: 96.30%
     ' 
-    '   Blank Lines: 22 (11.52%)
-    '     File Size: 7.62 KB
+    '   Blank Lines: 21 (12.80%)
+    '     File Size: 6.33 KB
 
 
     ' Module [Imports]
@@ -48,8 +48,8 @@
     ' 
     '     Delegate Function
     ' 
-    '         Function: CreateBackground, CreateCluster, getTermInternal, ImportsUniProt, KEGGMapRelation
-    '                   UniProtGetGOTerms, UniProtGetKOTerms
+    '         Function: CreateBackground, CreateCluster, getTermInternal, ImportsUniProt, UniProtGetGOTerms
+    '                   UniProtGetKOTerms
     ' 
     ' 
     ' 

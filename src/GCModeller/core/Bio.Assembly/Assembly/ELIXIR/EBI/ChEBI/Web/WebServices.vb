@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b6cf4a0216328cdf7d2281ab123c3ef, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::b4b9093d05eb54c44f46da3fa4f6c84e, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\WebServices.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 84
-    '    Code Lines: 38 (45.24%)
-    ' Comment Lines: 36 (42.86%)
+    '   Total Lines: 76
+    '    Code Lines: 32 (42.11%)
+    ' Comment Lines: 36 (47.37%)
     '    - Xml Docs: 91.67%
     ' 
-    '   Blank Lines: 10 (11.90%)
-    '     File Size: 3.97 KB
+    '   Blank Lines: 8 (10.53%)
+    '     File Size: 3.62 KB
 
 
     '     Module WebServices

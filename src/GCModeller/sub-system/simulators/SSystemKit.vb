@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91552b224b467e02c017b81f49972001, sub-system\simulators\SSystemKit.vb"
+﻿#Region "Microsoft.VisualBasic::f229a2132d277637455a77d86f7aee08, sub-system\simulators\SSystemKit.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 214
-    '    Code Lines: 144 (67.29%)
-    ' Comment Lines: 42 (19.63%)
+    '   Total Lines: 228
+    '    Code Lines: 157 (68.86%)
+    ' Comment Lines: 42 (18.42%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 28 (13.08%)
-    '     File Size: 7.98 KB
+    '   Blank Lines: 29 (12.72%)
+    '     File Size: 8.60 KB
 
 
     ' Module SSystemKit

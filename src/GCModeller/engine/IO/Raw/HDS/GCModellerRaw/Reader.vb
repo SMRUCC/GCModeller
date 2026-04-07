@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92c81a665d5a6b57e299f4a257c44c0b, engine\IO\Raw\HDS\GCModellerRaw\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::2eaca1667528c0985c738a9a7cfcb85f, engine\IO\Raw\HDS\GCModellerRaw\Reader.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,30 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 135
-    '    Code Lines: 96 (71.11%)
-    ' Comment Lines: 12 (8.89%)
-    '    - Xml Docs: 91.67%
+    '   Total Lines: 185
+    '    Code Lines: 131 (70.81%)
+    ' Comment Lines: 13 (7.03%)
+    '    - Xml Docs: 84.62%
     ' 
-    '   Blank Lines: 27 (20.00%)
-    '     File Size: 5.53 KB
+    '   Blank Lines: 41 (22.16%)
+    '     File Size: 7.22 KB
 
 
+    '     Interface IStreamContainer
+    ' 
+    '         Function: GetStream
+    ' 
     '     Class Reader
     ' 
+    '         Properties: comparts
+    ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
     '         Function: AllTimePoints, GetFrameFile, GetGraphData, GetIdCounts, GetMoleculeIdList
     '                   GetRelatedReactions, GetStream, LoadIndex, PopulateFrames, Read
-    '                   ReadModule
+    '                   ReadFlux, ReadModule
+    ' 
+    '         Sub: Dispose
     ' 
     ' 
     ' /********************************************************************************/

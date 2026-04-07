@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae8111a5ce64979ddbb80ee525a5db78, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\transcription.vb"
+﻿#Region "Microsoft.VisualBasic::d1fd8431e8c1d5b8da27e7a96204bb80, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\transcription.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 54
-    '    Code Lines: 25 (46.30%)
-    ' Comment Lines: 18 (33.33%)
+    '   Total Lines: 49
+    '    Code Lines: 21 (42.86%)
+    ' Comment Lines: 18 (36.73%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 11 (20.37%)
-    '     File Size: 1.58 KB
+    '   Blank Lines: 10 (20.41%)
+    '     File Size: 1.50 KB
 
 
     '     Class transcription
     ' 
-    '         Properties: biological_process, centralDogma, effector, mode, motif
-    '                     regulator, target
+    '         Properties: biological_process, centralDogma, mode, motif, note
+    '                     regulator, targets
     ' 
     '     Class Motif
     ' 

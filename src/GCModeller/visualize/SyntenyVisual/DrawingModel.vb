@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e4d1a6ea9db92bae5ae042046be965c, visualize\SyntenyVisual\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::42f36ead1e132c703664a8f1c6901053, visualize\SyntenyVisual\DrawingModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 50 (63.29%)
+    ' Comment Lines: 18 (22.78%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (13.92%)
+    '     File Size: 3.50 KB
+
 
     ' Class DrawingModel
     ' 

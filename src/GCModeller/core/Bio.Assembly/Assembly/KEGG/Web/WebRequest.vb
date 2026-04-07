@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48d76b71e1b67b5d6b45e21254f64fb3, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::33711191d0322aa7d079375e651a12c6, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 51 (13.53%)
-    '     File Size: 16.36 KB
+    '     File Size: 16.32 KB
 
 
     '     Module WebRequest

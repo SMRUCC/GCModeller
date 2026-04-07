@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97a97defd74ef7f3aaa46e155b66344f, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::ae5624e188bbd58a84fc655797324248, visualize\DataVisualizationExtensions\CatalogProfiling\Heatmap\CatalogBubbleHeatmap.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 22 (12.87%)
-    '     File Size: 7.48 KB
+    '     File Size: 7.50 KB
 
 
     '     Class CatalogBubbleHeatmap

@@ -1,4 +1,73 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::c2649a7352d5d244aaa258385d7aa80d, core\Bio.Assembly\Metagenomics\LCA.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 341
+    '    Code Lines: 233 (68.33%)
+    ' Comment Lines: 45 (13.20%)
+    '    - Xml Docs: 75.56%
+    ' 
+    '   Blank Lines: 63 (18.48%)
+    '     File Size: 13.24 KB
+
+
+    '     Class LCA
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Check, GetDepth, (+2 Overloads) GetLCA, GetLCAByBinaryLifting, GetLCAForMetagenomics
+    '                   GetNode
+    ' 
+    '     Class Lineage
+    ' 
+    '         Properties: length, taxid
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: SetOffset, ToString
+    ' 
+    '     Class LcaResult
+    ' 
+    '         Properties: lcaNode, LCATaxid, supportedTaxids, supportRatio
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics

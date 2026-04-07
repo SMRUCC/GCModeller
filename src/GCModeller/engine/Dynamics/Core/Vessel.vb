@@ -1,61 +1,71 @@
-﻿#Region "Microsoft.VisualBasic::c67f38bde7bcac06d65ec738a32ee4de, engine\Dynamics\Core\Vessel.vb"
+﻿#Region "Microsoft.VisualBasic::f126ce08adb07ba228f50c4b1790a544, engine\Dynamics\Core\Vessel.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 208
-'    Code Lines: 104 (50.00%)
-' Comment Lines: 74 (35.58%)
-'    - Xml Docs: 79.73%
-' 
-'   Blank Lines: 30 (14.42%)
-'     File Size: 7.80 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Vessel
-' 
-'         Properties: Channels, MassEnvironment
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
-'                   Reset
-' 
-'         Sub: fp_dfdx_parallel, fp_dfdx_sequence
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 258
+    '    Code Lines: 136 (52.71%)
+    ' Comment Lines: 77 (29.84%)
+    '    - Xml Docs: 80.52%
+    ' 
+    '   Blank Lines: 45 (17.44%)
+    '     File Size: 9.69 KB
+
+
+    '     Class CompartmentSnapshot
+    ' 
+    '         Properties: compart_id, snapshot
+    ' 
+    '     Class Vessel
+    ' 
+    '         Properties: Channels, MassEnvironment
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ContainerIterator, factorsByCount, getMassValues, Initialize, (+2 Overloads) load
+    '                   Reset
+    ' 
+    '         Sub: fp_dfdx_parallel, fp_dfdx_sequence
+    '         Class ParallelODEs
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: Solve
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

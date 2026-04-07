@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee9957eb6540b4982bfcd4d637aca160, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
+﻿#Region "Microsoft.VisualBasic::f5c0db151098c2b99297909e175eedcb, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 328
-    '    Code Lines: 255 (77.74%)
-    ' Comment Lines: 32 (9.76%)
+    '   Total Lines: 326
+    '    Code Lines: 253 (77.61%)
+    ' Comment Lines: 32 (9.82%)
     '    - Xml Docs: 40.62%
     ' 
-    '   Blank Lines: 41 (12.50%)
-    '     File Size: 14.95 KB
+    '   Blank Lines: 41 (12.58%)
+    '     File Size: 14.81 KB
 
 
     ' Module Membrane_transport

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e89ff774a2a635bd6b85aef0fe9d578, core\Bio.Assembly\Assembly\DOOR\Models\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::57640bb8e6e3cfa45135fd28e4829aaf, core\Bio.Assembly\Assembly\DOOR\Models\Operon.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 28 (10.94%)
-    '     File Size: 10.88 KB
+    '     File Size: 10.87 KB
 
 
     '     Class Operon

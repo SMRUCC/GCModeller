@@ -1,56 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::d7b80db5377684811665f89745d09316, engine\Dynamics\Core\Mass\MassDynamics.vb"
+﻿#Region "Microsoft.VisualBasic::145613143c03aff975bf60b0b5be5dc9, engine\Dynamics\Core\Mass\MassDynamics.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 194
-'    Code Lines: 142 (73.20%)
-' Comment Lines: 24 (12.37%)
-'    - Xml Docs: 62.50%
-' 
-'   Blank Lines: 28 (14.43%)
-'     File Size: 7.68 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MassDynamics
-' 
-'         Properties: Name, Value
-' 
-'         Function: createMassIndex, Evaluate, getLastFluxVariants, PopulateDynamics, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 275
+    '    Code Lines: 208 (75.64%)
+    ' Comment Lines: 27 (9.82%)
+    '    - Xml Docs: 55.56%
+    ' 
+    '   Blank Lines: 40 (14.55%)
+    '     File Size: 11.13 KB
+
+
+    '     Class MassDynamics
+    ' 
+    '         Properties: Name, Value
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: Clip, createMassIndex, Evaluate, GenericEnumerator, getLastFluxVariants
+    '                   PopulateDynamics, ToString
+    ' 
+    '         Sub: setForward, setReverse
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

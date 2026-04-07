@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8034016e9cdb444199537082be793512, engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::92d351210694a44b540508bb9249863a, engine\BootstrapLoader\Engine\VCell\OmicsDataAdapter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 87
-    '    Code Lines: 74 (85.06%)
-    ' Comment Lines: 2 (2.30%)
+    '   Total Lines: 94
+    '    Code Lines: 74 (78.72%)
+    ' Comment Lines: 2 (2.13%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (12.64%)
-    '     File Size: 4.18 KB
+    '   Blank Lines: 18 (19.15%)
+    '     File Size: 4.77 KB
 
 
     '     Class OmicsDataAdapter
@@ -49,9 +49,9 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetFluxTuples, GetMassTuples
+    '         Function: GetFluxTuples, GetMassTuples, modelMetabolites, modelPolypeptides, modelRNANames
     ' 
-    '         Sub: FluxSnapshot, MassSnapshot
+    '         Sub: FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e8c65bd096f294a860e78a85ecffa073, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::58c72b9288e98df3004de34718afc8e2, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 90.57%
     ' 
     '   Blank Lines: 35 (12.73%)
-    '     File Size: 11.96 KB
+    '     File Size: 11.95 KB
 
 
     '     Module FastaExportMethods

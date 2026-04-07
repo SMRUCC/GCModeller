@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00402dc5e00de47bbd3e4e61330685fd, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
+﻿#Region "Microsoft.VisualBasic::c584346a0a7bf0e021c7e1927cf8e31c, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 88.89%
     ' 
     '   Blank Lines: 21 (12.50%)
-    '     File Size: 6.81 KB
+    '     File Size: 6.80 KB
 
 
     '     Class MapRepository

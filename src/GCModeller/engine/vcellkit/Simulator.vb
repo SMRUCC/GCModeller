@@ -1,66 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::9fd82ef481f1750fac6d4a75da30c1f7, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::7ec24332b43fdeac6a6b748d40b750eb, engine\vcellkit\Simulator.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 269
-'    Code Lines: 166 (61.71%)
-' Comment Lines: 80 (29.74%)
-'    - Xml Docs: 92.50%
-' 
-'   Blank Lines: 23 (8.55%)
-'     File Size: 12.44 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Enum ModuleSystemLevels
-' 
-'     Metabolome, Proteome, Transcriptome
-' 
-'  
-' 
-' 
-' 
-' Module Simulator
-' 
-'     Constructor: (+1 Overloads) Sub New
-' 
-'     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-'               GetDefaultDynamics, mass0, MassIndex
-' 
-'     Sub: TakeStatusSnapshot
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 380
+    '    Code Lines: 250 (65.79%)
+    ' Comment Lines: 90 (23.68%)
+    '    - Xml Docs: 92.22%
+    ' 
+    '   Blank Lines: 40 (10.53%)
+    '     File Size: 16.68 KB
+
+
+    ' Enum ModuleSystemLevels
+    ' 
+    '     Metabolome, Proteome, Transcriptome
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Module Simulator
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: ApplyModuleProfile, attach_memoryDataSet, castMemoryTable, CreateObjectModel, CreateVCellEngine
+    '               FluxIndex, GetDefaultDynamics, KEGGDefinition, mass0, MassIndex
+    '               MetaCycDefinition, run, setStatus
+    ' 
+    '     Sub: TakeStatusSnapshot
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53a4766cf1eb7a7b36d36bb0d4afdb49, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Alphabet.vb"
+﻿#Region "Microsoft.VisualBasic::d596648f3c1270ec20f2f3216b5cb07f, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Alphabet.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.00%
     ' 
     '   Blank Lines: 7 (12.28%)
-    '     File Size: 1.87 KB
+    '     File Size: 1.88 KB
 
 
     '     Class Alphabet

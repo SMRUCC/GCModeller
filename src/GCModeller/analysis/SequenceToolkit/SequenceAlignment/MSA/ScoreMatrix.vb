@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff29406ac4c3712de319862fffd07503, analysis\SequenceToolkit\MSA\ScoreMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::ca1a34bd5024ea3b0735a8cd1f2fa256, analysis\SequenceToolkit\SequenceAlignment\MSA\ScoreMatrix.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 44
-    '    Code Lines: 36 (81.82%)
+    '   Total Lines: 45
+    '    Code Lines: 36 (80.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 8 (18.18%)
-    '     File Size: 1.80 KB
+    '   Blank Lines: 9 (20.00%)
+    '     File Size: 1.94 KB
 
 
-    ' Class ScoreMatrix
+    '     Class ScoreMatrix
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: DefaultMatrix, getScore, LoadFile, MatrixParser
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: DefaultMatrix, getScore, LoadFile, MatrixParser
+    ' 
     ' 
     ' /********************************************************************************/
 

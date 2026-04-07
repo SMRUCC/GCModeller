@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f63a852b5096a5b671d88c2c40d6e65, analysis\HTS_matrix\Matrix\DataFrameRow.vb"
+﻿#Region "Microsoft.VisualBasic::45e30927f615e56ef216446150e5fd40, analysis\HTS_matrix\Matrix\DataFrameRow.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 163
-    '    Code Lines: 89 (54.60%)
-    ' Comment Lines: 54 (33.13%)
-    '    - Xml Docs: 98.15%
+    '   Total Lines: 183
+    '    Code Lines: 96 (52.46%)
+    ' Comment Lines: 66 (36.07%)
+    '    - Xml Docs: 93.94%
     ' 
-    '   Blank Lines: 20 (12.27%)
-    '     File Size: 5.24 KB
+    '   Blank Lines: 21 (11.48%)
+    '     File Size: 6.50 KB
 
 
     ' Class DataFrameRow
     ' 
-    '     Properties: experiments, geneID, samples
+    '     Properties: experiments, geneID, MAD, samples
     ' 
     '     Constructor: (+4 Overloads) Sub New
     '     Function: Average, CreateVector, Max, Sum, ToDataSet

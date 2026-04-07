@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d95fb462026038a8191e947cf61309, models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::a31de1b1dcaffcf9778dfb6026790e00, models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 54.55%
     ' 
     '   Blank Lines: 14 (14.74%)
-    '     File Size: 4.10 KB
+    '     File Size: 4.08 KB
 
 
     ' Module EndPointAnalysis

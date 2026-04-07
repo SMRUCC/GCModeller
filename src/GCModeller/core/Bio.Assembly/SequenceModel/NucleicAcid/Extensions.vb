@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0de1da6ded30277067c3e91b04d7727, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::bc90c5df76a445c9f68da12398cbd7be, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 272
-    '    Code Lines: 164 (60.29%)
-    ' Comment Lines: 54 (19.85%)
-    '    - Xml Docs: 59.26%
+    '   Total Lines: 297
+    '    Code Lines: 174 (58.59%)
+    ' Comment Lines: 70 (23.57%)
+    '    - Xml Docs: 58.57%
     ' 
-    '   Blank Lines: 54 (19.85%)
-    '     File Size: 9.83 KB
+    '   Blank Lines: 53 (17.85%)
+    '     File Size: 11.62 KB
 
 
     '     Module Extensions
     ' 
-    '         Function: HammingDistance, LevenshteinDistance, LevenshteinDistance2, Minimum, PatternMatched
-    '                   SegmentAssembler, Similarity
-    ' 
-    '         Sub: __assembly
+    '         Function: CalculateJCFromSequences, CalculateJukesCantorDistance, HammingDistance, LevenshteinDistance, LevenshteinDistance2
+    '                   Minimum, PatternMatched, Similarity
     ' 
     ' 
     ' /********************************************************************************/

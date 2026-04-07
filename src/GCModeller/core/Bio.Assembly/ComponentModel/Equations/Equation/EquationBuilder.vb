@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e9505f976210019e394a837f5a6c5c, core\Bio.Assembly\ComponentModel\Equations\EquationBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::9f9671d8512b68491fa93187e050f5ec, core\Bio.Assembly\ComponentModel\Equations\Equation\EquationBuilder.vb"
 
     ' Author:
     ' 
@@ -40,12 +40,12 @@
     '    - Xml Docs: 65.00%
     ' 
     '   Blank Lines: 30 (16.22%)
-    '     File Size: 8.39 KB
+    '     File Size: 8.46 KB
 
 
     '     Module EquationBuilder
     ' 
-    '         Function: __tryParse, (+2 Overloads) CreateObject, GetSides, MeasureDelimiter, (+4 Overloads) ToString
+    '         Function: __tryParse, CheckArrow, (+2 Overloads) CreateObject, GetSides, (+4 Overloads) ToString
     ' 
     '         Sub: __appendSide, (+2 Overloads) AppendSides
     ' 

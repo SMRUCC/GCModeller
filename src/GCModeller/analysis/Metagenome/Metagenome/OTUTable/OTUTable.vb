@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c91603011db729f1a5f7c125127e69fa, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
+﻿#Region "Microsoft.VisualBasic::79d0c564743bf1cb581a53c8838360c2, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 111
-    '    Code Lines: 67 (60.36%)
-    ' Comment Lines: 34 (30.63%)
-    '    - Xml Docs: 76.47%
+    '   Total Lines: 160
+    '    Code Lines: 98 (61.25%)
+    ' Comment Lines: 47 (29.38%)
+    '    - Xml Docs: 82.98%
     ' 
-    '   Blank Lines: 10 (9.01%)
-    '     File Size: 4.49 KB
+    '   Blank Lines: 15 (9.38%)
+    '     File Size: 6.14 KB
 
 
     ' Class OTUTable
     ' 
-    '     Properties: taxonomy
+    '     Properties: Properties, taxonomy
     ' 
-    '     Function: FromOTUData, LoadSample, SumDuplicatedOTU
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: FromOTUData, LoadSample, (+2 Overloads) SumDuplicatedOTU, ToString
     ' 
     ' /********************************************************************************/
 

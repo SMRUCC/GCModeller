@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d19b563cc5005b435f2d5c0c38859ac7, analysis\SequenceToolkit\MotifFinder\Gibbs\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::d49caeccce26a4ce5e5e34ff15c121fc, analysis\SequenceToolkit\MotifFinder\Gibbs\Writer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 80
-    '    Code Lines: 33 (41.25%)
-    ' Comment Lines: 38 (47.50%)
+    '   Total Lines: 81
+    '    Code Lines: 33 (40.74%)
+    ' Comment Lines: 38 (46.91%)
     '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 9 (11.25%)
-    '     File Size: 4.00 KB
+    '   Blank Lines: 10 (12.35%)
+    '     File Size: 4.01 KB
 
 
     ' Class Writer

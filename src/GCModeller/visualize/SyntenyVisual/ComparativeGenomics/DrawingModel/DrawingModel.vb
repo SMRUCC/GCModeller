@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 40 (68.97%)
+    ' Comment Lines: 10 (17.24%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 8 (13.79%)
+    '     File Size: 2.08 KB
+
+
     '     Class DrawingModel
     ' 
     '         Properties: Genome1, Genome2, Links, RibbonScoreColors

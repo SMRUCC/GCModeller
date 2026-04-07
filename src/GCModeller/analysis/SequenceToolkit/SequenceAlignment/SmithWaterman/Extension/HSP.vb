@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::464acc36488af99cadd3e75460c46a40, analysis\SequenceToolkit\SmithWaterman\Extension\HSP.vb"
+﻿#Region "Microsoft.VisualBasic::b63771d5616c8f762033953648966bd9, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Extension\HSP.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 45 (63.38%)
-    ' Comment Lines: 14 (19.72%)
+    '   Total Lines: 74
+    '    Code Lines: 47 (63.51%)
+    ' Comment Lines: 14 (18.92%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (16.90%)
-    '     File Size: 2.13 KB
+    '   Blank Lines: 13 (17.57%)
+    '     File Size: 2.39 KB
 
 
-    ' Class HSP
+    '     Class HSP
     ' 
-    '     Properties: LengthHit, LengthQuery, Query, QueryLength, Subject
-    '                 SubjectLength
+    '         Properties: LengthHit, LengthQuery, Query, QueryLength, Subject
+    '                     SubjectLength
     ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: CreateFrom, ToString
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: CreateFrom, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

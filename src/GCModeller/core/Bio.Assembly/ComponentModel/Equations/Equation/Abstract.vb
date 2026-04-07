@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2fba35955f1e3c28bf997aebc767b48, core\Bio.Assembly\ComponentModel\Equations\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::ec41024d5473beba2185d21da6b51de4, core\Bio.Assembly\ComponentModel\Equations\Equation\Abstract.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 38
-    '    Code Lines: 11 (28.95%)
-    ' Comment Lines: 22 (57.89%)
+    '   Total Lines: 60
+    '    Code Lines: 16 (26.67%)
+    ' Comment Lines: 34 (56.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (13.16%)
-    '     File Size: 1.36 KB
+    '   Blank Lines: 10 (16.67%)
+    '     File Size: 1.89 KB
 
 
     '     Interface ICompoundSpecies
@@ -50,6 +50,13 @@
     '     Interface IEquation
     ' 
     '         Properties: Products, Reactants, Reversible
+    ' 
+    '     Enum ReactionDirection
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
     ' 
     ' 
     ' /********************************************************************************/

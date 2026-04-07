@@ -1,4 +1,82 @@
-﻿Imports System.Runtime.CompilerServices
+﻿#Region "Microsoft.VisualBasic::470dafa61faec491156555cfa904a2df, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Reaction.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 144 (66.98%)
+    ' Comment Lines: 39 (18.14%)
+    '    - Xml Docs: 97.44%
+    ' 
+    '   Blank Lines: 32 (14.88%)
+    '     File Size: 7.94 KB
+
+
+    '     Class Transportation
+    ' 
+    '         Properties: enzymes, guid, membrane
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class ReactionGroup
+    ' 
+    '         Properties: enzymatic, none_enzymatic, size, transportation
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: CompoundLinks, GenericEnumerator
+    ' 
+    '     Class Reaction
+    ' 
+    '         Properties: baseline, bounds, compartment, ec_number, equation
+    '                     ID, is_enzymatic, name, note, product
+    '                     substrate
+    ' 
+    '         Function: CheckTransportation, GenericEnumerator, ToString
+    ' 
+    '     Class CompoundFactor
+    ' 
+    '         Properties: cid, compartment, compound, factor
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: factorString, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository

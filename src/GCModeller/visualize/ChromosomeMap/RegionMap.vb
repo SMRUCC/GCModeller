@@ -1,53 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::0d09cc80cc8e4376e8df29ae89710d99, visualize\ChromosomeMap\RegionMap.vb"
+﻿#Region "Microsoft.VisualBasic::c3e6635177ad865c2488ba5e49b409a0, visualize\ChromosomeMap\RegionMap.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 143
-'    Code Lines: 114 (79.72%)
-' Comment Lines: 15 (10.49%)
-'    - Xml Docs: 86.67%
-' 
-'   Blank Lines: 14 (9.79%)
-'     File Size: 6.09 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module RegionMap
-' 
-'     Function: Plot
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 133 (80.61%)
+    ' Comment Lines: 15 (9.09%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 17 (10.30%)
+    '     File Size: 7.11 KB
+
+
+    ' Class RegionMap
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: PlotRegion
+    ' 
+    '     Sub: PlotInternal
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

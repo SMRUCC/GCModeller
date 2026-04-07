@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c2560de2182c9308e0e54274b6f8498, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
+﻿#Region "Microsoft.VisualBasic::ba1e65691d339be08c7046e5bf3c1995, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
 
     ' Author:
     ' 
@@ -35,8 +35,8 @@
     ' Code Statistics:
 
     '   Total Lines: 82
-    '    Code Lines: 23 (28.05%)
-    ' Comment Lines: 54 (65.85%)
+    '    Code Lines: 24 (29.27%)
+    ' Comment Lines: 53 (64.63%)
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 5 (6.10%)

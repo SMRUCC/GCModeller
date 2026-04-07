@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0159267ba46eaceeb2921e3ac8902d8, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
+﻿#Region "Microsoft.VisualBasic::4a65fbdc045d1a268f044f48f742126e, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 86.49%
     ' 
     '   Blank Lines: 20 (12.05%)
-    '     File Size: 6.32 KB
+    '     File Size: 6.31 KB
 
 
     ' Module DAGModel

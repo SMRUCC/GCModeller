@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2d1eabaef4fb69c34c1dc67476fb332, engine\CompilerServices\ModelBase\Property.vb"
+﻿#Region "Microsoft.VisualBasic::33e682dc7fb7ddc65a3b28a9b62649ff, engine\CompilerServices\ModelBase\Property.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 36
-    '    Code Lines: 27 (75.00%)
-    ' Comment Lines: 3 (8.33%)
+    '   Total Lines: 54
+    '    Code Lines: 42 (77.78%)
+    ' Comment Lines: 3 (5.56%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 6 (16.67%)
-    '     File Size: 1.21 KB
+    '   Blank Lines: 9 (16.67%)
+    '     File Size: 1.77 KB
 
 
     ' Class [Property]
@@ -49,7 +49,7 @@
     '                 guid, name, publications, reversion, specieId
     '                 title, URLs
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/

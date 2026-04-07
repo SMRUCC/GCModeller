@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a29227749a286085f4d85f5501cfa54d, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::026d38ec0e9fcf59af85c22cf22c582c, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 20 (80.00%)
+    '   Total Lines: 65
+    '    Code Lines: 54 (83.08%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (20.00%)
-    '     File Size: 827 B
+    '   Blank Lines: 11 (16.92%)
+    '     File Size: 2.29 KB
 
 
     ' Module BIOMExtensions
     ' 
-    '     Function: Union
+    '     Function: CastMatrix, FromExpressionMatrix, Union
     ' 
     ' /********************************************************************************/
 

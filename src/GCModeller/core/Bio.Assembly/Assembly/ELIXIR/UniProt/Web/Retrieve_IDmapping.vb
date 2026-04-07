@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dd8b70f9e5294e41cbac6815dc60aa3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::11e6aaf952f2244d81149f7e10d31cf3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 295
-    '    Code Lines: 158 (53.56%)
-    ' Comment Lines: 103 (34.92%)
-    '    - Xml Docs: 69.90%
+    '   Total Lines: 250
+    '    Code Lines: 144 (57.60%)
+    ' Comment Lines: 73 (29.20%)
+    '    - Xml Docs: 57.53%
     ' 
-    '   Blank Lines: 34 (11.53%)
-    '     File Size: 12.52 KB
+    '   Blank Lines: 33 (13.20%)
+    '     File Size: 11.57 KB
 
 
     '     Module Retrieve_IDmapping
@@ -49,15 +49,6 @@
     '                   UniprotIDFilter
     ' 
     '         Sub: Mapping
-    ' 
-    '     Enum Formats
-    ' 
-    '         canonical, gff, isoform, list, mappingTable
-    '         rdf, tab, txt, xlsx, xml
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0c2d1aa21a2588c069803b53eefcb3c, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
+﻿#Region "Microsoft.VisualBasic::51af1bbf5b7f1caa87bb96d790dc2dc2, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 230
-    '    Code Lines: 194 (84.35%)
-    ' Comment Lines: 13 (5.65%)
+    '   Total Lines: 232
+    '    Code Lines: 196 (84.48%)
+    ' Comment Lines: 13 (5.60%)
     '    - Xml Docs: 69.23%
     ' 
-    '   Blank Lines: 23 (10.00%)
-    '     File Size: 10.14 KB
+    '   Blank Lines: 23 (9.91%)
+    '     File Size: 10.25 KB
 
 
     '     Class PatternPlot

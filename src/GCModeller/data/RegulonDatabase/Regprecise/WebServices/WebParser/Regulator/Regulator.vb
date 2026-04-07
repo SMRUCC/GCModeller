@@ -1,59 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::03de0a176df6b6f58821d855dcf320f1, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::512fce690277cefd45bc35af7300801c, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 105
-'    Code Lines: 66 (62.86%)
-' Comment Lines: 25 (23.81%)
-'    - Xml Docs: 96.00%
-' 
-'   Blank Lines: 14 (13.33%)
-'     File Size: 4.33 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Regulator
-' 
-'         Properties: biological_process, effector, family, infoURL, locus_tag
-'                     LocusId, operons, pathway, Regulates, regulationMode
-'                     regulator, regulatorySites, regulog, type
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: ExportMotifs, (+2 Overloads) GetMotifSite, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 67 (58.77%)
+    ' Comment Lines: 33 (28.95%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 14 (12.28%)
+    '     File Size: 4.58 KB
+
+
+    '     Class Regulator
+    ' 
+    '         Properties: biological_process, effector, family, infoURL, locus_tags
+    '                     LocusId, operons, pathway, Regulates, regulationMode
+    '                     regulator, regulatorySites, regulog, type
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ExportMotifs, (+2 Overloads) GetMotifSite, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

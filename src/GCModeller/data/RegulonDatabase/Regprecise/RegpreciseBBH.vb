@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78196c5d3fa6d9a094799c6ad63b3ce0, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
+﻿#Region "Microsoft.VisualBasic::594f0a470fe047c5417b6c8a39f4e635, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 168
-    '    Code Lines: 116 (69.05%)
-    ' Comment Lines: 25 (14.88%)
+    '   Total Lines: 169
+    '    Code Lines: 117 (69.23%)
+    ' Comment Lines: 25 (14.79%)
     '    - Xml Docs: 92.00%
     ' 
-    '   Blank Lines: 27 (16.07%)
-    '     File Size: 6.54 KB
+    '   Blank Lines: 27 (15.98%)
+    '     File Size: 6.74 KB
 
 
     '     Class RegpreciseBBH

@@ -1,3 +1,63 @@
+﻿#Region "Microsoft.VisualBasic::057b787b2e633a57734ef7cf6b4c55d3, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProfileHMM.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 479
+    '    Code Lines: 288 (60.13%)
+    ' Comment Lines: 124 (25.89%)
+    '    - Xml Docs: 34.68%
+    ' 
+    '   Blank Lines: 67 (13.99%)
+    '     File Size: 18.43 KB
+
+
+    ' Class ProfileHMM
+    ' 
+    '     Properties: Alphabet, Checksum, CompositionEmission, CompositionInsert, CompositionTransitions
+    '                 EffectiveNum, HMMInitialProb, HMMObservables, HMMStates, InsertEmissions
+    '                 Length, MatchEmissions, Name, NumSequences, StatsForward
+    '                 StatsMSV, StatsViterbi, Transitions, Version
+    ' 
+    '     Function: CalculateBitScore, CalculateEValue, CreateHMM, GetAminoAcidIndex, GetEmissionScore
+    '               GetInsertEmissionScore, GetTransitionScore, InitializeHMMParameters, LogOddsToProbability
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 Imports System.TimeZoneInfo
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain
 Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
@@ -476,4 +536,5 @@ Public Class ProfileHMM
         Return eValue
     End Function
 End Class
+
 

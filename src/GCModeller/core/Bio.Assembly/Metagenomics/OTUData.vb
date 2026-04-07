@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ae80e74f85b126c249037ca7b350ab5, core\Bio.Assembly\Metagenomics\OTUData.vb"
+﻿#Region "Microsoft.VisualBasic::6a8cf24c0106c52a160f81626570b5d3, core\Bio.Assembly\Metagenomics\OTUData.vb"
 
     ' Author:
     ' 

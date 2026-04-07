@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23a0ecc8ccf6c921222a5d5a718fc46c, visualize\SyntenyVisual\LinkLines.vb"
+﻿#Region "Microsoft.VisualBasic::58e413f44e0a879955a1713241649dd2, visualize\SyntenyVisual\LinkLines.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 66 (44.59%)
+    ' Comment Lines: 62 (41.89%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 20 (13.51%)
+    '     File Size: 4.40 KB
+
 
     ' Class Line
     ' 

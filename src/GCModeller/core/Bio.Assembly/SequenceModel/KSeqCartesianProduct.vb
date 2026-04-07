@@ -1,4 +1,59 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::57f2e9eb437171566473b533d9a7cc9a, core\Bio.Assembly\SequenceModel\KSeqCartesianProduct.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 35 (70.00%)
+    ' Comment Lines: 8 (16.00%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 1.76 KB
+
+
+    '     Class KSeqCartesianProduct
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: KmerSeeds
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 

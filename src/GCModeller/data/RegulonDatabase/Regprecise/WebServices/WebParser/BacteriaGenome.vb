@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
+﻿#Region "Microsoft.VisualBasic::d0bab636e94990500dab9d7bbd00e106, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 97
-    '    Code Lines: 55 (56.70%)
-    ' Comment Lines: 29 (29.90%)
+    '   Total Lines: 98
+    '    Code Lines: 56 (57.14%)
+    ' Comment Lines: 29 (29.59%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (13.40%)
-    '     File Size: 3.51 KB
+    '   Blank Lines: 13 (13.27%)
+    '     File Size: 3.57 KB
 
 
     '     Class BacteriaRegulome

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a29af0e36c62cf8aef593ef94f7efc63, models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::9117f8af6eafd5ba2251cbe81c8ffea4, models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 75.00%
     ' 
     '   Blank Lines: 17 (13.71%)
-    '     File Size: 6.11 KB
+    '     File Size: 6.10 KB
 
 
     '     Module MapAssignment

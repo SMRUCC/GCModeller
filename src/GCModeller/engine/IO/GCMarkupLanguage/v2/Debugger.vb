@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a5029ad8e261abdb074e07fbc36ed37, engine\IO\GCMarkupLanguage\v2\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::c073ab3276085df7467644a6d9adf045, engine\IO\GCMarkupLanguage\v2\Debugger.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 22
-    '    Code Lines: 10 (45.45%)
-    ' Comment Lines: 9 (40.91%)
+    '   Total Lines: 51
+    '    Code Lines: 32 (62.75%)
+    ' Comment Lines: 9 (17.65%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (13.64%)
-    '     File Size: 676 B
+    '   Blank Lines: 10 (19.61%)
+    '     File Size: 1.70 KB
 
 
     '     Module Debugger
     ' 
-    '         Function: checkModel
+    '         Function: checkModel, GetMetaboliteReferenceMaps, GetMetaboliteSymbolNames
     ' 
     ' 
     ' /********************************************************************************/

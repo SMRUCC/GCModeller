@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a350d95664053d196683aa27165af257, analysis\SequenceToolkit\SNP\DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::a143266cfd97b35279a3caf9b794319c, analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.62%
     ' 
     '   Blank Lines: 26 (17.11%)
-    '     File Size: 5.50 KB
+    '     File Size: 5.49 KB
 
 
     ' Module DiffVariation

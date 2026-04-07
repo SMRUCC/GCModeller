@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30d2dc5e94ac0a2b7dd7f5ca5fa090fe, models\BioCyc\Models\Files\reactions.vb"
+﻿#Region "Microsoft.VisualBasic::0d16ef1d812ecdc8ec666b1a29658b4a, models\BioCyc\Models\Files\reactions.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 237
-    '    Code Lines: 90 (37.97%)
-    ' Comment Lines: 136 (57.38%)
+    '   Total Lines: 238
+    '    Code Lines: 90 (37.82%)
+    ' Comment Lines: 136 (57.14%)
     '    - Xml Docs: 94.85%
     ' 
-    '   Blank Lines: 11 (4.64%)
+    '   Blank Lines: 12 (5.04%)
     '     File Size: 13.61 KB
 
 

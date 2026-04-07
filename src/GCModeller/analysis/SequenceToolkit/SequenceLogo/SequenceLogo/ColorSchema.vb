@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a29e66d35151b3585f58ee54eccc602f, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::b8d3edf5dde4f475c0f2f6004c5f1c62, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 121
-    '    Code Lines: 89 (73.55%)
-    ' Comment Lines: 22 (18.18%)
+    '   Total Lines: 129
+    '    Code Lines: 95 (73.64%)
+    ' Comment Lines: 22 (17.05%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (8.26%)
-    '     File Size: 7.29 KB
+    '   Blank Lines: 12 (9.30%)
+    '     File Size: 7.61 KB
 
 
-    '     Module ColorSchema
+    '     Class ColorSchema
     ' 
     '         Properties: DNAcolors, NucleotideSchema, ProteinSchema
     ' 
-    '         Function: __getTexture
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateAlphabetImageTexture
     ' 
     ' 
     ' /********************************************************************************/

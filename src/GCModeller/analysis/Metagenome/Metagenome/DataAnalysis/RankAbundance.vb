@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05ecf227168db2056561a92a3f0caa18, analysis\Metagenome\Metagenome\RankAbundance.vb"
+﻿#Region "Microsoft.VisualBasic::9c59d6f77a5b6dad813110b995c0ee1a, analysis\Metagenome\Metagenome\DataAnalysis\RankAbundance.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 129
-    '    Code Lines: 84 (65.12%)
-    ' Comment Lines: 32 (24.81%)
-    '    - Xml Docs: 90.62%
+    '   Total Lines: 123
+    '    Code Lines: 84 (68.29%)
+    ' Comment Lines: 27 (21.95%)
+    '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 13 (10.08%)
-    '     File Size: 5.91 KB
+    '   Blank Lines: 12 (9.76%)
+    '     File Size: 5.58 KB
 
 
     ' Module RankAbundance
     ' 
-    '     Function: GroupValue, RankAbundance, TaxonomyProfile, TaxonomyRankString
+    '     Function: RankAbundance, TaxonomyProfile, TaxonomyRankString
     ' 
     ' /********************************************************************************/
 

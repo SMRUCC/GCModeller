@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c8dd299c8134371855ab1e7f70807b56, data\Rhea\ReactionList.vb"
+﻿#Region "Microsoft.VisualBasic::590b194973178c5973108718e29e0900, data\Rhea\ReactionList.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 5
-    '    Code Lines: 3 (60.00%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 9
+    '    Code Lines: 4 (44.44%)
+    ' Comment Lines: 3 (33.33%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 2 (40.00%)
-    '     File Size: 119 B
+    '   Blank Lines: 2 (22.22%)
+    '     File Size: 253 B
 
 
     ' Class ReactionList

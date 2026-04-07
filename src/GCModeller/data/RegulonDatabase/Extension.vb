@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee1cf95bcd79b673115df1798a31385f, data\RegulonDatabase\Extension.vb"
+﻿#Region "Microsoft.VisualBasic::a371e585f6afd96b7320ef594dcd8aff, data\RegulonDatabase\Extension.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 52 (73.24%)
-    ' Comment Lines: 10 (14.08%)
+    '   Total Lines: 70
+    '    Code Lines: 51 (72.86%)
+    ' Comment Lines: 10 (14.29%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (12.68%)
-    '     File Size: 2.21 KB
+    '   Blank Lines: 9 (12.86%)
+    '     File Size: 2.18 KB
 
 
     ' Module Extensions

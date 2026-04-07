@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1743f53b6b544ed160544472f9767c2e, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::d2410e093b3ddb8ca3b44ca502640576, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 29 (12.78%)
-    '     File Size: 9.38 KB
+    '     File Size: 9.37 KB
 
 
     '     Module TFDensity

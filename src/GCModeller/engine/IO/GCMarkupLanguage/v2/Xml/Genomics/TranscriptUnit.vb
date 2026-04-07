@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71fb7111ab33ae881bd583ce81edeaf3, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\TranscriptUnit.vb"
+﻿#Region "Microsoft.VisualBasic::812fd1b23a44bff197ce9fbc7c793d75, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\TranscriptUnit.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 47
-    '    Code Lines: 27 (57.45%)
-    ' Comment Lines: 11 (23.40%)
+    '   Total Lines: 58
+    '    Code Lines: 31 (53.45%)
+    ' Comment Lines: 15 (25.86%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (19.15%)
-    '     File Size: 1.20 KB
+    '   Blank Lines: 12 (20.69%)
+    '     File Size: 1.54 KB
 
 
     '     Class TranscriptUnit
     ' 
-    '         Properties: genes, id, numOfGenes
+    '         Properties: genes, id, name, note, numOfGenes
+    '                     sites
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString

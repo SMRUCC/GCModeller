@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4af458a849805254e458f33a8f75e481, analysis\SequenceToolkit\MotifFinder\Seeds\FileName.vb"
+﻿#Region "Microsoft.VisualBasic::3c868b040fed0370f00aff5faf0066c9, analysis\SequenceToolkit\MotifFinder\Seeds\GraphSeed.vb"
 
     ' Author:
     ' 
@@ -43,7 +43,7 @@
     '     File Size: 5.59 KB
 
 
-    ' Module FileName
+    ' Module GraphSeedTool
     ' 
     '     Function: Cluster, CreateMotifs, (+2 Overloads) RandomSeed
     ' 

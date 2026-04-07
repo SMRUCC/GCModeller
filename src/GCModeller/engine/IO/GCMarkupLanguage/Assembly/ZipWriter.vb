@@ -1,56 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::13b2e044f1db9b0357dc1caa4cd7d97f, engine\IO\GCMarkupLanguage\v2\Assembly\ZipWriter.vb"
+﻿#Region "Microsoft.VisualBasic::64d4feab4669f083f5b8dd074a0fc41e, engine\IO\GCMarkupLanguage\Assembly\ZipWriter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 41
-'    Code Lines: 31 (75.61%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 10 (24.39%)
-'     File Size: 2.32 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module ZipWriter
-' 
-'         Function: WriteZip
-' 
-'         Sub: Save
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 48 (75.00%)
+    ' Comment Lines: 3 (4.69%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (20.31%)
+    '     File Size: 3.14 KB
+
+
+    ' Module ZipWriter
+    ' 
+    '     Function: jsonl, WriteZip
+    ' 
+    '     Sub: Save, writeZIP
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

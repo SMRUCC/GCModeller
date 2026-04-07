@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::700504cacb2e7e77c129a5efe000f503, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7d7ea2fc7c9c6d095f46b8af038dd5ce, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 40
-    '    Code Lines: 34 (85.00%)
+    '   Total Lines: 39
+    '    Code Lines: 33 (84.62%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (15.00%)
-    '     File Size: 1.55 KB
+    '   Blank Lines: 6 (15.38%)
+    '     File Size: 1.45 KB
 
 
     '     Module Extensions

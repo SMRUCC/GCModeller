@@ -1,54 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::ebe9c0ca721ad8d126eece75f266743e, analysis\SequenceToolkit\MotifFinder\SequenceMotif.vb"
+﻿#Region "Microsoft.VisualBasic::e6f388772e6d4ff69ace3f5ef3a98a02, analysis\SequenceToolkit\MotifScanner\SequenceMotif.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 52
-'    Code Lines: 28 (53.85%)
-' Comment Lines: 16 (30.77%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 8 (15.38%)
-'     File Size: 1.35 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class SequenceMotif
-' 
-'     Properties: alignments, AverageScore, RSD, seeds, SignificantSites
-'                 width
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 46 (63.89%)
+    ' Comment Lines: 15 (20.83%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (15.28%)
+    '     File Size: 2.14 KB
+
+
+    ' Class SequenceMotif
+    ' 
+    '     Properties: alignments, AverageScore, RSD, seeds, SignificantSites
+    '                 tag
+    ' 
+    '     Function: CreateModel
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cea0dfd94d4b5d6eb6b31b5bf01f56f, models\BioCyc\Models\Reflection\ObjectWriter.vb"
+﻿#Region "Microsoft.VisualBasic::cf5e909a87532585264354687ef30db0, models\BioCyc\Models\Reflection\ObjectWriter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 98
-    '    Code Lines: 75 (76.53%)
-    ' Comment Lines: 6 (6.12%)
+    '   Total Lines: 100
+    '    Code Lines: 77 (77.00%)
+    ' Comment Lines: 6 (6.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 17 (17.35%)
-    '     File Size: 3.54 KB
+    '   Blank Lines: 17 (17.00%)
+    '     File Size: 3.68 KB
 
 
     ' Class ObjectWriter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e056498e22e886986a5d80257dd06c13, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\SequenceMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::8f3ad52b65ec6b4296873518dca63597, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\SequenceMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 40
-    '    Code Lines: 27 (67.50%)
-    ' Comment Lines: 7 (17.50%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 51
+    '    Code Lines: 32 (62.75%)
+    ' Comment Lines: 9 (17.65%)
+    '    - Xml Docs: 77.78%
     ' 
-    '   Blank Lines: 6 (15.00%)
-    '     File Size: 1.91 KB
+    '   Blank Lines: 10 (19.61%)
+    '     File Size: 1.83 KB
 
 
     '     Class SequenceMatrix

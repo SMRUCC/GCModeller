@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4520c65b3c18902b697d2546c7835da7, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
+﻿#Region "Microsoft.VisualBasic::06af88c58c7ec0a58ad126a33c281c6d, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 104
-    '    Code Lines: 60 (57.69%)
-    ' Comment Lines: 30 (28.85%)
-    '    - Xml Docs: 96.67%
+    '   Total Lines: 116
+    '    Code Lines: 60 (51.72%)
+    ' Comment Lines: 42 (36.21%)
+    '    - Xml Docs: 97.62%
     ' 
-    '   Blank Lines: 14 (13.46%)
-    '     File Size: 3.42 KB
+    '   Blank Lines: 14 (12.07%)
+    '     File Size: 3.79 KB
 
 
     ' Class Background

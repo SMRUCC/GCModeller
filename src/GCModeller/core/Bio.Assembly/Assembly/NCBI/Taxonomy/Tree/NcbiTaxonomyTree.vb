@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::eab3dab5216d408dee57cfb1e75a9fb7, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
+﻿#Region "Microsoft.VisualBasic::31871fa0621bde6a9acf508ee1c6d0d4, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\NcbiTaxonomyTree.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 568
-'    Code Lines: 250 (44.01%)
-' Comment Lines: 245 (43.13%)
-'    - Xml Docs: 52.24%
-' 
-'   Blank Lines: 73 (12.85%)
-'     File Size: 24.07 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class NcbiTaxonomyTree
-' 
-'         Properties: Taxonomy
-' 
-'         Constructor: (+2 Overloads) Sub New
-'         Function: __ascendantsWithRanksAndNames, __descendants, __preorderTraversal, __preorderTraversalOnlyLeaves, flatten
-'                   (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren, GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves
-'                   GetLeavesWithRanksAndNames, GetName, GetParent, GetRank, GetTaxidsAtRank
-'                   preorderTraversal
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 591
+    '    Code Lines: 262 (44.33%)
+    ' Comment Lines: 256 (43.32%)
+    '    - Xml Docs: 54.30%
+    ' 
+    '   Blank Lines: 73 (12.35%)
+    '     File Size: 25.05 KB
+
+
+    '     Class NcbiTaxonomyTree
+    ' 
+    '         Properties: Taxonomy
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ascendantsWithRanksAndNames, descendants, flatten, (+2 Overloads) GetAscendantsWithRanksAndNames, GetChildren
+    '                   GetDescendants, GetDescendantsWithRanksAndNames, GetLeaves, GetLeavesWithRanksAndNames, GetName
+    '                   GetParent, GetParents, GetRank, GetTaxidsAtRank, (+2 Overloads) preorderTraversal
+    '                   preorderTraversalOnlyLeaves
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

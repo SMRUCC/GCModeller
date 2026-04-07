@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::375b22ce2d48d638584afdeb4e348313, analysis\SequenceToolkit\SmithWaterman\Extension\Output.vb"
+﻿#Region "Microsoft.VisualBasic::f3be1f091781bb79263bb55eb43c8f36, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Extension\Output.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 108
-'    Code Lines: 69 (63.89%)
-' Comment Lines: 26 (24.07%)
-'    - Xml Docs: 96.15%
-' 
-'   Blank Lines: 13 (12.04%)
-'     File Size: 4.21 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Output
-' 
-'     Properties: Best, Directions, DP, HSP, Query
-'                 Subject, Traceback
-' 
-'     Function: ContainsPoint, CreateObject, ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 75 (64.66%)
+    ' Comment Lines: 26 (22.41%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 15 (12.93%)
+    '     File Size: 4.81 KB
+
+
+    '     Class Output
+    ' 
+    '         Properties: Best, Directions, DP, HSP, Query
+    '                     Subject, Traceback
+    ' 
+    '         Function: ContainsPoint, CreateObject, GenericEnumerator, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

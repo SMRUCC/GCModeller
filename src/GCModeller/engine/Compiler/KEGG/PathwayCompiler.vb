@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d75bfe9ec97be312fabc5099a1f16a36, engine\Compiler\KEGG\PathwayCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::e91f15ff19a4772581cedfef3369bc36, engine\Compiler\KEGG\PathwayCompiler.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 99
-    '    Code Lines: 85 (85.86%)
-    ' Comment Lines: 4 (4.04%)
+    '   Total Lines: 90
+    '    Code Lines: 76 (84.44%)
+    ' Comment Lines: 4 (4.44%)
     '    - Xml Docs: 75.00%
     ' 
-    '   Blank Lines: 10 (10.10%)
-    '     File Size: 4.45 KB
+    '   Blank Lines: 10 (11.11%)
+    '     File Size: 3.86 KB
 
 
     ' Module PathwayCompiler

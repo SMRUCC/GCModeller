@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f45b03eb0c73a8755aa1c5aecac9cf4, engine\IO\Raw\HDS\GCModellerRaw\Raw.vb"
+﻿#Region "Microsoft.VisualBasic::d99c098fa7df8abe7d27fc08de758248, engine\IO\Raw\HDS\GCModellerRaw\Raw.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 128
-    '    Code Lines: 61 (47.66%)
-    ' Comment Lines: 51 (39.84%)
+    '   Total Lines: 156
+    '    Code Lines: 85 (54.49%)
+    ' Comment Lines: 51 (32.69%)
     '    - Xml Docs: 72.55%
     ' 
-    '   Blank Lines: 16 (12.50%)
-    '     File Size: 4.99 KB
+    '   Blank Lines: 20 (12.82%)
+    '     File Size: 6.16 KB
 
 
     '     Class CellularModules
     ' 
-    '         Properties: Metabolites, mRNAId, Polypeptide, Proteins, Reactions
-    '                     RNAId
+    '         Properties: Metabolites, mRNAId, PeptideDegradation, Polypeptide, ProteinDegradation
+    '                     ProteinMature, Proteins, Reactions, ribosomeAssembly, RNADegradation
+    '                     RNAId, rRNA, Transcription, Translation, TransmembraneFlux
+    '                     tRNA, tRNACharge
     ' 
     '         Function: GetModuleReader, GetModules
     ' 

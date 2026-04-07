@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc0e1fda581005a821349da31d7ed42b, annotations\GSEA\FisherCore\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::838042a6d6b66c9eca3f0c52e5119644, annotations\GSEA\FisherCore\Enrichment.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 177
-    '    Code Lines: 120 (67.80%)
-    ' Comment Lines: 38 (21.47%)
-    '    - Xml Docs: 84.21%
+    '   Total Lines: 161
+    '    Code Lines: 111 (68.94%)
+    ' Comment Lines: 33 (20.50%)
+    '    - Xml Docs: 81.82%
     ' 
-    '   Blank Lines: 19 (10.73%)
-    '     File Size: 7.21 KB
+    '   Blank Lines: 17 (10.56%)
+    '     File Size: 6.63 KB
 
 
     ' Module Enrichment
     ' 
-    '     Function: BackgroundSize, calcResult, CutBackgroundBySize, Enrichment, FDRCorrection
+    '     Function: BackgroundSize, calcResult, CutBackgroundBySize, Enrichment
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f567f287e577c304a08e5441ff5c088, annotations\WGCNA\WGCNA\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::d21003836646b1f8688b348641263604, annotations\WGCNA\WGCNA\Analysis.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 161
-    '    Code Lines: 122 (75.78%)
-    ' Comment Lines: 17 (10.56%)
-    '    - Xml Docs: 94.12%
+    '   Total Lines: 270
+    '    Code Lines: 180 (66.67%)
+    ' Comment Lines: 49 (18.15%)
+    '    - Xml Docs: 77.55%
     ' 
-    '   Blank Lines: 22 (13.66%)
-    '     File Size: 6.64 KB
+    '   Blank Lines: 41 (15.19%)
+    '     File Size: 12.11 KB
 
 
     ' Module Analysis
     ' 
-    '     Function: createGraph, Run, setModules
+    '     Function: createGraph, Run, (+2 Overloads) RunWithPhenotype, setModules
     ' 
     ' /********************************************************************************/
 

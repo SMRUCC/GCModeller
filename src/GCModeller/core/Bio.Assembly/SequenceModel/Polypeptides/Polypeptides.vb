@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::099cfa9941a77e2823de342b0c3915c8, core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
+﻿#Region "Microsoft.VisualBasic::6e6cb1bc7ec1669621c97c13e62c1463, core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 197
-'    Code Lines: 149 (75.63%)
-' Comment Lines: 36 (18.27%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 12 (6.09%)
-'     File Size: 7.62 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module Polypeptide
-' 
-'         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
-' 
-'         Function: ConstructVector, GetCompositionVector, GetCount, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 279
+    '    Code Lines: 212 (75.99%)
+    ' Comment Lines: 48 (17.20%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 19 (6.81%)
+    '     File Size: 11.79 KB
+
+
+    '     Module Polypeptide
+    ' 
+    '         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
+    ' 
+    '         Function: ConstructVector, Generate, GetCompositionVector, GetCount, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

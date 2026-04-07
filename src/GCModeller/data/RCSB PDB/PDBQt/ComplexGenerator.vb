@@ -1,4 +1,58 @@
-﻿
+﻿#Region "Microsoft.VisualBasic::39fe09d001e15023dcc4d71fb6ecf714, data\RCSB PDB\PDBQt\ComplexGenerator.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 55 (65.48%)
+    ' Comment Lines: 15 (17.86%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 14 (16.67%)
+    '     File Size: 3.15 KB
+
+
+    ' Class ComplexGenerator
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CreateComplexList
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
@@ -82,3 +136,4 @@ Public Class ComplexGenerator
     End Function
 
 End Class
+

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::707991f58e8ea0ae499bb630e93aec95, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::c3235bef6afd4d50fdec22dc912e4fd5, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 379
-    '    Code Lines: 226 (59.63%)
-    ' Comment Lines: 95 (25.07%)
-    '    - Xml Docs: 94.74%
+    '   Total Lines: 410
+    '    Code Lines: 244 (59.51%)
+    ' Comment Lines: 106 (25.85%)
+    '    - Xml Docs: 92.45%
     ' 
-    '   Blank Lines: 58 (15.30%)
-    '     File Size: 14.53 KB
+    '   Blank Lines: 60 (14.63%)
+    '     File Size: 15.88 KB
 
 
     '     Class NucleicAcid
@@ -49,10 +49,10 @@
     ' 
     '         Constructor: (+6 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) Complement, CopyNT, (+2 Overloads) Counts, CreateObject, Enums
-    '                   GetSegment, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment
-    '                   RemoveInvalids, Replace, Reverse, Split, ToArray
-    '                   (+3 Overloads) ToString
+    '         Function: Canonical, (+2 Overloads) Complement, CopyNT, (+2 Overloads) Counts, CreateObject
+    '                   Enums, GetReverseComplement, GetSegment, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1
+    '                   InvalidForNt, ReadSegment, RemoveInvalids, Replace, Reverse
+    '                   Split, ToArray, (+3 Overloads) ToString
     ' 
     '         Sub: convertSequence
     ' 

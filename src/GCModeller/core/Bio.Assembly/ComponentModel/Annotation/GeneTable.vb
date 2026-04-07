@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::7a4512e3d4ac99b41dce63d7e579ac1a, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::f37e0a5860d094b78a790b273836a81d, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 93
-'    Code Lines: 46 (49.46%)
-' Comment Lines: 40 (43.01%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 7 (7.53%)
-'     File Size: 3.59 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class GeneTable
-' 
-'         Properties: [function], CDS, COG, commonName, EC_Number
-'                     GC_Content, geneName, GI, GO, InterPro
-'                     KO, left, length, Location, locus_id
-'                     ProteinId, right, species, SpeciesAccessionID, strand
-'                     Transl_table, Translation, type, UniprotSwissProt, UniprotTrEMBL
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 50 (51.55%)
+    ' Comment Lines: 40 (41.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (7.22%)
+    '     File Size: 3.79 KB
+
+
+    '     Class GeneTable
+    ' 
+    '         Properties: [function], CDS, COG, commonName, EC_Number
+    '                     GC_Content, geneName, GI, GO, InterPro
+    '                     KO, left, length, Location, locus_id
+    '                     ProteinId, replicon_accessionID, right, species, strand
+    '                     transl_table, translation, type, UniprotSwissProt, UniprotTrEMBL
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

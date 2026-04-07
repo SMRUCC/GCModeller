@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95e587188059ac00810023b84d503dfb, analysis\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::79871dbaa52fb44241eb553c01249d8d, analysis\SequenceToolkit\SequenceAlignment\NeedlemanWunsch\NeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 25
-    '    Code Lines: 20 (80.00%)
+    '   Total Lines: 28
+    '    Code Lines: 22 (78.57%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (20.00%)
-    '     File Size: 904 B
+    '   Blank Lines: 6 (21.43%)
+    '     File Size: 1020 B
 
 
-    ' Class NeedlemanWunsch
+    '     Class NeedlemanWunsch
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: defaultScoreMatrix, symbolProvider
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: defaultScoreMatrix, symbolProvider
+    ' 
     ' 
     ' /********************************************************************************/
 

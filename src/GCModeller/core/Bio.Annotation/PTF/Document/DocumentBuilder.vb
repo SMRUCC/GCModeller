@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f02db47caa779a12e033a42b594648ec, core\Bio.Annotation\PTF\Document\DocumentBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::cfa37fc853fa1cd8978ccccd2658b26f, core\Bio.Annotation\PTF\Document\DocumentBuilder.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 26
-    '    Code Lines: 21 (80.77%)
+    '   Total Lines: 27
+    '    Code Lines: 22 (81.48%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (19.23%)
-    '     File Size: 935 B
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 1010 B
 
 
     '     Module DocumentBuilder

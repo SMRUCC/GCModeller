@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a0d741f25970efb600753c175473570, analysis\SequenceToolkit\MotifScanner\MotifTree.vb"
+﻿#Region "Microsoft.VisualBasic::7a015a6fe2350630b02075b97d5306ac, analysis\SequenceToolkit\MotifFinder\MotifTree.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 205
-    '    Code Lines: 133 (64.88%)
-    ' Comment Lines: 50 (24.39%)
-    '    - Xml Docs: 84.00%
+    '   Total Lines: 208
+    '    Code Lines: 133 (63.94%)
+    ' Comment Lines: 53 (25.48%)
+    '    - Xml Docs: 84.91%
     ' 
-    '   Blank Lines: 22 (10.73%)
-    '     File Size: 8.16 KB
+    '   Blank Lines: 22 (10.58%)
+    '     File Size: 8.26 KB
 
 
     ' Module MotifTree

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17160175759fc3f77c9b548d554a8c1b, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::269df90281cabfa6baa9072ca7739237, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 297
-    '    Code Lines: 209 (70.37%)
-    ' Comment Lines: 43 (14.48%)
-    '    - Xml Docs: 72.09%
+    '   Total Lines: 223
+    '    Code Lines: 161 (72.20%)
+    ' Comment Lines: 45 (20.18%)
+    '    - Xml Docs: 97.78%
     ' 
-    '   Blank Lines: 45 (15.15%)
-    '     File Size: 16.73 KB
+    '   Blank Lines: 17 (7.62%)
+    '     File Size: 12.91 KB
 
 
     '     Module DrawingDevice
     ' 
     '         Properties: WordSize
     ' 
-    '         Function: __getColors, DrawFrequency, E, InvokeDrawing
+    '         Function: CharColorImages, (+2 Overloads) DrawFrequency, E, InvokeDrawing
     ' 
     ' 
     ' /********************************************************************************/

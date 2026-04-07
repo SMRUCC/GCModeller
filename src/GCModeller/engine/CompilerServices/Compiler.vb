@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b67b3c8b27af857134b8d8b788b0accc, engine\CompilerServices\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c3f690ca49d537b4a85908bac720ced7, engine\CompilerServices\Compiler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 57.14%
     ' 
     '   Blank Lines: 34 (18.38%)
-    '     File Size: 6.59 KB
+    '     File Size: 6.60 KB
 
 
     ' Class Compiler

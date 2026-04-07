@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba8bb618531f9d88cba531ba0babdbc6, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::31baff5bb550a8f9ce1bac8a044caf21, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Repeats.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 71.43%
     ' 
     '   Blank Lines: 40 (16.60%)
-    '     File Size: 9.81 KB
+    '     File Size: 9.80 KB
 
 
     ' Module Utilities

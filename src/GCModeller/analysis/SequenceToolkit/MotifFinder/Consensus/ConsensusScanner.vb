@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::defa7e06053b50045f745fe73afac34b, analysis\SequenceToolkit\MotifScanner\Consensus\ConsensusScanner.vb"
+﻿#Region "Microsoft.VisualBasic::95d45d128283787f5a8b95e4b364191e, analysis\SequenceToolkit\MotifFinder\Consensus\ConsensusScanner.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 108
-    '    Code Lines: 89 (82.41%)
-    ' Comment Lines: 5 (4.63%)
-    '    - Xml Docs: 60.00%
+    '   Total Lines: 111
+    '    Code Lines: 74 (66.67%)
+    ' Comment Lines: 23 (20.72%)
+    '    - Xml Docs: 26.09%
     ' 
-    '   Blank Lines: 14 (12.96%)
-    '     File Size: 4.91 KB
+    '   Blank Lines: 14 (12.61%)
+    '     File Size: 5.05 KB
 
 
     ' Class ConsensusScanner

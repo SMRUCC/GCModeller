@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::021fe745a8d18b80bc9f843f4901a3f2, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 351
-    '    Code Lines: 171 (48.72%)
-    ' Comment Lines: 143 (40.74%)
+    '   Total Lines: 352
+    '    Code Lines: 172 (48.86%)
+    ' Comment Lines: 143 (40.62%)
     '    - Xml Docs: 93.71%
     ' 
-    '   Blank Lines: 37 (10.54%)
-    '     File Size: 15.21 KB
+    '   Blank Lines: 37 (10.51%)
+    '     File Size: 15.29 KB
 
 
     '     Class NucleotideLocation

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b167300e707e8b8f4920d3c67d1d48f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::485fa6b333f71535ae5a2952e34f1e17, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 360
-    '    Code Lines: 173 (48.06%)
-    ' Comment Lines: 152 (42.22%)
-    '    - Xml Docs: 96.05%
+    '   Total Lines: 372
+    '    Code Lines: 178 (47.85%)
+    ' Comment Lines: 158 (42.47%)
+    '    - Xml Docs: 96.20%
     ' 
-    '   Blank Lines: 35 (9.72%)
-    '     File Size: 16.24 KB
+    '   Blank Lines: 36 (9.68%)
+    '     File Size: 16.74 KB
 
 
     '     Class File
     ' 
     '         Properties: Accession, Comment, DbLinks, Definition, Features
     '                     HasSequenceData, isPlasmid, IsWGS, Keywords, Locus
-    '                     Origin, Reference, Source, SourceFeature, Taxon
-    '                     Version
+    '                     Origin, Reference, Source, SourceFeature, Species
+    '                     Taxon, Version
     ' 
     '         Function: IsValidGenbankFormat, Load, (+2 Overloads) LoadDatabase, Read, readGenbankBuffer
     '                   (+3 Overloads) Save

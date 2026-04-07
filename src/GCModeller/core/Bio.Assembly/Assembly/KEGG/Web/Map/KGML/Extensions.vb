@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e3cee21aa5353516ef15785bc722afa, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4d502ede44c2ebd9d8d4441ff5694c5b, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Extensions.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 5 (13.51%)
-    '     File Size: 1.38 KB
+    '     File Size: 1.37 KB
 
 
     '     Module Extensions

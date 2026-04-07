@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::99b703267b590bc82becd991c877a004, analysis\RNA-Seq\WGCNA\Rscript.vb"
+﻿#Region "Microsoft.VisualBasic::582221c1f5c6127236dd672291361152, analysis\RNA-Seq\WGCNA\Rscript.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 99
-'    Code Lines: 93 (93.94%)
-' Comment Lines: 0 (0.00%)
-'    - Xml Docs: 0.00%
-' 
-'   Blank Lines: 6 (6.06%)
-'     File Size: 8.89 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Rscript
-' 
-'     Function: FastImports
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 255
+    '    Code Lines: 185 (72.55%)
+    ' Comment Lines: 49 (19.22%)
+    '    - Xml Docs: 97.96%
+    ' 
+    '   Blank Lines: 21 (8.24%)
+    '     File Size: 15.04 KB
+
+
+    ' Module Rscript
+    ' 
+    '     Function: AsDataMatrix, (+2 Overloads) FastImports, (+2 Overloads) LoadTOMModuleGraph, LoadTOMWeights
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

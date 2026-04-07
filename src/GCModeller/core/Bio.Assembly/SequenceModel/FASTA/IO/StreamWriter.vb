@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a8c691aee8a0da0c1294915e84171fd, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamWriter.vb"
+﻿#Region "Microsoft.VisualBasic::c0c408c13ea66989a9fe211f18a3a874, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamWriter.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 39 (61.90%)
-    ' Comment Lines: 13 (20.63%)
+    '   Total Lines: 73
+    '    Code Lines: 48 (65.75%)
+    ' Comment Lines: 13 (17.81%)
     '    - Xml Docs: 23.08%
     ' 
-    '   Blank Lines: 11 (17.46%)
-    '     File Size: 2.31 KB
+    '   Blank Lines: 12 (16.44%)
+    '     File Size: 2.82 KB
 
 
     '     Class StreamWriter
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose, WriteList
     ' 
     ' 
     ' /********************************************************************************/

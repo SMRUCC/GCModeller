@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30a7b4cd4d1dfc28058176a1759dd512, models\BioCyc\Models\Files\genes.vb"
+﻿#Region "Microsoft.VisualBasic::40c174005280e153c3186bd0d59a53ad, models\BioCyc\Models\Files\genes.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 48
-    '    Code Lines: 33 (68.75%)
-    ' Comment Lines: 8 (16.67%)
+    '   Total Lines: 65
+    '    Code Lines: 40 (61.54%)
+    ' Comment Lines: 16 (24.62%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (14.58%)
-    '     File Size: 1.71 KB
+    '   Blank Lines: 9 (13.85%)
+    '     File Size: 2.36 KB
 
 
     ' Class genes
     ' 
-    '     Properties: accession1, accession2, db_links, db_xrefs, dnaseq
-    '                 product
+    '     Properties: accession1, accession2, db_links, db_xrefs, direction
+    '                 dnaseq, left, product, right
     ' 
     '     Function: (+2 Overloads) OpenFile, ParseText
     ' 

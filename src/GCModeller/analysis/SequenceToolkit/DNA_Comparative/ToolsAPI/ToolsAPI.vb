@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c2e2b35b8b8c9436de97b628f85e42a, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
+﻿#Region "Microsoft.VisualBasic::b0d4f00bd1790d8db4d5e168d46dbe5f, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.71%
     ' 
     '   Blank Lines: 23 (9.91%)
-    '     File Size: 12.55 KB
+    '     File Size: 12.54 KB
 
 
     ' Module ToolsAPI

@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::8d2ae34cd712d0a91567b5bded30da8d, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
+﻿#Region "Microsoft.VisualBasic::f0dafbac95c99e9538037d4160a76651, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 92
-'    Code Lines: 66 (71.74%)
-' Comment Lines: 16 (17.39%)
-'    - Xml Docs: 87.50%
-' 
-'   Blank Lines: 10 (10.87%)
-'     File Size: 3.87 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class LinearProgrammingEngine
-' 
-'     Function: CreateMatrix, (+2 Overloads) Run, ToLppModel
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 66 (56.41%)
+    ' Comment Lines: 40 (34.19%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 11 (9.40%)
+    '     File Size: 5.33 KB
+
+
+    ' Class LinearProgrammingEngine
+    ' 
+    '     Function: CreateMatrix, (+2 Overloads) Run, ToLppModel
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

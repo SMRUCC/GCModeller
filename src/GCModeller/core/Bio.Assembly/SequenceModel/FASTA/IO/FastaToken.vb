@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::692360f4eaeee8935172a3a1d4f46629, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::01acbf036a67da4c4cfe26aa7bb9401c, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 614
-    '    Code Lines: 328 (53.42%)
-    ' Comment Lines: 203 (33.06%)
+    '   Total Lines: 619
+    '    Code Lines: 332 (53.63%)
+    ' Comment Lines: 203 (32.79%)
     '    - Xml Docs: 91.63%
     ' 
-    '   Blank Lines: 83 (13.52%)
-    '     File Size: 25.55 KB
+    '   Blank Lines: 84 (13.57%)
+    '     File Size: 25.69 KB
 
 
     '     Class FastaSeq
@@ -48,7 +48,7 @@
     '         Properties: HaveGaps, Headers, Length, locus_tag, SequenceData
     '                     Title
     ' 
-    '         Constructor: (+7 Overloads) Sub New
+    '         Constructor: (+8 Overloads) Sub New
     ' 
     '         Function: Clone, Complement, Copy, Equals, GenerateDocument
     '                   GenerateDocumentText, GetSequenceData, GrepTitle, Load, LoadNucleotideData

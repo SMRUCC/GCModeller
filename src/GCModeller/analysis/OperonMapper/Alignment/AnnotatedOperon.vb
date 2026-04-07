@@ -1,4 +1,69 @@
-﻿Imports Microsoft.VisualBasic.Serialization.JSON
+﻿#Region "Microsoft.VisualBasic::482d094138b3a5aaee0a2b746665ab76, analysis\OperonMapper\Alignment\AnnotatedOperon.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 22 (43.14%)
+    ' Comment Lines: 24 (47.06%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 5 (9.80%)
+    '     File Size: 1.53 KB
+
+
+    ' Enum OperonType
+    ' 
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
+    ' Class AnnotatedOperon
+    ' 
+    '     Properties: Genes, InsertedGeneIds, KnownGeneIds, left, MissingGeneIds
+    '                 name, OperonID, right, Scores, strand
+    '                 Type
+    ' 
+    '     Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' Operon的类型枚举
@@ -48,4 +113,5 @@ Public Class AnnotatedOperon
         Return $"{Type.Description} #{OperonID} at {strand}:{left}-{right} with {Genes.TryCount} gene members {Genes.GetJson}"
     End Function
 End Class
+
 

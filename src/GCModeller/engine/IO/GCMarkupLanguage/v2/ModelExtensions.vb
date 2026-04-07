@@ -1,55 +1,55 @@
-﻿#Region "Microsoft.VisualBasic::03a48ecd9aaa3e9941a11b788f31dd40, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ee756c95e002e9d497c527502a6e763e, engine\IO\GCMarkupLanguage\v2\ModelExtensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 337
-'    Code Lines: 284 (84.27%)
-' Comment Lines: 21 (6.23%)
-'    - Xml Docs: 38.10%
-' 
-'   Blank Lines: 32 (9.50%)
-'     File Size: 15.43 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Module ModelExtensions
-' 
-'         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
-'                   exportRegulations, loadKinetics
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 442
+    '    Code Lines: 378 (85.52%)
+    ' Comment Lines: 24 (5.43%)
+    '    - Xml Docs: 33.33%
+    ' 
+    '   Blank Lines: 40 (9.05%)
+    '     File Size: 20.56 KB
+
+
+    '     Module ModelExtensions
+    ' 
+    '         Function: BuildEquation, createFluxes, createGenotype, CreateModel, createPhenotype
+    '                   exportRegulations, gene_peptides, loadKinetics
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

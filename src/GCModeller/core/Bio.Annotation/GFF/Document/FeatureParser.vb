@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82a75782e7a7f208a82c61c767bfe25c, core\Bio.Annotation\GFF\Document\FeatureParser.vb"
+﻿#Region "Microsoft.VisualBasic::80b0f5d42436170ac3c18e780e6abbf5, core\Bio.Annotation\GFF\Document\FeatureParser.vb"
 
     ' Author:
     ' 

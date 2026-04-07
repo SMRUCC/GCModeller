@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa63c6a601da0f7fd099bff4006cfa5b, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::244be8c0b9302b8b74b961656f1ac088, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 432
-    '    Code Lines: 350 (81.02%)
-    ' Comment Lines: 37 (8.56%)
+    '   Total Lines: 425
+    '    Code Lines: 344 (80.94%)
+    ' Comment Lines: 37 (8.71%)
     '    - Xml Docs: 97.30%
     ' 
-    '   Blank Lines: 45 (10.42%)
-    '     File Size: 19.59 KB
+    '   Blank Lines: 44 (10.35%)
+    '     File Size: 19.39 KB
 
 
     ' Module ChromesomeMapAPI
     ' 
-    '     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
-    '               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
-    '               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
-    '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
+    '     Function: AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile, (+2 Overloads) CreateDevice
+    '               DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes, FromPTT
+    '               FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing, LoadConfig
+    '               READ_PlasmidData, SaveImage, WriteGeneFasta
     '     Class __setRNAColorInvoke
     ' 
     '         Constructor: (+1 Overloads) Sub New

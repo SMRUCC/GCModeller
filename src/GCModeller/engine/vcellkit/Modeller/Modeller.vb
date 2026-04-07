@@ -1,56 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::ad25bcf3717390d3cced5dcdee8ad927, engine\vcellkit\Modeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::8979dd36765613e32edc660ded749928, engine\vcellkit\Modeller\Modeller.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 159
-'    Code Lines: 103 (64.78%)
-' Comment Lines: 38 (23.90%)
-'    - Xml Docs: 94.74%
-' 
-'   Blank Lines: 18 (11.32%)
-'     File Size: 6.16 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module vcellModeller
-' 
-'     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
-'               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
-' 
-'     Sub: createKineticsDbCache
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 110 (63.58%)
+    ' Comment Lines: 44 (25.43%)
+    '    - Xml Docs: 93.18%
+    ' 
+    '   Blank Lines: 19 (10.98%)
+    '     File Size: 6.95 KB
+
+
+    ' Module vcellModeller
+    ' 
+    '     Function: applyKinetics, CompileLambda, eval, evalArgumentValues, Kinetics
+    '               LoadVirtualCell, readJSON, writeJSON, WriteZipAssembly
+    ' 
+    '     Sub: createKineticsDbCache
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

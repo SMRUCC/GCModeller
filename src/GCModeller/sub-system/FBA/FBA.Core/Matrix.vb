@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c9b33cf9f0c0977622af354014d160f, sub-system\FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::7189dfe533414b9e062d337969961337, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 87
-    '    Code Lines: 45 (51.72%)
-    ' Comment Lines: 32 (36.78%)
+    '   Total Lines: 93
+    '    Code Lines: 50 (53.76%)
+    ' Comment Lines: 32 (34.41%)
     '    - Xml Docs: 96.88%
     ' 
-    '   Blank Lines: 10 (11.49%)
-    '     File Size: 2.89 KB
+    '   Blank Lines: 11 (11.83%)
+    '     File Size: 3.07 KB
 
 
     ' Class Matrix
     ' 
-    '     Properties: Compounds, Flux, Gaps, Matrix, NumOfCompounds
-    '                 Targets
+    '     Properties: Compounds, Flux, FluxNames, Gaps, Matrix
+    '                 NumOfCompounds, Targets
     ' 
     '     Function: AdjustRange, GetMatrix, GetTargetCoefficients
     ' 

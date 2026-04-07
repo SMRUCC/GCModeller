@@ -1,60 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::d166df1bea72da18013a30a1ba416acc, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::37de76b887aa2e7ebd2eaa428358df5e, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 117
-'    Code Lines: 70 (59.83%)
-' Comment Lines: 33 (28.21%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 14 (11.97%)
-'     File Size: 4.26 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Interface ILogoResidue
-' 
-'         Properties: Bits
-' 
-'     Class DrawingModel
-' 
-'         Properties: Alphabets, En, ModelsId, Residues
-' 
-'         Function: AAResidue, NTResidue, pwm2ic, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 63 (61.76%)
+    ' Comment Lines: 26 (25.49%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (12.75%)
+    '     File Size: 3.75 KB
+
+
+    '     Class DrawingModel
+    ' 
+    '         Properties: Alphabets, En, ModelsId, Residues
+    ' 
+    '         Function: AAResidue, NTResidue, pwm2ic, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

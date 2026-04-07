@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17d100fe8073de020a59bd0fc8ad6786, analysis\OperonMapper\ODB\OperonRow.vb"
+﻿#Region "Microsoft.VisualBasic::32a6b20d1172b2bd5a996d2aba9598db, analysis\OperonMapper\ODB\ODBOperon.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
-    ' Class OperonRow
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 42 (63.64%)
+    ' Comment Lines: 15 (22.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (13.64%)
+    '     File Size: 2.17 KB
+
+
+    ' Class ODBOperon
     ' 
     '     Properties: definition, koid, name, op, org
     '                 source
     ' 
-    '     Function: Load, LoadInternalResource
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: Load, LoadInternalResource, ToString
     ' 
     ' /********************************************************************************/
 

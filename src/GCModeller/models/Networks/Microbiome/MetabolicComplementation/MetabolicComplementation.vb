@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc563f4b57d2ff246d22a76042470ede, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::528317536ad9c0fbd3862cc0a968edef, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 203
-    '    Code Lines: 137 (67.49%)
-    ' Comment Lines: 43 (21.18%)
+    '   Total Lines: 202
+    '    Code Lines: 135 (66.83%)
+    ' Comment Lines: 43 (21.29%)
     '    - Xml Docs: 53.49%
     ' 
-    '   Blank Lines: 23 (11.33%)
-    '     File Size: 9.23 KB
+    '   Blank Lines: 24 (11.88%)
+    '     File Size: 9.03 KB
 
 
     ' Module MetabolicComplementation

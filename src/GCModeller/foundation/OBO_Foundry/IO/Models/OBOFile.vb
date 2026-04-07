@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10a04d4472fae05f60dfb71078263113, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
+﻿#Region "Microsoft.VisualBasic::0fea5aacd43aa6344caef66f5dc441e9, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 319
-    '    Code Lines: 107 (33.54%)
-    ' Comment Lines: 186 (58.31%)
-    '    - Xml Docs: 83.33%
+    '   Total Lines: 327
+    '    Code Lines: 107 (32.72%)
+    ' Comment Lines: 194 (59.33%)
+    '    - Xml Docs: 84.02%
     ' 
-    '   Blank Lines: 26 (8.15%)
-    '     File Size: 11.46 KB
+    '   Blank Lines: 26 (7.95%)
+    '     File Size: 11.84 KB
 
 
     '     Class OBOFile

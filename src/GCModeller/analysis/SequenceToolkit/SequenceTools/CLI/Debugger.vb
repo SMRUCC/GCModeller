@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8eedad323639a509862b4d16a3e93db, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::438dfa1a817f643c82cae9a3a3713708, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 11 (13.58%)
-    '     File Size: 3.33 KB
+    '     File Size: 3.32 KB
 
 
     ' Module CLI

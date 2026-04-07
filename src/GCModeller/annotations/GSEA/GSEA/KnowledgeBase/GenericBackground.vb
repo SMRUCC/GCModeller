@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ef23fddc221f41c58076e6c0f8a0e1e, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
+﻿#Region "Microsoft.VisualBasic::ef7d680064859069cd03fcd34736cea9, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 56
-    '    Code Lines: 46 (82.14%)
-    ' Comment Lines: 6 (10.71%)
+    '   Total Lines: 58
+    '    Code Lines: 47 (81.03%)
+    ' Comment Lines: 6 (10.34%)
     '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 4 (7.14%)
-    '     File Size: 1.97 KB
+    '   Blank Lines: 5 (8.62%)
+    '     File Size: 2.03 KB
 
 
     ' Module GenericBackground

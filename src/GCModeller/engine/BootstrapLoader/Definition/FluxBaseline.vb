@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::baf73be44c60c7ff53f68004a8a47492, engine\BootstrapLoader\Definition\FluxBaseline.vb"
+﻿#Region "Microsoft.VisualBasic::c64380a6d24244fdaac210b30ff423b8, engine\BootstrapLoader\Definition\FluxBaseline.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 39
-    '    Code Lines: 20 (51.28%)
-    ' Comment Lines: 10 (25.64%)
+    '   Total Lines: 56
+    '    Code Lines: 23 (41.07%)
+    ' Comment Lines: 22 (39.29%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (23.08%)
-    '     File Size: 1.40 KB
+    '   Blank Lines: 11 (19.64%)
+    '     File Size: 2.00 KB
 
 
     '     Class FluxBaseline
     ' 
-    '         Properties: productInhibitionFactor, proteinMatureBaseline, proteinMatureCapacity, ribosomeAssemblyBaseline, ribosomeAssemblyCapacity
-    '                     ribosomeDisassemblyBaseline, ribosomeDisassemblyCapacity, transcriptionBaseline, transcriptionCapacity, translationCapacity
-    '                     tRNAChargeBaseline, tRNAChargeCapacity
+    '         Properties: boost, productInhibitionFactor, proteinMatureBaseline, proteinMatureCapacity, ribosomeAssemblyBaseline
+    '                     ribosomeAssemblyCapacity, ribosomeDisassemblyBaseline, ribosomeDisassemblyCapacity, RNADegradationBaseline, RNADegradationCapacity
+    '                     transcriptionBaseline, transcriptionCapacity, translationCapacity, tRNAChargeBaseline, tRNAChargeCapacity
     ' 
     '         Function: ToString
     ' 

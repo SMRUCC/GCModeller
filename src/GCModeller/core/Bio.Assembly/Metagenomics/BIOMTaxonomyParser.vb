@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e31a375527932e89d741e136f5bfbda, core\Bio.Assembly\Metagenomics\BIOMTaxonomyParser.vb"
+﻿#Region "Microsoft.VisualBasic::81aad692b94cbde1411c334e90d1a749, core\Bio.Assembly\Metagenomics\BIOMTaxonomyParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 50
-    '    Code Lines: 24 (48.00%)
-    ' Comment Lines: 21 (42.00%)
-    '    - Xml Docs: 90.48%
+    '   Total Lines: 69
+    '    Code Lines: 34 (49.28%)
+    ' Comment Lines: 25 (36.23%)
+    '    - Xml Docs: 84.00%
     ' 
-    '   Blank Lines: 5 (10.00%)
-    '     File Size: 1.94 KB
+    '   Blank Lines: 10 (14.49%)
+    '     File Size: 2.69 KB
 
 
     '     Class BIOMTaxonomyParser

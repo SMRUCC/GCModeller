@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae009b551e5e76e629f4a404565feb7e, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
+﻿#Region "Microsoft.VisualBasic::461d2e157e4d3be62af1e5a5efd1a617, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 234
-    '    Code Lines: 188 (80.34%)
-    ' Comment Lines: 19 (8.12%)
-    '    - Xml Docs: 89.47%
+    '   Total Lines: 250
+    '    Code Lines: 188 (75.20%)
+    ' Comment Lines: 35 (14.00%)
+    '    - Xml Docs: 94.29%
     ' 
-    '   Blank Lines: 27 (11.54%)
-    '     File Size: 9.85 KB
+    '   Blank Lines: 27 (10.80%)
+    '     File Size: 10.39 KB
 
 
     '     Class ExpressionPattern

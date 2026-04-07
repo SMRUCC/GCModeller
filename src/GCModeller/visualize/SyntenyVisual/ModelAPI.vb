@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 227
+    '    Code Lines: 172 (75.77%)
+    ' Comment Lines: 28 (12.33%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 27 (11.89%)
+    '     File Size: 8.82 KB
+
+
     ' Module ModelAPI
     ' 
     '     Function: __getName, GetDrawsModel, IsOrtholog

@@ -1,4 +1,73 @@
-﻿Imports System.Xml.Serialization
+﻿#Region "Microsoft.VisualBasic::2ba42983ba9b2dba79c39165c9940213, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\Enzyme.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 52 (47.27%)
+    ' Comment Lines: 39 (35.45%)
+    '    - Xml Docs: 97.44%
+    ' 
+    '   Blank Lines: 19 (17.27%)
+    '     File Size: 3.33 KB
+
+
+    '     Class Enzyme
+    ' 
+    '         Properties: catalysis, ECNumber, KO, proteinID
+    ' 
+    '         Function: ToString
+    ' 
+    '     Class Catalysis
+    ' 
+    '         Properties: formula, parameter, PH, reaction, temperature
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    '     Class KineticsParameter
+    ' 
+    '         Properties: isModifier, name, target, value
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression

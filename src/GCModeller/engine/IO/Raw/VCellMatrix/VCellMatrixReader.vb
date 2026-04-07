@@ -1,4 +1,64 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::e96b0b655898c831c9edac15454eeb31, engine\IO\Raw\VCellMatrix\VCellMatrixReader.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 147 (75.00%)
+    ' Comment Lines: 10 (5.10%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 39 (19.90%)
+    '     File Size: 7.62 KB
+
+
+    ' Class VCellMatrixReader
+    ' 
+    '     Properties: compartmentIds, fluxSet, network, totalPoints
+    ' 
+    '     Constructor: (+3 Overloads) Sub New
+    ' 
+    '     Function: ActivityLoads, CheckSymbol, FluxExpressionExists, GetCellularMolecules, GetExpression
+    '               GetFluxExpression, GetRegulationExpression, GetStream, ReadMoleculeTree
+    ' 
+    '     Sub: buildSymbolIndex, (+2 Overloads) Dispose, loadNetwork
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.DataStorage.HDSPack
@@ -194,3 +254,4 @@ Public Class VCellMatrixReader : Implements IDisposable, IStreamContainer
         GC.SuppressFinalize(Me)
     End Sub
 End Class
+

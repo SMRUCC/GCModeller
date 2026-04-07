@@ -1,4 +1,63 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::2fcb878c59ebfa94b42f625e5a61e75d, analysis\Metagenome\Metagenome\Kmers\Kraken2\KrakenOutputRecord.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 63 (54.31%)
+    ' Comment Lines: 38 (32.76%)
+    '    - Xml Docs: 92.11%
+    ' 
+    '   Blank Lines: 15 (12.93%)
+    '     File Size: 5.16 KB
+
+
+    '     Class KrakenOutputRecord
+    ' 
+    '         Properties: LcaMappings, LCASupport, LCATaxids, ReadLength, ReadName
+    '                     StatusCode, TaxID, Taxonomy
+    ' 
+    '         Function: GetTaxID, MakeAnnotationResult, ParseDocument
+    ' 
+    '         Sub: Save
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq

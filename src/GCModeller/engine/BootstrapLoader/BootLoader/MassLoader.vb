@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::5c85450bc48094651f2d82520c4303a3, engine\BootstrapLoader\MassLoader.vb"
+﻿#Region "Microsoft.VisualBasic::a4c91d4674d305498cd7926cdb38b80d, engine\BootstrapLoader\BootLoader\MassLoader.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 58
-'    Code Lines: 35 (60.34%)
-' Comment Lines: 12 (20.69%)
-'    - Xml Docs: 58.33%
-' 
-'   Blank Lines: 11 (18.97%)
-'     File Size: 2.42 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MassLoader
-' 
-'         Properties: massTable
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Sub: doMassLoadingOn
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 85 (68.55%)
+    ' Comment Lines: 17 (13.71%)
+    '    - Xml Docs: 41.18%
+    ' 
+    '   Blank Lines: 22 (17.74%)
+    '     File Size: 5.37 KB
+
+
+    '     Class MassLoader
+    ' 
+    '         Properties: massTable
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: doMassLoadingOn
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

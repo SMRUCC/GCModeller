@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bf2e39c6d6b51cf3bf926f6c49d630c, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
+﻿#Region "Microsoft.VisualBasic::0bef4d29db88c3a503c8eacd0d77c0f6, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 71.74%
     ' 
     '   Blank Lines: 28 (16.47%)
-    '     File Size: 6.68 KB
+    '     File Size: 6.64 KB
 
 
     '     Class StreamIterator
@@ -49,7 +49,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: __loops, BufferProvider, ReadStream, SeqSource, Split
+    '         Function: BufferProvider, Loops, ReadStream, SeqSource, Split
     ' 
     '         Sub: (+2 Overloads) Dispose
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33ce18febaa6167ac17d90006fde5bcf, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::841581dca48c6aac09c56506c613c486, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 41 (13.67%)
-    '     File Size: 13.96 KB
+    '     File Size: 13.90 KB
 
 
     ' Module Utilities

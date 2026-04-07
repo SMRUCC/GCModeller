@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e02d97016101c4e166195d1af82c0e9c, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2b79537cd417999320003229b376aa00, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.14%
     ' 
     '   Blank Lines: 24 (12.97%)
-    '     File Size: 9.29 KB
+    '     File Size: 9.28 KB
 
 
     '     Module RepeatsSearchAPI

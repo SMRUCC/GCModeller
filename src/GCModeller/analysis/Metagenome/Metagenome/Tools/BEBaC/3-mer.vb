@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::305b574d9bdfe06d2c391ce3f53cdb22, analysis\Metagenome\Metagenome\BEBaC\3-mer.vb"
+﻿#Region "Microsoft.VisualBasic::d86101448baa56b01db1b407e21d16b4, analysis\Metagenome\Metagenome\Tools\BEBaC\3-mer.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 129 (68.98%)
-    ' Comment Lines: 27 (14.44%)
+    '   Total Lines: 186
+    '    Code Lines: 128 (68.82%)
+    ' Comment Lines: 27 (14.52%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 31 (16.58%)
-    '     File Size: 5.10 KB
+    '   Blank Lines: 31 (16.67%)
+    '     File Size: 5.03 KB
 
 
     '     Enum I3Mers

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6b836253cb52a5230598814107f53d7, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\Proteins.vb"
+﻿#Region "Microsoft.VisualBasic::62063cb5bb903443b71d60456cd23b15, models\BioCyc\Fasta\ProteinSeq.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 24 (80.00%)
+    '   Total Lines: 33
+    '    Code Lines: 24 (72.73%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (20.00%)
-    '     File Size: 859 B
+    '   Blank Lines: 9 (27.27%)
+    '     File Size: 975 B
 
 
-    '     Class Proteins
+    '     Class ProteinSeq
     ' 
-    '         Properties: UniqueId
+    '         Properties: Description, UniqueId
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Sub: Save
+    '         Sub: Save, TryParse
     ' 
     ' 
     ' /********************************************************************************/

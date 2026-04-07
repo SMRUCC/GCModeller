@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d1b809b275feed5b78c4531f64a40b1, core\Bio.Assembly\ComponentModel\Equations\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::179fbd093f0f360bdbcafb24b2b4ade9, core\Bio.Assembly\ComponentModel\Equations\Equation\Equation.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 168
-    '    Code Lines: 95 (56.55%)
-    ' Comment Lines: 50 (29.76%)
-    '    - Xml Docs: 94.00%
+    '   Total Lines: 172
+    '    Code Lines: 95 (55.23%)
+    ' Comment Lines: 54 (31.40%)
+    '    - Xml Docs: 94.44%
     ' 
-    '   Blank Lines: 23 (13.69%)
-    '     File Size: 6.15 KB
+    '   Blank Lines: 23 (13.37%)
+    '     File Size: 6.31 KB
 
 
     '     Class Equation
     ' 
     '         Properties: Id, Products, Reactants, reversible
     ' 
-    '         Function: (+2 Overloads) Consume, Equals, GetCoEfficient, getDictionary, GetMetabolites
+    '         Function: (+2 Overloads) Consume, Equals, GetCoefficient, getDictionary, GetMetabolites
     '                   (+2 Overloads) Produce, ToString
     ' 
     ' 

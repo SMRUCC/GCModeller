@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2efd3718c39666ba3253ee8fab9ed503, models\Networks\KEGGGraphVisualizer\ReferenceMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::25cd4f8238eacdc24b91b56192fa9a8a, models\Networks\KEGGGraphVisualizer\ReferenceMapRender.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 478
-    '    Code Lines: 390 (81.59%)
-    ' Comment Lines: 35 (7.32%)
+    '   Total Lines: 487
+    '    Code Lines: 397 (81.52%)
+    ' Comment Lines: 35 (7.19%)
     '    - Xml Docs: 91.43%
     ' 
-    '   Blank Lines: 53 (11.09%)
-    '     File Size: 22.58 KB
+    '   Blank Lines: 55 (11.29%)
+    '     File Size: 22.89 KB
 
 
     '     Module ReferenceMapRender

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cb5389fad48669dcc866cf6a1e94bf3, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::2d63bba59ce81cf0687a0ca6b00c79f9, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Contig.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 88
-    '    Code Lines: 58 (65.91%)
-    ' Comment Lines: 16 (18.18%)
+    '   Total Lines: 91
+    '    Code Lines: 58 (63.74%)
+    ' Comment Lines: 19 (20.88%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 14 (15.91%)
-    '     File Size: 3.70 KB
+    '   Blank Lines: 14 (15.38%)
+    '     File Size: 3.81 KB
 
 
     '     Class Contig

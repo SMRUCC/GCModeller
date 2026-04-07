@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::c110d057f48f299d11ced1cc7dba70cb, data\RCSB PDB\PDB\PdbExport.vb"
+﻿#Region "Microsoft.VisualBasic::44fe4212218bb3faf49eee33192a278e, data\RCSB PDB\PDB\PdbExport.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 107
-'    Code Lines: 69 (64.49%)
-' Comment Lines: 19 (17.76%)
-'    - Xml Docs: 78.95%
-' 
-'   Blank Lines: 19 (17.76%)
-'     File Size: 5.18 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module PdbExport
-' 
-'     Function: AssemblyProteinComplexes, ExportSequence, GetByKeyword
-' 
-' Class AssemblyComplex
-' 
-'     Properties: AssemblyComponents, UnitCounts
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 81 (66.94%)
+    ' Comment Lines: 19 (15.70%)
+    '    - Xml Docs: 78.95%
+    ' 
+    '   Blank Lines: 21 (17.36%)
+    '     File Size: 5.87 KB
+
+
+    ' Module PdbExport
+    ' 
+    '     Function: AssemblyProteinComplexes, ExportSequence, GetByKeyword, ModelCentroid
+    ' 
+    ' Class AssemblyComplex
+    ' 
+    '     Properties: AssemblyComponents, UnitCounts
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

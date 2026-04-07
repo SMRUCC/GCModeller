@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7b01624798d7ed2049727fae1373387, foundation\OBO_Foundry\IO\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::cea539a76d85fd0275694310f4aee4d7, foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 132
-    '    Code Lines: 94 (71.21%)
-    ' Comment Lines: 21 (15.91%)
+    '   Total Lines: 134
+    '    Code Lines: 96 (71.64%)
+    ' Comment Lines: 21 (15.67%)
     '    - Xml Docs: 80.95%
     ' 
-    '   Blank Lines: 17 (12.88%)
-    '     File Size: 5.82 KB
+    '   Blank Lines: 17 (12.69%)
+    '     File Size: 5.85 KB
 
 
     '     Module ParserIO

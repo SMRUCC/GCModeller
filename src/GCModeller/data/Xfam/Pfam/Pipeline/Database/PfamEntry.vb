@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::555af1fc732675187301694f903887ed, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
+﻿#Region "Microsoft.VisualBasic::18cc97f04426d6511f1f99e524c4727e, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 24 (21.62%)
-    '     File Size: 3.78 KB
+    '     File Size: 3.77 KB
 
 
     '     Class PfamEntryHeader

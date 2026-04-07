@@ -1,56 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::c4b073ab2b4a5c7cf4c9c5852f3bc8d0, analysis\RNA-Seq\WGCNA\Network\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::f124387b222b842f1f2cf353dc23d7a9, analysis\RNA-Seq\WGCNA\Network\WGCNA.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 123
-'    Code Lines: 84 (68.29%)
-' Comment Lines: 21 (17.07%)
-'    - Xml Docs: 95.24%
-' 
-'   Blank Lines: 18 (14.63%)
-'     File Size: 4.58 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class WGCNAWeight
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CreateMatrix, createMatrixInternal, (+3 Overloads) Find, GenericEnumerator, GetValue
-'                   Subset
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 98 (65.33%)
+    ' Comment Lines: 32 (21.33%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 20 (13.33%)
+    '     File Size: 5.84 KB
+
+
+    '     Class WGCNAWeight
+    ' 
+    '         Properties: geneSet
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: buildMatrixInternal, CreateMatrix, (+3 Overloads) Find, GenericEnumerator, GetValue
+    '                   Subset
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

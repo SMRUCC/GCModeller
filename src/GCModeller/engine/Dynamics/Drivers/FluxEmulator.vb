@@ -1,58 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::47278ae3f42433813f372adddb4aa97c, engine\Dynamics\Drivers\FluxEmulator.vb"
+﻿#Region "Microsoft.VisualBasic::2af20a4eea4893b764c1aa0abe844c7c, engine\Dynamics\Drivers\FluxEmulator.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 108
-'    Code Lines: 77 (71.30%)
-' Comment Lines: 10 (9.26%)
-'    - Xml Docs: 60.00%
-' 
-'   Blank Lines: 21 (19.44%)
-'     File Size: 3.79 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class FluxEmulator
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: AttatchFluxDriver, AttatchMassDriver, getCore, getMass, Run
-' 
-'         Sub: loopInternal
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 107 (74.83%)
+    ' Comment Lines: 10 (6.99%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 26 (18.18%)
+    '     File Size: 5.59 KB
+
+
+    '     Class FluxEmulator
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: AttachRegulationDriver, AttatchFluxDriver, AttatchMassDriver, getCore, getMass
+    '                   Run
+    ' 
+    '         Sub: loopInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

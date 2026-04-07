@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c71045f61d59b5c0c5e9952cf25319, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
+﻿#Region "Microsoft.VisualBasic::57cff47d8abfa906e6174db4148c2e6b, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
 
     ' Author:
     ' 
@@ -35,12 +35,12 @@
     ' Code Statistics:
 
     '   Total Lines: 75
-    '    Code Lines: 49 (65.33%)
-    ' Comment Lines: 16 (21.33%)
-    '    - Xml Docs: 93.75%
+    '    Code Lines: 41 (54.67%)
+    ' Comment Lines: 24 (32.00%)
+    '    - Xml Docs: 62.50%
     ' 
     '   Blank Lines: 10 (13.33%)
-    '     File Size: 3.71 KB
+    '     File Size: 3.72 KB
 
 
     '     Class PathwayMappingTool

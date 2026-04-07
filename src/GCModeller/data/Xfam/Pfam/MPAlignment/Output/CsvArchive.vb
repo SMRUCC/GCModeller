@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::664ea2fb68b7453bc6b6a4b88ac37189, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
+﻿#Region "Microsoft.VisualBasic::e848560502402aff82bdec9c3d72b112, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 107
-    '    Code Lines: 65 (60.75%)
-    ' Comment Lines: 32 (29.91%)
+    '   Total Lines: 101
+    '    Code Lines: 64 (63.37%)
+    ' Comment Lines: 26 (25.74%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (9.35%)
-    '     File Size: 4.17 KB
+    '   Blank Lines: 11 (10.89%)
+    '     File Size: 3.90 KB
 
 
     '     Class MPCsvArchive
     ' 
-    '         Properties: Description, Distance, FullScore, LengthDelta, LevMatch
-    '                     LevScore, MatchDomains, QueryLength, QueryPfamString, Score
-    '                     Similarity, StructMatched, SubjectPfamString
+    '         Properties: Distance, FullScore, LengthDelta, LevMatch, LevScore
+    '                     MatchDomains, QueryLength, QueryPfamString, Score, Similarity
+    '                     StructMatched, SubjectPfamString
     ' 
     '         Function: (+2 Overloads) CreateObject, ToString
     ' 

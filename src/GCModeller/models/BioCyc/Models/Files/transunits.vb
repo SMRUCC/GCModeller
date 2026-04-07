@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0961f7c67a04affda83a06530f1eb050, models\BioCyc\Models\Files\transunits.vb"
+﻿#Region "Microsoft.VisualBasic::165cde133aa65f6ae022befed5cfcca6, models\BioCyc\Models\Files\transunits.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 5 (16.67%)
-    ' Comment Lines: 21 (70.00%)
+    '   Total Lines: 29
+    '    Code Lines: 5 (17.24%)
+    ' Comment Lines: 21 (72.41%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 4 (13.33%)
+    '   Blank Lines: 3 (10.34%)
     '     File Size: 1.59 KB
 
 
@@ -50,7 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
 
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
@@ -81,4 +80,3 @@ Public Class transunits : Inherits Model
     <AttributeField("COMPONENTS")> Public Property components As String()
 
 End Class
-

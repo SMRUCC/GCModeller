@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e23afbdd53bfccb895f05324137443e, analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryReader.vb"
+﻿#Region "Microsoft.VisualBasic::4f65d3747c485425f66b680c17f01cce, analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryReader.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 226
-    '    Code Lines: 159 (70.35%)
-    ' Comment Lines: 20 (8.85%)
-    '    - Xml Docs: 45.00%
+    '   Total Lines: 261
+    '    Code Lines: 172 (65.90%)
+    ' Comment Lines: 37 (14.18%)
+    '    - Xml Docs: 67.57%
     ' 
-    '   Blank Lines: 47 (20.80%)
-    '     File Size: 7.80 KB
+    '   Blank Lines: 52 (19.92%)
+    '     File Size: 9.53 KB
 
 
     '     Class MetaBinaryReader
@@ -49,8 +49,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: findByTaxonomy, findRawByTaxonomy, GetAllFeatureIds, getAllLineageOffsets, getByOTUId
-    '                   getRawByOTUId, GetTaxonomy, loadIndexTree, readByOffsets
+    '         Function: findByTaxonomy, findRawByTaxonomy, Get16sCopyNumbers, GetAllFeatureIds, getAllLineageOffsets
+    '                   getByOTUId, getRawByOTUId, GetTaxonomy, loadIndexTree, readByOffsets
     ' 
     '         Sub: (+2 Overloads) Dispose, loadIndex
     ' 

@@ -1,44 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::487610a238003989b78d1787a7d2d9c1, analysis\Motifs\VirtualFootprint\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::708b432d9af07e0850bf0d10b82e60eb, analysis\Motifs\VirtualFootprint\Regulon.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Class RegPreciseRegulon
-' 
-'     Properties: BiologicalProcess, Effectors, Family, hits, Members
-'                 Pathway, Regulator, Sites
-' 
-'     Function: __merge, Merge, Merges, ToNetwork, ToString
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 106 (88.33%)
+    ' Comment Lines: 3 (2.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (9.17%)
+    '     File Size: 5.51 KB
+
+
+    ' Class RegPreciseRegulon
+    ' 
+    '     Properties: BiologicalProcess, Effectors, Family, hits, Members
+    '                 Pathway, Regulator, Sites
+    ' 
+    '     Function: __merge, Merge, Merges, ToNetwork, ToString
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

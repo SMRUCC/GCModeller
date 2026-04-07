@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad075addd0da8b45f1d79c102f788d97, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::df8e2bdcc2fffdbd8d7b82fb3edc9f73, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.73%
     ' 
     '   Blank Lines: 57 (9.81%)
-    '     File Size: 28.78 KB
+    '     File Size: 28.77 KB
 
 
     ' Module Utilities

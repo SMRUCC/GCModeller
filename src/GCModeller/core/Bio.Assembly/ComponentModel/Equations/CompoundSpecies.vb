@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9360ecc8443ca9478691d43a07998d00, data\Rhea\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::66dd691881adebeb9cb6e84a66bda031, core\Bio.Assembly\ComponentModel\Equations\CompoundSpecies.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 15
-    '    Code Lines: 11 (73.33%)
+    '   Total Lines: 25
+    '    Code Lines: 18 (72.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 4 (26.67%)
-    '     File Size: 401 B
+    '   Blank Lines: 7 (28.00%)
+    '     File Size: 616 B
 
 
-    ' Class Compound
+    '     Class CompoundSpecies
     ' 
-    '     Properties: entry, enzyme, formula, name, reactions
+    '         Properties: entry, enzyme, formula, name, reactions
     ' 
-    '     Function: ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

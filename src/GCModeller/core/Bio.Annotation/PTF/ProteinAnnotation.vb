@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8b7e01e320f8b2a92f288acb768045a, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::fd74f5723d9b0387523bd4ebc1cc2d6b, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 34 (53.97%)
-    ' Comment Lines: 21 (33.33%)
+    '   Total Lines: 66
+    '    Code Lines: 37 (56.06%)
+    ' Comment Lines: 21 (31.82%)
     '    - Xml Docs: 95.24%
     ' 
-    '   Blank Lines: 8 (12.70%)
-    '     File Size: 2.10 KB
+    '   Blank Lines: 8 (12.12%)
+    '     File Size: 2.29 KB
 
 
     '     Class ProteinAnnotation

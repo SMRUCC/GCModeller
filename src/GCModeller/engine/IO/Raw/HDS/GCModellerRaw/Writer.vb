@@ -1,58 +1,59 @@
-﻿#Region "Microsoft.VisualBasic::c5e958e2a543c96e10a283594db5ed09, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::4560ce5cffd57890dd75f608783778ec, engine\IO\Raw\HDS\GCModellerRaw\Writer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 126
-'    Code Lines: 88 (69.84%)
-' Comment Lines: 17 (13.49%)
-'    - Xml Docs: 94.12%
-' 
-'   Blank Lines: 21 (16.67%)
-'     File Size: 5.32 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Writer
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: GetStream, Init, Write
-' 
-'         Sub: Dispose
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 288
+    '    Code Lines: 212 (73.61%)
+    ' Comment Lines: 26 (9.03%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 50 (17.36%)
+    '     File Size: 13.16 KB
+
+
+    '     Class Writer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: CompartmentIdSet, GetStream, getTemplateIndex, Init, WriteFluxData
+    '                   WriteFluxForwardRegulation, WriteFluxReverseRegulation, WriteMassData
+    ' 
+    '         Sub: Dispose
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

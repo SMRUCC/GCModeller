@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e642d646029c7a794e1af32755df3475, data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
+﻿#Region "Microsoft.VisualBasic::d09fb23731d808ea711e8b1fadec4396, data\RegulonDatabase\Regprecise\WebServices\Regulations.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 97.56%
     ' 
     '   Blank Lines: 27 (11.49%)
-    '     File Size: 10.49 KB
+    '     File Size: 10.42 KB
 
 
     '     Class Regulation

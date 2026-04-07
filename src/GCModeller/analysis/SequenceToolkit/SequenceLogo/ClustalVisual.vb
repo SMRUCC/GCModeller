@@ -1,54 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::d1c4e54ec960740591d130534debc5df, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::7e8ef62eae6b3858725f4b6aa459d2cc, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 167
-'    Code Lines: 118 (70.66%)
-' Comment Lines: 25 (14.97%)
-'    - Xml Docs: 92.00%
-' 
-'   Blank Lines: 24 (14.37%)
-'     File Size: 6.79 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module ClustalVisual
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: (+2 Overloads) InvokeDrawing
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 128 (73.56%)
+    ' Comment Lines: 20 (11.49%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 26 (14.94%)
+    '     File Size: 7.20 KB
+
+
+    ' Class ClustalVisual
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: InvokeDrawing
+    ' 
+    '     Sub: PlotInternal
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

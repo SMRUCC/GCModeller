@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25043a816b7accb9a9365fe9db37d280, analysis\SequenceToolkit\MSA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::5b348e0eece5e71f45a4e9d285cedca1, analysis\SequenceToolkit\SequenceAlignment\MSA\Extensions.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 18
-    '    Code Lines: 15 (83.33%)
+    '   Total Lines: 21
+    '    Code Lines: 17 (80.95%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 3 (16.67%)
-    '     File Size: 692 B
+    '   Blank Lines: 4 (19.05%)
+    '     File Size: 776 B
 
 
-    ' Module Extensions
+    '     Module Extensions
     ' 
-    '     Function: (+2 Overloads) MultipleAlignment
+    '         Function: (+2 Overloads) MultipleAlignment
+    ' 
     ' 
     ' /********************************************************************************/
 

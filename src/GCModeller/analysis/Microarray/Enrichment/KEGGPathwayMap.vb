@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d5e5201dac35d39827ed6fbf23d3481, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::f3fb7d06617c9e48e8d9d15e8a05e755, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 237
-    '    Code Lines: 168 (70.89%)
-    ' Comment Lines: 41 (17.30%)
+    '   Total Lines: 226
+    '    Code Lines: 159 (70.35%)
+    ' Comment Lines: 41 (18.14%)
     '    - Xml Docs: 85.37%
     ' 
-    '   Blank Lines: 28 (11.81%)
-    '     File Size: 9.64 KB
+    '   Blank Lines: 26 (11.50%)
+    '     File Size: 8.99 KB
 
 
     ' Module KEGGPathwayMap

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::655415410653e26fa0b9951dd919ed12, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::dd17feb3fa1dcbe724216ac033fa9dfc, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 131
-    '    Code Lines: 84 (64.12%)
-    ' Comment Lines: 27 (20.61%)
+    '   Total Lines: 137
+    '    Code Lines: 89 (64.96%)
+    ' Comment Lines: 27 (19.71%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 20 (15.27%)
-    '     File Size: 4.50 KB
+    '   Blank Lines: 21 (15.33%)
+    '     File Size: 4.69 KB
 
 
     '     Class SimpleSegment
@@ -48,7 +48,7 @@
     '         Properties: Complement, Ends, ID, Length, SequenceData
     '                     Start, Strand
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     '         Function: __getMappingLoci, SimpleFasta, ToPTTGene
     ' 
     ' 

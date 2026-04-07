@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14764cb25b71aeed2f415be1f1f34380, analysis\SequenceToolkit\NeedlemanWunsch\RunNeedlemanWunsch.vb"
+﻿#Region "Microsoft.VisualBasic::88bfce7a1a547ed7d45245ed82dd428d, analysis\SequenceToolkit\SequenceAlignment\NeedlemanWunsch\RunNeedlemanWunsch.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 74
-    '    Code Lines: 43 (58.11%)
-    ' Comment Lines: 23 (31.08%)
+    '   Total Lines: 75
+    '    Code Lines: 43 (57.33%)
+    ' Comment Lines: 23 (30.67%)
     '    - Xml Docs: 91.30%
     ' 
-    '   Blank Lines: 8 (10.81%)
-    '     File Size: 2.86 KB
+    '   Blank Lines: 9 (12.00%)
+    '     File Size: 3.05 KB
 
 
-    ' Module RunNeedlemanWunsch
+    '     Module RunNeedlemanWunsch
     ' 
-    '     Function: (+2 Overloads) RunAlign
+    '         Function: (+2 Overloads) RunAlign
     ' 
-    '     Sub: Print
+    '         Sub: Print
+    ' 
     ' 
     ' /********************************************************************************/
 

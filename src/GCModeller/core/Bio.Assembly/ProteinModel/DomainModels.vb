@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a18ec0eeafaf58cbcd47f852023e1dd, core\Bio.Assembly\ProteinModel\DomainModels.vb"
+﻿#Region "Microsoft.VisualBasic::44709c798d891a4270abd43a44428988, core\Bio.Assembly\ProteinModel\DomainModels.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 36 (78.26%)
-    ' Comment Lines: 3 (6.52%)
+    '   Total Lines: 52
+    '    Code Lines: 41 (78.85%)
+    ' Comment Lines: 3 (5.77%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (15.22%)
-    '     File Size: 1.53 KB
+    '   Blank Lines: 8 (15.38%)
+    '     File Size: 1.67 KB
 
 
     '     Class DomainModel
     ' 
-    '         Properties: DomainId, ends, Location, start
+    '         Properties: ends, ID, Location, name, start
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString

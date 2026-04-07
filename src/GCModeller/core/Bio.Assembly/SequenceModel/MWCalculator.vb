@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63d5bd4cf8c5b32c933856e0aee1cf9f, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::425d2d1da0e210431094761cf4beb491, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 240
-    '    Code Lines: 146 (60.83%)
-    ' Comment Lines: 63 (26.25%)
-    '    - Xml Docs: 92.06%
+    '   Total Lines: 245
+    '    Code Lines: 146 (59.59%)
+    ' Comment Lines: 68 (27.76%)
+    '    - Xml Docs: 92.65%
     ' 
-    '   Blank Lines: 31 (12.92%)
-    '     File Size: 9.08 KB
+    '   Blank Lines: 31 (12.65%)
+    '     File Size: 9.28 KB
 
 
     '     Module MolecularWeightCalculator

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e3f341b77623a33be777a6aab4fe035, analysis\SequenceToolkit\MSA\CenterStar.vb"
+﻿#Region "Microsoft.VisualBasic::5b3d2187fc2c2af3b7f5b3918c031276, analysis\SequenceToolkit\SequenceAlignment\MSA\CenterStar.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 28
-    '    Code Lines: 22 (78.57%)
-    ' Comment Lines: 0 (0.00%)
+    '   Total Lines: 70
+    '    Code Lines: 56 (80.00%)
+    ' Comment Lines: 2 (2.86%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (21.43%)
-    '     File Size: 962 B
+    '   Blank Lines: 12 (17.14%)
+    '     File Size: 2.86 KB
 
 
-    ' Class CenterStar
+    '     Class CenterStar
     ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: Compute
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Compute, (+2 Overloads) ProcessingSeqs
+    ' 
     ' 
     ' /********************************************************************************/
 

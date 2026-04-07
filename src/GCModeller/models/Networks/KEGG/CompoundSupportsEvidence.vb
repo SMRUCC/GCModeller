@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::741708e2626c56e152834d2c90c324a7, models\Networks\KEGG\CompoundSupportsEvidence.vb"
+﻿#Region "Microsoft.VisualBasic::97f9a219f977080bc3a77f054b0f96f0, models\Networks\KEGG\CompoundSupportsEvidence.vb"
 
     ' Author:
     ' 

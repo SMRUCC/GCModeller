@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a404a9b5ddbc130ad4f858b2bd687ab1, visualize\SyntenyVisual\SyntenyRegion.vb"
+﻿#Region "Microsoft.VisualBasic::7b3950a7690100c2d33580d061a5f957, visualize\SyntenyVisual\SyntenyRegion.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 92 (76.67%)
+    ' Comment Lines: 12 (10.00%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 16 (13.33%)
+    '     File Size: 4.79 KB
+
 
     ' Class SyntenyRegion
     ' 

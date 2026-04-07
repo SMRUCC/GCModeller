@@ -1,49 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::0c05b1b4211b3404531200cef011b959, analysis\Motifs\SharedDataModels\RegulatesFootprints.vb"
+﻿#Region "Microsoft.VisualBasic::99c60f3e8f7f3905cc86f6659de94893, analysis\Motifs\VirtualFootprint\RegulatesFootprints.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class RegulatesFootprints
-' 
-'         Properties: [Class], Category, DoorId, InitX, InteractionType
-'                     MotifFamily, MotifTrace, ORF, Pcc, Regulator
-'                     RegulatorTrace, sPcc, StructGenes, tag, Type
-'                     WGCNA
-' 
-'         Function: __posUid, __posUidNonStrict, Equals, ToString, TraceUid
-'                   TraceUidStrict
-'         Operators: <>, =
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 102 (49.04%)
+    ' Comment Lines: 78 (37.50%)
+    '    - Xml Docs: 98.72%
+    ' 
+    '   Blank Lines: 28 (13.46%)
+    '     File Size: 7.32 KB
+
+
+    '     Class BacterialRegulation
+    ' 
+    '         Properties: DoorId, InitX, InteractionType, StructGenes
+    ' 
+    '     Class RegulatesFootprints
+    ' 
+    '         Properties: [class], cor, InteractionType, motif_family, motif_trace
+    '                     ORF, regulator, regulator_trace, subclass, tag
+    '                     type, WGCNA
+    ' 
+    '         Function: __posUid, __posUidNonStrict, Equals, ToString, TraceUid
+    '                   TraceUidStrict
+    '         Operators: <>, =
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

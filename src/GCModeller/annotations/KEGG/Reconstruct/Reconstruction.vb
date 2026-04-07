@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd95fe1ed185dcc6a75d79f3db826a60, annotations\KEGG\Reconstruct\Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::a36f09f00023e856d31553f624ef56a7, annotations\KEGG\Reconstruct\Reconstruction.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 281
-    '    Code Lines: 211 (75.09%)
-    ' Comment Lines: 38 (13.52%)
-    '    - Xml Docs: 81.58%
+    '   Total Lines: 293
+    '    Code Lines: 219 (74.74%)
+    ' Comment Lines: 40 (13.65%)
+    '    - Xml Docs: 82.50%
     ' 
-    '   Blank Lines: 32 (11.39%)
-    '     File Size: 11.35 KB
+    '   Blank Lines: 34 (11.60%)
+    '     File Size: 11.86 KB
 
 
     ' Module Reconstruction

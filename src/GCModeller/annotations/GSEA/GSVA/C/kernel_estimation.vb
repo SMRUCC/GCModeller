@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cba9d75bb4b65c6ee88fa6194c3ab8d9, annotations\GSEA\GSVA\C\kernel_estimation.vb"
+﻿#Region "Microsoft.VisualBasic::9a43f7d2646994f8514927f159c70c53, annotations\GSEA\GSVA\C\kernel_estimation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 84.21%
     ' 
     '   Blank Lines: 32 (21.62%)
-    '     File Size: 5.09 KB
+    '     File Size: 5.08 KB
 
 
     '     Module kernel_estimation

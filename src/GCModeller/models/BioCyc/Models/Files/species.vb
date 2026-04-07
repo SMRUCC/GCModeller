@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3ebf07941e5a737f11bc13bde1d6f62, models\BioCyc\Models\Files\species.vb"
+﻿#Region "Microsoft.VisualBasic::92dec18851b87ec11cc1e9ad8b341c45, models\BioCyc\Models\Files\species.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 31 (68.89%)
-    ' Comment Lines: 8 (17.78%)
-    '    - Xml Docs: 87.50%
+    '   Total Lines: 47
+    '    Code Lines: 31 (65.96%)
+    ' Comment Lines: 10 (21.28%)
+    '    - Xml Docs: 90.00%
     ' 
-    '   Blank Lines: 6 (13.33%)
-    '     File Size: 2.48 KB
+    '   Blank Lines: 6 (12.77%)
+    '     File Size: 2.57 KB
 
 
     ' Class species

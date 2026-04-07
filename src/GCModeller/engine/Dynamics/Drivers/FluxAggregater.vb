@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30efa58ca33aa7b6fd9623fdb32e818d, engine\Dynamics\Drivers\FluxAggregater.vb"
+﻿#Region "Microsoft.VisualBasic::9bc81c8ecdb2d1be7366b6ecc51e3cff, engine\Dynamics\Drivers\FluxAggregater.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 30
-    '    Code Lines: 25 (83.33%)
+    '   Total Lines: 75
+    '    Code Lines: 62 (82.67%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 5 (16.67%)
-    '     File Size: 1.09 KB
+    '   Blank Lines: 13 (17.33%)
+    '     File Size: 2.78 KB
 
 
     '     Class FluxAggregater
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: getFlux
+    ' 
+    '         Function: fluxDynamicsCache, getFlux, GetFluxNames, getRegulations
+    ' 
+    '         Sub: updateFluxRegulationCache
     ' 
     ' 
     ' /********************************************************************************/

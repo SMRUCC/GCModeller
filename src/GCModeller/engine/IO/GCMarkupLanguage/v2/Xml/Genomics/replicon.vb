@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba2f130355c27c8ca775ba77cbb2aa17, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
+﻿#Region "Microsoft.VisualBasic::773ce27580c525457c969a63c2aaa35c, engine\IO\GCMarkupLanguage\v2\Xml\Genomics\replicon.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 15 (17.24%)
-    '     File Size: 2.92 KB
+    '     File Size: 3.00 KB
 
 
     '     Class replicon

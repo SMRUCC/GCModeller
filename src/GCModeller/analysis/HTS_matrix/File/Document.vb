@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08a64a8f911bdab1bd5a01129cf840c4, analysis\HTS_matrix\File\Document.vb"
+﻿#Region "Microsoft.VisualBasic::bc66102d8e0657ae3ee0b50b9ae52b13, analysis\HTS_matrix\File\Document.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 82
-    '    Code Lines: 49 (59.76%)
-    ' Comment Lines: 22 (26.83%)
+    '   Total Lines: 86
+    '    Code Lines: 52 (60.47%)
+    ' Comment Lines: 22 (25.58%)
     '    - Xml Docs: 95.45%
     ' 
-    '   Blank Lines: 11 (13.41%)
-    '     File Size: 2.80 KB
+    '   Blank Lines: 12 (13.95%)
+    '     File Size: 2.92 KB
 
 
     ' Module Document
     ' 
-    '     Function: LoadMatrixDocument, SaveMatrix
+    '     Function: LoadMatrixDocument, ParseHeaders, SaveMatrix
     ' 
     ' /********************************************************************************/
 

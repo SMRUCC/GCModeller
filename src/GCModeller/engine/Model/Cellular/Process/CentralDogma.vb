@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90037ba7c9b5d56edc2b8765fe701471, engine\Model\Cellular\Process\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::0099f8be81279e5ba41eb816787adc37, engine\Model\Cellular\Process\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 104
-    '    Code Lines: 43 (41.35%)
-    ' Comment Lines: 50 (48.08%)
-    '    - Xml Docs: 88.00%
+    '   Total Lines: 115
+    '    Code Lines: 52 (45.22%)
+    ' Comment Lines: 51 (44.35%)
+    '    - Xml Docs: 90.20%
     ' 
-    '   Blank Lines: 11 (10.58%)
-    '     File Size: 3.82 KB
+    '   Blank Lines: 12 (10.43%)
+    '     File Size: 4.29 KB
 
 
     '     Structure CentralDogma
     ' 
     '         Properties: geneID, IsRNAGene, RNAName
     ' 
-    '         Function: ToString
+    '         Function: isChargedtRNA, ToString
     ' 
     ' 
     ' /********************************************************************************/

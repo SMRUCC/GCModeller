@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0930ae1700b65e7d22e186cf27cd946, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::fb1aaebf85cc5efcd0b1edaff0f8aeca, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 162
-    '    Code Lines: 119 (73.46%)
-    ' Comment Lines: 14 (8.64%)
-    '    - Xml Docs: 85.71%
+    '   Total Lines: 161
+    '    Code Lines: 117 (72.67%)
+    ' Comment Lines: 15 (9.32%)
+    '    - Xml Docs: 80.00%
     ' 
-    '   Blank Lines: 29 (17.90%)
-    '     File Size: 6.45 KB
+    '   Blank Lines: 29 (18.01%)
+    '     File Size: 6.38 KB
 
 
     '     Module GbkParser

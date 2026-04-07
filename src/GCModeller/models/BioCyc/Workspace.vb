@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd01e50ed55045636e51d12966debadb, models\BioCyc\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::061bd8e796479461d60fc34d8bcc6150, models\BioCyc\Workspace.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,24 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 106 (74.65%)
-    ' Comment Lines: 11 (7.75%)
+    '   Total Lines: 183
+    '    Code Lines: 138 (75.41%)
+    ' Comment Lines: 11 (6.01%)
     '    - Xml Docs: 63.64%
     ' 
-    '   Blank Lines: 25 (17.61%)
-    '     File Size: 5.25 KB
+    '   Blank Lines: 34 (18.58%)
+    '     File Size: 6.85 KB
 
 
     ' Class Workspace
     ' 
-    '     Properties: compounds, enzrxns, genes, IWorkspace_Workspace, pathways
-    '                 proteins, reactions, species, transunits
+    '     Properties: compounds, enzrxns, fastaSeq, genes, IWorkspace_Workspace
+    '                 pathways, proteins, protligandcplxes, reactions, regulation
+    '                 rnas, species, transunits
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: CreateSequenceIndex, getFileName, Open, openFile, ToString
+    '     Function: checkValid, CreateSequenceIndex, getFileName, Open, openFile
+    '               ToString
     ' 
     ' /********************************************************************************/
 

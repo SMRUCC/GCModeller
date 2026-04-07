@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84a109f1d08c6fa9439d9c1f60556d7d, analysis\SequenceToolkit\MotifScanner\Consensus\ModelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::281d181ec3009f7d9bf9fc4b4ef881a4, analysis\SequenceToolkit\MotifFinder\Consensus\ModelLoader.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 69
-    '    Code Lines: 47 (68.12%)
-    ' Comment Lines: 11 (15.94%)
-    '    - Xml Docs: 45.45%
+    '   Total Lines: 67
+    '    Code Lines: 22 (32.84%)
+    ' Comment Lines: 34 (50.75%)
+    '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 11 (15.94%)
-    '     File Size: 2.69 KB
+    '   Blank Lines: 11 (16.42%)
+    '     File Size: 2.66 KB
 
 
     ' Module ModelLoader
     ' 
-    '     Function: GetUpstreams, LoadGenomic, LoadKEGGModels
+    '     Function: GetUpstreams, LoadGenomic
     ' 
     ' Structure genomic
     ' 

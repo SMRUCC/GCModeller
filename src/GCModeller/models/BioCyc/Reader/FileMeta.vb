@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d048c815556b563136e78e7843efb5ae, models\BioCyc\Reader\FileMeta.vb"
+﻿#Region "Microsoft.VisualBasic::c465df703a88283283b58c42c1d72af0, models\BioCyc\Reader\FileMeta.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 13 (15.66%)
-    '     File Size: 2.98 KB
+    '     File Size: 3.01 KB
 
 
     ' Class FileMeta

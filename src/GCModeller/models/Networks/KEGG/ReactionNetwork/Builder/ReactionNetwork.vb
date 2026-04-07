@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e59f71a2cdb8c9d7d79cdb58a6bc55e, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::13dd8f74763cd8179f3caaeb92ba4724, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.29%
     ' 
     '   Blank Lines: 42 (10.42%)
-    '     File Size: 17.36 KB
+    '     File Size: 17.42 KB
 
 
     '     Class ReactionNetworkBuilder

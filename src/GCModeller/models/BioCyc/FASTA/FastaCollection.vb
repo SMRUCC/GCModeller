@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::b2928fb9ba47253828ce7d11b471b937, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\FastaCollection.vb"
+﻿#Region "Microsoft.VisualBasic::3632e18a078a602d8d8b8db33604d1b8, models\BioCyc\Fasta\FastaCollection.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 40
-'    Code Lines: 28 (70.00%)
-' Comment Lines: 4 (10.00%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 8 (20.00%)
-'     File Size: 1.65 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class FastaCollection
-' 
-'         Properties: DNAseq, DNASourceFilePath, Origin, OriginSourceFile, ProteinSourceFile
-'                     protseq
-' 
-'         Function: Load, LoadGeneObjects, LoadProteins
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 34 (59.65%)
+    ' Comment Lines: 11 (19.30%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 12 (21.05%)
+    '     File Size: 2.10 KB
+
+
+    '     Class FastaCollection
+    ' 
+    '         Properties: DNAseq, Origin, protseq
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Load, LoadGeneObjects, LoadProteins
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

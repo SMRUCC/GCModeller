@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7239c4e88a04e69f478cb6d60470b3b, visualize\SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::02aa852f2e60906ba17f111c07301f3f, visualize\SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 263
+    '    Code Lines: 200 (76.05%)
+    ' Comment Lines: 33 (12.55%)
+    '    - Xml Docs: 93.94%
+    ' 
+    '   Blank Lines: 30 (11.41%)
+    '     File Size: 12.32 KB
+
 
     '     Module ModelAPI
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b5b694d1cedeec045f40007d3aea205, engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c2ce413d23020532aa6818c15ce97a2f, engine\Compiler\MarkupCompiler\BioCyc\v2Compiler.vb"
 
     ' Author:
     ' 
@@ -34,20 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 211
-    '    Code Lines: 180 (85.31%)
-    ' Comment Lines: 3 (1.42%)
+    '   Total Lines: 130
+    '    Code Lines: 109 (83.85%)
+    ' Comment Lines: 1 (0.77%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 28 (13.27%)
-    '     File Size: 8.62 KB
+    '   Blank Lines: 20 (15.38%)
+    '     File Size: 5.09 KB
 
 
     '     Class v2Compiler
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: CompileImpl, createCompounds, createEnzyme, createKinetics, createReactions
-    '                   enzymaticReaction, nonEnzymaticReaction, PreCompile
+    '         Function: CompileImpl, (+2 Overloads) MapCompartId, MapInternal, PreCompile
     ' 
     ' 
     ' /********************************************************************************/

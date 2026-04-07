@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::14798914321fffc27800e57f9b651ccb, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
+﻿#Region "Microsoft.VisualBasic::7351a4e4ffd6203a822996abf29c1569, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 160
-'    Code Lines: 127 (79.38%)
-' Comment Lines: 12 (7.50%)
-'    - Xml Docs: 75.00%
-' 
-'   Blank Lines: 21 (13.12%)
-'     File Size: 10.24 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class WebServiceHandler
-' 
-'         Function: DownloadSequenceData, HandleErrorSequence, TFFamily
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 125 (79.11%)
+    ' Comment Lines: 12 (7.59%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 21 (13.29%)
+    '     File Size: 10.20 KB
+
+
+    '     Class WebServiceHandler
+    ' 
+    '         Function: DownloadSequenceData, HandleErrorSequence, TFFamily
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

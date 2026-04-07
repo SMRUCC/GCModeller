@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c5c0c7864ce6a1e61bf424669a5884e, analysis\Metagenome\Metagenome\gast\subs.vb"
+﻿#Region "Microsoft.VisualBasic::1c88e11c51ddc606e787b542be5b7bb8, analysis\Metagenome\Metagenome\Tools\gast\subs.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 5 (17.86%)
-    '     File Size: 872 B
+    '     File Size: 865 B
 
 
     '     Module SUBROUTINES

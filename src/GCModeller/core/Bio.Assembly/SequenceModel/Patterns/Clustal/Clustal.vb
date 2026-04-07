@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d2dcb197f4c3254e1e4558016c2d69d, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::fe5ec299ad066748691015be7180f449, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 109
-    '    Code Lines: 80 (73.39%)
-    ' Comment Lines: 12 (11.01%)
-    '    - Xml Docs: 91.67%
+    '   Total Lines: 114
+    '    Code Lines: 82 (71.93%)
+    ' Comment Lines: 16 (14.04%)
+    '    - Xml Docs: 93.75%
     ' 
-    '   Blank Lines: 17 (15.60%)
-    '     File Size: 4.42 KB
+    '   Blank Lines: 16 (14.04%)
+    '     File Size: 4.66 KB
 
 
     '     Class Clustal
@@ -49,10 +49,10 @@
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
-    '                   (+3 Overloads) Save
+    '         Function: GetEnumerator, GetSite, IEnumerable_GetEnumerator, Mid, (+3 Overloads) Save
+    '                   Span
     ' 
-    '         Sub: __initCommon
+    '         Sub: Initialize
     ' 
     ' 
     ' /********************************************************************************/

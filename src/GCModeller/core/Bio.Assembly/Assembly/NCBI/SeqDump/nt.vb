@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80929c28ebf6729f196e9dd259d8eacc, core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
+﻿#Region "Microsoft.VisualBasic::a16030c40e7db139ba762bd501c459fe, core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 87.50%
     ' 
     '   Blank Lines: 14 (13.73%)
-    '     File Size: 4.03 KB
+    '     File Size: 4.02 KB
 
 
     '     Class Nucleotide

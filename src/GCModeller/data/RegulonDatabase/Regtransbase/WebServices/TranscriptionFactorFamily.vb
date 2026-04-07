@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e472cd75798b6eddc73a314fc07ea3be, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::093f0b1065e454d0e9d2b7300326abcb, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 410
-    '    Code Lines: 302 (73.66%)
-    ' Comment Lines: 28 (6.83%)
+    '   Total Lines: 416
+    '    Code Lines: 307 (73.80%)
+    ' Comment Lines: 28 (6.73%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 80 (19.51%)
-    '     File Size: 19.59 KB
+    '   Blank Lines: 81 (19.47%)
+    '     File Size: 19.72 KB
 
 
     '     Class RegPreciseTFFamily
@@ -83,8 +83,8 @@
     ' 
     '     Class MotifFasta
     ' 
-    '         Properties: bacteria, Headers, locus_tag, name, position
-    '                     score, SequenceData, Title, UniqueId
+    '         Properties: bacteria, Headers, length, locus_tag, name
+    '                     position, score, SequenceData, Title, UniqueId
     ' 
     '         Function: [New], GetSequenceData, Parse, ToString
     ' 

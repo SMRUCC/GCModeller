@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea06f360eac5f330e90c1b1930c35579, engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::bbe84f6127f81d0c2f2a93a077fcce12, engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 13 (12.38%)
-    '     File Size: 4.58 KB
+    '     File Size: 4.59 KB
 
 
     '     Class CompileGeneModelWorkflow

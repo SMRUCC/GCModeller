@@ -1,152 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::6ed554e398bc2515372ef7713c015934, data\RCSB PDB\PDB\Keywords\Headers\Het.vb"
+﻿#Region "Microsoft.VisualBasic::253df0992cdcdf55f09b787640c9176a, data\RCSB PDB\PDB\Keywords\Headers\HetAtom\Het.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 347
-'    Code Lines: 260 (74.93%)
-' Comment Lines: 3 (0.86%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 84 (24.21%)
-'     File Size: 9.18 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Het
-' 
-'         Properties: AnnotationText, Keyword
-' 
-'         Function: Append
-' 
-'     Class HetName
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Formula
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class Link
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class CISPEP
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class HETATM
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class HETSYN
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class CONECT
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class MODRES
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class SSBOND
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class SPRSDE
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class CAVEAT
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class MDLTYP
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class ANISOU
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class SIGATM
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class SIGUIJ
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-'     Class SPLIT
-' 
-'         Properties: Keyword
-' 
-'         Function: Append
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 46 (52.27%)
+    ' Comment Lines: 24 (27.27%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 18 (20.45%)
+    '     File Size: 2.84 KB
+
+
+    '     Class Het
+    ' 
+    '         Properties: HetAtoms, Keyword
+    ' 
+    '         Function: Append
+    '         Class HETRecord
+    ' 
+    '             Properties: AtomCount, ChainID, ResidueType, SequenceNumber
+    ' 
+    '             Constructor: (+2 Overloads) Sub New
+    '             Function: ToPdbHETLine, ToString
+    ' 
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

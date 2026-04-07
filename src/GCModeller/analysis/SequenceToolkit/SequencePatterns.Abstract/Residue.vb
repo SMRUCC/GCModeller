@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37f6d0a9a14723a657a41bee932365b0, analysis\SequenceToolkit\SequencePatterns.Abstract\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::fb7975cb602f16c6011ae8dcbc5034a9, analysis\SequenceToolkit\SequencePatterns.Abstract\Residue.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,25 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 86
-    '    Code Lines: 74 (86.05%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 119
+    '    Code Lines: 94 (78.99%)
+    ' Comment Lines: 7 (5.88%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 12 (13.95%)
-    '     File Size: 2.39 KB
+    '   Blank Lines: 18 (15.13%)
+    '     File Size: 3.57 KB
 
 
-    ' Structure Residue
+    ' Class Residue
     ' 
     '     Properties: frequency, Hi, index, isConserved, isEmpty
     '                 topChar
     ' 
-    '     Function: GetEmpty, Max, ToString
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: EnumerateKeys, EnumerateValues, GetEmpty, Max, ToString
+    ' 
+    '     Sub: Assign
     ' 
     ' /********************************************************************************/
 

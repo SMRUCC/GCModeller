@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b6075b751bd31afc4571b1f354d8e4e, analysis\Motifs\SharedDataModels\ModuleClassAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ef0270f7569953b40d4d6b6187762723, analysis\Motifs\VirtualFootprint\ModuleClassAPI.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 31 (79.49%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (20.51%)
+    '     File Size: 1.49 KB
+
 
     '     Module ModuleClassAPIExtension
     ' 

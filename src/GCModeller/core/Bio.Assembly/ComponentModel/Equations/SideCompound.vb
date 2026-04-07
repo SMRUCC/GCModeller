@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9cf68723251821ca4d3924551e8ea45, data\Rhea\SideCompound.vb"
+﻿#Region "Microsoft.VisualBasic::ff6fe1c65ad913756f937312fbd859b6, core\Bio.Assembly\ComponentModel\Equations\SideCompound.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,22 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 21
-    '    Code Lines: 15 (71.43%)
+    '   Total Lines: 25
+    '    Code Lines: 17 (68.00%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (28.57%)
-    '     File Size: 428 B
+    '   Blank Lines: 8 (32.00%)
+    '     File Size: 556 B
 
 
-    ' Class SideCompound
+    '     Class SideCompound
     ' 
-    '     Properties: compound, side
+    '         Properties: compound, side
     ' 
-    '     Constructor: (+2 Overloads) Sub New
-    '     Function: ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
     ' 
     ' /********************************************************************************/
 

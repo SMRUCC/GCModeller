@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8240666bf616bfab06a0204a16f6f6bc, analysis\Metagenome\Metagenome\RelativeStatics.vb"
+﻿#Region "Microsoft.VisualBasic::8fb4808c735254606e2a2ba300f16795, analysis\Metagenome\Metagenome\DataAnalysis\RelativeStatics.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 106
-    '    Code Lines: 77 (72.64%)
-    ' Comment Lines: 21 (19.81%)
-    '    - Xml Docs: 80.95%
+    '   Total Lines: 171
+    '    Code Lines: 126 (73.68%)
+    ' Comment Lines: 31 (18.13%)
+    '    - Xml Docs: 87.10%
     ' 
-    '   Blank Lines: 8 (7.55%)
-    '     File Size: 5.03 KB
+    '   Blank Lines: 14 (8.19%)
+    '     File Size: 7.95 KB
 
 
     ' Module RelativeStatics
     ' 
-    '     Function: CastView, ExportByRanks, PopulateViews, RelativeAbundance
+    '     Function: Average, CastView, DominantSpecies, (+2 Overloads) ExportByRanks, ExportByRanksInternal
+    '               PopulateViews, RelativeAbundance
     ' 
     ' /********************************************************************************/
 

@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::c94223f4b777969b3fabc721fdcdeeca, annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
+﻿#Region "Microsoft.VisualBasic::d99ba92d780c2e4ad6c03ea92e5da18f, annotations\GSEA\GSEA\KnowledgeBase\Imports\UniProtModel.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 151
-'    Code Lines: 125 (82.78%)
-' Comment Lines: 6 (3.97%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 20 (13.25%)
-'     File Size: 5.61 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module UniProtModel
-' 
-'     Function: extractKeywords, extractLocations, proteinLocusTag, SubcellularLocation, uniprotGeneModel
-'               UniprotGoHits, UniprotKeywordsModel
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 144 (80.45%)
+    ' Comment Lines: 11 (6.15%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (13.41%)
+    '     File Size: 6.89 KB
+
+
+    ' Module UniProtModel
+    ' 
+    '     Function: buildKeywordClusters, extractKeywords, extractLocations, proteinLocusTag, SubcellularLocation
+    '               uniprotGeneModel, UniprotGoHits, UniprotKeywordsModel
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

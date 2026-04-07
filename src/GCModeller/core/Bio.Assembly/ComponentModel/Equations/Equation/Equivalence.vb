@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45fe80463d3ef80256a8040283030a0d, core\Bio.Assembly\ComponentModel\Equations\Equivalence.vb"
+﻿#Region "Microsoft.VisualBasic::6a044e06629a8dc4bb8fe2e0b84cc4ae, core\Bio.Assembly\ComponentModel\Equations\Equation\Equivalence.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 90
-    '    Code Lines: 73 (81.11%)
-    ' Comment Lines: 9 (10.00%)
+    '   Total Lines: 88
+    '    Code Lines: 71 (80.68%)
+    ' Comment Lines: 9 (10.23%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 8 (8.89%)
-    '     File Size: 3.93 KB
+    '   Blank Lines: 8 (9.09%)
+    '     File Size: 3.87 KB
 
 
     '     Module Equivalence

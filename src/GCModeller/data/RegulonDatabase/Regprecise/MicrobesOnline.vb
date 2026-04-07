@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de3aae553d20c38490682bca8ccc790c, data\MicrobesOnline\WebParser\fetchLocus.vb"
+﻿#Region "Microsoft.VisualBasic::66d0fa0641f0640571e2dd977898102d, data\RegulonDatabase\Regprecise\MicrobesOnline.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 41
-    '    Code Lines: 26 (63.41%)
-    ' Comment Lines: 11 (26.83%)
-    '    - Xml Docs: 81.82%
+    '   Total Lines: 46
+    '    Code Lines: 25 (54.35%)
+    ' Comment Lines: 16 (34.78%)
+    '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 4 (9.76%)
-    '     File Size: 1.92 KB
+    '   Blank Lines: 5 (10.87%)
+    '     File Size: 2.12 KB
 
 
-    ' Module fetchLocus
+    '     Module MicrobesOnline
     ' 
-    '     Function: Downloads, locusId
+    '         Function: Downloads, locusId
+    ' 
     ' 
     ' /********************************************************************************/
 

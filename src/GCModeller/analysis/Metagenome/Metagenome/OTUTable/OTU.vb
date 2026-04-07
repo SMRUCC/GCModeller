@@ -1,53 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::82433e84ade5f828e997e497d5d6e050, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::fc4e32260aa578c1a8e0ddcc3c5c7e02, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 146
-'    Code Lines: 125 (85.62%)
-' Comment Lines: 9 (6.16%)
-'    - Xml Docs: 88.89%
-' 
-'   Blank Lines: 12 (8.22%)
-'     File Size: 6.06 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module OTU
-' 
-'     Function: BuildOTUClusters, CreateGastCountTabel, LoadOTU_taxa_table
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 170 (84.16%)
+    ' Comment Lines: 15 (7.43%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 17 (8.42%)
+    '     File Size: 8.53 KB
+
+
+    ' Module OTU
+    ' 
+    '     Function: BuildOTUClusters, LoadOTU_taxa_table, LoadOTUTaxonAnalysis, RankStringCleanup
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e058eebdc6ec0ce1b9a5a9c813ad9af, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
+﻿#Region "Microsoft.VisualBasic::3da52dbdb858373a98c2d3bfe7f683c5, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 45
-    '    Code Lines: 29 (64.44%)
-    ' Comment Lines: 7 (15.56%)
+    '   Total Lines: 62
+    '    Code Lines: 35 (56.45%)
+    ' Comment Lines: 15 (24.19%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (20.00%)
-    '     File Size: 1.42 KB
+    '   Blank Lines: 12 (19.35%)
+    '     File Size: 1.94 KB
 
 
     '     Class SOURCE

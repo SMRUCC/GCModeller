@@ -1,3 +1,58 @@
+﻿#Region "Microsoft.VisualBasic::9c196acc9ddc3e8ac5f4d09b2ae48519, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\HMMER3Parser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 248
+    '    Code Lines: 153 (61.69%)
+    ' Comment Lines: 71 (28.63%)
+    '    - Xml Docs: 67.61%
+    ' 
+    '   Blank Lines: 24 (9.68%)
+    '     File Size: 10.30 KB
+
+
+    ' Class HMMER3Parser
+    ' 
+    '     Function: Parse, ParseContent, ParseLines, ParseStatsLine, ParseValue
+    ' 
+    '     Sub: ParseCompoInsertLine, ParseCompoLine, ParseCompoTransLine, ParseStateBlock
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' HMMER3模型解析器与蛋白质序列分类注释模块
 ' 
@@ -246,3 +301,4 @@ Public Class HMMER3Parser
     End Sub
 
 End Class
+

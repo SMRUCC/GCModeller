@@ -1,57 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::0bee8d19a6ad716bce7c943ba2b05aae, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
+﻿#Region "Microsoft.VisualBasic::168e46f233db812ccc52c7bb367fe801, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 76
-'    Code Lines: 26 (34.21%)
-' Comment Lines: 39 (51.32%)
-'    - Xml Docs: 94.87%
-' 
-'   Blank Lines: 11 (14.47%)
-'     File Size: 2.52 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class EnrichmentTerm
-' 
-'         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
-'                     link, number, ORF, Pvalue, Term
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 28 (35.90%)
+    ' Comment Lines: 39 (50.00%)
+    '    - Xml Docs: 94.87%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 2.62 KB
+
+
+    '     Class EnrichmentTerm
+    ' 
+    '         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
+    '                     link, number, ORF, Pvalue, Term
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

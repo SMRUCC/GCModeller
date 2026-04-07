@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b75f2f55466a8afc1a693d5d25f985fb, engine\Dynamics.Debugger\Visualizer.vb"
+﻿#Region "Microsoft.VisualBasic::2d3d94b9e71b205bebc55147d1c42fa1, engine\Dynamics.Debugger\Visualizer.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 75.00%
     ' 
     '   Blank Lines: 19 (11.52%)
-    '     File Size: 6.94 KB
+    '     File Size: 6.97 KB
 
 
     ' Module Visualizer

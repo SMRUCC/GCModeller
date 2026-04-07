@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90dd296ee6c2cf5dda89bba3407a5615, core\test\fetchTest.vb"
+﻿#Region "Microsoft.VisualBasic::ca4a3d65af1749ab4d9caec1f986280f, core\test\fetchTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 5 (50.00%)
+    ' Comment Lines: 2 (20.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (30.00%)
+    '     File Size: 240 B
+
 
     ' Module fetchTest
     ' 

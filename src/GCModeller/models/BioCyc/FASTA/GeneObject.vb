@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::936c3b0b0f5574b856f8553448aaacaa, core\Bio.Assembly\Assembly\MetaCyc\File\FileSystem\FASTA\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::2576155eae33da6bcf3e30e10406bd31, models\BioCyc\Fasta\GeneObject.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 89
-    '    Code Lines: 70 (78.65%)
-    ' Comment Lines: 3 (3.37%)
+    '   Total Lines: 84
+    '    Code Lines: 64 (76.19%)
+    ' Comment Lines: 3 (3.57%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 16 (17.98%)
-    '     File Size: 3.29 KB
+    '   Blank Lines: 17 (20.24%)
+    '     File Size: 3.23 KB
 
 
     '     Class GeneObject
@@ -48,7 +48,7 @@
     '         Properties: AccessionId, Location, ProductUniqueId, Species, UniqueId
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Sub: Save
+    '         Sub: Save, TryParse
     ' 
     ' 
     ' /********************************************************************************/

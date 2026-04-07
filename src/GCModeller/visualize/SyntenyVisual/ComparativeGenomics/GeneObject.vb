@@ -1,44 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::bef0f307ff02426c0c9249b7a4faa67f, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::9ecfbc6f624444873b72156a2cb18d75, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class GeneObject
-' 
-'         Properties: geneName, locus_tag, offsets
-' 
-'         Function: __nextLeft, CreateBackwardModel, CreateForwardModel, InvokeDrawing, ToString
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 220
+    '    Code Lines: 141 (64.09%)
+    ' Comment Lines: 46 (20.91%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 33 (15.00%)
+    '     File Size: 10.16 KB
+
+
+    '     Class GeneObject
+    ' 
+    '         Properties: geneName, locus_tag, offsets
+    ' 
+    '         Function: __nextLeft, CreateBackwardModel, CreateForwardModel, InvokeDrawing, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

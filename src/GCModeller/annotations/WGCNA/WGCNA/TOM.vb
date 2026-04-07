@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c166ed0c90691d451c69c4bea0f10345, annotations\WGCNA\WGCNA\TOM.vb"
+﻿#Region "Microsoft.VisualBasic::199c75ad642c62c366ee05e5bac9f198, annotations\WGCNA\WGCNA\TOM.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 93
-    '    Code Lines: 64 (68.82%)
-    ' Comment Lines: 18 (19.35%)
-    '    - Xml Docs: 83.33%
+    '   Total Lines: 130
+    '    Code Lines: 79 (60.77%)
+    ' Comment Lines: 39 (30.00%)
+    '    - Xml Docs: 69.23%
     ' 
-    '   Blank Lines: 11 (11.83%)
-    '     File Size: 3.30 KB
+    '   Blank Lines: 12 (9.23%)
+    '     File Size: 5.08 KB
 
 
     ' Module TOM

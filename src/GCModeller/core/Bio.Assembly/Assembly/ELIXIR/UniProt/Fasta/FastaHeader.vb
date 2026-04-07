@@ -1,63 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::f8d9c614804556f20be0527de990ec6f, core\Bio.Assembly\Assembly\ELIXIR\UniProt\UniprotFasta.vb"
+﻿#Region "Microsoft.VisualBasic::295f00f14e49077036862e061ec13e61, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Fasta\FastaHeader.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 169
-'    Code Lines: 79 (46.75%)
-' Comment Lines: 72 (42.60%)
-'    - Xml Docs: 95.83%
-' 
-'   Blank Lines: 18 (10.65%)
-'     File Size: 8.30 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class FastaHeader
-' 
-'         Properties: EntryName, GN, OrgnsmSpName, PE, ProtName
-'                     SV, UniprotID
-' 
-'         Function: ToString
-' 
-'     Class UniprotFasta
-' 
-'         Properties: UniProtHeader, UniprotID
-' 
-'         Function: CreateObject, LoadFasta, ParseHeader, SimpleHeaderParser
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 28 (41.18%)
+    ' Comment Lines: 31 (45.59%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (13.24%)
+    '     File Size: 2.81 KB
+
+
+    '     Class FastaHeader
+    ' 
+    '         Properties: EntryName, GN, OrgnsmSpName, OX, PE
+    '                     ProtName, SV, UniprotID
+    ' 
+    '         Function: Parse, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

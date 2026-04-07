@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa289d3c8d0c247e88381e8a5e0ec07c, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::aa42a95d9830e665bdb92f3a900d003f, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
 
     ' Author:
     ' 
@@ -34,12 +34,12 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 172
-    '    Code Lines: 102 (59.30%)
-    ' Comment Lines: 45 (26.16%)
-    '    - Xml Docs: 95.56%
+    '   Total Lines: 171
+    '    Code Lines: 102 (59.65%)
+    ' Comment Lines: 44 (25.73%)
+    '    - Xml Docs: 95.45%
     ' 
-    '   Blank Lines: 25 (14.53%)
+    '   Blank Lines: 25 (14.62%)
     '     File Size: 6.21 KB
 
 

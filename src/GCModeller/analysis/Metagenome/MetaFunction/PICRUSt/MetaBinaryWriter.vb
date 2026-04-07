@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bb559cad6e2b49b165e17a6a6d9167d, analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryWriter.vb"
+﻿#Region "Microsoft.VisualBasic::92ea93c56315befa6df16b721a7ced42, analysis\Metagenome\MetaFunction\PICRUSt\MetaBinaryWriter.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 232
-    '    Code Lines: 158 (68.10%)
-    ' Comment Lines: 29 (12.50%)
-    '    - Xml Docs: 51.72%
+    '   Total Lines: 259
+    '    Code Lines: 168 (64.86%)
+    ' Comment Lines: 44 (16.99%)
+    '    - Xml Docs: 34.09%
     ' 
-    '   Blank Lines: 45 (19.40%)
-    '     File Size: 8.55 KB
+    '   Blank Lines: 47 (18.15%)
+    '     File Size: 9.80 KB
 
 
     '     Class MetaBinaryWriter

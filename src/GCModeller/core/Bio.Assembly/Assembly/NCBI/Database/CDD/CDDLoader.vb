@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::113639b48b44f16149979d0c2b4ad579, core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
+﻿#Region "Microsoft.VisualBasic::68c75030eda082120731f38a98fee987, core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 27 (17.65%)
-    '     File Size: 5.08 KB
+    '     File Size: 5.07 KB
 
 
     '     Class CDDLoader

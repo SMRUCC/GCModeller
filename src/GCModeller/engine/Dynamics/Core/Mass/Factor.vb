@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d72387750bfbda38cc28057a1cb0aa35, engine\Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::04102aacf90c5724d432922dda29d731, engine\Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,27 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 59
-    '    Code Lines: 23 (38.98%)
-    ' Comment Lines: 27 (45.76%)
+    '   Total Lines: 122
+    '    Code Lines: 61 (50.00%)
+    ' Comment Lines: 41 (33.61%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (15.25%)
-    '     File Size: 1.97 KB
+    '   Blank Lines: 20 (16.39%)
+    '     File Size: 3.91 KB
 
 
     '     Class Factor
     ' 
-    '         Properties: cellular_compartment, ID, name, role
+    '         Properties: cellular_compartment, ID, name, role, template_id
+    '                     Value
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
     '         Function: ToString
+    ' 
+    '         Sub: add, reset
+    ' 
+    '         Operators: <, >
     ' 
     ' 
     ' /********************************************************************************/

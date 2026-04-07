@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dd26f999aff82b2f04756cc3e03dc5c, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::a3b2679432b6f04a61aaf79d7f90c49b, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 95.35%
     ' 
     '   Blank Lines: 23 (14.02%)
-    '     File Size: 6.30 KB
+    '     File Size: 6.28 KB
 
 
     '     Class TaxiValue

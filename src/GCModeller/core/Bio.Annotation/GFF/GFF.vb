@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d5e4f42245da6741e7260d76e7489b3, core\Bio.Annotation\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::e0d753f158d9d116da728cd4a068ab2f, core\Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 294
-    '    Code Lines: 142 (48.30%)
-    ' Comment Lines: 112 (38.10%)
+    '   Total Lines: 304
+    '    Code Lines: 151 (49.67%)
+    ' Comment Lines: 112 (36.84%)
     '    - Xml Docs: 87.50%
     ' 
-    '   Blank Lines: 40 (13.61%)
-    '     File Size: 12.47 KB
+    '   Blank Lines: 41 (13.49%)
+    '     File Size: 12.90 KB
 
 
     '     Class GFFTable
@@ -50,8 +50,8 @@
     '                     SrcVersion, type
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, (+3 Overloads) Save, ToString
+    '         Function: CreateGeneObjectIndex, filterStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes
+    '                   GetStrandFeatures, LoadDocument, (+3 Overloads) Save, ToString
     ' 
     ' 
     ' /********************************************************************************/

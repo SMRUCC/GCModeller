@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13ebe91404e36db1b7b5a4cda49d97eb, data\Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
+﻿#Region "Microsoft.VisualBasic::2aea6d80bad127be247d3e47453c0bc0, data\Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 74.47%
     ' 
     '   Blank Lines: 35 (12.37%)
-    '     File Size: 13.25 KB
+    '     File Size: 13.22 KB
 
 
     '     Module Annotation

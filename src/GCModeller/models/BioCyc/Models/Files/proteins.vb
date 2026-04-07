@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58b9d80d5df440263c24ea4f07d3bae7, models\BioCyc\Models\Files\proteins.vb"
+﻿#Region "Microsoft.VisualBasic::c08710c9c4a3fdd6d9fe973abf53af38, models\BioCyc\Models\Files\proteins.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,19 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 58
-    '    Code Lines: 31 (53.45%)
-    ' Comment Lines: 18 (31.03%)
+    '   Total Lines: 63
+    '    Code Lines: 35 (55.56%)
+    ' Comment Lines: 18 (28.57%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 9 (15.52%)
-    '     File Size: 2.47 KB
+    '   Blank Lines: 10 (15.87%)
+    '     File Size: 2.64 KB
 
 
     ' Class proteins
     ' 
-    '     Properties: db_links, db_xrefs, gene, locations, protseq
+    '     Properties: components, db_links, db_xrefs, gene, locations
+    '                 protseq, unmodified_form
     ' 
     '     Function: (+2 Overloads) OpenFile, ParseText
     ' 

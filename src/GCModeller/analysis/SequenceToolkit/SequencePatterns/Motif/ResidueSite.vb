@@ -1,60 +1,60 @@
-﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::efaa3c5eb83cfdfe6b81484854717ab6, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 100
-'    Code Lines: 62 (62.00%)
-' Comment Lines: 25 (25.00%)
-'    - Xml Docs: 92.00%
-' 
-'   Blank Lines: 13 (13.00%)
-'     File Size: 3.43 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class ResidueSite
-' 
-'         Properties: AsChar, Bits, PWM, Site
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: Complement, ToChar, ToString
-' 
-'         Sub: Assign
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 75 (61.98%)
+    ' Comment Lines: 29 (23.97%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 17 (14.05%)
+    '     File Size: 4.25 KB
+
+
+    '     Class ResidueSite
+    ' 
+    '         Properties: AsChar, bits, PWM, site
+    ' 
+    '         Constructor: (+3 Overloads) Sub New
+    ' 
+    '         Function: Complement, ToChar, ToString
+    ' 
+    '         Sub: Assign
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

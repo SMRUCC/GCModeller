@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5981bcb0c0637e9720f0c36ab9e1ead5, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
+﻿#Region "Microsoft.VisualBasic::7d980a5d37544058844116f8031415e9, data\RegulonDatabase\Regprecise\RegpreciseAPI.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 456
-    '    Code Lines: 336 (73.68%)
-    ' Comment Lines: 58 (12.72%)
-    '    - Xml Docs: 67.24%
+    '   Total Lines: 396
+    '    Code Lines: 291 (73.48%)
+    ' Comment Lines: 54 (13.64%)
+    '    - Xml Docs: 68.52%
     ' 
-    '   Blank Lines: 62 (13.60%)
-    '     File Size: 28.17 KB
+    '   Blank Lines: 51 (12.88%)
+    '     File Size: 25.33 KB
 
 
     '     Module RegpreciseAPI
     ' 
-    '         Function: __exportMotif, __exportMotifs, __getFastaCollection, __matches, (+2 Overloads) Compile
-    '                   Distinct, Download, DownloadRegulatorSequence, ExportByFamily, ExportBySpecies
-    '                   FamilyStatics, FamilyStatics2, GenerateDatabase, GenerateFastaData, GetTfFamilies
-    '                   InsertRegulatoryRecord, LoadRegulationDb, ReadCsv, ReadXml, ReGenerate
-    '                   RegpreciseRegulatorMatch, SaveGenomes, WriteMatches, WriteRegprecise
+    '         Function: __exportMotif, __exportMotifs, __matches, Download, ExportByFamily
+    '                   ExportBySpecies, FamilyStatics, FamilyStatics2, GenerateDatabase, GenerateFastaData
+    '                   getFastaCollection, GetTfFamilies, InsertRegulatoryRecord, ReadCsv, ReadXml
+    '                   ReGenerate, RegpreciseRegulatorMatch, SaveGenomes, WriteRegprecise
     ' 
     '         Sub: __mergeAction
     '         Interface IRegulatorMatched

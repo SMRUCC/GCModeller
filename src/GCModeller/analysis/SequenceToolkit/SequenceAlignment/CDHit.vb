@@ -1,4 +1,64 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿#Region "Microsoft.VisualBasic::3d5eeb6d7f89ea72e7dadd845e5f10c5, analysis\SequenceToolkit\SequenceAlignment\CDHit.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 107 (67.30%)
+    ' Comment Lines: 25 (15.72%)
+    '    - Xml Docs: 56.00%
+    ' 
+    '   Blank Lines: 27 (16.98%)
+    '     File Size: 5.78 KB
+
+
+    ' Class CDHit
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: FindSimilar, NrSeqs, Setup, SimilarGraph
+    ' 
+    ' Class SimilarHit
+    ' 
+    '     Properties: IsUniqued, SeqID, Similar, Size
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.HashMaps.MinHash
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
@@ -157,3 +217,4 @@ Public Class SimilarHit
     End Function
 
 End Class
+

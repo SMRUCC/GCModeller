@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05d5fd27c0a939a0b827cef4a1e4cc1c, analysis\Metagenome\MetaFunction\PICRUSt\ko_13_5_precalculated.vb"
+﻿#Region "Microsoft.VisualBasic::7c8d327032c0b6b36c8267734577331b, analysis\Metagenome\MetaFunction\PICRUSt\ko_13_5_precalculated.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 38 (62.30%)
-    ' Comment Lines: 14 (22.95%)
-    '    - Xml Docs: 92.86%
+    '   Total Lines: 66
+    '    Code Lines: 38 (57.58%)
+    ' Comment Lines: 19 (28.79%)
+    '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 9 (14.75%)
-    '     File Size: 2.06 KB
+    '   Blank Lines: 9 (13.64%)
+    '     File Size: 2.26 KB
 
 
     '     Class ko_13_5_precalculated

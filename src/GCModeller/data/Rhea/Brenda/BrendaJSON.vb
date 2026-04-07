@@ -1,4 +1,88 @@
-﻿Public Class BrendaJSON
+﻿#Region "Microsoft.VisualBasic::dc15c7b0dc8f01e90466bca80b17d736, data\Rhea\Brenda\BrendaJSON.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 77 (82.80%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (17.20%)
+    '     File Size: 3.25 KB
+
+
+    ' Class BrendaJSON
+    ' 
+    '     Properties: data, release, version
+    ' 
+    ' Class BrendaEnzymeData
+    ' 
+    '     Properties: activating_compound, application, cloned, cofactor, crystallization
+    '                 expression, general_information, general_stability, ic50_value, id
+    '                 inhibitor, ki_value, km_value, localization, metals_ions
+    '                 molecular_weight, natural_substrates_products, ph_optimum, ph_range, posttranslational_modification
+    '                 protein, protein_variants, purification, reaction, reaction_type
+    '                 recommended_name, reference, renatured, specific_activity, substrates_products
+    '                 subunits, synonyms, systematic_name, temperature_optimum, temperature_range
+    '                 temperature_stability, turnover_number
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class ReferenceData
+    ' 
+    '     Properties: authors, id, journal, pages, pmid
+    '                 title, vol, year
+    ' 
+    '     Function: ToString
+    ' 
+    ' Class ProteinData
+    ' 
+    '     Properties: accessions, comment, id, organism, references
+    '                 source
+    ' 
+    ' Class ValueData
+    ' 
+    '     Properties: comment, proteins, references, value
+    ' 
+    '     Function: ToString
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Public Class BrendaJSON
 
     Public Property release As String
     Public Property version As String
@@ -91,3 +175,4 @@ Public Class ValueData
     End Function
 
 End Class
+

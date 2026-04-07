@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39e130aff3e41648fde1a7f1806a9b08, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::14911ddbd5bcb5d683ad9d333c19bb04, visualize\SyntenyVisual\ComparativeGenomics\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 206
+    '    Code Lines: 154 (74.76%)
+    ' Comment Lines: 13 (6.31%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 39 (18.93%)
+    '     File Size: 9.39 KB
+
 
     '     Class DrawingDevice
     ' 

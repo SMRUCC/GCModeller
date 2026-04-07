@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b455f631a06d8959cfe27d806c0e36fb, core\Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
+﻿#Region "Microsoft.VisualBasic::490de7dd2da33cc26b819bb13b803f3e, core\Bio.Assembly\ComponentModel\Locus\Interfaces.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 59
-    '    Code Lines: 18 (30.51%)
-    ' Comment Lines: 34 (57.63%)
+    '   Total Lines: 65
+    '    Code Lines: 21 (32.31%)
+    ' Comment Lines: 34 (52.31%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 7 (11.86%)
-    '     File Size: 1.86 KB
+    '   Blank Lines: 10 (15.38%)
+    '     File Size: 1.99 KB
 
 
     '     Interface ILocationSegment
@@ -52,6 +52,10 @@
     '         Properties: Location
     ' 
     '     Interface ILocationNucleotideSegment
+    ' 
+    '         Properties: Strand
+    ' 
+    '     Interface INucleotideLocation
     ' 
     '         Properties: Strand
     ' 

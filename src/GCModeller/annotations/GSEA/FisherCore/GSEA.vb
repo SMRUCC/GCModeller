@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd38aa797c5aa8c03bb64c0569b1cbe4, annotations\GSEA\FisherCore\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::5354e9d1d8bb7c5840468d5455ae42b0, annotations\GSEA\FisherCore\GSEA.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,30 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 111
-    '    Code Lines: 78 (70.27%)
-    ' Comment Lines: 14 (12.61%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 153
+    '    Code Lines: 95 (62.09%)
+    ' Comment Lines: 32 (20.92%)
+    '    - Xml Docs: 71.88%
     ' 
-    '   Blank Lines: 19 (17.12%)
-    '     File Size: 4.62 KB
+    '   Blank Lines: 26 (16.99%)
+    '     File Size: 6.14 KB
 
 
     ' Module GSEACalculate
     ' 
-    '     Function: Enrich, enrich_score, Enrichment, pvalue
+    '     Function: Enrich, enrich_score, Enrichment
+    ' 
+    ' Class PermutationTest
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: Score, ZeroSet
+    ' 
+    ' Class GeneExpressionRank
+    ' 
+    '     Properties: gene_id, rank
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 

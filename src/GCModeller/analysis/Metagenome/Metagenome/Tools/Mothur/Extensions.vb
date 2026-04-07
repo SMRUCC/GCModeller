@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a103f5a95e13093a1573cc85a67bbe0, analysis\Metagenome\Metagenome\Mothur\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2a103f5a95e13093a1573cc85a67bbe0, analysis\Metagenome\Metagenome\Tools\Mothur\Extensions.vb"
 
     ' Author:
     ' 

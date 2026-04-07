@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ee1c9c5e2eb69e0f6c79e66fa3aeb68, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
+﻿#Region "Microsoft.VisualBasic::0c50b7e5653fcc57a72ef09b5661c1e8, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 156
-    '    Code Lines: 121 (77.56%)
-    ' Comment Lines: 6 (3.85%)
+    '   Total Lines: 181
+    '    Code Lines: 140 (77.35%)
+    ' Comment Lines: 6 (3.31%)
     '    - Xml Docs: 83.33%
     ' 
-    '   Blank Lines: 29 (18.59%)
-    '     File Size: 6.79 KB
+    '   Blank Lines: 35 (19.34%)
+    '     File Size: 7.92 KB
 
 
     '     Class RegulatorQuery

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::340d42868e3ba4e35968460f1b638dfa, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::f4a5f6aaa7612902f6fb954dafba9578, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 84
-    '    Code Lines: 40 (47.62%)
-    ' Comment Lines: 34 (40.48%)
+    '   Total Lines: 96
+    '    Code Lines: 49 (51.04%)
+    ' Comment Lines: 34 (35.42%)
     '    - Xml Docs: 94.12%
     ' 
-    '   Blank Lines: 10 (11.90%)
-    '     File Size: 3.09 KB
+    '   Blank Lines: 13 (13.54%)
+    '     File Size: 3.45 KB
 
 
     '     Class TaxonomyNode
@@ -48,7 +48,8 @@
     '         Properties: children, name, nchilds, parent, rank
     '                     taxid
     ' 
-    '         Function: RankTable, Taxonomy, ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: HasChilds, RankTable, Taxonomy, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,61 +1,61 @@
-﻿#Region "Microsoft.VisualBasic::5b8e2d4a233a5a649a34c3b255d55a3e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::6dbf1e86ff07e0057bd14148f0d65c09, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Feature.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 345
-'    Code Lines: 236 (68.41%)
-' Comment Lines: 53 (15.36%)
-'    - Xml Docs: 96.23%
-' 
-'   Blank Lines: 56 (16.23%)
-'     File Size: 14.09 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Feature
-' 
-'         Properties: Count, IsReadOnly, KeyName, Keys, Location
-'                     PairedValues, SequenceData, Values
-' 
-'         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
-'                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
-'                   SetValue, ToString, TryGetValue
-' 
-'         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 363
+    '    Code Lines: 244 (67.22%)
+    ' Comment Lines: 62 (17.08%)
+    '    - Xml Docs: 95.16%
+    ' 
+    '   Blank Lines: 57 (15.70%)
+    '     File Size: 14.90 KB
+
+
+    '     Class Feature
+    ' 
+    '         Properties: Count, IsReadOnly, KeyName, Keys, Location
+    '                     PairedValues, SequenceData, Values
+    ' 
+    '         Function: attributes, Contains, ContainsKey, doParser, GetEnumerator
+    '                   GetEnumerator1, (+2 Overloads) Query, QueryDuplicated, ReadingQualifiers, (+2 Overloads) Remove
+    '                   SetValue, ToGeneFasta, ToString, TryGetValue
+    ' 
+    '         Sub: (+2 Overloads) Add, Clear, (+2 Overloads) CopyTo
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

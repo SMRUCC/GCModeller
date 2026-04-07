@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::55cc7e3d1c003ae217ee1220ae88f95c, core\Bio.Assembly\Assembly\KEGG\ReactionRepository.vb"
+﻿#Region "Microsoft.VisualBasic::bc375a160ef20be94f220b8c92542342, core\Bio.Assembly\Assembly\KEGG\ReactionRepository.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 26 (10.04%)
-    '     File Size: 10.26 KB
+    '     File Size: 10.24 KB
 
 
     ' Class ReactionRepository

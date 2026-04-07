@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::57e3449c63294e3aa3e74dce45f58846, analysis\HTS_matrix\DataFrame.vb"
+﻿#Region "Microsoft.VisualBasic::a8083bcb5a45e1789cd7898da793130b, analysis\HTS_matrix\DataFrame.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 51
-'    Code Lines: 35 (68.63%)
-' Comment Lines: 8 (15.69%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 8 (15.69%)
-'     File Size: 1.87 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module HTSDataFrame
-' 
-'     Function: MergeMultipleHTSMatrix
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 100 (74.63%)
+    ' Comment Lines: 15 (11.19%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 19 (14.18%)
+    '     File Size: 5.05 KB
+
+
+    ' Module HTSDataFrame
+    ' 
+    '     Function: IsNullOrEmpty, MergeFeatures, MergeMultipleHTSMatrix
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

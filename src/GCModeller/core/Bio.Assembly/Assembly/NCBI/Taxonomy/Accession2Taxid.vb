@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::824216e5ec159753fbe59ae8c086e6a9, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::042352256e33e2ef943c1cf8b7d9809c, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 140
-    '    Code Lines: 82 (58.57%)
-    ' Comment Lines: 36 (25.71%)
-    '    - Xml Docs: 72.22%
+    '   Total Lines: 153
+    '    Code Lines: 93 (60.78%)
+    ' Comment Lines: 35 (22.88%)
+    '    - Xml Docs: 68.57%
     ' 
-    '   Blank Lines: 22 (15.71%)
-    '     File Size: 5.64 KB
+    '   Blank Lines: 25 (16.34%)
+    '     File Size: 6.30 KB
 
 
-    '     Module Accession2Taxid
+    '     Class Accession2Taxid
     ' 
-    '         Function: __loadData, LoadAll, Matchs, ReadFile
+    '         Properties: accession, accession_version, gi, taxid
+    ' 
+    '         Function: LoadAll, LoadDataAll, Matchs, ReadFile, ReadFiles
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7742a48742a5457812f47be5632e76f7, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::a102146ac4cb7ac40962a172a7f29e7c, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 141
-    '    Code Lines: 84 (59.57%)
-    ' Comment Lines: 35 (24.82%)
-    '    - Xml Docs: 94.29%
+    '   Total Lines: 148
+    '    Code Lines: 87 (58.78%)
+    ' Comment Lines: 38 (25.68%)
+    '    - Xml Docs: 94.74%
     ' 
-    '   Blank Lines: 22 (15.60%)
-    '     File Size: 4.84 KB
+    '   Blank Lines: 23 (15.54%)
+    '     File Size: 5.12 KB
 
 
     '     Class Equation
@@ -48,7 +48,7 @@
     '         Properties: Expression, Id, Model, precision, Value
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Elapsed, Evaluate, readRangeHelper, ToString
+    '         Function: Elapsed, Evaluate, GetVariableSymbols, readRangeHelper, ToString
     ' 
     ' 
     ' /********************************************************************************/

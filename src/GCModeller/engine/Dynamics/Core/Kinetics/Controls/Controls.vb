@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63be76055c1b47f4c2b7d48197e7b5c4, engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
+﻿#Region "Microsoft.VisualBasic::3d8d867884a2029bfa5ba02e9c1e2516, engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 61
-    '    Code Lines: 40 (65.57%)
-    ' Comment Lines: 11 (18.03%)
+    '   Total Lines: 75
+    '    Code Lines: 44 (58.67%)
+    ' Comment Lines: 20 (26.67%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 10 (16.39%)
-    '     File Size: 2.11 KB
+    '   Blank Lines: 11 (14.67%)
+    '     File Size: 2.67 KB
 
 
     '     Class Controls

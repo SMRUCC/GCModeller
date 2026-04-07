@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b399aa36b1c44f1de375fd4a3b0fb07d, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
+﻿#Region "Microsoft.VisualBasic::758c71948219b8155a2f9abe834ae1cf, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 0.00%
     ' 
     '   Blank Lines: 4 (8.89%)
-    '     File Size: 3.13 KB
+    '     File Size: 3.12 KB
 
 
     ' Module Utilities

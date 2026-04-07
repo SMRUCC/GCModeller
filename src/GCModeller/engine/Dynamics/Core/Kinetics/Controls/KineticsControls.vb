@@ -1,64 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::7d57433fa9a2b993e3ade8ec1b979496, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::de26dbccc2a58da15d8406c995ba9bb3, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 106
-'    Code Lines: 66 (62.26%)
-' Comment Lines: 23 (21.70%)
-'    - Xml Docs: 91.30%
-' 
-'   Blank Lines: 17 (16.04%)
-'     File Size: 3.68 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class KineticsControls
-' 
-'         Properties: coefficient, parameters
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: getMass, ToString
-' 
-'     Class KineticsOverlapsControls
-' 
-'         Properties: coefficient
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 80 (66.12%)
+    ' Comment Lines: 23 (19.01%)
+    '    - Xml Docs: 91.30%
+    ' 
+    '   Blank Lines: 18 (14.88%)
+    '     File Size: 4.38 KB
+
+
+    '     Class KineticsControls
+    ' 
+    '         Properties: coefficient, parameters
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: getMass, ToString
+    ' 
+    '     Class KineticsOverlapsControls
+    ' 
+    '         Properties: coefficient
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

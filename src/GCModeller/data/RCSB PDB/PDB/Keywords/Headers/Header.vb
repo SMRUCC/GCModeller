@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::693c03baa5cc25e9e841c959b15de969, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
+﻿#Region "Microsoft.VisualBasic::ca5e74b1288e4f0caf0acdc3b25a1b42, data\RCSB PDB\PDB\Keywords\Headers\Header.vb"
 
     ' Author:
     ' 
@@ -34,26 +34,26 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 228
-    '    Code Lines: 170 (74.56%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 359
+    '    Code Lines: 236 (65.74%)
+    ' Comment Lines: 48 (13.37%)
+    '    - Xml Docs: 47.92%
     ' 
-    '   Blank Lines: 58 (25.44%)
-    '     File Size: 6.50 KB
+    '   Blank Lines: 75 (20.89%)
+    '     File Size: 13.17 KB
 
 
     '     Class Header
     ' 
-    '         Properties: [Date], Keyword, pdbID, Title
+    '         Properties: [Date], EmptyContent, Keyword, pdbID, Title
     ' 
-    '         Function: Parse, ToString
+    '         Function: Parse, ToPdbString, ToString
     ' 
     '     Class Title
     ' 
     '         Properties: Keyword, Title
     ' 
-    '         Function: Append, ToString
+    '         Function: Append, GeneratePdbTitleLines, ToString
     ' 
     '     Class Keywords
     ' 
@@ -71,7 +71,7 @@
     ' 
     '         Properties: Keyword, Name
     ' 
-    '         Function: Parse, ToString
+    '         Function: Parse, ToPDBAuthorFieldText, ToString
     ' 
     '     Class DbReference
     ' 

@@ -1,58 +1,65 @@
-﻿#Region "Microsoft.VisualBasic::94dde673cb4d5642c51ae4dbedf05050, data\RCSB PDB\PDB\Keywords\Atom.vb"
+﻿#Region "Microsoft.VisualBasic::3a8b0d41ff5596446d0ab92209738c97, data\RCSB PDB\PDB\Keywords\Atom.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 60
-'    Code Lines: 41 (68.33%)
-' Comment Lines: 7 (11.67%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 12 (20.00%)
-'     File Size: 1.96 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class Atom
-' 
-'         Properties: AminoAcidSequenceData, Atoms, HetAtoms, Keyword, ModelId
-' 
-'         Function: Append, GetEnumerator, GetEnumerator1
-' 
-'         Sub: Flush
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 75 (70.75%)
+    ' Comment Lines: 12 (11.32%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 19 (17.92%)
+    '     File Size: 4.08 KB
+
+
+    '     Class Atom
+    ' 
+    '         Properties: AminoAcidSequenceData, Atoms, HetAtoms, Keyword, ModelId
+    ' 
+    '         Function: Append, AppendTerminator, GetEnumerator, GetEnumerator1
+    ' 
+    '         Sub: Flush
+    ' 
+    '     Class Terminator
+    ' 
+    '         Properties: ChainID, Keyword, RecordType, ResidueName, ResidueNumber
+    '                     SerialNumber
+    ' 
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

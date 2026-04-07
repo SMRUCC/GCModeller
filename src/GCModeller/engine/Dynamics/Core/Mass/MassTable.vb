@@ -1,74 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::c23a11d1074b4ad93d7efc691256b7a8, engine\BootstrapLoader\Engine\MassTable.vb"
+﻿#Region "Microsoft.VisualBasic::5f89900fcf42ca0fda9ab0f5f7ede558, engine\Dynamics\Core\Mass\MassTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 304
-'    Code Lines: 199 (65.46%)
-' Comment Lines: 56 (18.42%)
-'    - Xml Docs: 91.07%
-' 
-'   Blank Lines: 49 (16.12%)
-'     File Size: 12.38 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class MassTable
-' 
-'         Properties: compartment_ids, GetMassValues, metabolites, micsRNA, mRNA
-'                     polypeptide, rRNA, tRNA
-' 
-'         Constructor: (+2 Overloads) Sub New
-' 
-'         Function: addCompartment, (+2 Overloads) AddNew, Exists, ExistsAllCompartment, (+2 Overloads) GetByKey
-'                   GetEnumerator, GetRole, GetWhere, IEnumerable_GetEnumerator, template
-'                   variable, (+4 Overloads) variables
-' 
-'         Sub: AddOrUpdate, Delete
-'         Class CompartTable
-' 
-'             Properties: Keys, Values
-' 
-'             Constructor: (+2 Overloads) Sub New
-' 
-'             Function: getFactor, variable
-' 
-'             Sub: delete
-' 
-' 
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 342
+    '    Code Lines: 221 (64.62%)
+    ' Comment Lines: 68 (19.88%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 53 (15.50%)
+    '     File Size: 14.02 KB
+
+
+    '     Class MassTable
+    ' 
+    '         Properties: compartment_ids, GetMassValues, metabolites, micsRNA, Missing
+    '                     mRNA, polypeptide, protein, Represents, rRNA
+    '                     statusView, tRNA
+    ' 
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
+    '         Function: addCompartment, (+2 Overloads) addNew, Exists, ExistsAllCompartment, (+2 Overloads) GetByKey
+    '                   GetEnumerator, getMapping, GetRole, getSource, GetWhere
+    '                   IEnumerable_GetEnumerator, template, variable, (+4 Overloads) variables
+    ' 
+    '         Sub: AddOrUpdate, copy, Delete, SetDefaultCompartmentId, setMapping
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

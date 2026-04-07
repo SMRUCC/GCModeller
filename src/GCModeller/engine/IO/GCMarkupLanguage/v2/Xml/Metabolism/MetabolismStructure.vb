@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4a45c5fa70c8dcae2afabf2cd667e89, engine\IO\GCMarkupLanguage\v2\Xml\MetabolismStructure.vb"
+﻿#Region "Microsoft.VisualBasic::1c6debacc5f8d581e0f19c2b56b51298, engine\IO\GCMarkupLanguage\v2\Xml\Metabolism\MetabolismStructure.vb"
 
     ' Author:
     ' 
@@ -34,78 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 419
-    '    Code Lines: 246 (58.71%)
-    ' Comment Lines: 101 (24.11%)
-    '    - Xml Docs: 97.03%
+    '   Total Lines: 116
+    '    Code Lines: 75 (64.66%)
+    ' Comment Lines: 24 (20.69%)
+    '    - Xml Docs: 95.83%
     ' 
-    '   Blank Lines: 72 (17.18%)
-    '     File Size: 14.52 KB
+    '   Blank Lines: 17 (14.66%)
+    '     File Size: 4.46 KB
 
 
     '     Class MetabolismStructure
     ' 
     '         Properties: compounds, enzymes, maps, reactions
     ' 
-    '         Function: FindByKEGG, GetAllFluxID, GetKEGGMapping
-    ' 
-    '     Class ReactionGroup
-    ' 
-    '         Properties: enzymatic, etc, size
-    ' 
-    '         Function: CompoundLinks, GenericEnumerator
-    ' 
-    '     Class Compound
-    ' 
-    '         Properties: ID, kegg_id, mass0, name
-    ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class Reaction
-    ' 
-    '         Properties: bounds, ec_number, equation, ID, is_enzymatic
-    '                     name, note, product, substrate
-    ' 
-    '         Function: GenericEnumerator, ToString
-    ' 
-    '     Class CompoundFactor
-    ' 
-    '         Properties: compartment, compound, factor
-    ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: factorString, ToString
-    ' 
-    '     Class FunctionalCategory
-    ' 
-    '         Properties: category, pathways
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Pathway
-    ' 
-    '         Properties: enzymes, ID, name
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Enzyme
-    ' 
-    '         Properties: catalysis, ECNumber, geneID, KO
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class Catalysis
-    ' 
-    '         Properties: formula, parameter, PH, reaction, temperature
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: ToString
-    ' 
-    '     Class KineticsParameter
-    ' 
-    '         Properties: isModifier, name, target, value
-    ' 
-    '         Function: ToString
+    '         Function: FindByReference, GetAllFluxID, GetImpactedMetabolicNetwork, GetReferMapping
     ' 
     ' 
     ' /********************************************************************************/

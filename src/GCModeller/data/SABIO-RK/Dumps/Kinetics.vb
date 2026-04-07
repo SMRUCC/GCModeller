@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7296cd70935ccfc3f0f32e5c4ec5fe12, data\SABIO-RK\Dumps\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::d9ca67ef02b61faebb20f23c6be9719b, data\SABIO-RK\Dumps\Kinetics.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 187
-    '    Code Lines: 135 (72.19%)
-    ' Comment Lines: 35 (18.72%)
+    '   Total Lines: 191
+    '    Code Lines: 139 (72.77%)
+    ' Comment Lines: 35 (18.32%)
     '    - Xml Docs: 97.14%
     ' 
-    '   Blank Lines: 17 (9.09%)
-    '     File Size: 8.98 KB
+    '   Blank Lines: 17 (8.90%)
+    '     File Size: 9.30 KB
 
 
     '     Class EnzymeCatalystKineticLaw
     ' 
     '         Properties: buffer, compartment, Ec_number, enzyme, fast
-    '                     KEGGReactionId, lambda, parameters, PH, PubMed
-    '                     reaction, reversible, rhea_id, temperature, uniprot_id
-    '                     xref
+    '                     KEGGReactionId, lambda, parameters, PH, products
+    '                     PubMed, reaction, reversible, rhea_id, substrates
+    '                     temperature, uniprot_id
     ' 
     '         Function: Create, ToString
     ' 

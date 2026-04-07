@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44a6e6f4c4b6f8a37108f6cb46cc887a, engine\Dynamics\Core\Kinetics\Controls\ProfileControls.vb"
+﻿#Region "Microsoft.VisualBasic::32caf9555fcbe67fb595f553273f02c2, engine\Dynamics\Core\Kinetics\Controls\ProfileControls.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 15
-    '    Code Lines: 7 (46.67%)
-    ' Comment Lines: 3 (20.00%)
+    '   Total Lines: 14
+    '    Code Lines: 7 (50.00%)
+    ' Comment Lines: 3 (21.43%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 5 (33.33%)
-    '     File Size: 346 B
+    '   Blank Lines: 4 (28.57%)
+    '     File Size: 344 B
 
 
     '     Class ProfileControls

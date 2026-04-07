@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::321c161cca0a079d86fc2f1f5ee4483c, analysis\SequenceToolkit\SmithWaterman\Matrix\Blosum.vb"
+﻿#Region "Microsoft.VisualBasic::419cad5a6b1c54e91d1707a156482fb0, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Matrix\Blosum.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 108
-'    Code Lines: 40 (37.04%)
-' Comment Lines: 57 (52.78%)
-'    - Xml Docs: 75.44%
-' 
-'   Blank Lines: 11 (10.19%)
-'     File Size: 4.41 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Blosum
-' 
-'     Properties: keys, matrix
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: distanceByIndex, FromInnerBlosum62, GetDistance, getIndex
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 55 (41.67%)
+    ' Comment Lines: 64 (48.48%)
+    '    - Xml Docs: 78.12%
+    ' 
+    '   Blank Lines: 13 (9.85%)
+    '     File Size: 5.76 KB
+
+
+    '     Class Blosum
+    ' 
+    '         Properties: DNAMatrix, keys, matrix
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: distanceByIndex, FromInnerBlosum62, GetDistance, getIndex
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

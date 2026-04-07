@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ea56fe2e7b601658fbbd810e1dedcee, analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
+﻿#Region "Microsoft.VisualBasic::69a93be1b1a2419af82bb67b0724f412, analysis\SequenceToolkit\MotifFinder\PopulatorParameter.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 10 (11.90%)
-    '     File Size: 2.91 KB
+    '     File Size: 2.90 KB
 
 
     ' Class PopulatorParameter

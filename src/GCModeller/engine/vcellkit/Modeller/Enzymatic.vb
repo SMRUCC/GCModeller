@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::274637ad02299e351ae02ce86f4a08c4, engine\vcellkit\Modeller\Enzymatic.vb"
+﻿#Region "Microsoft.VisualBasic::667f9d589be82f05d4d2e03547c0f0f6, engine\vcellkit\Modeller\Enzymatic.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 82
-    '    Code Lines: 59 (71.95%)
-    ' Comment Lines: 9 (10.98%)
+    '   Total Lines: 83
+    '    Code Lines: 60 (72.29%)
+    ' Comment Lines: 9 (10.84%)
     '    - Xml Docs: 88.89%
     ' 
-    '   Blank Lines: 14 (17.07%)
-    '     File Size: 2.98 KB
+    '   Blank Lines: 14 (16.87%)
+    '     File Size: 3.02 KB
 
 
     ' Module Enzymatic

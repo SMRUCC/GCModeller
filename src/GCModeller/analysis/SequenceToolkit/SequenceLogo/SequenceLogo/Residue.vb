@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edbb3cacebfd65da335da8ff7ffac7b6, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::60115308df5625633b239ff8ae767d90, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 83
-    '    Code Lines: 37 (44.58%)
-    ' Comment Lines: 36 (43.37%)
-    '    - Xml Docs: 88.89%
+    '   Total Lines: 91
+    '    Code Lines: 37 (40.66%)
+    ' Comment Lines: 44 (48.35%)
+    '    - Xml Docs: 90.91%
     ' 
-    '   Blank Lines: 10 (12.05%)
-    '     File Size: 3.00 KB
+    '   Blank Lines: 10 (10.99%)
+    '     File Size: 3.15 KB
 
 
     '     Class Residue

@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::e9bc85b8550aa2f1a5e9138045d90826, data\Rhea\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::c0e14588aac661b094beff326a6d7c7f, core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 47
-'    Code Lines: 30 (63.83%)
-' Comment Lines: 8 (17.02%)
-'    - Xml Docs: 100.00%
-' 
-'   Blank Lines: 9 (19.15%)
-'     File Size: 1.51 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class Reaction
-' 
-'     Properties: comment, compounds, db_xrefs, definition, entry
-'                 enzyme, equation, isTransport
-' 
-'     Function: EquationParser, ToString
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 47 (62.67%)
+    ' Comment Lines: 15 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (17.33%)
+    '     File Size: 2.85 KB
+
+
+    '     Class Reaction
+    ' 
+    '         Properties: comment, compounds, db_xrefs, definition, entry
+    '                     enzyme, equation, isTransport
+    ' 
+    '         Function: EquationParser, FromKeggReaction, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

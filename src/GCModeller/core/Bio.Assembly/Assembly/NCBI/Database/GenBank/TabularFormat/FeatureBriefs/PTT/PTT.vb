@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48263e5db802e877675e3993e3e677c7, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
+﻿#Region "Microsoft.VisualBasic::cb6ba74d65adf598cd88a14bd86ed758, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\PTT.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 98.17%
     ' 
     '   Blank Lines: 54 (13.53%)
-    '     File Size: 17.25 KB
+    '     File Size: 17.23 KB
 
 
     '     Class PTT

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0835c3009147237c4b1c7dabc497a300, engine\Model\Cellular\Process\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::2816021e56bc2b665bf84911fbc913f7, engine\Model\Cellular\Process\Kinetics.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 63
-    '    Code Lines: 38 (60.32%)
-    ' Comment Lines: 17 (26.98%)
-    '    - Xml Docs: 100.00%
+    '   Total Lines: 75
+    '    Code Lines: 47 (62.67%)
+    ' Comment Lines: 18 (24.00%)
+    '    - Xml Docs: 94.44%
     ' 
-    '   Blank Lines: 8 (12.70%)
-    '     File Size: 2.27 KB
+    '   Blank Lines: 10 (13.33%)
+    '     File Size: 2.84 KB
 
 
     '     Structure Kinetics

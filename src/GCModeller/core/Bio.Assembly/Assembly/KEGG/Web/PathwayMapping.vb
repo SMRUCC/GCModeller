@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e5445959912833e8143c51686db137, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::2a451871a6446d3187901acee8df9bee, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 90.70%
     ' 
     '   Blank Lines: 41 (12.13%)
-    '     File Size: 17.27 KB
+    '     File Size: 17.25 KB
 
 
     '     Module PathwayMapping

@@ -1,4 +1,63 @@
-﻿Imports System.IO
+﻿#Region "Microsoft.VisualBasic::db96667827850ec4ac37cf3b3fddcaeb, analysis\Metagenome\Metagenome\Kmers\ShardingWriter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 211
+    '    Code Lines: 144 (68.25%)
+    ' Comment Lines: 31 (14.69%)
+    '    - Xml Docs: 51.61%
+    ' 
+    '   Blank Lines: 36 (17.06%)
+    '     File Size: 7.94 KB
+
+
+    '     Class ShardingWriter
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: SerializeToBuffer, Union
+    ' 
+    '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose, FlushBatchData, FlushData, ResetReader
+    '              WriteIndex
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.Data.IO
 Imports Microsoft.VisualBasic.Linq

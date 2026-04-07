@@ -1,58 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::e9f1fa682b82c6156e328d6e210cc674, analysis\SequenceToolkit\MotifFinder\Gibbs\GibbsSampler.vb"
+﻿#Region "Microsoft.VisualBasic::30e932d92877880646538e69fe580e08, analysis\SequenceToolkit\MotifFinder\Gibbs\GibbsSampler.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 293
-'    Code Lines: 180 (61.43%)
-' Comment Lines: 74 (25.26%)
-'    - Xml Docs: 85.14%
-' 
-'   Blank Lines: 39 (13.31%)
-'     File Size: 13.85 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Class GibbsSampler
-' 
-'     Properties: SequenceCount, Sequences
-' 
-'     Constructor: (+1 Overloads) Sub New
-'     Function: calculateMotifProbability, calculateP, find, getMotifStrings, getRandomSites
-'               gibbsSample, informationContent, predictiveUpdateStep, samplingStep, smoothProbabilities
-'               weightedChooseIndex
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 385
+    '    Code Lines: 233 (60.52%)
+    ' Comment Lines: 96 (24.94%)
+    '    - Xml Docs: 80.21%
+    ' 
+    '   Blank Lines: 56 (14.55%)
+    '     File Size: 15.47 KB
+
+
+    ' Class GibbsSampler
+    ' 
+    '     Properties: SequenceCount, Sequences
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CalculateGlobalBackground, calculateMotifProbability, calculateP, FillNNNN, find
+    '               getMotifStrings, getRandomSites, gibbsSample, informationContent, minExceptInfinity
+    '               predictiveUpdateStep, samplingStep, smoothProbabilities, weightedChooseIndex
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4e4a058e2805321024e59d41942dbc5, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::b0f5038eed9ec11a60419937958dfb36, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 94.44%
     ' 
     '   Blank Lines: 27 (9.75%)
-    '     File Size: 11.65 KB
+    '     File Size: 11.63 KB
 
 
     '     Class DbFile

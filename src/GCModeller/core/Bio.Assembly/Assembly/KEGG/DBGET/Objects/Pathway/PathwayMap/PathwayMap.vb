@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5612b6683435d0188997bd050782ce94, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::5ba8f80a3e9f25bf393e0ce0b13eddae, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 142
-    '    Code Lines: 89 (62.68%)
-    ' Comment Lines: 35 (24.65%)
+    '   Total Lines: 144
+    '    Code Lines: 89 (61.81%)
+    ' Comment Lines: 37 (25.69%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 18 (12.68%)
-    '     File Size: 5.57 KB
+    '   Blank Lines: 18 (12.50%)
+    '     File Size: 5.61 KB
 
 
     '     Class PathwayMap

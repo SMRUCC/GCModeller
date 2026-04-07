@@ -1,57 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::8b5d78666c01de88ab3acca70ad42193, engine\BootstrapLoader\ProteinMatureFluxLoader.vb"
+﻿#Region "Microsoft.VisualBasic::b29e6530b5a9428b903715ffbfd4bf2a, engine\BootstrapLoader\BootLoader\ProteinMatureFluxLoader.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 74
-'    Code Lines: 55 (74.32%)
-' Comment Lines: 4 (5.41%)
-'    - Xml Docs: 75.00%
-' 
-'   Blank Lines: 15 (20.27%)
-'     File Size: 3.02 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class ProteinMatureFluxLoader
-' 
-'         Properties: polypeptides, proteinComplex
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: CreateFlux, GetMassSet
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 92 (72.44%)
+    ' Comment Lines: 9 (7.09%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 26 (20.47%)
+    '     File Size: 5.42 KB
+
+
+    '     Class ProteinComplexGenerator
+    ' 
+    '         Properties: polypeptides, proteinComplex
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateFlux, GetMassSet
+    ' 
+    '     Class ProteinMatureFluxLoader
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetComplexSet, GetMappedComplexID, Title
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

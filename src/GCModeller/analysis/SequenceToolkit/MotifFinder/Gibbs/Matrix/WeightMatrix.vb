@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d56d192101878673bad7418c23c36350, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\WeightMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::e701b05a7aa345000581e07b9e2b1a30, analysis\SequenceToolkit\MotifFinder\Gibbs\Matrix\WeightMatrix.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 55
-    '    Code Lines: 42 (76.36%)
-    ' Comment Lines: 0 (0.00%)
-    '    - Xml Docs: 0.00%
+    '   Total Lines: 59
+    '    Code Lines: 42 (71.19%)
+    ' Comment Lines: 4 (6.78%)
+    '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 13 (23.64%)
-    '     File Size: 1.97 KB
+    '   Blank Lines: 13 (22.03%)
+    '     File Size: 2.14 KB
 
 
     '     Class WeightMatrix

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c908628acf20b56d868064e6196d77c5, analysis\SequenceToolkit\SmithWaterman\Matrix\DNAMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::882be2fecd25284ddd1a211579e45418, analysis\SequenceToolkit\SequenceAlignment\SmithWaterman\Matrix\DNAMatrix.vb"
 
     ' Author:
     ' 
@@ -34,19 +34,20 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 46
-    '    Code Lines: 30 (65.22%)
-    ' Comment Lines: 10 (21.74%)
+    '   Total Lines: 45
+    '    Code Lines: 28 (62.22%)
+    ' Comment Lines: 10 (22.22%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 6 (13.04%)
-    '     File Size: 1.29 KB
+    '   Blank Lines: 7 (15.56%)
+    '     File Size: 1.42 KB
 
 
-    ' Class DNAMatrix
+    '     Class DNAMatrix
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: getIndex
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: getIndex
+    ' 
     ' 
     ' /********************************************************************************/
 

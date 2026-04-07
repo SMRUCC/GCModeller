@@ -1,4 +1,67 @@
-﻿Imports Microsoft.VisualBasic.Imaging.Math2D
+﻿#Region "Microsoft.VisualBasic::b10540d5006c183ecd4a045b21d38b64, data\RCSB PDB\CovalentRadii.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 248
+    '    Code Lines: 196 (79.03%)
+    ' Comment Lines: 31 (12.50%)
+    '    - Xml Docs: 67.74%
+    ' 
+    '   Blank Lines: 21 (8.47%)
+    '     File Size: 8.34 KB
+
+
+    ' Class CovalentRadii
+    ' 
+    '     Properties: Atom, Double_Bond, ID, Single_Bond1, Single_Bond2
+    '                 Triple_Bond
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: (+2 Overloads) MeasureBonds
+    ' 
+    ' Class ConnectBond
+    ' 
+    '     Properties: atom1, atom2, bondType
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords.HETATM
 
 Public Class CovalentRadii

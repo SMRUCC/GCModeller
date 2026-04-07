@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::551802d04ad7b047559ebbacdef6bbe6, annotations\GO\EnrichBubbles.vb"
+﻿#Region "Microsoft.VisualBasic::603a637dd8a858bef78b9de852bf2347, annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 125
-    '    Code Lines: 95 (76.00%)
-    ' Comment Lines: 17 (13.60%)
+    '   Total Lines: 124
+    '    Code Lines: 94 (75.81%)
+    ' Comment Lines: 17 (13.71%)
     '    - Xml Docs: 94.12%
     ' 
-    '   Blank Lines: 13 (10.40%)
-    '     File Size: 5.84 KB
+    '   Blank Lines: 13 (10.48%)
+    '     File Size: 5.78 KB
 
 
     ' Module EnrichBubbles

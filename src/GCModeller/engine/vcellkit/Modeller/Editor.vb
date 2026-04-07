@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e42f3fa1bc9b9894d775e2738ab6cf51, engine\vcellkit\Modeller\Editor.vb"
+﻿#Region "Microsoft.VisualBasic::c44305445df4585fa849b16f58f41ac7, engine\vcellkit\Modeller\Editor.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 100.00%
     ' 
     '   Blank Lines: 12 (10.91%)
-    '     File Size: 3.68 KB
+    '     File Size: 3.69 KB
 
 
     ' Module EditorAPI

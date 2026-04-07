@@ -1,56 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::0902c3310acfa11c7f68587318de0a3c, core\Bio.Assembly\SequenceModel\FASTA\IO\KSeq.vb"
+﻿#Region "Microsoft.VisualBasic::46e08f869452cbb0d85b512cea1dd772, core\Bio.Assembly\SequenceModel\KSeq.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 61
-'    Code Lines: 24 (39.34%)
-' Comment Lines: 28 (45.90%)
-'    - Xml Docs: 7.14%
-' 
-'   Blank Lines: 9 (14.75%)
-'     File Size: 2.45 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Class KSeq
-' 
-'         Properties: Seq
-' 
-'         Function: GetSequenceData, (+2 Overloads) Kmers, ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 57 (40.71%)
+    ' Comment Lines: 65 (46.43%)
+    '    - Xml Docs: 47.69%
+    ' 
+    '   Blank Lines: 18 (12.86%)
+    '     File Size: 6.04 KB
+
+
+    '     Class KSeq
+    ' 
+    '         Properties: location, seq
+    ' 
+    '         Function: CalculateDirectQuaternaryHashCode, GetHashCode, GetSequenceData, (+3 Overloads) Kmers, KmerSpans
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b49a54f2e8f072388db5d628f83f4f1, analysis\Motifs\VirtualFootprint\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7f0b32d208a9b8beb1790c9034e1bea2, analysis\Motifs\VirtualFootprint\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 187
+    '    Code Lines: 139 (74.33%)
+    ' Comment Lines: 22 (11.76%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 26 (13.90%)
+    '     File Size: 8.66 KB
+
 
     ' Module Extensions
     ' 

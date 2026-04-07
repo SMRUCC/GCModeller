@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::635490c153f0f3e201759e63e87e875f, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::e8ec6a3faf16388f417ef15326df5bfe, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 76.47%
     ' 
     '   Blank Lines: 16 (13.68%)
-    '     File Size: 6.42 KB
+    '     File Size: 6.39 KB
 
 
     '     Module Analysis

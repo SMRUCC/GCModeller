@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a619abf020f878102ea0ef7b973d641, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::776ec537bec8177eedd9e30c0238da46, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 85.00%
     ' 
     '   Blank Lines: 5 (10.87%)
-    '     File Size: 2.51 KB
+    '     File Size: 2.52 KB
 
 
     '     Class KOCatalog

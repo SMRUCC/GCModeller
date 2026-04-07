@@ -1,54 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::594b035938c66acb9605f5830d627ad2, engine\Model\Cellular\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::377424ea7fd0325b809fab522c392083, engine\Model\Cellular\CellularModule.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 54
-'    Code Lines: 15 (27.78%)
-' Comment Lines: 31 (57.41%)
-'    - Xml Docs: 90.32%
-' 
-'   Blank Lines: 8 (14.81%)
-'     File Size: 1.95 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-'     Structure CellularModule
-' 
-'         Function: ToString
-' 
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 47 (49.47%)
+    ' Comment Lines: 32 (33.68%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 16 (16.84%)
+    '     File Size: 3.62 KB
+
+
+    '     Structure CellularModule
+    ' 
+    '         Function: GetCompartments, GetCompartmentsInternal, GetPolypeptideIds, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

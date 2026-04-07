@@ -1,3 +1,60 @@
+﻿#Region "Microsoft.VisualBasic::a28dd03f89e53c7337db07eaed214beb, analysis\SequenceToolkit\Pfam-HMM\PfamHMMScan\ProteinAnnotation.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 143 (55.86%)
+    ' Comment Lines: 75 (29.30%)
+    '    - Xml Docs: 73.33%
+    ' 
+    '   Blank Lines: 38 (14.84%)
+    '     File Size: 9.18 KB
+
+
+    ' Class ProteinAnnotator
+    ' 
+    '     Properties: BitScoreThreshold, DatabaseSize, EValueThreshold, ModelCount, ModelNames
+    ' 
+    '     Function: Annotate, AnnotateAll, AnnotateTop, CalculateConfidence, CompareSequence
+    ' 
+    '     Sub: LoadModel, LoadModelContent, LoadModelsFromDirectory
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
 ' ============================================================================
 ' 蛋白质序列分类注释模块
 ' 
@@ -254,3 +311,4 @@ Public Class ProteinAnnotator
     End Function
 
 End Class
+

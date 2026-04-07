@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::acc435d8da0866f21d1af4d0d232bdaa, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
+﻿#Region "Microsoft.VisualBasic::3eae4d55feb5366d01841fa1e11a2f11, core\Bio.Assembly\SequenceModel\Patterns\IPatterns.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 113
-    '    Code Lines: 78 (69.03%)
-    ' Comment Lines: 13 (11.50%)
+    '   Total Lines: 140
+    '    Code Lines: 89 (63.57%)
+    ' Comment Lines: 25 (17.86%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 22 (19.47%)
-    '     File Size: 4.16 KB
+    '   Blank Lines: 26 (18.57%)
+    '     File Size: 5.09 KB
 
 
     '     Interface IPatternProvider
@@ -51,13 +51,13 @@
     ' 
     '     Interface IPatternSite
     ' 
-    '         Properties: Probability
+    '         Properties: Bits, Probability
     ' 
     '         Function: EnumerateKeys, EnumerateValues
     ' 
     '     Structure SimpleSite
     ' 
-    '         Properties: Address, Alphabets, IsConserved
+    '         Properties: Alphabets, Bits, IsConserved, site
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -70,7 +70,7 @@
     '         Properties: Residues
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetVariation, PWM, ToString
+    '         Function: GenericEnumerator, GetVariation, PWM, ToString
     ' 
     ' 
     ' /********************************************************************************/

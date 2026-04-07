@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76153d208cf8ff680ba28787494ea526, engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
+﻿#Region "Microsoft.VisualBasic::1efb6576245728646679aa74315ff60f, engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 71
-    '    Code Lines: 44 (61.97%)
-    ' Comment Lines: 14 (19.72%)
+    '   Total Lines: 77
+    '    Code Lines: 48 (62.34%)
+    ' Comment Lines: 14 (18.18%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 13 (18.31%)
-    '     File Size: 3.46 KB
+    '   Blank Lines: 15 (19.48%)
+    '     File Size: 3.79 KB
 
 
     '     Class VcellAdapterDriver
@@ -48,7 +48,7 @@
     '         Properties: flux, mass
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot
+    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     ' 
     ' /********************************************************************************/

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de27e353187bbb834044475fe60178d4, core\Bio.Assembly\ComponentModel\MimeTypes.vb"
+﻿#Region "Microsoft.VisualBasic::07678289eb96faef503c3f2822bf4350, core\Bio.Assembly\ComponentModel\MimeTypes.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 17
-    '    Code Lines: 5 (29.41%)
-    ' Comment Lines: 9 (52.94%)
+    '   Total Lines: 30
+    '    Code Lines: 9 (30.00%)
+    ' Comment Lines: 18 (60.00%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 3 (17.65%)
-    '     File Size: 830 B
+    '   Blank Lines: 3 (10.00%)
+    '     File Size: 1.42 KB
 
 
     '     Module MimeTypes

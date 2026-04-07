@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af369249722a6d669c5157e5e80f51ea, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\KGML.vb"
+﻿#Region "Microsoft.VisualBasic::6c9cdd5d20058ea71c47205a225a125c, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\KGML.vb"
 
     ' Author:
     ' 
@@ -34,18 +34,18 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 35
-    '    Code Lines: 24 (68.57%)
-    ' Comment Lines: 5 (14.29%)
-    '    - Xml Docs: 80.00%
+    '   Total Lines: 62
+    '    Code Lines: 24 (38.71%)
+    ' Comment Lines: 32 (51.61%)
+    '    - Xml Docs: 96.88%
     ' 
-    '   Blank Lines: 6 (17.14%)
-    '     File Size: 1.34 KB
+    '   Blank Lines: 6 (9.68%)
+    '     File Size: 3.35 KB
 
 
     '     Class pathway
     ' 
-    '         Properties: image, items, link, name, number
+    '         Properties: entries, image, link, name, number
     '                     org, reactions, relations, title
     ' 
     '         Function: ResourceURL, ToString

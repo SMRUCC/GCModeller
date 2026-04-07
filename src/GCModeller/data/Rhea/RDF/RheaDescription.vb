@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f6b57ad0edb1f2657b4aa17ce8b53d91, data\Rhea\RDF\RheaDescription.vb"
+﻿#Region "Microsoft.VisualBasic::9cc188fb2db665a179c99bf3ac3b343b, data\Rhea\RDF\RheaDescription.vb"
 
     ' Author:
     ' 
@@ -34,21 +34,21 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 101
-    '    Code Lines: 80 (79.21%)
+    '   Total Lines: 103
+    '    Code Lines: 82 (79.61%)
     ' Comment Lines: 0 (0.00%)
     '    - Xml Docs: 0.00%
     ' 
-    '   Blank Lines: 21 (20.79%)
-    '     File Size: 3.83 KB
+    '   Blank Lines: 21 (20.39%)
+    '     File Size: 3.99 KB
 
 
     ' Class RheaDescription
     ' 
     '     Properties: accession, bidirectionalReaction, chebi, compound, contains
     '                 contains1, directionalReaction, ec, equation, formula
-    '                 id, isTransport, name, products, seeAlso
-    '                 status, subClassOf, substrates, substratesOrProducts
+    '                 htmlEquation, id, isTransport, name, products
+    '                 seeAlso, status, subClassOf, substrates, substratesOrProducts
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: GetClassType, GetCompound, GetDbXrefs, GetECNumber

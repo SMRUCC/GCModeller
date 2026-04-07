@@ -1,53 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::059b17e665bbf104f7059d48161d6d99, analysis\HTS_matrix\Math.vb"
+﻿#Region "Microsoft.VisualBasic::f4da72c42eb04bee01be94f7e77c4802, analysis\HTS_matrix\Math.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
-
-
-
-' /********************************************************************************/
-
-' Summaries:
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-' Code Statistics:
 
-'   Total Lines: 126
-'    Code Lines: 91 (72.22%)
-' Comment Lines: 23 (18.25%)
-'    - Xml Docs: 95.65%
-' 
-'   Blank Lines: 12 (9.52%)
-'     File Size: 5.09 KB
+    ' /********************************************************************************/
+
+    ' Summaries:
 
 
-' Module Math
-' 
-'     Function: log, rowSds, Sum, TRanking
-' 
-' /********************************************************************************/
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 111 (68.52%)
+    ' Comment Lines: 37 (22.84%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 14 (8.64%)
+    '     File Size: 6.75 KB
+
+
+    ' Module Math
+    ' 
+    '     Function: log, MinMaxNorm, rowSds, Sum, TRanking
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 

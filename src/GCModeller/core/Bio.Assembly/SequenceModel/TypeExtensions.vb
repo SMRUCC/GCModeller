@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e116e0a8e48bedc5a6ef8b404ccd8e9, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2894e9d8ef4f7e94bc838b4848c65cd4, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 117
-    '    Code Lines: 61 (52.14%)
-    ' Comment Lines: 43 (36.75%)
-    '    - Xml Docs: 95.35%
+    '   Total Lines: 140
+    '    Code Lines: 76 (54.29%)
+    ' Comment Lines: 49 (35.00%)
+    '    - Xml Docs: 95.92%
     ' 
-    '   Blank Lines: 13 (11.11%)
-    '     File Size: 4.15 KB
+    '   Blank Lines: 15 (10.71%)
+    '     File Size: 4.99 KB
 
 
     '     Module TypeExtensions
@@ -48,7 +48,7 @@
     '         Properties: AA, NT, RNA
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetSeqType, GetVector, IsProteinSource, ParseSeqType
+    '         Function: CheckSeqType, GetSeqType, GetVector, (+2 Overloads) IsProteinSource, ParseSeqType
     ' 
     ' 
     ' /********************************************************************************/

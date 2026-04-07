@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9394b79421c469730803961539463335, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::ae313ea58711e1a2bf4ef96f7013e89a, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 122
-    '    Code Lines: 93 (76.23%)
-    ' Comment Lines: 8 (6.56%)
+    '   Total Lines: 151
+    '    Code Lines: 119 (78.81%)
+    ' Comment Lines: 8 (5.30%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 21 (17.21%)
-    '     File Size: 4.41 KB
+    '   Blank Lines: 24 (15.89%)
+    '     File Size: 5.99 KB
 
 
     '     Class CatalogProfiles
@@ -48,8 +48,8 @@
     '         Properties: catalogs, Keys, MaxValue, TotalTerms
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: delete, GetCategory, GetProfiles, haveCategory, OrderByValues
-    '                   Take, ToString
+    '         Function: delete, GetCategory, GetProfiles, haveCategory, ImputeMissing
+    '                   OrderByValues, Take, ToString
     ' 
     ' 
     ' /********************************************************************************/

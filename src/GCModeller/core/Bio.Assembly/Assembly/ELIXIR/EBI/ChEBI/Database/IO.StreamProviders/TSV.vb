@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebc026f8741786ef997fde490c6158a1, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
+﻿#Region "Microsoft.VisualBasic::24b232245825ed77edd3ea7d32a08aaf, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 96.97%
     ' 
     '   Blank Lines: 15 (12.10%)
-    '     File Size: 5.46 KB
+    '     File Size: 5.45 KB
 
 
     '     Class TSVTables

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e43792094aa96c2e9b36f1ca8e5e42d, analysis\SequenceToolkit\MSA\MSAOutput.vb"
+﻿#Region "Microsoft.VisualBasic::40b17a37b210f4760d50f17f8acb877f, analysis\SequenceToolkit\SequenceAlignment\MSA\MSAOutput.vb"
 
     ' Author:
     ' 
@@ -34,22 +34,23 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 77
-    '    Code Lines: 59 (76.62%)
-    ' Comment Lines: 3 (3.90%)
+    '   Total Lines: 93
+    '    Code Lines: 72 (77.42%)
+    ' Comment Lines: 3 (3.23%)
     '    - Xml Docs: 100.00%
     ' 
-    '   Blank Lines: 15 (19.48%)
-    '     File Size: 2.31 KB
+    '   Blank Lines: 18 (19.35%)
+    '     File Size: 3.26 KB
 
 
-    ' Class MSAOutput
+    '     Class MSAOutput
     ' 
-    '     Properties: cost, MSA, names, size
+    '         Properties: cost, edits, MSA, names, size
     ' 
-    '     Function: PopulateAlignment, ToFasta, ToString
+    '         Function: PopulateAlignment, ToFasta, ToString
     ' 
-    '     Sub: Print
+    '         Sub: Print
+    ' 
     ' 
     ' /********************************************************************************/
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3e758b1a1d9bc050a92eac45db671223, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\Data.vb"
+﻿#Region "Microsoft.VisualBasic::86333af0ba4eaa6166f1cbe2218fccb8, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\sequence.vb"
 
     ' Author:
     ' 
@@ -34,13 +34,13 @@
 
     ' Code Statistics:
 
-    '   Total Lines: 492
-    '    Code Lines: 299 (60.77%)
-    ' Comment Lines: 125 (25.41%)
-    '    - Xml Docs: 96.80%
+    '   Total Lines: 277
+    '    Code Lines: 152 (54.87%)
+    ' Comment Lines: 80 (28.88%)
+    '    - Xml Docs: 97.50%
     ' 
-    '   Blank Lines: 68 (13.82%)
-    '     File Size: 17.02 KB
+    '   Blank Lines: 45 (16.25%)
+    '     File Size: 8.65 KB
 
 
     '     Class sequence
@@ -49,12 +49,6 @@
     '                     version
     ' 
     '         Function: ToString
-    ' 
-    '     Class gene
-    ' 
-    '         Properties: names, ORF, Primary
-    ' 
-    '         Function: HaveKey, ToString
     ' 
     '     Class organism
     ' 
@@ -66,19 +60,6 @@
     '         Properties: taxonlist
     ' 
     '         Function: ToString
-    ' 
-    '     Class protein
-    ' 
-    '         Properties: alternativeNames, fullName, recommendedName, submittedName
-    ' 
-    '         Function: ToString
-    ' 
-    '     Enum featureTypes
-    ' 
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     '     Class feature
     ' 
@@ -112,12 +93,6 @@
     '         Properties: description, evidence, id, type, value
     ' 
     '         Function: ToString
-    ' 
-    '     Class dbReference
-    ' 
-    '         Properties: id, molecule, properties, type
-    ' 
-    '         Function: hasDbReference, ToString
     ' 
     '     Structure molecule
     ' 

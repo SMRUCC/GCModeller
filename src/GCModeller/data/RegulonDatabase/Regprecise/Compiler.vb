@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb5d4159a04c7d285fb00cdc8b95caf1, data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c96f595f4ea974c0f490d8d1ad5db881, data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 81.82%
     ' 
     '   Blank Lines: 32 (12.03%)
-    '     File Size: 15.18 KB
+    '     File Size: 15.17 KB
 
 
     '     Module Compiler

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::719ae4922abc16d89884092b26aceebb, core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::1fc7e00761978f3e405dda25384838d5, core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
     ' Author:
     ' 
@@ -40,7 +40,7 @@
     '    - Xml Docs: 83.33%
     ' 
     '   Blank Lines: 40 (25.32%)
-    '     File Size: 7.77 KB
+    '     File Size: 7.76 KB
 
 
     '     Module WebServices
