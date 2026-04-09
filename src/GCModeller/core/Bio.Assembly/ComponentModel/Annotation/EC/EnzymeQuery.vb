@@ -62,6 +62,7 @@ Namespace ComponentModel.Annotation
                 If ec.subType <= 0 OrElse ec.subCategory <= 0 OrElse ec.serialNumber <= 0 Then
                     Return Enumerable.Empty(Of T)()
                 End If
+
                 Return QueryList(ec)
             End If
         End Function
