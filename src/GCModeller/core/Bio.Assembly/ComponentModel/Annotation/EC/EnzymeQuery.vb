@@ -73,7 +73,7 @@ Namespace ComponentModel.Annotation
             Dim ec_category = ec_subclass.Select(Function(level) QueryFuzzy(level, ec.subCategory)).IteratesALL
 
             For Each enz_list In ec_category
-                If ec.serialNumber = 0 Then
+                If ec.serialNumber <= 0 Then
                     For Each list In enz_list.Values
                         For Each enz As T In list
                             Yield enz
@@ -90,7 +90,7 @@ Namespace ComponentModel.Annotation
         End Function
 
         Private Shared Function QueryFuzzy(Of V)(ByRef t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As IEnumerable(Of Dictionary(Of Integer, V))
-            If key = 0 Then
+            If key <= 0 Then
                 ' symbol - match all in fuzzy mode
                 Return t.Values
             ElseIf t.ContainsKey(key) Then
