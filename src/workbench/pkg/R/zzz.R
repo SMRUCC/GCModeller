@@ -1,6 +1,8 @@
 
 const .onLoad = function(quietly=FALSE) {
     let y = year();
+    
+    quietly <- TRUE;
 
     if (!quietly) {
         cat("\n\n");
