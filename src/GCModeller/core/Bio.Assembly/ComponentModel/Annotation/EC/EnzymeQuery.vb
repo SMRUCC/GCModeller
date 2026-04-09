@@ -52,8 +52,53 @@ Namespace ComponentModel.Annotation
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(ec_number As String) As IEnumerable(Of T)
-            Return QueryList(ECNumber.ValueParser(ec_number)).AsEnumerable
+        Public Function Query(ec_number As String, Optional fuzzy As Boolean = False) As IEnumerable(Of T)
+            Dim ec As ECNumber = ECNumber.ValueParser(ec_number)
+
+            If fuzzy Then
+                Return FuzzyQuery(ec)
+            Else
+                ' 精确查询 - 只处理完全指定的EC编号
+                If ec.subType <= 0 OrElse ec.subCategory <= 0 OrElse ec.serialNumber <= 0 Then
+                    Return Enumerable.Empty(Of T)()
+                End If
+
+                Return QueryList(ec)
+            End If
+        End Function
+
+        Private Iterator Function FuzzyQuery(ec As ECNumber) As IEnumerable(Of T)
+            ' 遍历第一级
+            For Each kv1 In ec_numbers
+                If ec.type <> 0 AndAlso CInt(ec.type) <> kv1.Key Then
+                    Continue For
+                End If
+
+                ' 遍历第二级
+                For Each kv2 In kv1.Value
+                    If ec.subType > 0 AndAlso ec.subType <> kv2.Key Then
+                        Continue For
+                    End If
+
+                    ' 遍历第三级
+                    For Each kv3 In kv2.Value
+                        If ec.subCategory > 0 AndAlso ec.subCategory <> kv3.Key Then
+                            Continue For
+                        End If
+
+                        ' 遍历第四级
+                        For Each kv4 In kv3.Value
+                            If ec.serialNumber > 0 AndAlso ec.serialNumber <> kv4.Key Then
+                                Continue For
+                            Else
+                                For Each enzyme As T In kv4.Value
+                                    Yield enzyme
+                                Next
+                            End If
+                        Next
+                    Next
+                Next
+            Next
         End Function
 
         Private Shared Function QueryLevel(Of V)(ByRef t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As Dictionary(Of Integer, V)
