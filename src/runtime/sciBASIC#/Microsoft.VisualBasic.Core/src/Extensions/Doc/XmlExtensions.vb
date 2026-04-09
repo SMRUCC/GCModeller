@@ -1,67 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::ac64b90a402025a4e2d131149a5f34f3, Microsoft.VisualBasic.Core\src\Extensions\Doc\XmlExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 461
-    '    Code Lines: 288 (62.47%)
-    ' Comment Lines: 117 (25.38%)
-    '    - Xml Docs: 88.89%
-    ' 
-    '   Blank Lines: 56 (12.15%)
-    '     File Size: 18.45 KB
+' Summaries:
 
 
-    ' Module XmlExtensions
-    ' 
-    '     Properties: XmlParser
-    ' 
-    '     Function: CreateObjectFromXml, CreateObjectFromXmlFragment, (+2 Overloads) GetXml, (+2 Overloads) LoadFromXml, LoadFromXmlStream
-    '               (+2 Overloads) LoadXml, SafeLoadXml, SaveAsXml
-    ' 
-    '     Sub: WriteXml, WriteXML
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 461
+'    Code Lines: 288 (62.47%)
+' Comment Lines: 117 (25.38%)
+'    - Xml Docs: 88.89%
+' 
+'   Blank Lines: 56 (12.15%)
+'     File Size: 18.45 KB
+
+
+' Module XmlExtensions
+' 
+'     Properties: XmlParser
+' 
+'     Function: CreateObjectFromXml, CreateObjectFromXmlFragment, (+2 Overloads) GetXml, (+2 Overloads) LoadFromXml, LoadFromXmlStream
+'               (+2 Overloads) LoadXml, SafeLoadXml, SaveAsXml
+' 
+'     Sub: WriteXml, WriteXML
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Diagnostics.Eventing
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Xml
+Imports System.Xml.Schema
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -133,7 +133,6 @@ Public Module XmlExtensions
             Return DirectCast(obj, T)
         End If
     End Function
-
 
     ''' <summary>
     ''' 从文件之中加载XML之中的数据至一个对象类型之中
@@ -252,10 +251,11 @@ Public Module XmlExtensions
                 Dim result As String = Encoding.UTF8.GetString(stream.ToArray())
                 Return result
             Else
-                Dim sBuilder As New StringBuilder(1024)
-                Using StreamWriter As New StringWriter(sb:=sBuilder)
-                    Call (New XmlSerializer(type)).Serialize(StreamWriter, obj)
-                    Return sBuilder.ToString
+                Dim xml As New StringBuilder(1024)
+
+                Using s As New StringWriter(sb:=xml)
+                    Call (New XmlSerializer(type)).Serialize(s, obj)
+                    Return xml.ToString
                 End Using
             End If
 
@@ -273,6 +273,45 @@ Public Module XmlExtensions
                 Return Nothing
             End If
         End Try
+    End Function
+
+    Public Function GenerateXsdFromType(type As Type) As String
+        ' 1. 使用 XmlReflectionImporter 将 .NET Type 映射为 XML 内部映射结构
+        Dim importer As New XmlReflectionImporter()
+
+        ' 2. 导入类型映射
+        Dim mapping As XmlTypeMapping = importer.ImportTypeMapping(type)
+
+        ' 3. 创建一个 XSD 模式集合
+        Dim schemas As New XmlSchemas()
+
+        ' 4. 使用 XmlSchemaExporter 将映射导出为 XSD 模式
+        Dim exporter As New XmlSchemaExporter(schemas)
+        exporter.ExportTypeMapping(mapping)
+
+        ' 5. 编译 XSD 模式，确保所有内部引用（如复杂嵌套对象）都被正确解析
+        schemas.Compile(Nothing, True)
+
+        ' 6. 将生成的 XSD 写入字符串
+        Dim sb As New StringBuilder(1024)
+        Using writer As New StringWriter(sb)
+            For Each schema As XmlSchema In schemas
+                ' 使用 XmlWriter 进行格式化输出，使 XSD 具有良好的缩进，便于阅读
+                Dim settings As New XmlWriterSettings() With {
+                .Indent = True,
+                .Encoding = Encoding.UTF8,
+                .OmitXmlDeclaration = False ' XSD通常需要保留xml声明
+            }
+
+                ' 注意：StringWriter 默认使用 UTF-16，如果直接给 XmlWriter 会在 XSD 中声明为 UTF-16
+                ' 这里强制设置 Encoding 为 UTF8 仅供声明使用（StringWriter 实际内部还是 Unicode）
+                Using xmlWriter As XmlWriter = XmlWriter.Create(writer, settings)
+                    schema.Write(xmlWriter)
+                End Using
+            Next
+        End Using
+
+        Return sb.ToString()
     End Function
 
     ''' <summary>
