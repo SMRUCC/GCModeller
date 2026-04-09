@@ -68,10 +68,11 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace WebJSON
 
-    Public Class Reaction
+    Public Class Reaction : Implements IEnzymeSet
 
         Public Property guid As String
         Public Property name As String
@@ -79,6 +80,15 @@ Namespace WebJSON
         Public Property left As Substrate()
         Public Property right As Substrate()
         Public Property law As LawData()
+
+        Public ReadOnly Property ECNumbers As IEnumerable(Of String) Implements IEnzymeSet.ECNumbers
+            Get
+                Return From kinetic As LawData
+                       In law
+                       Select kinetic.ec_number
+                       Distinct
+            End Get
+        End Property
 
         Public Overrides Function ToString() As String
             Return $"{guid} - {name}"

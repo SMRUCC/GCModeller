@@ -10,4 +10,10 @@
         ReadOnly Property ECNumber As String
 
     End Interface
+
+    Public Interface IEnzymeSet
+
+        ReadOnly Property ECNumbers As IEnumerable(Of String)
+
+    End Interface
 End Namespace
