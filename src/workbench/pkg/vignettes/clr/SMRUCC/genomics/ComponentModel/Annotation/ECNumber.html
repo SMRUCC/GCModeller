@@ -34,13 +34,13 @@
 export class ECNumber {
    # generates the EC number in format like: x.x.x.x
    ECNumberString: string;
-   # 该小分类之下的序号
+   # 4. 该小分类之下的序号
    serialNumber: integer;
-   # 该亚类之下的小分类
+   # 3. 该亚类之下的小分类
    subCategory: integer;
-   # 该大类之下的亚分类
+   # 2. 该大类之下的亚分类
    subType: integer;
-   # EC编号里面的第一个数字代表酶的分类号
+   # 1. EC编号里面的第一个数字代表酶的分类号
    type: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Annotation/EnzymeClasses.html">EnzymeClasses</a>;
 }
 </code>
