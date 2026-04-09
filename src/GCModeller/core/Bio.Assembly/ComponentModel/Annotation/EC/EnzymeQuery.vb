@@ -80,8 +80,16 @@ Namespace ComponentModel.Annotation
                         Next
                     Next
                 Else
+                    ' 1.1.1.1 matches 1.1.1.1 and 1.1.1.- in fuzzy mode
+                    ' 1.1.1.- matches 1.1.1.1, 1.1.1.2 and 1.1.1.- in fuzzy mode
+
                     If enz_list.ContainsKey(ec.serialNumber) Then
                         For Each enz As T In enz_list.Item(key:=ec.serialNumber)
+                            Yield enz
+                        Next
+                    End If
+                    If enz_list.ContainsKey(0) Then
+                        For Each enz As T In enz_list.Item(key:=0)
                             Yield enz
                         Next
                     End If
@@ -89,15 +97,22 @@ Namespace ComponentModel.Annotation
             Next
         End Function
 
-        Private Shared Function QueryFuzzy(Of V)(ByRef t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As IEnumerable(Of Dictionary(Of Integer, V))
+        Private Shared Iterator Function QueryFuzzy(Of V)(t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As IEnumerable(Of Dictionary(Of Integer, V))
             If key <= 0 Then
                 ' symbol - match all in fuzzy mode
-                Return t.Values
+                For Each __ As Dictionary(Of Integer, V) In t.Values
+                    Yield __
+                Next
             ElseIf t.ContainsKey(key) Then
                 ' number for exact match
-                Return {t.Item(key:=key)}
-            Else
-                Return {}
+                Yield t.Item(key:=key)
+            End If
+
+            ' 1.1.1.1 matches 1.1.1.1 and 1.1.1.- in fuzzy mode
+            ' 1.1.1.- matches 1.1.1.1, 1.1.1.2 and 1.1.1.- in fuzzy mode
+
+            If t.ContainsKey(0) Then
+                Yield t.Item(key:=0)
             End If
         End Function
 
