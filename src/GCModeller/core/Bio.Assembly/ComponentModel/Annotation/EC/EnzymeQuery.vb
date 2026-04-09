@@ -62,43 +62,42 @@ Namespace ComponentModel.Annotation
                 If ec.subType <= 0 OrElse ec.subCategory <= 0 OrElse ec.serialNumber <= 0 Then
                     Return Enumerable.Empty(Of T)()
                 End If
-
                 Return QueryList(ec)
             End If
         End Function
 
         Private Iterator Function FuzzyQuery(ec As ECNumber) As IEnumerable(Of T)
-            ' 遍历第一级
-            For Each kv1 In ec_numbers
-                If ec.type <> 0 AndAlso CInt(ec.type) <> kv1.Key Then
-                    Continue For
-                End If
+            Dim ec_class = QueryFuzzy(ec_numbers, ec.type)
+            Dim ec_subclass = ec_class.Select(Function(level) QueryFuzzy(level, ec.subType)).IteratesALL
+            Dim ec_category = ec_subclass.Select(Function(level) QueryFuzzy(level, ec.subCategory)).IteratesALL
 
-                ' 遍历第二级
-                For Each kv2 In kv1.Value
-                    If ec.subType > 0 AndAlso ec.subType <> kv2.Key Then
-                        Continue For
-                    End If
-
-                    ' 遍历第三级
-                    For Each kv3 In kv2.Value
-                        If ec.subCategory > 0 AndAlso ec.subCategory <> kv3.Key Then
-                            Continue For
-                        End If
-
-                        ' 遍历第四级
-                        For Each kv4 In kv3.Value
-                            If ec.serialNumber > 0 AndAlso ec.serialNumber <> kv4.Key Then
-                                Continue For
-                            Else
-                                For Each enzyme As T In kv4.Value
-                                    Yield enzyme
-                                Next
-                            End If
+            For Each enz_list In ec_category
+                If ec.serialNumber = 0 Then
+                    For Each list In enz_list.Values
+                        For Each enz As T In list
+                            Yield enz
                         Next
                     Next
-                Next
+                Else
+                    If enz_list.ContainsKey(ec.serialNumber) Then
+                        For Each enz As T In enz_list.Item(key:=ec.serialNumber)
+                            Yield enz
+                        Next
+                    End If
+                End If
             Next
+        End Function
+
+        Private Shared Function QueryFuzzy(Of V)(ByRef t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As IEnumerable(Of Dictionary(Of Integer, V))
+            If key = 0 Then
+                ' symbol - match all in fuzzy mode
+                Return t.Values
+            ElseIf t.ContainsKey(key) Then
+                ' number for exact match
+                Return {t.Item(key:=key)}
+            Else
+                Return {}
+            End If
         End Function
 
         Private Shared Function QueryLevel(Of V)(ByRef t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As Dictionary(Of Integer, V)
