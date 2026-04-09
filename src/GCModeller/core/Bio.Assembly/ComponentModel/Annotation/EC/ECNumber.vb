@@ -67,27 +67,27 @@ Namespace ComponentModel.Annotation
     ''' Enzyme Commission Number
     ''' </summary>
     ''' <remarks>EC-6.1.1.10</remarks>
-    Public Class ECNumber
+    Public Class ECNumber : Implements IEnzymeObject
 
         ''' <summary>
-        ''' EC编号里面的第一个数字代表酶的分类号
+        ''' 1. EC编号里面的第一个数字代表酶的分类号
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property type As EnzymeClasses
 
         ''' <summary>
-        ''' 该大类之下的亚分类
+        ''' 2. 该大类之下的亚分类
         ''' </summary>
         ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subType As Integer
         ''' <summary>
-        ''' 该亚类之下的小分类
+        ''' 3. 该亚类之下的小分类
         ''' </summary>
         ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subCategory As Integer
 
         ''' <summary>
-        ''' 该小分类之下的序号
+        ''' 4. 该小分类之下的序号
         ''' </summary>
         ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property serialNumber As Integer
@@ -96,7 +96,7 @@ Namespace ComponentModel.Annotation
         ''' generates the EC number in format like: x.x.x.x
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ECNumberString As String
+        Public ReadOnly Property ECNumberString As String Implements IEnzymeObject.ECNumber
             Get
                 Return New String() {
                     CInt(type).ToString,
