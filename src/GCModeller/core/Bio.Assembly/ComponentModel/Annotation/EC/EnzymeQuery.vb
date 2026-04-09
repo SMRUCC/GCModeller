@@ -51,12 +51,23 @@ Namespace ComponentModel.Annotation
             Return ec_category.Item(key:=ec.serialNumber)
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="ec_number"></param>
+        ''' <param name="fuzzy"></param>
+        ''' <param name="fuzzyLevel"> 
+        ''' max allow fuzzy level, value should be c(1,2,3,4), which means the class levels of the ec_number(which has 4 ranks).
+        ''' 
+        ''' example as 4, means only allows fuzzy matches on the last digit
+        ''' 3, means allows fuzzy matches on the level 3 and level 4 digits</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Query(ec_number As String, Optional fuzzy As Boolean = False) As IEnumerable(Of T)
+        Public Function Query(ec_number As String, Optional fuzzy As Boolean = False, Optional fuzzyLevel As Integer = 4) As IEnumerable(Of T)
             Dim ec As ECNumber = ECNumber.ValueParser(ec_number)
 
             If fuzzy Then
-                Return FuzzyQuery(ec)
+                Return FuzzyQuery(ec, fuzzyLevel)
             Else
                 ' 精确查询 - 只处理完全指定的EC编号
                 If ec.subType <= 0 OrElse ec.subCategory <= 0 OrElse ec.serialNumber <= 0 Then
@@ -67,13 +78,13 @@ Namespace ComponentModel.Annotation
             End If
         End Function
 
-        Private Iterator Function FuzzyQuery(ec As ECNumber) As IEnumerable(Of T)
-            Dim ec_class = QueryFuzzy(ec_numbers, ec.type)
-            Dim ec_subclass = ec_class.Select(Function(level) QueryFuzzy(level, ec.subType)).IteratesALL
-            Dim ec_category = ec_subclass.Select(Function(level) QueryFuzzy(level, ec.subCategory)).IteratesALL
+        Private Iterator Function FuzzyQuery(ec As ECNumber, fuzzyLevel As Integer) As IEnumerable(Of T)
+            Dim ec_class = QueryFuzzy(ec_numbers, ec.type, allowFuzzy:=1 >= fuzzyLevel)
+            Dim ec_subclass = ec_class.Select(Function(level) QueryFuzzy(level, ec.subType, 2 >= fuzzyLevel)).IteratesALL
+            Dim ec_category = ec_subclass.Select(Function(level) QueryFuzzy(level, ec.subCategory, 3 >= fuzzyLevel)).IteratesALL
 
             For Each enz_list In ec_category
-                If ec.serialNumber <= 0 Then
+                If ec.serialNumber <= 0 AndAlso fuzzyLevel >= 1 Then
                     For Each list In enz_list.Values
                         For Each enz As T In list
                             Yield enz
@@ -88,7 +99,7 @@ Namespace ComponentModel.Annotation
                             Yield enz
                         Next
                     End If
-                    If enz_list.ContainsKey(0) Then
+                    If enz_list.ContainsKey(0) AndAlso fuzzyLevel >= 1 Then
                         For Each enz As T In enz_list.Item(key:=0)
                             Yield enz
                         Next
@@ -97,8 +108,8 @@ Namespace ComponentModel.Annotation
             Next
         End Function
 
-        Private Shared Iterator Function QueryFuzzy(Of V)(t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer) As IEnumerable(Of Dictionary(Of Integer, V))
-            If key <= 0 Then
+        Private Shared Iterator Function QueryFuzzy(Of V)(t As Dictionary(Of Integer, Dictionary(Of Integer, V)), key As Integer, allowFuzzy As Boolean) As IEnumerable(Of Dictionary(Of Integer, V))
+            If key <= 0 AndAlso allowFuzzy Then
                 ' symbol - match all in fuzzy mode
                 For Each __ As Dictionary(Of Integer, V) In t.Values
                     Yield __
@@ -111,7 +122,7 @@ Namespace ComponentModel.Annotation
             ' 1.1.1.1 matches 1.1.1.1 and 1.1.1.- in fuzzy mode
             ' 1.1.1.- matches 1.1.1.1, 1.1.1.2 and 1.1.1.- in fuzzy mode
 
-            If t.ContainsKey(0) Then
+            If allowFuzzy AndAlso t.ContainsKey(0) Then
                 Yield t.Item(key:=0)
             End If
         End Function
