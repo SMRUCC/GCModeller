@@ -122,8 +122,11 @@ Namespace ComponentModel.Annotation
             ' 1.1.1.1 matches 1.1.1.1 and 1.1.1.- in fuzzy mode
             ' 1.1.1.- matches 1.1.1.1, 1.1.1.2 and 1.1.1.- in fuzzy mode
 
-            If allowFuzzy AndAlso t.ContainsKey(0) Then
-                Yield t.Item(key:=0)
+            If key > 0 Then
+                ' key <= 0 already populate all items
+                If allowFuzzy AndAlso t.ContainsKey(0) Then
+                    Yield t.Item(key:=0)
+                End If
             End If
         End Function
 
