@@ -1,59 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::dff93b2bef8f827c271873b6a6871d6b, R#\comparative_toolkit\pangenome.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 240
-    '    Code Lines: 182 (75.83%)
-    ' Comment Lines: 13 (5.42%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 45 (18.75%)
-    '     File Size: 10.33 KB
+' Summaries:
 
 
-    ' Module pangenome
-    ' 
-    '     Function: analysis, build_context, pav_df, pav_table, report_html
-    '               set_ortho_group, set_sourceID, sv_df, sv_table
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 240
+'    Code Lines: 182 (75.83%)
+' Comment Lines: 13 (5.42%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 45 (18.75%)
+'     File Size: 10.33 KB
+
+
+' Module pangenome
+' 
+'     Function: analysis, build_context, pav_df, pav_table, report_html
+'               set_ortho_group, set_sourceID, sv_df, sv_table
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
-
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
