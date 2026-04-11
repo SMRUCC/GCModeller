@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+
+''' <summary>
 ''' 基于多个基因组的保守基因邻接进行推断
 ''' 如果多个物种中某些基因总是相邻，则它们的功能很可能相关
 ''' </summary>
@@ -10,8 +12,8 @@ Public Class ConservedSyntenyAnalyzer
         conservedClusters = conservationData
     End Sub
 
-    Public Sub ApplyConservationRules(gene As Gene,
-                                      genome As Gene(),
+    Public Sub ApplyConservationRules(gene As GeneTable,
+                                      genome As GeneTable(),
                                       geneIndex As Integer,
                                       ByRef geneScores As Dictionary(Of String, Double))
 
@@ -34,8 +36,7 @@ Public Class ConservedSyntenyAnalyzer
         Next
     End Sub
 
-    Private Function FindClusterKey(gene As Gene, genome As Gene(),
-                                   geneIndex As Integer) As String
+    Private Function FindClusterKey(gene As GeneTable, genome As GeneTable(), geneIndex As Integer) As String
         ' 检测基因周围的基因簇模式
         Dim clusterSize = 5
         Dim startIdx = Math.Max(0, geneIndex - clusterSize)
@@ -43,7 +44,7 @@ Public Class ConservedSyntenyAnalyzer
 
         Dim clusterGenes = New List(Of String)()
         For i = startIdx To endIdx
-            clusterGenes.Add(genome(i).LocusTag)
+            clusterGenes.Add(genome(i).locus_id)
         Next
 
         ' 在已知保守簇中寻找匹配

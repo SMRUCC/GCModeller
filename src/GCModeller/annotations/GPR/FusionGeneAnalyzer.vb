@@ -1,20 +1,23 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.EquaionModel
+
+''' <summary>
 ''' 检测多域融合酶
 ''' 如果一个蛋白对应多个EC号，检查这些EC是否在同一个通路中形成连续的酶促步骤
 ''' </summary>
 Public Class FusionGeneAnalyzer
     Private Const MaxGapInPathway As Integer = 3 ' 通路中允许的最大反应间隔
 
-    Public Sub AnalyzeFusionGenes(genes As Gene(),
+    Public Sub AnalyzeFusionGenes(genes As GeneTable(),
                                  pathways As Pathway(),
                                  ByRef geneScores As Dictionary(Of String, Dictionary(Of String, Double)))
 
         For Each gene In genes
-            If gene.EcNumbers Is Nothing OrElse gene.EcNumbers.Count < 2 Then Continue For
+            If gene.EC_Number Is Nothing OrElse gene.EC_Number.Count < 2 Then Continue For
 
             ' 获取该基因所有EC号参与的反应
             Dim geneReactions = New List(Of Reaction)()
-            For Each ec In gene.EcNumbers
+            For Each ec In gene.EC_Number
                 If ecToReactionsMap.ContainsKey(ec) Then
                     geneReactions.AddRange(ecToReactionsMap(ec))
                 End If
@@ -31,9 +34,9 @@ Public Class FusionGeneAnalyzer
                 For Each reaction In pathway.Reactions
                     Dim fusionScore = 0.3 + continuity * 0.5
 
-                    If Not geneScores(gene.LocusTag).ContainsKey(reaction.Id) OrElse
-                       geneScores(gene.LocusTag)(reaction.Id) < fusionScore Then
-                        geneScores(gene.LocusTag)(reaction.Id) = fusionScore
+                    If Not geneScores(gene.locus_id).ContainsKey(reaction.Id) OrElse
+                       geneScores(gene.locus_id)(reaction.Id) < fusionScore Then
+                        geneScores(gene.locus_id)(reaction.Id) = fusionScore
                     End If
                 Next
             Next

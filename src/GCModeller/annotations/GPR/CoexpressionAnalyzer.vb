@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+
+''' <summary>
 ''' 基于表达数据的共表达分析
 ''' 共表达的基因很可能参与同一通路
 ''' </summary>
@@ -11,13 +13,13 @@ Public Class CoexpressionAnalyzer
         coexpressionMatrix = CalculateCorrelationMatrix(expressionData)
     End Sub
 
-    Public Sub ApplyCoexpressionRules(gene As Gene,
-                                      genome As Gene(),
+    Public Sub ApplyCoexpressionRules(gene As GeneTable,
+                                      genome As GeneTable(),
                                       ByRef geneScores As Dictionary(Of String, Double),
                                       pathways As List(Of Pathway))
 
         ' 寻找与当前基因共表达的基因
-        Dim coexpressedGenes = FindCoexpressedGenes(gene.LocusTag, threshold:=0.7)
+        Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7)
 
         For Each coGene In coexpressedGenes
             ' 获取共表达基因的关联反应

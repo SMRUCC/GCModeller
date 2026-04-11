@@ -1,4 +1,6 @@
-﻿''' <summary>
+﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+
+''' <summary>
 ''' 检查反应之间的化学相容性
 ''' 如果一个反应的产物是下一个反应的底物，增强这些反应的分数
 ''' </summary>
@@ -13,7 +15,7 @@ Public Class ReactionContinuityChecker
 
     Public Sub CheckContinuity(pathway As Pathway,
                                geneScores As Dictionary(Of String, Double),
-                               genome As Gene())
+                               genome As GeneTable())
 
         ' 对通路中的每个反应对检查连续性
         For i = 0 To pathway.Reactions.Length - 2
