@@ -1,5 +1,5 @@
 ﻿Imports SMRUCC.genomics.ComponentModel.Annotation
-Imports SMRUCC.genomics.ComponentModel.EquaionModel
+Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
 ''' 检测多域融合酶
@@ -16,7 +16,7 @@ Public Class FusionGeneAnalyzer
             If gene.EC_Number Is Nothing OrElse gene.EC_Number.Count < 2 Then Continue For
 
             ' 获取该基因所有EC号参与的反应
-            Dim geneReactions = New List(Of Reaction)()
+            Dim geneReactions = New List(Of MetabolicReaction)()
             For Each ec In gene.EC_Number
                 If ecToReactionsMap.ContainsKey(ec) Then
                     geneReactions.AddRange(ecToReactionsMap(ec))
@@ -31,19 +31,19 @@ Public Class FusionGeneAnalyzer
                 Dim pathway = pathwayScore.Key
                 Dim continuity = pathwayScore.Value
 
-                For Each reaction In pathway.Reactions
+                For Each reaction In pathway.metabolicNetwork
                     Dim fusionScore = 0.3 + continuity * 0.5
 
-                    If Not geneScores(gene.locus_id).ContainsKey(reaction.Id) OrElse
-                       geneScores(gene.locus_id)(reaction.Id) < fusionScore Then
-                        geneScores(gene.locus_id)(reaction.Id) = fusionScore
+                    If Not geneScores(gene.locus_id).ContainsKey(reaction.id) OrElse
+                       geneScores(gene.locus_id)(reaction.id) < fusionScore Then
+                        geneScores(gene.locus_id)(reaction.id) = fusionScore
                     End If
                 Next
             Next
         Next
     End Sub
 
-    Private Function CheckPathwayContinuity(reactions As List(Of Reaction),
+    Private Function CheckPathwayContinuity(reactions As List(Of MetabolicReaction),
                                            pathways As List(Of Pathway)) As Dictionary(Of Pathway, Double)
         ' 实现检测反应在通路中的连续程度
         ' 返回通路及其连续性分数

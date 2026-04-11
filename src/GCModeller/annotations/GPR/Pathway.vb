@@ -1,4 +1,6 @@
-Public Class Pathway
+Imports SMRUCC.genomics.MetabolicModel
+
+Public Class Pathway : Inherits MetabolicPathway
 
     ''' <summary>
     ''' 反应顺序（可选）

@@ -1,5 +1,6 @@
 ﻿
 Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
 ''' Algorithm module for mke association between the gene and reactions
@@ -102,14 +103,14 @@ Public Class MetabolicAssociator
     ''' 直接EC匹配
     ''' </summary>
     Private Sub AddDirectECMatches(gene As GeneTable,
-                                   ecToReactions As Dictionary(Of String, List(Of Reaction)),
+                                   ecToReactions As Dictionary(Of String, List(Of MetabolicReaction)),
                                    ByRef geneScores As Dictionary(Of String, Double))
 
         For Each ec In gene.EC_Number
             If ecToReactions.ContainsKey(ec) Then
                 For Each reaction In ecToReactions(ec)
                     ' 直接匹配给满分
-                    geneScores(reaction.Id) = DirectMatchScore
+                    geneScores(reaction.id) = DirectMatchScore
                 Next
             End If
         Next
@@ -180,7 +181,7 @@ Public Class MetabolicAssociator
                     If indices.ReactionToPathways.ContainsKey(reaction.Id) Then
                         For Each pathway In indices.ReactionToPathways(reaction.Id)
                             ' 通路内所有反应都获得分数
-                            For Each pathwayReaction In pathway.Reactions
+                            For Each pathwayReaction In pathway.metabolicNetwork
                                 Dim score = BaseContextScore * baseWeight
 
                                 ' 操纵子内额外奖励
@@ -189,9 +190,9 @@ Public Class MetabolicAssociator
                                 End If
 
                                 ' 更新最高分
-                                If Not geneScores.ContainsKey(pathwayReaction.Id) OrElse
-                                   geneScores(pathwayReaction.Id) < score Then
-                                    geneScores(pathwayReaction.Id) = score
+                                If Not geneScores.ContainsKey(pathwayReaction.id) OrElse
+                                   geneScores(pathwayReaction.id) < score Then
+                                    geneScores(pathwayReaction.id) = score
                                 End If
                             Next
                         Next
@@ -205,13 +206,13 @@ Public Class MetabolicAssociator
     ''' 通路完整度推断
     ''' </summary>
     Private Sub AddPathwayCompletenessInferences(gene As GeneTable,
-                                                ByRef geneScores As Dictionary(Of String, Double),
+                                                geneScores As Dictionary(Of String, Double),
                                                 indices As EnhancedIndices,
                                                 pathways As Pathway())
 
         ' 对每个通路，检查在基因组中的完整度
         For Each pathway In pathways
-            Dim pathwayRxns = pathway.Reactions.Select(Function(r) r.Id).ToList()
+            Dim pathwayRxns = pathway.metabolicNetwork.Select(Function(r) r.id).ToList()
 
             ' 统计通路中已经有基因支持的反应
             Dim supportedRxns = pathwayRxns.Where(
@@ -222,15 +223,15 @@ Public Class MetabolicAssociator
 
             ' 如果通路已有一定完整度，推测缺失的反应
             If completeness >= PathwayCompletenessThreshold Then
-                For Each rxn In pathway.Reactions
-                    If Not geneScores.ContainsKey(rxn.Id) OrElse
-                       geneScores(rxn.Id) < 0.3 Then
+                For Each rxn In pathway.metabolicNetwork
+                    If Not geneScores.ContainsKey(rxn.id) OrElse
+                       geneScores(rxn.id) < 0.3 Then
 
                         ' 给予通路完整度推断分数
                         Dim inferredScore = 0.3 + (completeness * 0.4)
-                        If Not geneScores.ContainsKey(rxn.Id) OrElse
-                           geneScores(rxn.Id) < inferredScore Then
-                            geneScores(rxn.Id) = inferredScore
+                        If Not geneScores.ContainsKey(rxn.id) OrElse
+                           geneScores(rxn.id) < inferredScore Then
+                            geneScores(rxn.id) = inferredScore
                         End If
                     End If
                 Next
@@ -260,16 +261,16 @@ Public Class MetabolicAssociator
         Next
 
         ' 查找这些EC号共同参与的通路
-        Dim commonPathways = FindCommonPathways(clusterECNumbers, indices)
+        Dim commonPathways As Pathway() = FindCommonPathways(clusterECNumbers, indices)
 
         ' 对这些通路的反应给予额外分数
         For Each pathway In commonPathways
-            For Each reaction In pathway.Reactions
+            For Each reaction In pathway.metabolicNetwork
                 Dim clusterScore = 0.4 ' 基因簇关联基础分
 
-                If Not geneScores.ContainsKey(reaction.Id) OrElse
-                   geneScores(reaction.Id) < clusterScore Then
-                    geneScores(reaction.Id) = clusterScore
+                If Not geneScores.ContainsKey(reaction.id) OrElse
+                   geneScores(reaction.id) < clusterScore Then
+                    geneScores(reaction.id) = clusterScore
                 End If
             Next
         Next

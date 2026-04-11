@@ -18,9 +18,9 @@ Public Class ReactionContinuityChecker
                                genome As GeneTable())
 
         ' 对通路中的每个反应对检查连续性
-        For i = 0 To pathway.Reactions.Length - 2
-            Dim currRxn = pathway.Reactions(i)
-            Dim nextRxn = pathway.Reactions(i + 1)
+        For i = 0 To pathway.metabolicNetwork.Length - 2
+            Dim currRxn = pathway.metabolicNetwork(i)
+            Dim nextRxn = pathway.metabolicNetwork(i + 1)
 
             If Not reactionCompounds.ContainsKey(currRxn.Id) Or
                Not reactionCompounds.ContainsKey(nextRxn.Id) Then Continue For
