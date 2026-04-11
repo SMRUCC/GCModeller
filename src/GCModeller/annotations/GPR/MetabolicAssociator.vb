@@ -6,10 +6,16 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 ''' </summary>
 Public Class MetabolicAssociator
 
-    ' 新增算法参数
+    ' 算法参数
     Private Const MaxOperonDistance As Integer = 500 ' 操纵子内最大距离
     Private Const SameOperonBonus As Double = 0.3 ' 同操纵子奖励
     Private Const PathwayCompletenessThreshold As Double = 0.7 ' 通路完整度阈值
+    Private Const MaxWindowSpan As Integer = 10 ' 上下文窗口大小（向上下游各看几个基因）
+    Private Const MaxPhysicalDistance As Integer = 15000 ' 最大物理距离阈值，超过此距离认为不在同一基因簇
+    Private Const BaseContextScore As Double = 0.5 ' 基于上下文推断的基础分
+    Private Const DirectMatchScore As Double = 1.0 ' 直接EC匹配的满分
+    Private Const SameStrandWeight As Double = 1.0 ' 同链权重
+    Private Const DiffStrandWeight As Double = 0.3 ' 异链权重
 
     ''' <summary>
     ''' 增强的主关联函数
@@ -23,7 +29,7 @@ Public Class MetabolicAssociator
         Dim operonGroups = IdentifyPotentialOperons(sortedGenome)
 
         ' 1. 构建增强的索引
-        Dim indices = BuildEnhancedIndices(pathways)
+        Dim indices = New EnhancedIndices(pathways)
 
         ' 2. 多阶段打分
         Dim results = New List(Of GeneAssociation)()
