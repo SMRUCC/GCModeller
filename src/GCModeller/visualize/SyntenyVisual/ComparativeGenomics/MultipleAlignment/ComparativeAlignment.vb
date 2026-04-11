@@ -70,6 +70,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -83,13 +84,10 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.SyntenyVisualize.ComparativeGenomics
-Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
-
 
 #If NET48 Then
 Imports Brush = System.Drawing.Brush
@@ -374,113 +372,113 @@ Namespace ComparativeAlignment
                                                 Query_nt As FASTA.FastaSeq,
                                                 Query_anno As IEnumerable(Of GeneTable)) As DrawingModel
 
-            Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
-                                          Select ID = path.Key, pathValue = path.Value,
-                               logEntry = VennDataBuilder.LogNameParser(path.Value),
-                               BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
-                            Select item).ToArray
-            If FileIO.FileSystem.FileExists(Query) Then
-                Query = BaseName(Query)
-            End If
-            Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
-                          Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Headers.First).ToArray).ToVector
-            Dim bir = (From item In bbhFiles Where String.Equals(Query, item.logEntry.HitName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
-            Dim queryBBH = (From item In bbhFiles Where String.Equals(Query, item.logEntry.QueryName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
-            '创建BBH数据，生成 gene link
-            Dim BBH_DATA = (From bbhFile In queryBBH
-                            Let bidirEquals = (From item In bir Where bbhFile.logEntry.BiDirEquals(item.logEntry) Select item).First
-                            Select bbhFile.logEntry.BBH_ID, s2s = bbhFile.logEntry.BBH_ID,
-                               BBH_Value = BBHParser.GetBBHTop(bbhFile.BBH.ToArray, bidirEquals.BBH.ToArray)).ToArray
-            Dim Links As Orthology() = LinqAPI.Exec(Of Orthology) <= From item In BBH_DATA
-                                                                     Select From pair As BiDirectionalBesthit
-                                                                            In item.BBH_Value
-                                                                            Where Not String.IsNullOrEmpty(pair.HitName)
-                                                                            Select New Orthology With {
-                                                                                .annotation = item.BBH_ID,
-                                                                                .genome1 = pair.QueryName,
-                                                                                .genome2 = pair.HitName,
-                                                                                .spPairs = item.s2s
-                                                                            }
-            Dim loadPTT = (From PathEntry In PTT.LoadSourceEntryList({"*.ptt"}).AsParallel
-                           Let PttData = TabularFormat.PTT.Load(PathEntry.Value)
-                           Select ID = PathEntry.Key, Length = PttData.Size,
-                              Title = PttData.Title,
-                              GeneObjects = (From g As GeneBrief
-                                             In PttData.GeneObjects
-                                             Where Array.IndexOf(hitsID, g.Synonym) > -1
-                                             Select g).ToArray).ToArray
-            Dim categories As String() =
-                LinqAPI.Exec(Of String) <= From gene
-                                           In loadPTT
-                                           Select From g As GeneBrief
-                                                  In gene.GeneObjects
-                                                  Let COG As String = Regex.Match(g.COG, "COG\d+", RegexOptions.IgnoreCase).Value
-                                                  Where Not String.IsNullOrEmpty(COG)
-                                                  Select COG
-            Dim COGColors As Dictionary(Of String, Brush) =
-                GenerateColorProfiles(categories.Distinct, False) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) DirectCast(New SolidBrush(x.Value), Brush))
-            Dim COGsBrush As ICOGsBrush = loadPTT.Select(Function(x) x.GeneObjects) _
-                                                 .IteratesALL _
-                                                 .COGsColorBrush(, COGColors)
-            Dim LQuery As GenomeModel() =
-                loadPTT.Select(Function(x)
-                                   Return ComparativeGenomics.ModelAPI.CreateSyntenyGenome(x.GeneObjects,
-                                                                  x.Length,
-                                                                  x.Title,
-                                                                  getId:=Function(g) g.Synonym,
-                                                                  COGsColor:=COGsBrush)
-                               End Function) ' 将PTT文件之中的所有数据都转换为模型数据
-            Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing
-            Dim QueryModel As GenomeModel = ComparativeGenomics.ModelAPI.CreateObject(Query_anno.ToArray, Query_nt, COGsColor:=QueryCOGs)
-            Dim QueryIDList As String() = queryBBH.First.BBH.Select(Function(x) x.QueryName)
+            'Dim bbhFiles = (From item In (From path In Source.LoadSourceEntryList({"*.csv"}).AsParallel
+            '                              Select ID = path.Key, pathValue = path.Value,
+            '                   logEntry = VennDataBuilder.LogNameParser(path.Value),
+            '                   BBH = path.Value.LoadCsv(Of BestHit)(False)).ToArray
+            '                Select item).ToArray
+            'If FileIO.FileSystem.FileExists(Query) Then
+            '    Query = BaseName(Query)
+            'End If
+            'Dim hitsID = (From path As String In FileIO.FileSystem.GetFiles(Subject_Fasta, FileIO.SearchOption.SearchTopLevelOnly, "*.txt", "*.fasta", "*.fsa")
+            '              Select (From fsa In FASTA.FastaFile.Read(path) Select fsa.Headers.First).ToArray).ToVector
+            'Dim bir = (From item In bbhFiles Where String.Equals(Query, item.logEntry.HitName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
+            'Dim queryBBH = (From item In bbhFiles Where String.Equals(Query, item.logEntry.QueryName, StringComparison.OrdinalIgnoreCase) Select item).ToArray
+            ''创建BBH数据，生成 gene link
+            'Dim BBH_DATA = (From bbhFile In queryBBH
+            '                Let bidirEquals = (From item In bir Where bbhFile.logEntry.BiDirEquals(item.logEntry) Select item).First
+            '                Select bbhFile.logEntry.BBH_ID, s2s = bbhFile.logEntry.BBH_ID,
+            '                   BBH_Value = BBHParser.GetBBHTop(bbhFile.BBH.ToArray, bidirEquals.BBH.ToArray)).ToArray
+            'Dim Links As Orthology() = LinqAPI.Exec(Of Orthology) <= From item In BBH_DATA
+            '                                                         Select From pair As BiDirectionalBesthit
+            '                                                                In item.BBH_Value
+            '                                                                Where Not String.IsNullOrEmpty(pair.HitName)
+            '                                                                Select New Orthology With {
+            '                                                                    .annotation = item.BBH_ID,
+            '                                                                    .genome1 = pair.QueryName,
+            '                                                                    .genome2 = pair.HitName,
+            '                                                                    .spPairs = item.s2s
+            '                                                                }
+            'Dim loadPTT = (From PathEntry In PTT.LoadSourceEntryList({"*.ptt"}).AsParallel
+            '               Let PttData = TabularFormat.PTT.Load(PathEntry.Value)
+            '               Select ID = PathEntry.Key, Length = PttData.Size,
+            '                  Title = PttData.Title,
+            '                  GeneObjects = (From g As GeneBrief
+            '                                 In PttData.GeneObjects
+            '                                 Where Array.IndexOf(hitsID, g.Synonym) > -1
+            '                                 Select g).ToArray).ToArray
+            'Dim categories As String() =
+            '    LinqAPI.Exec(Of String) <= From gene
+            '                               In loadPTT
+            '                               Select From g As GeneBrief
+            '                                      In gene.GeneObjects
+            '                                      Let COG As String = Regex.Match(g.COG, "COG\d+", RegexOptions.IgnoreCase).Value
+            '                                      Where Not String.IsNullOrEmpty(COG)
+            '                                      Select COG
+            'Dim COGColors As Dictionary(Of String, Brush) =
+            '    GenerateColorProfiles(categories.Distinct, False) _
+            '    .ToDictionary(Function(x) x.Key,
+            '                  Function(x) DirectCast(New SolidBrush(x.Value), Brush))
+            'Dim COGsBrush As ICOGsBrush = loadPTT.Select(Function(x) x.GeneObjects) _
+            '                                     .IteratesALL _
+            '                                     .COGsColorBrush(, COGColors)
+            'Dim LQuery As GenomeModel() =
+            '    loadPTT.Select(Function(x)
+            '                       Return ComparativeGenomics.ModelAPI.CreateSyntenyGenome(x.GeneObjects,
+            '                                                      x.Length,
+            '                                                      x.Title,
+            '                                                      getId:=Function(g) g.Synonym,
+            '                                                      COGsColor:=COGsBrush)
+            '                   End Function) ' 将PTT文件之中的所有数据都转换为模型数据
+            'Dim QueryCOGs As Dictionary(Of String, Brush) = Nothing
+            'Dim QueryModel As GenomeModel = ComparativeGenomics.ModelAPI.CreateObject(Query_anno.ToArray, Query_nt, COGsColor:=QueryCOGs)
+            'Dim QueryIDList As String() = queryBBH.First.BBH.Select(Function(x) x.QueryName)
 
-            For Each Color As KeyValuePair(Of String, Brush) In QueryCOGs
-                If Not COGColors.ContainsKey(Color.Key) Then
-                    Call COGColors.Add(Color.Key, Color.Value)
-                End If
-            Next
+            'For Each Color As KeyValuePair(Of String, Brush) In QueryCOGs
+            '    If Not COGColors.ContainsKey(Color.Key) Then
+            '        Call COGColors.Add(Color.Key, Color.Value)
+            '    End If
+            'Next
 
-            QueryModel.genes = (From item In QueryModel.genes Where Array.IndexOf(QueryIDList, item.locus_tag) > -1 Select item).ToArray
-            Dim ql = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.Unlist
-            QueryModel.Length = ql.Max - ql.Min
+            'QueryModel.genes = (From item In QueryModel.genes Where Array.IndexOf(QueryIDList, item.locus_tag) > -1 Select item).ToArray
+            'Dim ql = (From item In QueryModel.genes Select New Integer() {item.Left, item.Right}).ToArray.Unlist
+            'QueryModel.Length = ql.Max - ql.Min
 
-            Dim Min As Double = ql.Min
+            'Dim Min As Double = ql.Min
 
-            For Each GeneObject In QueryModel.genes
-                GeneObject.Left = GeneObject.Left - Min + 100
-                GeneObject.Right = GeneObject.Right - Min + 100
-            Next
+            'For Each GeneObject In QueryModel.genes
+            '    GeneObject.Left = GeneObject.Left - Min + 100
+            '    GeneObject.Right = GeneObject.Right - Min + 100
+            'Next
 
-            Dim LinkWith = Function(Id__1 As String, id___2 As String) As Boolean
-                               Dim LinksLQuery = (From ItemLink In Links Where ItemLink.Equals(Id__1, id___2) Select ItemLink).ToArray
-                               Return Not LinksLQuery.IsNullOrEmpty
-                           End Function
+            'Dim LinkWith = Function(Id__1 As String, id___2 As String) As Boolean
+            '                   Dim LinksLQuery = (From ItemLink In Links Where ItemLink.Equals(Id__1, id___2) Select ItemLink).ToArray
+            '                   Return Not LinksLQuery.IsNullOrEmpty
+            '               End Function
 
-            '对query按照从小到大进行排序，然后找出可能的空缺，这个排序操作是对对齐所必需的
-            QueryModel.genes = (From item In QueryModel.genes Order By item.Left Ascending).ToArray
+            ''对query按照从小到大进行排序，然后找出可能的空缺，这个排序操作是对对齐所必需的
+            'QueryModel.genes = (From item In QueryModel.genes Order By item.Left Ascending).ToArray
 
-            Dim Models = (From DrawingModel In LQuery Select DrawingModel Order By DrawingModel.genes.Count Descending).ToArray '绘图的时候按照比对上的数目的多少来进行排序
-            Dim MaxGenomeLength = (From DrawingModel As ComparativeGenomics.GenomeModel In Models
-                                   Let LociList As List(Of Integer) = (From GeneObject In DrawingModel.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.Unlist
-                                   Select LociList.Max - LociList.Min).ToArray.Max
+            'Dim Models = (From DrawingModel In LQuery Select DrawingModel Order By DrawingModel.genes.Count Descending).ToArray '绘图的时候按照比对上的数目的多少来进行排序
+            'Dim MaxGenomeLength = (From DrawingModel As ComparativeGenomics.GenomeModel In Models
+            '                       Let LociList As List(Of Integer) = (From GeneObject In DrawingModel.genes Select New Integer() {GeneObject.Left, GeneObject.Right}).ToArray.Unlist
+            '                       Select LociList.Max - LociList.Min).ToArray.Max
 
-            QueryModel.Length = Math.Max(QueryModel.Length, MaxGenomeLength)
-            MaxGenomeLength = QueryModel.Length
-            Models = (From DrawingModel In Models Select __internalFilter(DrawingModel, QueryModel, LinkWith, MaxGenomeLength)).ToArray
+            'QueryModel.Length = Math.Max(QueryModel.Length, MaxGenomeLength)
+            'MaxGenomeLength = QueryModel.Length
+            'Models = (From DrawingModel In Models Select __internalFilter(DrawingModel, QueryModel, LinkWith, MaxGenomeLength)).ToArray
 
-            Dim Reader As New NucleicAcid(Query_nt)
-            Query_nt.SequenceData = Reader.ReadSegment(ql.Min, QueryModel.Length)
-            Query_nt.Headers = New String() {Query_nt.Headers.First, ql.Min.ToString, ql.Max.ToString}
+            'Dim Reader As New NucleicAcid(Query_nt)
+            'Query_nt.SequenceData = Reader.ReadSegment(ql.Min, QueryModel.Length)
+            'Query_nt.Headers = New String() {Query_nt.Headers.First, ql.Min.ToString, ql.Max.ToString}
 
-            Return New DrawingModel With {
-                .nt = Query_nt,
-                .links = Links,
-                .aligns = Models,
-                .Query = QueryModel,
-                .COGColors = COGColors
-            }
+            'Return New DrawingModel With {
+            '    .nt = Query_nt,
+            '    .links = Links,
+            '    .aligns = Models,
+            '    .Query = QueryModel,
+            '    .COGColors = COGColors
+            '}
         End Function
 
         Private Function __internalFilter(subject As ComparativeGenomics.GenomeModel,

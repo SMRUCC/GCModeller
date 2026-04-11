@@ -170,7 +170,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
-    <ProjectReference Include="..\..\..\interops\localblast\ParallelTask\ParallelTask.vbproj" />
+    <ProjectReference Include="..\..\..\interops\localblast\PanGenome\PanGenome.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
