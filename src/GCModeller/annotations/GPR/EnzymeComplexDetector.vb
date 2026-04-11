@@ -64,17 +64,17 @@ Public Class EnzymeComplexDetector
             Next
 
             ' 找到这些EC号共同参与的通路
-            Dim commonPathways = FindCommonPathways(allECs, pathways)
+            Dim commonPathways As IEnumerable(Of Pathway) = FindCommonPathways(allECs, pathways)
 
             ' 增强这些通路的分数
             For Each pathway In commonPathways
                 Dim complexScore = 0.4
                 For Each gene In complexGenes
-                    For Each reaction In pathway.Reactions
-                        If Not geneScores(gene.locus_id).ContainsKey(reaction.Id) Then
-                            geneScores(gene.locus_id)(reaction.Id) = complexScore
-                        ElseIf geneScores(gene.locus_id)(reaction.Id) < complexScore Then
-                            geneScores(gene.locus_id)(reaction.Id) = complexScore
+                    For Each reaction In pathway.metabolicNetwork
+                        If Not geneScores(gene.locus_id).ContainsKey(reaction.id) Then
+                            geneScores(gene.locus_id)(reaction.id) = complexScore
+                        ElseIf geneScores(gene.locus_id)(reaction.id) < complexScore Then
+                            geneScores(gene.locus_id)(reaction.id) = complexScore
                         End If
                     Next
                 Next

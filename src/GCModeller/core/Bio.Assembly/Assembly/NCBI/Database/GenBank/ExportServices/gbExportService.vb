@@ -146,12 +146,14 @@ Namespace Assembly.NCBI.GenBank
         Public Function DumpEXPORT(obj As CDS) As GeneTable
             Dim gene = obj.DumpExportFeature
 
+            Static ec_number As String = FeatureQualifiers.EC_number.ToString
+
             gene.GI = obj.db_xref_GI
             gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
             gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
             gene.InterPro = obj.db_xref_InterPro
             gene.GO = obj.db_xref_GO
-            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
+            gene.EC_Number = obj.QueryDuplicated(ec_number)
 
             Return gene
         End Function
@@ -512,7 +514,8 @@ Namespace Assembly.NCBI.GenBank
             Return dumps
         End Function
 
-        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
+        <Extension>
+        Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
             Dim LQuery As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
                                                                      _
                 From gene As GeneBrief
@@ -521,7 +524,7 @@ Namespace Assembly.NCBI.GenBank
                     .CDS = "",
                     .COG = gene.COG,
                     .commonName = gene.Gene,
-                    .EC_Number = "-",
+                    .EC_Number = {},
                     .function = gene.Product,
                     .GC_Content = 0,
                     .geneName = gene.Gene,

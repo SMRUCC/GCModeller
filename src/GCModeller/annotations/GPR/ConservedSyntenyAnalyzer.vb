@@ -22,7 +22,7 @@ Public Class ConservedSyntenyAnalyzer
         If String.IsNullOrEmpty(clusterKey) Then Return
 
         ' 获取该保守簇在其他物种中的功能
-        Dim conservedFunctions = GetConservedFunctions(clusterKey)
+        Dim conservedFunctions As IEnumerable(Of String) = GetConservedFunctions(clusterKey)
 
         ' 根据保守性增强相关反应的分数
         For Each func In conservedFunctions

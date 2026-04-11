@@ -44,7 +44,7 @@ Public Class FusionGeneAnalyzer
     End Sub
 
     Private Function CheckPathwayContinuity(reactions As List(Of MetabolicReaction),
-                                           pathways As List(Of Pathway)) As Dictionary(Of Pathway, Double)
+                                           pathways As Pathway()) As Dictionary(Of Pathway, Double)
         ' 实现检测反应在通路中的连续程度
         ' 返回通路及其连续性分数
     End Function
