@@ -6,7 +6,14 @@ Imports SMRUCC.genomics.MetabolicModel
 ''' 如果一个蛋白对应多个EC号，检查这些EC是否在同一个通路中形成连续的酶促步骤
 ''' </summary>
 Public Class FusionGeneAnalyzer
+
     Private Const MaxGapInPathway As Integer = 3 ' 通路中允许的最大反应间隔
+
+    ReadOnly index As EnhancedIndices
+
+    Sub New(index As EnhancedIndices)
+        Me.index = index
+    End Sub
 
     Public Sub AnalyzeFusionGenes(genes As GeneTable(),
                                  pathways As Pathway(),
@@ -18,8 +25,8 @@ Public Class FusionGeneAnalyzer
             ' 获取该基因所有EC号参与的反应
             Dim geneReactions = New List(Of MetabolicReaction)()
             For Each ec In gene.EC_Number
-                If ecToReactionsMap.ContainsKey(ec) Then
-                    geneReactions.AddRange(ecToReactionsMap(ec))
+                If index.ECtoReactions.ContainsKey(ec) Then
+                    geneReactions.AddRange(index.ECtoReactions(ec))
                 End If
             Next
 

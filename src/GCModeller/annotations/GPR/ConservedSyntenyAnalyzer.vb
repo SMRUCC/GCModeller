@@ -36,6 +36,10 @@ Public Class ConservedSyntenyAnalyzer
         Next
     End Sub
 
+    Private Function GetConservedFunctions(clusterKey As String) As IEnumerable(Of String)
+        Throw New NotImplementedException()
+    End Function
+
     Private Function FindClusterKey(gene As GeneTable, genome As GeneTable(), geneIndex As Integer) As String
         ' 检测基因周围的基因簇模式
         Dim clusterSize = 5
