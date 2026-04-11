@@ -1,4 +1,6 @@
 ﻿
+Imports SMRUCC.genomics.ComponentModel.Annotation
+
 ''' <summary>
 ''' Algorithm module for mke association between the gene and reactions
 ''' </summary>
@@ -13,7 +15,7 @@ Public Class MetabolicAssociator
     ''' 增强的主关联函数
     ''' </summary>
     Public Function AssociateGenesToReactionsEnhanced(
-        genome As Gene(),
+        genome As GeneTable(),
         pathways As Pathway()) As List(Of GeneAssociation)
 
         ' 0. 预处理和多EC号处理
@@ -53,23 +55,14 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 预处理基因组，处理多EC号
     ''' </summary>
-    Private Function PreprocessGenome(genome As Gene()) As Gene()
-        Return genome.OrderBy(Function(g) g.Left).Select(Function(g)
-                                                             ' 将EC号字符串拆分为列表
-                                                             If Not String.IsNullOrEmpty(g.EcNumber) Then
-                                                                 g.EcNumbers = g.EcNumber.Split({";", ",", " "},
-                                                                     StringSplitOptions.RemoveEmptyEntries).ToList()
-                                                             Else
-                                                                 g.EcNumbers = New List(Of String)()
-                                                             End If
-                                                             Return g
-                                                         End Function).ToArray()
+    Private Function PreprocessGenome(genome As GeneTable()) As GeneTable()
+        Return genome.OrderBy(Function(g) g.left).ToArray()
     End Function
 
     ''' <summary>
     ''' 识别潜在操纵子
     ''' </summary>
-    Private Function IdentifyPotentialOperons(genome As Gene()) As List(Of List(Of Integer))
+    Private Function IdentifyPotentialOperons(genome As GeneTable()) As List(Of List(Of Integer))
         Dim operons = New List(Of List(Of Integer))()
         Dim currentOperon = New List(Of Integer)()
 
@@ -81,8 +74,8 @@ Public Class MetabolicAssociator
                 Dim currGene = genome(i)
 
                 ' 判断是否可能在同一操纵子
-                Dim distance = currGene.Left - prevGene.Right
-                Dim sameStrand = currGene.Strand = prevGene.Strand
+                Dim distance = currGene.left - prevGene.right
+                Dim sameStrand = currGene.strand = prevGene.strand
                 Dim closeEnough = distance <= MaxOperonDistance
 
                 If sameStrand AndAlso closeEnough Then
@@ -102,11 +95,11 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 直接EC匹配
     ''' </summary>
-    Private Sub AddDirectECMatches(gene As Gene,
+    Private Sub AddDirectECMatches(gene As GeneTable,
                                    ecToReactions As Dictionary(Of String, List(Of Reaction)),
                                    ByRef geneScores As Dictionary(Of String, Double))
 
-        For Each ec In gene.EcNumbers
+        For Each ec In gene.EC_Number
             If ecToReactions.ContainsKey(ec) Then
                 For Each reaction In ecToReactions(ec)
                     ' 直接匹配给满分
@@ -120,7 +113,7 @@ Public Class MetabolicAssociator
     ''' 上下文关联
     ''' </summary>
     Private Sub AddContextAssociations(geneIndex As Integer,
-                                      genome As Gene(),
+                                      genome As GeneTable(),
                                       operonGroups As List(Of List(Of Integer)),
                                       indices As EnhancedIndices,
                                       ByRef geneScores As Dictionary(Of String, Double))
@@ -153,11 +146,11 @@ Public Class MetabolicAssociator
             End If
 
             ' 计算距离和方向权重
-            Dim distance = Math.Abs(genome(geneIndex).Left - neighbor.Left)
+            Dim distance = Math.Abs(genome(geneIndex).left - neighbor.left)
             If distance > MaxPhysicalDistance Then Continue For
 
             Dim distanceScore = 1.0 - (distance / MaxPhysicalDistance)
-            Dim strandWeight = If(genome(geneIndex).Strand = neighbor.Strand,
+            Dim strandWeight = If(genome(geneIndex).strand = neighbor.strand,
                                   SameStrandWeight, DiffStrandWeight)
 
             AddNeighborAssociations(neighbor, indices, geneScores,
@@ -168,13 +161,13 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 邻居基因关联
     ''' </summary>
-    Private Sub AddNeighborAssociations(neighbor As Gene,
+    Private Sub AddNeighborAssociations(neighbor As GeneTable,
                                         indices As EnhancedIndices,
                                         ByRef geneScores As Dictionary(Of String, Double),
                                         baseWeight As Double,
                                         isOperon As Boolean)
 
-        For Each ec In neighbor.EcNumbers
+        For Each ec In neighbor.EC_Number
             If indices.ECtoReactions.ContainsKey(ec) Then
                 For Each reaction In indices.ECtoReactions(ec)
                     ' 获取反应所在的所有通路
@@ -205,7 +198,7 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 通路完整度推断
     ''' </summary>
-    Private Sub AddPathwayCompletenessInferences(gene As Gene,
+    Private Sub AddPathwayCompletenessInferences(gene As GeneTable,
                                                 ByRef geneScores As Dictionary(Of String, Double),
                                                 indices As EnhancedIndices,
                                                 pathways As Pathway())
@@ -242,9 +235,9 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 基因簇分析
     ''' </summary>
-    Private Sub AddGeneClusterAnalysis(targetGene As Gene,
+    Private Sub AddGeneClusterAnalysis(targetGene As GeneTable,
                                       geneIndex As Integer,
-                                      genome As Gene(),
+                                      genome As GeneTable(),
                                       indices As EnhancedIndices,
                                       ByRef geneScores As Dictionary(Of String, Double))
 
@@ -257,7 +250,7 @@ Public Class MetabolicAssociator
 
         ' 收集簇内所有EC号
         For i = clusterStart To clusterEnd
-            clusterECNumbers.AddRange(genome(i).EcNumbers)
+            clusterECNumbers.AddRange(genome(i).EC_Number)
         Next
 
         ' 查找这些EC号共同参与的通路
@@ -279,11 +272,11 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 创建过滤后的关联结果
     ''' </summary>
-    Private Function CreateFilteredAssociation(gene As Gene,
+    Private Function CreateFilteredAssociation(gene As GeneTable,
                                               geneScores As Dictionary(Of String, Double)) As GeneAssociation
 
         Dim association = New GeneAssociation With {
-            .GeneId = gene.LocusTag,
+            .GeneId = gene.locus_id,
             .Reactions = New List(Of ScoredReaction)()
         }
 
@@ -304,8 +297,8 @@ Public Class MetabolicAssociator
             Function(r) r.Score).ToList()
 
         ' 如果没有任何关联，但基因有EC号，添加一个低置信度的注释
-        If association.Reactions.Count = 0 AndAlso gene.EcNumbers.Any() Then
-            For Each ec In gene.EcNumbers
+        If association.Reactions.Count = 0 AndAlso gene.EC_Number.Any() Then
+            For Each ec In gene.EC_Number
                 association.Reactions.Add(New ScoredReaction With {
                     .Id = $"EC:{ec} (unmapped)",
                     .Score = 0.2

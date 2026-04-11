@@ -147,7 +147,7 @@ Namespace ComponentModel.Annotation
             End Set
         End Property
 
-        Public Property EC_Number As String
+        Public Property EC_Number As String()
         Public Property type As String
 
         Public Overrides Function ToString() As String
