@@ -5,10 +5,15 @@
 ''' 如果多个物种中某些基因总是相邻，则它们的功能很可能相关
 ''' </summary>
 Public Class ConservedSyntenyAnalyzer
-    ' 存储保守基因簇的模式
-    Private conservedClusters As Dictionary(Of String, List(Of String))
 
-    Public Sub New(conservationData As Dictionary(Of String, List(Of String)))
+    ''' <summary>
+    ''' 存储保守基因簇的模式
+    ''' 
+    ''' [cluster_id, gene_id_set[]]
+    ''' </summary>
+    ReadOnly conservedClusters As Dictionary(Of String, ConservedCluster)
+
+    Public Sub New(conservationData As Dictionary(Of String, ConservedCluster))
         conservedClusters = conservationData
     End Sub
 
@@ -22,7 +27,7 @@ Public Class ConservedSyntenyAnalyzer
         If String.IsNullOrEmpty(clusterKey) Then Return
 
         ' 获取该保守簇在其他物种中的功能
-        Dim conservedFunctions As IEnumerable(Of String) = GetConservedFunctions(clusterKey)
+        Dim conservedFunctions As IEnumerable(Of String) = conservedClusters(clusterKey).functions
 
         ' 根据保守性增强相关反应的分数
         For Each func In conservedFunctions
@@ -35,10 +40,6 @@ Public Class ConservedSyntenyAnalyzer
             End If
         Next
     End Sub
-
-    Private Function GetConservedFunctions(clusterKey As String) As IEnumerable(Of String)
-        Throw New NotImplementedException()
-    End Function
 
     Private Function FindClusterKey(gene As GeneTable, genome As GeneTable(), geneIndex As Integer) As String
         ' 检测基因周围的基因簇模式
@@ -54,7 +55,7 @@ Public Class ConservedSyntenyAnalyzer
         ' 在已知保守簇中寻找匹配
         For Each kvp In conservedClusters
             Dim overlap = clusterGenes.Intersect(kvp.Value).Count()
-            Dim similarity = overlap / Math.Min(clusterGenes.Count, kvp.Value.Count)
+            Dim similarity = overlap / Math.Min(clusterGenes.Count, kvp.Value.GeneSetSize)
 
             If similarity > 0.7 Then ' 70%以上匹配
                 Return kvp.Key

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
 ''' 检查反应之间的化学相容性
@@ -7,23 +8,28 @@
 Public Class ReactionContinuityChecker
 
     ' 反应ID -> 底物/产物映射
-    Private reactionCompounds As Dictionary(Of String, (Substrates As List(Of String), Products As List(Of String)))
+    Private reactionCompounds As Dictionary(Of String, MetabolicReaction)
 
-    Public Sub New(reactionData As Dictionary(Of String, (List(Of String), List(Of String))))
+    Public Sub New(reactionData As Dictionary(Of String, MetabolicReaction))
         reactionCompounds = reactionData
     End Sub
 
+    ''' <summary>
+    ''' 对通路中的每个反应对检查连续性
+    ''' </summary>
+    ''' <param name="pathway"></param>
+    ''' <param name="geneScores"></param>
+    ''' <param name="genome"></param>
     Public Sub CheckContinuity(pathway As Pathway, geneScores As Dictionary(Of String, Double), genome As Genome)
-        ' 对通路中的每个反应对检查连续性
-        For i = 0 To pathway.metabolicNetwork.Length - 2
+        For i As Integer = 0 To pathway.metabolicNetwork.Length - 2
             Dim currRxn = pathway.metabolicNetwork(i)
             Dim nextRxn = pathway.metabolicNetwork(i + 1)
 
             If Not reactionCompounds.ContainsKey(currRxn.id) Or
                Not reactionCompounds.ContainsKey(nextRxn.id) Then Continue For
 
-            Dim currProducts = reactionCompounds(currRxn.id).Products
-            Dim nextSubstrates = reactionCompounds(nextRxn.id).Substrates
+            Dim currProducts As String() = reactionCompounds(currRxn.id).right.Keys
+            Dim nextSubstrates As String() = reactionCompounds(nextRxn.id).left.Keys
 
             ' 检查化学相容性
             Dim overlap = currProducts.Intersect(nextSubstrates).Count()

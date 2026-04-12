@@ -67,6 +67,7 @@ Public Class FusionGeneAnalyzer
                         Continue For
                     End If
 
+                    ' has a direct reaction edge means no gap
                     If pathway.ReactionNetwork.GetEdge(
                         pathway.ReactionNetwork.GetElementByID(u.id),
                         pathway.ReactionNetwork.GetElementByID(v.id)) IsNot Nothing Then
