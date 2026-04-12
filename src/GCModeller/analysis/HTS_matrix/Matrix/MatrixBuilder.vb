@@ -53,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
@@ -67,7 +68,9 @@ Public Module MatrixBuilder
     ''' <param name="allSampleAbundances">聚合后的数据，Key为样本ID，Value为该样本的物种丰度字典。</param>
     ''' <param name="performNormalization">是否执行按列（样本）的总和归一化，使每个样本的相对丰度之和为1。</param>
     ''' <returns>一个包含物种和样本丰度信息的DataTable。</returns>
-    Public Function BuildAndNormalizeAbundanceMatrix(allSampleAbundances As NamedValue(Of Dictionary(Of String, Double))(), Optional performNormalization As Boolean = True) As Matrix
+    Public Function BuildAndNormalizeAbundanceMatrix(allSampleAbundances As NamedValue(Of Dictionary(Of String, Double))(),
+                                                     Optional performNormalization As Boolean = True,
+                                                     Optional tag As String = "expression_matrix") As Matrix
         If allSampleAbundances.IsNullOrEmpty Then
             Call "no sample data to build expression matrix!".warning
 
@@ -89,7 +92,7 @@ Public Module MatrixBuilder
         Dim matrix As New Matrix With {
             .sampleID = allSampleIds,
             .expression = table,
-            .tag = "expression_matrix"
+            .tag = tag
         }
 
         If performNormalization Then
@@ -99,6 +102,41 @@ Public Module MatrixBuilder
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="data">
+    ''' collection of the gene expression data: [gene1, [samle1, sample2, sample3, ...]]
+    ''' </param>
+    ''' <param name="tag"></param>
+    ''' <returns></returns>
+    Public Function BuildMatrix(Of T As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of T), Optional tag As String = "expression_matrix") As Matrix
+        Dim pool As T() = data.ToArray
+        Dim sample_id As String() = pool _
+            .SelectMany(Function(gene) gene.Properties.Keys) _
+            .Distinct _
+            .OrderBy(Function(id) id) _
+            .ToArray
+        Dim genes As DataFrameRow() = pool _
+            .Select(Function(gene) New DataFrameRow(gene.Key, gene(sample_id))) _
+            .ToArray
+
+        Return New Matrix With {
+            .expression = genes,
+            .sampleID = sample_id,
+            .tag = tag
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="allSamples">
+    ''' collection of samples data: [sample1, [gene1, gene2,...]]
+    ''' </param>
+    ''' <param name="allSampleIds"></param>
+    ''' <returns></returns>
     <Extension>
     Private Iterator Function MatrixInternal(allSamples As Dictionary(Of String, Dictionary(Of String, Double)), allSampleIds As String()) As IEnumerable(Of DataFrameRow)
         ' --- 步骤 1: 识别所有唯一的物种和样本 ---
