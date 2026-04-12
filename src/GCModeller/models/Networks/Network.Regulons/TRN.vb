@@ -53,8 +53,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
-Imports Microsoft.VisualBasic.Data.GraphTheory.Network
-Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 
@@ -121,14 +119,3 @@ Public Module TRN
     End Function
 End Module
 
-Public Class Connection
-    Implements IInteraction
-    Implements INetworkEdge
-
-    Public Property gene1 As String Implements IInteraction.source
-    Public Property gene2 As String Implements IInteraction.target
-    Public Property is_directly As Boolean
-    Public Property cor As Double Implements INetworkEdge.value
-    Public Property interaction As String Implements INetworkEdge.Interaction
-
-End Class
