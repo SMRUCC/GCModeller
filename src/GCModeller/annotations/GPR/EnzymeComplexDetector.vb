@@ -5,6 +5,7 @@
 ''' 基于基因距离、方向、以及功能相似性
 ''' </summary>
 Public Class EnzymeComplexDetector
+
     Private Const ComplexMaxDistance As Integer = 1000
     Private Const MinComplexGenes As Integer = 2
 
@@ -53,7 +54,7 @@ Public Class EnzymeComplexDetector
     End Function
 
     Public Sub EnhanceComplexScores(complexes As List(Of List(Of GeneTable)),
-                                    pathways As List(Of Pathway),
+                                    context As EnhancedIndices,
                                     ByRef geneScores As Dictionary(Of String, Dictionary(Of String, Double)))
 
         For Each complexGenes In complexes
@@ -64,7 +65,7 @@ Public Class EnzymeComplexDetector
             Next
 
             ' 找到这些EC号共同参与的通路
-            Dim commonPathways As IEnumerable(Of Pathway) = FindCommonPathways(allECs, pathways)
+            Dim commonPathways As IEnumerable(Of Pathway) = context.FindCommonPathways(allECs)
 
             ' 增强这些通路的分数
             For Each pathway In commonPathways

@@ -10,38 +10,44 @@ Imports SMRUCC.genomics.MetabolicModel
 Public Class CoexpressionAnalyzer
 
     ' 基因对 -> 相关系数
-    Private coexpressionMatrix As CorrelationMatrix
+    ReadOnly coexpressionMatrix As CorrelationMatrix
+    ReadOnly genome As Genome
 
-    Public Sub New(expressionData As Matrix)
+    Public Sub New(expressionData As Matrix, genome As Genome)
         ' 从表达数据计算相关系数
-        coexpressionMatrix = expressionData.Correlation(Function(gene) gene.experiments)
+        Me.genome = genome
+        Me.coexpressionMatrix = expressionData.Correlation(Function(gene) gene.experiments)
     End Sub
 
     Public Sub ApplyCoexpressionRules(gene As GeneTable,
-                                      genome As GeneTable(),
                                       ByRef geneScores As Dictionary(Of String, Double),
-                                      pathways As List(Of Pathway))
+                                      context As EnhancedIndices)
 
         ' 寻找与当前基因共表达的基因
         Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7).ToArray
 
         For Each coGene As String In coexpressedGenes
             ' 获取共表达基因的关联反应
-            Dim coGeneReactions As IEnumerable(Of MetabolicReaction) = GetGeneReactions(coGene, genome)
+            Dim coGeneReactions As IEnumerable(Of MetabolicReaction) = genome.GetGeneReactions(coGene)
 
             ' 对这些反应所在的通路进行增强
             For Each reaction As MetabolicReaction In coGeneReactions
-                Dim pathway As Pathway = GetPathwayForReaction(reaction, pathways)
-                If pathway Is Nothing Then Continue For
+                Dim pathways As Pathway() = context.GetPathwayForReaction(reaction).ToArray
+
+                If pathways.IsNullOrEmpty Then
+                    Continue For
+                End If
 
                 Dim coexpressionScore = 0.4
 
-                ' 增强该通路中所有反应的分数
-                For Each pwReaction In pathway.metabolicNetwork
-                    If Not geneScores.ContainsKey(pwReaction.id) OrElse
-                       geneScores(pwReaction.id) < coexpressionScore Then
-                        geneScores(pwReaction.id) = coexpressionScore
-                    End If
+                For Each pathway As Pathway In pathways
+                    ' 增强该通路中所有反应的分数
+                    For Each pwReaction In pathway.metabolicNetwork
+                        If Not geneScores.ContainsKey(pwReaction.id) OrElse
+                           geneScores(pwReaction.id) < coexpressionScore Then
+                            geneScores(pwReaction.id) = coexpressionScore
+                        End If
+                    Next
                 Next
             Next
         Next

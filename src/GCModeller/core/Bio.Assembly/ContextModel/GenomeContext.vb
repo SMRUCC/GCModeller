@@ -149,8 +149,8 @@ Namespace ContextModel
         ''' <summary>
         ''' The number of genes between feature 1 and feature 2.
         ''' </summary>
-        ''' <param name="feature1$"></param>
-        ''' <param name="feature2$"></param>
+        ''' <param name="feature1"></param>
+        ''' <param name="feature2"></param>
         ''' <returns></returns>
         Public Function Delta(feature1$, feature2$) As Double
             Dim l1 = GetByFeature(feature1)
@@ -182,8 +182,8 @@ Namespace ContextModel
         ''' <summary>
         ''' 将基因组上面的某一区域内的基因对象都查找出来
         ''' </summary>
-        ''' <param name="i%"></param>
-        ''' <param name="j%"></param>
+        ''' <param name="i"></param>
+        ''' <param name="j"></param>
         ''' <param name="strand">
         ''' 默认不限制链的方向
         ''' </param>
@@ -194,10 +194,8 @@ Namespace ContextModel
             Dim source As T()
 
             Select Case strand
-                Case Strands.Forward
-                    source = plus
-                Case Strands.Reverse
-                    source = minus
+                Case Strands.Forward : source = plus
+                Case Strands.Reverse : source = minus
                 Case Else
                     source = sequence
             End Select
@@ -225,6 +223,11 @@ Namespace ContextModel
                 .ToArray
         End Function
 
+        ''' <summary>
+        ''' Get features data via a given key id
+        ''' </summary>
+        ''' <param name="feature"></param>
+        ''' <returns></returns>
         Public Function GetByFeature(feature As String) As T()
             If featureTags.ContainsKey(feature) Then
                 Return featureTags(feature)
@@ -233,6 +236,11 @@ Namespace ContextModel
             End If
         End Function
 
+        ''' <summary>
+        ''' Check of the target feature is missing inside this genomics context model?
+        ''' </summary>
+        ''' <param name="feature"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Absent(feature As String) As Boolean
             Return Not featureTags.ContainsKey(feature)
