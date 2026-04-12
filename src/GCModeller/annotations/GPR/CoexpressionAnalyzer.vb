@@ -23,9 +23,9 @@ Public Class CoexpressionAnalyzer
                                       pathways As List(Of Pathway))
 
         ' 寻找与当前基因共表达的基因
-        Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7)
+        Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7).ToArray
 
-        For Each coGene In coexpressedGenes
+        For Each coGene As String In coexpressedGenes
             ' 获取共表达基因的关联反应
             Dim coGeneReactions As IEnumerable(Of MetabolicReaction) = GetGeneReactions(coGene, genome)
 
@@ -47,16 +47,18 @@ Public Class CoexpressionAnalyzer
         Next
     End Sub
 
-    Private Function FindCoexpressedGenes(geneId As String, threshold As Double) As List(Of String)
-        Dim result = New List(Of String)()
-        If Not coexpressionMatrix.ContainsKey(geneId) Then Return result
+    Private Iterator Function FindCoexpressedGenes(geneId As String, threshold As Double) As IEnumerable(Of String)
+        If Not coexpressionMatrix.HasObject(geneId) Then
+            Return
+        End If
 
-        For Each kvp In coexpressionMatrix(geneId)
-            If kvp.Value >= threshold Then
-                result.Add(kvp.Key)
+        Dim vec As Double() = coexpressionMatrix.GetVector(geneId)
+        Dim geneIds As String() = coexpressionMatrix.GetLabels.ToArray
+
+        For i As Integer = 0 To vec.Length - 1
+            If vec(i) >= threshold Then
+                Yield geneIds(i)
             End If
         Next
-
-        Return result
     End Function
 End Class
