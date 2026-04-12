@@ -65,7 +65,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace ContextModel
 
-    Public Class GenomeContext(Of T As IGeneBrief)
+    Public Class GenomeContext(Of T As IGeneBrief) : Implements Enumeration(Of T)
 
         Dim plus As T()
         Dim minus As T()
@@ -254,6 +254,20 @@ Namespace ContextModel
 
         Public Overrides Function ToString() As String
             Return $"{contextName}: {plus.Length} (+), {minus.Length} (-) with {featureTags.Count} features."
+        End Function
+
+        ''' <summary>
+        ''' populate out the genomics feature <see cref="sequence"/> data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+            If sequence Is Nothing Then
+                Return
+            End If
+
+            For Each feature As T In sequence
+                Yield feature
+            Next
         End Function
     End Class
 End Namespace

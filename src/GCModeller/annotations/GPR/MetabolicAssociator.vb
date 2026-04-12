@@ -1,4 +1,5 @@
 ﻿
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.MetabolicModel
 
@@ -11,39 +12,158 @@ Public Class MetabolicAssociator
     ReadOnly genome As Genome
     ReadOnly context As ContextIndices
 
-    Sub New(opt As GPRParameters, genome As IEnumerable(Of GeneTable), pathways As Pathway())
+    ReadOnly coexpressionAnalyzer As CoexpressionAnalyzer
+    ReadOnly syntenyAnalyzer As ConservedSyntenyAnalyzer
+    ReadOnly complexDetector As EnzymeComplexDetector
+    ReadOnly fusionAnalyzer As FusionGeneAnalyzer
+    ReadOnly continuityChecker As ReactionContinuityChecker
+
+    Private operonGroups As List(Of List(Of Integer))
+    Private geneComplexes As List(Of List(Of GeneTable))
+
+    Sub New(opt As GPRParameters, genome As IEnumerable(Of GeneTable), pathways As Pathway(),
+            Optional coexpData As CoexpressionAnalyzer = Nothing,
+            Optional syntenyData As ConservedSyntenyAnalyzer = Nothing)
+
         Me.opt = opt
         Me.genome = New Genome(genome)
         Me.context = New ContextIndices(pathways)
+
+        ' 初始化分析器
+        Me.coexpressionAnalyzer = coexpData
+        Me.syntenyAnalyzer = syntenyData
+        Me.fusionAnalyzer = New FusionGeneAnalyzer(Me.context)
+        Me.continuityChecker = New ReactionContinuityChecker(Me.context.ECtoReactions.Values.SelectMany(Function(v) v).ToDictionary(Function(r) r.id))
+        Me.complexDetector = New EnzymeComplexDetector()
+
+        ' 预计算不依赖动态打分的结构
+        Me.operonGroups = IdentifyPotentialOperons().ToList()
+        Me.geneComplexes = complexDetector.DetectComplexes(Me.genome.AsEnumerable.ToArray())
     End Sub
 
     ''' <summary>
     ''' 增强的主关联函数
     ''' </summary>
     Public Iterator Function AssociateGenesToReactions() As IEnumerable(Of GeneAssociation)
-        ' 0. 预处理和多EC号处理
-        Dim operonGroups = IdentifyPotentialOperons().ToArray
-        Dim geneCount As Integer = genome.N
+        ' 使用全局字典暂存所有打分，方便后续网络级推断
+        Dim globalGeneScores As New Dictionary(Of String, Dictionary(Of String, Double))(StringComparer.OrdinalIgnoreCase)
 
-        For i As Integer = 0 To geneCount - 1
+        ' ==========================================
+        ' 阶段 1 & 2: 基因级打分 (直接证据 + 上下文)
+        ' ==========================================
+        For i As Integer = 0 To genome.N - 1
             Dim gene As GeneTable = genome(i)
             Dim geneScores As New Dictionary(Of String, Double)(StringComparer.OrdinalIgnoreCase)
 
-            ' 阶段1: 直接EC匹配（支持多EC号）
-            AddDirectECMatches(gene, context.ECtoReactions, geneScores)
-            ' 阶段2: 上下文关联
-            AddContextAssociations(i, operonGroups, geneScores)
+            ' 1. 直接EC匹配
+            AddDirectECMatches(gene, geneScores)
 
-            ' 阶段3: 通路完整性推断
-            AddPathwayCompletenessInferences(gene, geneScores)
+            ' 2. 操纵子与滑动窗口上下文
+            AddContextAssociations(i, geneScores)
 
-            ' 阶段4: 基因簇分析
-            AddGeneClusterAnalysis(gene, i, geneScores)
+            ' 3. 酶复合体关联
+            AddComplexAssociations(gene, geneScores)
 
-            ' 整理并过滤结果
-            Yield CreateFilteredAssociation(gene, geneScores)
+            ' 4. 融合基因关联
+            fusionAnalyzer.AnalyzeFusionGenes({gene}, context.Pathways, globalGeneScores) ' 修改AnalyzeFusionGenes使其支持单基因传入或在此内联逻辑
+
+            ' 5. 共表达关联 (如果提供了数据)
+            If coexpressionAnalyzer IsNot Nothing Then
+                coexpressionAnalyzer.ApplyCoexpressionRules(gene, geneScores, context)
+            End If
+
+            ' 6. 保守共线性关联 (如果提供了数据)
+            If syntenyAnalyzer IsNot Nothing Then
+                syntenyAnalyzer.ApplyConservationRules(gene, genome.AsEnumerable.ToArray(), i, geneScores)
+            End If
+
+            globalGeneScores(gene.locus_id) = geneScores
+        Next
+
+        ' ==========================================
+        ' 阶段 3: 网络级打分 (全局推断)
+        ' ==========================================
+        ' 将全局打分结果注入Genome对象，供ReactionContinuityChecker查询
+        UpdateGenomeNetwork(globalGeneScores)
+
+        ' 3.1 通路完整度推断
+        For Each gene As GeneTable In genome.AsEnumerable
+            AddPathwayCompletenessInferences(gene, globalGeneScores(gene.locus_id))
+        Next
+
+        ' 3.2 反应连续性推断
+        For Each pathway As Pathway In context.Pathways
+            ' 这里的CheckContinuity需要重写，基于globalGeneScores增强分数
+            EnhanceNetworkContinuity(pathway, globalGeneScores)
+        Next
+
+        ' ==========================================
+        ' 整理输出
+        ' ==========================================
+        For Each gene As GeneTable In genome.AsEnumerable
+            Yield CreateFilteredAssociation(gene, globalGeneScores(gene.locus_id))
         Next
     End Function
+
+    Private Sub AddComplexAssociations(gene As GeneTable, ByRef geneScores As Dictionary(Of String, Double))
+        ' 查找当前基因是否在已检测到的复合体中
+        Dim targetComplex = geneComplexes.FirstOrDefault(Function(c) c.Any(Function(g) g.locus_id = gene.locus_id))
+        If targetComplex Is Nothing Then Return
+
+        ' 收集复合体所有EC号
+        Dim allECs = targetComplex.SelectMany(Function(g) g.EC_Number).Distinct()
+        ' 找到这些EC号共同参与的通路
+        Dim commonPathways = context.FindCommonPathways(allECs)
+
+        For Each pathway In commonPathways
+            For Each reaction In pathway.metabolicNetwork
+                Dim complexScore = opt.BaseComplexScore
+                If Not geneScores.ContainsKey(reaction.id) OrElse geneScores(reaction.id) < complexScore Then
+                    geneScores(reaction.id) = complexScore
+                End If
+            Next
+        Next
+    End Sub
+
+    Private Sub EnhanceNetworkContinuity(pathway As Pathway, ByRef globalScores As Dictionary(Of String, Dictionary(Of String, Double)))
+        ' 基于你提供的ReactionNetwork图结构，遍历边
+        For Each edge In pathway.ReactionNetwork.graphEdges
+            Dim uRxn = edge.U.ID
+            Dim vRxn = edge.V.ID
+
+            ' 检查化学相容性 (如果产物底物有重叠，edge理应存在)
+            ' 找到催化这两个反应的基因
+            Dim genesForU = genome.GetGenesForReaction(uRxn)
+            Dim genesForV = genome.GetGenesForReaction(vRxn)
+
+            ' 如果反应U有基因支持，且反应V也有部分支持，增强V的分数；反之亦然
+            If genesForU.Any() AndAlso genesForV.Any() Then
+                Dim continuityScore = 0.3 ' 基础连续性得分
+                ' 互相增强
+                For Each geneU In genesForU
+                    If globalScores(geneU.locus_id).ContainsKey(vRxn) Then
+                        globalScores(geneU.locus_id)(vRxn) = Math.Max(globalScores(geneU.locus_id)(vRxn), continuityScore)
+                    End If
+                Next
+                For Each geneV In genesForV
+                    If globalScores(geneV.locus_id).ContainsKey(uRxn) Then
+                        globalScores(geneV.locus_id)(uRxn) = Math.Max(globalScores(geneV.locus_id)(uRxn), continuityScore)
+                    End If
+                Next
+            End If
+        Next
+    End Sub
+
+    Private Sub UpdateGenomeNetwork(globalScores As Dictionary(Of String, Dictionary(Of String, Double)))
+        genome.MetabolicNetwork.Clear()
+        For Each kvp In globalScores
+            Dim assoc As New GeneAssociation With {
+                .GeneId = kvp.Key,
+                .Reactions = kvp.Value.Select(Function(r) New ScoredReaction With {.Id = r.Key, .Score = r.Value}).ToList()
+            }
+            genome.MetabolicNetwork(kvp.Key) = assoc
+        Next
+    End Sub
 
     ''' <summary>
     ''' 识别潜在操纵子
@@ -79,13 +199,10 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 直接EC匹配
     ''' </summary>
-    Private Sub AddDirectECMatches(gene As GeneTable,
-                                   ecToReactions As Dictionary(Of String, List(Of MetabolicReaction)),
-                                   ByRef geneScores As Dictionary(Of String, Double))
-
+    Private Sub AddDirectECMatches(gene As GeneTable, ByRef geneScores As Dictionary(Of String, Double))
         For Each ec In gene.EC_Number
-            If ecToReactions.ContainsKey(ec) Then
-                For Each reaction In ecToReactions(ec)
+            If context.ECtoReactions.ContainsKey(ec) Then
+                For Each reaction As MetabolicReaction In context.ECtoReactions(ec)
                     ' 直接匹配给满分
                     geneScores(reaction.id) = opt.DirectMatchScore
                 Next
@@ -96,7 +213,7 @@ Public Class MetabolicAssociator
     ''' <summary>
     ''' 上下文关联
     ''' </summary>
-    Private Sub AddContextAssociations(geneIndex As Integer, operonGroups As List(Of Integer)(), ByRef geneScores As Dictionary(Of String, Double))
+    Private Sub AddContextAssociations(geneIndex As Integer, ByRef geneScores As Dictionary(Of String, Double))
         ' 查找基因所在的潜在操纵子
         Dim operon = operonGroups.FirstOrDefault(Function(o) o.Contains(geneIndex))
         Dim geneCount As Integer = genome.N

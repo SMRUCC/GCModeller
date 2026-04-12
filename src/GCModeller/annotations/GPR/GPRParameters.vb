@@ -54,4 +54,9 @@ Public Class GPRParameters
     ''' <returns></returns>
     Public Property MaxGapInPathway As Integer = 3
 
+    Public Property CoexpressionThreshold As Double = 0.7
+    Public Property BaseCoexpressionScore As Double = 0.4
+    Public Property BaseSyntenyScore As Double = 0.6
+    Public Property BaseComplexScore As Double = 0.4
+
 End Class
