@@ -86,6 +86,12 @@ Namespace ContextModel
             End Get
         End Property
 
+        Default Public ReadOnly Property Feature(name As String) As T
+            Get
+                Return featureTags.TryGetValue(name).DefaultFirst
+            End Get
+        End Property
+
         ''' <summary>
         ''' The number of genes in this genome
         ''' </summary>

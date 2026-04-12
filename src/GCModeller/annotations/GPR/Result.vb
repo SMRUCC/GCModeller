@@ -30,4 +30,12 @@ Public Class Genome : Inherits GenomeContext(Of GeneTable)
             Return {}
         End If
     End Function
+
+    Public Iterator Function GetGenesForReaction(id As String) As IEnumerable(Of GeneTable)
+        For Each gene In MetabolicNetwork.Values
+            If gene.Reactions.Any(Function(r) r.Id = id) Then
+                Yield Me(gene.GeneId)
+            End If
+        Next
+    End Function
 End Class

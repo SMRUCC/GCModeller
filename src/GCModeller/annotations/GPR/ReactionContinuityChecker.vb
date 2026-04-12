@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' 检查反应之间的化学相容性
@@ -15,18 +15,18 @@ Public Class ReactionContinuityChecker
 
     Public Sub CheckContinuity(pathway As Pathway,
                                geneScores As Dictionary(Of String, Double),
-                               genome As GeneTable())
+                               genome As Genome)
 
         ' 对通路中的每个反应对检查连续性
         For i = 0 To pathway.metabolicNetwork.Length - 2
             Dim currRxn = pathway.metabolicNetwork(i)
             Dim nextRxn = pathway.metabolicNetwork(i + 1)
 
-            If Not reactionCompounds.ContainsKey(currRxn.Id) Or
-               Not reactionCompounds.ContainsKey(nextRxn.Id) Then Continue For
+            If Not reactionCompounds.ContainsKey(currRxn.id) Or
+               Not reactionCompounds.ContainsKey(nextRxn.id) Then Continue For
 
-            Dim currProducts = reactionCompounds(currRxn.Id).Products
-            Dim nextSubstrates = reactionCompounds(nextRxn.Id).Substrates
+            Dim currProducts = reactionCompounds(currRxn.id).Products
+            Dim nextSubstrates = reactionCompounds(nextRxn.id).Substrates
 
             ' 检查化学相容性
             Dim overlap = currProducts.Intersect(nextSubstrates).Count()
@@ -35,7 +35,7 @@ Public Class ReactionContinuityChecker
                 Dim continuityScore = 0.3 + (overlap / Math.Max(currProducts.Count, nextSubstrates.Count)) * 0.3
 
                 ' 如果基因已经被关联到这些反应，增强分数
-                For Each geneId In GetGenesForReaction(currRxn.Id, genome)
+                For Each geneId As String In genome.GetGenesForReaction(currRxn.id).Keys
                     If geneScores.ContainsKey(geneId) Then
                         geneScores(geneId) = Math.Max(geneScores(geneId), continuityScore)
                     End If

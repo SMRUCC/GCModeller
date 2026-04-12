@@ -261,7 +261,7 @@ Public Class MetabolicAssociator
         Next
 
         ' 查找这些EC号共同参与的通路
-        Dim commonPathways As Pathway() = FindCommonPathways(clusterECNumbers, indices)
+        Dim commonPathways As Pathway() = indices.FindCommonPathways(clusterECNumbers).ToArray
 
         ' 对这些通路的反应给予额外分数
         For Each pathway In commonPathways
