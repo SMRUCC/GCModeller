@@ -5,18 +5,15 @@
 ''' 如果一个反应的产物是下一个反应的底物，增强这些反应的分数
 ''' </summary>
 Public Class ReactionContinuityChecker
+
     ' 反应ID -> 底物/产物映射
-    Private reactionCompounds As Dictionary(Of String, (Substrates As List(Of String),
-                                                       Products As List(Of String)))
+    Private reactionCompounds As Dictionary(Of String, (Substrates As List(Of String), Products As List(Of String)))
 
     Public Sub New(reactionData As Dictionary(Of String, (List(Of String), List(Of String))))
         reactionCompounds = reactionData
     End Sub
 
-    Public Sub CheckContinuity(pathway As Pathway,
-                               geneScores As Dictionary(Of String, Double),
-                               genome As Genome)
-
+    Public Sub CheckContinuity(pathway As Pathway, geneScores As Dictionary(Of String, Double), genome As Genome)
         ' 对通路中的每个反应对检查连续性
         For i = 0 To pathway.metabolicNetwork.Length - 2
             Dim currRxn = pathway.metabolicNetwork(i)

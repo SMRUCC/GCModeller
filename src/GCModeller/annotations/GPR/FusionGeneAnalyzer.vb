@@ -7,24 +7,22 @@ Imports SMRUCC.genomics.MetabolicModel
 ''' </summary>
 Public Class FusionGeneAnalyzer
 
-    Private Const MaxGapInPathway As Integer = 3 ' 通路中允许的最大反应间隔
-
     ReadOnly index As ContextIndices
 
     Sub New(index As ContextIndices)
         Me.index = index
     End Sub
 
-    Public Sub AnalyzeFusionGenes(genes As GeneTable(),
-                                 pathways As Pathway(),
-                                 ByRef geneScores As Dictionary(Of String, Dictionary(Of String, Double)))
-
-        For Each gene In genes
-            If gene.EC_Number Is Nothing OrElse gene.EC_Number.Count < 2 Then Continue For
+    Public Sub AnalyzeFusionGenes(genes As IEnumerable(Of GeneTable), pathways As Pathway(), ByRef geneScores As Dictionary(Of String, Dictionary(Of String, Double)))
+        For Each gene As GeneTable In genes
+            If gene.EC_Number.TryCount < 2 Then
+                Continue For
+            End If
 
             ' 获取该基因所有EC号参与的反应
             Dim geneReactions = New List(Of MetabolicReaction)()
-            For Each ec In gene.EC_Number
+
+            For Each ec As String In gene.EC_Number
                 If index.ECtoReactions.ContainsKey(ec) Then
                     geneReactions.AddRange(index.ECtoReactions(ec))
                 End If
@@ -50,9 +48,39 @@ Public Class FusionGeneAnalyzer
         Next
     End Sub
 
-    Private Function CheckPathwayContinuity(reactions As List(Of MetabolicReaction),
-                                           pathways As Pathway()) As Dictionary(Of Pathway, Double)
-        ' 实现检测反应在通路中的连续程度
-        ' 返回通路及其连续性分数
+    ''' <summary>
+    ''' 实现检测反应在通路中的连续程度
+    ''' 返回通路及其连续性分数
+    ''' </summary>
+    ''' <param name="reactions"></param>
+    ''' <param name="pathways"></param>
+    ''' <returns></returns>
+    Private Function CheckPathwayContinuity(reactions As List(Of MetabolicReaction), pathways As Pathway()) As Dictionary(Of Pathway, Double)
+        Dim scores As New Dictionary(Of Pathway, Double)
+
+        For Each pathway As Pathway In pathways
+            Dim joint As Integer
+
+            For Each u As MetabolicReaction In reactions
+                For Each v As MetabolicReaction In reactions
+                    If u Is v Then
+                        Continue For
+                    End If
+
+                    If pathway.ReactionNetwork.GetEdge(
+                        pathway.ReactionNetwork.GetElementByID(u.id),
+                        pathway.ReactionNetwork.GetElementByID(v.id)) IsNot Nothing Then
+
+                        joint += 1
+                    End If
+                Next
+            Next
+
+            If joint > 0 Then
+                Call scores.Add(pathway, joint / reactions.Count)
+            End If
+        Next
+
+        Return scores
     End Function
 End Class

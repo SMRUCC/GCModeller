@@ -48,5 +48,10 @@ Public Class GPRParameters
     ''' </summary>
     ''' <returns></returns>
     Public Property DiffStrandWeight As Double = 0.3
+    ''' <summary>
+    ''' 通路中允许的最大反应间隔
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property MaxGapInPathway As Integer = 3
 
 End Class
