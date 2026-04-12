@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Math.Correlations
+﻿Imports System.IO
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Matrix
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
@@ -22,12 +23,27 @@ Public Class LazyCrossOmicsCorrelation
     ''' </summary>
     ''' <param name="expr1">组学1的表达矩阵</param>
     ''' <param name="expr2">组学2的表达矩阵</param>
-    Sub New(expr1 As Matrix, expr2 As Matrix)
+    Sub New(expr1 As Matrix, expr2 As Matrix, Optional strict As Boolean = True)
         Me.expr1 = expr1
         Me.expr2 = expr2
 
         ' 跨组学计算相关性要求两个矩阵的样本（实验/列）必须是对齐的！
         ' 即 expr1 的第 i 列和 expr2 的第 i 列必须是同一个样本。
+        Dim intersects As String() = expr1.sampleID.Intersect(expr2.sampleID).ToArray
+
+        If intersects.Length <> expr1.sampleID.Length Then
+            If strict Then
+                Throw New InvalidDataException($"sample dimension of omics data 1 is not equals to the sample dimension of the omics data 2!")
+            Else
+                expr1 = expr1.Project(intersects)
+                expr2 = expr2.Project(intersects)
+            End If
+        Else
+            If Not expr1.sampleID.SequenceEqual(expr2.sampleID) Then
+                expr1 = expr1.Project(intersects)
+                expr2 = expr2.Project(intersects)
+            End If
+        End If
     End Sub
 
     ''' <summary>
