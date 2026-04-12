@@ -9,9 +9,9 @@ Public Class FusionGeneAnalyzer
 
     Private Const MaxGapInPathway As Integer = 3 ' 通路中允许的最大反应间隔
 
-    ReadOnly index As EnhancedIndices
+    ReadOnly index As ContextIndices
 
-    Sub New(index As EnhancedIndices)
+    Sub New(index As ContextIndices)
         Me.index = index
     End Sub
 

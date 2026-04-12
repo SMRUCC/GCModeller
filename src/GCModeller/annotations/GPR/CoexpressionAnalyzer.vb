@@ -21,7 +21,7 @@ Public Class CoexpressionAnalyzer
 
     Public Sub ApplyCoexpressionRules(gene As GeneTable,
                                       ByRef geneScores As Dictionary(Of String, Double),
-                                      context As EnhancedIndices)
+                                      context As ContextIndices)
 
         ' 寻找与当前基因共表达的基因
         Dim coexpressedGenes = FindCoexpressedGenes(gene.locus_id, threshold:=0.7).ToArray

@@ -54,7 +54,7 @@ Public Class EnzymeComplexDetector
     End Function
 
     Public Sub EnhanceComplexScores(complexes As List(Of List(Of GeneTable)),
-                                    context As EnhancedIndices,
+                                    context As ContextIndices,
                                     ByRef geneScores As Dictionary(Of String, Dictionary(Of String, Double)))
 
         For Each complexGenes In complexes

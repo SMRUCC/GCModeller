@@ -1,6 +1,6 @@
 ﻿Imports SMRUCC.genomics.MetabolicModel
 
-Public Class EnhancedIndices
+Public Class ContextIndices
 
     Public Property ECtoReactions As Dictionary(Of String, List(Of MetabolicReaction))
     Public Property ReactionToPathways As Dictionary(Of String, List(Of Pathway))
