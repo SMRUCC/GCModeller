@@ -53,8 +53,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.Microarray
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Public Module TRN
 
@@ -78,4 +80,55 @@ Public Module TRN
                        Return Math.Abs(cnn.cor) >= cutoff
                    End Function)
     End Function
+
+    <Extension>
+    Public Function CorrelationImpl(gene As DataSet, matrix As DataSet(), sampleNames$(), isSelfComparison As Boolean, skipIndirect As Boolean, cutoff#) As Connection()
+        Dim fpkm As Double() = gene(sampleNames)
+        Dim links As Connection() = matrix _
+            .Where(Function(g)
+                       If isSelfComparison Then
+                           Return g.ID <> gene.ID
+                       Else
+                           Return True
+                       End If
+                   End Function) _
+            .AsParallel _
+            .Select(Function(g)
+                        Dim fpkm2 As Double() = g(sampleNames)
+                        Dim cor As Double = GetPearson(fpkm, fpkm2)
+
+                        If Math.Abs(cor) >= cutoff AndAlso skipIndirect Then
+                            Return New Connection With {
+                                .cor = cor,
+                                .gene1 = gene.ID,
+                                .gene2 = g.ID,
+                                .is_directly = True
+                            }
+                        Else
+                            Return New Connection With {
+                                .cor = Spearman(fpkm, fpkm2),
+                                .gene1 = gene.ID,
+                                .gene2 = g.ID,
+                                .is_directly = False
+                            }
+                        End If
+                    End Function) _
+            .ToArray
+
+        Call gene.ID.info
+
+        Return links
+    End Function
 End Module
+
+Public Class Connection
+    Implements IInteraction
+    Implements INetworkEdge
+
+    Public Property gene1 As String Implements IInteraction.source
+    Public Property gene2 As String Implements IInteraction.target
+    Public Property is_directly As Boolean
+    Public Property cor As Double Implements INetworkEdge.value
+    Public Property interaction As String Implements INetworkEdge.Interaction
+
+End Class

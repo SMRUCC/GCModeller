@@ -62,11 +62,9 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.ProteinModel
-Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
 
 Public Class ProteinInteractionNetwork
 
