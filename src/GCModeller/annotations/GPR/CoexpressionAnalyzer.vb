@@ -1,4 +1,6 @@
-﻿Imports SMRUCC.genomics.ComponentModel.Annotation
+﻿Imports Microsoft.VisualBasic.Math.Matrix
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.MetabolicModel
 
 ''' <summary>
@@ -6,12 +8,13 @@ Imports SMRUCC.genomics.MetabolicModel
 ''' 共表达的基因很可能参与同一通路
 ''' </summary>
 Public Class CoexpressionAnalyzer
-    ' 基因对 -> 相关系数
-    Private coexpressionMatrix As Dictionary(Of String, Dictionary(Of String, Double))
 
-    Public Sub New(expressionData As Dictionary(Of String, Double()))
+    ' 基因对 -> 相关系数
+    Private coexpressionMatrix As CorrelationMatrix
+
+    Public Sub New(expressionData As Matrix)
         ' 从表达数据计算相关系数
-        coexpressionMatrix = CalculateCorrelationMatrix(expressionData)
+        coexpressionMatrix = expressionData.Correlation(Function(gene) gene.experiments)
     End Sub
 
     Public Sub ApplyCoexpressionRules(gene As GeneTable,
