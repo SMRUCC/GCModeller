@@ -8,17 +8,15 @@ Public Class ContextIndices
 
     Public Property Pathways As Pathway()
 
-    Public Sub New(pathways As Pathway())
+    Public Sub New(pathways As IEnumerable(Of Pathway))
         Me.ECtoReactions = New Dictionary(Of String, List(Of MetabolicReaction))(StringComparer.OrdinalIgnoreCase)
         Me.ReactionToPathways = New Dictionary(Of String, List(Of Pathway))(StringComparer.OrdinalIgnoreCase)
         Me.PathwayReactions = New Dictionary(Of String, List(Of MetabolicReaction))(StringComparer.OrdinalIgnoreCase)
-        Me.Pathways = pathways
-
-        BuildIndices(pathways)
+        Me.Pathways = BuildIndices(pathways).ToArray
     End Sub
 
-    Private Sub BuildIndices(pathways As Pathway())
-        For Each pathway In pathways
+    Private Iterator Function BuildIndices(pathways As IEnumerable(Of Pathway)) As IEnumerable(Of Pathway)
+        For Each pathway As Pathway In pathways
             PathwayReactions(pathway.ID) = pathway.metabolicNetwork.ToList()
 
             For Each rxn In pathway.metabolicNetwork
@@ -36,8 +34,10 @@ Public Class ContextIndices
                     ECtoReactions(ec).Add(rxn)
                 Next
             Next
+
+            Yield pathway
         Next
-    End Sub
+    End Function
 
     Public Function GetPathwayForReaction(reaction As MetabolicReaction) As IEnumerable(Of Pathway)
         If ReactionToPathways.ContainsKey(reaction.id) Then

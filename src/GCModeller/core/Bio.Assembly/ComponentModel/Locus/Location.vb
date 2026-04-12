@@ -84,11 +84,11 @@ Namespace ComponentModel.Loci
         Implements IKeyValuePairObject(Of Integer, Integer)
 
         ''' <summary>
-        ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
+        ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(目标片段的左端起始区域，与链的方向无关)</remarks>
         <XmlAttribute> Public Property left As Integer Implements ILocationComponent.left, IKeyValuePairObject(Of Integer, Integer).Key
             Get
                 Return MyBase.Min
@@ -99,11 +99,11 @@ Namespace ComponentModel.Loci
         End Property
 
         ''' <summary>
-        ''' <see cref="Location"/>: Gets or set the right ends value of the segment on the target sequence.(目标片段的右端结束区域，与链的方向无关)
+        ''' <see cref="Location"/>: Gets or set the right ends value of the segment on the target sequence.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(目标片段的右端结束区域，与链的方向无关)</remarks>
         <XmlAttribute> Public Property right As Integer Implements ILocationComponent.right, IKeyValuePairObject(Of Integer, Integer).Value
             Get
                 Return MyBase.Max

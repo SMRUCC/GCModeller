@@ -19,6 +19,14 @@ Public Class Genome : Inherits GenomeContext(Of GeneTable)
 
     Public Property MetabolicNetwork As New Dictionary(Of String, GeneAssociation)
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="name"></param>
+    ''' <remarks>
+    ''' impute <paramref name="genome"/> context data has been sorted by left in asc order
+    ''' </remarks>
     Public Sub New(genome As IEnumerable(Of GeneTable), Optional name As String = "unnamed")
         MyBase.New(genome, name)
     End Sub
