@@ -83,8 +83,13 @@ Namespace WebJSON
 
         Public ReadOnly Property ECNumbers As IEnumerable(Of String) Implements IEnzymeSet.ECNumbers
             Get
+                If law Is Nothing Then
+                    Return New String() {}
+                End If
+
                 Return From kinetic As LawData
                        In law
+                       Where Not kinetic Is Nothing
                        Select kinetic.ec_number
                        Distinct
             End Get
