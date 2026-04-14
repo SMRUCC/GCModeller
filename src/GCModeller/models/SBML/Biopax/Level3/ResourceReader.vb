@@ -75,6 +75,7 @@ Namespace Level3
         ''' </summary>
         Dim stoichiometry As Dictionary(Of String, Stoichiometry)
         Dim unificationXrefs As Dictionary(Of String, UnificationXref)
+        Dim molRefs As Dictionary(Of String, SmallMoleculeReference)
 
         Private Sub New()
         End Sub
@@ -114,11 +115,12 @@ Namespace Level3
                 .Select(Function(sm) DirectCast(sm, MoleculeReference)) _
                 .JoinIterates(raw.ProteinReference) _
                 .ToDictionary(Function(sm)
-                                  Return "#" & sm.RDFId
+                                  Return "#" & If(sm.RDFId, sm.about)
                               End Function)
 
             For Each compound As Molecule In compounds.Values
-                Dim metadata = moleculeReference.TryGetValue(compound.GetEntityResourceId)
+                Dim entity_id As String = "#" & compound.GetEntityResourceId
+                Dim metadata = moleculeReference.TryGetValue(entity_id)
                 Dim dbLinks As DBLink() = Nothing
 
                 If metadata IsNot Nothing Then
@@ -150,7 +152,7 @@ Namespace Level3
                     .synonym = compound.name.SafeQuery.Select(Function(name) CStr(name)).ToArray,
                     .formula = formula,
                     .moleculeWeight = mw,
-                    .id = compound.RDFId,
+                    .id = If(compound.RDFId, compound.about),
                     .xref = dbLinks
                 }
             Next
@@ -205,6 +207,7 @@ Namespace Level3
             reader.cellularLocations = file.CellularLocationVocabulary.ToDictionary(Function(c) If(c.RDFId, c.about))
             reader.stoichiometry = file.Stoichiometry.ToDictionary(Function(c) If(c.RDFId, c.about))
             reader.unificationXrefs = file.UnificationXref.ToDictionary(Function(x) If(x.RDFId, x.about))
+            reader.molRefs = file.SmallMoleculeReference.ToDictionary(Function(x) If(x.RDFId, x.about))
 
             Return reader
         End Function
