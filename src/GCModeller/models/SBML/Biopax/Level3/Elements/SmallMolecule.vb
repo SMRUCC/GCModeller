@@ -222,7 +222,7 @@ Namespace Level3.Elements
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{db}:{id}"
+            Return GetDblink.ToString
         End Function
 
     End Class

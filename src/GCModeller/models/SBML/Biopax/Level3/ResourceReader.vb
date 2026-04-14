@@ -175,8 +175,9 @@ Namespace Level3
                     ecNumbers = reaction.eCNumber.value
                 End If
 
-                Yield New MetabolicReaction With {
-                    .id = If(reaction.about, reaction.RDFId),
+                Dim rxn_id As String = Strings.Trim(If(reaction.about, reaction.RDFId)).Trim("/"c).Split("/"c).Last
+                Dim rxn As New MetabolicReaction With {
+                    .id = rxn_id,
                     .description = desc.UnescapeHTML,
                     .is_spontaneous = reaction.spontaneous,
                     .name = reaction.displayName,
@@ -185,6 +186,8 @@ Namespace Level3
                     .left = GetCompoundResource(reaction.left, participantStoichiometry).ToArray,
                     .right = GetCompoundResource(reaction.right, participantStoichiometry).ToArray
                 }
+
+                Yield rxn
             Next
         End Function
 
