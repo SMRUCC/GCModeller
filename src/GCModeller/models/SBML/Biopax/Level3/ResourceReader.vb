@@ -79,7 +79,7 @@ Namespace Level3
         Private Sub New()
         End Sub
 
-        Private Iterator Function GetCompoundResource(idSet As IEnumerable(Of EntityProperty), participantStoichiometry As Dictionary(Of String, Stoichiometry)) As IEnumerable(Of CompoundSpecieReference)
+        Private Iterator Function GetCompoundResource(idSet As IEnumerable(Of EntityProperty), participantStoichiometry As Dictionary(Of String, Stoichiometry), entity_refs As Boolean) As IEnumerable(Of CompoundSpecieReference)
             For Each refer As EntityProperty In idSet
                 Dim stoichiometry = participantStoichiometry.TryGetValue(refer.resource)
                 Dim stoichiometryValue As Double
@@ -101,10 +101,16 @@ Namespace Level3
                     cellularLocation = cellularLocations(location).term
                 End If
 
+                Dim entity_id As String = compound.displayName
+
+                If entity_refs Then
+                    entity_id = refer.resource
+                End If
+
                 Yield New CompoundSpecieReference With {
                     .Stoichiometry = stoichiometryValue,
                     .Compartment = cellularLocation,
-                    .ID = compound.displayName
+                    .ID = entity_id
                 }
             Next
         End Function
@@ -163,7 +169,7 @@ Namespace Level3
             Next
         End Function
 
-        Public Iterator Function GetAllReactions() As IEnumerable(Of MetabolicReaction)
+        Public Iterator Function GetAllReactions(Optional entity_refs As Boolean = False) As IEnumerable(Of MetabolicReaction)
             For Each reaction As BiochemicalReaction In raw.BiochemicalReaction.SafeQuery
                 Dim ecNumbers As String() = Nothing
                 Dim participantStoichiometry = reaction.participantStoichiometry _
@@ -190,8 +196,8 @@ Namespace Level3
                     .name = reaction.displayName,
                     .is_reversible = reaction.conversionDirection = "REVERSIBLE",
                     .ECNumbers = ecNumbers,
-                    .left = GetCompoundResource(reaction.left, participantStoichiometry).ToArray,
-                    .right = GetCompoundResource(reaction.right, participantStoichiometry).ToArray
+                    .left = GetCompoundResource(reaction.left, participantStoichiometry, entity_refs).ToArray,
+                    .right = GetCompoundResource(reaction.right, participantStoichiometry, entity_refs).ToArray
                 }
 
                 Yield rxn
