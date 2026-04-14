@@ -190,7 +190,7 @@ Public Class ChemicalStructure : Inherits RDFEntity
     Public Property structureData As structureData
 End Class
 
-<XmlType("SmallMoleculeReference", [Namespace]:=Level3.File.bp)>
+<XmlType("SmallMoleculeReference", [Namespace]:=Level3.File.ns_bp)>
 Public Class SmallMoleculeReference : Inherits MoleculeReference
     Public Property molecularWeight As molecularWeight
     Public Property chemicalFormula As chemicalFormula

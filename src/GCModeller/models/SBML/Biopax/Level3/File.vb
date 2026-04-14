@@ -86,6 +86,11 @@ Namespace Level3
         <XmlAttribute("base")>
         Public Property base As String
 
+        <XmlAttribute("rdf")> Public Property rdf As String
+        <XmlAttribute("owl")> Public Property owl As String
+        <XmlAttribute("xsd")> Public Property xsd As String
+        <XmlAttribute("bp")> Public Property bp As String
+
         <XmlElement("Ontology")> Public Property OwlOntology As OwlOntology
         <XmlElement("SmallMolecule")> Public Property SmallMolecules As SmallMolecule()
         <XmlElement> Public Property BiochemicalReaction As BiochemicalReaction()
@@ -114,14 +119,14 @@ Namespace Level3
         <XmlElement> Public Property Transport As Transport()
         <XmlElement> Public Property TransportWithBiochemicalReaction As TransportWithBiochemicalReaction()
 
-        Public Const bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
-        Public Const owl As String = "http://www.w3.org/2002/07/owl#"
+        Public Const ns_bp As String = "http://www.biopax.org/release/biopax-level3.owl#"
+        Public Const ns_owl As String = "http://www.w3.org/2002/07/owl#"
 
         Sub New()
             Call MyBase.New
 
-            Call xmlns.Add("bp", bp)
-            Call xmlns.Add("owl", owl)
+            Call xmlns.Add("bp", ns_bp)
+            Call xmlns.Add("owl", ns_owl)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
