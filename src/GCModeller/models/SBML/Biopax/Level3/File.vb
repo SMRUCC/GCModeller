@@ -71,10 +71,6 @@ Imports Microsoft.VisualBasic.MIME.application.xml
 
 Namespace Level3
 
-    Public Class DescriptionData : Inherits Description
-
-    End Class
-
     ''' <summary>
     ''' Biopax RDF xml file.
     ''' &lt;rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:bp="http://www.biopax.org/release/biopax-level3.owl#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xml:base="http://www.reactome.org/biopax/56/159879#">
@@ -123,7 +119,7 @@ Namespace Level3
         Public Const ns_owl As String = "http://www.w3.org/2002/07/owl#"
 
         Sub New()
-            Call MyBase.New
+            Call MyBase.New()
 
             Call xmlns.Add("bp", ns_bp)
             Call xmlns.Add("owl", ns_owl)

@@ -148,6 +148,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports SMRUCC.genomics.Model.Biopax.EntityProperties
 
@@ -161,7 +162,6 @@ Public Class SmallMolecule : Inherits Molecule
 
 End Class
 
-
 Public Class BiochemicalReaction : Inherits RDFEntity
     Public Property conversionDirection As conversionDirection
     <XmlElement> Public Property left As EntityProperty()
@@ -174,6 +174,10 @@ Public Class BiochemicalReaction : Inherits RDFEntity
     Public Property participantStoichiometry As participantStoichiometry()
     Public Property spontaneous As spontaneous
     Public Property name As name
+
+    Public Overrides Function ToString() As String
+        Return displayName.value.DefaultFirst
+    End Function
 End Class
 
 Public Class spontaneous : Inherits EntityProperty
