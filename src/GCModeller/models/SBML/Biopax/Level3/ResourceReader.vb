@@ -128,7 +128,7 @@ Namespace Level3
                                     Dim xrKey As String = xr.resource.Trim("#"c)
                                     Dim xrData As UnificationXref = unificationXrefs.TryGetValue(xrKey)
 
-                                    If xrData Is Nothing Then
+                                    If Not xrData Is Nothing Then
                                         Dim link As New DBLink With {
                                             .DBName = xrData.db,
                                             .entry = xrData.id,
