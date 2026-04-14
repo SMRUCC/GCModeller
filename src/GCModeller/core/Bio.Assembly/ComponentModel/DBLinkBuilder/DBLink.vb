@@ -134,7 +134,7 @@ Namespace ComponentModel.DBLinkBuilder
         End Function
 
         ''' <summary>
-        ''' cast to xref_id
+        ''' cast to xref_id string
         ''' </summary>
         ''' <param name="db_xref"></param>
         ''' <returns></returns>
