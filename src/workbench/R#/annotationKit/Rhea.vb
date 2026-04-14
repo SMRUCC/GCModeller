@@ -1,70 +1,74 @@
 ﻿#Region "Microsoft.VisualBasic::ef58476319d10fe7f97aee9a0bdd987a, R#\annotationKit\Rhea.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 101
-    '    Code Lines: 61 (60.40%)
-    ' Comment Lines: 27 (26.73%)
-    '    - Xml Docs: 92.59%
-    ' 
-    '   Blank Lines: 13 (12.87%)
-    '     File Size: 3.99 KB
+' Summaries:
 
 
-    ' Module Rhea
-    ' 
-    '     Function: load_brenda_enzymes, load_reactions, LoadEnzymes, openRDF, reactionTable
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 101
+'    Code Lines: 61 (60.40%)
+' Comment Lines: 27 (26.73%)
+'    - Xml Docs: 92.59%
+' 
+'   Blank Lines: 13 (12.87%)
+'     File Size: 3.99 KB
+
+
+' Module Rhea
+' 
+'     Function: load_brenda_enzymes, load_reactions, LoadEnzymes, openRDF, reactionTable
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data.Rhea
+Imports SMRUCC.genomics.MetabolicModel
+Imports SMRUCC.genomics.Model.Biopax.Level3
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports biopax = SMRUCC.genomics.Model.Biopax.Level3.File
 
 ''' <summary>
 ''' Rhea is an expert-curated knowledgebase of chemical and transport reactions of biological interest 
@@ -152,5 +156,26 @@ Module Rhea
 
             Yield enzyme
         Next
+    End Function
+
+    ''' <summary>
+    ''' read the rhea database file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.rhea")>
+    <RApiReturn(GetType(MetabolicReaction), GetType(Reaction))>
+    Public Function ParseRhea(file As String) As Object
+        If file.ExtensionSuffix("owl") Then
+            ' biopax reader
+            Dim xml As biopax = biopax.LoadDoc(file)
+            Dim loader As ResourceReader = ResourceReader.LoadResource(file:=xml)
+            Dim reactions = loader.GetAllReactions.ToArray
+
+            Return reactions
+        Else
+            Return TextParser.ParseReactions(file.ReadAllLines) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
     End Function
 End Module

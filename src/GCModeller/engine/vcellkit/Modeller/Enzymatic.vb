@@ -58,13 +58,10 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
 Imports SMRUCC.genomics.Data
-Imports SMRUCC.genomics.Data.Rhea
 Imports SMRUCC.genomics.Data.SABIORK
-Imports SMRUCC.genomics.Model.Biopax.Level3
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports biopax = SMRUCC.genomics.Model.Biopax.Level3.File
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
 ''' <summary>
@@ -84,27 +81,8 @@ Module Enzymatic
         Return list
     End Function
 
-    ''' <summary>
-    ''' read the rhea database file
-    ''' </summary>
-    ''' <param name="file"></param>
-    ''' <returns></returns>
-    <ExportAPI("read.rhea")>
-    Public Function ParseRhea(file As String) As Object
-        If file.ExtensionSuffix("owl") Then
-            ' biopax reader
-            Dim xml As biopax = biopax.LoadDoc(file)
-            Dim loader As ResourceReader = ResourceReader.LoadResource(file:=xml)
-            Dim reactions = loader.GetAllReactions.ToArray
-
-            Return reactions
-        Else
-            Return TextParser.ParseReactions(file.ReadAllLines) _
-                .DoCall(AddressOf pipeline.CreateFromPopulator)
-        End If
-    End Function
-
     <ExportAPI("open.rhea")>
+    <RApiReturn(GetType(RheaNetworkReader))>
     Public Function openRheaQuery(repo As String) As Object
         Return New RheaNetworkReader(repo.Open(FileMode.Open, doClear:=False, [readOnly]:=True))
     End Function
