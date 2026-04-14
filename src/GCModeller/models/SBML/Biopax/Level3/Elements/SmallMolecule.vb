@@ -150,6 +150,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Level3.Elements
 
@@ -211,14 +212,24 @@ Namespace Level3.Elements
     End Class
 
     Public Class UnificationXref : Inherits RDFEntity
+
         Public Property db As db
         Public Property id As id
         Public Property idVersion As idVersion
+
+        Public Function GetDblink() As DBLink
+            Return New DBLink(db.value.DefaultFirst, id.value.DefaultFirst)
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"{db}:{id}"
+        End Function
+
     End Class
+
     Public Class Provenance : Inherits RDFEntity
         Public Property name As name
     End Class
-
 
     Public Class Complex : Inherits Molecule
 
@@ -247,14 +258,15 @@ Namespace Level3.Elements
         <XmlElement> Public Property xref As xref()
     End Class
 
-
     Public Class FragmentFeature : Inherits RDFEntity
         Public Property featureLocation As featureLocation
     End Class
+
     Public Class SequenceInterval : Inherits RDFEntity
         Public Property sequenceIntervalBegin As sequenceIntervalBegin
         Public Property sequenceIntervalEnd As sequenceIntervalEnd
     End Class
+
     Public Class SequenceSite : Inherits RDFEntity
         Public Property sequencePosition As sequencePosition
         Public Property positionStatus As positionStatus
@@ -300,18 +312,21 @@ Namespace Level3.Elements
         Public Property id As id
         Public Property relationshipType As relationshipType
     End Class
+
     Public Class RelationshipTypeVocabulary : Inherits RDFEntity
         Public Property term As term
         Public Property xref As xref
     End Class
 
     Public Class PublicationXref : Inherits RDFEntity
+
         Public Property id As id
         Public Property db As db
         Public Property year As year
         Public Property title As title
         <XmlElement> Public Property author As author()
         Public Property source As source
+
     End Class
 
     Public Class PhysicalEntity : Inherits RDFEntity
