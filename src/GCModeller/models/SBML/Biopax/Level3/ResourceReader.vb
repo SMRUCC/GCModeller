@@ -75,7 +75,6 @@ Namespace Level3
         ''' </summary>
         Dim stoichiometry As Dictionary(Of String, Stoichiometry)
         Dim unificationXrefs As Dictionary(Of String, UnificationXref)
-        Dim molRefs As Dictionary(Of String, SmallMoleculeReference)
 
         Private Sub New()
         End Sub
@@ -127,15 +126,21 @@ Namespace Level3
                     dbLinks = metadata.xref _
                         .Select(Function(xr)
                                     Dim xrKey As String = xr.resource.Trim("#"c)
-                                    Dim xrData = unificationXrefs(xrKey)
-                                    Dim link As New DBLink With {
-                                        .DBName = xrData.db,
-                                        .entry = xrData.id,
-                                        .link = xr.resource
-                                    }
+                                    Dim xrData As UnificationXref = unificationXrefs.TryGetValue(xrKey)
 
-                                    Return link
+                                    If xrData Is Nothing Then
+                                        Dim link As New DBLink With {
+                                            .DBName = xrData.db,
+                                            .entry = xrData.id,
+                                            .link = xr.resource
+                                        }
+
+                                        Return link
+                                    Else
+                                        Return Nothing
+                                    End If
                                 End Function) _
+                        .Where(Function(db_xref) db_xref IsNot Nothing) _
                         .ToArray
                 End If
 
@@ -207,7 +212,6 @@ Namespace Level3
             reader.cellularLocations = file.CellularLocationVocabulary.ToDictionary(Function(c) If(c.RDFId, c.about))
             reader.stoichiometry = file.Stoichiometry.ToDictionary(Function(c) If(c.RDFId, c.about))
             reader.unificationXrefs = file.UnificationXref.ToDictionary(Function(x) If(x.RDFId, x.about))
-            reader.molRefs = file.SmallMoleculeReference.ToDictionary(Function(x) If(x.RDFId, x.about))
 
             Return reader
         End Function
