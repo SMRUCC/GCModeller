@@ -62,7 +62,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace MetaCyc.Biopax.Level3.Elements
+Namespace Level3.Elements
 
     <XmlType("Ontology")> Public Class owlOntology : Inherits RDFEntity
         <XmlElement("imports")> Public Property owlImports As owlImports

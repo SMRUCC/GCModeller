@@ -218,7 +218,7 @@
 
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
-Namespace EntityProperties
+Namespace Level3
 
     Public Class structureFormat : Inherits EntityProperty
 

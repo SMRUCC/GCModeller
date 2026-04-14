@@ -54,12 +54,15 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
-<XmlType("Ontology", [Namespace]:=OwlOntology.owl)>
-Public Class OwlOntology : Inherits RDFEntity
+Namespace Level3
 
-    Public Const owl As String = "http://www.w3.org/2002/07/owl#"
+    <XmlType("Ontology", [Namespace]:=OwlOntology.owl)>
+    Public Class OwlOntology : Inherits RDFEntity
 
-    <XmlElement("imports", [Namespace]:=owl)>
-    Public Property [imports] As Resource
+        Public Const owl As String = "http://www.w3.org/2002/07/owl#"
 
-End Class
+        <XmlElement("imports", [Namespace]:=owl)>
+        Public Property [imports] As Resource
+
+    End Class
+End Namespace
