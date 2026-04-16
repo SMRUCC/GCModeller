@@ -32,4 +32,13 @@ declare namespace rhea {
      * @param rhea -
    */
    function reactions(rhea: object): object;
+   module read {
+      /**
+       * read the rhea database file
+       * 
+       * 
+        * @param file -
+      */
+      function rhea(file: string): object|object;
+   }
 }

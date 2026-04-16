@@ -7,3 +7,4 @@ Rhea is an expert-curated knowledgebase of chemical and transport reactions of b
 + [open.rdf](rhea/open.rdf.1) open the rdf data pack of Rhea database
 + [reactions](rhea/reactions.1) Load reaction models from rhea rdf database file
 + [load_brenda_enzymes](rhea/load_brenda_enzymes.1) 
++ [read.rhea](rhea/read.rhea.1) read the rhea database file
