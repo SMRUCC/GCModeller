@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 253
+    '    Code Lines: 143 (56.52%)
+    ' Comment Lines: 85 (33.60%)
+    '    - Xml Docs: 85.88%
+    ' 
+    '   Blank Lines: 25 (9.88%)
+    '     File Size: 9.46 KB
+
+
     '     Module LanguageAPI
     ' 
     '         Function: (+2 Overloads) [As], [ByRef], (+2 Overloads) [Default], (+2 Overloads) [When], AsDefault

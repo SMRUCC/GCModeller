@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df99bda3492b84a6b500d78cd18b26e, core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
+﻿#Region "Microsoft.VisualBasic::31c1302b0e00a7132bd7504cf4861121, core\Bio.Assembly\ComponentModel\Annotation\PathwayBrief.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 28 (41.18%)
+    ' Comment Lines: 32 (47.06%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 8 (11.76%)
+    '     File Size: 2.53 KB
+
+
     '     Class PathwayBrief
     ' 
-    '         Properties: briteID, description, EntryId
+    '         Properties: briteID, description, EntryId, name
     ' 
     '         Function: ToString
     ' 
@@ -46,22 +58,51 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' An abstract biological pathway model
+    ''' </summary>
     Public MustInherit Class PathwayBrief : Inherits XmlDataModel
         Implements IKeyValuePairObject(Of String, String)
         Implements INamedValue
 
+        ''' <summary>
+        ''' the reference id of the current pathway object
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute("id")>
         Public Overridable Property EntryId As String Implements INamedValue.Key, IKeyValuePairObject(Of String, String).Key
+
+        ''' <summary>
+        ''' The map title display name
+        ''' </summary>
+        ''' <returns>The name value of this pathway object</returns>
+        <XmlElement>
+        Public Property name As String
+
+        ''' <summary>
+        ''' the function description text of the current pathway object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property description As String Implements IKeyValuePairObject(Of String, String).Value
 
         ''' <summary>
         ''' Gets the pathway related genes.
         ''' </summary>
+        ''' <returns>
+        ''' name - gene id
+        ''' value - ontology id, example as KO
+        ''' description - gene name or function description
+        ''' </returns>
+        Public MustOverride Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+        ''' <summary>
+        ''' Gets the pathway related metabolite compounds.
+        ''' </summary>
         ''' <returns></returns>
-        Public MustOverride Function GetPathwayGenes() As String()
+        Public MustOverride Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
 
         ''' <summary>
         ''' 和具体的物种的编号无关的在KEGG数据库之中的参考对象的编号

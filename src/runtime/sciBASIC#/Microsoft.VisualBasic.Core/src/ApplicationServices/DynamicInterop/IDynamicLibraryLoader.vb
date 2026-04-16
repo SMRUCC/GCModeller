@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f81c9416833b774b207578261958106e, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\IDynamicLibraryLoader.vb"
+﻿#Region "Microsoft.VisualBasic::8a02e6195d62da551e6c4f07fe56682e, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\IDynamicLibraryLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 8 (20.00%)
+    ' Comment Lines: 28 (70.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (10.00%)
+    '     File Size: 1.78 KB
+
 
     '     Interface IDynamicLibraryLoader
     ' 
@@ -74,6 +86,9 @@ Namespace ApplicationServices.DynamicInterop
         ''' <param name="hModule">Handle of the module(library)</param>
         ''' <param name="lpProcName">The name of the function sought</param>
         ''' <returns>Handle to the native function</returns>
+        ''' <remarks>
+        ''' GetProcAddress
+        ''' </remarks>
         Function GetFunctionAddress(hModule As IntPtr, lpProcName As String) As IntPtr
     End Interface
 End Namespace

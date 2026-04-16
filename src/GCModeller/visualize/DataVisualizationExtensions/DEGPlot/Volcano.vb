@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aa87f76fa1a6d250a4a53bca296dfe6, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
+﻿#Region "Microsoft.VisualBasic::c115179ce7f99ddce0278412e200db20, visualize\DataVisualizationExtensions\DEGPlot\Volcano.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 419
+    '    Code Lines: 345 (82.34%)
+    ' Comment Lines: 28 (6.68%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 46 (10.98%)
+    '     File Size: 18.03 KB
+
+
     ' Module Volcano
     ' 
     '     Properties: PValueThreshold
     ' 
     '     Function: CreateModel, GetLegends, Plot, (+2 Overloads) PlotDEGs
+    ' 
+    ' Class VolcanoPlot
+    ' 
+    '     Properties: colors, displayCount, displayLabel, factors, log2Threshold
+    '                 pvalueThreshold
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Sub: PlotInternal
     ' 
     ' /********************************************************************************/
 
@@ -46,9 +66,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
@@ -59,8 +81,36 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports SMRUCC.genomics.Visualize
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' 用来可视化差异表达基因
@@ -202,171 +252,34 @@ Public Module Volcano
             .CreateModel(translate Or P, labelP) _
             .Where(Function(g) Not g.pvalue.IsNaNImaginary) _
             .ToArray
-
-        ' 下面分别得到了log2fc的对称range，以及pvalue范围
-        Dim xRange As DoubleRange = DEG_matrix _
-            .Select(Function(d) Math.Abs(d.logFC)) _
-            .Where(Function(n) Not n.IsNaNImaginary) _
-            .Max _
-            .SymmetricalRange
-        Dim yRange As DoubleRange = {
-            0, DEG_matrix _
-                .Select(Function(d) d.pvalue) _
-                .Where(Function(n) Not n.IsNaNImaginary) _
-                .Max
+        Dim theme As New Theme With {
+            .padding = padding,
+            .background = bg,
+            .pointSize = ptSize,
+            .tagCSS = labelFontStyle,
+            .legendLabelCSS = legendFont,
+            .mainCSS = titleFontStyle,
+            .axisTickCSS = ticksFontStyle,
+            .yAxisLayout = axisLayout,
+            .lineStroke = thresholdStroke
         }
-        Dim xTicks = xRange.CreateAxisTicks
-        Dim yTicks = yRange.CreateAxisTicks
+        Dim app As New VolcanoPlot(DEG_matrix, theme) With {
+            .xlabel = xlab,
+            .ylabel = ylab,
+            .main = title,
+            .factors = factors,
+            .colors = colors,
+            .log2Threshold = log2Threshold,
+            .pvalueThreshold = pvalueThreshold,
+            .displayLabel = displayLabel,
+            .displayCount = displayCount
+        }
 
-        Dim brushes As Dictionary(Of Integer, Brush) = colors _
-            .ToDictionary(Function(k) k.Key,
-                          Function(br)
-                              Return DirectCast(New SolidBrush(br.Value), Brush)
-                          End Function)
-        Dim labelFont As Font = CSSFont.TryParse(labelFontStyle).GDIObject(ppi)
-        Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject(ppi)
-        Dim ticksFont As Font = CSSFont.TryParse(ticksFontStyle).GDIObject(ppi)
-        Dim thresholdPen As Pen = Stroke.TryParse(thresholdStroke).GDIObject
-        Dim point As PointF
-        Dim px!, py!
-        Dim up%, down%
-
-        Return g.Allocate(size.SizeParser, padding, bg) <=
- _
-            Sub(ByRef g As IGraphics, region As GraphicsRegion)
-
-                ' 布局如下：
-                '
-                '          title
-                '   +----------------+
-                '   |         legends|
-                ' y |                |
-                '   |  scatter plots |
-                '   +----------------+
-                '           x
-
-                ' 先计算出title文件的大小
-                Dim titleSize As SizeF = g.MeasureString(title, titleFont)
-                Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
-                Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
-                Dim plotRegion As New Rectangle With {
-                    .X = region.Padding.Left + left,
-                    .Y = region.Padding.Top + titleSize.Height * 1.5,
-                    .Width = region.PlotRegion.Width - left,
-                    .Height = region.PlotRegion.Height - top
-                }   ' 得到最终剩余的绘图区域
-
-                Dim x, y As d3js.scale.LinearScale
-
-                With plotRegion
-                    x = d3js.scale.linear.domain(xTicks).range(integers:={ .Left, .Right})
-                    y = d3js.scale.linear.domain(yTicks).range(integers:={plotRegion.Top, plotRegion.Bottom})
-                End With
-
-                Dim scaler As New DataScaler With {
-                    .AxisTicks = (xTicks, yTicks),
-                    .region = plotRegion,
-                    .X = x,
-                    .Y = y
-                }
-
-                ' 必须要首先绘制出坐标轴，否则背景填充会将下面的几条阈值虚线给覆盖掉的
-                Call g.DrawAxis(region, scaler, True, xlabel:=xlab, ylabel:=ylab, ylayout:=axisLayout)
-                Call g.DrawRectangle(Pens.Black, plotRegion)
-
-                ' 绘制出顶部的大标题
-                point = New PointF With {
-                    .X = region.Padding.Left + (region.PlotRegion.Width - titleSize.Width) / 2,
-                    .Y = region.Padding.Top
-                }
-                Call g.DrawString(title, titleFont, New SolidBrush(Color.Black), point)
-
-                ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
-                log2Threshold = Log2(Math.Abs(log2Threshold))
-
-                left = x(log2Threshold)
-                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
-
-                left = x(-log2Threshold)
-                Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
-
-                ' 在绘制出pvalue的临界值虚线
-                top = scaler.TranslateY(-Math.Log10(pvalueThreshold))
-                Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
-
-                Dim labels As New List(Of Label)
-                Dim anchors As New List(Of PointF)
-
-                For Each gene As DEGModel In DEG_matrix
-                    Dim factor% = factors(gene)
-                    Dim color As Brush = brushes(factor)
-
-                    point = scaler.Translate(gene.logFC, gene.pvalue)
-                    g.DrawCircle(point, ptSize, color)
-
-                    If factor > 0 Then
-                        up += 1
-                    ElseIf factor < 0 Then
-                        down += 1
-                    End If
-
-                    Select Case displayLabel
-                        Case LabelTypes.None
-                            ' 不进行任何操作
-                        Case LabelTypes.DEG
-                            If factor <> 0 AndAlso Not gene.label.StringEmpty Then
-                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
-                                anchors.Add(point)
-                            End If
-                        Case LabelTypes.ALL
-                            If Not gene.label.StringEmpty Then
-                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
-                                anchors.Add(point)
-                            End If
-                        Case Else  ' 自定义
-                            If Not gene.label.StringEmpty Then
-                                labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
-                                anchors.Add(point)
-                            End If
-                    End Select
-                Next
-
-                If labels > 0 Then
-                    Dim black As SolidBrush = System.Drawing.Brushes.Black
-
-                    Call d3js.labeler(maxMove:=20) _
-                        .Labels(labels) _
-                        .Anchors(labels.GetLabelAnchors(ptSize)) _
-                        .Width(plotRegion.Width) _
-                        .Height(plotRegion.Height) _
-                        .Start(showProgress:=True, nsweeps:=1000)
-
-                    For Each label As SeqValue(Of Label) In labels.SeqIterator
-                        With label.value
-                            Dim textAnchor = .rectangle _
-                                             .GetTextAnchor(anchors(label))
-
-                            Call g.DrawLine(Pens.Black, textAnchor, anchors(label))
-                            Call g.DrawString(.text, labelFont, black, .ByRef)
-                        End With
-                    Next
-                End If
-
-                With region
-                    Dim legends = colors.GetLegends(legendFont, (up, down), displayCount)
-                    Dim lsize As SizeF = legends.MaxLegendSize(g)
-
-                    px = .PlotRegion.Right - lsize.Width * 0.1 - lsize.Width
-                    py = plotRegion.Top + .Padding.Top / 2
-                    point = New PointF(px, py)
-
-                    Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")
-                End With
-            End Sub
+        Return app.Plot(size, ppi)
     End Function
 
     <Extension>
-    Private Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As LegendObject()
+    Friend Function GetLegends(colors As Dictionary(Of Integer, Color), font$, count As (up%, down%), displayCount As Boolean) As LegendObject()
         Dim up As New LegendObject With {
             .color = colors(1).RGBExpression,
             .fontstyle = font,
@@ -389,3 +302,181 @@ Public Module Volcano
         Return {normal, up, down}
     End Function
 End Module
+
+Public Class VolcanoPlot : Inherits Plot
+
+    ReadOnly DEG_matrix As DEGModel()
+
+    Public Property factors As Func(Of DEGModel, Integer)
+    Public Property colors As Dictionary(Of Integer, Color)
+    Public Property log2Threshold As Double = 2
+    Public Property pvalueThreshold As Double = 0.05
+    Public Property displayLabel As LabelTypes
+    Public Property displayCount As Boolean
+
+    Public Sub New(DEG_matrix As DEGModel(), theme As Theme)
+        MyBase.New(theme)
+        Me.DEG_matrix = DEG_matrix
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+        ' 下面分别得到了log2fc的对称range，以及pvalue范围
+        Dim xRange As DoubleRange = DEG_matrix _
+            .Select(Function(d) std.Abs(d.logFC)) _
+            .Where(Function(n) Not n.IsNaNImaginary) _
+            .Max _
+            .SymmetricalRange
+        Dim yRange As DoubleRange = {
+            0, DEG_matrix _
+                .Select(Function(d) d.pvalue) _
+                .Where(Function(n) Not n.IsNaNImaginary) _
+                .Max
+        }
+        Dim ppi As Integer = g.Dpi
+        Dim xTicks = xRange.CreateAxisTicks
+        Dim yTicks = yRange.CreateAxisTicks
+        Dim brushes As Dictionary(Of Integer, Brush) = colors _
+            .ToDictionary(Function(k) k.Key,
+                          Function(br)
+                              Return DirectCast(New SolidBrush(br.Value), Brush)
+                          End Function)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
+        Dim ticksFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
+        Dim thresholdPen As Pen = css.GetPen(Stroke.TryParse(theme.lineStroke))
+        Dim point As PointF
+        Dim px!, py!
+        Dim up%, down%
+
+        ' 布局如下：
+        '
+        '          title
+        '   +----------------+
+        '   |         legends|
+        ' y |                |
+        '   |  scatter plots |
+        '   +----------------+
+        '           x
+
+        ' 先计算出title文件的大小
+        Dim titleSize As SizeF = g.MeasureString(main, titleFont)
+        Dim top! = titleSize.Height * 1.5 + ticksFont.Height + 10
+        Dim left! = g.MeasureString("00.0", ticksFont).Width + 10
+        Dim canvasRect = canvas.PlotRegion(css)
+        Dim padding = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
+        Dim plotRegion As New Rectangle With {
+            .X = padding.Left + left,
+            .Y = padding.Top + titleSize.Height * 1.5,
+            .Width = canvasRect.Width - left,
+            .Height = canvasRect.Height - top
+        }   ' 得到最终剩余的绘图区域
+
+        Dim x, y As d3js.scale.LinearScale
+
+        With plotRegion
+            x = d3js.scale.linear.domain(values:=xTicks).range(integers:={ .Left, .Right})
+            y = d3js.scale.linear.domain(values:=yTicks).range(integers:={plotRegion.Top, plotRegion.Bottom})
+        End With
+
+        Dim scaler As New DataScaler With {
+            .AxisTicks = (xTicks, yTicks),
+            .region = plotRegion,
+            .X = x,
+            .Y = y
+        }
+
+        ' 必须要首先绘制出坐标轴，否则背景填充会将下面的几条阈值虚线给覆盖掉的
+        Call g.DrawAxis(canvas, scaler, True, xlabel:=xlabel, ylabel:=ylabel, ylayout:=theme.yAxisLayout)
+        Call g.DrawRectangle(Pens.Black, plotRegion)
+
+        ' 绘制出顶部的大标题
+        point = New PointF With {
+            .X = padding.Left + (canvasRect.Width - titleSize.Width) / 2,
+            .Y = padding.Top
+        }
+        Call g.DrawString(main, titleFont, New SolidBrush(Color.Black), point)
+
+        ' 分别绘制出log2(level)和pvalue的4条threshold虚线条
+        log2Threshold = Log2(std.Abs(log2Threshold))
+
+        left = x(log2Threshold)
+        Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+        left = x(-log2Threshold)
+        Call g.DrawLine(thresholdPen, New Point(left, plotRegion.Top), New Point(left, plotRegion.Bottom))
+
+        ' 在绘制出pvalue的临界值虚线
+        top = scaler.TranslateY(-Math.Log10(pvalueThreshold))
+        Call g.DrawLine(thresholdPen, New Point(plotRegion.Left, top), New Point(plotRegion.Right, top))
+
+        Dim labels As New List(Of Label)
+        Dim anchors As New List(Of PointF)
+
+        For Each gene As DEGModel In DEG_matrix
+            Dim factor% = factors(gene)
+            Dim color As Brush = brushes(factor)
+
+            point = scaler.Translate(gene.logFC, gene.pvalue)
+            g.DrawCircle(point, theme.pointSize, color)
+
+            If factor > 0 Then
+                up += 1
+            ElseIf factor < 0 Then
+                down += 1
+            End If
+
+            Select Case displayLabel
+                Case LabelTypes.None
+                            ' 不进行任何操作
+                Case LabelTypes.DEG
+                    If factor <> 0 AndAlso Not gene.label.StringEmpty Then
+                        labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                        anchors.Add(point)
+                    End If
+                Case LabelTypes.ALL
+                    If Not gene.label.StringEmpty Then
+                        labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                        anchors.Add(point)
+                    End If
+                Case Else  ' 自定义
+                    If Not gene.label.StringEmpty Then
+                        labels.Add(New Label(gene.label, point, g.MeasureString(gene.label, labelFont)))
+                        anchors.Add(point)
+                    End If
+            End Select
+        Next
+
+        If labels > 0 Then
+            Dim black As New SolidBrush(Color.Black)
+
+            Call d3js.labeler(maxMove:=20) _
+                .Labels(labels) _
+                .Anchors(labels.GetLabelAnchors(theme.pointSize)) _
+                .Width(plotRegion.Width) _
+                .Height(plotRegion.Height) _
+                .Start(showProgress:=True, nsweeps:=1000)
+
+            For Each label As SeqValue(Of Label) In labels.SeqIterator
+                With label.value
+                    Dim textAnchor = .rectangle _
+                                     .GetTextAnchor(anchors(label))
+
+                    Call g.DrawLine(Pens.Black, textAnchor, anchors(label))
+                    Call g.DrawString(.text, labelFont, black, .ByRef)
+                End With
+            Next
+        End If
+
+        With canvas
+            Dim legends = colors.GetLegends(theme.legendLabelCSS, (up, down), displayCount)
+            Dim lsize As SizeF = legends.MaxLegendSize(g)
+
+            px = .PlotRegion(css).Right - lsize.Width * 0.1 - lsize.Width
+            py = plotRegion.Top + padding.Top / 2
+            point = New PointF(px, py)
+
+            Call g.DrawLegends(point.ToPoint, legends, gSize:="40,40")
+        End With
+    End Sub
+End Class

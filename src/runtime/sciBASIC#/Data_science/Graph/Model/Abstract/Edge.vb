@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca39f35f764f36c20d7caf7b3bddc192, Data_science\Graph\Model\Abstract\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::fc49ca692a0c6a47abaa777a5a272f7b, Data_science\Graph\Model\Abstract\Edge.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 30 (44.12%)
+    ' Comment Lines: 31 (45.59%)
+    '    - Xml Docs: 70.97%
+    ' 
+    '   Blank Lines: 7 (10.29%)
+    '     File Size: 2.27 KB
+
+
     ' Class Edge
     ' 
     '     Properties: ID, U, V, weight
     ' 
-    '     Function: GetHashCode, ToString
+    '     Function: Equals, ToString
     ' 
     ' /********************************************************************************/
 
@@ -65,6 +77,7 @@ Public Class Edge(Of Vertex As V) : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property V As Vertex
+
     Public Overridable Property weight As Double
 
     ''' <summary>
@@ -77,20 +90,34 @@ Public Class Edge(Of Vertex As V) : Implements INamedValue
     Public Overridable Property ID As String Implements IKeyedEntity(Of String).Key
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return VertexEdge.EdgeKey(U, V)
+            Return $"[{U.ID}]{U.label} -> [{V.ID}]{V.label}"
         End Get
         Set(value As String)
             ' DO Nothing
         End Set
     End Property
 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Overrides Function GetHashCode() As Integer
-        Return ID.GetHashCode
+    ' 20220415 this function will makes the list removes 
+    ' in graph model too slow!
+    ' removes this method overrides
+    '
+    '<MethodImpl(MethodImplOptions.AggressiveInlining)>
+    'Public Overrides Function GetHashCode() As Integer
+    '    Return ID.GetHashCode
+    'End Function
+
+    Public Overrides Function Equals(obj As Object) As Boolean
+        If Not TypeOf obj Is Edge(Of Vertex) Then
+            Return False
+        Else
+            With DirectCast(obj, Edge(Of Vertex))
+                Return .U.Equals(U) AndAlso .V.Equals(V)
+            End With
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
-        Return $"({GetHashCode()}) {U} => {V}"
+        Return $"({GetHashCode()}) {U} => {V} [w:{weight}]"
     End Function
 End Class

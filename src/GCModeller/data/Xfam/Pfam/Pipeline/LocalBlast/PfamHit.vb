@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 33 (58.93%)
+    ' Comment Lines: 15 (26.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (14.29%)
+    '     File Size: 1.95 KB
+
+
     '     Class PfamHit
     ' 
     '         Properties: coverage, domainName, ends, Pfam, pfamID

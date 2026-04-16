@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 83 (50.00%)
+    ' Comment Lines: 61 (36.75%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (13.25%)
+    '     File Size: 7.57 KB
+
+
     ' Class go_molecularfunction
     ' 
     '     Properties: accession, DB_ID, definition, referenceDatabase, referenceDatabase_class

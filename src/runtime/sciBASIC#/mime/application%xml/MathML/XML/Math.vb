@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::daea8d1568fd6a0d367f5b39b6a0f8b5, mime\application%xml\MathML\XML\Math.vb"
+﻿#Region "Microsoft.VisualBasic::47511c9eb9388412ff6e9292c8f42992, mime\application%xml\MathML\XML\Math.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 40 (68.97%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (31.03%)
+    '     File Size: 1.51 KB
+
+
     '     Class Math
     ' 
     '         Properties: apply, lambda
+    ' 
+    '         Function: BuildExpressionString
     ' 
     '     Class mathOperator
     ' 
@@ -48,6 +62,8 @@
     '     Class lambda
     ' 
     '         Properties: apply, bvar
+    ' 
+    '         Function: ToString
     ' 
     '     Class symbols
     ' 
@@ -70,6 +86,13 @@ Namespace MathML
 
         Public Property apply As Apply
         Public Property lambda As lambda
+
+        Public Shared Function BuildExpressionString(exp As Apply) As String
+            Dim data = exp.apply.Select(Function(a) BuildExpressionString(a)).ToArray
+            Dim op As String = exp.operator
+
+            Return $"({data.JoinBy(op)})"
+        End Function
 
     End Class
 
@@ -94,6 +117,11 @@ Namespace MathML
         <XmlElement("bvar")>
         Public Property bvar As symbols()
         Public Property apply As Apply
+
+        Public Overrides Function ToString() As String
+            Return bvar.JoinBy(", ") & " => " & Math.BuildExpressionString(apply)
+        End Function
+
     End Class
 
     Public Class symbols

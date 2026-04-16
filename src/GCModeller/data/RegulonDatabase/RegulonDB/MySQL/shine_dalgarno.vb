@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 10.73 KB
+
+
     ' Class shine_dalgarno
     ' 
     '     Properties: gene_id, key_id_org, sd_internal_comment, shine_dalgarno_dist_gene, shine_dalgarno_id

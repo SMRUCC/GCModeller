@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 11 (78.57%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (21.43%)
+    '     File Size: 389 B
+
+
     '     Class JpegMetadataSaveResult
     ' 
     '         Properties: FilePath, IsSuccess, Metadata

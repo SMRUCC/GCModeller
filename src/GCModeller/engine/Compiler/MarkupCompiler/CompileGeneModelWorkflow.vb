@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8812d84d4fe24caa20d2e0f0b5d909c4, engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::bbe84f6127f81d0c2f2a93a077fcce12, engine\Compiler\MarkupCompiler\CompileGeneModelWorkflow.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 90 (85.71%)
+    ' Comment Lines: 2 (1.90%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (12.38%)
+    '     File Size: 4.59 KB
+
+
     '     Class CompileGeneModelWorkflow
     ' 
     '         Properties: locationAsLocus_tag
@@ -58,7 +70,7 @@ Namespace MarkupCompiler
 
         Public ReadOnly Property locationAsLocus_tag As Boolean
             Get
-                Return compiler.locationAsLocus_tag
+                'Return compiler.locationAsLocus_tag
             End Get
         End Property
 
@@ -88,7 +100,7 @@ Namespace MarkupCompiler
         End Function
 
         Public Iterator Function getGenes(genome As GBFF.File) As IEnumerable(Of gene)
-            Dim model As CellularModule = compiler.model
+            Dim model As CellularModule = Nothing ' compiler.model
             Dim proteinSequnce As Dictionary(Of String, ProteinComposition) = getProtVector(genome)
             Dim genes = genome.Features _
                 .Where(Function(feature)
@@ -139,8 +151,8 @@ Namespace MarkupCompiler
                     .right = gene.Location.right,
                     .locus_tag = locus_tag,
                     .product = gene.Product,
-                    .protein_id = If(aa Is Nothing, "", proteinId(locus_tag).polypeptide),
-                    .strand = gene.Location.Strand.GetBriefCode,
+                    .protein_id = If(aa Is Nothing, {}, {proteinId(locus_tag).polypeptide}),
+                    .strand = gene.Location.Strand.Description,
                     .amino_acid = aa,
                     .nucleotide_base = rna
                 }

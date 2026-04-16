@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0bb77c13457b0ddc6571909eb0a93837, Data_science\Visualization\Visualization\NeuronNetworkExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9eba2f468e3bc91e057bad3f1b8d988c, Data_science\Visualization\Visualization\NeuronNetworkExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 81 (77.88%)
+    ' Comment Lines: 14 (13.46%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 9 (8.65%)
+    '     File Size: 4.06 KB
+
+
     ' Module NeuronNetworkExtensions
     ' 
     '     Function: CastTo, VisualizeModel
@@ -42,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.DataMining.Kernel.Classifier
 Imports Microsoft.VisualBasic.Linq
@@ -76,7 +88,8 @@ Public Module NeuronNetworkExtensions
     ''' </summary>
     ''' <param name="net"></param>
     ''' <returns></returns>
-    <Extension> Public Function VisualizeModel(net As NeuronNetwork, Optional connectionCutoff# = 0.6) As NetworkTables
+    <Extension>
+    Public Function VisualizeModel(net As NeuronNetwork, Optional connectionCutoff# = 0.6) As NetworkTables
         Dim model = NeuralNetwork.Snapshot(net)
         Dim inputLayer = model.inputlayer.neurons.Indexing
         Dim outputLayer = model.outputlayer.neurons.Indexing

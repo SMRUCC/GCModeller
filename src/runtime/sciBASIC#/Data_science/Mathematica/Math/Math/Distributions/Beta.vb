@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 16 (32.00%)
+    ' Comment Lines: 28 (56.00%)
+    '    - Xml Docs: 53.57%
+    ' 
+    '   Blank Lines: 6 (12.00%)
+    '     File Size: 1.69 KB
+
+
     '     Module Beta
     ' 
     '         Function: (+2 Overloads) beta

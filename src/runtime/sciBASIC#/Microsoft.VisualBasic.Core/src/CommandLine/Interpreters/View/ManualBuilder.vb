@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59475009ab323c9a72d72e2f9224dbe2, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\View\ManualBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::90ddbd25ce395f3f951d74cf387aade1, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\View\ManualBuilder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 388
+    '    Code Lines: 282 (72.68%)
+    ' Comment Lines: 40 (10.31%)
+    '    - Xml Docs: 30.00%
+    ' 
+    '   Blank Lines: 66 (17.01%)
+    '     File Size: 15.95 KB
+
 
     '     Module ManualBuilder
     ' 
@@ -81,6 +93,7 @@ Namespace CommandLine.ManView
             Call Console.WriteLine()
             Call Console.Write("   ")
             Call My.Log4VB.Println($"'{api.Name}' - {infoLines.FirstOrDefault}", ConsoleColor.Yellow, ConsoleColor.DarkBlue)
+            Call VBDebugger.WaitOutput()
 
             If infoLines.Length > 1 Then
                 blank = New String(
@@ -211,7 +224,7 @@ Namespace CommandLine.ManView
                     .MaxLengthString _
                     .Length
 
-                ' Call stringL.MaxLengthString.__DEBUG_ECHO
+                ' Call stringL.MaxLengthString.debug
 
                 ' 加上开关名字的最大长度就是前面的开关说明部分的最大字符串长度
                 ' 后面的description帮助信息的偏移量都是依据这个值计算出来的

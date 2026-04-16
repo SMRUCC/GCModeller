@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c294fdb2eb1a77b518d9d828eba5e30, Data\DataFrame\Linq\LinqWhere.vb"
+﻿#Region "Microsoft.VisualBasic::ad1cd75cce285bcfe302a2cd6c698eb1, Data\DataFrame\Linq\LinqWhere.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 365
+    '    Code Lines: 232 (63.56%)
+    ' Comment Lines: 83 (22.74%)
+    '    - Xml Docs: 92.77%
+    ' 
+    '   Blank Lines: 50 (13.70%)
+    '     File Size: 14.11 KB
+
+
     '     Class LinqWhere
     ' 
     '         Properties: Tokens
@@ -61,7 +73,7 @@
 Option Strict Off
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 

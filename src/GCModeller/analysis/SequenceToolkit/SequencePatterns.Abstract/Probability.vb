@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea93b8d10bf0c55326bdfeeb2b1b91ee, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
+﻿#Region "Microsoft.VisualBasic::e6e284dbf5b7f4c701a3f4de939d70e8, analysis\SequenceToolkit\SequencePatterns.Abstract\Probability.vb"
 
     ' Author:
     ' 
@@ -31,36 +31,67 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 56 (44.80%)
+    ' Comment Lines: 55 (44.00%)
+    '    - Xml Docs: 85.45%
+    ' 
+    '   Blank Lines: 14 (11.20%)
+    '     File Size: 4.46 KB
+
+
     ' Class Probability
     ' 
-    '     Properties: pvalue, region, score
+    '     Properties: background, name, pvalue, region, score
+    '                 width
     ' 
-    '     Function: patternString, ToString
-    '     Structure Residue
-    ' 
-    '         Properties: frequency, index, isEmpty, topChar
-    ' 
-    '         Function: Cos, GetEmpty, Max, ToString
-    ' 
-    ' 
+    '     Function: CalculatesBits, E, (+3 Overloads) HI, patternString, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.SequenceModel.Patterns
+Imports std = System.Math
 
 ''' <summary>
 ''' The PWM model
 ''' </summary>
-Public Class Probability
+Public Class Probability : Implements INamedValue, IReadOnlyId
 
+    ''' <summary>
+    ''' the PWM matrix data
+    ''' </summary>
+    ''' <returns></returns>
     Public Property region As Residue()
-    Public Property pvalue As Double
-    Public Property score As Double
+
+    Public Property background As Dictionary(Of String, Double)
+
+    <XmlAttribute> Public Property pvalue As Double
+    <XmlAttribute> Public Property score As Double
+
+    ''' <summary>
+    ''' the unique id/name reference of the motif PWM model
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
+
+    ''' <summary>
+    ''' motif residue number
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property width As Integer
+        Get
+            Return region.TryCount
+        End Get
+    End Property
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
@@ -73,76 +104,78 @@ Public Class Probability
            .JoinBy("")
     End Function
 
-    Public Structure Residue
+    ''' <summary>
+    ''' 计算小样本校正项 e_n = 1 / (2 * ln(2) * n)，这个公式是用于对 Shannon 熵
+    ''' 进行小样本校正（small-sample correction）的经典项，常用于 motif 分析中
+    ''' 计算信息含量（Information Content）时，以减少因有限序列数量带来的偏差。
+    ''' </summary>
+    ''' <param name="nsize">
+    ''' the count of the input fasta sequence.
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function E(nsize As Integer) As Double
+        Return (1 / Math.Log(2)) * ((4 - 1) / (2 * nsize))
+    End Function
 
-        Public Property frequency As Dictionary(Of Char, Double)
-        Public Property index As Integer
+    ''' <summary>
+    ''' The information content (y-axis) of position i is given by:
+    ''' 
+    ''' ```
+    ''' Ri = log2(4) - (Hi + en)   //nt
+    ''' Ri = log2(20) - (Hi + en)  //prot 
+    ''' ```
+    ''' 
+    ''' 4 for DNA/RNA or 20 for protein. Consequently, the maximum sequence conservation 
+    ''' per site Is log2 4 = 2 bits for DNA/RNA And log2 20 ≈ 4.32 bits for proteins.
+    ''' 
+    ''' </summary>
+    ''' <param name="En">e_n = \frac{1}{2 \ln(2) \cdot n}</param>
+    ''' <param name="NtMol">
+    ''' calculate for the nucleotide sequence model?
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function CalculatesBits(Hi As Double, En As Double, NtMol As Boolean) As Double
+        ' Math.Log(n, 2) - (h + en)
+        ' log2(4)=2, log2(20)≈4.32
+        Dim maxInfo As Double = If(NtMol, 2, Math.Log(20, newBase:=2))
+        Dim bits = maxInfo - (Hi + En)
 
-        Public ReadOnly Property topChar As Char
-            Get
-                Return Max(Me)
-            End Get
-        End Property
+        ' 信息含量不能为负（理论上最小为0）
+        Return std.Max(0, bits)
+    End Function
 
-        Default Public ReadOnly Property getFrequency(base As Char) As Double
-            Get
-                Return _frequency(base)
-            End Get
-        End Property
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="f"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' If n equals ZERO, then log2(0) is NaN, n * Math.Log(n, 2) could not be measure,
+    ''' due to the reason of ZERO multiple any number is ZERO, so that if n is ZERO, 
+    ''' then set n * Math.Log(n, 2) its value to Zero directly.
+    ''' </remarks>
+    Public Shared Function HI(f As Dictionary(Of Char, Double)) As Double
+        ' 零乘以任何数都是得结果零
+        Dim h As Double = Aggregate n As Double
+                          In f.Values
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
+        h = 0 - h
+        Return h
+    End Function
 
-        Public ReadOnly Property isEmpty As Boolean
-            Get
-                If frequency.IsNullOrEmpty Then
-                    Return True
-                ElseIf frequency.Values.All(Function(p) p = 0.0) Then
-                    Return True
-                Else
-                    Return False
-                End If
-            End Get
-        End Property
+    Public Shared Function HI(f As IPatternSite) As Double
+        Dim h As Double = Aggregate n As Double
+                          In f.EnumerateValues
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
+        h = 0 - h
+        Return h
+    End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function ToString() As String
-            Dim max As Double = -99999
-            Dim maxChar As Char?
-
-            For Each b In frequency
-                If b.Value > max Then
-                    max = b.Value
-                    maxChar = b.Key
-                End If
-            Next
-
-            If maxChar Is Nothing Then
-                Return "-"
-            ElseIf max >= 0.5 Then
-                Return Char.ToUpper(maxChar)
-            Else
-                Return Char.ToLower(maxChar)
-            End If
-        End Function
-
-        Public Function Cos(r As Residue) As Double
-
-        End Function
-
-        Public Shared Function GetEmpty() As Residue
-            Return New Residue With {
-                .frequency = New Dictionary(Of Char, Double),
-                .index = -1
-            }
-        End Function
-
-        Public Shared Function Max(r As Residue) As Char
-            With r.frequency.ToArray
-                If .Values.All(Function(p) p = 0R) Then
-                    Return "-"c
-                Else
-                    Return .ByRef(Which.Max(.Values)) _
-                           .Key
-                End If
-            End With
-        End Function
-    End Structure
+    Public Shared Function HI(col As IEnumerable(Of Double)) As Double
+        Dim h As Double = Aggregate n As Double
+                          In col
+                          Into Sum(If(n = 0R, 0, n * Math.Log(n, 2)))
+        h = 0 - h
+        Return h
+    End Function
 End Class

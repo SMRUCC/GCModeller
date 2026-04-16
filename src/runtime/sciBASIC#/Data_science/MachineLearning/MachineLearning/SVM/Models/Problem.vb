@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 33 (34.74%)
+    ' Comment Lines: 49 (51.58%)
+    '    - Xml Docs: 67.35%
+    ' 
+    '   Blank Lines: 13 (13.68%)
+    '     File Size: 3.34 KB
+
+
     '     Class Problem
     ' 
     '         Properties: count, dimensionNames, maxIndex, X, Y

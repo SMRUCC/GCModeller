@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f40893066a6e185ff3673b25f6b8f42, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanPoint.vb"
+﻿#Region "Microsoft.VisualBasic::2055c233013d9dfa8d113b3debb3592f, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanPoint.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 25 (67.57%)
+    ' Comment Lines: 4 (10.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (21.62%)
+    '     File Size: 1.19 KB
+
+
     '     Class DbscanPoint
     ' 
-    '         Properties: ID
+    '         Properties: ID, Index
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: ToString
@@ -50,23 +62,31 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 Namespace DBSCAN
 
-    Public Class DbscanPoint(Of T) : Implements INamedValue
+    Public Class DbscanPoint(Of T) : Implements INamedValue, IIndexOf(Of Integer)
 
         Public IsVisited As Boolean
         Public ClusterPoint As T
-        Public ClusterId As Integer
+        Public ClusterId As Integer = ClusterIDs.Noise
 
-        Public Sub New(x As T)
+        Public Property Index As Integer Implements IIndexOf(Of Integer).Address
+
+        Public Sub New(x As T, Optional i As Integer = 0)
             ClusterPoint = x
             IsVisited = False
+            Index = i
             ClusterId = ClusterIDs.Unclassified
         End Sub
 
+        ''' <summary>
+        ''' the raw data unique reference id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
 
         Public Overrides Function ToString() As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d321a4c725a36f6f88c77c3197bf5877, localblast\ParallelTask\VennDataBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::81f716847009044b90d2f30f875077b0, localblast\ParallelTask\VennDataBuilder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 287
+    '    Code Lines: 173 (60.28%)
+    ' Comment Lines: 76 (26.48%)
+    '    - Xml Docs: 86.84%
+    ' 
+    '   Blank Lines: 38 (13.24%)
+    '     File Size: 11.91 KB
+
+
     ' Module VennDataBuilder
     ' 
     '     Properties: RecommendedThreads
@@ -48,13 +60,13 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 
 ''' <summary>
@@ -170,7 +182,7 @@ Public Module VennDataBuilder
             .CreateCompleteObjectPairs(Files) _
             .ToArray
         Dim taskList As Func(Of String)() = LinqAPI.Exec(Of Func(Of String)) <=
- _
+                                                                               _
             From task As Tuple(Of String, String)
             In clist _
                 .IteratesALL _
@@ -186,14 +198,14 @@ Public Module VennDataBuilder
                 End Function
             Select taskHandle
 
-        Call $"Fasta source is {Files.Length} genomes...".__DEBUG_ECHO
-        Call $"Build bbh task list of {taskList.Length} tasks...".__DEBUG_ECHO
+        Call $"Fasta source is {Files.Length} genomes...".debug
+        Call $"Build bbh task list of {taskList.Length} tasks...".debug
         Call outDIR.MakeDir
         Call App.StartGC(True)
-        Call "Start BLAST threads...".__DEBUG_ECHO
-        Call $"     {NameOf(num_threads)} => {num_threads}".__DEBUG_ECHO
-        Call $"     {NameOf(taskList)}    => {taskList.Length}".__DEBUG_ECHO
-        Call New String("+", 200).__DEBUG_ECHO
+        Call "Start BLAST threads...".debug
+        Call $"     {NameOf(num_threads)} => {num_threads}".debug
+        Call $"     {NameOf(taskList)}    => {taskList.Length}".debug
+        Call New String("+", 200).debug
 
         Dim fileList As String() = New ThreadTask(Of String)(taskList).WithDegreeOfParallelism(num_threads).RunParallel.ToArray  ' 启动批量本地blast操作
 

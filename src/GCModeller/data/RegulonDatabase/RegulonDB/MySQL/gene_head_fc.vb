@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89 (51.45%)
+    ' Comment Lines: 62 (35.84%)
+    '    - Xml Docs: 95.16%
+    ' 
+    '   Blank Lines: 22 (12.72%)
+    '     File Size: 10.72 KB
+
+
     ' Class gene_head_fc
     ' 
     '     Properties: child_fc_description, child_fc_id, child_fc_label_index, child_fc_reference, gene_id

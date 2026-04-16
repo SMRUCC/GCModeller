@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 42 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (17.65%)
+    '     File Size: 1.79 KB
+
+
     '     Class BlastXHit
     ' 
     '         Properties: Frame

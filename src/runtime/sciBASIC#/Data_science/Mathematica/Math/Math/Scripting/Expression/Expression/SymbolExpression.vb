@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bac0b2173c35d3b5e32a69163a0bc3b5, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\SymbolExpression.vb"
+﻿#Region "Microsoft.VisualBasic::d11a3e9326f4af208403f18aa42f9af6, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\SymbolExpression.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17 (65.38%)
+    ' Comment Lines: 3 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (23.08%)
+    '     File Size: 750 B
+
+
     '     Class SymbolExpression
     ' 
     '         Properties: symbolName
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Evaluate, ToString
+    '         Function: Evaluate, GetVariableSymbols, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -62,6 +74,10 @@ Namespace Scripting.MathExpression.Impl
 
         Public Overrides Function ToString() As String
             Return symbolName
+        End Function
+
+        Public Overrides Iterator Function GetVariableSymbols() As IEnumerable(Of String)
+            Yield symbolName
         End Function
     End Class
 End Namespace

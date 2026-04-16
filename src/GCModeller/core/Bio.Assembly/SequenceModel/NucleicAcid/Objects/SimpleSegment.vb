@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10c9ba2e9b63f4c96c78552d4e81a326, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
+﻿#Region "Microsoft.VisualBasic::dd17feb3fa1dcbe724216ac033fa9dfc, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\SimpleSegment.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 89 (64.96%)
+    ' Comment Lines: 27 (19.71%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 21 (15.33%)
+    '     File Size: 4.69 KB
+
+
     '     Class SimpleSegment
     ' 
     '         Properties: Complement, Ends, ID, Length, SequenceData
     '                     Start, Strand
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     '         Function: __getMappingLoci, SimpleFasta, ToPTTGene
     ' 
     ' 
@@ -46,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -87,12 +100,13 @@ Namespace SequenceModel.NucleotideModels
         End Property
 
         ''' <summary>
-        ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Length"/>值相等的
+        ''' 获取得到当前的序列片段的长度，这个序列片段的长度值应该是和<see cref="NucleotideLocation.Interval"/>值相等的
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
+                ' ends - start + 1
                 Return Len(SequenceData)
             End Get
         End Property
@@ -115,12 +129,17 @@ Namespace SequenceModel.NucleotideModels
             ID = sId
         End Sub
 
+        Sub New(id As String, seq As IPolymerSequenceModel)
+            _ID = id
+            _SequenceData = seq.SequenceData
+        End Sub
+
         Sub New(site As SimpleSegment, loci As NucleotideLocation)
             Call Me.New(site)
 
             Start = loci.Left
-            Ends = loci.Right
-            Strand = loci.Strand.GetBriefCode
+            Ends = loci.right
+            Strand = loci.Strand.Description
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

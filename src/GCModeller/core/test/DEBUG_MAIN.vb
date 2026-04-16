@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be7c0d95ed7f666bbdf582f6a97188b0, core\test\DEBUG_MAIN.vb"
+﻿#Region "Microsoft.VisualBasic::401c30babaf6b762dc12e8b2d0012da5, core\test\DEBUG_MAIN.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 245
+    '    Code Lines: 94 (38.37%)
+    ' Comment Lines: 54 (22.04%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 97 (39.59%)
+    '     File Size: 12.13 KB
+
+
     ' Module DEBUG_MAIN
     ' 
     '     Sub: Main, ReadDatabase
@@ -42,9 +54,10 @@
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.KEGG.Archives.Xml
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
@@ -52,7 +65,6 @@ Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -78,9 +90,9 @@ Module DEBUG_MAIN
 
     Sub Main()
 
-        Dim resultddddd = SMRUCC.genomics.Assembly.KEGG.WebServices.Map.ParseHTML("D:\GCModeller\src\GCModeller\core\Testing\hsa05034.html")
+        'Dim resultddddd = SMRUCC.genomics.Assembly.KEGG.WebServices.Map.ParseHTML("D:\GCModeller\src\GCModeller\core\Testing\hsa05034.html")
 
-        Call resultddddd.GetXml.SaveTo("D:\GCModeller\src\GCModeller\core\hsa05034.XML")
+        '  Call resultddddd.GetXml.SaveTo("D:\GCModeller\src\GCModeller\core\hsa05034.XML")
 
 
         Pause()
@@ -88,41 +100,41 @@ Module DEBUG_MAIN
         '  Call "http://www.genome.jp/dbget-bin/www_bget?pathway:hsa00010".GET.SaveTo("x:\pathway_Test.html")
         ' Call "http://www.kegg.jp/dbget-bin/www_bget?pathway+hsa00600".GET.SaveTo("x:\pathway_Test2.html")
         'Pause()
-        Dim pathW = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway.DownloadPage("D:\KEGG\hsa\webpages\hsa00601.html")
+        '  Dim pathW = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Pathway.DownloadPage("D:\KEGG\hsa\webpages\hsa00601.html")
 
 
         Pause()
 
-        Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.Download("R00235")
+        ' Dim rxn = KEGG.DBGET.bGetObject.ReactionWebAPI.Download("R00235")
 
 
         Pause()
 
 
-        Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetaboliteWebApi.DownloadCompound("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
+        '   Dim cpdTest As KEGG.DBGET.bGetObject.Compound = MetaboliteWebApi.DownloadCompound("G:\GCModeller\GCModeller\test\KEGG\dbget\cpd_Test.html") 'MetabolitesDBGet.DownloadCompound("C00311")
 
         ' Call "http://www.kegg.jp/dbget-bin/www_bget?gl:G00112".GET.SaveTo("x:\gl_Test.html")
 
 
-        Dim KEGG_gl As Glycan = Glycan.DownloadFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\gl_Test.html")
+        '   Dim KEGG_gl As Glycan = Glycan.DownloadFrom("G:\GCModeller\GCModeller\test\KEGG\dbget\gl_Test.html")
 
         Pause()
 
 
 
 
-        Dim gene = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.KEGGgenomeFetch.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\human_gene.html")
+        ' Dim gene = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.KEGGgenomeFetch.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\human_gene.html")
 
         Dim htext As htext = htext.StreamParser("C:\Users\xieguigang\Downloads\br08402.keg")
 
-        Call SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadWorker.DownloadDisease(htext, "x:\test\")
+        ' Call SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadWorker.DownloadDisease(htext, "x:\test\")
 
 
-        Dim dg = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadDrug("G:\GCModeller\GCModeller\test\KEGG\dbget\drug_Dasatinib.html")
+        ' Dim dg = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadDrug("G:\GCModeller\GCModeller\test\KEGG\dbget\drug_Dasatinib.html")
 
-        Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
+        '  Dim dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\disease-test.html")
 
-        dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\Imatinib.html")
+        ' dis = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.DownloadDiseases.DownloadURL("G:\GCModeller\GCModeller\test\KEGG\dbget\Imatinib.html")
 
 
         Dim gbbb As GenBank.GBFF.File = GBFF.File.Load("G:\Xanthomonas_campestris_8004_uid15\genbank\CP000050.1.txt")
@@ -137,14 +149,14 @@ Module DEBUG_MAIN
 
         Call list.ToDictionary(Function(x) x.Name, Function(x) x.Value).GetJson(True).SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.json")
 
-        Dim htex = BriteHText.Load_ko00001.EnumerateEntries.Where(Function(x) Not x.EntryId Is Nothing).GroupBy(Function(x) x.EntryId).ToDictionary(Function(x) x.Key, Function(x) x.First)
+        Dim htex = BriteHText.Load_ko00001.EnumerateEntries.Where(Function(x) Not x.entryID Is Nothing).GroupBy(Function(x) x.entryID).ToDictionary(Function(x) x.Key, Function(x) x.First)
         Dim pathways = From x In list
                        Where htex.ContainsKey(x.Value)
                        Let path = htex(x.Value)
-                       Let subcate = path.Parent
-                       Let cate = subcate.Parent
-                       Let cls = cate.Parent
-                       Select geneID = x.Name, KO = x.Value, Category = cate.Description, [class] = cls.Description, subCatalog = subcate.Description, [function] = path.Description
+                       Let subcate = path.parent
+                       Let cate = subcate.parent
+                       Let cls = cate.parent
+                       Select geneID = x.Name, KO = x.Value, Category = cate.description, [class] = cls.description, subCatalog = subcate.description, [function] = path.description
 
         '  Call pathways.ToArray.SaveTo($"C:\Users\xieguigang\OneDrive\1.13-xcc\KEGG\{key}-meme-KO.csv")
 
@@ -153,20 +165,20 @@ Module DEBUG_MAIN
 
         Pause()
 
-        Dim faaaaa = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(New Location(1434741, 1435203), "xcb")
+        '   Dim faaaaa = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(New Location(1434741, 1435203), "xcb")
 
-        Call faaaaa.Save("G:\GCModeller\GCModeller\test\XC_1184 (-100).fasta")
+        '  Call faaaaa.Save("G:\GCModeller\GCModeller\test\XC_1184 (-100).fasta")
 
 
         Pause()
-        Dim sdfdsfssdddd = SMRUCC.genomics.Assembly.Uniprot.XML.UniprotXML.Load("G:\GCModeller\GCModeller\test\uniprotExample-one_entry.xml")
+        Dim sdfdsfssdddd = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML.Load("G:\GCModeller\GCModeller\test\uniprotExample-one_entry.xml")
 
         '        Call SMRUCC.genomics.Assembly.Uniprot.Web.Retrieve_IDmapping.Mapping({"UniRef90_A0A0F8AYY8",
         '"UniRef90_A0A0F8APH3", "UniRef90_A0A1A8AV97",
         '        "UniRef90_I3ITW3",
         '        "UniRef90_A0A0U4TJT5",
         '        "UniRef90_M4ANX3",
-        '        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.__DEBUG_ECHO
+        '        "UniRef90_F1RCJ4"}, IdTypes.NF90, IdTypes.ACC, "x:\sadasdas.gz").GetJson.debug
 
         Pause()
 
@@ -185,22 +197,22 @@ Module DEBUG_MAIN
         Dim c As New SimpleSegment With {.Start = 6, .Ends = 13, .SequenceData = "67890abc", .Strand = "+"}
         Dim d As New SimpleSegment With {.Start = 11, .Ends = 15, .SequenceData = "abcde", .Strand = "+"}
 
-        Dim assembl = {a, b, c, d}.SegmentAssembler
+        ' Dim assembl = {a, b, c, d}.SegmentAssembler
 
         Dim tax As New NcbiTaxonomyTree("G:\temp\NCBI_taxonomy_tree-master\nodes.dmp", "G:\temp\NCBI_taxonomy_tree-master\names.dmp")
 
-        Call tax.GetParent({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetRank({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetChildren({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetName({28384, 131567}).GetJson.__DEBUG_ECHO
-        Call tax.GetAscendantsWithRanksAndNames({1, 562}).GetJson.__DEBUG_ECHO
-        Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.__DEBUG_ECHO
-        Call tax.GetDescendants(208962, 566).GetJson.__DEBUG_ECHO
-        Call tax.GetDescendantsWithRanksAndNames(566).GetJson.__DEBUG_ECHO
-        ' Call tax.GetLeaves(1).Length.__DEBUG_ECHO
-        Call tax.GetLeaves(561).Length.__DEBUG_ECHO
-        Call tax.GetLeavesWithRanksAndNames(561) '.GetJson.__DEBUG_ECHO
-        Call tax.GetTaxidsAtRank("superkingdom").GetJson.__DEBUG_ECHO
+        Call tax.GetParents({28384, 131567}).GetJson.debug
+        Call tax.GetRank({28384, 131567}).GetJson.debug
+        Call tax.GetChildren({28384, 131567}).GetJson.debug
+        Call tax.GetName({28384, 131567}).GetJson.debug
+        Call tax.GetAscendantsWithRanksAndNames({1, 562}).GetJson.debug
+        Call tax.GetAscendantsWithRanksAndNames({562}, True).GetJson.debug
+        Call tax.GetDescendants(208962, 566).GetJson.debug
+        Call tax.GetDescendantsWithRanksAndNames(566).GetJson.debug
+        ' Call tax.GetLeaves(1).Length.debug
+        Call tax.GetLeaves(561).Length.debug
+        Call tax.GetLeavesWithRanksAndNames(561) '.GetJson.debug
+        Call tax.GetTaxidsAtRank("superkingdom").GetJson.debug
 
         Dim ptt As PTT = TabularFormat.PTT.Load("G:\Xanthomonas_campestris_8004_uid15\CP000050.ptt")
         Dim loci As New NucleotideLocation(3769223, 3769149, Strands.Reverse)
@@ -237,8 +249,8 @@ Module DEBUG_MAIN
 
         '  Call ddddd.SaveTo("F:\GCModeller.Core\Downloads\Xanthomonas_oryzae_oryzicola_BLS256_uid16740/xor.Csv")
 
-        Dim alllll = KEGG.DBGET.LinkDB.Pathways.AllEntries("xcb").ToArray
-        Dim pwys = KEGG.DBGET.LinkDB.Pathways.Downloads("xcb", "F:\GCModeller.Core\Downloads\Xanthomonas_campestris_8004_uid15").ToArray
+        ' Dim alllll = KEGG.DBGET.LinkDB.Pathways.AllEntries("xcb").ToArray
+        '    Dim pwys = KEGG.DBGET.LinkDB.Pathways.Downloads("xcb", "F:\GCModeller.Core\Downloads\Xanthomonas_campestris_8004_uid15").ToArray
 
         Dim s = KEGG.DBGET.bGetObject.Organism.GetKEGGSpeciesCode("Agrobacterium tumefaciens str. C58 (Cereon)")
 

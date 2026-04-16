@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 104 (67.97%)
+    ' Comment Lines: 31 (20.26%)
+    '    - Xml Docs: 90.32%
+    ' 
+    '   Blank Lines: 18 (11.76%)
+    '     File Size: 5.79 KB
+
+
     '     Class Path2D
     ' 
     '         Properties: Path

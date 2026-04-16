@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::802129f8ed49dcb64229b2536bd47bc2, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\Deque.vb"
+﻿#Region "Microsoft.VisualBasic::cb4d1f554a42476f3190a53e19dab5ed, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\Deque.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 214
+    '    Code Lines: 104 (48.60%)
+    ' Comment Lines: 85 (39.72%)
+    '    - Xml Docs: 97.65%
+    ' 
+    '   Blank Lines: 25 (11.68%)
+    '     File Size: 7.86 KB
+
+
     '     Class Deque
     ' 
     '         Properties: Count, First, IsReadOnly, Last, version
     ' 
     '         Function: Contains, GetEnumerator, GetEnumerator1, IndexOf, Peek
-    '                   Remove, RemoveHead, RemoveTail, Reverse
+    '                   Remove, RemoveHead, RemoveTail, Reverse, ToString
     ' 
     '         Sub: Add, AddHead, Clear, CopyTo, CopyToReversed
     '              Insert, RemoveAt
@@ -170,6 +182,10 @@ Namespace ComponentModel.Collection.Deque
             data.Clear()
             version += 1
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"first: {First} --- {Count} element --- last: {Last}"
+        End Function
 
         ''' <summary>
         ''' Determines whether an element is in the Deque(Of T).

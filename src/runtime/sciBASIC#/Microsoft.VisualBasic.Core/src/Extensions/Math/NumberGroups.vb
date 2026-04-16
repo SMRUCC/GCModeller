@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d8c89234cfdfc90cf30cc3c827d4ba4, Microsoft.VisualBasic.Core\src\Extensions\Math\NumberGroups.vb"
+﻿#Region "Microsoft.VisualBasic::3dc8ae8b216b912ad6402a70b049154f, Microsoft.VisualBasic.Core\src\Extensions\Math\NumberGroups.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,22 @@
 
     ' Summaries:
 
-    '     Interface INumericKey
+
+    ' Code Statistics:
+
+    '   Total Lines: 440
+    '    Code Lines: 280 (63.64%)
+    ' Comment Lines: 107 (24.32%)
+    '    - Xml Docs: 80.37%
     ' 
-    '         Properties: key
-    ' 
+    '   Blank Lines: 53 (12.05%)
+    '     File Size: 17.28 KB
+
+
     '     Module NumberGroups
     ' 
-    '         Function: BinarySearch, diff, (+5 Overloads) GroupBy, GroupByImpl, GroupByParallel
-    '                   Groups, Match, Min
+    '         Function: BinarySearch, diff, (+6 Overloads) GroupBy, GroupByImpl, GroupByParallel
+    '                   (+2 Overloads) GroupByTree, Groups, Match, Min, NumberGroupHelper
     ' 
     '     Interface IVector
     ' 
@@ -54,21 +62,18 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Parallel
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math
-
-    Public Interface INumericKey
-        Property key As Double
-    End Interface
 
     ''' <summary>
     ''' Simple number vector grouping
@@ -83,18 +88,27 @@ Namespace Math
         ''' <param name="x">
         ''' a numeric vector Or matrix containing the values To be differenced.
         ''' </param>
-        ''' <returns></returns>
-        <ExportAPI("diff")>
+        ''' <returns>
+        ''' for input vector element size is zero or else only one element inside, 
+        ''' a empty diff vector will be generated from this function
+        ''' </returns>
+        ''' <remarks>
+        ''' x1 - x0
+        ''' </remarks>
         Public Function diff(x As Double()) As Double()
-            Dim diffs As New List(Of Double)
-            Dim base As Double = x(Scan0)
+            If x.TryCount <= 1 Then
+                Return New Double() {}
+            Else
+                Dim diffs As New List(Of Double)
+                Dim base As Double = x(Scan0)
 
-            For Each xi As Double In x.Skip(1)
-                diffs.Add(xi - base)
-                base = xi
-            Next
+                For Each xi As Double In x.Skip(1)
+                    diffs.Add(xi - base)
+                    base = xi
+                Next
 
-            Return diffs.ToArray
+                Return diffs.ToArray
+            End If
         End Function
 
         <Extension>
@@ -104,7 +118,7 @@ Namespace Math
             Dim result As Double = mins.Sum(Function(tt) tt.Tag)
 
             With target
-                For Each x In mins.Select(Function(o) o.Value)
+                For Each x As T In mins.Select(Function(o) o.Value)
                     Call .Remove(item:=x)
                     If .Count = 0 Then
                         Exit For
@@ -148,9 +162,12 @@ Namespace Math
         ''' Returns ``-1`` means no search result
         ''' </summary>
         ''' <param name="seq"></param>
-        ''' <param name="target#"></param>
+        ''' <param name="target"></param>
         ''' <param name="equals"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' gets the index value of the <paramref name="target"/> number inside 
+        ''' the input source <paramref name="seq"/> where we find it.
+        ''' </returns>
         <Extension>
         Public Function BinarySearch(seq As IEnumerable(Of Double), target#, equals As GenericLambda(Of Double).IEquals) As Integer
             With seq _
@@ -201,49 +218,113 @@ Namespace Math
             End With
         End Function
 
+        '''' <summary>
+        '''' 将一维的数据按照一定的偏移量分组输出
+        '''' </summary>
+        '''' <param name="source"></param>
+        '''' <returns></returns>
+        '<Extension>
+        'Public Function GroupBy(Of T)(source As IEnumerable(Of T),
+        '                              evaluate As Evaluate(Of T),
+        '                              equals As GenericLambda(Of Double).IEquals) As IEnumerable(Of NamedCollection(Of T))
+
+        '    Return source.GroupBy(AddressOf evaluate.Invoke, equals)
+        'End Function
+
+        ''' <summary>
+        ''' implements the group by function via AVLTree for large scale data
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <param name="offset"></param>
+        ''' <returns></returns>
+        Public Iterator Function GroupByTree(source As IEnumerable(Of Double()), offset As Double) As IEnumerable(Of NamedCollection(Of Double))
+            Dim sort As New AVLTree(Of Double, Double)(NumberGroupHelper(offset))
+
+            For Each block As Double() In source.SafeQuery
+                For Each d As Double In block.SafeQuery
+                    Call sort.Add(d, d, valueReplace:=False)
+                Next
+            Next
+
+            For Each bin As BinaryTree(Of Double, Double) In sort.GetAllNodes
+                Yield New NamedCollection(Of Double)(bin.Key.ToString, bin.Members)
+            Next
+        End Function
+
+        Private Function NumberGroupHelper(offset As Double) As Comparison(Of Double)
+            Return Function(a, b)
+                       If std.Abs(a - b) <= offset Then
+                           Return 0
+                       ElseIf a < b Then
+                           Return 1
+                       Else
+                           Return -1
+                       End If
+                   End Function
+        End Function
+
         ''' <summary>
         ''' 将一维的数据按照一定的偏移量分组输出
         ''' </summary>
         ''' <param name="source"></param>
+        ''' <param name="offset"></param>
         ''' <returns></returns>
-        <Extension> Public Iterator Function GroupBy(Of T)(source As IEnumerable(Of T),
-                                                           evaluate As Func(Of T, Double),
-                                                           equals As GenericLambda(Of Double).IEquals) As IEnumerable(Of NamedCollection(Of T))
-
-#If NET_48 = 1 Or netcore5 = 1 Then
-
+        <Extension>
+        Public Iterator Function GroupBy(source As IEnumerable(Of Double), offset As Double) As IEnumerable(Of NamedCollection(Of Double))
             ' 先进行预处理：求值然后进行排序
             Dim tagValues = source _
-                .Select(Function(o) (evaluate(o), o)) _
-                .OrderBy(Function(o) o.Item1) _
+                .OrderBy(Function(o) o) _
                 .ToArray
             Dim means As New Average
-            Dim members As New List(Of T)
 
             ' 根据分组的平均值来进行分组操作
-            For Each x As (val#, o As T) In tagValues
+            For Each x As Double In tagValues
                 If means.N = 0 Then
-                    means += x.Item1
-                    members += x.Item2
+                    means.Add(x)
                 Else
-                    If equals(means.Average, x.Item1) Then
-                        means += x.Item1
-                        members += x.Item2
+                    If std.Abs(means.Average - x) < offset Then
+                        means += x
                     Else
-                        Yield New NamedCollection(Of T)(CStr(means.Average), members)
-
-                        means = New Average({x.Item1})
-                        members = New List(Of T) From {x.Item2}
+                        Yield New NamedCollection(Of Double)(CStr(means.Average), means.getRaw)
+                        means = New Average({x})
                     End If
                 End If
             Next
 
-            If members > 0 Then
-                Yield New NamedCollection(Of T)(CStr(means.Average), members)
+            If means.N > 0 Then
+                Yield New NamedCollection(Of Double)(CStr(means.Average), means.getRaw)
             End If
-#Else
-            Throw New NotImplementedException
-#End If
+        End Function
+
+        <Extension>
+        Public Iterator Function GroupByTree(Of T)(source As IEnumerable(Of T()),
+                                                   eval As Func(Of T, Double),
+                                                   compares As Comparison(Of Double)) As IEnumerable(Of NamedCollection(Of T))
+
+            Dim sort As New AVLTree(Of Double, T)(compares)
+
+            For Each block As T() In source.SafeQuery
+                For Each d As T In block.SafeQuery
+                    Call sort.Add(eval(d), d, valueReplace:=False)
+                Next
+            Next
+
+            For Each bin As BinaryTree(Of Double, T) In sort.GetAllNodes
+                Yield New NamedCollection(Of T)(bin.Key.ToString, bin.Members)
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GroupBy(Of T)(source As IEnumerable(Of T),
+                                      evaluate As Func(Of T, Double),
+                                      equals As GenericLambda(Of Double).IEquals) As IEnumerable(Of NamedCollection(Of T))
+
+            Return New GroupBins(Of T)(evaluate, equals).GroupBy(source)
         End Function
 
         ''' <summary>
@@ -251,10 +332,11 @@ Namespace Math
         ''' </summary>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        <Extension> Public Iterator Function GroupByParallel(Of T)(source As IEnumerable(Of T),
-                                                                   evaluate As Func(Of T, Double),
-                                                                   equals As GenericLambda(Of Double).IEquals,
-                                                                   Optional chunkSize% = 20000) As IEnumerable(Of NamedCollection(Of T))
+        <Extension>
+        Public Iterator Function GroupByParallel(Of T)(source As IEnumerable(Of T),
+                                                       evaluate As Func(Of T, Double),
+                                                       equals As GenericLambda(Of Double).IEquals,
+                                                       Optional chunkSize% = 20000) As IEnumerable(Of NamedCollection(Of T))
             Dim partitions = source _
                 .SplitIterator(partitionSize:=chunkSize) _
                 .AsParallel _
@@ -336,19 +418,13 @@ Namespace Math
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GroupBy(Of T)(source As IEnumerable(Of T), evaluate As Func(Of T, Double), offsets#) As IEnumerable(Of NamedCollection(Of T))
-            Return source.GroupBy(evaluate, equals:=Function(a, b) stdNum.Abs(a - b) <= offsets)
+            Return source.GroupBy(evaluate, equals:=Function(a, b) std.Abs(a - b) <= offsets)
         End Function
 
-        ''' <summary>
-        ''' 将一维的数据按照一定的偏移量分组输出
-        ''' </summary>
-        ''' <param name="numbers"></param>
-        ''' <param name="offsets#"></param>
-        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function GroupBy(numbers As IEnumerable(Of Double), offsets#) As IEnumerable(Of NamedCollection(Of Double))
-            Return numbers.GroupBy(Self(Of Double), Function(a, b) stdNum.Abs(a - b) <= offsets)
+        Public Function GroupBy(source As IEnumerable(Of Integer), offsets As Integer) As IEnumerable(Of NamedCollection(Of Integer))
+            Return source.GroupBy(Function(i) CDbl(i), equals:=Function(a, b) std.Abs(a - b) <= offsets)
         End Function
 
         ''' <summary>
@@ -412,7 +488,13 @@ Namespace Math
     ''' The numeric vector model
     ''' </summary>
     Public Interface IVector
-        ReadOnly Property Data As Double()
+
+        ''' <summary>
+        ''' the vector data
+        ''' </summary>
+        ''' <returns></returns>
+        Property Data As Double()
+
     End Interface
 
     Public Interface INumberTag

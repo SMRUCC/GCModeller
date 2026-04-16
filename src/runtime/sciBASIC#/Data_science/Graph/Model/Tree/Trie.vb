@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73335992ec91e65554f46dd9868f40aa, Data_science\Graph\Model\Tree\Trie.vb"
+﻿#Region "Microsoft.VisualBasic::bace54574ae83201d15228ddd19e57f9, Data_science\Graph\Model\Tree\Trie.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 115 (63.54%)
+    ' Comment Lines: 34 (18.78%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 32 (17.68%)
+    '     File Size: 5.45 KB
+
+
     ' Class Trie
     ' 
     '     Properties: Root
     ' 
-    '     Function: Add, Contains, Count, FindByPrefix, Populate
-    '               PopulateWordsByPrefix
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: Add, Contains, Count, Find, FindByPrefix
+    '               Populate, PopulateWordsByPrefix
     ' 
     ' Class CharacterNode
     ' 
-    '     Properties: Character, Ends
+    '     Properties: Character, data, Ends
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -56,23 +69,31 @@ Imports Microsoft.VisualBasic.Linq
 ''' <summary>
 ''' 朴素字典树（Trie）
 ''' </summary>
-Public Class Trie
+Public Class Trie(Of T)
 
-    Public ReadOnly Property Root As New CharacterNode("*")
+    Public ReadOnly Property Root As New CharacterNode(Of T)("*")
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Sub New(root As CharacterNode(Of T))
+        Me.Root = root
+    End Sub
+
+    Sub New()
+    End Sub
 
     ''' <summary>
     ''' 建立字典树
     ''' </summary>
     ''' <param name="word"></param>
     ''' <returns></returns>
-    Public Function Add(word As String) As Trie
+    Public Function Add(word As String) As CharacterNode(Of T)
         Dim chars As New Pointer(Of Char)(word.SafeQuery)
-        Dim child As CharacterNode = Root
+        Dim child As CharacterNode(Of T) = Root
         Dim c As Char
-        Dim [next] As CharacterNode = Nothing
+        Dim [next] As CharacterNode(Of T) = Nothing
 
         If chars = 0 Then
-            Return Me
+            Return Root
         End If
 
         Do While Not chars.EndRead
@@ -81,7 +102,7 @@ Public Class Trie
             If child.Childs.ContainsKey(c) Then
                 [next] = child(c)
             Else
-                [next] = New CharacterNode(c) With {
+                [next] = New CharacterNode(Of T)(c) With {
                     .Parent = child
                 }
                 child.Childs.Add(c, [next])
@@ -92,13 +113,20 @@ Public Class Trie
 
         [next].Ends += 1
 
-        Return Me
+        Return [next]
     End Function
 
-    Private Function FindByPrefix(chars As Pointer(Of Char)) As (child As CharacterNode, success As Boolean)
-        Dim child As CharacterNode = Root
+    Public Function Find(key As String) As (child As CharacterNode(Of T), success As Boolean)
+        Dim chars As New Pointer(Of Char)(key.SafeQuery)
+        Dim q = FindByPrefix(chars)
+
+        Return q
+    End Function
+
+    Private Function FindByPrefix(chars As Pointer(Of Char)) As (child As CharacterNode(Of T), success As Boolean)
+        Dim child As CharacterNode(Of T) = Root
         Dim c As Char
-        Dim [next] As CharacterNode = Nothing
+        Dim [next] As CharacterNode(Of T) = Nothing
 
         Do While Not chars.EndRead
             c = ++chars
@@ -136,13 +164,13 @@ Public Class Trie
         End With
     End Function
 
-    Private Iterator Function Populate(child As CharacterNode, prefix As List(Of Char)) As IEnumerable(Of IEnumerable(Of Char))
+    Private Iterator Function Populate(child As CharacterNode(Of T), prefix As List(Of Char)) As IEnumerable(Of IEnumerable(Of Char))
         If child.Ends > 0 Then
             ' 其自身也算
             Yield prefix.JoinIterates(child.Character)
         End If
 
-        For Each [next] As CharacterNode In child.Childs.Values
+        For Each [next] As CharacterNode(Of T) In child.Childs.Values
             If [next].Ends > 0 Then
                 ' 其自身也算
                 Yield prefix.JoinIterates([next].Character)
@@ -150,7 +178,7 @@ Public Class Trie
 
             Dim nextPrefix As New List(Of Char)(prefix.JoinIterates([next].Character))
 
-            For Each pop In Populate([next], nextPrefix)
+            For Each pop As IEnumerable(Of Char) In Populate([next], nextPrefix)
                 Yield pop
             Next
         Next
@@ -191,7 +219,7 @@ End Class
 ''' <summary>
 ''' 在字典树之中，一个字母构成一个节点
 ''' </summary>
-Public Class CharacterNode : Inherits AbstractTree(Of CharacterNode, Char)
+Public Class CharacterNode(Of T) : Inherits AbstractTree(Of CharacterNode(Of T), Char)
 
     ''' <summary>
     ''' 以这个字符结束的单词的数目
@@ -199,17 +227,18 @@ Public Class CharacterNode : Inherits AbstractTree(Of CharacterNode, Char)
     ''' <returns></returns>
     Public Property Ends As Integer
     Public Property Character As Char
+    Public Property data As T
 
     Sub New(c As Char)
         Call MyBase.New(qualDeli:="")
 
-        Me.Childs = New Dictionary(Of Char, CharacterNode)
+        Me.Childs = New Dictionary(Of Char, CharacterNode(Of T))
         Me.Character = c
-        Me.Label = c
+        Me.label = c
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Narrowing Operator CType(c As CharacterNode) As Char
+    Public Shared Narrowing Operator CType(c As CharacterNode(Of T)) As Char
         Return c.Character
     End Operator
 End Class

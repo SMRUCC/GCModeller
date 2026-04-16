@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d94cfae77a4dcaddb8acf1a79d5b5e35, core\Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
+﻿#Region "Microsoft.VisualBasic::f3102464407fe30b7bd042fb8d25a941, core\Bio.Assembly\ComponentModel\Annotation\EC\EnzymeClass.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 12 (24.49%)
+    ' Comment Lines: 34 (69.39%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (6.12%)
+    '     File Size: 1.28 KB
+
+
     '     Enum EnzymeClasses
     ' 
     ' 
@@ -50,6 +62,12 @@ Namespace ComponentModel.Annotation
     ''' </summary>
     ''' <remarks></remarks>
     Public Enum EnzymeClasses
+
+        ''' <summary>
+        ''' no needs for enzyme catalysis
+        ''' </summary>
+        Spontaneous = 0
+
         ''' <summary>
         ''' Oxido Reductase.(氧化还原酶)
         ''' </summary>

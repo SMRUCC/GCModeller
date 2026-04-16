@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 43 (84.31%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.95 KB
+
+
     ' Module GraphBuilder
     ' 
     '     Function: CreateGraph

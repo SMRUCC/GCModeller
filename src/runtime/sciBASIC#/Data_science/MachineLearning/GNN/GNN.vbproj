@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+    <OutputType>Library</OutputType>
+    <TargetFrameworks>net10.0;net10.0-windows</TargetFrameworks>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>17.13</LangVersion>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(ProjectDir)**\*.cs</DefaultItemExcludes>
+    <Platforms>AnyCPU;x64</Platforms>
+    <AssemblyName>Microsoft.VisualBasic.DeepLearning.GNN</AssemblyName>
+    <RootNamespace>Microsoft.VisualBasic.DeepLearning.GNN</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="test\**" />
+    <EmbeddedResource Remove="test\**" />
+    <None Remove="test\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\TensorFlow\TensorFlow.vbproj" />
+  </ItemGroup>
+</Project>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f976114354323b662d48a1209cad684, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\GeneralPath.vb"
+﻿#Region "Microsoft.VisualBasic::9e297a0bfd3ff287d4c64f19cf99cbd1, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\GeneralPath.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 131 (73.18%)
+    ' Comment Lines: 16 (8.94%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 32 (17.88%)
+    '     File Size: 6.16 KB
+
+
     '     Class GeneralPath
     ' 
     '         Properties: dimension, level
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: AddPolygon, GetContour, GetPolygons, ToString
+    '         Function: AddPolygon, Bspline, Cubic, FilterSmallPolygon, GetContour
+    '                   GetPolygons, ToString
     ' 
     '         Sub: ClosePath, Discard, Draw, Fill, LineTo
-    '              MoveTo
+    '              MoveTo, warning
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,14 +62,23 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Interpolation
 
 Namespace Drawing2D.Math2D.MarchingSquares
 
+    ''' <summary>
+    ''' a collection of the polygon data
+    ''' </summary>
     Public Class GeneralPath
 
         Friend ReadOnly polygons As New List(Of PointF())
         Friend ReadOnly temp As New List(Of PointF)
 
+        ''' <summary>
+        ''' the z-index liked heatmap level, used for color rendering
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property level As Double
         Public Property dimension As Size
 
@@ -69,6 +91,12 @@ Namespace Drawing2D.Math2D.MarchingSquares
             polygons = contour.shapes _
                 .Select(Function(p) p.ToArray) _
                 .AsList
+        End Sub
+
+        Sub New(ParamArray polygons As Imaging.Math2D.Polygon2D())
+            For Each layer As Imaging.Math2D.Polygon2D In polygons
+                Call Me.polygons.Add(layer.AsEnumerable.ToArray)
+            Next
         End Sub
 
         Public Function GetContour() As ContourLayer
@@ -115,15 +143,40 @@ Namespace Drawing2D.Math2D.MarchingSquares
         End Function
 
         Public Sub Fill(canvas As IGraphics, color As Brush, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
+            Dim i As Integer = 0
+
             For Each polygon In GetPolygons(scaleX, scaleY)
-                Call canvas.FillPolygon(color, polygon)
+                If polygon.Length < 3 Then
+                    i += 1
+                Else
+                    Call canvas.FillPolygon(color, polygon)
+                End If
             Next
+
+            If i > 0 Then
+                Call warning(i)
+            End If
+        End Sub
+
+        Private Sub warning(count As Integer)
+            Call $"missing {count} polygon!".Warning
         End Sub
 
         Public Sub Draw(canvas As IGraphics, border As Pen, scaleX As d3js.scale.LinearScale, scaleY As d3js.scale.LinearScale)
+            Dim i As Integer = 0
+
             For Each polygon In GetPolygons(scaleX, scaleY)
-                Call canvas.DrawPolygon(border, polygon)
+                If polygon.Length < 3 Then
+                    ' do warning?
+                    i += 1
+                Else
+                    Call canvas.DrawPolygon(border, polygon)
+                End If
             Next
+
+            If i > 0 Then
+                Call warning(i)
+            End If
         End Sub
 
         ''' <summary>
@@ -138,5 +191,51 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 Call polygons.Add(temp.PopAll)
             End If
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="q">[0,1]</param>
+        ''' <returns></returns>
+        Public Function FilterSmallPolygon(q As Double) As GeneralPath
+            If polygons.IsNullOrEmpty Then
+                Return New GeneralPath(level) With {.dimension = dimension}
+            End If
+
+            Dim max_size As Integer = polygons.Select(Function(g) g.Length).Max
+            Dim shapes As New GeneralPath(level) With {.dimension = dimension}
+
+            For Each polygon As PointF() In polygons
+                If polygon.Length / max_size >= q Then
+                    Call shapes.AddPolygon(polygon)
+                End If
+            Next
+
+            Return shapes
+        End Function
+
+        Public Function Cubic(Optional resolution As Integer = 1000) As GeneralPath
+            Dim smooth As New List(Of PointF())
+            Dim path As New GeneralPath(level) With {.dimension = dimension}
+
+            For Each polygon As PointF() In polygons
+                polygon = polygon.CubicSpline(resolution)
+                path.AddPolygon(polygon)
+            Next
+
+            Return path
+        End Function
+
+        Public Function Bspline(Optional degree As Integer = 2, Optional resolution As Integer = 10) As GeneralPath
+            Dim smooth As New List(Of PointF())
+            Dim path As New GeneralPath(level) With {.dimension = dimension}
+
+            For Each polygon As PointF() In polygons
+                polygon = B_Spline.BSpline(polygon, degree, resolution).ToArray
+                path.AddPolygon(polygon)
+            Next
+
+            Return path
+        End Function
     End Class
 End Namespace

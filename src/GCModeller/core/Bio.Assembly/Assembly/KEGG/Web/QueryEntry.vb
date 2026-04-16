@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 225
+    '    Code Lines: 125 (55.56%)
+    ' Comment Lines: 68 (30.22%)
+    '    - Xml Docs: 97.06%
+    ' 
+    '   Blank Lines: 32 (14.22%)
+    '     File Size: 8.02 KB
+
+
     '     Class QuerySource
     ' 
     '         Properties: genome, locusId

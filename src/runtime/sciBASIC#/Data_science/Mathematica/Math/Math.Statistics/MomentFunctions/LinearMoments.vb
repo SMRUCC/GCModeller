@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 61 (70.93%)
+    ' Comment Lines: 11 (12.79%)
+    '    - Xml Docs: 27.27%
+    ' 
+    '   Blank Lines: 14 (16.28%)
+    '     File Size: 2.62 KB
+
+
     '     Class LinearMoments
     ' 
     '         Properties: L1, L2, L3, L4, Max

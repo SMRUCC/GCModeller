@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36 (55.38%)
+    ' Comment Lines: 21 (32.31%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.31%)
+    '     File Size: 2.80 KB
+
+
     ' Class AlignEntry
     ' 
     '     Properties: FilePath, IsPairMatch

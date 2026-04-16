@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4bc7d87b1c2b8387d9a23a207a33af6b, Microsoft.VisualBasic.Core\src\Net\HTTP\sitemap.xml.vb"
+﻿#Region "Microsoft.VisualBasic::ce77c031bee0a532f7b3523bf518cb7c, Microsoft.VisualBasic.Core\src\Net\HTTP\sitemap.xml.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 76 (70.37%)
+    ' Comment Lines: 13 (12.04%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 19 (17.59%)
+    '     File Size: 4.24 KB
+
+
     '     Class sitemap
     ' 
     '         Properties: urls
@@ -51,13 +63,14 @@
     ' 
     '  
     ' 
-    '     Function: (+2 Overloads) Save, ScanAllFiles
+    '     Function: (+3 Overloads) Save, ScanAllFiles
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
@@ -117,9 +130,21 @@ Namespace Net.Http
         Const xmlns$ = "<urlset xmlns=""http://www.sitemaps.org/schemas/sitemap/0.9"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd"">"
 
         Public Function Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using file As Stream = path.Open(FileMode.OpenOrCreate, [readOnly]:=False, doClear:=True)
+                Return Save(file, encoding)
+            End Using
+        End Function
+
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Dim xml As String = (Me.GetXml)
             xml = Regex.Replace(xml, "<urlset .*?>", xmlns)
-            Return xml.SaveTo(path, encoding)
+
+            Using wr As New StreamWriter(file, encoding)
+                Call wr.WriteLine(xml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
@@ -131,7 +156,7 @@ Namespace Net.Http
         Public Shared Function ScanAllFiles(wwwroot$, host$, Optional fileTypes$() = Nothing, Optional changefreq As changefreqs = changefreqs.monthly) As sitemap
             Dim url As New List(Of url)
             Dim freq$ = changefreq.ToString
-            Dim lastmod$ = $"{Now.Year}-{FillDateZero(Now.Month)}-{FillDateZero(Now.Day)}"
+            Dim lastmod$ = $"{DateTime.UtcNow.Year}-{FillDateZero(DateTime.UtcNow.Month)}-{FillDateZero(DateTime.UtcNow.Day)}"
 
             wwwroot = wwwroot.GetDirectoryFullPath
             host = host.TrimDIR

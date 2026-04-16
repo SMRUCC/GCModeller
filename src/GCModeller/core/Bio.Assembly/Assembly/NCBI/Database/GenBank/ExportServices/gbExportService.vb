@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b54a29cd1ac8c4873eb24384ed4ddf6e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
+﻿#Region "Microsoft.VisualBasic::d1742c858adcb5dae479f44f37eb878f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 691
+    '    Code Lines: 508 (73.52%)
+    ' Comment Lines: 99 (14.33%)
+    '    - Xml Docs: 85.86%
+    ' 
+    '   Blank Lines: 84 (12.16%)
+    '     File Size: 33.75 KB
+
+
     '     Module gbExportService
     ' 
     '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
-    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DumpEXPORT, EnsureNonEmptyLocusId, EnumerateGeneFeatures
-    '                   ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump, FeatureGenes, GbffToPTT
-    '                   InvokeExport, LoadGbkSource, TryParseGBKID
+    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
+    '                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
+    '                   ExportTable, FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource
+    '                   TryParseGBKID
     ' 
     ' 
     ' /********************************************************************************/
@@ -91,6 +104,37 @@ Namespace Assembly.NCBI.GenBank
             Return locus_id
         End Function
 
+        <Extension>
+        Public Function DumpExportFeature(obj As Feature) As GeneTable
+            Dim gene As New GeneTable With {
+                .locus_id = obj.EnsureNonEmptyLocusId
+            }
+
+            Call obj.TryGetValue("product", gene.commonName)
+            Call obj.TryGetValue("protein_id", gene.ProteinId)
+            Call obj.TryGetValue("gene", gene.geneName)
+            Call obj.TryGetValue("translation", gene.translation)
+            Call obj.TryGetValue("function", gene.function)
+            Call obj.TryGetValue("transl_table", gene.transl_table)
+
+            gene.species = obj.gb.Species
+            gene.replicon_accessionID = obj.gb.Locus.AccessionID
+            gene.type = obj.KeyName
+
+            Try
+                gene.left = obj.Location.ContiguousRegion.left
+                gene.right = obj.Location.ContiguousRegion.right
+                gene.strand = If(obj.Location.Complement, "-", "+")
+            Catch ex As Exception
+                Dim msg As String = $"{gene.locus_id}@{obj.gb.Accession.AccessionId} nucleotide location data is null!"
+
+                Call VBDebugger.warning(msg)
+                Call App.LogException(New Exception(msg))
+            End Try
+
+            Return gene
+        End Function
+
         ''' <summary>
         ''' Convert a feature site data in the NCBI GenBank file to the dump information table.
         ''' </summary>
@@ -100,40 +144,16 @@ Namespace Assembly.NCBI.GenBank
         ''' 
         <Extension>
         Public Function DumpEXPORT(obj As CDS) As GeneTable
-            Dim gene As New GeneTable With {
-                .locus_id = obj.EnsureNonEmptyLocusId
-            }
+            Dim gene = obj.DumpExportFeature
 
-            Call obj.TryGetValue("product", gene.commonName)
-            Call obj.TryGetValue("protein_id", gene.ProteinId)
-            Call obj.TryGetValue("gene", gene.geneName)
-            Call obj.TryGetValue("translation", gene.Translation)
-            Call obj.TryGetValue("function", gene.function)
-            Call obj.TryGetValue("transl_table", gene.Transl_table)
+            Static ec_number As String = FeatureQualifiers.EC_number.ToString
 
             gene.GI = obj.db_xref_GI
             gene.UniprotSwissProt = obj.db_xref_UniprotKBSwissProt
             gene.UniprotTrEMBL = obj.db_xref_UniprotKBTrEMBL
             gene.InterPro = obj.db_xref_InterPro
             gene.GO = obj.db_xref_GO
-            gene.species = obj.gb.Definition.Value
-            gene.EC_Number = obj.Query(FeatureQualifiers.EC_number)
-            gene.SpeciesAccessionID = obj.gb.Locus.AccessionID
-
-            'If gene.Function.StringEmpty Then
-
-            'End If
-
-            Try
-                gene.left = obj.Location.ContiguousRegion.left
-                gene.right = obj.Location.ContiguousRegion.right
-                gene.strand = If(obj.Location.Complement, "-", "+")
-            Catch ex As Exception
-                Dim msg As String = $"{obj.gb.Accession.AccessionId} location data is null!"
-                ex = New Exception(msg)
-                Call VBDebugger.Warning(msg)
-                Call App.LogException(ex)
-            End Try
+            gene.EC_Number = obj.QueryDuplicated(ec_number)
 
             Return gene
         End Function
@@ -277,6 +297,14 @@ Namespace Assembly.NCBI.GenBank
             Return genomics
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="genbank"></param>
+        ''' <param name="ORF">
+        ''' CDS/tRNA/rRNA if set this parameter to false
+        ''' </param>
+        ''' <returns></returns>
         <Extension>
         Public Function EnumerateGeneFeatures(genbank As GBFF.File, Optional ORF As Boolean = True) As IEnumerable(Of Feature)
             Dim assert As Predicate(Of Feature)
@@ -300,6 +328,17 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         <Extension>
+        Public Iterator Function ExportTable(features As IEnumerable(Of Feature)) As IEnumerable(Of GeneTable)
+            For Each gene As Feature In features
+                If gene.KeyName = "CDS" Then
+                    Yield New CDS(gene).DumpEXPORT
+                Else
+                    Yield gene.DumpExportFeature
+                End If
+            Next
+        End Function
+
+        <Extension>
         Public Function FeatureGenes(genes As IEnumerable(Of Feature)) As IEnumerable(Of GeneBrief)
             Dim PTT_genes = From g As Feature
                             In genes
@@ -313,7 +352,7 @@ Namespace Assembly.NCBI.GenBank
                                    In array
                                    Where ggene.ggenes.Length > 1
                                    Select ggene
-                Call VBDebugger.Warning($"""{duplicated.Synonym}"" data was duplicated!")
+                Call VBDebugger.warning($"""{duplicated.Synonym}"" data was duplicated!")
             Next
 
             Return From gene In array Select gene.ggenes.First
@@ -393,9 +432,9 @@ Namespace Assembly.NCBI.GenBank
             Dim PlasmidList As New FASTA.FastaFile
             Dim GeneSequenceList As New FASTA.FastaFile
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             Call FlushMemory()
-            Call $"There is ""{list.Count}"" genome source will be export...".__DEBUG_ECHO
+            Call $"There is ""{list.Count}"" genome source will be export...".debug
 
             Dim ExportLQuery = (From GBKFF As GBFF.File
                                 In list.AsParallel
@@ -455,13 +494,17 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        ''' Exports CDS feature
+        ''' Exports selective gene features
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
+        ''' <remarks>
+        ''' features was filter via the ``CDS`` key name
+        ''' </remarks>
+        <Extension>
+        Public Function ExportGeneFeatures(gbk As GBFF.File) As GeneTable()
             Dim dumps As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
- _
+                                                                    _
                 From feature As Feature
                 In gbk.Features._innerList.AsParallel
                 Where String.Equals(feature.KeyName, "CDS", StringComparison.OrdinalIgnoreCase)
@@ -471,16 +514,17 @@ Namespace Assembly.NCBI.GenBank
             Return dumps
         End Function
 
-        <Extension> Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
+        <Extension>
+        Public Function ExportPTTAsDump(PTT As NCBI.GenBank.TabularFormat.PTT) As GeneTable()
             Dim LQuery As GeneTable() = LinqAPI.Exec(Of GeneTable) <=
- _
+                                                                     _
                 From gene As GeneBrief
                 In PTT.GeneObjects.AsParallel
                 Select New GeneTable With {
                     .CDS = "",
                     .COG = gene.COG,
                     .commonName = gene.Gene,
-                    .EC_Number = "-",
+                    .EC_Number = {},
                     .function = gene.Product,
                     .GC_Content = 0,
                     .geneName = gene.Gene,
@@ -494,10 +538,10 @@ Namespace Assembly.NCBI.GenBank
                     .ProteinId = gene.Synonym,
                     .right = gene.Location.right,
                     .species = "",
-                    .SpeciesAccessionID = "",
+                    .replicon_accessionID = "",
                     .strand = gene.Location.Strand.ToString,
-                    .Translation = "",
-                    .Transl_table = "",
+                    .translation = "",
+                    .transl_table = "",
                     .UniprotSwissProt = "",
                     .UniprotTrEMBL = ""
                 }
@@ -530,10 +574,10 @@ Namespace Assembly.NCBI.GenBank
                                          Where gb.isPlasmid
                                          Select gb).ToArray
 
-            Call "Flushed memory....".__DEBUG_ECHO
+            Call "Flushed memory....".debug
             list = Nothing
             Call FlushMemory()
-            Call $"There is ""{Source.Length}"" plasmid source will be export...".__DEBUG_ECHO
+            Call $"There is ""{Source.Length}"" plasmid source will be export...".debug
 
             For Each gb As GBFF.File In Source
                 Dim cds As GeneTable() = gb.ExportGeneFeatures
@@ -599,24 +643,25 @@ Namespace Assembly.NCBI.GenBank
                 Let fa As FASTA.FastaSeq =
                     New FASTA.FastaSeq With {
                         .Headers = New String() {gene.locus_id},
-                        .SequenceData = gene.Translation
+                        .SequenceData = gene.translation
                     }
                 Select fa
             Return New FASTA.FastaFile(LQuery)
         End Function
 
         Private Function __exportWithAnnotation(data As GeneTable()) As FASTA.FastaFile
-            Dim LQuery = From gene As GeneTable
-                         In data.AsParallel
-                         Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
-                         Select New FASTA.FastaSeq With {
-                             .Headers = attrs,
-                             .SequenceData = gene.Translation
-                         }
-            Return New FASTA.FastaFile(LQuery)
+            Return New FastaFile(
+                From gene As GeneTable
+                In data.AsParallel
+                Let attrs As String() = {gene.locus_id, gene.geneName, gene.GI, gene.commonName, gene.function, gene.species}
+                Select New FASTA.FastaSeq With {
+                    .Headers = attrs,
+                    .SequenceData = gene.translation
+                })
         End Function
 
-        <Extension> Public Function TryParseGBKID(path As String) As String
+        <Extension>
+        Public Function TryParseGBKID(path As String) As String
             Dim Name As String = path.BaseName
             Name = Regex.Replace(Name, "\.\d+", "")
             Return Name.ToUpper
@@ -639,16 +684,11 @@ Namespace Assembly.NCBI.GenBank
 
             Dim reader As IPolymerSequenceModel = gb.Origin
             Dim list As New List(Of FastaSeq)
-            Dim loc As NucleotideLocation = Nothing
-            Dim attrs As String() = Nothing
-            Dim Sequence As String
             Dim products As Dictionary(Of GeneTable) = gb.ExportGeneFeatures.ToDictionary
             Dim geneFeatures = (From x As Feature
                                 In gb.Features._innerList
                                 Where String.Equals(x.KeyName, "gene", StringComparison.OrdinalIgnoreCase)
                                 Select x).ToArray
-            Dim locus_tag As String
-            Dim function$
 
             If geneFeatures.Length = 0 Then
                 ' 在gb文件中没有定义gene feature
@@ -659,41 +699,54 @@ Namespace Assembly.NCBI.GenBank
             End If
 
             Try
-                For Each gene As Feature In geneFeatures
-                    If geneName Then
-                        locus_tag = gene.Query("gene")
-                        If String.IsNullOrEmpty(locus_tag) OrElse String.Equals(locus_tag, "-") Then
-                            locus_tag = gene.EnsureNonEmptyLocusId
-                        End If
-                    Else
-                        locus_tag = gene.EnsureNonEmptyLocusId
-                    End If
-
-                    [function] = products.SafeGetValue(locus_tag)?.function
-                    [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
-                    loc = gene.Location.ContiguousRegion
-
-                    If onlyLocus_tag Then
-                        attrs = {locus_tag}
-                    Else
-                        attrs = {locus_tag, gene.Location.ToString, [function]}
-                    End If
-
-                    Sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
-                    Sequence = If(gene.Location.Complement, NucleicAcid.Complement(Sequence), Sequence)
-
-                    list += New FastaSeq(attrs, Sequence)
-                Next
+                Call list.AddRange(geneFeatures.DnaSequenceExports(geneName, onlyLocus_tag, reader, products))
             Catch ex As Exception
                 ex = New Exception(gb.ToString, ex)
-                ex = New Exception(attrs.GetJson, ex)
-                ex = New Exception(loc.GetJson, ex)
                 ex = New Exception(gb.Accession.GetJson, ex)
                 Call App.LogException(ex)
                 Throw ex
             End Try
 
             Return New FASTA.FastaFile(list)
+        End Function
+
+        <Extension>
+        Private Iterator Function DnaSequenceExports(geneFeatures As IEnumerable(Of Feature),
+                                                     geneName As Boolean,
+                                                     onlyLocus_tag As Boolean,
+                                                     reader As IPolymerSequenceModel,
+                                                     products As Dictionary(Of GeneTable)) As IEnumerable(Of FastaSeq)
+            Dim sequence As String
+            Dim attrs As String() = Nothing
+            Dim locus_tag As String
+            Dim function$
+            Dim loc As NucleotideLocation = Nothing
+
+            For Each gene As Feature In geneFeatures
+                If geneName Then
+                    locus_tag = gene.Query("gene")
+                    If String.IsNullOrEmpty(locus_tag) OrElse String.Equals(locus_tag, "-") Then
+                        locus_tag = gene.EnsureNonEmptyLocusId
+                    End If
+                Else
+                    locus_tag = gene.EnsureNonEmptyLocusId
+                End If
+
+                [function] = products.SafeGetValue(locus_tag)?.function
+                [function] = If([function].StringEmpty, products.SafeGetValue(locus_tag)?.commonName, [function])
+                loc = gene.Location.ContiguousRegion
+
+                If onlyLocus_tag Then
+                    attrs = {locus_tag}
+                Else
+                    attrs = {locus_tag, gene.Location.ToString, [function]}
+                End If
+
+                sequence = reader.CutSequenceLinear(loc.left, loc.right).SequenceData
+                sequence = If(gene.Location.Complement, NucleicAcid.Complement(sequence), sequence)
+
+                Yield New FastaSeq(attrs, sequence)
+            Next
         End Function
     End Module
 End Namespace

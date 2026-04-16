@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f506608694faa5f51d75c94347722b9, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\DynamicProgramming.vb"
+﻿#Region "Microsoft.VisualBasic::061d36ff5fc3e423317674c6b1abba4c, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\DynamicProgramming.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 25 (71.43%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (28.57%)
+    '     File Size: 1.19 KB
+
+
     '     Class Cost
     ' 
     '         Function: DefaultCost, DefaultSubstituteCost
@@ -41,6 +53,11 @@
     '     Delegate Function
     ' 
     ' 
+    '     Interface IScore
+    ' 
+    '         Function: GetSimilarityScore
+    ' 
+    ' 
     ' 
     ' 
     ' 
@@ -48,6 +65,7 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language.Default
 
 Namespace ComponentModel.Algorithm.DynamicProgramming
@@ -74,5 +92,11 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
 
     Public Delegate Function ISimilarity(Of T)(x As T, y As T) As Double
     Public Delegate Function IEquals(Of T)(x As T, y As T) As Boolean
+
+    Public Interface IScore(Of T)
+
+        Function GetSimilarityScore(a As T, b As T) As Double
+
+    End Interface
 
 End Namespace

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Assembly.KEGG.WebServices.KGML.reaction</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>reaction {SMRUCC.genomics.Assembly.KEGG.WebServices.KGML}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>reaction</h2>
+
+        <h3>Description</h3>
+
+        <p><reaction>元素表示通路中的一种生化反应，用于连接代谢物节点，形成代谢网络中的化学转化关系。在代谢通路中，<reaction>元素主要涉及底物（substrates）
+ 和产物（products）两类代谢物节点。它描述了一个化学反应如何将一组底物转化为另一组产物，以及该反应是否可逆等信息。<reaction>元素在KGML中通常用于
+ 表示化学网络（chemical network），即以代谢物为节点、反应为边的关系网络。</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Assembly.KEGG.WebServices.KGML
+export class reaction extends <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/Link.html">Link</a> {
+   # 该反应的唯一标识符，在通路范围内唯一。通常是一个整数，用于在KGML中引用该反应。
+   id: string;
+   # 该反应的名称，通常以KEGG REACTION数据库的ID表示，例如name="rn:R00710"。
+   name: string;
+   # 一个或多个<product>子元素，表示该反应的产物。每个<product>同样通过id引用代谢物节点ID，并通过name提供代谢物KEGG ID。
+   products: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound[]</a>;
+   # 一个或多个<substrate>子元素，表示该反应的底物。每个<substrate>通过id属性引用一个代谢物节点的ID（即对应<entry>的id），并通过name属性提供该代谢物的KEGG ID。
+   substrates: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound[]</a>;
+   type: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/Link.html">Link</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/Link.html">Link</a></li>
+<li>use by <i>property</i> member <code>products</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound</a></li>
+<li>use by <i>property</i> member <code>substrates</code>: <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/WebServices/KGML/compound.html">compound</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

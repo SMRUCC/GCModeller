@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a9565220ca837b2eaba367f492fcfa4, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
+﻿#Region "Microsoft.VisualBasic::671482b497979570c1b0ffabdbfbd23e, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\CDS.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 60 (67.42%)
+    ' Comment Lines: 16 (17.98%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 13 (14.61%)
+    '     File Size: 3.43 KB
+
 
     '     Class CDS
     ' 
@@ -73,8 +85,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <param name="cds"></param>
         Sub New(cds As Feature)
-
-            Call cds.CopyTo(Me.innerList)
+            Call cds.CopyTo(Me.attrSet)
 
             With Me
                 .KeyName = cds.KeyName
@@ -87,9 +98,11 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                              Select Key = tokens.First, value = tokens.Last
                              Group By Key Into Group
                 Dim tmp As String() = Nothing
-                Dim db_xref = groups.ToDictionary(
-                    Function(k) k.Key,
-                    Function(a) (From o In a.Group Select o.value).ToArray)
+                Dim db_xref = groups _
+                    .ToDictionary(Function(k) k.Key,
+                                  Function(a)
+                                      Return (From o In a.Group Select o.value).ToArray
+                                  End Function)
 
                 Call db_xref.TryGetValue("GI", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GI = tmp.First
                 Call db_xref.TryGetValue("GOA", tmp) : If Not tmp.IsNullOrEmpty Then db_xref_GO = tmp

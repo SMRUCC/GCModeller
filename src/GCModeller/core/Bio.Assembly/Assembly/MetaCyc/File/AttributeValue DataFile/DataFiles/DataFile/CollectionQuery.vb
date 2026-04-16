@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 45 (53.57%)
+    ' Comment Lines: 31 (36.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (9.52%)
+    '     File Size: 3.79 KB
+
+
     '     Class DataFile
     ' 
     '         Function: (+2 Overloads) [Select], [Select2], Takes

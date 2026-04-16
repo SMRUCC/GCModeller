@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::827a4e281df612eb04044ede91a72ff8, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2BlockCompressor.vb"
+﻿#Region "Microsoft.VisualBasic::67a6ac76884f99f87d136b158a7bb42b, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2BlockCompressor.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 265
+    '    Code Lines: 140 (52.83%)
+    ' Comment Lines: 76 (28.68%)
+    '    - Xml Docs: 14.47%
+    ' 
+    '   Blank Lines: 49 (18.49%)
+    '     File Size: 10.22 KB
+
+
     '     Class BZip2BlockCompressor
     ' 
     '         Properties: CRC, IsEmpty
@@ -52,7 +64,7 @@
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
 Imports Microsoft.VisualBasic.Data.IO.Bzip2.Math
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Bzip2
     ''' <summary>Compresses and writes a single BZip2 block</summary>
@@ -188,8 +200,8 @@ Namespace Bzip2
         Public Function Write(data As Byte(), offset As Integer, length As Integer) As Integer
             Dim written = 0
 
-            While stdNum.Max(Threading.Interlocked.Decrement(length), length + 1) > 0
-                If Not Write(data(stdNum.Min(Threading.Interlocked.Increment(offset), offset - 1))) Then Exit While
+            While std.Max(Threading.Interlocked.Decrement(length), length + 1) > 0
+                If Not Write(data(std.Min(Threading.Interlocked.Increment(offset), offset - 1))) Then Exit While
                 written += 1
             End While
 

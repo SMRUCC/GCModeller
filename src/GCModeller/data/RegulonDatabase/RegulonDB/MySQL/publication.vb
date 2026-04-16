@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 9.36 KB
+
+
     ' Class publication
     ' 
     '     Properties: author, external_db_id, publication_id, publication_internal_comment, publication_note

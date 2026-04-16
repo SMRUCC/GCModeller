@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00e47b108d780ff7f2b2ddac3e8af21c, Data_science\Visualization\Plots\Scatter\Data\SerialData.vb"
+﻿#Region "Microsoft.VisualBasic::e2c3bbb2178e65c835c6b516fc42d1c5, Data_science\Visualization\Plots\Scatter\Data\SerialData.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 90 (64.75%)
+    ' Comment Lines: 32 (23.02%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 17 (12.23%)
+    '     File Size: 4.64 KB
+
+
     ' Class SerialData
     ' 
     '     Properties: DataAnnotations, title
     ' 
-    '     Function: BrushHandler, GetPen, GetPointByX, ToString
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: BrushHandler, GetPen, GetPointByX, ToString, x
     ' 
     '     Sub: AddMarker
     ' 
@@ -51,9 +65,36 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
+
 ''' <summary>
 ''' 一条曲线的绘图数据模型
 ''' </summary>
+''' <remarks>
+''' [x, y]
+''' </remarks>
 Public Class SerialData : Implements INamedValue
     ' Implements IEnumerable(Of PointData)
 
@@ -81,6 +122,22 @@ Public Class SerialData : Implements INamedValue
     ''' </summary>
     ''' <returns></returns>
     Public Property DataAnnotations As Annotation()
+
+    Sub New()
+    End Sub
+
+    Sub New(name As String, scatter As IEnumerable(Of PointData))
+        title = name
+        pts = scatter.ToArray
+    End Sub
+
+    ''' <summary>
+    ''' get x axis data 
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function x() As Double()
+        Return pts.Select(Function(pi) CDbl(pi.pt.X)).ToArray
+    End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetPen() As Pen

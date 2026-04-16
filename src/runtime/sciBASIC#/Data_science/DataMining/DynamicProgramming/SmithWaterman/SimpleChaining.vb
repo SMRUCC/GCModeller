@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 197
+    '    Code Lines: 135 (68.53%)
+    ' Comment Lines: 35 (17.77%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 27 (13.71%)
+    '     File Size: 7.69 KB
+
+
     '     Module SimpleChaining
     ' 
     '         Properties: FromAComparator

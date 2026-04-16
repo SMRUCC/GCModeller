@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78b472b29c5817e5f6c83fe984e0c255, Data_science\DataMining\DataMining\Clustering\KMeans\Models\ClusterCollection.vb"
+﻿#Region "Microsoft.VisualBasic::82e53da2e78cf1acbe319eac5b9d3c61, Data_science\DataMining\DataMining\Clustering\KMeans\Models\ClusterCollection.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 35 (59.32%)
+    ' Comment Lines: 15 (25.42%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 2.17 KB
+
+
     '     Class ClusterCollection
     ' 
     '         Properties: NumOfCluster
@@ -52,19 +64,29 @@ Namespace KMeans
     ''' <summary>
     ''' A collection of Cluster objects or Clusters
     ''' </summary>
-    <Serializable> Public Class ClusterCollection(Of T As EntityBase(Of Double))
+    Public Class ClusterCollection(Of T As EntityBase(Of Double))
         Implements IEnumerable(Of KMeansCluster(Of T))
 
-        Friend ReadOnly _innerList As New List(Of KMeansCluster(Of T))
+        Friend ReadOnly m_innerList As New List(Of KMeansCluster(Of T))
 
         ''' <summary>
         ''' the numbers of the kmeans clusters
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>k-centers</returns>
         Public ReadOnly Property NumOfCluster As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return _innerList.Count
+                Return m_innerList.Count
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Returns the Cluster at this index
+        ''' </summary>
+        Default Public Overridable ReadOnly Property Item(Index As Integer) As KMeansCluster(Of T)
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return m_innerList(Index)
             End Get
         End Property
 
@@ -75,18 +97,8 @@ Namespace KMeans
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Sub Add(cluster As KMeansCluster(Of T))
-            Call _innerList.Add(cluster)
+            Call m_innerList.Add(cluster)
         End Sub
-
-        ''' <summary>
-        ''' Returns the Cluster at this index
-        ''' </summary>
-        Default Public Overridable ReadOnly Property Item(Index As Integer) As KMeansCluster(Of T)
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return _innerList(Index)
-            End Get
-        End Property
 
         Public Overrides Function ToString() As String
             Return NumOfCluster & " data clusters..."
@@ -97,8 +109,8 @@ Namespace KMeans
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of KMeansCluster(Of T)) Implements IEnumerable(Of KMeansCluster(Of T)).GetEnumerator
-            For Each x As KMeansCluster(Of T) In _innerList
-                Yield x
+            For Each cluster As KMeansCluster(Of T) In m_innerList
+                Yield cluster
             Next
         End Function
     End Class

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 103 (52.55%)
+    ' Comment Lines: 71 (36.22%)
+    '    - Xml Docs: 95.77%
+    ' 
+    '   Blank Lines: 22 (11.22%)
+    '     File Size: 12.46 KB
+
+
     ' Class articles
     ' 
     '     Properties: art_abstruct, art_guid, art_issue, art_journal, art_month

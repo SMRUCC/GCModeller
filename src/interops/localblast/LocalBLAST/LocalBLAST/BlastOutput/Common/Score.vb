@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 115 (65.34%)
+    ' Comment Lines: 34 (19.32%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 27 (15.34%)
+    '     File Size: 6.82 KB
+
+
     '     Class BlastXScore
     ' 
     '         Properties: Frame

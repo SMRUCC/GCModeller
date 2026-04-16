@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 96 (71.64%)
+    ' Comment Lines: 11 (8.21%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 27 (20.15%)
+    '     File Size: 4.86 KB
+
+
     '     Class WordSimilarityIndex
     ' 
     '         Constructor: (+1 Overloads) Sub New

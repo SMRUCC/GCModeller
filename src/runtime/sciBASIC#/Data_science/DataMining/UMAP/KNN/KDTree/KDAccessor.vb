@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebd13525e66a69595b4417d8928f7fd6, Data_science\DataMining\UMAP\KNN\KDTree\KDAccessor.vb"
+﻿#Region "Microsoft.VisualBasic::c3755fef8d9cea06934f8bddf5dd789c, Data_science\DataMining\UMAP\KNN\KDTree\KDAccessor.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 41 (80.39%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (19.61%)
+    '     File Size: 1.92 KB
+
+
     '     Class KDAccessor
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: activate, getByDimension, GetDimensions, metric, nodeIs
     ' 
-    '         Sub: setByDimensin
+    '         Sub: setByDimension
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,7 +77,7 @@ Namespace KNN.KDTreeMethod
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Sub setByDimensin(x As KDPoint, dimName As String, value As Double)
+        Public Overrides Sub setByDimension(x As KDPoint, dimName As String, value As Double)
             x.vector(indexMaps(dimName)) = value
         End Sub
 

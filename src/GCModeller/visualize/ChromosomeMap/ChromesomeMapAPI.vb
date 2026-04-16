@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10b13a1a5bdb2ba0193db6173a25549a, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
+﻿#Region "Microsoft.VisualBasic::244be8c0b9302b8b74b961656f1ac088, visualize\ChromosomeMap\ChromesomeMapAPI.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 425
+    '    Code Lines: 344 (80.94%)
+    ' Comment Lines: 37 (8.71%)
+    '    - Xml Docs: 97.30%
+    ' 
+    '   Blank Lines: 44 (10.35%)
+    '     File Size: 19.39 KB
+
+
     ' Module ChromesomeMapAPI
     ' 
-    '     Function: __getRandomColor, AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile
-    '               (+2 Overloads) CreateDevice, DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes
-    '               FromPTT, FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing
-    '               LoadConfig, READ_PlasmidData, SaveImage, WriteGeneFasta
+    '     Function: AddLociSites, AddMotifSites, AddMutationData, ApplyCogColorProfile, (+2 Overloads) CreateDevice
+    '               DescribTest, ExportColorInformation, FromGenbankDIR, FromGenes, FromPTT
+    '               FromPttObject, get_Converted, GetDefaultConfiguration, InvokeDrawing, LoadConfig
+    '               READ_PlasmidData, SaveImage, WriteGeneFasta
     '     Class __setRNAColorInvoke
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -52,7 +64,8 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.IO.Properties
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -61,7 +74,6 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
@@ -71,6 +83,32 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' This module contains the required API function for create the chromosomes map of a specific bacteria genome.
@@ -90,9 +128,9 @@ Public Module ChromesomeMapAPI
                       Select relateds = genome.GetRelatedGenes(loci), loci).ToArray
         Dim TSSs = (From obj In nSites.AsParallel
                     Select New TSSs With {
-                        .Left = obj.loci.Left,
+                        .Left = obj.loci.left,
                         .Comments = obj.relateds.Select(Function(x) x.ToString).JoinBy(vbCrLf),
-                        .Right = obj.loci.Right,
+                        .Right = obj.loci.right,
                         .Strand = obj.loci.Strand,
                         .SiteName = obj.GetHashCode,
                         .Synonym = obj.loci.GetHashCode}).ToArray
@@ -167,8 +205,8 @@ Public Module ChromesomeMapAPI
             Select New DrawingModels.Loci With {
                 .SiteName = site.Title,
                 .SequenceData = site.SequenceData,
-                .Right = site.Right,
-                .Left = site.Left,
+                .Right = site.right,
+                .Left = site.left,
                 .Color = Color.Black
             }
         model.Loci = Locis
@@ -252,19 +290,14 @@ Public Module ChromesomeMapAPI
     Public Function SaveImage(<Parameter("Resource")> res As GraphicsData(),
                               <Parameter("DIR.EXPORT")> EXPORT$,
                               <Parameter("Image.Format", "Value variant in jpg,bmp,emf,exif,gif,png,wmf,tiff")>
-                              Optional format$ = "png") As Integer
+                              Optional format As ImageFormats = ImageFormats.Png) As Integer
 
-        Dim imageFormat As ImageFormats = format.ParseImageFormat  ' 空值是默认返回png的
         Dim i As i32 = 0
 
         Call EXPORT.MakeDir
 
-        If format.StringEmpty Then
-            format = "png"
-        End If
-
         For Each Bitmap As GraphicsData In res
-            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format}")
+            Call Bitmap.Save($"{EXPORT}/ChromosomeMap [{++i}].{format.Description}")
         Next
 
         Return i
@@ -287,8 +320,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Left = Math.Min(gene.Location.left, gene.Location.right),
+                .Right = Math.Max(gene.Location.right, gene.Location.left),
                 .Direction = gene.Location.Strand
             }
 #End Region
@@ -304,8 +337,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                .Left = Math.Min(gene.Location.left, gene.Location.right),
+                .Right = Math.Max(gene.Location.right, gene.Location.left),
                 .Direction = gene.Location.Strand
             }
 
@@ -350,7 +383,7 @@ Public Module ChromesomeMapAPI
 #Region "Create gene models"
         Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
         Dim geneModels = LinqAPI.Exec(Of SegmentObject) <=
- _
+                                                          _
             From gene As GeneBrief
             In genes
             Let position As Location = gene.Location.Normalization
@@ -359,8 +392,8 @@ Public Module ChromesomeMapAPI
                 .Product = gene.Product,
                 .LocusTag = gene.Synonym,
                 .CommonName = gene.Gene,
-                .Left = position.Left,
-                .Right = position.Right,
+                .Left = position.left,
+                .Right = position.right,
                 .Direction = gene.Location.Strand
             }
             Order By gm.Left Ascending
@@ -395,7 +428,7 @@ Public Module ChromesomeMapAPI
             Me._tRnaColor = New SolidBrush(tRnaColor)
         End Sub
 
-        Public Function __setColor(Product As String) As System.Drawing.Color
+        Public Function __setColor(Product As String) As Color
             If String.IsNullOrEmpty(Product) Then
                 Return DefaultRNAColor
             End If
@@ -409,7 +442,7 @@ Public Module ChromesomeMapAPI
             End If
         End Function
 
-        Public Function __setColorBrush(Product As String) As System.Drawing.Brush
+        Public Function __setColorBrush(Product As String) As Brush
             If String.IsNullOrEmpty(Product) Then
                 Return _DefaultRNAColor
             End If
@@ -428,15 +461,15 @@ Public Module ChromesomeMapAPI
     Public Function FromPttObject(<Parameter("Bacterial.Genome", "Using the gene object model data that define in the database to construct the basically bacterial genome skeleton.")>
                                   genome As PTTDbLoader, conf As Config) As ChromesomeDrawingModel
         Dim defaultColor As Color = (conf.NoneCogColor Or brown).TranslateColor
-        Dim GeneObjects = (From gene As GeneBrief
+        Dim GeneObjects As SegmentObject() = (From gene As GeneBrief
                            In genome.Values.AsParallel
-                           Select New SegmentObject With {
+                                              Select New SegmentObject With {
                                .Color = New SolidBrush(defaultColor),
                                .Product = gene.Product,
                                .LocusTag = gene.Synonym,
                                .CommonName = gene.Gene,
-                               .Left = Math.Min(gene.Location.Left, gene.Location.Right),
-                               .Right = Math.Max(gene.Location.Right, gene.Location.Left),
+                               .Left = Math.Min(gene.Location.left, gene.Location.right),
+                               .Right = Math.Max(gene.Location.right, gene.Location.left),
                                .Direction = gene.Location.Strand
                                }).AsList
 
@@ -450,12 +483,5 @@ Public Module ChromesomeMapAPI
         Model.MutationDatas = New MultationPointData() {}
 
         Return Model
-    End Function
-
-    Private Function __getRandomColor() As Color
-        Dim r = Rnd() * 255
-        Dim g = Rnd() * 255
-        Dim b = Rnd() * 255
-        Return Color.FromArgb(r, g, b)
     End Function
 End Module

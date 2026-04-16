@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9532b806ca689105e525c1747bd765b, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\StackFrame.vb"
+﻿#Region "Microsoft.VisualBasic::898934693968bd6be91c4fa603d40e8b, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\StackFrame.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,46 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 82 (59.42%)
+    ' Comment Lines: 39 (28.26%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 17 (12.32%)
+    '     File Size: 5.23 KB
+
+
     '     Class StackFrame
     ' 
     '         Properties: File, Line, Method
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Parser, parserImpl, ToString
+    '         Function: FromUnknownLocation, GetBreakpointHashCode, Parser, parserImpl, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ApplicationServices.Debugging.Diagnostics
 
+#Disable Warning BC40000 ' Type or member is obsolete
+    ''' <summary>
+    ''' Contains the necessary function calls information, source
+    ''' file location information for traceback the runtime error
+    ''' </summary>
+    ''' 
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public Class StackFrame
+#Enable Warning BC40000 ' Type or member is obsolete
 
         ''' <summary>
         ''' Method call
@@ -65,6 +88,7 @@ Namespace ApplicationServices.Debugging.Diagnostics
         ''' <returns></returns>
         Public Property Line As String
 
+        <DebuggerStepThrough>
         Sub New()
         End Sub
 
@@ -119,5 +143,53 @@ Namespace ApplicationServices.Debugging.Diagnostics
                 .Line = lineNumber
             }
         End Function
+
+        Public Shared Function FromUnknownLocation(stackName As String) As StackFrame
+            Return New StackFrame With {
+                .File = "n/a",
+                .Line = "n/a",
+                .Method = New Method With {
+                    .Method = stackName,
+                    .[Module] = "unknown",
+                    .[Namespace] = "unknown"
+                }
+            }
+        End Function
+
+        ''' <summary>
+        ''' 计算当前堆栈帧位置的哈希值，用于断点匹配。
+        ''' 哈希计算基于：标准化后的文件路径 + 行号。
+        ''' 如果文件路径为空，则回退到 Method 全名 + 行号。
+        ''' </summary>
+        ''' <returns>一个整数哈希值，可用于 HashSet 或 Dictionary 的 Key</returns>
+        Public Function GetBreakpointHashCode() As Integer
+            Dim hash As New List(Of Integer) From {17}
+
+            ' 1. 优先使用文件路径定位
+            ' 这是最准确的断点定位方式
+            If Not String.IsNullOrEmpty(Me.File) Then
+                ' 【关键步骤】标准化文件路径：
+                ' A. 统一分隔符为 '\'
+                ' B. 统一转为小写 (Windows环境不区分大小写，确保 "C:\A.vb" 和 "c:\a.vb" 命中同一断点)
+                Call hash.Add(Me.File.Replace("/"c, "\"c).ToLowerInvariant().GetHashCode)
+            Else
+                ' 2. 如果没有文件路径（例如 REPL 环境或动态代码），则使用 Method 信息
+                ' 依靠 Method.ToString() 返回的完整命名空间路径
+                If Me.Method IsNot Nothing Then
+                    Call hash.Add(Me.Method.ToString().GetHashCode)
+                End If
+            End If
+
+            ' 3. 加入行号
+            ' Line 属性是 String 类型，建议去除首尾空白以防解析误差
+            If Not String.IsNullOrEmpty(Me.Line) Then
+                ' 如果确定 Line 总是数字，也可以用 Integer.Parse(Me.Line).GetHashCode()
+                ' 但为了稳健性，直接使用字符串哈希更安全
+                Call hash.Add(Me.Line.Trim().GetHashCode)
+            End If
+
+            Return Arrays.hashCode(hash)
+        End Function
+
     End Class
 End Namespace

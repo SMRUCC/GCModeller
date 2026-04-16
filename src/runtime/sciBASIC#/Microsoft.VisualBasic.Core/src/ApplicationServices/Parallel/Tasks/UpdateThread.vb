@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d600fc3bc5d544d05801c901e154e033, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Tasks\UpdateThread.vb"
+﻿#Region "Microsoft.VisualBasic::1d0f61c84b92ddde8df7be66f454597f, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Tasks\UpdateThread.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 81 (53.29%)
+    ' Comment Lines: 52 (34.21%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 19 (12.50%)
+    '     File Size: 5.61 KB
+
+
     '     Class UpdateThread
     ' 
     '         Properties: Caller, ErrHandle, Periods, Running
@@ -39,7 +51,7 @@
     ' 
     '         Function: GetTicks, Start, ToString
     ' 
-    '         Sub: [Stop], __invoke, __updates, (+2 Overloads) Dispose
+    '         Sub: __invoke, __updates, [Stop], (+2 Overloads) Dispose
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,7 +60,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Triggers
 
 Namespace Parallel.Tasks
@@ -63,7 +74,7 @@ Namespace Parallel.Tasks
         Implements ITimer
 
         ''' <summary>
-        ''' Sleeps n **ms** interval
+        ''' The timer interval, sleeps n **ms** interval
         ''' </summary>
         ''' <returns></returns>
         Public Property Periods As Integer Implements ITimer.Interval
@@ -89,22 +100,22 @@ Namespace Parallel.Tasks
         ''' <summary>
         ''' Running a specific action in the background periodically. The time unit of the parameter <paramref name="Periods"/> is ms or Ticks.
         ''' </summary>
-        ''' <param name="Periods">ms for update thread sleeps</param>
+        ''' <param name="periods">ms for update thread sleeps</param>
         ''' <param name="updates"></param>
-        Sub New(Periods As Integer, updates As Action, <CallerMemberName> Optional caller$ = Nothing)
+        Sub New(periods As Integer, updates As Action, <CallerMemberName> Optional caller$ = Nothing)
             Call MyBase.New(updates)
 
             Me.Running = False
-            Me.Periods = Periods
+            Me.Periods = periods
             Me.Caller = caller
         End Sub
 
         Private Sub __updates()
-            Call $"Start running {Me.ToString}....".__DEBUG_ECHO
+            Call $"Start running {Me.ToString}....".debug
             Do While Running
                 Call __invoke()
             Loop
-            Call $"{Me.ToString} thread exit...".__DEBUG_ECHO
+            Call $"{Me.ToString} thread exit...".debug
         End Sub
 
         ''' <summary>
@@ -131,6 +142,7 @@ Namespace Parallel.Tasks
         Private Sub __invoke()
 #If DEBUG Then
             Call _execute()
+            Call Threading.Thread.Sleep(Periods)
 #Else
             Try
                 Call _execute()

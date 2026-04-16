@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4985884d939f7d4e22e2303e3249f84f, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
+﻿#Region "Microsoft.VisualBasic::539c30b42d58723e57578332ff8a1031, localblast\CLI_tools\CLI\BBH\UniProtTools.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 285
+    '    Code Lines: 227 (79.65%)
+    ' Comment Lines: 24 (8.42%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 34 (11.93%)
+    '     File Size: 13.10 KB
+
+
     ' Module CLI
     ' 
     '     Function: ExportGOFromUniprot, ExportKOFromUniprot, GetFileList, getSuffix, proteinEXPORT
@@ -46,7 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
@@ -88,7 +100,7 @@ Partial Module CLI
         Dim lineBreak As Integer = args("/lineBreak") Or 120
         Dim files$() = [in].GetFileList
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
                 .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
@@ -132,7 +144,7 @@ Partial Module CLI
         End If
 
         For Each path As String In files
-            Call path.__DEBUG_ECHO
+            Call path.debug
         Next
 
         Return files
@@ -164,7 +176,7 @@ Partial Module CLI
         Dim lineBreak As Integer = args("/lineBreak") Or 120
         Dim files$() = [in].GetFileList
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             For Each fa As FastaSeq In UniProtXML _
                 .EnumerateEntries(files) _
                 .UniProtProteinExports(Function(prot)
@@ -236,7 +248,7 @@ Partial Module CLI
         ' 1GB buffer size?
         Call App.SetBufferSize(128 * 1024 * 1024)
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim source As IEnumerable(Of UniProtEntry) = UniProtXML.EnumerateEntries(path:=[in])
 
             If Not String.IsNullOrEmpty(sp) Then

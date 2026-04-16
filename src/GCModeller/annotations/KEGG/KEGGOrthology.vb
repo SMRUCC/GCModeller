@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::999c481b476bb4ce1e6ff1e9941e5961, annotations\KEGG\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::4955893890084e8ac90b8e7edac8a8de, annotations\KEGG\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 316
+    '    Code Lines: 246 (77.85%)
+    ' Comment Lines: 31 (9.81%)
+    '    - Xml Docs: 93.55%
+    ' 
+    '   Blank Lines: 39 (12.34%)
+    '     File Size: 12.66 KB
+
+
     ' Module KEGGOrthology
     ' 
     '     Function: __profiles, CatalogProfiling, (+2 Overloads) KEGGEnrichmentPlot, KEGGPathwayEnrichmentProfile, Plot
@@ -39,14 +51,10 @@
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
-
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -60,6 +68,10 @@ Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
 
+#If NETCOREAPP Then
+Imports System.Data
+#End If
+
 Public Module KEGGOrthology
 
     ''' <summary>
@@ -70,7 +82,9 @@ Public Module KEGGOrthology
     ''' <param name="level$">统计的等级</param>
     ''' <returns></returns>
     <Extension>
-    Public Function CatalogProfiling(Of T As Map(Of String, String).IMap)(mappings As IEnumerable(Of T), KO As KO_gene(), Optional level$ = "A") As Dictionary(Of String, NamedValue(Of Integer)())
+    Public Function CatalogProfiling(Of T As Map(Of String, String).IMap)(mappings As IEnumerable(Of T),
+                                                                          KO As KO_gene(),
+                                                                          Optional level$ = "A") As Dictionary(Of String, NamedValue(Of Integer)())
         Dim htext As htext = htext.ko00001
         Dim noMapping As Integer
         Dim out As New Dictionary(Of String, NamedValue(Of Integer)())

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 16 (61.54%)
+    ' Comment Lines: 7 (26.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (11.54%)
+    '     File Size: 1.08 KB
+
+
     '     Module Paralog
     ' 
     '         Function: ExportParalog

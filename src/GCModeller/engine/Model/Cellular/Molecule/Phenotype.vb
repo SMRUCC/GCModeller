@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c37c9200baa7db96d61de5154e89999d, engine\Model\Cellular\Molecule\Phenotype.vb"
+﻿#Region "Microsoft.VisualBasic::f027b2e5d5c9880303dc9b6fcac309af, engine\Model\Cellular\Molecule\Phenotype.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 28 (54.90%)
+    ' Comment Lines: 14 (27.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (17.65%)
+    '     File Size: 1.78 KB
+
+
     '     Structure Phenotype
     ' 
-    ' 
+    '         Function: GetMetaboliteSymbolNames, GetReactionIndex
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
 Namespace Cellular.Molecule
@@ -57,7 +71,7 @@ Namespace Cellular.Molecule
         Public enzymes As String()
 
         ''' <summary>
-        ''' 
+        ''' A cellular network graph consist of collection of the biological reactions
         ''' </summary>
         Public fluxes As Reaction()
 
@@ -66,5 +80,26 @@ Namespace Cellular.Molecule
         ''' </summary>
         Public proteins As Protein()
 
+        Public Function GetMetaboliteSymbolNames() As Dictionary(Of String, String)
+            Dim symbolNames As New Dictionary(Of String, String)
+
+            For Each flux As Reaction In fluxes
+                For Each cpd As String In flux.AllCompounds
+                    symbolNames(cpd) = cpd
+                Next
+            Next
+
+            Return symbolNames
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetReactionIndex() As Dictionary(Of String, Reaction)
+            Return fluxes.SafeQuery _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
+        End Function
     End Structure
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37f99368cb0e3e84ce4b69ac73568a6, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
+﻿#Region "Microsoft.VisualBasic::594f0a470fe047c5417b6c8a39f4e635, data\RegulonDatabase\Regprecise\RegpreciseBBH.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 169
+    '    Code Lines: 117 (69.23%)
+    ' Comment Lines: 25 (14.79%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 27 (15.98%)
+    '     File Size: 6.74 KB
+
+
     '     Class RegpreciseBBH
     ' 
     '         Properties: effectors, family, geneName, HitName, pathway
@@ -50,8 +62,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.Data.Xfam.Pfam.ProteinDomainArchitecture.MPAlignment.BiDirectionalBesthit
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Regprecise
@@ -109,11 +121,11 @@ Namespace Regprecise
         Public Property Tfbs As String()
 
         Public Shared Iterator Function JoinTable(sbh As IEnumerable(Of BestHit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
-            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators.Select(Function(r) r.locus_tag.Select(Function(a) (locus_tag:=a, r))).IteratesALL _
                 .GroupBy(Function(r) r.locus_tag) _
                 .ToDictionary(Function(r) r.Key,
                               Function(g)
-                                  Return g.First
+                                  Return g.First.r
                               End Function)
 
             For Each hit As BestHit In sbh
@@ -148,11 +160,11 @@ Namespace Regprecise
         End Function
 
         Public Shared Iterator Function JoinTable(bbh As IEnumerable(Of BiDirectionalBesthit), regulators As IEnumerable(Of RegulatorTable)) As IEnumerable(Of RegpreciseBBH)
-            Dim TF As Dictionary(Of String, RegulatorTable) = regulators _
+            Dim TF As Dictionary(Of String, RegulatorTable) = regulators.Select(Function(r) r.locus_tag.Select(Function(a) (locus_tag:=a, r))).IteratesALL _
                 .GroupBy(Function(r) r.locus_tag) _
                 .ToDictionary(Function(r) r.Key,
                               Function(g)
-                                  Return g.First
+                                  Return g.First.r
                               End Function)
 
             For Each hit As BiDirectionalBesthit In bbh
@@ -189,13 +201,13 @@ Namespace Regprecise
     End Class
 
     ''' <summary>
-    ''' Bidirectional best hit regulator with the regprecise database.(调控因子与Regprecise数据库的双向最佳比对结果)
+    ''' Bidirectional best hit regulator with the regprecise database.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(调控因子与Regprecise数据库的双向最佳比对结果)</remarks>
     ''' 
     Public Class RegpreciseMPBBH : Inherits RegpreciseBBH
 
-        Implements IMPAlignmentResult
+        ' Implements IMPAlignmentResult
         Implements INamedValue
         Implements IRegulatorMatched
 
@@ -204,8 +216,8 @@ Namespace Regprecise
         <Column("Pfam-String")> Public Property PfamString As String
         <Column("subject.pfam-string")> Public Property SubjectPfamString As String
 
-        Public Property Similarity As Double Implements IMPAlignmentResult.Similarity
-        Public Property MPScore As Double Implements IMPAlignmentResult.MPScore
+        Public Property Similarity As Double 'Implements IMPAlignmentResult.Similarity
+        Public Property MPScore As Double 'Implements IMPAlignmentResult.MPScore
 
 #End Region
 

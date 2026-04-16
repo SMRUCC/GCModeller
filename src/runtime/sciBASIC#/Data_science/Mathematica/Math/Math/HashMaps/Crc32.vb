@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::870564f55daf9d9f6c41a05626b4e5cc, Data_science\Mathematica\Math\Math\HashMaps\Crc32.vb"
+﻿#Region "Microsoft.VisualBasic::fd58498641d1fa5c6e128ff6bc698231, Data_science\Mathematica\Math\Math\HashMaps\Crc32.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,19 @@
 
     ' Summaries:
 
-    ' Class Crc32
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 98 (87.50%)
+    ' Comment Lines: 4 (3.57%)
+    '    - Xml Docs: 75.00%
     ' 
-    '     Properties: CheckSum
+    '   Blank Lines: 10 (8.93%)
+    '     File Size: 5.47 KB
+
+
+    ' Class Crc32
     ' 
     '     Function: (+2 Overloads) AddToCRC32, CRC32Bytes, CRC32String, UPDC32
     ' 
@@ -47,12 +57,6 @@ Imports System.Runtime.CompilerServices
 ''' Crc32校验码
 ''' </summary>
 Public Class Crc32
-
-    ''' <summary>
-    ''' crc32
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property CheckSum As Integer
 
     Shared ReadOnly crc_32_tab%() = {
         0,
@@ -109,6 +113,8 @@ Public Class Crc32
         &H2A6F2B94, &HB40BBE37, &HC30C8EA1, &H5A05DF1B, &H2D02EF8D
     }
 
+    Dim _checkSum As UInteger
+
     Public Function AddToCRC32(c As Integer) As UInt32
         Return AddToCRC32(CUShort(c))
     End Function
@@ -116,9 +122,9 @@ Public Class Crc32
     Public Function AddToCRC32(c As UInt16) As UInt32
         Dim octet As Byte = CByte((c And &HFF))
         Dim num2 As Byte = CByte((c >> 8))
-        _CheckSum = Crc32.UPDC32(num2, _CheckSum)
-        _CheckSum = Crc32.UPDC32(octet, _CheckSum)
-        Return Not _CheckSum
+        _checkSum = Crc32.UPDC32(num2, _checkSum)
+        _checkSum = Crc32.UPDC32(octet, _checkSum)
+        Return Not _checkSum
     End Function
 
     Public Shared Function CRC32Bytes(bytes As Byte()) As UInt32

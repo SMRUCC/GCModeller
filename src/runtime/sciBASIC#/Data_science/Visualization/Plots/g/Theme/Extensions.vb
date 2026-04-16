@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 13 (81.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (18.75%)
+    '     File Size: 405 B
+
+
     '     Module Extensions
     ' 
     '         Function: IsNullOrEmpty

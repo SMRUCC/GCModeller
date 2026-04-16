@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::853113e2b5a45591c2f8cb33fc040466, Data\DataFrame\StorageProvider\ComponntModels\ReflectionBridges\Dictionary.vb"
+﻿#Region "Microsoft.VisualBasic::68fa54f9fa2661c9474d93e4d9fbe8c3, Data\DataFrame\StorageProvider\ComponntModels\ReflectionBridges\Dictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 30 (68.18%)
+    ' Comment Lines: 4 (9.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (22.73%)
+    '     File Size: 1.43 KB
+
+
     '     Class MetaAttribute
     ' 
     '         Properties: Dictionary, MetaAttribute, Name, ProviderId
@@ -44,7 +56,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 Namespace StorageProvider.ComponentModels
 
@@ -58,6 +70,10 @@ Namespace StorageProvider.ComponentModels
             End Get
         End Property
 
+        ''' <summary>
+        ''' the metadata dictionary value type
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Dictionary As Type
 
         Public Overrides ReadOnly Property ProviderId As ProviderIds

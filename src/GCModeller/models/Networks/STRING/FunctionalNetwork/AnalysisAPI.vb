@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0bb8ea6a94cfe2c28626746425f61a8, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
+﻿#Region "Microsoft.VisualBasic::ac12ce18b42aef91f20069953cb11579, models\Networks\STRING\FunctionalNetwork\AnalysisAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 94 (89.52%)
+    ' Comment Lines: 3 (2.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (7.62%)
+    '     File Size: 4.83 KB
+
+
     ' Module AnalysisAPI
     ' 
     '     Function: NetworkVisualize, Uniprot2STRING
@@ -43,13 +55,43 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
 Imports SMRUCC.genomics.Model.Network.KEGG
-Imports NetworkTables = Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkTables
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
+
 
 ''' <summary>
 ''' Functional network analysis based on the ``STRING-db``.
@@ -62,12 +104,12 @@ Public Module AnalysisAPI
                                      DEGs As (UP As Dictionary(Of String, Double), down As Dictionary(Of String, Double)),
                                      Optional layouts As IEnumerable(Of Coordinates) = Nothing,
                                      Optional radius$ = "5,30",
-                                     Optional canvasSize$ = "1920,1080") As (model As NetworkTables, image As Image)
+                                     Optional canvasSize$ = "1920,1080") As (model As NetworkGraph, image As Image)
 
         Dim colorLevels = (up:=ColorBrewer.SequentialSchemes.RdPu9, down:=ColorBrewer.SequentialSchemes.YlGnBu9)
-        Dim model = stringNetwork _
+        Dim model As NetworkGraph = stringNetwork _
             .BuildModel(uniprot:=annotations,
-                        groupValues:=FunctionalNetwork.KOGroupTable
+                        groupValues:=SimpleBuilder.KOGroupTable
             )
         Call model.ComputeNodeDegrees
         Call model.RenderDEGsColorSchema(DEGs, colorLevels,)

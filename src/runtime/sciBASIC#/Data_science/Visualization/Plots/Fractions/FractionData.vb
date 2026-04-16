@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 27 (52.94%)
+    ' Comment Lines: 19 (37.25%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (9.80%)
+    '     File Size: 1.75 KB
+
+
     '     Class FractionData
     ' 
     '         Properties: Color, Name, Percentage, Value

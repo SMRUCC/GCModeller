@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 30 (52.63%)
+    ' Comment Lines: 9 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (31.58%)
+    '     File Size: 1.28 KB
+
+
     '     Class YamlDocument
     ' 
     ' 

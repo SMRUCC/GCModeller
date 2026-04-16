@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::204010e8c5a67c7d8d08c2676a1a0f63, mime\application%pdf\PdfFileWriter\PDF\PdfAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::7b405eb77ea4f75941317c9ef1171b57, mime\application%pdf\PdfFileWriter\PDF\PdfAnnotation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 188
+    '    Code Lines: 77 (40.96%)
+    ' Comment Lines: 79 (42.02%)
+    '    - Xml Docs: 34.18%
+    ' 
+    '   Blank Lines: 32 (17.02%)
+    '     File Size: 7.06 KB
+
+
     '     Class PdfAnnotation
     ' 
     '         Properties: AnnotationRect
@@ -42,7 +54,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -65,7 +77,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System.Collections.Generic
 
@@ -89,7 +101,7 @@ Imports System.Collections.Generic
         ''' <param name="AnnotPage">Page object</param>
         ''' <param name="AnnotRect">Annotation rectangle</param>
         ''' <param name="AnnotAction">Annotation action</param>
-        Friend Sub New(ByVal AnnotPage As PdfPage, ByVal AnnotRect As PdfRectangle, ByVal AnnotAction As AnnotAction)
+        Friend Sub New(AnnotPage As PdfPage, AnnotRect As PdfRectangle, AnnotAction As AnnotAction)
             MyBase.New(AnnotPage.Document)
             ' save arguments
             Me.AnnotPage = AnnotPage
@@ -183,7 +195,7 @@ Imports System.Collections.Generic
         ''' Activate annotation when page becomes visible.
         ''' </summary>
         ''' <param name="Activate">Activate or not-activate annotation.</param>
-        Public Sub ActivateActionWhenPageIsVisible(ByVal Activate As Boolean)
+        Public Sub ActivateActionWhenPageIsVisible(Activate As Boolean)
             ' applicable to screen action
             If AnnotAction.GetType() Is GetType(AnnotDisplayMedia) Then
                 ' play video when page becomes visible
@@ -201,7 +213,7 @@ Imports System.Collections.Generic
         ''' Display border around annotation rectangle.
         ''' </summary>
         ''' <param name="BorderWidth">Border width</param>
-        Public Sub DisplayBorder(ByVal BorderWidth As Double)
+        Public Sub DisplayBorder(BorderWidth As Double)
             ' see page 611 section 8.4
             Dictionary.AddFormat("/BS", "<</W {0}>>", ToPt(BorderWidth))
             Return
@@ -211,14 +223,14 @@ Imports System.Collections.Generic
         ''' Annotation rectangle appearance
         ''' </summary>
         ''' <param name="AppearanceDixtionary">PDF X Object</param>
-        Public Sub Appearance(ByVal AppearanceDixtionary As PdfXObject)
+        Public Sub Appearance(AppearanceDixtionary As PdfXObject)
             Dictionary.AddFormat("/AP", "<</N {0} 0 R>>", AppearanceDixtionary.ObjectNumber)
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ' Write object to PDF file
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         Friend Overrides Sub WriteObjectToPdfFile()
             ' layer control
             If LayerControl IsNot Nothing Then Dictionary.AddIndirectReference("/OC", LayerControl)

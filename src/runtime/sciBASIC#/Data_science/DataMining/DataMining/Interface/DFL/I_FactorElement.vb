@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 62 (51.67%)
+    ' Comment Lines: 42 (35.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (13.33%)
+    '     File Size: 4.56 KB
+
+
     '     Class I_FactorElement
     ' 
     '         Properties: FunctionalState, Quantity, Weight

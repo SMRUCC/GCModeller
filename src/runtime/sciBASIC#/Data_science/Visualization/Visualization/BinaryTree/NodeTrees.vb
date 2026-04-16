@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae888446c779a64c3b1ec764b04d88a5, Data_science\Visualization\Visualization\BinaryTree\NodeTrees.vb"
+﻿#Region "Microsoft.VisualBasic::eebccc4ba090d822c53aa53aadf2f32b, Data_science\Visualization\Visualization\BinaryTree\NodeTrees.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 109 (71.24%)
+    ' Comment Lines: 22 (14.38%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 22 (14.38%)
+    '     File Size: 6.95 KB
+
 
     '     Module NodeTrees
     ' 
@@ -150,9 +162,10 @@ Namespace KMeans
         <Extension>
         Private Iterator Function __cutTrees(tree As EntityNode, childsDistribute As Dictionary(Of String, Double), min%) As IEnumerable(Of Partition)
             Dim part = Function(cut As EntityNode)
-                           Dim allChilds As EntityNode() = cut _
+                           Dim allChilds As EntityNode() = cut.AsEnumerable _
                                .Where(Function(c) c.Type = EntityType) _
                                .ToArray
+
                            Return New Partition() With {
                                 .Tag = cut.FullyQualifiedName,
                                 .uids = allChilds.Select(Function(x) x.EntityID),

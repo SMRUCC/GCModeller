@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c2560de2182c9308e0e54274b6f8498, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
+﻿#Region "Microsoft.VisualBasic::ba1e65691d339be08c7046e5bf3c1995, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\DNA.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 24 (29.27%)
+    ' Comment Lines: 53 (64.63%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (6.10%)
+    '     File Size: 2.25 KB
+
+
     '     Enum DNA
     ' 
     '         B, D, H, K, M
@@ -51,10 +63,10 @@ Namespace SequenceModel.NucleotideModels
 
     ''' <summary>
     ''' Deoxyribonucleotides NT base which consist of the DNA sequence.
-    ''' (枚举所有的脱氧核糖核苷酸)
     ''' </summary>
-    ''' <remarks></remarks>
-    <Description("Deoxyribonucleotides")> Public Enum DNA As Byte
+    ''' <remarks>(枚举所有的脱氧核糖核苷酸)</remarks>
+    <Description("Deoxyribonucleotides")>
+    Public Enum DNA As Byte
 
         ''' <summary>
         ''' Gaps/Rare bases(空格或者其他的稀有碱基)

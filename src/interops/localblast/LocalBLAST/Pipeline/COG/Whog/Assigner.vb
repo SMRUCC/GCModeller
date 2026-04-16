@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24 (63.16%)
+    ' Comment Lines: 7 (18.42%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.34 KB
+
+
     '     Module Assigner
     ' 
     '         Function: DoAssign

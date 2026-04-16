@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 352
+    '    Code Lines: 202 (57.39%)
+    ' Comment Lines: 110 (31.25%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 40 (11.36%)
+    '     File Size: 14.36 KB
+
+
     '     Class [Function]
     ' 
     '         Properties: Catalogs, NotAssigned
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: [Default], __getCategory, __trimCOGs, CanbeCategoryAs, Category
+    '         Function: __getCategory, __trimCOGs, [Default], CanbeCategoryAs, Category
     '                   ClassCategory, GetCatalog, (+2 Overloads) GetCategories, GetCategory, IndexOf
     '                   Statistics
     ' 

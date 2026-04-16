@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8efc4aae01732482feefed23ef95fff, gr\Landscape\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::79bc8001ac5d8d574a42d35b8418231f, gr\Landscape\Vector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 28 (70.00%)
+    ' Comment Lines: 6 (15.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.00%)
+    '     File Size: 1.31 KB
+
+
     '     Structure Vector
     ' 
     '         Properties: Point3D, PointData
@@ -44,6 +56,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 

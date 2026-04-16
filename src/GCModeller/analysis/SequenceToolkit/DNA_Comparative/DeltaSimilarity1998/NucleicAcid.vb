@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::583f4735bc93ad449d544e65339dc70d, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::888cf7c3c1b2e23c83e08f6962389fb3, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 86 (60.14%)
+    ' Comment Lines: 38 (26.57%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 19 (13.29%)
+    '     File Size: 5.33 KB
+
+
     '     Class NucleicAcid
     ' 
     '         Properties: length, UserTag
@@ -43,6 +55,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -67,6 +80,10 @@ Namespace DeltaSimilarity1998
 
         Public ReadOnly Property UserTag As String
 
+        ''' <summary>
+        ''' the size of current nt sequence.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property length As Integer
             Get
                 Return nt.Length
@@ -79,6 +96,8 @@ Namespace DeltaSimilarity1998
         ''' <param name="X"></param>
         ''' <param name="Y"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue(X As DNA, Y As DNA) As Double
             Return biasTable($"{ToChar(X)} -> {ToChar(Y)}")
         End Function
@@ -97,7 +116,8 @@ Namespace DeltaSimilarity1998
             ' 否则会非常慢
             DNA_segments = slideWindows().ToArray
 
-            For Each X As (a As DNA, B As DNA) In {
+            ' readonly cache data
+            Static dimer As (DNA, DNA)() = {
                 (DNA.dAMP, DNA.dAMP),
                 (DNA.dAMP, DNA.dCMP),
                 (DNA.dAMP, DNA.dGMP),
@@ -115,6 +135,8 @@ Namespace DeltaSimilarity1998
                 (DNA.dTMP, DNA.dGMP),
                 (DNA.dTMP, DNA.dTMP)
             }
+
+            For Each X As (a As DNA, B As DNA) In dimer
                 With __createSigma(Me, X.a, X.B)
                     Call biasTable.Add(.Key, .Value)
                 End With
@@ -155,6 +177,12 @@ Namespace DeltaSimilarity1998
             Call Me.New(nt.ToArray)
         End Sub
 
+        ''' <summary>
+        ''' Create slide windows on the given sequence data
+        ''' </summary>
+        ''' <param name="winSize%"></param>
+        ''' <param name="step%"></param>
+        ''' <returns></returns>
         Public Iterator Function CreateFragments(winSize%, step%) As IEnumerable(Of NucleicAcid)
             For Each region In nt.SlideWindows(winSize, offset:=[step])
                 Yield New NucleicAcid(region)

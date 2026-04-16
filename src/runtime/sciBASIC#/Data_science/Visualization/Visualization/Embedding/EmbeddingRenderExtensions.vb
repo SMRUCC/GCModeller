@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db24f8289796eb866d8df50d3e7eb810, Data_science\Visualization\Visualization\Embedding\EmbeddingRenderExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::9e53ed8beaab66db07dc60aedd34ad29, Data_science\Visualization\Visualization\Embedding\EmbeddingRenderExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 102 (69.39%)
+    ' Comment Lines: 36 (24.49%)
+    '    - Xml Docs: 97.22%
+    ' 
+    '   Blank Lines: 9 (6.12%)
+    '     File Size: 6.08 KB
+
+
     ' Module EmbeddingRenderExtensions
     ' 
     '     Function: DrawEmbedding2D, DrawEmbedding3D, GetPoint2D, GetPoint3D
@@ -52,6 +64,11 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 <HideModuleName>
 Public Module EmbeddingRenderExtensions
 
+    ''' <summary>
+    ''' get embedding result as spatial location
+    ''' </summary>
+    ''' <param name="umap"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GetPoint2D(umap As IDataEmbedding) As PointF()
         If umap.dimension <> 2 Then
@@ -65,6 +82,11 @@ Public Module EmbeddingRenderExtensions
         End If
     End Function
 
+    ''' <summary>
+    ''' get embedding result as spatial location
+    ''' </summary>
+    ''' <param name="umap"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function GetPoint3D(umap As IDataEmbedding) As Point3D()
         If umap.dimension <> 3 Then

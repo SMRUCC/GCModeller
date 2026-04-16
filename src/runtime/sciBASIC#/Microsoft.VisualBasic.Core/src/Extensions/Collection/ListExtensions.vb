@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::434eb7185b38106167ebbcc7e621d042, Microsoft.VisualBasic.Core\src\Extensions\Collection\ListExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::94c371fad203032b59da6a80dafbf4c7, Microsoft.VisualBasic.Core\src\Extensions\Collection\ListExtensions.vb"
 
     ' Author:
     ' 
@@ -31,25 +31,37 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 387
+    '    Code Lines: 203 (52.45%)
+    ' Comment Lines: 144 (37.21%)
+    '    - Xml Docs: 86.81%
+    ' 
+    '   Blank Lines: 40 (10.34%)
+    '     File Size: 14.09 KB
+
+
     ' Module ListExtensions
     ' 
     '     Function: AppendAfter, AsHashList, AsHashSet, AsList, AsLoop
-    '               Count, HasKey, Indexing, rand, Random
-    '               ReorderByKeys, (+2 Overloads) ToList, TopMostFrequent
+    '               Count, HasKey, Indexing, Pop, PopAt
+    '               PopFirst, Random, ReorderByKeys, (+2 Overloads) ToList, TopMostFrequent
     ' 
-    '     Sub: DoEach, ForEach, Swap
+    '     Sub: AddFirst, DoEach, (+2 Overloads) ForEach, RemoveAll, Swap
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 ''' <summary>
 ''' Initializes a new instance of the <see cref="List"/>`1 class that
@@ -59,19 +71,19 @@ Imports Microsoft.VisualBasic.Linq
 Public Module ListExtensions
 
     ''' <summary>
-    ''' 将<paramref name="join"/>加入到<paramref name="list"/>序列后面
+    ''' append the <paramref name="list"/> after the collection <paramref name="first"/>.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="join"></param>
+    ''' <param name="first"></param>
     ''' <param name="list"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function AppendAfter(Of T)(join As IEnumerable(Of T), list As IEnumerable(Of T)) As IEnumerable(Of T)
-        For Each x In list.SafeQuery
-            Yield x
+    Public Iterator Function AppendAfter(Of T)(first As IEnumerable(Of T), ParamArray list As T()) As IEnumerable(Of T)
+        For Each xi As T In first.SafeQuery
+            Yield xi
         Next
-        For Each x In join.SafeQuery
-            Yield x
+        For Each xi As T In list
+            Yield xi
         Next
     End Function
 
@@ -88,6 +100,19 @@ Public Module ListExtensions
         Return i
     End Function
 
+    ' this count method has already been defined in the .netcore base framework
+    '''' <summary>
+    '''' Get the element count which matched with the given <paramref name="predicate"/> expression
+    '''' </summary>
+    '''' <typeparam name="T"></typeparam>
+    '''' <param name="list"></param>
+    '''' <param name="predicate"></param>
+    '''' <returns></returns>
+    '<Extension>
+    'Public Function Count(Of T)(list As IEnumerable(Of T), predicate As Predicate(Of T)) As Integer
+    '    Return list.Where(AddressOf predicate.Invoke).Count
+    'End Function
+
     '<Extension>
     'Public Function Count(Of T As IComparable(Of T))(list As IEnumerable(Of T), item As T) As Integer
 
@@ -98,7 +123,10 @@ Public Module ListExtensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="list"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function returns the item with top frequency in the given list sequence; 
+    ''' and nothing will be returns if the given collection is empty.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TopMostFrequent(Of T)(list As IEnumerable(Of T), Optional equals As IEqualityComparer(Of T) = Nothing) As T
@@ -130,18 +158,12 @@ Public Module ListExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="collection"></param>
     ''' <param name="[do]"></param>
-    <Extension> Public Sub DoEach(Of T)(collection As IEnumerable(Of T), [do] As Action(Of T))
+    <Extension>
+    Public Sub DoEach(Of T)(collection As IEnumerable(Of T), [do] As Action(Of T))
         For Each x As T In collection.SafeQuery
             Call [do](x)
         Next
     End Sub
-
-    Private Function rand(min%, max%) As Integer
-        Static rnd As New Random
-        SyncLock rnd
-            Return rnd.Next(min, max)
-        End SyncLock
-    End Function
 
     ''' <summary>
     ''' 返回数组集合之中的一个随机位置的元素
@@ -149,8 +171,9 @@ Public Module ListExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="v"></param>
     ''' <returns></returns>
-    <Extension> Public Function Random(Of T)(v As T()) As T
-        Dim l% = rand(0, v.Length)
+    <Extension>
+    Public Function Random(Of T)(v As T()) As T
+        Dim l% = randf.NextInteger(v.Length)
         Return v(l)
     End Function
 
@@ -199,13 +222,24 @@ Public Module ListExtensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' returns an empty index collection if the given 
+    ''' <paramref name="source"/> id set is empty or 
+    ''' nothing.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function Indexing(Of T)(source As IEnumerable(Of T)) As Index(Of T)
-        Return New Index(Of T)(source)
+    Public Function Indexing(Of T)(source As IEnumerable(Of T), Optional base As Integer = 0) As Index(Of T)
+        Return New Index(Of T)(source, base)
     End Function
 
+    ''' <summary>
+    ''' swap the position of two specific element inside a given list collection object
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="l"></param>
+    ''' <param name="i%"></param>
+    ''' <param name="j%"></param>
     <Extension>
     Public Sub Swap(Of T)(ByRef l As System.Collections.Generic.List(Of T), i%, j%)
         Dim tmp = l(i)
@@ -213,10 +247,36 @@ Public Module ListExtensions
         l(j) = tmp
     End Sub
 
+    ''' <summary>
+    ''' for each loop
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="action"></param>
     <Extension>
     Public Sub ForEach(Of T)(source As IEnumerable(Of T), action As Action(Of T, Integer))
-        For Each x As SeqValue(Of T) In source.SeqIterator
-            Call action(x.value, x.i)
+        Dim i As Integer = 0
+
+        If source Is Nothing Then
+            Return
+        End If
+
+        For Each x As T In source
+            action(x, i)
+            i += 1
+        Next
+    End Sub
+
+    ''' <summary>
+    ''' for each loop
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="source"></param>
+    ''' <param name="action"></param>
+    <Extension>
+    Public Sub ForEach(Of T)(source As IEnumerable(Of T), action As Action(Of T))
+        For Each x As T In source.SafeQuery
+            Call action(x)
         Next
     End Sub
 
@@ -226,11 +286,10 @@ Public Module ListExtensions
     ''' to accommodate the number of elements copied.
     ''' </summary>
     ''' <param name="source">The collection whose elements are copied to the new list.</param>
-    <Extension> Public Function ToList(Of T, TOut)(
-                                  source As IEnumerable(Of T),
-                                 [CType] As Func(Of T, TOut),
-                       Optional parallel As Boolean = False) As List(Of TOut)
-
+    <Extension>
+    Public Function ToList(Of T, TOut)(source As IEnumerable(Of T),
+                                       [CType] As Func(Of T, TOut),
+                                       Optional parallel As Boolean = False) As List(Of TOut)
         If source Is Nothing Then
             Return New List(Of TOut)
         End If
@@ -260,11 +319,12 @@ Public Module ListExtensions
     ''' <param name="source">
     ''' The collection whose elements are copied to the new list.
     ''' </param>
-    ''' 
+    ''' <remarks>
+    ''' 如果source集合是空值的话，不会抛错
+    ''' </remarks>
     <DebuggerStepThrough>
     <Extension>
     Public Function AsList(Of T)(source As IEnumerable(Of T)) As List(Of T)
-        ' 如果source集合是空值的话，不会抛错
         Return New List(Of T)(source)
     End Function
 
@@ -321,7 +381,64 @@ Public Module ListExtensions
     ''' to accommodate the number of elements copied.
     ''' </summary>
     ''' <param name="linq">The collection whose elements are copied to the new list.</param>
-    <Extension> Public Function ToList(Of T)(linq As ParallelQuery(Of T)) As List(Of T)
+    <Extension>
+    Public Function ToList(Of T)(linq As ParallelQuery(Of T)) As List(Of T)
         Return New List(Of T)(linq)
     End Function
+
+    <Extension>
+    Public Function PopAt(Of T)(list As System.Collections.Generic.List(Of T), index As Integer) As T
+        Dim getAt As T = list(index)
+        list.RemoveAt(index)
+        Return getAt
+    End Function
+
+    ''' <summary>
+    ''' removes the last element inside the list and then returns it
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Pop(Of T)(list As System.Collections.Generic.List(Of T)) As T
+        If list.Count > 0 Then
+            Dim last As T = list.Last
+            list.RemoveAt(list.Count - 1)
+            Return last
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Remove the first element from the list and then returns this removed element.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function PopFirst(Of T)(ByRef list As System.Collections.Generic.List(Of T)) As T
+        If list.IsNullOrEmpty Then
+            Return Nothing
+        Else
+            Dim first As T = list(0)
+            Call list.RemoveAt(0)
+            Return first
+        End If
+    End Function
+
+    <Extension>
+    Public Sub RemoveAll(Of T)(list As System.Collections.Generic.List(Of T), all As IEnumerable(Of T))
+        If Not all Is Nothing Then
+            For Each item As T In all
+                Call list.Remove(item)
+            Next
+        End If
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Sub AddFirst(Of T)(ByRef list As System.Collections.Generic.List(Of T), x As T)
+        Call list.Insert(0, x)
+    End Sub
 End Module

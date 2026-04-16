@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 84 (83.17%)
+    ' Comment Lines: 5 (4.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (11.88%)
+    '     File Size: 4.16 KB
+
+
     '     Module KMeansNetwork
     ' 
     '         Function: ToNetwork

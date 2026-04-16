@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a404a9b5ddbc130ad4f858b2bd687ab1, visualize\SyntenyVisual\SyntenyRegion.vb"
+﻿#Region "Microsoft.VisualBasic::7b3950a7690100c2d33580d061a5f957, visualize\SyntenyVisual\SyntenyRegion.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 92 (76.67%)
+    ' Comment Lines: 12 (10.00%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 16 (13.33%)
+    '     File Size: 4.79 KB
+
 
     ' Class SyntenyRegion
     ' 
@@ -142,8 +154,8 @@ Public Module SyntenyRegionExtensions
         ' match的位置就是基因组上面的坐标位置
         For Each map In smithwaterMan.Matches(cutoff * smithwaterMan.MaxScore)
             Yield New SyntenyRegion With {
-                .query = {map.fromA, map.toA},
-                .subject = {map.fromB, map.toB},
+                .query = New DoubleRange({map.fromA, map.toA}),
+                .subject = New DoubleRange({map.fromB, map.toB}),
                 .score = map.score
             }
         Next

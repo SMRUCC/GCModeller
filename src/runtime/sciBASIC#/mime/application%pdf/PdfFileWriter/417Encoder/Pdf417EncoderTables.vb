@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee02f7c99da810085173dc8448eb361b, mime\application%pdf\PdfFileWriter\417Encoder\Pdf417EncoderTables.vb"
+﻿#Region "Microsoft.VisualBasic::2ab29cd1c08750313d68ff7736c3ac2e, mime\application%pdf\PdfFileWriter\417Encoder\Pdf417EncoderTables.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 21 (26.58%)
+    ' Comment Lines: 48 (60.76%)
+    '    - Xml Docs: 6.25%
+    ' 
+    '   Blank Lines: 10 (12.66%)
+    '     File Size: 32.48 KB
+
+
     '     Class Pdf417EncoderTables
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -39,7 +51,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PDF417 Barcode Encoder
 '
@@ -69,7 +81,7 @@
 '
 '	Version 1.0 2019/04/01
 '		Original version
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System.Numerics
 

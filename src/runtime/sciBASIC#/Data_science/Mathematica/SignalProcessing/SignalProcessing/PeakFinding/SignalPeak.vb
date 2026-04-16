@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2afbf9ad2dd55862b2921eac19155a2b, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
+﻿#Region "Microsoft.VisualBasic::973b6a6783589d8620ce54d6db07767d, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\SignalPeak.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 78 (78.00%)
+    ' Comment Lines: 3 (3.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (19.00%)
+    '     File Size: 3.26 KB
+
+
     '     Structure SignalPeak
     ' 
     '         Properties: isEmpty, rt, rtmax, rtmin, signalMax
@@ -44,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language.Default
 
 Namespace PeakFinding
@@ -51,6 +64,10 @@ Namespace PeakFinding
     Public Structure SignalPeak : Implements IsEmpty
 
         Dim region As ITimeSignal()
+
+        ''' <summary>
+        ''' the integration area percentage, value [0,100]
+        ''' </summary>
         Dim integration As Double
         Dim baseline As Double
 
@@ -69,27 +86,42 @@ Namespace PeakFinding
 
         Public ReadOnly Property rt As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region _
                     .OrderByDescending(Function(a) a.intensity) _
-                    .FirstOrDefault _
-                    .time
+                    .FirstOrDefault.time
             End Get
         End Property
 
         Public ReadOnly Property rtmin As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region.First.time
             End Get
         End Property
 
         Public ReadOnly Property rtmax As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return region.Last.time
             End Get
         End Property
 
         Public ReadOnly Property signalMax As Double
             Get
+                If region.IsNullOrEmpty Then
+                    Return 0
+                End If
+
                 Return Aggregate tick As ITimeSignal
                        In region
                        Let data As Double = tick.intensity
@@ -107,6 +139,7 @@ Namespace PeakFinding
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Subset(rtmin As Double, rtmax As Double) As SignalPeak
             Return New SignalPeak With {
                 .integration = integration,
@@ -117,7 +150,7 @@ Namespace PeakFinding
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"[{rtmin}, {rtmax}] {region.Length} ticks:  {region.Select(Function(a) a.intensity).JoinBy(", ")}"
+            Return $"[{rtmin.ToString("F1")}s, {rtmax.ToString("F1")}s] {region.Length} ticks:  {region.Select(Function(a) a.intensity.ToString("F0")).JoinBy(", ")}"
         End Function
 
     End Structure

@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH BIOSEQ.PATTERNS 2 2000-1月 "motif.find_sites" "motif.find_sites"
+.SH NAME
+motif.find_sites \- Find target loci site based on the given motif model
+.SH SYNOPSIS
+\fImotif.find_sites(\fBmotif\fR as any, 
+\fBtarget\fR as any, 
+\fBcutoff\fR as double = 0.6, 
+\fBminW\fR as double = 8, 
+\fBidentities\fR as double = 0.85, 
+\fBpvalue\fR as double = 0.05, 
+\fBparallel\fR as boolean = FALSE, 
+\fBmotif_name\fR as string = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Find target loci site based on the given motif model
+.PP
+.SH OPTIONS
+.PP
+\fBmotif\fB \fR\- could be @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceMotif\fR or @\fBT:SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.MSAMotif\fR. 
+.PP
+.PP
+\fBtarget\fB \fR\- a collection of fasta sequence. 
+.PP
+.PP
+\fBcutoff#\fB \fR\- -. 
+.PP
+.PP
+\fBminW#\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+bioseq.patterns
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

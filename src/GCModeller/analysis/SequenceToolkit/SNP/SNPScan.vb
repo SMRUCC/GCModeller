@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ea33bf929125baaf1bff094f84f1542, analysis\SequenceToolkit\SNP\SNPScan.vb"
+﻿#Region "Microsoft.VisualBasic::57f1fe5465e2e30ebc8a8258393912bd, analysis\SequenceToolkit\SNP\SNPScan.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 60 (56.60%)
+    ' Comment Lines: 35 (33.02%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 11 (10.38%)
+    '     File Size: 4.97 KB
+
+
     ' Module SNPScan
     ' 
     '     Function: __scanRaw, (+2 Overloads) ScanRaw, ScanSNPs
@@ -41,15 +53,14 @@
 
 #End Region
 
+Imports System.Data
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
 Imports SMRUCC.genomics.Analysis.SequenceTools.SNP.SangerSNPs
-Imports SMRUCC.genomics.Interops
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Public Module SNPScan
 
@@ -94,9 +105,6 @@ Public Module SNPScan
         Console.Write("Microbial Genomics 2(4), (2016). http://dx.doi.org/10.1099/mgen.0.000056" & vbLf)
     End Sub
 
-    ReadOnly clustal As ClustalOrg.Clustal =
-        ClustalOrg.Clustal.CreateSession
-
     ''' <summary>
     ''' 
     ''' </summary>
@@ -121,8 +129,10 @@ Public Module SNPScan
     End Function
 
     Private Function __scanRaw([in] As String) As SNPsAln
-        Dim nt As FASTA.FastaFile = clustal.MultipleAlignment([in])
-        nt.FilePath = [in]
+        Dim msa As MSAOutput = FastaFile.LoadNucleotideData([in]).MultipleAlignment
+        Dim nt As New FastaFile(msa.PopulateAlignment) With {
+            .FilePath = [in]
+        }
         Return nt.ScanSNPs(refInd:=Scan0)
     End Function
 
@@ -143,7 +153,7 @@ Public Module SNPScan
         If index = -1 Then
             Throw New EvaluateException($"{refInd} is not a valid reference....")
         Else
-            Call $"Using {nt(index).Title} as reference...".__DEBUG_ECHO
+            Call $"Using {nt(index).Title} as reference...".debug
         End If
 
         Return nt.SNPSitesGeneric(1, 1, 1, TempFileSystem.GetAppSysTempFile, index, If(pureMode, 1, 0), If(monomorphic, 1, 0), vcf_output_filename)

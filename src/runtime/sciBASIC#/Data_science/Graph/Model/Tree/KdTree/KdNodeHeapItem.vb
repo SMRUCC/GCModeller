@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73b53afdae67035ace0b81c145f77432, Data_science\Graph\Model\Tree\KdTree\KdNodeHeapItem.vb"
+﻿#Region "Microsoft.VisualBasic::cf405d25fbd65eb76fe390698b72bc9e, Data_science\Graph\Model\Tree\KdTree\KdNodeHeapItem.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 13 (41.94%)
+    ' Comment Lines: 12 (38.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (19.35%)
+    '     File Size: 856 B
+
+
     '     Class KdNodeHeapItem
     ' 
     '         Properties: distance, node
@@ -45,9 +57,22 @@
 
 Namespace KdTree
 
+    ''' <summary>
+    ''' A KD-tree node bind with the distance with the target query point.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class KdNodeHeapItem(Of T)
 
+        ''' <summary>
+        ''' the node KNN query result
+        ''' </summary>
+        ''' <returns></returns>
         Public Property node As KdTreeNode(Of T)
+
+        ''' <summary>
+        ''' the distance value to the query point
+        ''' </summary>
+        ''' <returns></returns>
         Public Property distance As Double
 
         Sub New(node As KdTreeNode(Of T), dist As Double)

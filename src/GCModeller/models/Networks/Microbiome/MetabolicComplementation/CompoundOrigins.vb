@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 35 (66.04%)
+    ' Comment Lines: 11 (20.75%)
+    '    - Xml Docs: 72.73%
+    ' 
+    '   Blank Lines: 7 (13.21%)
+    '     File Size: 2.03 KB
+
+
     ' Class CompoundOrigins
     ' 
     '     Function: CreateEmptyCompoundsProfile, getIndexJson

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 64 (46.04%)
+    ' Comment Lines: 51 (36.69%)
+    '    - Xml Docs: 68.63%
+    ' 
+    '   Blank Lines: 24 (17.27%)
+    '     File Size: 5.45 KB
+
+
     '     Class LinguisticVariable
     ' 
     '         Properties: InputValue, MembershipFunctionCollection, Name

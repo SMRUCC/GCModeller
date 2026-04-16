@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::452460015960038ed3b2d2158a3058ff, visualize\ChromosomeMap\Configuration\Config.vb"
+﻿#Region "Microsoft.VisualBasic::a52b22c15e6ace4b0ad242290c491db4, visualize\ChromosomeMap\Configuration\Config.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 200 (79.68%)
+    ' Comment Lines: 16 (6.37%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 35 (13.94%)
+    '     File Size: 12.74 KB
+
+
     '     Class Config
     ' 
     '         Properties: AddLegend, AspectRatio, DefaultRNAColor, DeletionMutation, FLAG_HEIGHT
@@ -39,8 +51,8 @@
     '                     NoneCogColor, Resolution, ribosomalRNAColor, SavedFormat, SecondaryRuleFont
     '                     tRNAColor
     ' 
-    '         Function: [DefaultValue], CssFontParser, GetDrawingColor, GetDrawingSize, GetSavedImageFormat
-    '                   GetTextAlignment, (+2 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
+    '         Function: [DefaultValue], GetDrawingColor, GetDrawingSize, GetSavedImageFormat, GetTextAlignment
+    '                   (+3 Overloads) Save, ToConfigurationModel, ToString, TypeOfAlignment
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,15 +61,16 @@
 
 Imports System.Drawing
 Imports System.Drawing.Imaging
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Data.Framework.IO.Properties
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
-Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
 Namespace Configuration
@@ -221,10 +234,6 @@ Namespace Configuration
 
         ' 下面的这些函数都是进行反射操作之中自定义的数据类型加载的所必须要用到的函数
 
-        Public Shared Function CssFontParser(css$, dpi As Integer) As Font
-            Return CSSFont.TryParse(css).GDIObject(dpi)
-        End Function
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function TypeOfAlignment(p As String) As TextPadding
             Return LabelPaddingExtensions _
@@ -252,8 +261,8 @@ Namespace Configuration
             Return strValue.TranslateColor
         End Function
 
-        Public Shared Function GetSavedImageFormat(config As String) As ImageFormat
-            Return GetSaveImageFormat(config)
+        Public Shared Function GetSavedImageFormat(config As String) As ImageFormats
+            Return (config).ParseImageFormat
         End Function
 
         Public Function GetTextAlignment(s As String) As DataReader.TextAlignment
@@ -278,12 +287,22 @@ Namespace Configuration
         End Function
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Dim Text As String = Me.ToConfigDoc
-            Return Text.SaveTo(Path, encoding)
+            Using s As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(s, encoding)
+            End Using
         End Function
 
         Public Overrides Function ToString() As String
             Return Me.ToConfigDoc
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.ToConfigDoc)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8afdcaf910b1cd7349433ea0f243840, mime\application%rdf+xml\DataModel\Description.vb"
+﻿#Region "Microsoft.VisualBasic::3967b4b88ffc74f289ec398e722e2244, mime\application%rdf+xml\DataModel\Description.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 21 (70.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (30.00%)
+    '     File Size: 886 B
+
+
     ' Class Description
     ' 
-    '     Properties: about
+    '     Properties: about, comment, label, type
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -43,7 +56,7 @@
 
 Imports System.Xml.Serialization
 
-<XmlType("DescriptionModel", [Namespace]:="NA")>
+<XmlType("abstract_rdf_description", [Namespace]:=RDFEntity.xmlns_nil)>
 Public MustInherit Class Description
 
     <XmlNamespaceDeclarations()>
@@ -52,8 +65,22 @@ Public MustInherit Class Description
     <XmlAttribute("about", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Property about As String
 
+    <XmlElement("type", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property type As RDFType
+
+    <XmlElement("label", [Namespace]:=RDFEntity.rdfs)>
+    Public Property label As String
+
+    <XmlElement("comment", [Namespace]:=RDFEntity.rdfs)>
+    Public Property comment As String
+
     Sub New()
         xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        xmlns.Add("rdfs", RDFEntity.rdfs)
     End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{label};  # {comment}"
+    End Function
 
 End Class

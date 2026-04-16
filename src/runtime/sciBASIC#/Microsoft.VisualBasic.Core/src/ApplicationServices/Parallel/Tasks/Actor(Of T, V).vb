@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 36 (42.35%)
+    ' Comment Lines: 35 (41.18%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 14 (16.47%)
+    '     File Size: 3.43 KB
+
+
     '     Class Actor
     ' 
     ' 

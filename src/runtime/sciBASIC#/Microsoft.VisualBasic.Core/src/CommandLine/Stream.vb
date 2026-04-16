@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d29d822507b18e368473917fe944414, Microsoft.VisualBasic.Core\src\CommandLine\Stream.vb"
+﻿#Region "Microsoft.VisualBasic::c20ce6cb29d2cf1b7db251d1c2529176, Microsoft.VisualBasic.Core\src\CommandLine\Stream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 58 (57.43%)
+    ' Comment Lines: 31 (30.69%)
+    '    - Xml Docs: 54.84%
+    ' 
+    '   Blank Lines: 12 (11.88%)
+    '     File Size: 4.22 KB
+
 
     '     Enum FileTypes
     ' 
@@ -88,6 +100,7 @@ Namespace CommandLine
             ElseIf reference.TextEquals("std_out://") Then
                 Throw New InvalidProgramException()
             ElseIf reference.ToLower.StartsWith("memory://") Then
+#If WINDOWS Then
                 Dim view As Stream
 
                 reference = reference.GetTagValue(":/").Value
@@ -95,6 +108,9 @@ Namespace CommandLine
                 view.Seek(Scan0, SeekOrigin.Begin)
 
                 Return view
+#Else
+                Throw New NotSupportedException("MemoryMappedFile is not supported on unix system")
+#End If
             Else
                 Return New FileStream(reference, FileMode.Open, access:=FileAccess.Read, share:=FileShare.ReadWrite)
             End If
@@ -112,6 +128,7 @@ Namespace CommandLine
             ElseIf reference.TextEquals("std_out://") Then
                 Return Console.OpenStandardOutput
             ElseIf reference.ToLower.StartsWith("memory://") Then
+#If WINDOWS Then
                 Dim view As Stream
                 'Dim security As New MemoryMappedFileSecurity()
                 'Dim userName$ = "everyone"
@@ -135,6 +152,9 @@ Namespace CommandLine
                 Call view.Seek(Scan0, SeekOrigin.Begin)
 
                 Return view
+#Else
+                Throw New NotSupportedException("MemoryMappedFile is not working on unix system.")
+#End If
             Else
                 Return New FileStream(reference, FileMode.OpenOrCreate, access:=FileAccess.Write, share:=FileShare.Read)
             End If

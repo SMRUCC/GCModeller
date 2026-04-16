@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>annotation.workflow</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; annotation.workflow; seqtoolkit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="A pipeline collection for proteins' biological function  annotat..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {annotation.workflow}">
+      <tbody>
+        <tr>
+          <td>{annotation.workflow}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>annotation.workflow</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' A pipeline collection for proteins' biological function</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "annotation.workflow"</span><span style="color: blue;"> from</span><span style="color: brown"> "seqtoolkit"</span>;
+                           </code>
+    </p>
+    <p><p>A pipeline collection for proteins' biological function 
+ annotation based on the sequence alignment.</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: none">
+        <caption>.NET clr type export</caption>
+        <tbody></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.blastnmapping">
+    <a href="./annotation.workflow/as.data.frame.blastnmapping.html">as.data.frame.blastnmapping</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/NtMapping/BlastnMapping.html">BlastnMapping</a>: <p>Blastn Mapping for fastaq</p></td>
+</tr>
+<tr>
+  <td id="read.blast">
+    <a href="./annotation.workflow/read.blast.html">read.blast</a>
+  </td>
+  <td><p>Open the blast output text file for parse data result.</p></td>
+</tr>
+<tr>
+  <td id="blastn.maphit">
+    <a href="./annotation.workflow/blastn.maphit.html">blastn.maphit</a>
+  </td>
+  <td><p>export results of fastq reads mapping to genome sequence.</p></td>
+</tr>
+<tr>
+  <td id="blasthit.sbh">
+    <a href="./annotation.workflow/blasthit.sbh.html">blasthit.sbh</a>
+  </td>
+  <td><p>Export single side besthit</p></td>
+</tr>
+<tr>
+  <td id="blasthit.bbh">
+    <a href="./annotation.workflow/blasthit.bbh.html">blasthit.bbh</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="remove_protein_suffix">
+    <a href="./annotation.workflow/remove_protein_suffix.html">remove_protein_suffix</a>
+  </td>
+  <td><p>removes protein suffix id</p></td>
+</tr>
+<tr>
+  <td id="grep.names">
+    <a href="./annotation.workflow/grep.names.html">grep.names</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="stream.flush">
+    <a href="./annotation.workflow/stream.flush.html">stream.flush</a>
+  </td>
+  <td><p>Save the annotation rawdata into the given stream file.</p></td>
+</tr>
+<tr>
+  <td id="besthit_filter">
+    <a href="./annotation.workflow/besthit_filter.html">besthit_filter</a>
+  </td>
+  <td><p>make filter of the blast best hits via the given parameter combinations</p></td>
+</tr>
+<tr>
+  <td id="filter_low_level">
+    <a href="./annotation.workflow/filter_low_level.html">filter_low_level</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.besthits">
+    <a href="./annotation.workflow/read.besthits.html">read.besthits</a>
+  </td>
+  <td><p>read the hits data in pipeline stream style</p></td>
+</tr>
+<tr>
+  <td id="read.bbh_hits">
+    <a href="./annotation.workflow/read.bbh_hits.html">read.bbh_hits</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="open.stream">
+    <a href="./annotation.workflow/open.stream.html">open.stream</a>
+  </td>
+  <td><p>Open result table stream writer</p></td>
+</tr>
+<tr>
+  <td id="read_m8">
+    <a href="./annotation.workflow/read_m8.html">read_m8</a>
+  </td>
+  <td><p>read the diamond m8 annotation table file output</p></td>
+</tr>
+<tr>
+  <td id="diamond_hitgroups">
+    <a href="./annotation.workflow/diamond_hitgroups.html">diamond_hitgroups</a>
+  </td>
+  <td><p>Make query group and convert to alignment hit collection</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

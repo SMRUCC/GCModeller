@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4117649a05288a33f3af9eabf7f5f228, data\STRING\SimpleCsv.vb"
+﻿#Region "Microsoft.VisualBasic::77872e006034110464cabc5867ef5fa1, data\STRING\SimpleCsv.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49 (73.13%)
+    ' Comment Lines: 8 (11.94%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (14.93%)
+    '     File Size: 2.36 KB
+
+
     '     Class PitrNode
     ' 
     '         Properties: FromNode, ToNode, value
@@ -49,7 +61,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Language
 

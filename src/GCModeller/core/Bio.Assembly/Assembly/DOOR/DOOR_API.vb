@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 110 (65.48%)
+    ' Comment Lines: 45 (26.79%)
+    '    - Xml Docs: 91.11%
+    ' 
+    '   Blank Lines: 13 (7.74%)
+    '     File Size: 8.40 KB
+
+
     '     Module DOOR_API
     ' 
     '         Function: CreateOperonView, GetOprFirst, Load, LoadDocument, PTT2DOOR

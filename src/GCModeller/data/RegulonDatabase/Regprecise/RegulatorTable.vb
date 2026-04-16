@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8a56636cc0c3bf44449771f423bfffc, data\RegulonDatabase\Regprecise\RegulatorTable.vb"
+﻿#Region "Microsoft.VisualBasic::67e0cec79fa932b1f99c3aade270a27d, data\RegulonDatabase\Regprecise\RegulatorTable.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 39 (82.98%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (17.02%)
+    '     File Size: 1.86 KB
+
+
     '     Class RegulatorTable
     ' 
     '         Properties: biological_process, description, effector, family, geneName
@@ -43,11 +55,13 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+
 Namespace Regprecise
 
     Public Class RegulatorTable
 
-        Public Property locus_tag As String
+        Public Property locus_tag As String()
         Public Property geneName As String
         Public Property family As String
         Public Property effector As String()
@@ -64,7 +78,7 @@ Namespace Regprecise
                 .effector = tf.effector.StringSplit(";\s+"),
                 .family = tf.family,
                 .geneName = tf.regulator.name,
-                .locus_tag = tf.locus_tag.name,
+                .locus_tag = tf.locus_tags.Keys.ToArray,
                 .pathway = tf.pathway,
                 .regulationMode = tf.regulationMode,
                 .regulog = tf.regulog.name,
@@ -81,7 +95,7 @@ Namespace Regprecise
                 Dim reg As RegulatorTable = FromRegulator(tf)
 
                 reg.genomeName = regulome.genome.name
-                reg.description = info(reg.locus_tag)
+                reg.description = reg.locus_tag.Select(info).Distinct.JoinBy("; ")
 
                 Yield reg
             Next

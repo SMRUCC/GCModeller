@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 39 (78.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (22.00%)
+    '     File Size: 2.36 KB
+
+
     ' Class TreeGraph
     ' 
     '     Function: CreateGraph

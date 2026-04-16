@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 38 (76.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (24.00%)
+    '     File Size: 2.01 KB
+
+
     '     Class backwardFactory
     ' 
     '         Constructor: (+1 Overloads) Sub New

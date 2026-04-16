@@ -1,0 +1,26 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+SacI,,Streptomyces achromogenes,5' GAGCTC 3' CTCGAG,5' ---GAGCT C--- 3' 3' ---C TCGAG--- 5',
+SacII,,Streptomyces achromogenes,5' CCGCGG 3' GGCGCC,5' ---CCGC GG--- 3' 3' ---GG CGCC--- 5',Cfr42I
+SacNI,,Streptomyces achromogenes N-J-H,5' GRGCYC 3' CYCGRG,5' ---GRGCY C--- 3' 3' ---C YCGRG--- 5',
+SalI,,Streptomyces albus,5' GTCGAC 3' CAGCTG,5' ---G TCGAC--- 3' 3' ---CAGCT G--- 5',
+SalPI,,Streptomyces albus,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"ApiI, BspMAI, CstI, Ecl37kI, Ecl2zI, Psp23I, PstI, Srl5DI, YenI"
+SanDI,,Streptomyces sp.,5' GGGWCCC 3' CCCWGGG,5' ---GG GWCCC--- 3' 3' ---CCCWG GG--- 5',
+SapI,,Saccharopolyspora sp.,5' GCTCTTC 3' CGAGAAG,5' ---GCTCTTCN NNN--- 3' 3' ---CGAGAAGNNNN --- 5',
+SarI,,Streptomyces aureomonopodiales,5' AGGCCT 3' TCCGGA,5' ---AGG CCT--- 3' 3' ---TCC GGA--- 5',"AatI, AspMI, Eco147I, GdiI, PceI, Pme55I, Sru30DI, SseBI, SteI, StuI"
+SatI,,Staphylococcus arlettae RFL832,5' GCNGC 3' CGNCG,5' ---GC NGC--- 3' 3' ---CGN CG--- 5',
+SauI,,Streptomyces aureofaciens IKA 18/4,5' CCTNAGG 3' GGANTCC,5' ---CC TNAGG--- 3' 3' ---GGANT CC--- 5',"AocI, BliHKI, BspR7I, CvnI, Lmu60I, OxaNI, SauI, SshAI"
+Sau96I,,Staphylococcus aureus PS96,5' GGNCC 3' CCNGG,5' ---G GNCC--- 3' 3' ---CCNG G--- 5',"AsuI, Bal228I, Bce22I, BsiZI, BspF4I, Cfr13I, Nsp7121I, UnbI"
+Sau3239I,,Streptomyces aureofaciens,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"BspAAI, BstVI, MlaAI, PaeR7I, Sbi68I, Sfr274I, SlaI, XpaI"
+Sau3AI,2REU,Staphylococcus aureus 3A,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"Bce243I, Bsp143I, BspJI, BstMBI, CviAI, Kzo9I, NdeII, Sth368I"
+SauBMKI,,Streptomyces aureofaciens BM-K,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+SauHPI,,Streptomyces aureofaciens R8/26,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+SauLPI,,Streptomyces aureofaciens B-96,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+SauLPII,,Streptomyces aureofaciens B-96,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"BspAAI, MavI, MlaAI, PaeR7I, Sbi68I, Sfr274I, SlaI, XpaI"
+SauMI,,Staphylococcus aureus M,5' GATC 3' CTAG,5' --- GATC--- 3' 3' ---CTAG --- 5',"BscFI, BspAI, BstKTI, ChaI, HacI, MkrAI, RalF40I, SsiAI"
+SauNI,,Streptomyces aureofaciens NMU,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+SauSI,,Streptomyces aureofaciens 16,5' GCCGGC 3' CGGCCG,5' ---GCC GGC--- 3' 3' ---CGG CCG--- 5',
+SbfI,,Streptomyces sp. BF-61,5' CCTGCAGG 3' GGACGTCC,5' ---CCTGCA GG--- 3' 3' ---GG ACGTCC--- 5',
+Sbi68I,,Streptomyces bikiniensis JAM68,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"BspAAI, MavI, MlaAI, PaeR7I, Sbi68I, Sol10179I, StrI, XpaI"
+Sbo13I,,Shigella boydii 13,5' TCGCGA 3' AGCGCT,5' ---TCG CGA--- 3' 3' ---AGC GCT--- 5',
+SbvI,,Streptococcus bovis II/1,5' GGCC 3' CCGG,5' ---GG CC--- 3' 3' ---CC GG--- 5',
+ScaI,,Streptomyces caespitosus,5' AGTACT 3' TCATGA,5' ---AGT ACT--- 3' 3' ---TCA TGA--- 5',"Acc113I, AssI,"

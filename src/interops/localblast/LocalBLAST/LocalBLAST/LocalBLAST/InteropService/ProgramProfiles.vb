@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9c370c613a3ceac14e4bf551112fb48, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::3d43b084396a3f580bc35534a6408ccd, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\ProgramProfiles.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 145 (79.23%)
+    ' Comment Lines: 14 (7.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (13.11%)
+    '     File Size: 9.53 KB
+
 
     '     Class ProgramProfiles
     ' 
@@ -213,14 +225,14 @@ Namespace LocalBLAST.InteropService
 
         Public Class Executable_BLAST : Inherits Executable
 
-            Public Function CreateCommand(Query As String, Subject As String, EValue As String, Output As String) As CommandLine.IORedirectFile
+            Public Function CreateCommand(Query As String, Subject As String, EValue As String, Output As String) As CommandLine.IORedirect
                 Dim sBuilder As StringBuilder = New StringBuilder(512)
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("query"), Query))
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("subject"), Subject))
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("evalue"), EValue))
                 Call sBuilder.Append(String.Format("{0} ""{1}""", GetValue("output"), Output))
 
-                Return New CommandLine.IORedirectFile(MyBase.AssemblyCommand, sBuilder.ToString)
+                Return New CommandLine.IORedirect(MyBase.AssemblyCommand, sBuilder.ToString, IOredirect:=False, hide:=False)
             End Function
 
             Public Overrides Function ToString() As String
@@ -230,12 +242,12 @@ Namespace LocalBLAST.InteropService
 
         Public Class Executable_BuildDB : Inherits Executable
 
-            Public Function CreateCommand(TargetDb As String, DbType As String) As CommandLine.IORedirectFile
+            Public Function CreateCommand(TargetDb As String, DbType As String) As CommandLine.IORedirect
                 Dim sBuilder As StringBuilder = New StringBuilder(512)
                 Call sBuilder.Append(String.Format("{0} ""{1}"" ", GetValue("targetdb"), TargetDb))
                 Call sBuilder.Append(String.Format("{0} ""{1}""", GetValue("dbtype"), DbType))
 
-                Return New CommandLine.IORedirectFile(MyBase.AssemblyCommand, sBuilder.ToString)
+                Return New CommandLine.IORedirect(MyBase.AssemblyCommand, sBuilder.ToString, IOredirect:=False, hide:=False)
             End Function
         End Class
     End Class

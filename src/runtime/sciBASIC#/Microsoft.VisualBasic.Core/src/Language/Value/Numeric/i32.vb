@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84267a091925de0068dc69f7add4099c, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\i32.vb"
+﻿#Region "Microsoft.VisualBasic::0b8b1e06ea0bdf9299711d820870690d, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\i32.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 312
+    '    Code Lines: 178 (57.05%)
+    ' Comment Lines: 93 (29.81%)
+    '    - Xml Docs: 94.62%
+    ' 
+    '   Blank Lines: 41 (13.14%)
+    '     File Size: 11.22 KB
+
+
     '     Class i32
     ' 
     '         Properties: Hex, Oct
@@ -39,7 +51,7 @@
     '         Function: (+2 Overloads) CompareTo, Equals, GetHexInteger, (+2 Overloads) ToString
     '         Operators: (+3 Overloads) -, *, (+2 Overloads) /, (+4 Overloads) +, (+3 Overloads) <
     '                    <<, <=, (+3 Overloads) >, >=, (+2 Overloads) And
-    '                    (+2 Overloads) IsFalse, (+2 Overloads) IsTrue, (+2 Overloads) Not
+    '                    (+2 Overloads) IsFalse, (+2 Overloads) IsTrue, (+2 Overloads) Mod, (+2 Overloads) Not
     ' 
     ' 
     ' /********************************************************************************/
@@ -281,10 +293,9 @@ Namespace Language
 
         ''' <summary>
         ''' Auto increment value with step 1 and then returns the previous value.
-        ''' (自增1然后返回之前的值)
         ''' </summary>
         ''' <param name="x"></param>
-        ''' <returns></returns>
+        ''' <returns>自增1然后返回之前的值</returns>
         Public Overloads Shared Operator +(x As i32) As Integer
             Dim i As Integer = x.Value
             x.Value += 1
@@ -352,6 +363,10 @@ Namespace Language
 
         Public Shared Operator And(p As i32, i As Integer) As Integer
             Return p.Value And i
+        End Operator
+
+        Public Shared Operator Mod(i As i32, n As Integer) As Integer
+            Return i.Value Mod n
         End Operator
     End Class
 End Namespace

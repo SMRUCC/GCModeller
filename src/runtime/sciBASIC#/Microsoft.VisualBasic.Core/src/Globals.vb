@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07c7f917e89139650882b38cc1d8053c, Microsoft.VisualBasic.Core\src\Globals.vb"
+﻿#Region "Microsoft.VisualBasic::477f0ee6c1c23aeec468aa955b14008c, Microsoft.VisualBasic.Core\src\Globals.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 16 (31.37%)
+    ' Comment Lines: 27 (52.94%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.51 KB
+
+
     ' Module Globals
     ' 
     '     Sub: message
@@ -39,14 +51,20 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Linq
 Imports any = Microsoft.VisualBasic.Scripting
-Imports Microsoft.VisualBasic.Language.C
+
+'<Assembly: SuppressMessage("", "CA1416")>
+'<Assembly: SuppressMessage("", "SYSLIB0021")>
+'<Assembly: SuppressMessage("", "SYSLIB0022")>
+'<Assembly: SuppressMessage("", "SYSLIB0003")>
+'<Assembly: SuppressMessage("", "SYSLIB0004")>
 
 ''' <summary>
 ''' global constants
 ''' </summary>
-Public Module Globals
+Partial Public Module Globals
 
     ''' <summary>
     ''' The first element in a collection.
@@ -81,6 +99,6 @@ Public Module Globals
             .Select(Function(s) s.ReplaceMetaChars) _
             .JoinBy("")
 
-        Call strMsg.__INFO_ECHO
+        Call strMsg.info
     End Sub
 End Module

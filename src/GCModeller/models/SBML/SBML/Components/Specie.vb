@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f072bb85f805725e1b93b61c2babc62, models\SBML\SBML\Components\Specie.vb"
+﻿#Region "Microsoft.VisualBasic::c1778490f74f7b1a438210786f616dae, models\SBML\SBML\Components\Specie.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 20 (71.43%)
+    ' Comment Lines: 3 (10.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (17.86%)
+    '     File Size: 906 B
+
+
     '     Class Specie
     ' 
-    '         Properties: boundaryCondition, compartmentId, id
+    '         Properties: boundaryCondition, compartmentId, id, sboTerm
     ' 
     '         Function: ToString
     ' 
@@ -44,11 +56,13 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 Imports SMRUCC.genomics.Model.SBML.Specifics.MetaCyc
 
 Namespace Components
 
+    ''' <summary>
+    ''' the abstract molecule species model
+    ''' </summary>
     Public Class Specie : Inherits IPartsBase
         Implements INamedValue
 
@@ -60,6 +74,8 @@ Namespace Components
         Public Overridable Property compartmentId As String
         <XmlAttribute()>
         Public Property boundaryCondition As Boolean
+        <XmlAttribute>
+        Public Property sboTerm As String
 
         Public Overrides Function ToString() As String
             Return String.Format("[{0}]{1} [{2}]", id, name, compartmentId)

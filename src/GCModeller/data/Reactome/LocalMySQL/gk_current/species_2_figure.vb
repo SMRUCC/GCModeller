@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79 (49.69%)
+    ' Comment Lines: 58 (36.48%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 6.34 KB
+
+
     ' Class species_2_figure
     ' 
     '     Properties: DB_ID, figure, figure_class, figure_rank

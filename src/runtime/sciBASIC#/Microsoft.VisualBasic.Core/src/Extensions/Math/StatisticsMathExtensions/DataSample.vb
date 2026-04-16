@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 76 (73.08%)
+    ' Comment Lines: 12 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (15.38%)
+    '     File Size: 3.42 KB
+
+
     '     Class DataSample
     ' 
     '         Properties: Max, Mean, Min, SampleSize

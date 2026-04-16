@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fc4e7a7867f6042497b646db4e3b4b4, Data_science\Graph\Network\NetworkGraph.vb"
+﻿#Region "Microsoft.VisualBasic::e0c768d1b1d561393df414d8fdbde696, Data_science\Graph\Network\NetworkGraph.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 20 (47.62%)
+    ' Comment Lines: 14 (33.33%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 8 (19.05%)
+    '     File Size: 1.34 KB
+
+
     '     Class NetworkGraph
+    ' 
+    '         Properties: id, name
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
@@ -40,7 +54,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 
 Namespace Network
@@ -50,7 +63,11 @@ Namespace Network
     ''' </summary>
     ''' <typeparam name="Node"></typeparam>
     ''' <typeparam name="Edge"></typeparam>
-    Public Class NetworkGraph(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)}) : Inherits Graph(Of Node, Edge, NetworkGraph(Of Node, Edge))
+    Public Class NetworkGraph(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})
+        Inherits Graph(Of Node, Edge, NetworkGraph(Of Node, Edge))
+
+        Public Property id As String
+        Public Property name As String
 
         Sub New()
         End Sub
@@ -73,7 +90,9 @@ Namespace Network
                 Call AddVertex(node)
             Next
 
-            Me.edges = New Dictionary(Of Edge)(edges, overridesDuplicateds:=True)
+            For Each edge As Edge In edges
+                Call Insert(edge)
+            Next
         End Sub
     End Class
 End Namespace

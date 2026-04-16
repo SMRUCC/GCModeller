@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dbb305b6bec23ac4321e7835dfaee3d, visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::88e3f8eaee3624ad3fcc5e654ab1cb2d, visualize\ChromosomeMap\PlasmidMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 42 (84.00%)
+    ' Comment Lines: 1 (2.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 2.14 KB
+
+
     '     Module DrawingDevice
     ' 
     '         Function: DrawMap
@@ -45,8 +57,16 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.PlasmidMap.DrawingModels
+
+#If NET48 Then
+
+#Else
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+#End If
 
 Namespace PlasmidMap
 
@@ -61,7 +81,8 @@ Namespace PlasmidMap
                                 Optional r2Scale# = 0.8) As GraphicsData
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim canvasSize As Size = region.PlotRegion.Size
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim canvasSize As Size = region.PlotRegion(css).Size
                     Dim center As New Point(canvasSize.Width / 2, canvasSize.Height / 2)
                     Dim r! = Math.Min(canvasSize.Width, canvasSize.Height)
                     Dim r1 As Double = r * r1Scale

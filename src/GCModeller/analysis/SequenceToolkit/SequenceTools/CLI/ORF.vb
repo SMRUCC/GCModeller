@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b399aa36b1c44f1de375fd4a3b0fb07d, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
+﻿#Region "Microsoft.VisualBasic::758c71948219b8155a2f9abe834ae1cf, analysis\SequenceToolkit\SequenceTools\CLI\ORF.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 40 (88.89%)
+    ' Comment Lines: 1 (2.22%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (8.89%)
+    '     File Size: 3.12 KB
+
+
     ' Module Utilities
     ' 
     '     Function: __translate, Translates
@@ -62,10 +74,10 @@ Partial Module Utilities
         Dim ORF = FastaFile.LoadNucleotideData(args("/orf"))
         Dim TranslTbl As Integer = args.GetValue(Of Integer)("/transl_table", 1)
         Dim Table = TranslTable.GetTable(TranslTbl)
-        Dim Force As Boolean = args.GetBoolean("/force")
+        Dim Force As Boolean = args("/force")
         Dim Codes = Codon.CreateHashTable
         Dim StopCodes = (From code In Codes Where Table.IsStopCoden(code.TranslHashCode) Select code.CodonValue).ToArray
-        Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).__DEBUG_ECHO
+        Call ($"{Table.ToString} ==> stop_codons={String.Join(",", StopCodes)}" & vbCrLf & vbCrLf).debug
         Dim PRO = ORF.Select(Function(Fasta) Fasta.__translate(Table, Force)).ToArray
         Dim PROFasta As New FastaFile(PRO)
         Return PROFasta.Save(args("/orf") & ".PRO.fasta").CLICode

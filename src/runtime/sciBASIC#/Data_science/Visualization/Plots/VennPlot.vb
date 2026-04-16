@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d54dafe0c7004603f24d45e9019a5b84, Data_science\Visualization\Plots\VennPlot.vb"
+﻿#Region "Microsoft.VisualBasic::6db7bbee5554c219997cd459b0c59d1c, Data_science\Visualization\Plots\VennPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 213
+    '    Code Lines: 128 (60.09%)
+    ' Comment Lines: 55 (25.82%)
+    '    - Xml Docs: 76.36%
+    ' 
+    '   Blank Lines: 30 (14.08%)
+    '     File Size: 9.09 KB
+
+
     ' Module VennPlot
     ' 
     '     Function: Venn2, Venn3
@@ -53,8 +65,35 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' + 圆的半径大小直接与集合的大小相关
@@ -80,20 +119,21 @@ Public Module VennPlot
                           Optional regionTitleFontCSS$ = CSSFont.Win7Large,
                           Optional ppi As Integer = 100) As GraphicsData
 
-        Dim strokePen As Pen = Stroke.TryParse(strokeCSS)
-        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS).GDIObject(ppi)
-
         Call {a, b}.fixSetCompleteness
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rectangle As GraphicsRegion)
-                Dim region As Rectangle = rectangle.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim region As Rectangle = rectangle.PlotRegion(css)
+                Dim regionTitleFont As Font = css.GetFont(CSSFont.TryParse(regionTitleFontCSS))
+                Dim strokePen As Pen = css.GetPen(Stroke.TryParse(strokeCSS))
+
                 ' 计算两个圆的半径大小
                 ' ra + rb = width
                 Dim ra = a.Size / (a.Size + b.Size) * region.Width / 2
                 Dim rb = b.Size / (a.Size + b.Size) * region.Width / 2
                 ' 将交集大小转换为圆心的偏移量
-                Dim offset = a.intersections(b.Name) / stdNum.Min(a.Size, b.Size) * stdNum.Min(ra, rb)
+                Dim offset = a.intersections(b.Name) / std.Min(a.Size, b.Size) * std.Min(ra, rb)
                 Dim dx = (region.Width - (ra + rb + (ra + rb - offset))) / 2
                 Dim x, y As Integer
                 Dim fill As Color
@@ -152,24 +192,24 @@ Public Module VennPlot
                           Optional regionTitleFontCSS$ = CSSFont.Win7Large,
                           Optional ppi As Integer = 100) As GraphicsData
 
-        Dim strokePen As Pen = Stroke.TryParse(strokeCSS)
-        Dim regionTitleFont As Font = CSSFont.TryParse(regionTitleFontCSS).GDIObject(ppi)
-
         Call {a, b, c}.fixSetCompleteness
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rectangle As GraphicsRegion)
-                Dim region As Rectangle = rectangle.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim region As Rectangle = rectangle.PlotRegion(css)
+                Dim strokePen As Pen = css.GetPen(Stroke.TryParse(strokeCSS))
+                Dim regionTitleFont As Font = css.GetFont(CSSFont.TryParse(regionTitleFontCSS))
                 ' 计算三个圆的半径大小
                 ' ra + rb = width
-                Dim maxTop = stdNum.Max(a.Size, b.Size)
+                Dim maxTop = std.Max(a.Size, b.Size)
                 Dim ra = a.Size / (a.Size + b.Size) * region.Width / 2
                 Dim rb = b.Size / (a.Size + b.Size) * region.Width / 2
                 Dim rc = c.Size / (c.Size + maxTop) * region.Height / 2
 
                 ' 将交集大小转换为圆心的偏移量
-                Dim offsetX = a.intersections(b.Name) / stdNum.Min(a.Size, b.Size) * stdNum.Min(ra, rb)
-                Dim offsetY = stdNum.Max(a.intersections(c.Name), b.intersections(c.Name)) / {a.Size, b.Size, c.Size}.Min * {ra, rb, rc}.Min
+                Dim offsetX = a.intersections(b.Name) / std.Min(a.Size, b.Size) * std.Min(ra, rb)
+                Dim offsetY = std.Max(a.intersections(c.Name), b.intersections(c.Name)) / {a.Size, b.Size, c.Size}.Min * {ra, rb, rc}.Min
                 Dim dx = (region.Width - (ra + rb + (ra + rb - offsetX))) / 2
                 Dim dy = (region.Height - (maxTop + rc + (maxTop - offsetY))) / 2
                 Dim x, y As Integer

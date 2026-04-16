@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4075835f42422db82e9c6b48a26f0b9e, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ContourTracing.vb"
+﻿#Region "Microsoft.VisualBasic::207bc6082975636c9371e177b585e426, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ContourTracing.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 361
+    '    Code Lines: 198 (54.85%)
+    ' Comment Lines: 120 (33.24%)
+    '    - Xml Docs: 21.67%
+    ' 
+    '   Blank Lines: 43 (11.91%)
+    '     File Size: 14.64 KB
+
+
     '     Module ContourTracing
     ' 
     '         Function: BitsToPaths, GetOutine, getRn, rem_euclid
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports bool = System.Boolean
 Imports i8 = System.SByte
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports usize = System.Int32
 
 Namespace Drawing2D.Math2D.MarchingSquares
@@ -199,7 +211,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Dim rows = bits.Length
             Dim cols = bits(Scan0).Length
             ' Add a border of 1 bit to prevent out-of-bounds error
-            Dim contours = MAT(Of Integer)(rows + 2, cols + 2)
+            Dim contours = RectangularArray.Matrix(Of Integer)(rows + 2, cols + 2)
 
             For r As Integer = 0 To rows - 1
                 For c As Integer = 0 To cols - 1
@@ -221,7 +233,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                         Call trace(False, cursor_x, cursor_y, {4, 5, 6, 7, 0, 1, 2, 3}, -2, (1, 7, 6), H_VERTEX, H_VALUE, contours, paths)
                     End If
 
-                    Select Case stdNum.Abs(contours(cursor_y)(cursor_x))
+                    Select Case std.Abs(contours(cursor_y)(cursor_x))
                         Case 2, 4, 10, 12
                             If contours(cursor_y)(cursor_x) > 0 Then
                                 ol += 1

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41e6325c06f045b4bd08f4a4248c4853, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
+﻿#Region "Microsoft.VisualBasic::765d68982e262e9f58491e405d6cf16d, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulonAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 248
+    '    Code Lines: 202 (81.45%)
+    ' Comment Lines: 28 (11.29%)
+    '    - Xml Docs: 96.43%
+    ' 
+    '   Blank Lines: 18 (7.26%)
+    '     File Size: 12.55 KB
+
+
     '     Module RegulonAPI
     ' 
     '         Function: __getOperons, BuildMapHash, Equals, (+5 Overloads) Reconstruct, TrimId
@@ -43,7 +55,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -98,8 +110,9 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="regulator"></param>
         ''' <returns></returns>
-        <Extension> Public Function uid(regulator As Regulator) As String
-            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tag.text.NormalizePathString(True)}"
+        <Extension>
+        Public Function uid(regulator As Regulator) As String
+            Return $"{regulator.LocusId.NormalizePathString(True)}.{regulator.locus_tags.Values.JoinBy(",").NormalizePathString(True)}"
         End Function
 
         <ExportAPI("Regulon.Reconstruct")>
@@ -208,7 +221,7 @@ Namespace Regprecise
                                               Select New Regulator With {
                                                   .regulatorySites = regulon.regulatorySites,
                                                   .regulator = regulon.regulator,
-                                                  .locus_tag = locusId,
+                                                  .locus_tags = {locusId},
                                                   .biological_process = regulon.biological_process,
                                                   .effector = regulon.effector,
                                                   .family = regulon.family,

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 87 (50.29%)
+    ' Comment Lines: 64 (36.99%)
+    '    - Xml Docs: 95.31%
+    ' 
+    '   Blank Lines: 22 (12.72%)
+    '     File Size: 7.70 KB
+
+
     ' Class polymer
     ' 
     '     Properties: DB_ID, inferredProt, maxHomologues, maxUnitCount, minUnitCount

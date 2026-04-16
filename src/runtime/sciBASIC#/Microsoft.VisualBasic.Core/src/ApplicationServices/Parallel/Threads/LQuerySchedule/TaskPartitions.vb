@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2b58862d64fb542fc56e70f154d98a2, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\LQuerySchedule\TaskPartitions.vb"
+﻿#Region "Microsoft.VisualBasic::d82fa38ca58cbca16d69be250927b3b4, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\LQuerySchedule\TaskPartitions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 99 (60.37%)
+    ' Comment Lines: 41 (25.00%)
+    '    - Xml Docs: 92.68%
+    ' 
+    '   Blank Lines: 24 (14.63%)
+    '     File Size: 6.94 KB
+
 
     '     Module TaskPartitions
     ' 
@@ -109,7 +121,7 @@ Namespace Parallel.Linq
             End If
 
             If echo Then
-                Call $"Large data_set(size:={count}) partitioning(partitions:={parts}) jobs done!".__DEBUG_ECHO
+                Call $"Large data_set(size:={count}) partitioning(partitions:={parts}) jobs done!".debug
             End If
         End Function
 

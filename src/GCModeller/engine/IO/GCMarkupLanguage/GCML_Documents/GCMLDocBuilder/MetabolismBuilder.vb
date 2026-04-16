@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 114 (65.14%)
+    ' Comment Lines: 37 (21.14%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 24 (13.71%)
+    '     File Size: 10.44 KB
+
+
     '     Class MetabolismBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New

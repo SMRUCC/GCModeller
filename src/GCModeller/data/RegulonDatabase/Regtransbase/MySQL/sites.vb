@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 238
+    '    Code Lines: 128 (53.78%)
+    ' Comment Lines: 88 (36.97%)
+    '    - Xml Docs: 96.59%
+    ' 
+    '   Blank Lines: 22 (9.24%)
+    '     File Size: 19.32 KB
+
+
     ' Class sites
     ' 
     '     Properties: art_guid, descript, fl_dna_rna, fl_real_name, func_site_type_guid

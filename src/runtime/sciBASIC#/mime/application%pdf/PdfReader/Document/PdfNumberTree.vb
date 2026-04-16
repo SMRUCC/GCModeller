@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::757e07096ce1cce1ba369c560e37aac5, mime\application%pdf\PdfReader\Document\PdfNumberTree.vb"
+﻿#Region "Microsoft.VisualBasic::1bd271ded65fb04825bfa69467b554b6, mime\application%pdf\PdfReader\Document\PdfNumberTree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 89 (79.46%)
+    ' Comment Lines: 5 (4.46%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (16.07%)
+    '     File Size: 4.18 KB
+
+
     '     Class PdfNumberTree
     ' 
     '         Properties: LimitMax, LimitMin
@@ -55,7 +67,7 @@ Namespace PdfReader
         Private _children As List(Of PdfNumberTree)
         Private _nums As Dictionary(Of Integer, PdfObject)
 
-        Public Sub New(ByVal dictionary As PdfDictionary, ByVal Optional root As Boolean = True)
+        Public Sub New(dictionary As PdfDictionary, Optional root As Boolean = True)
             MyBase.New(dictionary.Parent)
             _dictionary = dictionary
             _root = root
@@ -69,7 +81,7 @@ Namespace PdfReader
             End If
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -77,7 +89,7 @@ Namespace PdfReader
             Get
                 Return _LimitMin
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _LimitMin = value
             End Set
         End Property
@@ -86,12 +98,12 @@ Namespace PdfReader
             Get
                 Return _LimitMax
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _LimitMax = value
             End Set
         End Property
 
-        Default Public ReadOnly Property Item(ByVal number As Integer) As PdfObject
+        Default Public ReadOnly Property Item(number As Integer) As PdfObject
             Get
                 Dim ret As PdfObject = Nothing
 

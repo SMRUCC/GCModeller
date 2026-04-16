@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7934bc74da0f9d191a8b94264bbc9d2d, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
+﻿#Region "Microsoft.VisualBasic::d241fd6be4113a58d629dc1714c80af3, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogList.vb"
 
     ' Author:
     ' 
@@ -31,51 +31,45 @@
 
     ' Summaries:
 
-    '     Class CatalogProfiling
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 97 (72.39%)
+    ' Comment Lines: 15 (11.19%)
+    '    - Xml Docs: 100.00%
     ' 
-    '         Properties: Catalog, Description, SubCategory
-    ' 
-    '         Function: ToString
-    ' 
+    '   Blank Lines: 22 (16.42%)
+    '     File Size: 4.94 KB
+
+
     '     Class CatalogList
     ' 
     '         Properties: Catalog, Count, Description, IDs, IsReadOnly
     ' 
-    '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, Remove
-    '                   ToString
+    '         Function: Contains, GetEnumerator, IEnumerable_GetEnumerator, IndexOf, (+2 Overloads) Intersect
+    '                   Remove, ToString
     ' 
-    '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
+    '         Sub: (+2 Overloads) Add, Clear, CopyTo, Insert, RemoveAt
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
-    Public Class CatalogProfiling
-        Implements INamedValue
-
-        ''' <summary>
-        ''' COG/KO/GO, etc
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute>
-        Public Overridable Property Catalog As String Implements INamedValue.Key
-        Public Property Description As String
-        Public Property SubCategory As Dictionary(Of String, CatalogList)
-
-        Public Overrides Function ToString() As String
-            Return $"{Catalog} contains {SubCategory.Count} subcategories... {Mid(SubCategory.Keys.GetJson, 1, 20)}..."
-        End Function
-
-    End Class
-
+    ''' <summary>
+    ''' a [term => id()] tuple data
+    ''' </summary>
     Public Class CatalogList
         Implements IGrouping(Of String, String)
         Implements IList(Of String)
@@ -96,14 +90,14 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         Public Property IDs As String() Implements Value(Of String()).IValueOf.Value
             Get
-                Return list.ToArray
+                Return hashset.Objects
             End Get
             Set(value As String())
-                list = New List(Of String)(value)
+                hashset = New Index(Of String)(value)
             End Set
         End Property
 
-        Dim list As List(Of String)
+        Dim hashset As Index(Of String)
 
         ''' <summary>
         ''' Number of the list IDs
@@ -111,16 +105,16 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         Public ReadOnly Property Count As Integer Implements ICollection(Of String).Count
             Get
-                Return list.Count
+                Return hashset.Count
             End Get
         End Property
 
         Default Public Property Item(index As Integer) As String Implements IList(Of String).Item
             Get
-                Return IDs(index)
+                Return hashset.IndexOf(index:=index)
             End Get
             Set(value As String)
-                IDs(index) = value
+                hashset.Set(index, value)
             End Set
         End Property
 
@@ -130,28 +124,47 @@ Namespace ComponentModel.Annotation
             End Get
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Intersect(targets As Index(Of String)) As IEnumerable(Of String)
+            Return hashset.Where(Function(id) id Like targets)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Intersect(targets As Dictionary(Of String, Double)) As IEnumerable(Of NamedValue(Of Double))
+            Return From id As String
+                   In hashset
+                   Where targets.ContainsKey(id)
+                   Select New NamedValue(Of Double)(id, targets(id))
+        End Function
+
         Private Sub Insert(index As Integer, item As String) Implements IList(Of String).Insert
-            Call list.Insert(index, item)
+            Call hashset.Set(index, item)
         End Sub
 
         Private Sub RemoveAt(index As Integer) Implements IList(Of String).RemoveAt
-            Call list.RemoveAt(index)
+            Call hashset.Delete(hashset.IndexOf(index))
         End Sub
 
-        Private Sub Add(item As String) Implements ICollection(Of String).Add
-            Call list.Add(item)
+        Public Sub Add(items As IEnumerable(Of String))
+            For Each str As String In items
+                Call hashset.Add(str)
+            Next
+        End Sub
+
+        Public Sub Add(item As String) Implements ICollection(Of String).Add
+            Call hashset.Add(item)
         End Sub
 
         Private Sub Clear() Implements ICollection(Of String).Clear
-            Call list.Clear()
+            Call hashset.Clear()
         End Sub
 
         Private Sub CopyTo(array() As String, arrayIndex As Integer) Implements ICollection(Of String).CopyTo
-            Call list.CopyTo(array, arrayIndex)
+            Call hashset.Objects.CopyTo(array, arrayIndex)
         End Sub
 
         Public Overrides Function ToString() As String
-            Return $"Dim {Catalog} = {list.GetJson}"
+            Return $"Dim {Catalog} = {hashset.GetJson}"
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of String) Implements IEnumerable(Of String).GetEnumerator
@@ -161,15 +174,16 @@ Namespace ComponentModel.Annotation
         End Function
 
         Public Function IndexOf(item As String) As Integer Implements IList(Of String).IndexOf
-            Return list.IndexOf(item)
+            Return hashset.IndexOf(item)
         End Function
 
         Private Function Contains(item As String) As Boolean Implements ICollection(Of String).Contains
-            Return list.Contains(item)
+            Return hashset.IndexOf(item) > -1
         End Function
 
         Private Function Remove(item As String) As Boolean Implements ICollection(Of String).Remove
-            Return list.Remove(item)
+            Call hashset.Delete(item)
+            Return True
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ce7848b5c1dc1cf3fd5bb5f62a1e4b5, Bio.Repository\KEGG\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::a09bc205c8ae826f620018a46145516d, Bio.Repository\KEGG\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 34 (79.07%)
+    ' Comment Lines: 5 (11.63%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (9.30%)
+    '     File Size: 1.80 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: GetCompoundNames
+    '     Function: GetCompoundNames, ReadKeggMaps
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
+Imports Microsoft.VisualBasic.DataStorage.HDSPack.FileSystem
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
 <HideModuleName>
 Public Module Extensions
@@ -55,5 +71,26 @@ Public Module Extensions
                                   .commonNames _
                                   .FirstOrDefault Or cpd.Key.AsDefault
                           End Function)
+    End Function
+
+    ''' <summary>
+    ''' read kegg pathway maps from a HDS cache database file
+    ''' </summary>
+    ''' <param name="buffer"></param>
+    ''' <returns></returns>
+    Public Function ReadKeggMaps(buffer As Stream) As Pathway()
+        Using reader As New StreamPack(buffer, [readonly]:=True)
+            Dim pathways As StreamGroup = reader.GetObject("/pathways/")
+            Dim modelFiles = pathways _
+                .ListFiles _
+                .Where(Function(f) TypeOf f Is StreamBlock) _
+                .Select(Function(f) DirectCast(f, StreamBlock)) _
+                .ToArray
+
+            Return modelFiles _
+                .Select(Function(f) New StreamReader(reader.OpenBlock(f)).ReadToEnd) _
+                .Select(Function(xml) DirectCast(xml.LoadFromXml(GetType(Pathway)), Pathway)) _
+                .ToArray
+        End Using
     End Function
 End Module

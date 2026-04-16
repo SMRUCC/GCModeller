@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7c131d6c8113c1f519fbf15ff05275, annotations\Proteomics\iTraq\iTraqReader.vb"
+﻿#Region "Microsoft.VisualBasic::98d6cc88f209d95acd36203355a8e705, annotations\Proteomics\iTraq\iTraqReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 56 (70.89%)
+    ' Comment Lines: 10 (12.66%)
+    '    - Xml Docs: 70.00%
+    ' 
+    '   Blank Lines: 13 (16.46%)
+    '     File Size: 3.27 KB
+
+
     ' Class iTraqReader
     ' 
     '     Properties: AAs, calcPI, Coverage, Description, ID
@@ -53,8 +65,8 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
 ''' <summary>

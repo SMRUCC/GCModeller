@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b229f0be9baa7c4b7571e53dab42b5f, data\Reactome\WebServices\RESTfulAPI.vb"
+﻿#Region "Microsoft.VisualBasic::e76345c86c0e52ff32f75f1be07f20e6, data\Reactome\WebServices\RESTfulAPI.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,40 @@
 
     ' Summaries:
 
-    '     Class APIQueryBuilder
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 48 (65.75%)
+    ' Comment Lines: 5 (6.85%)
+    '    - Xml Docs: 80.00%
     ' 
+    '   Blank Lines: 20 (27.40%)
+    '     File Size: 2.25 KB
+
+
+    '     Module APIQueryBuilder
     ' 
+    '         Function: GetPathway
+    ' 
+    '     Class ReactomeObject
+    ' 
+    '         Properties: className, dbId, displayName, schemaClass, summation
+    ' 
+    '         Function: TryGetDescription
+    ' 
+    '     Class PathwayData
+    ' 
+    '         Properties: compartment, isInDisease, isInferred, name, releaseDate
+    '                     speciesName, stId, stIdVersion
+    ' 
+    '     Class compartment
+    ' 
+    '         Properties: accession, databaseName, definition, name, url
+    ' 
+    '     Class summation
+    ' 
+    '         Properties: text
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,9 +73,74 @@
 
 'http://reactomews.oicr.on.ca:8080/ReactomeRESTfulAPI/ReactomeRESTFulAPI.html
 
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+
 Namespace RESTfulAPI
 
-    Public Class APIQueryBuilder
+    Public Module APIQueryBuilder
+
+        Public Function GetPathway(id As String) As PathwayData
+            Dim url As String = $"https://reactome.org/ContentService/data/query/{id}"
+            Dim json_str As String = url.GET
+            Dim data As PathwayData = json_str.LoadJSON(Of PathwayData)
+
+            Return data
+        End Function
+    End Module
+
+    Public MustInherit Class ReactomeObject
+
+        Public Property dbId As String
+        Public Property displayName As String
+        Public Property className As String
+        Public Property schemaClass As String
+        Public Property summation As summation()
+
+        ''' <summary>
+        ''' try to get description text from <see cref="summation"/>.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function TryGetDescription() As String
+            Dim sb As New List(Of String)
+
+            For Each desc As summation In summation.SafeQuery
+                If Not desc.text Is Nothing Then
+                    Call sb.Add(desc.text)
+                End If
+            Next
+
+            Return sb.JoinBy(vbCrLf)
+        End Function
+
+    End Class
+
+    Public Class PathwayData : Inherits ReactomeObject
+
+        Public Property stId As String
+        Public Property stIdVersion As String
+        Public Property isInDisease As Boolean
+        Public Property isInferred As Boolean
+        Public Property name As String()
+        Public Property releaseDate As String
+        Public Property speciesName As String
+        Public Property compartment As compartment()
+
+    End Class
+
+    Public Class compartment : Inherits ReactomeObject
+
+        Public Property accession As String
+        Public Property databaseName As String
+        Public Property definition As String
+        Public Property name As String
+        Public Property url As String
+
+    End Class
+
+    Public Class summation : Inherits ReactomeObject
+
+        Public Property text As String
 
     End Class
 End Namespace

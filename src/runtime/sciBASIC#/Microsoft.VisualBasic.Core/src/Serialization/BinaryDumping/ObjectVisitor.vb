@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b2c26c4d7ba492eb6c8445f3badcfb78, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\ObjectVisitor.vb"
+﻿#Region "Microsoft.VisualBasic::89823ddb728c98ad30586bb09fda91ce, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\ObjectVisitor.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 112 (63.64%)
+    ' Comment Lines: 35 (19.89%)
+    '    - Xml Docs: 45.71%
+    ' 
+    '   Blank Lines: 29 (16.48%)
+    '     File Size: 7.08 KB
+
+
     '     Delegate Sub
     ' 
     ' 
@@ -40,7 +52,7 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetAllFields
+    '         Function: GetAllFields, LoadAllFieldsInternal
     ' 
     '         Sub: DoVisitArray, doVisitFields, DoVisitObject, DoVisitObjectFields, doVisitProperties
     ' 
@@ -51,6 +63,8 @@
 #End Region
 
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -112,16 +126,32 @@ Namespace Serialization.BinaryDumping
 
         End Sub
 
-        Public Shared Iterator Function GetAllFields(type As Type) As IEnumerable(Of FieldInfo)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetAllFields(type As Type) As IEnumerable(Of FieldInfo)
+            Return LoadAllFieldsInternal(type) _
+                .Where(Function(f)
+                           Return f.GetCustomAttribute(Of IgnoreDataMemberAttribute) Is Nothing
+                       End Function)
+        End Function
+
+        Private Shared Iterator Function LoadAllFieldsInternal(type As Type) As IEnumerable(Of FieldInfo)
+            Dim check As New Index(Of String)
+
             For Each field As FieldInfo In type.GetFields(AllFields)
-                Yield field
+                If Not field.Name Like check Then
+                    Call check.Add(field.Name)
+                    Yield field
+                End If
             Next
 
             Dim base As Value(Of Type) = type
 
             Do While Not (base = base.Value.BaseType) Is Nothing
                 For Each field As FieldInfo In base.Value.GetFields(AllFields)
-                    Yield field
+                    If Not field.Name Like check Then
+                        Call check.Add(field.Name)
+                        Yield field
+                    End If
                 Next
             Loop
         End Function
@@ -132,7 +162,41 @@ Namespace Serialization.BinaryDumping
             Dim isVisited As Boolean = False
             Dim isValueType As Boolean = False
 
+            Static special_clr_type As Index(Of Type) = {
+                GetType(Type),
+                GetType(TypeInfo),
+                GetType(System.Reflection.Pointer),
+                GetType(System.IntPtr)
+            }
+
+            ' handling some special type in clr runtime
             If obj Is Nothing Then
+                Return
+            ElseIf TypeOf obj Is String Then
+                ' utf8 getbytes
+                Call visit(obj, GetType(String), Nothing, False, isValueType:=True)
+                Return
+            ElseIf obj.GetType.IsEnum Then
+                Call visit(obj, obj.GetType, Nothing, isVisited:=False, isValueType:=True)
+                Return
+
+                ' 20230418 the obj is a clr object value, due to the reason of type/typeinfo is
+                ' also could be a clr object value, so we should test for the class object instance
+                ' at first, and then test for the clr type which is extract via gettype from the
+                ' object instance
+                '
+            ElseIf obj Is GetType(Type) OrElse
+                obj Is GetType(TypeInfo) OrElse
+                obj.GetType Like special_clr_type Then
+
+                ' the clr type object is a kind of memory location,
+                ' created in the compiler time,
+                ' an integer constant value
+#If X86 Then
+                Call visit(0, GetType(Integer), Nothing, isVisited:=False, isValueType:=True)
+#Else
+                Call visit(0, GetType(Long), Nothing, isVisited:=False, isValueType:=True)
+#End If
                 Return
             End If
 

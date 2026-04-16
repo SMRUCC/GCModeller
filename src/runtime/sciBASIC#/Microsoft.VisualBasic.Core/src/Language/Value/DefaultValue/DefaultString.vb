@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec05834571a015d9aac7b6745d3bfe2e, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\DefaultString.vb"
+﻿#Region "Microsoft.VisualBasic::8995d88d364acb05722601b93a37265b, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\DefaultString.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 189
+    '    Code Lines: 130 (68.78%)
+    ' Comment Lines: 29 (15.34%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 30 (15.87%)
+    '     File Size: 7.34 KB
+
 
     '     Structure DefaultString
     ' 
@@ -108,8 +120,8 @@ Namespace Language.Default
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Base64Decode() As String
-            Return Base64Codec.DecodeBase64(DefaultValue)
+        Public Function Base64Decode(Optional ungzip As Boolean = False) As String
+            Return Base64Codec.DecodeBase64(DefaultValue, ungzip:=ungzip)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

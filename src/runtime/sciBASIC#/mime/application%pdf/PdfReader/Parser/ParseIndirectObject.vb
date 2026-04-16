@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbe34c2878848ca1c1fad14f80bb26b2, mime\application%pdf\PdfReader\Parser\ParseIndirectObject.vb"
+﻿#Region "Microsoft.VisualBasic::83bc745ad084b7e46e88983b869c7759, mime\application%pdf\PdfReader\Parser\ParseIndirectObject.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 35 (87.50%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (12.50%)
+    '     File Size: 1.11 KB
+
+
     '     Class ParseIndirectObject
     ' 
     '         Properties: [Object], Gen, Id
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Id As Integer, _Gen As Integer, _Object As PdfReader.ParseObjectBase
 
-        Public Sub New(ByVal id As TokenInteger, ByVal gen As TokenInteger, ByVal obj As ParseObjectBase)
+        Public Sub New(id As TokenInteger, gen As TokenInteger, obj As ParseObjectBase)
             Me.Id = id.Value
             Me.Gen = gen.Value
             [Object] = obj
@@ -58,7 +70,7 @@ Namespace PdfReader
             Get
                 Return _Id
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Id = value
             End Set
         End Property
@@ -67,7 +79,7 @@ Namespace PdfReader
             Get
                 Return _Gen
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Gen = value
             End Set
         End Property
@@ -76,7 +88,7 @@ Namespace PdfReader
             Get
                 Return _Object
             End Get
-            Private Set(ByVal value As ParseObjectBase)
+            Private Set(value As ParseObjectBase)
                 _Object = value
             End Set
         End Property

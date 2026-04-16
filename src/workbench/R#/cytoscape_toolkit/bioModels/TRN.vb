@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9aafced8b603fbdacd3ba36acdd80b, R#\cytoscape_toolkit\bioModels\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::a95f6c0ba8a5b86818681723037ca628, R#\cytoscape_toolkit\bioModels\TRN.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 12 (66.67%)
+    ' Comment Lines: 4 (22.22%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 2 (11.11%)
+    '     File Size: 603 B
+
+
     ' Module TRN
     ' 
     '     Function: ExpressionConnections
@@ -40,7 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.genomics.Model.Network.Regulons

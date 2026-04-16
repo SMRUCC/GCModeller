@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97568352e7c5052a719001ba5d3e01f1, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::da8a6fa31c6bb91875a5b3406d080c21, core\Bio.Assembly\SequenceModel\Polypeptides\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 27 (18.49%)
+    ' Comment Lines: 95 (65.07%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (16.44%)
+    '     File Size: 3.29 KB
+
+
     '     Enum AminoAcid
     ' 
     '         Alanine, Arginine, Asparagine, AsparticAcid, Cysteine
@@ -50,13 +62,13 @@
 Namespace SequenceModel.Polypeptides
 
     ''' <summary>
-    ''' Enumerates all of the 20 amino acids.(枚举20种常见的氨基酸)
+    ''' Enumerates all of the 20 amino acids.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(枚举20种常见的氨基酸)</remarks>
     Public Enum AminoAcid As Byte
 
         ''' <summary>
-        ''' 用于表示空载的tRNA
+        ''' Unknown, invalid chars.(用于表示空载的tRNA)
         ''' </summary>
         ''' <remarks></remarks>
         NULL = 0

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>get an intersection id list between the background</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>geneSet.intersects {background}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>get an intersection id list between the background</h2>
+
+        <h3>Description</h3>
+
+        <p>model and the given gene id list.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>geneSet.intersects</strong>(<i>cluster</i>, <i>geneSet</i>,
+    <i>isLocusTag</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>get.clusterID</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>term.map</i> = <span style='color: blue !important;'>FALSE</span>,
+    <i>id.map</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>cluster</dt>
+<dd><p>A gene cluster model or gsea background model object.</p></dd>
+
+
+<dt>geneSet</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>isLocusTag</dt>
+<dd><p>[as boolean]</p></dd>
+
+
+<dt>get.clusterID</dt>
+<dd><p>this function will returns a set of mapping cluster id if this 
+ parameter value is set to value TRUE, otherwise this function
+ returns a set of intersected geneID list by default.
+ 
+ this parameter only works when the cluster object is a 
+ gsea background model object. [as boolean]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        gseakit
+
+        <h3>Value</h3>
+
+        <p>a character vector of the intersected gene id set or the cluster id set based on the option of parameter <strong>`get_clusterID`</strong>.</p><h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> let kb = read.background("kegg_background.xml");
+ let idset = c("id1","id2","id3");
+ 
+ print("intersect gene ids:");
+ print(kb |> geneSet.intersects(idset));
+ 
+ print("intersect cluster ids:");
+ print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>background</em> version 1.0.0.0 <a
+                href="../background.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

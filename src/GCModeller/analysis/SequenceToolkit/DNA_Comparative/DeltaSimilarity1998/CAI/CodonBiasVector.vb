@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01ca0ad96f5d604a11bf9ae65a7796e4, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
+﻿#Region "Microsoft.VisualBasic::171eb4a8236469eb4602f0dba86eca15, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonBiasVector.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,42 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 29 (50.88%)
+    ' Comment Lines: 20 (35.09%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 8 (14.04%)
+    '     File Size: 1.89 KB
+
+
     '     Structure CodonBiasVector
     ' 
-    '         Function: EuclideanNormalization, ToString
+    '         Function: EuclideanNormalization, (+2 Overloads) PopulateTriples, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace DeltaSimilarity1998.CAI
 
+    ''' <summary>
+    ''' triple vector
+    ''' </summary>
     Public Structure CodonBiasVector
 
+        ''' <summary>
+        ''' 三联体密码子
+        ''' </summary>
         <XmlAttribute> Dim Codon As String
         <XmlAttribute> Dim XY#, YZ#, XZ#
 
@@ -61,5 +81,31 @@ Namespace DeltaSimilarity1998.CAI
         Public Overrides Function ToString() As String
             Return $"{Codon} -> (pXY={XY}, pYZ={YZ}, pXZ={XZ})"
         End Function
+
+        ''' <summary>
+        ''' 简单的产生三个残基单元产生的Triple片段对象
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function PopulateTriples(seq As SeqTypes) As IEnumerable(Of String)
+            Return PopulateTriples(vec:=seq.GetVector)
+        End Function
+
+        ''' <summary>
+        ''' 简单的产生三个残基单元产生的Triple片段对象
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared Iterator Function PopulateTriples(vec As IReadOnlyCollection(Of Char)) As IEnumerable(Of String)
+            For Each i As Char In vec
+                For Each j As Char In vec
+                    For Each k As Char In vec
+                        Yield New String({i, j, k})
+                    Next
+                Next
+            Next
+        End Function
+
     End Structure
 End Namespace

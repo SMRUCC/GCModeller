@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d22fda0ea292b674acca5d2fdc3cf7a, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
+﻿#Region "Microsoft.VisualBasic::1dbb6c066056a85a4d7022f7ef8d1d56, Data\BinaryData\BinaryData\Stream\BinaryDataReader.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 745
+    '    Code Lines: 372 (49.93%)
+    ' Comment Lines: 297 (39.87%)
+    '    - Xml Docs: 89.23%
+    ' 
+    '   Blank Lines: 76 (10.20%)
+    '     File Size: 32.78 KB
+
+
     ' Class BinaryDataReader
     ' 
     '     Properties: BufferView, ByteOrder, Encoding, EndOfStream, Length
     '                 Position
     ' 
-    '     Constructor: (+5 Overloads) Sub New
+    '     Constructor: (+8 Overloads) Sub New
     ' 
-    '     Function: DecimalFromBytes, getDebugView, ReadByteLengthPrefixString, ReadDateTime, ReadDecimal
-    '               ReadDecimals, ReadDouble, ReadDoubles, ReadDwordLengthPrefixString, ReadDwordLenString
-    '               ReadInt16, ReadInt16s, ReadInt32, ReadInt32s, ReadInt64
-    '               ReadInt64s, ReadMultiple, ReadSBytes, ReadSingle, ReadSingles
+    '     Function: DecimalFromBytes, getDebugView, ReadBoolean, ReadByte, ReadByteLengthPrefixString
+    '               ReadBytes, ReadChar, ReadDateTime, ReadDecimal, ReadDecimals
+    '               ReadDouble, ReadDoubles, ReadDwordLengthPrefixString, ReadDwordLenString, ReadInt16
+    '               ReadInt16s, ReadInt32, ReadInt32s, ReadInt64, ReadInt64s
+    '               ReadMultiple, ReadSByte, ReadSBytes, ReadSingle, ReadSingles
     '               (+5 Overloads) ReadString, ReadUInt16, ReadUInt16s, ReadUInt32, ReadUInt32s
     '               ReadUInt64, ReadUInt64s, ReadWordLengthPrefixString, ReadZeroTerminatedString, (+2 Overloads) Seek
     '               (+3 Overloads) TemporarySeek, ToString
@@ -56,13 +69,15 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.ValueTypes
 
 ''' <summary>
 ''' Represents an extended <see cref="BinaryReader"/> supporting special file format data types.
 ''' </summary>
-Public Class BinaryDataReader
-    Inherits BinaryReader
+Public Class BinaryDataReader : Inherits BinaryReader
+    Implements IReaderDebugAccess
 
     Dim _byteOrder As ByteOrder
     Dim _needsReversion As Boolean
@@ -87,6 +102,19 @@ Public Class BinaryDataReader
     ''' </exception>
     Public Sub New(input As Stream)
         Me.New(input, New UTF8Encoding(), False)
+    End Sub
+
+    ''' <summary>
+    ''' Create binary data reader from the in-memory data buffer
+    ''' </summary>
+    ''' <param name="data"></param>
+    Sub New(data As IEnumerable(Of Byte), Optional byteOrder As ByteOrder = ByteOrder.LittleEndian)
+        Me.New(New MemoryStream(data.ToArray))
+        Me.ByteOrder = byteOrder
+    End Sub
+
+    Sub New(data As RequestStream)
+        Call Me.New(New MemoryStream(data.ChunkBuffer))
     End Sub
 
     ''' <summary>
@@ -118,6 +146,17 @@ Public Class BinaryDataReader
 
     Public Sub New(input As Stream, Optional encoding As Encodings = Encodings.UTF8)
         Me.New(input, encoding.CodePage)
+    End Sub
+
+    ''' <summary>
+    ''' the constructor works for the numeric stream
+    ''' </summary>
+    ''' <param name="input"></param>
+    ''' <param name="byteOrder"></param>
+    Sub New(input As Stream, byteOrder As ByteOrder)
+        Call Me.New(input, Encodings.UTF8)
+        ' works for the numeric data
+        Me.ByteOrder = byteOrder
     End Sub
 
     ''' <summary>
@@ -159,7 +198,7 @@ Public Class BinaryDataReader
     ''' <summary>
     ''' Gets the length in bytes of the stream in bytes. This is a shortcut to the base stream Length property.
     ''' </summary>
-    Public ReadOnly Property Length() As Long
+    Public ReadOnly Property Length() As Long Implements IReaderDebugAccess.Length
         Get
             Return BaseStream.Length
         End Get
@@ -169,7 +208,7 @@ Public Class BinaryDataReader
     ''' Gets or sets the position within the current stream. This is a shortcut to the base stream Position
     ''' property.
     ''' </summary>
-    Public Property Position() As Long
+    Public Property Position() As Long Implements IReaderDebugAccess.Position
         Get
             Return BaseStream.Position
         End Get
@@ -189,45 +228,15 @@ Public Class BinaryDataReader
 
     Private Function getDebugView(bufSize As Integer) As String
         Using TemporarySeek()
-            Dim start As Long
-            Dim nsize As Integer
-
-            If Position < bufSize \ 2 Then
-                start = 0
-            Else
-                start = Position - (bufSize \ 2)
-            End If
-
-            If start + bufSize > Length Then
-                nsize = Length - start
-            Else
-                nsize = bufSize
-            End If
-
-            Dim chars As New List(Of Char)
-            Dim c As Char
-
-            For Each b As Byte In ReadBytes(nsize)
-                If ASCII.IsNonPrinting(b) Then
-                    c = "*"c
-                Else
-                    c = Chr(b)
-                End If
-
-                If c = vbNullChar Then
-                    c = "*"
-                End If
-
-                chars.Add(c)
-            Next
-
-            Return chars.CharString
+            Return Helpers.getDebugView(Me, bufSize)
         End Using
     End Function
 
     ''' <summary>
     ''' Mark current stream buffer position
     ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Mark()
         _markedPos = Position
     End Sub
@@ -235,6 +244,8 @@ Public Class BinaryDataReader
     ''' <summary>
     ''' Move the buffer back to the position that marked by <see cref="Mark"/> method.
     ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Reset()
         Position = _markedPos
     End Sub
@@ -243,9 +254,38 @@ Public Class BinaryDataReader
     ''' Aligns the reader to the next given byte multiple.
     ''' </summary>
     ''' <param name="alignment">The byte multiple.</param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Align(alignment As Integer)
         Seek((-Position Mod alignment + alignment) Mod alignment)
     End Sub
+
+#Region "Bind Base"
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Bind(TypeCode.Boolean)>
+    Public Overrides Function ReadBoolean() As Boolean
+        Return MyBase.ReadBoolean()
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Bind(TypeCode.Char)>
+    Public Overrides Function ReadChar() As Char
+        Return MyBase.ReadChar()
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Bind(TypeCode.Byte)>
+    Public Overrides Function ReadByte() As Byte
+        Return MyBase.ReadByte()
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Bind(TypeCode.SByte)>
+    Public Overrides Function ReadSByte() As SByte
+        Return MyBase.ReadSByte()
+    End Function
+#End Region
 
     ''' <summary>
     ''' Reads a <see cref="DateTime"/> from the current stream. The <see cref="DateTime"/> is available in the
@@ -253,6 +293,8 @@ Public Class BinaryDataReader
     ''' </summary>
     ''' <param name="format">The binary format, in which the <see cref="DateTime"/> will be read.</param>
     ''' <returns>The <see cref="DateTime"/> read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.DateTime, BinaryDateTimeFormat.CTime)>
     Public Function ReadDateTime(format As BinaryDateTimeFormat) As DateTime
         Select Case format
             Case BinaryDateTimeFormat.CTime
@@ -264,11 +306,18 @@ Public Class BinaryDataReader
         End Select
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Function ReadBytes(count As Integer) As Byte() Implements IReaderDebugAccess.ReadBytes
+        Return MyBase.ReadBytes(count)
+    End Function
+
     ''' <summary>
     ''' Reads an 16-byte floating point value from the current stream and advances the current position of the
     ''' stream by sixteen bytes.
     ''' </summary>
     ''' <returns>The 16-byte floating point value read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Decimal)>
     Public Overrides Function ReadDecimal() As Decimal
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(Marshal.SizeOf(GetType(Decimal)))
@@ -296,6 +345,8 @@ Public Class BinaryDataReader
     ''' by eight bytes.
     ''' </summary>
     ''' <returns>The 8-byte floating point value read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Double)>
     Public Overrides Function ReadDouble() As Double
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(8)
@@ -323,6 +374,8 @@ Public Class BinaryDataReader
     ''' bytes.
     ''' </summary>
     ''' <returns>The 2-byte signed integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Int16)>
     Public Overrides Function ReadInt16() As Int16
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(2)
@@ -350,6 +403,8 @@ Public Class BinaryDataReader
     ''' four bytes.
     ''' </summary>
     ''' <returns>The 4-byte signed integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Int32)>
     Public Overrides Function ReadInt32() As Int32
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(4)
@@ -377,6 +432,8 @@ Public Class BinaryDataReader
     ''' eight bytes.
     ''' </summary>
     ''' <returns>The 8-byte signed integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Int64)>
     Public Overrides Function ReadInt64() As Int64
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(8)
@@ -416,6 +473,8 @@ Public Class BinaryDataReader
     ''' by four bytes.
     ''' </summary>
     ''' <returns>The 4-byte floating point value read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.Single)>
     Public Overrides Function ReadSingle() As Single
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(4)
@@ -443,6 +502,7 @@ Public Class BinaryDataReader
     ''' </summary>
     ''' <param name="format">The binary format, in which the string will be read.</param>
     ''' <returns>The string read from the current stream.</returns>
+    ''' 
     Public Overloads Function ReadString(format As BinaryStringFormat) As String
         Return ReadString(format, Encoding)
     End Function
@@ -505,6 +565,8 @@ Public Class BinaryDataReader
     ''' position of the stream by two bytes.
     ''' </summary>
     ''' <returns>The 2-byte unsigned integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.UInt16)>
     Public Overrides Function ReadUInt16() As UInt16
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(2)
@@ -534,6 +596,8 @@ Public Class BinaryDataReader
     ''' bytes.
     ''' </summary>
     ''' <returns>The 4-byte unsigned integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.UInt32)>
     Public Overrides Function ReadUInt32() As UInt32
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(4)
@@ -563,6 +627,8 @@ Public Class BinaryDataReader
     ''' bytes.
     ''' </summary>
     ''' <returns>The 8-byte unsigned integer read from the current stream.</returns>
+    ''' 
+    <Bind(TypeCode.UInt64)>
     Public Overrides Function ReadUInt64() As UInt64
         If _needsReversion Then
             Dim bytes As Byte() = MyBase.ReadBytes(8)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 64 (75.29%)
+    ' Comment Lines: 8 (9.41%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 13 (15.29%)
+    '     File Size: 3.29 KB
+
+
     '     Module NumericSequence
     ' 
     '         Function: InRange, (+7 Overloads) Range

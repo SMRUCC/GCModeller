@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b0d64c32207d44393013a6198eac0b1, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MarchingSquares.vb"
+﻿#Region "Microsoft.VisualBasic::0733cee567dd4ebd13f6f1c2a30935eb, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MarchingSquares.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 434
+    '    Code Lines: 189 (43.55%)
+    ' Comment Lines: 191 (44.01%)
+    '    - Xml Docs: 72.25%
+    ' 
+    '   Blank Lines: 54 (12.44%)
+    '     File Size: 18.47 KB
+
 
     '     Class MarchingSquares
     ' 
@@ -210,7 +222,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
             Dim numCols = data(0).Length
 
             ' Create array indicating iso cell neighbor info.
-            Dim contours As IsoCell()() = MAT(Of IsoCell)(numRows - 1, numCols - 1)
+            Dim contours As IsoCell()() = RectangularArray.Matrix(Of IsoCell)(numRows - 1, numCols - 1)
 
             For r = 0 To numRows - 1 - 1
 
@@ -382,7 +394,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
 
             superMin -= 1
 
-            Dim padded = MAT(Of Double)(rows + 2, cols + 2)
+            Dim padded = RectangularArray.Matrix(Of Double)(rows + 2, cols + 2)
 
             For i = 0 To cols + 2 - 1
                 padded(0)(i) = superMin

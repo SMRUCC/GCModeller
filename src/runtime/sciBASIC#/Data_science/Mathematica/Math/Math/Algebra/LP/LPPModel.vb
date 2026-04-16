@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::018a22d1d415c39f571eea520dcd5f1e, Data_science\Mathematica\Math\Math\Algebra\LP\LPPModel.vb"
+﻿#Region "Microsoft.VisualBasic::d348c7b105456003ba7aaf1552a70a24, Data_science\Mathematica\Math\Math\Algebra\LP\LPPModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 93 (71.54%)
+    ' Comment Lines: 11 (8.46%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 26 (20.00%)
+    '     File Size: 4.49 KB
+
 
     '     Class LppVariable
     ' 
@@ -78,6 +90,9 @@ Namespace LinearAlgebra.LinearProgramming
 
     End Class
 
+    ''' <summary>
+    ''' Linear Programming Model
+    ''' </summary>
     Public Class LPPModel : Inherits XmlDataModel
 
         Public Property objectiveFunctionType As String

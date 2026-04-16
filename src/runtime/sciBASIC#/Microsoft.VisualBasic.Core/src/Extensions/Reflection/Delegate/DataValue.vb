@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47613598a39f8f8ce8696e10eb628216, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\DataValue.vb"
+﻿#Region "Microsoft.VisualBasic::a83a684941618983dd929c05f90f9428, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\DataValue.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,25 @@
 
     ' Summaries:
 
-    '     Class DataValue
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 43 (65.15%)
+    ' Comment Lines: 11 (16.67%)
+    '    - Xml Docs: 54.55%
     ' 
-    '         Properties: PropertyNames
+    '   Blank Lines: 12 (18.18%)
+    '     File Size: 2.63 KB
+
+
+    '     Class DataValue
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetProperty, inspectType, ToString
+    '         Function: GetVector, ToString
     ' 
-    '         Sub: TestDEMO
+    '         Sub: (+2 Overloads) SetValue
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,153 +57,68 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Emit.Delegates
 
     ''' <summary>
     ''' .NET object collection data property value ``get/set`` helper.
-    ''' (将属性的<see cref="PropertyInfo.SetValue(Object, Object)"/>编译为方法调用)
     ''' </summary>
-    Public Class DataValue(Of T)
-
-        ReadOnly type As Type = GetType(T)
-        ReadOnly data As T()
-        ''' <summary>
-        ''' Using for expression tree compile to delegate by using <see cref="BindProperty(Of T)"/>, 
-        ''' to makes the get/set invoke faster
-        ''' </summary>
-        ReadOnly properties As Dictionary(Of String, PropertyInfo)
-
-        Public ReadOnly Property PropertyNames As String()
-            Get
-                Return properties.Values _
-                    .Select(Function(x) x.Name) _
-                    .ToArray
-            End Get
-        End Property
-
-        Public Function GetProperty(property$) As PropertyInfo
-            Return properties([property])
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="name$">The property name, using the ``nameof`` operator to get the property name!</param>
-        ''' <returns></returns>
-        Default Public Property Evaluate(name$) As Object
-            Get
-                Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
-                Dim vector As Array = Array.CreateInstance([property].Type, data.Length)
-
-                For i As Integer = 0 To data.Length - 1
-                    Call vector.SetValue([property].handleGetValue(data(i)), i)
-                Next
-
-                Return vector
-            End Get
-            Set(value As Object)
-                Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
-                Dim array As IEnumerable
-
-                If [property].Type Is GetType(String) AndAlso value.GetType Is GetType(String) Then
-                    array = Nothing
-                Else
-                    array = TryCast(value, IEnumerable)
-                End If
-
-                If value Is Nothing Then
-                    For Each x In data
-                        Call [property].handleSetValue(x, Nothing)
-                    Next
-                ElseIf array Is Nothing Then  ' 不是一个集合
-                    Dim v As Object = value
-
-                    For Each x As T In data
-                        Call [property].handleSetValue(x, v)
-                    Next
-                Else
-                    Dim vector = array.As(Of Object).ToArray
-
-                    If vector.Length <> data.Length Then
-                        Throw New InvalidExpressionException(DimNotAgree$)
-                    End If
-                    For i As Integer = 0 To data.Length - 1
-                        Call [property].handleSetValue(data(i), vector(i))
-                    Next
-                End If
-            End Set
-        End Property
-
-        Const DimNotAgree$ = "Value array should have the same length as the target data array"
-
-        'Public Property Evaluate(Of V)(name$) As V()
-        '    Get
-        '        Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
-        '        Return data _
-        '            .Select(Function(x) DirectCast([property].__getValue(x), V)) _
-        '            .ToArray
-        '    End Get
-        '    Set(ParamArray value As V())
-        '        Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
-
-        '        If value.IsNullorEmpty Then  
-        '            ' value array is nothing or have no data, 
-        '            ' then means set all property value to nothing 
-        '            For Each x In data
-        '                Call [property].__setValue(x, Nothing)
-        '            Next
-        '        ElseIf value.Length = 1 Then 
-        '            ' value array only have one element, 
-        '            ' then means set all property value to a specific value
-        '            Dim v As Object = value(Scan0)
-        '            For Each x In data
-        '                Call [property].__setValue(x, v)
-        '            Next
-        '        Else
-        '            If value.Length <> data.Length Then
-        '                Throw New InvalidExpressionException(DimNotAgree$)
-        '            End If
-
-        '            For i As Integer = 0 To data.Length - 1
-        '                Call [property].__setValue(data(i), value(i))
-        '            Next
-        '        End If
-        '    End Set
-        'End Property
+    ''' <remarks>
+    ''' (将属性的<see cref="PropertyInfo.SetValue(Object, Object)"/>编译为方法调用)
+    ''' </remarks>
+    Public Class DataValue(Of T) : Inherits DataObjectVector
 
         Sub New(src As IEnumerable(Of T))
-            data = src.ToArray
-            properties = inspectType(type)
+            Call MyBase.New(src.ToArray)
         End Sub
 
-        Private Shared Function inspectType(type As Type) As Dictionary(Of String, PropertyInfo)
-            Static typeCache As New Dictionary(Of Type, Dictionary(Of String, PropertyInfo))
+        Public Function GetVector(Of V)(name As String) As V()
+            Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
+            Dim pull As V() = New V(data.Length - 1) {}
 
-            If Not typeCache.ContainsKey(type) Then
-                SyncLock typeCache
-                    typeCache(type) = type.Schema(PropertyAccess.NotSure, PublicProperty, True)
-                End SyncLock
-            End If
+            For i As Integer = 0 To pull.Length - 1
+                pull(i) = DirectCast([property].GetValue(data(i)), V)
+            Next
 
-            Return typeCache(type)
+            Return pull
         End Function
 
+        Public Sub SetValue(Of V)(name As String, value As V)
+            Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
+
+            For i As Integer = 0 To data.Length - 1
+                Call [property].SetValue(data(i), value)
+            Next
+        End Sub
+
+        Public Sub SetValue(Of V)(name$, vector As V())
+            If vector.IsNullOrEmpty Then
+                ' 20241125
+                ' value array is nothing or have no data, 
+                ' then means set all property value to nothing 
+                Call SetValue(Of V)(name, value:=Nothing)
+            ElseIf vector.Length = 1 Then
+                ' value array only have one element, 
+                ' then means set all property value to a specific value
+                Call SetValue(name, value:=vector(Scan0))
+            Else
+                Dim [property] As New BindProperty(Of DataFrameColumnAttribute)(properties(name))
+
+                If vector.Length <> data.Length Then
+                    Throw New InvalidExpressionException($"the dimension size of the given vector value({vector.Length}) is not equals to the dimension size of the base data vector({data.Length})!")
+                End If
+
+                For i As Integer = 0 To data.Length - 1
+                    Call [property].SetValue(data(i), vector(i))
+                Next
+            End If
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return type.FullName
         End Function
-
-        Private Shared Sub TestDEMO()
-            Dim vector As NamedValue(Of String)() = {}
-            Dim previousData = Linq.DATA(vector).Evaluate("Value")
-
-            Linq.DATA(vector).Evaluate("Value") = {}    ' set all value property to nothing
-            Linq.DATA(vector).Evaluate("Value") = {"1"} ' set all value property to a specifc value "1"
-            Linq.DATA(vector).Evaluate("Value") = {"1", "2", "3"}
-        End Sub
     End Class
 End Namespace

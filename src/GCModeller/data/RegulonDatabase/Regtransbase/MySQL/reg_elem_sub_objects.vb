@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 93 (50.82%)
+    ' Comment Lines: 68 (37.16%)
+    '    - Xml Docs: 95.59%
+    ' 
+    '   Blank Lines: 22 (12.02%)
+    '     File Size: 10.04 KB
+
+
     ' Class reg_elem_sub_objects
     ' 
     '     Properties: art_guid, child_guid, child_n, child_type_id, parent_guid

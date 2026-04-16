@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 39 (44.83%)
+    ' Comment Lines: 37 (42.53%)
+    '    - Xml Docs: 91.89%
+    ' 
+    '   Blank Lines: 11 (12.64%)
+    '     File Size: 3.29 KB
+
+
     '     Module Seeds
     ' 
     '         Function: Combo, ExtendSequence, (+2 Overloads) InitializeSeeds, PopulateExistsSeeds

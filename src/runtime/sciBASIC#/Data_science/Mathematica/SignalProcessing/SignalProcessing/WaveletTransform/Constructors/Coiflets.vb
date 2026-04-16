@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 34 (91.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (8.11%)
+    '     File Size: 2.75 KB
+
+
     '     Class Coiflets
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ab6de94b9be81c46ce96c1a2414f20f, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\HashHandle.vb"
+﻿#Region "Microsoft.VisualBasic::b3b8d4b77cb0c7281929e207902b489e, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\HashHandle.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 212
+    '    Code Lines: 153 (72.17%)
+    ' Comment Lines: 15 (7.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 44 (20.75%)
+    '     File Size: 6.69 KB
+
 
     '     Class DefaultHashHandle
     ' 
@@ -124,7 +136,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public ReadOnly Property [Next] As LinkNode(Of T)
             Get
-                Return New LinkNode(Of T)(list.Next(node.Address), list)
+                Return New LinkNode(Of T)(list.Next(CInt(node.Address)), list)
             End Get
         End Property
 
@@ -134,7 +146,7 @@ Namespace ComponentModel
         ''' <returns></returns>
         Public ReadOnly Property Previous As LinkNode(Of T)
             Get
-                Return New LinkNode(Of T)(list.Previous(node.Address), list)
+                Return New LinkNode(Of T)(list.Previous(CInt(node.Address)), list)
             End Get
         End Property
 
@@ -178,7 +190,7 @@ Namespace ComponentModel
         End Function
 
         Public Function [Next](x As T) As T
-            Return [Next](x.Address)
+            Return [Next](CInt(x.Address))
         End Function
 
         Public Function [Next](x As String) As T

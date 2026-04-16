@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7085f420d43acd9f8f405bfb7aaa6a13, localblast\LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::a55dca8b5d7937f2eeaadbdf8f0416d1, localblast\LocalBLAST\Pipeline\Models\SpeciesBesthit.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 406
+    '    Code Lines: 287 (70.69%)
+    ' Comment Lines: 66 (16.26%)
+    '    - Xml Docs: 92.42%
+    ' 
+    '   Blank Lines: 53 (13.05%)
+    '     File Size: 17.19 KB
+
+
     '     Class SpeciesBesthit
     ' 
     '         Properties: GetTopHits, hits, sp
@@ -46,7 +58,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 45 (81.82%)
+    ' Comment Lines: 6 (10.91%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 4 (7.27%)
+    '     File Size: 2.15 KB
+
+
     ' Module PseAA
     ' 
     '     Function: Construct

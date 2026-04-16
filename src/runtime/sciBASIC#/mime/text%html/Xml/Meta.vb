@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 29 (59.18%)
+    ' Comment Lines: 12 (24.49%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 8 (16.33%)
+    '     File Size: 1.46 KB
+
+
     '     Class CSS
     ' 
     '         Properties: id, style, type

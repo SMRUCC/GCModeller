@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87137babaf096348c49a70538baa6fc8, engine\BootstrapLoader\Definition\FluxBaseline.vb"
+﻿#Region "Microsoft.VisualBasic::c64380a6d24244fdaac210b30ff423b8, engine\BootstrapLoader\Definition\FluxBaseline.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 23 (41.07%)
+    ' Comment Lines: 22 (39.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (19.64%)
+    '     File Size: 2.00 KB
+
+
     '     Class FluxBaseline
     ' 
-    '         Properties: productInhibitionFactor, proteinMatureBaseline, proteinMatureCapacity, ribosomeAssemblyBaseline, ribosomeAssemblyCapacity
-    '                     ribosomeDisassemblyBaseline, ribosomeDisassemblyCapacity, transcriptionBaseline, transcriptionCapacity, translationCapacity
-    '                     tRNAChargeBaseline, tRNAChargeCapacity
+    '         Properties: boost, productInhibitionFactor, proteinMatureBaseline, proteinMatureCapacity, ribosomeAssemblyBaseline
+    '                     ribosomeAssemblyCapacity, ribosomeDisassemblyBaseline, ribosomeDisassemblyCapacity, RNADegradationBaseline, RNADegradationCapacity
+    '                     transcriptionBaseline, transcriptionCapacity, translationCapacity, tRNAChargeBaseline, tRNAChargeCapacity
     ' 
     '         Function: ToString
     ' 
@@ -51,9 +63,20 @@ Namespace Definitions
     ''' <summary>
     ''' The baseline value of the flux controls and dynamics
     ''' </summary>
+    ''' <remarks>
+    ''' adjust the kinetics parameters at here
+    ''' </remarks>
     Public Class FluxBaseline
 
+        ''' <summary>
+        ''' min rate of the transcription of gene template to RNA
+        ''' </summary>
+        ''' <returns></returns>
         Public Property transcriptionBaseline As Double = 100
+        ''' <summary>
+        ''' the max capacity of the transcription process
+        ''' </summary>
+        ''' <returns></returns>
         Public Property transcriptionCapacity As Double = 1000
 
         ''' <summary>
@@ -65,14 +88,23 @@ Namespace Definitions
         Public Property proteinMatureCapacity As Double = 10000
         Public Property productInhibitionFactor As Double = 1.25E-20
 
+        ''' <summary>
+        ''' min kinetic rate for tRNA charged with amino acid
+        ''' </summary>
+        ''' <returns></returns>
         Public Property tRNAChargeBaseline As Double = 1
         Public Property tRNAChargeCapacity As Double = 10
 
-        Public Property ribosomeAssemblyBaseline As Double = 5
+        Public Property RNADegradationBaseline As Double = 1
+        Public Property RNADegradationCapacity As Double = 10
+
+        Public Property ribosomeAssemblyBaseline As Double = 3
         Public Property ribosomeDisassemblyBaseline As Double = 3
 
         Public Property ribosomeAssemblyCapacity As Double = 10
         Public Property ribosomeDisassemblyCapacity As Double = 5
+
+        Public Property boost As Double = 1.0
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

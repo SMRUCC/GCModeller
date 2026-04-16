@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4091dd747b2b333e672287cd8d132f88, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\DefaultExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::441610f0aca2e5e816c9c303b18c4490, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\DefaultExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 59 (68.60%)
+    ' Comment Lines: 18 (20.93%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (10.47%)
+    '     File Size: 3.64 KB
+
+
     '     Module DefaultExtensions
     ' 
     '         Function: BaseName, FileExists, NormalizePathString, Replace, Split
@@ -42,6 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text
 
 Namespace Language.Default
@@ -65,10 +78,40 @@ Namespace Language.Default
             End If
         End Function
 
+        ''' <summary>
+        ''' Returns a zero-based, one-dimensional array containing a specified number of
+        ''' substrings.
+        ''' </summary>
+        ''' <param name="str">Required. String expression containing substrings And delimiters.</param>
+        ''' <param name="deli">
+        ''' Optional. Any single character used to identify substring limits. If Delimiter
+        ''' Is omitted, the space character (" ") Is assumed to be the delimiter.
+        ''' </param>
+        ''' <param name="ignoreCase"></param>
+        ''' <param name="regexp"></param>
+        ''' <returns>
+        ''' String array. If Expression Is a zero-length string (""), 
+        ''' Split returns a single-element array containing a zero-length 
+        ''' string. If Delimiter Is a zero-length string, Or if it does 
+        ''' Not appear anywhere in Expression, Split returns a single-element
+        ''' array containing the entire Expression string.
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Split(str As DefaultString, deli$, Optional ignoreCase As Boolean = False) As String()
-            Return Splitter.Split(str.DefaultValue, deli, True, compare:=StringHelpers.IgnoreCase(flag:=ignoreCase))
+        Public Function Split(str As DefaultString,
+                              Optional deli$ = " ",
+                              Optional ignoreCase As Boolean = False,
+                              Optional regexp As Boolean = False) As String()
+            If regexp Then
+                Return str _
+                    .DefaultValue _
+                    .StringSplit(
+                        pattern:=deli,
+                        opt:=If(ignoreCase, RegexICSng, RegexOptions.Singleline)
+                    )
+            Else
+                Return Splitter.Split(str.DefaultValue, deli, True, compare:=StringHelpers.IgnoreCase(flag:=ignoreCase))
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

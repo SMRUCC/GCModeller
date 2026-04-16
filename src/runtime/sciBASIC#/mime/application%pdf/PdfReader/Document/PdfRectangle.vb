@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78d3dc9bf5d8ad863aaec9adab0ff3dc, mime\application%pdf\PdfReader\Document\PdfRectangle.vb"
+﻿#Region "Microsoft.VisualBasic::8fac665f08cf07ef00b39f868e60845f, mime\application%pdf\PdfReader\Document\PdfRectangle.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 76 (82.61%)
+    ' Comment Lines: 3 (3.26%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (14.13%)
+    '     File Size: 3.03 KB
+
+
     '     Class PdfRectangle
     ' 
     '         Properties: Height, LowerLeftX, LowerLeftY, UpperRightX, UpperRightY
@@ -56,7 +68,7 @@ Namespace PdfReader
 
         Private _LowerLeftX As Single, _LowerLeftY As Single, _UpperRightX As Single, _UpperRightY As Single
 
-        Public Sub New(ByVal parent As PdfObject, ByVal array As ParseArray)
+        Public Sub New(parent As PdfObject, array As ParseArray)
             MyBase.New(parent, array)
             ' Extract raw values
             Dim lx = ObjectToFloat(array.Objects(0))
@@ -75,7 +87,7 @@ Namespace PdfReader
             Return $"({LowerLeftX},{LowerLeftY}) -> ({UpperRightX},{UpperRightY})"
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -83,7 +95,7 @@ Namespace PdfReader
             Get
                 Return _LowerLeftX
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _LowerLeftX = value
             End Set
         End Property
@@ -92,7 +104,7 @@ Namespace PdfReader
             Get
                 Return _LowerLeftY
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _LowerLeftY = value
             End Set
         End Property
@@ -101,7 +113,7 @@ Namespace PdfReader
             Get
                 Return _UpperRightX
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _UpperRightX = value
             End Set
         End Property
@@ -110,7 +122,7 @@ Namespace PdfReader
             Get
                 Return _UpperRightY
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _UpperRightY = value
             End Set
         End Property
@@ -127,7 +139,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Private Function ObjectToFloat(ByVal obj As ParseObjectBase) As Single
+        Private Function ObjectToFloat(obj As ParseObjectBase) As Single
             ' Might be an integer if the value has no fractional part
             If TypeOf obj Is ParseInteger Then
                 Return TryCast(obj, ParseInteger).Value

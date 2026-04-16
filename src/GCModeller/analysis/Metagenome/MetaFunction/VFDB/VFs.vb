@@ -1,0 +1,123 @@
+﻿#Region "Microsoft.VisualBasic::1a765876fec0af8e32c7a1b9059577c0, analysis\Metagenome\MetaFunction\VFDB\VFs.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 50 (75.76%)
+    ' Comment Lines: 3 (4.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (19.70%)
+    '     File Size: 2.41 KB
+
+
+    '     Class VFs
+    ' 
+    '         Properties: fullName, geneName, organism, sequence, VFCID
+    '                     VFGeneID, VFID, xref
+    ' 
+    '         Function: Parse, ParseHeader, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+
+Namespace VFDB
+
+    ''' <summary>
+    ''' http://www.mgc.ac.cn/VFs/download.htm
+    ''' </summary>
+    Public Class VFs : Implements IPolymerSequenceModel, INamedValue
+
+        Public Property VFGeneID As String Implements INamedValue.Key
+        Public Property VFID As String
+        Public Property VFCID As String
+        Public Property xref As String
+        Public Property geneName As String
+        Public Property fullName As String
+        Public Property organism As String
+
+        Public Property sequence As String Implements SequenceModel.IPolymerSequenceModel.SequenceData
+
+        Public Overrides Function ToString() As String
+            Return fullName
+        End Function
+
+        Public Shared Iterator Function Parse(seqs As IEnumerable(Of FastaSeq)) As IEnumerable(Of VFs)
+            For Each fa As FastaSeq In seqs
+                Yield ParseHeader(fa)
+            Next
+        End Function
+
+        Public Shared Function ParseHeader(fasta As FastaSeq) As VFs
+            Dim title = Strings.Trim(fasta.Title)
+            Dim orgName = title.Matches("\[.+?\]").Last
+            Dim xref = title.Split.First
+
+            title = title.Remove(orgName, RegexOptions.None)
+            title = title.Remove(xref, RegexOptions.None)
+
+            Dim geneName = title.Matches("\(.+?\)").First
+            Dim external = xref.Match("\(.+\)")
+            Dim VFGeneID = xref.Remove(external, RegexOptions.None)
+
+            title = title.Remove(geneName, RegexOptions.None).Trim
+            xref = external.GetStackValue("(", ")")
+            orgName = orgName.GetStackValue("[", "]")
+            geneName = geneName.GetStackValue("(", ")")
+
+            Dim VFID As String = title.Match("VF\d+")
+            Dim VFCID As String = title.Match("VFC\d+")
+
+            Return New VFs With {
+                .VFGeneID = VFGeneID,
+                .xref = xref,
+                .geneName = geneName,
+                .fullName = title,
+                .organism = orgName,
+                .sequence = fasta.SequenceData,
+                .VFCID = VFCID,
+                .VFID = VFID
+            }
+        End Function
+    End Class
+
+End Namespace

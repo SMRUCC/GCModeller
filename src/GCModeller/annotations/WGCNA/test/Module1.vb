@@ -49,12 +49,12 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Module Module1
 
     Sub Main()
-        Dim raw As Matrix = Matrix.LoadData("D:\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome.csv")
+        Dim raw As Matrix = Matrix.LoadData("\\192.168.1.254\backup3\项目以外内容\测试项目\空间V2.1\FULL_MS_centriod_CHCA_20210819\20241220\MSI_analysis\tmp\workflow_tmp\exportPeaktable\region_samples.csv")
         Dim out = WGCNA.Analysis.Run(raw)
 
-        Call out.hclust.Plot(layout:=Layouts.Horizon).Save("D:\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome.png")
-        Call out.modules.GetJson.SaveTo("D:\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome.json")
-        Call out.network.Tabular.Save("D:\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome")
+        Call out.hclust.Plot(layout:=Layouts.Horizon).Save("\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome.png")
+        Call out.modules.GetJson.SaveTo("\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome.json")
+        Call out.network.Tabular.Save("\GCModeller\src\GCModeller\annotations\WGCNA\run_test\metabolome")
 
         Pause()
     End Sub

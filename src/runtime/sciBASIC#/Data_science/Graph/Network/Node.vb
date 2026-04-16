@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9508b735362dc18dd9b06988b7d1d3c8, Data_science\Graph\Network\Node.vb"
+﻿#Region "Microsoft.VisualBasic::9a4ad806489c9521b8a24a8d25b3b91d, Data_science\Graph\Network\Node.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 24 (57.14%)
+    ' Comment Lines: 7 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (26.19%)
+    '     File Size: 948 B
+
+
     '     Class Node
     ' 
     '         Properties: degree
+    ' 
+    '     Class NodeDegree
+    ' 
+    '         Properties: [In], Out, Total
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Network
 
@@ -51,7 +72,32 @@ Namespace Network
         ''' Node connection counts: [point_to_this_node, point_from_this_node]
         ''' </summary>
         ''' <returns></returns>
-        Public Property degree As (In%, Out%)
+        Public Property degree As NodeDegree
+
+    End Class
+
+    Public Class NodeDegree
+
+        Public Property [In] As Integer
+        Public Property Out As Integer
+
+        Public ReadOnly Property Total As Integer
+            Get
+                Return [In] + Out
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(in%, out%)
+            Me.In = [in]
+            Me.Out = out
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
     End Class
 End Namespace

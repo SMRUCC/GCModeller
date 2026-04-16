@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d81155e61152ed021bd0ef6a9827699, Data\DataFrame.Extensions\Templates\TemplateHelper.vb"
+﻿#Region "Microsoft.VisualBasic::49379ac0453ce65d6e914a00e93ad7a7, Data\DataFrame.Extensions\Templates\TemplateHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 46 (73.02%)
+    ' Comment Lines: 7 (11.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (15.87%)
+    '     File Size: 2.37 KB
+
+
     ' Module TemplateHelper
     ' 
     '     Function: GetTypesHelperInternal, ScanTemplates
@@ -40,7 +52,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting

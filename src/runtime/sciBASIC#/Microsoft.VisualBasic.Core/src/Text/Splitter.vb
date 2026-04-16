@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e066d81efc261bcecff3272ecbbc6f5, Microsoft.VisualBasic.Core\src\Text\Splitter.vb"
+﻿#Region "Microsoft.VisualBasic::a539a9b87975a8fe28029b95cbd6a5eb, Microsoft.VisualBasic.Core\src\Text\Splitter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 98 (61.25%)
+    ' Comment Lines: 45 (28.12%)
+    '    - Xml Docs: 46.67%
+    ' 
+    '   Blank Lines: 17 (10.62%)
+    '     File Size: 6.48 KB
+
 
     '     Class Splitter
     ' 
@@ -109,7 +121,8 @@ Namespace Text
         Public Shared Function Split(s$, delimiter$, isSingle As Boolean,
                                      Optional count% = Integer.MaxValue,
                                      Optional compare As CompareMethod = CompareMethod.Binary) As String()
-            If s.StringEmpty(whitespaceAsEmpty:=False) Then
+
+            If s Is Nothing OrElse s.StringEmpty(whitespaceAsEmpty:=False) Then
                 Return {}
             Else
                 Return New Splitter().__split(s, delimiter, isSingle, count, compare)

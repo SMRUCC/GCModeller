@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7df5a8dcf879f284d482cc281558a1e1, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
+﻿#Region "Microsoft.VisualBasic::648d9542db1d5dc21dac1a3b6aed9767, annotations\GSEA\FisherCore\KnowledgeBase\BackgroundGene.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,42 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 59 (62.11%)
+    ' Comment Lines: 19 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (17.89%)
+    '     File Size: 2.62 KB
+
+
     ' Class BackgroundGene
     ' 
     '     Properties: locus_tag, name, term_id
     ' 
-    '     Function: ToString
+    '     Constructor: (+3 Overloads) Sub New
+    '     Function: EnumerateAllIds, TermSet, ToString, UnknownTerms
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
+''' <summary>
+''' a member gene in a gsea cluster model, or a symbol reference to the target object.
+''' </summary>
+''' <remarks>
+''' the term data model <see cref="NamedValue"/> was used at here 
+''' for serialized as xml model file.
+''' </remarks>
 <XmlType("gene")>
 Public Class BackgroundGene : Inherits Synonym
 
@@ -55,12 +77,75 @@ Public Class BackgroundGene : Inherits Synonym
     <XmlAttribute>
     Public Property name As String
 
+    ''' <summary>
+    ''' alias id of current gene entity.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
-    Public Property term_id As String()
+    Public Property term_id As NamedValue()
+
+    ''' <summary>
+    ''' a tuple data of ``[geneId => description]`` mapping.
+    ''' </summary>
+    ''' <returns></returns>
     Public Property locus_tag As NamedValue
+
+    Sub New()
+    End Sub
+
+    Sub New(id As String, name As String)
+        Call Me.New(id)
+        Me.name = name
+    End Sub
+
+    Sub New(id As String)
+        name = id
+        term_id = {New NamedValue(id, id)}
+        locus_tag = New NamedValue(id, id)
+        accessionID = id
+        [alias] = {}
+    End Sub
 
     Public Overrides Function ToString() As String
         Return $"{MyBase.ToString}  [{locus_tag.text}]"
+    End Function
+
+    Public Iterator Function EnumerateAllIds() As IEnumerable(Of String)
+        Yield accessionID
+
+        For Each id As String In [alias].SafeQuery
+            Yield id
+        Next
+
+        If Not locus_tag Is Nothing Then
+            Yield locus_tag.name
+        End If
+
+        For Each term In term_id.SafeQuery
+            Yield term.text
+        Next
+    End Function
+
+    Public Shared Iterator Function TermSet(termName As String, ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        If term_ids Is Nothing Then
+            Return
+        End If
+
+        For Each id As String In term_ids
+            If id Is Nothing Then
+                Continue For
+            End If
+
+            Yield New NamedValue With {
+                .name = termName,
+                .text = id
+            }
+        Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function UnknownTerms(ParamArray term_ids As String()) As IEnumerable(Of NamedValue)
+        Return TermSet("Unknown", term_ids)
     End Function
 
 End Class

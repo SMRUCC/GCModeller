@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69b470331a54781f77dc7d7a491af474, visualize\DataVisualizationExtensions\Abstract\MapModelCommon.vb"
+﻿#Region "Microsoft.VisualBasic::27b9befdf34d18a9aaa1f8d702db1f34, visualize\DataVisualizationExtensions\Abstract\MapModelCommon.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 131 (52.19%)
+    ' Comment Lines: 76 (30.28%)
+    '    - Xml Docs: 81.58%
+    ' 
+    '   Blank Lines: 44 (17.53%)
+    '     File Size: 9.01 KB
+
+
     ' Class MapModelCommon
     ' 
     '     Properties: Color, Direction, HeadLength, Height, Left
@@ -44,6 +56,33 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' 绘图模型的通用基本类型结构
@@ -95,7 +134,7 @@ Public MustInherit Class MapModelCommon
     ''' <remarks></remarks>
     Public Overridable ReadOnly Property HeadLength As Integer
         Get
-            Dim Length As Integer = Math.Abs(Left - Right)
+            Dim Length As Integer = std.Abs(Left - Right)
             Dim n = Length * 0.45
 
             ' 如果长度过小，则直接将基因对象画为一个三角形
@@ -119,7 +158,7 @@ Public MustInherit Class MapModelCommon
     ''' <remarks></remarks>
     Protected Overridable ReadOnly Property Length As Integer
         Get
-            Return Math.Abs(Left - Right) * ConvertFactor
+            Return std.Abs(Left - Right) * ConvertFactor
         End Get
     End Property
 

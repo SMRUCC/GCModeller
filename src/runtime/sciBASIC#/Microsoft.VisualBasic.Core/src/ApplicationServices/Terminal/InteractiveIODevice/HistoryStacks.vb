@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ae599b39eb0aee132d5a6b71ef4900f, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\InteractiveIODevice\HistoryStacks.vb"
+﻿#Region "Microsoft.VisualBasic::009a39e787d9c3e21c76b9fd116ed80e, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\InteractiveIODevice\HistoryStacks.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 113 (76.87%)
+    ' Comment Lines: 4 (2.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 30 (20.41%)
+    '     File Size: 4.57 KB
+
+
     '     Class HistoryStacks
     ' 
     '         Properties: FilePath, HistoryList, MimeType
@@ -38,7 +50,7 @@
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: __getHistory, MoveFirst, MoveLast, MoveNext, MovePrevious
-    '                   (+2 Overloads) Save, ToString
+    '                   (+3 Overloads) Save, ToString
     ' 
     '         Sub: __init, PushStack, StartInitialize
     '         Structure History
@@ -52,6 +64,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -94,7 +107,7 @@ Namespace ApplicationServices.Terminal
 
         Sub New()
             LastHistory = New History With {
-                .Date = Now.ToString,
+                .Date = DateTime.UtcNow.ToString,
                 .Histories = New List(Of String)
             }
         End Sub
@@ -179,8 +192,18 @@ Namespace ApplicationServices.Terminal
         End Function
 
         Public Function Save(Path$, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Path = Path Or FilePath.When(Path.StringEmpty)
-            Return Me.GetXml.SaveTo(Path, encoding)
+            Using file As Stream = (Path Or FilePath.When(Path.StringEmpty)).Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, encoding)
+            End Using
+        End Function
+
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(file, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

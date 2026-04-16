@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::643cf195e33532960ca3136a4d1eb265, Data_science\Graph\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b93346568e0f6279a4d659100f578485, Data_science\Graph\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 74 (56.92%)
+    ' Comment Lines: 41 (31.54%)
+    '    - Xml Docs: 95.12%
+    ' 
+    '   Blank Lines: 15 (11.54%)
+    '     File Size: 4.53 KB
+
+
     ' Module Extensions
     ' 
     '     Function: Add, BacktrackingRoot, CreateGraph, DefaultSteps, Grid
@@ -42,7 +54,9 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.GraphTheory.GridGraph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -112,10 +126,7 @@ Imports Microsoft.VisualBasic.Linq
     ''' <returns></returns>
     <Extension>
     Private Function Add(Of T, K)(g As Graph, tree As Tree(Of T, K)) As Graph
-        Dim childs = tree _
-            .EnumerateChilds _
-            .SafeQuery _
-            .Where(Function(c) Not c Is Nothing)
+        Dim childs = DirectCast(tree, ITreeNodeData(Of Tree(Of T, K))).ChildNodes
 
         Call g.AddVertex(tree)
 
@@ -162,7 +173,7 @@ Imports Microsoft.VisualBasic.Linq
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function DefaultSteps(size As SizeF, Optional n% = 50) As [Default](Of  SizeF)
+    Public Function DefaultSteps(size As SizeF, Optional n% = 50) As [Default](Of SizeF)
         Return New SizeF With {
             .Width = size.Width / 50,
             .Height = size.Height / 50

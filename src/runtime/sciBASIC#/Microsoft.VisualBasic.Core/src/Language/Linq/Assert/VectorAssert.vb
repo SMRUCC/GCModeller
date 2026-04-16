@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 45 (62.50%)
+    ' Comment Lines: 14 (19.44%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 13 (18.06%)
+    '     File Size: 2.63 KB
+
+
     '     Class VectorAssert
     ' 
     '         Constructor: (+1 Overloads) Sub New

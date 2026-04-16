@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc09b231248d9abaf45f2d3f13fe6122, gr\Microsoft.VisualBasic.Imaging\SVG\Renderer.vb"
+﻿#Region "Microsoft.VisualBasic::8acde70f1478dfdefd03c1d2bf71b27e, gr\Microsoft.VisualBasic.Imaging\SVG\Renderer.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 52 (70.27%)
+    ' Comment Lines: 14 (18.92%)
+    '    - Xml Docs: 78.57%
+    ' 
+    '   Blank Lines: 8 (10.81%)
+    '     File Size: 2.62 KB
+
+
     '     Module Renderer
     ' 
-    '         Function: DrawImage, PopulateLayers, SVGColorHelper
+    '         Function: DrawImage, SVGColorHelper
     ' 
     '         Sub: drawLayer
     ' 
@@ -46,14 +58,15 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
-Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace SVG
 
     ''' <summary>
     ''' Rendering svg vector image to gdi+ pixel image.
-    ''' (将SVG图像渲染为gdi+图像<see cref="Drawing.Image"/>)
     ''' </summary>
+    ''' <remarks>
+    ''' (将SVG图像渲染为gdi+图像<see cref="Image"/>)
+    ''' </remarks>
     Public Module Renderer
 
         <Extension>
@@ -79,55 +92,39 @@ Namespace SVG
         ''' </summary>
         ''' <param name="svg"></param>
         ''' <returns></returns>
-        Public Function DrawImage(svg As SVGData) As Drawing.Image
-            Using g As Graphics2D = svg.Layout.Size.CreateGDIDevice
+        Public Function DrawImage(svg As SVGData) As Image
+            Using g As IGraphics = Driver.CreateGraphicsDevice(svg.Layout.Size)
                 With g
                     Call .Clear(svg.SVG.bg.GetBrush)
-                    Call .drawLayer(svg)
+                    Call .drawLayer(svg.SVG.svg)
 
-                    Return .ImageResource
+                    Return DirectCast(g, GdiRasterGraphics).ImageResource
                 End With
             End Using
         End Function
 
         <Extension>
-        Private Sub drawLayer(g As Graphics2D, layer As ICanvas)
+        Private Sub drawLayer(g As IGraphics, layer As SvgContainer)
             ' draw layer components, order by CSS zindex asc
-            For Each element As CSSLayer In layer.PopulateLayers.OrderBy(Function(l) l.zIndex)
+            For Each element As SvgElement In layer.GetElements
                 Select Case element.GetType
-                    Case GetType(g)
-
+                    Case GetType(SvgContainer)
                         ' recursively draw svg document tree
                         Call g.drawLayer(element)
 
-                    Case GetType(XML.circle)
-                    Case GetType(XML.Image)
-                    Case GetType(XML.line)
-                    Case GetType(XML.node)
-                    Case GetType(XML.path)
-                    Case GetType(XML.polygon)
-                    Case GetType(XML.polyline)
-                    Case GetType(XML.rect)
-                    Case GetType(XML.text)
-                    Case GetType(XML.title)
+                    Case GetType(SvgCircle)
+                    Case GetType(SvgImage)
+                    Case GetType(SvgLine)
+                    Case GetType(SvgPath)
+                    Case GetType(SvgPolygon)
+                    Case GetType(SvgPolyLine)
+                    Case GetType(SvgRect)
+                    Case GetType(SvgText)
+                    Case GetType(SvgTitle)
                     Case Else
                         Throw New NotImplementedException(element.GetType.FullName)
                 End Select
             Next
         End Sub
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension>
-        Public Function PopulateLayers(obj As ICanvas) As IEnumerable(Of CSSLayer)
-            Return obj.circles.Select(Function(e) DirectCast(e, CSSLayer)).AsList _
-                 + obj.images _
-                 + obj.lines _
-                 + obj.path _
-                 + obj.polygon _
-                 + obj.polyline _
-                 + obj.rect _
-                 + obj.texts _
-                 + obj.Layers
-        End Function
     End Module
 End Namespace

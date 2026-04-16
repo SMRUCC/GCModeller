@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b497ceabdc8aae25f7227e6b653c2b4, Microsoft.VisualBasic.Core\src\Extensions\Math\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::607782c23476f66af2dfed3261dc383f, Microsoft.VisualBasic.Core\src\Extensions\Math\Matrix.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 40 (51.95%)
+    ' Comment Lines: 29 (37.66%)
+    '    - Xml Docs: 79.31%
+    ' 
+    '   Blank Lines: 8 (10.39%)
+    '     File Size: 3.26 KB
+
+
+    '     Interface INumericMatrix
+    ' 
+    '         Function: ArrayPack
+    ' 
     '     Module MatrixExtensions
     ' 
     '         Function: MatrixMult, ScalarMult
@@ -48,6 +64,18 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 '          http://www.boost.org/LICENSE_1_0.txt)
 
 Namespace Math
+
+    ''' <summary>
+    ''' an abstract model of the numeric matrix object
+    ''' </summary>
+    Public Interface INumericMatrix
+
+        ''' <summary>Copy the internal two-dimensional array.</summary>
+        ''' <returns>Two-dimensional array copy of matrix elements.
+        ''' </returns>
+        Function ArrayPack(Optional deepcopy As Boolean = False) As Double()()
+
+    End Interface
 
     ''' <summary>
     ''' This class contains methods that perform mathematical operations on matrices.
@@ -74,7 +102,7 @@ Namespace Math
             Dim row As Integer = a.Length
             Dim col As Integer = b(0).Length
             Dim inner As Integer = b.Length
-            Dim out As Double()() = MAT(Of Double)(row, col)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(row, col)
             For i As Integer = 0 To row - 1
                 For j As Integer = 0 To col - 1
                     For k As Integer = 0 To inner - 1
@@ -95,7 +123,7 @@ Namespace Math
             If a Is Nothing Then
                 Throw New ArgumentException("Input matrix is null")
             End If
-            Dim out As Double()() = MAT(Of Double)(a.Length, a(0).Length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(a.Length, a(0).Length)
             For i As Integer = 0 To out.Length - 1
                 For j As Integer = 0 To out(0).Length - 1
                     out(i)(j) = a(i)(j) * b

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b43e1a65f0cdec1f3167e8436abd4de, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
+﻿#Region "Microsoft.VisualBasic::27d953c5d5f02313eefdad31c3f459fc, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\UniprotXML.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 102 (62.58%)
+    ' Comment Lines: 42 (25.77%)
+    '    - Xml Docs: 88.10%
+    ' 
+    '   Blank Lines: 19 (11.66%)
+    '     File Size: 7.83 KB
+
+
     '     Class UniProtXML
     ' 
     '         Properties: copyright, entries, version
     ' 
     '         Function: [GetType], CreateTable, (+2 Overloads) EnumerateEntries, Load, LoadDictionary
-    '                   ToIndexTable, ToString
+    '                   LoadXml, ToIndexTable, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -57,9 +69,12 @@ Namespace Assembly.Uniprot.XML
     ''' <summary>
     ''' Describes a collection of UniProtKB entries, XML file can be download from the uniprot database id mappings result.
     ''' </summary>
-    <XmlType("uniprot")> Public Class UniProtXML
+    <XmlType("uniprot", [Namespace]:=UniProtXML.uniprot_xmlns), XmlRoot("uniprot", [Namespace]:=UniProtXML.uniprot_xmlns)>
+    Public Class UniProtXML
 
-        Const ns$ = "xmlns=""http://uniprot.org/uniprot"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
+        Public Const uniprot_xmlns As String = "http://uniprot.org/uniprot"
+
+        Const ns$ = "xmlns=""" & uniprot_xmlns & """ xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xsi:schemaLocation=""http://uniprot.org/uniprot http://www.uniprot.org/support/docs/uniprot.xsd"""
 
         ''' <summary>
         ''' ```xml
@@ -84,9 +99,11 @@ Namespace Assembly.Uniprot.XML
         ''' </summary>
         ''' <param name="path">XML文件路径</param>
         ''' <returns></returns>
-        Public Shared Function Load(path$) As UniProtXML
-            Dim xml As String = path.ReadAllText
+        Public Shared Function Load(path As String) As UniProtXML
+            Return LoadXml(path.ReadAllText)
+        End Function
 
+        Public Shared Function LoadXml(xml As String) As UniProtXML
             If InStr(xml, "<uniparc xmlns=", CompareMethod.Text) > 0 Then
                 xml = xml.Replace(UniProtXML.uniparc_ns, Xmlns.DefaultXmlns)
                 xml = xml.Replace("<uniparc xmlns", "<uniprot xmlns")
@@ -95,8 +112,7 @@ Namespace Assembly.Uniprot.XML
                 xml = xml.Replace(UniProtXML.ns, Xmlns.DefaultXmlns)
             End If
 
-            Dim model As UniProtXML = xml.LoadFromXml(Of UniProtXML)
-            Return model
+            Return xml.LoadFromXml(Of UniProtXML)
         End Function
 
         Public Overloads Shared Function [GetType](file As String) As String
@@ -116,20 +132,32 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(path$, Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+        Public Shared Function EnumerateEntries(path$,
+                                                Optional isUniParc As Boolean = False,
+                                                Optional ignoreError As Boolean = False,
+                                                Optional tqdm As Boolean = False) As IEnumerable(Of entry)
             If isUniParc Then
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc")
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniparc",
+                                                               ignoreError:=ignoreError,
+                                                               tqdm:=tqdm)
             Else
-                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:="http://uniprot.org/uniprot")
+                Return path.LoadUltraLargeXMLDataSet(Of entry)(xmlns:=uniprot_xmlns,
+                                                               ignoreError:=ignoreError,
+                                                               tqdm:=tqdm)
             End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function EnumerateEntries(files$(), Optional isUniParc As Boolean = False) As IEnumerable(Of entry)
+        Public Shared Function EnumerateEntries(files$(),
+                                                Optional isUniParc As Boolean = False,
+                                                Optional ignoreError As Boolean = False,
+                                                Optional tqdm As Boolean = False) As IEnumerable(Of entry)
             Return files _
                 .Select(Function(path)
-                            Call $"Populate {path}".__INFO_ECHO
-                            Return EnumerateEntries(path, isUniParc)
+                            Call $"Populate uniprot proteins {path} [{StringFormats.Lanudry(bytes:=path.FileLength)}]".info
+                            Return EnumerateEntries(path, isUniParc,
+                                                    ignoreError:=ignoreError,
+                                                    tqdm:=tqdm)
                         End Function) _
                 .IteratesALL
         End Function

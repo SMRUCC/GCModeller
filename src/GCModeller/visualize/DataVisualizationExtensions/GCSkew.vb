@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e7f8e6351f1052bfc2ca1a9fdd41fbd, visualize\DataVisualizationExtensions\GCSkew.vb"
+﻿#Region "Microsoft.VisualBasic::dee499bbde82777e7e3c4c4cbc3d75c0, visualize\DataVisualizationExtensions\GCSkew.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 144
+    '    Code Lines: 99 (68.75%)
+    ' Comment Lines: 32 (22.22%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 13 (9.03%)
+    '     File Size: 6.12 KB
+
+
     ' Module GCSkew
     ' 
     '     Properties: PlotsHeight, ShowAverageLine, Steps, WindowSize, YValueOffset
@@ -50,6 +62,32 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.SequenceModel
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' plotting the GC% and GC skew curve.
@@ -120,7 +158,7 @@ Public Module GCSkew
     Public Sub DrawAixs(g As IGraphics, location As Point, size As Size, tagFont As Font, min As Double, max As Double)
         Dim aixsSize As SizeF = g.MeasureString("0", tagFont)
         Dim vertex As New Point(location.X, location.Y - size.Height)
-        Dim tmpLoci As New Point With {
+        Dim tmpLoci As New PointF With {
             .X = location.X - YValueOffset,
             .Y = location.Y - aixsSize.Height / 2
         }

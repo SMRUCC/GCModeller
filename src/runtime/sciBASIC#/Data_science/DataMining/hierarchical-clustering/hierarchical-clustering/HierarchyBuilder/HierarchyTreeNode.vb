@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::013f4dd2616be2010ff621f16daa7b38, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyTreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::878e7ea137c955bcbd5b5b69699990f4, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyTreeNode.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 68 (56.67%)
+    ' Comment Lines: 29 (24.17%)
+    '    - Xml Docs: 34.48%
+    ' 
+    '   Blank Lines: 23 (19.17%)
+    '     File Size: 4.05 KB
+
+
     '     Class HierarchyTreeNode
     ' 
     '         Properties: Left, LinkageDistance, Right
@@ -43,9 +55,8 @@
 
 #End Region
 
-Imports System
+Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 
 '
 '*****************************************************************************
@@ -80,6 +91,14 @@ Namespace Hierarchy
             LinkageDistance = distance
         End Sub
 
+        ''' <summary>
+        ''' returns the partner of the given cluster
+        ''' </summary>
+        ''' <param name="c"></param>
+        ''' <returns>
+        ''' if the given c is left then returns partner right, otherwise returns partner left
+        ''' </returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetOtherCluster(c As Cluster) As Cluster
             Return If(Left Is c, Right, Left)
         End Function

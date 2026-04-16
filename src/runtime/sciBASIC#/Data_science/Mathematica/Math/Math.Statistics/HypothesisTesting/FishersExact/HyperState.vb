@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc63800415e644733dd9022b846c28a2, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FishersExact\HyperState.vb"
+﻿#Region "Microsoft.VisualBasic::6350f24e2f405757258b905380145a7a, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FishersExact\HyperState.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 14 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (17.65%)
+    '     File Size: 497 B
+
+
     '     Class HyperState
     ' 
     '         Properties: n, n_1, n1_, n11, prob
     '                     valid
-    ' 
-    '         Function: ToString
-    ' 
-    '     Class FishersExactPvalues
-    ' 
-    '         Properties: greater_pvalue, hyper_state, less_pvalue, matrix, two_tail_pvalue
     ' 
     '         Function: ToString
     ' 
@@ -63,55 +69,6 @@ Namespace Hypothesis.FishersExact
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
-        End Function
-    End Class
-
-    ''' <summary>
-    ''' `FishersExactPvalues` holds the pvalues calculated by the `fishers_exact` function.
-    ''' </summary>
-    Public Class FishersExactPvalues
-
-        ''' <summary>
-        ''' pvalue for the two-tailed test. Use this when there Is no prior alternative.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property two_tail_pvalue As Double
-        ''' <summary>
-        ''' pvalue for the "left" Or "lesser" tail. Use this when the alternative to
-        ''' independence Is that there Is negative association between the variables.
-        ''' That Is, the observations tend to lie in lower left And upper right.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property less_pvalue As Double
-        ''' <summary>
-        ''' Use this when the alternative to independence Is that there Is positive
-        ''' association between the variables. That Is, the observations tend to lie
-        ''' in upper left And lower right.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property greater_pvalue As Double
-
-        ''' <summary>
-        ''' [a,b,c,d]
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property matrix As Integer()
-
-        Public Property hyper_state As HyperState
-
-        Public Overrides Function ToString() As String
-            Return $"
-	Fisher's Exact Test for Count Data
-
-data:  [a={matrix(0)}, b={matrix(1)}, c={matrix(2)}, d={matrix(3)}]
-p-value = {two_tail_pvalue}
-alternative hypothesis: true odds ratio is not equal to 1
-95 percent confidence interval:
-  0.008512238 20.296715040
-sample estimates:
-odds ratio 
-  0.693793 
-"
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d02b68eb31b282e32a6b3851c4b7391, localblast\CLI_tools\CLI\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::adce53ffebc725d131a4e12ae1f8cdfd, localblast\CLI_tools\CLI\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 93 (86.11%)
+    ' Comment Lines: 2 (1.85%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (12.04%)
+    '     File Size: 5.15 KB
+
+
     ' Module CLI
     ' 
     '     Function: AccessionList, GiList, ReadsOTU_Taxonomy
@@ -42,8 +54,8 @@
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
@@ -90,18 +102,18 @@ Partial Module CLI
               Description:="This input data should have a column named ``taxid`` for the taxonomy information.")>
     <ArgumentAttribute("/fill.empty", True, AcceptTypes:={GetType(Boolean)},
               Description:="If this options is true, then this function will only fill the rows which have an empty ``Taxonomy`` field column.")>
-    <ArgumentAttribute("/OTU", False, AcceptTypes:={GetType(OTUData)})>
+    <ArgumentAttribute("/OTU", False, AcceptTypes:={GetType(OTUData(Of Double))})>
     <Group(CLIGrouping.TaxonomyTools)>
     Public Function ReadsOTU_Taxonomy(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim OTU As String = args("/OTU")
         Dim tax As String = args("/tax")
-        Dim fillEmpty As Boolean = args.GetBoolean("/fill.empty")
+        Dim fillEmpty As Boolean = args("/fill.empty")
         Dim out As String = args.GetValue(
             "/out",
             [in].TrimSuffix & "-" & OTU.BaseName & $".Taxonomy{If(fillEmpty, ".fillEmpty", "")}.csv")
         Dim maps = [in].LoadCsv(Of BlastnMapping)
-        Dim data = OTU.LoadCsv(Of OTUData)
+        Dim data = OTU.LoadCsv(Of OTUData(Of Double))
         Dim taxonomy As New NcbiTaxonomyTree(tax)
         Dim readsTable = (From x As BlastnMapping
                           In maps
@@ -109,10 +121,10 @@ Partial Module CLI
                           Group x By x.ReadQuery Into Group) _
             .ToDictionary(Function(x) x.ReadQuery,
                           Function(x) x.Group.ToArray)
-        Dim output As New List(Of OTUData)
+        Dim output As New List(Of OTUData(Of Double))
         Dim diff As New List(Of String)
 
-        For Each r As OTUData In data
+        For Each r As OTUData(Of Double) In data
             If fillEmpty Then
                 If Not String.IsNullOrEmpty(r.data.TryGetValue("Taxonomy")) Then
                     ' 包含有这个值，则不进行关联，直接添加进入输出数据之中
@@ -130,7 +142,7 @@ Partial Module CLI
             End If
 
             For Each o As BlastnMapping In reads
-                Dim copy As New OTUData(r)
+                Dim copy As New OTUData(Of Double)(r)
                 Dim taxid% = CInt(o.Extensions("taxid"))
                 Dim nodes = taxonomy.GetAscendantsWithRanksAndNames(taxid, True)
                 copy.data("taxid") = taxid

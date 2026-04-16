@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa7aef23b210ad75f1c3190ad265ea4d, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\Data.vb"
+﻿#Region "Microsoft.VisualBasic::3b9123179a23df398435db4d3315efee, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\Data.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 398
+    '    Code Lines: 210 (52.76%)
+    ' Comment Lines: 124 (31.16%)
+    '    - Xml Docs: 87.10%
+    ' 
+    '   Blank Lines: 64 (16.08%)
+    '     File Size: 13.33 KB
+
 
     '     Class Data
     ' 
@@ -120,7 +132,7 @@ Namespace ComponentModel.Collection.Deque
 
         Public Property Count As Integer = 0
 
-        Dim data = New S(1)() {}
+        Dim data As S()() = New S(1)() {}
 
         Public Sub New()
             data(0) = New S(sizeOfBlock - 1) {}

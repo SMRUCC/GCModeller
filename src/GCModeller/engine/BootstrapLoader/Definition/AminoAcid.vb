@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e620a6ab8533d5b8cd537866b8dc419, engine\BootstrapLoader\Definition\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::70ef2dbad540ff58a1b8cb299157357f, engine\BootstrapLoader\Definition\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 54 (35.53%)
+    ' Comment Lines: 88 (57.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (6.58%)
+    '     File Size: 4.51 KB
+
+
     '     Class AminoAcid
     ' 
-    '         Properties: A, C, D, E, F
-    '                     G, H, I, K, L
-    '                     M, N, O, P, Q
-    '                     R, S, T, U, V
-    '                     W, Y
+    '         Properties: A, B, C, D, E
+    '                     F, G, H, I, K
+    '                     L, M, N, O, P
+    '                     Q, R, S, T, U
+    '                     V, W, Y, Z
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,17 +61,20 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Definitions
 
-    Public Class AminoAcid
+    Public Class AminoAcid : Implements Enumeration(Of String)
 
         ''' <summary>
         ''' L-Alanine
         ''' </summary>
         ''' <returns></returns>
         Public Property A As String
+        Public Property B As String
+
         ''' <summary>
         ''' L-Arginine
         ''' </summary>
@@ -166,6 +181,8 @@ Namespace Definitions
         ''' <returns></returns>
         Public Property O As String
 
+        Public Property Z As String
+
         Shared ReadOnly aa As Dictionary(Of String, PropertyInfo)
 
         Shared Sub New()
@@ -187,5 +204,10 @@ Namespace Definitions
             Return Me.GetJson
         End Function
 
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            For Each aa As PropertyInfo In AminoAcid.aa.Values
+                Yield CStr(aa.GetValue(Me))
+            Next
+        End Function
     End Class
 End Namespace

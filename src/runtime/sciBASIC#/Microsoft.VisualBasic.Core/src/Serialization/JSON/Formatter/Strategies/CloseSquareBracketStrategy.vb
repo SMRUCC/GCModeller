@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 20 (66.67%)
+    ' Comment Lines: 4 (13.33%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 6 (20.00%)
+    '     File Size: 885 B
+
+
     '     Class CloseSquareBracketStrategy
     ' 
     '         Properties: ForWhichCharacter

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab9886a03cccf82e0777c3a46345c3e7, visualize\Cytoscape\Cytoscape\Session\cyTable.vb"
+﻿#Region "Microsoft.VisualBasic::d9f69d6c83f1ef2f548c2841abfa0c93, visualize\Cytoscape\Cytoscape\Session\cyTable.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 65 (82.28%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (17.72%)
+    '     File Size: 2.80 KB
+
+
     '     Class cyTable
     ' 
     '         Properties: [Dim], CyCSVVersion, fields
@@ -52,7 +64,7 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Session

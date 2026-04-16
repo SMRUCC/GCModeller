@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b458fda1fae364bf9cd659013c671e9, annotations\Proteomics\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::982b5e1f7bee038771a98d43d9095a23, annotations\Proteomics\Mappings.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 39 (69.64%)
+    ' Comment Lines: 11 (19.64%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 6 (10.71%)
+    '     File Size: 2.18 KB
+
+
     ' Module Mappings
     ' 
     '     Function: SplitID, UserCustomMaps
@@ -40,7 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Values
 Imports Microsoft.VisualBasic.Linq
@@ -83,7 +95,7 @@ Public Module Mappings
             .Select(Function(gene)
                         Return gene.ID _
                             .Split(";"c) _
-                            .Select(AddressOf Trim) _
+                            .Select(AddressOf Strings.Trim) _
                             .Select(Function(id)
                                         Return New EntityObject With {
                                             .ID = id,

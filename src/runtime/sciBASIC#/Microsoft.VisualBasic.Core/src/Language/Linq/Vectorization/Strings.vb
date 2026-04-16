@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5922be49c16581d2f9acb65ba92610e2, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Strings.vb"
+﻿#Region "Microsoft.VisualBasic::29bfc4e7af575f8de4f527346b7a0ed1, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Strings.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 9 (32.14%)
+    ' Comment Lines: 16 (57.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (10.71%)
+    '     File Size: 1.17 KB
+
+
     '     Class Strings
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -40,8 +52,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Base = Microsoft.VisualBasic.Strings
 
 Namespace Language.Vectorization
 
@@ -67,7 +77,7 @@ Namespace Language.Vectorization
         ''' the nominal number of bytes required to store a variable.
         ''' </returns>
         Public Shared Function Len(strings As IEnumerable(Of String)) As IEnumerable(Of Integer)
-            Return strings.Select(AddressOf Base.Len)
+            Return From str As String In strings Select If(str, "").Length
         End Function
     End Class
 End Namespace

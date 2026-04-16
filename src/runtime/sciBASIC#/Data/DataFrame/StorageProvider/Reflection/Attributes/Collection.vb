@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 42 (59.15%)
+    ' Comment Lines: 17 (23.94%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 12 (16.90%)
+    '     File Size: 2.75 KB
+
+
     '     Class CollectionAttribute
     ' 
     '         Properties: Delimiter, ProviderId, TypeInfo

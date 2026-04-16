@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e810832cf5d6c82781203734f26deb1f, Data\BinaryData\msgpack\SerializationContext.vb"
+﻿#Region "Microsoft.VisualBasic::731022ce6b422e3fad3e643e289583c8, Data\BinaryData\msgpack\SerializationContext.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 53 (75.71%)
+    ' Comment Lines: 5 (7.14%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 12 (17.14%)
+    '     File Size: 2.64 KB
+
 
     ' Class SerializationContext
     ' 
@@ -87,7 +99,7 @@ Public Class SerializationContext
     Public Sub RegisterSerializer(Of T)(ParamArray propertyNames As String())
         Dim defs As New List(Of MessagePackMemberDefinition)()
 
-        For Each propertyName In propertyNames
+        For Each propertyName As String In propertyNames
             defs.Add(New MessagePackMemberDefinition() With {
                 .PropertyName = propertyName,
                 .NilImplication = NilImplication.MemberDefault

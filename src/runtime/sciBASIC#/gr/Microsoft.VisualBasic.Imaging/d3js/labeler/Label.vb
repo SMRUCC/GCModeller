@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c8e68cd4ad2dca8dcd597fb82b27413, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
+﻿#Region "Microsoft.VisualBasic::28bc4075f87d8c49e09196b31f6080c8, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\Label.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 90 (58.44%)
+    ' Comment Lines: 43 (27.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (13.64%)
+    '     File Size: 4.95 KB
+
+
     '     Class Label
     ' 
     '         Properties: height, location, pinned, rectangle, text
     '                     width, X, Y
     ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: ToString
+    '         Constructor: (+7 Overloads) Sub New
+    '         Function: distanceTo, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,9 +58,13 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text.Nudge
 
 Namespace d3js.Layout
 
+    ''' <summary>
+    ''' a text label object
+    ''' </summary>
     Public Class Label
 
         ''' <summary>
@@ -143,6 +159,15 @@ Namespace d3js.Layout
             Me.rectangle = New RectangleF(Nothing, size)
         End Sub
 
+        Sub New(text As TextRectangle)
+            Me.text = text.text
+            Me.rectangle = text.rect
+        End Sub
+
+        Sub New(rect As RectangleF)
+            Me.rectangle = rect
+        End Sub
+
         Sub New(label$, pos As PointF, size As SizeF)
             Me.text = label
             Me.rectangle = New RectangleF(pos, size)
@@ -153,8 +178,22 @@ Namespace d3js.Layout
             Call Me.New(label, pos.PointF, size)
         End Sub
 
+        ''' <summary>
+        ''' make value copy of the text label data
+        ''' </summary>
+        ''' <param name="copy"></param>
+        Sub New(copy As Label)
+            Me.New(copy.text, copy.location, New SizeF(copy.width, copy.height))
+            Me.pinned = copy.pinned
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"[{X.ToString("F2")},{Y.ToString("F2")}] [{If(pinned, "pinned", "**unpin")}] {text}"
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function distanceTo(anchor As Anchor) As Double
+            Return (X - anchor.x) ^ 2 + (Y - anchor.y) ^ 2
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

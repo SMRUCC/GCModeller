@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1A566414-428F-403B-84A6-6B9F36FB1117}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Project.imageSmoothTest</StartupObject>
+    <StartupObject>Test.Project.filter_test</StartupObject>
     <RootNamespace>Test.Project</RootNamespace>
     <AssemblyName>Test.Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -118,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.vb" />
+    <Compile Include="hqx_test.vb" />
     <Compile Include="HtmlRenderTest.vb" />
     <Compile Include="ConvexHull_demo.vb" />
     <Compile Include="ConcaveHull_demo.vb" />
@@ -128,6 +129,9 @@
     <Compile Include="ExifTest.vb" />
     <Compile Include="gifTest.vb" />
     <Compile Include="imageSmoothTest.vb" />
+    <Compile Include="cssPaddingTest.vb" />
+    <Compile Include="filter_test.vb" />
+    <Compile Include="objReaderTest.vb" />
     <Compile Include="ShadowsTest.vb" />
     <Compile Include="SVGTest.vb" />
     <Compile Include="Program.vb" />
@@ -169,21 +173,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{f52a18cc-fd88-4ffe-868f-f0209cce9e99}</Project>
+      <Name>Math.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{e8302d0d-9535-4290-b81b-db0125712ae9}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\mime\text%25html\MIME-htmls.vbproj">
-      <Project>{2DD4BE80-DDC3-4767-94A7-10F1C3395716}</Project>
-      <Name>MIME-htmls</Name>
+    <ProjectReference Include="..\..\..\mime\text%25html\html_netcore5.vbproj">
+      <Project>{6941da43-b84d-4192-bdab-d50c42726298}</Project>
+      <Name>html_netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
+    <ProjectReference Include="..\..\Drawing-net4.8\Drawing-net4.8.vbproj">
+      <Project>{4b2ce6bd-c605-48a0-b0d2-191248b44a87}</Project>
+      <Name>Drawing-net4.8</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\imaging.NET5.vbproj">
+      <Project>{99f38e30-d12d-45a3-b7c2-c2eda9f49ef0}</Project>
+      <Name>imaging.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

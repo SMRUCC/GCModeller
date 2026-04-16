@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac6dda8e7ccf90d096df9e7b6bf30f5f, engine\BootstrapLoader\Engine\VCell\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::42e70baca35dc9defb322eb65a8646df, engine\BootstrapLoader\Engine\VCell\Engine.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,38 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 308
+    '    Code Lines: 214 (69.48%)
+    ' Comment Lines: 39 (12.66%)
+    '    - Xml Docs: 89.74%
+    ' 
+    '   Blank Lines: 55 (17.86%)
+    '     File Size: 12.17 KB
+
+
     '     Class Engine
     ' 
-    '         Properties: dataStorageDriver, debugView, dynamics, initials, model
+    '         Properties: dataStorageDriver, debugView, dynamics, fluxIndex, initials
+    '                     models
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: AttachBiologicalStorage, getMassPool, LoadModel, Run
+    '         Function: AttachBiologicalStorage, getMassPool, LoadModel, MakeKnockout, MakeNetworkSnapshot
+    '                   Run, SetCellCopyNumber, (+2 Overloads) SetCopyNumbers, SetCultureMedium, SetModel
     ' 
-    '         Sub: Reset
+    '         Sub: DumpDynamicsCore, Reset
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
@@ -53,6 +70,7 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.ModelLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Engine
 
@@ -69,28 +87,40 @@ Namespace Engine
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property dynamics As FluxBaseline
-        Public ReadOnly Property model As CellularModule
         ''' <summary>
         ''' The compound map definition and the initial status
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property initials As Definition
         Public ReadOnly Property debugView As DebuggerView
+        Public Property models As CellularModule()
+        Public Property fluxIndex As Dictionary(Of String, String())
 
-        Sub New(def As Definition, dynamics As FluxBaseline,
+        Sub New(def As Definition, dynamics As FluxBaseline, cellular_id As String(),
                 Optional iterations% = 500,
                 Optional timeResolution# = 10000,
-                Optional showProgress As Boolean = True)
+                Optional n_threads As Integer = 8,
+                Optional showProgress As Boolean = True,
+                Optional debug As Boolean = False)
 
-            Call MyBase.New(Nothing, iterations, timeResolution, showProgress)
+            Call MyBase.New(Nothing, iterations, timeResolution,
+                            n_threads:=n_threads,
+                            showProgress:=showProgress,
+                            debug:=debug)
 
             Me.initials = def
             Me.dynamics = dynamics
-            Me.debugView = New DebuggerView(Me)
+            Me.debugView = New DebuggerView(Me, cellular_id)
         End Sub
 
-        Friend Function getMassPool() As MassTable
-            Return New MassTable(core.m_massIndex)
+        Public Function getMassPool() As MassTable
+            Dim table As New MassTable
+
+            For Each factor As Factor In core.m_massIndex.Values
+                Call table.copy(factor)
+            Next
+
+            Return table
         End Function
 
         ''' <summary>
@@ -103,50 +133,233 @@ Namespace Engine
 
             Call AttatchMassDriver(AddressOf driver.MassSnapshot)
             Call AttatchFluxDriver(AddressOf driver.FluxSnapshot)
+            Call AttachRegulationDriver(
+                AddressOf driver.ForwardRegulation,
+                AddressOf driver.ReverseRegulation
+            )
+
+            Return Me
+        End Function
+
+        Public Function MakeNetworkSnapshot(storage As IFileSystemEnvironment) As Engine
+            Dim root_dir As String = "/cellular_graph.jsonl"
+            Dim buffer As New MemoryStream
+            Dim str As New StreamWriter(buffer)
+
+            For Each flux As Channel In TqdmWrapper.Wrap(core.Channels, wrap_console:=App.EnableTqdm)
+                Call str.WriteLine(flux.jsonView)
+            Next
+
+            Call storage.DeleteFile(root_dir)
+
+            Using file = storage.OpenFile(root_dir, FileMode.OpenOrCreate, FileAccess.Write)
+                Call str.Flush()
+                Call buffer.Seek(Scan0, SeekOrigin.Begin)
+                Call buffer.CopyTo(file)
+                Call file.Flush()
+            End Using
+
+            Return Me
+        End Function
+
+        Public Function SetModel(mass As MassTable, biologicalProcesses As IEnumerable(Of Channel)) As Engine
+            Call core _
+                .load(mass.AsEnumerable) _
+                .load(biologicalProcesses) _
+                .Initialize(boost:=dynamics.boost)
+            Call Reset()
 
             Return Me
         End Function
 
         Public Function LoadModel(virtualCell As CellularModule,
-                                  Optional deletions As IEnumerable(Of String) = Nothing,
-                                  Optional ByRef getLoader As Loader = Nothing) As Engine
+                                  Optional ByRef getLoader As Loader = Nothing,
+                                  Optional unitTest As Boolean = False) As Engine
 
-            getLoader = New Loader(initials, dynamics)
-            core = getLoader _
-                .CreateEnvironment(virtualCell) _
-                .Initialize()
-            _model = virtualCell
+            getLoader = New Loader(initials, dynamics, unitTest)
+            models = {virtualCell}
+
+            With getLoader.CreateEnvironment(virtualCell)
+                Call core _
+                    .load(.massTable.AsEnumerable) _
+                    .load(.processes) _
+                    .Initialize(boost:=dynamics.boost)
+            End With
 
             Call Reset()
 
-            ' 在这里完成初始化后
-            ' 再将对应的基因模板的数量设置为0
-            ' 达到无法执行转录过程反应的缺失突变的效果
-            For Each geneTemplateId As String In deletions.SafeQuery
-                core.m_massIndex(geneTemplateId).Value = 0
+            Return Me
+        End Function
 
-                Call $"Deletes '{geneTemplateId}'...".__INFO_ECHO
+        ''' <summary>
+        ''' set all genes its copy number to a given value
+        ''' </summary>
+        ''' <param name="copyNum"></param>
+        ''' <returns></returns>
+        Public Function SetCopyNumbers(copyNum As Integer) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum)
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        Public Function SetCellCopyNumber(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Dim genes As Dictionary(Of String, Factor()) = core.m_massIndex.Values _
+                .Where(Function(a) a.role = MassRoles.gene) _
+                .GroupBy(Function(a) a.cellular_compartment) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
+
+            For Each cellCopy As KeyValuePair(Of String, Integer) In copyNum
+                If genes.ContainsKey(cellCopy.Key) Then
+                    Dim copyNumber As Double = CDbl(cellCopy.Value)
+
+                    For Each gene As Factor In genes(cellCopy.Key)
+                        gene.reset(copyNumber)
+                    Next
+                End If
             Next
 
             Return Me
         End Function
 
         ''' <summary>
+        ''' set gene copy numbers
+        ''' </summary>
+        ''' <param name="copyNum">a tuple list of [gene_id => copyNumber]</param>
+        ''' <returns></returns>
+        Public Function SetCopyNumbers(copyNum As Dictionary(Of String, Integer)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            For Each mass As Factor In core.m_massIndex.Values
+                If copyNum.ContainsKey(mass.template_id) AndAlso mass.role = MassRoles.gene Then
+                    Call mass.reset(copyNum(mass.template_id))
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        Public Function SetCultureMedium(cultureMedium As Dictionary(Of String, Double)) As Engine
+            For Each mass As Factor In core.m_massIndex.Values
+                If mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(0)
+                End If
+            Next
+            For Each mass As Factor In core.m_massIndex.Values
+                If cultureMedium.ContainsKey(mass.template_id) AndAlso mass.cellular_compartment = initials.CultureMedium Then
+                    Call mass.reset(cultureMedium(mass.template_id))
+                End If
+            Next
+
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' should be call after the model was loaded, via function <see cref="SetModel(MassTable, IEnumerable(Of Channel))"/> or 
+        ''' <see cref="LoadModel(CellularModule, ByRef Loader, Boolean)"/>
+        ''' </summary>
+        ''' <param name="knockouts"></param>
+        ''' <returns></returns>
+        Public Function MakeKnockout(knockouts As IEnumerable(Of String)) As Engine
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Dim index As Dictionary(Of String, Factor) = core.m_massIndex
+            Dim compartment_id As String() = models _
+                .Select(Function(cell) cell.CellularEnvironmentName) _
+                .ToArray
+
+            ' 在这里完成初始化后
+            ' 再将对应的基因模板的数量设置为0
+            ' 达到无法执行转录过程反应的缺失突变的效果
+            For Each gene_id As String In knockouts.SafeQuery
+                If index.ContainsKey(gene_id) Then
+                    Call index(gene_id).reset(0)
+                Else
+                    For Each cid As String In compartment_id
+                        Dim full_id As String = $"{gene_id}@{cid}"
+
+                        If index.ContainsKey(full_id) Then
+                            Call index(full_id).reset(0)
+                        End If
+                    Next
+                End If
+
+                Call $"deletes '{gene_id}'...".info
+            Next
+
+            Return Me
+        End Function
+
+        Public Sub DumpDynamicsCore(s As StreamWriter)
+            If core Is Nothing Then
+                Throw New InvalidProgramException("Please load model at first!")
+            End If
+
+            Call s.WriteLine($"----======== {core.MassEnvironment.Length} molecules =========----")
+
+            For Each mass As Factor In core.MassEnvironment
+                Call s.WriteLine(mass.ToString)
+            Next
+
+            Call s.WriteLine()
+            Call s.WriteLine()
+
+            Call s.WriteLine($"----========= {core.Channels.Length} dynamics channels ===========----")
+
+            For Each flux As Channel In core.Channels
+                Call s.WriteLine($"[{flux.ID}] {ModellingEngine.Dynamics.Core.ToString(flux)}")
+                Call s.WriteLine(flux.bounds.ToString)
+                Call s.WriteLine($"forward: {flux.forward.ToString}")
+                Call s.WriteLine($"reverse: {flux.reverse.ToString}")
+                Call s.WriteLine()
+            Next
+        End Sub
+
+        ''' <summary>
         ''' Reset the reactor engine. (Do reset of the biological mass contents)
         ''' </summary>
         Public Sub Reset()
+            If initials Is Nothing Then
+                Return
+            End If
+
             For Each mass As Factor In core.m_massIndex.Values
-                If initials.status.ContainsKey(mass.ID) Then
-                    mass.Value = initials.status(mass.ID)
+                Dim status As Dictionary(Of String, Double) = initials.status(mass.cellular_compartment)
+
+                If status.ContainsKey(mass.ID) Then
+                    ' instance id has the highest order
+                    Call mass.reset(status(mass.ID))
                 Else
-                    mass.Value = 1
+                    If status.ContainsKey(mass.template_id) Then
+                        Call mass.reset(status(mass.template_id))
+                    Else
+                        Call mass.reset(randf.NextDouble(10, 250))
+                    End If
                 End If
             Next
+
+            If initials.status.ContainsKey(initials.CultureMedium) Then
+                Call SetCultureMedium(initials.status(initials.CultureMedium))
+            End If
         End Sub
 
         Public Overrides Function Run() As Integer Implements ITaskDriver.Run
             If dataStorageDriver Is Nothing Then
-                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".Warning
+                Call "Data storage driver not found! The simulation result can only be get from snapshot property...".warning
                 Call VBDebugger.WaitOutput()
                 Call Console.WriteLine()
             End If

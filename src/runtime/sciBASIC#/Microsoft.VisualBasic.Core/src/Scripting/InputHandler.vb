@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90c40334a7fa943d4489d65a24d13b6d, Microsoft.VisualBasic.Core\src\Scripting\InputHandler.vb"
+﻿#Region "Microsoft.VisualBasic::6f13bd011f1b0845035ab6ad579c873b, Microsoft.VisualBasic.Core\src\Scripting\InputHandler.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 461
+    '    Code Lines: 276 (59.87%)
+    ' Comment Lines: 137 (29.72%)
+    '    - Xml Docs: 91.24%
+    ' 
+    '   Blank Lines: 48 (10.41%)
+    '     File Size: 20.21 KB
+
+
     '     Module InputHandler
     ' 
     '         Properties: [String], CasterString, Types
     ' 
-    '         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+2 Overloads) CTypeDynamic
-    '                   DefaultTextParser, GetString, IsPrimitive, ParseDateTime, StringParser
-    '                   (+2 Overloads) ToString
+    '         Function: [DirectCast], (+3 Overloads) [GetType], (+2 Overloads) CastArray, Convertible, (+4 Overloads) CTypeDynamic
+    '                   DefaultTextParser, GetString, IsNullablePrimitive, IsPrimitive, ParseDateTime
+    '                   StringParser, (+2 Overloads) ToString
     ' 
     '         Sub: CapabilityPromise
     ' 
@@ -60,6 +72,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization
 Imports CLI = Microsoft.VisualBasic.CommandLine.CommandLine
@@ -78,10 +91,15 @@ Namespace Scripting
         ''' </summary>
         ''' <remarks></remarks>
         Public ReadOnly Property CasterString As New Dictionary(Of Type, LoadObject) From {
- _
+                                                                                           _
             {GetType(String), Function(s$) s},
             {GetType(Char), AddressOf Casting.CastChar},
             {GetType(Integer), AddressOf Casting.CastInteger},
+            {GetType(UInteger), AddressOf UInteger.Parse},
+            {GetType(ULong), AddressOf ULong.Parse},
+            {GetType(UShort), AddressOf UShort.Parse},
+            {GetType(Byte), AddressOf Byte.Parse},
+            {GetType(SByte), AddressOf SByte.Parse},
             {GetType(Double), AddressOf Casting.ParseNumeric},
             {GetType(Long), AddressOf Casting.CastLong},
             {GetType(Boolean), AddressOf ParseBoolean},
@@ -91,7 +109,6 @@ Namespace Scripting
             {GetType(CLI), AddressOf Casting.CastCommandLine},
             {GetType(Image), AddressOf Casting.CastImage},
             {GetType(FileInfo), AddressOf Casting.CastFileInfo},
-            {GetType(Graphics2D), AddressOf Casting.CastGDIPlusDeviceHandle},
             {GetType(Color), AddressOf TranslateColor},
             {GetType(Font), AddressOf Casting.CastFont},
             {GetType(System.Net.IPEndPoint), AddressOf Casting.CastIPEndPoint},
@@ -129,6 +146,44 @@ Namespace Scripting
         End Function
 
         ''' <summary>
+        ''' Parse the target string value collection as a new array in the given element <paramref name="target"/> type
+        ''' </summary>
+        ''' <param name="expression">
+        ''' A collection of object data in string value
+        ''' </param>
+        ''' <param name="target">
+        ''' The element type
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CTypeDynamic(expression As IEnumerable(Of String), target As Type) As Array
+            If expression Is Nothing Then
+                Return Nothing
+            ElseIf target Is GetType(String) OrElse target Is GetType(String()) Then
+                ' target is a string array
+                Return expression.ToArray
+            ElseIf target.IsArray Then
+                target = target.GetElementType
+
+                If target Is Nothing Then
+                    ' object()
+                    Return expression _
+                        .Select(Function(str) CObj(str)) _
+                        .ToArray
+                End If
+            End If
+
+            Dim allStrs As String() = expression.ToArray
+            Dim vec As Array = Array.CreateInstance(target, allStrs.Length)
+
+            For i As Integer = 0 To vec.Length - 1
+                vec(i) = CTypeDynamic(allStrs(i), target)
+            Next
+
+            Return vec
+        End Function
+
+        ''' <summary>
         ''' Converts a string expression which was input from the console or script file to the specified type.
         ''' (请注意，函数只是转换最基本的数据类型，转换错误会返回空值，空字符串也会返回空值)
         ''' </summary>
@@ -140,11 +195,12 @@ Namespace Scripting
         ''' </remarks>
         <Extension>
         Public Function CTypeDynamic(expression$, target As Type) As Object
-            If expression.StringEmpty Then
-                Return Nothing
-            ElseIf target Is GetType(String) Then
+            If target Is GetType(String) Then
                 Return expression
+            ElseIf expression.StringEmpty OrElse expression.ToLower = "null" Then
+                Return Nothing
             End If
+
             If _CasterString.ContainsKey(target) Then
                 Dim caster As LoadObject = _CasterString(target)
                 Return caster(expression$)
@@ -203,14 +259,28 @@ Namespace Scripting
         End Function
 
         ''' <summary>
-        ''' Does this type can be cast from the <see cref="String"/> type?(目标类型能否由字符串转换过来??)
+        ''' Does this type can be cast from the <see cref="String"/> type?
         ''' </summary>
         ''' <param name="targetType"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (目标类型能否由字符串转换过来??)
+        ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsPrimitive(targetType As Type) As Boolean
             Return CasterString.ContainsKey(targetType)
+        End Function
+
+        Public Function IsNullablePrimitive(targetType As Type) As Boolean
+            If targetType Is Nothing Then
+                Return False
+            End If
+            If targetType.IsGenericType AndAlso targetType.GetGenericTypeDefinition = GetType(Nullable(Of )) Then
+                Return IsPrimitive(targetType.GenericTypeArguments.First)
+            Else
+                Return False
+            End If
         End Function
 
         ''' <summary>
@@ -242,7 +312,7 @@ Namespace Scripting
         ''' Enumerate all of the types that can be handled in this module. All of the key string is in lower case.(键值都是小写的)
         ''' </summary>
         Public ReadOnly Property Types As New SortedDictionary(Of String, Type) From {
- _
+                                                                                      _
                 {"string", GetType(String)},
                 {"char", GetType(Char)},
                 {"integer", GetType(Integer)},
@@ -261,7 +331,6 @@ Namespace Scripting
                 {"fileinfo", GetType(IO.FileInfo)},
                 {"ipaddress", GetType(System.Net.IPAddress)},
                 {"commandline", GetType(CLI)},
-                {"gdi+", GetType(Graphics2D)},
                 {"stringbuilder", GetType(StringBuilder)},
                 {"boolean", GetType(Boolean)},
                 {"char()", GetType(Char())},
@@ -274,7 +343,7 @@ Namespace Scripting
         }
 
         ''' <summary>
-        ''' Get .NET <see cref="Type"/> definition info from its name.
+        ''' Get .NET clr <see cref="Type"/> definition info from its name.
         ''' (类型获取失败会返回空值，大小写不敏感)
         ''' </summary>
         ''' <param name="name">Case insensitive.(类型的名称简写)</param>
@@ -392,7 +461,7 @@ Namespace Scripting
 
             Dim source As IEnumerable = DirectCast(obj, IEnumerable)
             Dim data = LinqAPI.Exec(Of Object) _
- _
+                                               _
                 () <= From val As Object
                       In source
                       Let value = Conversion.CTypeDynamic(val, type)
@@ -407,13 +476,46 @@ Namespace Scripting
         ''' <param name="array"></param>
         ''' <param name="type">数组里面的元素的类型</param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' please note that, this function cast type by using direct cast, without 
+        ''' any type conversion. type-mismatch error may be happends.
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function [DirectCast](array As IEnumerable, type As Type) As Object
-            Dim objs As Object() = (From item As Object In array.AsQueryable Select item).ToArray
-            Dim out = CreateInstance(type, objs.Length)
-            Call Copy(objs, out, objs.Length) ' 直接复制不能够正常工作
-            Return out
+        Public Function [DirectCast](array As IEnumerable, type As Type) As Array
+            Return ClrConversion.CreateArray(data:=array, type)
+        End Function
+
+        ''' <summary>
+        ''' the given <paramref name="type"/> value should be the target 
+        ''' array element type.
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function CTypeDynamic(array As IEnumerable, type As Type) As Array
+            Dim pullAll As Array
+
+            If array.GetType.IsArray Then
+                pullAll = array
+
+                If pullAll.GetType.GetElementType Is type Then
+                    Return pullAll
+                End If
+            Else
+                pullAll = (From x As Object
+                           In array.AsQueryable
+                           Select x).ToArray
+            End If
+
+            Dim vec As Array = System.Array.CreateInstance(type, pullAll.Length)
+
+            For i As Integer = 0 To vec.Length - 1
+                Call vec.SetValue(Conversion.CTypeDynamic(pullAll(i), type), i)
+            Next
+
+            Return vec
         End Function
     End Module
 End Namespace

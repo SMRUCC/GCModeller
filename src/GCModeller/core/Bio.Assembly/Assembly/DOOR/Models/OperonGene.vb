@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 47 (65.28%)
+    ' Comment Lines: 17 (23.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (11.11%)
+    '     File Size: 2.77 KB
+
+
     '     Class OperonGene
     ' 
     '         Properties: COG_number, GI, Length, Location, OperonID

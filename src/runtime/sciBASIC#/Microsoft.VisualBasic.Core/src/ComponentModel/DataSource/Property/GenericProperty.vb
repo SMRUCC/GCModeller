@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afdc41fd857e848fd9b0d6618891e601, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\GenericProperty.vb"
+﻿#Region "Microsoft.VisualBasic::c1ba12dcf5aca3e001a103fa66263760, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\GenericProperty.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 33 (61.11%)
+    ' Comment Lines: 13 (24.07%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 1.83 KB
+
+
     '     Class [Property]
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -42,9 +54,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 
 Namespace ComponentModel.DataSourceModel
 
@@ -70,7 +79,6 @@ Namespace ComponentModel.DataSourceModel
         ''' 
         ''' </summary>
         ''' <returns></returns>
-        <ScriptIgnore>
         Public Iterator Property src As IEnumerable(Of NamedValue(Of T))
             Get
                 For Each x In Properties

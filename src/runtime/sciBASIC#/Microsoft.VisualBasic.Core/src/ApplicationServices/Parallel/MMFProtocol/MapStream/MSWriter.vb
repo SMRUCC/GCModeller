@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87875128aa281d5755d90adb3b445deb, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MapStream\MSWriter.vb"
+﻿#Region "Microsoft.VisualBasic::39d4ffaa8d59f707728f3242d51360e4, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MapStream\MSWriter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 56 (62.92%)
+    ' Comment Lines: 18 (20.22%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 15 (16.85%)
+    '     File Size: 3.20 KB
+
 
     '     Class MSWriter
     ' 
@@ -80,7 +92,12 @@ Namespace Parallel.MMFProtocol.MapStream
             Try
                 file = MemoryMappedFiles.MemoryMappedFile.CreateNew(uri, chunkSize)
             Catch ex As Exception
+                Call App.LogException(New Exception(uri, ex))
+#If WINDOWS Then
                 file = MemoryMappedFiles.MemoryMappedFile.CreateOrOpen(uri, chunkSize)
+#Else
+                Throw New NotSupportedException("MemoryMappedFile is not supported on unix system")
+#End If
             Finally
             End Try
         End Sub

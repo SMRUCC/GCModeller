@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb1963a9c33857e7c4c82114f725bb4c, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Data.vb"
+﻿#Region "Microsoft.VisualBasic::1f93c14d29a1bcbb0342a7a5a96aab05, Data_science\Mathematica\SignalProcessing\wav\wav\SubChunk\Data.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 107 (78.10%)
+    ' Comment Lines: 2 (1.46%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 28 (20.44%)
+    '     File Size: 4.64 KB
+
+
     ' Class DataSubChunk
     ' 
     '     Properties: data
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, loadData, LoadSamples, ParseData
+    '     Function: GenericEnumerator, loadData, LoadSamples, ParseData
     ' 
     ' Class SampleDataChunk
     ' 
@@ -107,10 +119,6 @@ Public Class DataSubChunk : Inherits SampleDataChunk
         For Each sample In data
             Yield sample
         Next
-    End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Sample).GetEnumerator
-        Yield GetEnumerator()
     End Function
 End Class
 

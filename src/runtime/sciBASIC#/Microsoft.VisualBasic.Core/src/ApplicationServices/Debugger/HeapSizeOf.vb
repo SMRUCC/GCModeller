@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fc737e272e77ae07237e66f8bf98aab, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\HeapSizeOf.vb"
+﻿#Region "Microsoft.VisualBasic::378c9766cac4c1ee74399e9c99b19635, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\HeapSizeOf.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 111 (67.27%)
+    ' Comment Lines: 39 (23.64%)
+    '    - Xml Docs: 43.59%
+    ' 
+    '   Blank Lines: 15 (9.09%)
+    '     File Size: 6.27 KB
+
+
     '     Class HeapSizeOf
     ' 
     '         Properties: sizeOf
@@ -55,7 +67,34 @@ Namespace ApplicationServices.Debugging
     ''' <summary>
     ''' How to get object size in memory
     ''' </summary>
+    ''' <remarks>
+    ''' sizeof operator - determine the memory needs for a given type
+    ''' </remarks>
     Public Class HeapSizeOf
+
+        ' The sizeof operator returns the number of bytes occupied by a variable of a given type.
+        ' The argument to the sizeof operator must be the name of an unmanaged type or a type
+        ' parameter that is constrained to be an unmanaged type.
+
+        ' The sizeof Operator requires an unsafe context. However, the expressions presented In
+        ' the following table are evaluated In compile time To the corresponding constant values
+        ' And don't require an unsafe context:
+
+        Public Const [sbyte] = 1
+        Public Const [byte] = 1
+        Public Const [short] = 2
+        Public Const [ushort] = 2
+        Public Const int = 4
+        Public Const uint = 4
+        Public Const [long] = 8
+        Public Const [ulong] = 8
+        Public Const [char] = 2
+        Public Const float = 4
+        Public Const [double] = 8
+        Public Const [decimal] = 16
+        Public Const bool = 1
+
+        Public Const [datetime] = 8
 
         Public ReadOnly Property sizeOf As Long
             Get
@@ -86,6 +125,8 @@ Namespace ApplicationServices.Debugging
             ElseIf DataFramework.IsPrimitive(type) Then
                 ' add byte size and then exit recursive visit
                 byteSize += SizeOfPrimitive(type)
+            ElseIf type.IsEnum Then
+                Call VisitObject(value, [Enum].GetUnderlyingType(type), Nothing, isVisited:=False, isValueType:=True)
             ElseIf isValueType Then
                 ' is structure
                 ' do recursive visit of this object

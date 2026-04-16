@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fcaf954b98770a41bffbfedd126eaf7, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::1c899cf15ce9779fa5385b61eed7a1de, annotations\WGCNA\WGCNA\WeightedNetwork.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 40 (42.11%)
+    ' Comment Lines: 44 (46.32%)
+    '    - Xml Docs: 93.18%
+    ' 
+    '   Blank Lines: 11 (11.58%)
+    '     File Size: 3.46 KB
+
+
     ' Module WeightedNetwork
     ' 
     '     Function: Adjacency, Connectivity, sumK, WeightedCorrelation
@@ -40,22 +52,29 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
 
 ''' <summary>
 ''' Category 1: Functions for network construction
 ''' </summary>
 Public Module WeightedNetwork
 
+    ''' <summary>
+    ''' set the element which value less than threshold to zero
+    ''' </summary>
+    ''' <param name="cor"></param>
+    ''' <param name="threshold">edge cutoff value</param>
+    ''' <returns></returns>
     <Extension>
     Friend Function Adjacency(cor As NumericMatrix, threshold As Double) As GeneralMatrix
         Dim adj As NumericMatrix = cor.Copy
         Dim X As Double()() = adj.Array
+        Dim w As Integer = X(Scan0).Length
 
         For i As Integer = 0 To X.Length - 1
-            For j As Integer = 0 To X(Scan0).Length - 1
+            For j As Integer = 0 To w - 1
                 If X(i)(j) < threshold Then
                     X(i)(j) = 0
                 End If

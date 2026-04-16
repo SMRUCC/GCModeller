@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 52 (40.62%)
+    ' Comment Lines: 53 (41.41%)
+    '    - Xml Docs: 67.92%
+    ' 
+    '   Blank Lines: 23 (17.97%)
+    '     File Size: 4.52 KB
+
+
     '     Class Model
     ' 
     '         Properties: classLabels, dimensionNames, numberOfClasses, numberOfSVPerClass, pairwiseProbabilityA

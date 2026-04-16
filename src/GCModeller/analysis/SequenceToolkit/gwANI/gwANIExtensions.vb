@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4072d2af17209827501976183a04bec6, analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4004e3a471c16fe64104c522732b6b15, analysis\SequenceToolkit\gwANI\gwANIExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 26 (57.78%)
+    ' Comment Lines: 14 (31.11%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 5 (11.11%)
+    '     File Size: 1.66 KB
+
+
     ' Module gwANIExtensions
     ' 
     '     Function: calculate_and_output_gwani, fast_calculate_gwani
@@ -43,7 +55,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -59,7 +71,7 @@ Public Module gwANIExtensions
     Public Sub Evaluate([in] As String, out As String, Optional fast As Boolean = True)
         Dim multipleSeq As FastaFile = FastaFile.LoadNucleotideData([in])
 
-        Using write As StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
+        Using write As IO.StreamWriter = out.OpenWriter(Encodings.ASCII, append:=False)
             If fast Then
                 Call fast_calculate_gwani(multipleSeq).print(write)
             Else

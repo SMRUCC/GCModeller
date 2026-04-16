@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::774e0c98f24e419ab156f7a3e48f3ee4, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
+﻿#Region "Microsoft.VisualBasic::a102146ac4cb7ac40962a172a7f29e7c, sub-system\PLAS.NET\SSystem\System\Elements\Equation.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 87 (58.78%)
+    ' Comment Lines: 38 (25.68%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 23 (15.54%)
+    '     File Size: 5.12 KB
+
+
     '     Class Equation
     ' 
     '         Properties: Expression, Id, Model, precision, Value
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Elapsed, Evaluate, ToString
+    '         Function: Elapsed, Evaluate, GetVariableSymbols, readRangeHelper, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Xml.Serialization
+Imports System.Data
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
@@ -53,6 +65,9 @@ Imports SMRUCC.genomics.Analysis.SSystem.Script
 
 Namespace Kernel.ObjectModels
 
+    ''' <summary>
+    ''' A systems dynamics which is associated with a target symbol
+    ''' </summary>
     Public Class Equation : Inherits Expression
         Implements IReadOnlyId
 
@@ -69,7 +84,12 @@ Namespace Kernel.ObjectModels
         ''' <remarks></remarks>
         Friend var As var
 
+        ''' <summary>
+        ''' A math expression which is parsed from the <see cref="Model"/>
+        ''' </summary>
         Dim dynamics As Expression
+        Dim bound As DoubleRange
+
         Public Property precision As Double
 
         Public ReadOnly Property Model As SEquation
@@ -96,7 +116,8 @@ Namespace Kernel.ObjectModels
             End Get
         End Property
 
-        Sub New(s As SEquation)
+        Sub New(s As SEquation, bound As DoubleRange)
+            Me.bound = bound
             Me.Model = s
             Me.Expression = s.Expression
             Me.dynamics = New ExpressionTokenIcer(Expression) _
@@ -106,7 +127,7 @@ Namespace Kernel.ObjectModels
         End Sub
 
         Sub New(s As SEquation, kernel As Kernel)
-            Call Me.New(s)
+            Call Me.New(s, readRangeHelper(s, kernel))
 
             Me.precision = kernel.precision
             Me.var = kernel.GetValue(Id)
@@ -119,6 +140,16 @@ Namespace Kernel.ObjectModels
                 kernel.symbolTable(Id) = var
             End If
         End Sub
+
+        Private Shared Function readRangeHelper(s As SEquation, kernel As Kernel) As DoubleRange
+            If kernel.bounds.ContainsKey(s.x) Then
+                Return kernel.bounds(s.x)
+            ElseIf kernel.strict Then
+                Throw New MissingPrimaryKeyException($"No flux range bounds parameter for systems variable '{s.x}'!")
+            Else
+                Return New DoubleRange(-5, 5)
+            End If
+        End Function
 
         ''' <summary>
         ''' Evaluate the expression value of the property <see cref="Equation.Expression"></see>.
@@ -137,7 +168,23 @@ Namespace Kernel.ObjectModels
         ''' <param name="engine"></param>
         ''' <returns></returns>
         Public Function Elapsed(engine As ExpressionEngine) As Boolean
-            var.Value += Evaluate(engine) * precision
+            Dim delta As Double = Evaluate(engine) * precision
+
+            If Double.IsNaN(delta) Then
+                delta = 0
+                ' delta = Evaluate(engine) * precision
+            ElseIf Double.IsPositiveInfinity(delta) OrElse delta > bound.Max Then
+                delta = bound.Max
+            ElseIf Double.IsNegativeInfinity(delta) OrElse delta < bound.Min Then
+                delta = bound.Min
+            End If
+
+            var.Value += delta
+
+            If var.Value < 0 Then
+                var.Value = 0
+            End If
+
             engine(var.Id) = var.Value
 
             Return True
@@ -149,6 +196,10 @@ Namespace Kernel.ObjectModels
             Else
                 Return String.Format("{0}; //{1}'={2}", var.ToString, Id, Expression)
             End If
+        End Function
+
+        Public Overrides Function GetVariableSymbols() As IEnumerable(Of String)
+            Return dynamics.GetVariableSymbols
         End Function
     End Class
 End Namespace

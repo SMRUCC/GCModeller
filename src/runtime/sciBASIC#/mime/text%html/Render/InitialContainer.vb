@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b72fbd8a7df1866bee5b7eed059b346, mime\text%html\Render\InitialContainer.vb"
+﻿#Region "Microsoft.VisualBasic::9e3cd53772c32f14472c066f9802ddbf, mime\text%html\Render\InitialContainer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 423
+    '    Code Lines: 230 (54.37%)
+    ' Comment Lines: 103 (24.35%)
+    '    - Xml Docs: 62.14%
+    ' 
+    '   Blank Lines: 90 (21.28%)
+    '     File Size: 15.85 KB
+
+
     '     Class InitialContainer
     ' 
     '         Properties: AvoidGeometryAntialias, AvoidTextAntialias, DocumentSource, LinkRegions, MaximumSize
@@ -53,6 +65,8 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
+
+#If NET48 Then
 
     ''' <summary>
     ''' HTML rendering
@@ -467,4 +481,5 @@ Namespace Render
 
 #End Region
     End Class
+#End If
 End Namespace

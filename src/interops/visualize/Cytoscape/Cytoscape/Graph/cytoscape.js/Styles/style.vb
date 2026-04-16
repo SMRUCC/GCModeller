@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 34 (72.34%)
+    ' Comment Lines: 3 (6.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (21.28%)
+    '     File Size: 1.50 KB
+
+
     '     Class JSON
     ' 
     '         Properties: format_version, generated_by, style, target_cytoscapejs_version, title

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::438325707d4d77b34c505fa52d39d26c, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ASCIIPrinter.vb"
+﻿#Region "Microsoft.VisualBasic::0d0e9468efd9349f39b72da4582b1d10, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\ASCIIPrinter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 185
+    '    Code Lines: 135 (72.97%)
+    ' Comment Lines: 15 (8.11%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 35 (18.92%)
+    '     File Size: 6.25 KB
+
 
     '     Module ASCIIPrinter
     ' 
@@ -99,7 +111,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
 
                             If a(i)(j).flipped Then
                                 s.Append("x\ ")
-                                Exit Select
+                                
                             End If
 
                         Case 7
@@ -114,7 +126,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
 
                             If a(i)(j).flipped Then
                                 s.Append(" /x")
-                                Exit Select
+                                
                             End If
 
                         Case 11

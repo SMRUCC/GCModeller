@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a038330148ba04fbd22ba121587f1723, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
+﻿#Region "Microsoft.VisualBasic::ba9fd17ebfceea2e0de2a78dee4863dd, engine\IO\GCMarkupLanguage\v2\Xml\VirtualCell.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 72 (59.02%)
+    ' Comment Lines: 28 (22.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (18.03%)
+    '     File Size: 4.76 KB
+
+
     '     Class VirtualCell
     ' 
-    '         Properties: genome, metabolismStructure, taxonomy
+    '         Properties: cellular_id, genome, metabolismStructure, taxonomy
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Summary, ToString
     ' 
     ' 
@@ -54,8 +66,11 @@ Imports SMRUCC.genomics.Metagenomics
 Namespace v2
 
     ''' <summary>
-    ''' 虚拟细胞数据模型Xml文件
+    ''' The virtual cell model xml file 
     ''' </summary>
+    ''' <remarks>
+    ''' 虚拟细胞数据模型Xml文件
+    ''' </remarks>
     <XmlRoot(NameOf(VirtualCell), [Namespace]:=VirtualCell.GCMarkupLanguage)>
     Public Class VirtualCell : Inherits ModelBaseType
 
@@ -77,17 +92,37 @@ Namespace v2
         <XmlElement("metabolome", [Namespace]:=GCMarkupLanguage)>
         Public Property metabolismStructure As MetabolismStructure
 
+        ''' <summary>
+        ''' the intra-cellular environment id, will be used for identify the compound source between different cell source.
+        ''' usually be the organism taxonomy scientific name, or taxid, something.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property cellular_id As String = "Intracellular"
+
         Public Const GCMarkupLanguage$ = "https://bioCAD.gcmodeller.org/XML/schema_revision/GCMarkup_2.0"
 
         Sub New()
-            Call MyBase.New
-
+            Call MyBase.New()
             Call xmlns.Add("GCModeller", SMRUCC.genomics.LICENSE.GCModeller)
+        End Sub
+
+        Sub New(copy As VirtualCell)
+            Call Me.New
+
+            taxonomy = New Taxonomy(copy.taxonomy)
+            properties = New [Property](copy.properties)
+            cellular_id = copy.cellular_id
+            genome = New Genome(copy.genome)
+            metabolismStructure = New MetabolismStructure(copy.metabolismStructure)
         End Sub
 
         Public Overrides Function ToString() As String
             Dim sb As New StringBuilder
             Dim lv As i32 = Scan0
+
+            If taxonomy Is Nothing Then
+                taxonomy = New Taxonomy With {.scientificName = "no name"}
+            End If
 
             Call (taxonomy.scientificName Or taxonomy.species.AsDefault) _
                 .DoCall(AddressOf sb.AppendLine)

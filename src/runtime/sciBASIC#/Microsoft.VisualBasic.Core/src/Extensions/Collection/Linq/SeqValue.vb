@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e8d035772684a3580f4b6a1953bfc94, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\SeqValue.vb"
+﻿#Region "Microsoft.VisualBasic::e1203c2b5542d170747e443046177f9d, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\SeqValue.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 97 (46.63%)
+    ' Comment Lines: 87 (41.83%)
+    '    - Xml Docs: 95.40%
+    ' 
+    '   Blank Lines: 24 (11.54%)
+    '     File Size: 7.07 KB
+
+
     '     Structure SeqValue
     ' 
     '         Properties: i, IsEmpty, value
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: (+2 Overloads) CompareTo, ToString
     ' 
     '         Sub: Assign
     ' 
-    '         Operators: (+2 Overloads) -, (+3 Overloads) +, <>, =, (+2 Overloads) Mod
+    '         Operators: (+2 Overloads) -, (+3 Overloads) +, (+2 Overloads) <>, (+2 Overloads) =, (+2 Overloads) Mod
     ' 
     ' 
     ' /********************************************************************************/
@@ -71,7 +83,7 @@ Namespace Linq
         ''' The position of this object value in the original sequence.
         ''' </summary>
         ''' <returns></returns>
-        Public Property i As Integer Implements IAddressOf.Address
+        Public Property i As Integer Implements IAddress(Of Integer).Address
         ''' <summary>
         ''' The Object data
         ''' </summary>
@@ -95,17 +107,36 @@ Namespace Linq
             value = x
         End Sub
 
+        ''' <summary>
+        ''' create index value with default index zero
+        ''' </summary>
+        ''' <param name="value"></param>
+        Sub New(value As T)
+            Me.i = 0
+            Me.value = value
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
         Public Overrides Function ToString() As String
             Return $"[{i}] {Me.value.GetJson(False)}"
         End Function
 
+        ''' <summary>
+        ''' get value from the indexed object
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(x As SeqValue(Of T)) As T
             Return x.value
         End Operator
 
+        ''' <summary>
+        ''' get ordinal index offset from the given indexed object.
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Narrowing Operator CType(x As SeqValue(Of T)) As Integer
             Return x.i
@@ -145,6 +176,14 @@ Namespace Linq
         ''' <returns></returns>
         Public Shared Operator =(v As SeqValue(Of T), i%) As Boolean
             Return v.i = i
+        End Operator
+
+        Public Shared Operator =(v As SeqValue(Of T), x As T) As Boolean
+            Return v.value.Equals(x)
+        End Operator
+
+        Public Shared Operator <>(v As SeqValue(Of T), x As T) As Boolean
+            Return Not v.value.Equals(x)
         End Operator
 
         ''' <summary>

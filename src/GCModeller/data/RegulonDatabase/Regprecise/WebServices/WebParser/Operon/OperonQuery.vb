@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 85 (81.73%)
+    ' Comment Lines: 2 (1.92%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 17 (16.35%)
+    '     File Size: 4.42 KB
+
+
     '     Class OperonQuery
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -60,7 +60,9 @@ Namespace IO
 
         Public ReadOnly Property absolutePath As String
 
-        Dim _InitValue As String
+        Private file As String
+        Friend info As Global.System.IO.FileInfo
+
 #End Region
 
 #Region "Constructor Detail"
@@ -71,6 +73,9 @@ Namespace IO
         ''' <param name="pathname">A pathname string</param>
         ''' <remarks></remarks>
         Public Sub New(pathname As String)
+            Me.file = file
+            Me.info = New Global.System.IO.FileInfo(file)
+
             If FileIO.FileSystem.FileExists(pathname) Then
                 Directory = False
                 absolutePath = FileIO.FileSystem.GetFileInfo(pathname).FullName
@@ -78,8 +83,6 @@ Namespace IO
                 Directory = True
                 absolutePath = FileIO.FileSystem.GetDirectoryInfo(pathname).FullName
             End If
-
-            _InitValue = pathname
         End Sub
 
         ''' <summary>
@@ -190,7 +193,7 @@ Namespace IO
         ''' <returns>true if this abstract pathname is absolute, false otherwise</returns>
         ''' <remarks></remarks>
         Public Function isAbsolute() As Boolean
-            Return String.Equals(_InitValue.Replace("\", "/"), absolutePath.Replace("\", "/"))
+            Return Global.System.IO.Path.IsPathRooted(file)
         End Function
 
         ''' <summary>
@@ -227,7 +230,7 @@ Namespace IO
         ''' <returns>The canonical pathname string denoting the same file or directory as this abstract pathname</returns>
         ''' <remarks></remarks>
         Public Function getCanonicalPath() As String
-            Throw New NotImplementedException
+            Return absolutePath
         End Function
 
         ''' <summary>
@@ -357,6 +360,10 @@ Namespace IO
             End If
         End Function
 
+        Public Function lengthMethod() As Long
+            Return length()
+        End Function
+
         ''' <summary>
         ''' Atomically creates a new, empty file named by this abstract pathname if and only if a file with this name does not yet exist. 
         ''' The check for the existence of the file and the creation of the file if it does not exist are a single operation that is atomic with respect to all other filesystem activities that might affect the file.
@@ -430,9 +437,12 @@ Namespace IO
         ''' <remarks></remarks>
         Public Function list() As String()
             If Directory Then
-                Dim ChunkList = (From dir As String In FileIO.FileSystem.GetDirectories(absolutePath, FileIO.SearchOption.SearchTopLevelOnly) Select FileIO.FileSystem.GetDirectoryInfo(dir).Name).AsList
-                Call ChunkList.AddRange((From path As String In FileIO.FileSystem.GetFiles(absolutePath, FileIO.SearchOption.SearchTopLevelOnly, "*.*") Select FileIO.FileSystem.GetFileInfo(path).Name).ToArray)
-                Return ChunkList.ToArray
+                Dim dirs As String() = Global.System.IO.Directory.GetDirectories(file)
+                Dim files As String() = Global.System.IO.Directory.GetFiles(file)
+                Dim _list = New [String](dirs.Length + files.Length - 1) {}
+                System.arraycopy(dirs, 0, _list, 0, dirs.Length)
+                System.arraycopy(files, 0, _list, dirs.Length, files.Length)
+                Return _list
             Else
                 Return Nothing
             End If

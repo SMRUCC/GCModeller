@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab1146657baf34d029047e0bfe28b464, gr\network-visualization\Network.IO.Extensions\CorrelationGraph.vb"
+﻿#Region "Microsoft.VisualBasic::63f5160fa6806c64bf7c2b7349cd813f, gr\network-visualization\Network.IO.Extensions\CorrelationGraph.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 71 (73.96%)
+    ' Comment Lines: 12 (12.50%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 13 (13.54%)
+    '     File Size: 3.46 KB
+
+
     ' Module CorrelationGraph
     ' 
     '     Function: CreateCorrelationGraph
@@ -41,7 +53,7 @@
 
 Imports System.Math
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

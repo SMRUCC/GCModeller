@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f73b7e898668a458c9d4dc7a3b38b7e, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
+﻿#Region "Microsoft.VisualBasic::121839a6f7acda8b84ce0520b692fb1e, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\SharedORM\Languages\VisualBasic.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 380
+    '    Code Lines: 248 (65.26%)
+    ' Comment Lines: 72 (18.95%)
+    '    - Xml Docs: 54.17%
+    ' 
+    '   Blank Lines: 60 (15.79%)
+    '     File Size: 16.83 KB
+
+
     '     Class VisualBasic
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -52,8 +64,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder.VBLanguage
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Xml
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace CommandLine.InteropService.SharedORM
 
@@ -97,7 +109,7 @@ Namespace CommandLine.InteropService.SharedORM
             Call vb.AppendLine($"    Public Const App$ = ""{exe}.exe""")
             Call vb.AppendLine()
             Call vb.AppendLine("    Sub New(App$)")
-            Call vb.AppendLine($"        MyBase.{NameOf(InteropService._executableAssembly)} = App$")
+            Call vb.AppendLine($"        Call MyBase.New(app:=App$)")
             Call vb.AppendLine("    End Sub")
             Call vb.AppendLine("        
 ''' <summary>

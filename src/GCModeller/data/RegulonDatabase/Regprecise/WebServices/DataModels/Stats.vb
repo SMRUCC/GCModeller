@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec02c2c9f591bd6d95a2eae1be5a829d, data\RegulonDatabase\Regprecise\WebServices\DataModels\Stats.vb"
+﻿#Region "Microsoft.VisualBasic::4704fec731f9aa480427d253091cf206, data\RegulonDatabase\Regprecise\WebServices\DataModels\Stats.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 54 (26.47%)
+    ' Comment Lines: 140 (68.63%)
+    '    - Xml Docs: 99.29%
+    ' 
+    '   Blank Lines: 10 (4.90%)
+    '     File Size: 7.27 KB
+
 
     '     Class genomeStat
     ' 
@@ -65,13 +77,14 @@
 
 Imports System.ComponentModel
 Imports System.Xml.Serialization
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Regprecise.WebServices.JSON
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/Services/rest/genomeStats
+    ''' https://regprecise.lbl.gov/Services/rest/genomeStats
     ''' </summary>
-    <Description("http://regprecise.lbl.gov/Services/rest/genomeStats")> Public Class genomeStat
+    <Description("https://regprecise.lbl.gov/Services/rest/genomeStats")> Public Class genomeStat
         ''' <summary>
         ''' genome identifier
         ''' </summary>
@@ -212,28 +225,28 @@ Namespace Regprecise.WebServices.JSON
     End Class
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/Services/rest/genomes
+    ''' https://regprecise.lbl.gov/Services/rest/genomes
     ''' </summary>
     ''' 
-    <Description("http://regprecise.lbl.gov/Services/rest/genomes")>
-    <XmlType("bacterial.genome", [Namespace]:="http://regprecise.lbl.gov/Services/rest/genomes")>
-    Public Class genome
+    <Description("https://regprecise.lbl.gov/Services/rest/genomes")>
+    <XmlType("bacterial.genome", [Namespace]:="https://regprecise.lbl.gov/Services/rest/genomes")>
+    Public Class genome : Implements IGenomeObject
 
         ''' <summary>
         ''' genome identifier
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property genomeId As Integer
+        <XmlAttribute> Public Property genomeId As String
         ''' <summary>
         ''' genome name
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property name As String Implements IGenomeObject.genome_name
         ''' <summary>
         ''' NCBI taxonomy id
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property taxonomyId As Integer
+        <XmlAttribute> Public Property taxonomyId As UInteger Implements IGenomeObject.ncbi_taxid
 
         Public Overrides Function ToString() As String
             Return name

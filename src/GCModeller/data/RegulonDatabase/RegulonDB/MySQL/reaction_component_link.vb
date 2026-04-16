@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77 (49.68%)
+    ' Comment Lines: 56 (36.13%)
+    '    - Xml Docs: 94.64%
+    ' 
+    '   Blank Lines: 22 (14.19%)
+    '     File Size: 6.73 KB
+
+
     ' Class reaction_component_link
     ' 
     '     Properties: component_id, reaction_component_id, reaction_id, role

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d461c950031ddc627241a7d14fb4d77e, gr\network-visualization\Visualizer\LayoutLabel.vb"
+﻿#Region "Microsoft.VisualBasic::a1d263625cc118fb656b68d014dbef86, gr\network-visualization\Visualizer\LayoutLabel.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 56 (87.50%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (12.50%)
+    '     File Size: 2.26 KB
+
+
     ' Class LayoutLabel
     ' 
-    '     Properties: offsetDistance
+    '     Properties: hasGDIData, offsetDistance
     ' 
     '     Function: GetTextAnchor, ToString
     ' 
@@ -46,6 +58,32 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Math2D
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports TextureBrush = System.Drawing.TextureBrush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
 Friend Class LayoutLabel
 
@@ -62,6 +100,12 @@ Friend Class LayoutLabel
             Dim anchor As New Point(anchor.X, anchor.Y)
 
             Return text.Distance(anchor)
+        End Get
+    End Property
+
+    Public ReadOnly Property hasGDIData As Boolean
+        Get
+            Return (Not label.text.StringEmpty) AndAlso Not style Is Nothing
         End Get
     End Property
 

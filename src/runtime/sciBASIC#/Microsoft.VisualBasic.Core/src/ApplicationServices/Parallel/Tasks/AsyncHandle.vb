@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 44 (44.44%)
+    ' Comment Lines: 40 (40.40%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 15 (15.15%)
+    '     File Size: 3.62 KB
+
+
     '     Class AsyncHandle
     ' 
     '         Properties: IsCompleted, StartTicks, Task

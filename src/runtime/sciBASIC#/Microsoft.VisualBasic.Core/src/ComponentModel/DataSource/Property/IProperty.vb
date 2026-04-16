@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d34ddc7da24f4bda8b4fbb91b55616f2, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\IProperty.vb"
+﻿#Region "Microsoft.VisualBasic::cfbc21455b25c6e31329acb4e3bafeea, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\IProperty.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 35 (40.70%)
+    ' Comment Lines: 34 (39.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (19.77%)
+    '     File Size: 3.05 KB
+
+
     '     Interface IProperty
     ' 
     '         Function: GetValue
@@ -47,11 +59,16 @@
     ' 
     '         Properties: Properties
     ' 
+    '     Class DynamicMetadataAttribute
+    ' 
+    '         Function: (+2 Overloads) GetMetadata, ToString
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace ComponentModel.DataSourceModel
@@ -70,11 +87,12 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <param name="target"></param>
         ''' <param name="value"></param>
-        Sub SetValue(target As Object, value As Object)
+        Sub SetValue(ByRef target As Object, value As Object)
+
     End Interface
 
     ''' <summary>
-    ''' Apply for R# object
+    ''' Apply for R# object cast .NET CLR object to list
     ''' </summary>
     Public Interface IDynamicsObject
 
@@ -99,4 +117,40 @@ Namespace ComponentModel.DataSourceModel
         ''' <returns></returns>
         Property Properties As Dictionary(Of String, T)
     End Interface
+
+    ''' <summary>
+    ''' just used for tagged on the <see cref="DynamicPropertyBase(Of T).Properties"/> property
+    ''' </summary>
+    <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
+    Public Class DynamicMetadataAttribute : Inherits Attribute
+
+        Public Overrides Function ToString() As String
+            Return "This property is a metadata pack"
+        End Function
+
+        ''' <summary>
+        ''' find the first <see cref="PropertyInfo"/> which is tagged with <see cref="DynamicMetadataAttribute"/>
+        ''' </summary>
+        ''' <param name="properties"></param>
+        ''' <returns></returns>
+        Public Shared Function GetMetadata(properties As IEnumerable(Of PropertyInfo)) As PropertyInfo
+            Dim find As PropertyInfo = properties _
+               .Where(Function(t) t.GetCustomAttribute(Of DynamicMetadataAttribute) IsNot Nothing) _
+               .FirstOrDefault
+
+            Return find
+        End Function
+
+        ''' <summary>
+        ''' get the target <see cref="DynamicPropertyBase(Of T).Properties"/> its <see cref="PropertyInfo"/>
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        Public Shared Function GetMetadata(type As Type) As PropertyInfo
+            Dim properties = type.GetProperties
+            Dim find As PropertyInfo = GetMetadata(properties)
+
+            Return find
+        End Function
+    End Class
 End Namespace

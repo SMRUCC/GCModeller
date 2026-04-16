@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 112 (72.26%)
+    ' Comment Lines: 20 (12.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (14.84%)
+    '     File Size: 6.02 KB
+
+
     '     Class OperonView
     ' 
     '         Properties: Count, GetOperon, Keys, Operons, Values

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e14f58461701c1a2b0d3c10cd375b9b7, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\VectorShadows.vb"
+﻿#Region "Microsoft.VisualBasic::253e7c96b0c24844b07dfc674bd4ac15, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\VectorShadows.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 411
+    '    Code Lines: 272 (66.18%)
+    ' Comment Lines: 84 (20.44%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 55 (13.38%)
+    '     File Size: 15.87 KB
+
+
     '     Class VectorShadows
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: [As], binaryOperatorSelfLeft, CreateVector, GetDynamicMemberNames, GetJson
-    '                   inspectType, TryBinaryOperation, (+2 Overloads) TryGetMember, TryInvokeMember, TrySetMember
-    '                   TryUnaryOperation
+    '         Function: [As], binaryOperatorSelfLeft, CreateVector, GetDataProperties, GetDynamicMemberNames
+    '                   GetJson, GetMapName, inspectType, TryBinaryOperation, (+2 Overloads) TryGetMember
+    '                   TryInvokeMember, TrySetMember, TryUnaryOperation
     ' 
     '         Sub: writeBuffer
     ' 
@@ -51,11 +63,13 @@
 Imports System.Dynamic
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports std = System.Math
 
 Namespace Language.Vectorization
 
@@ -84,6 +98,11 @@ Namespace Language.Vectorization
             Return typeCache(type)
         End Function
 
+        ''' <summary>
+        ''' get property value
+        ''' </summary>
+        ''' <param name="exp$"></param>
+        ''' <returns></returns>
         Default Public Overloads Property Item(exp$) As Object
             Get
                 If exp = "Me" Then
@@ -105,6 +124,11 @@ Namespace Language.Vectorization
             End Set
         End Property
 
+        ''' <summary>
+        ''' get the vector value copy
+        ''' </summary>
+        ''' <typeparam name="V"></typeparam>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function [As](Of V)() As IEnumerable(Of V)
             Return buffer.As(Of V)
@@ -135,6 +159,23 @@ Namespace Language.Vectorization
         End Sub
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns>
+        ''' this function returns nothing if has no name mapping
+        ''' </returns>
+        Public Function GetMapName(name As String) As String
+            Dim p As PropertyInfo = type.TryGetMember(name, caseSensitive:=False)
+
+            If p Is Nothing Then
+                Return Nothing
+            Else
+                Return p.GetAliasName
+            End If
+        End Function
+
+        ''' <summary>
         ''' Returns property names and function names
         ''' </summary>
         ''' <returns></returns>
@@ -142,6 +183,14 @@ Namespace Language.Vectorization
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function GetDynamicMemberNames() As IEnumerable(Of String)
             Return type.GetDynamicMemberNames
+        End Function
+
+        ''' <summary>
+        ''' get all property names
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetDataProperties() As IEnumerable(Of String)
+            Return type.PropertyNames.Objects
         End Function
 
         ''' <summary>
@@ -252,6 +301,36 @@ Namespace Language.Vectorization
 
 #Region "Operator:Binary"
 
+        Public Overloads Shared Operator &(a As VectorShadows(Of T), b As VectorShadows(Of T)) As Object
+            If a.type = GetType(String) AndAlso b.type = GetType(String) Then
+                Dim av As String() = a.As(Of String).ToArray
+                Dim bv As String() = b.As(Of String).ToArray
+                Dim concat As String() = New String(std.Max(av.Length, bv.Length) - 1) {}
+                Dim get_a As Func(Of Integer, String) = Function(i) av(i)
+                Dim get_b As Func(Of Integer, String) = Function(i) bv(i)
+
+                If av.Length <> bv.Length Then
+                    If av.Length = 1 Then
+                        Dim scalar As String = av(0)
+                        get_a = Function() scalar
+                    ElseIf bv.Length = 1 Then
+                        Dim scalar As String = bv(0)
+                        get_b = Function() scalar
+                    Else
+                        Throw New InvalidConstraintException($"the size of vector a({av.Length}) should be equals to the size of vector b({bv.Length})!")
+                    End If
+                End If
+
+                For i As Integer = 0 To concat.Length - 1
+                    concat(i) = get_a(i) & get_b(i)
+                Next
+
+                Return New VectorShadows(Of String)(concat)
+            Else
+                Throw New NotImplementedException
+            End If
+        End Operator
+
         ''' <summary>
         ''' Fix for &amp; operator not defined!
         ''' </summary>
@@ -264,7 +343,7 @@ Namespace Language.Vectorization
             Dim op As MethodInfo = vector.type.Concatenate(type, isVector)
 
             If op Is Nothing Then
-                If vector.type Is GetType(String) Then
+                If vector.type = GetType(String) Then
                     If type.ImplementInterface(GetType(IEnumerable(Of String))) Then
                         ' 如果是字符串的集合，则分别添加字符串
                         Dim out$() = New String(vector.Length - 1) {}

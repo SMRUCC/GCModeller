@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 12 (60.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (40.00%)
+    '     File Size: 391 B
+
+
     ' Module endPointTest
     ' 
     '     Sub: Main

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 41 (63.08%)
+    ' Comment Lines: 15 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (13.85%)
+    '     File Size: 1.91 KB
+
+
     '     Class ArticleProfile
     ' 
     '         Properties: abstract, authors, cites, DOI, issue

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::334401bceb32aa3cea6e4a470c1e4174, mime\application%pdf\PdfReader\Tokenizer\TokenComment.vb"
+﻿#Region "Microsoft.VisualBasic::b47bcc287c94b4d91706b75472f17a56, mime\application%pdf\PdfReader\Tokenizer\TokenComment.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 17 (85.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 466 B
+
+
     '     Class TokenComment
     ' 
     '         Properties: Value
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Value As String
 
-        Public Sub New(ByVal comment As String)
+        Public Sub New(comment As String)
             Value = comment
         End Sub
 
@@ -56,7 +68,7 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _Value = value
             End Set
         End Property

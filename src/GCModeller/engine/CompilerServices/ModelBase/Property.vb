@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4b0df37e38e256a997f7df65d3b3a04, engine\CompilerServices\ModelBase\Property.vb"
+﻿#Region "Microsoft.VisualBasic::33e682dc7fb7ddc65a3b28a9b62649ff, engine\CompilerServices\ModelBase\Property.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 42 (77.78%)
+    ' Comment Lines: 3 (5.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.67%)
+    '     File Size: 1.77 KB
+
+
     ' Class [Property]
     ' 
     '     Properties: authors, comment, compiled, DBLinks, Emails
     '                 guid, name, publications, reversion, specieId
     '                 title, URLs
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 ''' <summary>
 ''' the property about the current virtual cell model
@@ -58,22 +71,39 @@ Public Class [Property]
     <XmlElement> Public Property guid As String
     <XmlElement> Public Property specieId As String
     <XmlElement> Public Property title As String
-    <XmlElement> Public Property Emails As List(Of String)
-    <XmlElement> Public Property authors As List(Of String)
+    <XmlElement> Public Property Emails As String()
+    <XmlElement> Public Property authors As String()
     <XmlElement> Public Property comment As String
-    <XmlElement> Public Property publications As List(Of String)
-    <XmlElement> Public Property URLs As List(Of String)
+    <XmlElement> Public Property publications As String()
+    <XmlElement> Public Property URLs As String()
 
     Public Property DBLinks As String()
 
     Sub New()
-        authors = New List(Of String) From {Environment.MachineName}
+        authors = New String() {Environment.MachineName}
         compiled = Now.ToString
-        Emails = New List(Of String)
+        Emails = New String() {}
         guid = System.Guid.NewGuid.ToString
-        publications = New List(Of String)
-        URLs = New List(Of String) From {"https://gcmodeller.org/"}
+        publications = New String() {}
+        URLs = New String() {"https://gcmodeller.org/"}
         DBLinks = New String() {}
+    End Sub
+
+    Sub New(copy As [Property])
+        name = copy.name
+        compiled = copy.compiled
+        reversion = copy.reversion
+
+        guid = copy.guid
+        specieId = copy.specieId
+        title = copy.title
+        Emails = copy.Emails.SafeQuery.ToArray
+        authors = copy.authors.SafeQuery.ToArray
+        comment = copy.comment
+        publications = copy.publications.SafeQuery.ToArray
+        URLs = copy.URLs.SafeQuery.ToArray
+
+        DBLinks = copy.DBLinks.SafeQuery.ToArray
     End Sub
 
     Public Overrides Function ToString() As String

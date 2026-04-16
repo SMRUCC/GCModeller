@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e88de043f6345a50b913d1698ca562b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
+﻿#Region "Microsoft.VisualBasic::485fa6b333f71535ae5a2952e34f1e17, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\File.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 372
+    '    Code Lines: 178 (47.85%)
+    ' Comment Lines: 158 (42.47%)
+    '    - Xml Docs: 96.20%
+    ' 
+    '   Blank Lines: 36 (9.68%)
+    '     File Size: 16.74 KB
+
+
     '     Class File
     ' 
     '         Properties: Accession, Comment, DbLinks, Definition, Features
     '                     HasSequenceData, isPlasmid, IsWGS, Keywords, Locus
-    '                     Origin, Reference, Source, SourceFeature, Taxon
-    '                     Version
+    '                     Origin, Reference, Source, SourceFeature, Species
+    '                     Taxon, Version
     ' 
     '         Function: IsValidGenbankFormat, Load, (+2 Overloads) LoadDatabase, Read, readGenbankBuffer
-    '                   (+2 Overloads) Save
+    '                   (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
@@ -59,14 +71,60 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
     ''' <summary>
-    ''' NCBI GenBank database file.(NCBI GenBank数据库文件)
+    ''' NCBI GenBank database file.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' The National Center for Biotechnology Information (NCBI) GenBank® database is a comprehensive, 
+    ''' annotated collection of all publicly available nucleotide sequences and their protein translations. 
+    ''' It is a key resource for bioinformatics researchers and scientists around the world. Here is 
+    ''' an introduction to the GenBank database file:
+    ''' 
+    ''' What is GenBank?
+    ''' 
+    ''' Establishment: GenBank was established in 1982 and is maintained by the NCBI, which is part of 
+    ''' the National Library of Medicine (NLM) at the National Institutes of Health (NIH) in the United
+    ''' States.
+    ''' Content: It contains sequences from various sources, including genomic, transcriptomic, and 
+    ''' metagenomic studies, as well as sequences from viruses, prokaryotes, eukaryotes, and organelles.
+    ''' Purpose: The primary purpose of GenBank is to provide scientists with a reliable and freely 
+    ''' accessible database to deposit and retrieve genetic sequence data.
+    ''' Key Components of a GenBank File:
+    ''' A GenBank file is typically composed of several sections, each containing specific information about
+    ''' the sequence entry. Here are the main components:
+    ''' Header Section: This includes the LOCUS line, which provides a summary of the entry, including the
+    ''' length of the sequence, the type of molecule (DNA, RNA, or protein), the date of the last update,
+    ''' and the unique accession number.
+    ''' Definition Line: This is the DEFINITION line, which gives a brief description of the sequence.
+    ''' Accession and Version: The ACCESSION line contains the unique identifier for the sequence entry, and
+    ''' the VERSION line indicates the version number of the entry and may include a secondary accession number.
+    ''' Keywords: The KEYWORDS line provides terms that are associated with the sequence and can be used for searching.
+    ''' Source: The SOURCE section describes the organism from which the sequence was derived, including 
+    ''' taxonomy and often the specific tissue or cell type.
+    ''' References: This section lists the literature citations associated with the sequence data, including
+    ''' the authors, title, journal, and publication year.
+    ''' Comment: The COMMENT section can contain various types of information, such as the method used for 
+    ''' sequence determination, the experimental procedures, or additional notes relevant to the sequence.
+    ''' Features Table: This is one of the most important sections, as it provides a detailed annotation of 
+    ''' the sequence. It includes feature key-value pairs that describe the locations and characteristics of
+    ''' genes, exons, introns, regulatory regions, and other sequence features.
+    ''' Sequence Data: The actual nucleotide sequence is presented in the sequence data section, usually in a 
+    ''' 60-character-per-line format. This section can be quite long depending on the size of the sequence.
+    ''' File Format:
+    ''' GenBank files are typically plain text files and can be opened with any text editor. However, they are 
+    ''' often handled using bioinformatics tools and software that can parse and interpret the data more effectively. 
+    ''' The file extension for GenBank files is usually .gb or .gbk.
+    ''' How to Access GenBank:
+    ''' You can access GenBank directly through the NCBI website (https://www.ncbi.nlm.nih.gov/genbank/).
+    ''' Sequences can be searched by various criteria, including accession number, keyword, author, or organism name.
+    ''' Users can also download sequences in various formats, including GenBank flatfile format, FASTA, and others.
+    ''' GenBank providing a wealth of data that scientists use for comparative genomics, evolutionary studies,
+    ''' and many other types of biological research.
+    ''' </remarks>
     '''
     <Package("NCBI.Genbank.GBFF")>
     Public Class File : Implements ISaveHandle
@@ -112,11 +170,10 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
         ''' <summary>
         ''' Is plasmid source?
-        ''' (这个Genbank对象是否为一个质粒的基因组数据)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个Genbank对象是否为一个质粒的基因组数据)</remarks>
         Public ReadOnly Property isPlasmid As Boolean
             Get
                 Return Not String.IsNullOrEmpty(Features.source.Query("plasmid"))
@@ -124,9 +181,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Property
 
         ''' <summary>
-        ''' 物种数据
+        ''' the organism species name and strain information of this genbank data, 
+        ''' this property is a combination of the source feature's species name and 
+        ''' the source feature's strain qualifier value.
         ''' </summary>
         ''' <returns></returns>
+        Public ReadOnly Property Species As String
+            Get
+                Return Source.SpeciesName & " " & Features.source.Query("strain")
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' get ncbi taxonomy id
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 物种数据
+        ''' </remarks>
         Public ReadOnly Property Taxon As String
             Get
                 Dim db_xref As String() = Features.source.QueryDuplicated("db_xref")
@@ -203,7 +275,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
         Public Overloads Function Read(feature As Feature) As FASTA.FastaSeq
             Dim left As Long = feature.Location.Locations.First.Left
             Dim right As Long = feature.Location.Locations.Last.Right
-            Dim sequence As String = Mid(Origin, left, stdNum.Abs(left - right))
+            Dim sequence As String = Mid(Origin, left, std.Abs(left - right))
 
             If feature.Location.Complement Then
                 sequence = (NucleicAcid.Complement(sequence))
@@ -273,18 +345,24 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' Using this function to load the ncbi genbank database file if the database file 
         ''' contains more than one genome.
-        ''' 
-        ''' (假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
-        ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况)
         ''' </summary>
         ''' <param name="filePath">The file path of the genbank database file, this gb file may contains sevral gb sections</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>      
+        ''' (假若一个gbk文件之中包含有多个记录的话，可以使用这个函数进行数据的加载，多个genebank记录在一个文件之中
+        ''' 一般出现在细菌具有染色体基因组和质粒基因组这种多个复制子的情况)</remarks>
         '''
         Public Shared Function LoadDatabase(filePath As String, Optional suppressError As Boolean = False) As IEnumerable(Of File)
             Return LoadDatabase(filePath.Open(FileMode.OpenOrCreate, doClear:=False, [readOnly]:=True), filePath.BaseName, suppressError)
         End Function
 
+        ''' <summary>
+        ''' Load multiple genbank assembly data that parsed from a specific data file
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <param name="defaultAccession"></param>
+        ''' <param name="suppressError"></param>
+        ''' <returns></returns>
         Public Shared Iterator Function LoadDatabase(file As Stream, Optional defaultAccession$ = Nothing, Optional suppressError As Boolean = False) As IEnumerable(Of File)
             If defaultAccession.StringEmpty Then
                 If TypeOf file Is FileStream Then
@@ -333,7 +411,18 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return GbkWriter.WriteGenbank(Me, FilePath, Encoding)
+            Using file As Stream = FilePath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, Encoding)
+            End Using
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.CreateDoc)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

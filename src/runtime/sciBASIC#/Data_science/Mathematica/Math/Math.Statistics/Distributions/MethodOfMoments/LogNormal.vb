@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f671736e3a1117fc6a2d91a451354882, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\LogNormal.vb"
+﻿#Region "Microsoft.VisualBasic::46b1ea6012d4bb05af1f6e53888b8584, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\LogNormal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 56 (75.68%)
+    ' Comment Lines: 13 (17.57%)
+    '    - Xml Docs: 46.15%
+    ' 
+    '   Blank Lines: 5 (6.76%)
+    '     File Size: 3.19 KB
+
+
     '     Class LogNormal
     ' 
     '         Constructor: (+3 Overloads) Sub New
@@ -41,7 +53,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -75,7 +87,7 @@ Namespace Distributions.MethodOfMoments
         ''' <param name="data"> the sampled data (in linear space) </param>
         Public Sub New(data As Double())
             For i As Integer = 0 To data.Length - 1
-                data(i) = stdNum.Log10(data(i))
+                data(i) = std.Log10(data(i))
             Next i
             Dim BPM As New MomentFunctions.BasicProductMoments(data)
             _Mean = BPM.Mean()
@@ -84,29 +96,29 @@ Namespace Distributions.MethodOfMoments
         End Sub
         Public Overrides Function GetInvCDF(probability As Double) As Double
             Dim z As New Normal(_Mean, _StDev)
-            Return stdNum.Pow(10, z.GetInvCDF(probability))
+            Return std.Pow(10, z.GetInvCDF(probability))
         End Function
         Public Overrides Function GetCDF(value As Double) As Double
             Dim n As New Distributions.MethodOfMoments.Normal(_Mean, _StDev)
-            Return n.GetCDF(stdNum.Log10(value))
+            Return n.GetCDF(std.Log10(value))
         End Function
         Public Overrides Function GetPDF(value As Double) As Double
             Dim n As New Distributions.MethodOfMoments.Normal(_Mean, _StDev)
-            Return n.GetPDF(stdNum.Log10(value))
+            Return n.GetPDF(std.Log10(value))
         End Function
         Public Overridable Function Bullentin17BConfidenceLimit(probability As Double, alphaValue As Double) As Double
             Dim sn As New Normal(0, 1)
             Dim k As Double = sn.GetInvCDF(probability)
             Dim z As Double = sn.GetInvCDF(alphaValue)
-            Dim zSquared As Double = stdNum.Pow(z, 2)
-            Dim kSquared As Double = stdNum.Pow(k, 2)
+            Dim zSquared As Double = std.Pow(z, 2)
+            Dim kSquared As Double = std.Pow(k, 2)
             Dim Avalue As Double = (1 - (zSquared) / 2 \ (PeriodOfRecord() - 1))
             Dim Bvalue As Double = (kSquared) - ((zSquared) / PeriodOfRecord())
-            Dim RootValue As Double = stdNum.Sqrt(kSquared - (Avalue * Bvalue))
+            Dim RootValue As Double = std.Sqrt(kSquared - (Avalue * Bvalue))
             If alphaValue > 0.5 Then
-                Return stdNum.Pow(10, _Mean + _StDev * (k + RootValue) / Avalue)
+                Return std.Pow(10, _Mean + _StDev * (k + RootValue) / Avalue)
             Else
-                Return stdNum.Pow(10, _Mean + _StDev * (k - RootValue) / Avalue)
+                Return std.Pow(10, _Mean + _StDev * (k - RootValue) / Avalue)
             End If
         End Function
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)

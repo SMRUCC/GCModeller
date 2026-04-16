@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 76 (49.35%)
+    ' Comment Lines: 56 (36.36%)
+    '    - Xml Docs: 94.64%
+    ' 
+    '   Blank Lines: 22 (14.29%)
+    '     File Size: 5.26 KB
+
+
     ' Class name
     ' 
     '     Properties: DB_ID, name, ST_ID

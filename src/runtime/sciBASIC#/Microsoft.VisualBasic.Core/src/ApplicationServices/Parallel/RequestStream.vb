@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edc657564d16181ff0284c69ebe251a3, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\RequestStream.vb"
+﻿#Region "Microsoft.VisualBasic::5d74edbb60ccdcc9d3e578f1e825c846, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\RequestStream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 460
+    '    Code Lines: 233 (50.65%)
+    ' Comment Lines: 170 (36.96%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 57 (12.39%)
+    '     File Size: 18.55 KB
+
 
     '     Delegate Function
     ' 
@@ -71,6 +83,7 @@ Imports Microsoft.VisualBasic.Scripting.Abstract
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Parallel
 
@@ -98,27 +111,34 @@ Namespace Parallel
         <XmlAttribute("Entry")>
         Public Property ProtocolCategory As Int64
         ''' <summary>
-        ''' This property indicates which the specifics protocol processor will be used for the incoming client request.
+        ''' This property indicates which the specifics protocol processor will be 
+        ''' used for the incoming client request.
         ''' (协议的头部)
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("Protocol")>
         Public Property Protocol As Int64
         ''' <summary>
-        ''' Buffer length of the protocol request raw stream data <see cref="ChunkBuffer"/>.(协议数据的长度)
+        ''' Buffer length of the protocol request raw stream data <see cref="ChunkBuffer"/>.
+        ''' (协议数据的长度)
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute("bufLen")>
         Public Property BufferLength As Int64
+
         ''' <summary>
-        ''' The raw stream data of the details data request or the server response data.(协议的具体数据请求)
+        ''' The raw stream data of the details data request or the server response data.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (协议的具体数据请求)
+        ''' </remarks>
         <XmlAttribute("rawBuf")>
         Public Property ChunkBuffer As Byte()
 
         ''' <summary>
-        ''' <see cref="ChunkBuffer"/>部分的数据是否完整？
+        ''' verify that the stream data in <see cref="ChunkBuffer"/> is recieve complete?
+        ''' (<see cref="ChunkBuffer"/>部分的数据是否完整？)
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property FullRead As Boolean
@@ -151,13 +171,15 @@ Namespace Parallel
         End Sub
 
         ''' <summary>
-        ''' The default text encoding is <see cref="System.Text.Encoding.UTF8"/>
+        ''' The default text encoding is <see cref="Encoding.UTF8"/>
         ''' </summary>
-        ''' <param name="ProtocolCategory"></param>
-        ''' <param name="Protocol"></param>
-        ''' <param name="str">Protocol request argument parameters</param>
-        Sub New(ProtocolCategory As Long, Protocol As Long, str As String)
-            Call Me.New(ProtocolCategory, Protocol, UTF8WithoutBOM.GetBytes(str))
+        ''' <param name="protocolCategory"></param>
+        ''' <param name="protocol"></param>
+        ''' <param name="strData">Protocol request argument parameters</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(protocolCategory As Long, protocol As Long, strData As String)
+            Call Me.New(protocolCategory, protocol, UTF8WithoutBOM.GetBytes(strData))
         End Sub
 
         Sub New(ProtocolCategory As Long, Protocol As Long, str As String, encoding As Encoding)
@@ -212,16 +234,34 @@ Namespace Parallel
         ''' <summary>
         ''' 默认是使用UTF8编码来编码字符串的
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' 这个函数总是返回一个不为空值的字符串
+        ''' </returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetUTF8String() As String
-            Return UTF8WithoutBOM.GetString(ChunkBuffer)
+            Return GetString(UTF8WithoutBOM)
         End Function
 
+        ''' <summary>
+        ''' 按照指定的编码构建出一个字符串值
+        ''' </summary>
+        ''' <param name="encoding"></param>
+        ''' <returns>
+        ''' 这个函数总是返回一个不为空值的字符串
+        ''' </returns>
+        ''' <remarks>
+        ''' 20240620
+        ''' 
+        ''' the string may contains may zero byte after the string data,
+        ''' so we needs to trim such zero bytes for avoid the possible 
+        ''' string parser error.
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetString(encoding As Encoding) As String
-            Return encoding.GetString(ChunkBuffer)
+            ' removes null bytes padding for avoid the possible text parser error,
+            ' example as json parser error 'Encountered unexpected character NIL' may happends.
+            Return If(encoding.GetString(ChunkBuffer), "").Trim(ASCII.NUL)
         End Function
 
         Public Function GetIntegers() As Integer()

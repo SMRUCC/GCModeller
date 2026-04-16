@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 53 (63.86%)
+    ' Comment Lines: 20 (24.10%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (12.05%)
+    '     File Size: 3.02 KB
+
+
     '     Class ReactionClass
     ' 
     '         Properties: [class], category, ECNumber, RCNumber, subclass

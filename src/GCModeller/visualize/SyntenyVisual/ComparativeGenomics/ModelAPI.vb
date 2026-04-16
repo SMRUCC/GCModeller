@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7239c4e88a04e69f478cb6d60470b3b, visualize\SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::02aa852f2e60906ba17f111c07301f3f, visualize\SyntenyVisual\ComparativeGenomics\ModelAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 263
+    '    Code Lines: 200 (76.05%)
+    ' Comment Lines: 33 (12.55%)
+    '    - Xml Docs: 93.94%
+    ' 
+    '   Blank Lines: 30 (11.41%)
+    '     File Size: 12.32 KB
+
+
     '     Module ModelAPI
     ' 
     '         Function: __COGsColor, (+2 Overloads) CreateObject, CreateSyntenyGenome, GetMethod, ReverseCopy
@@ -54,12 +66,21 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.SequenceModel.FASTA
+
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
 
 Namespace ComparativeGenomics
 
@@ -146,7 +167,9 @@ Namespace ComparativeGenomics
 
                 COGsColor = GenerateColorProfiles(COGs) _
                     .ToDictionary(Function(x) x.Key,
-                                  Function(x) CType(New SolidBrush(x.Value), Brush))
+                                  Function(x)
+                                      Return CType(New SolidBrush(x.Value), Brush)
+                                  End Function)
             End If
 
             Return COGsColor

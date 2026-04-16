@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.SequenceModel.FQ.NanoPlot.NanoSummary</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>NanoSummary {SMRUCC.genomics.SequenceModel.FQ.NanoPlot}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>NanoSummary</h2>
+
+        <h3>Description</h3>
+
+        <p>汇总统计结果模型</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.SequenceModel.FQ.NanoPlot
+export class NanoSummary {
+   # Top 5 质量最高序列 (Item1=Quality, Item2=Length)
+   HighestQualityReads: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue[]</a>;
+   # Top 5 最长序列 (Item1=Length, Item2=Quality)
+   LongestReads: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue[]</a>;
+   MaxLength: integer;
+   MaxQuality: double;
+   MeanLength: double;
+   MeanQuality: double;
+   MedianLength: double;
+   MedianQuality: double;
+   MinLength: integer;
+   MinQuality: double;
+   N50: double;
+   Q10: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q15: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q20: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q25: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   Q30: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a>;
+   # 长度标准差
+   ReadLengthStdev: double;
+   TotalBases: double;
+   TotalReads: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>HighestQualityReads</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue</a></li>
+<li>use by <i>property</i> member <code>LongestReads</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/ReadsValue.html">ReadsValue</a></li>
+<li>use by <i>property</i> member <code>Q10</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q15</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q20</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q25</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+<li>use by <i>property</i> member <code>Q30</code>: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FQ/NanoPlot/QThresholdStats.html">QThresholdStats</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

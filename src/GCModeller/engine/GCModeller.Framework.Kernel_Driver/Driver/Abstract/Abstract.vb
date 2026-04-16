@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 20 (36.36%)
+    ' Comment Lines: 24 (43.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (20.00%)
+    '     File Size: 1.97 KB
+
+
     ' Interface IObjectStatus
     ' 
     '     Properties: locusId, Status

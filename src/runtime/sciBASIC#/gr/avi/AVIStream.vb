@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2f1e1842f6cbd8e130158d5b9db2e75, gr\avi\AVIStream.vb"
+﻿#Region "Microsoft.VisualBasic::f92085c39e956f3ad65c4c31c48bfa03, gr\avi\AVIStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 106 (71.62%)
+    ' Comment Lines: 18 (12.16%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 24 (16.22%)
+    '     File Size: 5.79 KB
+
+
     ' Class AVIStream
     ' 
     '     Properties: fps, frames, height, width
@@ -46,9 +58,9 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Linq
 
 Public Class AVIStream
 
@@ -67,8 +79,8 @@ Public Class AVIStream
     End Sub
 
     Public Sub addFrame(image As Bitmap)
-        Using bitmap As BitmapBuffer = BitmapBuffer.FromBitmap(image, ImageLockMode.ReadOnly)
-            Call addFrame(bitmap.ToArray)
+        Using bitmap As BitmapBuffer = BitmapBuffer.FromBitmap(image)
+            Call addFrame(bitmap.AsEnumerable.ToArray)
         End Using
     End Sub
 

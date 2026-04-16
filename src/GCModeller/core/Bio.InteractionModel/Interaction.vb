@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ffa30380526276b58ad49ed6b967b98, core\Bio.InteractionModel\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::771ae027a4b30fcf4f36dc2be0e11938, core\Bio.InteractionModel\Interaction.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 64 (65.98%)
+    ' Comment Lines: 23 (23.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (10.31%)
+    '     File Size: 3.21 KB
+
+
     ' Class Interaction
     ' 
     '     Properties: A, B, Broken, Interaction, source
@@ -43,8 +55,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 
 ''' <summary>
 ''' 默认的的相互作用的方向为从A到B

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de11401d5f361830e4c906c74a52a0ca, gr\Microsoft.VisualBasic.Imaging\SVG\XML\CommentHelper.vb"
+﻿#Region "Microsoft.VisualBasic::ad347a05c952990b7cae8d101c490ddf, gr\Microsoft.VisualBasic.Imaging\SVG\XML\CommentHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 28 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (22.22%)
+    '     File Size: 1.13 KB
+
+
     '     Module CommentHelper
     ' 
     '         Function: CreateComment
@@ -42,7 +54,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Xml
 
 Namespace SVG.XML
 
@@ -51,7 +62,7 @@ Namespace SVG.XML
         Const declare$ = "SVG document was created by sciBASIC svg image driver:"
 
         <Extension>
-        Public Function CreateComment(xmlComment As String) As XmlComment
+        Public Function CreateComment(xmlComment As String) As String
             Dim comment As New StringBuilder
             Dim indent As New String(" "c, 6)
 
@@ -73,7 +84,7 @@ Namespace SVG.XML
             comment.AppendLine _
                    .Append("  ")
 
-            Return New XmlDocument().CreateComment(comment.ToString)
+            Return comment.ToString
         End Function
     End Module
 End Namespace

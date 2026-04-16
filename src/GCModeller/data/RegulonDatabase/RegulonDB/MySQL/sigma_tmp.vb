@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 9.66 KB
+
+
     ' Class sigma_tmp
     ' 
     '     Properties: key_id_org, sigma_coregulators, sigma_gene_id, sigma_gene_name, sigma_id

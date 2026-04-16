@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 14 (37.84%)
+    ' Comment Lines: 18 (48.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.56 KB
+
+
     '     Class PQDijkstraProvider
     ' 
     '         Constructor: (+1 Overloads) Sub New

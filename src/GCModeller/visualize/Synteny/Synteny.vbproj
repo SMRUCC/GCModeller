@@ -289,33 +289,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\interops\localblast\LocalBLAST\NCBI.Extensions.localblast.vbproj">
-      <Project>{C6B843B8-F990-4FAF-98DE-A20EFC8B69F7}</Project>
-      <Name>NCBI.Extensions.localblast</Name>
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\core\Bio.Annotation\annotation.NET5.vbproj">
+      <Project>{77595721-b60d-1dde-6ce8-d552c0634fa7}</Project>
+      <Name>annotation.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\analysis\SequenceToolkit\ClusterMatrix\ClusterMatrix.vbproj">
-      <Project>{8eb1f309-4d69-4353-a5ff-539061540aa5}</Project>
-      <Name>ClusterMatrix</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Annotation\Bio.Annotation.vbproj">
-      <Project>{e5ad6940-d449-471d-9539-65b4e457e6e3}</Project>
-      <Name>Bio.Annotation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DataVisualizationExtensions\DataVisualizationExtensions.vbproj">
-      <Project>{c7c6bb3d-210c-4f6f-96ae-e499a2875771}</Project>
-      <Name>DataVisualizationExtensions</Name>
+    <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{337d6884-20a4-1a04-31e6-cf595656d545}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\SyntenyVisual\SyntenyVisual.vbproj">
       <Project>{7a0874a9-2e3b-4708-a777-8ddd7edc50a7}</Project>

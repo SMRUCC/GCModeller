@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 8 (72.73%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (27.27%)
+    '     File Size: 270 B
+
+
     '     Class Descriptor
     ' 
     '         Properties: configurable, enumerable, value, writable

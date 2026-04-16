@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::25656d43254ea18ed34d79f4cac0b2b2, annotations\GSEA\PFSNet\PFSNet\Models\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::8cda05b3d95906ef1b30552caf9274bf, annotations\GSEA\PFSNet\PFSNet\Models\Graph.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 79 (67.52%)
+    ' Comment Lines: 27 (23.08%)
+    '    - Xml Docs: 85.19%
+    ' 
+    '   Blank Lines: 11 (9.40%)
+    '     File Size: 6.04 KB
+
+
     '     Module Data
     ' 
     '         Function: decompose_graph, Frame, simplify
@@ -40,7 +52,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -62,7 +74,7 @@ Namespace R.Graph
         ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Frame(d As GraphEdge(), Optional directed As Boolean = True, Optional vertices As DataFrame = Nothing) As PFSNetGraph
+        Public Function Frame(d As GraphEdge(), Optional directed As Boolean = True, Optional vertices As DataFrameResolver = Nothing) As PFSNetGraph
             Dim allsId As String() = (From edge As GraphEdge
                                       In d
                                       Select {edge.g1, edge.g2}).IteratesALL.Distinct.ToArray

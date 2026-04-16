@@ -1,0 +1,437 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\resources\\wgcna.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:resources\\wgcna.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\resources\\pfsnet_not_rjava.r||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:resources\\pfsnet_not_rjava.r||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\resources\\pfsnet.r||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:resources\\pfsnet.r||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\resources\\onload.r||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:resources\\onload.r||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\resources\\basar.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:resources\\basar.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\matrix\\matrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:matrix\\matrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\matrix\\exprsamples.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:matrix\\exprsamples.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\matrix\\exprmat.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:matrix\\exprmat.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\matrix\\experiment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:matrix\\experiment.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\matrix\\api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:matrix\\api.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\geneprediction\\ncbiwebmaster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:geneprediction\\ncbiwebmaster.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\geneprediction\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:geneprediction\\genemark.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\geneprediction\\docnodes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:geneprediction\\docnodes.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\pccmatrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\pccmatrix.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\matrixserialization.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\matrixserialization.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\matrixapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\matrixapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\iweight.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\iweight.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\genescoexpr.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\genescoexpr.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\operon\\predicts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\operon\\predicts.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\operon\\corrects.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\operon\\corrects.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\matrixdatabase\\icorrelations.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\matrixdatabase\\icorrelations.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\matrixdatabase\\corrsdbapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\matrixdatabase\\corrsdbapi.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\rna-seq\\toolkits.rna-seq\\correlations\\matrixdatabase\\correlation2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{DF1C1740-08B7-40D3-84DC-35C94FACA108}|Toolkits.RNA-Seq.vbproj|solutionrelative:correlations\\matrixdatabase\\correlation2.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "WGCNA.txt",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\WGCNA.txt",
+              "RelativeDocumentMoniker": "Resources\\WGCNA.txt",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\WGCNA.txt",
+              "RelativeToolTip": "Resources\\WGCNA.txt",
+              "ViewState": "AgIAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-03-25T07:56:03.436Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "pfsnet_not_rJava.R",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\pfsnet_not_rJava.R",
+              "RelativeDocumentMoniker": "Resources\\pfsnet_not_rJava.R",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\pfsnet_not_rJava.R",
+              "RelativeToolTip": "Resources\\pfsnet_not_rJava.R",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJRSURBVDhPfZPPaxNREMe/u5vfTVZDxR4E9SZSsQULiaA0lyZUTwoVetOD4H/Qa24VL1IwSC/26ElR0YsHBRtiPfRgKKGJiaaHGNJI84vdZH87u3nZNCp\u002BYN6bfTszO/NmlgMjGo2ejsVi13RdZydDfD4fV6lUqsVicZcdjbEsi2lAPB5PNhoNuVwuy\u002BTgSrValUul0q9UKnWXmU7Asx0eQhTFYCQSceWESHt4KhgOR6YzmczWnZWVe8zcxQ1A2VimacIwTDq0EPEBnGUCdBbkVagDCY83Np4lk8mJTDxsd\u002BA4HlN\u002BAZphYXNHws6BBpOqXDjrR1yUUNovYH19fasvy83tbPad7eNmwHEcvF76NgVZe9vB05yMasvAAclmrocn\u002BWksxBcxPzeHxURimbmNA9h4PF68/irh/Z6EMyHg1qUwli\u002BEMHtKQLbUx/PdPnhBsMsdMJfJDGjFl28yeNVAozmAoZmI\u002Bnm0jhQImo7P\u002B13Hlufd7k9mYMPpJjpHA3CaAT9dZquj0iUCvbYCY6ANbajMEX9kANyYF9Fu9iF3NeT22ni5fQhN1tGuS1iaDTo2x/k7wNUZrN2ewfdSGy/e/EQ\u002B38HHD3WsXg/h/s3zjg3ZuhM40UYbe5IfPriIxGURrz4dQtUNLF05idXUOeoQDQdxPIBLglpjD5OiKJaua7ZKmExoNXRLVVVHT6fTj5jbuASBsHf6eUgfJTbsjKPxAs2J19EDgYDfUQi3hG632ysUCj9onK3RffwLesfVarU6e2Thh9h6YKj\u002BF9tOITEA4DcKmgYZIUPPTAAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-03-25T07:56:01.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "pfsnet.R",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\pfsnet.R",
+              "RelativeDocumentMoniker": "Resources\\pfsnet.R",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\pfsnet.R",
+              "RelativeToolTip": "Resources\\pfsnet.R",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJRSURBVDhPfZPPaxNREMe/u5vfTVZDxR4E9SZSsQULiaA0lyZUTwoVetOD4H/Qa24VL1IwSC/26ElR0YsHBRtiPfRgKKGJiaaHGNJI84vdZH87u3nZNCp\u002BYN6bfTszO/NmlgMjGo2ejsVi13RdZydDfD4fV6lUqsVicZcdjbEsi2lAPB5PNhoNuVwuy\u002BTgSrValUul0q9UKnWXmU7Asx0eQhTFYCQSceWESHt4KhgOR6YzmczWnZWVe8zcxQ1A2VimacIwTDq0EPEBnGUCdBbkVagDCY83Np4lk8mJTDxsd\u002BA4HlN\u002BAZphYXNHws6BBpOqXDjrR1yUUNovYH19fasvy83tbPad7eNmwHEcvF76NgVZe9vB05yMasvAAclmrocn\u002BWksxBcxPzeHxURimbmNA9h4PF68/irh/Z6EMyHg1qUwli\u002BEMHtKQLbUx/PdPnhBsMsdMJfJDGjFl28yeNVAozmAoZmI\u002Bnm0jhQImo7P\u002B13Hlufd7k9mYMPpJjpHA3CaAT9dZquj0iUCvbYCY6ANbajMEX9kANyYF9Fu9iF3NeT22ni5fQhN1tGuS1iaDTo2x/k7wNUZrN2ewfdSGy/e/EQ\u002B38HHD3WsXg/h/s3zjg3ZuhM40UYbe5IfPriIxGURrz4dQtUNLF05idXUOeoQDQdxPIBLglpjD5OiKJaua7ZKmExoNXRLVVVHT6fTj5jbuASBsHf6eUgfJTbsjKPxAs2J19EDgYDfUQi3hG632ysUCj9onK3RffwLesfVarU6e2Thh9h6YKj\u002BF9tOITEA4DcKmgYZIUPPTAAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-03-25T07:55:57.071Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "onLoad.R",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\onLoad.R",
+              "RelativeDocumentMoniker": "Resources\\onLoad.R",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\onLoad.R",
+              "RelativeToolTip": "Resources\\onLoad.R",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "00000000-0000-0000-0000-000000000000.000000|iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJRSURBVDhPfZPPaxNREMe/u5vfTVZDxR4E9SZSsQULiaA0lyZUTwoVetOD4H/Qa24VL1IwSC/26ElR0YsHBRtiPfRgKKGJiaaHGNJI84vdZH87u3nZNCp\u002BYN6bfTszO/NmlgMjGo2ejsVi13RdZydDfD4fV6lUqsVicZcdjbEsi2lAPB5PNhoNuVwuy\u002BTgSrValUul0q9UKnWXmU7Asx0eQhTFYCQSceWESHt4KhgOR6YzmczWnZWVe8zcxQ1A2VimacIwTDq0EPEBnGUCdBbkVagDCY83Np4lk8mJTDxsd\u002BA4HlN\u002BAZphYXNHws6BBpOqXDjrR1yUUNovYH19fasvy83tbPad7eNmwHEcvF76NgVZe9vB05yMasvAAclmrocn\u002BWksxBcxPzeHxURimbmNA9h4PF68/irh/Z6EMyHg1qUwli\u002BEMHtKQLbUx/PdPnhBsMsdMJfJDGjFl28yeNVAozmAoZmI\u002Bnm0jhQImo7P\u002B13Hlufd7k9mYMPpJjpHA3CaAT9dZquj0iUCvbYCY6ANbajMEX9kANyYF9Fu9iF3NeT22ni5fQhN1tGuS1iaDTo2x/k7wNUZrN2ewfdSGy/e/EQ\u002B38HHD3WsXg/h/s3zjg3ZuhM40UYbe5IfPriIxGURrz4dQtUNLF05idXUOeoQDQdxPIBLglpjD5OiKJaua7ZKmExoNXRLVVVHT6fTj5jbuASBsHf6eUgfJTbsjKPxAs2J19EDgYDfUQi3hG632ysUCj9onK3RffwLesfVarU6e2Thh9h6YKj\u002BF9tOITEA4DcKmgYZIUPPTAAAAABJRU5ErkJggg==",
+              "WhenOpened": "2026-03-25T07:55:55.702Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BaSAR.txt",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\BaSAR.txt",
+              "RelativeDocumentMoniker": "Resources\\BaSAR.txt",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Resources\\BaSAR.txt",
+              "RelativeToolTip": "Resources\\BaSAR.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2026-03-25T07:55:47.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Matrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\Matrix.vb",
+              "RelativeDocumentMoniker": "Matrix\\Matrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\Matrix.vb",
+              "RelativeToolTip": "Matrix\\Matrix.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:35.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ExprSamples.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\ExprSamples.vb",
+              "RelativeDocumentMoniker": "Matrix\\ExprSamples.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\ExprSamples.vb",
+              "RelativeToolTip": "Matrix\\ExprSamples.vb",
+              "ViewState": "AgIAADIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:29.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "ExprMAT.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\ExprMAT.vb",
+              "RelativeDocumentMoniker": "Matrix\\ExprMAT.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\ExprMAT.vb",
+              "RelativeToolTip": "Matrix\\ExprMAT.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:24.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Experiment.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\Experiment.vb",
+              "RelativeDocumentMoniker": "Matrix\\Experiment.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\Experiment.vb",
+              "RelativeToolTip": "Matrix\\Experiment.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:22.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "API.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\API.vb",
+              "RelativeDocumentMoniker": "Matrix\\API.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Matrix\\API.vb",
+              "RelativeToolTip": "Matrix\\API.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:22.23Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "NCBIWebMaster.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\NCBIWebMaster.vb",
+              "RelativeDocumentMoniker": "GenePrediction\\NCBIWebMaster.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\NCBIWebMaster.vb",
+              "RelativeToolTip": "GenePrediction\\NCBIWebMaster.vb",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:12.326Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "GeneMark.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\GeneMark.vb",
+              "RelativeDocumentMoniker": "GenePrediction\\GeneMark.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\GeneMark.vb",
+              "RelativeToolTip": "GenePrediction\\GeneMark.vb",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAuwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:07.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DocNodes.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\DocNodes.vb",
+              "RelativeDocumentMoniker": "GenePrediction\\DocNodes.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\GenePrediction\\DocNodes.vb",
+              "RelativeToolTip": "GenePrediction\\DocNodes.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:06.801Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "PccMatrix.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\PccMatrix.vb",
+              "RelativeDocumentMoniker": "Correlations\\PccMatrix.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\PccMatrix.vb",
+              "RelativeToolTip": "Correlations\\PccMatrix.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:04.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "MatrixSerialization.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixSerialization.vb",
+              "RelativeDocumentMoniker": "Correlations\\MatrixSerialization.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixSerialization.vb",
+              "RelativeToolTip": "Correlations\\MatrixSerialization.vb",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:55:02.204Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "MatrixAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixAPI.vb",
+              "RelativeDocumentMoniker": "Correlations\\MatrixAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixAPI.vb",
+              "RelativeToolTip": "Correlations\\MatrixAPI.vb",
+              "ViewState": "AgIAAJUAAAAAAAAAAAAUwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:56.793Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "IWeight.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\IWeight.vb",
+              "RelativeDocumentMoniker": "Correlations\\IWeight.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\IWeight.vb",
+              "RelativeToolTip": "Correlations\\IWeight.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:54.127Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "GenesCOExpr.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\GenesCOExpr.vb",
+              "RelativeDocumentMoniker": "Correlations\\GenesCOExpr.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\GenesCOExpr.vb",
+              "RelativeToolTip": "Correlations\\GenesCOExpr.vb",
+              "ViewState": "AgIAANoAAAAAAAAAAAAswAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:44.649Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Predicts.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\Operon\\Predicts.vb",
+              "RelativeDocumentMoniker": "Correlations\\Operon\\Predicts.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\Operon\\Predicts.vb",
+              "RelativeToolTip": "Correlations\\Operon\\Predicts.vb",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:35.278Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Corrects.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\Operon\\Corrects.vb",
+              "RelativeDocumentMoniker": "Correlations\\Operon\\Corrects.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\Operon\\Corrects.vb",
+              "RelativeToolTip": "Correlations\\Operon\\Corrects.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:33.198Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "ICorrelations.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\ICorrelations.vb",
+              "RelativeDocumentMoniker": "Correlations\\MatrixDatabase\\ICorrelations.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\ICorrelations.vb",
+              "RelativeToolTip": "Correlations\\MatrixDatabase\\ICorrelations.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:29.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "CorrsDbAPI.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\CorrsDbAPI.vb",
+              "RelativeDocumentMoniker": "Correlations\\MatrixDatabase\\CorrsDbAPI.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\CorrsDbAPI.vb",
+              "RelativeToolTip": "Correlations\\MatrixDatabase\\CorrsDbAPI.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:23.332Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Correlation2.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\Correlation2.vb",
+              "RelativeDocumentMoniker": "Correlations\\MatrixDatabase\\Correlation2.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\RNA-Seq\\Toolkits.RNA-Seq\\Correlations\\MatrixDatabase\\Correlation2.vb",
+              "RelativeToolTip": "Correlations\\MatrixDatabase\\Correlation2.vb",
+              "ViewState": "AgIAAFoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-03-25T07:54:18.739Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 94,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

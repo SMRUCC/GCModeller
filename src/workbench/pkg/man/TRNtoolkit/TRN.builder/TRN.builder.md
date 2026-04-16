@@ -1,0 +1,10 @@
+﻿# TRN.builder
+
+tools for create a transcription regulation network
+
++ [open_motifdb](TRN.builder/open_motifdb.1) 
++ [motif_search](TRN.builder/motif_search.1) 
++ [read.footprints](TRN.builder/read.footprints.1) read a footprint site model data file
++ [read.regulations](TRN.builder/read.regulations.1) read a regulation prediction result file
++ [write.regulations](TRN.builder/write.regulations.1) save the regulation network data file.
++ [regulation.footprint](TRN.builder/regulation.footprint.1) 

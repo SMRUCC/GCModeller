@@ -1,50 +1,62 @@
-﻿#Region "Microsoft.VisualBasic::9e11f43fcc9bb43099e6c0fa00c951c4, Data_science\DataMining\DataMining\DecisionTree\Algorithm.vb"
+﻿#Region "Microsoft.VisualBasic::a73da611bbf58801f66f8c9a11652ca1, Data_science\DataMining\DataMining\DecisionTree\Algorithm.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module Algorithm
-' 
-'         Function: CalculateTableEntropy, CheckIfIsLeaf, CountKnownValues, CreateSmallerTable, GetAmountOfEdgesAndTotalPositivResults
-'                   GetGainForAllAttributes, GetRootNode, Learn
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 222
+    '    Code Lines: 148 (66.67%)
+    ' Comment Lines: 34 (15.32%)
+    '    - Xml Docs: 52.94%
+    ' 
+    '   Blank Lines: 40 (18.02%)
+    '     File Size: 9.31 KB
+
+
+    '     Module Algorithm
+    ' 
+    '         Function: CalculateTableEntropy, CheckIfIsLeaf, CountKnownValues, CreateSmallerTable, GetAmountOfEdgesAndTotalPositivResults
+    '                   GetGainForAllAttributes, GetRootNode, Learn
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DecisionTree.Data
 Imports Microsoft.VisualBasic.Math.Information
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace DecisionTree
 
@@ -170,6 +182,15 @@ Namespace DecisionTree
             End If
         End Function
 
+        ''' <summary>
+        ''' information Gain
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="colIndex"></param>
+        ''' <param name="entropyOfDataset">
+        ''' the total information entropy for entire dataset
+        ''' </param>
+        ''' <returns></returns>
         Private Function GetGainForAllAttributes(data As DataTable, colIndex As Integer, entropyOfDataset As Double) As Double
             Dim totalRows = data.rows.Length
             Dim amountForDifferentValue = GetAmountOfEdgesAndTotalPositivResults(data, colIndex)
@@ -184,7 +205,7 @@ Namespace DecisionTree
                 If firstDivision = 0.0 OrElse secondDivision = 0.0 Then
                     stepsForCalculation.Add(0.0)
                 Else
-                    stepsForCalculation.Add(-firstDivision * stdNum.Log(firstDivision, 2) - secondDivision * stdNum.Log(secondDivision, 2))
+                    stepsForCalculation.Add(-firstDivision * std.Log(firstDivision, 2) - secondDivision * std.Log(secondDivision, 2))
                 End If
             Next
 

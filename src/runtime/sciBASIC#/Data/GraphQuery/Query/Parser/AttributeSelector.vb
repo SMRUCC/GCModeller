@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c31e500ea7db8cdf9e9fe85eff0ceea9, Data\GraphQuery\Query\Parser\AttributeSelector.vb"
+﻿#Region "Microsoft.VisualBasic::0430b886aff8d2fb842e33732490e334, Data\GraphQuery\Query\Parser\AttributeSelector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 33 (89.19%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (10.81%)
+    '     File Size: 1.52 KB
+
+
     ' Class AttributeSelector
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -49,6 +61,14 @@ Public Class AttributeSelector : Inherits Parser
     End Sub
 
     Protected Overrides Function ParseImpl(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
+        If TypeOf document Is HtmlElement AndAlso DirectCast(document, HtmlElement).TagName.StringEmpty Then
+            If Not isArray Then
+                If DirectCast(document, HtmlElement).HtmlElements.Count > 0 Then
+                    document = DirectCast(document, HtmlElement).HtmlElements.First
+                End If
+            End If
+        End If
+
         If isArray Then
             Return New HtmlElement With {
                 .HtmlElements = DirectCast(document, HtmlElement)(parameters(Scan0)).Values _
@@ -57,7 +77,8 @@ Public Class AttributeSelector : Inherits Parser
                                     .InnerText = a
                                 }
                             End Function) _
-                    .ToArray
+                    .ToArray,
+                .Attributes = {AutoContext.Attribute}
             }
         ElseIf document.GetType Is GetType(InnerPlantText) Then
             Return document

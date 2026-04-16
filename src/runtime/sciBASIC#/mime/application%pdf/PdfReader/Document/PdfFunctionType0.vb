@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0f7cd2f4fdb45d8cd7fcb5e7c80c8ff, mime\application%pdf\PdfReader\Document\PdfFunctionType0.vb"
+﻿#Region "Microsoft.VisualBasic::f2af68911c67c4a2d7a927ebe8fc4393, mime\application%pdf\PdfReader\Document\PdfFunctionType0.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 112 (74.17%)
+    ' Comment Lines: 10 (6.62%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 29 (19.21%)
+    '     File Size: 5.53 KB
+
+
     '     Class PdfFunctionType0
     ' 
     '         Properties: BitsPerSample, Decode, Encode, Order, Size
@@ -62,7 +74,7 @@ Namespace PdfReader
         Private _decodeValues As Single()
         Private _samplesValues As Integer()
 
-        Public Sub New(ByVal parent As PdfObject, ByVal stream As PdfStream)
+        Public Sub New(parent As PdfObject, stream As PdfStream)
             MyBase.New(parent, stream.Dictionary)
             Me.Stream = stream
         End Sub
@@ -71,7 +83,7 @@ Namespace PdfReader
             Get
                 Return _Stream
             End Get
-            Private Set(ByVal value As PdfStream)
+            Private Set(value As PdfStream)
                 _Stream = value
             End Set
         End Property
@@ -106,7 +118,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Overrides Function [Call](ByVal inputs As Single()) As Single()
+        Public Overrides Function [Call](inputs As Single()) As Single()
             If inputs.Length <> _sizeValues.Length Then Throw New ArgumentOutOfRangeException($"Provided with '{inputs.Length}' values but Function Type 0 is defined to take '{_sizeValues.Length}' values.")
             Dim sampleNumber = 0
             Dim i = 0, d = 0

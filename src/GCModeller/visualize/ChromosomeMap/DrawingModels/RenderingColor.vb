@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8046fc72dd92d31b6fd58196082e2792, visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::af127daa6160d88da0fd13598c9b4526, visualize\ChromosomeMap\DrawingModels\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 95 (78.51%)
+    ' Comment Lines: 9 (7.44%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 17 (14.05%)
+    '     File Size: 5.46 KB
+
+
     '     Module ModelColorExtensions
     ' 
     '         Function: ApplyingCOGCategoryColor, ApplyingCOGNumberColors
@@ -46,6 +58,32 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace DrawingModels
 
@@ -129,7 +167,7 @@ Namespace DrawingModels
                 End If
             Next
 
-            Call chromesome.COGs.SetValue(ColorProfiles)
+            ColorProfiles = chromesome.COGs
 
             Return chromesome
         End Function

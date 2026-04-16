@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::215821029db9113be0d815793c42d62f, Data_science\DataMining\DataMining\AprioriRules\Helper\Encoding.vb"
+﻿#Region "Microsoft.VisualBasic::27bbdd13bfa2b02a77f33d82f925d7b6, Data_science\DataMining\DataMining\AprioriRules\Helper\Encoding.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 41 (58.57%)
+    ' Comment Lines: 19 (27.14%)
+    '    - Xml Docs: 78.95%
+    ' 
+    '   Blank Lines: 10 (14.29%)
+    '     File Size: 2.88 KB
+
+
     '     Class Encoding
     ' 
-    '         Properties: AllCodes, AllItems, CodeMappings
+    '         Properties: AllItems, CodeMappings
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Decode, GenerateCodes, ToString, (+2 Overloads) TransactionEncoding
+    '         Function: Encoding, ToString, (+2 Overloads) TransactionEncoding
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,7 +58,6 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.AprioriRules.Entities
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 
 Namespace AprioriRules
 
@@ -58,11 +69,10 @@ Namespace AprioriRules
 
         ' 一个事务是有多个关联的对象组成的，在这里一个事务就是一个字符串，一个字符就是事务里面有关联信息的对象
 
-        Public ReadOnly Property CodeMappings As IReadOnlyDictionary(Of Char, String)
-        Public ReadOnly Property AllItems As String()
-        Public ReadOnly Property AllCodes As Char()
+        Public ReadOnly Property CodeMappings As IReadOnlyDictionary(Of Integer, String)
+        Public ReadOnly Property AllItems As Item()
 
-        Dim itemCodes As Dictionary(Of String, Char)
+        Dim itemCodes As Dictionary(Of String, Integer)
 
         ''' <summary>
         ''' 
@@ -72,46 +82,29 @@ Namespace AprioriRules
         ''' 因为<paramref name="items"/>的值可能会存在非常多种情况，所以在这构造函数之中会使用中文字符来进行编码
         ''' </remarks>
         Sub New(items As IEnumerable(Of String))
-            Static a% = GB2312.a
-
             CodeMappings = items _
                 .Distinct _
                 .OrderBy(Function(s) s) _
                 .Select(Function(s, i)
-                            Return (code:=a + i, raw:=s)
+                            Return (code:=i, raw:=s)
                         End Function) _
-                .ToDictionary(Function(c) ChrW(c.code),
+                .ToDictionary(Function(c) c.code,
                               Function(c)
                                   Return c.raw
                               End Function)
             itemCodes = CodeMappings.ToDictionary(Function(t) t.Value, Function(t) t.Key)
-            AllItems = CodeMappings.Values.ToArray
-            AllCodes = CodeMappings.Keys.ToArray
+            AllItems = CodeMappings _
+                .Select(Function(t) New Item(t.Key, t.Value)) _
+                .ToArray
         End Sub
 
-        Public Shared Iterator Function GenerateCodes(length As Integer) As IEnumerable(Of Char)
-            Dim a% = GB2312.a
-
-            For i As Integer = 0 To length - 1
-                Yield ChrW(a + i)
-            Next
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Encoding(item As String) As Item
+            Return _AllItems(itemCodes(item))
         End Function
 
         Public Overrides Function ToString() As String
             Return $"{AllItems.Length} codes = {CodeMappings.Keys.Take(5).JoinBy(", ")}..."
-        End Function
-
-        ''' <summary>
-        ''' rule transaction string to item names
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Decode(rule As String) As String()
-            Return rule _
-                .Select(Function(c) CodeMappings(c)) _
-                .ToArray
         End Function
 
         ''' <summary>
@@ -122,13 +115,13 @@ Namespace AprioriRules
         ''' <remarks></remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TransactionEncoding(data As IEnumerable(Of Transaction)) As IEnumerable(Of String)
+        Public Function TransactionEncoding(data As IEnumerable(Of Transaction)) As IEnumerable(Of ItemSet)
             Return From item In data Select TransactionEncoding(item)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function TransactionEncoding(data As Transaction) As String
-            Return data.Items.Select(Function(item) itemCodes(item)).CharString
+        Private Function TransactionEncoding(data As Transaction) As ItemSet
+            Return New ItemSet(data.Items.Select(Function(item) New Item(itemCodes(item), item)))
         End Function
     End Class
 End Namespace

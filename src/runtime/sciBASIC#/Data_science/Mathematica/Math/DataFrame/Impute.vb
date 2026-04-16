@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa181a1105c8fc75980e14faff0b87ad, Data_science\Mathematica\Math\DataFrame\Impute.vb"
+﻿#Region "Microsoft.VisualBasic::383938a5d3fc856037b1f4bf053d2a9b, Data_science\Mathematica\Math\DataFrame\Impute.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 73 (77.66%)
+    ' Comment Lines: 7 (7.45%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (14.89%)
+    '     File Size: 3.83 KB
+
+
     ' Module Impute
     ' 
     '     Function: inferByAverage, inferByMin, SimulateMissingValues, SimulateMissingValuesByProtein, SimulateMissingValuesBySample
@@ -48,7 +60,9 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Public Module Impute
 
     <Extension>
-    Public Function SimulateMissingValues(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet), Optional byRow As Boolean = True, Optional infer As InferMethods = InferMethods.Average) As IEnumerable(Of DataSet)
+    Public Function SimulateMissingValues(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet),
+                                                                                                       Optional byRow As Boolean = True,
+                                                                                                       Optional infer As InferMethods = InferMethods.Average) As IEnumerable(Of DataSet)
         Dim method As Func(Of Vector, Double)
 
         If infer = InferMethods.Average Then
@@ -86,7 +100,8 @@ Public Module Impute
     End Function
 
     <Extension>
-    Public Iterator Function SimulateMissingValuesByProtein(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet), infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
+    Public Iterator Function SimulateMissingValuesByProtein(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(rawMatrix As IEnumerable(Of DataSet),
+                                                                                                                         infer As Func(Of Vector, Double)) As IEnumerable(Of DataSet)
         For Each protein As DataSet In rawMatrix
             Dim iBAQ As Vector = protein.Properties.Values.AsVector
 

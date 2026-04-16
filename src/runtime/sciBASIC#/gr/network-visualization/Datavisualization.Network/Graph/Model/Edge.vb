@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::088de77d981966bcb6cc6d05b5f6f73d, gr\network-visualization\Datavisualization.Network\Graph\Model\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::338555bae25fff0672e8df2cb6e90473, gr\network-visualization\Datavisualization.Network\Graph\Model\Edge.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 249
+    '    Code Lines: 138 (55.42%)
+    ' Comment Lines: 84 (33.73%)
+    '    - Xml Docs: 48.81%
+    ' 
+    '   Blank Lines: 27 (10.84%)
+    '     File Size: 8.63 KB
+
 
     '     Class Edge
     ' 
@@ -85,13 +97,17 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace Graph
 
+    ''' <summary>
+    ''' the network graph edge.
+    ''' </summary>
     Public Class Edge : Inherits GraphTheory.Network.Edge(Of Node)
         Implements IInteraction
         Implements INetworkEdge
@@ -120,8 +136,18 @@ Namespace Graph
         Public Property data As EdgeData Implements Selector.IGraphValueContainer(Of EdgeData).data
         Public Property isDirected As Boolean
 
+        Default Public ReadOnly Property metadata(name As String) As String
+            Get
+                Return data(name:=name)
+            End Get
+        End Property
+
 #Region "Implements IInteraction"
 
+        ''' <summary>
+        ''' <see cref="U"/>
+        ''' </summary>
+        ''' <returns></returns>
         Private Property m_source As String Implements IInteraction.source
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -132,6 +158,10 @@ Namespace Graph
             End Set
         End Property
 
+        ''' <summary>
+        ''' <see cref="V"/>
+        ''' </summary>
+        ''' <returns></returns>
         Private Property m_target As String Implements IInteraction.target
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -142,6 +172,10 @@ Namespace Graph
             End Set
         End Property
 
+        ''' <summary>
+        ''' get/set data via edge data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)
+        ''' </summary>
+        ''' <returns></returns>
         Private Property m_interationtype As String Implements INetworkEdge.Interaction
             Get
                 Return data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE)
@@ -169,6 +203,11 @@ Namespace Graph
             Call Me.New(Nothing, Nothing, Nothing, Nothing)
         End Sub
 
+        ''' <summary>
+        ''' find the partner node of the given <paramref name="current"/> node
+        ''' </summary>
+        ''' <param name="current"></param>
+        ''' <returns></returns>
         Public Function Other(current As Node) As Node
             If U Is current Then
                 Return V
@@ -207,14 +246,20 @@ Namespace Graph
             End If
         End Function
 
+        ''' <summary>
+        ''' check of the edge equivalent via the <see cref="Edge.ID"/> equivalent.
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Shared Operator =(a As Edge, b As Edge) As Boolean
             ' If both are null, or both are same instance, return true.
-            If Object.ReferenceEquals(a, b) Then
+            If a Is b Then
                 Return True
             End If
 
             ' If one is null, but not both, return false.
-            If (DirectCast(a, Object) Is Nothing) OrElse (DirectCast(b, Object) Is Nothing) Then
+            If a Is Nothing OrElse b Is Nothing Then
                 Return False
             End If
 
@@ -222,16 +267,28 @@ Namespace Graph
             Return a.ID = b.ID
         End Operator
 
+        ''' <summary>
+        ''' check of the edge un-equivalent via the <see cref="Edge.ID"/> un-equivalent.
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator <>(a As Edge, b As Edge) As Boolean
             Return Not (a = b)
         End Operator
 
+        ''' <summary>
+        ''' populate out the from node and to node of 
+        ''' current graph edge object 
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function Iterate2Nodes() As IEnumerable(Of Node)
             Yield U
             Yield V
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Clone() As Edge Implements ICloneable(Of Edge).Clone
             Return New Edge With {
                 .ID = ID,

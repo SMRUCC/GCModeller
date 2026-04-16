@@ -2,10 +2,14 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.GO</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.GO</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -37,6 +41,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\gr\network-visualization\Visualizer\networkVisualizer.NET5.vbproj" />
@@ -48,6 +59,7 @@
     <ProjectReference Include="..\..\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj" />
     <ProjectReference Include="..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
     <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
+    <ProjectReference Include="..\GSEA\FisherCore\Fisher.NET5.vbproj" />
     <ProjectReference Include="..\GSEA\GSEA\gsea-netcore5.vbproj" />
   </ItemGroup>
 

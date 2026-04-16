@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6988b6c8b9cd499bf82c3af88999f289, Data_science\DataMining\DataMining\ComponentModel\Normalizer\Normalizations.vb"
+﻿#Region "Microsoft.VisualBasic::8f5086060351326f7bdc379d3fc22bc6, Data_science\DataMining\DataMining\ComponentModel\Normalizer\Normalizations.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 66 (68.75%)
+    ' Comment Lines: 17 (17.71%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 13 (13.54%)
+    '     File Size: 3.44 KB
+
+
     '     Module Normalizations
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: ParseMethod, RangeDiscretizer, RelativeNormalize, ScalerNormalize
+    '         Function: ParseMethod, RangeDiscretizer, RelativeNormalize, ScalerNormalize, ZScoreNormalize
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,7 +58,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Discretion
 Imports Microsoft.VisualBasic.Math.Distributions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Normalizer
 
@@ -62,7 +74,22 @@ Namespace ComponentModel.Normalizer
             Return methodTable.TryGetValue(Strings.LCase(name), [default]:=Methods.NormalScaler)
         End Function
 
-        ReadOnly normalRange As DoubleRange = {0, 1}
+        ReadOnly normalRange As New DoubleRange(0, 1)
+
+        ''' <summary>
+        ''' z-score
+        ''' </summary>
+        ''' <param name="samples">
+        ''' the sample value of <see cref="SampleDistribution.average"/> and 
+        ''' <see cref="SampleDistribution.stdErr"/> should not be empty.
+        ''' </param>
+        ''' <param name="x#"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ZScoreNormalize(samples As SampleDistribution, x#) As Double
+            Return pnorm.Z(x, samples.average, samples.stdErr)
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ScalerNormalize(samples As SampleDistribution, x#) As Double
@@ -104,7 +131,7 @@ Namespace ComponentModel.Normalizer
                 ElseIf samples.min >= 0 Then
                     Return -1
                 Else
-                    Return x / stdNum.Abs(samples.min)
+                    Return x / std.Abs(samples.min)
                 End If
             End If
         End Function

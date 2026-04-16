@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5e39d3e815ef5c1a4e0929b71de6f84, visualize\DataVisualizationExtensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::22b129b3804ebd54913b56128377cc66, visualize\DataVisualizationExtensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 100 (79.37%)
+    ' Comment Lines: 7 (5.56%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 19 (15.08%)
+    '     File Size: 5.03 KB
+
+
     ' Module Extensions
     ' 
     '     Function: DrawCatalogProfiling
@@ -47,8 +59,35 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Module Extensions
 
@@ -60,12 +99,13 @@ Public Module Extensions
     ''' <param name="dev">gdi/svg graphics engine</param>
     ''' <remarks></remarks>
     ''' 
-    <Extension> Public Sub DrawingCOGColors(ByRef dev As IGraphics,
-                                            COGsColor As Dictionary(Of String, Brush),
-                                            ref As Point,
-                                            legendFont As Font,
-                                            width As Integer,
-                                            margin As Integer)
+    <Extension>
+    Public Sub DrawingCOGColors(ByRef dev As IGraphics,
+                                COGsColor As Dictionary(Of String, Brush),
+                                ref As Point,
+                                legendFont As Font,
+                                width As Integer,
+                                margin As Integer)
 
         Dim top As Integer = ref.Y - 100
         Dim left As Integer = ref.X
@@ -73,14 +113,16 @@ Public Module Extensions
         Dim FontHeight As Single = dev.MeasureString("COG", legendFont).Height
         Dim d As Single = (legendHeight - FontHeight) / 2
         Dim colors = LinqAPI.MakeList(Of KeyValuePair(Of String, Brush)) <=
- _
+                                                                           _
             From x As KeyValuePair(Of String, Brush)
-            In COGsColor
+            In COGsColor.SafeQuery
             Where Not String.IsNullOrEmpty(x.Key)
             Select x
             Order By x.Key Ascending
 
         Dim notAssigned As Brush = Nothing
+
+        COGsColor = If(COGsColor, New Dictionary(Of String, Brush))
 
         If COGsColor.ContainsKey("") Then
             notAssigned = COGsColor("")
@@ -91,10 +133,10 @@ Public Module Extensions
         End If
 
         Dim rect As Rectangle
-        Dim location As Point
+        Dim location As PointF
         Dim g = dev
         Dim plot = Sub(category$, color As Brush)
-                       location = New Point(left + 110, top + d)
+                       location = New PointF(left + 110, top + d)
                        rect = New Rectangle With {
                            .Location = New Point(left, top),
                            .Size = New Size(100, legendHeight)

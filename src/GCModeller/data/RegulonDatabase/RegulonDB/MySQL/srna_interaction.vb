@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91 (51.70%)
+    ' Comment Lines: 63 (35.80%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 11.21 KB
+
+
     ' Class srna_interaction
     ' 
     '     Properties: srna_function, srna_gene_id, srna_gene_regulated_id, srna_id, srna_mechanis

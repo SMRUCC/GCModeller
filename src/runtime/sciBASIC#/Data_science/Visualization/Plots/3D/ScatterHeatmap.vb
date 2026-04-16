@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::467b8ab3cf58cfaf3d7b2a7310434835, Data_science\Visualization\Plots\3D\ScatterHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::e2baf5355fed1b794bf45f64c49d2448, Data_science\Visualization\Plots\3D\ScatterHeatmap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 298
+    '    Code Lines: 232 (77.85%)
+    ' Comment Lines: 35 (11.74%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 31 (10.40%)
+    '     File Size: 12.69 KB
+
+
+    '     Class Scatter3DPoint
+    ' 
+    '         Properties: c, x, y, z
+    ' 
     '     Module ScatterHeatmap
     ' 
     '         Function: (+2 Overloads) GetPlotFunction, (+3 Overloads) Plot
@@ -47,8 +63,9 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -59,9 +76,42 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Plot3D
+
+    Public Class Scatter3DPoint
+
+        Public Property x As Double
+        Public Property y As Double
+        Public Property z As Double
+        Public Property c As Double
+
+    End Class
 
     Public Module ScatterHeatmap
 
@@ -77,7 +127,7 @@ Namespace Plot3D
                              Optional mapLevels% = 25,
                              Optional bg$ = "white",
                              Optional parallel As Boolean = False,
-                             Optional matrix As List(Of EntityObject) = Nothing,
+                             Optional matrix As List(Of Scatter3DPoint) = Nothing,
                              Optional axisFont$ = CSSFont.Win10Normal,
                              Optional legendFont As Font = Nothing,
                              Optional showLegend As Boolean = True) As GraphicsData
@@ -126,7 +176,7 @@ Namespace Plot3D
                                         Optional mapLevels% = 25,
                                         Optional bg$ = "white",
                                         Optional parallel As Boolean = False,
-                                        Optional matrix As List(Of EntityObject) = Nothing,
+                                        Optional matrix As List(Of Scatter3DPoint) = Nothing,
                                         Optional axisFont$ = CSSFont.Win10Normal,
                                         Optional legendFont As Font = Nothing,
                                         Optional showLegend As Boolean = True) As DrawGraphics
@@ -212,9 +262,7 @@ Namespace Plot3D
                 camera.screen, margin,
                 bg$,
                 driver:=Drivers.GDI,
-                plotAPI:=Sub(ByRef g, region)
-                             Call modelPlot(DirectCast(g, Graphics2D).Graphics, camera)
-                         End Sub)
+                plotAPI:=Sub(ByRef g, region) modelPlot(g, camera))
         End Function
 
         Private Structure __plot
@@ -228,7 +276,7 @@ Namespace Plot3D
             Dim legendFont As Font
             Dim showLegend As Boolean
 
-            Public Sub Plot(g As Graphics, camera As Camera)
+            Public Sub Plot(g As IGraphics, camera As Camera)
 
                 'Call g.DrawAxis(
                 '    rawPoints,
@@ -267,8 +315,8 @@ Namespace Plot3D
                     }
                     Dim legend As GraphicsData = colors.ColorMapLegend(
                         haveUnmapped:=False,
-                        min:=stdNum.Round(averages.Min, 1),
-                        max:=stdNum.Round(averages.Max, 1),
+                        min:=std.Round(averages.Min, 1),
+                        max:=std.Round(averages.Max, 1),
                         title:=legendTitle,
                         titleFont:=legendFont)
                     Dim lsize As Size = legend.Layout.Size
@@ -293,7 +341,7 @@ Namespace Plot3D
         ''' <param name="legendFont"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function Plot(matrix As IEnumerable(Of EntityObject),
+        Public Function Plot(Of T As {INamedValue, DynamicPropertyBase(Of String)})(matrix As IEnumerable(Of T),
                              Camera As Camera,
                              Optional legendTitle$ = "3D scatter heatmap",
                              Optional mapName$ = "Spectral:c10",

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 21 (29.58%)
+    ' Comment Lines: 49 (69.01%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (1.41%)
+    '     File Size: 2.76 KB
+
+
     '     Class ExpArticle
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32cb23e99de8d70a750c30d16eeab153, gr\Landscape\3DBuilder\IO.vb"
+﻿#Region "Microsoft.VisualBasic::12d307b4e8fd5ab311425d78ff8376b2, gr\Landscape\3DBuilder\IO.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 25 (69.44%)
+    ' Comment Lines: 5 (13.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (16.67%)
+    '     File Size: 1.30 KB
+
+
     '     Module IO
     ' 
     '         Function: Load3DModel, NotNull, Open
@@ -43,7 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Landscape.Vendor_3mf.XML
+Imports Microsoft.VisualBasic.Imaging.Landscape.Vendor_3mf.XML
 Imports Microsoft.VisualBasic.Text.Xml
 
 Namespace Vendor_3mf

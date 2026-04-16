@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 79 (79.00%)
+    ' Comment Lines: 6 (6.00%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 15 (15.00%)
+    '     File Size: 4.79 KB
+
+
     '     Module RuleAlphaHelix
     ' 
     '         Function: CalculateCore, ExtendCore, get_ProPosition, Invoke

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 81 (69.83%)
+    ' Comment Lines: 12 (10.34%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (19.83%)
+    '     File Size: 4.12 KB
+
+
     '     Class ILInstruction
     ' 
     '         Properties: Code, Offset, Operand, OperandData

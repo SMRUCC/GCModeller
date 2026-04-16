@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7745bd51264d796e5dd84e5f4da03e0d, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonFrequency.vb"
+﻿#Region "Microsoft.VisualBasic::754f1b4aa83e8c22324f3abb7fab333b, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\CAI\CodonFrequency.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 12 (41.38%)
+    ' Comment Lines: 12 (41.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (17.24%)
+    '     File Size: 1.05 KB
+
+
     '     Structure CodonFrequency
     ' 
     '         Properties: AminoAcid, BiasFrequency, BiasFrequencyProfile, MaxBias
@@ -42,9 +54,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels.Translation
 
 Namespace DeltaSimilarity1998.CAI
 

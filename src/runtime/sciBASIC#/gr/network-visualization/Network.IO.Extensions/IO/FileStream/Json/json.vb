@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74f4cf58c885fcfdef95af796520d1d1, gr\network-visualization\Network.IO.Extensions\IO\FileStream\Json\json.vb"
+﻿#Region "Microsoft.VisualBasic::03a38e38c246098ff00efe396a11247d, gr\network-visualization\Network.IO.Extensions\IO\FileStream\Json\json.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 37 (66.07%)
+    ' Comment Lines: 8 (14.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (19.64%)
+    '     File Size: 1.84 KB
+
+
     '     Class net
     ' 
     '         Properties: edges, nodes, style, types
@@ -56,7 +68,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace FileStream.Json

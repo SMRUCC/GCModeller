@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1e40038193c35737e2ea618ec124ed, Data\DataFrame\test\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::b1afc118f66e96c706fbf39ff8643a2d, Data\DataFrame\test\Reflection.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 38 (77.55%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (22.45%)
+    '     File Size: 1.40 KB
+
+
     ' Module Reflection
     ' 
     '     Sub: Main
@@ -46,8 +58,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports VisualBasic = Microsoft.VisualBasic.Language.Runtime
 
 Module Reflection
@@ -67,7 +79,7 @@ Module Reflection
         Next
 
         With New VisualBasic
-            Call New DataFrame(
+            Call New DataFrameResolver(
                 !X = {1, 2, 3, 4, 5},
                 !Y = {9, 8, 7, 6, 5}
             ).csv _

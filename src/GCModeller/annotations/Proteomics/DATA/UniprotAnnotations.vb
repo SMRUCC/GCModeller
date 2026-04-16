@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 16 (84.21%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (15.79%)
+    '     File Size: 588 B
+
+
     ' Class UniprotAnnotations
     ' 
     '     Properties: Data, EC, fullName, geneName, GO

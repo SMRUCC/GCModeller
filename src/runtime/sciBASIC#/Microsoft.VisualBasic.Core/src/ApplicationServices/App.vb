@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92dd424e515806726542ca5f5c11cd1d, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
+﻿#Region "Microsoft.VisualBasic::91bcf8ae19fa20a29c090bdfaaf3bc34, Microsoft.VisualBasic.Core\src\ApplicationServices\App.vb"
 
     ' Author:
     ' 
@@ -31,30 +31,43 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1600
+    '    Code Lines: 776 (48.50%)
+    ' Comment Lines: 639 (39.94%)
+    '    - Xml Docs: 83.41%
+    ' 
+    '   Blank Lines: 185 (11.56%)
+    '     File Size: 68.80 KB
+
+
     ' Module App
     ' 
     '     Properties: AppSystemTemp, AssemblyName, BufferSize, Command, CommandLine
-    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, Desktop, DoNothing
-    '                 ExceptionLogFile, ExecutablePath, GetLastError, Github, HOME
-    '                 Info, InputFile, IsConsoleApp, IsMicrosoftPlatform, LocalData
-    '                 LocalDataTemp, LogErrDIR, MemoryLoad, n_threads, NanoTime
-    '                 NextTempName, OutFile, PID, Platform, PreviousDirectory
-    '                 Process, ProductName, ProductProgramData, ProductSharedDIR, ProductSharedTemp
-    '                 Running, RunningInGitBash, RunTimeDirectory, StartTime, StartupDirectory
-    '                 StdErr, StdInput, StdOut, SysTemp, UnixTimeStamp
-    '                 UserHOME, Version
+    '                 CPUCoreNumbers, CurrentDirectory, CurrentProcessTemp, CurrentUnixTimeMillis, Desktop
+    '                 EnableAnsiColor, EnableTqdm, ExecutablePath, GetLastError, Github
+    '                 HOME, Info, InputFile, IsConsoleApp, IsMicrosoftPlatform
+    '                 LocalData, LocalDataTemp, LogErrDIR, LogFile, MemoryLoad
+    '                 n_threads, NanoTime, NextTempName, OutFile, PID
+    '                 Platform, PreviousDirectory, Process, ProductName, ProductProgramData
+    '                 ProductSharedDIR, ProductSharedTemp, Running, RunningInGitBash, RunTimeDirectory
+    '                 StartTime, StartupDirectory, StdErr, StdInput, StdOut
+    '                 SysTemp, UnixTimeStamp, UserHOME, Version
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: __listFiles, (+2 Overloads) Argument, checkIsMicrosoftPlatform, CLICode, (+2 Overloads) ElapsedMilliseconds
+    '     Function: __listFiles, (+2 Overloads) Argument, CheckIsMicrosoftPlatform, CLICode, (+2 Overloads) ElapsedMilliseconds
     '               Exit, finalizeCLI, FormatTime, (+2 Overloads) GetAppLocalData, GetAppVariables
     '               GetFile, GetNextUniqueName, GetProductSharedDIR, GetProductSharedTemp, GetTempFile
-    '               GetVariable, (+3 Overloads) LogException, NullDevice, (+12 Overloads) RunCLI, RunCLIInternal
-    '               SelfFolk, Shell, tempCode, TemporaryEnvironment, TraceBugs
+    '               GetVariable, (+3 Overloads) LogException, NullDevice, RedirectErrLogging, RedirectLogging
+    '               (+13 Overloads) RunCLI, RunCLIInternal, SelfFolk, Shell, tempCode
+    '               TemporaryEnvironment, TraceBugs
     ' 
-    '     Sub: [Stop], __GCThreadInvoke, __removesTEMP, AddExitCleanHook, FlushMemory
-    '          Free, JoinVariable, (+2 Overloads) JoinVariables, Pause, (+2 Overloads) println
-    '          SetBufferSize, StartGC, StopGC
+    '     Sub: __GCThreadInvoke, __removesTEMP, [Stop], AddExitCleanHook, (+2 Overloads) DoNothing
+    '          FlushMemory, Free, JoinVariable, (+2 Overloads) JoinVariables, Pause
+    '          (+2 Overloads) println, SetBufferSize, SetSystemTemp, StartGC, StopGC
     ' 
     ' /********************************************************************************/
 
@@ -76,6 +89,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Language.Default
@@ -91,7 +105,7 @@ Imports Microsoft.VisualBasic.ValueTypes
 Imports CommandLineArgs = Microsoft.VisualBasic.CommandLine.CommandLine
 Imports DevAssmInfo = Microsoft.VisualBasic.ApplicationServices.Development.AssemblyInfo
 Imports FS = Microsoft.VisualBasic.FileIO.FileSystem
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '                   _ooOoo_
 '                  o8888888o
@@ -142,15 +156,37 @@ Public Module App
     Public ReadOnly Property NanoTime As Long
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return Now.Ticks
+            Return DateTime.UtcNow.Ticks
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' Enable of show tqdm progress bar? default is enable.
+    ''' </summary>
+    ''' <returns>default is true, get config from ``tqdm`` variable from the runtime framework.</returns>
+    ''' <remarks>
+    ''' There is a bug about the tqdm progressbar when processing as a slave background process on windows system.
+    ''' </remarks>
+    Public ReadOnly Property EnableTqdm As Boolean
+        Get
+            Return App.GetVariable("tqdm", "TRUE").ParseBoolean
+        End Get
+    End Property
+
+    Public ReadOnly Property EnableAnsiColor As Boolean
+        Get
+            Return App.GetVariable("ansi_color", "TRUE").ParseBoolean AndAlso
+                Not App.GetVariable("internal_pipeline", "false").ParseBoolean
         End Get
     End Property
 
     ''' <summary>
     ''' Numbers of the CPU kernels on the current machine.
-    ''' (获取当前的系统主机的CPU核心数)
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 获取当前的系统主机的CPU逻辑核心数，当不开启超线程的时候才是返回物理核心数
+    ''' </remarks>
     Public ReadOnly Property CPUCoreNumbers As Integer = LQuerySchedule.CPU_NUMBER
 
     Public ReadOnly Property MemoryLoad As MemoryLoads
@@ -204,9 +240,7 @@ Public Module App
     ''' <returns>Gets the command-line arguments for this process.</returns>
     Public ReadOnly Property CommandLine As CommandLineArgs = GitBashEnvironment.GetCommandLineArgs()
 
-#If netcore5 = 1 Then
-    Public ReadOnly Property n_threads As Integer = stdNum.Min(8, LQuerySchedule.CPU_NUMBER)
-#End If
+    Public ReadOnly Property n_threads As Integer = std.Min(8, LQuerySchedule.CPU_NUMBER)
 
     ''' <summary>
     ''' Get argument value from <see cref="CommandLine"/>.
@@ -262,6 +296,9 @@ Public Module App
     ''' Gets the name, without the extension, of the assembly file for the application.
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' get <see cref="BaseName(String, Boolean)"/> of the <see cref="ExecutablePath"/>.
+    ''' </remarks>
     Public ReadOnly Property AssemblyName As String
     Public ReadOnly Property ProductName As String
 
@@ -364,13 +401,13 @@ Public Module App
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             ' 由于会因为切换目录而发生变化，所以这里不适用简写形式了
-            Return FS.CurrentDirectory
+            Return Directory.GetCurrentDirectory
         End Get
         Set(value As String)
             If String.Equals(value, "-") Then  ' 切换到前一个工作目录
                 value = PreviousDirectory
             Else
-                _PreviousDirectory = FS.CurrentDirectory
+                _PreviousDirectory = Directory.GetCurrentDirectory
             End If
 
             FS.CreateDirectory(value)
@@ -489,9 +526,40 @@ Public Module App
         App.StdOut = Console.OpenStandardOutput.OpenTextWriter(New UTF8Encoding(encoderShouldEmitUTF8Identifier:=False))
     End Sub
 
+    ''' <summary>
+    ''' set log file that write text to <paramref name="file"/>
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <remarks>
+    ''' this method is usefull for debug current process run as a pipeline sub-process
+    ''' </remarks>
+    Public Function RedirectLogging(file As String) As StreamWriter
+        Dim buffer = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Dim writer As New StreamWriter(buffer, Encoding.UTF8) With {
+            .AutoFlush = True,
+            .NewLine = vbLf
+        }
+
+        Call Console.SetOut(writer)
+
+        Return writer
+    End Function
+
+    Public Function RedirectErrLogging(file As String) As StreamWriter
+        Dim buffer = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+        Dim writer As New StreamWriter(buffer, Encoding.UTF8) With {
+            .AutoFlush = True,
+            .NewLine = vbLf
+        }
+
+        Call Console.SetError(writer)
+
+        Return writer
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetAppLocalData(app$, assemblyName$, <CallerMemberName> Optional track$ = Nothing) As String
-#If netcore5 = 0 Then
+#If NET48 Then
         ' XDG_DATA_HOME make be empty on unix
         Dim localAppData As String = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)
 #Else
@@ -508,12 +576,10 @@ Public Module App
 
 #Region "这里的环境变量方法主要是操作从命令行之中所传递进来的额外的参数的"
 
-    Dim m_joinedVariables As New Dictionary(Of NamedValue(Of String))
+    ReadOnly m_joinedVariables As New Dictionary(Of NamedValue(Of String))
 
     ''' <summary>
     ''' add/update the environment variable in sciBASIC.NET framework.
-    ''' 
-    ''' (添加参数到应用程序的环境变量之中)
     ''' </summary>
     ''' <param name="name">
     ''' if target variable symbol name is exists in the framework, 
@@ -523,11 +589,16 @@ Public Module App
     ''' 
     ''' (如果给定的当前这个参数名称存在于当前框架环境中，则会更新原来的值)</param>
     ''' <param name="value"></param>
+    ''' <remarks>
+    ''' (添加参数到应用程序的环境变量之中)
+    ''' </remarks>
     Public Sub JoinVariable(name$, value$)
-        m_joinedVariables(name) = New NamedValue(Of String) With {
-            .Name = name,
-            .Value = value
-        }
+        SyncLock m_joinedVariables
+            m_joinedVariables(name) = New NamedValue(Of String) With {
+                .Name = name,
+                .Value = value
+            }
+        End SyncLock
     End Sub
 
     ''' <summary>
@@ -536,7 +607,9 @@ Public Module App
     ''' <param name="vars"></param>
     Public Sub JoinVariables(ParamArray vars As NamedValue(Of String)())
         For Each v As NamedValue(Of String) In vars
-            m_joinedVariables(v.Name) = v
+            SyncLock m_joinedVariables
+                m_joinedVariables(v.Name) = v
+            End SyncLock
         Next
     End Sub
 
@@ -564,15 +637,17 @@ Public Module App
     ''' </param>
     ''' <returns>当没有查找到相对应的环境变量的时候会返回空值</returns>
     Public Function GetVariable(<CallerMemberName> Optional name$ = Nothing, Optional defaultValue$ = Nothing) As String
-        If m_joinedVariables.ContainsKey(name) Then
-            Return m_joinedVariables(name).Value
-        Else
-            For Each v As NamedValue(Of String) In m_joinedVariables.Values
-                If v.Name.TextEquals(name) Then
-                    Return v.Value
-                End If
-            Next
-        End If
+        SyncLock m_joinedVariables
+            If m_joinedVariables.ContainsKey(name) Then
+                Return m_joinedVariables(name).Value
+            Else
+                For Each v As NamedValue(Of String) In m_joinedVariables.Values
+                    If v.Name.TextEquals(name) Then
+                        Return v.Value
+                    End If
+                Next
+            End If
+        End SyncLock
 
         Return defaultValue
     End Function
@@ -618,19 +693,32 @@ Public Module App
     ''' <summary>
     ''' Set value of <see cref="BufferSize"/>
     ''' </summary>
-    ''' <param name="size"></param>
-    Public Sub SetBufferSize(size As Integer)
-        _BufferSize = size
+    ''' <param name="size">
+    ''' the size string description, could be:
+    ''' 
+    ''' 1. integer value string for set in bytes
+    ''' 2. number value with unit suffix, example as 64MB, 1GB etc
+    ''' </param>
+    Public Sub SetBufferSize(size As String)
+        _BufferSize = Unit.ParseByteSize(size)
     End Sub
 
     ''' <summary>
     ''' This delegate function do nothing
     ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property DoNothing As Action =
-        Sub()
-            ' Do Nothing
-        End Sub
+    Public Sub DoNothing()
+        ' do nothing
+    End Sub
+
+    ''' <summary>
+    ''' This delegate function do nothing
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="arg">any kind of the parameter type</param>
+    ''' <remarks></remarks>
+    Public Sub DoNothing(Of T)(arg As T)
+        ' do nothing
+    End Sub
 
     ''' <summary>
     ''' 假若有些时候函数的参数要求有一个输出流，但是并不想输出任何数据的话，则可以使用这个进行输出
@@ -645,7 +733,7 @@ Public Module App
     ''' <summary>
     ''' java <see cref="printf"/> + <see cref="Console.WriteLine(String)"/>
     ''' </summary>
-    ''' <param name="s$"></param>
+    ''' <param name="s"></param>
     ''' <param name="args"></param>
     Public Sub println(s$, ParamArray args As Object())
         If Not args.IsNullOrEmpty Then
@@ -654,10 +742,7 @@ Public Module App
             s = CLangStringFormatProvider.ReplaceMetaChars(s)
         End If
 
-        Call My.InnerQueue.AddToQueue(
-            Sub()
-                Call Console.WriteLine(s)
-            End Sub)
+        Call VBDebugger.EchoLine(s)
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -668,26 +753,30 @@ Public Module App
     Public Declare Function SetProcessWorkingSetSize Lib "kernel32.dll" (process As IntPtr, minimumWorkingSetSize As Integer, maximumWorkingSetSize As Integer) As Integer
 
     ''' <summary>
-    ''' Rabbish collection to free the junk memory.(垃圾回收)
+    ''' Rabbish collection to free the junk memory.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(垃圾回收)</remarks>
     '''
     <ExportAPI("FlushMemory")>
     Public Sub FlushMemory()
         Call GC.Collect()
         Call GC.WaitForPendingFinalizers()
 
-        If (Environment.OSVersion.Platform = PlatformID.Win32NT) Then
-            Call SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, -1, -1)
+        If Environment.OSVersion.Platform = PlatformID.Win32NT Then
+            Try
+                Call SetProcessWorkingSetSize(Process.GetCurrentProcess().Handle, -1, -1)
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
         End If
     End Sub
 
     ''' <summary>
-    ''' Free this variable pointer in the memory.(销毁本对象类型在内存之中的指针)
+    ''' Free this variable pointer in the memory.
     ''' </summary>
     ''' <typeparam name="T">假若该对象类型实现了<see cref="System.IDisposable"></see>接口，则函数还会在销毁前调用该接口的销毁函数</typeparam>
     ''' <param name="obj"></param>
-    ''' <remarks></remarks>
+    ''' <remarks>(销毁本对象类型在内存之中的指针)</remarks>
     <Extension>
     Public Sub Free(Of T As Class)(ByRef obj As T)
         If Not obj Is Nothing Then
@@ -758,7 +847,13 @@ Public Module App
     Public ReadOnly Property UnixTimeStamp As Double
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
-            Return DateTimeHelper.UnixTimeStamp(Now)
+            Return DateTimeHelper.UnixTimeStamp(DateTime.UtcNow)
+        End Get
+    End Property
+
+    Public ReadOnly Property CurrentUnixTimeMillis() As Long
+        Get
+            Return DateTimeHelper.UnixTimeStampMillis(DateTime.UtcNow)
         End Get
     End Property
 
@@ -772,7 +867,7 @@ Public Module App
     ''' The distance of time that this application running from start and to current time.
     ''' (当前距离应用程序启动所逝去的时间)
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>ms timespan</returns>
     ''' <remarks>
     ''' 通过<see cref="App.UnixTimeStamp"/>以及<see cref="StartTime"/>得到的时间都是带小数的秒数
     ''' 所以在这里计算出当前时间点与启动时间点之间的差值之后，还需要乘以1000才可以得到毫秒数
@@ -811,6 +906,14 @@ Public Module App
     ''' <returns></returns>
     Public ReadOnly Property SysTemp As String = TempFileSystem.__sysTEMP
 
+    Public Sub SetSystemTemp(Optional dir As String = Nothing)
+        If dir Is Nothing Then
+            dir = TempFileSystem.__sysTEMP
+        End If
+
+        _SysTemp = dir
+    End Sub
+
     ''' <summary>
     ''' Application temp data directory in the system temp root: %<see cref="App.SysTemp"/>%/<see cref="App.AssemblyName"/>
     ''' </summary>
@@ -842,6 +945,9 @@ Public Module App
     ''' <param name="ex"></param>
     ''' <param name="trace">调用函数的位置，这个参数一般为空，编译器会自动生成Trace位点参数</param>
     ''' <returns>这个函数总是返回空值的</returns>
+    ''' <remarks>
+    ''' this debug logging function will returns nothing always!
+    ''' </remarks>
     <ExportAPI("LogException")>
     Public Function LogException(ex As Exception, <CallerMemberName> Optional ByRef trace$ = "") As Object
         Try
@@ -868,11 +974,16 @@ Public Module App
     ''' <returns></returns>
     '''
     <ExportAPI("TraceBugs")>
-    Public Function TraceBugs(ex As Exception, <CallerMemberName> Optional trace$ = "") As String
-        Dim entry$ = $"{Now.FormatTime("-")}_{App.tempCode}"
-        Dim log$ = $"{App.LogErrDIR}/{entry}.log"
-        Call App.LogException(ex, trace:=trace, fileName:=log)
-        Return log
+    Public Function TraceBugs(ex As Exception, <CallerMemberName> Optional trace$ = Nothing) As String
+        If trace.StringEmpty Then
+            trace = "trace_bug"
+        End If
+
+        SyncLock LogFile
+            Call LogFile.LogException(ex, trace)
+        End SyncLock
+
+        Return Nothing
     End Function
 
     ''' <summary>
@@ -882,51 +993,48 @@ Public Module App
     ''' <returns></returns>
     <Extension>
     Public Function FormatTime(time As DateTime, Optional sep$ = ":") As String
-        Dim yy = Format(time.Year, "0000")
-        Dim mm = Format(time.Month, "00")
-        Dim dd = Format(time.Day, "00")
-        Dim hh = Format(time.Hour, "00")
-        Dim mi = Format(time.Minute, "00")
-        Dim ss = Format(time.Second, "00")
-
-        Return $"{yy}-{mm}-{dd}, {hh}{sep}{mi}{sep}{ss}"
+        ' 将动态分隔符 sep 用单引号包裹，使其作为字面量字符输出
+        ' 例如当 sep 为 ":" 时，实际传入的格式为 "yyyy-MM-dd, HH':'mm':'ss"
+        Return time.ToString($"yyyy-MM-dd, HH'{sep}'mm'{sep}'ss")
     End Function
 
     ''' <summary>
-    ''' Is this application running on a Microsoft OS platform.(是否是运行于微软的操作系统平台？)
+    ''' Is this application running on a Microsoft OS platform.
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property IsMicrosoftPlatform As Boolean = App.checkIsMicrosoftPlatform
+    ''' <remarks>
+    ''' (是否是运行于微软的操作系统平台？)
+    ''' </remarks>
+    Public ReadOnly Property IsMicrosoftPlatform As Boolean = App.CheckIsMicrosoftPlatform
 
     ''' <summary>
     ''' 这个主要是判断一个和具体的操作系统平台相关的Win32 API是否能够正常的工作？
     ''' </summary>
     ''' <returns></returns>
-    Private Function checkIsMicrosoftPlatform() As Boolean
-#If UNIX Then
-#If DEBUG Then
-        Return True
-#Else
-        Return False
-#End If
-#Else
-#If NET_48 Or netcore5 = 1 Then
-        Return RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-#Else
-        Return True
-#End If
-#End If
+    Private Function CheckIsMicrosoftPlatform() As Boolean
+        Select Case App.Platform
+            Case PlatformID.Win32NT,
+                 PlatformID.Win32S,
+                 PlatformID.Win32Windows,
+                 PlatformID.WinCE,
+                 PlatformID.Xbox
+
+                Return True
+            Case Else
+                Return False
+        End Select
     End Function
 
     ''' <summary>
     ''' Example: ``tmp2A10.tmp``
     ''' </summary>
-    Dim tempHashCode As Uid = Uid.GetRandomId
-
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Private Function tempCode() As String
+        Static tempHashCode As Uid = Uid.GetRandomId
+
         SyncLock tempHashCode
-            Return FormatZero(++tempHashCode, "00000")
+            Return FormatZero(++tempHashCode, "000000")
         End SyncLock
     End Function
 
@@ -952,10 +1060,26 @@ Public Module App
     End Property
 
     ''' <summary>
-    ''' Error default log fie location from function <see cref="App.LogException(Exception, ByRef String)"/>.(存放自动存储的错误日志的文件夹)
+    ''' Error default log fie location from function <see cref="App.LogException(Exception, ByRef String)"/>.
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (存放自动存储的错误日志的文件夹)
+    ''' </remarks>
     Public ReadOnly Property LogErrDIR As String
+
+    Public ReadOnly Property LogFile As LogFile
+        Get
+            Static log As LogFile
+
+            If log Is Nothing Then
+                log = New LogFile($"{App.LogErrDIR}/error_{LogFile.NowTimeNormalizedString}.log", append:=False)
+                log.log(MSG_TYPES.INF, ErrorLog.EnvironmentInfo, "app_debug_info")
+            End If
+
+            Return log
+        End Get
+    End Property
 
     ''' <summary>
     ''' Simply log application exception data into a log file which saves at a user defined location parameter: <paramref name="FileName"/>.
@@ -986,17 +1110,6 @@ Public Module App
         Return App.LogException(New Exception(exMsg), trace)
     End Function
 
-    ''' <summary>
-    ''' <see cref="App.LocalData"/>/error.log
-    ''' </summary>
-    ''' <returns></returns>
-    Public ReadOnly Property ExceptionLogFile As String
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return App.LocalData & "/error.log"
-        End Get
-    End Property
-
 #Region "CLI interpreter"
 
     ''' <summary>
@@ -1014,13 +1127,18 @@ Public Module App
     ''' </summary>
     ''' <param name="state">Exit code to be given to the operating system. Use 0 (zero) to indicate that the process completed successfully.</param>
     '''
-    <SecuritySafeCritical> Public Function Exit%(Optional state% = 0)
+    <SecuritySafeCritical>
+    Public Function Exit%(Optional state% = 0)
         App._Running = False
 
-        Call My.InnerQueue.WaitQueue()
-        Call App.StopGC()
-        Call __GCThread.Dispose()
-        Call Environment.Exit(state)
+        Try
+            Call My.InnerQueue.WaitQueue()
+            Call App.StopGC()
+            Call __GCThread.Dispose()
+            Call Environment.Exit(state)
+        Catch ex As Exception
+            Process.GetCurrentProcess.Kill()
+        End Try
 
         Return state
     End Function
@@ -1037,6 +1155,16 @@ Public Module App
     <Extension>
     Public Function RunCLI(Interpreter As Type, args$, <CallerMemberName> Optional caller$ = Nothing) As Integer
         Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, Nothing, Nothing, Nothing, Nothing)
+    End Function
+
+    <Extension>
+    Public Function RunCLI(Interpreter As Type, args As String(),
+                           Optional executeEmpty As ExecuteEmptyCLI = Nothing,
+                           Optional executeNotFound As ExecuteNotFound = Nothing,
+                           Optional executeFile As ExecuteFile = Nothing,
+                           Optional executeQuery As ExecuteQuery = Nothing) As Integer
+
+        Return Interpreter.RunCLIInternal(CommandLineArgs.BuildFromArguments(args), "Main", executeEmpty, executeNotFound, executeFile, executeQuery)
     End Function
 
     ''' <summary>
@@ -1143,13 +1271,14 @@ Public Module App
     '''
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("RunCLI")>
-    <Extension> Public Function RunCLI(Interpreter As Type, args As CommandLineArgs,
-                                       executeEmpty As ExecuteEmptyCLI,
-                                       executeFile As ExecuteFile,
-                                       executeNotFound As ExecuteNotFound,
-                                       executeQuery As ExecuteQuery,
-                                       <CallerMemberName>
-                                       Optional caller$ = Nothing) As Integer
+    <Extension>
+    Public Function RunCLI(Interpreter As Type, args As CommandLineArgs,
+                           executeEmpty As ExecuteEmptyCLI,
+                           executeFile As ExecuteFile,
+                           executeNotFound As ExecuteNotFound,
+                           executeQuery As ExecuteQuery,
+                           <CallerMemberName>
+                           Optional caller$ = Nothing) As Integer
 
         Return Interpreter.RunCLIInternal(args, caller, executeEmpty, executeNotFound, executeFile, executeQuery)
     End Function
@@ -1183,14 +1312,13 @@ Public Module App
                                     executeFile As ExecuteFile,
                                     executeQuery As ExecuteQuery) As Integer
 #If DEBUG Then
-        Call args.__DEBUG_ECHO
+        Call args.debug
 #End If
         Call args.InitDebuggerEnvir(caller)
 
         If args.Name.TextEquals("/i") Then
             ' 交互式终端模式
-            Dim console As New InteractiveConsole(App)
-            Return finalizeCLI(console.RunApp)
+            Return finalizeCLI(New InteractiveConsole(App).RunApp)
         Else
             Dim program As New Interpreter(App, caller:=caller) With {
                 .ExecuteEmptyCli = executeEmpty,
@@ -1211,7 +1339,8 @@ Public Module App
     ''' <returns>Returns the function execute result to the operating system.</returns>
     '''
     <ExportAPI("RunCLI")>
-    <Extension> Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, <CallerMemberName> Optional caller$ = Nothing) As Integer
+    <Extension>
+    Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, <CallerMemberName> Optional caller$ = Nothing) As Integer
         Return Interpreter.RunCLIInternal(Parsers.TryParse(args), caller, Nothing, Nothing, executeFile, Nothing)
     End Function
 
@@ -1228,7 +1357,8 @@ Public Module App
     ''' ```
     ''' </param>
     <ExportAPI("RunCLI")>
-    <Extension> Public Function RunCLI(Interpreter As Type, args As CommandLineArgs, executeFile As ExecuteFile, <CallerMemberName> Optional caller$ = Nothing) As Integer
+    <Extension>
+    Public Function RunCLI(Interpreter As Type, args As CommandLineArgs, executeFile As ExecuteFile, <CallerMemberName> Optional caller$ = Nothing) As Integer
         Return Interpreter.RunCLIInternal(args, caller, Nothing, Nothing, executeFile, Nothing)
     End Function
 
@@ -1240,9 +1370,10 @@ Public Module App
     ''' <returns>Returns the function execute result to the operating system.</returns>
     '''
     <ExportAPI("RunCLI")>
-    <Extension> Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, executeEmpty As ExecuteEmptyCLI,
-                                       <CallerMemberName>
-                                       Optional caller$ = Nothing) As Integer
+    <Extension>
+    Public Function RunCLI(Interpreter As Type, args$, executeFile As ExecuteFile, executeEmpty As ExecuteEmptyCLI,
+                           <CallerMemberName>
+                           Optional caller$ = Nothing) As Integer
         Return Interpreter.RunCLI(Parsers.TryParse(args), executeFile, executeEmpty, caller)
     End Function
 
@@ -1315,8 +1446,13 @@ Public Module App
     ''' Gets a <see cref="System.PlatformID"/> enumeration value that identifies the operating system
     ''' platform.
     ''' </summary>
-    ''' <remarks>One of the System.PlatformID values.</remarks>
-    Public ReadOnly Property Platform As PlatformID = Environment.OSVersion.Platform
+    ''' <remarks>One of the <see cref="PlatformID"/> values. this property value may affected 
+    ''' by the ``--unix`` commandline debug options when do application startup.</remarks>
+    Public ReadOnly Property Platform As PlatformID
+        Get
+            Return My.FrameworkInternal.InternalPlatformID
+        End Get
+    End Property
 
     ''' <summary>
     ''' Self call this program itself for batch parallel task calculation.
@@ -1347,10 +1483,15 @@ Public Module App
                           Optional ioRedirect As Boolean = False,
                           Optional debug As Boolean = False) As IIORedirectAbstract
 
+#If NETCOREAPP Then
+        Const PLATFORM As String = "dotnet"
+#Else
+        Const PLATFORM As String = "mono"
+#End If
         If Not IsMicrosoftPlatform Then
             If CLR Then
                 Dim process As New ProcessEx With {
-                    .Bin = "mono",
+                    .Bin = PLATFORM,
                     .CLIArguments = app.CLIPath & " " & CLI
                 }
                 Return process
@@ -1393,7 +1534,7 @@ Public Module App
         End SyncLock
     End Sub
 
-    Public Const FlagInternalPipeline As String = "--internal_pipeline"
+    Public Const FlagInternalPipeline As String = "internal_pipeline"
 
     ''' <summary>
     ''' 自动停止GC当前程序的线程
@@ -1421,13 +1562,30 @@ Public Module App
         End If
 
         For Each hook As Action In appExitHooks
-            Call hook()
+            Try
+                Call hook()
+            Catch ex As Exception
+                ' just ignores of the cleanup events
+            End Try
         Next
 
         Call My.InnerQueue.WaitQueue()
 
+        If Not LogFile Is Nothing Then
+            Call LogFile.Save()
+            Call LogFile.Dispose()
+        End If
+
         If Not internalPipelineMode.TextEquals("TRUE") Then
-            Call Console.WriteLine()
+            Try
+                Call Console.WriteLine()
+            Catch ex As Exception
+                ' `appExitHooks` may contains some code to
+                ' redirect the stdout and close the stdout
+                ' this will cause the I/O exception at here
+                ' no needs to handling this exception any
+                ' more just eat it and keeps silent at here
+            End Try
         End If
 
 #If DEBUG Then
@@ -1444,7 +1602,7 @@ Public Module App
             ' 在这里调试模式下结束之前自动暂停是为了
             ' 方便查看程序的命令行终端上面的输出信息
             '
-#If netcore5 = 0 Then
+#If NET48 Then
             Call Pause()
 #End If
         End If

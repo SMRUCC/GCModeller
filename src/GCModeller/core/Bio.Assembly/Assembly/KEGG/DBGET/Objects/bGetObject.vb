@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 9 (52.94%)
+    ' Comment Lines: 3 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (29.41%)
+    '     File Size: 417 B
+
+
     '     Class bGetObject
     ' 
     '         Properties: Definition, Entry, Name

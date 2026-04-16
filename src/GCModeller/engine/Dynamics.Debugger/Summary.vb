@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07b2b4644db9d8aa4faad655430a5c0d, engine\Dynamics.Debugger\Summary.vb"
+﻿#Region "Microsoft.VisualBasic::d54c27914b2b3dfd19cf41558a1fd6e3, engine\Dynamics.Debugger\Summary.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 75 (80.65%)
+    ' Comment Lines: 6 (6.45%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 12 (12.90%)
+    '     File Size: 3.32 KB
+
 
     ' Module Summary
     ' 
@@ -65,7 +77,8 @@ Public Module Summary
                 def:=inits,
                 dynamics:=New FluxBaseline,
                 iterations:=0,
-                showProgress:=False
+                showProgress:=False,
+                cellular_id:={model.CellularEnvironmentName}
             ) _
             .LoadModel(model, getLoader:=loader) _
             .getCore

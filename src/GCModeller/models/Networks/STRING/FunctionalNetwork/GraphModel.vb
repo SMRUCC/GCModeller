@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 41 (87.23%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (12.77%)
+    '     File Size: 1.84 KB
+
+
     ' Module GraphModel
     ' 
     '     Function: CreateGraph

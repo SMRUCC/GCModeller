@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef2cc9a53a118446d405704ec0cc72af, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UserTaskCancelAction.vb"
+﻿#Region "Microsoft.VisualBasic::17999381e12c52a1965ae4f001bdc985, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\UserTaskCancelAction.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 73 (57.94%)
+    ' Comment Lines: 28 (22.22%)
+    '    - Xml Docs: 32.14%
+    ' 
+    '   Blank Lines: 25 (19.84%)
+    '     File Size: 4.38 KB
+
+
     '     Class UserTaskCancelAction
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -47,7 +59,7 @@
     '     Class UserTaskSaveAction
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: detectKeyEvent
+    '         Sub: detectKeyEvent, Dispose
     ' 
     ' 
     ' /********************************************************************************/
@@ -160,8 +172,23 @@ Namespace ApplicationServices.Terminal.Utility
                     Call userAction()
                 End If
             Loop
+        End Sub
 
-            Call workerThread.Abort()
+        Protected Overrides Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: 释放托管状态(托管对象)
+                    Try
+                        Call workerThread.Abort()
+                    Catch ex As Exception
+
+                    End Try
+                End If
+
+                ' TODO: 释放未托管的资源(未托管的对象)并替代终结器
+                ' TODO: 将大型字段设置为 null
+                disposedValue = True
+            End If
         End Sub
     End Class
 End Namespace

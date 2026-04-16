@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a33e499722e8f82ca55ee720a1cf47ca, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\SimpleConfig.vb"
+﻿#Region "Microsoft.VisualBasic::c5405833bab8d1314ab3022bfc834a46, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\SimpleConfig.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 83 (64.84%)
+    ' Comment Lines: 26 (20.31%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 19 (14.84%)
+    '     File Size: 5.76 KB
+
+
     '     Class SimpleConfig
     ' 
     '         Properties: Name, TypeInfo
@@ -47,9 +59,8 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports typeSchema = System.Reflection.TypeInfo
+Imports TypeSchema = System.Reflection.TypeInfo
 
 Namespace ComponentModel.Settings
 
@@ -86,7 +97,7 @@ Namespace ComponentModel.Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Iterator Function TryParse(Of T As Class, TConfig As SimpleConfig)(canRead As Boolean, canWrite As Boolean) As IEnumerable(Of BindProperty(Of TConfig))
-            Dim type As typeSchema = GetType(T)
+            Dim type As TypeSchema = GetType(T)
             Dim configType As Type = GetType(TConfig)
             Dim properties = type.GetProperties(BindingFlags.Instance Or BindingFlags.Public)
             Dim LQuery = bindProperties(Of TConfig)(properties, configType).ToArray

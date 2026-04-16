@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::291906b7da015c19f17d87f0bca9bbac, Microsoft.VisualBasic.Core\src\Text\SearchEngine\TextIndexing\TextIndexing.vb"
+﻿#Region "Microsoft.VisualBasic::b1583e6415793d896e13bce6241bacf7, Microsoft.VisualBasic.Core\src\Text\SearchEngine\TextIndexing\TextIndexing.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 131 (64.22%)
+    ' Comment Lines: 43 (21.08%)
+    '    - Xml Docs: 86.05%
+    ' 
+    '   Blank Lines: 30 (14.71%)
+    '     File Size: 8.57 KB
+
 
     '     Class TextIndexing
     ' 
@@ -93,7 +105,7 @@ Namespace Text.Search
                 .ToDictionary(Function(l) l,
                               Function(d) New String("m"c, d))
 
-            Call $"{cache.Length} cache data from length range from {min} to {max}...".__DEBUG_ECHO
+            Call $"{cache.Length} cache data from length range from {min} to {max}...".debug
         End Sub
 
         Public Overrides Function ToString() As String
@@ -135,7 +147,7 @@ Namespace Text.Search
             Dim resultSet As New List(Of Map(Of TextSegment, DistResult))
             Dim partitions = cache.Split(numPartitions)
 
-            Call $"{partitions.Length} partitions...".__DEBUG_ECHO
+            Call $"{partitions.Length} partitions...".debug
 
             Dim LQuery = From part As TextSegment()
                          In partitions.AsParallel

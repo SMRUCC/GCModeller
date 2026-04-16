@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b4a64758106003be06984267d6c885e, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\ExceptionData.vb"
+﻿#Region "Microsoft.VisualBasic::e8a127a284fc1e9731a45f1ed82cfa5f, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\ExceptionData.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 66 (73.33%)
+    ' Comment Lines: 12 (13.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.33%)
+    '     File Size: 3.31 KB
+
+
     '     Class ExceptionData
     ' 
-    '         Properties: Message, StackTrace, TypeFullName
+    '         Properties: Message, Source, StackTrace, TypeFullName
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: CreateFromObject, CreateInstance, Exception, GetCurrentStackTrace, getMessages
     '                   ParseStackTrace, ToString
     ' 
@@ -43,15 +56,28 @@
 
 #End Region
 
+Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Text
 
 Namespace ApplicationServices.Debugging.Diagnostics
 
+#Disable Warning BC40000 ' Type or member is obsolete
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public Class ExceptionData
+#Enable Warning BC40000 ' Type or member is obsolete
 
         Public Property TypeFullName As String
         Public Property Message As String()
+        ''' <summary>
+        ''' the source expression which trigger this error
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property Source As String
         Public Property StackTrace As StackFrame()
+
+        Sub New()
+        End Sub
 
         ''' <summary>
         ''' Create exception object for throw exception expression

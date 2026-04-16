@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13104db3a3ee0ac77538902faca29f28, mime\text%yaml\1.2\Syntax\MappingEntry.vb"
+﻿#Region "Microsoft.VisualBasic::78d6e080aafe97ac231a62e744dafee4, mime\text%yaml\1.2\Syntax\MappingEntry.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 19 (79.17%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (20.83%)
+    '     File Size: 674 B
+
+
     '     Class MappingEntry
     ' 
     '         Properties: Key, Name, Value
@@ -42,6 +54,7 @@
 
 #End Region
 
+Imports System.Data
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace Syntax

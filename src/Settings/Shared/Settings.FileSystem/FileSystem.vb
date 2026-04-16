@@ -1,55 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::1f363922baccdc82916c5ae39e48cb96, Shared\Settings.FileSystem\FileSystem.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module FileSystem
-    ' 
-    ' 
-    '     Module FileSystem
-    ' 
-    '         Properties: CDD, COGs, Correlations, GO, InterproXml
-    '                     IsNullOrEmpty, KEGGFamilies, MotifLDM, RegpreciseBBH, RegPreciseRegulatorFasta
-    '                     RegpreciseRoot, Regulations, RepositoryRoot
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetLocalblast, (+2 Overloads) GetMotifLDM, GetPfamDb, GetR_HOME, GetRegpreciseBBH
-    '                   GetRegpreciseRoot, GetRegulations, GetRepositoryRoot, IsRepositoryNullOrEmpty, TryGetSource
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module FileSystem
+' 
+' 
+'     Module FileSystem
+' 
+'         Properties: CDD, COGs, Correlations, GO, InterproXml
+'                     IsNullOrEmpty, KEGGFamilies, MotifLDM, RegpreciseBBH, RegPreciseRegulatorFasta
+'                     RegpreciseRoot, Regulations, RepositoryRoot
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: GetLocalblast, (+2 Overloads) GetMotifLDM, GetPfamDb, GetR_HOME, GetRegpreciseBBH
+'                   GetRegpreciseRoot, GetRegulations, GetRepositoryRoot, IsRepositoryNullOrEmpty, TryGetSource
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.FileIO.Path
@@ -303,92 +304,12 @@ Namespace GCModeller.FileSystem
                    $"     CDD    =>  '{FileSystem.CDD}' " & vbCrLf &
                    $"  Pfam-A    =>  '{PfamA}'" & vbCrLf &
                    $" Repository =>  '{FileSystem.RepositoryRoot}'"
-                Call exMsg.__DEBUG_ECHO
+                Call exMsg.debug
                 Call App.LogException(New Exception(exMsg))
 
                 Return ""
             End If
         End Function
-
-#If Not DISABLE_BUG_UNKNOWN Then
-
-        ''' <summary>
-        ''' This function will search for the blast+ bin directory automatically based on the 
-        ''' registry, config data and system directories.
-        ''' (会自动搜索注册表，配置文件和文件系统之上的目录，实在找不到会返回空字符串并且记录下错误)
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <ExportAPI("GetLocalBlast")>
-        Public Function GetLocalblast() As String
-            Dim blast As String = Settings.Session.SettingsFile.BlastBin
-
-            If blast.DirectoryExists Then
-                Return blast
-            End If
-
-            Dim lstPath As String() = Environment.GetEnvironmentVariable("PATH").Split(";"c)
-
-            blast = lstPath _
-                .Where(Function(path$) InStr(path, "blast", CompareMethod.Text) > 0) _
-                .FirstOrDefault
-
-            If blast.DirectoryExists Then
-                Return blast
-            End If
-
-            Dim getlstPath = ProgramPathSearchTool.SearchDirectory("blast").ToArray
-
-            If getlstPath.IsNullOrEmpty Then
-NO_DIR:
-                Dim exMsg As String =
-                    "Unable retrive the blast program directory path!" & vbCrLf &
-                   $"    list of environment path:" & vbCrLf & lstPath.JoinBy(vbCrLf & "         ")
-                Call exMsg.__DEBUG_ECHO
-                Call App.LogException(New Exception(exMsg))
-
-                Return ""
-            End If
-
-            For Each path As String In getlstPath
-                If Not FileIO.FileSystem.GetFiles(path, FileIO.SearchOption.SearchAllSubDirectories, "blastp.exe").IsNullOrEmpty Then
-                    Return path & "/bin/"
-                End If
-            Next
-
-            GoTo NO_DIR
-        End Function
-
-        <ExportAPI("Get.R_HOME")>
-        Public Function GetR_HOME() As String
-            Dim R_HOME As String = Settings.Session.SettingsFile.R_HOME
-
-            If R_HOME.DirectoryExists Then
-                Return R_HOME
-            End If
-
-            Dim Directories = ProgramPathSearchTool.SearchDirectory("R").ToArray
-
-            If Directories.IsNullOrEmpty Then
-                Return ""
-            End If
-
-            For Each R As String In (From s As String In Directories Select s Order By s.Length Descending)
-                If FileIO.FileSystem.GetFiles(R, FileIO.SearchOption.SearchTopLevelOnly, "R*.exe").Count > 1 Then
-                    Return R
-                End If
-
-                Dim EXEList = ProgramPathSearchTool.SearchProgram(R, "R")
-
-                If EXEList.Count > 1 Then
-                    R = RepositoryFileSystem.GetMostAppreancePath(EXEList)
-                    Return R
-                End If
-            Next
-
-            Return ""
-        End Function
-#End If
 #End Region
 
     End Module

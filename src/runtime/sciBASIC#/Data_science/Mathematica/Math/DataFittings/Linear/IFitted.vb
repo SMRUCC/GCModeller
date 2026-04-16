@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 7 (22.58%)
+    ' Comment Lines: 19 (61.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 806 B
+
+
     ' Interface IFitted
     ' 
     '     Properties: ErrorTest, Polynomial, R2

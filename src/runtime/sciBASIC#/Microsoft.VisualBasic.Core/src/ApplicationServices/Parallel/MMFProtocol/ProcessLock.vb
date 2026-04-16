@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 42 (43.30%)
+    ' Comment Lines: 40 (41.24%)
+    '    - Xml Docs: 65.00%
+    ' 
+    '   Blank Lines: 15 (15.46%)
+    '     File Size: 4.42 KB
+
+
     '     Class ProcessLock
     ' 
     '         Properties: Locked

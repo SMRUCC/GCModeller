@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f29afd0ce694eddf550fe615de9f410, data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
+﻿#Region "Microsoft.VisualBasic::c836e49a2e8a77621b98a6d676816406, data\RegulonDatabase\Regprecise\AnalysisResult\RegPreciseOperon.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 57 (53.27%)
+    ' Comment Lines: 40 (37.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (9.35%)
+    '     File Size: 3.76 KB
+
+
     '     Class RegPreciseOperon
     ' 
     '         Properties: bbh, bbhUID, BiologicalProcess, Effector, Operon
@@ -44,9 +56,9 @@
 
 #End Region
 
-Imports System.Web.Script.Serialization
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel.Loci
 
@@ -126,7 +138,7 @@ Namespace Regprecise
             Effector = regulon.effector
             Pathway = regulon.pathway
             BiologicalProcess = regulon.biological_process.JoinBy("; ")
-            source = regulon.Regulog.name
+            source = regulon.regulog.name
             Strand = cstrand
             bbh = bbhHits
         End Sub

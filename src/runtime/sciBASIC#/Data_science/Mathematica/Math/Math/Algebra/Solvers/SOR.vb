@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7895b78b6d7923a1de231156a2660081, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
+﻿#Region "Microsoft.VisualBasic::11c96f53df5909efd24deeab80001ce5, Data_science\Mathematica\Math\Math\Algebra\Solvers\SOR.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 33 (62.26%)
+    ' Comment Lines: 9 (16.98%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 11 (20.75%)
+    '     File Size: 1.73 KB
+
+
     '     Module SOR
     ' 
     '         Function: Solve
@@ -41,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace LinearAlgebra.Solvers
 
@@ -56,13 +68,19 @@ Namespace LinearAlgebra.Solvers
         ''' <param name="e">误差容限</param>
         ''' <param name="Iteration">最大允许迭代次数</param>
         ''' <returns></returns>
-        Public Function Solve(A As GeneralMatrix, b As Vector, Optional Omiga As Double = 1.2, Optional e As Double = 0.00000001, Optional Iteration As Integer = 50) As Vector
+        Public Function Solve(A As GeneralMatrix, b As Vector,
+                              Optional Omiga As Double = 1.2,
+                              Optional e As Double = 0.00000001,
+                              Optional Iteration As Integer = 50) As Vector
+
             Dim N As Integer = A.ColumnDimension
             Dim x1 As Vector = New Vector(N), x As Vector = New Vector(N)
+            Dim sum As Double
 
             For k As Integer = 0 To Iteration
                 For i As Integer = 0 To N - 1
-                    Dim sum As Double
+                    sum = 0
+
                     For j As Integer = 0 To N - 1
                         If j < i Then
                             sum += A(i, j) * x(j)
@@ -74,7 +92,7 @@ Namespace LinearAlgebra.Solvers
                     x(i) = (b(i) - sum) * Omiga / A(i, i) + (1.0 - Omiga) * x1(i)
                 Next
 
-                Dim dx As Vector = x - x1, err As Double = stdNum.Sqrt(dx.Mod)
+                Dim dx As Vector = x - x1, err As Double = std.Sqrt(dx.Mod)
 
                 If err < e Then
                     Exit For

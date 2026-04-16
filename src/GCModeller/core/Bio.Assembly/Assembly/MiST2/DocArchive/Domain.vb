@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::603720ce45d10e45baa4bcf2a4e53bcd, core\Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
+﻿#Region "Microsoft.VisualBasic::c10229f7e8d7626fb0a87a8360cf45ba, core\Bio.Assembly\Assembly\MiST2\DocArchive\Domain.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 32 (66.67%)
+    ' Comment Lines: 11 (22.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (10.42%)
+    '     File Size: 1.88 KB
+
+
     '     Structure Domain
     ' 
     '         Function: Load, ToString, TryParse
@@ -39,6 +51,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Text
 
 Namespace Assembly.MiST2
 
@@ -78,7 +92,7 @@ Namespace Assembly.MiST2
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function Load() As Domain()
-            Dim DbRecordText As String() = Strings.Split(My.Resources.MiST2, vbCrLf).Skip(1).ToArray
+            Dim DbRecordText As String() = Strings.Split(Encoding.UTF8.GetString(My.Resources._Default.MiST2), vbCrLf).Skip(1).ToArray
             Dim LQuery As Domain() = (From line As String
                                       In DbRecordText
                                       Select Domain.TryParse(line)).ToArray

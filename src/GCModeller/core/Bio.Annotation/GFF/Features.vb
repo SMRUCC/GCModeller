@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 12 (92.31%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (7.69%)
+    '     File Size: 240 B
+
+
     '     Enum Features
     ' 
     '         CDS, exon, gene, region, rRNA

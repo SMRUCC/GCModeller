@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54cdc7a17c350a729938863acbc101d3, visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::72b80b3f9836df47e94b1e0a030d14ef, visualize\Cytoscape\Cytoscape\API\GraphExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 68 (82.93%)
+    ' Comment Lines: 5 (6.10%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (10.98%)
+    '     File Size: 3.37 KB
+
+
     '     Module GraphExtensions
     ' 
     '         Function: __edge, __node, CreateGraph
@@ -47,6 +59,32 @@ Imports Microsoft.VisualBasic.Data.visualize
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace API
 

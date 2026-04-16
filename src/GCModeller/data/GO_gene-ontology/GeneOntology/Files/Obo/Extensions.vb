@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b30b23883780ae8c29b9a44e4626bdc0, data\GO_gene-ontology\GeneOntology\Files\Obo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::aa9c74359ac1964fbf312eacbe97a906, data\GO_gene-ontology\GeneOntology\Files\Obo\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 12 (60.00%)
+    ' Comment Lines: 5 (25.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 636 B
+
+
     '     Module Extensions
     ' 
     '         Function: CreateTermTable
@@ -48,6 +60,11 @@ Namespace OBO
     <HideModuleName>
     Public Module Extensions
 
+        ''' <summary>
+        ''' just create a term dictionary via its <see cref="Term.id"/>
+        ''' </summary>
+        ''' <param name="obo"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CreateTermTable(obo As GO_OBO) As Dictionary(Of String, Term)

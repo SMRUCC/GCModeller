@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e40b4f87b9792507d688617cab562c65, mime\application%pdf\PdfReader\Document\PdfStream.vb"
+﻿#Region "Microsoft.VisualBasic::a289f8b74695f9ab71b957d8eeea190a, mime\application%pdf\PdfReader\Document\PdfStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 38 (82.61%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (17.39%)
+    '     File Size: 1.34 KB
+
+
     '     Class PdfStream
     ' 
     '         Properties: Dictionary, HasFilter, ParseStream, Value, ValueAsBytes
@@ -49,11 +61,11 @@ Namespace PdfReader
 
         Private _dictionary As PdfDictionary
 
-        Public Sub New(ByVal parent As PdfObject, ByVal stream As ParseStream)
+        Public Sub New(parent As PdfObject, stream As ParseStream)
             MyBase.New(parent, stream)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

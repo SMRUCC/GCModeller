@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87fb3367b6274af78c3340eff4a4d5e3, engine\Dynamics\Core\Mass\MassRoles.vb"
+﻿#Region "Microsoft.VisualBasic::e227c16b79793d78f0a81fcfdf42eced, engine\Dynamics\Core\Mass\MassRoles.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 13 (28.26%)
+    ' Comment Lines: 30 (65.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (6.52%)
+    '     File Size: 1.33 KB
+
+
     '     Enum MassRoles
     ' 
-    '         compound, gene, mRNA, popypeptide, protein
-    '         rRNA, tRNA
+    '         compound, gene, mRNA, polypeptide, protein
+    '         RNA, rRNA, status, tRNA
     ' 
     '  
     ' 
@@ -51,18 +63,43 @@ Namespace Core
     ''' 物质的角色分类类型
     ''' </summary>
     Public Enum MassRoles
-        gene
-        mRNA
-        tRNA
-        rRNA
-        popypeptide
         ''' <summary>
-        ''' 蛋白包括单体蛋白或者复合物蛋白
+        ''' gene template of the RNA molecules, usually be a constant 1, binding to unchanged.
+        ''' </summary>
+        gene
+
+        ''' <summary>
+        ''' realtime gene instance molecule, could be translate to protein
+        ''' </summary>
+        mRNA
+        ''' <summary>
+        ''' realtime gene instance molecule
+        ''' </summary>
+        tRNA
+        ''' <summary>
+        ''' realtime gene instance molecule,
+        ''' </summary>
+        rRNA
+        ''' <summary>
+        ''' realtime gene instance molecule, other RNA molecules
+        ''' </summary>
+        RNA
+        ''' <summary>
+        ''' realtime gene instance molecule,
+        ''' </summary>
+        polypeptide
+        ''' <summary>
+        ''' realtime gene instance molecule, 蛋白包括单体蛋白或者复合物蛋白
         ''' </summary>
         protein
         ''' <summary>
-        ''' 小分子化合物
+        ''' metabolite instance molecule object. 小分子化合物
         ''' </summary>
         compound
+
+        ''' <summary>
+        ''' mapping to the cell status view: <see cref="StatusMapFactor"/>
+        ''' </summary>
+        status
     End Enum
 End Namespace

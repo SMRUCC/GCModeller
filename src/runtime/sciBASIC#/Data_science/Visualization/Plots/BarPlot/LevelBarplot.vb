@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16aa9d74cea7735d77051384ba63d01e, Data_science\Visualization\Plots\BarPlot\LevelBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::81d04c11b6abeb59ff456d0fe5e57f05, Data_science\Visualization\Plots\BarPlot\LevelBarplot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 212
+    '    Code Lines: 178 (83.96%)
+    ' Comment Lines: 8 (3.77%)
+    '    - Xml Docs: 37.50%
+    ' 
+    '   Blank Lines: 26 (12.26%)
+    '     File Size: 10.07 KB
+
+
     '     Module LevelBarplot
     ' 
     '         Function: Plot, trimLabel
@@ -53,8 +65,35 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Legends
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace BarPlot
 
@@ -92,10 +131,6 @@ Namespace BarPlot
                              Optional nolabelTrim As Boolean = False,
                              Optional ppi As Integer = 100) As GraphicsData
 
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(ppi)
-            Dim tickFont As Font = CSSFont.TryParse(tickFontCSS).GDIObject(ppi)
-            Dim valueTitleFont As Font = CSSFont.TryParse(valueTitleFontCSS).GDIObject(ppi)
             Dim trim As Func(Of String, String)
 
             If nolabelTrim Then
@@ -111,14 +146,20 @@ Namespace BarPlot
                 .GetColors(levelColorSchema, colorLevels) _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-            Dim colorIndex As DoubleRange = {0, colors.Length - 1}
+            Dim colorIndex As DoubleRange = {0.0, colors.Length - 1}
             Dim indexScaler As DoubleRange = data.Select(Function(i) i.Value).ToArray
-            Dim pen As Pen = Stroke.TryParse(chartBoxStroke).GDIObject
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
+                    Dim pen As Pen = css.GetPen(Stroke.TryParse(chartBoxStroke))
+                    Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+                    Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
+                    Dim tickFont As Font = css.GetFont(CSSFont.TryParse(tickFontCSS))
+                    Dim valueTitleFont As Font = css.GetFont(CSSFont.TryParse(valueTitleFontCSS))
                     Dim maxLabelSize As SizeF = g.MeasureString(maxLengthLabel, labelFont)
-                    Dim plotRegion As Rectangle = region.PlotRegion
+                    Dim plotRegion As Rectangle = region.PlotRegion(css)
                     Dim pos As PointF
                     Dim chartBox As New Rectangle With {
                         .X = plotRegion.Left + maxLabelSize.Width + 5,
@@ -133,7 +174,7 @@ Namespace BarPlot
 
                     pos = New PointF With {
                         .X = plotRegion.Left + (plotRegion.Width - titleSize.Width) / 2,
-                        .Y = plotRegion.Top - titleSize.Height - stdNum.Min(10, titleSize.Height / 2)
+                        .Y = plotRegion.Top - titleSize.Height - std.Min(10, titleSize.Height / 2)
                     }
 
                     Call g.DrawString(title, titleFont, Brushes.Black, pos)
@@ -144,7 +185,7 @@ Namespace BarPlot
                     Dim widthScaler = d3js _
                         .scale _
                         .linear _
-                        .domain(ticks) _
+                        .domain(values:=ticks) _
                         .range(integers:={0, chartBox.Width})
                     Dim width As Integer
                     Dim dy As Integer = chartBox.Height / (data.Length + 1)
@@ -205,7 +246,7 @@ Namespace BarPlot
                     Dim legendLayout As New Rectangle With {
                         .X = chartBox.Right + 20,
                         .Y = chartBox.Top + (chartBox.Height - 200) / 2,
-                        .Width = region.Padding.Right * (2 / 3),
+                        .Width = padding.Right * (2 / 3),
                         .Height = chartBox.Height / 2
                     }
 
@@ -214,7 +255,7 @@ Namespace BarPlot
                     ' 绘制底部的小标题
                     titleSize = g.MeasureString(valueTitle, valueTitleFont)
                     x = chartBox.Left + (chartBox.Width - titleSize.Width) / 2
-                    y = chartBox.Bottom + (region.Padding.Bottom - titleSize.Height) / 2
+                    y = chartBox.Bottom + (padding.Bottom - titleSize.Height) / 2
 
                     Call g.DrawString(valueTitle, valueTitleFont, Brushes.Black, New PointF(x, y))
                 End Sub

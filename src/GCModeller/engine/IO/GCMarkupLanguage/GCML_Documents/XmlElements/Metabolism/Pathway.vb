@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 19 (57.58%)
+    ' Comment Lines: 8 (24.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 1.20 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: MetabolismNetwork

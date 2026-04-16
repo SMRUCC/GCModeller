@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d3abd4c0a7a8006e5f27647498f899b, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Expression.vb"
+﻿#Region "Microsoft.VisualBasic::30f97f7db8136cf34b159c5f220ee337, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Styles\Expression.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24 (63.16%)
+    ' Comment Lines: 8 (21.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.79%)
+    '     File Size: 1.47 KB
+
+
     '     Delegate Function
     ' 
     ' 
@@ -45,7 +57,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 
 Namespace CytoscapeGraphView.Cyjs.style
 

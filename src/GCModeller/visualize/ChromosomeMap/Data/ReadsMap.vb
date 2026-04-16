@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d393feabc638495184ccb22a2f1bf1eb, visualize\ChromosomeMap\Data\ReadsMap.vb"
+﻿#Region "Microsoft.VisualBasic::2cf32976b0914158b00adb6ecae6cab0, visualize\ChromosomeMap\Data\ReadsMap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 294
+    '    Code Lines: 202 (68.71%)
+    ' Comment Lines: 35 (11.90%)
+    '    - Xml Docs: 62.86%
+    ' 
+    '   Blank Lines: 57 (19.39%)
+    '     File Size: 12.80 KB
+
+
     ' Module ReadsMap
     ' 
     '     Function: CreateLoci, GetLocation, Left, LoadConfig, MapDrawing
@@ -46,13 +58,12 @@ Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.My.JavaScript
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Oracle.Java.IO.Properties
 Imports SMRUCC.genomics.Assembly.DOOR
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel.SAM
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
 
@@ -243,12 +254,12 @@ Public Module ReadsMap
 
         For Each ReadCoverage As Long() In LQuery
             For Each Loci In ReadCoverage
-                HistoneGram(Loci).value += 1
+                HistoneGram(Loci).Value += 1
             Next
         Next
 
         '将位点还原为标签
-        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
+        Dim DipartsHistone = (From Loc In TSSPossibleLocation Select Loc.strand, Loc.Loci.Tag, ID = Loc.ID, HisData = Reads(Loc.LociSequence, HistoneGram)).ToArray
         '生成CSV文档
         Dim Df As New IO.File
         Dim OperonPromoterGene As String() = Nothing
@@ -280,7 +291,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.Tag)
+                Call row2.Add(Loci.tag.ToString)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -303,7 +314,7 @@ Public Module ReadsMap
                         Call row2.Add("")
                     End If
                 End If
-                Call row2.Add(Loci.Tag)
+                Call row2.Add(Loci.tag.ToString)
 
                 Call row2.AddRange((From p In If(Loci.strand = Strands.Forward, Loci.HisData.Reverse, Loci.HisData) Select CStr(p.Value)).ToArray)
 
@@ -322,14 +333,16 @@ Public Module ReadsMap
                      In LociSequence
                      Select i,
                          hisData = HistoneGram(i)
-        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.value)
+        Return LQuery.ToDictionary(Function(x) x.i, Function(x) x.hisData.Value)
     End Function
 
     Private Function GetLocation(GeneObject As TabularFormat.ComponentModels.GeneBrief) As NucleotideLocation
         Return New NucleotideLocation(
             GeneObject.Location.GetUpStreamLoci(CUInt(150)),
             GeneObject.Location.Start,
-            GeneObject.Location.Strand = Strands.Reverse) With {.tag = $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}
+            GeneObject.Location.Strand = Strands.Reverse) With {
+            .Tag = New JavaScriptObject(New Dictionary(Of String, Object) From {{"toString", $"{GeneObject.Synonym} {GeneObject.Location.ToString}"}})
+        }
     End Function
 
 End Module

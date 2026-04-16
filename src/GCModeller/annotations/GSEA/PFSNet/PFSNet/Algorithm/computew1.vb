@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 56 (63.64%)
+    ' Comment Lines: 27 (30.68%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 5 (5.68%)
+    '     File Size: 3.56 KB
+
+
     ' Module computew1Function
     ' 
     '     Function: computew1, getFuzzyWeight

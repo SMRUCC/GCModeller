@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 73 (48.99%)
+    ' Comment Lines: 54 (36.24%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 22 (14.77%)
+    '     File Size: 5.10 KB
+
+
     ' Class guids
     ' 
     '     Properties: max_guid, obj_type

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a38f867b66e622eee047be3e87feaab8, Microsoft.VisualBasic.Core\src\ComponentModel\File\XmlAssembly\XmlDataModel.vb"
+﻿#Region "Microsoft.VisualBasic::9d71bf1b924bcb4357b83e433ddb907e, Microsoft.VisualBasic.Core\src\ComponentModel\File\XmlAssembly\XmlDataModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 52 (57.78%)
+    ' Comment Lines: 28 (31.11%)
+    '    - Xml Docs: 89.29%
+    ' 
+    '   Blank Lines: 10 (11.11%)
+    '     File Size: 3.61 KB
+
+
     '     Class XmlDataModel
     ' 
     '         Properties: Stylesheet, TypeComment
@@ -51,15 +63,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ApplicationServices.Development
-#If netcore5 = 1 Then
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports Microsoft.VisualBasic.SecurityString
 
 Namespace ComponentModel
@@ -95,7 +101,6 @@ Namespace ComponentModel
         ''' </remarks>
         <DataMember>
         <IgnoreDataMember>
-        <ScriptIgnoreAttribute>
         <SoapIgnore>
         <XmlAnyElement>
         Public Property TypeComment As XmlComment Implements IXmlType.TypeComment
@@ -139,7 +144,7 @@ Namespace ComponentModel
                 $"{indentBlank} version:   " & devtools.AssemblyVersion & vbCrLf &
                 $"{indentBlank} built:     " & devtools.BuiltTime.ToString & vbCrLf &
                 $"{indentBlank} md5:       " & md5 & vbCrLf &
-                $"{indentBlank} timestamp: " & Now.ToString & vbCrLf &
+                $"{indentBlank} timestamp: " & DateTime.UtcNow.ToString & vbCrLf &
                 "  "
 
             Return traceInfo

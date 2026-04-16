@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 14 (63.64%)
+    ' Comment Lines: 3 (13.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (22.73%)
+    '     File Size: 574 B
+
+
     '     Structure Position
     ' 
     '         Properties: left, right

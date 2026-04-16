@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97e4d6dc1231e966f57a687046f1e567, gr\network-visualization\NetworkCanvas\Canvas.vb"
+﻿#Region "Microsoft.VisualBasic::e294c700dc7d04dbae6f856ec5c58715, gr\network-visualization\NetworkCanvas\Canvas.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 180 (71.71%)
+    ' Comment Lines: 35 (13.94%)
+    '    - Xml Docs: 91.43%
+    ' 
+    '   Blank Lines: 36 (14.34%)
+    '     File Size: 7.79 KB
+
+
     ' Class Canvas
     ' 
     '     Properties: AutoRotate, DynamicsRadius, FdgArgs, Graph, ShowLabel
     '                 ViewDistance
     ' 
-    '     Sub: [Stop], Canvas_Disposed, Canvas_Load, Canvas_Paint, doPaint
-    '          doPhysicsUpdates, Run, SetFDGParams, SetRotate, setupGraph
-    '          WriteLayout
+    '     Function: GetSnapshot, GetTargetNode, WriteLayout
+    ' 
+    '     Sub: [Stop], Canvas_Disposed, Canvas_Load, Canvas_Paint, Canvas_SizeChanged
+    '          doPaint, doPhysicsUpdates, Run, SetFDGParams, SetPhysical
+    '          SetRotate, setupGraph
     ' 
     ' /********************************************************************************/
 
@@ -49,7 +63,13 @@ Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
+Imports Microsoft.VisualBasic.Drawing
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Parallel.Tasks
+
+#If NET8_0_OR_GREATER Then
+Imports Bitmap = System.Drawing.Bitmap
+#End If
 
 ''' <summary>
 ''' Controls for view the network model.
@@ -70,16 +90,18 @@ Public Class Canvas
             Return net
         End Get
         Set(value As NetworkGraph)
-            Call setupGraph(value, space3D)
+            If Not value Is Nothing Then
+                Call setupGraph(value, space3D)
+            End If
         End Set
     End Property
 
     ''' <summary>
     ''' Render and layout engine works in 3D mode?
     ''' </summary>
-    Dim space3D As Boolean
+    Friend space3D As Boolean = False
 
-    Private Sub setupGraph(net As NetworkGraph, space As Boolean)
+    Private Sub setupGraph(net As NetworkGraph, space3D As Boolean)
         Dim showLabel As Boolean = Me.ShowLabel
 
         Me.net = net
@@ -91,12 +113,13 @@ Public Class Canvas
             inputs = Nothing
         End If
 
-        If space Then
+        If space3D Then
             fdgPhysics = New ForceDirected3D(Me.net, FdgArgs.Stiffness, FdgArgs.Repulsion, FdgArgs.Damping)
             fdgRenderer = New Renderer3D(
                 Function() paper,
                 Function() New Rectangle(New Point, Size),
                 fdgPhysics, DynamicsRadius)
+            DirectCast(fdgRenderer, Renderer3D).ViewDistance = viewDist
             inputs = New Input3D(Me)
         Else
             fdgPhysics = New ForceDirected2D(Me.net, FdgArgs.Stiffness, FdgArgs.Repulsion, FdgArgs.Damping)
@@ -107,10 +130,13 @@ Public Class Canvas
             inputs = New InputDevice(Me)
         End If
 
+        Me.fdgPhysics.interactiveMode = True
+        Me.fdgPhysics.width = Width
+        Me.fdgPhysics.height = Height
         Me.ShowLabel = showLabel
     End Sub
 
-    Public ReadOnly Property FdgArgs As ForceDirectedArgs = Parameters.Load
+    Public ReadOnly Property FdgArgs As New ForceDirectedArgs
 
     Public Sub SetRotate(x As Double)
         If Not space3D Then
@@ -127,7 +153,8 @@ Public Class Canvas
         Call fdgPhysics.SetPhysics(
             value.Stiffness,
             value.Repulsion,
-            value.Damping)
+            value.Damping
+        )
     End Sub
 
     ''' <summary>
@@ -150,7 +177,8 @@ Public Class Canvas
     ''' <summary>
     ''' GDI+ interface for the canvas control.
     ''' </summary>
-    Dim paper As Graphics
+    Dim paper As IGraphics
+    Dim viewDist As Double = -450
 
     Public Property AutoRotate As Boolean = True
     Public Property DynamicsRadius As Boolean = False
@@ -167,6 +195,8 @@ Public Class Canvas
             If space3D Then
                 DirectCast(fdgRenderer, Renderer3D).ViewDistance = value
             End If
+
+            viewDist = value
         End Set
     End Property
 
@@ -179,7 +209,9 @@ Public Class Canvas
             Return DirectCast(fdgRenderer, IGraphicsEngine).ShowLabels
         End Get
         Set(value As Boolean)
-            DirectCast(fdgRenderer, IGraphicsEngine).ShowLabels = value
+            If Not fdgRenderer Is Nothing Then
+                DirectCast(fdgRenderer, IGraphicsEngine).ShowLabels = value
+            End If
         End Set
     End Property
 
@@ -195,20 +227,31 @@ Public Class Canvas
         End If
     End Sub
 
+    ''' <summary>
+    ''' get target node object which is pointed by the mouse pointer
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function GetTargetNode(p As Point) As Node
+        Return inputs.GetPointedNode(p)
+    End Function
+
+    Public Function GetSnapshot() As Bitmap
+        Dim bitmap As New Bitmap(Width, Height)
+        Call Me.DrawToBitmap(bitmap, New Rectangle(0, 0, bitmap.Width, bitmap.Height))
+        Return bitmap
+    End Function
+
     Private Sub doPhysicsUpdates()
         SyncLock fdgRenderer
             If Not fdgRenderer Is Nothing Then
-                Call fdgRenderer.PhysicsEngine.Calculate(0.05F)
+                Call fdgRenderer.PhysicsEngine.Collide(0.05F)
             End If
         End SyncLock
     End Sub
 
     Private Sub Canvas_Paint(sender As Object, e As PaintEventArgs) Handles Me.Paint
-        paper = e.Graphics
-        paper.CompositingQuality = CompositingQuality.HighQuality
-        paper.SmoothingMode = SmoothingMode.HighQuality
-
-        Call fdgRenderer.Draw(0.05F, physicsUpdate:=False)
+        paper = New Graphics2D(e.Graphics, Size)
+        fdgRenderer.Draw(0.05F, physicsUpdate:=False)
     End Sub
 
     Dim inputs As InputDevice
@@ -220,10 +263,20 @@ Public Class Canvas
             Graph = New NetworkGraph
         End If
 
+        On Error Resume Next
+
         timer.ErrHandle = AddressOf App.LogException
         timer.Start()
         physicsEngine.ErrHandle = AddressOf App.LogException
         physicsEngine.Start()
+    End Sub
+
+    Public Sub SetPhysical(status As Boolean)
+        If status Then
+            physicsEngine.Start()
+        Else
+            physicsEngine.Stop()
+        End If
     End Sub
 
     Public Sub [Stop]()
@@ -239,12 +292,20 @@ Public Class Canvas
     ''' <summary>
     ''' Write the node layout position into its extensions data, for generates the svg graphics.
     ''' </summary>
-    Public Sub WriteLayout()
+    Public Function WriteLayout() As NetworkGraph
         Call Graph.WriteLayouts(fdgPhysics)
-    End Sub
+        Return Graph
+    End Function
 
     Private Sub Canvas_Disposed(sender As Object, e As EventArgs) Handles Me.Disposed
         timer.Dispose()
         physicsEngine.Dispose()
+    End Sub
+
+    Private Sub Canvas_SizeChanged(sender As Object, e As EventArgs) Handles Me.SizeChanged
+        If Not fdgPhysics Is Nothing Then
+            fdgPhysics.width = Width
+            fdgPhysics.height = Height
+        End If
     End Sub
 End Class

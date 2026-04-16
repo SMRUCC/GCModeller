@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed2fdb26306c20aa1b3074f094cc4d8a, HMP_client\metadata.vb"
+﻿#Region "Microsoft.VisualBasic::60c6c9e7345874200f3097fbd09b836f, HMP_client\metadata.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 27 (62.79%)
+    ' Comment Lines: 12 (27.91%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (9.30%)
+    '     File Size: 1.59 KB
+
+
     ' Class metadata
     ' 
     '     Properties: project_name, sample_body_site, sample_fecalcal, sample_id, study_full_name
@@ -45,9 +57,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Text
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' 数据文件所对应的样本信息

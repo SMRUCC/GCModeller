@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e2aedd315ebb2afc5b290bb58aa78a4, mime\application%pdf\PdfReader\Document\PdfObject.vb"
+﻿#Region "Microsoft.VisualBasic::8ceb492cdd712a59a5fb8f23f3da977e, mime\application%pdf\PdfReader\Document\PdfObject.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 153 (83.15%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 31 (16.85%)
+    '     File Size: 7.71 KB
+
+
     '     Class PdfObject
     ' 
     '         Properties: Decrypt, Document, Parent, ParseObject
@@ -54,11 +66,11 @@ Namespace PdfReader
     Public MustInherit Class PdfObject
         Private _Parent As PdfReader.PdfObject, _ParseObject As PdfReader.ParseObjectBase
 
-        Public Sub New(ByVal parent As PdfObject)
+        Public Sub New(parent As PdfObject)
             Me.New(parent, Nothing)
         End Sub
 
-        Public Sub New(ByVal parent As PdfObject, ByVal parse As ParseObjectBase)
+        Public Sub New(parent As PdfObject, parse As ParseObjectBase)
             Me.Parent = parent
             ParseObject = parse
         End Sub
@@ -67,7 +79,7 @@ Namespace PdfReader
             Return $"({[GetType]().Name})"
         End Function
 
-        Public Overridable Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overridable Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -75,7 +87,7 @@ Namespace PdfReader
             Get
                 Return _Parent
             End Get
-            Private Set(ByVal value As PdfObject)
+            Private Set(value As PdfObject)
                 _Parent = value
             End Set
         End Property
@@ -84,7 +96,7 @@ Namespace PdfReader
             Get
                 Return _ParseObject
             End Get
-            Private Set(ByVal value As ParseObjectBase)
+            Private Set(value As ParseObjectBase)
                 _ParseObject = value
             End Set
         End Property
@@ -184,7 +196,7 @@ Namespace PdfReader
             Throw New ApplicationException($"Unexpected object in content '{[GetType]().Name}', expected an integer array.")
         End Function
 
-        Public Function WrapObject(ByVal obj As ParseObjectBase) As PdfObject
+        Public Function WrapObject(obj As ParseObjectBase) As PdfObject
             Dim str As New Value(Of ParseString)
             If (str = TryCast(obj, ParseString)) IsNot Nothing Then Return New PdfString(Me, str)
             Dim name As New Value(Of ParseName)
@@ -222,7 +234,7 @@ Namespace PdfReader
             Throw New ApplicationException($"Cannot wrap object '{obj.GetType().Name}' as a pdf object .")
         End Function
 
-        Public Shared Function ArrayToRectangle(ByVal array As PdfArray) As PdfRectangle
+        Public Shared Function ArrayToRectangle(array As PdfArray) As PdfRectangle
             If array IsNot Nothing Then
                 Return New PdfRectangle(array.Parent, array.ParseArray)
             Else

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebef8f5c57a0f0d50295bd30d4fab7a8, annotations\KEGG\Reconstruct\Reconstruction.vb"
+﻿#Region "Microsoft.VisualBasic::a36f09f00023e856d31553f624ef56a7, annotations\KEGG\Reconstruct\Reconstruction.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 293
+    '    Code Lines: 219 (74.74%)
+    ' Comment Lines: 40 (13.65%)
+    '    - Xml Docs: 82.50%
+    ' 
+    '   Blank Lines: 34 (11.60%)
+    '     File Size: 11.86 KB
+
+
     ' Module Reconstruction
     ' 
     '     Function: AssignCompounds, CreateIndex, createPathwayModel, GetEnzymeNumbers, GetFluxInMaps
-    '               (+2 Overloads) KEGGReconstruction
+    '               (+2 Overloads) KEGGReconstruction, PopulateIdSet
     ' 
     ' /********************************************************************************/
 
@@ -49,10 +61,23 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module Reconstruction
+
+    <Extension>
+    Private Iterator Function PopulateIdSet(r As ReactionTable, indexByCompounds As Boolean) As IEnumerable(Of String())
+        Yield {r.entry}
+        Yield r.EC
+        Yield r.KO
+        Yield r.geneNames
+
+        If indexByCompounds Then
+            Yield r.products
+            Yield r.substrates
+        End If
+    End Function
 
     ''' <summary>
     ''' create kegg reaction index by kegg reaction id/KO/ECnumber
@@ -60,12 +85,12 @@ Public Module Reconstruction
     ''' <param name="reactions"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable)) As Dictionary(Of String, ReactionTable())
+    Public Function CreateIndex(reactions As IEnumerable(Of ReactionTable), Optional indexByCompounds As Boolean = False) As Dictionary(Of String, ReactionTable())
         Return reactions _
             .Select(Function(r)
-                        Return {r.entry} _
-                            .JoinIterates(r.KO) _
-                            .JoinIterates(r.EC) _
+                        Return r.PopulateIdSet(indexByCompounds) _
+                            .IteratesALL _
+                            .Distinct _
                             .Select(Function(id) (id, r))
                     End Function) _
             .IteratesALL _
@@ -200,12 +225,15 @@ Public Module Reconstruction
     ''' </summary>
     ''' <param name="reference"></param>
     ''' <param name="genes"></param>
-    ''' <param name="min_cov"></param>
+    ''' <param name="min_cov">
+    ''' coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function KEGGReconstruction(reference As IEnumerable(Of Map),
                                                 genes As IEnumerable(Of ProteinAnnotation),
-                                                Optional min_cov As Double = 0.3) As IEnumerable(Of DBGET.bGetObject.Pathway)
+                                                Optional min_cov As Double = 0.3,
+                                                Optional prefix As String = Nothing) As IEnumerable(Of DBGET.bGetObject.Pathway)
 
         Dim KOindex As Dictionary(Of String, ProteinAnnotation()) = genes _
             .Where(Function(g) g.attributes.ContainsKey("ko")) _
@@ -221,20 +249,20 @@ Public Module Reconstruction
         Dim mapReconstruct As New Value(Of DBGET.bGetObject.Pathway)
 
         For Each map As Map In reference
-            If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov) Is Nothing Then
+            If Not mapReconstruct = map.KEGGReconstruction(KOindex, min_cov, prefix) Is Nothing Then
                 Yield mapReconstruct
             End If
         Next
     End Function
 
     <Extension>
-    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#) As DBGET.bGetObject.Pathway
+    Private Function KEGGReconstruction(map As Map, KOindex As Dictionary(Of String, ProteinAnnotation()), min_cov#, prefix As String) As DBGET.bGetObject.Pathway
         Dim all As Integer = 0
         Dim hits As New List(Of ProteinAnnotation())
         Dim objs As String()
         Dim idIndex As New List(Of String)
 
-        For Each entity As Area In map.shapes
+        For Each entity As Area In map.shapes.mapdata
             objs = entity.IDVector
 
             If objs.Any(Function(id) id.IsPattern("K\d+")) Then
@@ -262,15 +290,15 @@ Public Module Reconstruction
             .Select(Function(g) g.First) _
             .ToArray
 
-        If coverage >= min_cov Then
-            Return map.createPathwayModel(proteins, idIndex)
+        If coverage > min_cov Then
+            Return map.createPathwayModel(proteins, idIndex, prefix)
         Else
             Return Nothing
         End If
     End Function
 
     <Extension>
-    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String)) As DBGET.bGetObject.Pathway
+    Private Function createPathwayModel(map As Map, proteins As ProteinAnnotation(), idIndex As IEnumerable(Of String), prefix$) As DBGET.bGetObject.Pathway
         Dim kopathway As NamedValue() = proteins _
             .Select(Function(prot)
                         Return prot.attributes("ko") _
@@ -283,17 +311,26 @@ Public Module Reconstruction
                     End Function) _
             .IteratesALL _
             .ToArray
+        Dim mapId As String = map.EntryId
+
+        If Not prefix.StringEmpty Then
+            If Not mapId.IsPattern("\d+") Then
+                mapId = mapId.Match("\d+")
+            End If
+
+            mapId = prefix & mapId.PadLeft(5, "0"c)
+        End If
 
         Return New DBGET.bGetObject.Pathway With {
-            .description = map.Name,
-            .EntryId = map.id,
-            .name = map.Name,
+            .description = map.name,
+            .EntryId = mapId,
+            .name = map.name,
             .KOpathway = kopathway,
             .genes = proteins _
                 .Select(Function(g)
-                            Return New NamedValue With {
-                                .name = g.geneId,
-                                .text = g.description
+                            Return New GeneName With {
+                                .geneId = g.geneId,
+                                .description = g.description
                             }
                         End Function) _
                 .ToArray,

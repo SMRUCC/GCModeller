@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd9dbe69ad6d478cd24134a931b9fe4c, models\Networks\KEGG\ReactionNetwork\Models\MapCache.vb"
+﻿#Region "Microsoft.VisualBasic::156d5ab5f22d53787c18900e3de2e226, models\Networks\KEGG\ReactionNetwork\Models\MapCache.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 82 (62.12%)
+    ' Comment Lines: 26 (19.70%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 24 (18.18%)
+    '     File Size: 4.54 KB
+
+
     '     Class MapCache
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -44,7 +56,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ReactionNetwork
 
@@ -105,7 +117,7 @@ Namespace ReactionNetwork
         Private Shared Function indexKey(c1$, c2$) As String
             Dim i1 = Integer.Parse(c1.Substring(1))
             Dim i2 = Integer.Parse(c2.Substring(1))
-            Dim key = stdNum.Min(i1, i2) & "|" & stdNum.Max(i1, i2)
+            Dim key = std.Min(i1, i2) & "|" & std.Max(i1, i2)
 
             Return key
         End Function

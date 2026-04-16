@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cc1fb652a5fb43544df946fbed61097, data\RCSB PDB\PDB\AminoAcid.vb"
+﻿#Region "Microsoft.VisualBasic::d5b29951421bad29453779336b43c412, data\RCSB PDB\PDB\AminoAcid.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 30 (68.18%)
+    ' Comment Lines: 10 (22.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (9.09%)
+    '     File Size: 1.44 KB
+
+
     ' Class AminoAcid
     ' 
     '     Properties: AA_ID, Atoms, Carbon, Index
@@ -40,6 +52,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports SMRUCC.genomics.Data.RCSB.PDB.Keywords
 
 ''' <summary>
 ''' 氨基酸残基
@@ -69,8 +83,11 @@ Public Class AminoAcid
     End Property
 
     Public Shared Function SequenceGenerator(Atoms As Keywords.Atom) As AminoAcid()
-        Dim Resource = (From Atom In Atoms Select Atom Group Atom By Atom.AA_IDX Into Group).ToArray
-        Dim LQuery = (From item In Resource
+        Dim res = (From atom As AtomUnit
+                   In Atoms
+                   Select atom
+                   Group atom By atom.AA_IDX Into Group).ToArray
+        Dim LQuery = (From item In res
                       Select AA = New AminoAcid With {
                           .Index = item.AA_IDX,
                           .AA_ID = item.Group.First.AA_ID,

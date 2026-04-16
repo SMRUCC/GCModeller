@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc45193b4ec4fba0d503d81572bc45ad, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::92035c2ac462f763ccc5328e647215d1, core\Bio.Assembly\Metagenomics\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 370
+    '    Code Lines: 239 (64.59%)
+    ' Comment Lines: 83 (22.43%)
+    '    - Xml Docs: 78.31%
+    ' 
+    '   Blank Lines: 48 (12.97%)
+    '     File Size: 14.58 KB
+
+
     '     Class Taxonomy
     ' 
-    '         Properties: [class], family, genus, kingdom, lowestLevel
-    '                     ncbi_taxid, order, phylum, scientificName, species
+    '         Properties: [class], family, genus, kingdom, ncbi_taxid
+    '                     order, phylum, RankLevel, scientificName, species
     ' 
     '         Constructor: (+5 Overloads) Sub New
     '         Function: [Select], compare, CompareWith, CreateTable, IsEmpty
-    '                   Rank, (+3 Overloads) ToString
+    '                   Rank, rankName, ToArray, (+3 Overloads) ToString
     '         Operators: (+2 Overloads) IsFalse, (+2 Overloads) IsTrue
     ' 
     ' 
@@ -57,14 +69,16 @@ Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Namespace Metagenomics
 
     ''' <summary>
-    ''' 主要是用来保存csv以及Xml文件使用
+    ''' A simple organism taxonomy model.
     ''' </summary>
-    ''' 
+    ''' <remarks>
+    ''' 主要是用来保存csv以及Xml文件使用
+    ''' </remarks>
     <XmlType("taxonomy", [Namespace]:=SMRUCC.genomics.LICENSE.GCModeller)>
-    Public Class Taxonomy
+    Public Class Taxonomy : Implements IGenomeObject
 
-        <XmlAttribute> Public Property ncbi_taxid As String
-        <XmlAttribute> Public Property scientificName As String
+        <XmlAttribute> Public Property ncbi_taxid As UInteger Implements IGenomeObject.ncbi_taxid
+        <XmlAttribute> Public Property scientificName As String Implements IGenomeObject.genome_name
 
 #Region "BIOM taxonomy k__ p__ c__ o__ f__ g__ s__"
 
@@ -72,6 +86,7 @@ Namespace Metagenomics
         ''' 1. 界
         ''' </summary>
         Public Property kingdom As String
+
         ''' <summary>
         ''' 2. 门
         ''' </summary>
@@ -102,7 +117,7 @@ Namespace Metagenomics
         ''' 获取当前的这个分类结果值的最小分类单元的等级
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property lowestLevel As TaxonomyRanks
+        Public ReadOnly Property RankLevel As TaxonomyRanks
             Get
                 If kingdom.StringEmpty(True) Then
                     Return TaxonomyRanks.NA
@@ -142,6 +157,10 @@ Namespace Metagenomics
             species = lineage(NcbiTaxonomyTree.species)
         End Sub
 
+        ''' <summary>
+        ''' construct of the taxonomy information from the ncbi taxonomy tree lineage data
+        ''' </summary>
+        ''' <param name="taxonomyNodes"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(taxonomyNodes As IEnumerable(Of TaxonomyNode))
             Call Me.New(taxonomyNodes.ToDictionary(Function(t) t.rank, Function(t) t.name))
@@ -200,6 +219,18 @@ Namespace Metagenomics
             }
         End Function
 
+        Public Function ToArray() As String()
+            Dim all As String() = [Select].ToArray
+
+            For i As Integer = all.Length - 1 To 0 Step -1
+                If all(i) <> "" Then
+                    Return all.Take(i + 1).ToArray
+                End If
+            Next
+
+            Return all
+        End Function
+
         ''' <summary>
         ''' Convert current <see cref="Taxonomy"/> object as a string array.
         ''' (返回来的元素值是按照<see cref="TaxonomyRanks"/>从大到小排列的)
@@ -217,7 +248,7 @@ Namespace Metagenomics
         ''' <summary>
         ''' 这个函数不会比较<see cref="scientificName"/>
         ''' </summary>
-        ''' <param name="another"></param>
+        ''' <param name="another">item b</param>
         ''' <returns></returns>
         Public Function CompareWith(another As Taxonomy) As Relations
             With another
@@ -337,15 +368,29 @@ Namespace Metagenomics
             Dim tax As New List(Of String)
             Dim i As i32 = Scan0
 
-            tax += BIOMPrefixAlt(++i) & Me.kingdom
-            tax += BIOMPrefixAlt(++i) & Me.phylum
-            tax += BIOMPrefixAlt(++i) & Me.class
-            tax += BIOMPrefixAlt(++i) & Me.order
-            tax += BIOMPrefixAlt(++i) & Me.family
-            tax += BIOMPrefixAlt(++i) & Me.genus
-            tax += BIOMPrefixAlt(++i) & Me.species
+            tax += rankName(BIOMPrefixAlt(++i), kingdom)
+            tax += rankName(BIOMPrefixAlt(++i), phylum)
+            tax += rankName(BIOMPrefixAlt(++i), [class])
+            tax += rankName(BIOMPrefixAlt(++i), order)
+            tax += rankName(BIOMPrefixAlt(++i), family)
+            tax += rankName(BIOMPrefixAlt(++i), genus)
+            tax += rankName(BIOMPrefixAlt(++i), species)
 
-            Return tax.JoinBy(";")
+            Return tax _
+                .Where(Function(t) Not t.StringEmpty) _
+                .JoinBy(";")
+        End Function
+
+        Private Shared Function rankName(biomprefix As String, name As String) As String
+            If name.StringEmpty Then
+                Return biomprefix
+            End If
+
+            If name.StartsWith("[a-z]__", RegexICSng) Then
+                Return name
+            Else
+                Return biomprefix & name
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -353,16 +398,30 @@ Namespace Metagenomics
             Return Me.Select(rank).ToArray.TaxonomyString
         End Function
 
+        Const speciesIndex As Integer = TaxonomyRanks.Species - 100
+        Const genusIndex As Integer = TaxonomyRanks.Genus - 100
+
         ''' <summary>
         ''' 如果<paramref name="BIOMstyle"/>参数为真,则返回符合BIOM文件要求的Taxonomy字符串格式
         ''' </summary>
         ''' <param name="BIOMstyle"></param>
+        ''' <param name="trimGenus">
+        ''' only works when <paramref name="BIOMstyle"/> parameter value set to TRUE
+        ''' </param>
         ''' <returns></returns>
-        Public Overloads Function ToString(BIOMstyle As Boolean) As String
+        Public Overloads Function ToString(BIOMstyle As Boolean, Optional trimGenus As Boolean = False) As String
             If BIOMstyle Then
-                Return Me.Select(TaxonomyRanks.Species) _
-                    .ToArray _
-                    .TaxonomyString
+                Dim list As String() = Me.Select(TaxonomyRanks.Species).ToArray
+
+                If trimGenus Then
+                    If list(speciesIndex).StartsWith(list(genusIndex) & " ") Then
+                        list(speciesIndex) = list(speciesIndex) _
+                            .Replace(list(genusIndex) & " ", "") _
+                            .Trim
+                    End If
+                End If
+
+                Return list.TaxonomyString
             Else
                 Return Me.ToString
             End If

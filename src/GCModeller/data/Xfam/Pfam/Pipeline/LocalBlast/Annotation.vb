@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13ebe91404e36db1b7b5a4cda49d97eb, data\Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
+﻿#Region "Microsoft.VisualBasic::2aea6d80bad127be247d3e47453c0bc0, data\Xfam\Pfam\Pipeline\LocalBlast\Annotation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 283
+    '    Code Lines: 201 (71.02%)
+    ' Comment Lines: 47 (16.61%)
+    '    - Xml Docs: 74.47%
+    ' 
+    '   Blank Lines: 35 (12.37%)
+    '     File Size: 13.22 KB
+
+
     '     Module Annotation
     ' 
     '         Function: AnnotatedFromHitsGroup, ApplyDomainFilter, CreatePfamStringAnnotation, doGroupingAndTrimOverlap, DoHitsGrouping
@@ -61,12 +73,12 @@ Namespace Pipeline.LocalBlast
         Public Iterator Function DoHitsGrouping(hits As IEnumerable(Of PfamHit)) As IEnumerable(Of NamedCollection(Of PfamHit))
             Dim proteinGroups As New Dictionary(Of String, List(Of PfamHit))
 
-            Call "Create protein groups...".__DEBUG_ECHO
+            Call "Create protein groups...".debug
 
             For Each hit As PfamHit In hits
                 If Not proteinGroups.ContainsKey(hit.QueryName) Then
                     proteinGroups(hit.QueryName) = New List(Of PfamHit)
-                    Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
+                    Call $"{hit.QueryName}: {hit.description}".debug
                 End If
 
                 proteinGroups(hit.QueryName) += hit
@@ -114,11 +126,11 @@ Namespace Pipeline.LocalBlast
                 }
             End If
 
-            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.DomainId)}:{d.DomainId}" Distinct).ToArray
+            Dim domainIDs$() = (From d As DomainModel In domains Select $"{idTable(d.ID)}:{d.name}" Distinct).ToArray
             Dim pfamString$() = domains _
                 .OrderBy(Function(d) d.start) _
                 .Select(Function(x)
-                            Return $"{x.DomainId}({x.start}|{x.ends})"
+                            Return $"{x.ID}:{x.name}({x.start}|{x.ends})"
                         End Function) _
                 .Distinct _
                 .ToArray
@@ -301,7 +313,7 @@ Namespace Pipeline.LocalBlast
         <Extension>
         Private Iterator Function doGroupingAndTrimOverlap(source As IEnumerable(Of DomainModel), lenOffset As Integer) As IEnumerable(Of DomainModel())
             Dim group = (From domain As IGrouping(Of String, DomainModel)
-                         In source.GroupBy(Function(d) d.DomainId)
+                         In source.GroupBy(Function(d) d.ID)
                          Let locations As DomainModel() = domain _
                              .OrderBy(Function(n) DirectCast(n, IMotifSite).site.left) _
                              .ToArray

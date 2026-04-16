@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 224
+    '    Code Lines: 160 (71.43%)
+    ' Comment Lines: 36 (16.07%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 28 (12.50%)
+    '     File Size: 8.89 KB
+
+
     ' Module GoStat
     ' 
     '     Properties: OntologyNamespaces

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ec88e1c7025c20acdd572ff495e95649, Data_science\Graph\Model\Tree\TermTree.vb"
+﻿#Region "Microsoft.VisualBasic::70894eb9e83377d684719760809d97dd, Data_science\Graph\Model\Tree\TermTree.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 56 (70.00%)
+    ' Comment Lines: 11 (13.75%)
+    '    - Xml Docs: 72.73%
+    ' 
+    '   Blank Lines: 13 (16.25%)
+    '     File Size: 2.44 KB
+
+
     ' Class TermTree
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: (+2 Overloads) Add, newChild, Visit
+    '     Function: (+2 Overloads) Add, FindRoot, newChild, Visit
     ' 
     ' /********************************************************************************/
 
@@ -42,7 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 ''' <summary>
 ''' A tree with string term as key
@@ -76,7 +88,7 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
         Return New TermTree(Of T) With {
             .Data = value,
             .ID = Me.ID + Childs.Count,
-            .Label = name,
+            .label = name,
             .Parent = Me,
             .Childs = New Dictionary(Of String, Tree(Of T, String))
         }
@@ -108,5 +120,15 @@ Public Class TermTree(Of T) : Inherits Tree(Of T, String)
 
             Return DirectCast(Childs([next]), TermTree(Of T)).Add(path.Skip(1).ToArray, value)
         End If
+    End Function
+
+    Public Shared Function FindRoot(tree As TermTree(Of T)) As TermTree(Of T)
+        Dim parent As TermTree(Of T) = tree
+
+        Do While parent.Parent IsNot Nothing
+            parent = parent.Parent
+        Loop
+
+        Return parent
     End Function
 End Class

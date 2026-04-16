@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 52 (66.67%)
+    ' Comment Lines: 4 (5.13%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 22 (28.21%)
+    '     File Size: 2.48 KB
+
+
     ' Module LPPTest
     ' 
     '     Sub: assertEquals, main, Main2, testSolveMaximizeExample, testSolveMinimizeExample

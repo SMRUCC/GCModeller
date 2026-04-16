@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83 (50.61%)
+    ' Comment Lines: 59 (35.98%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 9.08 KB
+
+
     ' Class transcription_unit
     ' 
     '     Properties: key_id_org, operon_id, promoter_id, transcription_unit_id, transcription_unit_name

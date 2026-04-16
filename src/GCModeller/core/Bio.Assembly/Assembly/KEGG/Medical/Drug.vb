@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 133 (74.30%)
+    ' Comment Lines: 17 (9.50%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 29 (16.20%)
+    '     File Size: 6.19 KB
+
+
     '     Class ClassInheritance
     ' 
     '         Properties: Categories, IsAgent, IsAminoAcid, IsAntibacterial, IsAntiInflammatory

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5bd8b50429c24ae5aeb0698a12e91501, Data\GraphQuery\Engine.vb"
+﻿#Region "Microsoft.VisualBasic::6f41769dd90e7e40fa53836d10219534, Data\GraphQuery\Engine.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 103 (77.44%)
+    ' Comment Lines: 5 (3.76%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 25 (18.80%)
+    '     File Size: 4.52 KB
+
+
     ' Class Engine
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -58,7 +70,9 @@ Public Class Engine
     ReadOnly funcs As New Dictionary(Of String, ParserFunction)
 
     Sub New()
-        Call addPackage(GetType(BaseInvoke))
+        Call addPackage(GetType(TextParser.BaseInvoke))
+        Call addPackage(GetType(TextParser.Html))
+        Call addPackage(GetType(TextParser.LINQ))
     End Sub
 
     Private Sub addPackage(pkg As Type)
@@ -148,7 +162,8 @@ Public Class Engine
                 If item.GetType Is GetType(InnerPlantText) Then
                     item = New HtmlElement With {
                         .InnerText = item.GetPlantText,
-                        .TagName = "na"
+                        .TagName = "na",
+                        .Attributes = {AutoContext.Attribute}
                     }
                 End If
 
@@ -167,7 +182,7 @@ Public Class Engine
         Dim obj As New JsonObject
 
         For Each member As Query In query.members
-            obj.Add(member.name, Execute(document, member))
+            Call obj.Add(member.name, Execute(document, member))
         Next
 
         Return obj

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f40f25a0a3a8d8213c42d287909eb02d, modules\ExperimentDesigner\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::41d0fff4743e5a5867b7ed13603ffe74, modules\ExperimentDesigner\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 379
+    '    Code Lines: 253 (66.75%)
+    ' Comment Lines: 89 (23.48%)
+    '    - Xml Docs: 87.64%
+    ' 
+    '   Blank Lines: 37 (9.76%)
+    '     File Size: 15.50 KB
+
+
     ' Module Extensions
     ' 
-    '     Properties: Names
+    '     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, (+2 Overloads) ImpactFactor, ImpactSort
+    '               PairedAnalysisSamples, SampleGroupColor, SampleGroupInfo, SampleIDs, SampleNames
+    '               SetNames, TakeGroup, ToCategory
     ' 
-    '     Function: DataAnalysisDesign, EnsureGroupPaired, EqualsToTuple, PairedAnalysisSamples, SampleGroupColor
-    '               SampleGroupInfo, SampleIDs, SampleNames, TakeGroup, ToCategory
+    ' Class ImpactResult
+    ' 
+    '     Properties: [class], id, impacts, max, name
+    '                 significant, top_group, total
+    ' 
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -45,12 +63,12 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports std = System.Math
 
 <HideModuleName>
 Public Module Extensions
@@ -103,9 +121,9 @@ Public Module Extensions
 
     <Extension>
     Private Function EqualsToTuple(ad As AnalysisDesigner, tuple As SampleTuple) As Boolean
-        If ad.Controls = tuple.Sample1 AndAlso ad.Treatment = tuple.Sample2 Then
+        If ad.controls = tuple.sample1 AndAlso ad.treatment = tuple.sample2 Then
             Return True
-        ElseIf ad.Treatment = tuple.Sample1 AndAlso ad.Controls = tuple.Sample2 Then
+        ElseIf ad.treatment = tuple.sample1 AndAlso ad.controls = tuple.sample2 Then
             Return True
         Else
             Return False
@@ -187,11 +205,7 @@ Public Module Extensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function SampleGroupInfo(sampleInfo As IEnumerable(Of SampleInfo)) As Dictionary(Of String, String)
-        Return sampleInfo.ToDictionary(
-            Function(sample) sample.ID,
-            Function(sample)
-                Return sample.sample_info
-            End Function)
+        Return sampleInfo.ToDictionary(Function(sample) sample.ID, Function(sample) sample.sample_info)
     End Function
 
     ''' <summary>
@@ -262,8 +276,8 @@ Public Module Extensions
         Dim designs = analysis.ToDictionary(
             Function(name) name.ToString,
             Function(designer)
-                Dim control = sampleGroups(designer.Controls)
-                Dim experimentals = sampleGroups(designer.Treatment)
+                Dim control = sampleGroups(designer.controls)
+                Dim experimentals = sampleGroups(designer.treatment)
 
                 ' 对照 vs 处理 
                 Return control _
@@ -271,9 +285,9 @@ Public Module Extensions
                                 Return experimentals _
                                     .Select(Function(e)
                                                 Return New AnalysisDesigner With {
-                                                    .Controls = c.sample_name,
-                                                    .Treatment = e.sample_name,
-                                                    .Note = translation(.Treatment).ID & "/" & translation(.Controls).ID
+                                                    .controls = c.sample_name,
+                                                    .treatment = e.sample_name,
+                                                    .note = translation(.treatment).ID & "/" & translation(.controls).ID
                                                 }
                                             End Function)
                             End Function) _
@@ -310,8 +324,8 @@ Public Module Extensions
 
             ' returns case + control
             Return groups.AsList + New NamedCollection(Of T) With {
-                .Name = groupCreated,
-                .Value = controls _
+                .name = groupCreated,
+                .value = controls _
                     .Select(Function(name)
                                 Return New T With {
                                     .sample_name = name,
@@ -328,21 +342,100 @@ Public Module Extensions
     ''' <summary>
     ''' 将<see cref="SampleInfo.ID"/>映射为对应的<see cref="SampleInfo.sample_name"/>
     ''' </summary>
-    ''' <param name="matrix">属性的键名称应该都是<see cref="SampleInfo.ID"/></param>
-    Public WriteOnly Property Names(matrix As DataSet()) As SampleInfo()
-        Set(value As SampleInfo())
-            For Each data As DataSet In matrix
-                Dim row As Dictionary(Of String, Double) = data.Properties
+    ''' <param name="matrix">
+    ''' 属性的键名称应该都是<see cref="SampleInfo.ID"/>
+    ''' </param>
+    <Extension>
+    Public Function SetNames(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(matrix As DataSet(), value As SampleInfo()) As SampleInfo()
+        For Each data As DataSet In matrix
+            Dim row As Dictionary(Of String, Double) = data.Properties
 
-                For Each sample As SampleInfo In value
-                    If row.ContainsKey(sample.ID) Then
-                        Dim x As Double = row(sample.ID)
+            For Each sample As SampleInfo In value
+                If row.ContainsKey(sample.ID) Then
+                    Dim x As Double = row(sample.ID)
 
-                        Call row.Remove(sample.ID)
-                        Call row.Add(sample.sample_name, x)
-                    End If
-                Next
+                    Call row.Remove(sample.ID)
+                    Call row.Add(sample.sample_name, x)
+                End If
             Next
-        End Set
-    End Property
+        Next
+
+        Return value
+    End Function
+
+    <Extension>
+    Public Function ImpactFactor(Of T As IDeg)(deg As T) As Double
+        Return std.Abs(deg.log2FC) * (-std.Log10(deg.pvalue))
+    End Function
+
+    <Extension>
+    Public Iterator Function ImpactFactor(Of T As IDeg)(degs As IEnumerable(Of T)) As IEnumerable(Of Double)
+        For Each deg As T In degs
+            Yield std.Abs(deg.log2FC) * (-std.Log10(deg.pvalue))
+        Next
+    End Function
+
+    <Extension>
+    Public Function ImpactSort(Of T As IDeg)(analysis As IEnumerable(Of NamedCollection(Of T)), Optional FCImpact As Boolean = False) As IEnumerable(Of ImpactResult)
+        Dim pool = analysis.Select(Function(group) group.Select(Function(gene) (group.name, gene))).IteratesALL
+        Dim genes = From gene As (name As String, gene As T)
+                    In pool
+                    Group By gene.gene.label Into Group
+                    Let impacts As Dictionary(Of String, Double) = Group _
+                        .ToDictionary(Function(g) g.name,
+                                      Function(g)
+                                          If FCImpact Then
+                                              Return std.Abs(g.gene.log2FC)
+                                          Else
+                                              Return g.gene.ImpactFactor
+                                          End If
+                                      End Function)
+                    Let factor As ImpactResult = New ImpactResult With {
+                        .id = label,
+                        .impacts = impacts
+                    }
+                    Order By factor.total Descending
+                    Select factor
+
+        Return genes
+    End Function
+
 End Module
+
+Public Class ImpactResult : Implements INamedValue
+
+    Public Property id As String Implements INamedValue.Key
+    Public Property impacts As Dictionary(Of String, Double)
+
+    Public Property name As String
+    Public Property [class] As String
+
+    Public ReadOnly Property total As Double
+        Get
+            Return impacts.Values.Sum
+        End Get
+    End Property
+
+    Public ReadOnly Property top_group As String
+        Get
+            Return impacts _
+                .OrderByDescending(Function(a) a.Value) _
+                .First.Key
+        End Get
+    End Property
+    Public ReadOnly Property max As Double
+        Get
+            Return impacts.Values.Max
+        End Get
+    End Property
+    Public ReadOnly Property significant As Integer
+        Get
+            Return impacts.Count
+        End Get
+    End Property
+
+    Public Overrides Function ToString() As String
+        Return $"{id} = {total}"
+    End Function
+
+End Class

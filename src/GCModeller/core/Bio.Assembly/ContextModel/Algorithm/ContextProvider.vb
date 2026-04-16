@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d06b5aa11a1ca48153f1268423be9fd6, core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
+﻿#Region "Microsoft.VisualBasic::8ad0d7c0890e14b9439585569ccb0923, core\Bio.Assembly\ContextModel\Algorithm\ContextProvider.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 260
+    '    Code Lines: 157 (60.38%)
+    ' Comment Lines: 74 (28.46%)
+    '    - Xml Docs: 91.89%
+    ' 
+    '   Blank Lines: 29 (11.15%)
+    '     File Size: 13.25 KB
+
 
     '     Class GenomeContextProvider
     ' 
@@ -257,7 +269,7 @@ Namespace ContextModel
             foundTEMP = GetRelation(SegmentRelationships.UpStream, lociDist)  ' 获取ATG距离小于阈值的所有基因
             'foundTEMP = (From gene As T
             '             In foundTEMP
-            '             Where stdNum.Abs(GetATGDistance(loci, gene)) <= lociDist
+            '             Where std.Abs(GetATGDistance(loci, gene)) <= lociDist
             '             Select gene).ToArray
 
             If Not foundTEMP.IsNullOrEmpty Then

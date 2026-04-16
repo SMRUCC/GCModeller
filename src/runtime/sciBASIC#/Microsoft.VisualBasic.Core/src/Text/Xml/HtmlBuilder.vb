@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 31 (65.96%)
+    ' Comment Lines: 10 (21.28%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (12.77%)
+    '     File Size: 1.83 KB
+
+
     '     Module HtmlBuilder
     ' 
     '         Function: AppendLine, sprintf, WriteLine

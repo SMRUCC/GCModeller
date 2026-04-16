@@ -1,9 +1,13 @@
+require(kegg_api);
 
-options(http.cache_dir = `${dirname(@script)}/.cache/`);
+options(http.cache_dir = `${@dir}/.cache/`);
 
-kegg_map(
-    "D:\GCModeller\src\repository\graphquery\kegg\test\map.html"
-)
-|> xml
-|> writeLines(con = `${dirname(@script)}/pathwayMap.XML`)
-;
+for(id in ["map00020" "map00010"]) {
+    kegg_map(
+        id
+    )
+    |> xml
+    |> writeLines(con = `${@dir}/demo_maps/${id}.Xml`)
+    ;
+}
+

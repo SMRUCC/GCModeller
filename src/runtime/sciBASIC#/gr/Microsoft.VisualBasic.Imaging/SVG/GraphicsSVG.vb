@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0c4fbe24a694c1ee85a3f58dedc95fd, gr\Microsoft.VisualBasic.Imaging\SVG\GraphicsSVG.vb"
+﻿#Region "Microsoft.VisualBasic::f02d76067ce082e5367b2c5f5f4da6c2, gr\Microsoft.VisualBasic.Imaging\SVG\GraphicsSVG.vb"
 
     ' Author:
     ' 
@@ -31,27 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 698
+    '    Code Lines: 499 (71.49%)
+    ' Comment Lines: 42 (6.02%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 157 (22.49%)
+    '     File Size: 28.21 KB
+
+
     '     Class GraphicsSVG
     ' 
-    '         Properties: CompositingMode, CompositingQuality, DpiX, DpiY, GetLastLayer
-    '                     InterpolationMode, IsClipEmpty, IsVisibleClipEmpty, PageScale, PageUnit
-    '                     PixelOffsetMode, RenderingOrigin, Size, SmoothingMode, TextContrast
-    '                     TextRenderingHint
+    '         Properties: Driver, LastSvgLayerElement, RenderingOrigin, Size, TextContrast
     ' 
-    '         Constructor: (+3 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
     ' 
-    '         Function: (+7 Overloads) Add, (+3 Overloads) BeginContainer, GetContextInfo, GetNearestColor, (+8 Overloads) IsVisible
-    '                   MeasureCharacterRanges, (+7 Overloads) MeasureString, svgFontScale
+    '         Function: GetContextInfo, GetStringPath, GetSvgText, (+4 Overloads) IsVisible, (+3 Overloads) MeasureString
+    '                   Save
     ' 
-    '         Sub: AddMetafileComment, Clear, (+4 Overloads) CopyFromScreen, Dispose, (+4 Overloads) DrawArc
-    '              (+3 Overloads) DrawBezier, (+2 Overloads) DrawBeziers, DrawCircle, (+4 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve
-    '              (+4 Overloads) DrawEllipse, (+2 Overloads) DrawIcon, DrawIconUnstretched, (+30 Overloads) DrawImage, (+4 Overloads) DrawImageUnscaled
-    '              DrawImageUnscaledAndClipped, (+4 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath, (+4 Overloads) DrawPie
-    '              (+2 Overloads) DrawPolygon, (+6 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+6 Overloads) DrawString, EndContainer
-    '              (+36 Overloads) EnumerateMetafile, (+2 Overloads) ExcludeClip, (+6 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath
-    '              (+3 Overloads) FillPie, (+4 Overloads) FillPolygon, (+4 Overloads) FillRectangle, FillRegion, (+2 Overloads) Flush
-    '              (+3 Overloads) IntersectClip, (+2 Overloads) MultiplyTransform, ResetClip, ResetTransform, (+2 Overloads) RotateTransform
-    '              (+2 Overloads) ScaleTransform, (+9 Overloads) SetClip, (+2 Overloads) TransformPoints, (+2 Overloads) TranslateClip, (+2 Overloads) TranslateTransform
+    '         Sub: AddMetafileComment, ClearCanvas, (+4 Overloads) DrawArc, (+3 Overloads) DrawBezier, (+2 Overloads) DrawBeziers
+    '              DrawCircle, (+2 Overloads) DrawClosedCurve, (+7 Overloads) DrawCurve, (+4 Overloads) DrawEllipse, (+10 Overloads) DrawImage
+    '              (+4 Overloads) DrawImageUnscaled, DrawImageUnscaledAndClipped, (+4 Overloads) DrawLine, (+2 Overloads) DrawLines, DrawPath
+    '              (+4 Overloads) DrawPie, (+2 Overloads) DrawPolygon, (+6 Overloads) DrawRectangle, (+2 Overloads) DrawRectangles, (+4 Overloads) DrawString
+    '              ExcludeClip, (+2 Overloads) FillClosedCurve, (+4 Overloads) FillEllipse, FillPath, (+3 Overloads) FillPie
+    '              (+2 Overloads) FillPolygon, (+4 Overloads) FillRectangle, Flush, (+2 Overloads) IntersectClip, ReleaseHandle
+    '              ResetClip, ResetTransform, RotateTransform, ScaleTransform, (+2 Overloads) SetClip
+    '              (+2 Overloads) TranslateClip, TranslateTransform
     ' 
     ' 
     ' /********************************************************************************/
@@ -59,15 +67,22 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
-Imports System.Drawing.Imaging
-Imports System.Drawing.Text
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.Imaging.SVG.PathHelper
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Net.Http
+Imports std = System.Math
+
+#If NET48 Then
+Imports System.Drawing.Drawing2D
+#End If
 
 Namespace SVG
 
@@ -75,11 +90,8 @@ Namespace SVG
     ''' SVG graphics generator
     ''' </summary>
     Public Class GraphicsSVG : Inherits IGraphics
-
-        ''' <summary>
-        ''' 主要是需要进行字体的大小计算所需要使用的一个内部gdi+对象
-        ''' </summary>
-        Friend ReadOnly internalGraphicsHelper As Graphics = Graphics.FromImage(New Bitmap(10, 10))
+        Implements SaveGdiBitmap
+        Implements ISvgGraphics
 
         ''' <summary>
         ''' SVG图型的数据结构以及渲染是树形的，但是利用程序代码进行SVG数据的生成却是线性的
@@ -88,151 +100,57 @@ Namespace SVG
         ''' </summary>
         Friend ReadOnly __svgData As SVGDataLayers
 
-        ''' <summary>
-        ''' Get the last graphic layer
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property GetLastLayer As g
-            Get
-                Return __svgData.GetLastLayer
-            End Get
-        End Property
-
-        Public Sub New(size As Size)
-            __svgData = New SVGDataLayers With {
-                .Size = size
-            }
-        End Sub
-
-        Friend Sub New(svg As SVGDataLayers)
-            __svgData = svg
-        End Sub
-
-        Public Sub New(width%, height%)
-            Me.New(New Size(width, height))
-        End Sub
-
-        Public Overrides ReadOnly Property DpiX As Single
-            Get
-                Return 1
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property DpiY As Single
-            Get
-                Return 1
-            End Get
-        End Property
-
-        Public Overrides Property InterpolationMode As InterpolationMode
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As InterpolationMode)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property CompositingQuality As CompositingQuality
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As CompositingQuality)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property CompositingMode As CompositingMode
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As CompositingMode)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides ReadOnly Property IsClipEmpty As Boolean
-            Get
-                Throw New NotImplementedException()
-            End Get
-        End Property
-
-        Public Overrides ReadOnly Property IsVisibleClipEmpty As Boolean
-            Get
-                Throw New NotImplementedException()
-            End Get
-        End Property
-
-        Public Overrides Property PageScale As Single
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As Single)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property PageUnit As GraphicsUnit
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As GraphicsUnit)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property PixelOffsetMode As PixelOffsetMode
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As PixelOffsetMode)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property RenderingOrigin As Point
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As Point)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property SmoothingMode As SmoothingMode
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As SmoothingMode)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property TextContrast As Integer
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As Integer)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
-        Public Overrides Property TextRenderingHint As TextRenderingHint
-            Get
-                Throw New NotImplementedException()
-            End Get
-            Set(value As TextRenderingHint)
-                Throw New NotImplementedException()
-            End Set
-        End Property
-
         Public Overrides ReadOnly Property Size As Size
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return __svgData.Size
+                Return __svgData.size
             End Get
         End Property
 
+        Public Overrides ReadOnly Property Driver As Drivers
+            Get
+                Return Drivers.SVG
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' try to get the last created <see cref="SvgElement"/> in this svg document data.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property LastSvgLayerElement As SvgElement
+            Get
+                Return __svgData.svg.lastElement
+            End Get
+        End Property
+
+        Public Overrides Property RenderingOrigin As Point
+        Public Overrides Property TextContrast As Integer
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(size As SizeF, dpiX As Integer, dpiY As Integer)
+            Call Me.New(size.Width, size.Height, dpiX, dpiY)
+        End Sub
+
+        Public Sub New(size As Size, dpiX As Integer, dpiY As Integer)
+            Call MyBase.New(std.Max(dpiX, dpiY))
+
+            __svgData = New SVGDataLayers(size)
+        End Sub
+
+        Friend Sub New(svg As SVGDataLayers, dpiX As Integer, dpiY As Integer)
+            Call Me.New(svg.size, dpiX, dpiY)
+            __svgData = svg
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(width%, height%, dpiX As Integer, dpiY As Integer)
+            Call Me.New(New Size(width, height), dpiX, dpiY)
+        End Sub
+
+        ''' <summary>
+        ''' add comment to svg xml document
+        ''' </summary>
+        ''' <param name="data"></param>
         Public Overrides Sub AddMetafileComment(data() As Byte)
             Dim meta As String = data.ToBase64String
 
@@ -243,386 +161,90 @@ Namespace SVG
         ''' This function will clear entire svg document contents.
         ''' </summary>
         ''' <param name="color"></param>
-        Public Overrides Sub Clear(color As Color)
+        Protected Overrides Sub ClearCanvas(color As Color)
             __svgData.bg$ = color.ToHtmlColor
             __svgData.Clear()
+
+            Call FillRectangle(New SolidBrush(color), New Rectangle(New Point, Size))
         End Sub
 
 #Region "NotSupportedException"
-
-        Public Overrides Sub CopyFromScreen(upperLeftSource As Point, upperLeftDestination As Point, blockRegionSize As Size)
-            Throw New NotSupportedException
-        End Sub
-
-        Public Overrides Sub CopyFromScreen(upperLeftSource As Point, upperLeftDestination As Point, blockRegionSize As Size, copyPixelOperation As CopyPixelOperation)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub CopyFromScreen(sourceX As Integer, sourceY As Integer, destinationX As Integer, destinationY As Integer, blockRegionSize As Size)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub CopyFromScreen(sourceX As Integer, sourceY As Integer, destinationX As Integer, destinationY As Integer, blockRegionSize As Size, copyPixelOperation As CopyPixelOperation)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EndContainer(container As GraphicsContainer)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As Rectangle, srcRect As Rectangle, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As PointF, srcRect As RectangleF, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destRect As RectangleF, srcRect As RectangleF, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoints() As Point, srcRect As Rectangle, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As PointF, srcRect As RectangleF, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub EnumerateMetafile(metafile As Metafile, destPoint As Point, srcRect As Rectangle, unit As GraphicsUnit, callback As Graphics.EnumerateMetafileProc, callbackData As IntPtr, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
 
         Public Overrides Sub ExcludeClip(rect As Rectangle)
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub ExcludeClip(region As Region)
-            Throw New NotImplementedException()
-        End Sub
-
-#End Region
-
-#Region "Add svg shape element"
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(text As XML.text) As Integer
-            Return __svgData.Add(text)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(rect As rect) As Integer
-            Return __svgData.Add(rect)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(line As line) As Integer
-            Return __svgData.Add(line)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(circle As circle) As Integer
-            Return __svgData.Add(circle)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(path As path) As Integer
-            Return __svgData.Add(path)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(polygon As polygon, Optional layerComment$ = Nothing) As Integer
-            Return __svgData.Add(polygon, layerComment)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Add(image As XML.Image) As Integer
-            Return __svgData.Add(image)
-        End Function
 #End Region
 
 #Region "向SVG之中嵌入图片图像数据"
 
-        Public Overrides Sub DrawIcon(icon As Icon, targetRect As Rectangle)
-            Throw New NotImplementedException()
-        End Sub
 
-        Public Overrides Sub DrawIcon(icon As Icon, x As Integer, y As Integer)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawIconUnstretched(icon As Icon, targetRect As Rectangle)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, point As Point)
+        Public Overrides Sub DrawImage(image As Image, point As Point)
             DrawImage(image, New RectangleF(point.PointF, image.Size))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As Point)
+        Public Overrides Sub DrawImage(image As Image, destPoints() As Point)
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As PointF)
+        Public Overrides Sub DrawImage(image As Image, destPoints() As PointF)
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, rect As Rectangle)
+        Public Overrides Sub DrawImage(image As Image, rect As Rectangle)
             DrawImage(image, CType(rect, RectangleF))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, point As PointF)
+        Public Overrides Sub DrawImage(image As Image, point As PointF)
             DrawImage(image, New RectangleF(point, image.Size))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, rect As RectangleF)
+        Public Overrides Sub DrawImage(image As Image, rect As RectangleF)
             Dim point As PointF = rect.Location
-            Dim img As New XML.Image(image, rect.Size) With {
-                .x = point.X,
-                .y = point.Y
-            }
-            Call __svgData.Add(img)
+            Dim img As SvgImage = __svgData.svg.AddImage
+
+            Call img.SetImage(image)
+            Call img.SetRectangle(rect)
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Integer, y As Integer)
+        Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer)
             DrawImage(image, CSng(x), CSng(y))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Single, y As Single)
+        Public Overrides Sub DrawImage(image As Image, x As Single, y As Single)
             Dim size = image.Size
             DrawImage(image, New RectangleF(x, y, size.Width, size.Height))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As RectangleF, srcRect As RectangleF, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcRect As Rectangle, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Single, y As Single, width As Single, height As Single)
+        Public Overrides Sub DrawImage(image As Image, x As Single, y As Single, width As Single, height As Single)
             DrawImage(image, New RectangleF(x, y, width, height))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Integer, y As Integer, width As Integer, height As Integer)
+        Public Overrides Sub DrawImage(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
             DrawImage(image, New RectangleF(x, y, width, height))
         End Sub
 
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Single, y As Single, srcRect As RectangleF, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, x As Integer, y As Integer, srcRect As Rectangle, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As Graphics.DrawImageAbort)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As Graphics.DrawImageAbort)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As Graphics.DrawImageAbort, callbackData As Integer)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As Graphics.DrawImageAbort, callbackData As Integer)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As Graphics.DrawImageAbort)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As Graphics.DrawImageAbort)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As Graphics.DrawImageAbort, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImage(image As Drawing.Image, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As Graphics.DrawImageAbort, callbackData As IntPtr)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawImageUnscaled(image As Drawing.Image, rect As Rectangle)
+        Public Overrides Sub DrawImageUnscaled(image As Image, rect As Rectangle)
             Dim img As New ImageData(image, image.Size, New Padding)
             Call Me.DrawImageUnscaled(img, rect)
         End Sub
 
-        Public Overrides Sub DrawImageUnscaled(image As Drawing.Image, point As Point)
+        Public Overrides Sub DrawImageUnscaled(image As Image, point As Point)
             Dim img As New ImageData(image, image.Size, New Padding)
             Call Me.DrawImageUnscaled(img, point)
         End Sub
 
-        Public Overrides Sub DrawImageUnscaled(image As Drawing.Image, x As Integer, y As Integer)
+        Public Overrides Sub DrawImageUnscaled(image As Image, x As Integer, y As Integer)
             Dim img As New ImageData(image, image.Size, New Padding)
             Call Me.DrawImageUnscaled(img, x, y)
         End Sub
 
-        Public Overrides Sub DrawImageUnscaled(image As Drawing.Image, x As Integer, y As Integer, width As Integer, height As Integer)
+        Public Overrides Sub DrawImageUnscaled(image As Image, x As Integer, y As Integer, width As Integer, height As Integer)
             Dim img As New ImageData(image, image.Size, New Padding)
             Call Me.DrawImageUnscaled(img, x, y, width, height)
         End Sub
 
-        Public Overrides Sub DrawImageUnscaledAndClipped(image As Drawing.Image, rect As Rectangle)
+        Public Overrides Sub DrawImageUnscaledAndClipped(image As Image, rect As Rectangle)
             Dim img As New ImageData(image, image.Size, New Padding)
             Call Me.DrawImageUnscaledAndClipped(img, rect)
         End Sub
@@ -671,14 +293,6 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawClosedCurve(pen As Pen, points() As PointF)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawClosedCurve(pen As Pen, points() As Point, tension As Single, fillmode As FillMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawClosedCurve(pen As Pen, points() As PointF, tension As Single, fillmode As FillMode)
             Throw New NotImplementedException()
         End Sub
 
@@ -742,19 +356,31 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawLine(pen As Pen, x1 As Single, y1 As Single, x2 As Single, y2 As Single)
-            Dim line As New line With {
-                .x1 = x1,
-                .x2 = x2,
-                .y1 = y1,
-                .y2 = y2,
-                .style = New Stroke(pen).CSSValue
-            }
+            Dim line As SvgLine = __svgData.svg.AddLine
 
-            If Not pen.DashStyle = DashStyle.Solid Then
-                line.DashArray = {8, 4}
+            line.SetPoint(x1, y1, x2, y2)
+            line.Style = New Stroke(pen).CSSValue
+
+            If pen.DashStyle <> DashStyle.Solid Then
+                line.StrokeDashArray = New Double() {8, 4}
             End If
 
-            Call __svgData.Add(line)
+            Try
+#If NET48 Then
+                If TypeOf pen.CustomEndCap Is AdjustableArrowCap Then
+                    ' draw arrow on line end
+                    Dim defs As SvgDefs = __svgData.svg.defs
+                    Dim refId As String = $"M{line.GetHashCode}"
+                    Dim gdiArrow As AdjustableArrowCap = pen.CustomEndCap
+                    Dim marker As SvgMarker = defs.CreateMarker(refId, gdiArrow.Width, gdiArrow.Height)
+
+                    line.MarkerEnd = $"url(#{refId})"
+                End If
+#End If
+            Catch ex As Exception
+                ' error maybe happends when the custom end cap has not been setup
+                ' just ignores of this error
+            End Try
         End Sub
 
         Public Overrides Sub DrawLines(pen As Pen, points() As PointF)
@@ -769,11 +395,21 @@ Namespace SVG
             Next
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="pen"></param>
+        ''' <param name="path"></param>
+        ''' <remarks>
+        ''' 20220421  因为在svg没有设置默认底色的情况下，fill默认是黑色的，这个就会导致
+        ''' path绘制的结果是黑色的多边形，所以在这个函数没有办法传递底色的情况下，自动添加
+        ''' transparent填充底色来解决这个填充色为黑色默认值的问题
+        ''' </remarks>
         Public Overrides Sub DrawPath(pen As Pen, path As GraphicsPath)
-            Dim pathData As New path(path) With {
-                .style = New Stroke(pen).CSSValue
-            }
-            Call __svgData.Add(pathData)
+            Dim pathData As SvgPath = __svgData.svg.AddPath
+
+            pathData.D = path.SVGPathData
+            pathData.Style = $"fill: transparent; {New Stroke(pen).CSSValue}"
         End Sub
 
         Public Overrides Sub DrawPie(pen As Pen, rect As Rectangle, startAngle As Single, sweepAngle As Single)
@@ -794,17 +430,18 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawPie(pen As Pen, x As Single, y As Single, width As Single, height As Single, startAngle As Single, sweepAngle As Single)
-            Dim path As path = ModelBuilder.PiePath(x, y, width, height, startAngle, sweepAngle)
-            path.style = New Stroke(pen).CSSValue
-            Call __svgData.Add(path)
+            Dim path As String = ModelBuilder.PiePath(x, y, width, height, startAngle, sweepAngle)
+            Dim data As SvgPath = __svgData.svg.AddPath
+
+            data.D = path
+            data.Style = New Stroke(pen).CSSValue
         End Sub
 
         Public Overrides Sub DrawPolygon(pen As Pen, points() As PointF)
-            Dim polygon As New polygon(points) With {
-                .style = New Stroke(pen).CSSValue,
-                .XmlCommentValue = ""
-            }
-            Call __svgData.Add(polygon, $"DrawPolygon({polygon.style}, points({points.Length}))")
+            Dim polygon As SvgPolygon = __svgData.svg.AddPolygon
+
+            polygon.SetPolygonPath(points)
+            polygon.Style = New Stroke(pen).CSSValue
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -813,35 +450,33 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, rect As Rectangle)
-            Dim rectangle As New rect(rect) With {
-                .style = New Stroke(pen).CSSValue
-            }
-            Call __svgData.Add(rectangle)
+            Dim rectangle As SvgRect = __svgData.svg.AddRect
+            Dim fill As String = __svgData.bg$
+
+            rectangle.Style = New Stroke(pen).CSSValue & $" fill:{fill};"
+            rectangle.Fill = fill
+            rectangle.SetRectangle(rect)
         End Sub
 
         Public Overloads Sub DrawRectangle(pen As Pen, rect As Rectangle, fill As Color)
-            Dim rectangle As New rect(rect) With {
-                .style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
-            }
-            Call __svgData.Add(rectangle)
+            Dim rectangle As SvgRect = __svgData.svg.AddRect
+
+            rectangle.SetRectangle(rect)
+            rectangle.Style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
         End Sub
 
         Public Overloads Sub DrawRectangle(pen As Pen, rect As RectangleF, fill As Color)
-            Dim rectangle As New rect(rect) With {
-              .style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
-          }
-            Call __svgData.Add(rectangle)
+            Dim rectangle As SvgRect = __svgData.svg.AddRect
+
+            rectangle.SetRectangle(rect)
+            rectangle.Style = {New Stroke(pen).CSSValue, $"fill: {fill.ToHtmlColor}"}.JoinBy("; ")
         End Sub
 
         Public Overrides Sub DrawRectangle(pen As Pen, x As Single, y As Single, width As Single, height As Single)
-            Dim rectangle As New rect() With {
-                .x = x,
-                .y = y,
-                .width = width,
-                .height = height,
-                .style = New Stroke(pen).CSSValue
-            }
-            Call __svgData.Add(rectangle)
+            Dim rectangle As SvgRect = __svgData.svg.AddRect
+
+            rectangle.SetRectangle(New PointF(x, y), New SizeF(width, height))
+            rectangle.Style = New Stroke(pen).CSSValue & "; fill: transparent;"
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -863,34 +498,46 @@ Namespace SVG
             Next
         End Sub
 
-        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF)
+        Public Overrides Function MeasureString(text As String, font As Font) As SizeF
+            Return FontFace.MeasureString(text, New Font(font, FontFace.SVGPointSize(font.SizeInPoints, Dpi)))
+        End Function
+
+        Public Overloads Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef x!, ByRef y!, angle!)
             ' 2019-04-18 似乎SVG的scale和gdi的scale有一些不一样
             ' 在这里存在一个位置偏移的bug
             ' 在这里尝试使用font size来修正
-            Dim text As New XML.text With {
-                .value = s,
-                .x = point.X + font.Size,
-                .y = point.Y + font.Size,
-                .style = New CSSFont(font).CSSValue
-            }
+            Dim css As New CSSFont(font, FontFace.SVGPointSize(font.SizeInPoints, Dpi))
+            Dim size As SizeF = MeasureString(s, font)
+            Dim text As SvgText = __svgData.svg.AddText
+
+            x = x + FontFace.SVGPointSize(size.Width, Dpi) / 6
+            y = y + FontFace.SVGPointSize(size.Height, Dpi) / 1.5
+
+            text.Text = s
+            text.X = x
+            text.Y = y
+            text.Style = css.CSSValue
 
             If TypeOf brush Is SolidBrush Then
-                Dim color$ = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-                text.style &= color
+                text.Style &= $"fill: {DirectCast(brush, SolidBrush).Color.ToHtmlColor};"
             End If
 
-            Call __svgData.Add(text)
+            If angle <> 0.0 Then
+                text.Style &= $"transform-origin: {x}px {y}px;"
+                text.Transform = $"rotate({angle})"
+            End If
+        End Sub
+
+        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, ByRef point As PointF)
+            Dim x = point.X
+            Dim y = point.Y
+
+            Call DrawString(s, font, brush, x, y, angle:=0)
+
+            point = New PointF(x, y)
         End Sub
 
         Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, layoutRectangle As RectangleF, format As StringFormat)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, point As PointF, format As StringFormat)
             Throw New NotImplementedException()
         End Sub
 
@@ -899,39 +546,20 @@ Namespace SVG
             Call DrawString(s, font, brush, New PointF(x, y))
         End Sub
 
-        Public Overrides Sub DrawString(s As String, font As Font, brush As Brush, x As Single, y As Single, format As StringFormat)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub FillClosedCurve(brush As Brush, points() As PointF)
-            Dim path As New path(points.GraphicsPath) With {
-                .style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-            }
-            Call __svgData.Add(path)
+            Dim path As SvgPath = __svgData.svg.AddPath
+
+            path.D = points.GraphicsPath.SVGPathData
+            path.Style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
         End Sub
 
         Public Overrides Sub FillClosedCurve(brush As Brush, points() As Point)
-            Dim path As New path(points.GraphicsPath) With {
-                .style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-            }
-            Call __svgData.Add(path)
+            Dim path As SvgPath = __svgData.svg.AddPath
+
+            path.D = points.GraphicsPath.SVGPathData
+            path.Style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
         End Sub
 
-        Public Overrides Sub FillClosedCurve(brush As Brush, points() As Point, fillmode As FillMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub FillClosedCurve(brush As Brush, points() As PointF, fillmode As FillMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub FillClosedCurve(brush As Brush, points() As PointF, fillmode As FillMode, tension As Single)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub FillClosedCurve(brush As Brush, points() As Point, fillmode As FillMode, tension As Single)
-            Throw New NotImplementedException()
-        End Sub
 
         Public Overrides Sub FillEllipse(brush As Brush, rect As Rectangle)
             Throw New NotImplementedException()
@@ -950,10 +578,10 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub FillPath(brush As Brush, path As GraphicsPath)
-            Dim pathData As New path(path) With {
-                .fill = DirectCast(brush, SolidBrush).Color.ToHtmlColor
-            }
-            Call __svgData.Add(pathData)
+            Dim pathData As SvgPath = __svgData.svg.AddPath
+
+            pathData.D = path.SVGPathData
+            pathData.Fill = DirectCast(brush, SolidBrush).Color.ToHtmlColor
         End Sub
 
         Public Overrides Sub FillPie(brush As Brush, rect As Rectangle, startAngle As Single, sweepAngle As Single)
@@ -968,9 +596,10 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub FillPie(brush As Brush, x As Single, y As Single, width As Single, height As Single, startAngle As Single, sweepAngle As Single)
-            Dim path As path = ModelBuilder.PiePath(x, y, width, height, startAngle, sweepAngle)
-            path.style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-            Call __svgData.Add(path)
+            Dim path As SvgPath = __svgData.svg.AddPath
+
+            path.D = ModelBuilder.PiePath(x, y, width, height, startAngle, sweepAngle)
+            path.Style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -979,19 +608,10 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub FillPolygon(brush As Brush, points() As PointF)
-            Dim polygon As New polygon(points) With {
-                .fill = brush.SVGColorHelper,
-                .XmlCommentValue = ""
-            }
-            Call __svgData.Add(polygon, $"FillPolygon({polygon.fill}, points({points.Length}))")
-        End Sub
+            Dim polygon As SvgPolygon = __svgData.svg.AddPolygon
 
-        Public Overrides Sub FillPolygon(brush As Brush, points() As Point, fillMode As FillMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub FillPolygon(brush As Brush, points() As PointF, fillMode As FillMode)
-            Throw New NotImplementedException()
+            polygon.SetPolygonPath(points)
+            polygon.Fill = brush.SVGColorHelper
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, rect As Rectangle)
@@ -1012,18 +632,17 @@ Namespace SVG
         End Sub
 
         Public Overrides Sub FillRectangle(brush As Brush, x As Single, y As Single, width As Single, height As Single)
-            Dim rect As New rect With {
-                .x = x,
-                .y = y,
-                .width = width,
-                .height = height,
-                .style = "fill: " & DirectCast(brush, SolidBrush).Color.ToHtmlColor
-            }
-            Call __svgData.Add(rect)
-        End Sub
+            Dim rect As SvgRect = __svgData.svg.AddRect
+            Dim fill As String
 
-        Public Overrides Sub FillRegion(brush As Brush, region As Region)
-            Throw New NotImplementedException()
+            If TypeOf brush Is SolidBrush Then
+                fill = DirectCast(brush, SolidBrush).Color.ToHtmlColor
+            Else
+                fill = New DataURI(DirectCast(brush, TextureBrush).Image).ToString
+            End If
+
+            rect.SetRectangle(New PointF(x, y), New SizeF(width, height))
+            rect.Style = "fill: " & fill
         End Sub
 #End Region
 
@@ -1031,27 +650,11 @@ Namespace SVG
 
         End Sub
 
-        Public Overrides Sub Flush(intention As FlushIntention)
-
-        End Sub
-
-        Public Overrides Sub IntersectClip(region As Region)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub IntersectClip(rect As RectangleF)
             Throw New NotImplementedException()
         End Sub
 
         Public Overrides Sub IntersectClip(rect As Rectangle)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub MultiplyTransform(matrix As Matrix)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub MultiplyTransform(matrix As Matrix, order As MatrixOrder)
             Throw New NotImplementedException()
         End Sub
 
@@ -1067,15 +670,7 @@ Namespace SVG
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub RotateTransform(angle As Single, order As MatrixOrder)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub ScaleTransform(sx As Single, sy As Single)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub ScaleTransform(sx As Single, sy As Single, order As MatrixOrder)
             Throw New NotImplementedException()
         End Sub
 
@@ -1083,43 +678,7 @@ Namespace SVG
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub SetClip(path As GraphicsPath)
-            Throw New NotImplementedException()
-        End Sub
-
         Public Overrides Sub SetClip(rect As Rectangle)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(g As Graphics)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(rect As Rectangle, combineMode As CombineMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(region As Region, combineMode As CombineMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(path As GraphicsPath, combineMode As CombineMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(rect As RectangleF, combineMode As CombineMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub SetClip(g As Graphics, combineMode As CombineMode)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub TransformPoints(destSpace As CoordinateSpace, srcSpace As CoordinateSpace, pts() As Point)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Sub TransformPoints(destSpace As CoordinateSpace, srcSpace As CoordinateSpace, pts() As PointF)
             Throw New NotImplementedException()
         End Sub
 
@@ -1135,27 +694,7 @@ Namespace SVG
             Throw New NotImplementedException()
         End Sub
 
-        Public Overrides Sub TranslateTransform(dx As Single, dy As Single, order As MatrixOrder)
-            Throw New NotImplementedException()
-        End Sub
-
-        Public Overrides Function BeginContainer() As GraphicsContainer
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function BeginContainer(dstrect As RectangleF, srcrect As RectangleF, unit As GraphicsUnit) As GraphicsContainer
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function BeginContainer(dstrect As Rectangle, srcrect As Rectangle, unit As GraphicsUnit) As GraphicsContainer
-            Throw New NotImplementedException()
-        End Function
-
         Public Overrides Function GetContextInfo() As Object
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function GetNearestColor(color As Color) As Color
             Throw New NotImplementedException()
         End Function
 
@@ -1163,23 +702,7 @@ Namespace SVG
             Throw New NotImplementedException()
         End Function
 
-        Public Overrides Function IsVisible(point As PointF) As Boolean
-            Throw New NotImplementedException()
-        End Function
-
         Public Overrides Function IsVisible(rect As RectangleF) As Boolean
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function IsVisible(point As Point) As Boolean
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function IsVisible(x As Single, y As Single) As Boolean
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function IsVisible(x As Integer, y As Integer) As Boolean
             Throw New NotImplementedException()
         End Function
 
@@ -1192,67 +715,52 @@ Namespace SVG
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureCharacterRanges(text As String, font As Font, layoutRect As RectangleF, stringFormat As StringFormat) As Region()
-            Return internalGraphicsHelper.MeasureCharacterRanges(text, font, layoutRect, stringFormat)
-        End Function
-
-        Private Shared Function svgFontScale(font As Font) As Font
-            Return New Font(font, font.Size * 2)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font))
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, width As Integer) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), width)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), layoutArea)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, width As Integer, format As StringFormat) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), width, format)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, origin As PointF, stringFormat As StringFormat) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), origin, stringFormat)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF, stringFormat As StringFormat) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), layoutArea, stringFormat)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF, stringFormat As StringFormat, ByRef charactersFitted As Integer, ByRef linesFilled As Integer) As SizeF
-            Return internalGraphicsHelper.MeasureString(text, svgFontScale(font), layoutArea, stringFormat, charactersFitted, linesFilled)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Sub DrawRectangle(pen As Pen, rect As RectangleF)
             Call Me.DrawRectangles(pen, {rect})
         End Sub
 
         Public Overrides Sub DrawCircle(center As PointF, fill As Color, stroke As Pen, radius As Single)
-            Dim circle As New circle With {
-                .r = radius,
-                .cx = center.X,
-                .cy = center.Y,
-                .fill = fill.ToHtmlColor,
-                .stroke = New Stroke(stroke).CSSValue,
-                .style = .stroke
-            }
-            Call __svgData.Add(circle)
+            Dim circle As SvgCircle = __svgData.svg.AddCircle
+
+            circle.R = radius
+            circle.CX = center.X
+            circle.CY = center.Y
+            circle.Fill = fill.ToHtmlColor
+            circle.Stroke = New Stroke(stroke).CSSValue
         End Sub
 
-        Public Overrides Sub Dispose()
+        Protected Overrides Sub ReleaseHandle()
         End Sub
+
+        ''' <summary>
+        ''' save svg to a given file
+        ''' </summary>
+        ''' <param name="stream"></param>
+        ''' <param name="format"></param>
+        ''' <returns></returns>
+        Public Function Save(stream As Stream, format As ImageFormats) As Boolean Implements SaveGdiBitmap.Save
+            Return New SVGData(Me, Size, New Padding).Save(stream)
+        End Function
+
+        Public Overrides Function MeasureString(text As String, font As Font, width As Integer) As SizeF
+            Throw New NotImplementedException()
+        End Function
+
+        Public Overrides Function MeasureString(text As String, font As Font, layoutArea As SizeF) As SizeF
+            Throw New NotImplementedException()
+        End Function
+
+        Public Overrides Function GetStringPath(s As String, rect As RectangleF, font As Font) As GraphicsPath
+            Throw New NotImplementedException()
+        End Function
+
+        Public Function GetSvgText() As String Implements ISvgGraphics.GetSvgText
+            Using s As New MemoryStream
+                Call Save(s, Nothing)
+                Call s.Seek(Scan0, SeekOrigin.Begin)
+
+                Return Encoding.UTF8.GetString(s.ToArray)
+            End Using
+        End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d334ce4017f1e12a7f845df84cf2f7c, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\Workspace.vb"
+﻿#Region "Microsoft.VisualBasic::ddfa3fea37aa96905cb59c064a20c1f4, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\Workspace.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 47 (49.47%)
+    ' Comment Lines: 32 (33.68%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (16.84%)
+    '     File Size: 3.12 KB
+
 
     '     Class Workspace
     ' 
@@ -103,7 +115,7 @@ Namespace NeedlemanWunsch
         ''' <summary>
         ''' get computed score </summary>
         ''' <returns> score </returns>
-        Public Property Score As Integer
+        Public Property Score As Single
 
         Sub New(score As ScoreMatrix(Of T), toChar As Func(Of T, Char))
             m_toChar = toChar

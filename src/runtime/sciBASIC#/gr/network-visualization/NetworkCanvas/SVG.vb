@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83705d3dac3f4a5bec210503fa86740b, gr\network-visualization\NetworkCanvas\SVG.vb"
+﻿#Region "Microsoft.VisualBasic::3c75e80e8b68e7e462536e676428a20b, gr\network-visualization\NetworkCanvas\SVG.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 118 (76.13%)
+    ' Comment Lines: 15 (9.68%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 22 (14.19%)
+    '     File Size: 6.39 KB
+
+
     ' Module SVGExtensions
     ' 
     '     Function: DefaultStyle, ToSVG
+    ' 
+    '     Sub: CreateEdgeLinks, CreateLabels, CreateNodes
     '     Delegate Function
     ' 
     '         Function: Get2DPoint, Get3DPoint, getRadius
@@ -51,16 +65,17 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.SVG
 Imports Microsoft.VisualBasic.Imaging.d3js.SVG.CSS
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Imaging.SVG
-Imports Microsoft.VisualBasic.Imaging.SVG.CSS
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html
+
+#If NET8_0_OR_GREATER Then
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
 
 ''' <summary>
 ''' <see cref="NetworkGraph"/> to svg doc
@@ -96,72 +111,64 @@ Public Module SVGExtensions
                           size As Size,
                           Optional style As CSS.DirectedForceGraph = Nothing,
                           Optional is3D As Boolean = False,
-                          Optional viewDistance As Integer = -120) As SVGXml
+                          Optional viewDistance As Integer = -120) As SvgDocument
 
         Dim rect As New Rectangle(New Point, size)
         Dim getPoint As IGetPoint = If(is3D, New IGetPoint(AddressOf Get3DPoint), New IGetPoint(AddressOf Get2DPoint))
-        Dim nodes As circle() =
-            LinqAPI.Exec(Of circle) <= From n As Graph.Node
-                                       In graph.vertex
-                                       Let pos As PointF = getPoint(n, rect, viewDistance)
-                                       Let c As Color = If(
-                                               TypeOf n.data.color Is SolidBrush,
-                                               DirectCast(n.data.color, SolidBrush).Color,
-                                               Color.Black)
-                                       Let r As Single = n.getRadius
-                                       Let pt As Point =
-                                               New Point(CInt(pos.X - r / 2), CInt(pos.Y - r / 2))
-                                       Select New circle With {
-                                           .class = "node",
-                                           .cx = pt.X,
-                                           .cy = pt.Y,
-                                           .r = r,
-                                           .style = $"fill: rgb({c.R}, {c.G}, {c.B});"
-                                       }
-        Dim links As line() =
-            LinqAPI.Exec(Of line) <= From edge As Edge
-                                     In graph.graphEdges
-                                     Let source As Graph.Node = edge.U
-                                     Let target As Graph.Node = edge.V
-                                     Let pts As PointF = getPoint(source, rect, viewDistance)
-                                     Let ptt As PointF = getPoint(target, rect, viewDistance)
-                                     Let rs As Single = source.getRadius / 2,
-                                         rt As Single = target.getRadius / 2
-                                     Select New line With {
-                                         .class = "link",
-                                         .x1 = pts.X - rs,
-                                         .x2 = ptt.X - rt,
-                                         .y1 = pts.Y - rs,
-                                         .y2 = ptt.Y - rt
-                                     }
-        Dim labels As SVG.XML.text() = LinqAPI.Exec(Of SVG.XML.text) <=
- _
-            From n As Graph.Node
-            In graph.vertex
-            Let pos As PointF = getPoint(n, rect, viewDistance)
-            Select New SVG.XML.text With {
-                .x = CStr(pos.X),
-                .y = CStr(pos.Y),
-                .value = n.ID,
-                .class = "text"
-            }
-        Dim svg As New SVGXml With {
-            .defs = New CSSStyles With {
-                .styles = {
-                    New XmlMeta.CSS With {
-                        .style = If(style Is Nothing, DefaultStyle(), style).ToString
-                    }
-                }
-            },
-            .width = size.Width & "px",
-            .height = size.Height & "px",
-            .lines = links,
-            .circles = nodes,
-            .texts = labels
-        }
+        Dim svg As SvgDocument = SvgDocument.Create
+
+        Call svg.SetStyle(If(style Is Nothing, DefaultStyle(), style).ToString)
+        Call svg.Size(size)
+
+        Call CreateEdgeLinks(svg, graph, getPoint, rect, viewDistance)
+        Call CreateNodes(svg, graph, getPoint, rect, viewDistance)
+        Call CreateLabels(svg, graph, getPoint, rect, viewDistance)
 
         Return svg
     End Function
+
+    Private Sub CreateLabels(svg As SvgDocument, graph As NetworkGraph, getPoint As IGetPoint, rect As Rectangle, viewDistance As Integer)
+        For Each n As Node In graph.vertex
+            Dim pos As PointF = getPoint(n, rect, viewDistance)
+
+            Call svg.AddText() _
+                .SetPosition(pos.X, pos.Y) _
+                .SetText(If(n.data.label, n.label)) _
+                .AddClass("text")
+        Next
+    End Sub
+
+    Private Sub CreateNodes(svg As SvgDocument, graph As NetworkGraph, getPoint As IGetPoint, rect As Rectangle, viewDistance As Integer)
+        For Each n As Node In graph.vertex
+            Dim pos As PointF = getPoint(n, rect, viewDistance)
+            Dim c As Color = If(
+                TypeOf n.data.color Is SolidBrush,
+                DirectCast(n.data.color, SolidBrush).Color,
+                Color.Black
+            )
+            Dim r As Single = n.getRadius
+
+            Call svg.AddCircle _
+                .SetCircle(pos.X - r / 2, pos.Y - r / 2, r) _
+                .AddClass("node") _
+                .SetStyle("fill", $"rgb({c.R}, {c.G}, {c.B});")
+        Next
+    End Sub
+
+    Private Sub CreateEdgeLinks(svg As SvgDocument, graph As NetworkGraph, getPoint As IGetPoint, rect As Rectangle, viewDistance As Integer)
+        For Each edge As Edge In graph.graphEdges
+            Dim source As Graph.Node = edge.U
+            Dim target As Graph.Node = edge.V
+            Dim pts As PointF = getPoint(source, rect, viewDistance)
+            Dim ptt As PointF = getPoint(target, rect, viewDistance)
+            Dim rs As Single = source.getRadius / 2
+            Dim rt As Single = target.getRadius / 2
+
+            Call svg.AddLine() _
+                .SetPoint(pts.X - rs, pts.Y - rs, ptt.X - rt, ptt.Y - rt) _
+                .AddClass("link")
+        Next
+    End Sub
 
     Public Delegate Function IGetPoint(node As Graph.Node, rect As Rectangle, viewDistance As Integer) As PointF
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d009cad694a50d640d6c8f16894344d4, annotations\Proteomics\iTraq\iTraqSymbols.vb"
+﻿#Region "Microsoft.VisualBasic::644bd1d758ed7a7a70453e492cabb7d6, annotations\Proteomics\iTraq\iTraqSymbols.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 11 (37.93%)
+    ' Comment Lines: 15 (51.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (10.34%)
+    '     File Size: 939 B
+
+
     ' Class iTraqSymbols
     ' 
     '     Properties: AnalysisID, SampleGroup, SampleID, Symbol
@@ -41,7 +53,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 
 ''' <summary>
 ''' iTraq信号标记替换

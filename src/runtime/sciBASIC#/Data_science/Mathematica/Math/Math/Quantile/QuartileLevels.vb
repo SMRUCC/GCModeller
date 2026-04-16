@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b14e9c501370a5bb231d20dbd4fcfa8, Data_science\Mathematica\Math\Math\Quantile\QuartileLevels.vb"
+﻿#Region "Microsoft.VisualBasic::ccb7d51a3448f5c5c9880b17753fd352, Data_science\Mathematica\Math\Math\Quantile\QuartileLevels.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 14 (73.68%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (26.32%)
+    '     File Size: 424 B
+
+
     '     Enum QuartileLevels
     ' 
     ' 
     '  
     ' 
     ' 
+    ' 
+    '     Structure QuantileThreshold
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,4 +66,15 @@ Namespace Quantile
         Q2 = 2
         Q3 = 3
     End Enum
+
+    Public Structure QuantileThreshold
+
+        Dim quantile As Double
+        Dim sample As Double
+
+        Public Overrides Function ToString() As String
+            Return $"q:{quantile.ToString("F2")} ~ {sample.ToString("G3")}"
+        End Function
+
+    End Structure
 End Namespace

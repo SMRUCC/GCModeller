@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 44 (69.84%)
+    ' Comment Lines: 11 (17.46%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.70%)
+    '     File Size: 2.39 KB
+
+
     '     Class COGFunction
     ' 
     '         Properties: Catalog, Category

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 52 (61.90%)
+    ' Comment Lines: 20 (23.81%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 12 (14.29%)
+    '     File Size: 3.23 KB
+
+
     '     Module COGsUtils
     ' 
     '         Function: (+2 Overloads) MyvaCOGCatalog

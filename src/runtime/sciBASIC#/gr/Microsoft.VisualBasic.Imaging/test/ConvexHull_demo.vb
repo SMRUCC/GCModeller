@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a59375363005739182add8546eaa2fa8, gr\Microsoft.VisualBasic.Imaging\test\ConvexHull_demo.vb"
+﻿#Region "Microsoft.VisualBasic::f43b47238d0a9f53bb22d9fdb4b57561, gr\Microsoft.VisualBasic.Imaging\test\ConvexHull_demo.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 61 (80.26%)
+    ' Comment Lines: 1 (1.32%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (18.42%)
+    '     File Size: 2.75 KB
+
+
     ' Module ConvexHull_demo
     ' 
-    '     Sub: Draw, GrahamScanDemo, JarvisMarchDemo, Main
+    '     Sub: Draw, GrahamScanDemo, JarvisMarchDemo, Main1
     ' 
     ' /********************************************************************************/
 
@@ -43,6 +55,7 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
@@ -98,7 +111,7 @@ Module ConvexHull_demo
         End Using
     End Sub
 
-    Public Sub Main()
+    Public Sub Main1()
 
         Call Randomize()
 

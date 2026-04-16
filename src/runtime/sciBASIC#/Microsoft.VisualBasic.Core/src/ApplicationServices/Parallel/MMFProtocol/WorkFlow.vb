@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa9a6c158df2b0f6ff46e52ef7b79e28, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\WorkFlow.vb"
+﻿#Region "Microsoft.VisualBasic::2c0f97cc0ef3dbff9c4b4ba86337b687, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\WorkFlow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 26 (61.90%)
+    ' Comment Lines: 12 (28.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (9.52%)
+    '     File Size: 1.88 KB
+
 
     '     Module WorkFlow
     ' 
@@ -70,7 +82,7 @@ Namespace Parallel.MMFProtocol
                                                writer As Func(Of TIn, Byte()),
                                                reader As Func(Of Byte(), TOut)) As TOut
             Dim data As Byte() = writer([in])
-            Dim uid As String = (Now.ToString & [in].ToString & CLI).GetMd5Hash
+            Dim uid As String = (DateTime.UtcNow.ToString & [in].ToString & CLI).GetMd5Hash
             Dim socket As New MSWriter(uid, data.Length + 1024)
             CLI = CLI & $" {map} {uid}"
             socket.WriteStream(data)

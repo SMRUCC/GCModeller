@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 89 (71.20%)
+    ' Comment Lines: 14 (11.20%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 22 (17.60%)
+    '     File Size: 5.57 KB
+
+
     '     Class LevAlign
     ' 
     '         Properties: Codes, DomainCodes, LengthDelta, Query, QueryPfam

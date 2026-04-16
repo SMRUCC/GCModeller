@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>cast taxonomy object to biom style taxonomy string</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>biom.string {taxonomy_kit}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>cast taxonomy object to biom style taxonomy string</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>biom.string</strong>(<i>taxonomy</i>,
+    <i>trim.genusName</i> = <span style='color: blue !important;'>FALSE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>taxonomy</dt>
+<dd><p>-</p></dd>
+
+
+<dt>trim.genusName</dt>
+<dd><p>removes the genus name from the species name?. [as boolean]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        metagenomics_kit
+
+        <h3>Value</h3>
+
+        this function returns data object of type string.<h4>clr value class</h4><ul><li>string</li></ul>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r"> # parse the string as taxonomy object
+ let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+ # then convert back the taxonomy object as the string content
+ print(biom.string(tax));</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>taxonomy_kit</em> version 1.0.0.0 <a
+                href="../taxonomy_kit.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

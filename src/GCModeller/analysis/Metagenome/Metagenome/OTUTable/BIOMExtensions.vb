@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb11f010b7e19dd5d4990a1640094468, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::026d38ec0e9fcf59af85c22cf22c582c, analysis\Metagenome\Metagenome\OTUTable\BIOMExtensions.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 54 (83.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (16.92%)
+    '     File Size: 2.29 KB
+
+
     ' Module BIOMExtensions
     ' 
-    '     Function: Union
+    '     Function: CastMatrix, FromExpressionMatrix, Union
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.foundation.BIOM.v10
+Imports SMRUCC.genomics.Metagenomics
+Imports std = System.Math
 
 Public Module BIOMExtensions
 
@@ -57,10 +73,46 @@ Public Module BIOMExtensions
                     }
                 End If
 
-                Call matrix(otu.Name).Append(otu, AddressOf Math.Max)
+                Call matrix(otu.Name).Append(otu, AddressOf std.Max)
             Next
         Next
 
         Return matrix.Values
+    End Function
+
+    <Extension>
+    Public Function CastMatrix(otu_table As IEnumerable(Of OTUTable), Optional taxon_as_id As Boolean = True) As Matrix
+        Dim pullAll As OTUTable() = otu_table.ToArray
+        Dim sampleIds As String() = pullAll.PropertyNames
+        Dim otus As DataFrameRow() = New DataFrameRow(pullAll.Length - 1) {}
+
+        For i As Integer = 0 To otus.Length - 1
+            Dim otu As OTUTable = pullAll(i)
+            Dim ref_id As String = If(taxon_as_id, pullAll(i).taxonomy.BIOMTaxonomyString, pullAll(i).ID)
+
+            otus(i) = New DataFrameRow With {
+                .geneID = ref_id,
+                .experiments = otu(sampleIds)
+            }
+        Next
+
+        Return New Matrix With {
+            .expression = otus,
+            .sampleID = sampleIds,
+            .tag = "otu_table"
+        }
+    End Function
+
+    <Extension>
+    Public Iterator Function FromExpressionMatrix(mat As Matrix) As IEnumerable(Of OTUData(Of Double))
+        Dim i As i32 = 1
+
+        For Each feature As DataFrameRow In mat.expression
+            Yield New OTUData(Of Double) With {
+                .OTU = "otu_" & (++i),
+                .taxonomy = feature.geneID,
+                .data = feature.ToDataSet(mat.sampleID)
+            }
+        Next
     End Function
 End Module

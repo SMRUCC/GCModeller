@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 32 (58.18%)
+    ' Comment Lines: 14 (25.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.36%)
+    '     File Size: 1.78 KB
+
+
     '     Class HitFragment
     ' 
     '         Properties: Coverage, HitLen, HitName, Hsp, QueryLoci

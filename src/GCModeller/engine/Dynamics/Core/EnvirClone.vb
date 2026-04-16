@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd83b5ce6122cca1837658d238bc8dc6, engine\Dynamics\Core\EnvirClone.vb"
+﻿#Region "Microsoft.VisualBasic::357571b6a25bb2fae82222b51e03fee3, engine\Dynamics\Core\EnvirClone.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 9 (60.00%)
+    ' Comment Lines: 3 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (20.00%)
+    '     File Size: 356 B
+
+
     '     Module EnvirClone
     ' 
     '         Function: Clone
@@ -51,7 +63,7 @@ Namespace Core
 
         <Extension>
         Public Function Clone(envir As Vessel) As Vessel
-
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

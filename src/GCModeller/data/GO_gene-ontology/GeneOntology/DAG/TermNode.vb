@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 18 (52.94%)
+    ' Comment Lines: 11 (32.35%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (14.71%)
+    '     File Size: 1.20 KB
+
+
     '     Class TermNode
     ' 
     '         Properties: [namespace], GO_term, id, is_a, relationship

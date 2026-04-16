@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b9a48cdad941d8f981df4e8861aa875, visualize\DataVisualizationExtensions\CurvesChart\CurvesModel.vb"
+﻿#Region "Microsoft.VisualBasic::618efcf85c38c8fe883d86ff064851b6, visualize\DataVisualizationExtensions\CurvesChart\CurvesModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 65 (86.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (13.33%)
+    '     File Size: 2.87 KB
+
+
     ' Class CurvesModel
     ' 
     '     Properties: PlotsHeight, ShowAverageLine, Steps, WindowSize, YValueOffset
@@ -53,6 +65,34 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math.Statistics
+Imports Microsoft.VisualBasic.Imaging.Driver
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public MustInherit Class CurvesModel
 
@@ -72,9 +112,9 @@ Public MustInherit Class CurvesModel
     Public Function Draw(source As Image, buf As Double(), location As Point, size As Size) As Image
         Dim sample As DataSample(Of Double) = buf.DoubleSample
 
-        Using g As IGraphics = source.CreateCanvas2D
+        Using g As IGraphics = DriverLoad.CreateGraphicsDevice(source)
             Call Draw(g, sample, location, size)
-            Return DirectCast(g, Graphics2D).ImageResource
+            Return DirectCast(g, GdiRasterGraphics).ImageResource
         End Using
     End Function
 

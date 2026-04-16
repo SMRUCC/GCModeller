@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2823a6f84b0ded8a349f34a84e90594, models\SBML\SBML\Level3\reaction.vb"
+﻿#Region "Microsoft.VisualBasic::56cb115ee4b8c43d5dce9e0e9b676929, models\SBML\SBML\Level3\reaction.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 37 (69.81%)
+    ' Comment Lines: 3 (5.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (24.53%)
+    '     File Size: 1.90 KB
+
+
     '     Class Reaction
     ' 
-    '         Properties: annotation, fast, listOfModifiers, listOfProducts, listOfReactants
-    '                     notes, reversible
+    '         Properties: annotation, compartment, fast, listOfModifiers, listOfProducts
+    '                     listOfReactants, notes, reversible
     ' 
-    '         Function: ToString
+    '         Function: Format, ToString
     ' 
     '     Class modifierSpeciesReference
     ' 
@@ -61,11 +73,12 @@ Namespace Level3
     ''' <summary>
     ''' the base element model of the sbml
     ''' </summary>
-    <XmlType("sbml_reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
-    Public MustInherit Class Reaction : Inherits IPartsBase
+    <XmlType("reaction", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
+    Public Class Reaction : Inherits IPartsBase
 
         <XmlAttribute> Public Property reversible As Boolean
         <XmlAttribute> Public Property fast As Boolean
+        <XmlAttribute> Public Property compartment As String
 
         Public Property notes As Notes
         Public Property annotation As annotation
@@ -75,7 +88,15 @@ Namespace Level3
         Public Property listOfModifiers As List(Of modifierSpeciesReference)
 
         Public Overrides Function ToString() As String
-            Return id
+            Return $"[{id}] {Format(listOfReactants)} {If(reversible, "=", "=>")} {Format(listOfProducts)}"
+        End Function
+
+        Private Shared Function Format(listOf As IEnumerable(Of SpeciesReference)) As String
+            Return listOf _
+                .Select(Function(s)
+                            Return If(s.stoichiometry = 1.0, "", s.stoichiometry & " ") & s.species
+                        End Function) _
+                .JoinBy(" + ")
         End Function
     End Class
 
@@ -91,6 +112,9 @@ Namespace Level3
 
     <XmlType("speciesReference", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class SpeciesReference : Inherits Level2.Elements.speciesReference
-        <XmlAttribute("constant")> Public Property Constant As Boolean
+
+        <XmlAttribute("constant")>
+        Public Property Constant As Boolean
+
     End Class
 End Namespace

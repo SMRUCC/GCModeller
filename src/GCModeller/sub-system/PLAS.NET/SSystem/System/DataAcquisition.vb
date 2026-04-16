@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a6bc1b5cb6762811593ef41144db203, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
+﻿#Region "Microsoft.VisualBasic::91b66faaec3f2e331853bf2c752c9e5f, sub-system\PLAS.NET\SSystem\System\DataAcquisition.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 90 (59.21%)
+    ' Comment Lines: 31 (20.39%)
+    '    - Xml Docs: 19.35%
+    ' 
+    '   Blank Lines: 31 (20.39%)
+    '     File Size: 5.47 KB
+
+
     '     Class DataSnapshot
     ' 
     ' 
     ' 
     '     Class MemoryCacheSnapshot
     ' 
-    '         Sub: Cache, flush
+    '         Function: GetMatrix
+    ' 
+    '         Sub: Cache, (+2 Overloads) Dispose, flush
     ' 
     '     Class SnapshotStream
     ' 
@@ -57,9 +71,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 
@@ -72,8 +86,15 @@ Namespace Kernel
     End Class
 
     Public Class MemoryCacheSnapshot : Inherits DataSnapshot
+        Implements IDisposable
 
         Friend data As New List(Of DataSet)
+
+        Private disposedValue As Boolean
+
+        Public Function GetMatrix() As IEnumerable(Of DataSet)
+            Return data.AsEnumerable
+        End Function
 
         Public Overrides Sub Cache(data As DataSet)
             Me.data.Add(data)
@@ -81,6 +102,32 @@ Namespace Kernel
 
         Public Sub flush(path As String)
             Call data.SaveTo(path, strict:=False)
+        End Sub
+
+        Protected Overridable Sub Dispose(disposing As Boolean)
+            If Not disposedValue Then
+                If disposing Then
+                    ' TODO: dispose managed state (managed objects)
+                    Call data.Clear()
+                End If
+
+                ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                ' TODO: set large fields to null
+                disposedValue = True
+            End If
+        End Sub
+
+        ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+        ' Protected Overrides Sub Finalize()
+        '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        '     Dispose(disposing:=False)
+        '     MyBase.Finalize()
+        ' End Sub
+
+        Public Sub Dispose() Implements IDisposable.Dispose
+            ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+            Dispose(disposing:=True)
+            GC.SuppressFinalize(Me)
         End Sub
     End Class
 
@@ -141,11 +188,11 @@ Namespace Kernel
         ''' <summary>
         ''' 这个主要是调用外部接口的回调函数，这个回调函数会在一个内核循环之中采集完数据之后被触发调用
         ''' </summary>
-        Dim __tickCallback As Action(Of DataSet)
+        Dim acquisition As Action(Of DataSet)
         Dim kernel As Kernel
 
-        Sub New(tick As Action(Of DataSet))
-            __tickCallback = tick
+        Sub New(store As Action(Of DataSet))
+            acquisition = store
         End Sub
 
         Public Function loadKernel(kernel As Kernel) As DataAcquisition
@@ -164,7 +211,7 @@ Namespace Kernel
             }
 
             ' 在一次内核循环之中才几万计算数据之后调用回调函数来触发外部事件
-            Call __tickCallback(t)
+            Call acquisition(t)
         End Sub
 
         Private Shared Function tagAs(x As var) As String

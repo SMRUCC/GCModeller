@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60498aa3e23ac4df6d4e8fdaa6a66ece, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
+﻿#Region "Microsoft.VisualBasic::ad02cda51986abf0d41e23cea3e40999, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGNames.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 96 (47.76%)
+    ' Comment Lines: 79 (39.30%)
+    '    - Xml Docs: 93.67%
+    ' 
+    '   Blank Lines: 26 (12.94%)
+    '     File Size: 6.55 KB
+
 
     '     Class COGName
     ' 
@@ -63,14 +75,9 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
-
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
 

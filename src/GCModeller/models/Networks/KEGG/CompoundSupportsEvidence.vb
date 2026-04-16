@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20c5db168e3679cbdcb6042d6d3f6249, models\Networks\KEGG\CompoundSupportsEvidence.vb"
+﻿#Region "Microsoft.VisualBasic::97f9a219f977080bc3a77f054b0f96f0, models\Networks\KEGG\CompoundSupportsEvidence.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 58 (60.42%)
+    ' Comment Lines: 28 (29.17%)
+    '    - Xml Docs: 46.43%
+    ' 
+    '   Blank Lines: 10 (10.42%)
+    '     File Size: 4.06 KB
+
+
     ' Module CompoundSupportsEvidence
     ' 
     '     Function: EvidenceScore
@@ -41,9 +53,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.Data
 
 ''' <summary>
 ''' 假若直接根据KO对应的Reaction进行网络的装配的话,可能会造成生成的网络非常的密集的现象出现
@@ -72,7 +83,7 @@ Public Module CompoundSupportsEvidence
             Return 0
         End If
 
-        Dim model As Reaction = repo.GetByKey(rxnId)
+        Dim model As DBGET.bGetObject.Reaction = repo.GetByKey(rxnId)
         ' 获取所需要的酶的列表
         Dim enzymes = model.Orthology.EntityList
         ' 获取在当前的background之下所能够得到的酶的列表

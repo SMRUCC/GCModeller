@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76b52f32439816bc4a440f724fb280e3, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb"
+﻿#Region "Microsoft.VisualBasic::23e22ee3967bbf0ff5ec8ea2ad9d2ae9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Module\Module.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 76 (41.99%)
+    ' Comment Lines: 90 (49.72%)
+    '    - Xml Docs: 84.44%
+    ' 
+    '   Blank Lines: 15 (8.29%)
+    '     File Size: 9.50 KB
+
+
     '     Class [Module]
     ' 
-    '         Properties: briteID, compound, name, pathway, pathwayGenes
-    '                     reaction
+    '         Properties: briteID, compound, pathway, pathwayGenes, reaction
     ' 
-    '         Function: ContainsReaction, GetKEGGReactionIdlist, GetPathwayGenes
+    '         Function: ContainsReaction, GetCompoundSet, GetKEGGReactionIdlist, GetPathwayGenes
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,6 +55,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -140,7 +152,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
     <XmlRoot("KEGG.MODULE", Namespace:="http://www.genome.jp/dbget-bin/get_linkdb?-t+module+genome")>
     Public Class [Module] : Inherits PathwayBrief
 
-        Public Property name As String
         Public Property pathway As NamedValue()
         Public Property compound As NamedValue()
         Public Property reaction As NamedValue()
@@ -149,7 +160,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             End Get
             Set
                 reactions = Value
-                rnTable = KeyValuePair.ToDictionary(Value)
+                rnTable = Value _
+                    .GroupBy(Function(t) t.name) _
+                    .ToDictionary(Function(t) t.Key,
+                                  Function(t)
+                                      Return t.First.text
+                                  End Function)
             End Set
         End Property
 
@@ -206,16 +222,16 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return (From strId As String In buf Select strId Distinct).ToArray
         End Function
 
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Return compound.SafeQuery.Select(Function(ci) New NamedValue(Of String)(ci.name, ci.text))
+        End Function
+
         ''' <summary>
         ''' 得到当前的模块之中的基因的编号的列表，这是个安全的函数，不会返回空值
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides Function GetPathwayGenes() As String()
-            If PathwayGenes.IsNullOrEmpty Then
-                Return New String() {}
-            End If
-
-            Return PathwayGenes.Select(Function(x) x.name).ToArray
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return pathwayGenes.SafeQuery.Select(Function(gi) New NamedValue(Of String)(gi.name, gi.text))
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2425cb6f1864422b5be05fb7c8bc8106, Data_science\Visualization\Plots-statistics\Heatmap\PlotExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::62b4bb435d26f696fe92e1e93694f1f6, Data_science\Visualization\Plots-statistics\HeatMap\PlotExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 90 (75.00%)
+    ' Comment Lines: 13 (10.83%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 17 (14.17%)
+    '     File Size: 5.07 KB
+
+
     '     Module PlotExtensions
     ' 
     '         Function: KmeansReorder, LoadDataSet
@@ -42,14 +54,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Correlations.Correlations
-Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.Math.Matrix
 
 Namespace Heatmap
 
@@ -105,6 +117,7 @@ Namespace Heatmap
                       }
 
             Dim clusters As ClusterCollection(Of ClusterEntity)
+            Dim kmeans As New KMeansAlgorithm(Of ClusterEntity)
 
             n = entityList.Length / n
 
@@ -118,7 +131,7 @@ Namespace Heatmap
                     Call clusters.Add(c)
                 Next
             Else
-                clusters = entityList.ClusterDataSet(n)
+                clusters = kmeans.ClusterDataSet(entityList, k:=n)
             End If
 
             Dim out As New List(Of NamedValue(Of Dictionary(Of String, Double)))
@@ -137,7 +150,7 @@ Namespace Heatmap
 
             Dim keysOrder As New List(Of String)
 
-            For Each cluster In keysEntity.ClusterDataSet(CInt(keys.Length / 5))
+            For Each cluster In kmeans.ClusterDataSet(keysEntity, k:=CInt(keys.Length / 5))
                 For Each k In cluster
                     keysOrder += k.uid
                 Next

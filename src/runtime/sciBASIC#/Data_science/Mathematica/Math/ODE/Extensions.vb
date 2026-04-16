@@ -1,41 +1,53 @@
-﻿#Region "Microsoft.VisualBasic::e59387981fdef0ea010741b4f63afd65, Data_science\Mathematica\Math\ODE\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3b81952b1b7e3fda4ea5126f143203e1, Data_science\Mathematica\Math\ODE\Extensions.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module Extensions
-' 
-'     Function: Let, Solve
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 69 (67.65%)
+    ' Comment Lines: 18 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (14.71%)
+    '     File Size: 3.94 KB
+
+
+    ' Module Extensions
+    ' 
+    '     Function: CDF, ECDF, Let, Solve
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -50,6 +62,19 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 <HideModuleName>
 Public Module Extensions
+
+    <Extension>
+    Public Function ECDF(v As IEnumerable(Of Double), range As Integer(),
+                         Optional resolution As Integer = 50000,
+                         Optional p0 As Double = 0) As Func(Of Double, Double)
+
+        Dim x As Double() = Nothing
+        Dim y As Double() = Nothing
+
+        Call CDF(AddressOf New ECDF(v, range).eval, New DoubleRange(range), resolution, p0, x, y)
+
+        Return AddressOf New ECDF(y, x).eval
+    End Function
 
     ''' <summary>
     ''' Cumulative Distribution Function via solve ODE
@@ -86,7 +111,8 @@ Public Module Extensions
     ''' </summary>
     ''' <param name="system"></param>
     ''' <returns></returns>
-    <Extension> Public Function Solve(system As IEnumerable(Of NonlinearVar), dt As (from#, to#, step#)) As ODEsOut
+    <Extension>
+    Public Function Solve(system As IEnumerable(Of NonlinearVar), dt As (from#, to#, step#)) As ODEsOut
         Dim vector As NonlinearVar() = system.ToArray
         Dim df = Sub(dx#, ByRef dy As Vector)
                      For Each x As NonlinearVar In vector

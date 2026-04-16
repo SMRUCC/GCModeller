@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::357db2e3ebbdc92fbbbd0dfcb72bb3c6, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
+﻿#Region "Microsoft.VisualBasic::aaa32fc26ff9fe3a565de4f01641f961, data\SABIO-RK\docuRESTfulWeb\QueryFields.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,33 @@
 
     ' Summaries:
 
-    ' Enum QueryFields
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 58 (66.67%)
+    ' Comment Lines: 27 (31.03%)
+    '    - Xml Docs: 92.59%
     ' 
-    '     Activator, AnyRole, AssociatedSpecies, Author, Catalyst
-    '     CellularLocation, ChebiID, Cofactor, DataIdentifier, DateSubmitted
-    '     ECNumber, EntryID, Enzymename, EnzymeType, ExperimentID
-    '     HasKineticData, InChI, Inhibitor, IsRecombinant, KeggCompoundID
-    '     KeggID, KeggPathwayID, KeggReactionID, KineticMechanismType, MetaCycReactionID
-    '     MetaNetXReactionID, Organism, Organization, OtherModifier, Parametertype
-    '     Pathway, pHValueRange, Product, PubChemID, PubMedCID
-    '     PubMedID, ReactomeReactionID, RheaReactionID, SabioCompoundID, SabioReactionID
-    '     Smiles, Substrate, TemperatureRange, Tissue, Title
-    '     UniProtID, UniProtKB_AC, UniprotOmimID, Year
+    '   Blank Lines: 2 (2.30%)
+    '     File Size: 2.68 KB
+
+
+    '     Enum QueryFields
+    ' 
+    '         Activator, AnyRole, AssociatedSpecies, Author, Catalyst
+    '         CellularLocation, ChebiID, Cofactor, DataIdentifier, DateSubmitted
+    '         ECNumber, EntryID, Enzymename, EnzymeType, ExperimentID
+    '         HasKineticData, InChI, Inhibitor, IsRecombinant, KeggCompoundID
+    '         KeggID, KeggPathwayID, KeggReactionID, KineticMechanismType, MetaCycReactionID
+    '         MetaNetXReactionID, Organism, Organization, OtherModifier, Parametertype
+    '         Pathway, pHValueRange, Product, PubChemID, PubMedCID
+    '         PubMedID, ReactomeReactionID, RheaReactionID, SabioCompoundID, SabioReactionID
+    '         Smiles, Substrate, TemperatureRange, Tissue, Title
+    '         UniProtID, UniProtKB_AC, UniprotOmimID, Year
     ' 
     '  
+    ' 
     ' 
     ' 
     ' 
@@ -54,85 +67,88 @@
 
 Imports System.ComponentModel
 
-''' <summary>
-''' The following vocabulary may be used to form queries to search for entries. 
-''' These terms are identical to those used in the web interface for forming 
-''' queries. An xml document containing all possible search fields is also 
-''' accessible at http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws. 
-''' 
-''' Queries are formed using one or more of the fields below and should be passed 
-''' as a request parameter named "q". Fields may be combined using the boolean 
-''' ``AND`` operator to form complex queries.
-''' 
-''' > http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws
-''' </summary>
-Public Enum QueryFields
+Namespace docuRESTfulWeb
+
     ''' <summary>
-    ''' EntryID - SABIO-RK entry ID (eg EntryID:123)
+    ''' The following vocabulary may be used to form queries to search for entries. 
+    ''' These terms are identical to those used in the web interface for forming 
+    ''' queries. An xml document containing all possible search fields is also 
+    ''' accessible at http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws. 
+    ''' 
+    ''' Queries are formed using one or more of the fields below and should be passed 
+    ''' as a request parameter named "q". Fields may be combined using the boolean 
+    ''' ``AND`` operator to form complex queries.
+    ''' 
+    ''' > http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws
     ''' </summary>
-    EntryID
-    ''' <summary>
-    ''' Pathway - The name of the reaction pathway (eg, Pathway:"urea Cycle")
-    ''' </summary>
-    Pathway
-    ''' <summary>
-    ''' KeggReactionID - KEGG ID for the reaction (eg KeggReactionID:"R00782")
-    ''' </summary>
-    KeggReactionID
-    ''' <summary>
-    ''' SabioReactionID - SABIO-RK ID for the reaction (eg SabioReactionID:14)
-    ''' </summary>
-    SabioReactionID
-    ''' <summary>
-    ''' AnyRole - Compound found in any role in a reaction (eg AnyRole:"ATP")
-    ''' </summary>
-    AnyRole
-    Substrate
-    Product
-    Inhibitor
-    Catalyst
-    Cofactor
-    Activator
-    OtherModifier
-    PubChemID
-    KeggCompoundID
-    KeggID
-    ChebiID
-    SabioCompoundID
-    Enzymename
-    ECNumber
-    UniProtKB_AC
-    UniProtID
-    Tissue
-    Organism
-    CellularLocation
-    Parametertype
-    KineticMechanismType
-    AssociatedSpecies
-    Title
-    Author
-    Year
-    PubMedID
-    PubMedCID
-    Organization
-    DataIdentifier
-    ExperimentID
-    pHValueRange
-    TemperatureRange
-    DateSubmitted
-    <Description("GO-Term")> GOTerm
-    <Description("SBO-Term")> SBOTerm
-    InChI
-    Smiles
-    <Description("Signalling Modification")> SignallingModification
-    <Description("Signalling Event")> SignallingEvent
-    IsRecombinant
-    HasKineticData
-    EnzymeType
-    KeggPathwayID
-    RheaReactionID
-    ReactomeReactionID
-    MetaCycReactionID
-    MetaNetXReactionID
-    UniprotOmimID
-End Enum
+    Public Enum QueryFields
+        ''' <summary>
+        ''' EntryID - SABIO-RK entry ID (eg EntryID:123)
+        ''' </summary>
+        EntryID
+        ''' <summary>
+        ''' Pathway - The name of the reaction pathway (eg, Pathway:"urea Cycle")
+        ''' </summary>
+        Pathway
+        ''' <summary>
+        ''' KeggReactionID - KEGG ID for the reaction (eg KeggReactionID:"R00782")
+        ''' </summary>
+        KeggReactionID
+        ''' <summary>
+        ''' SabioReactionID - SABIO-RK ID for the reaction (eg SabioReactionID:14)
+        ''' </summary>
+        SabioReactionID
+        ''' <summary>
+        ''' AnyRole - Compound found in any role in a reaction (eg AnyRole:"ATP")
+        ''' </summary>
+        AnyRole
+        Substrate
+        Product
+        Inhibitor
+        Catalyst
+        Cofactor
+        Activator
+        OtherModifier
+        PubChemID
+        KeggCompoundID
+        KeggID
+        ChebiID
+        SabioCompoundID
+        Enzymename
+        ECNumber
+        UniProtKB_AC
+        UniProtID
+        Tissue
+        Organism
+        CellularLocation
+        Parametertype
+        KineticMechanismType
+        AssociatedSpecies
+        Title
+        Author
+        Year
+        PubMedID
+        PubMedCID
+        Organization
+        DataIdentifier
+        ExperimentID
+        pHValueRange
+        TemperatureRange
+        DateSubmitted
+        <Description("GO-Term")> GOTerm
+        <Description("SBO-Term")> SBOTerm
+        InChI
+        Smiles
+        <Description("Signalling Modification")> SignallingModification
+        <Description("Signalling Event")> SignallingEvent
+        IsRecombinant
+        HasKineticData
+        EnzymeType
+        KeggPathwayID
+        RheaReactionID
+        ReactomeReactionID
+        MetaCycReactionID
+        MetaNetXReactionID
+        UniprotOmimID
+    End Enum
+End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 54 (62.79%)
+    ' Comment Lines: 20 (23.26%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 12 (13.95%)
+    '     File Size: 3.39 KB
+
+
     '     Module IndexingExtensions
     ' 
     '         Function: (+3 Overloads) BinarySearch

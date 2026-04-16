@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cd926e0fa5b61982f12b8845cb53453, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
+﻿#Region "Microsoft.VisualBasic::75b0358f91923c777acff34430d97db8, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\PalindromeAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 421
+    '    Code Lines: 258 (61.28%)
+    ' Comment Lines: 116 (27.55%)
+    '    - Xml Docs: 88.79%
+    ' 
+    '   Blank Lines: 47 (11.16%)
+    '     File Size: 20.65 KB
+
+
     '     Module Palindrome
     ' 
     '         Function: __haveMirror, CreatePalindrome, (+2 Overloads) Density, FindMirrorPalindromes, Found
@@ -46,12 +58,12 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Search
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -203,11 +215,11 @@ Namespace Topologically
 
         <ExportAPI("ImperfectPalindrome.Vector.TRIM")>
         Public Function ImperfectPalindromeVector(DIR As String, length As Integer, min As Integer, max As Integer) As Double()
-            Call $"Start loading original data from {DIR}".__DEBUG_ECHO
+            Call $"Start loading original data from {DIR}".debug
             Dim files = (From file As String
                          In FileIO.FileSystem.GetFiles(DIR, FileIO.SearchOption.SearchTopLevelOnly, "*.csv")
                          Select file.LoadCsv(Of ImperfectPalindrome)).ToArray
-            Call $"Data load done! Start to filter data...".__DEBUG_ECHO
+            Call $"Data load done! Start to filter data...".debug
             files = (From genome
                      In files.AsParallel
                      Select From site As ImperfectPalindrome
@@ -217,7 +229,7 @@ Namespace Topologically
                                  site.Palindrome.Count("-"c) <> site.Palindrome.Length AndAlso
                                  site.Site.Count("-"c) <> site.Site.Length
                             Select site).ToArray
-            Call $"Generates density vector....".__DEBUG_ECHO
+            Call $"Generates density vector....".debug
             Return Density(Of ImperfectPalindrome)(files, size:=length)
         End Function
 
@@ -244,8 +256,8 @@ Namespace Topologically
                            In genomes.AsParallel
                            Select vector = ToVector(genome, size)).ToArray
 
-            Call New String("="c, 120).__DEBUG_ECHO
-            Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
+            Call New String("="c, 120).debug
+            Call $"genomes={Vecotrs.Count}".debug
 
             Dim p_vectors As Double() = size.Sequence.Select(Function(index As Integer) As Double
                                                                  Dim site As Integer() = Vecotrs.Select(Function(genome) genome(index)).ToArray

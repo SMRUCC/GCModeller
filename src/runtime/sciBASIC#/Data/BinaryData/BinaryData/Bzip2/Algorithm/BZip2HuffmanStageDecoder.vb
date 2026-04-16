@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb2f420a4d5d6740e4f87388029535ba, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2HuffmanStageDecoder.vb"
+﻿#Region "Microsoft.VisualBasic::15e1fd7ec73d9214a80a7e5ccf041743, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2HuffmanStageDecoder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 79 (48.47%)
+    ' Comment Lines: 49 (30.06%)
+    '    - Xml Docs: 6.12%
+    ' 
+    '   Blank Lines: 35 (21.47%)
+    '     File Size: 7.03 KB
+
+
     '     Class BZip2HuffmanStageDecoder
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -49,7 +61,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -123,7 +135,7 @@ Namespace Bzip2
             If Threading.Interlocked.Increment(groupPosition) Mod BZip2HuffmanStageEncoder.HUFFMAN_GROUP_RUN_LENGTH = 0 Then
                 groupIndex += 1
                 If groupIndex = selectors.Length Then Throw New Exception("Error decoding BZip2 block")
-                currentTable = selectors(groupIndex) And &HfF
+                currentTable = selectors(groupIndex) And &HFF
             End If
 
             Dim codeLength = minimumLengths(currentTable)
@@ -162,8 +174,8 @@ Namespace Bzip2
 
                 ' Find the minimum and maximum code length for the table
                 For i = 0 To alphabetSize - 1
-                    maximumLength = stdNum.Max(tableCodeLengths(table, i), maximumLength)
-                    minimumLength = stdNum.Min(tableCodeLengths(table, i), minimumLength)
+                    maximumLength = std.Max(tableCodeLengths(table, i), maximumLength)
+                    minimumLength = std.Min(tableCodeLengths(table, i), minimumLength)
                 Next
 
                 minimumLengths(table) = minimumLength
@@ -197,7 +209,7 @@ Namespace Bzip2
                 While bitLength <= maximumLength
 
                     For symbol = 0 To alphabetSize - 1
-                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, stdNum.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
+                        If tableCodeLengths(table, symbol) = bitLength Then codeSymbols(table, std.Min(Threading.Interlocked.Increment(codeIndex), codeIndex - 1)) = symbol
                     Next
 
                     bitLength += 1

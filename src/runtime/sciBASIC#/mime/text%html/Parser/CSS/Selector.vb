@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 41 (65.08%)
+    ' Comment Lines: 15 (23.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (11.11%)
+    '     File Size: 2.17 KB
+
+
     '     Class Selector
     ' 
     '         Properties: CSSValue, Name, Selector, Type

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e5a79a4de02f81bfde8fb54488d60b1, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Paths\Star.vb"
+﻿#Region "Microsoft.VisualBasic::b88b8ad6771a1324dbcb51d8c6181624, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Paths\Star.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 17 (68.00%)
+    ' Comment Lines: 3 (12.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (20.00%)
+    '     File Size: 756 B
+
+
     '     Class Star
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Math
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Drawing3D.Models.Isometric.Paths
 
@@ -56,8 +68,8 @@ Namespace Drawing3D.Models.Isometric.Paths
             For i As Integer = 0 To points * 2 - 1
                 Dim r As Double = If(i Mod 2 = 0, outerRadius, innerRadius)
                 Dim p As New Point3D(
-                    (r * Cos(i * stdNum.PI / points)) + origin.X,
-                    (r * Sin(i * stdNum.PI / points)) + origin.Y,
+                    (r * Cos(i * std.PI / points)) + origin.X,
+                    (r * Sin(i * std.PI / points)) + origin.Y,
                     origin.Z)
 
                 Call Push(p)

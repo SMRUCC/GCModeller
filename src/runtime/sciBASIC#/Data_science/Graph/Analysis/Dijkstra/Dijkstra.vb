@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a3142b4cb5966babe2af0501407dd7e, Data_science\Graph\Analysis\Dijkstra\Dijkstra.vb"
+﻿#Region "Microsoft.VisualBasic::da91a08fb1a715c6a403e329cbd2902f, Data_science\Graph\Analysis\Dijkstra\Dijkstra.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 241
+    '    Code Lines: 136 (56.43%)
+    ' Comment Lines: 68 (28.22%)
+    '    - Xml Docs: 63.24%
+    ' 
+    '   Blank Lines: 37 (15.35%)
+    '     File Size: 10.23 KB
+
 
     '     Class DijkstraRouter
     ' 
@@ -85,6 +97,18 @@ Namespace Analysis.Dijkstra
         Private Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Create a router object from the network graph object
+        ''' </summary>
+        ''' <typeparam name="TNode"></typeparam>
+        ''' <typeparam name="TEdge"></typeparam>
+        ''' <param name="g"></param>
+        ''' <param name="undirected"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this function keeps the raw vector node object, but the edge is replaced as <see cref="VertexEdge"/>. 
+        ''' but the edge still can be get from the source graph via its unique reference <see cref="VertexEdge.ID"/>
+        ''' </remarks>
         Public Shared Function FromNetwork(Of TNode As {New, Network.Node}, TEdge As {New, Network.Edge(Of TNode)})(g As NetworkGraph(Of TNode, TEdge), Optional undirected As Boolean = False) As DijkstraRouter
             Dim router As New DijkstraRouter
 
@@ -127,10 +151,12 @@ Namespace Analysis.Dijkstra
 
         ''' <summary>
         ''' Calculates the shortest route to all the other locations.
-        ''' (这个函数会枚举出从出发点<paramref name="startPos"/>到网络之中的所有节点的最短路径)
         ''' </summary>
         ''' <param name="startPos"></param>
         ''' <returns>List of all locations and their shortest route</returns>
+        ''' <remarks>
+        ''' (这个函数会枚举出从出发点<paramref name="startPos"/>到网络之中的所有节点的最短路径)
+        ''' </remarks>
         Public Function CalculateMinCost(startPos As Vertex) As Dictionary(Of Vertex, Route)
             ' Initialise a new empty route list
             Dim shortestPaths As New Dictionary(Of Vertex, Route)()
@@ -187,7 +213,7 @@ Namespace Analysis.Dijkstra
                 Next
 
                 ' Add the location to the list of processed locations
-                handledLocations.Add(locationToProcess)
+                Call handledLocations.Replace(locationToProcess)
             End While
 
             Call shortestPaths.Remove(startPos)
@@ -195,9 +221,68 @@ Namespace Analysis.Dijkstra
             Return shortestPaths
         End Function
 
+        ''' <summary>
+        ''' 查找两点之间的最短路径
+        ''' </summary>
+        ''' <param name="startPos"></param>
+        ''' <param name="endPos"></param>
+        ''' <returns>当函数找不到路径的时候会返回空值</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CalculateMinCost(startPos As Vertex, endPos As Vertex) As Route
-            Return CalculateMinCost(startPos)(endPos)
+            ' 边界条件检查
+            If startPos Is Nothing OrElse endPos Is Nothing Then Return Nothing
+            If startPos.Equals(endPos) Then Return New Route(endPos.label) With {.Cost = 0}
+
+            ' 初始化数据结构
+            Dim shortestPaths As New Dictionary(Of Vertex, Route)()
+            Dim handledLocations As New HashList(Of Vertex)(points.Length)
+            Dim cost#
+
+            ' 初始化所有节点的路径
+            For Each location As Vertex In points
+                shortestPaths.Add(location, New Route(location.label))
+            Next
+            shortestPaths(startPos).Cost = 0
+
+            ' 主循环：当未处理完所有节点且未找到终点时
+            While handledLocations.Count <> points.Length AndAlso Not handledLocations.Contains(endPos)
+                ' 找到当前未处理节点中代价最小的
+                Dim locationToProcess As Vertex = Nothing
+                Dim minCost As Double = Double.MaxValue
+
+                For Each kvp In shortestPaths
+                    If Not handledLocations.Contains(kvp.Key) AndAlso kvp.Value.Cost < minCost Then
+                        minCost = kvp.Value.Cost
+                        locationToProcess = kvp.Key
+                    End If
+                Next
+
+                ' 如果没有可达节点，提前终止
+                If locationToProcess Is Nothing OrElse minCost = Integer.MaxValue Then
+                    Exit While
+                End If
+
+                ' 处理当前节点的所有出边
+                Dim selectedConnections = From c In links
+                                          Where c.U Is locationToProcess
+                                          Select c
+
+                For Each conn As VertexEdge In selectedConnections
+                    cost = conn.weight + shortestPaths(conn.U).Cost + 1
+
+                    If shortestPaths(conn.V).Cost > cost Then
+                        shortestPaths(conn.V).SetValue(shortestPaths(conn.U).Connections)
+                        shortestPaths(conn.V).Add(conn)
+                        shortestPaths(conn.V).Cost = cost
+                    End If
+                Next
+
+                ' 标记当前节点为已处理
+                handledLocations.Replace(locationToProcess)
+            End While
+
+            ' 返回结果
+            Return If(shortestPaths.ContainsKey(endPos), shortestPaths(endPos), Nothing)
         End Function
 
         Public Function CalculateMinCost(startVertex As String) As Dictionary(Of Vertex, Route)

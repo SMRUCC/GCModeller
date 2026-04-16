@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a72d4053b3151e21671c5137ba02799, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
+﻿#Region "Microsoft.VisualBasic::c3bea38b366f778bd220f8bc4c0bf454, RNA-Seq\RNA-seq.Data\FastQ\FastQFile.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 106 (70.20%)
+    ' Comment Lines: 13 (8.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 32 (21.19%)
+    '     File Size: 5.86 KB
+
+
     '     Class FastQFile
     ' 
     '         Properties: IsReadOnly, NumOfReads
     ' 
-    '         Function: __trim, Contains, GetEnumerator, GetEnumerator1, IndexOf
-    '                   Load, Remove, Save, ToFasta
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
+    '         Function: __trim, Contains, GenericEnumerator, IEnumerable_GetEnumerator, IndexOf
+    '                   Load, LoadStream, Remove, Save, ToFasta
     ' 
     '         Sub: Add, Clear, CopyTo, Insert, RemoveAt
     ' 
@@ -46,11 +60,8 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace FQ
@@ -60,10 +71,17 @@ Namespace FQ
     ''' </summary>
     ''' <remarks></remarks>
     Public Class FastQFile
-        Implements IEnumerable(Of FastQ)
+        Implements Enumeration(Of FastQ)
         Implements IList(Of FastQ)
 
         Dim _innerList As New List(Of FastQ)
+
+        Sub New()
+        End Sub
+
+        Sub New(reads As IEnumerable(Of FastQ))
+            _innerList = New List(Of FastQ)(reads)
+        End Sub
 
         ''' <summary>
         ''' Load the fastq data from a specific file handle.(从一个特定的文件句柄之中加载fastq文件的数据)
@@ -71,25 +89,12 @@ Namespace FQ
         ''' <param name="path">The file handle of the fastq data.</param>
         ''' <returns></returns>
         Public Shared Function Load(path As String, Optional encoding As Encodings = Encodings.Default) As FastQFile
-            Dim FastaqFile As New FastQFile With {
-                ._innerList = Stream.ReadAllLines(path, encoding).AsList
-            }
-
-            Return FastaqFile
+            Return New FastQFile(Stream.ReadAllLines(path, encoding))
         End Function
 
-#Region "Implements Generic.IEnumerable(Of Fastaq)"
-
-        Public Iterator Function GetEnumerator() As IEnumerator(Of FastQ) Implements IEnumerable(Of FastQ).GetEnumerator
-            For Each Fastaq As FastQ In _innerList
-                Yield Fastaq
-            Next
+        Public Shared Function LoadStream(path As String, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of FastQ)
+            Return Stream.ReadAllLines(path, encoding)
         End Function
-
-        Public Iterator Function GetEnumerator1() As IEnumerator Implements IEnumerable.GetEnumerator
-            Yield GetEnumerator()
-        End Function
-#End Region
 
 #Region "Implements Generic.IList(Of Fastaq)"
 
@@ -158,7 +163,7 @@ Namespace FQ
         Public Function ToFasta(Optional index As Boolean = False) As FASTA.FastaFile
             Dim sw As Stopwatch = Stopwatch.StartNew
 
-            Call "Start to convert fastq to fastq...".__DEBUG_ECHO
+            Call "Start to convert fastq to fastq...".debug
 
             Dim __attrs As Func(Of Integer, FastQ, String())
 
@@ -179,7 +184,7 @@ Namespace FQ
                                                    }
                                                    Order By fasta.Headers.First Ascending
 
-            Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
+            Call $"[Job Done!] {sw.ElapsedMilliseconds}ms...".debug
 
             Return New FASTA.FastaFile(LQuery)
         End Function
@@ -192,6 +197,16 @@ Namespace FQ
             End If
 
             Return attrs
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of FastQ) Implements Enumeration(Of FastQ).GenericEnumerator, IEnumerable(Of FastQ).GetEnumerator
+            For Each seq As FastQ In _innerList
+                Yield seq
+            Next
+        End Function
+
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

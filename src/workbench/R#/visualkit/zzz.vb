@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4e840308810de2776ff250f500f26da, R#\visualkit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::f21a2c0ec9b99758ea8e88472021f199, R#\visualkit\zzz.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 7 (63.64%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (36.36%)
+    '     File Size: 179 B
+
+
     ' Class zzz
     ' 
     '     Sub: onLoad
@@ -38,6 +50,10 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports SMRUCC.Rsharp.Runtime.Interop
+
+<Assembly: RPackageModule>
 
 Public Class zzz
 

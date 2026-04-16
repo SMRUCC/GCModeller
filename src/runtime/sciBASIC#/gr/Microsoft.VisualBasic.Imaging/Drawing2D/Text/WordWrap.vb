@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4cd2fe870dc3305a68c035365df58fb, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\WordWrap.vb"
+﻿#Region "Microsoft.VisualBasic::c9f547aba780045d58d7ebb98202ceaf, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\WordWrap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 75 (61.48%)
+    ' Comment Lines: 26 (21.31%)
+    '    - Xml Docs: 57.69%
+    ' 
+    '   Blank Lines: 21 (17.21%)
+    '     File Size: 4.73 KB
+
+
     '     Module WordWrap
     ' 
     '         Function: DoWordWrap, Explode
@@ -46,7 +58,6 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Text
 
 Namespace Drawing2D.Text
 

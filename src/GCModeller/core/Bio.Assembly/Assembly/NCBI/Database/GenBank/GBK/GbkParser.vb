@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ad36e101c863074ed1f6de62b422397, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
+﻿#Region "Microsoft.VisualBasic::fb1aaebf85cc5efcd0b1edaff0f8aeca, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 117 (72.67%)
+    ' Comment Lines: 15 (9.32%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 29 (18.01%)
+    '     File Size: 6.38 KB
+
+
     '     Module GbkParser
     ' 
     '         Function: __originReadThread, bufferTrims, doLoadData, Internal_readBlock, Read
@@ -42,17 +54,11 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Assembly.NCBI.GenBank.GBFF
 
@@ -61,13 +67,13 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <summary>
         ''' 将一个GBK文件从硬盘文件之中读取出来，当发生错误的时候，会抛出错误
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Read")> Public Function Read(Path As String) As NCBI.GenBank.GBFF.File
-            Dim file As String() = IO.File.ReadAllLines(Path)
-            Dim genbank = doLoadData(file, Path)
+        Public Function Read(path As String) As NCBI.GenBank.GBFF.File
+            Dim file As String() = IO.File.ReadAllLines(path)
+            Dim genbank = doLoadData(file, path)
 
             Return genbank
         End Function
@@ -76,7 +82,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
             Dim bufs As String() = Internal_readBlock(KeyWord.GBK_FIELD_KEY_ORIGIN, buf)
 
             If bufs.IsNullOrEmpty Then
-                Call $"{gb.Locus} have no sequence data.".__DEBUG_ECHO
+                Call $"{gb.Locus} have no sequence data.".debug
 
                 Return New ORIGIN With {
                     .SequenceData = ""
@@ -107,17 +113,17 @@ Namespace Assembly.NCBI.GenBank.GBFF
         End Function
 
         Friend Function doLoadData(innerBufs As String(), defaultAccession$) As NCBI.GenBank.GBFF.File
-            Call "Start loading ncbi gbk file...".__DEBUG_ECHO
+            ' Call "Start loading ncbi gbk file...".debug
 
             Dim Sw As Stopwatch = Stopwatch.StartNew
             Dim gb As New File
 
-#If netcore5 = 0 Then
+#If NET48 Then
             Dim ReadThread As Action(Of File, String()) = AddressOf __readOrigin
             Dim ReadThreadResult As IAsyncResult = ReadThread.BeginInvoke(gb, innerBufs, Nothing, Nothing)
 #End If
             gb.Comment = Internal_readBlock(KeyWord.GBK_FIELD_KEY_COMMENT, innerBufs)
-            gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser
+            gb.Features = Internal_readBlock(KeyWord.GBK_FIELD_KEY_FEATURES, innerBufs).Skip(1).ToArray.FeaturesListParser(defaultAccession)
             gb.Accession = ACCESSION.CreateObject(Internal_readBlock(KeyWord.GBK_FIELD_KEY_ACCESSION, innerBufs), defaultAccession)
             gb.Reference = REFERENCE.InternalParser(innerBufs)
             gb.Definition = Internal_readBlock(KeyWord.GBK_FIELD_KEY_DEFINITION, innerBufs)
@@ -140,7 +146,7 @@ Namespace Assembly.NCBI.GenBank.GBFF
 
             Call gb.Features.LinkEntry()
 
-#If netcore5 = 0 Then
+#If NET48 Then
             Call ReadThread.EndInvoke(ReadThreadResult)
 #Else
             Call __readOrigin(gb, innerBufs)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 39 (60.94%)
+    ' Comment Lines: 18 (28.12%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 7 (10.94%)
+    '     File Size: 3.73 KB
+
+
     '     Class PathRoute
     ' 
     '         Constructor: (+2 Overloads) Sub New

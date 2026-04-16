@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ecfa9a279f03d236ca1cc63b6a900ef7, annotations\Proteomics\iTraq\iTraqSample.vb"
+﻿#Region "Microsoft.VisualBasic::1beaa80ace10f9c71969f366b9e8e602, annotations\Proteomics\iTraq\iTraqSample.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 350
+    '    Code Lines: 243 (69.43%)
+    ' Comment Lines: 60 (17.14%)
+    '    - Xml Docs: 68.33%
+    ' 
+    '   Blank Lines: 47 (13.43%)
+    '     File Size: 14.22 KB
+
+
     ' Module iTraqSample
     ' 
     '     Function: (+3 Overloads) BridgeCombine, bridgeKeys, MatrixSplit, subsetValues, TagWith
@@ -50,7 +62,7 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal.PrintAsTable
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Language.Vectorization.StringVector
@@ -296,7 +308,7 @@ Public Module iTraqSample
     ''' <returns></returns>
     <Extension>
     Private Function BridgeFormula(C$, bridgeA$(), bridgeB$()) As NamedValue(Of Formula)()
-        Dim combines = Combination.CreateCombos(bridgeA, bridgeB).ToArray
+        Dim combines = CreateCombos(bridgeA, bridgeB).ToArray
         Dim formulas As NamedValue(Of Formula)() = combines _
             .Select(Function(combine)
                         Dim labelA$ = combine.a, labelB$ = combine.b

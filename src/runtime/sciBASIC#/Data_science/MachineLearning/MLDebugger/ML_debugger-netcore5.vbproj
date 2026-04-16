@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>Microsoft.VisualBasic.MachineLearning.Debugger</RootNamespace>
-		<TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
 		<AssemblyName>Microsoft.VisualBasic.MachineLearning.Debugger</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
@@ -15,9 +15,15 @@
 		<Platforms>AnyCPU;x64</Platforms>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+		<Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
 	</PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>../../../.nuget/</OutputPath>
+  </PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
 	  <OutputPath>bin\x64\</OutputPath>
 	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
@@ -43,6 +49,14 @@
 	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
+	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
 	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
 	</PropertyGroup>
@@ -65,7 +79,29 @@
 	  <DebugType>full</DebugType>
 	  <DefineDebug>false</DefineDebug>
 	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+	  <DocumentationFile>Microsoft.VisualBasic.MachineLearning.Debugger.xml</DocumentationFile>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
@@ -105,11 +141,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
-    <ProjectReference Include="..\..\..\Data\BinaryData\DataStorage\datastorage-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\Data\BinaryData\netCDF\netCDF.vbproj" />
     <ProjectReference Include="..\..\..\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
     <ProjectReference Include="..\..\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\DeepLearning\DeepLearning.NET6.vbproj" />
+    <ProjectReference Include="..\MachineLearning.Data.Extensions\MachineLearning.Data.Extensions.vbproj" />
     <ProjectReference Include="..\MachineLearning\machine_learning-netcore5.vbproj" />
   </ItemGroup>
 

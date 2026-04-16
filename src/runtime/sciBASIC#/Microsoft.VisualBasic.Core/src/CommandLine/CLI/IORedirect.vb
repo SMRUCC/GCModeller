@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7fb6b9fbde6738ff6b57142552aa8d07, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirect.vb"
+﻿#Region "Microsoft.VisualBasic::685148fa4c8931e0faab56bfe3251b2b, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirect.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 430
+    '    Code Lines: 255 (59.30%)
+    ' Comment Lines: 109 (25.35%)
+    '    - Xml Docs: 80.73%
+    ' 
+    '   Blank Lines: 66 (15.35%)
+    '     File Size: 17.62 KB
+
 
     '     Delegate Function
     ' 
@@ -65,9 +77,8 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace CommandLine
 
@@ -183,7 +194,7 @@ Namespace CommandLine
                        Optional IOredirect As Boolean = True,
                        Optional hide As Boolean = True)
 
-            Dim program$ = exe.Trim(ASCII.Quot, " "c)
+            Dim program$ = exe.Trim(ASCII.Quot, " "c).Trim("'", " ").Trim
             Dim pInfo As New ProcessStartInfo(program, args.TrimNewLine.Trim) With {
                 .UseShellExecute = False
             }
@@ -195,10 +206,8 @@ Namespace CommandLine
                 pInfo.RedirectStandardInput = True
             End If
 
-            pInfo.RedirectStandardInput = True
-            pInfo.ErrorDialog = False
-
             If hide Then
+                pInfo.ErrorDialog = False
                 pInfo.WindowStyle = ProcessWindowStyle.Hidden
                 pInfo.CreateNoWindow = True
             End If
@@ -274,7 +283,7 @@ Namespace CommandLine
                 Dim Exe As String = processInfo.StartInfo.FileName.GetFullPath.Replace("\", "/")
                 Dim argvs As String = processInfo.StartInfo.Arguments
 
-                Call Console.WriteLine("# ""{0}"" {1}", Exe, argvs)
+                Call VBDebugger.EchoLine($"# ""{Exe}"" {argvs}")
             End If
 
             Try
@@ -286,23 +295,26 @@ Namespace CommandLine
                 End If
             Catch ex As Exception
                 Call printf("FATAL_ERROR::%s", ex.ToString)
-                Call Console.WriteLine("  Exe ==> " & processInfo.StartInfo.FileName)
-                Call Console.WriteLine("argvs ==> " & processInfo.StartInfo.Arguments)
+                Call VBDebugger.EchoLine("  Exe ==> " & processInfo.StartInfo.FileName)
+                Call VBDebugger.EchoLine("argvs ==> " & processInfo.StartInfo.Arguments)
 
                 ' Return ex.HResul '4.5
                 Return -1
             End Try
 
             processIsRunning = True
-            input = processInfo.StandardInput
 
-            If Not pushingData.IsNullOrEmpty Then
-                For Each line As String In pushingData
-                    Call input.WriteLine(line)
-                    Call input.Flush()
+            If IOredirect Then
+                input = processInfo.StandardInput
 
-                    Call Console.WriteLine("  >>>   " & line)
-                Next
+                If Not pushingData.IsNullOrEmpty Then
+                    For Each line As String In pushingData
+                        Call input.WriteLine(line)
+                        Call input.Flush()
+
+                        Call VBDebugger.EchoLine("  >>>   " & line)
+                    Next
+                End If
             End If
 
             If waitForExit Then

@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "KO.background" "KO.background"
+.SH NAME
+KO.background \- create kegg background model
+.SH SYNOPSIS
+\fIKO.background(\fBgenes\fR as any, 
+\fBmaps\fR as any, 
+\fBsize\fR as integer = -1, 
+\fBgenomeName\fR as string = "unknown", 
+\fBid_map\fR as any = \fB<NULL>\fR, 
+\fBmultiple_omics\fR as boolean = FALSE, 
+\fBterm_db\fR as string = "unknown", 
+\fBinstance_map\fR as <generic> dataframe = \fB<NULL>\fR, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create kegg background model
+.PP
+.SH OPTIONS
+.PP
+\fBgenes\fB \fR\- a set of molecules with the kegg orthology/compound id mapping. 
+.PP
+.PP
+\fBmaps\fB \fR\- the kegg maps model. 
+.PP
+.PP
+\fBsize\fB \fR\- the background gene size, default -1 or zero means auto calculation.. 
+.PP
+.PP
+\fBgenomeName\fB \fR\- the genome name that tagged with this background model.. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

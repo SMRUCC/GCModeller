@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbde8d34e78df619f3e26774bab577d4, gr\physics\physics_Test\Form1.vb"
+﻿#Region "Microsoft.VisualBasic::bfbcbe618faf89361d904d2f1c6fb96b, gr\physics\physics_Test\Form1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 39 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (25.00%)
+    '     File Size: 1.99 KB
+
+
     ' Class Form1
     ' 
     '     Sub: Form1_Load, Updates
@@ -41,6 +53,7 @@
 
 Imports System.Drawing
 Imports System.Threading
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Physics
 Imports Microsoft.VisualBasic.Language

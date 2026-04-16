@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1af8a61deaa2296fa0ea7fcfaaf3c700, localblast\LocalBLAST\Pipeline\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c7678cbd309ba239dc0181d79d7a01e4, localblast\LocalBLAST\Pipeline\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 80 (77.67%)
+    ' Comment Lines: 12 (11.65%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 11 (10.68%)
+    '     File Size: 5.01 KB
+
 
     '     Module Extensions
     ' 
@@ -106,8 +118,7 @@ Namespace Pipeline
 
         <ExportAPI("EnzymeClassification")>
         Public Function EnzymeClassification(Expasy As NomenclatureDB, bh As BestHit()) As T_EnzymeClass_BLAST_OUT()
-            Dim EnzymeClasses As T_EnzymeClass_BLAST_OUT() =
-                API.GenerateBasicDocument(Expasy.Enzymes)
+            Dim EnzymeClasses As T_EnzymeClass_BLAST_OUT() = API.GenerateBasicDocument(Expasy.Enzymes)
             Dim LQuery As T_EnzymeClass_BLAST_OUT() =
                 LinqAPI.Exec(Of T_EnzymeClass_BLAST_OUT) <= From enzPre As T_EnzymeClass_BLAST_OUT
                                                             In EnzymeClasses.AsParallel

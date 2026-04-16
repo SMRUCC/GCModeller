@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e726bf365bcd6b91acd75834e10032eb, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
+﻿#Region "Microsoft.VisualBasic::e669a060041df1b9fd2b3271f12f60a1, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\Models\v228.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 277
+    '    Code Lines: 201 (72.56%)
+    ' Comment Lines: 44 (15.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 32 (11.55%)
+    '     File Size: 13.04 KB
+
+
     '     Class v228
     ' 
     '         Properties: ParameterSummary, Queries
@@ -38,9 +50,9 @@
     '         Function: Save
     '         Delegate Function
     ' 
-    '             Function: __checkIntegrity, __generateLine, __hitsOverview, CheckIntegrity, EmptyHit
-    '                       ExportAllBestHist, ExportBestHit, ExportBesthits, ExportOverview, Grep
-    '                       SBHLines
+    '             Function: __checkIntegrity, __hitsOverview, CheckIntegrity, EmptyHit, ExportAllBestHist
+    '                       ExportBestHit, ExportBesthits, ExportOverview, FirstToken, Grep
+    '                       SBHLines, topHitResult
     ' 
     ' 
     ' 
@@ -110,7 +122,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ExportBestHit(Optional coverage As Double = 0.5, Optional identities As Double = 0.15) As LocalBLAST.Application.BBH.BestHit()
-            Return (From query As Query In Queries Select __generateLine(query, coverage, identities)).ToArray
+            Return (From query As Query In Queries Select topHitResult(query, coverage, identities)).ToArray
         End Function
 
         ''' <summary>
@@ -120,7 +132,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <param name="coverage"></param>
         ''' <param name="identities"></param>
         ''' <returns></returns>
-        Private Shared Function __generateLine(query As Query, coverage As Double, identities As Double) As BestHit
+        Private Shared Function topHitResult(query As Query, coverage As Double, identities As Double) As BestHit
             Dim topHit As SubjectHit = query.GetBestHit(coverage, identities)
             Dim locusId As String = query.QueryName.Split.First
             Dim def As String = Mid(query.QueryName, Len(locusId) + 1).Trim
@@ -139,10 +151,10 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                     .HitName = topHit.Name.Trim
                     .query_length = query.QueryLength
                     .hit_length = topHit.Length
-                    .Score = Score.RawScore
+                    .score = Score.RawScore
                     .evalue = Score.Expect
                     .identities = Score.Identities.Value
-                    .Positive = Score.Positives.Value
+                    .positive = Score.Positives.Value
                     .length_hit = topHit.LengthHit
                     .length_query = topHit.LengthQuery
                     .length_hsp = topHit.Score.Gaps.Denominator
@@ -179,7 +191,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function ExportOverview() As Overview
             Dim LQuery As Views.Query() = LinqAPI.Exec(Of Views.Query) <=
- _
+                                                                         _
                 From query As Query
                 In Me.Queries.AsParallel
                 Let hitsOverview As BestHit() = __hitsOverview(query)
@@ -202,7 +214,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
 
         Private Shared Function __hitsOverview(query As Query) As BestHit()
             Return LinqAPI.Exec(Of BestHit) _
- _
+                                            _
                 () <= From hit As SubjectHit
                       In query.SubjectHits
                       Let identity As Double = hit.Score.Identities.Value
@@ -216,9 +228,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .length_hit = hit.LengthHit,
                           .length_hsp = hit.LengthQuery,
                           .length_query = hit.LengthQuery,
-                          .Positive = positive,
+                          .positive = positive,
                           .query_length = query.QueryLength,
-                          .Score = hit.Score.Score
+                          .score = hit.Score.Score
                       }
         End Function
 
@@ -229,7 +241,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function ExportAllBestHist(Optional coverage As Double = 0.5, Optional identities_cutoff As Double = 0.15) As BestHit()
             Dim LQuery = LinqAPI.Exec(Of BestHit) _
- _
+                                                  _
                 () <= From query As Query
                       In Queries
                       Select SBHLines(query, coverage, identities_cutoff) '
@@ -237,16 +249,23 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Return LQuery
         End Function
 
-        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(Function(hitName) hitName.Split.First)
+        ''' <summary>
+        ''' split name with default fasta header delimiters
+        ''' </summary>
+        Shared ReadOnly tokenFirst As New [Default](Of TextGrepMethod)(AddressOf FirstToken)
+
+        Public Shared Function FirstToken(hitName As String) As String
+            Return hitName.Split(" "c, "|", CChar(vbTab)).First
+        End Function
 
         Public Shared Function ExportBesthits(QueryName$, QueryLength%, Besthits As SubjectHit(),
                                               Optional grepHitId As TextGrepMethod = Nothing,
                                               Optional keepRawQueryName As Boolean = False) As BestHit()
 
-            Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split.First)
+            Dim locusID$ = If(keepRawQueryName, QueryName, QueryName.Split(" "c, "|", CChar(vbTab)).First)
             Dim getHitId As TextGrepMethod = grepHitId Or tokenFirst
             Dim sbh As BestHit() = LinqAPI.Exec(Of BestHit) _
- _
+                                                            _
                 () <= From besthit As SubjectHit
                       In Besthits
                       Let Score As Score = besthit.Score
@@ -262,14 +281,14 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                           .HitName = hitID,
                           .query_length = QueryLength,
                           .hit_length = besthit.Length,
-                          .Score = rawScore,
+                          .score = rawScore,
                           .evalue = exp,
                           .identities = identity,
-                          .Positive = pos,
+                          .positive = pos,
                           .length_hit = besthit.LengthHit,
                           .length_query = besthit.LengthQuery,
                           .length_hsp = gaps,
-                          .description = hitName  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的
+                          .description = hitName  ' 因为在进行blast搜索的时候，query还是未知的，所以描述信息这里应该是取hits的                        
                       }
 
             Return sbh
@@ -295,7 +314,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         ''' <remarks></remarks>
         Public Overrides Function CheckIntegrity(source As FastaFile) As Boolean
             Dim empty = LinqAPI.DefaultFirst(Of Query()) _
- _
+                                                         _
                 () <= From fasta As FastaSeq
                       In source.AsParallel
                       Let list = __checkIntegrity(fasta, Me.Queries)
@@ -308,7 +327,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
         Private Shared Function __checkIntegrity(Fasta As FASTA.FastaSeq, Queries As Query()) As Query()
             Dim Title As String = Fasta.Title
             Dim GetLQuery = LinqAPI.Exec(Of Query) <=
- _
+                                                     _
                 From query As Query
                 In Queries
                 Where FuzzyMatching(query.QueryName, Title)

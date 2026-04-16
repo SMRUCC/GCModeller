@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 193
+    '    Code Lines: 117 (60.62%)
+    ' Comment Lines: 56 (29.02%)
+    '    - Xml Docs: 94.64%
+    ' 
+    '   Blank Lines: 20 (10.36%)
+    '     File Size: 8.04 KB
+
+
     '     Module Selector
     ' 
     '         Function: (+3 Overloads) [Select]

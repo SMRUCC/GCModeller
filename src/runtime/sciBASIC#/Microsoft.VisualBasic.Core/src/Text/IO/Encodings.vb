@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::685a8cdd39be1f99b372ed952df5140f, Microsoft.VisualBasic.Core\src\Text\IO\Encodings.vb"
+﻿#Region "Microsoft.VisualBasic::825938a0ef487abc46c075f2f27cdb49, Microsoft.VisualBasic.Core\src\Text\IO\Encodings.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 16 (38.10%)
+    ' Comment Lines: 20 (47.62%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (14.29%)
+    '     File Size: 1.37 KB
+
+
     '     Enum Encodings
     ' 
-    '         GB2312, Unicode, UTF16, UTF32, UTF7
-    '         UTF8, UTF8WithoutBOM
+    '         Unicode, UTF16, UTF32, UTF7, UTF8
+    '         UTF8WithoutBOM
     ' 
     '  
     ' 
@@ -45,6 +57,7 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Text
 
 Namespace Text
@@ -83,6 +96,6 @@ Namespace Text
         ''' <summary>
         ''' Text encoding for simplify Chinese.
         ''' </summary>
-        GB2312
+        <Description("gb-2312")> GB2312
     End Enum
 End Namespace

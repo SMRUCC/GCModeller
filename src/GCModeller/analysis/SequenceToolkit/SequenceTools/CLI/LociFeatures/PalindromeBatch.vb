@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff510ba8b05451af483e332fdac6ad24, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
+﻿#Region "Microsoft.VisualBasic::6f277eec06e2b9a260c85f4ecb9738a2, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\PalindromeBatch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 119 (78.81%)
+    ' Comment Lines: 6 (3.97%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 26 (17.22%)
+    '     File Size: 7.89 KB
+
+
     ' Module Utilities
     ' 
     '     Function: CheckHeaders, PalindromeBatchTask, PalindromeWorkflow
@@ -39,14 +51,14 @@
 
 #End Region
 
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.SequenceModel
@@ -60,7 +72,7 @@ Partial Module Utilities
     Public Function CheckHeaders(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim n As Integer = args("/n")
-        Dim all As Boolean = args.GetBoolean("/all")
+        Dim all As Boolean = args("/all")
 
         For Each fa As FastaSeq In New FastaFile([in])
             If fa.Headers.Length <> n OrElse fa.ToString.Length > 220 Then
@@ -92,7 +104,7 @@ Partial Module Utilities
         Dim maxDist As Integer = args.GetValue("/max-dist", 1000)
         Dim parts As Integer = args.GetValue("/partitions", -1)
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
-        Dim onlyPalindrome As String = If(args.GetBoolean("/Palindrome"), "/Palindrome", "")
+        Dim onlyPalindrome As String = If(args("/Palindrome"), "/Palindrome", "")
         Dim task As Func(Of String, String) =
             Function(fa) _
                 $"{api} /in {fa.CLIPath} /min {min} /max {max} /min-appears {minAp} /out {out.CLIPath} /cutoff {cutoff} /max-dist {maxDist} /partitions {parts} /batch {onlyPalindrome}"
@@ -117,7 +129,7 @@ Partial Module Utilities
         Dim min As Integer = args.GetValue("/min", 3)
         Dim max As Integer = args.GetValue("/max", 20)
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".Palindrome.Workflow/")
-        Dim isBatch As Boolean = args.GetBoolean("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
+        Dim isBatch As Boolean = args("/batch") ' 批量和单独的模式相比，差异只是在保存结果的时候的位置
         Dim nt As New FASTA.FastaSeq([in])
         Dim minAp As Integer = args.GetValue("/min-appears", 2)
 
@@ -162,7 +174,7 @@ Partial Module Utilities
             Call imPalLocis.SaveTo(prefix & ".Sites-ImperfectPalindrome.csv")
         End If
 
-        If Not args.GetBoolean("/Palindrome") Then
+        If Not args("/Palindrome") Then
             Dim repeats As Topologically.Repeats() = RepeatsSearchAPI.SearchRepeats(nt, min, max, minAp) ' 简单重复
             Dim rev As ReverseRepeats() = RepeatsSearchAPI.SearchReversedRepeats(nt, min, max, minAp) ' 反向重复
 

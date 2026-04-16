@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 55 (80.88%)
+    ' Comment Lines: 4 (5.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (13.24%)
+    '     File Size: 2.89 KB
+
+
     '     Class Compound
     ' 
     '         Properties: CHEBI_ACCESSION, CREATED_BY, DEFINITION, ID, MODIFIED_ON

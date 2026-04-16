@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c97dba32533177b152c905c5208d8c9, engine\IO\Raw\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::96ac201b5f7c9b1c3f6ff31e51757143, engine\IO\Raw\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,57 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 107 (78.10%)
+    ' Comment Lines: 12 (8.76%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 18 (13.14%)
+    '     File Size: 5.22 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: GetMatrix, LoadCDF
+    '     Function: ActivityLoads, GetMatrix, (+2 Overloads) GetTimeFrames, LoadSymbols
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.IO.netCDF
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.DataStorage.HDSPack
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
+Imports HTS_Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports std = System.Math
+Imports XmlOffset = SMRUCC.genomics.GCModeller.ModellingEngine.IO.vcXML.XML.offset
 
 <HideModuleName>
 Public Module Extensions
+
+    <Extension>
+    Public Iterator Function ActivityLoads(raw As Raw.Reader) As IEnumerable(Of Dictionary(Of String, Double))
+        Dim dataSet = raw.GetMoleculeIdList.Where(Function(c) c.Key.EndsWith("-Flux")).ToArray
+
+        For Each ti As Double In TqdmWrapper.Wrap(raw.AllTimePoints.ToArray, wrap_console:=App.EnableTqdm)
+            Dim data As New Dictionary(Of String, Double)
+
+            For Each mod_id As String In dataSet.Keys
+                Call data.Add(mod_id, raw.ReadFlux(ti, mod_id).Values.Select(Function(xi) std.Abs(xi)).Sum)
+            Next
+
+            Yield data
+        Next
+    End Function
 
     <Extension>
     Public Iterator Function GetMatrix(raw As Raw.Reader, module$) As IEnumerable(Of DataSet)
@@ -58,12 +94,97 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' 读取netCDF格式的模拟计算结果数据文件
+    ''' load symbol names from the result pack file
     ''' </summary>
-    ''' <param name="cdf"></param>
+    ''' <param name="raw"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function LoadCDF(cdf As netCDFReader)
+    Public Function LoadSymbols(raw As IStreamContainer) As Dictionary(Of String, CompoundInfo)
+        Dim json_str = Strings.Trim(raw.GetStream.ReadText("/symbols.json"))
 
+        If json_str.StringEmpty(, True) Then
+            Return New Dictionary(Of String, CompoundInfo)
+        Else
+            Return json_str.LoadJSON(Of Dictionary(Of String, CompoundInfo))
+        End If
+    End Function
+
+    <Extension>
+    Public Function GetTimeFrames(raw As Raw.Reader, modu As String) As HTS_Matrix
+        Dim list As String() = raw.ModuleIdSet(modu).Objects
+        Dim t As Double() = raw.AllTimePoints.ToArray
+        Dim ticks As New List(Of DataFrameRow)
+        Dim ds As Dictionary(Of String, Double)
+
+        list = raw.comparts _
+            .Select(Function(cc)
+                        Return list.Select(Function(id) id & "@" & cc)
+                    End Function) _
+            .IteratesALL _
+            .ToArray
+
+        Dim vec As Double()
+
+        For Each ti As Double In TqdmWrapper.Wrap(t, wrap_console:=App.EnableTqdm)
+            ds = raw.Read(time:=ti, modu)
+            vec = list.Select(Function(i) ds(i)).ToArray
+            ticks.Add(New DataFrameRow With {.geneID = ti, .experiments = vec})
+        Next
+
+        Return New HTS_Matrix With {
+            .expression = ticks.ToArray,
+            .sampleID = list,
+            .tag = NameOf(GetTimeFrames) & " - " & modu
+        }
+    End Function
+
+    ''' <summary>
+    ''' 读取netCDF格式的模拟计算结果数据文件
+    ''' </summary>
+    ''' <returns></returns>
+    <Extension>
+    Public Function GetTimeFrames(raw As vcXML.Reader, modu As String, type As String) As HTS_Matrix
+        ' get offset index for read data from raw data xml file
+        Dim index As XmlOffset() = raw.getStreamIndex(modu)(type) _
+            .OrderBy(Function(p) p.id) _
+            .ToArray
+        ' each row is feature item
+        ' and the column value is the time stream data
+        Dim entities As DataSet() = raw _
+            .getStreamEntities(index(Scan0).module, index(Scan0).content_type) _
+            .Select(Function(id)
+                        Return New DataSet With {
+                            .ID = id,
+                            .Properties = New Dictionary(Of String, Double)
+                        }
+                    End Function) _
+            .ToArray
+        Dim vector As Double()
+
+        For Each offset As XmlOffset In index
+            vector = raw.getFrameVector(offset.offset)
+
+            For i As Integer = 0 To vector.Length - 1
+                entities(i).Add(offset.id, vector(i))
+            Next
+        Next
+
+        Dim timeTicks As String() = index _
+            .Select(Function(o) o.id.ToString) _
+            .ToArray
+        Dim matrix As New HTS_Matrix With {
+            .sampleID = timeTicks,
+            .tag = raw.ToString,
+            .expression = entities _
+                .Select(Function(v)
+                            Return New DataFrameRow With {
+                                .geneID = v.ID,
+                                .experiments = v(timeTicks)
+                            }
+                        End Function) _
+                .ToArray
+        }
+
+        Return matrix
     End Function
 End Module

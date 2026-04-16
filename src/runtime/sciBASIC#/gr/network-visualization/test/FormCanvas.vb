@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb13fe52e3d5431420790b5c48d4d372, gr\network-visualization\test\FormCanvas.vb"
+﻿#Region "Microsoft.VisualBasic::cb13fe52e3d5431420790b5c48d4d372, sciBASIC#\gr\network-visualization\test\FormCanvas.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 55
+    ' Comment Lines: 0
+    '   Blank Lines: 15
+    '     File Size: 2.78 KB
+
+
     ' Class FormCanvas
     ' 
     '     Sub: AutoRotateToolStripMenuItem_Click, DToolStripMenuItem_Click, Form1_Load, FormCanvas_Closed, RefreshParametersToolStripMenuItem_Click
@@ -44,7 +54,6 @@ Imports System.Drawing
 Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.Data.visualize.Network.Canvas
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Cytoscape
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 
 Public Class FormCanvas
@@ -57,15 +66,17 @@ Public Class FormCanvas
         Call Me.Controls.Add(canvas)
 
         canvas.Graph(True) = CytoscapeTableLoader.CytoscapeExportAsGraph(
-            App.HOME & "\Resources\xcb-main-Edges.csv",
-            App.HOME & "\Resources\xcb-main-Nodes.csv")
+            App.HOME & "/../../../Data\xcb-main-Edges.csv",
+            App.HOME & "/../../../Data\xcb-main-Nodes.csv")
 
         TrackBar1.Minimum = 0
         TrackBar1.Maximum = Math.PI * 2 * 1000
 
-        DToolStripMenuItem.Checked = True
+        ' DToolStripMenuItem.Checked = True
         ShowLabelsToolStripMenuItem.Checked = False
         AutoRotateToolStripMenuItem.Checked = True
+
+        canvas.SetFDGParams(New ForceDirectedArgs With {.Damping = 0.85, .Iterations = 100000, .Repulsion = 10000.0!, .Stiffness = 100})
     End Sub
 
     Private Sub SaveAsSVGToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveAsSVGToolStripMenuItem.Click

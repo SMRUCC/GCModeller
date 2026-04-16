@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::140958a8c08c1cb770845a6c8b40be1a, core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
+﻿#Region "Microsoft.VisualBasic::76cf1e801ff5c049d5c0486815f45a78, core\Bio.Assembly\ContextModel\Algorithm\Descriptions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 89 (59.73%)
+    ' Comment Lines: 41 (27.52%)
+    '    - Xml Docs: 97.56%
+    ' 
+    '   Blank Lines: 19 (12.75%)
+    '     File Size: 6.68 KB
+
+
     '     Module LocationDescriptions
     ' 
     '         Function: ATGDistance, BlankSegment, GetATGDistance, (+2 Overloads) GetLociRelations, IsBlankSegment
@@ -44,7 +56,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -128,9 +140,9 @@ Namespace ContextModel
             Call gene.Location.Normalization()
 
             If gene.Location.Strand = Strands.Forward Then
-                Return stdNum.Abs(gene.Location.right - nucl.left)
+                Return std.Abs(gene.Location.right - nucl.left)
             Else
-                Return stdNum.Abs(gene.Location.left - nucl.right)
+                Return std.Abs(gene.Location.left - nucl.right)
             End If
         End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50d663c12d86ac5b75770fea6c5e88c4, engine\Model\Cellular\Molecule\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::c5cd61d53f4cb9e5e61be60f54ab0b79, engine\Model\Cellular\Molecule\Genotype.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 20 (39.22%)
+    ' Comment Lines: 24 (47.06%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 7 (13.73%)
+    '     File Size: 2.40 KB
+
+
     '     Structure Genotype
     ' 
     '         Function: GetEnumerator, IEnumerable_GetEnumerator, ToString
@@ -46,12 +58,15 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 Namespace Cellular.Molecule
 
     ''' <summary>
-    ''' 目标细胞模型的基因组模型
+    ''' The genome information, contains the gene expression information.
     ''' </summary>
+    ''' <remarks>
+    ''' (目标细胞模型的基因组模型)
+    ''' </remarks>
     Public Structure Genotype : Implements IEnumerable(Of CentralDogma)
 
         ''' <summary>
-        ''' 假设基因组之中的基因型定义信息全部都是由中心法则来构成的
+        ''' The gene expression event model.(假设基因组之中的基因型定义信息全部都是由中心法则来构成的)
         ''' </summary>
         ''' <remarks>
         ''' 请注意，当前的模块之中所定义的计算模型和GCMarkup之类的数据模型在看待基因组的构成上面的角度是有一些差异的：
@@ -64,7 +79,13 @@ Namespace Cellular.Molecule
         ''' </remarks>
         Dim centralDogmas As CentralDogma()
 
+        ''' <summary>
+        ''' The RNA molecule compositions
+        ''' </summary>
         Dim RNAMatrix As RNAComposition()
+        ''' <summary>
+        ''' The protein molecule compositions
+        ''' </summary>
         Dim ProteinMatrix As ProteinComposition()
 
         Public Overrides Function ToString() As String

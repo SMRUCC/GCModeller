@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 116 (64.80%)
+    ' Comment Lines: 38 (21.23%)
+    '    - Xml Docs: 97.37%
+    ' 
+    '   Blank Lines: 25 (13.97%)
+    '     File Size: 7.34 KB
+
+
     '     Module DATA
     ' 
     '         Properties: AccessionTypeNames

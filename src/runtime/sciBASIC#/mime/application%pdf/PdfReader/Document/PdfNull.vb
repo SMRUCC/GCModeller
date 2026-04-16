@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a13f6454460e04c2025835f07ef6f16e, mime\application%pdf\PdfReader\Document\PdfNull.vb"
+﻿#Region "Microsoft.VisualBasic::f723c7cfb242a0b9ac53bb9835d89d93, mime\application%pdf\PdfReader\Document\PdfNull.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 14 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (17.65%)
+    '     File Size: 422 B
+
+
     '     Class PdfNull
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -48,7 +60,7 @@ Namespace PdfReader
     Public Class PdfNull
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject)
+        Public Sub New(parent As PdfObject)
             MyBase.New(parent)
         End Sub
 
@@ -56,7 +68,7 @@ Namespace PdfReader
             Return "null"
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
     End Class

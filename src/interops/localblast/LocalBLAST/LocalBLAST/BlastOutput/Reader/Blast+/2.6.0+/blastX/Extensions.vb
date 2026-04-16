@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 41 (67.21%)
+    ' Comment Lines: 14 (22.95%)
+    '    - Xml Docs: 57.14%
+    ' 
+    '   Blank Lines: 6 (9.84%)
+    '     File Size: 2.72 KB
+
+
     '     Module Extensions
     ' 
     '         Function: TopBest

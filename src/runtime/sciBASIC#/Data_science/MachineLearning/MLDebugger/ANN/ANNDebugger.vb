@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d70f0cb203c19c7c6b523d90471e118, Data_science\MachineLearning\MLDebugger\ANN\ANNDebugger.vb"
+﻿#Region "Microsoft.VisualBasic::90a38f4530f12696707401b45a55eb0c, Data_science\MachineLearning\MLDebugger\ANN\ANNDebugger.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 248
+    '    Code Lines: 196 (79.03%)
+    ' Comment Lines: 15 (6.05%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 37 (14.92%)
+    '     File Size: 11.43 KB
+
+
     ' Class ANNDebugger
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -49,8 +61,9 @@ Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.IO
-Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Data
+Imports Microsoft.VisualBasic.DataStorage.netCDF.DataVector
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
@@ -175,14 +188,14 @@ Public Class ANNDebugger
         Dim neuronLocation = createLocationTable(network)
         Dim hiddenLayout = network.HiddenLayer.Select(Function(l) l.Neurons.Length).JoinBy(", ")
         Dim attrs = {
-            New Components.attribute With {.name = "Date", .type = CDFDataTypes.CHAR, .value = Now.ToString},
-            New Components.attribute With {.name = "input_layer", .type = CDFDataTypes.CHAR, .value = network.InputLayer.Neurons.Length},
-            New Components.attribute With {.name = "output_layer", .type = CDFDataTypes.CHAR, .value = network.OutputLayer.Neurons.Length},
-            New Components.attribute With {.name = "hidden_layers", .type = CDFDataTypes.CHAR, .value = hiddenLayout},
-            New Components.attribute With {.name = "synapse_edges", .type = CDFDataTypes.CHAR, .value = synapses.Length},
-            New Components.attribute With {.name = "times", .type = CDFDataTypes.CHAR, .value = App.ElapsedMilliseconds},
-            New Components.attribute With {.name = "ANN", .type = CDFDataTypes.CHAR, .value = network.GetType.FullName},
-            New Components.attribute With {.name = "Github", .type = CDFDataTypes.CHAR, .value = LICENSE.githubURL}
+            New Components.attribute With {.name = "Date", .type = CDFDataTypes.NC_CHAR, .value = Now.ToString},
+            New Components.attribute With {.name = "input_layer", .type = CDFDataTypes.NC_CHAR, .value = network.InputLayer.Neurons.Length},
+            New Components.attribute With {.name = "output_layer", .type = CDFDataTypes.NC_CHAR, .value = network.OutputLayer.Neurons.Length},
+            New Components.attribute With {.name = "hidden_layers", .type = CDFDataTypes.NC_CHAR, .value = hiddenLayout},
+            New Components.attribute With {.name = "synapse_edges", .type = CDFDataTypes.NC_CHAR, .value = synapses.Length},
+            New Components.attribute With {.name = "times", .type = CDFDataTypes.NC_CHAR, .value = App.ElapsedMilliseconds},
+            New Components.attribute With {.name = "ANN", .type = CDFDataTypes.NC_CHAR, .value = network.GetType.FullName},
+            New Components.attribute With {.name = "Github", .type = CDFDataTypes.NC_CHAR, .value = LICENSE.githubURL}
         }
         Dim dimensions = {
             New Components.Dimension With {.name = "index_number", .size = 4},
@@ -208,8 +221,8 @@ Public Class ANNDebugger
 
             For Each n As Neuron In neurons
                 attrs = {
-                    New Components.attribute With {.name = "layer", .type = CDFDataTypes.CHAR, .value = neuronLocation(n.Guid)},
-                    New Components.attribute With {.name = "type", .type = CDFDataTypes.CHAR, .value = "neuron"}
+                    New Components.attribute With {.name = "layer", .type = CDFDataTypes.NC_CHAR, .value = neuronLocation(n.Guid)},
+                    New Components.attribute With {.name = "type", .type = CDFDataTypes.NC_CHAR, .value = "neuron"}
                 }
                 writeNodeBias(debugger, reader, n.Guid, ++index, attrs)
             Next
@@ -220,11 +233,11 @@ Public Class ANNDebugger
 
             For Each s As Synapse In synapses
                 attrs = {
-                    New Components.attribute With {.name = "type", .type = CDFDataTypes.CHAR, .value = "synapse"},
-                    New Components.attribute With {.name = "input", .type = CDFDataTypes.CHAR, .value = s.InputNeuron.Guid},
-                    New Components.attribute With {.name = "output", .type = CDFDataTypes.CHAR, .value = s.OutputNeuron.Guid},
-                    New Components.attribute With {.name = "input_layer", .type = CDFDataTypes.CHAR, .value = neuronLocation(s.InputNeuron.Guid)},
-                    New Components.attribute With {.name = "output_layer", .type = CDFDataTypes.CHAR, .value = neuronLocation(s.OutputNeuron.Guid)}
+                    New Components.attribute With {.name = "type", .type = CDFDataTypes.NC_CHAR, .value = "synapse"},
+                    New Components.attribute With {.name = "input", .type = CDFDataTypes.NC_CHAR, .value = s.InputNeuron.Guid},
+                    New Components.attribute With {.name = "output", .type = CDFDataTypes.NC_CHAR, .value = s.OutputNeuron.Guid},
+                    New Components.attribute With {.name = "input_layer", .type = CDFDataTypes.NC_CHAR, .value = neuronLocation(s.InputNeuron.Guid)},
+                    New Components.attribute With {.name = "output_layer", .type = CDFDataTypes.NC_CHAR, .value = neuronLocation(s.OutputNeuron.Guid)}
                 }
                 writeWeight(debugger, reader, s.ToString, ++index, attrs)
             Next

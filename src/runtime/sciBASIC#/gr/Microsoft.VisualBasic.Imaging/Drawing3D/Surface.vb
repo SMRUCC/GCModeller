@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1b238c9e896b1b0e4a315ffcf4699d9, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Surface.vb"
+﻿#Region "Microsoft.VisualBasic::02f5bb88c00259235466f0e9ad85bf2a, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Surface.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 60 (68.18%)
+    ' Comment Lines: 14 (15.91%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (15.91%)
+    '     File Size: 2.92 KB
+
+
     '     Structure Surface
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -55,8 +67,10 @@ Namespace Drawing3D
 
     ''' <summary>
     ''' Object model that using for the 3D graphics.
-    ''' (进行实际3D绘图操作的对象模型，这个对象实际上就是相当于Path3D??)
     ''' </summary>
+    ''' <remarks>
+    ''' (进行实际3D绘图操作的对象模型，这个对象实际上就是相当于Path3D??)
+    ''' </remarks>
     Public Structure Surface
         Implements IEnumerable(Of Point3D)
         Implements I3DModel

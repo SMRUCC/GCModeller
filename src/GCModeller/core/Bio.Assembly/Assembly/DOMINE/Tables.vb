@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 221
+    '    Code Lines: 144 (65.16%)
+    ' Comment Lines: 66 (29.86%)
+    '    - Xml Docs: 93.94%
+    ' 
+    '   Blank Lines: 11 (4.98%)
+    '     File Size: 7.32 KB
+
+
     '     Class Interaction
     ' 
-    '         Properties: [ME], _3did, DIPD, Domain1, Domain2
+    '         Properties: _3did, [ME], DIPD, Domain1, Domain2
     '                     DomainGA, DPEA, Fusion, GPE, INSITE
     '                     iPfam, KGIDDI, MetaData, PE, PP
     '                     PredictionConfidence, Pvalue, RCDP, RDFF, SameGO

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::540e3756be19cf4808872171644f5119, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
+﻿#Region "Microsoft.VisualBasic::168e46f233db812ccc52c7bb367fe801, analysis\Microarray\Enrichment\KOBAS\EnrichmentTerm.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 28 (35.90%)
+    ' Comment Lines: 39 (50.00%)
+    '    - Xml Docs: 94.87%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 2.62 KB
+
+
     '     Class EnrichmentTerm
     ' 
     '         Properties: Backgrounds, CorrectedPvalue, Database, ID, Input
@@ -44,7 +56,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KOBAS
@@ -57,6 +70,7 @@ Namespace KOBAS
         Implements IGoTermEnrichment
         Implements IKEGGTerm
         Implements INamedValue
+        Implements IStatPvalue
 
         ''' <summary>
         ''' #Term 
@@ -92,7 +106,7 @@ Namespace KOBAS
         ''' P-Value
         ''' </summary>
         ''' <returns></returns>
-        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IKEGGTerm.Pvalue
+        <Column("P-Value")> Public Property Pvalue As Double Implements IGoTermEnrichment.Pvalue, IKEGGTerm.Pvalue, IStatPvalue.pValue
 
         ''' <summary>
         ''' Corrected P-Value

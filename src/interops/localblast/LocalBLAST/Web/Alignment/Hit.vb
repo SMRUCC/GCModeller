@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3808ad2b06004d925fe7d86a3247eeb4, localblast\LocalBLAST\Web\Alignment\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::8faf73e7dfdd1c777481879bd31c44ac, localblast\LocalBLAST\Web\Alignment\Hit.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 102 (74.45%)
+    ' Comment Lines: 20 (14.60%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (10.95%)
+    '     File Size: 4.96 KB
+
+
     '     Class HitRecord
     ' 
     '         Properties: AlignmentLength, BitScore, data, EValue, GapOpens
@@ -48,7 +60,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
 Namespace NCBIBlastResult.WebBlast

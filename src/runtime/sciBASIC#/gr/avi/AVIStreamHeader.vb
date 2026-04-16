@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 35 (33.65%)
+    ' Comment Lines: 60 (57.69%)
+    '    - Xml Docs: 98.33%
+    ' 
+    '   Blank Lines: 9 (8.65%)
+    '     File Size: 2.95 KB
+
+
     ' Class AVIStreamHeader
     ' 
     '     Properties: bottom, cb, dwFlags, dwInitialFrames, dwLength

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::289bd077cc0adcd7e3371ebc6f810714, mime\application%rdf+xml\RDFEntity.vb"
+﻿#Region "Microsoft.VisualBasic::84a2117254d7e7ddb0912c02dffcdc9c, mime\application%rdf+xml\RDFEntity.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 20 (39.22%)
+    ' Comment Lines: 23 (45.10%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.84 KB
+
+
     ' Class RDFEntity
     ' 
     '     Properties: about, comment, Properties, range, RDFId
     ' 
-    '     Function: ToString
-    ' 
-    ' Class RDFProperty
-    ' 
-    ' 
-    ' 
-    ' Class EntityProperty
-    ' 
-    '     Properties: dataType, resource, value
-    ' 
-    '     Constructor: (+3 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/
@@ -58,18 +59,24 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 ''' <summary>
 ''' 在rdf之中被描述的对象实体
 ''' </summary>
-''' 
+''' <remarks>
+''' ID,about
+''' </remarks>
 <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
-Public MustInherit Class RDFEntity : Inherits RDFProperty
+Public Class RDFEntity : Inherits RDFProperty
     Implements INamedValue, IReadOnlyId
 
     ''' <summary>
     ''' rdf:XXX
     ''' </summary>
     Public Const XmlnsNamespace$ = "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    Public Const rdfs As String = "http://www.w3.org/2000/01/rdf-schema#"
+    Public Const xmlns_nil As String = "nil"
 
     Public Property range As RDFProperty
-    Public Property comment As RDFProperty
+
+    <XmlElement>
+    Public Property comment As RDFProperty()
 
     ''' <summary>
     ''' rdf:ID
@@ -81,7 +88,9 @@ Public MustInherit Class RDFEntity : Inherits RDFProperty
     ''' [资源] 是可拥有 URI 的任何事物
     ''' </summary>
     ''' <returns></returns>
-    <XmlAttribute("about", [Namespace]:=RDFEntity.XmlnsNamespace)> Public Property about As String Implements INamedValue.Key, IReadOnlyId.Identity
+    <XmlAttribute("about", [Namespace]:=RDFEntity.XmlnsNamespace)>
+    Public Property about As String Implements INamedValue.Key, IReadOnlyId.Identity
+
     ''' <summary>
     ''' [属性]   是拥有名称的资源
     ''' [属性值] 是某个属性的值，(请注意一个属性值可以是另外一个<see cref="Resource"/>）
@@ -93,54 +102,5 @@ Public MustInherit Class RDFEntity : Inherits RDFProperty
 
     Public Overrides Function ToString() As String
         Return RDFId & "  // " & about
-    End Function
-End Class
-
-Public Class RDFProperty : Inherits EntityProperty
-
-End Class
-
-''' <summary>
-''' 
-''' </summary>
-Public MustInherit Class EntityProperty
-
-    ''' <summary>
-    ''' rdf:datatype
-    ''' </summary>
-    ''' <returns></returns>
-    <XmlAttribute("datatype", [Namespace]:=RDFEntity.XmlnsNamespace)> Public Property dataType As String
-    ''' <summary>
-    ''' rdf:resource
-    ''' </summary>
-    ''' <returns></returns>
-    <XmlAttribute("resource", [Namespace]:=RDFEntity.XmlnsNamespace)> Public Property resource As String
-
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <returns></returns>
-    ''' <remarks>
-    ''' ###### 20191102
-    ''' 
-    ''' Base type '<see cref="RDFProperty"/>' has simpleContent and can only be extended by adding <see cref="XmlAttributeAttribute"/> elements. 
-    ''' Please consider changing <see cref="XmlTextAttribute"/> member of the base class to string array.
-    ''' </remarks>
-    <XmlText>
-    Public Property value As String()
-
-    Sub New()
-    End Sub
-
-    Protected Sub New(dt As String)
-        dataType = dt
-    End Sub
-
-    Protected Sub New(type As Type)
-        Call Me.New(type.SchemaDataType)
-    End Sub
-
-    Public Overrides Function ToString() As String
-        Return $"({Me.SchemaDataType.ToString}) {value}; resource: {resource}"
     End Function
 End Class

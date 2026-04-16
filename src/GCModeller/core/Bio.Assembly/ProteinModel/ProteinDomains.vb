@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 66 (57.39%)
+    ' Comment Lines: 36 (31.30%)
+    '    - Xml Docs: 97.22%
+    ' 
+    '   Blank Lines: 13 (11.30%)
+    '     File Size: 5.01 KB
+
+
     '     Class Protein
     ' 
     '         Properties: Description, Domains, ID, Length, Organism

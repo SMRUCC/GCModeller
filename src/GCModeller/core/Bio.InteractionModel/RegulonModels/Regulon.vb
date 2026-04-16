@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b5f08f0e44c94c575cff00146c82133, core\Bio.InteractionModel\RegulonModels\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::77c6c051fb30d4b60ae52b0bd5c57233, core\Bio.InteractionModel\RegulonModels\Regulon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 52 (47.71%)
+    ' Comment Lines: 39 (35.78%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (16.51%)
+    '     File Size: 3.49 KB
+
 
     '     Interface IRegulon
     ' 
@@ -66,7 +78,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 
 Namespace Regulon
 

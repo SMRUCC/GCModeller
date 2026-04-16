@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb9407c5fe42cee35f042e7608cb841f, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::aa9f4a3d714a142c84a8d60a775c67b2, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 64 (61.54%)
+    ' Comment Lines: 22 (21.15%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 18 (17.31%)
+    '     File Size: 3.92 KB
+
+
     '     Module TypeExtensions
     ' 
-    '         Function: CanBeAssignedFrom, (+2 Overloads) ImplementInterface
+    '         Function: CanBeAssignedFrom, ImplementAnyInterfaces, (+2 Overloads) ImplementInterface, ImplementInterfaceAssertInternal
     ' 
     ' 
     ' /********************************************************************************/
@@ -80,6 +92,8 @@ Namespace Emit.Delegates
         ''' <param name="source"></param>
         ''' <typeparam name="interfaceType">接口类型信息</typeparam>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ImplementInterface(Of interfaceType)(source As Type) As Boolean
             Return source.ImplementInterface(GetType(interfaceType))
@@ -91,11 +105,47 @@ Namespace Emit.Delegates
         ''' <param name="source"></param>
         ''' <param name="interfaceType">接口类型信息</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this function has a synlock cache of the type schema test result.
+        ''' </remarks>
         <Extension>
         Public Function ImplementInterface(source As Type, interfaceType As Type) As Boolean
+            Static cache As New Dictionary(Of Type, Dictionary(Of Type, Boolean))
+
+            SyncLock cache
+                If Not cache.ContainsKey(source) Then
+                    Call cache.Add(source, New Dictionary(Of Type, Boolean))
+                End If
+            End SyncLock
+
+            SyncLock cache(source)
+                If Not cache(source).ContainsKey(interfaceType) Then
+                    Call cache(source).Add(interfaceType, ImplementInterfaceAssertInternal(source, interfaceType))
+                End If
+            End SyncLock
+
+            Return cache(source)(interfaceType)
+        End Function
+
+        <Extension>
+        Public Function ImplementAnyInterfaces(source As Type, anyInterfaceTypes As Type()) As Boolean
+            For Each type As Type In anyInterfaceTypes
+                If source.ImplementInterface(type) Then
+                    Return True
+                End If
+            Next
+
+            Return False
+        End Function
+
+        Private Function ImplementInterfaceAssertInternal(source As Type, interfaceType As Type) As Boolean
             While source IsNot Nothing
                 Dim interfaces = source.GetInterfaces()
-                If interfaces.Any(Function(i) i Is interfaceType OrElse i.ImplementInterface(interfaceType)) Then
+
+                If interfaces.Any(Function(i)
+                                      Return i Is interfaceType OrElse
+                                             i.ImplementInterface(interfaceType)
+                                  End Function) Then
                     Return True
                 End If
 

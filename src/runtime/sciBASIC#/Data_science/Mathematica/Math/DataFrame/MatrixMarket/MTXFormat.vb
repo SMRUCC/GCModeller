@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45fb7ef629fb542c0dec1ee419c19ce4, Data_science\Mathematica\Math\DataFrame\MatrixMarket\MTXFormat.vb"
+﻿#Region "Microsoft.VisualBasic::fc6c2c4ea3a846fe7a840447d93eed03, Data_science\Mathematica\Math\DataFrame\MatrixMarket\MTXFormat.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 34 (42.50%)
+    ' Comment Lines: 36 (45.00%)
+    '    - Xml Docs: 97.22%
+    ' 
+    '   Blank Lines: 10 (12.50%)
+    '     File Size: 3.32 KB
+
+
     '     Class MTXFormat
     ' 
-    '         Function: (+2 Overloads) ReadMatrix
+    '         Function: (+3 Overloads) ReadMatrix
     ' 
     ' 
     ' /********************************************************************************/
@@ -82,6 +94,12 @@ Namespace MatrixMarket
     ''' ```
     ''' </summary>
     Public Class MTXFormat
+
+        Public Shared Function ReadMatrix(filepath As String) As SparseMatrix
+            Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                Return ReadMatrix(s)
+            End Using
+        End Function
 
         Public Shared Function ReadMatrix(file As Stream) As SparseMatrix
             Using reader As New StreamReader(file)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc563f4b57d2ff246d22a76042470ede, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
+﻿#Region "Microsoft.VisualBasic::528317536ad9c0fbd3862cc0a968edef, models\Networks\Microbiome\MetabolicComplementation\MetabolicComplementation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 135 (66.83%)
+    ' Comment Lines: 43 (21.29%)
+    '    - Xml Docs: 53.49%
+    ' 
+    '   Blank Lines: 24 (11.88%)
+    '     File Size: 9.03 KB
+
 
     ' Module MetabolicComplementation
     ' 
@@ -95,13 +107,13 @@ Public Module MetabolicComplementation
         ' 在微生物组的营养互补竞争网络之中
         ' 节点为微生物的基因组编号
         ' 链接的边为营养物关系
-        Call "Fetch UniProt reference genome model data...".__DEBUG_ECHO
+        Call "Fetch UniProt reference genome model data...".debug
         Call graph.FetchModels(metagenome, reactions)
         Call graph.RenderColors
 
         ' 在构建完了所有的基因组的代谢网络的输入和输出端点之后
         ' 开始装配营养互补和竞争网络
-        Call "Link microbiome metabolic network...".__DEBUG_ECHO
+        Call "Link microbiome metabolic network...".debug
         Call graph.linkNodes
 
         Return graph
@@ -163,7 +175,7 @@ Public Module MetabolicComplementation
                     .GetJson
             End With
 
-            Call genome.ToString.__INFO_ECHO
+            Call genome.ToString.info
         Next
     End Sub
 
@@ -231,16 +243,15 @@ Public Module MetabolicComplementation
         Next
     End Sub
 
-    <Extension> Private Sub linkNodes(graph As NetworkGraph)
-        Using progress As New ProgressBar("Link networks...", 1, CLS:=True)
-            Dim ticks As New ProgressProvider(progress, graph.vertex.Count)
-            Dim msg$
+    <Extension>
+    Private Sub linkNodes(graph As NetworkGraph)
+        Dim bar As Tqdm.ProgressBar = Nothing
 
-            For Each genome As Node In graph.vertex
-                genome.link(graph)
-                msg$ = $"ETA={ticks.ETA().FormatTime}  // {genome.data.label}"
-                progress.SetProgress(ticks.StepProgress, msg)
-            Next
-        End Using
+        Call "link networks...".info
+
+        For Each genome As Node In Tqdm.Wrap(graph.vertex.ToArray, bar:=bar)
+            Call genome.link(graph)
+            Call bar.SetLabel(genome.data.label)
+        Next
     End Sub
 End Module

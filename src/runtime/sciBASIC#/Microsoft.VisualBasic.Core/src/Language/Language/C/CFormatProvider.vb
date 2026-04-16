@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff8692e0dfc97084d2061c0f69d994ed, Microsoft.VisualBasic.Core\src\Language\Language\C\CFormatProvider.vb"
+﻿#Region "Microsoft.VisualBasic::9ac6aaf98df0d3339e3dae667cd6b7fa, Microsoft.VisualBasic.Core\src\Language\Language\C\CFormatProvider.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 672
+    '    Code Lines: 456 (67.86%)
+    ' Comment Lines: 142 (21.13%)
+    '    - Xml Docs: 30.28%
+    ' 
+    '   Blank Lines: 74 (11.01%)
+    '     File Size: 29.05 KB
+
 
     '     Module CLangStringFormatProvider
     ' 
@@ -220,9 +232,17 @@ Namespace Language.C
         ''' </summary>
         ''' <param name="input">The input.</param>
         ''' <returns>A string with all string meta chars are replaced</returns>
+        ''' <remarks>
+        ''' this function is a safe function, empty string will be returns is the given 
+        ''' input string is nothing
+        ''' </remarks>
         <Extension>
         Public Function ReplaceMetaChars(input As String) As String
-            Return Regex.Replace(input, "(\\)(\d{3}|[^\d])?", New MatchEvaluator(AddressOf ReplaceMetaCharsMatch))
+            If input.StringEmpty Then
+                Return ""
+            Else
+                Return Regex.Replace(input, "(\\)(\d{3}|[^\d])?", New MatchEvaluator(AddressOf ReplaceMetaCharsMatch))
+            End If
         End Function
 
         Private Function ReplaceMetaCharsMatch(m As Match) As String

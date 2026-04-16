@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e333b3bd5410b16558225bbcb1c5aa9, annotations\GSEA\GSEA\KOBAS\Formats\Gmt.vb"
+﻿#Region "Microsoft.VisualBasic::17c2c180a3d2b90ee4a68a27fd3b4fdf, annotations\GSEA\GSEA\KOBAS\Formats\Gmt.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 61 (66.30%)
+    ' Comment Lines: 21 (22.83%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 10 (10.87%)
+    '     File Size: 3.90 KB
+
+
     '     Class Gmt
     ' 
     '         Properties: attributes, clusters, database, species
@@ -44,10 +56,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports tsv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports tsv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace KOBAS
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d73f4f721d91de990f42065d3871311, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::ae313ea58711e1a2bf4ef96f7013e89a, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfiles.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 119 (78.81%)
+    ' Comment Lines: 8 (5.30%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (15.89%)
+    '     File Size: 5.99 KB
+
+
     '     Class CatalogProfiles
     ' 
     '         Properties: catalogs, Keys, MaxValue, TotalTerms
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: delete, GetProfiles, haveCategory, OrderByValues, Take
-    '                   ToString
+    '         Function: delete, GetCategory, GetProfiles, haveCategory, ImputeMissing
+    '                   OrderByValues, Take, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,10 +58,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
+    ''' <summary>
+    ''' a numeric profile data
+    ''' </summary>
     Public Class CatalogProfiles
 
         Public Property catalogs As New Dictionary(Of String, CatalogProfile)
@@ -102,6 +118,14 @@ Namespace ComponentModel.Annotation
             Next
         End Sub
 
+        Public Function GetCategory(term As String) As CatalogProfile
+            If Not catalogs.ContainsKey(term) Then
+                Call catalogs.Add(term, New CatalogProfile(data:=New NamedValue(Of Double)() {}))
+            End If
+
+            Return catalogs(term)
+        End Function
+
         Public Function OrderByValues() As CatalogProfiles
             Return New CatalogProfiles With {
                 .catalogs = catalogs _
@@ -151,6 +175,34 @@ Namespace ComponentModel.Annotation
 
         Public Overrides Function ToString() As String
             Return catalogs.Keys.GetJson
+        End Function
+
+        Public Function ImputeMissing() As CatalogProfiles
+            Dim impute As New Dictionary(Of String, CatalogProfile)
+            Dim profileValues = catalogs.Values.Select(Function(c) c.profile.Values).IteratesALL.Where(Function(xi) Not xi.IsNaNImaginary).ToArray
+            Dim maxValue As Double = If(profileValues.Length = 0, 0, profileValues.Max) * 1.25
+            Dim minValue As Double = If(profileValues.Length = 0, 0, profileValues.Min) / 2
+
+            For Each category As KeyValuePair(Of String, CatalogProfile) In catalogs
+                impute(category.Key) = New CatalogProfile With {
+                    .information = New Dictionary(Of String, String)(category.Value.information),
+                    .profile = category.Value.profile _
+                        .ToDictionary(Function(a) a.Key,
+                                      Function(a)
+                                          If Double.IsInfinity(a.Value) Then
+                                              Return maxValue
+                                          ElseIf a.Value.IsNaNImaginary Then
+                                              Return minValue
+                                          Else
+                                              Return a.Value
+                                          End If
+                                      End Function)
+                }
+            Next
+
+            Return New CatalogProfiles With {
+                .catalogs = impute
+            }
         End Function
 
     End Class

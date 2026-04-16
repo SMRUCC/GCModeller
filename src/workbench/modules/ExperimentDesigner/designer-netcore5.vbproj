@@ -2,11 +2,16 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;MEMI-Desktop;nuget_release;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,6 +32,14 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
@@ -35,7 +48,27 @@
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
     <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -61,13 +94,53 @@
     <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+    <DocumentationFile>SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.6.21352.12" />
-    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <None Include="..\..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\DataFramework.Extensions-netcore5.vbproj" />
+    <PackageReference Include="System.Composition" Version="10.0.5" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
   </ItemGroup>
 

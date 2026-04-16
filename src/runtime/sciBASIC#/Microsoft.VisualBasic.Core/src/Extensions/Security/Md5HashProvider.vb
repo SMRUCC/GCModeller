@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c81fb0eed5a2e47aa2f57020a9833ef1, Microsoft.VisualBasic.Core\src\Extensions\Security\Md5HashProvider.vb"
+﻿#Region "Microsoft.VisualBasic::5b52993acfd72454fd2bfbe7c3b1caca, Microsoft.VisualBasic.Core\src\Extensions\Security\Md5HashProvider.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 61 (50.83%)
+    ' Comment Lines: 41 (34.17%)
+    '    - Xml Docs: 51.22%
+    ' 
+    '   Blank Lines: 18 (15.00%)
+    '     File Size: 4.43 KB
+
+
     '     Class Md5HashProvider
     ' 
-    '         Function: GetMd5Bytes, (+2 Overloads) GetMd5Hash, GetMd5hashLong
+    '         Function: ComputeMD5Hash, GetMd5Bytes, (+2 Overloads) GetMd5Hash, GetMd5hashLong
     ' 
     '         Sub: (+2 Overloads) Dispose
     ' 
@@ -56,6 +68,13 @@ Namespace SecurityString
 
         ReadOnly md5Hash As MD5 = Security.Cryptography.MD5.Create()
 
+        ''' <summary>
+        ''' calculate string md5 hashcode
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <returns>
+        ''' this function may returns empty hashcode string if the given <paramref name="input"/> string is empty.
+        ''' </returns>
         Public Function GetMd5Hash(input As String) As String
             If String.IsNullOrEmpty(input) Then
                 Return ""
@@ -64,6 +83,16 @@ Namespace SecurityString
             ' Convert the input string to a byte array and compute the hash.
             Dim data As Byte() = Encoding.UTF8.GetBytes(input)
             Return GetMd5Hash(input:=data)
+        End Function
+
+        Public Function ComputeMD5Hash(input As String) As Long
+            If String.IsNullOrEmpty(input) Then
+                Return 0
+            Else
+                Dim inputBytes = Encoding.UTF8.GetBytes(input)
+                Dim hashBytes = md5Hash.ComputeHash(inputBytes)
+                Return BitConverter.ToInt64(hashBytes, 0)
+            End If
         End Function
 
         Public Function GetMd5Bytes(input As Byte()) As Byte()
@@ -86,6 +115,11 @@ Namespace SecurityString
             Return GetMd5Bytes(input).ToLong
         End Function
 
+        ''' <summary>
+        ''' Calculate the md5 hashcode based on the given <paramref name="input"/> data.
+        ''' </summary>
+        ''' <param name="input"></param>
+        ''' <returns></returns>
         Public Function GetMd5Hash(input As Byte()) As String
             If input.IsNullOrEmpty Then
                 Return ""

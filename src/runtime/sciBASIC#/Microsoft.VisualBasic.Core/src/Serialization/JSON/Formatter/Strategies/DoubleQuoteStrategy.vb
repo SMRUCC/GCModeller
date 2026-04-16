@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 16 (88.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (11.11%)
+    '     File Size: 806 B
+
+
     '     Class DoubleQuoteStrategy
     ' 
     '         Properties: ForWhichCharacter

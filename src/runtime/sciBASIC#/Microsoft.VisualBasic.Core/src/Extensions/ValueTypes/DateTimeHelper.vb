@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6edbf3f4225e17bf4cb6191e65404630, Microsoft.VisualBasic.Core\src\Extensions\ValueTypes\DateTimeHelper.vb"
+﻿#Region "Microsoft.VisualBasic::d704160edc60b2a69902deadf487364f, Microsoft.VisualBasic.Core\src\Extensions\ValueTypes\DateTimeHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 139 (59.15%)
+    ' Comment Lines: 58 (24.68%)
+    '    - Xml Docs: 84.48%
+    ' 
+    '   Blank Lines: 38 (16.17%)
+    '     File Size: 8.11 KB
+
+
     '     Enum TimeScales
     ' 
     '         Day, Hour, Millisecond, Minute, Month
@@ -46,7 +58,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: DateSeq, FillDateZero, FromMilliseconds, FromUnixTimeStamp, GetMonthInteger
-    '                   IsEmpty, ReadableElapsedTime, ToDate, UnixTimeStamp, YYMMDD
+    '                   IsEmpty, ReadableElapsedTime, ToDate, UnixTimeStamp, UnixTimeStampMillis
+    '                   YYMMDD
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,7 +68,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.C
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ValueTypes
 
@@ -184,6 +197,11 @@ Namespace ValueTypes
             Return (time.ToUniversalTime - ZERO).TotalSeconds
         End Function
 
+        Public Function UnixTimeStampMillis(time As DateTime) As Double
+            Static ZERO As New DateTime(1970, 1, 1, 0, 0, 0)
+            Return (time.ToUniversalTime - ZERO).TotalMilliseconds
+        End Function
+
         ''' <summary>
         ''' 将Unix时间戳转换为可读的日期
         ''' </summary>
@@ -192,7 +210,7 @@ Namespace ValueTypes
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function FromUnixTimeStamp(unixDateTime As Long) As Date
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET_48 Then
             Return DateTimeOffset _
                 .FromUnixTimeSeconds(unixDateTime) _
                 .DateTime _
@@ -232,17 +250,24 @@ Namespace ValueTypes
             End If
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="microtime">xxx ms</param>
+        ''' <param name="format"></param>
+        ''' <param name="round"></param>
+        ''' <returns></returns>
         Public Function ReadableElapsedTime(microtime&, Optional format$ = "%.3f%s", Optional round% = 3) As String
             Dim unit$
             Dim time!
 
             If microtime >= 1000 Then
                 unit = "s"
-                time = stdNum.Round(microtime / 1000, round)
+                time = std.Round(microtime / 1000, round)
 
                 If time >= 60 Then
                     unit = "min"
-                    time = stdNum.Round(time / 60, round)
+                    time = std.Round(time / 60, round)
                 End If
 
                 format = sprintf(format, time, unit)

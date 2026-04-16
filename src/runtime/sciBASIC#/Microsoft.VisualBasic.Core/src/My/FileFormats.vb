@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 9 (69.23%)
+    ' Comment Lines: 3 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (7.69%)
+    '     File Size: 208 B
+
+
     '     Enum FileFormats
     ' 
     '         bencode, csv, json, table, xml

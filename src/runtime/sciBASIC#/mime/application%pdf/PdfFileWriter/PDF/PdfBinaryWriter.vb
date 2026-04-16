@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::530e71de163036574e13bd545c0c646f, mime\application%pdf\PdfFileWriter\PDF\PdfBinaryWriter.vb"
+﻿#Region "Microsoft.VisualBasic::f94592e6618b77e47752be838268f92f, mime\application%pdf\PdfFileWriter\PDF\PdfBinaryWriter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 33 (29.73%)
+    ' Comment Lines: 65 (58.56%)
+    '    - Xml Docs: 44.62%
+    ' 
+    '   Blank Lines: 13 (11.71%)
+    '     File Size: 3.57 KB
+
+
     '     Class PdfBinaryWriter
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -40,7 +52,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -63,7 +75,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System.IO
 Imports System.Text
@@ -81,7 +93,7 @@ Imports System.Text
         ''' PDF binary writer constructor
         ''' </summary>
         ''' <param name="Stream">File or memory stream</param>
-        Public Sub New(ByVal Stream As Stream)
+        Public Sub New(Stream As Stream)
             MyBase.New(Stream, Encoding.UTF8)
         End Sub
 
@@ -92,7 +104,7 @@ Imports System.Text
         ''' <remarks>
         ''' Convert each character from two bytes to one byte.
         ''' </remarks>
-        Public Sub WriteString(ByVal Str As String)
+        Public Sub WriteString(Str As String)
             ' byte array
             Dim ByteArray = New Byte(Str.Length - 1) {}
 
@@ -114,7 +126,7 @@ Imports System.Text
         ''' <remarks>
         ''' Convert each character from two bytes to one byte.
         ''' </remarks>
-        Public Sub WriteString(ByVal Str As StringBuilder)
+        Public Sub WriteString(Str As StringBuilder)
             ' byte array
             Dim ByteArray = New Byte(Str.Length - 1) {}
 
@@ -134,7 +146,7 @@ Imports System.Text
         ''' </summary>
         ''' <param name="FormatStr">Standard format string</param>
         ''' <param name="List">Array of objects</param>
-        Public Sub WriteFormat(ByVal FormatStr As String, ParamArray List As Object())
+        Public Sub WriteFormat(FormatStr As String, ParamArray List As Object())
             Dim Str = String.Format(FormatStr, List)
 
             ' byte array

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dff06648745a39fa7974652c87d9434a, Data_science\Visualization\Plots\Scatter\Plot\LinePlot2D.vb"
+﻿#Region "Microsoft.VisualBasic::028d1753d69f47c6286b9c6d2e8c66eb, Data_science\Visualization\Plots\Scatter\Plot\LinePlot2D.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 337
+    '    Code Lines: 250 (74.18%)
+    ' Comment Lines: 35 (10.39%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 52 (15.43%)
+    '     File Size: 14.22 KB
+
+
     '     Class LinePlot2D
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: CreateScaler
     ' 
-    '         Sub: PlotInternal
+    '         Sub: DrawLine, PlotInternal
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,7 +57,6 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -61,6 +72,35 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Interpolation
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Plots
 
@@ -72,6 +112,9 @@ Namespace Plots
         ReadOnly fill As Boolean
         ReadOnly fillPie As Boolean
         ReadOnly interplot As Splines
+
+        Friend xlim As Double() = Nothing
+        Friend ylim As Double() = Nothing
 
         Public Sub New(data As IEnumerable(Of SerialData), theme As Theme,
                        Optional fill As Boolean = False,
@@ -86,9 +129,122 @@ Namespace Plots
             Me.fillPie = fillPie
         End Sub
 
+        Public Shared Sub DrawLine(g As IGraphics,
+                                   rect As GraphicsRegion,
+                                   scaler As DataScaler,
+                                   line As SerialData,
+                                   interplot As Splines,
+                                   Optional fill As Boolean = False,
+                                   Optional fillPie As Boolean = False)
+
+            Dim defaultPen As Pen = line.GetPen
+            Dim br As New SolidBrush(line.color)
+            Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
+            Dim d! = line.pointSize
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim r As Single = line.pointSize / 2
+            Dim bottom! = rect.PlotRegion(css).Bottom
+            Dim getPointBrush = Function(pt As PointData)
+                                    If pt.color.StringEmpty Then
+                                        Return br
+                                    Else
+                                        Return pt.color.GetBrush
+                                    End If
+                                End Function
+            Dim polygon As New List(Of PointF)
+            Dim pt1, pt2 As PointF
+
+            If line.pts.Length = 1 Then
+                Dim a As PointData = line.pts.First
+                Dim b As New PointData(New PointF(a.pt.X, 0))
+
+                pt1 = scaler.Translate(a)
+                pt2 = scaler.Translate(b)
+
+                Call g.DrawLine(defaultPen, pt1, pt2)
+
+                Return
+            End If
+
+            Dim pts As SlideWindow(Of PointData)() = line.pts _
+                .getSplinePoints(spline:=interplot) _
+                .SlideWindows(2) _
+                .ToArray
+            Dim color1 As Color
+            Dim color2 As Color
+            Dim color3 As Vector
+
+            For Each pt As SlideWindow(Of PointData) In pts
+                Dim a As PointData = pt.First
+                Dim b As PointData = pt.Last
+                Dim pen As Pen = defaultPen
+
+                If Not (a.color.StringEmpty AndAlso b.color.StringEmpty) Then
+                    color1 = a.color.TranslateColor
+                    color2 = b.color.TranslateColor
+                    color3 = (color1.ToVector + color2.ToVector) / 2
+
+                    pen = New Pen(color3.ArgbColor, defaultPen.Width) With {
+                        .DashStyle = defaultPen.DashStyle
+                    }
+                End If
+
+                pt1 = scaler.Translate(a)
+                pt2 = scaler.Translate(b)
+
+                polygon.Add(pt1)
+                polygon.Add(pt2)
+
+                Call g.DrawLine(pen, pt1, pt2)
+
+                If fill Then
+                    Dim path As New GraphicsPath
+                    Dim ptc As New PointF(pt2.X, bottom) ' c
+                    Dim ptd As New PointF(pt1.X, bottom) ' d
+
+
+                    '   /-b
+                    ' a-  |
+                    ' |   |
+                    ' |   |
+                    ' d---c
+
+                    path.AddLine(pt1, pt2)
+                    path.AddLine(pt2, ptc)
+                    path.AddLine(ptc, ptd)
+                    path.AddLine(ptd, pt1)
+                    path.CloseFigure()
+
+                    Call g.FillPath(fillBrush, path)
+                End If
+
+                If fillPie Then
+                    Call g.FillPie(getPointBrush(a), pt1.X - r, pt1.Y - r, d, d, 0, 360)
+                    Call g.FillPie(getPointBrush(b), pt2.X - r, pt2.Y - r, d, d, 0, 360)
+                End If
+
+                ' 绘制误差线
+                ' 首先计算出误差的长度，然后可pt1,pt2的Y相加减即可得到新的位置
+                ' 最后划线即可
+                'If a.errPlus > 0 Then
+                '    Call g.drawErrorLine(scaler, pt1, a.errPlus + a.pt.Y, width, br)
+                'End If
+                'If a.errMinus > 0 Then
+                '    Call g.drawErrorLine(scaler, pt1, a.pt.Y - a.errMinus, width, br)
+                'End If
+                'If b.errPlus > 0 Then
+                '    Call g.drawErrorLine(scaler, pt2, b.errPlus + b.pt.Y, width, br)
+                'End If
+                'If b.errMinus > 0 Then
+                '    Call g.drawErrorLine(scaler, pt2, b.pt.Y - b.errMinus, width, br)
+                'End If
+            Next
+        End Sub
+
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, rect As GraphicsRegion)
             Dim canvas As IGraphics = g
-            Dim region As Rectangle = rect.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim region As Rectangle = rect.PlotRegion(css)
             Dim scaler As DataScaler = CreateScaler(g, rect)
             Dim gSize As Size = rect.Size
 
@@ -110,87 +266,11 @@ Namespace Plots
                 )
             End If
 
-            Dim width As Double = rect.PlotRegion.Width / 200
+            Dim width As Double = region.Width / 200
             Dim annotations As New Dictionary(Of String, (raw As SerialData, line As SerialData))
 
             For Each line As SerialData In array
-                Dim pen As Pen = line.GetPen
-                Dim br As New SolidBrush(line.color)
-                Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
-                Dim d! = line.pointSize
-                Dim r As Single = line.pointSize / 2
-                Dim bottom! = rect.PlotRegion.Bottom
-                Dim getPointBrush = Function(pt As PointData)
-                                        If pt.color.StringEmpty Then
-                                            Return br
-                                        Else
-                                            Return pt.color.GetBrush
-                                        End If
-                                    End Function
-                Dim polygon As New List(Of PointF)
-
-                Dim pt1, pt2 As PointF
-                Dim pts As SlideWindow(Of PointData)() = line.pts _
-                    .getSplinePoints(spline:=interplot) _
-                    .SlideWindows(2) _
-                    .ToArray
-
-                For Each pt As SlideWindow(Of PointData) In pts
-                    Dim a As PointData = pt.First
-                    Dim b As PointData = pt.Last
-
-                    pt1 = scaler.Translate(a)
-                    pt2 = scaler.Translate(b)
-
-                    polygon.Add(pt1)
-                    polygon.Add(pt2)
-
-                    Call g.DrawLine(pen, pt1, pt2)
-
-                    If fill Then
-                        Dim path As New GraphicsPath
-                        Dim ptc As New PointF(pt2.X, bottom) ' c
-                        Dim ptd As New PointF(pt1.X, bottom) ' d
-
-
-                        '   /-b
-                        ' a-  |
-                        ' |   |
-                        ' |   |
-                        ' d---c
-
-                        path.AddLine(pt1, pt2)
-                        path.AddLine(pt2, ptc)
-                        path.AddLine(ptc, ptd)
-                        path.AddLine(ptd, pt1)
-                        path.CloseFigure()
-
-                        Call g.FillPath(fillBrush, path)
-                    End If
-
-                    If fillPie Then
-                        Call g.FillPie(getPointBrush(a), pt1.X - r, pt1.Y - r, d, d, 0, 360)
-                        Call g.FillPie(getPointBrush(b), pt2.X - r, pt2.Y - r, d, d, 0, 360)
-                    End If
-
-                    ' 绘制误差线
-                    ' 首先计算出误差的长度，然后可pt1,pt2的Y相加减即可得到新的位置
-                    ' 最后划线即可
-                    If a.errPlus > 0 Then
-                        Call g.drawErrorLine(scaler, pt1, a.errPlus + a.pt.Y, width, br)
-                    End If
-                    If a.errMinus > 0 Then
-                        Call g.drawErrorLine(scaler, pt1, a.pt.Y - a.errMinus, width, br)
-                    End If
-                    If b.errPlus > 0 Then
-                        Call g.drawErrorLine(scaler, pt2, b.errPlus + b.pt.Y, width, br)
-                    End If
-                    If b.errMinus > 0 Then
-                        Call g.drawErrorLine(scaler, pt2, b.pt.Y - b.errMinus, width, br)
-                    End If
-
-                    Call Parallel.DoEvents()
-                Next
+                Call DrawLine(g, rect, scaler, line, interplot, fill, fillPie)
 
                 If Not line.DataAnnotations.IsNullOrEmpty Then
                     Dim raw = array.Where(Function(s) s.title = line.title).First
@@ -207,7 +287,7 @@ Namespace Plots
 
             If theme.drawLegend Then
                 Dim legends As LegendObject() = LinqAPI.Exec(Of LegendObject) _
- _
+                                                                              _
                 () <= From s As SerialData
                       In array
                       Let sColor As String = s.color.RGBExpression
@@ -227,14 +307,16 @@ Namespace Plots
             For Each line As Line In ablines.SafeQuery
                 Dim a As PointF = scaler.Translate(line.A)
                 Dim b As PointF = scaler.Translate(line.B)
+                Dim style As Pen = css.GetPen(line.Stroke)
 
-                Call g.DrawLine(line.Stroke, a, b)
+                Call g.DrawLine(style, a, b)
             Next
         End Sub
 
         Public Function CreateScaler(ByRef g As IGraphics, rect As GraphicsRegion) As DataScaler
             Dim canvas As IGraphics = g
-            Dim region As Rectangle = rect.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim region As Rectangle = rect.PlotRegion(css)
             Dim XTicks#(), YTicks#()
 
             '    With array.CreateAxisTicks(
@@ -251,8 +333,8 @@ Namespace Plots
             '        YTicks = AxisScalling.GetAxisByTick(YTicks, tick:=ticksY)
             '    End If
 
-            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).Range.CreateAxisTicks
-            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y)).Range.CreateAxisTicks
+            XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).ToArray
+            YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y)).ToArray
 
             Dim X As Scaler
             Dim Y As LinearScale
@@ -275,18 +357,30 @@ Namespace Plots
                         .Distinct _
                         .ToArray
 
+                    YTicks = YTicks.Range.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
                     X = d3js.scale _
                         .ordinal _
                         .domain(allTermLabels) _
                         .range(integers:={region.Left, region.Right})
                 Else
+                    If Not xlim.IsNullOrEmpty Then
+                        XTicks = xlim.CreateAxisTicks(ticks:=theme.nticksX, decimalDigits:=theme.GetXAxisDecimals)
+                    Else
+                        XTicks = XTicks.Range.CreateAxisTicks(ticks:=theme.nticksX, decimalDigits:=theme.GetXAxisDecimals)
+                    End If
+                    If Not ylim.IsNullOrEmpty Then
+                        YTicks = ylim.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
+                    Else
+                        YTicks = YTicks.Range.CreateAxisTicks(ticks:=theme.nticksY, decimalDigits:=theme.GetYAxisDecimals)
+                    End If
+
                     X = d3js.scale _
-                        .linear _
-                        .domain(XTicks) _
+                        .linear(reverse:=theme.xAxisReverse) _
+                        .domain(values:=XTicks) _
                         .range(integers:={region.Left, region.Right})
                 End If
 
-                Y = d3js.scale.linear.domain(YTicks).range(integers:={region.Bottom, region.Top})
+                Y = d3js.scale.linear.domain(values:=YTicks).range(integers:={region.Bottom, region.Top})
             End If
 
             Return New DataScaler With {

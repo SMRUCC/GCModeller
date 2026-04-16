@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>test</RootNamespace>
+    <TargetFramework>net5.0</TargetFramework>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\interops\localblast\LocalBLAST\localblast.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\BinaryData\DataStorage\datastorage-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DynamicProgramming\DynamicProgramming.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\..\models\BIOM\BIOM\BIOM.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\SequenceToolkit\NeedlemanWunsch\NeedlemanWunsch.NET5.vbproj" />
+    <ProjectReference Include="..\..\Metagenome\Metagenome.NET5.vbproj" />
+    <ProjectReference Include="..\MetaFunction.vbproj" />
+  </ItemGroup>
+
+</Project>

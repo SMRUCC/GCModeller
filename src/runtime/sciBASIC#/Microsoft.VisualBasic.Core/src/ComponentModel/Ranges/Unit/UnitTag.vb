@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 10 (71.43%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (28.57%)
+    '     File Size: 286 B
+
+
     '     Structure UnitTag
     ' 
     '         Constructor: (+1 Overloads) Sub New

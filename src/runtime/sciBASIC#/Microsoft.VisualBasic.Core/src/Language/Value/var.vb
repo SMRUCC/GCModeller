@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 42 (68.85%)
+    ' Comment Lines: 11 (18.03%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (13.11%)
+    '     File Size: 2.05 KB
+
+
     '     Class Value
     ' 
     '         Properties: IsNumeric, IsString, Name, Trace, Type

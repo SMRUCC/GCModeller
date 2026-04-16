@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1426d0576106690256e975422c591c9d, Data_science\Graph\Analysis\PQDijkstra\BasicHeap.vb"
+﻿#Region "Microsoft.VisualBasic::a8baaa069d6f29ac150f346acafe097a, Data_science\Graph\Analysis\PQDijkstra\BasicHeap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 54 (79.41%)
+    ' Comment Lines: 2 (2.94%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (17.65%)
+    '     File Size: 2.07 KB
+
+
     '     Class BasicHeap
     ' 
     '         Properties: Count
@@ -47,10 +59,6 @@
 #End Region
 
 'by Tolga Birdal
-
-Imports System.Collections
-Imports System.Collections.Generic
-Imports System.Text
 
 Namespace Dijkstra.PQDijkstra
 

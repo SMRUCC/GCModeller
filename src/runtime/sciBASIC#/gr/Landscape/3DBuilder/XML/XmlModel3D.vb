@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a632281d279f73325aaf4f54d6a1fcd7, gr\Landscape\3DBuilder\XML\XmlModel3D.vb"
+﻿#Region "Microsoft.VisualBasic::1594f9190feb57c3c42e9c67abd6fe25, gr\Landscape\3DBuilder\XML\XmlModel3D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 54 (72.97%)
+    ' Comment Lines: 6 (8.11%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 14 (18.92%)
+    '     File Size: 2.29 KB
+
+
     '     Class XmlModel3D
     ' 
     '         Properties: build, resources, unit
@@ -56,6 +68,7 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON

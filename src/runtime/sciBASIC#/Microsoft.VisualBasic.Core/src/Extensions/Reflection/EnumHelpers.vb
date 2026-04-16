@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f68c02a2d6247208e0d9a5467a2540c, Microsoft.VisualBasic.Core\src\Extensions\Reflection\EnumHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::3c160dd335150fa9d776e486883b7074, Microsoft.VisualBasic.Core\src\Extensions\Reflection\EnumHelpers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 82 (58.99%)
+    ' Comment Lines: 37 (26.62%)
+    '    - Xml Docs: 94.59%
+    ' 
+    '   Blank Lines: 20 (14.39%)
+    '     File Size: 5.17 KB
+
 
     ' Module EnumHelpers
     ' 
@@ -118,8 +130,20 @@ Public Module EnumHelpers
     ''' then function will return the string value from the ToString() function.
     ''' </summary>
     ''' <param name="value"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <param name="deli">
+    ''' a delimiter string for join multiple flag enumeration value theirs enum string
+    ''' </param>
+    ''' <returns>
+    ''' this function always returns a non-null string value:
+    ''' 
+    ''' for thoese enum member which it has been tagged with <see cref="DescriptionAttribute"/>, 
+    ''' the description data string will returns from this function;
+    ''' otherwise the string value from the enum member its toString() function will be returned.
+    ''' </returns>
+    ''' <remarks>
+    ''' this extension function has an internal cache table for get the description
+    ''' text of a given enum value
+    ''' </remarks>
     <Extension>
     Public Function Description(value As [Enum], Optional deli$ = "|") As String
         Static descriptionCache As New Dictionary(Of Object, String)

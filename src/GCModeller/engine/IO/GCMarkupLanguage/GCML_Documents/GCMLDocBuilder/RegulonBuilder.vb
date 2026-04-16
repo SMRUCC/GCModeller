@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 22 (81.48%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 1.03 KB
+
+
     '     Class RegulonBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New

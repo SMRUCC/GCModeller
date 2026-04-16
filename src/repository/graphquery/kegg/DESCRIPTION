@@ -1,10 +1,13 @@
-Package: kegg_graphquery
+Package: kegg_api
 Type: Package
-Title: Graphquery Toolkit for KEGG database
+Title: KEGG API is a REST-style Application Programming Interface to the KEGG database resource.
 Version: 0.1.0
 Author: xieguigang
 Maintainer: xieguigang <xie.guigang@gcmodeller.org>
-Description: Graphquery Toolkit for KEGG database
+Description: KEGG API (application programming interface) allows customization of KEGG-based 
+ analysis, such as for searching and computing biochemical pathways in cellular processes or 
+ analyzing the universe of genes in the completely sequenced genomes. (Restriction - KEGG API 
+ is provided for academic use by academic users belonging to academic institutions.)
 License: MIT
 Encoding: UTF-8
 LazyData: true

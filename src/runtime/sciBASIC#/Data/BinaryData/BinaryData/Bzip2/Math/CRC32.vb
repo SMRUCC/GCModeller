@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 26 (54.17%)
+    ' Comment Lines: 15 (31.25%)
+    '    - Xml Docs: 73.33%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 4.78 KB
+
+
     '     Class CRC32
     ' 
     '         Properties: CRC

@@ -1,0 +1,32 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "dag.background" "dag.background"
+.SH NAME
+dag.background \- create gsea background from a given obo ontology file data.
+.SH SYNOPSIS
+\fIdag.background(\fBdag\fR as <generic> GO_OBO, 
+\fBflat\fR as boolean = FALSE, 
+\fBverbose_progress\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+create gsea background from a given obo ontology file data.
+.PP
+.SH OPTIONS
+.PP
+\fBdag\fB \fR\- -. 
+.PP
+.PP
+\fBflat\fB \fR\- 
+ Flat the ontology tree into cluster via the \fBis_a\fR relationship?
+ 
+ default false, required of the \fBenrichment.go\fR function for run enrichment analysis
+ value true, will flat the ontology tree into cluster, then the enrichment analysis could be
+ applied via the \fBenrichment\fR function.
+. 
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4334c5c607b682f6063cc25d790ea149, R#\phenotype_kit\PFSNetAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::1ad2756e8c2171b02cb58303432274c9, R#\phenotype_kit\PFSNetAnalysis.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 139 (70.92%)
+    ' Comment Lines: 35 (17.86%)
+    '    - Xml Docs: 94.29%
+    ' 
+    '   Blank Lines: 22 (11.22%)
+    '     File Size: 9.05 KB
+
+
     ' Module PFSNetAnalysis
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -49,20 +61,22 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.PFSNet
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("PFSNet", Category:=APICategories.ResearchTools)>
+<RTypeExport("psfnet", GetType(PFSNetResultOut))>
 Module PFSNetAnalysis
 
     Sub New()
-        Internal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
-        Internal.generic.add("plot", GetType(PFSNetResultOut), AddressOf plotPFSNet)
+        RInternal.Object.Converts.addHandler(GetType(PFSNetResultOut), AddressOf makeDataFrame)
+        RInternal.generic.add("plot", GetType(PFSNetResultOut), AddressOf plotPFSNet)
     End Sub
 
     Private Function plotPFSNet(result As PFSNetResultOut, args As list, env As Environment) As Object
@@ -101,12 +115,22 @@ Module PFSNetAnalysis
         Return GraphEdge.LoadData(file)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="maps"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' a collection of the network graph edge data
+    ''' </returns>
     <ExportAPI("build.pathway_network")>
+    <RApiReturn(GetType(GraphEdge))>
     Public Function buildPathwayNetwork(maps As Map(), <RRawVectorArgument> reactions As Object, Optional env As Environment = Nothing) As pipeline
         Dim reactionTable As ReactionTable()
 
         If reactions Is Nothing Then
-            Return Internal.debug.stop({"the required KEGG reaction network data can not be nothing!"}, env)
+            Return RInternal.debug.stop({"the required KEGG reaction network data can not be nothing!"}, env)
         ElseIf TypeOf reactions Is ReactionTable() Then
             reactionTable = DirectCast(reactions, ReactionTable())
         ElseIf TypeOf reactions Is pipeline AndAlso DirectCast(reactions, pipeline).elementType Like GetType(ReactionTable) Then
@@ -114,7 +138,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf reactions Is vector AndAlso DirectCast(reactions, vector).elementType Like GetType(ReactionTable) Then
             reactionTable = DirectCast(reactions, vector).data.AsObjectEnumerator(Of ReactionTable).ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(ReactionTable), reactions.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(ReactionTable), reactions.GetType, env), env)
         End If
 
         Return maps _
@@ -122,6 +146,15 @@ Module PFSNetAnalysis
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="ggi">
+    ''' a collection of the interaction data, should be a collection of <see cref="GraphEdge"/> data.
+    ''' </param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("save.pathway_network")>
     <RApiReturn(GetType(Boolean))>
     Public Function savePathwayNetwork(<RRawVectorArgument> ggi As Object, file As Object, Optional env As Environment = Nothing) As Object
@@ -129,17 +162,17 @@ Module PFSNetAnalysis
         Dim network As GraphEdge()
 
         If file Is Nothing Then
-            Return Internal.debug.stop({"file output can not be nothing!"}, env)
+            Return RInternal.debug.stop({"file output can not be nothing!"}, env)
         ElseIf TypeOf file Is String Then
             stream = DirectCast(file, String).Open(, doClear:=True)
         ElseIf TypeOf file Is Stream Then
             stream = DirectCast(file, Stream)
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
         End If
 
         If ggi Is Nothing Then
-            Return Internal.debug.stop("the required data source can not be nothing!", env)
+            Return RInternal.debug.stop("the required data source can not be nothing!", env)
         ElseIf TypeOf ggi Is GraphEdge() Then
             network = DirectCast(ggi, GraphEdge())
         ElseIf TypeOf ggi Is pipeline Then
@@ -147,7 +180,7 @@ Module PFSNetAnalysis
         ElseIf TypeOf ggi Is vector Then
             network = DirectCast(ggi, vector).data.AsObjectEnumerator(Of GraphEdge).ToArray
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(GraphEdge), ggi.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(GraphEdge), ggi.GetType, env), env)
         End If
 
         Call GraphEdgeConnector.SaveTabular(network, stream)
@@ -177,6 +210,7 @@ Module PFSNetAnalysis
     ''' <param name="n"></param>
     ''' <returns></returns>
     <ExportAPI("pfsnet")>
+    <RApiReturn(GetType(PFSNetResultOut))>
     Public Function run_pfsnet(<RRawVectorArgument> expr1o As Object, <RRawVectorArgument> expr2o As Object, ggi As GraphEdge(),
                                Optional b# = 0.5,
                                Optional t1# = 0.95,
@@ -194,7 +228,7 @@ Module PFSNetAnalysis
     End Function
 
     ''' <summary>
-    ''' 
+    ''' read the analysis result file
     ''' </summary>
     ''' <param name="file"></param>
     ''' <param name="format">xml/json</param>
@@ -203,9 +237,9 @@ Module PFSNetAnalysis
     <RApiReturn(GetType(PFSNetResultOut))>
     Public Function readPFSNetOutput(file As String, Optional format As FileFormats = FileFormats.xml, Optional env As Environment = Nothing) As Object
         If Not file.FileExists Then
-            Return Internal.debug.stop("the given file is not exists on your file system!", env)
+            Return RInternal.debug.stop("the given file is not exists on your file system!", env)
         ElseIf format <> FileFormats.json AndAlso format <> FileFormats.xml Then
-            Return Internal.debug.stop("the file format flag value is not supported at this api...", env)
+            Return RInternal.debug.stop("the file format flag value is not supported at this api...", env)
         End If
 
         If format = FileFormats.xml Then

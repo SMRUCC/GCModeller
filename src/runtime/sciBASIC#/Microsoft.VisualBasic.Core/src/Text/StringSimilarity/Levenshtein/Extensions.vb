@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91fdbd5ab073e0638d3ad0552d11a05c, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\Levenshtein\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::53612205edb07d9609c819b8144a762d, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\Levenshtein\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 41 (69.49%)
+    ' Comment Lines: 7 (11.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (18.64%)
+    '     File Size: 2.20 KB
+
+
     '     Module LevExtensions
     ' 
     '         Function: StripSymbol
@@ -52,7 +64,8 @@ Namespace Text.Levenshtein
     <HideModuleName>
     Public Module LevExtensions
 
-        <Extension> Public Sub GetMatches(Of T)(edits As DistResult, ref As T(), hyp As T(), ByRef refOUT As T(), ByRef hypOUT As T())
+        <Extension>
+        Public Sub GetMatches(Of T)(edits As DistResult, ref As T(), hyp As T(), ByRef refOUT As T(), ByRef hypOUT As T())
             Dim len As Integer = edits.DistEdits.Count("m"c)
             Dim idx As i32 = Scan0
             Dim iiiii As Integer = 0

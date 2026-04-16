@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d4799c36d68864681e102bf49b045c8, mime\application%xml\MathML\Expression\BinaryExpression.vb"
+﻿#Region "Microsoft.VisualBasic::840c7e590c62e794646ba84236d76b24, mime\application%xml\MathML\Expression\BinaryExpression.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 12 (60.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (40.00%)
+    '     File Size: 462 B
+
+
     '     Class BinaryExpression
     ' 
     '         Properties: [operator], applyleft, applyright
@@ -45,8 +57,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Language
 
 Namespace MathML
 

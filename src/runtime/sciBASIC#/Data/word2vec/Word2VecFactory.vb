@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dee304f47fe005173ec3f1414434a78b, Data\word2vec\Word2VecFactory.vb"
+﻿#Region "Microsoft.VisualBasic::509993fba5d2e87882c6f794c40a1ba4, Data\word2vec\Word2VecFactory.vb"
 
     ' Author:
     ' 
@@ -31,84 +31,91 @@
 
     ' Summaries:
 
-    '     Class Word2VecFactory
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 44 (65.67%)
+    ' Comment Lines: 5 (7.46%)
+    '    - Xml Docs: 0.00%
     ' 
-    '         Function: build, setAlpha, setAlphaThresold, setFreqThresold, setMethod
-    '                   setNumOfThread, setSample, setVectorSize, setWindow
+    '   Blank Lines: 18 (26.87%)
+    '     File Size: 1.80 KB
+
+
+    ' Class Word2VecFactory
     ' 
+    '     Function: build, setAlpha, setAlphaThresold, setFreqThresold, setMethod
+    '               setNumOfThread, setSample, setVectorSize, setWindow
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Namespace NlpVec
-
-    Public Class Word2VecFactory
+Public Class Word2VecFactory
 
 
-        Friend vectorSize As Integer = 200
-        Friend windowSize As Integer = 5
+    Friend vectorSize As Integer = 200
+    Friend windowSize As Integer = 5
 
-        Friend freqThresold As Integer = 5
-        Friend trainMethod As TrainMethod = TrainMethod.Skip_Gram
-
-
-        Friend sample As Double = 0.001
-        '        private int negativeSample = 0;
+    Friend freqThresold As Integer = 5
+    Friend trainMethod As TrainMethod = TrainMethod.Skip_Gram
 
 
-        Friend alpha As Double = 0.025, alphaThreshold As Double = 0.0001
+    Friend sample As Double = 0.001
+    '        private int negativeSample = 0;
 
-        Friend numOfThread As Integer = 1
 
-        Public Function setVectorSize(size As Integer) As Word2VecFactory
-            vectorSize = size
-            Return Me
-        End Function
+    Friend alpha As Double = 0.025, alphaThreshold As Double = 0.0001
 
-        Public Function setWindow(size As Integer) As Word2VecFactory
-            windowSize = size
-            Return Me
-        End Function
+    Friend numOfThread As Integer = 1
 
-        Public Function setFreqThresold(thresold As Integer) As Word2VecFactory
-            freqThresold = thresold
-            Return Me
-        End Function
+    Public Function setVectorSize(size As Integer) As Word2VecFactory
+        vectorSize = size
+        Return Me
+    End Function
 
-        Public Function setMethod(method As TrainMethod) As Word2VecFactory
-            trainMethod = method
-            Return Me
-        End Function
+    Public Function setWindow(size As Integer) As Word2VecFactory
+        windowSize = size
+        Return Me
+    End Function
 
-        Public Function setSample(rate As Double) As Word2VecFactory
-            sample = rate
-            Return Me
-        End Function
+    Public Function setFreqThresold(thresold As Integer) As Word2VecFactory
+        freqThresold = thresold
+        Return Me
+    End Function
 
-        '        public Factory setNegativeSample(int sample){
-        '            negativeSample = sample;
-        '            return this;
-        '        }
+    Public Function setMethod(method As TrainMethod) As Word2VecFactory
+        trainMethod = method
+        Return Me
+    End Function
 
-        Public Function setAlpha(alpha As Double) As Word2VecFactory
-            Me.alpha = alpha
-            Return Me
-        End Function
+    Public Function setSample(rate As Double) As Word2VecFactory
+        sample = rate
+        Return Me
+    End Function
 
-        Public Function setAlphaThresold(alpha As Double) As Word2VecFactory
-            alphaThreshold = alpha
-            Return Me
-        End Function
+    '        public Factory setNegativeSample(int sample){
+    '            negativeSample = sample;
+    '            return this;
+    '        }
 
-        Public Function setNumOfThread(numOfThread As Integer) As Word2VecFactory
-            Me.numOfThread = numOfThread
-            Return Me
-        End Function
+    Public Function setAlpha(alpha As Double) As Word2VecFactory
+        Me.alpha = alpha
+        Return Me
+    End Function
 
-        Public Function build() As Word2Vec
-            Return New Word2Vec(Me)
-        End Function
-    End Class
+    Public Function setAlphaThresold(alpha As Double) As Word2VecFactory
+        alphaThreshold = alpha
+        Return Me
+    End Function
 
-End Namespace
+    Public Function setNumOfThread(numOfThread As Integer) As Word2VecFactory
+        Me.numOfThread = numOfThread
+        Return Me
+    End Function
+
+    Public Function build() As Word2Vec
+        Return New Word2Vec(Me)
+    End Function
+End Class

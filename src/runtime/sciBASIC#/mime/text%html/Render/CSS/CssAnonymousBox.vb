@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fe593dd987941b02eaa989dbe720141, mime\text%html\Render\CSS\CssAnonymousBox.vb"
+﻿#Region "Microsoft.VisualBasic::be68a17ec5962cf24108e6470a4d85cb, mime\text%html\Render\CSS\CssAnonymousBox.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 16 (55.17%)
+    ' Comment Lines: 10 (34.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (10.34%)
+    '     File Size: 800 B
+
+
     '     Class CssAnonymousBox
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -45,7 +57,7 @@
 #End Region
 
 Namespace Render.CSS
-
+#If NET48 Then
     ''' <summary>
     ''' Represents an anonymous inline box
     ''' </summary>
@@ -71,4 +83,5 @@ Namespace Render.CSS
             MyBase.New(parentBox)
         End Sub
     End Class
+#End If
 End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 4 (40.00%)
+    ' Comment Lines: 5 (50.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (10.00%)
+    '     File Size: 387 B
+
+
     '     Module NamespaceDoc
     ' 
     ' 

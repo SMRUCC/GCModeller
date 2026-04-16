@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 36 (33.64%)
+    ' Comment Lines: 57 (53.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (13.08%)
+    '     File Size: 4.11 KB
+
+
     '     Class DataItem
     ' 
     '         Properties: id

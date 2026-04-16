@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dc50b9d0e2f662e618d5852f95cd6d4, Data\GraphQuery\TextParser\BaseInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::a9f7994422a79eae387ae40ab63a50ed, Data\GraphQuery\TextParser\BaseInvoke.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 218
+    '    Code Lines: 135 (61.93%)
+    ' Comment Lines: 54 (24.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 29 (13.30%)
+    '     File Size: 9.10 KB
+
+
     '     Module BaseInvoke
     ' 
-    '         Function: cssValue, eq, filter, getText, html
-    '                   match, regexp, regexpParseText, regexpReplace, replace
-    '                   skip, split, strip, tagValue, text
-    '                   (+2 Overloads) trim, urlQuery
+    '         Function: filter, getText, match, regexp, regexpParseText
+    '                   regexpReplace, replace, split, strip, tagValue
+    '                   text, (+2 Overloads) trim
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,26 +65,6 @@ Imports Microsoft.VisualBasic.Text
 Namespace TextParser
 
     Module BaseInvoke
-
-        <ExportAPI("skip")>
-        Public Function skip(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
-            If Not isArray Then
-                Throw New InvalidExpressionException("data should be an array!")
-            End If
-
-            Dim array As New HtmlElement With {.TagName = "skip"}
-            Dim n As Integer = Integer.Parse(parameters(Scan0))
-
-            If TypeOf document Is HtmlElement Then
-                For Each element In DirectCast(document, HtmlElement).HtmlElements.Skip(n)
-                    array.Add(element)
-                Next
-            Else
-                Throw New InvalidExpressionException
-            End If
-
-            Return array
-        End Function
 
         ''' <summary>
         ''' Extract the text of the current node
@@ -154,21 +145,6 @@ Namespace TextParser
                            Return New InnerPlantText With {.InnerText = text}
                        End If
                    End Function
-        End Function
-
-        ''' <summary>
-        ''' Take the nth element in the current node collection
-        ''' </summary>
-        ''' <param name="document"></param>
-        ''' <param name="parameters"></param>
-        ''' <param name="isArray"></param>
-        ''' <returns></returns>
-        <ExportAPI("eq")>
-        Public Function eq(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
-            Dim n As Integer = Integer.Parse(parameters(Scan0))
-            Dim nItem As InnerPlantText = DirectCast(document, HtmlElement).HtmlElements(n)
-
-            Return nItem
         End Function
 
         ''' <summary>
@@ -290,44 +266,6 @@ Namespace TextParser
                          Else
                              Return New InnerPlantText With {.InnerText = data.Name}
                          End If
-                     End Function,
-                isArray:=isArray
-            )
-        End Function
-
-        <ExportAPI("html")>
-        Public Function html(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
-            Return ParserFunction.ParseDocument(document, Function(i) New InnerPlantText With {.InnerText = i.GetHtmlText}, isArray)
-        End Function
-
-        <ExportAPI("urlQuery")>
-        Public Function urlQuery(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
-            Dim argName As String = parameters(Scan0)
-
-            Return ParserFunction.ParseDocument(
-                document:=document,
-                pip:=Function(i)
-                         Return New InnerPlantText With {
-                             .InnerText = URL.Parse(i.GetHtmlText)(argName)
-                         }
-                     End Function,
-                isArray:=isArray
-            )
-        End Function
-
-        <ExportAPI("cssValue")>
-        Public Function cssValue(document As InnerPlantText, parameters As String(), isArray As Boolean) As InnerPlantText
-            Dim keyName As String = parameters(0)
-
-            Return ParserFunction.ParseDocument(
-                document:=document,
-                pip:=Function(i)
-                         Dim css = CssParser.ParseStyle(i.GetHtmlText)
-                         Dim cssVal As String = css(keyName)
-
-                         Return New InnerPlantText With {
-                             .InnerText = cssVal
-                         }
                      End Function,
                 isArray:=isArray
             )

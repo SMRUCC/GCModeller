@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a5bd8163d3bef06b26713c06c2c76c5, mime\application%pdf\PdfReader\Document\PdfString.vb"
+﻿#Region "Microsoft.VisualBasic::e66491ed014a263c6bf2265618254fef, mime\application%pdf\PdfReader\Document\PdfString.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 61 (79.22%)
+    ' Comment Lines: 2 (2.60%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (18.18%)
+    '     File Size: 3.00 KB
+
+
     '     Class PdfString
     ' 
     '         Properties: ParseString, StrVal, Value, ValueAsBytes, ValueAsDateTime
@@ -58,7 +70,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Sub New(ByVal parent As PdfObject, ByVal str As ParseString)
+        Public Sub New(parent As PdfObject, str As ParseString)
             MyBase.New(parent, str)
         End Sub
 
@@ -66,7 +78,7 @@ Namespace PdfReader
             Return Value
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

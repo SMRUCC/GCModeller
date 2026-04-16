@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4a01edb520f15cab7db32449b1ea2f7, localblast\LocalBLAST\Pipeline\Models\Hit.vb"
+﻿#Region "Microsoft.VisualBasic::61702658fffd724d0f3e6a664c5ea1e0, localblast\LocalBLAST\Pipeline\Models\Hit.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 17 (45.95%)
+    ' Comment Lines: 15 (40.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.27 KB
+
+
     '     Class Hit
     ' 
-    '         Properties: hitName, identities, positive, tag
+    '         Properties: evalue, gaps, hitName, identities, positive
+    '                     score, tag
     ' 
     '         Function: ToString
     ' 
@@ -65,9 +78,14 @@ Namespace Tasks.Models
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property hitName As String Implements INamedValue.Key
+        <XmlText>
+        Public Property hitName As String Implements INamedValue.Key
+
+        <XmlAttribute> Public Property score As Double
         <XmlAttribute> Public Property identities As Double
         <XmlAttribute> Public Property positive As Double
+        <XmlAttribute> Public Property gaps As Double
+        <XmlAttribute> Public Property evalue As Double
 
         Public Overrides Function ToString() As String
             Return $"[{tag}] {hitName} {{identities:= {identities}, positive:= {positive}}}"

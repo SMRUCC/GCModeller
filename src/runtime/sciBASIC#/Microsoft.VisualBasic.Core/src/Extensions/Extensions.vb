@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e68b02a97dfc6b8537b50a5f4296e81, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::424fff925463d0451620a64adb325321, Microsoft.VisualBasic.Core\src\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,36 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1560
+    '    Code Lines: 862 (55.26%)
+    ' Comment Lines: 554 (35.51%)
+    '    - Xml Docs: 92.06%
+    ' 
+    '   Blank Lines: 144 (9.23%)
+    '     File Size: 57.93 KB
+
+
     ' Module Extensions
     ' 
     ' 
     ' Module Extensions
     ' 
-    '     Function: [Set], Add, (+4 Overloads) AddRange, AsRange, (+2 Overloads) Average
-    '               CheckDuplicated, Constrain, DateToString, DriverRun, FuzzyMatching
-    '               IndexOf, InsertOrUpdate, Invoke, InvokeSet, Is_NA_UHandle
-    '               (+2 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy, (+2 Overloads) LongSeq, MatrixToUltraLargeVector, MatrixTranspose
-    '               MatrixTransposeIgnoredDimensionAgreement, MD5, ModifyValue, (+2 Overloads) Offset, Range
-    '               Remove, RemoveDuplicates, RemoveFirst, (+2 Overloads) RemoveLast, RunDriver
-    '               Second, SeqRandom, (+3 Overloads) Sequence, (+2 Overloads) SetValue, (+11 Overloads) ShadowCopy
-    '               Shell, Shuffles, Slice, (+2 Overloads) SplitMV, ToArray
-    '               ToBoolean, ToDictionary, ToNormalizedPathString, ToString, ToStringArray
-    '               ToVector, (+3 Overloads) TrimNull, TryCount, Unlist, WriteAddress
+    '     Function: [Set], Add, (+5 Overloads) AddRange, AsRange, (+2 Overloads) Average
+    '               CheckDuplicated, Constrain, DateToString, DescriptionValue, DriverRun
+    '               FuzzyMatching, IndexOf, (+2 Overloads) InlineCopy, InsertOrUpdate, Invoke
+    '               InvokeSet, is_empty, (+3 Overloads) IsNaNImaginary, (+2 Overloads) JoinBy, (+2 Overloads) LongSeq
+    '               MatrixToUltraLargeVector, MatrixTranspose, MatrixTransposeIgnoredDimensionAgreement, MD5, ModifyValue
+    '               (+2 Overloads) Offset, Range, Remove, RemoveDuplicates, RemoveFirst
+    '               (+2 Overloads) RemoveLast, Second, SeqRandom, (+3 Overloads) Sequence, (+11 Overloads) ShadowCopy
+    '               Shell, Shuffles, Slice, (+2 Overloads) SplitMV, Sum
+    '               (+2 Overloads) ToArray, ToBoolean, ToDictionary, ToNormalizedPathString, ToString
+    '               ToStringArray, ToVector, (+3 Overloads) TrimNull, TryCount, Unlist
+    '               WriteAddress
     ' 
-    '     Sub: Add, FillBlank, Removes, (+2 Overloads) Swap, SwapItem
+    '     Sub: Add, Removes, (+2 Overloads) Swap, SwapItem, WriteLines
     ' 
     ' 
     ' 
@@ -55,34 +68,36 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Drawing
-Imports System.Globalization
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic.Net.Tcp
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.SecurityString
+Imports Microsoft.VisualBasic.Text.Similarity
+Imports any = Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.ApplicationServices
+
+
 #If DEBUG Then
 Imports Microsoft.VisualBasic.Serialization.JSON
 #End If
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal
-Imports Microsoft.VisualBasic.Text.Similarity
-Imports Microsoft.VisualBasic.CommandLine.Parsers
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 #Const FRAMEWORD_CORE = 1
 #Const Yes = 1
@@ -110,6 +125,64 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Public Module Extensions
 #End If
 
+    ''' <summary>
+    ''' check of the given object is nothing or value is empty?
+    ''' </summary>
+    ''' <param name="obj"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function is_empty(obj As IsEmpty) As Boolean
+        If obj Is Nothing Then
+            Return True
+        Else
+            Return obj.IsEmpty
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get description text value from <see cref="DescriptionAttribute"/>.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="obj"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this function is used for get the description text value from the GetType value <see cref="Type"/> of 
+    ''' the given <paramref name="obj"/>. this function may not working for the reflection result value, 
+    ''' example as when <paramref name="obj"/> is <see cref="PropertyInfo"/>, <see cref="MethodInfo"/> or 
+    ''' something, due to the reason of gettype of these reflection object contains no description data in 
+    ''' .net framework.
+    ''' 
+    ''' 20240414 change the function name from ``Description`` to ``DescriptionValue`` due to the reason of
+    ''' the function name of Description will always overloads other extension method which is named Description.
+    ''' </remarks>
+    <Extension>
+    Public Function DescriptionValue(Of T As Class)(obj As T) As String
+        If Not obj Is Nothing Then
+            Dim desc As DescriptionAttribute = obj.GetType.GetCustomAttribute(GetType(DescriptionAttribute))
+
+            If desc Is Nothing Then
+                Return Nothing
+            Else
+                Return desc.Description
+            End If
+        End If
+
+        Return Nothing
+    End Function
+
+    <Extension>
+    Public Function Sum(Of T)(v As IEnumerable(Of T), aggregate As Func(Of T, Integer, Double)) As Double
+        Dim total As Double = 0
+        Dim i As Integer = 0
+
+        For Each xi As T In v
+            total += aggregate(xi, i)
+            i += 1
+        Next
+
+        Return total
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ToString(ms As MemoryStream, encoding As Encoding) As String
@@ -119,7 +192,7 @@ Public Module Extensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Average(range As DoubleRange) As Double
-        Return {range.Min, range.Max}.Average
+        Return (range.Min + range.Max) / 2
     End Function
 
     ''' <summary>
@@ -161,11 +234,17 @@ Public Module Extensions
     ''' <summary>
     ''' Get target string's md5 hash code
     ''' </summary>
-    ''' <param name="s$"></param>
-    ''' <returns></returns>
+    ''' <param name="s">
+    ''' any text data
+    ''' </param>
+    ''' <returns>
+    ''' a 32 bit md5 string in lower case, this function may returns empty hashcode string 
+    ''' if the given input string <paramref name="s"/> is empty.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function MD5(s$) As String
-        Return s.GetMd5Hash
+    <Extension>
+    Public Function MD5(s$) As String
+        Return s.GetMd5Hash.ToLower
     End Function
 
     ''' <summary>
@@ -177,7 +256,8 @@ Public Module Extensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <returns></returns>
-    <Extension> Public Function Second(Of T)(source As IEnumerable(Of T), Optional suppressError As Boolean = False, Optional [default] As T = Nothing) As T
+    <Extension>
+    Public Function Second(Of T)(source As IEnumerable(Of T), Optional suppressError As Boolean = False, Optional [default] As T = Nothing) As T
         For Each x As SeqValue(Of T) In source.SeqIterator
             If x.i = 1 Then
                 Return x.value
@@ -191,7 +271,8 @@ Public Module Extensions
         End If
     End Function
 
-    <Extension> Public Function Add(Of T As INamedValue)(ByRef table As Dictionary(Of String, T), obj As T) As Dictionary(Of String, T)
+    <Extension>
+    Public Function Add(Of T As INamedValue)(ByRef table As Dictionary(Of String, T), obj As T) As Dictionary(Of String, T)
         If table Is Nothing Then
             table = New Dictionary(Of String, T)
         End If
@@ -283,6 +364,38 @@ Public Module Extensions
     End Function
 
     ''' <summary>
+    ''' add all elements inside the given data collection into the dictionary
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="table"></param>
+    ''' <param name="data"></param>
+    ''' <param name="key"></param>
+    ''' <param name="replaceDuplicated"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this function will skip add if the given <paramref name="data"/> collection is nothing
+    ''' </remarks>
+    <Extension>
+    Public Function AddRange(Of T)(ByRef table As Dictionary(Of String, T),
+                                   data As IEnumerable(Of T),
+                                   key As Func(Of T, String),
+                                   Optional replaceDuplicated As Boolean = False) As Dictionary(Of String, T)
+        If data Is Nothing Then
+            Return table
+        ElseIf replaceDuplicated Then
+            For Each obj As T In data
+                table(key(obj)) = obj
+            Next
+        Else
+            For Each obj As T In data
+                table.Add(key(obj), obj)
+            Next
+        End If
+
+        Return table
+    End Function
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="table"></param>
@@ -314,7 +427,7 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' 
+    ''' merge the given data key-value pair data into current directory and then returns the current directory object
     ''' </summary>
     ''' <typeparam name="TKey"></typeparam>
     ''' <typeparam name="TValue"></typeparam>
@@ -376,20 +489,29 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' This is a safe function: if the source string collection is nothing, then whistle function will returns a empty string instead of throw exception. 
-    ''' (<see cref="String.Join"/>，这是一个安全的函数，当数组为空的时候回返回空字符串)
+    ''' Join the string tokens with a given delimiter text.
     ''' </summary>
-    ''' <param name="tokens"></param>
-    ''' <param name="delimiter"></param>
-    ''' <returns></returns>
+    ''' <param name="tokens">parts of the string tokens for make join</param>
+    ''' <param name="delimiter">
+    ''' the delimiter for make string join.
+    ''' </param>
+    ''' <returns>
+    ''' This is a safe function: if the source string collection is nothing, 
+    ''' then whistle function will returns a empty string instead of throw 
+    ''' exception.
     ''' 
+    ''' (a safe wrapper of <see cref="System.String.Join"/>)
+    ''' </returns>
+    ''' <remarks>
+    ''' 这是一个安全的函数，当数组为空的时候回返回空字符串
+    ''' </remarks>
     <DebuggerStepThrough>
     <Extension>
     Public Function JoinBy(tokens As IEnumerable(Of String), delimiter$) As String
         If tokens Is Nothing Then
             Return ""
         End If
-        Return String.Join(delimiter, tokens.ToArray)
+        Return String.Join(If(delimiter, ""), tokens.ToArray)
     End Function
 
     ''' <summary>
@@ -431,25 +553,15 @@ Public Module Extensions
     ''' Invoke a folked system process object to execute a parallel task.
     ''' (本方法会执行外部命令并等待其执行完毕，函数返回状态值)
     ''' </summary>
-    ''' <param name="Process"></param>
+    ''' <param name="process"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <Extension> Public Function Invoke(Process As Process) As Integer
-        Call Process.Start()
-        Call Process.WaitForExit()
-        Return Process.ExitCode
-    End Function
-
-#If FRAMEWORD_CORE Then
-    ''' <summary>
-    ''' Running the object model driver, the target object should implement the driver interface.
-    ''' (非线程的方式启动，当前线程会被阻塞在这里直到运行完毕)
-    ''' </summary>
-    ''' <param name="driver"></param>
-    ''' <returns></returns>
-    Public Function RunDriver(driver As ITaskDriver) As Integer
-        Return driver.Run
+    <Extension>
+    Public Function Invoke(process As Process) As Integer
+        Call process.Start()
+        Call process.WaitForExit()
+        Return process.ExitCode
     End Function
 
     ''' <summary>
@@ -458,28 +570,52 @@ Public Module Extensions
     ''' (使用线程的方式启动，在函数调用之后，线程是已经启动了的，所以不需要再次调用<see cref="Threading.Thread.Start()"/>方法了)
     ''' </summary>
     ''' <param name="driver">The object which is implements the interface <see cref="ITaskDriver"/></param>
+    ''' <remarks>
+    ''' if the parameter <paramref name="sync"/> value is set to TRUE, then the given 
+    ''' task function <paramref name="driver"/> will be run in the caller thread, a
+    ''' caller thread will be blocked at this function in sync mode, this function will
+    ''' returns nothing
+    ''' 
+    ''' otherwise if the parameter <paramref name="sync"/> value is set to FASLE by default,
+    ''' then the given task function <paramref name="driver"/> will be running in a new
+    ''' thread, the new allocated thread object will be returned from this function.
+    ''' </remarks>
     <Extension>
-    Public Function DriverRun(driver As ITaskDriver) As Threading.Thread
-        Return Parallel.RunTask(AddressOf driver.Run)
+    Public Function DriverRun(driver As ITaskDriver, Optional sync As Boolean = False) As Threading.Thread
+        If sync Then
+            Call driver.Run()
+            Return Nothing
+        Else
+            Return Parallel.RunTask(
+                start:=AddressOf driver.Run,
+                taskName:=$"{driver.GetType.Name}_DriverRun_{driver.GetHashCode}"
+            )
+        End If
     End Function
-#End If
 
     ''' <summary>
     ''' Gets the element counts in the target data collection, if the collection object is nothing or empty
-    ''' then this function will returns ZERO, others returns Collection.Count.(返回一个数据集合之中的元素的数目，
-    ''' 假若这个集合是空值或者空的，则返回0，其他情况则返回Count拓展函数的结果)
+    ''' then this function will returns ZERO, others returns Collection.Count.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="collection"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <Extension> Public Function TryCount(Of T)(collection As IEnumerable(Of T)) As Integer
+    ''' <returns>this is a safe function: this function returns zero 
+    ''' if the given input <paramref name="collection"/> object is nothing
+    ''' </returns>
+    ''' <remarks>(返回一个数据集合之中的元素的数目，
+    ''' 假若这个集合是空值或者空的，则返回0，其他情况则返回Count拓展函数的结果)</remarks>
+    <Extension>
+    Public Function TryCount(Of T)(collection As IEnumerable(Of T)) As Integer
         If collection Is Nothing Then
             Return 0
         ElseIf TypeOf collection Is T() Then
             Return DirectCast(collection, T()).Length
         ElseIf collection.GetType.IsInheritsFrom(GetType(System.Collections.Generic.List(Of T))) Then
             Return DirectCast(collection, System.Collections.Generic.List(Of T)).Count
+        ElseIf collection.GetType.ImplementInterface(GetType(IList)) Then
+            Return DirectCast(collection, IList).Count
+        ElseIf collection.GetType.ImplementInterface(GetType(ICollection)) Then
+            Return DirectCast(collection, ICollection).Count
         Else
             Return Enumerable.Count(collection)
         End If
@@ -521,23 +657,23 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' Value assignment to the target variable.(将<paramref name="value"/>参数里面的值赋值给<paramref name="var"/>参数然后返回<paramref name="value"/>)
+    ''' Value assignment to the target variable.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="var"></param>
     ''' <param name="value"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>(将<paramref name="value"/>参数里面的值赋值给<paramref name="var"/>参数然后返回<paramref name="value"/>)</remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function SetValue(Of T)(ByRef var As T, value As T) As T
+    <Extension> Public Function InlineCopy(Of T)(ByRef var As T, value As T) As T
         var = value
         Return value
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function SetValue(Of T)(ByRef var As T, value As Func(Of T, T)) As T
+    Public Function InlineCopy(Of T)(ByRef var As T, value As Func(Of T, T)) As T
         var = value(arg:=var)
         Return var
     End Function
@@ -748,7 +884,7 @@ Public Module Extensions
             pre = dict(item.Key)
 
             Call dict.Remove(item.Key)
-            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".__DEBUG_ECHO
+            Call $"data was updated: {Scripting.ToString(pre)} -> {item.Key}".debug
         Else
             pre = item
         End If
@@ -853,13 +989,30 @@ Public Module Extensions
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension>
-    Public Iterator Function MatrixTranspose(Of T)(MAT As IEnumerable(Of T())) As IEnumerable(Of T())
-        Dim data = MAT.ToArray
-        Dim index = data(Scan0).Sequence.ToArray
+    Public Iterator Function MatrixTranspose(Of T)(MAT As IEnumerable(Of T()), Optional safecheck_dimension As Boolean = False) As IEnumerable(Of T())
+        Dim data As T()() = MAT.ToArray
 
-        For Each i As Integer In index
-            Yield (From line As T() In data Select line(i)).ToArray
-        Next
+        If safecheck_dimension Then
+            Dim index As Integer() = data _
+                .OrderByDescending(Function(a) a.Length) _
+                .First _
+                .Sequence _
+                .ToArray
+
+            ' maybe slower
+            For Each i As Integer In index
+                Yield (From line As T() In data Select line.ElementAtOrDefault(i)).ToArray
+            Next
+        Else
+            Dim index = data(Scan0).Sequence.ToArray
+
+            ' it is faster when no check of the matrix dimension
+            ' and also it could be index out of range error
+            ' when the first row is longer than any other rows
+            For Each i As Integer In index
+                Yield (From line As T() In data Select line(i)).ToArray
+            Next
+        End If
     End Function
 
     ''' <summary>
@@ -922,16 +1075,19 @@ Public Module Extensions
 #If FRAMEWORD_CORE Then
     ''' <summary>
     ''' The target parameter <paramref name="n"/> value is NaN or not a real number or not?
-    ''' (判断目标实数是否为一个无穷数或者非计算的数字，产生的原因主要来自于除0运算结果或者达到了
-    ''' <see cref="Double"></see>的上限或者下限)
     ''' </summary>
     ''' <param name="n"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (判断目标实数是否为一个无穷数或者非计算的数字，产生的原因主要来自于除0运算结果或者达到了
+    ''' <see cref="Double"></see>的上限或者下限)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function IsNaNImaginary(n As Double) As Boolean
+    <Extension>
+    Public Function IsNaNImaginary(n As Double) As Boolean
 #Else
-    <Extension> Public Function Is_NA_UHandle(n As Double) As Boolean
+    <Extension> 
+    Public Function IsNaNImaginary(n As Double) As Boolean
 #End If
         Return Double.IsNaN(n) OrElse
             Double.IsInfinity(n) OrElse
@@ -940,12 +1096,14 @@ Public Module Extensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function IsNaNImaginary(n As Single) As Boolean
+    <Extension>
+    Public Function IsNaNImaginary(n As Single) As Boolean
         Return Single.IsNaN(n) OrElse
             Single.IsInfinity(n) OrElse
             Single.IsNegativeInfinity(n) OrElse
             Single.IsPositiveInfinity(n)
     End Function
+
 #If FRAMEWORD_CORE Then
 
     ''' <summary>
@@ -990,7 +1148,7 @@ Public Module Extensions
                      Group x By tag = getKey(x) Into Group '
         Dim duplicates As GroupResult(Of T, TTag)() =
             LinqAPI.Exec(Of GroupResult(Of T, TTag)) <=
- _
+                                                       _
                 From g
                 In Groups.AsParallel
                 Where g.Group.Count > 1
@@ -1064,53 +1222,65 @@ Public Module Extensions
     End Function
 
     ''' <summary>
-    ''' Return a collection with randomize element position in <paramref name="source">the original collection</paramref>.
-    ''' (从原有序序列中获取一个随机元素的序列)
+    ''' Return a collection with randomize element position in 
+    ''' <paramref name="source">the original collection</paramref>.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    '''
+    ''' <remarks>
+    ''' this method can be affected by the <see cref="Math.RandomExtensions.SetSeed"/> method.
+    ''' (从原有序序列中获取一个随机元素的序列)
+    ''' </remarks>
     <ExportAPI("Shuffles")>
-    <Extension> Public Function Shuffles(Of T)(source As IEnumerable(Of T)) As T()
+    <Extension>
+    Public Function Shuffles(Of T)(source As IEnumerable(Of T)) As T()
         Dim list = source.SafeQuery.ToList
         Call Math.Shuffle(list)
         Return list.ToArray
     End Function
 
     ''' <summary>
-    ''' 返回n长度的序列数值，这些序列数值是打乱顺序的，但是升序排序之后会得到1:n的序列
-    ''' 请注意，这个序列并不是随机数，而是将n长度的序列之中的元素打乱顺序的结果
+    ''' Generates the shuffle index result
     ''' </summary>
-    ''' <param name="n"></param>
+    ''' <param name="n">the size of the index vector</param>
     ''' <returns></returns>
-    <ExportAPI("Sequence.Random")>
+    ''' <remarks>
+    ''' 1. generates a index vector in range 0:<paramref name="n"/>-1
+    ''' 2. make index shuffles
+    ''' 
+    ''' returns the shuffles result.
+    ''' 
+    ''' (返回n长度的序列数值，这些序列数值是打乱顺序的，但是升序排序之后会得到1:<paramref name="n"/>的序列
+    ''' 请注意，这个序列并不是随机数，而是将n长度的序列之中的元素打乱顺序的结果)
+    ''' </remarks>
     <Extension>
     Public Function SeqRandom(n As Integer) As Integer()
         Dim source As Integer() = n.Sequence.ToArray
-        Dim Random As Integer() = source.Shuffles
-        Return Random
+        Dim random As Integer() = source.Shuffles
+        Return random
     End Function
 
     ''' <summary>
-    ''' Convert target object type collection into a string array using the Object.ToString() interface function.
+    ''' Convert target object type collection into a string array using
+    ''' the <see cref="any.ToString(Object, String, Boolean)"/> interface
+    ''' function.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="source"></param>
-    ''' <returns></returns>
+    ''' <returns>A string array</returns>
     ''' <remarks></remarks>
     <Extension>
-    Public Function ToStringArray(Of T)(source As IEnumerable(Of T)) As String()
+    Public Function ToStringArray(Of T)(source As IEnumerable(Of T), Optional null As String = "") As String()
         If source Is Nothing Then
             Return {}
         End If
 
         Dim LQuery$() = LinqAPI.Exec(Of String) _
- _
+                                                _
             () <= From item As T
                   In source
-                  Let strItem As String = item?.ToString
+                  Let strItem As String = any.ToString(item, null:=null)
                   Select strItem
 
         Return LQuery
@@ -1170,8 +1340,6 @@ Public Module Extensions
         Call list.Insert(idx_2, obj_2)
     End Sub
 
-#If FRAMEWORD_CORE Then
-
     ''' <summary>
     ''' Add array location index value for the <see cref="IAddressOf"/> elements in the sequence.
     ''' (为列表中的对象添加对象句柄值)
@@ -1192,7 +1360,11 @@ Public Module Extensions
 
         Return list
     End Function
-#End If
+
+    <Extension>
+    Public Sub WriteLines(fs As IFileSystemEnvironment, lines As IEnumerable(Of String), file As String)
+        Call fs.WriteText(lines.JoinBy(vbLf), path:=file)
+    End Sub
 
 #If FRAMEWORD_CORE Then
     ''' <summary>
@@ -1333,6 +1505,23 @@ Public Module Extensions
         End If
     End Function
 
+    ''' <summary>
+    ''' [height, width] or [rows, columns]
+    ''' </summary>
+    ''' <param name="size"></param>
+    ''' <param name="reverse">
+    ''' [width, height] or [columns, rows]
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ToArray(size As SizeF, Optional reverse As Boolean = False) As Double()
+        If reverse Then
+            Return New Double() {size.Width, size.Height}
+        Else
+            Return New Double() {size.Height, size.Width}
+        End If
+    End Function
+
 #If FRAMEWORD_CORE Then
 
     ''' <summary>
@@ -1378,26 +1567,6 @@ Public Module Extensions
         End If
     End Function
 
-#If FRAMEWORD_CORE Then
-
-    ''' <summary>
-    ''' Fill the newly created image data with the specific color brush
-    ''' </summary>
-    ''' <param name="Image"></param>
-    ''' <param name="FilledColor"></param>
-    ''' <remarks></remarks>
-    <Extension>
-    Public Sub FillBlank(ByRef Image As Image, FilledColor As Brush)
-        If Image Is Nothing Then
-            Return
-        End If
-        Using gr As Graphics = Graphics.FromImage(Image)
-            Dim R As New Rectangle(New Point, Image.Size)
-            Call gr.FillRectangle(FilledColor, R)
-        End Using
-    End Sub
-#End If
-
     ''' <summary>
     ''' Remove all of the element in the <paramref name="collection"></paramref> from target <paramref name="List">list</paramref>
     ''' </summary>
@@ -1415,26 +1584,29 @@ Public Module Extensions
 #Region "Removes Last Element"
 
     ''' <summary>
-    ''' Removes the last element in the List object.(这个拓展函数同时兼容.NET框架的list类型以及sciBASIC之中的list类型)
+    ''' Removes the last element in the List object.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    ''' <param name="dotNETlist"></param>
+    ''' <param name="clrList"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (这个拓展函数同时兼容.NET框架的list类型以及sciBASIC之中的list类型)
+    ''' </remarks>
     <Extension>
-    Public Function RemoveLast(Of T)(ByRef dotNETlist As System.Collections.Generic.List(Of T)) As System.Collections.Generic.List(Of T)
-        If dotNETlist.IsNullOrEmpty Then
-            dotNETlist = New List(Of T)
+    Public Function RemoveLast(Of T)(ByRef clrList As System.Collections.Generic.List(Of T)) As System.Collections.Generic.List(Of T)
+        If clrList.IsNullOrEmpty Then
+            clrList = New List(Of T)
 
             ' 2018-1-25
             ' 需要将0和1分开来看，否则会造成最后一个元素永远都移除不了的bug
-        ElseIf dotNETlist.Count = 1 Then
-            dotNETlist.Clear()
+        ElseIf clrList.Count = 1 Then
+            clrList.Clear()
         Else
-            Dim i As Integer = dotNETlist.Count - 1
-            Call dotNETlist.RemoveAt(i)
+            Dim i As Integer = clrList.Count - 1
+            Call clrList.RemoveAt(i)
         End If
 
-        Return dotNETlist
+        Return clrList
     End Function
 
     ''' <summary>
@@ -1446,11 +1618,17 @@ Public Module Extensions
     ''' <returns></returns>
     <Extension>
     Public Function RemoveLast(Of T)(ByRef list As List(Of T)) As List(Of T)
-        Return DirectCast(RemoveLast(dotNETlist:=list), List(Of T))
+        Return DirectCast(RemoveLast(clrList:=list), List(Of T))
     End Function
 
 #End Region
 
+    ''' <summary>
+    ''' Removes the first element and then returns the list
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function RemoveFirst(Of T)(ByRef list As List(Of T)) As List(Of T)
         If list.IsNullOrEmpty OrElse list.Count = 1 Then

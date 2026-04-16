@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aee7c31f9a5a60e834d606e9a51c8199, core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
+﻿#Region "Microsoft.VisualBasic::f84e46f999b3f4c555fe1366b11fce6e, core\Bio.Assembly\SequenceModel\Patterns\Clustal\SRChain.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 29 (82.86%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (17.14%)
+    '     File Size: 1.21 KB
+
+
     '     Class SRChain
     ' 
     '         Properties: Hits, IsEmpty, lstSR, Name
@@ -42,20 +54,19 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Xml.Serialization
-Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace SequenceModel.Patterns.Clustal
 
-    Public Class SRChain
+    Public Class SRChain : Implements IsEmpty
 
         <XmlElement> Public Property lstSR As SR()
         <XmlAttribute>
         Public Property Name As String
 
-        Public ReadOnly Property IsEmpty As Boolean
+        Public ReadOnly Property IsEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Dim l As Integer = (From x As SR In lstSR
                                     Where x.Residue = "-"c

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2621b0c08d6f9ada9089b9a3d0597866, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
+﻿#Region "Microsoft.VisualBasic::ac2e841ccc9f8549077a88d32306770b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ORIGIN.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 145
+    '    Code Lines: 80 (55.17%)
+    ' Comment Lines: 44 (30.34%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 21 (14.48%)
+    '     File Size: 5.56 KB
+
+
     '     Class ORIGIN
     ' 
-    '         Properties: GCSkew, Headers, SequenceData, Size, Title
+    '         Properties: GCSkew, Headers, SequenceData, Size, title
     ' 
     '         Function: GetEnumerator, GetEnumerator1, GetFeatureSegment, ToFasta, ToString
     ' 
@@ -44,12 +56,11 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -133,7 +144,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
             Next
 
             Dim trimChars As Char() = LinqAPI.Exec(Of Char) _
- _
+                                                            _
                 () <= From b As Char In sb.ToString
                       Where b <> " "c
                       Select b
@@ -152,25 +163,30 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         End Operator
 
         ''' <summary>
-        ''' Returns the whole genome sequence which was records in this GenBank database file.
-        ''' (返回记录在本Genbank数据库文件之中的全基因组核酸序列)
+        ''' Returns the whole genome sequence which was records in this GenBank database file. 
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (返回记录在本Genbank数据库文件之中的全基因组核酸序列)
+        ''' </remarks>
         Public Function ToFasta() As FastaSeq
-            Dim attrs As String() = {Title & " " & Len(SequenceData) & "bp"}
+            Dim id As String = gb.Accession.AccessionId
+            Dim size As Integer = Strings.Len(SequenceData)
+            ' ncbi sequence standard headers
+            ' accession_id title
+            Dim attrs As String() = {id & " " & title & " " & If(size < 1024, size & "bp", StringFormats.Lanudry(size))}
             Dim seq$ = SequenceData.ToUpper
 
             Return New FastaSeq(attrs, seq)
         End Function
 
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+        Public ReadOnly Property title As String Implements IAbstractFastaToken.title
             Get
-                Return MyBase.gb.Definition.Value
+                Return gb.Definition.Value
             End Get
         End Property
 
-        Public Property Headers As String() Implements IAbstractFastaToken.Headers
+        Public Property Headers As String() Implements IAbstractFastaToken.headers
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Char) Implements IEnumerable(Of Char).GetEnumerator
             For Each ch As Char In SequenceData

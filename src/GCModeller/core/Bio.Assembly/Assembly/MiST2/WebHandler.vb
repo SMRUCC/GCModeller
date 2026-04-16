@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::719ae4922abc16d89884092b26aceebb, core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
+﻿#Region "Microsoft.VisualBasic::1fc7e00761978f3e405dda25384838d5, core\Bio.Assembly\Assembly\MiST2\WebHandler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 100 (63.29%)
+    ' Comment Lines: 18 (11.39%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 40 (25.32%)
+    '     File Size: 7.76 KB
+
 
     '     Module WebServices
     ' 
@@ -139,7 +151,7 @@ Namespace Assembly.MiST2
             Dim pageContent As String = url.GET, proteinCounts As String = GetProteinCounts(pageContent)
             Dim matchs = (From item As Match In Regex.Matches(pageContent, CONTENT_RECORD, RegexOptions.Singleline + RegexOptions.IgnoreCase) Select item.Value).ToArray
 
-            Call $"[MiST2 web_request handler] Loading data from {proteinCounts}...".__DEBUG_ECHO
+            Call $"[MiST2 web_request handler] Loading data from {proteinCounts}...".debug
 
             Dim proteinArray As List(Of Transducin) = (From strItem As String In matchs Select Match(strItem)).AsList
 

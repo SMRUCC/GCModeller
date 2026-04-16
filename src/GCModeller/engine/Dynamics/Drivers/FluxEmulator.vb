@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::340e30587615f319cf66eb28f1c619dd, engine\Dynamics\Drivers\FluxEmulator.vb"
+﻿#Region "Microsoft.VisualBasic::2af20a4eea4893b764c1aa0abe844c7c, engine\Dynamics\Drivers\FluxEmulator.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 107 (74.83%)
+    ' Comment Lines: 10 (6.99%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 26 (18.18%)
+    '     File Size: 5.59 KB
+
+
     '     Class FluxEmulator
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: AttatchFluxDriver, AttatchMassDriver, getCore, getMass, Run
+    '         Function: AttachRegulationDriver, AttatchFluxDriver, AttatchMassDriver, getCore, getMass
+    '                   Run
     ' 
     '         Sub: loopInternal
     ' 
@@ -45,14 +58,20 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+Imports std = System.Math
 
 Namespace Engine
 
+    ''' <summary>
+    ''' a container of <see cref="Vessel"/> as simulation core.
+    ''' </summary>
     Public Class FluxEmulator : Implements ITaskDriver
 
         ''' <summary>
@@ -65,11 +84,15 @@ Namespace Engine
 
         Dim massSnapshotDriver As SnapshotDriver
         Dim fluxSnapshotDriver As SnapshotDriver
+        Dim forwardSnapshot As SnapshotDriver
+        Dim reverseSnapshot As SnapshotDriver
 
         Sub New(Optional core As Vessel = Nothing,
                 Optional maxTime As Integer = 50,
                 Optional resolution As Integer = 10000,
-                Optional showProgress As Boolean = True)
+                Optional showProgress As Boolean = True,
+                Optional n_threads As Integer = 8,
+                Optional debug As Boolean = False)
 
             Me.showProgress = showProgress
             Me.maxTime = maxTime
@@ -78,7 +101,7 @@ Namespace Engine
             If Not core Is Nothing Then
                 Me.core = core
             Else
-                Me.core = New Vessel
+                Me.core = New Vessel(n_threads, is_debug:=debug)
             End If
         End Sub
 
@@ -89,6 +112,12 @@ Namespace Engine
 
         Public Function AttatchFluxDriver(driver As SnapshotDriver) As FluxEmulator
             fluxSnapshotDriver = driver
+            Return Me
+        End Function
+
+        Public Function AttachRegulationDriver(forward As SnapshotDriver, reverse As SnapshotDriver) As FluxEmulator
+            forwardSnapshot = forward
+            reverseSnapshot = reverse
             Return Me
         End Function
 
@@ -103,49 +132,70 @@ Namespace Engine
         End Function
 
         Public Overridable Function Run() As Integer Implements ITaskDriver.Run
-            Dim tick As Action(Of Integer)
-            Dim process As ProgressBar = Nothing
-            Dim progress As ProgressProvider = Nothing
+            Dim tick As RunSlavePipeline.SetProgressEventHandler
+            Dim process As Tqdm.ProgressBar = Nothing
 
-            If showProgress Then
-                process = New ProgressBar("Running simulator...")
-                progress = New ProgressProvider(process, resolution)
-
-                tick = Sub(i)
-                           Call ($"iteration: {i + 1}; ETA: {progress.ETA().FormatTime}") _
-                               .DoCall(Sub(msg)
-                                           Call process.SetProgress(progress.StepProgress, msg)
-                                       End Sub)
-                       End Sub
+            If showProgress AndAlso App.EnableTqdm Then
+                process = New Tqdm.ProgressBar(total:=resolution, useColor:=True)
+                tick = AddressOf process.Progress
             Else
-                tick = Sub()
-                           ' do nothing
+                ' i is the current iteration number
+                tick = Sub(i, message)
+                           Call $"{(i / resolution * 100).ToString("F2")}% {message}".info
                        End Sub
             End If
 
             Call loopInternal(tick)
 
             If Not process Is Nothing Then
-                Call process.Dispose()
+                Call process.Finish()
             End If
+
+            Call "run experiment finished!".info
 
             Return 0
         End Function
 
-        Protected Overridable Sub loopInternal(tick As Action(Of Integer))
+        Protected Overridable Sub loopInternal(tick As RunSlavePipeline.SetProgressEventHandler)
             Dim engine As SolverIterator = core.ContainerIterator(maxTime, resolution)
             Dim flux As New FluxAggregater(core)
             Dim iterations As Integer = resolution
+            Dim summary As New StringBuilder
+            Dim fluxNames As Dictionary(Of String, String) = flux.GetFluxNames
 
             For i As Integer = 0 To iterations - 1
                 ' run internal engine iteration
                 Call engine.Tick()
 
+                ' clip mass values, keeps positive
+                For Each factor As Factor In core.m_massIndex.Values
+                    If factor.Value < 0 Then
+                        Call factor.reset(0)
+                    End If
+                Next
+
+                Dim fluxData As Dictionary(Of String, Double) = flux.getFlux
+                Dim abs As Double() = fluxData.Values _
+                    .Select(Function(xi) std.Abs(xi)) _
+                    .ToArray
+                Dim max As Integer = which.Max(abs)
+                Dim maxKey As String = fluxData.Keys(which.Max(abs))
+
                 ' and then populate result data snapshot
                 Call massSnapshotDriver(i, core.getMassValues)
-                Call fluxSnapshotDriver(i, flux.getFlux)
+                Call fluxSnapshotDriver(i, fluxData)
 
-                Call tick(i)
+                summary.Clear()
+                summary.AppendFormat("total_loads: {0} ", abs.Sum.ToString("F3"))
+                summary.AppendFormat("mean_loads: {0} ", abs.Average.ToString("F3"))
+                summary.AppendFormat("max_loads_flux: {0}={1}", If(fluxNames.TryGetValue(maxKey), maxKey), fluxData(maxKey).ToString("F4"))
+
+                With flux.getRegulations
+                    Call forwardSnapshot(i, .forward)
+                    Call reverseSnapshot(i, .reverse)
+                End With
+
+                Call tick(i, summary.ToString)
             Next
         End Sub
     End Class

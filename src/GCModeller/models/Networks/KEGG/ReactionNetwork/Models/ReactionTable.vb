@@ -1,60 +1,72 @@
-﻿#Region "Microsoft.VisualBasic::8e04fec25da1ece5e7bb38eb9fc2d667, models\Networks\KEGG\ReactionNetwork\Models\ReactionTable.vb"
+﻿#Region "Microsoft.VisualBasic::2f361e2a48b59d5914d7abe2426a3209, models\Networks\KEGG\ReactionNetwork\Models\ReactionTable.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class ReactionTable
-' 
-'         Properties: definition, EC, entry, geneNames, KO
-'                     name, products, substrates
-' 
-'         Function: creates, (+2 Overloads) Load, loadXmls, ToString
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 112 (58.95%)
+    ' Comment Lines: 58 (30.53%)
+    '    - Xml Docs: 70.69%
+    ' 
+    '   Blank Lines: 20 (10.53%)
+    '     File Size: 7.75 KB
+
+
+    '     Class ReactionTable
+    ' 
+    '         Properties: definition, EC, entry, geneNames, KO
+    '                     name, products, substrates
+    ' 
+    '         Function: creates, (+2 Overloads) Load, LoadFolder, LoadXmls, MatchAllCompoundsId
+    '                   ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.Data
 
 Namespace ReactionNetwork
 
@@ -106,28 +118,40 @@ Namespace ReactionNetwork
         End Function
 
         ''' <summary>
-        ''' load network table data in auto detection mode 
+        ''' does current reaction model matches with the given 
+        ''' compound id set with any <see cref="substrates"/> 
+        ''' hits or <see cref="products"/> hits?
         ''' </summary>
-        ''' <param name="br08201">
-        ''' <see cref="Reaction"/>
-        ''' </param>
+        ''' <param name="targetSet"></param>
         ''' <returns></returns>
-        Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
-            If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
-                Return br08201.LoadCsv(Of ReactionTable)
-            Else
-                Return br08201.DoCall(AddressOf loadXmls)
-            End If
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function MatchAllCompoundsId(targetSet As Index(Of String)) As Boolean
+            Return substrates.All(Function(cid) targetSet.IndexOf(cid) > -1) AndAlso products.All(Function(cid) targetSet.IndexOf(cid) > -1)
         End Function
 
-        Private Shared Iterator Function loadXmls(br08201 As String) As IEnumerable(Of ReactionTable)
+        '''' <summary>
+        '''' load network table data in auto detection mode 
+        '''' </summary>
+        '''' <param name="br08201">
+        '''' <see cref="Reaction"/>
+        '''' </param>
+        '''' <returns></returns>
+        'Public Shared Function Load(br08201 As String) As IEnumerable(Of ReactionTable)
+        '    If br08201.FileExists AndAlso br08201.ExtensionSuffix("csv") Then
+        '        Return br08201.LoadCsv(Of ReactionTable)
+        '    Else
+        '        Return br08201.DoCall(AddressOf loadXmls)
+        '    End If
+        'End Function
+
+        Public Shared Iterator Function LoadXmls(br08201 As String) As IEnumerable(Of ReactionTable)
             Dim proc As New SwayBar
             Dim model As ReactionTable = Nothing
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
 
             For Each file As String In (ls - l - r - {"*.XML", "*.xml"} <= br08201)
                 Try
-                    model = Reaction _
+                    model = DBGET.bGetObject.Reaction _
                         .LoadXml(handle:=file) _
                         .DoCall(Function(r)
                                     Return creates(r, KOnames)
@@ -145,9 +169,24 @@ Namespace ReactionNetwork
             Next
         End Function
 
-        Public Shared Function Load(repo As IEnumerable(Of Reaction)) As IEnumerable(Of ReactionTable)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function LoadFolder(dir As String) As IEnumerable(Of ReactionTable)
+            Return Load((ls - l - r - {"*.xml", "*.XML"} <= dir).Select(AddressOf DBGET.bGetObject.Reaction.LoadXml))
+        End Function
+
+        ''' <summary>
+        ''' convert from reaction model to current reaction table model
+        ''' </summary>
+        ''' <param name="repo"></param>
+        ''' <returns></returns>
+        Public Shared Function Load(repo As IEnumerable(Of DBGET.bGetObject.Reaction)) As IEnumerable(Of ReactionTable)
             Dim KOnames As Dictionary(Of String, BriteHText) = DefaultKOTable()
-            Dim table = repo.Select(Function(r) creates(r, KOnames))
+            Dim table = repo _
+                .Where(Function(r) Not r.ID.StringEmpty) _
+                .Where(Function(r) Not r.Equation.StringEmpty) _
+                .Select(Function(r)
+                            Return creates(r, KOnames)
+                        End Function)
 
             Return table
         End Function
@@ -159,10 +198,11 @@ Namespace ReactionNetwork
             Return table
         End Function
 
-        Private Shared Function creates(xml As Reaction, KOnames As Dictionary(Of String, BriteHText)) As ReactionTable
+        Private Shared Function creates(xml As DBGET.bGetObject.Reaction, KOnames As Dictionary(Of String, BriteHText)) As ReactionTable
             Dim eq As DefaultTypes.Equation = xml.ReactionModel
             Dim rxnName$ = xml.CommonNames.SafeQuery.FirstOrDefault Or xml.Definition.AsDefault
             Dim KOlist$() = xml.Orthology?.Terms.SafeQuery.Keys
+            Dim enzymes = xml.Enzyme
             Dim geneNames As String() = KOlist _
                 .Select(Function(id)
                             If KOnames.ContainsKey(id) Then
@@ -175,17 +215,23 @@ Namespace ReactionNetwork
                         End Function) _
                 .ToArray
 
+            If Not enzymes Is Nothing Then
+                enzymes = enzymes _
+                    .Where(Function(str) Not str.StringEmpty) _
+                    .ToArray
+            End If
+
             If geneNames.IsNullOrEmpty Then
-                If xml.Enzyme.IsNullOrEmpty Then
+                If enzymes.IsNullOrEmpty Then
                     geneNames = {xml.ID}
                 Else
-                    geneNames = {$"{xml.ID} [{xml.Enzyme.JoinBy(", ")}]"}
+                    geneNames = {$"{xml.ID} [{enzymes.JoinBy(", ")}]"}
                 End If
             End If
 
             Return New ReactionTable With {
                 .definition = xml.Definition,
-                .EC = xml.Enzyme,
+                .EC = enzymes,
                 .entry = xml.ID,
                 .name = rxnName,
                 .products = eq.Products _

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d6c752f4b496aa2afd2493c3ee7ab95, Data_science\DataMining\DynamicProgramming\SmithWaterman\Match.vb"
+﻿#Region "Microsoft.VisualBasic::0a942b2149a4c264329a55853954876c, Data_science\DataMining\DynamicProgramming\SmithWaterman\Match.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 53 (54.08%)
+    ' Comment Lines: 30 (30.61%)
+    '    - Xml Docs: 96.67%
+    ' 
+    '   Blank Lines: 15 (15.31%)
+    '     File Size: 3.13 KB
+
+
     '     Class Match
     ' 
     '         Properties: fromA, fromB, score, toA, toB
     ' 
     '         Constructor: (+3 Overloads) Sub New
     '         Function: isChainable, notOverlap, ToString
-    '         Operators: -
+    '         Operators: -, /
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,7 +62,7 @@ Imports System.Xml.Serialization
 Namespace SmithWaterman
 
     ''' <summary>
-    '''  Match class defintion
+    ''' the smith-waterman HSP match class defintion
     ''' </summary>
     Public Class Match
 
@@ -121,7 +133,7 @@ Namespace SmithWaterman
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"[query: {{{fromA}, {toA}}}, ref: {{{fromB}, {toB}}}], score:={score}"
+            Return $"[query: {{{fromA}, {toA}; len:{toA - fromA}}}, ref: {{{fromB}, {toB}; len:{toB - fromB}}}], score={score}"
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -132,6 +144,12 @@ Namespace SmithWaterman
                 .score = match.score,
                 .toA = match.toA - offset,
                 .toB = match.toB - offset
+            }
+        End Operator
+
+        Public Shared Operator /(match As Match, norm As Double) As Match
+            Return New Match(match) With {
+                .score = match.score / norm
             }
         End Operator
     End Class

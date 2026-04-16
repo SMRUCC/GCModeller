@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7c4e148d5e4a00de157241829ecdfa6, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
+﻿#Region "Microsoft.VisualBasic::22356d0dd314d10e224d57ae0777ce1e, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BestHit.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 82 (71.93%)
+    ' Comment Lines: 20 (17.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (10.53%)
+    '     File Size: 4.93 KB
+
+
     '     Class BestHit
     ' 
-    '         Properties: coverage, description, evalue, hit_length, identities
-    '                     length_hit, length_hsp, length_query, positive, query_length
-    '                     SBHScore, score
+    '         Properties: coverage, evalue, hit_length, identities, length_hit
+    '                     length_hsp, length_query, positive, query_length, SBHScore
+    '                     score
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: FindByQueryName, IsMatchedBesthit, IsNullOrEmpty, ToString
     ' 
     ' 
@@ -44,9 +57,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
@@ -62,6 +76,10 @@ Namespace LocalBLAST.Application.BBH
 
         <Column("query_length")> Public Property query_length As Integer
         <Column("hit_length")> Public Property hit_length As Integer
+        ''' <summary>
+        ''' usually be the blast raw bit score
+        ''' </summary>
+        ''' <returns></returns>
         <Column("score")> Public Property score As Double
         <Column("e-value")> Public Property evalue As Double
         <Column("identities")> Public Property identities As Double Implements IQueryHits.identities
@@ -69,12 +87,6 @@ Namespace LocalBLAST.Application.BBH
         <Column("length_hit")> Public Property length_hit As Integer
         <Column("length_query")> Public Property length_query As Integer
         <Column("length_hsp")> Public Property length_hsp As Integer
-
-        ''' <summary>
-        ''' The functional description of <see cref="HitName"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property description As String
 
         ''' <summary>
         ''' 这个覆盖度是相对于query作为未知功能的全长protein序列而言的。
@@ -89,12 +101,32 @@ Namespace LocalBLAST.Application.BBH
 
         Public ReadOnly Property SBHScore As Double
             Get
-                Return BBHParser.SBHScore(Me)
+                Return identities * coverage
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(copy As BestHit)
+            With copy
+                Me.QueryName = .QueryName
+                Me.HitName = .HitName
+                Me.description = .description
+                Me.query_length = .query_length
+                Me.hit_length = .hit_length
+                Me.score = .score
+                Me.evalue = .evalue
+                Me.identities = .identities
+                Me.positive = .positive
+                Me.length_hit = .length_hit
+                Me.length_query = .length_query
+                Me.length_hsp = .length_hsp
+            End With
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return String.Format("{0} --> {1}; E-value:={2}", QueryName, HitName, evalue)
+            Return String.Format("{0} vs. {1}; E-value:={2}", QueryName, HitName, evalue)
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::219844aa92422a1346ae9a7d55782134, Data\BinaryData\BinaryData\Bzip2\Math\HuffmanAllocator.vb"
+﻿#Region "Microsoft.VisualBasic::95302308c59f36fc428044bd6dd3b8d5, Data\BinaryData\BinaryData\Bzip2\Math\HuffmanAllocator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 123 (62.12%)
+    ' Comment Lines: 43 (21.72%)
+    '    - Xml Docs: 23.26%
+    ' 
+    '   Blank Lines: 32 (16.16%)
+    '     File Size: 8.09 KB
+
+
     '     Module HuffmanAllocator
     ' 
     '         Function: FindNodesToRelocate, First, SignificantBits
@@ -47,7 +59,7 @@
 ' Location: http://github.com/jaime-olivares/bzip2
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Bzip2.Math
     ''' <summary>An in-place, length restricted Canonical Huffman code length allocator</summary>
@@ -104,7 +116,7 @@ Namespace Bzip2.Math
                 i -= limit - i + 1
             End While
 
-            i = stdNum.Max(nodesToMove - 1, i)
+            i = std.Max(nodesToMove - 1, i)
 
             While k > i + 1
                 Dim temp = i + k >> 1
@@ -133,16 +145,16 @@ Namespace Bzip2.Math
 
                 If topNode >= length OrElse array(headNode) < array(topNode) Then
                     temp = array(headNode)
-                    array(stdNum.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode
+                    array(std.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode
                 Else
-                    temp = array(stdNum.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
+                    temp = array(std.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
                 End If
 
                 If topNode >= length OrElse headNode < tailNode AndAlso array(headNode) < array(topNode) Then
                     temp += array(headNode)
-                    array(stdNum.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode + length
+                    array(std.Min(Threading.Interlocked.Increment(headNode), headNode - 1)) = tailNode + length
                 Else
-                    temp += array(stdNum.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
+                    temp += array(std.Min(Threading.Interlocked.Increment(topNode), topNode - 1))
                 End If
 
                 array(tailNode) = temp
@@ -182,7 +194,7 @@ Namespace Bzip2.Math
                 firstNode = First(array, lastNode - 1, 0)
 
                 For i = availableNodes - (lastNode - firstNode) To 0 + 1 Step -1
-                    array(stdNum.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
+                    array(std.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
                 Next
 
                 availableNodes = lastNode - firstNode << 1
@@ -210,14 +222,14 @@ Namespace Bzip2.Math
                 Dim offset = 0
 
                 If currentDepth >= insertDepth Then
-                    offset = stdNum.Min(nodesLeftToMove, 1 << currentDepth - insertDepth)
+                    offset = std.Min(nodesLeftToMove, 1 << currentDepth - insertDepth)
                 ElseIf currentDepth = insertDepth - 1 Then
                     offset = 1
                     If array(firstNode) = lastNode Then firstNode += 1
                 End If
 
                 For i = availableNodes - (lastNode - firstNode + offset) To 0 + 1 Step -1
-                    array(stdNum.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
+                    array(std.Max(Threading.Interlocked.Decrement(nextNode), nextNode + 1)) = currentDepth
                 Next
 
                 nodesLeftToMove -= offset

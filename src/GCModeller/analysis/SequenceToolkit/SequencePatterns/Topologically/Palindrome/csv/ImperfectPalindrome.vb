@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 26 (36.11%)
+    ' Comment Lines: 39 (54.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (9.72%)
+    '     File Size: 2.42 KB
+
+
     '     Class ImperfectPalindrome
     ' 
     '         Properties: Data, Distance, Evolr, Left, Matches

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f75a764ec0a48cb760f4265a35dcc7b8, data\SABIO-RK\Dumps\LocalParameterParser.vb"
+﻿#Region "Microsoft.VisualBasic::71348734118cfa5105fe40be79b7980d, data\SABIO-RK\Dumps\LocalParameterParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 61 (53.04%)
+    ' Comment Lines: 42 (36.52%)
+    '    - Xml Docs: 9.52%
+    ' 
+    '   Blank Lines: 12 (10.43%)
+    '     File Size: 6.21 KB
+
+
     '     Module LocalParameterParser
     ' 
     '         Function: GetEnzymeId, (+2 Overloads) TryParseEnzymeCatalyst, (+2 Overloads) TryParseModifierKinetic
@@ -42,7 +54,6 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.MetaCyc
 Imports SMRUCC.genomics.Data.SABIORK.TabularDump
 
 Namespace SBML
@@ -93,6 +104,7 @@ Namespace SBML
             '    .KEGGCompoundId = GetIdentifier(CatalystSubstrate.Identifiers, "kegg.compound")
             '}
             'Return KineticLaw
+            Throw New NotImplementedException
         End Function
 
         Const ENZYME_ID As String = "^ENZ_.+?"
@@ -151,6 +163,7 @@ Namespace SBML
             '    .KEGGCompoundId = GetIdentifier(Modifier.Identifiers, "kegg.compound")
             '}
             'Return KineticsData
+            Throw New NotImplementedException
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7ec5eb6d39c143de4bbc08c13518e6e, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Diamond.vb"
+﻿#Region "Microsoft.VisualBasic::2e43b11c965e71acee024d2aefaa0ce2, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Diamond.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 29 (80.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (19.44%)
+    '     File Size: 1.27 KB
+
+
     '     Class Diamond
     ' 
     '         Sub: Draw
@@ -43,6 +55,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
@@ -59,6 +72,7 @@ Namespace Drawing2D.Shapes
             Dim c As New Point(a.X, topLeft.Y + size.Height)
             Dim d As New Point(topLeft.X, b.Y)
             Dim diamond As New GraphicsPath
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             diamond.AddLine(a, b)
             diamond.AddLine(b, c)
@@ -69,7 +83,7 @@ Namespace Drawing2D.Shapes
             Call g.FillPath(br Or BlackBrush, diamond)
 
             If Not border Is Nothing Then
-                Call g.DrawPath(border.GDIObject, diamond)
+                Call g.DrawPath(css.GetPen(border), diamond)
             End If
         End Sub
     End Class

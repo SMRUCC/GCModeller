@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e28c153b9b5ec6e9790abf15ee49ae7, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
+﻿#Region "Microsoft.VisualBasic::8a2cada3a73d2a7de8c94b96b5a4885d, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 119 (74.38%)
+    ' Comment Lines: 19 (11.88%)
+    '    - Xml Docs: 78.95%
+    ' 
+    '   Blank Lines: 22 (13.75%)
+    '     File Size: 6.41 KB
+
+
     '     Module PatternParser
     ' 
     '         Function: ExpressionParser, GetExpressions, SimpleTokens, TokenIcer
@@ -40,15 +52,11 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
 Imports System.Text
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.TokenIcer
 
 Namespace Motif.Patterns
 

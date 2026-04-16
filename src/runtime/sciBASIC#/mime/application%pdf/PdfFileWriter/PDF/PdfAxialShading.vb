@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33fd1180e5a4d978ca0883154f14745e, mime\application%pdf\PdfFileWriter\PDF\PdfAxialShading.vb"
+﻿#Region "Microsoft.VisualBasic::dc3562eeccd02b69f63f0414dae86959, mime\application%pdf\PdfFileWriter\PDF\PdfAxialShading.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
-    '     Enum MappingMode
+
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 77 (38.89%)
+    ' Comment Lines: 91 (45.96%)
+    '    - Xml Docs: 58.24%
     ' 
-    '         Absolute, Relative
+    '   Blank Lines: 30 (15.15%)
+    '     File Size: 7.27 KB
+
+
+    ' Enum MappingMode
+    ' 
+    '     Absolute, Relative
     ' 
     '  
     ' 
@@ -41,14 +53,14 @@
     ' 
     '     Class PdfAxialShading
     ' 
-    '         Constructor: (+3 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     '         Sub: AntiAlias, ExtendShading, SetAxisDirection, SetBoundingBox, WriteObjectToPdfFile
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -71,15 +83,12 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
-Imports SysMedia = System.Windows.Media
-
-
-    ''' <summary>
-    ''' Mapping mode for axial and radial shading
-    ''' </summary>
-    Public Enum MappingMode
+''' <summary>
+''' Mapping mode for axial and radial shading
+''' </summary>
+Public Enum MappingMode
         ''' <summary>
         ''' Relative to bounding box
         ''' </summary>
@@ -90,14 +99,14 @@ Imports SysMedia = System.Windows.Media
         Absolute
     End Enum
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF axial shading resource class
     ''' </summary>
     ''' <remarks>
     ''' Derived class from PdfObject
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Class PdfAxialShading
         Inherits PdfObject
 
@@ -113,7 +122,7 @@ Imports SysMedia = System.Windows.Media
         Private ExtendShadingBefore As Boolean = True
         Private ExtendShadingAfter As Boolean = True
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' PDF axial shading constructor.
         ''' </summary>
@@ -123,8 +132,8 @@ Imports SysMedia = System.Windows.Media
         ''' <param name="BBoxWidth">Bounding box width</param>
         ''' <param name="BBoxHeight">Bounding box height</param>
         ''' <param name="ShadingFunction">Shading function</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        Public Sub New(ByVal Document As PdfDocument, ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double, ByVal ShadingFunction As PdfShadingFunction)
+        
+        Public Sub New(Document As PdfDocument, BBoxLeft As Double, BBoxBottom As Double, BBoxWidth As Double, BBoxHeight As Double, ShadingFunction As PdfShadingFunction)
             MyBase.New(Document)
             ' create resource code
             ResourceCode = Document.GenerateResourceNumber("S"c)
@@ -158,29 +167,18 @@ Imports SysMedia = System.Windows.Media
         ''' </summary>
         ''' <param name="Document">Parent PDF document object</param>
         ''' <param name="ShadingFunction">Shading function</param>
-        Public Sub New(ByVal Document As PdfDocument, ByVal ShadingFunction As PdfShadingFunction)
+        Public Sub New(Document As PdfDocument, ShadingFunction As PdfShadingFunction)
             Me.New(Document, 0.0, 0.0, 1.0, 1.0, ShadingFunction)
         End Sub
 
-        ''' <summary>
-        ''' PDF axial shading constructor for unit bounding box
-        ''' </summary>
-        ''' <param name="Document">Parent PDF document object</param>
-        ''' <param name="MediaBrush">System.Windows.Media brush</param>
-        Public Sub New(ByVal Document As PdfDocument, ByVal MediaBrush As SysMedia.LinearGradientBrush)
-            Me.New(Document, 0.0, 0.0, 1.0, 1.0, New PdfShadingFunction(Document, MediaBrush))
-            SetAxisDirection(MediaBrush.StartPoint.X, MediaBrush.StartPoint.Y, MediaBrush.EndPoint.X, MediaBrush.EndPoint.Y, If(MediaBrush.MappingMode = SysMedia.BrushMappingMode.RelativeToBoundingBox, MappingMode.Relative, MappingMode.Absolute))
-            Return
-        End Sub
-
-        ''' <summary>
-        ''' Set bounding box
-        ''' </summary>
-        ''' <param name="BBoxLeft">Bounding box left</param>
-        ''' <param name="BBoxBottom">Bounding box bottom</param>
-        ''' <param name="BBoxWidth">Bounding box width</param>
-        ''' <param name="BBoxHeight">Bounding box height</param>
-        Public Sub SetBoundingBox(ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double)
+    ''' <summary>
+    ''' Set bounding box
+    ''' </summary>
+    ''' <param name="BBoxLeft">Bounding box left</param>
+    ''' <param name="BBoxBottom">Bounding box bottom</param>
+    ''' <param name="BBoxWidth">Bounding box width</param>
+    ''' <param name="BBoxHeight">Bounding box height</param>
+    Public Sub SetBoundingBox(BBoxLeft As Double, BBoxBottom As Double, BBoxWidth As Double, BBoxHeight As Double)
             ' bounding box
             Me.BBoxLeft = BBoxLeft
             Me.BBoxBottom = BBoxBottom
@@ -197,7 +195,7 @@ Imports SysMedia = System.Windows.Media
         ''' <param name="EndPointX">End point x</param>
         ''' <param name="EndPointY">End point y</param>
         ''' <param name="Mapping">Mapping mode (Relative or Absolute)</param>
-        Public Sub SetAxisDirection(ByVal StartPointX As Double, ByVal StartPointY As Double, ByVal EndPointX As Double, ByVal EndPointY As Double, ByVal Mapping As MappingMode)
+        Public Sub SetAxisDirection(StartPointX As Double, StartPointY As Double, EndPointX As Double, EndPointY As Double, Mapping As MappingMode)
             Me.StartPointX = StartPointX
             Me.StartPointY = StartPointY
             Me.EndPointX = EndPointX
@@ -206,33 +204,33 @@ Imports SysMedia = System.Windows.Media
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Sets anti-alias parameter
         ''' </summary>
         ''' <param name="Value">Anti-alias true or false</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        Public Sub AntiAlias(ByVal Value As Boolean)
+        
+        Public Sub AntiAlias(Value As Boolean)
             Dictionary.AddBoolean("/AntiAlias", Value)
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Extend shading beyond axis
         ''' </summary>
         ''' <param name="Before">Before (true or false)</param>
         ''' <param name="After">After (true or false)</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        Public Sub ExtendShading(ByVal Before As Boolean, ByVal After As Boolean)
+        
+        Public Sub ExtendShading(Before As Boolean, After As Boolean)
             ExtendShadingBefore = Before
             ExtendShadingAfter = After
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ' Write object to PDF file
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
 
         Friend Overrides Sub WriteObjectToPdfFile()
             ' bounding box

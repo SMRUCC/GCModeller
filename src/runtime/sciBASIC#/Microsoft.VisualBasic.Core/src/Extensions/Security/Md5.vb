@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd5c412d48d81d80edb1e1ec3676e41a, Microsoft.VisualBasic.Core\src\Extensions\Security\Md5.vb"
+﻿#Region "Microsoft.VisualBasic::e2d88ce62e925cab752f60de5b949155, Microsoft.VisualBasic.Core\src\Extensions\Security\Md5.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 327
+    '    Code Lines: 171 (52.29%)
+    ' Comment Lines: 118 (36.09%)
+    '    - Xml Docs: 85.59%
+    ' 
+    '   Blank Lines: 38 (11.62%)
+    '     File Size: 13.17 KB
+
+
     '     Module MD5Hash
     ' 
     '         Function: Fletcher32, GetFileMd5, (+2 Overloads) GetHashCode, (+2 Overloads) GetMd5Hash, GetMd5Hash2
-    '                   NewUid, SaltValue, Sha256ByteString, StringToByteArray, (+2 Overloads) ToLong
-    '                   VerifyFile, VerifyMd5Hash
+    '                   GetSha1Hash, NewUid, SaltValue, Sha256ByteString, StringToByteArray
+    '                   (+2 Overloads) ToLong, VerifyFile, VerifyMd5Hash
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,12 +65,15 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 
 Namespace SecurityString
 
-    <Package("Md5Hash", Publisher:="Microsoft Corp.", Description:="Represents the abstract class from which all implementations of the System.Security.Cryptography.MD5 hash algorithm inherit.")>
+    ''' <summary>
+    ''' Represents the abstract class from which all implementations of 
+    ''' the System.Security.Cryptography.MD5 hash algorithm inherit.
+    ''' </summary>
     Public Module MD5Hash
 
         <ExportAPI("Uid")>
         Public Function NewUid() As String
-            Dim input As String = Guid.NewGuid.ToString & Now.ToString
+            Dim input As String = Guid.NewGuid.ToString & DateTime.UtcNow.ToString
             Return GetMd5Hash(input)
         End Function
 
@@ -68,7 +83,9 @@ Namespace SecurityString
         ''' Calculate md5 hash value for the input string.
         ''' </summary>
         ''' <param name="input"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function may returns empty hashcode string if the given <paramref name="input"/> string is empty.
+        ''' </returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Md5")>
@@ -132,16 +149,32 @@ Namespace SecurityString
         ''' in Java wrong). 
         ''' Essentially, though, you'll want to do something like this:
         '''
+        ''' ```
         ''' Long a = md5[0] * 256 * md5[1] + 256 * 256 * md5[2] + 256 * 256 * 256 * md5[3];
         ''' Long b = md5[4] * 256 * md5[5] + 256 * 256 * md5[6] + 256 * 256 * 256 * md5[7];
         ''' Long result = a ^ b;
+        ''' ```
         ''' 
         ''' Note I have made no attempt To deal With endianness. If you just care about a consistent hash value, 
         ''' though, endianness should Not matter.
         ''' </remarks>
-        <ExportAPI("As.Long")> <Extension>
+        <ExportAPI("As.Long")>
+        <Extension>
         Public Function ToLong(bytes As Byte()) As Long
-            Dim md5 As Long() = bytes.Select(Function(x) CLng(x)).ToArray
+            Dim md5 As Long()
+
+            If bytes.Length = 32 Then
+                md5 = (From chunk As Byte()
+                       In bytes.Split(4)
+                       Let i32 As Integer = BitConverter.ToInt32(chunk, Scan0)
+                       Select CLng(i32)).ToArray
+            Else
+                md5 = (From chunk As Byte()
+                       In bytes.Split(2)
+                       Let i16 As Short = BitConverter.ToInt16(chunk, Scan0)
+                       Select CLng(i16)).ToArray
+            End If
+
             Dim a As Long = md5(0) * 256 * md5(1) + 256 * 256 * md5(2) + 256 * 256 * 256 * md5(3)
             Dim b As Long = md5(4) * 256 * md5(5) + 256 * 256 * md5(6) + 256 * 256 * 256 * md5(7)
             Dim result As Long = a Xor b
@@ -169,6 +202,7 @@ Namespace SecurityString
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Md5")>
+        <Extension>
         Public Function GetMd5Hash(input As Byte()) As String
             Return New Md5HashProvider().GetMd5Hash(input)
         End Function
@@ -236,7 +270,7 @@ Namespace SecurityString
             Else
                 ' large files
                 Using stream As New FileStream(PathUri, FileMode.Open, FileAccess.Read, FileShare.Read, 1024 * 1024 * 2)
-                    Dim sha As New SHA256Managed()
+                    Dim sha = SHA256.Create()
                     Dim checksum = sha.ComputeHash(stream)
 
                     Return BitConverter _
@@ -332,6 +366,18 @@ Namespace SecurityString
             s2 = (s2 And &HFFFF) + (CInt(CUInt(s2) >> 16))
 
             Return (s2 << 16) Or s1
+        End Function
+
+        ''' <summary>
+        ''' # Generate SHA1 checksum of a file
+        ''' </summary>
+        ''' <param name="filePath"></param>
+        ''' <returns></returns>
+        Public Function GetSha1Hash(filePath As String) As String
+            Using fs As FileStream = File.OpenRead(filePath)
+                Dim sha As SHA1 = SHA1.Create()
+                Return BitConverter.ToString(sha.ComputeHash(fs)).Replace("-", "").ToLower
+            End Using
         End Function
     End Module
 End Namespace

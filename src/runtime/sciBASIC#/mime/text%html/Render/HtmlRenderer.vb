@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f80e5c18e99409da9aec5e65285fb96f, mime\text%html\Render\HtmlRenderer.vb"
+﻿#Region "Microsoft.VisualBasic::7147633f395e5c2ee7733e6118b57564, mime\text%html\Render\HtmlRenderer.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 46 (46.00%)
+    ' Comment Lines: 40 (40.00%)
+    '    - Xml Docs: 92.50%
+    ' 
+    '   Blank Lines: 14 (14.00%)
+    '     File Size: 3.62 KB
+
+
     '     Module HtmlRenderer
     ' 
     '         Properties: References
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: LoadEnvironment
+    ' 
     '         Sub: AddReference, (+2 Overloads) Render
     ' 
     ' 
@@ -47,6 +62,8 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Render
 
@@ -86,7 +103,7 @@ Namespace Render
         End Sub
 #End Region
 
-#Region "Methods"
+#If NET48 Then
 
         ''' <summary>
         ''' Draws the HTML on the specified point using the specified width.
@@ -95,7 +112,8 @@ Namespace Render
         ''' <param name="html">HTML source</param>
         ''' <param name="location">Point to start drawing</param>
         ''' <param name="width">Width to fit HTML drawing</param>
-        <Extension> Public Sub Render(g As Graphics, html As String, location As PointF, width As Single)
+        <Extension>
+        Public Sub Render(g As Graphics, html As String, location As PointF, width As Single)
             Call Render(g, html, New RectangleF(location, New SizeF(width, 0)), False)
         End Sub
 
@@ -106,7 +124,8 @@ Namespace Render
         ''' <param name="html">HTML source</param>
         ''' <param name="area">Area where HTML should be drawn</param>
         ''' <param name="clip">If true, it will only paint on the specified area</param>
-        <Extension> Public Sub Render(g As Graphics, html As String, area As RectangleF, clip As Boolean)
+        <Extension>
+        Public Sub Render(g As Graphics, html As String, area As RectangleF, clip As Boolean)
             Dim container As New InitialContainer(html)
             Dim prevClip As Region = g.Clip
 
@@ -122,6 +141,20 @@ Namespace Render
                 g.SetClip(prevClip, CombineMode.Replace)
             End If
         End Sub
-#End Region
+#End If
+
+        ''' <summary>
+        ''' load the css styling environment from the given graphics canvas object.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' set the <see cref="IGraphics.Stroke"/> to nothing if no needs of the default line stroke value
+        ''' </remarks>
+        <Extension>
+        Public Function LoadEnvironment(g As IGraphics) As CSSEnvirnment
+            Return New CSSEnvirnment(g.Size, CInt(g.Dpi)).SetBaseStyles(g.Font, g.Stroke)
+        End Function
     End Module
+
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::066960b9d55c9ce6ac612f43edd29f7f, gr\network-visualization\Network.IO.Extensions\Cytoscape\CytoscapeTableLoader.vb"
+﻿#Region "Microsoft.VisualBasic::aaf3f83872684f4277ab8afa8d4e5ec0, gr\network-visualization\Network.IO.Extensions\Cytoscape\CytoscapeTableLoader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 90 (81.82%)
+    ' Comment Lines: 6 (5.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (12.73%)
+    '     File Size: 4.88 KB
+
+
     '     Module CytoscapeTableLoader
     ' 
     '         Function: (+2 Overloads) CytoscapeExportAsGraph, CytoscapeExportAsTable, CytoscapeNetworkFromEdgeTable
@@ -43,7 +55,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language

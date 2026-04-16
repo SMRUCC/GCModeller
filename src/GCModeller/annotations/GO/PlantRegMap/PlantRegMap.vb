@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16ed94debf00c5c991d31f8bf4d225d7, annotations\GO\PlantRegMap\PlantRegMap.vb"
+﻿#Region "Microsoft.VisualBasic::7405891cfa6d3cab814bd72229bc0758, annotations\GO\PlantRegMap\PlantRegMap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 21 (72.41%)
+    ' Comment Lines: 3 (10.34%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (17.24%)
+    '     File Size: 1.07 KB
+
+
     '     Class PlantRegMap_GoTermEnrichment
     ' 
     '         Properties: Annotated, Aspect, Count, Expected, Genes
@@ -43,7 +55,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.Microarray
 

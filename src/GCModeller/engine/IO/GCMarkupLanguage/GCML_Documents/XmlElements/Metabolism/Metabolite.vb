@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 44 (60.27%)
+    ' Comment Lines: 20 (27.40%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (12.33%)
+    '     File Size: 3.10 KB
+
+
     '     Class Metabolite
     ' 
     '         Properties: BoundaryCondition, CommonName, Compartment, Identifier, InitialAmount

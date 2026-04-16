@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d9e9a8efa6239778c34cb3efc309a4cf, data\GO_gene-ontology\GeneOntology\Files\Obo\File\base.vb"
+﻿#Region "Microsoft.VisualBasic::00d373ade274544f9b877e7c35eb93a6, data\GO_gene-ontology\GeneOntology\Files\Obo\File\base.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 15 (48.39%)
+    ' Comment Lines: 11 (35.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 1.51 KB
+
+
     '     Class base
     ' 
     '         Properties: [namespace], id, name
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
 
@@ -62,5 +77,11 @@ Namespace OBO
         ''' </summary>
         ''' <returns></returns>
         <Field("namespace")> Public Property [namespace] As String
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return $"{id}: {name}"
+        End Function
+
     End Class
 End Namespace

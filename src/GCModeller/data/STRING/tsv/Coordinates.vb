@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20e7fb7819ebfd7162d77e336540dc7f, data\STRING\tsv\Coordinates.vb"
+﻿#Region "Microsoft.VisualBasic::2585480b81dfa4c4380a6a37fb32223f, data\STRING\tsv\Coordinates.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 13 (65.00%)
+    ' Comment Lines: 4 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 812 B
+
+
     ' Class Coordinates
     ' 
     '     Properties: annotation, color, node, x_position, y_position
@@ -41,7 +53,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 
 ''' <summary>

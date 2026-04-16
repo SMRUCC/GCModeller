@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3144bbbf9c7886ccecbe5217f651bf9d, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
+﻿#Region "Microsoft.VisualBasic::70398d3aae3536daf684e90fcc94df4a, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\PartitioningData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 40 (51.95%)
+    ' Comment Lines: 29 (37.66%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 8 (10.39%)
+    '     File Size: 2.43 KB
+
+
     ' Class PartitioningData
     ' 
     '     Properties: GC, GenomeID, Headers, Length, LociLeft
@@ -42,7 +54,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -92,7 +104,7 @@ Public Class PartitioningData : Implements IAbstractFastaToken
         End Get
     End Property
 
-    Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+    Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
         Get
             Return String.Format("{0} ({1})", GenomeID, PartitioningTag)
         End Get
@@ -104,9 +116,9 @@ Public Class PartitioningData : Implements IAbstractFastaToken
     ''' <value></value>
     ''' <returns></returns>
     ''' <remarks></remarks>
-    <Ignored> Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+    Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
-    Public Property Headers As String() Implements IAbstractFastaToken.Headers
+    Public Property Headers As String() Implements IAbstractFastaToken.headers
 
     Public Overrides Function ToString() As String
         Return Title & ":  " & SequenceData

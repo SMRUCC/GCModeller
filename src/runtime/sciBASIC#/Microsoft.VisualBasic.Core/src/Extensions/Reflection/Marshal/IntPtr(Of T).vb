@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a214475483ee752eaea4d7afda4be596, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\IntPtr(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::3d25ad01096f2e8d6927c450105d77b4, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\IntPtr(Of T).vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 186
+    '    Code Lines: 71 (38.17%)
+    ' Comment Lines: 92 (49.46%)
+    '    - Xml Docs: 80.43%
+    ' 
+    '   Blank Lines: 23 (12.37%)
+    '     File Size: 7.46 KB
+
 
     '     Delegate Sub
     ' 
@@ -90,9 +102,9 @@ Namespace Emit.Marshal
         Implements IDisposable
 
         ''' <summary>
-        ''' The position in the memory region of the first byte for read.(第一个位置)
+        ''' The position in the memory region of the first byte for read.
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>(第一个位置)</returns>
         Public ReadOnly Property Scan0 As System.IntPtr
 
         ''' <summary>
@@ -104,7 +116,7 @@ Namespace Emit.Marshal
         ReadOnly __unsafeCopys As UnsafeCopys(Of T)
 
         ''' <summary>
-        ''' 
+        ''' Make data unsafe copy in this constructor function
         ''' </summary>
         ''' <param name="p"></param>
         ''' <param name="chunkSize"></param>
@@ -134,7 +146,12 @@ Namespace Emit.Marshal
         ''' <param name="p"></param>
         Sub New(ByRef raw As T(), Optional p As System.IntPtr? = Nothing)
             Call MyBase.New(raw)
-            Scan0 = p
+
+            ' 20241014
+            ' avoid the error: nullable value must have a value
+            If Not p Is Nothing Then
+                Scan0 = p
+            End If
         End Sub
 
         Public Sub Write(data As T())
@@ -225,6 +242,10 @@ Namespace Emit.Marshal
         'End Sub
 
         ' This code added by Visual Basic to correctly implement the disposable pattern.
+
+        ''' <summary>
+        ''' write memory and release the memory pointer
+        ''' </summary>
         Public Sub Dispose() Implements IDisposable.Dispose
             ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
             Dispose(True)

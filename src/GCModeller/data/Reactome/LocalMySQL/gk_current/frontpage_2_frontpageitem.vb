@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79 (49.69%)
+    ' Comment Lines: 58 (36.48%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 7.04 KB
+
+
     ' Class frontpage_2_frontpageitem
     ' 
     '     Properties: DB_ID, frontPageItem, frontPageItem_class, frontPageItem_rank

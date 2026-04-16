@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d7069136e052e36d6eb6af4302f2f54, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
+﻿#Region "Microsoft.VisualBasic::14c8a09f1ef65bccc3e7033e7d663ada, Data_science\Mathematica\Math\Math\Distributions\Bootstraping.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 288
+    '    Code Lines: 174 (60.42%)
+    ' Comment Lines: 85 (29.51%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 29 (10.07%)
+    '     File Size: 12.25 KB
+
+
     '     Module Bootstraping
     ' 
-    '         Function: Distributes, Hist, Sample, (+2 Overloads) Samples, Sampling
-    '                   TabulateBin, TabulateMode
+    '         Function: Distributes, GetBagSample, Hist, (+2 Overloads) Sample, (+2 Overloads) Samples
+    '                   Sampling, TabulateBin, TabulateMode
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +61,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace Distributions
 
@@ -66,9 +79,7 @@ Namespace Distributions
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Sample(x As Integer) As Integer()
-            SyncLock seeds
-                Return seeds.Permutation(x, x)
-            End SyncLock
+            Return seeds.Permutation(x, x)
         End Function
 
         ''' <summary>
@@ -89,7 +100,12 @@ Namespace Distributions
         ''' <param name="replace">
         ''' 是否为有放回的进行抽样？默认是有放回的。设置这个参数为False表示不重复的采样，即抽取过后的元素将不会再出现在后面的采样结果之中
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' index of the returns value <see cref="SeqValue(Of T()).i"/> is zero based.
+        ''' </returns>
+        ''' <remarks>
+        ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+        ''' </remarks>
         <Extension>
         Public Iterator Function Samples(Of T)(source As IEnumerable(Of T), N As Integer,
                                                Optional bags As Integer = 100,
@@ -97,42 +113,73 @@ Namespace Distributions
 
             Dim array As T() = source.ToArray
             Dim index As New List(Of Integer)(array.Sequence)
-            Dim sampleBags = Iterator Function() As IEnumerable(Of T)
-                                 If replace Then
-                                     For k As Integer = 0 To N - 1
-                                         ' 在这里是有放回的随机采样
-                                         Yield array(seeds.Next(array.Length))
-                                     Next
-                                 Else
-                                     Dim i As Integer
-
-                                     If index.Count = 0 Then
-                                         Return
-                                     End If
-
-                                     ' 无放回的抽样
-                                     For k As Integer = 0 To N - 1
-                                         i = seeds.Next(index.Count)
-                                         i = index(i)
-                                         index.Remove(item:=i)
-
-                                         Yield array(i)
-
-                                         If index.Count = 0 Then
-                                             Return
-                                         End If
-                                     Next
-                                 End If
-                             End Function
 
             For i As Integer = 0 To bags
-                Call seeds.Next()
+                Call randf2.seeds.Next()
 
                 Yield New SeqValue(Of T()) With {
                     .i = i,
-                    .value = sampleBags().ToArray
+                    .value = array _
+                        .GetBagSample(N, New List(Of Integer)(index), replace) _
+                        .ToArray
                 }
             Next
+        End Function
+
+        ''' <summary>
+        ''' bootstrap sampling of given source collection
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="source"></param>
+        ''' <param name="N"></param>
+        ''' <param name="replace"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function Sample(Of T)(source As IEnumerable(Of T), N As Integer, Optional replace As Boolean = True) As T()
+            Return source.Samples(N, bags:=1, replace:=replace).First.value
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="pool"></param>
+        ''' <param name="N"></param>
+        ''' <param name="index"></param>
+        ''' <param name="replace">
+        ''' if replace, then each bag sample may contains duplicated element
+        ''' else, each of the data element in one bag sample is unique.
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+        ''' </remarks>
+        <Extension>
+        Private Iterator Function GetBagSample(Of T)(pool As T(), N As Integer, index As List(Of Integer), replace As Boolean) As IEnumerable(Of T)
+            If replace Then
+                For k As Integer = 0 To N - 1
+                    ' 在这里是有放回的随机采样
+                    Yield pool(randf2.seeds.Next(pool.Length))
+                Next
+            ElseIf index.Count = 0 Then
+                Return
+            Else
+                Dim i As Integer = Scan0
+
+                ' 无放回的抽样
+                For k As Integer = 0 To N - 1
+                    i = randf2.seeds.Next(index.Count)
+                    i = index(i)
+                    index.Remove(item:=i)
+
+                    Yield pool(i)
+
+                    If index.Count = 0 Then
+                        Return
+                    End If
+                Next
+            End If
         End Function
 
         <Extension>
@@ -164,7 +211,7 @@ Namespace Distributions
             Dim array As DoubleTagged(Of Double)() = data _
                 .Select(Function(x)
                             Return New DoubleTagged(Of Double) With {
-                                .Tag = stdNum.Log(x, base),
+                                .Tag = std.Log(x, base),
                                 .Value = x
                             }
                         End Function) _
@@ -177,7 +224,7 @@ Namespace Distributions
             Do While ++l < max
                 Dim LQuery As DoubleTagged(Of Double)() =
                     LinqAPI.Exec(Of DoubleTagged(Of Double)) <=
- _
+                                                               _
                     From x As DoubleTagged(Of Double)
                     In array
                     Where x.Tag >= low AndAlso
@@ -214,7 +261,11 @@ Namespace Distributions
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Hist(data As Double(), Optional step! = 1) As IEnumerable(Of DataBinBox(Of Double))
+        Public Function Hist(data As Double(),
+                             Optional step! = 1,
+                             Optional min As Double? = Nothing,
+                             Optional max As Double? = Nothing) As IEnumerable(Of DataBinBox(Of Double))
+
             If data.Length = 0 Then
                 Return {}
             Else
@@ -222,8 +273,8 @@ Namespace Distributions
                     v:=data.OrderBy(Function(x) x).ToArray,
                     width:=[step],
                     eval:=Function(x) x,
-                    min:=data.Min,
-                    max:=data.Max
+                    min:=If(min, data.Min),
+                    max:=If(max, data.Max)
                 )
             End If
         End Function
@@ -239,6 +290,13 @@ Namespace Distributions
             End If
         End Function
 
+        ''' <summary>
+        ''' Find top frequency binbox
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="topBin"></param>
+        ''' <param name="bags">binbox number of the fix width cut bins method</param>
+        ''' <returns></returns>
         <Extension>
         Public Function TabulateBin(data As IEnumerable(Of Double), Optional topBin As Boolean = False, Optional bags As Integer = 5) As Double()
             With data.ToArray
@@ -257,8 +315,8 @@ Namespace Distributions
                     Return .ByRef
                 End If
 
-                Dim hist = .Hist([step]:=steps).ToArray
-                Dim maxN = which.Max(hist.Select(Function(bin) bin.Count))
+                Dim hist As DataBinBox(Of Double)() = .Hist([step]:=steps).ToArray
+                Dim maxN As Integer = which.Max(hist.Select(Function(bin) bin.Count))
                 Dim resample As Double()
 
                 If topBin Then

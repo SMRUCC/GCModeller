@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 7
+    '    Code Lines: 6 (85.71%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (14.29%)
+    '     File Size: 143 B
+
+
     ' Module Program
     ' 
     '     Sub: Main

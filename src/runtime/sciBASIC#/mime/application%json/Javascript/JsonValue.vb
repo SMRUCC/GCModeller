@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6e01dcf43fa5242a329106024ee37908, mime\application%json\Javascript\JsonValue.vb"
+﻿#Region "Microsoft.VisualBasic::60af66345a49c9398cf96ff6c1a81efe, mime\application%json\Javascript\JsonValue.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 106 (67.09%)
+    ' Comment Lines: 33 (20.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (12.03%)
+    '     File Size: 5.31 KB
+
+
     '     Class JsonValue
     ' 
-    '         Properties: BSONValue, value
+    '         Properties: BSONValue, IsEmptyString, IsLiteralNull, NULL, UnderlyingType
+    '                     value
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetStripString, Literal, ToString
+    '         Function: GetStripString, (+2 Overloads) Literal, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,15 +58,17 @@
 
 Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace Javascript
 
     ''' <summary>
     ''' The primitive value type in javascript.
-    ''' 
+    ''' </summary>
+    ''' <remarks>
     ''' (请注意，假若是字符串的话，值是未经过处理的原始字符串，可能会含有转义字符，
     ''' 则这个时候还需要使用<see cref="GetStripString"/>得到最终的字符串)
-    ''' </summary>
+    ''' </remarks>
     Public Class JsonValue : Inherits JsonElement
 
         Public Overloads Property value As Object
@@ -64,15 +79,73 @@ Namespace Javascript
             End Get
         End Property
 
+        Public ReadOnly Property UnderlyingType As Type
+            Get
+                If value Is Nothing Then
+                    Return GetType(Object)
+                Else
+                    Return value.GetType
+                End If
+            End Get
+        End Property
+
+        Public Shared ReadOnly Property NULL As JsonValue
+            Get
+                Return New JsonValue(Nothing)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' the literal value is nothing?
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property IsLiteralNull As Boolean
+            Get
+                Return value Is Nothing OrElse any.ToString(value).TextEquals("null")
+            End Get
+        End Property
+
+        Public ReadOnly Property IsEmptyString As Boolean
+            Get
+                Return IsLiteralNull OrElse any.ToString(value).StringEmpty
+            End Get
+        End Property
+
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' create based on the value literal data
+        ''' </summary>
+        ''' <param name="obj">
+        ''' could be any type of the clr runtime object as the json value
+        ''' </param>
         Public Sub New(obj As Object)
             value = obj
         End Sub
 
-        Public Function Literal(typeOfT As Type) As Object
-            Dim str As String = GetStripString()
+        ''' <summary>
+        ''' get literal value
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Literal() As Object
+            If value Is Nothing Then
+                Return Nothing
+            ElseIf TypeOf value Is String Then
+                Return GetStripString(True)
+            Else
+                Return value
+            End If
+        End Function
+
+        ''' <summary>
+        ''' get literal value with type try cast action.
+        ''' </summary>
+        ''' <param name="typeOfT"></param>
+        ''' <param name="decodeMetachar"></param>
+        ''' <returns></returns>
+        Public Function Literal(typeOfT As Type, decodeMetachar As Boolean) As Object
+            Dim str As String = GetStripString(decodeMetachar)
 
             Select Case typeOfT
                 Case GetType(String)
@@ -93,17 +166,51 @@ Namespace Javascript
         ''' <summary>
         ''' 处理转义等特殊字符串
         ''' </summary>
-        ''' <returns></returns>
-        Public Function GetStripString() As String
+        ''' <returns>
+        ''' this function will removes the warpping of quot symbol.
+        ''' </returns>
+        Public Function GetStripString(decodeMetachar As Boolean, Optional null As String = "null") As String
             Dim s$ = Scripting _
-                .ToString(value, "null") _
+                .ToString(value, null) _
                 .GetString
-            s = JsonParser.StripString(s)
+            s = JsonParser.StripString(s, decodeMetachar)
             Return s
         End Function
 
         Public Overrides Function ToString() As String
-            Return GetStripString()
+            Return GetStripString(decodeMetachar:=True)
         End Function
+
+        Public Overloads Shared Narrowing Operator CType(value As JsonValue) As String
+            If value Is Nothing Then
+                Return Nothing
+            Else
+                Return value.GetStripString(decodeMetachar:=True)
+            End If
+        End Operator
+
+        Public Overloads Shared Narrowing Operator CType(value As JsonValue) As Boolean
+            If value Is Nothing Then
+                Return False
+            Else
+                Return CType(value, String).ParseBoolean
+            End If
+        End Operator
+
+        Public Overloads Shared Narrowing Operator CType(value As JsonValue) As Double
+            If value Is Nothing Then
+                Return .0
+            Else
+                Return CType(value, String).ParseDouble
+            End If
+        End Operator
+
+        Public Overloads Shared Narrowing Operator CType(value As JsonValue) As Integer
+            If value Is Nothing Then
+                Return 0
+            Else
+                Return CType(value, String).ParseInteger
+            End If
+        End Operator
     End Class
 End Namespace

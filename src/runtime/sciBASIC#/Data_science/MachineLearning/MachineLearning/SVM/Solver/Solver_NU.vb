@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 247
+    '    Code Lines: 188 (76.11%)
+    ' Comment Lines: 15 (6.07%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 44 (17.81%)
+    '     File Size: 8.78 KB
+
+
     '     Class Solver_NU
     ' 
     '         Function: be_shrunk, calculate_rho, select_working_set

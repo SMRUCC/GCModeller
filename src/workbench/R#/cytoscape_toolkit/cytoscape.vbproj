@@ -1,0 +1,104 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>cytoscape_toolkit</RootNamespace>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>GPL3</PackageLicenseExpression>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AssemblyName>cytoscape</AssemblyName>
+	  <DocumentationFile>cytoscape.xml</DocumentationFile>
+	  <AssemblyTitle>Cytoscape Toolkit</AssemblyTitle>
+	  <UseApplicationFramework>True</UseApplicationFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
+    <OutputPath>../../pkg/assembly/</OutputPath>
+	  <DocumentationFile>cytoscape_toolkit.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|AnyCPU'">
+    <Optimize>True</Optimize>
+	  <DocumentationFile>cytoscape_toolkit.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0-windows|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net6.0|x64'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|AnyCPU'">
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|AnyCPU'">
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\FisherCore\Fisher.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\core\Bio.InteractionModel\InteractionModel.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\data\STRING\STRING-db.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\foundation\PSICQUIC\psidev\psidev.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\BioCyc\BioCyc.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\GPML\PathVisio\GPML.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGGGraphVisualizer\KEGGGraphVisualizer.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\Network.Regulons\Network.Regulons.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\Networks\STRING\STRING.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\models\SBML\SBML\sbml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape.Automation\Cytoscape.Automation.vbproj" />
+    <ProjectReference Include="..\..\..\interops\visualize\Cytoscape\Cytoscape\Cytoscape.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%rdf+xml\rdf_xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\application%xml\xml-netcore5.vbproj" />
+    <ProjectReference Include="..\..\modules\keggReport\keggReport.NET5.vbproj" />
+  </ItemGroup>
+
+  <Import Project="..\Rscript_shared\Rscript_shared.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+
+</Project>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 96 (65.31%)
+    ' Comment Lines: 21 (14.29%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 30 (20.41%)
+    '     File Size: 5.35 KB
+
+
     ' Module ScatterTest
     ' 
     '     Sub: Main, qqplotTest, StyleTest

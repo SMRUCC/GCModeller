@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df9cb19e8f9b66f80cf13179588cfe03, R#\phenotype_kit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::a88ef969d92a2999e31c54703b7cff68, R#\phenotype_kit\WGCNA.vb"
 
     ' Author:
     ' 
@@ -31,49 +31,224 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 257
+    '    Code Lines: 128 (49.81%)
+    ' Comment Lines: 103 (40.08%)
+    '    - Xml Docs: 88.35%
+    ' 
+    '   Blank Lines: 26 (10.12%)
+    '     File Size: 12.43 KB
+
+
     ' Module WGCNA
     ' 
-    '     Function: applyModuleColors, readModules, readWeightMatrix
-    ' 
+    '     Function: applyModuleColors, connectivitySummary, LoadTOMModuleGraph_call, phenotype_matrix, readClusterModuleResult
+    '               readModules, readWeightMatrix, runAnalysis
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports any = Microsoft.VisualBasic.Scripting
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 
+''' <summary>
+''' WGCNA, which stands for Weighted Gene Co-expression Network Analysis, is a systems biology method used to describe the 
+''' correlation patterns among genes across different samples. It is particularly useful for identifying modules of 
+''' co-expressed genes, which can then be correlated with external sample traits such as clinical features or environmental 
+''' conditions. Here's a brief overview of how WGCNA works and its applications:
+''' 
+''' ### Key Concepts:
+''' 
+''' 1. **Co-expression Networks**: Genes that are co-expressed across different conditions or samples are likely to be 
+'''    functionally related. WGCNA constructs a network where nodes represent genes, and edges represent the pairwise 
+'''    correlations between genes.
+''' 2. **Weighted Networks**: Traditional correlation-based networks use Pearson or Spearman correlations, which are 
+'''    unweighted. WGCNA uses a weighted approach, often employing the soft thresholding of the correlation matrix to 
+'''    transform it into a weighted adjacency matrix. This weighting helps to amplify strong correlations and diminish 
+'''    weak ones, making the network more robust to noise.
+''' 3. **Modules**: Groups of highly correlated genes are identified as modules. These modules are clusters of genes 
+'''    that have similar expression profiles across the samples and are often enriched for specific biological functions 
+'''    or pathways.
+''' 4. **Topological Overlap Matrix (TOM)**: WGCNA uses the TOM to measure the network connectivity of genes, which 
+'''    considers not only direct connections but also shared neighbors. This helps in identifying modules more accurately.
+''' 5. **Eigengenes**: Each module can be represented by an eigengene, which is the first principal component of the gene
+'''    expression profiles within the module. The eigengene serves as a representative of the module's expression pattern.
+'''    
+''' ### Steps in WGCNA:
+''' 
+''' 1. **Data Preprocessing**: This includes filtering out low-quality genes, normalizing expression data, and handling missing values.
+''' 2. **Network Construction**: Calculate the pairwise correlation matrix and apply soft thresholding to create a weighted adjacency matrix.
+''' 3. **Module Detection**: Use hierarchical clustering or other clustering methods on the TOM to identify modules of co-expressed genes.
+''' 4. **Module Eigengenes**: Compute the eigengene for each module to represent its expression pattern.
+''' 5. **Relating Modules to External Traits**: Correlate module eigengenes with external sample traits to identify which modules are associated with specific conditions or phenotypes.
+''' 6. **Functional Enrichment Analysis**: Perform gene ontology (GO) or pathway enrichment analysis on the genes within each 
+'''    module to infer their biological functions.
+'''    
+''' ### Applications:
+''' 
+''' - **Disease Biomarker Discovery**: Identifying gene modules associated with disease states can lead to the discovery of novel biomarkers.
+''' - **Understanding Disease Mechanisms**: By analyzing the functions of co-expressed gene modules, researchers can gain insights into the molecular mechanisms underlying diseases.
+''' - **Drug Target Identification**: Modules that are significantly altered in disease states may contain potential drug targets.
+''' - **Comparative Analysis**: WGCNA can be used to compare gene expression patterns across different species, tissues, or conditions.
+''' 
+''' ### Tools and Software:
+''' 
+''' WGCNA is implemented in R, and there is a comprehensive package available for users to perform the analysis. The package provides 
+''' functions for all steps of the analysis, from data preprocessing to module detection and trait correlation.
+''' 
+''' ### Limitations:
+''' 
+''' - **Sample Size**: WGCNA requires a sufficient number of samples to reliably detect co-expression patterns.
+''' - **Interpretation**: While WGCNA can identify co-expressed modules, interpreting their biological significance often requires additional functional validation.
+''' - **Computational Intensity**: The analysis can be computationally intensive, especially with large datasets.
+''' 
+''' WGCNA is a powerful tool for exploring gene co-expression patterns and has been widely used in genomics research to uncover 
+''' the underlying biology of complex traits and diseases.
+''' </summary>
 <Package("WGCNA")>
 Module WGCNA
 
+    ''' <summary>
+    ''' load TOM module network nodes
+    ''' </summary>
+    ''' <param name="file">
+    ''' the TOM network nodes text file, should be a tsv file of the cytoscape network export result
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("read.modules")>
-    Public Function readModules(file As String, Optional prefix$ = Nothing) As Object
-        Return WGCNAModules _
-            .LoadModules(file) _
-            .ToDictionary(Function(g)
-                              Return If(prefix Is Nothing, g.nodeName, prefix & g.nodeName)
-                          End Function,
-                          Function(g)
-                              Return CObj(g.nodesPresent)
-                          End Function) _
-            .DoCall(Function(mods)
-                        Return New list With {
-                            .slots = mods
-                        }
-                    End Function)
+    Public Function readModules(<RRawVectorArgument> file As Object, Optional prefix$ = Nothing, Optional result_modules As Boolean = False) As Object
+        Dim all = CLRVector.asCharacter(file) _
+            .Select(Function(path)
+                        Return WGCNAModules.LoadModules(path)
+                    End Function) _
+            .IteratesALL _
+            .GroupBy(Function(g) g.nodeName) _
+            .Select(Function(g) g.First) _
+            .ToArray
+        Dim result As list = list.empty
+
+        If result_modules Then
+            For Each gene As CExprMods In all
+                Dim key_ref As String = If(prefix Is Nothing, gene.nodeName, prefix & gene.nodeName)
+
+                Call result.add(key_ref, New ClusterModuleResult With {
+                    .color = gene.nodesPresent,
+                    .gene_id = key_ref,
+                    .[module] = 0
+                })
+            Next
+        Else
+            For Each gene As CExprMods In all
+                Call result.add(If(prefix Is Nothing, gene.nodeName, prefix & gene.nodeName), gene.nodesPresent)
+            Next
+        End If
+
+        Return result
     End Function
 
-    <ExportAPI("read.weightMatrix")>
-    Public Function readWeightMatrix(file As String, Optional threshold As Double = 0, Optional prefix$ = Nothing) As WGCNAWeight
-        Return FastImports(path:=file, threshold:=threshold, prefix:=prefix)
+    <ExportAPI("read_clusters")>
+    Public Function readClusterModuleResult(file As String, Optional prefix$ = Nothing) As ClusterModuleResult()
+        Return ClusterModuleResult.LoadTable(tsv:=file, prefix).ToArray
+    End Function
+
+    ''' <summary>
+    ''' read the TOM correlation network matrix file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix">
+    ''' a prefix to the fromNode and toNode id
+    ''' </param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' imports a network edge table file that export from WGCNA TOM module, with data headers: 
+    ''' <br /><br />
+    ''' fromNode<br />
+    ''' toNode<br />
+    ''' weight<br />
+    ''' direction<br />
+    ''' fromAltName<br />
+    ''' toAltName<br />
+    ''' </remarks>
+    <ExportAPI("read.weight_matrix")>
+    <RApiReturn(GetType(WGCNAWeight), GetType(DataMatrix))>
+    Public Function readWeightMatrix(<RRawVectorArgument> file As Object,
+                                     Optional threshold As Double = 0,
+                                     Optional prefix$ = Nothing,
+                                     Optional as_matrix As Boolean = False) As Object
+
+        Dim wgcna As WGCNAWeight = FastImports(CLRVector.asCharacter(file), threshold:=threshold, prefix:=prefix)
+
+        If as_matrix Then
+            Return wgcna.AsDataMatrix
+        Else
+            Return wgcna
+        End If
+    End Function
+
+    ''' <summary>
+    ''' load network graph from the WGCNA exportNetworkToCytoscape function exports
+    ''' </summary>
+    ''' <param name="edges"></param>
+    ''' <param name="nodes"></param>
+    ''' <param name="threshold"></param>
+    ''' <param name="prefix$"></param>
+    ''' <returns></returns>
+    ''' 
+    <ExportAPI("load_TOM_graph")>
+    <RApiReturn(GetType(NetworkGraph))>
+    Public Function LoadTOMModuleGraph_call(edges As String, nodes As String,
+                                            Optional threshold As Double = 0,
+                                            Optional prefix$ = Nothing,
+                                            <RRawVectorArgument>
+                                            Optional id_subset As Object = Nothing) As NetworkGraph
+
+        Dim idSubset As String() = CLRVector.asCharacter(id_subset)
+
+        Return LoadTOMModuleGraph(
+            edges, nodes,
+            threshold,
+            prefix,
+            subset:=idSubset.Indexing)
+    End Function
+
+    ''' <summary>
+    ''' export a dataframe of the node information with connectivity value 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    <ExportAPI("connectivity")>
+    Public Function connectivitySummary(x As NetworkGraph) As Object
+        Dim nodes As Node() = x.vertex.ToArray
+        Dim df As New dataframe With {
+            .rownames = nodes.Select(Function(v) v.label).ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add("connectivity", From v As Node In nodes Select v.directedVertex.connectivity)
+        Call df.add("degree", From v As Node In nodes Select v.directedVertex.inDegree + v.directedVertex.outDegree)
+        Call df.add("module", From v As Node In nodes Select v!module)
+
+        Return df
     End Function
 
     <ExportAPI("applyModuleColors")>
@@ -86,6 +261,51 @@ Module WGCNA
 
         Return g
     End Function
-End Module
 
-#End If
+    ''' <summary>
+    ''' Create correlation network based on WGCNA method
+    ''' </summary>
+    ''' <param name="x">
+    ''' should be an expression matrix object of gene features in rows and sample id in columns
+    ''' </param>
+    ''' <param name="adjacency"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("cor_network")>
+    <RApiReturn(GetType(Result))>
+    Public Function runAnalysis(x As Matrix,
+                                Optional adjacency As Double = 0.6,
+                                Optional pca_layout As Boolean = True,
+                                Optional env As Environment = Nothing) As Object
+
+        Return Analysis.Run(x, adjacency, pca_layout)
+    End Function
+
+    <ExportAPI("phenotype_matrix")>
+    Public Function phenotype_matrix(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim samples As pipeline = pipeline.TryCreatePipeline(Of SampleInfo)(x, env)
+
+        If samples.isError Then
+            Return samples.getError
+        End If
+
+        Dim all_samples = samples.populates(Of SampleInfo)(env).ToArray
+        Dim sample_ids As Index(Of String) = all_samples.Keys.Indexing
+        Dim phenotypes As New dataframe With {
+            .rownames = sample_ids.Objects,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        For Each sample_group As IGrouping(Of String, SampleInfo) In all_samples.GroupBy(Function(s) s.sample_info)
+            Dim v As Integer() = New Integer(all_samples.Length - 1) {}
+
+            For Each sample As SampleInfo In sample_group
+                v(sample_ids(sample.ID)) = 1
+            Next
+
+            Call phenotypes.add(sample_group.Key, v)
+        Next
+
+        Return phenotypes
+    End Function
+End Module

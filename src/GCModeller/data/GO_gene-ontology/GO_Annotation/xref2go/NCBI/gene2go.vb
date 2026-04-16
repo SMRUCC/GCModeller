@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 41 (71.93%)
+    ' Comment Lines: 9 (15.79%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 7 (12.28%)
+    '     File Size: 2.01 KB
+
+
     '     Class gene2go
     ' 
     '         Properties: Category, Evidence, GeneID, GO_ID, GO_term

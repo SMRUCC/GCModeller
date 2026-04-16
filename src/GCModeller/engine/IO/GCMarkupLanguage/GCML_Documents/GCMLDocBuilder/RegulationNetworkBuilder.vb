@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 71 (74.74%)
+    ' Comment Lines: 10 (10.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (14.74%)
+    '     File Size: 6.37 KB
+
+
     '     Class RegulationNetworkBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New

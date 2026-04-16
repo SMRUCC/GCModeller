@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 43 (63.24%)
+    ' Comment Lines: 12 (17.65%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 13 (19.12%)
+    '     File Size: 2.09 KB
+
+
     '     Class Enumerator
     ' 
     '         Properties: anyCurrent, Current

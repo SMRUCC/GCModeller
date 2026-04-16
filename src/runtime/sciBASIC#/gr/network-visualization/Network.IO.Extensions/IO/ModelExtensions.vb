@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 130 (64.68%)
+    ' Comment Lines: 43 (21.39%)
+    '    - Xml Docs: 93.02%
+    ' 
+    '   Blank Lines: 28 (13.93%)
+    '     File Size: 8.21 KB
+
+
     '     Module GraphAPI
     ' 
     '         Function: OrderByDegrees, RemovesByDegree, RemovesByDegreeQuantile, RemovesByKeyValue, ScaleRadius

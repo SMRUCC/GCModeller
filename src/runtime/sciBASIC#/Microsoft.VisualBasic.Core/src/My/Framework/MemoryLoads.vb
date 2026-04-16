@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::423cdfaf16282bc77774dfcbc7c22cd3, Microsoft.VisualBasic.Core\src\My\Framework\MemoryLoads.vb"
+﻿#Region "Microsoft.VisualBasic::119e1fb4aaa060b2be0b1246e4747f9d, Microsoft.VisualBasic.Core\src\My\Framework\MemoryLoads.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 7 (35.00%)
+    ' Comment Lines: 12 (60.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (5.00%)
+    '     File Size: 542 B
+
+
     '     Enum MemoryLoads
     ' 
     '         Heavy, Light, Max
@@ -46,15 +58,21 @@
 
 Namespace My.FrameworkInternal
 
+    ''' <summary>
+    ''' config memory usage by the framework
+    ''' </summary>
     Public Enum MemoryLoads As Byte
         ''' <summary>
         ''' lazy load
         ''' </summary>
         Light
         ''' <summary>
-        ''' less than 2GB
+        ''' load all file data into memory when file size less than 2GB
         ''' </summary>
         Heavy
+        ''' <summary>
+        ''' load all data into memory even data file size is greater than 2GB
+        ''' </summary>
         Max
     End Enum
 End Namespace

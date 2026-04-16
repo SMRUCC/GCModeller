@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91 (51.70%)
+    ' Comment Lines: 63 (35.80%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 11.13 KB
+
+
     ' Class tf_matrix_align_link
     ' 
     '     Properties: key_id_org, media, score_high, score_low, standar_desv

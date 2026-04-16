@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e3cee21aa5353516ef15785bc722afa, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::4d502ede44c2ebd9d8d4441ff5694c5b, core\Bio.Assembly\Assembly\KEGG\Web\Map\KGML\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 32 (86.49%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.37 KB
+
+
     '     Module Extensions
     ' 
     '         Function: CompoundList, GetIdlistByType, KOlist
@@ -56,11 +68,11 @@ Namespace Assembly.KEGG.WebServices.KGML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function GetIdlistByType(kgml As pathway, type$) As String()
-            Return kgml.items _
+            Return kgml.entries _
                 .Where(Function(entry) entry.type = type) _
                 .Select(Function(entry)
                             Return entry.name _
-                                .StringSplit("\s+") _
+                                .SafeQuery _
                                 .Select(Function(id)
                                             Return id.GetTagValue(":").Value
                                         End Function)

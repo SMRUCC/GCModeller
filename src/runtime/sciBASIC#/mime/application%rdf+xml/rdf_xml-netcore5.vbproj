@@ -2,44 +2,83 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.MIME.application.rdf_xml</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.MIME.application.rdf_xml</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;LipidSearch;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release;Desktop;MEMI-Desktop;CellaLAB-Desktop</Configurations>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>xieguigang&lt;I@xieguigang.me&gt;</Authors>
+    <Product>sciBASIC#</Product>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <Title>Resource Description Framework</Title>
+    <Description>Supports for application/rdf+xml MIME type</Description>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageProjectUrl>http://scibasic.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
-
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>../../.nuget/</OutputPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineConstants>netcore5=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -50,7 +89,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DocumentationFile>lipidsearch-netcore5.xml</DocumentationFile>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.application.rdf_xml.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +103,10 @@
     <Compile Remove="test\**" />
     <EmbeddedResource Remove="test\**" />
     <None Remove="test\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

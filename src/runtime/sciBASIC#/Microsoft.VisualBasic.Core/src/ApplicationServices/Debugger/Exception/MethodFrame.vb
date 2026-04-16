@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4be2c6aed1bae45a0ef0d6f229ed811e, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\MethodFrame.vb"
+﻿#Region "Microsoft.VisualBasic::16ec340cf6b6bdf6afb77030a33f9f1b, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Exception\MethodFrame.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 23 (76.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (23.33%)
+    '     File Size: 854 B
+
+
     '     Class Method
     ' 
     '         Properties: [Module], [Namespace], Method
@@ -43,9 +55,15 @@
 
 #End Region
 
+Imports System.Runtime.InteropServices
+
 Namespace ApplicationServices.Debugging.Diagnostics
 
+#Disable Warning BC40000 ' Type or member is obsolete
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public Class Method
+#Enable Warning BC40000 ' Type or member is obsolete
 
         Public Property [Namespace] As String
         Public Property [Module] As String

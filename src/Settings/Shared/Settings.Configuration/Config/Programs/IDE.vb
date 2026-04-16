@@ -1,87 +1,92 @@
 ﻿#Region "Microsoft.VisualBasic::ba054ac5ee54b966bc51950449599ca6, Shared\Settings.Configuration\Config\Programs\IDE.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Class IDE
-    ' 
-    ' 
-    '         Enum Languages
-    ' 
-    ' 
-    ' 
-    ' 
-    '         Class StartPageF
-    ' 
-    '             Properties: CloseAfterProjectLoad, IDE, Session, ShowOnStartUp, StartPage
-    ' 
-    '             Function: (+2 Overloads) [Default]
-    ' 
-    '         Class IDEConfig
-    ' 
-    '             Properties: Language, Location, Size
-    ' 
-    '             Function: [Default]
-    '             Class PointF
-    ' 
-    '                 Properties: Left, Top
-    ' 
-    '             Class SizeF
-    ' 
-    '                 Properties: Height, Width
-    ' 
-    ' 
-    ' 
-    '         Class SessionF
-    ' 
-    '             Properties: LoadLastSessionAfterStartUp, ProjectFile
-    ' 
-    '             Function: [Default]
-    ' 
-    '  
-    ' 
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Class IDE
+' 
+' 
+'         Enum Languages
+' 
+' 
+' 
+' 
+'         Class StartPageF
+' 
+'             Properties: CloseAfterProjectLoad, IDE, Session, ShowOnStartUp, StartPage
+' 
+'             Function: (+2 Overloads) [Default]
+' 
+'         Class IDEConfig
+' 
+'             Properties: Language, Location, Size
+' 
+'             Function: [Default]
+'             Class PointF
+' 
+'                 Properties: Left, Top
+' 
+'             Class SizeF
+' 
+'                 Properties: Height, Width
+' 
+' 
+' 
+'         Class SessionF
+' 
+'             Properties: LoadLastSessionAfterStartUp, ProjectFile
+' 
+'             Function: [Default]
+' 
+'  
+' 
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.ComponentModel
+Imports System.Drawing
+Imports System.Runtime.InteropServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports System.Drawing
 
 Namespace Settings.Programs
 
+#Disable Warning
+
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public Class IDE
 
         ''' <summary>
@@ -122,16 +127,24 @@ Namespace Settings.Programs
         <ProfileNodeItem> Public Property IDE As Settings.Programs.IDE.IDEConfig
         <ProfileNodeItem> Public Property Session As Settings.Programs.IDE.SessionF
 
+        ''' <summary>
+        ''' save the <see cref="IDE"/> window size and location configuration data
+        ''' and then apply to the window at startup?
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property RememberWindowStatus As Boolean
+
         Public Shared Function [Default]() As Settings.Programs.IDE
-            Dim DefaultProfile As Programs.IDE = New IDE
-
-            DefaultProfile.StartPage = Settings.Programs.IDE.StartPageF.Default
-            DefaultProfile.IDE = Settings.Programs.IDE.IDEConfig.Default
-            DefaultProfile.Session = Settings.Programs.IDE.SessionF.Default
-
-            Return DefaultProfile
+            Return New IDE With {
+                .RememberWindowStatus = True,
+                .StartPage = Settings.Programs.IDE.StartPageF.Default,
+                .IDE = Settings.Programs.IDE.IDEConfig.Default,
+                .Session = Settings.Programs.IDE.SessionF.Default
+            }
         End Function
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class StartPageF
             <ProfileItem> <XmlElement> Public Property CloseAfterProjectLoad As Boolean
             <ProfileItem> <XmlElement> Public Property ShowOnStartUp As Boolean
@@ -141,6 +154,8 @@ Namespace Settings.Programs
             End Function
         End Class
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class IDEConfig
             <ProfileItem> <XmlElement> Public Property Location As PointF
             <ProfileItem> <XmlElement> Public Property Size As SizeF
@@ -162,17 +177,43 @@ Namespace Settings.Programs
                 Return config
             End Function
 
+            <ClassInterface(ClassInterfaceType.AutoDual)>
+            <ComVisible(True)>
             Public Class PointF
                 <XmlAttribute> Public Property Left As Double
                 <XmlAttribute> Public Property Top As Double
+
+                Public ReadOnly Property IsEmpty As Boolean
+                    Get
+                        Return Left + Top = 0
+                    End Get
+                End Property
+
+                Public Shared Widening Operator CType(pos As PointF) As Point
+                    Return New Point(pos.Left, pos.Top)
+                End Operator
             End Class
 
+            <ClassInterface(ClassInterfaceType.AutoDual)>
+            <ComVisible(True)>
             Public Class SizeF
                 <XmlAttribute> Public Property Width As Integer
                 <XmlAttribute> Public Property Height As Integer
+
+                Public ReadOnly Property IsEmpty As Boolean
+                    Get
+                        Return Width = 0 OrElse Height = 0
+                    End Get
+                End Property
+
+                Public Shared Widening Operator CType(size As SizeF) As Size
+                    Return New Size(size.Width, size.Height)
+                End Operator
             End Class
         End Class
 
+        <ClassInterface(ClassInterfaceType.AutoDual)>
+        <ComVisible(True)>
         Public Class SessionF
             <ProfileItem> <XmlElement> Public Property ProjectFile As String
             <ProfileItem> <XmlAttribute> Public Property LoadLastSessionAfterStartUp As Boolean = False
@@ -180,7 +221,7 @@ Namespace Settings.Programs
             Public Shared Function [Default]() As SessionF
                 Return New SessionF With {
                     .LoadLastSessionAfterStartUp = False,
-                    .ProjectFile = My.Application.Info.DirectoryPath & "/Projs/Default.gcproject.xml"
+                    .ProjectFile = $"{App.HOME}/Projs/Default.gcproject.xml"
                 }
             End Function
         End Class

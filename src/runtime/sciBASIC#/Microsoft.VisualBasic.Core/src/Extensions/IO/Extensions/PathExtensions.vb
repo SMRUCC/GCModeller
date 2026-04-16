@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d4641146f9abf074f011c4fffccd20f, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::8c08a3074603c4317de15dce58faadb3, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\PathExtensions.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1126
+    '    Code Lines: 638 (56.66%)
+    ' Comment Lines: 369 (32.77%)
+    '    - Xml Docs: 83.74%
+    ' 
+    '   Blank Lines: 119 (10.57%)
+    '     File Size: 44.21 KB
+
+
     ' Module PathExtensions
     ' 
-    '     Function: BaseName, ChangeSuffix, DeleteFile, DIR, DirectoryExists
-    '               DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy, FileExists
-    '               FileLength, FileMove, FileName, FileOpened, GetDirectoryFullPath
-    '               GetFullPath, ListDirectory, ListFiles, Long2Short, MakeDir
-    '               (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, PathCombine, PathIllegal
-    '               ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo, SplitPath, TheFile
-    '               ToDIR_URL, ToFileURL, TrimDIR, TrimSuffix, UnixPath
+    '     Function: (+2 Overloads) BaseName, ChangeSuffix, CheckUNCNetworkPath, DeleteFile, DIR
+    '               DirectoryExists, DirectoryName, EnumerateFiles, (+2 Overloads) ExtensionSuffix, FileCopy
+    '               FileExists, FileLength, FileMove, FileName, FileOpened
+    '               GetDirectoryFullPath, GetFullPath, ListDirectory, ListFiles, Long2Short
+    '               MakeDir, (+2 Overloads) NormalizePathString, ParentDirName, ParentPath, PathCombine
+    '               PathIllegal, ReadDirectory, (+2 Overloads) RelativePath, SafeCopyTo, SplitPath
+    '               TheFile, ToDIR_URL, ToFileURL, TrimDIR, TrimSuffix
+    '               UnixPath
     ' 
     ' /********************************************************************************/
 
@@ -50,6 +63,7 @@ Imports System.Math
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language.Default
@@ -58,7 +72,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' Search the path from a specific keyword.(通过关键词来推测路径)
@@ -101,20 +115,41 @@ Public Module PathExtensions
     <Extension>
     Public Function DeleteFile(path$,
                                Optional throwEx As Boolean = False,
-                               Optional strictFile As Boolean = True) As Boolean
+                               Optional strictFile As Boolean = True,
+                               Optional verbose As Action(Of Object) = Nothing) As Boolean
         Try
+            If verbose Is Nothing Then
+                verbose = AddressOf App.DoNothing
+            End If
+
+            ' 20250505
+            ' fix error of the windows UI on linux platform
+            ' 
+            ' System.PlatformNotSupportedException: UI not available for copy or move
+            '   at Microsoft.VisualBasic.FileIO.FileSystem.ShellDelete(String FullPath, UIOptionInternal ShowUI, RecycleOption recycle, UICancelOption OnUserCancel, FileOrDirectory FileOrDirectory)
+            '   at Microsoft.VisualBasic.FileIO.FileSystem.DeleteFileInternal(String file, UIOptionInternal showUI, RecycleOption recycle, UICancelOption onUserCancel)
+            '   at Microsoft.VisualBasic.PathExtensions.DeleteFile(String path, Boolean throwEx, Boolean strictFile, Action`1 verbose)
+            '   --- End of inner exception stack trace ---
+            '
+            '   file.R#_clr_interop:.unlink\ [DeleteFile] [file.R#_clr_interop:.unlink at [REnv, Version = 2.33.856.6961, Culture = neutral, PublicKeyToken = null]: line &Hx056042375]
+            '
+            ' 18. System.Exception: DeleteFile()
+            ' 
+
             If path.FileExists Then
-                Call FileIO.FileSystem.DeleteFile(
-                   path, UIOption.OnlyErrorDialogs, RecycleOption.DeletePermanently
-                )
+                Call verbose($"removes file '{path}'.")
+                Call System.IO.File.Delete(path)
             ElseIf path.DirectoryExists Then
+                Call verbose($"removes directory '{path}'.")
+
                 If strictFile Then
                     Throw New InvalidOperationException($"the given target is a directory, which the option of this operation is not allowed by default, you could set `strictFile` parameter to FALSE for removes this restriction!")
                 Else
-                    Call $"All content files in directory '{path}' is removed.".Warning
-                    Call FileIO.FileSystem.DeleteDirectory(
-                        path, DeleteDirectoryOption.DeleteAllContents
-                    )
+                    Dim msg As String = $"All content files in directory '{path}' is removed."
+
+                    Call msg.Warning
+                    Call verbose(msg)
+                    Call System.IO.Directory.Delete(path, recursive:=True)
                 End If
             End If
 
@@ -133,10 +168,20 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' 函数返回文件的拓展名后缀，请注意，这里的返回值是不会带有小数点的
+    ''' returns a file extension suffix name in lower case.
     ''' </summary>
-    ''' <param name="path$"></param>
-    ''' <returns></returns>
+    ''' <param name="path">the file path string</param>
+    ''' <returns>
+    ''' returns a file extension suffix name in lower case, if there is 
+    ''' no extension name or path string is empty, then empty string 
+    ''' value will be returned.
+    ''' </returns>
+    ''' <remarks>
+    ''' this is a safe function, which mean the value Nothing will never 
+    ''' be returns from this function.
+    ''' 
+    ''' (函数返回文件的拓展名后缀，请注意，这里的返回值是不会带有小数点的)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ExtensionSuffix(path As String) As String
@@ -144,12 +189,12 @@ Public Module PathExtensions
             Return ""
         Else
             Dim fileName = path.Split("\"c).Last.Split("/"c).Last
-            Dim suffix = fileName.Split("."c).Last
+            Dim suffix As String = fileName.Split("."c).Last
 
             If fileName = suffix Then
                 Return ""
             Else
-                Return suffix
+                Return suffix.ToLower
             End If
         End If
     End Function
@@ -252,7 +297,9 @@ Public Module PathExtensions
     ''' Default is ``*.*`` for match any kind of files.
     ''' (文件名进行匹配的关键词)
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a collection of file full paths
+    ''' </returns>
     <Extension>
     Public Function EnumerateFiles(dir$, ParamArray keyword$()) As IEnumerable(Of String)
         Const top = FileIO.SearchOption.SearchTopLevelOnly
@@ -261,6 +308,12 @@ Public Module PathExtensions
             Call $"Directory {dir} is not valid on your file system!".Warning
             Return New String() {}
         Else
+            For i As Integer = 0 To keyword.Length - 1
+                If keyword(i) = "*" Then
+                    keyword(i) = "*.*"
+                End If
+            Next
+
             Return FileIO.FileSystem.GetFiles(dir, top, keyword Or allKinds)
         End If
     End Function
@@ -274,12 +327,19 @@ Public Module PathExtensions
     ''' </summary>
     ''' <param name="directory"></param>
     ''' <param name="pattern">
+    ''' default filter is ``*.*``, which means select all files. 
     ''' 如果匹配的模式字符串是带有文件后缀名的，那么文件夹之中所有没有后缀名的文件都可能会被忽略掉
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' scan for all sub-folder in recursive mode.
+    ''' </returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function ListFiles(directory$, Optional pattern$ = "*.*") As IEnumerable(Of String)
+    Public Function ListFiles(directory$, ParamArray pattern$()) As IEnumerable(Of String)
+        If pattern.IsNullOrEmpty Then
+            pattern = {"*.*"}
+        End If
+
         Return ls - l - r - pattern <= directory
     End Function
 
@@ -387,16 +447,22 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' Gets the URL type file path.(获取URL类型的文件路径)
+    ''' Gets the URL type file path.
     ''' </summary>
     ''' <param name="Path"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>(获取URL类型的文件路径)</remarks>
     '''
     <ExportAPI("Path2Url")>
     <Extension> Public Function ToFileURL(path As String) As String
         If String.IsNullOrEmpty(path) Then
             Return ""
+        ElseIf path.EndsWith("/"c) OrElse path.EndsWith("\"c) Then
+            ' is a directory?
+            ' ArgumentException: The given file path ends with a directory separator character. (Parameter 'file')
+            Dim dir = path.GetDirectoryFullPath
+            Call VBDebugger.EchoLine($"The given file path ends with a directory separator character. ({path})")
+            Return String.Format("file:///{0}", dir.Replace("\", "/"))
         Else
             path = FileIO.FileSystem.GetFileInfo(path).FullName
             Return String.Format("file:///{0}", path.Replace("\", "/"))
@@ -429,13 +495,19 @@ Public Module PathExtensions
     ''' <remarks></remarks>
     <ExportAPI("NormalizePathString")>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function NormalizePathString(str$, Optional alphabetOnly As Boolean = True) As String
-        Return NormalizePathString(str, "_", alphabetOnly)
+    <Extension>
+    Public Function NormalizePathString(str$,
+                                        Optional alphabetOnly As Boolean = True,
+                                        Optional replacement As String = "_") As String
+
+        Return NormalizePathString(str, replacement, alphabetOnly)
     End Function
 
     <ExportAPI("NormalizePathString")>
-    <Extension> Public Function NormalizePathString(str$, normAs As String, Optional alphabetOnly As Boolean = True) As String
+    <Extension>
+    Public Function NormalizePathString(str$, normAs As String, Optional alphabetOnly As Boolean = True) As String
         Dim sb As New StringBuilder(str)
+
         For Each ch As Char In ILLEGAL_FILENAME_CHARACTERS
             Call sb.Replace(ch, normAs)
         Next
@@ -543,7 +615,10 @@ Public Module PathExtensions
     Public Function FileLength(path As String) As Long
         If path.StringEmpty Then
             Return -1
-        ElseIf Not path.FileExists OrElse path.DirectoryExists Then
+        ElseIf Not path.FileExists Then
+            Call $"missing data file({path}, fullpath={path.GetFullPath(False)}) to measure file length, -1 will returns!".Warning
+            Return -1&
+        ElseIf path.DirectoryExists Then
             Return -1&
         Else
             Return FileIO.FileSystem.GetFileInfo(path).Length
@@ -568,7 +643,8 @@ Public Module PathExtensions
     ''' path seperator symbol: ``\`` or ``/``.
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function FileCopy(source$, copyTo$) As Boolean
+    <Extension>
+    Public Function FileCopy(source$, copyTo$) As Boolean
         Try
             If copyTo.Last = "/"c OrElse copyTo.Last = "\"c Then
                 copyTo = copyTo & source.FileName
@@ -582,7 +658,7 @@ Public Module PathExtensions
 
             Call FileIO.FileSystem.CopyFile(source, copyTo)
         Catch ex As Exception
-            ex = New Exception({source, copyTo}.GetJson, ex)
+            ex = New Exception($"copy '{source}' -> '{copyTo}'; {ex.Message}", ex)
             App.LogException(ex)
 
             Return False
@@ -593,6 +669,10 @@ Public Module PathExtensions
 
     <Extension>
     Public Function FileMove(source$, target$) As Boolean
+        If Not source.FileExists Then
+            Call $"missing file({source}, fullpath={source.GetFullPath(False)}) to move to new file location.".Warning
+            Return False
+        End If
         Try
             Call File.Move(source, target)
             Return True
@@ -612,7 +692,13 @@ Public Module PathExtensions
     ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="ZERO_Nonexists">将0长度的文件也作为不存在</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' returns the file path check result:
+    ''' 
+    ''' 1. <paramref name="path"/> string is null or empty string: false
+    ''' 2. file not exists: false
+    ''' 3. file is zero length andalso <paramref name="ZERO_Nonexists"/> is config as true: false
+    ''' </returns>
     ''' <remarks></remarks>
     <Extension>
     Public Function FileExists(path$, Optional ZERO_Nonexists As Boolean = False) As Boolean
@@ -643,15 +729,20 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' Determine that the target directory is exists on the file system or not?(判断文件夹是否存在)
+    ''' Determine that the target directory is exists on the file system or not?
     ''' </summary>
     ''' <param name="DIR"></param>
-    ''' <returns></returns>
-    <ExportAPI("DIR.Exists")>
+    ''' <returns>
+    ''' 1. for directory parameter <paramref name="DIR"/> is nothing or empty string: return false
+    ''' 2. for directory not exists: return false
+    ''' </returns>
+    ''' <remarks>
+    ''' (判断文件夹是否存在)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function DirectoryExists(DIR As String) As Boolean
-        Return Not String.IsNullOrEmpty(DIR) AndAlso FileIO.FileSystem.DirectoryExists(DIR)
+        Return (Not String.IsNullOrEmpty(DIR)) AndAlso FileIO.FileSystem.DirectoryExists(DIR)
     End Function
 
     ''' <summary>
@@ -675,7 +766,8 @@ Public Module PathExtensions
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("File.IsOpened")>
-    <Extension> Public Function FileOpened(FileName As String) As Boolean
+    <Extension>
+    Public Function FileOpened(FileName As String) As Boolean
         Try
             Using FileOpenDetect As New FileStream(
                 path:=FileName,
@@ -692,12 +784,18 @@ Public Module PathExtensions
         End Try
     End Function
 
+    <Extension>
+    Public Function BaseName(fsObj As IEnumerable(Of String), Optional allowEmpty As Boolean = False) As IEnumerable(Of String)
+        Return From path As String
+               In fsObj.SafeQuery
+               Select path.BaseName(allowEmpty)
+    End Function
+
     ''' <summary>
     ''' Gets the name of the target file or directory, if the target is a file, then the name without 
     ''' the extension suffix name.
-    ''' (获取目标文件夹的名称或者文件的不包含拓展名的名称)
     ''' </summary>
-    ''' <returns></returns>
+    ''' <returns>获取目标文件夹的名称或者文件的不包含拓展名的名称</returns>
     ''' <remarks>
     ''' ###### 2017-2-14 
     ''' 
@@ -706,7 +804,8 @@ Public Module PathExtensions
     ''' 进行截取
     ''' </remarks>
     <ExportAPI(NameOf(BaseName))>
-    <Extension> Public Function BaseName(fsObj$, Optional allowEmpty As Boolean = False) As String
+    <Extension>
+    Public Function BaseName(fsObj$, Optional allowEmpty As Boolean = False) As String
         If fsObj.StringEmpty Then
             If allowEmpty Then
                 Return ""
@@ -754,22 +853,36 @@ Public Module PathExtensions
     ''' 因为系统的底层API对于过长的文件名会出错)
     ''' </summary>
     ''' <param name="file"></param>
+    ''' <param name="full">
+    ''' http url should turn this parameter to false?
+    ''' </param>
     ''' <returns></returns>
-    ''' <remarks>这个函数不依赖于系统的底层API，因为系统的底层API对于过长的文件名会出错</remarks>
+    ''' <remarks>this function also could be used for handling of the http url location.
+    ''' 这个函数不依赖于系统的底层API，因为系统的底层API对于过长的文件名会出错</remarks>
     <ExportAPI(NameOf(ParentPath))>
     <Extension>
     Public Function ParentPath(file$, Optional full As Boolean = True) As String
-        Dim UNCprefix As String = file.Match("\\\\\d+(\.\d+)+")
-        Dim isUNCpath As Boolean = (Not String.IsNullOrEmpty(UNCprefix)) AndAlso file.StartsWith(UNCprefix)
+        If file.StringEmpty Then
+            Return ""
+        End If
+
+        Dim isUNCpath As Boolean = file.CheckUNCNetworkPath
+        Dim isHttpUrl As Boolean = file.IsURLPattern
 
         ' Console.WriteLine(UNCprefix)
 
         file = file.Replace("\", "/")
 
+        If Not isHttpUrl Then
+            ' keeps the http url 
+            file = file.StringReplace("/{2,}", "/")
+        End If
+
         Dim parent As String = ""
-        Dim t As String() = file.Split("/"c)
+        Dim t As String() = file.TrimEnd("/"c).Split("/"c)
 
         If full Then
+            ' generates the full path
             If InStr(file, "../") = 1 Then
                 parent = FileIO.FileSystem.GetParentPath(App.CurrentDirectory)
                 t = t.Skip(1).ToArray
@@ -782,11 +895,7 @@ Public Module PathExtensions
 
             End If
 
-            If file.Last = "/"c Then ' 是一个文件夹
-                parent &= String.Join("/", t.Take(t.Length - 2).ToArray)
-            Else
-                parent &= String.Join("/", t.Take(t.Length - 1).ToArray)
-            End If
+            parent &= String.Join("/", t.Take(t.Length - 1).ToArray)
 
             If parent.StringEmpty Then
                 ' 用户直接输入了一个文件名，没有包含文件夹部分，则默认是当前的文件夹
@@ -797,7 +906,11 @@ Public Module PathExtensions
         End If
 
         If isUNCpath Then
-            Return parent.Replace("/", "\")
+            ' the windows UNC path needs append a \ prefix symbol
+            Return "\" & parent.Replace("/", "\")
+        ElseIf parent = "" Then
+            ' the parent path of the dir /dir is /
+            Return "/"
         Else
             Return parent
         End If
@@ -805,11 +918,12 @@ Public Module PathExtensions
 
     ''' <summary>
     ''' Get the specific file system object its relative path to the application base directory.
-    ''' 
-    ''' (获取相对于本应用程序的目标文件的相对路径(请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的))
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (获取相对于本应用程序的目标文件的相对路径(请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的))
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI(NameOf(RelativePath))>
     Public Function RelativePath(path As String) As String
@@ -818,16 +932,20 @@ Public Module PathExtensions
 
     ''' <summary>
     ''' Gets the relative path of file system object <paramref name="pcTo"/> reference to the directory path <paramref name="pcFrom"/>.
-    ''' (请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的)
     ''' </summary>
     ''' <param name="pcFrom">生成相对路径的参考文件夹</param>
     ''' <param name="pcTo">所需要生成相对路径的目标文件系统对象的绝对路径或者相对路径</param>
     ''' <param name="appendParent">是否将父目录的路径也添加进入相对路径之中？默认是</param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' The relative path string of pcTo file object reference to directory pcFrom
+    ''' </returns>
+    ''' <remarks>
+    ''' (请注意，所生成的相对路径之中的字符串最后是没有文件夹的分隔符\或者/的)
+    ''' </remarks>
     <ExportAPI(NameOf(RelativePath))>
     Public Function RelativePath(pcFrom$, pcTo$,
                                  Optional appendParent As Boolean = True,
-                                 Optional fixZipPath As Boolean = False) As <FunctionReturns("The relative path string of pcTo file object reference to directory pcFrom")> String
+                                 Optional fixZipPath As Boolean = False) As String
 
         Dim lcRelativePath As String = Nothing
         Dim lcFrom As String = (If(pcFrom Is Nothing, "", pcFrom.Trim().Replace("\", "/")))
@@ -903,18 +1021,29 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' Gets the full path of the specific file.(为了兼容Linux，这个函数会自动替换路径之中的\为/符号)
+    ''' Gets the full path of the specific file.
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (为了兼容Linux，这个函数会自动替换路径之中的\为/符号)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <ExportAPI("File.FullPath")>
     <Extension>
-    Public Function GetFullPath(file As String) As String
-        Dim fullName As String = FileIO.FileSystem.GetFileInfo(file).FullName
-        Dim UNCprefix As String = fullName.Match("\\\\\d+(\.\d+)+")
+    Public Function GetFullPath(file As String, Optional throwEx As Boolean = True) As String
+        Dim fullName As String
 
-        If (Not UNCprefix.StringEmpty) AndAlso fullName.StartsWith(UNCprefix) Then
+        Try
+            fullName = FileIO.FileSystem.GetFileInfo(file).FullName
+        Catch ex As Exception When throwEx
+            Throw
+        Catch ex As Exception
+            Call $"invalid file path [{file}]!".Warning
+            Return ""
+        End Try
+
+        If fullName.CheckUNCNetworkPath Then
             ' is a network location on NAS server
             Return fullName
         Else
@@ -923,12 +1052,37 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
+    ''' regexp pattern for matches the UNC path prefix string.
+    ''' </summary>
+    Const UNCprefixRegexp As String = "\\\\\d+(\.\d+)+"
+
+    ''' <summary>
+    ''' Check of this given windows file path is in UNC full path style?
+    ''' </summary>
+    ''' <param name="path">
+    ''' check of this given path is a UNC path or not? UNC full path is a kind of network path 
+    ''' for smb network drive, example as \\192.168.3.1\XXX, the UNC path is prefixed with a 
+    ''' server ip address.
+    ''' </param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CheckUNCNetworkPath(path As String) As Boolean
+        Dim UNCprefix As String = path.Match(UNCprefixRegexp)
+        Dim hasPrefix As Boolean = Not UNCprefix.StringEmpty
+        Dim startWithPrefix As Boolean = path.StartsWith(UNCprefix)
+
+        Return hasPrefix AndAlso startWithPrefix
+    End Function
+
+    ''' <summary>
     ''' Gets the full path of the specific directory. 
-    ''' (这个函数为了兼容linux的文件系统，也会自动的将所有的``\``替换为``/``)
     ''' </summary>
     ''' <param name="dir"></param>
     ''' <param name="stack">当程序出错误的时候记录进入日志的一个追踪目标参数，调试用</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (这个函数为了兼容linux的文件系统，也会自动的将所有的``\``替换为``/``)
+    ''' </remarks>
     <ExportAPI("Dir.FullPath")>
     <Extension>
     Public Function GetDirectoryFullPath(dir$, <CallerMemberName> Optional stack$ = Nothing) As String
@@ -957,10 +1111,13 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' Removes the file extension name from the file path.(去除掉文件的拓展名)
+    ''' Removes the file extension name from the file path.
     ''' </summary>
     ''' <param name="file"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (去除掉文件的拓展名)
+    ''' </remarks>
     <ExportAPI("File.Ext.Trim")>
     <Extension> Public Function TrimSuffix(file As String) As String
         Dim tokens$() = file.Replace("\"c, "/"c).Split("/"c)
@@ -973,10 +1130,12 @@ Public Module PathExtensions
 
     ''' <summary>
     ''' Removes the last \ and / character in a directory path string.
-    ''' (使用这个函数修剪文件夹路径之中的最后一个分隔符，以方便生成文件名)
     ''' </summary>
     ''' <param name="DIR"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (使用这个函数修剪文件夹路径之中的最后一个分隔符，以方便生成文件名)
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function TrimDIR(DIR As String) As String
@@ -984,7 +1143,7 @@ Public Module PathExtensions
     End Function
 
     ''' <summary>
-    ''' 返回``文件名称.拓展名``
+    ''' 返回``文件名称.拓展名``，对于文件夹路径而言，则是返回文件夹名称
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
@@ -998,7 +1157,10 @@ Public Module PathExtensions
         If path.StringEmpty Then
             Return ""
         Else
-            Return path.StringSplit("(\\|/)").Last
+            Return path _
+                .Trim("/"c, "\"c) _
+                .StringSplit("(\\|/)") _
+                .Last
         End If
     End Function
 

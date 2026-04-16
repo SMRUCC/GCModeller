@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 11 (91.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (8.33%)
+    '     File Size: 243 B
+
+
     '     Enum PrefixLength
     ' 
     ' 

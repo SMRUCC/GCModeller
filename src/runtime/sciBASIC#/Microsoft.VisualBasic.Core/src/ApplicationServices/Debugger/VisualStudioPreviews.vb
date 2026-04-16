@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31fa0cd6ac08db181a93bd8a2614d2c9, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\VisualStudioPreviews.vb"
+﻿#Region "Microsoft.VisualBasic::0eefb446bd1dceda8ecd58b21f07c44b, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\VisualStudioPreviews.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,65 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 29 (78.38%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (21.62%)
+    '     File Size: 1.19 KB
+
+
     '     Interface IVisualStudioPreviews
     ' 
     '         Properties: Previews
+    ' 
+    '     Module InspectObject
+    ' 
+    '         Function: ToInspectString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Emit.Delegates
+
 Namespace ApplicationServices.Debugging
 
     Public Interface IVisualStudioPreviews
         ReadOnly Property Previews As String
     End Interface
+
+    Public Module InspectObject
+
+        Public Function ToInspectString(obj As Object) As String
+            If obj Is Nothing Then
+                Return "null"
+            End If
+
+            Dim type As Type = obj.GetType
+
+            If DataFramework.IsPrimitive(type) Then
+                Return obj.ToString
+            End If
+
+            If type.IsArray Then
+                If type.GetElementType Is Nothing Then
+                    Return $"{DirectCast(obj, Array).Length} any objects"
+                Else
+                    Return $"{DirectCast(obj, Array).Length} {type.GetElementType.Name}[]"
+                End If
+            End If
+            If type.ImplementInterface(Of ICollection) Then
+                Return $"{DirectCast(obj, ICollection).Count} elements collection"
+            End If
+
+            Return obj.ToString
+        End Function
+    End Module
 End Namespace

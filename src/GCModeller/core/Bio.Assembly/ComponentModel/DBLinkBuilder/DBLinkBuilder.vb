@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efcc30d0ca53e913cd067cd8ea5099a5, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::17376eefa1aaa5bd600918d9c36c1b4f, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinkBuilder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 106 (77.94%)
+    ' Comment Lines: 10 (7.35%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (14.71%)
+    '     File Size: 5.54 KB
+
+
     '     Class DBLinks
     ' 
     '         Properties: _3DMET, CHEBI, HMDB, IsEmpty, KNApSAcK
@@ -46,11 +58,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public Class DBLinks : Inherits DBLinksManager(Of DBLink)
+        Implements IsEmpty
 
         Dim _CheBI As DBLink(), _PubChem As DBLink
         Dim __3DMET, _HMDB, _KNApSAcK, _MASSBANK, _NIKKAJI, _PDB_CCD As DBLink
@@ -68,11 +82,24 @@ Namespace ComponentModel.DBLinkBuilder
         End Sub
 
         Sub New(links As IEnumerable(Of NamedValue))
-            Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .Entry = link.text}))
+            Call Initialize(links.Select(Function(link) New DBLink With {.DBName = link.name, .entry = link.text}))
         End Sub
 
+        'Private Shared Iterator Function KeggParserPatched(xref As IEnumerable(Of DBLink)) As IEnumerable(Of DBLink)
+        '    For Each item As DBLink In xref
+        '        Select Case item.DBName
+        '            Case "CAS"
+        '                For Each id As String In item.Entry.Split
+
+        '                Next
+        '        End Select
+        '    Next
+        'End Function
+
         Private Sub Initialize(objects As IEnumerable(Of DBLink))
+            ' _DBLinkObjects = KeggParserPatched(objects).AsList
             _DBLinkObjects = objects.AsList
+
             Call LoadData(_DBLinkObjects, New KeyValuePair(Of String, Action(Of DBLink))() {
                           New KeyValuePair(Of String, Action(Of DBLink))("3DMET", Sub(DBLink As DBLink) Me.__3DMET = DBLink),
                           New KeyValuePair(Of String, Action(Of DBLink))("HMDB", Sub(DBLink As DBLink) Me._HMDB = DBLink),
@@ -151,7 +178,7 @@ Namespace ComponentModel.DBLinkBuilder
             End Get
         End Property
 
-        Public Overrides ReadOnly Property IsEmpty As Boolean
+        Public Overrides ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             Get
                 Return _CheBI.IsNullOrEmpty AndAlso
                     _PubChem Is Nothing AndAlso

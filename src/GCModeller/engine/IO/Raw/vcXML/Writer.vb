@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6126577901a40c0a5f927b9f3221d57a, engine\IO\Raw\vcXML\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::c9d4af56b4a605d2c4e86529c4f56650, engine\IO\Raw\vcXML\Writer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 246
+    '    Code Lines: 173 (70.33%)
+    ' Comment Lines: 29 (11.79%)
+    '    - Xml Docs: 41.38%
+    ' 
+    '   Blank Lines: 44 (17.89%)
+    '     File Size: 9.22 KB
+
 
     '     Class Writer
     ' 
@@ -78,6 +90,21 @@ Namespace vcXML
             xmlConfig = xmlSettings
         End Sub
 
+        ''' <summary>
+        ''' mass profile:
+        ''' 
+        ''' + transcriptome -> mass_profile
+        ''' + proteome -> mass_profile
+        ''' + metabolome -> mass_profile
+        ''' 
+        ''' flux profile:
+        ''' 
+        ''' + transcriptome -> activity
+        ''' + proteome -> activity
+        ''' + metabolome -> flux_size
+        ''' </summary>
+        ''' <param name="entities"></param>
+        ''' <param name="args"></param>
         Friend Sub writeInit(entities As VcellAdapterDriver, args As FluxBaseline)
             fs.WriteLine("<?xml version=""1.0"" encoding=""utf8""?>")
             fs.WriteLine("<vcXML xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" 
@@ -127,7 +154,7 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
             Using write As New BinaryDataWriter(ms)
                 For Each id As String In list
-                    Call write.Write(id, BinaryStringFormat.ByteLengthPrefix)
+                    Call write.Write(id, BinaryStringFormat.ZeroTerminated)
                 Next
 
                 write.Flush()
@@ -191,9 +218,10 @@ xmlns=""https://bioCAD.gcmodeller.org/XML/schema_revision/vcellXML_1.10.33"">")
 
         Private Function encode(data As IEnumerable(Of Double)) As String
             Dim ms As New MemoryStream
+            Dim vec As Double() = data.ToArray
 
             Using write As New BinaryWriter(ms)
-                For Each d As Double In data
+                For Each d As Double In vec
                     write.Write(d)
                 Next
 

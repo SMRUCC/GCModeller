@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4727c6b3abf21e494b5f58819582a77c, annotations\Proteomics\ProteinGroups.vb"
+﻿#Region "Microsoft.VisualBasic::d985792be96633d66e8c07c1c21b7f00, annotations\Proteomics\ProteinGroups.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 471
+    '    Code Lines: 356 (75.58%)
+    ' Comment Lines: 60 (12.74%)
+    '    - Xml Docs: 63.33%
+    ' 
+    '   Blank Lines: 55 (11.68%)
+    '     File Size: 19.81 KB
+
+
     ' Module ProteinGroups
     ' 
     '     Function: __applyInternal, ExportAnnotations, (+5 Overloads) GenerateAnnotations, GetKOlist, GetProteinIds
@@ -45,8 +57,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -55,9 +67,9 @@ Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Assembly.Uniprot.Web
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 Imports uniprotProteomics = SMRUCC.genomics.Assembly.Uniprot.XML.UniProtXML
-Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.XLSX.File
 
 ''' <summary>
 ''' Label Free/iTraq/TMT结果注释数据处理
@@ -321,7 +333,7 @@ Public Module ProteinGroups
                     }
                     found = True
 #If DEBUG Then
-                    Call $"[{protein.organism.scientificName}] {protein.name}".__DEBUG_ECHO
+                    Call $"[{protein.organism.scientificName}] {protein.name}".debug
 #End If
                     Exit For
                 End If
@@ -504,7 +516,7 @@ Public Module ProteinGroups
             .Where(Function(x) Not x.KO.IsNullOrEmpty) _
             .Select(Function(x) x.KO) _
             .Unlist _
-            .Select(AddressOf Trim) _
+            .Select(AddressOf Strings.Trim) _
             .Distinct _
             .Where(Function(s) Not String.IsNullOrEmpty(s)) _
             .SeqIterator _

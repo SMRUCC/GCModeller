@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79 (50.00%)
+    ' Comment Lines: 57 (36.08%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (13.92%)
+    '     File Size: 7.03 KB
+
+
     ' Class reaction
     ' 
     '     Properties: note, reaction_description, reaction_id, reaction_name, reaction_type

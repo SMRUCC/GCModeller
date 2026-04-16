@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 79 (79.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (21.00%)
+    '     File Size: 3.68 KB
+
+
     '     Class CommandLineTokenlizer
     ' 
     '         Constructor: (+1 Overloads) Sub New

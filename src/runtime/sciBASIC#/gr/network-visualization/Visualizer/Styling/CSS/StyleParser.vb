@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 9 (56.25%)
+    ' Comment Lines: 3 (18.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (25.00%)
+    '     File Size: 374 B
+
+
     '     Module StyleParser
     ' 
     '         Function: ParseCSSStyles

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f33fee647ee77e9013727eb16e3b8d34, Data_science\Graph\Analysis\PageRank\WeightedPRGraph.vb"
+﻿#Region "Microsoft.VisualBasic::0268e791285b8985610570d8c00ddd60, Data_science\Graph\Analysis\PageRank\WeightedPRGraph.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 104 (60.47%)
+    ' Comment Lines: 33 (19.19%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 35 (20.35%)
+    '     File Size: 6.22 KB
+
 
     '     Class WeightedPRNode
     ' 
@@ -88,35 +100,34 @@ Namespace Analysis.PageRank
         ''' <param name="weight#">Weight value of this edge, default is no weight.</param>
         ''' <returns></returns>
         Public Overrides Function AddEdge(i%, j%, Optional weight# = 0) As WeightedPRGraph
-            If Not buffer.Contains(i) Then
+            If Not buffer.ContainsKey(i) Then
                 Call AddVertex(id:=i)
             End If
 
-            If Not buffer.Contains(j) Then
+            If Not buffer.ContainsKey(j) Then
                 Call AddVertex(id:=j)
             End If
 
-            Return AddEdge(buffer(i).Label, buffer(j).Label, weight)
+            Return AddEdge(buffer(key:=CUInt(i)).label, buffer(key:=CUInt(j)).label, weight)
         End Function
 
         ''' <summary>
         ''' <paramref name="u"/>和<paramref name="v"/>都是<see cref="WeightedPRNode.Label"/>
         ''' </summary>
-        ''' <param name="u"></param>
-        ''' <param name="v"></param>
+        ''' <param name="u">the source node</param>
+        ''' <param name="v">the target node</param>
         ''' <param name="weight"></param>
         ''' <returns></returns>
         Public Overrides Function AddEdge(u As String, v As String, Optional weight As Double = 0) As WeightedPRGraph
             Dim j% = vertices(v).ID
-            Dim edgeKey$ = VertexEdge.EdgeKey(vertices(u), vertices(v))
 
             vertices(u).Outbound += weight
 
-            If Not edges.ContainsKey(edgeKey) Then
+            If Not ExistEdge(u, v) Then
                 Call AddEdge(vertices(u), vertices(v))
             End If
 
-            With edges(edgeKey)
+            With QueryEdge(from:=u, [to]:=v)
                 .weight += weight
 
                 If .U.ConnectedTargets Is Nothing Then
@@ -199,10 +210,10 @@ Namespace Analysis.PageRank
                     Dim source As Integer = edge.ID
 
                     For Each map In edge.ConnectedTargets
-                        g.buffer(map.Key).Weight += a * nodes(source) * map.Value ' weight 
+                        g.buffer(key:=CUInt(map.Key)).Weight += a * nodes(source) * map.Value ' weight 
                     Next
 
-                    g.buffer(source).Weight += (1 - a) * inverse + leak * inverse
+                    g.buffer(key:=CUInt(source)).Weight += (1 - a) * inverse + leak * inverse
                 Next
 
                 d = 0

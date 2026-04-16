@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f0b263a722e820cb244b5f83fcf977a, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\JavaScriptObject.vb"
+﻿#Region "Microsoft.VisualBasic::48c45a138c700d1c909cc38a0d9bbfc5, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\JavaScriptObject.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 326
+    '    Code Lines: 230 (70.55%)
+    ' Comment Lines: 43 (13.19%)
+    '    - Xml Docs: 93.02%
+    ' 
+    '   Blank Lines: 53 (16.26%)
+    '     File Size: 13.03 KB
+
+
     '     Class JavaScriptObject
     ' 
-    '         Properties: length, this
+    '         Properties: data, length, this
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: GetDescription, GetEnumerator, GetGenericJson, GetMemberValue, GetNames
-    '                   IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, Join, ToString
+    '         Function: (+2 Overloads) CreateDynamicObject, (+2 Overloads) CreateObject, GetDescription, GetEnumerator, GetGenericJSON
+    '                   GetMemberValue, GetNames, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, Join
+    '                   ToString
     ' 
-    '         Sub: Delete
+    '         Sub: Delete, loadObject
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,6 +64,8 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace My.JavaScript
@@ -58,7 +73,10 @@ Namespace My.JavaScript
     ''' <summary>
     ''' javascript object
     ''' </summary>
-    Public Class JavaScriptObject : Implements IEnumerable(Of String), IEnumerable(Of NamedValue(Of Object)), IJavaScriptObjectAccessor
+    Public Class JavaScriptObject
+        Implements IEnumerable(Of String),          ' for each key name, implements javascript foreach
+            IEnumerable(Of NamedValue(Of Object)),  ' for each key-value pair tuple value
+            IJavaScriptObjectAccessor
 
         Dim members As New Dictionary(Of String, JavaScriptValue)
 
@@ -68,6 +86,11 @@ Namespace My.JavaScript
         ''' <returns></returns>
         Protected ReadOnly Property this As JavaScriptObject = Me
 
+        ''' <summary>
+        ''' the size of the member collection in this javascript object
+        ''' </summary>
+        ''' <returns></returns>
+        <DataIgnored>
         Public ReadOnly Property length As Integer
             Get
                 Return members.Count
@@ -75,6 +98,13 @@ Namespace My.JavaScript
         End Property
 
         Public Const undefined$ = "UNDEFINED"
+
+        <DataIgnored>
+        Public ReadOnly Property data As JavaScriptValue()
+            Get
+                Return members.Values.ToArray
+            End Get
+        End Property
 
         ''' <summary>
         ''' 只针对Public的属性或者字段有效
@@ -105,22 +135,40 @@ Namespace My.JavaScript
         ''' 如果存在无参数的函数，则也会被归类为只读属性？
         ''' </summary>
         Sub New()
-            Dim type As Type = MyClass.GetType
-            Dim properties As PropertyInfo() = type.GetProperties(PublicProperty).ToArray
-            Dim fields As FieldInfo() = type.GetFields(PublicProperty).ToArray
+            Call loadObject(this:=Me)
+        End Sub
+
+        Private Shared Sub loadObject(ByRef this As JavaScriptObject)
+            Dim type As Type = this.GetType
             Dim value As JavaScriptValue
 
-            For Each prop As PropertyInfo In properties
-                If prop.Name = NameOf(Me.length) OrElse Not prop.GetIndexParameters.IsNullOrEmpty Then
-                    Continue For
-                End If
+            Static properties As New Dictionary(Of Type, PropertyInfo())
+            Static fields As New Dictionary(Of Type, FieldInfo())
 
-                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(prop), Me)
-                members(prop.Name) = value
+            ' check of the static cache hit for the clr type schema
+            If Not properties.ContainsKey(type) Then
+                Call properties.Add(type, type _
+                    .GetProperties(PublicProperty) _
+                    .Where(Function(t)
+                               Return t.Name <> NameOf(JavaScriptObject.length) AndAlso
+                                    t.Name <> NameOf(JavaScriptObject.data) AndAlso
+                                    t.GetCustomAttribute(Of DataIgnoredAttribute) Is Nothing AndAlso
+                                    t.GetIndexParameters _
+                                     .IsNullOrEmpty
+                           End Function) _
+                    .ToArray)
+            End If
+            If Not fields.ContainsKey(type) Then
+                Call fields.Add(type, type.GetFields(PublicProperty).ToArray)
+            End If
+
+            For Each prop As PropertyInfo In properties(type)
+                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(prop), this)
+                this.members(prop.Name) = value
             Next
-            For Each field As FieldInfo In fields
-                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(field), Me)
-                members(field.Name) = value
+            For Each field As FieldInfo In fields(type)
+                value = New JavaScriptValue(New BindProperty(Of DataFrameColumnAttribute)(field), this)
+                this.members(field.Name) = value
             Next
         End Sub
 
@@ -132,8 +180,20 @@ Namespace My.JavaScript
             Next
         End Sub
 
+        Sub New(keys As String(), values As Object())
+            Call Me.New()
+
+            If keys.Length <> values.Length Then
+                Throw New InvalidExpressionException($"this size of the keys({keys.Length}) should be equals to the size of the values data({values.Length})!")
+            Else
+                For i As Integer = 0 To keys.Length - 1
+                    Me(keys(i)) = values(i)
+                Next
+            End If
+        End Sub
+
         Public Shared Function Join(left As JavaScriptObject, right As JavaScriptObject) As JavaScriptObject
-            Dim leftObj As Dictionary(Of String, Object) = left.GetGenericJson
+            Dim leftObj As Dictionary(Of String, Object) = left.GetGenericJSON
 
             For Each item As NamedValue(Of Object) In DirectCast(right, IEnumerable(Of NamedValue(Of Object)))
                 If Not leftObj.ContainsKey(item.Name) Then
@@ -222,19 +282,107 @@ Namespace My.JavaScript
         ''' <summary>
         ''' populate all members data
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' Apply for create json in dynamics
+        ''' </returns>
+        ''' <remarks>
+        ''' only works for the object in primitive type
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGenericJson() As Dictionary(Of String, Object)
+        Public Function GetGenericJSON() As Dictionary(Of String, Object)
             Return members.ToDictionary(Function(a) a.Key, Function(a) a.Value.GetValue)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return GetGenericJson.GetJson(knownTypes:={
-                GetType(Integer),
-                GetType(String),
-                GetType(Double),
-                GetType(Boolean)
-            })
+            Return GetGenericJSON.GetJson(knownTypes:=DataFramework.GetPrimitiveTypes)
+        End Function
+
+        ''' <summary>
+        ''' A wrapper for <see cref="DynamicType.Create"/>
+        ''' </summary>
+        ''' <param name="names"></param>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
+        Public Shared Function CreateDynamicObject(names As String(), values As Object()) As Object
+            Dim obj As New Dictionary(Of String, Object)
+
+            For i As Integer = 0 To names.Length - 1
+                obj(names(i)) = values(i)
+            Next
+
+            Return DynamicType.Create(obj)
+        End Function
+
+        ''' <summary>
+        ''' Create runtime object and then assign the property value
+        ''' </summary>
+        ''' <param name="dynamic"></param>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
+        Public Shared Function CreateDynamicObject(dynamic As Type, values As IEnumerable(Of KeyValuePair(Of String, Object))) As Object
+            Dim obj As Object = Activator.CreateInstance(dynamic)
+            Dim schema = DataFramework.Schema(dynamic, flag:=PropertyAccess.Writeable, nonIndex:=True)
+
+            For Each tuple As KeyValuePair(Of String, Object) In values
+                Dim value As Object = tuple.Value
+                Dim prop As PropertyInfo = schema(tuple.Key)
+
+                Call prop.SetValue(obj, value)
+            Next
+
+            Return obj
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CreateObject(Of T As Class)() As T
+            Return CreateObject(GetType(T))
+        End Function
+
+        Public Function CreateObject(type As Type) As Object
+            Dim propWriter As Dictionary(Of String, PropertyInfo) = type _
+                .GetProperties(PublicProperty) _
+                .Where(Function(p) p.GetIndexParameters.IsNullOrEmpty) _
+                .ToDictionary(Function(p)
+                                  Return p.Name
+                              End Function)
+            Dim obj As Object = Activator.CreateInstance(type)
+
+            For Each name As String In Me
+                Dim value As Object = Me(name)
+
+                If Not propWriter.ContainsKey(name) Then
+                    Continue For
+                End If
+
+                Dim target As PropertyInfo = propWriter(name)
+
+                If DataFramework.IsPrimitive(target.PropertyType) Then
+                    value = Conversion.CTypeDynamic(value, target.PropertyType)
+                ElseIf target.PropertyType.IsArray Then
+                    If DataFramework.IsPrimitive(target.PropertyType.GetElementType) Then
+                        value = DirectCast(value, Array).CTypeDynamic(target.PropertyType)
+                    Else
+                        Dim template As Type = target.PropertyType.GetElementType
+                        Dim src As JavaScriptObject() = DirectCast(value, Array).DirectCast(GetType(JavaScriptObject))
+                        Dim vec As Array = Array.CreateInstance(template, src.Length)
+
+                        For i As Integer = 0 To src.Length - 1
+                            vec.SetValue(src(i).CreateObject(template), i)
+                        Next
+
+                        value = vec
+                    End If
+                ElseIf TypeOf value Is JavaScriptObject Then
+                    value = DirectCast(value, JavaScriptObject).CreateObject(target.GetType)
+                Else
+                    value = Nothing
+                End If
+
+                Call target.SetValue(obj, value)
+            Next
+
+            Return obj
         End Function
     End Class
 End Namespace

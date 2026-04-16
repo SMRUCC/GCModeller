@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79e35472b64eb1b4a17ef3f226248879, gr\Microsoft.VisualBasic.Imaging\test\gifTest.vb"
+﻿#Region "Microsoft.VisualBasic::d270245be690dc401a800bfea24e8879, gr\Microsoft.VisualBasic.Imaging\test\gifTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 16 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (20.00%)
+    '     File Size: 809 B
+
+
     ' Module gifTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -41,11 +53,12 @@
 
 Imports System.Drawing
 Imports System.IO
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 
 Module gifTest
 
-    Sub Main()
+    Sub Main1()
         Using file As FileStream = "./test.gif".Open, gif As New GifEncoder(file)
             Dim frame1 As Graphics2D = New Size(200, 200).CreateGDIDevice
             Dim frame2 As Graphics2D = New Size(200, 200).CreateGDIDevice

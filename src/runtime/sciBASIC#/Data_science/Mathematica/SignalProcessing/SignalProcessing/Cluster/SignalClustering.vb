@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fda392c98ae1f63a816862d319136503, Data_science\Mathematica\SignalProcessing\SignalProcessing\Cluster\SignalClustering.vb"
+﻿#Region "Microsoft.VisualBasic::3464b60d9dbb97cd2b999bb7b903409d, Data_science\Mathematica\SignalProcessing\SignalProcessing\Cluster\SignalClustering.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 39 (75.00%)
+    ' Comment Lines: 3 (5.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (19.23%)
+    '     File Size: 1.70 KB
+
+
     ' Class SignalClustering
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -44,6 +56,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Algorithm.BinaryTree
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
+''' <summary>
+''' Try to make time serial signal data into multiple clusters
+''' </summary>
 Public Class SignalClustering
 
     ReadOnly tree As AVLTree(Of GeneralSignal, GeneralSignal)

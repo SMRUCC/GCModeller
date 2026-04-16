@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad5b15642a7eb60c381879eed11e6512, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
+﻿#Region "Microsoft.VisualBasic::fc4e32260aa578c1a8e0ddcc3c5c7e02, analysis\Metagenome\Metagenome\OTUTable\OTU.vb"
 
     ' Author:
     ' 
@@ -31,49 +31,62 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 170 (84.16%)
+    ' Comment Lines: 15 (7.43%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 17 (8.42%)
+    '     File Size: 8.53 KB
+
+
     ' Module OTU
     ' 
-    '     Function: BuildOTUClusters, CreateGastCountTabel, LoadOTU_taxa_table
+    '     Function: BuildOTUClusters, LoadOTU_taxa_table, LoadOTUTaxonAnalysis, RankStringCleanup
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.Metagenomics.BIOMTaxonomy
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Public Module OTU
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function CreateGastCountTabel(table As IEnumerable(Of OTUTable), sampleName$) As IEnumerable(Of gast.gastOUT)
-        Return table _
-            .Select(Function(OTU)
-                        Return New gast.gastOUT With {
-                            .counts = OTU(sampleName),
-                            .distance = 0,
-                            .max_pcts = 1,
-                            .minrank = 1,
-                            .na_pcts = 0,
-                            .rank = 1,
-                            .read_id = OTU.ID,
-                            .refhvr_ids = 1,
-                            .refssu_count = 1,
-                            .taxa_counts = 1,
-                            .taxonomy = OTU.taxonomy.ToString(BIOMstyle:=True),
-                            .vote = 1
-                        }
-                    End Function)
+    Iterator Public Function CreateGastCountTabel(table As IEnumerable(Of OTUTable), sampleName$) As IEnumerable(Of gast.gastOUT)
+        For Each OTU As OTUTable In table
+            Yield New gast.gastOUT With {
+                .counts = OTU(sampleName),
+                .distance = 0,
+                .max_pcts = 1,
+                .minrank = 1,
+                .na_pcts = 0,
+                .rank = 1,
+                .read_id = OTU.ID,
+                .refhvr_ids = 1,
+                .refssu_count = 1,
+                .taxa_counts = 1,
+                .taxonomy = OTU.taxonomy.ToString(BIOMstyle:=True),
+                .vote = 1
+            }
+        Next
     End Function
 
     ''' <summary>
@@ -85,7 +98,7 @@ Public Module OTU
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function BuildOTUClusters(contigs As IEnumerable(Of FastaSeq), output As StreamWriter, Optional similarity# = 97%) As NamedValue(Of String())()
+    Public Function BuildOTUClusters(contigs As IEnumerable(Of FastaSeq), output As IO.StreamWriter, Optional similarity# = 97%) As NamedValue(Of String())()
         Dim ref As FastaSeq = contigs.First
         Dim OTUs As New List(Of (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String))))
         Dim n As i32 = 1
@@ -130,7 +143,7 @@ Public Module OTU
         Next
 
         Return LinqAPI.Exec(Of NamedValue(Of String())) <=
- _
+                                                          _
             From OTU As (ref As FastaSeq, fullEquals#, cluster As NamedValue(Of List(Of String)))
             In OTUs
             Let refSeq As FastaSeq = New FastaSeq With {
@@ -183,5 +196,61 @@ Public Module OTU
                 .taxonomy = New Taxonomy(parser(taxonomy))
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' load OTU data with seperated taxonomy rank data
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="tsv"></param>
+    ''' <returns></returns>
+    Public Iterator Function LoadOTUTaxonAnalysis(file As String, Optional tsv As Boolean = False) As IEnumerable(Of OTUTable)
+        Dim df As DataFrameResolver = DataFrameResolver.Load(file, tsv:=tsv)
+        Dim domain = df.GetOrdinal("domain")
+        Dim kingdom = df.GetOrdinal("kingdom")
+        Dim phylum = df.GetOrdinal("phylum")
+        Dim [class] = df.GetOrdinal("class")
+        Dim order = df.GetOrdinal("order")
+        Dim family = df.GetOrdinal("family")
+        Dim genus = df.GetOrdinal("genus")
+        Dim species = df.GetOrdinal("species")
+        Dim otu = df.GetOrdinal("otu", "asv")
+        Dim assets As Index(Of String) = {"Total", "Prevalence", "Percent", "domain", "kingdom", "phylum", "class", "order", "family", "genus", "species", "otu", "asv"}
+        Dim sampleIds As String() = df.HeadTitles _
+            .Where(Function(str)
+                       Return Not (str Like assets)
+                   End Function) _
+            .ToArray
+        Dim sampleIndex As Integer() = df.GetOrdinalSchema(sampleIds)
+
+        Do While df.Read
+            Dim tax As New Taxonomy() With {
+                .[class] = RankStringCleanup(df.GetString([class])),
+                .family = RankStringCleanup(df.GetString(family)),
+                .genus = RankStringCleanup(df.GetString(genus)),
+                .kingdom = RankStringCleanup(df.GetString(kingdom)),
+                .order = RankStringCleanup(df.GetString(order)),
+                .phylum = RankStringCleanup(df.GetString(phylum)),
+                .species = RankStringCleanup(df.GetString(species))
+            }
+            Dim id As String = df.GetString(otu)
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To sampleIds.Length - 1
+                Call data.Add(sampleIds(i), df.GetDouble(sampleIndex(i)))
+            Next
+
+            Yield New OTUTable With {
+                .ID = id,
+                .Properties = data,
+                .taxonomy = tax
+            }
+        Loop
+    End Function
+
+    Private Function RankStringCleanup(s As String) As String
+        Return Strings.Trim(s) _
+            .StringReplace("norank_[a-z]+_+", "") _
+            .Trim("_"c, " "c, "-"c, "."c)
     End Function
 End Module

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 42 (45.65%)
+    ' Comment Lines: 42 (45.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (8.70%)
+    '     File Size: 3.60 KB
+
+
     '     Class PackageAttribute
     ' 
     '         Properties: Category, Cites, Publisher, Revision, Url

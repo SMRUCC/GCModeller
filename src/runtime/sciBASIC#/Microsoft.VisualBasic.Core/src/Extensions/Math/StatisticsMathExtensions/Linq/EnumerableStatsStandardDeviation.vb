@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::018201163638d7ddfa7332a512a0ffcb, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsStandardDeviation.vb"
+﻿#Region "Microsoft.VisualBasic::b372c2532cd689aef33e95c3099ec8a8, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsStandardDeviation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 526
+    '    Code Lines: 106 (20.15%)
+    ' Comment Lines: 411 (78.14%)
+    '    - Xml Docs: 2.68%
+    ' 
+    '   Blank Lines: 9 (1.71%)
+    '     File Size: 21.01 KB
+
+
     '     Module EnumerableStatsStandardDeviation
     ' 
     '         Function: (+20 Overloads) StandardDeviation
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports sys = System.Math
+Imports std = System.Math
 
 Namespace Math.Statistics.Linq
 
@@ -121,42 +133,23 @@ Namespace Math.Statistics.Linq
 
             Return Nothing
         End Function
-        '
-        ' Summary:
-        '     Computes the StandardDeviation of a sequence of System.Double values.
-        '
-        ' Parameters:
-        '   source:
-        '     A sequence of System.Double values to calculate the StandardDeviation of.
-        '
-        ' Returns:
-        '     The StandardDeviation of the sequence of values.
-        '
-        ' Exceptions:
-        '   System.ArgumentNullException:
-        '     source is null.
-        '
-        '   System.InvalidOperationException:
-        '     source contains no elements.
+
+        ''' <summary>
+        ''' Computes the StandardDeviation of a sequence of System.Double values.
+        ''' </summary>
+        ''' <param name="source">A sequence of System.Double values to calculate the StandardDeviation of.</param>
+        ''' <returns>The StandardDeviation of the sequence of values.</returns>
         <Extension>
         Public Function StandardDeviation(source As IEnumerable(Of Double)) As Double
-            Return sys.Sqrt(source.Variance())
+            Return std.Sqrt(source.Variance())
         End Function
-        '
-        ' Summary:
-        '     Computes the StandardDeviation of a sequence of nullable System.Single values.
-        '
-        ' Parameters:
-        '   source:
-        '     A sequence of nullable System.Single values to calculate the StandardDeviation of.
-        '
-        ' Returns:
-        '     The StandardDeviation of the sequence of values, or null if the source sequence is
-        '     empty or contains only values that are null.
-        '
-        ' Exceptions:
-        '   System.ArgumentNullException:
-        '     source is null.
+
+        ''' <summary>
+        ''' Computes the StandardDeviation of a sequence of nullable System.Single values.
+        ''' </summary>
+        ''' <param name="source">A sequence of nullable System.Single values to calculate the StandardDeviation of.</param>
+        ''' <returns>The StandardDeviation of the sequence of values, or null if the source sequence is
+        '''     empty or contains only values that are null.</returns>
         <Extension>
         Public Function StandardDeviation(source As IEnumerable(Of Single?)) As Single
             Dim values As IEnumerable(Of Single) = source.Coalesce()

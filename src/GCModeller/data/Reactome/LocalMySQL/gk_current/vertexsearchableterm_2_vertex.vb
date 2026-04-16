@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 79 (44.89%)
+    ' Comment Lines: 75 (42.61%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 7.24 KB
+
+
     ' Class vertexsearchableterm_2_vertex
     ' 
     '     Properties: DB_ID, vertex, vertex_class, vertex_rank

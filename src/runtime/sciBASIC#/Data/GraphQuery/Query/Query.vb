@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 41 (63.08%)
+    ' Comment Lines: 11 (16.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (20.00%)
+    '     File Size: 1.56 KB
+
+
     ' Class Query
     ' 
     '     Properties: isArray, isTextArray, members, name, parser

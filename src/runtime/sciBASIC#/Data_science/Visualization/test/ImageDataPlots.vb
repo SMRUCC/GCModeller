@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 30 (78.95%)
+    ' Comment Lines: 1 (2.63%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.20 KB
+
+
     ' Module ImageDataPlots
     ' 
     '     Sub: Main, Plot2DMap, Plot3DMap

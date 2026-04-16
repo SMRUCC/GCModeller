@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43905634d597a69a2976bbf23b1c81e2, Data\BinaryData\BinaryData\XDR\XdrEncoding.vb"
+﻿#Region "Microsoft.VisualBasic::7c0744c0bb8e22463b0fb738e4f49c88, Data\BinaryData\BinaryData\XDR\XdrEncoding.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 97 (56.73%)
+    ' Comment Lines: 52 (30.41%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 22 (12.87%)
+    '     File Size: 6.15 KB
+
+
     '     Module XdrEncoding
     ' 
     '         Function: DecodeDouble, DecodeInt32, DecodeInt64, DecodeSingle, DecodeUInt32
@@ -57,11 +69,15 @@ Namespace Xdr
                 ' Return 0
                 Throw New InvalidProgramException
             Else
-                Dim H18 = r.Read() << &H18
-                Dim H10 = r.Read() << &H10
-                Dim H8 = r.Read() << &H8
+                ' 20211203
+                ' default in VB.NET is byte shift
+                ' should be convert to integer at first
+                Dim H18 = CInt(r.Read) << &H18
+                Dim H10 = CInt(r.Read) << &H10
+                Dim H8 = CInt(r.Read) << &H8
+                Dim H0 = CInt(r.Read)
 
-                Return H18 Or H10 Or H8 Or r.Read()
+                Return H18 Or H10 Or H8 Or H0
             End If
         End Function
 
@@ -100,7 +116,14 @@ Namespace Xdr
         ''' http://tools.ietf.org/html/rfc4506#section-4.5
         ''' </summary>
         Public Function DecodeInt64(r As IByteReader) As Long
-            Return (CLng(r.Read()) << 56) Or (CLng(r.Read()) << 48) Or (CLng(r.Read()) << 40) Or (CLng(r.Read()) << 32) Or (CLng(r.Read()) << 24) Or (CLng(r.Read()) << 16) Or (CLng(r.Read()) << 8) Or CLng(r.Read())
+            Return (CLng(r.Read()) << 56) _
+                Or (CLng(r.Read()) << 48) _
+                Or (CLng(r.Read()) << 40) _
+                Or (CLng(r.Read()) << 32) _
+                Or (CLng(r.Read()) << 24) _
+                Or (CLng(r.Read()) << 16) _
+                Or (CLng(r.Read()) << 8) _
+                Or (CLng(r.Read()))
         End Function
 
         ''' <summary>

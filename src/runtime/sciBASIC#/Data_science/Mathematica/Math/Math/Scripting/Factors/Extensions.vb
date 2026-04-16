@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 39 (73.58%)
+    ' Comment Lines: 7 (13.21%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (13.21%)
+    '     File Size: 1.97 KB
+
+
     '     Module FactorExtensions
     ' 
     '         Properties: names

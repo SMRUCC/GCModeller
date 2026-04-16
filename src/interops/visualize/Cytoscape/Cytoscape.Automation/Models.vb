@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 14 (45.16%)
+    ' Comment Lines: 13 (41.94%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 4 (12.90%)
+    '     File Size: 731 B
+
+
     ' Class NetworkReference
     ' 
     '     Properties: networkSUID, source

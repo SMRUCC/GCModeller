@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a5d5c8fb266f093597cd41b09239d6ec, mime\text%html\CSS\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c1f353af8107d6190596c7a8bc4cad27, mime\text%html\CSS\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 37 (84.09%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (15.91%)
+    '     File Size: 1.37 KB
+
+
     '     Module Extensions
     ' 
     '         Function: CSSInlineStyle, CSSValue, GetTagValue
@@ -45,8 +57,15 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 
+#If NET48 Then
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
+
 Namespace CSS
 
+    <HideModuleName>
     Public Module Extensions
 
         ReadOnly tags As Dictionary(Of String, HtmlTags) =

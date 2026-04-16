@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0cad90964e58d1afd98117ed7237c3f5, vs_solutions\dev\VisualStudio\IL\Globals.vb"
+﻿#Region "Microsoft.VisualBasic::b9e287db502c1b27629daacd0cfc33cf, vs_solutions\dev\VisualStudio\IL\Globals.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 55 (27.09%)
+    ' Comment Lines: 121 (59.61%)
+    '    - Xml Docs: 11.57%
+    ' 
+    '   Blank Lines: 27 (13.30%)
+    '     File Size: 5.19 KB
+
+
     '     Module Globals
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: ProcessSpecialTypes
+    '         Function: GetOpCode, ProcessSpecialTypes
     ' 
     '         Sub: LoadOpCodes
     ' 
@@ -46,6 +58,7 @@
 
 Imports System.Reflection
 Imports System.Reflection.Emit
+Imports System.Runtime.CompilerServices
 
 Namespace IL
     'public enum AssemblyType
@@ -149,7 +162,16 @@ Namespace IL
     '    PostDecrement
     '}
 
-    Module Globals
+    Public Module Globals
+
+        ReadOnly OpcodeLookupTable As Dictionary(Of Short, OpCode) = GetType(OpCodes) _
+            .GetFields() _
+            .[Select](Function(f)
+                          Return CType(f.GetValue(Nothing), OpCode)
+                      End Function) _
+            .ToDictionary(Function(op)
+                              Return op.Value
+                          End Function)
 
         Public Cache As Dictionary(Of Integer, Object) = New Dictionary(Of Integer, Object)()
         Public multiByteOpCodes As OpCode()
@@ -162,6 +184,16 @@ Namespace IL
 
             Call LoadOpCodes()
         End Sub
+
+        ''' <summary>
+        ''' get msil opcode from <see cref="OpcodeLookupTable"/>
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetOpCode(i As Short) As OpCode
+            Return OpcodeLookupTable(key:=i)
+        End Function
 
         Private Sub LoadOpCodes()
             For Each info1 As FieldInfo In GetType(OpCodes).GetFields()

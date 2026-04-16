@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ae53c9a7cac78ab6fdc8e8d2b7b13ae, Data_science\Visualization\Visualization\Embedding\Embedding3D.vb"
+﻿#Region "Microsoft.VisualBasic::3471b6fcea71e43d679b7ec973e2325e, Data_science\Visualization\Visualization\Embedding\Embedding3D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 60 (85.71%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (14.29%)
+    '     File Size: 2.82 KB
+
+
     ' Class Embedding3D
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -51,6 +63,8 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Public Class Embedding3D : Inherits EmbeddingRender
 
@@ -103,7 +117,8 @@ Public Class Embedding3D : Inherits EmbeddingRender
             hullBspline:=2,
             theme:=theme
         )
+        Dim css As CSSEnvirnment = g.LoadEnvironment
 
-        Call engine.Plot(g, canvas.PlotRegion)
+        Call engine.Plot(g, canvas.PlotRegion(css))
     End Sub
 End Class

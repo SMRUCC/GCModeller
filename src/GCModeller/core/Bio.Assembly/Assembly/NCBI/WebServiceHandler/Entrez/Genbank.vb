@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 32 (58.18%)
+    ' Comment Lines: 12 (21.82%)
+    '    - Xml Docs: 25.00%
+    ' 
+    '   Blank Lines: 11 (20.00%)
+    '     File Size: 2.00 KB
+
+
     '     Module Genbank
     ' 
     '         Function: GetMetaInfo, getUid

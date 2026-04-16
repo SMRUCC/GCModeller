@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 47 (61.04%)
+    ' Comment Lines: 18 (23.38%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 12 (15.58%)
+    '     File Size: 3.06 KB
+
+
     '     Class MirrorPalindrome
     ' 
     '         Properties: ResultSet

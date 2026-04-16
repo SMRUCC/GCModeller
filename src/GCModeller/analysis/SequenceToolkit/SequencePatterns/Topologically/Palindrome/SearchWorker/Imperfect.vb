@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::573878053a765e3609992bef3d3c651b, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
+﻿#Region "Microsoft.VisualBasic::8469710550320705ec295ff19d1a0cc1, analysis\SequenceToolkit\SequencePatterns\Topologically\Palindrome\SearchWorker\Imperfect.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 63 (71.59%)
+    ' Comment Lines: 13 (14.77%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 12 (13.64%)
+    '     File Size: 3.77 KB
+
+
     '     Class Imperfect
     ' 
     '         Properties: ResultSet
@@ -51,7 +63,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Search
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 

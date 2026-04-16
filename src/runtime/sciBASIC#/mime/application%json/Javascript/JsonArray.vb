@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9df52e4fb6c05318e1b455c14911c061, mime\application%json\Javascript\JsonArray.vb"
+﻿#Region "Microsoft.VisualBasic::eb0642d241f566cf9be8b96b988157a2, mime\application%json\Javascript\JsonArray.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 131 (71.98%)
+    ' Comment Lines: 21 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 30 (16.48%)
+    '     File Size: 6.26 KB
+
+
     '     Class JsonArray
     ' 
-    '         Properties: Length
+    '         Properties: FirstAndLast, Length, UnderlyingType
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+5 Overloads) Sub New
     ' 
-    '         Function: ContainsElement, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: AsObjects, ContainsElement, GetEnumerator, IEnumerable_GetEnumerator, MeasureUnderlyingType
+    '                   ToString
     ' 
     '         Sub: Add, Insert, Remove
     ' 
@@ -46,7 +59,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
+Imports i32 = Microsoft.VisualBasic.Language.i32
 
 Namespace Javascript
 
@@ -55,26 +70,39 @@ Namespace Javascript
 
         Friend ReadOnly list As New List(Of JsonElement)
 
+        ''' <summary>
+        ''' the element count in current json array 
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Length As Integer
             Get
                 Return list.Count
             End Get
         End Property
 
-        Public Sub New()
-        End Sub
+        ''' <summary>
+        ''' get a tuple of array data which is the first element and last element value in this array seperatelly
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property FirstAndLast As (first As JsonElement, last As JsonElement)
+            Get
+                If list.IsNullOrEmpty Then
+                    Return Nothing
+                Else
+                    Return (list.First, list.Last)
+                End If
+            End Get
+        End Property
 
-        Sub New(objs As IEnumerable(Of JsonElement))
-            list = objs.SafeQuery.ToList
-        End Sub
-
-        Public Sub Add(element As JsonElement)
-            Call list.Add(element)
-        End Sub
-
-        Public Sub Insert(index As Integer, element As JsonElement)
-            Call list.Insert(index, element)
-        End Sub
+        ''' <summary>
+        ''' try to measure of the array base element type
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property UnderlyingType As Type
+            Get
+                Return MeasureUnderlyingType(list)
+            End Get
+        End Property
 
         ''' <summary>
         ''' Gets/Set elements by index
@@ -90,6 +118,40 @@ Namespace Javascript
             End Set
         End Property
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(objs As IEnumerable(Of JsonElement))
+            list = objs.SafeQuery.ToList
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(values As IEnumerable(Of String))
+            Call Me.New(values.SafeQuery.Select(Function(str) New JsonValue(str)))
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(values As IEnumerable(Of Double))
+            Call Me.New(values.Select(Function(d) New JsonValue(d)))
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(values As IEnumerable(Of Integer))
+            Call Me.New(values.Select(Function(d) New JsonValue(d)))
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Add(element As JsonElement)
+            Call list.Add(element)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Insert(index As Integer, element As JsonElement)
+            Call list.Insert(index, element)
+        End Sub
+
         Public Sub Remove(index As Integer)
             list.RemoveAt(index)
         End Sub
@@ -98,18 +160,84 @@ Namespace Javascript
             Return list.Contains(element)
         End Function
 
+        ''' <summary>
+        ''' directcast this json array as a collection of the json object
+        ''' </summary>
+        ''' <returns></returns>
+        Public Iterator Function AsObjects() As IEnumerable(Of JsonObject)
+            If list.IsNullOrEmpty Then
+                Return
+            End If
+
+            For Each eli As JsonElement In list
+                Yield DirectCast(eli, JsonObject)
+            Next
+        End Function
+
         Public Overrides Function ToString() As String
             Return "JsonArray: {count: " & list.Count & "}"
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of JsonElement) Implements IEnumerable(Of JsonElement).GetEnumerator
-            For Each x As JsonElement In list
-                Yield x
+            For Each eli As JsonElement In list
+                Yield eli
             Next
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
             Yield GetEnumerator()
         End Function
+
+        Public Shared Function MeasureUnderlyingType(vals As IEnumerable(Of JsonElement)) As Type
+            Dim checkLiteral As Boolean = False
+            Dim literals As New Dictionary(Of Type, Integer)
+
+            For Each val As JsonElement In vals.SafeQuery
+                If Not TypeOf val Is JsonValue Then
+                    Return GetType(Object)
+                Else
+                    Dim literal As Type = DirectCast(val, JsonValue).UnderlyingType
+
+                    checkLiteral = True
+
+                    If literals.ContainsKey(literal) Then
+                        literals(literal) += 1
+                    Else
+                        literals(literal) = 1
+                    End If
+                End If
+            Next
+
+            If Not checkLiteral Then
+                Return GetType(Object)
+            ElseIf literals.Count = 1 Then
+                Return literals.Keys.First
+            ElseIf literals.Keys.Any(Function(t) t Is GetType(String)) Then
+                Return GetType(String)
+            Else
+                Return GetType(Integer)
+            End If
+        End Function
+
+        Public Overloads Shared Narrowing Operator CType(array As JsonArray) As String()
+            If array Is Nothing Then
+                Return {}
+            End If
+
+            Dim list As String() = New String(array.Length - 1) {}
+            Dim i As i32 = 0
+
+            For Each el As JsonElement In array.list
+                If TypeOf el Is JsonValue Then
+                    list(++i) = DirectCast(el, JsonValue)
+                ElseIf el Is Nothing Then
+                    list(++i) = Nothing
+                Else
+                    list(++i) = el.ToString
+                End If
+            Next
+
+            Return list
+        End Operator
     End Class
 End Namespace

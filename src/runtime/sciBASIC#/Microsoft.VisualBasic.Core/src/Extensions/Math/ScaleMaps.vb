@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c9cf6cdeb99f34d1da941d00f7786fe, Microsoft.VisualBasic.Core\src\Extensions\Math\ScaleMaps.vb"
+﻿#Region "Microsoft.VisualBasic::542e7fd06ad1b57077545dd01fc6c746, Microsoft.VisualBasic.Core\src\Extensions\Math\ScaleMaps.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 205
+    '    Code Lines: 128 (62.44%)
+    ' Comment Lines: 46 (22.44%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 31 (15.12%)
+    '     File Size: 9.12 KB
+
+
     '     Module ScaleMaps
     ' 
     '         Function: (+4 Overloads) GenerateMapping, (+3 Overloads) Log2Ranks, LogLevels, MapHelper, Scale
@@ -45,11 +57,11 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math
 
@@ -68,7 +80,8 @@ Namespace Math
         ''' <param name="min"></param>
         ''' <param name="max"></param>
         ''' <returns></returns>
-        <Extension> Public Function TrimRanges(Dbl As Double(), min As Double, max As Double) As Double()
+        <Extension>
+        Public Function TrimRanges(Dbl As Double(), min As Double, max As Double) As Double()
             If Dbl.IsNullOrEmpty Then
                 Return New Double() {}
             End If
@@ -94,7 +107,7 @@ Namespace Math
                                                getSample As Func(Of T, Double),
                                           Optional Level As Integer = 10) As Dictionary(Of String, Integer)
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
 
             Dim samples As Double() = data.Select(getSample).ToArray
             Dim levels As Integer() = samples.GenerateMapping(Level)
@@ -159,7 +172,7 @@ Namespace Math
 
         <Extension>
         Public Function LogLevels(data As IEnumerable(Of Double), base%, Optional level As Integer = 100) As Integer()
-            Dim logvalues = data.Select(Function(x) stdNum.Log(x, base)).ToArray
+            Dim logvalues = data.Select(Function(x) std.Log(x, base)).ToArray
             Return logvalues.GenerateMapping(level)
         End Function
 
@@ -171,7 +184,7 @@ Namespace Math
         ''' <returns></returns>
         <ExportAPI("Ranks.Log2")>
         <Extension> Public Function Log2Ranks(data As IEnumerable(Of Double), Optional Level As Integer = 100) As Integer()
-            Dim log2Value = data.Select(Function(x) stdNum.Log(x, 2)).ToArray
+            Dim log2Value = data.Select(Function(x) std.Log(x, 2)).ToArray
             Return log2Value.GenerateMapping(Level)
         End Function
 
@@ -216,14 +229,14 @@ Namespace Math
                               Optional isScale As Boolean = True) As Double()
 
             Dim avg As Double = data.Average
-            Dim rms As Double = VBMath.RMS(data)
+            Dim rms As Double = data.StandardDeviation
 
             If center Then
-                data = (From n In data Select n - avg).ToArray
+                data = (From n As Double In data Select n - avg).ToArray
             End If
 
             If isScale Then
-                data = (From n In data Select n / rms).ToArray
+                data = (From n As Double In data Select n / rms).ToArray
             End If
 
             Return data.ToArray

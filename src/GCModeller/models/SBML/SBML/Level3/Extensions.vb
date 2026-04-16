@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d253051f43c7a50b6f70f446548298cd, models\SBML\SBML\Level3\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3d7e9e33e05ca090a67706e29a6afdaa, models\SBML\SBML\Level3\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 11 (73.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (26.67%)
+    '     File Size: 464 B
+
+
     '     Module Extensions
     ' 
-    ' 
+    '         Function: LoadSBML
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Level3
 
@@ -46,5 +60,10 @@ Namespace Level3
     Public Module Extensions
 
         Public Const sbmlXmlns As String = "http://www.sbml.org/sbml/level3/version1/core"
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function LoadSBML(filepath As String) As XmlFile(Of Reaction)
+            Return XmlFile(Of Reaction).LoadDocument(filepath)
+        End Function
     End Module
 End Namespace

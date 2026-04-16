@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 45 (67.16%)
+    ' Comment Lines: 8 (11.94%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 14 (20.90%)
+    '     File Size: 2.08 KB
+
+
     '     Class ReversedEnumerator
     ' 
     '         Properties: anyCurrent, Current

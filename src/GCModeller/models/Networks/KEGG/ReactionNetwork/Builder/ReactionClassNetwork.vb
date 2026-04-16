@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 38 (63.33%)
+    ' Comment Lines: 12 (20.00%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 10 (16.67%)
+    '     File Size: 2.52 KB
+
+
     '     Class ReactionClassNetwork
     ' 
     '         Constructor: (+1 Overloads) Sub New

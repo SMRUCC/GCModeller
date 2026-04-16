@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7052003283ca54d5dd5fd15c508f219, Data_science\Mathematica\Math\DataFittings\TestPoint.vb"
+﻿#Region "Microsoft.VisualBasic::7da5369975bb158fc9590ccf9947006c, Data_science\Mathematica\Math\DataFittings\TestPoint.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 29 (78.38%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (21.62%)
+    '     File Size: 1.09 KB
+
+
     ' Interface IFitError
     ' 
     '     Properties: Y, Yfit
     ' 
-    ' Structure TestPoint
+    ' Class TestPoint
     ' 
-    '     Properties: Err, X, Y, Yfit
+    '     Properties: Err, Y, Yfit
     ' 
     '     Function: ToString
     ' 
@@ -48,6 +60,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Math.Scripting
 
 Public Interface IFitError
 
@@ -57,11 +70,13 @@ Public Interface IFitError
 End Interface
 
 <XmlType("point", [Namespace]:="http://scibasic.net/math/Bootstrapping")>
-Public Structure TestPoint : Implements IFitError
+Public Class TestPoint : Inherits DataPoint
+    Implements IFitError
 
-    <XmlAttribute("x")> Public Property X As Double
-    <XmlAttribute("y")> Public Property Y As Double Implements IFitError.Y
-    <XmlAttribute("fx")> Public Property Yfit As Double Implements IFitError.Yfit
+    <XmlAttribute("y")>
+    Public Overrides Property Y As Double Implements IFitError.Y
+    <XmlAttribute("fx")>
+    Public Property Yfit As Double Implements IFitError.Yfit
 
     <XmlIgnore>
     Public ReadOnly Property Err As Double
@@ -75,7 +90,7 @@ Public Structure TestPoint : Implements IFitError
         Return $"[{X.ToString("F2")}, {Y.ToString("F2")}] {Yfit.ToString("F2")}"
     End Function
 
-    Public Shared Narrowing Operator CType(point As TestPoint) As PointF
+    Public Overloads Shared Narrowing Operator CType(point As TestPoint) As PointF
         Return New PointF(point.X, point.Y)
     End Operator
-End Structure
+End Class

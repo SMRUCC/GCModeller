@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a80924671571ba8944bb7a1de1958538, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
+﻿#Region "Microsoft.VisualBasic::78a7616bf3ed178cbd02b6ebc4cd7724, Bio.Repository\KEGG\ReactionRepository\PathwayRepository.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 36 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (18.18%)
+    '     File Size: 1.55 KB
+
+
     ' Class PathwayRepository
     ' 
     '     Properties: GlobalAndOverviewMaps, PathwayMaps
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, ScanModels
+    '     Function: GenericEnumerator, ScanModels
     ' 
     ' /********************************************************************************/
 
@@ -83,9 +95,5 @@ Public Class PathwayRepository : Inherits XmlDataModel
         For Each map As PathwayMap In PathwayMaps
             Yield map
         Next
-    End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of PathwayMap).GetEnumerator
-        Yield GenericEnumerator()
     End Function
 End Class

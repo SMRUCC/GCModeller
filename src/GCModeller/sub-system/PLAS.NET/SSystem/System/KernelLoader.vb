@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 40 (71.43%)
+    ' Comment Lines: 7 (12.50%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 9 (16.07%)
+    '     File Size: 1.96 KB
+
+
     '     Module KernelLoader
     ' 
     '         Function: initializeEnvironment, loadModel

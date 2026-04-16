@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::206536869a4a8d75f73408378fffde31, visualize\Cytoscape\Cytoscape\Graph\Xgmml\GraphIndex.vb"
+﻿#Region "Microsoft.VisualBasic::2f70a638d304f87014a7101ce4f93412, visualize\Cytoscape\Cytoscape\Graph\Xgmml\GraphIndex.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 60 (75.00%)
+    ' Comment Lines: 5 (6.25%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 15 (18.75%)
+    '     File Size: 2.83 KB
+
+
     '     Class GraphIndex
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -42,7 +54,7 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.EdgeBundling
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -109,9 +121,9 @@ Namespace CytoscapeGraphView.XGMML
             Dim sw As Stopwatch = Stopwatch.StartNew
             Dim edges = graph.edges
 
-            Call $"{NameOf(edges)}:={edges.Length} in the network model...".__DEBUG_ECHO
+            Call $"{NameOf(edges)}:={edges.Length} in the network model...".debug
             graph.edges = Distinct(graph.edges)
-            Call $"{NameOf(edges)}:={edges.Length} left after remove duplicates in {sw.ElapsedMilliseconds}ms....".__DEBUG_ECHO
+            Call $"{NameOf(edges)}:={edges.Length} left after remove duplicates in {sw.ElapsedMilliseconds}ms....".debug
 
             Return graph
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc0cd9ac53f86d0488f5e5dfc173ecae, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
+﻿#Region "Microsoft.VisualBasic::5456002c101cb357435e225c4bb149c9, visualize\DataVisualizationExtensions\DEGPlot\LabelTypes.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 12 (70.59%)
+    ' Comment Lines: 3 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (11.76%)
+    '     File Size: 323 B
+
+
     ' Enum LabelTypes
     ' 
     '     ALL, Custom, DEG, None
@@ -50,6 +62,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Enum LabelTypes
     None

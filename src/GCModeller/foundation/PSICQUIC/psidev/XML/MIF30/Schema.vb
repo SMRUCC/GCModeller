@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 19 (34.55%)
+    ' Comment Lines: 30 (54.55%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 6 (10.91%)
+    '     File Size: 1.89 KB
+
+
     '     Class entry
     ' 
     '         Properties: attributeList, availabilityList, experimentList, interactionList, interactorList

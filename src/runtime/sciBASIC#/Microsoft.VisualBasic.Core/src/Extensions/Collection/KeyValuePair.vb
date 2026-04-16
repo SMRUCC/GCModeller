@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1c1e09d1ea4013e3c7691e53ad4964c, Microsoft.VisualBasic.Core\src\Extensions\Collection\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::9cf7bedcb738349e5dda99c60b102333, Microsoft.VisualBasic.Core\src\Extensions\Collection\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 969
+    '    Code Lines: 559 (57.69%)
+    ' Comment Lines: 301 (31.06%)
+    '    - Xml Docs: 94.68%
+    ' 
+    '   Blank Lines: 109 (11.25%)
+    '     File Size: 41.28 KB
+
+
     '     Module KeyValuePairExtensions
     ' 
     '         Function: (+2 Overloads) [Select], (+2 Overloads) Add, AsEnumerable, AsNamedValueTuples, AsTable
     '                   ComputeIfAbsent, (+3 Overloads) ContainsKey, (+2 Overloads) DescendingMap, DictionaryData, (+2 Overloads) EnumerateTuples
     '                   EnumParser, FlatTable, (+2 Overloads) GetByKey, GetValueOrDefault, GroupByKey
     '                   HaveData, IterateNameCollections, IterateNameValues, IteratesAll, Join
-    '                   KeyItem, (+3 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary
+    '                   KeyItem, (+4 Overloads) Keys, (+2 Overloads) NamedValues, (+3 Overloads) NameValueCollection, ParserDictionary
     '                   Popout, RemoveAndGet, ReverseMaps, (+2 Overloads) Selects, SetOfKeyValuePairs
     '                   (+2 Overloads) Subset, tableInternal, (+2 Overloads) Takes, (+3 Overloads) ToDictionary, ToLower
-    '                   ToUpper, Tsv, Tuple, TupleTable, (+2 Overloads) Values
+    '                   ToUpper, Tsv, Tuple, TupleTable, (+3 Overloads) Values
     '                   XMLModel
     ' 
-    '         Sub: SortByKey, SortByValue
+    '         Sub: Add, SortByKey, SortByValue
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,7 +65,6 @@
 Imports System.Collections.Specialized
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -73,6 +84,13 @@ Namespace ComponentModel.Collection
     <HideModuleName>
     Public Module KeyValuePairExtensions
 
+        <Extension>
+        Public Iterator Function Values(Of T)(pool As IEnumerable(Of SeqValue(Of T))) As IEnumerable(Of T)
+            For Each item As SeqValue(Of T) In pool.SafeQuery
+                Yield item.value
+            Next
+        End Function
+
         ''' <summary>
         ''' 从目标字典中按照给定的键名称获取值然后删除给定的键名称对应的数据
         ''' </summary>
@@ -80,7 +98,9 @@ Namespace ComponentModel.Collection
         ''' <typeparam name="V"></typeparam>
         ''' <param name="table"></param>
         ''' <param name="key"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' returns nothing if the given key is not existed inside the dictionary
+        ''' </returns>
         <Extension>
         Public Function Popout(Of K, V)(table As Dictionary(Of K, V), key As K) As V
             If table.ContainsKey(key) Then
@@ -92,8 +112,6 @@ Namespace ComponentModel.Collection
             End If
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
-
         <Extension>
         Public Function TupleTable(tuple As (String(), String())) As Dictionary(Of String, String)
             Dim table As New Dictionary(Of String, String)
@@ -104,7 +122,6 @@ Namespace ComponentModel.Collection
 
             Return table
         End Function
-#End If
 
         ''' <summary>
         ''' transform the hash key string to lower case characters
@@ -139,15 +156,18 @@ Namespace ComponentModel.Collection
         ''' <param name="key"></param>
         ''' <param name="lazyValue"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' thread safe: target <paramref name="table"/> has been SyncLock at here
+        ''' </remarks>
         <Extension>
         Public Function ComputeIfAbsent(Of K, V)(table As IDictionary(Of K, V), key As K, lazyValue As Func(Of K, V)) As V
             SyncLock table
                 If Not table.ContainsKey(key) OrElse table(key:=key) Is Nothing Then
                     table(key:=key) = lazyValue(key)
                 End If
-
-                Return table(key:=key)
             End SyncLock
+
+            Return table(key:=key)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -206,7 +226,7 @@ Namespace ComponentModel.Collection
             Return map
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NET8_0_OR_GREATER Then
 
         ''' <summary>
         ''' Create a tuple for two elements
@@ -272,13 +292,19 @@ Namespace ComponentModel.Collection
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
-        ''' <param name="key$"></param>
-        ''' <returns></returns>
+        ''' <param name="key"></param>
+        ''' <returns>
+        ''' nothing will be return if the <paramref name="key"/> is not exists or source sequence is nothing
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function KeyItem(Of T As INamedValue)(source As IEnumerable(Of T), key$) As T
+            If source Is Nothing Then
+                Return Nothing
+            End If
+
             Return source _
-                .Where(Function(i) i.Key = key) _
+                .Where(Function(i) i IsNot Nothing AndAlso i.Key = key) _
                 .FirstOrDefault
         End Function
 
@@ -344,10 +370,15 @@ Namespace ComponentModel.Collection
         ''' <param name="default">
         ''' Use this as default value is key is not exists
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' <paramref name="default"/> value will be returned if the 
+        ''' specific key is not exists in the given <paramref name="table"/>
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Iterator Function Takes(Of T)(table As IDictionary(Of String, T), keys As IEnumerable(Of String), Optional [default] As T = Nothing) As IEnumerable(Of T)
+        Public Iterator Function Takes(Of T)(table As IDictionary(Of String, T),
+                                             keys As IEnumerable(Of String),
+                                             Optional [default] As T = Nothing) As IEnumerable(Of T)
             For Each key As String In keys
                 If table.ContainsKey(key) Then
                     Yield table(key)
@@ -365,8 +396,6 @@ Namespace ComponentModel.Collection
                 .ToArray
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
-
         <Extension>
         Public Iterator Function EnumerateTuples(Of T)(table As Dictionary(Of String, T)) As IEnumerable(Of (name As String, obj As T))
             For Each entry In table
@@ -380,8 +409,6 @@ Namespace ComponentModel.Collection
                 Yield (entry.Key, entry.Value)
             Next
         End Function
-
-#End If
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -415,6 +442,11 @@ Namespace ComponentModel.Collection
         Public Function IteratesAll(Of T As INamedValue)(source As IEnumerable(Of NamedCollection(Of T))) As T()
             Return source.Select(Function(c) c.value).IteratesALL.ToArray
         End Function
+
+        <Extension>
+        Public Sub Add(Of T)(ByRef list As System.Collections.Generic.List(Of NamedCollection(Of T)), name As String, data As IEnumerable(Of T))
+            Call list.Add(New NamedCollection(Of T)(name, data))
+        End Sub
 
         ''' <summary>
         ''' Groups source by <see cref="INamedValue.Key"/>
@@ -450,6 +482,13 @@ Namespace ComponentModel.Collection
                 .ToArray
         End Function
 
+        ''' <summary>
+        ''' get values from the key-value paires
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <typeparam name="V">the tuple value type</typeparam>
+        ''' <param name="src"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Values(Of T, V)(src As IEnumerable(Of KeyValuePair(Of T, V))) As V()
@@ -463,7 +502,11 @@ Namespace ComponentModel.Collection
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <param name="distinct">是否还进行去重操作？默认不做去重</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A collection list of the index key name values which is extract from the <paramref name="source"/>,
+        ''' the label key orders keeps the same with the elements inside the input <paramref name="source"/>
+        ''' sequence.
+        ''' </returns>
         <Extension>
         Public Function Keys(Of T As INamedValue)(source As IEnumerable(Of T), Optional distinct As Boolean = False) As List(Of String)
             Dim list As IEnumerable(Of String) = source.Select(Function(o) o.Key)
@@ -478,12 +521,24 @@ Namespace ComponentModel.Collection
             Return source.AsEnumerable.Keys
         End Function
 
+        ''' <summary>
+        ''' get group keys
+        ''' </summary>
+        ''' <typeparam name="K"></typeparam>
+        ''' <typeparam name="V"></typeparam>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Keys(Of K, V)(source As IEnumerable(Of IGrouping(Of K, V))) As K()
             Return source _
                 .Select(Function(x) x.Key) _
                 .ToArray
+        End Function
+
+        <Extension>
+        Public Function Keys(Of K, V)(source As IEnumerable(Of KeyValuePair(Of K, V))) As K()
+            Return (From t As KeyValuePair(Of K, V) In source Select t.Key).ToArray
         End Function
 
         ''' <summary>
@@ -506,7 +561,7 @@ Namespace ComponentModel.Collection
                                                   As T
 
             Dim find As T = LinqAPI.DefaultFirst(Of T) _
- _
+                                                       _
                 () <= From x As T
                       In source
                       Where String.Equals(uid, x.Key, ignoreCase)
@@ -576,16 +631,12 @@ Namespace ComponentModel.Collection
         ''' <returns></returns>
         Public Function EnumParser(Of T As Structure)(Optional lcaseKey As Boolean = True, Optional usingDescription As Boolean = False) As Dictionary(Of String, T)
             Dim values As [Enum]() = Enums(Of T)().Select(Function(e) DirectCast(CType(e, Object), [Enum])).ToArray
-            Dim [case] = If(lcaseKey, Function(key$) LCase(key), Function(key$) key)
+            Dim [case] As Func(Of String, String) = If(lcaseKey, Function(key$) If(key, "").ToLower, Function(key$) key)
 
             If usingDescription Then
-                Return values.ToDictionary(
-                    Function(e) [case](key:=e.Description),
-                    Function(e) DirectCast(CType(e, Object), T))
+                Return values.ToDictionary(Function(e) [case](e.Description), Function(e) DirectCast(CType(e, Object), T))
             Else
-                Return values.ToDictionary(
-                    Function(e) [case](key:=e.ToString),
-                    Function(e) DirectCast(CType(e, Object), T))
+                Return values.ToDictionary(Function(e) [case](e.ToString), Function(e) DirectCast(CType(e, Object), T))
             End If
         End Function
 
@@ -662,20 +713,28 @@ Namespace ComponentModel.Collection
         ''' <summary>
         ''' 获取得到的集合对象是一个安全的集合对象，不存在的键名会直接返回空值
         ''' </summary>
-        ''' <param name="maps"></param>
-        ''' <returns></returns>
+        ''' <param name="maps">
+        ''' the duplicated keys in this tuple list can be existed
+        ''' </param>
+        ''' <returns>
+        ''' the duplicated key can be existed
+        ''' </returns>
         <Extension>
         Public Function NameValueCollection(maps As IEnumerable(Of NamedValue(Of String))) As NameValueCollection
             Dim nc As New NameValueCollection
 
             For Each m As NamedValue(Of String) In maps
+                ' 20221031 for the tuple value with duplicated name
+                ' that will add to the exists array list to
+                ' create a data array
                 Call nc.Add(m.Name, m.Value)
             Next
 
             Return nc
         End Function
 
-        <Extension> Public Sub SortByValue(Of V, T)(ByRef table As Dictionary(Of V, T), Optional desc As Boolean = False)
+        <Extension>
+        Public Sub SortByValue(Of V, T)(ByRef table As Dictionary(Of V, T), Optional desc As Boolean = False)
             Dim orders As KeyValuePair(Of V, T)()
             Dim out As New Dictionary(Of V, T)
 
@@ -701,7 +760,8 @@ Namespace ComponentModel.Collection
         ''' <typeparam name="T"></typeparam>
         ''' <param name="table"></param>
         ''' <param name="desc">默认为从小到大的升序排序</param>
-        <Extension> Public Sub SortByKey(Of V, T)(ByRef table As Dictionary(Of V, T), Optional desc As Boolean = False)
+        <Extension>
+        Public Sub SortByKey(Of V, T)(ByRef table As Dictionary(Of V, T), Optional desc As Boolean = False)
             Dim orders As V()
             Dim out As New Dictionary(Of V, T)
 
@@ -813,8 +873,10 @@ Namespace ComponentModel.Collection
         ''' <typeparam name="T">Unique identifier provider <see cref="INamedValue.Key"/></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        ''' 
-        <DebuggerStepThrough>
+        ''' <remarks>
+        ''' 20241125
+        ''' NOTE: the generated dictionary is a sort dictionary, keys will be re-ordered!
+        ''' </remarks>
         <Extension>
         Public Function ToDictionary(Of T As INamedValue)(source As IEnumerable(Of T), Optional replaceOnDuplicate As Boolean = False) As Dictionary(Of T)
             If source Is Nothing Then
@@ -837,7 +899,6 @@ Namespace ComponentModel.Collection
             End If
         End Function
 
-        <DebuggerStepThrough>
         <Extension>
         Private Function tableInternal(Of T As INamedValue)(source As IEnumerable(Of T),
                                                             ByRef currentKey$,
@@ -845,9 +906,22 @@ Namespace ComponentModel.Collection
                                                             replaceOnDuplicate As Boolean) As Dictionary(Of T)
             With New Dictionary(Of T)
                 If replaceOnDuplicate Then
+                    Dim duplicated As New List(Of String)
+                    Dim key As String
+
                     For Each item As T In source
-                        .Item(item.Key) = item
+                        key = If(item.Key, "")
+
+                        If .ContainsKey(key) Then
+                            Call duplicated.Add(key)
+                        Else
+                            Call .Add(key, item)
+                        End If
                     Next
+
+                    If duplicated.Count > 0 Then
+                        Call $"duplicated keys was found for build hash index: {duplicated.GetJson}".Warning
+                    End If
                 Else
                     For Each item As T In source
                         currentKey = item.Key
@@ -874,7 +948,8 @@ Namespace ComponentModel.Collection
                                       Function(item) item.Value.Value)
         End Function
 
-        <Extension> Public Function Add(Of TKey, TValue)(ByRef list As List(Of KeyValuePair(Of TKey, TValue)), key As TKey, value As TValue) As List(Of KeyValuePair(Of TKey, TValue))
+        <Extension>
+        Public Function Add(Of TKey, TValue)(ByRef list As List(Of KeyValuePair(Of TKey, TValue)), key As TKey, value As TValue) As List(Of KeyValuePair(Of TKey, TValue))
             If list Is Nothing Then
                 list = New List(Of KeyValuePair(Of TKey, TValue))
             End If
@@ -891,7 +966,8 @@ Namespace ComponentModel.Collection
         ''' <param name="key"></param>
         ''' <param name="value"></param>
         ''' <returns></returns>
-        <Extension> Public Function Add(Of TKey, TValue)(ByRef list As List(Of KeyValuePairObject(Of TKey, TValue)), key As TKey, value As TValue) As List(Of KeyValuePairObject(Of TKey, TValue))
+        <Extension>
+        Public Function Add(Of TKey, TValue)(ByRef list As List(Of KeyValuePairObject(Of TKey, TValue)), key As TKey, value As TValue) As List(Of KeyValuePairObject(Of TKey, TValue))
             If list Is Nothing Then
                 list = New List(Of KeyValuePairObject(Of TKey, TValue))
             End If

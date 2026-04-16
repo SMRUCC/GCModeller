@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 49 (51.58%)
+    ' Comment Lines: 30 (31.58%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (16.84%)
+    '     File Size: 6.40 KB
+
+
     '     Class Specie
     ' 
     '         Properties: GeneticCode, Genome, MitochndrialGeneticCode, NCBITaxonomyId, PGDBAuthors

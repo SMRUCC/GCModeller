@@ -107,7 +107,7 @@ Public NotInheritable Class Apps
             If Apps.IsAppHome(HOME) Then
 
                 If InStr(HOME, developmentPathPattern) > 0 Then
-                    Call "Using GCModeller development version.".__DEBUG_ECHO
+                    Call "Using GCModeller development version.".debug
                 End If
 
                 _eggHTS = GCModellerApps.eggHTS.FromEnvironment(directory:=HOME)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 59 (85.51%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (14.49%)
+    '     File Size: 2.92 KB
+
+
     '     Module ImportsAPI
     ' 
     '         Function: [Imports], Go, ImportsDb, Interaction, Pfam

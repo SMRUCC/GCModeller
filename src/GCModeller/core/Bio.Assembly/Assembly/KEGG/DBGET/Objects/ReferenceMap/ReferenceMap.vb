@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a1222aab5422a7289fd90730da9eb69, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::3885453bde53e8ff145e429661888d90, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 197
+    '    Code Lines: 147 (74.62%)
+    ' Comment Lines: 26 (13.20%)
+    '    - Xml Docs: 38.46%
+    ' 
+    '   Blank Lines: 24 (12.18%)
+    '     File Size: 9.84 KB
+
+
     '     Class ReferenceMapData
     ' 
-    '         Properties: [Class], [Module], Disease, Name, OtherDBs
-    '                     Reactions, ReferenceGenes, References
+    '         Properties: [Class], [Module], Disease, OtherDBs, Reactions
+    '                     ReferenceGenes, References
     ' 
-    '         Function: __DBLinksParser, __diseaseParser, __downloadRefRxn, __parserLinks, Download
+    '         Function: __DBLinksParser, __diseaseParser, __parserLinks, Download, GetCompoundSet
     '                   (+2 Overloads) GetGeneOrthology, GetPathwayGenes, GetReaction
     ' 
     ' 
@@ -47,6 +59,7 @@
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
@@ -93,7 +106,6 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         Dim m_reactions As New Dictionary(Of String, ReferenceReaction)
 
         Public Property [Class] As String
-        Public Property Name As String
         Public Property [Module] As KeyValuePair()
         Public Property Disease As KeyValuePair()
         Public Property OtherDBs As KeyValuePair()
@@ -122,11 +134,6 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             End If
         End Function
 
-        Public Overrides Function GetPathwayGenes() As String()
-            Dim LQuery = (From g In Me.ReferenceGenes Select (From nn In g.Value Select nn.Key.Split(CChar(":")).Last)).ToVector
-            Return LQuery
-        End Function
-
         Const DBGET_URL As String = "http://www.genome.jp/dbget-bin/www_bget?"
         Const MODULE_PATTERN As String = "<a href=""/kegg-bin/show_module\?M\d+.+?\[PATH:.+?</a>\]"
 
@@ -147,7 +154,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Dim Form As New WebForm(resource:=DBGET_URL & ID)
             Dim RefMap As New ReferenceMapData With {.EntryId = ID}
 
-            RefMap.Name = Form("Name").FirstOrDefault
+            RefMap.name = Form("Name").FirstOrDefault
             RefMap.description = Form("Description").FirstOrDefault
             RefMap.Class = Form("Class").FirstOrDefault
 
@@ -156,7 +163,7 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             sValue = Form("Module").FirstOrDefault
             If Not String.IsNullOrEmpty(sValue) Then
                 RefMap.Module = LinqAPI.Exec(Of KeyValuePair)() <=
- _
+                                                                  _
                     From m As Match
                     In Regex.Matches(sValue, MODULE_PATTERN)
                     Let str As String = m.Value
@@ -201,21 +208,6 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
             Return RefMap
         End Function
 
-        Private Shared Function __downloadRefRxn(Entry As WebServices.ListEntry) As ReferenceMap.ReferenceReaction
-            Dim path As String = "./Downloads/" & Entry.entryId.NormalizePathString & ".xml"
-
-            If FileIO.FileSystem.FileExists(path) Then
-                Dim refData = path.LoadXml(Of ReferenceMap.ReferenceReaction)()
-                If Not refData Is Nothing AndAlso Not String.IsNullOrEmpty(refData.Equation) Then
-                    Return refData
-                End If
-            End If
-
-            Dim ref = ReferenceReaction.Download(Entry)
-            Call ref.GetXml.SaveTo(path)
-            Return ref
-        End Function
-
         Const DB_LINK_PATTERN As String = ".+: (<a href="".+?"">.+?</a>\s*)+"
 
         Private Shared Function __DBLinksParser(str As String) As KeyValuePair()
@@ -250,6 +242,14 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
                 .Key = dsID,
                 .Value = Description
             }
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return (From g In Me.ReferenceGenes Select (From nn In g.Value Select nn.Key.GetTagValue(":"))).IteratesALL
+        End Function
+
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Throw New NotImplementedException()
         End Function
     End Class
 End Namespace

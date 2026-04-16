@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 43 (71.67%)
+    ' Comment Lines: 10 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (11.67%)
+    '     File Size: 2.55 KB
+
+
     '     Class Promoters
     ' 
     '         Properties: AttributeList

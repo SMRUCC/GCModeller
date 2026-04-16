@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66fea1a951bfbfe81ba547941b6b3bb9, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
+﻿#Region "Microsoft.VisualBasic::4e0929889616e49f2bfb9abb960f6bea, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedBox.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 53 (56.99%)
+    ' Comment Lines: 25 (26.88%)
+    '    - Xml Docs: 88.00%
+    ' 
+    '   Blank Lines: 15 (16.13%)
+    '     File Size: 3.39 KB
+
 
     '     Class SeedBox
     ' 
@@ -89,7 +101,7 @@ Namespace Topologically.Seeding
                 base = base.ExtendSequence(chars).ToArray
                 base = seq.SequenceData.PopulateExistsSeeds(base).ToArray
 
-                Call $"Populate {base.Length} seeds at width={len}".__DEBUG_ECHO
+                Call $"Populate {base.Length} seeds at width={len}".debug
 
                 Yield base.Select(Function(s) New Seed(s)).ToArray
             Next

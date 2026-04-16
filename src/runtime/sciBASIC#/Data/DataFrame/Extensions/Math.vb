@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d46d1ec9029454f31d4726bbf331c88, Data\DataFrame\Extensions\Math.vb"
+﻿#Region "Microsoft.VisualBasic::b46086fac187321086fc752869b741e8, Data\DataFrame\Extensions\Math.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 27 (79.41%)
+    ' Comment Lines: 3 (8.82%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (11.76%)
+    '     File Size: 1.20 KB
+
+
     ' Module DataSetMath
     ' 
     '     Function: (+2 Overloads) Log, Log2
@@ -40,8 +52,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports std = System.Math
 
 ''' <summary>
 ''' Vector math extensions for <see cref="DataSet"/> or its collection.
@@ -49,18 +61,21 @@ Imports stdNum = System.Math
 Public Module DataSetMath
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function Log(d As DataSet, Optional base# = stdNum.E) As DataSet
+    <Extension>
+    Public Function Log(d As DataSet, Optional base# = std.E) As DataSet
         Return New DataSet With {
             .ID = d.ID,
             .Properties = d.Properties _
             .ToDictionary(Function(c) c.Key,
-                          Function(c) stdNum.Log(c.Value))
+                          Function(c)
+                              Return std.Log(c.Value, newBase:=base)
+                          End Function)
         }
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function Log(data As IEnumerable(Of DataSet), Optional base# = stdNum.E) As IEnumerable(Of DataSet)
+    Public Function Log(data As IEnumerable(Of DataSet), Optional base# = std.E) As IEnumerable(Of DataSet)
         Return data.Select(Function(d) d.Log(base))
     End Function
 

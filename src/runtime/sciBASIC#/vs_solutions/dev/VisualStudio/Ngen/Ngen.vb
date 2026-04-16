@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 359
+    '    Code Lines: 128 (35.65%)
+    ' Comment Lines: 193 (53.76%)
+    '    - Xml Docs: 75.65%
+    ' 
+    '   Blank Lines: 38 (10.58%)
+    '     File Size: 21.06 KB
+
+
     ' Module NgenInstaller
     ' 
     ' 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 20 (58.82%)
+    ' Comment Lines: 6 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (23.53%)
+    '     File Size: 1.05 KB
+
+
     '     Module GaussianTransformText
     ' 
     '         Function: ToString

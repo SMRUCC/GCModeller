@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 74 (66.07%)
+    ' Comment Lines: 24 (21.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (12.50%)
+    '     File Size: 4.55 KB
+
+
     '     Module EntitySearch
     ' 
     '         Function: EnumerateNames, NameEqualsAny, SearchByNameAndFormula, SearchByNameEqualsAny

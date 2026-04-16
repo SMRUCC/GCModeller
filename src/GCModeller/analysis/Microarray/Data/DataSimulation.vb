@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95cfeaa4234ab499690d5ee8fbc3ff68, analysis\Microarray\Data\DataSimulation.vb"
+﻿#Region "Microsoft.VisualBasic::0733d1811d7ae3f6502f26237ef3fc89, analysis\Microarray\Data\DataSimulation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 48 (68.57%)
+    ' Comment Lines: 11 (15.71%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (15.71%)
+    '     File Size: 2.85 KB
+
+
     ' Module DataSimulation
     ' 
     '     Function: PopulateSimulateData
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Annotation.Ptf

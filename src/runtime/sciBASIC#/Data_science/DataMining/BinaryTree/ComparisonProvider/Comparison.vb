@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1c8f32e888471aad0d85205013c311c, Data_science\DataMining\BinaryTree\ComparisonProvider\Comparison.vb"
+﻿#Region "Microsoft.VisualBasic::ee418d77614706cf085b62f21bae7b7c, Data_science\DataMining\BinaryTree\ComparisonProvider\Comparison.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 17 (68.00%)
+    ' Comment Lines: 3 (12.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (20.00%)
+    '     File Size: 802 B
+
+
     ' Class Comparison
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetSimilarity
+    '     Function: GetObject, GetSimilarity
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.Math.Matrix
 
+''' <summary>
+''' Data adapter for get comparision score from a pre-computed <see cref="DistanceMatrix"/>.
+''' </summary>
 Public Class Comparison : Inherits ComparisonProvider
 
     ReadOnly d As DistanceMatrix
@@ -53,7 +68,12 @@ Public Class Comparison : Inherits ComparisonProvider
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Protected Overrides Function GetSimilarity(x As String, y As String) As Double
+    Public Overrides Function GetObject(id As String) As Object
+        Return d.GetVector(name:=id)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Function GetSimilarity(x As String, y As String) As Double
         Return d(x, y)
     End Function
 End Class

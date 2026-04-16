@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f77dc50b99f1973007b4ee12bd77d7e, Data_science\DataMining\DataMining\ComponentModel\IntegerEntity.vb"
+﻿#Region "Microsoft.VisualBasic::262fc9a8828c6837a47f77f0f6cb0a39, Data_science\DataMining\DataMining\ComponentModel\IntegerEntity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 30 (73.17%)
+    ' Comment Lines: 4 (9.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.45 KB
+
+
     '     Class IntegerEntity
     ' 
     '         Properties: [Class]
@@ -52,13 +64,10 @@ Namespace ComponentModel
     ''' </summary>
     ''' <remarks></remarks>
     Public Class IntegerEntity : Inherits EntityBase(Of Integer)
+        Implements IClusterPoint
 
         <XmlAttribute>
-        Public Property [Class] As Integer
-
-        Public Overrides Function ToString() As String
-            Return $"<{String.Join("; ", entityVector)}> --> {[Class]}"
-        End Function
+        Public Property [Class] As Integer Implements IClusterPoint.Cluster
 
         Default Public Overloads ReadOnly Property ItemValue(Index As Integer) As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -66,6 +75,10 @@ Namespace ComponentModel
                 Return entityVector(Index)
             End Get
         End Property
+
+        Public Overrides Function ToString() As String
+            Return $"<{String.Join("; ", entityVector)}> --> {[Class]}"
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(properties As Double()) As IntegerEntity

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2627f896ba46ee2b8beb9adb95d22b6e, Data_science\MachineLearning\xgboost\TGBoost\Loss.vb"
+﻿#Region "Microsoft.VisualBasic::229f3266d4435676954852ad18b0a207, Data_science\MachineLearning\xgboost\TGBoost\Loss.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 84 (74.34%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 29 (25.66%)
+    '     File Size: 3.40 KB
+
+
     '     Class Loss
     ' 
     ' 
+    ' 
+    '     Class QLinearLoss
+    ' 
+    '         Function: grad, hess, transform
     ' 
     '     Class SquareLoss
     ' 
@@ -59,6 +75,38 @@ Namespace train
         Public MustOverride Function hess(pred As Double(), label As Double()) As Double()
         Public MustOverride Function transform(pred As Double()) As Double()
 
+    End Class
+
+    Friend Class QLinearLoss : Inherits Loss
+
+        Public Overrides Function transform(pred As Double()) As Double()
+            Return pred
+        End Function
+
+        Public Overrides Function grad(pred As Double(), label As Double()) As Double()
+            Dim ret = New Double(pred.Length - 1) {}
+            Dim x As Double
+
+            For i = 0 To ret.Length - 1
+                x = (pred(i) - label(i)) ^ 2
+
+                If x < 1 Then
+                    x = 1
+                Else
+                    x = stdNum.Log(x)
+                End If
+
+                ret(i) = 1 / x
+            Next
+
+            Return ret
+        End Function
+
+        Public Overrides Function hess(pred As Double(), label As Double()) As Double()
+            Dim ret = New Double(pred.Length - 1) {}
+            Arrays.fill(ret, 1.0)
+            Return ret
+        End Function
     End Class
 
     Friend Class SquareLoss : Inherits Loss

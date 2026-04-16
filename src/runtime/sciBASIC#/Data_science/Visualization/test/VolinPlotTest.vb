@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 13 (61.90%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (38.10%)
+    '     File Size: 921 B
+
+
     ' Module VolinPlotTest
     ' 
     '     Sub: Main

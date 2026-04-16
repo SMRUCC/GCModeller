@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 27 (56.25%)
+    ' Comment Lines: 14 (29.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 2.04 KB
+
+
     '     Class IndexSelector
     ' 
     '         Constructor: (+2 Overloads) Sub New

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3086fa466de9d82cddf70b0eac24a358, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\BucketDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::abfe659f73bed215e52f83bb2894783c, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\BucketDictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 224
+    '    Code Lines: 151 (67.41%)
+    ' Comment Lines: 37 (16.52%)
+    '    - Xml Docs: 97.30%
+    ' 
+    '   Blank Lines: 36 (16.07%)
+    '     File Size: 8.66 KB
+
+
     '     Interface IBucketVector
     ' 
     '         Function: GetVector
@@ -58,8 +70,15 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Collection
 
+    ''' <summary>
+    ''' clr interface for implements the ``as.vector`` function in R# language
+    ''' </summary>
     Public Interface IBucketVector
 
+        ''' <summary>
+        ''' Get elements from current object to construct a new vector object
+        ''' </summary>
+        ''' <returns></returns>
         Function GetVector() As IEnumerable
 
     End Interface

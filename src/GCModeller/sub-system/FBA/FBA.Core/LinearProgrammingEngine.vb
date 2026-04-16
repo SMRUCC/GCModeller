@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d2ae34cd712d0a91567b5bded30da8d, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
+﻿#Region "Microsoft.VisualBasic::f0dafbac95c99e9538037d4160a76651, sub-system\FBA\FBA.Core\LinearProgrammingEngine.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 66 (56.41%)
+    ' Comment Lines: 40 (34.19%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 11 (9.40%)
+    '     File Size: 5.33 KB
+
+
     ' Class LinearProgrammingEngine
     ' 
     '     Function: CreateMatrix, (+2 Overloads) Run, ToLppModel
@@ -46,6 +58,21 @@ Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 
+''' <summary>
+''' FBA LPP solver
+''' </summary>
+''' <remarks>
+''' #### FBA代谢流平衡分析的计算原理
+''' 
+''' FBA的核心思想是： 在一个假设的稳态下， 计算一个细胞代谢网络中所有反应的流量（通量）分布， 使得某个生物学目标（如生长速率）达到最优。
+''' 
+''' 它建立在几个关键假设之上：
+''' 
+''' 稳态假设： 这是FBA的基石。它假设在所研究的时间尺度内，细胞内每个代谢物的浓度保持不变。这意味着，对于任何一个代谢物，其生成总速率等于消耗总速率。
+''' 数学表达：d[Metabolite_i]/dt = 0
+''' 质量守恒： 代谢网络中的物质是守恒的。每个反应都遵循化学计量关系。
+''' 目标驱动： 细胞（尤其是微生物）的代谢行为是为了实现某个优化目标，最常见的就是最大化自身的生长速率（即最大化生物量合成反应的通量）。
+''' </remarks>
 Public Class LinearProgrammingEngine
 
     ''' <summary>
@@ -63,7 +90,7 @@ Public Class LinearProgrammingEngine
     ''' 将细胞之中的代谢网络定义转换为数字矩阵用于后续的计算
     ''' </summary>
     ''' <param name="model"></param>
-    ''' <param name="targets$"></param>
+    ''' <param name="targets">需要流量最大化的目标代谢反应的ID集合</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' 可以将这个函数在继承类之中进行重写，就可以添加诸如调控信息之类的额外的模型信息了
@@ -93,8 +120,7 @@ Public Class LinearProgrammingEngine
         Return New Matrix With {
             .Matrix = matrix,
             .Compounds = allCompounds,
-            .Flux = model.Phenotype _
-                .fluxes _
+            .Flux = model.Phenotype.fluxes _
                 .ToDictionary(Function(flux) flux.ID,
                               Function(flux)
                                   Return New DoubleRange(flux.bounds)
@@ -103,12 +129,12 @@ Public Class LinearProgrammingEngine
         }
     End Function
 
-    Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a") As LPPModel
+    Public Shared Function ToLppModel(fbaMat As Matrix, name As String, Optional description As String = "n/a", Optional opt As OptimizationType = OptimizationType.MAX) As LPPModel
         Dim types As String() = "=".Replicate(fbaMat.NumOfCompounds).ToArray
         Dim constraints As Double() = 0.0.Replicate(fbaMat.NumOfCompounds).ToArray
 
         Return New LPPModel(fbaMat.Matrix, types, constraints, fbaMat.Compounds) With {
-            .objectiveFunctionType = OptimizationType.MAX.Description,
+            .objectiveFunctionType = opt.Description,
             .objectiveFunctionValue = 0
         }.ConfigSymbols(
             names:=fbaMat.Flux.Keys.ToArray,
@@ -116,9 +142,18 @@ Public Class LinearProgrammingEngine
         ).ConfigModelName(name, description)
     End Function
 
-    Public Function Run(fbaMat As Matrix) As LPPSolution
+    ''' <summary>
+    ''' FBA solver based on the LPP solver
+    ''' </summary>
+    ''' <param name="fbaMat"></param>
+    ''' <param name="opt"></param>
+    ''' <returns>
+    ''' + the objective function value is the bio-mass value
+    ''' + the lpp solution is the reaction flux value
+    ''' </returns>
+    Public Function Run(fbaMat As Matrix, Optional opt As OptimizationType = OptimizationType.MAX) As LPPSolution
         Dim engine As New LPP(
-            objectiveFunctionType:=OptimizationType.MAX.Description,
+            objectiveFunctionType:=opt.Description,
             variableNames:=fbaMat.Flux.Keys.ToArray,
             objectiveFunctionCoefficients:=fbaMat.GetTargetCoefficients,
             constraintCoefficients:=fbaMat.Matrix,
@@ -127,7 +162,9 @@ Public Class LinearProgrammingEngine
             objectiveFunctionValue:=0
         )
 
-        Return engine.solve(showProgress:=True)
+        Call "run solver for FBA lpp problem!".info
+
+        Return engine.solve(showProgress:=True, strict:=False)
     End Function
 
 End Class

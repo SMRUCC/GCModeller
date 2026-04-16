@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c923ed3d19ff2fc40b13973e4c55081, visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::eab4da9f53a00127646bf71539eba46e, visualize\ChromosomeMap\FootPrintMap\MotifSite.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 95 (70.37%)
+    ' Comment Lines: 23 (17.04%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 17 (12.59%)
+    '     File Size: 5.41 KB
+
+
     '     Class MotifSite
     ' 
     '         Properties: Color, MotifName, Regulators, Strand
@@ -56,6 +68,32 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace DrawingModels
 
@@ -91,7 +129,7 @@ Namespace DrawingModels
             Dim infoLabel As String = __getLabel()
             Dim labelFont = New Font(FontFace.MicrosoftYaHei, 8)
             Dim size = g.MeasureString(infoLabel, LabelFont)
-            Dim loci As New Point With {
+            Dim loci As New PointF With {
                 .X = Location.X + (size.Width - WidthLength) / 2,
                 .Y = Location.Y - size.Height * 1.3
             }
@@ -145,8 +183,8 @@ Namespace DrawingModels
             Call Device.FillPath(New SolidBrush(Color), GraphModel)
         End Sub
 
-        Private Function CreateLociModel(ref As Point, Height As Integer) As System.Drawing.Drawing2D.GraphicsPath
-            Dim Model As System.Drawing.Drawing2D.GraphicsPath = New Drawing2D.GraphicsPath
+        Private Function CreateLociModel(ref As Point, Height As Integer) As GraphicsPath
+            Dim Model As New GraphicsPath
             Dim TopLeft = ref
             Dim TopRight As Point = New Point(TopLeft.X + Width, TopLeft.Y)
             Dim BottomLeft = New Point(TopLeft.X, TopLeft.Y + Height)

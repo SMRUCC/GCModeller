@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ddcac5fc4988da02e99e9be7d60afd5, Data_science\DataMining\UMAP\Components\Utils.vb"
+﻿#Region "Microsoft.VisualBasic::f47405e935a4d28f0029783133e8715c, Data_science\DataMining\UMAP\Components\Utils.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 64 (68.09%)
+    ' Comment Lines: 15 (15.96%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 15 (15.96%)
+    '     File Size: 3.07 KB
+
+
     ' Module Utils
     ' 
-    '     Function: Empty, Filled, Range, RejectionSample, ScaleProgressReporter
+    '     Function: Empty, Filled, Range, RejectionSample
     ' 
     '     Sub: ShuffleTogether
     ' 
@@ -42,17 +54,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.Math
 
 Module Utils
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Friend Function ScaleProgressReporter(progressReporter As RunSlavePipeline.SetProgressEventHandler, start As Double, [end] As Double) As RunSlavePipeline.SetProgressEventHandler
-        Return Sub(progress, msg)
-                   progressReporter(([end] - start) * progress + start, msg)
-               End Sub
-    End Function
 
     ''' <summary>
     ''' Creates an empty array
@@ -80,11 +84,16 @@ Module Utils
     ''' </summary>
     Public Function RejectionSample(nSamples As Integer, poolSize As Integer, random As IProvideRandomValues) As Integer()
         Dim result = New Integer(nSamples - 1) {}
+        Dim maxItrs As Integer = 10000
 
-        For i = 0 To nSamples - 1
+        For i As Integer = 0 To nSamples - 1
             Dim rejectSample = True
+            Dim counter As Integer = 0
 
-            While rejectSample
+            ' 20250610 possible dead loop at here
+            ' if always broken
+            ' use a counter for avoid such possible error
+            While rejectSample AndAlso counter < maxItrs
                 Dim j = random.Next(0, poolSize)
                 Dim broken = False
 
@@ -99,8 +108,13 @@ Module Utils
                     rejectSample = False
                 End If
 
+                counter += 1
                 result(i) = j
             End While
+
+            If counter >= maxItrs Then
+                Call $"dead loop was detected while make sample rejection for sample {i}!".Warning
+            End If
         Next
 
         Return result

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 6 (15.79%)
+    ' Comment Lines: 30 (78.95%)
+    '    - Xml Docs: 46.67%
+    ' 
+    '   Blank Lines: 2 (5.26%)
+    '     File Size: 1.57 KB
+
+
     '     Interface IRangeTransform
     ' 
     '         Function: (+2 Overloads) Transform

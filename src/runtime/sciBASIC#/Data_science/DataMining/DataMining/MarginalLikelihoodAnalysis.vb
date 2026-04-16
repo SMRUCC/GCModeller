@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3edc2f561bdab4e29c61373edb95c8db, Data_science\DataMining\DataMining\MarginalLikelihoodAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::d10d937373783f10747424848847da93, Data_science\DataMining\DataMining\MarginalLikelihoodAnalysis.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 281
+    '    Code Lines: 160 (56.94%)
+    ' Comment Lines: 68 (24.20%)
+    '    - Xml Docs: 58.82%
+    ' 
+    '   Blank Lines: 53 (18.86%)
+    '     File Size: 10.46 KB
+
+
     ' Enum AnalysisTypes
     ' 
     '     AICM, Arithmetic, Harmonic, Smoothed
@@ -54,7 +66,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language.Java
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '
 ' * MarginalLikelihoodAnalysis.java
@@ -170,7 +182,7 @@ Public Class MarginalLikelihoodAnalysis
             sum = LogTricks.logSum(sum, v(i))
         Next
 
-        Return sum - stdNum.Log(size)
+        Return sum - std.Log(size)
     End Function
 
     ''' <summary>
@@ -192,7 +204,7 @@ Public Class MarginalLikelihoodAnalysis
             denominator = LogTricks.logSum(denominator, sum - v(i))
         Next
 
-        Return sum - denominator + stdNum.Log(size)
+        Return sum - denominator + std.Log(size)
     End Function
 
     ''' <summary>
@@ -251,7 +263,7 @@ Public Class MarginalLikelihoodAnalysis
                 var += (bootstrappedLogML(i) - bootstrappedAverage) * (bootstrappedLogML(i) - bootstrappedAverage)
             Next
             var /= (bootstrapLength - 1.0)
-            _bootstrappedSE = stdNum.Sqrt(var)
+            _bootstrappedSE = std.Sqrt(var)
         End If
 
         marginalLikelihoodCalculated = True
@@ -266,10 +278,10 @@ Public Class MarginalLikelihoodAnalysis
     ''' <returns> the log marginal likelihood </returns>
     Public Function logMarginalLikelihoodSmoothed(v As IList(Of Double), delta As Double, Pdata As Double) As Double
 
-        Dim logDelta As Double = stdNum.Log(delta)
-        Dim logInvDelta As Double = stdNum.Log(1.0 - delta)
+        Dim logDelta As Double = std.Log(delta)
+        Dim logInvDelta As Double = std.Log(1.0 - delta)
         Dim n As Integer = v.Count
-        Dim logN As Double = stdNum.Log(n)
+        Dim logN As Double = std.Log(n)
 
         Dim offset As Double = logInvDelta - Pdata
 
@@ -298,7 +310,7 @@ Public Class MarginalLikelihoodAnalysis
 
         Const tolerance As Double = 0.001 ' todo make class adjustable by accessor/setter
 
-        Do While stdNum.Abs(deltaP) > tolerance
+        Do While std.Abs(deltaP) > tolerance
             Dim g1 As Double = logMarginalLikelihoodSmoothed(v, delta, Pdata) - Pdata
             Dim Pdata2 As Double = Pdata + g1
             dx = g1 * 10.0
@@ -311,10 +323,10 @@ Public Class MarginalLikelihoodAnalysis
                 Dim g3 As Double = logMarginalLikelihoodSmoothed(v, delta, Pdata3) - Pdata3
 
                 ' Try to do a Newton's method step
-                If stdNum.Abs(g3) <= stdNum.Abs(g2) AndAlso ((g3 > 0) OrElse (stdNum.Abs(dgdx) > 0.01)) Then
+                If std.Abs(g3) <= std.Abs(g2) AndAlso ((g3 > 0) OrElse (std.Abs(dgdx) > 0.01)) Then
                     deltaP = Pdata3 - Pdata
                     Pdata = Pdata3 ' otherwise try to go 10 times as far as one step
-                ElseIf stdNum.Abs(g2) <= stdNum.Abs(g1) Then
+                ElseIf std.Abs(g2) <= std.Abs(g1) Then
                     Pdata2 += g2
                     deltaP = Pdata2 - Pdata
                     Pdata = Pdata2 ' otherwise go just one step

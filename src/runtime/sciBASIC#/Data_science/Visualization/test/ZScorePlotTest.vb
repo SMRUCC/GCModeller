@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 108 (77.70%)
+    ' Comment Lines: 2 (1.44%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 29 (20.86%)
+    '     File Size: 5.39 KB
+
+
     ' Module ZScorePlotTest
     ' 
     '     Sub: analysis, duke_test, Main, plotBox, plotHeatmap

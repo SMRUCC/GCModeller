@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b15a65d43026ec288ce8b4932b0459d5, Data_science\DataMining\UMAP\DistanceFunctions.vb"
+﻿#Region "Microsoft.VisualBasic::ca2c67343c8e9ced63b1dcb652750039, Data_science\DataMining\UMAP\DistanceFunctions.vb"
 
     ' Author:
     ' 
@@ -31,32 +31,166 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 82 (61.65%)
+    ' Comment Lines: 34 (25.56%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 17 (12.78%)
+    '     File Size: 4.81 KB
+
+
+    ' Enum DistanceFunction
+    ' 
+    '     AbsPearson, Cosine, Euclidean, NormalizedCosine, Pearson
+    '     SpectralCosine, TanimotoFingerprint
+    ' 
+    '  
+    ' 
+    ' 
+    ' 
     ' Class DistanceFunctions
     ' 
-    '     Function: Cosine, CosineForNormalizedVectors, Euclidean
+    '     Function: Cosine, CosineForNormalizedVectors, Euclidean, GetFunction, JaccardSimilarity
+    '               PearsonAbs, PearsonCor, SpectralSimilarity
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports std = System.Math
+
+Public Enum DistanceFunction
+    Cosine
+    NormalizedCosine
+    SpectralCosine
+    TanimotoFingerprint
+    Euclidean
+    Pearson
+    AbsPearson
+End Enum
 
 Public NotInheritable Class DistanceFunctions
 
+    Public Shared Function GetFunction(method As DistanceFunction) As DistanceCalculation
+        Select Case method
+            Case DistanceFunction.Cosine : Return AddressOf Cosine
+            Case DistanceFunction.NormalizedCosine : Return AddressOf CosineForNormalizedVectors
+            Case DistanceFunction.SpectralCosine : Return AddressOf SpectralSimilarity
+            Case DistanceFunction.TanimotoFingerprint : Return AddressOf JaccardSimilarity
+            Case DistanceFunction.Euclidean : Return AddressOf Euclidean
+            Case DistanceFunction.Pearson : Return AddressOf PearsonCor
+            Case DistanceFunction.AbsPearson : Return AddressOf PearsonAbs
+            Case Else
+                Return AddressOf Cosine
+        End Select
+    End Function
+
+    Public Shared Function PearsonCor(lhs As Double(), rhs As Double()) As Double
+        Dim cor As Double = Correlations.GetPearson(lhs, rhs)
+
+        If Double.IsNaN(cor) Then
+            Return 1
+        ElseIf Double.IsInfinity(cor) Then
+            Return 0
+        Else
+            ' pearson distance is defined as 1 - r ^ 2
+            Return 1 - cor ^ 2
+        End If
+    End Function
+
+    Public Shared Function PearsonAbs(lhs As Double(), rhs As Double()) As Double
+        Dim cor As Double = Correlations.GetPearson(lhs, rhs)
+
+        If Double.IsNaN(cor) Then
+            Return 1
+        ElseIf Double.IsInfinity(cor) Then
+            Return 0
+        Else
+            ' pearson distance is defined as 1 - |r|
+            Return 1 - std.Abs(cor)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' this function will do data normalization and then evaluated the cosine similarity
+    ''' </summary>
+    ''' <param name="lhs"></param>
+    ''' <param name="rhs"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Cosine(lhs As Double(), rhs As Double()) As Double
         Return 1 - SIMD.DotProduct(lhs, rhs) / (SIMD.Magnitude(lhs) * SIMD.Magnitude(rhs))
     End Function
 
+    ''' <summary>
+    ''' use this function if the input vector <paramref name="lhs"/> and <paramref name="rhs"/> 
+    ''' has been normalized to range [0,1]
+    ''' </summary>
+    ''' <param name="lhs"></param>
+    ''' <param name="rhs"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function CosineForNormalizedVectors(lhs As Double(), rhs As Double()) As Double
         Return 1 - SIMD.DotProduct(lhs, rhs)
     End Function
 
+    ''' <summary>
+    ''' this function could be give the un-normalized vector data
+    ''' </summary>
+    ''' <param name="lhs"></param>
+    ''' <param name="rhs"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function SpectralSimilarity(lhs As Double(), rhs As Double()) As Double
+        Return 1 - SSM_SIMD(lhs, rhs)
+    End Function
+
+    ''' <summary>
+    ''' usually be tanimoto method for compares two fingerprint data
+    ''' </summary>
+    ''' <param name="lhs"></param>
+    ''' <param name="rhs"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' zero as missing, other non-zero data as fingerprint 1
+    ''' </remarks>
+    Public Shared Function JaccardSimilarity(lhs As Double(), rhs As Double()) As Double
+        ' 计算交集（共同为1的位数）和并集（任意一个为1的位数）
+        Dim intersection As Integer = 0
+        Dim union As Integer = 0
+
+        For i As Integer = 0 To lhs.Length - 1
+            Dim bit1 As Boolean = lhs(i) > 0
+            Dim bit2 As Boolean = rhs(i) > 0
+
+            If bit1 AndAlso bit2 Then
+                intersection += 1
+            End If
+
+            If bit1 OrElse bit2 Then
+                union += 1
+            End If
+        Next
+
+        ' 处理全0情况（避免除以零）
+        If union = 0 Then
+            Return 1.0
+        End If
+
+        ' 计算Tanimoto系数
+        Return 1 - CDbl(intersection) / CDbl(union)
+    End Function
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Euclidean(lhs As Double(), rhs As Double()) As Double
         ' TODO: Replace with netcore3 MathF class when the framework is available
-        Return stdNum.Sqrt(SIMD.Euclidean(lhs, rhs))
+        Return std.Sqrt(SIMD.Euclidean(lhs, rhs))
     End Function
 End Class

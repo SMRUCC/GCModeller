@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 51 (42.50%)
+    ' Comment Lines: 49 (40.83%)
+    '    - Xml Docs: 10.20%
+    ' 
+    '   Blank Lines: 20 (16.67%)
+    '     File Size: 4.97 KB
+
+
     '     Module Operations
     ' 
-    '         Function: [GetType], __getEntities, __isLeaf, __isLeafX, BuildTree
+    '         Function: __getEntities, __isLeaf, __isLeafX, [GetType], BuildTree
     '                   ClusterParts
     ' 
     '         Sub: __buildTREE

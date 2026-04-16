@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b055bb42074e8c1b33be1feba0710584, Data_science\Visualization\Plots\Fractions\TreeMap.vb"
+﻿#Region "Microsoft.VisualBasic::49c67117fe5ad7a8f268d499c4376706, Data_science\Visualization\Plots\Fractions\TreeMap.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 103 (75.74%)
+    ' Comment Lines: 10 (7.35%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 23 (16.91%)
+    '     File Size: 5.13 KB
+
+
     '     Module TreeMap
     ' 
     '         Function: GetPercentage, Plot
+    ' 
+    '     Class TreeMapPlot
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: PlotInternal
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,6 +64,38 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Fractions
 
@@ -64,61 +113,14 @@ Namespace Fractions
                          Optional padding$ = "padding: 350 100 350 100;",
                          Optional bg$ = "white") As GraphicsData
 
-            Dim array As List(Of FractionData) =
-                data _
+            Dim array As List(Of FractionData) = data _
                 .OrderByDescending(Function(x) x.Percentage) _
                 .AsList
             Dim margin As Padding = padding
-            Dim plotInternal =
-                Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim rect As New RectangleF With {
-                        .Location = New PointF(margin.Left, margin.Top),
-                        .Size = New SizeF With {
-                            .Width = size.Width - margin.Horizontal,
-                            .Height = size.Height - margin.Left - margin.Top
-                        }
-                    }
+            Dim theme As New Theme With {.padding = margin, .background = bg}
+            Dim app As New TreeMapPlot(array, theme)
 
-                    ' true -> width percentage; false -> height percentage
-                    Dim f As Boolean = True
-                    Dim width! = rect.Width, height! = rect.Height
-                    Dim x! = margin.Left, y! = margin.Top
-                    Dim drawW!, drawH!
-                    Dim labels As New List(Of FractionData)
-
-                    Do While array.Count > 0
-                        Dim p As FractionData = array.First
-
-                        If f Then
-                            ' 计算宽度百分比
-                            drawW = p.GetPercentage(array) * width
-                            drawH = height
-                            rect = New RectangleF(New PointF(x, y), New SizeF(drawW, drawH))
-
-                            Call g.FillRectangle(New SolidBrush(p.Color), rect)
-
-                            x = x + drawW
-                            width = width - drawW
-                        Else
-                            ' 计算高度百分比
-                            drawW = width
-                            drawH = p.GetPercentage(array) * height
-                            rect = New RectangleF(New PointF(x, y), New SizeF(drawW, drawH))
-
-                            Call g.FillRectangle(New SolidBrush(p.Color), rect)
-
-                            y += drawH
-                            height = height - drawH
-                        End If
-
-                        f = Not f  ' swap
-
-                        Call labels.Add(item:=p)
-                        Call array.RemoveAt(Scan0)
-                    Loop
-                End Sub
-
-            Return g.GraphicsPlots(size, margin, bg, plotInternal)
+            Return app.Plot(size)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -127,4 +129,67 @@ Namespace Fractions
             Return f.Percentage / all.Sum(Function(x) x.Percentage)
         End Function
     End Module
+
+    Public Class TreeMapPlot : Inherits Plot
+
+        ReadOnly array As List(Of FractionData)
+
+        Public Sub New(array As List(Of FractionData), theme As Theme)
+            MyBase.New(theme)
+            Me.array = array
+        End Sub
+
+        Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim margin = canvas.Padding
+            Dim padding = PaddingLayout.EvaluateFromCSS(css, margin)
+            Dim size As Size = g.Size
+            Dim rect As New RectangleF With {
+                .Location = New PointF(padding.Left, padding.Top),
+                .Size = New SizeF With {
+                    .Width = size.Width - margin.Horizontal(css),
+                    .Height = size.Height - padding.Left - padding.Top
+                }
+            }
+
+            ' true -> width percentage; false -> height percentage
+            Dim f As Boolean = True
+            Dim width! = rect.Width, height! = rect.Height
+            Dim x! = padding.Left
+            Dim Y! = padding.Top
+            Dim drawW!, drawH!
+            Dim labels As New List(Of FractionData)
+
+            Do While array.Count > 0
+                Dim p As FractionData = array.First
+
+                If f Then
+                    ' 计算宽度百分比
+                    drawW = p.GetPercentage(array) * width
+                    drawH = height
+                    rect = New RectangleF(New PointF(x, y), New SizeF(drawW, drawH))
+
+                    Call g.FillRectangle(New SolidBrush(p.Color), rect)
+
+                    x = x + drawW
+                    width = width - drawW
+                Else
+                    ' 计算高度百分比
+                    drawW = width
+                    drawH = p.GetPercentage(array) * height
+                    rect = New RectangleF(New PointF(x, y), New SizeF(drawW, drawH))
+
+                    Call g.FillRectangle(New SolidBrush(p.Color), rect)
+
+                    y += drawH
+                    height = height - drawH
+                End If
+
+                f = Not f  ' swap
+
+                Call labels.Add(item:=p)
+                Call array.RemoveAt(Scan0)
+            Loop
+        End Sub
+    End Class
 End Namespace

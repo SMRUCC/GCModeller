@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1982150d07994b6fc4934d13ea614a9e, mime\text%html\jQuery\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::584418434fd2118a0fb6c9ed4c0682c1, mime\text%html\jQuery\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 19 (63.33%)
+    ' Comment Lines: 7 (23.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (13.33%)
+    '     File Size: 1.11 KB
+
+
     '     Module Extensions
     ' 
     '         Function: TagName
@@ -47,6 +59,7 @@ Imports Microsoft.VisualBasic.MIME.Html.XmlMeta
 
 Namespace HTML.jQuery
 
+    <HideModuleName>
     Public Module Extensions
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3126d8237d66eeb00f22bbf93c182b1a, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
+﻿#Region "Microsoft.VisualBasic::14f1b3a2d90e3c6d66d6b2e613a0e16f, analysis\SequenceToolkit\SequencePatterns\Motif\MotifLog.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 41 (63.08%)
+    ' Comment Lines: 16 (24.62%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.31%)
+    '     File Size: 1.98 KB
+
+
     ' Class MotifLog
     ' 
     '     Properties: ATGDist, BiologicalProcess, Family, InPromoterRegion, Location
@@ -42,12 +54,8 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 

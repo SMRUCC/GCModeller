@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84336cdfd4b2ad6df6f2ad4367255f1d, Data_science\Mathematica\Math\Math\Spline\B_Spline.vb"
+﻿#Region "Microsoft.VisualBasic::59fd13c0d3f1d7a28c589e31dd31439d, Data_science\Mathematica\Math\Math\Spline\B_Spline.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 95 (59.01%)
+    ' Comment Lines: 40 (24.84%)
+    '    - Xml Docs: 92.50%
+    ' 
+    '   Blank Lines: 26 (16.15%)
+    '     File Size: 5.58 KB
+
+
+    '     Class BSpline
+    ' 
+    '         Properties: degree, resolution
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    ' 
     '     Module B_Spline
     ' 
     '         Function: (+2 Overloads) BSpline, Compute, OutputPoint
@@ -45,6 +63,24 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Interpolation
+
+    ''' <summary>
+    ''' B-spline arguments
+    ''' </summary>
+    Public Class BSpline
+
+        Public Property degree As Single = 2
+        Public Property resolution As Integer = 10
+
+        Sub New()
+        End Sub
+
+        Sub New(degree As Single, Optional resolution As Integer = 5)
+            Me.degree = degree
+            Me.resolution = resolution
+        End Sub
+
+    End Class
 
     ''' <summary>
     ''' B-spline.
@@ -96,7 +132,7 @@ Namespace Interpolation
         ''' 
         <Extension>
         Public Iterator Function Compute(controlPoints As IEnumerable(Of PointF), Optional degree! = 5, Optional RESOLUTION% = 10) As IEnumerable(Of PointF)
-            Dim ctrlPts = controlPoints.ToArray
+            Dim ctrlPts As PointF() = controlPoints.ToArray
             Dim p As PointF?
 
             If ctrlPts.Length > 1 Then

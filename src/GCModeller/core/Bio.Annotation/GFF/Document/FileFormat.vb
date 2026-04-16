@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a77f1036c87d0753dd6550a3198348af, core\Bio.Annotation\GFF\Document\FileFormat.vb"
+﻿#Region "Microsoft.VisualBasic::fd9ad1294ab6470651a12cdc7b70b082, core\Bio.Annotation\GFF\Document\FileFormat.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 77 (77.78%)
+    ' Comment Lines: 7 (7.07%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 15 (15.15%)
+    '     File Size: 4.27 KB
+
+
     '     Module FileFormat
     ' 
     '         Function: TryGetFreaturesData, TryGetMetaData
@@ -46,6 +58,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
 
@@ -79,7 +93,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                                       .JoinBy("; ")
                               End Function)
 
-            Call $"There are {attrs.Count} meta data was parsed from the gff file.".__DEBUG_ECHO
+            Call $"There are {attrs.Count} meta data was parsed from the gff file.".debug
 
             Gff.GffVersion = CInt(Val(TryGetValue(attrs, "##gff-version")))
             Gff.date = TryGetValue(attrs, "##date")
@@ -92,10 +106,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 Gff.GffVersion = defaultVer
             End If
 
-            Call $"The parser version of the gff file is version {Gff.GffVersion}...".__DEBUG_ECHO
+            Call $"The parser version of the gff file is version {Gff.GffVersion}...".debug
 
             If {1, 2, 3}.IndexOf(Gff.GffVersion) = -1 Then
-                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".Warning
+                Call $"{NameOf(Version)}={Gff.GffVersion} is currently not supported yet, ignored!".warning
             End If
         End Sub
 
@@ -109,18 +123,21 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 .version = version
             }
             Dim features As Feature() = loadBuffer _
+                .AsParallel _
                 .Select(AddressOf helper.parse) _
                 .ToArray
             Return features
         End Function
 
         Private Structure parserHelper
+
             Public version As Integer
 
             Public Function parse(s As String) As Feature
                 Return FeatureParser.CreateObject(s, version)
             End Function
 
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Public Shared Function IsMetaDataLine(line As String) As Boolean
                 Return Not String.IsNullOrEmpty(line) AndAlso Len(line) > 2 AndAlso String.Equals(Mid(line, 1, 2), "##")
             End Function
@@ -135,6 +152,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
                 Return LQuery
             Catch ex As Exception
                 Call App.LogException(New Exception(data.JoinBy(vbCrLf), ex))
+                Call ex.Message.error
                 Return New String() {}
             End Try
         End Function

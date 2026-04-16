@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fdca6a18f45eda4ac39baeb489ba297, data\GO_gene-ontology\GeneOntology\Files\Obo\File\Term.vb"
+﻿#Region "Microsoft.VisualBasic::f223236c253ef8c872a59e6dc520a723, data\GO_gene-ontology\GeneOntology\Files\Obo\File\Term.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 31 (27.43%)
+    ' Comment Lines: 76 (67.26%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 6 (5.31%)
+    '     File Size: 6.43 KB
+
+
     '     Class Term
     ' 
     '         Properties: alt_id, comment, consider, created_by, creation_date
@@ -38,13 +50,14 @@
     '                     is_obsolete, property_value, relationship, replaced_by, subset
     '                     synonym, xref
     ' 
-    '         Function: ToString
+    '         Function: ToString, Trim
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
 
 Namespace OBO
@@ -147,6 +160,10 @@ Namespace OBO
 
         Public Const Term As String = "[Term]"
         Public Const Typedef As String = "[Typedef]"
+
+        Public Shared Function Trim(str As String) As String
+            Return Strings.Trim(str).Trim("'"c, """"c, " "c, ASCII.TAB, ASCII.CR, ASCII.LF)
+        End Function
 
         Public Overrides Function ToString() As String
             Return String.Format("[{0}] {1}: {2}", [namespace], id, name)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fcc1ddeb40d9361e287e9acf34fb18af, mime\application%pdf\PdfReader\Document\PdfStructTreeRoot.vb"
+﻿#Region "Microsoft.VisualBasic::00cfe605bd6029497448cc5a909910c6, mime\application%pdf\PdfReader\Document\PdfStructTreeRoot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 67 (81.71%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (18.29%)
+    '     File Size: 3.29 KB
+
+
     '     Class PdfStructTreeRoot
     ' 
     '         Properties: ClassMap, IDTree, K, ParentTree, ParentTreeNextKey
@@ -54,7 +66,7 @@ Namespace PdfReader
         Private _IdTree As PdfNameTree
         Private _parentTree As PdfNumberTree
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As ParseDictionary)
+        Public Sub New(parent As PdfObject, dictionary As ParseDictionary)
             MyBase.New(parent, dictionary)
         End Sub
 

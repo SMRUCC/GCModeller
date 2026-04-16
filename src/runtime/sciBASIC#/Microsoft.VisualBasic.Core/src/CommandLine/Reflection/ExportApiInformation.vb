@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 64 (82.05%)
+    ' Comment Lines: 3 (3.85%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 2.53 KB
+
+
     '     Class ExportApiInformation
     ' 
     '         Properties: Example, Info, Name, Usage

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::447bfad651845f4cc49457bb01512f3f, Data_science\Visualization\Plots\Contour\ContourPlot.vb"
+﻿#Region "Microsoft.VisualBasic::180cd4595c56cd90b9eded987bade5d8, Data_science\Visualization\Plots\Contour\ContourPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 107 (82.31%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 23 (17.69%)
+    '     File Size: 5.51 KB
+
+
     '     Class ContourPlot
     ' 
     '         Constructor: (+3 Overloads) Sub New
@@ -54,6 +66,33 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.MarchingSquares
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Contour
 
@@ -64,11 +103,11 @@ Namespace Contour
         Friend xlim As Double = Double.NaN
         Friend ylim As Double = Double.NaN
 
-        Public Sub New(sample As IEnumerable(Of MeasureData), theme As Theme)
+        Public Sub New(sample As IEnumerable(Of MeasureData), interpolateFill As Boolean, theme As Theme)
             MyBase.New(theme)
 
             contours = ContourLayer _
-                .GetContours(sample) _
+                .GetContours(sample, interpolateFill:=interpolateFill) _
                 .ToArray
         End Sub
 
@@ -116,17 +155,18 @@ Namespace Contour
                 .GetColors(theme.colorSet, level_cutoff.Length) _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             Dim i As i32 = Scan0
             Dim dims As Size = getDimensions()
-            Dim rect As Rectangle = canvas.PlotRegion
+            Dim rect As Rectangle = canvas.PlotRegion(css)
 
             If Not (xlim.IsNaNImaginary AndAlso ylim.IsNaNImaginary) Then
                 Call g.FillRectangle(colors(Scan0), rect)
             End If
 
             If dims.Width * dims.Height > 0 Then
-                Dim scaleX = d3js.scale.linear.domain(New Double() {0, dims.Width}).range(New Double() {rect.Left, rect.Right})
-                Dim scaleY = d3js.scale.linear.domain(New Double() {0, dims.Height}).range(New Double() {rect.Top, rect.Bottom})
+                Dim scaleX = d3js.scale.linear.domain(values:=New Double() {0, dims.Width}).range(values:=New Double() {rect.Left, rect.Right})
+                Dim scaleY = d3js.scale.linear.domain(values:=New Double() {0, dims.Height}).range(values:=New Double() {rect.Top, rect.Bottom})
 
                 For Each polygon As GeneralPath In contours
                     Dim color As SolidBrush = colors(++i)
@@ -136,10 +176,11 @@ Namespace Contour
                 Next
             End If
 
-            Dim layout As New Rectangle(rect.Right + 10, rect.Top, canvas.Padding.Right / 3 * 2, rect.Height / 3 * 2)
-            Dim legendTitleFont As Font = CSSFont.TryParse(theme.legendTitleCSS).GDIObject(g.Dpi)
-            Dim tickFont As Font = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi)
-            Dim tickStroke As Pen = Stroke.TryParse(theme.legendTickAxisStroke)
+            Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
+            Dim layout As New Rectangle(rect.Right + 10, rect.Top, padding.Right / 3 * 2, rect.Height / 3 * 2)
+            Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTitleCSS))
+            Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTickCSS))
+            Dim tickStroke As Pen = css.GetPen(Stroke.TryParse(theme.legendTickAxisStroke))
 
             Call g.ColorMapLegend(layout, colors, level_cutoff, legendTitleFont, title:=legendTitle, tickFont, tickStroke)
         End Sub

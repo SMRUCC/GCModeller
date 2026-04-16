@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ddc0cbd90978c2e081062cb487116f7, Data\BinaryData\BinaryData\XDR\Unpacker.vb"
+﻿#Region "Microsoft.VisualBasic::58c0a2e14313e7f0d5a7b8e0f92f8632, Data\BinaryData\BinaryData\XDR\Unpacker.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 40 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (20.00%)
+    '     File Size: 1.56 KB
+
+
     '     Class Unpacker
     ' 
     '         Properties: EndOfStream, Position
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Read, unpack_double, unpack_int
+    '         Function: (+2 Overloads) Read, UnpackDouble, UnpackInteger
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Diagnostics
+Imports System.Runtime.CompilerServices
 
 Namespace Xdr
 
@@ -61,6 +73,7 @@ Namespace Xdr
         End Property
 
         Public ReadOnly Property EndOfStream As Boolean Implements IByteReader.EndOfStream
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return data.EndOfStream
             End Get
@@ -71,18 +84,22 @@ Namespace Xdr
             Me.data = data
         End Sub
 
-        Public Function unpack_int() As Object
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function UnpackInteger() As Object
             Return XdrEncoding.DecodeInt32(Me)
         End Function
 
-        Public Function unpack_double() As Object
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function UnpackDouble() As Object
             Return XdrEncoding.DecodeDouble(Me)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Read(count As UInteger) As Byte() Implements IByteReader.Read
             Return data.ReadBytes(count)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Read() As Byte Implements IByteReader.Read
             Return data.ReadByte
         End Function

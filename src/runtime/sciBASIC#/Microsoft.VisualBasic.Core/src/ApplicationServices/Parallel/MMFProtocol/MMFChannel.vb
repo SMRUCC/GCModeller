@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::205c05be186b42548f64d0608048ec4a, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MMFChannel.vb"
+﻿#Region "Microsoft.VisualBasic::10e0cb594557883c73921ecdd86d4765, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MMFChannel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 203
+    '    Code Lines: 123 (60.59%)
+    ' Comment Lines: 46 (22.66%)
+    '    - Xml Docs: 65.22%
+    ' 
+    '   Blank Lines: 34 (16.75%)
+    '     File Size: 7.77 KB
+
 
     '     Delegate Sub
     ' 
@@ -253,7 +265,7 @@ Namespace Parallel.MMFProtocol
         <ExportAPI("Print.Message")>
         Public Shared Function WriteMessage(data As Generic.IEnumerable(Of Byte)) As String
             Dim Message As String = getMessage(data)
-            Call Console.WriteLine(Message)
+            Call VBDebugger.EchoLine(Message)
             Return Message
         End Function
 #End Region

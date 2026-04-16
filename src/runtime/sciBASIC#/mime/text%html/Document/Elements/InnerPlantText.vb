@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9be7d5762ce67b90f4713c290ee5b5a, mime\text%html\Document\Elements\InnerPlantText.vb"
+﻿#Region "Microsoft.VisualBasic::b86dcb5621984a40262d292c2630cb3f, mime\text%html\Document\Elements\InnerPlantText.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 32 (58.18%)
+    ' Comment Lines: 11 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (21.82%)
+    '     File Size: 1.62 KB
+
 
     '     Class InnerPlantText
     ' 
@@ -81,7 +93,7 @@ Namespace Document
         End Sub
 
         Public Overrides Function ToString() As String
-            Return InnerText
+            Return InnerText Or EmptyString
         End Function
 
         Public Overridable Function GetHtmlText() As String

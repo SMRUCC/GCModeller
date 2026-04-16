@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::518705f47efbf6835e58a5c39d6873b9, Data_science\MachineLearning\xgboost\TGBoost\GBM.vb"
+﻿#Region "Microsoft.VisualBasic::fa6355027c23fa06df287992dba2cb20, Data_science\MachineLearning\xgboost\TGBoost\GBM.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 343
+    '    Code Lines: 202 (58.89%)
+    ' Comment Lines: 97 (28.28%)
+    '    - Xml Docs: 87.63%
+    ' 
+    '   Blank Lines: 44 (12.83%)
+    '     File Size: 15.54 KB
+
+
     '     Class GBM
     ' 
     '         Properties: eta, first_round_pred, loss, trees
@@ -47,7 +59,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
-Imports Microsoft.VisualBasic.DataMining.ComponentModel.Evaluation
+Imports Microsoft.VisualBasic.DataMining.Evaluation
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.My
@@ -88,7 +100,7 @@ Namespace train
     ''' <remarks>
     ''' https://github.com/wepe/tgboost
     ''' </remarks>
-    Public Class GBM
+    Public Class GBM : Inherits Model
 
         Private num_boost_round As Integer
         Private max_depth As Integer
@@ -111,12 +123,21 @@ Namespace train
 
         Shared Sub New()
             logger = FrameworkInternal.getLogger("XGBoostInfoLogging", split:=Sub(header, msg, level) VBDebugger.cat($"{header}({level}): {msg}", vbCrLf))
-            App.AddExitCleanHook(AddressOf logger.Save)
+
+            ' save log file on application exit
+            Call App.AddExitCleanHook(AddressOf logger.Save)
         End Sub
 
         Public Sub New()
         End Sub
 
+        ''' <summary>
+        ''' load model from file
+        ''' </summary>
+        ''' <param name="trees"></param>
+        ''' <param name="loss"></param>
+        ''' <param name="first_round_pred"></param>
+        ''' <param name="eta"></param>
         Public Sub New(trees As List(Of Tree), loss As Loss, first_round_pred As Double, eta As Double)
             _trees = trees
             _loss = loss
@@ -124,6 +145,55 @@ Namespace train
             _eta = eta
         End Sub
 
+        ''' <summary>
+        ''' do model training
+        ''' </summary>
+        ''' <param name="trainset"></param>
+        ''' <param name="valset"></param>
+        ''' <param name="early_stopping_rounds"></param>
+        ''' <param name="maximize"></param>
+        ''' <param name="eval_metric">
+        ''' <see cref="Metrics.mse"/> for regression problem
+        ''' </param>
+        ''' <param name="loss">
+        ''' + logloss: <see cref="LogisticLoss"/> for classify problem
+        ''' + squareloss: <see cref="SquareLoss"/> for regression problem
+        ''' </param>
+        ''' <param name="eta">
+        ''' [learning_rate] Step size shrinkage used in update to prevents overfitting. 
+        ''' After each boosting step, we can directly get the weights 
+        ''' of new features, and eta shrinks the feature weights to make 
+        ''' the boosting process more conservative. range: [0,1]
+        ''' </param>
+        ''' <param name="num_boost_round"></param>
+        ''' <param name="max_depth">
+        ''' Maximum depth of a tree. Increasing this value will make the model more
+        ''' complex and more likely to overfit. 0 indicates no limit on depth. Beware
+        ''' that XGBoost aggressively consumes memory when training a deep tree.
+        ''' exact tree method requires non-zero value. range: [0,∞]
+        ''' </param>
+        ''' <param name="scale_pos_weight"></param>
+        ''' <param name="rowsample"></param>
+        ''' <param name="colsample"></param>
+        ''' <param name="min_child_weight">
+        ''' Minimum sum of instance weight (hessian) needed in a child. If the tree 
+        ''' partition step results in a leaf node with the sum of instance weight less
+        ''' than min_child_weight, then the building process will give up further 
+        ''' partitioning. In linear regression task, this simply corresponds to 
+        ''' minimum number of instances needed to be in each node. The larger min_child_weight
+        ''' is, the more conservative the algorithm will be. range: [0,∞]
+        ''' </param>
+        ''' <param name="min_sample_split"></param>
+        ''' <param name="lambda">
+        ''' [reg_lambda] L2 regularization term on weights. Increasing this value
+        ''' will make model more conservative.
+        ''' </param>
+        ''' <param name="gamma">
+        ''' [min_split_loss] Minimum loss reduction required to make a further partition
+        ''' on a leaf node of the tree. The larger gamma is, the more conservative the 
+        ''' algorithm will be. range: [0,∞]
+        ''' </param>
+        ''' <param name="num_thread"></param>
         Public Overridable Sub fit(trainset As TrainData, valset As ValidationData,
                                    Optional early_stopping_rounds As Integer = 10,
                                    Optional maximize As Boolean = True,
@@ -164,9 +234,13 @@ Namespace train
             If loss.Equals("logloss") Then
                 _loss = New LogisticLoss()
                 _first_round_pred = 0.0
-            ElseIf loss.Equals("squareloss") Then
-                _loss = New SquareLoss()
+            ElseIf loss.Equals("squareloss") OrElse loss = "qlinearloss" Then
+                _loss = If(loss = "squareloss", New SquareLoss(), New QLinearLoss())
                 _first_round_pred = class_list.label.Average
+
+                If eval_metric = Metrics.mse OrElse eval_metric = Metrics.mae Then
+                    GBM.logger.info("Going to solve a regression model!")
+                End If
             End If
 
             class_list.initialize_pred(_first_round_pred)

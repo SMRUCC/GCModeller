@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee10a092ed58a67ae8acb990a9ce9260, engine\vcellkit\Modeller\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::2dac241fcf2cacfde74d0e1e3f6dc666, engine\vcellkit\Modeller\Compiler.vb"
 
     ' Author:
     ' 
@@ -31,32 +31,51 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 253
+    '    Code Lines: 173 (68.38%)
+    ' Comment Lines: 56 (22.13%)
+    '    - Xml Docs: 96.43%
+    ' 
+    '   Blank Lines: 24 (9.49%)
+    '     File Size: 11.30 KB
+
+
     ' Module Compiler
     ' 
-    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, kegg, load_geneKOMapping
-    '               ToMarkup
+    '     Function: AssemblingGenomeInformation, AssemblingMetabolicNetwork, AssemblingRegulationNetwork, buildReaction, compile_network
+    '               compileBiocyc, getFactors, kegg, load_geneKOMapping, ToMarkup
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Data.BioCyc
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.Compiler
 Imports SMRUCC.genomics.GCModeller.Compiler.MarkupCompiler
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.DataSets
+Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Operators
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports gccWorkflow = SMRUCC.genomics.GCModeller.Compiler.Workflow
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The GCModeller virtual cell model creator
@@ -101,18 +120,18 @@ Module Compiler
                                        Optional geneIDcol$ = "ID",
                                        Optional env As Environment = Nothing) As Object
         If data Is Nothing Then
-            Return Internal.debug.stop("No gene_id to KO mapping data provided!", env)
+            Return RInternal.debug.stop("No gene_id to KO mapping data provided!", env)
         End If
 
         If TypeOf data Is Rdataframe Then
             If Not DirectCast(data, Rdataframe).columns.ContainsKey(geneIDcol) Then
-                Return Internal.debug.stop($"No geneId column data which is named: '{geneIDcol}'!", env)
+                Return RInternal.debug.stop($"No geneId column data which is named: '{geneIDcol}'!", env)
             ElseIf Not DirectCast(data, Rdataframe).columns.ContainsKey(KOcol) Then
-                Return Internal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
+                Return RInternal.debug.stop($"NO KEGG id column data which is named: '{KOcol}'!", env)
             End If
 
-            Dim geneID As String() = asVector(Of String)(DirectCast(data, Rdataframe).GetColumnVector(geneIDcol))
-            Dim KO As String() = asVector(Of String)(DirectCast(data, Rdataframe).GetColumnVector(KOcol))
+            Dim geneID As String() = CLRVector.asCharacter(DirectCast(data, Rdataframe).getColumnVector(geneIDcol))
+            Dim KO As String() = CLRVector.asCharacter(DirectCast(data, Rdataframe).getColumnVector(KOcol))
 
             Return geneID _
                 .SeqIterator _
@@ -141,7 +160,7 @@ Module Compiler
                               End Function)
         End If
 
-        Return Internal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
+        Return RInternal.debug.stop(New NotImplementedException(data.GetType.FullName), env)
     End Function
 
     ''' <summary>
@@ -202,8 +221,87 @@ Module Compiler
                              Optional lociAsLocus_tag As Boolean = False,
                              Optional logfile As String = Nothing) As VirtualCell
 
-        Using compiler As New v2MarkupCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
+        Using compiler As New v2KEGGCompiler(model, genomes, KEGG, regulations, lociAsLocus_tag)
             Return compiler.Compile($"compile --log {logfile.CLIPath}")
         End Using
+    End Function
+
+    ''' <summary>
+    ''' Build a specific organism metacyc database as virtual cell model 
+    ''' </summary>
+    ''' <param name="biocyc"></param>
+    ''' <param name="logfile"></param>
+    ''' <returns></returns>
+    <ExportAPI("compile_biocyc")>
+    Public Function compileBiocyc(biocyc As Workspace, Optional logfile As String = "./gcc.log") As VirtualCell
+        Using compiler As New BioCyc.v2Compiler(biocyc)
+            Return compiler.Compile($"compile --log {logfile.CLIPath}")
+        End Using
+    End Function
+
+    <ExportAPI("compile_network")>
+    Public Function compile_network(<RListObjectArgument> <RLazyExpression> x As list, Optional env As Environment = Nothing) As Object
+        Dim network As New List(Of Reaction)
+
+        For Each expr As Expression In x.data.OfType(Of Expression)
+            If Not TypeOf expr Is BinaryExpression Then
+                Continue For
+            End If
+
+            Call network.Add(buildReaction(expr))
+        Next
+
+        Return New VirtualCell With {
+            .metabolismStructure = New MetabolismStructure With {
+                .reactions = New ReactionGroup With {
+                    .none_enzymatic = network.ToArray
+                },
+                .compounds = network _
+                    .Select(Function(r) r.AsEnumerable) _
+                    .IteratesALL _
+                    .GroupBy(Function(c) c.compound) _
+                    .Select(Function(id) New Compound(id.Key)) _
+                    .ToArray
+            }
+        }
+    End Function
+
+    Private Function buildReaction(eq As BinaryExpression) As Reaction
+        Dim left = getFactors(eq.left).ToArray
+        Dim right = getFactors(eq.right).ToArray
+
+        Return New Reaction With {
+            .bounds = {10, 10},
+            .substrate = left,
+            .product = right,
+            .ID = .equation,
+            .name = .ID
+        }
+    End Function
+
+    Private Iterator Function getFactors(side As Expression) As IEnumerable(Of CompoundFactor)
+        If TypeOf side Is BinaryExpression Then
+            Dim bin = DirectCast(side, BinaryExpression)
+
+            If bin.operator = "+" Then
+                ' A + B
+                For Each xi As CompoundFactor In getFactors(bin.left).JoinIterates(getFactors(bin.right))
+                    Yield xi
+                Next
+            ElseIf bin.operator = "*" Then
+                ' 2 * A
+                Dim factor = CLRVector.asNumeric(bin.left.Evaluate(Nothing))
+                Dim id As String = DirectCast(bin.right, SymbolReference).symbol
+
+                Yield New CompoundFactor(factor(0), id)
+            Else
+                Throw New SyntaxErrorException
+            End If
+        ElseIf TypeOf side Is SymbolReference Then
+            Dim x As SymbolReference = DirectCast(side, SymbolReference)
+            Yield New CompoundFactor(1, x.symbol)
+        Else
+            Throw New InvalidDataException
+        End If
     End Function
 End Module

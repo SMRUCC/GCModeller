@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::407d1c0bfd6a401fbaae6ebc8bf416c1, Microsoft.VisualBasic.Core\src\Language\Language\C\File.vb"
+﻿#Region "Microsoft.VisualBasic::f9b648bc16ae7d996c08232e4847e112, Microsoft.VisualBasic.Core\src\Language\Language\C\File.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 13 (40.62%)
+    ' Comment Lines: 15 (46.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (12.50%)
+    '     File Size: 1.14 KB
+
+
     '     Module File
     ' 
     '         Sub: fprintf
@@ -60,6 +72,12 @@ Namespace Language.C
         ''' </summary>
         Public Const SEEK_END As SeekOrigin = SeekOrigin.End
 
+        ''' <summary>
+        ''' print data to file
+        ''' </summary>
+        ''' <param name="fp">a file pointer</param>
+        ''' <param name="format">string format for the print</param>
+        ''' <param name="args"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub fprintf(fp As StreamWriter, format As String, ParamArray args As Object())
             Call fp.Write(sprintf(format, args))

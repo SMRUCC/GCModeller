@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f76c043490b1ebc321bd2637655313c6, mime\application%pdf\PdfReader\Document\PdfDecrypt.vb"
+﻿#Region "Microsoft.VisualBasic::cb20a1a7204b91262d660801aedbfab6, mime\application%pdf\PdfReader\Document\PdfDecrypt.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 28 (73.68%)
+    ' Comment Lines: 2 (5.26%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (21.05%)
+    '     File Size: 1.66 KB
+
+
     '     Class PdfDecrypt
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -47,16 +59,16 @@ Namespace PdfReader
     Public MustInherit Class PdfDecrypt
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject)
+        Public Sub New(parent As PdfObject)
             MyBase.New(parent)
         End Sub
 
-        Public MustOverride Function DecodeString(ByVal str As PdfString) As String
-        Public MustOverride Function DecodeStringAsBytes(ByVal str As PdfString) As Byte()
-        Public MustOverride Function DecodeStream(ByVal stream As PdfStream) As String
-        Public MustOverride Function DecodeStreamAsBytes(ByVal stream As PdfStream) As Byte()
+        Public MustOverride Function DecodeString(str As PdfString) As String
+        Public MustOverride Function DecodeStringAsBytes(str As PdfString) As Byte()
+        Public MustOverride Function DecodeStream(stream As PdfStream) As String
+        Public MustOverride Function DecodeStreamAsBytes(stream As PdfStream) As Byte()
 
-        Public Shared Function CreateDecrypt(ByVal doc As PdfDocument, ByVal trailer As PdfDictionary) As PdfDecrypt
+        Public Shared Function CreateDecrypt(doc As PdfDocument, trailer As PdfDictionary) As PdfDecrypt
             Dim ret As PdfDecrypt = New PdfDecryptNone(doc)
 
             ' Check for optional encryption reference

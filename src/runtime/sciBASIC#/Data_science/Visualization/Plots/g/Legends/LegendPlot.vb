@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::400dfdb43c1c8fd55f6eba1ecb0455fa, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
+﻿#Region "Microsoft.VisualBasic::7bc4c1998264a7059cb44457df968ecc, Data_science\Visualization\Plots\g\Legends\LegendPlot.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 399
+    '    Code Lines: 283 (70.93%)
+    ' Comment Lines: 55 (13.78%)
+    '    - Xml Docs: 89.09%
+    ' 
+    '   Blank Lines: 61 (15.29%)
+    '     File Size: 16.45 KB
+
+
     '     Module LegendPlotExtensions
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: DrawLegend, LegendStyls, MaxLegendSize, ParseLegendStyle
     ' 
-    '         Sub: DrawLegends, DrawLegendShape
+    '         Sub: DrawLegends, DrawLegendShape, DrawShape
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,35 +61,73 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Graphic.Legend
 
     <HideModuleName>
     Public Module LegendPlotExtensions
 
-        Private ReadOnly legendExpressions As Dictionary(Of String, LegendStyles) =
-            Enums(Of LegendStyles).ToDictionary(
-                Function(l)
-                    Return l.ToString.ToLower
-                End Function)
+        ReadOnly legendExpressions As Dictionary(Of String, LegendStyles)
+
+        Sub New()
+            ' parse the shape enums and the corresponding element description text
+            ' used the shape symbol name and the description key as the text parser 
+            ' key inputs
+            legendExpressions = Enums(Of LegendStyles) _
+                .Select(Iterator Function(f) As IEnumerable(Of (key As String, flag As LegendStyles))
+                            Yield (f.ToString.ToLower, f)
+                            Yield (f.Description.ToLower, f)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(f) f.key) _
+                .ToDictionary(Function(f) f.Key,
+                              Function(f)
+                                  Return f.First.flag
+                              End Function)
+        End Sub
 
         ''' <summary>
         ''' 从字符串表达式之中解析出<see cref="LegendStyles"/>
         ''' </summary>
-        ''' <param name="str$"></param>
+        ''' <param name="str"></param>
         ''' <param name="defaultStyle"></param>
         ''' <returns></returns>
         ''' 
         <Extension>
         Public Function ParseLegendStyle(str$, Optional defaultStyle As LegendStyles = LegendStyles.Circle) As LegendStyles
             With LCase(str)
-                If legendExpressions.ContainsKey(.ByRef) Then
-                    Return legendExpressions(.ByRef)
+                If legendExpressions.ContainsKey(.ToString) Then
+                    Return legendExpressions(.ToString)
                 Else
                     Return defaultStyle
                 End If
@@ -96,6 +148,10 @@ Namespace Graphic.Legend
                 .ToArray
         End Function
 
+        Public Sub DrawShape(g As IGraphics, pos As PointF, gSize As SizeF, shape As String, color As Brush, border As Stroke, radius%, ByRef labelPos As PointF, lineWidth!)
+            Call g.DrawLegendShape(pos, gSize, ParseLegendStyle(shape), color, border, radius, labelPos, lineWidth)
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -104,7 +160,7 @@ Namespace Graphic.Legend
         ''' <param name="gSize">The shape size</param>
         ''' <param name="style">The shape style</param>
         ''' <param name="color">The shape color</param>
-        ''' <param name="border">The shape polygon border</param>
+        ''' <param name="border">The shape polygon border, nothing means no border line will be draw.</param>
         ''' <param name="radius%"></param>
         <Extension>
         Public Sub DrawLegendShape(g As IGraphics,
@@ -119,14 +175,14 @@ Namespace Graphic.Legend
             Select Case style
 
                 Case LegendStyles.Circle
-                    Dim r As Single = stdNum.Min(gSize.Height, gSize.Width) / 2
+                    Dim r As Single = std.Min(gSize.Height, gSize.Width) / 2
                     Dim c As New Point With {
-                        .X = pos.X + gSize.Height,
-                        .Y = pos.Y + gSize.Height / 2
+                        .X = pos.X + r,
+                        .Y = pos.Y + r
                     }
 
                     labelPos = New PointF With {
-                        .X = stdNum.Max(c.X + r, labelPos.X),
+                        .X = std.Max(c.X + r, labelPos.X),
                         .Y = labelPos.Y
                     }
 
@@ -145,7 +201,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Diamond
 
-                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = std.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
@@ -155,7 +211,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Hexagon
 
-                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = std.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
@@ -194,7 +250,7 @@ Namespace Graphic.Legend
                         color, border)
 
                 Case LegendStyles.Square
-                    Dim r As Single = stdNum.Min(gSize.Height, gSize.Width)
+                    Dim r As Single = std.Min(gSize.Height, gSize.Width)
                     Dim location As New Point With {
                         .X = pos.X + gSize.Width - r,
                         .Y = pos.Y + gSize.Height - r
@@ -218,7 +274,7 @@ Namespace Graphic.Legend
 
                 Case LegendStyles.Triangle
 
-                    Dim d As Integer = stdNum.Min(gSize.Height, gSize.Width)
+                    Dim d As Integer = std.Min(gSize.Height, gSize.Width)
                     Dim topLeft As New Point With {
                         .X = pos.X + (gSize.Width - d) / 2,
                         .Y = pos.Y + (gSize.Height - d) / 2
@@ -261,7 +317,7 @@ Namespace Graphic.Legend
                                    Optional titleBrush As Brush = Nothing,
                                    Optional lineWidth! = -1) As SizeF
 
-            Dim font As Font = l.GetFont(g.Dpi)
+            Dim font As Font = l.GetFont(g.LoadEnvironment)
             Dim fSize As SizeF = g.MeasureString(l.title, font)
             Dim labelPosition As New PointF With {
                 .X = pos.X + canvas.Width + 5,
@@ -330,6 +386,7 @@ Namespace Graphic.Legend
             Dim size As SizeF
             Dim legendList As LegendObject() = legends.ToArray
             Dim graphicSize As SizeF = gSize.FloatSizeParser
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             If Not regionBorder Is Nothing Then
                 Dim maxTitleSize As SizeF = legendList.MaxLegendSize(g)
@@ -338,7 +395,7 @@ Namespace Graphic.Legend
                 With graphicSize
 
                     Dim width! = .Width + .Height * 1.25 + maxTitleSize.Width
-                    Dim height! = (stdNum.Max(.Height, maxTitleSize.Height) + d + 1.25) * legendList.Length
+                    Dim height! = (std.Max(.Height, maxTitleSize.Height) + d + 1.25) * legendList.Length
                     Dim background As Brush = Nothing
 
                     If Not fillBg.StringEmpty Then
@@ -357,10 +414,7 @@ Namespace Graphic.Legend
                             Call g.FillRectangle(background, rect)
                         End If
 
-                        Call g.DrawRectangle(
-                            pen:=regionBorder.GDIObject,
-                            rect:=rect
-                        )
+                        Call g.DrawRectangle(pen:=css.GetPen(regionBorder), rect:=rect)
                     End If
                 End With
             End If
@@ -383,9 +437,10 @@ Namespace Graphic.Legend
         <Extension>
         Public Function MaxLegendSize(legends As IEnumerable(Of LegendObject), g As IGraphics) As SizeF
             Dim maxW! = Single.MinValue, maxH! = Single.MinValue
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             For Each l As LegendObject In legends
-                Dim font As Font = CSSFont.TryParse(l.fontstyle).GDIObject(g.Dpi)
+                Dim font As Font = css.GetFont(CSSFont.TryParse(l.fontstyle))
                 Dim size As SizeF = g.MeasureString(l.title, font)
 
                 If maxW < size.Width Then

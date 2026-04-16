@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34249ce88a8a0c72f19575ac495f4edb, Data_science\DataMining\UMAP\Umap.vb"
+﻿#Region "Microsoft.VisualBasic::4043dce4f12f61534e9bffaa53cb878e, Data_science\DataMining\UMAP\Umap.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 477
+    '    Code Lines: 297 (62.26%)
+    ' Comment Lines: 105 (22.01%)
+    '    - Xml Docs: 64.76%
+    ' 
+    '   Blank Lines: 75 (15.72%)
+    '     File Size: 20.18 KB
+
+
     ' Class Umap
     ' 
     '     Properties: dimension
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: [Step], Clip, FindABParams, FuzzySimplicialSet, GetEmbedding
-    '               GetGraph, GetNEpochs, GetProgress, InitializeFit, InitializeSimplicialSetEmbedding
-    '               MakeEpochsPerSample, RDist
+    '     Function: (+2 Overloads) [Step], FindABParams, FuzzySimplicialSet, GetEmbedding, GetGraph
+    '               GetNEpochs, InitializeFit, InitializeFitImpl, InitializeSimplicialSetEmbedding, MakeEpochsPerSample
     ' 
     '     Sub: InitializeOptimization, Iterate, OptimizeLayoutStep, PrepareForOptimizationLoop, RunIterate
+    '          SetMaxTreeDepth
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
@@ -54,7 +67,8 @@ Imports Microsoft.VisualBasic.DataMining.UMAP.KNN.KDTreeMethod
 Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language.Python
 Imports Microsoft.VisualBasic.Math
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Math.Correlations
+Imports std = System.Math
 
 ''' <summary>
 ''' UMAP: Uniform Manifold Approximation and Projection for Dimension Reduction
@@ -140,6 +154,11 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                    Optional customNumberOfEpochs As Integer? = Nothing,
                    Optional customMapCutoff As Double? = Nothing,
                    Optional kdTreeKNNEngine As Boolean = False,
+                   Optional setOpMixRatio As Double = 1,
+                   Optional minDist As Double = 0.1F,
+                   Optional spread As Double = 1,
+                   Optional learningRate As Double = 1.0F,
+                   Optional repulsionStrength As Double = 1,
                    Optional progressReporter As RunSlavePipeline.SetProgressEventHandler = Nothing)
 
         If customNumberOfEpochs IsNot Nothing AndAlso customNumberOfEpochs <= 0 Then
@@ -148,6 +167,11 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
             KNNArguments = New KNNArguments(numberOfNeighbors, localConnectivity, KnnIter, bandwidth)
         End If
 
+        _setOpMixRatio = setOpMixRatio
+        _minDist = minDist
+        _spread = spread
+        _repulsionStrength = repulsionStrength
+        _learningRate = learningRate
         _kdTreeKNNEngine = kdTreeKNNEngine
         _customMapCutoff = customMapCutoff
         _distanceFn = If(distance, AddressOf DistanceFunctions.Cosine)
@@ -159,16 +183,6 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _progressReporter = progressReporter
     End Sub
 
-    Private Function GetProgress() As RunSlavePipeline.SetProgressEventHandler
-        If _progressReporter Is Nothing Then
-            Return Sub(progress, msg)
-                       ' do nothing
-                   End Sub
-        Else
-            Return ScaleProgressReporter(_progressReporter, 0, 0.8F)
-        End If
-    End Function
-
     Public Function GetGraph() As SparseMatrix
         'Return New SparseMatrix(
         '    rows:=_optimizationState.Head,
@@ -179,39 +193,20 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         Return _graph
     End Function
 
-    ''' <summary>
-    ''' Initializes fit by computing KNN and a fuzzy simplicial set, as well as initializing 
-    ''' the projected embeddings. Sets the optimization state ahead of optimization steps.
-    ''' 
-    ''' Returns the number of epochs to be used for the SGD optimization.
-    ''' </summary>
-    Public Function InitializeFit(x As Double()()) As Integer
-        ' We don't need to reinitialize if we've already initialized for this data
-        If _x Is x AndAlso _isInitialized Then
-            Return GetNEpochs()
-        End If
-
+    Private Function InitializeFitImpl() As Integer
         ' For large quantities of data (which is where the progress estimating is more useful), 
         ' InitializeFit Takes at least 80% of the total time (the calls to Step are
         ' completed much more quickly AND they naturally lend themselves to granular progress updates; 
         ' one per loop compared to the recommended number of epochs)
-        Dim initializeFitProgressReporter As RunSlavePipeline.SetProgressEventHandler = GetProgress()
-
-        _x = x
-
         If _kdTreeKNNEngine Then
-            _knn = KDTreeMetric.GetKNN(x, k:=KNNArguments.k)
+            _knn = KDTreeMetric.GetKNN(_x, k:=KNNArguments.k)
         Else
             ' This part of the process very roughly accounts for 1/3 of the work
-            _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(x, ScaleProgressReporter(initializeFitProgressReporter, 0, 0.3F))
+            _knn = New KNearestNeighbour(KNNArguments.k, _distanceFn, _random).NearestNeighbors(_x)
         End If
 
         ' This part of the process very roughly accounts for 2/3 of the work (the reamining work is in the Step calls)
-        _graph = Me.FuzzySimplicialSet(
-            x:=x,
-            setOpMixRatio:=_setOpMixRatio,
-            progressReporter:=ScaleProgressReporter(initializeFitProgressReporter, 0.3F, 1)
-        )
+        _graph = Me.FuzzySimplicialSet(x:=_x, setOpMixRatio:=_setOpMixRatio)
 
         With InitializeSimplicialSetEmbedding()
             ' Set the optimization routine state
@@ -227,6 +222,22 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _isInitialized = True
 
         Return GetNEpochs()
+    End Function
+
+    ''' <summary>
+    ''' Initializes fit by computing KNN and a fuzzy simplicial set, as well as initializing 
+    ''' the projected embeddings. Sets the optimization state ahead of optimization steps.
+    ''' 
+    ''' Returns the number of epochs to be used for the SGD optimization.
+    ''' </summary>
+    Public Function InitializeFit(x As Double()()) As Integer
+        ' We don't need to reinitialize if we've already initialized for this data
+        If _x Is x AndAlso _isInitialized Then
+            Return GetNEpochs()
+        Else
+            _x = x
+            Return InitializeFitImpl()
+        End If
     End Function
 
     ''' <summary>
@@ -267,23 +278,24 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     End Function
 
     ''' <summary>
-    ''' Given a set of data X, a neighborhood size, and a measure of distance compute the fuzzy simplicial set(here represented as a fuzzy graph in the form of a sparse matrix) associated
-    ''' to the data. This is done by locally approximating geodesic distance at each point, creating a fuzzy simplicial set for each such point, and then combining all the local fuzzy
-    ''' simplicial sets into a global one via a fuzzy union.
+    ''' Given a set of data X, a neighborhood size, and a measure of distance compute the fuzzy simplicial 
+    ''' set(here represented as a fuzzy graph in the form of a sparse matrix) associated to the data. This 
+    ''' is done by locally approximating geodesic distance at each point, creating a fuzzy simplicial set 
+    ''' for each such point, and then combining all the local fuzzy simplicial sets into a global one via 
+    ''' a fuzzy union.
     ''' </summary>
-    Private Function FuzzySimplicialSet(x As Double()(), setOpMixRatio As Double, progressReporter As RunSlavePipeline.SetProgressEventHandler) As SparseMatrix
+    Private Function FuzzySimplicialSet(x As Double()(), setOpMixRatio As Double) As SparseMatrix
         Dim knnIndices = If(_knn.knnIndices, New Integer(-1)() {})
         Dim knnDistances = If(_knn.knnDistances, New Single(-1)() {})
-        Dim report As New ProgressReporter With {.report = progressReporter}
-        Dim sigmasRhos = report.Run(Function() SmoothKNN.SmoothKNNDistance(knnDistances, KNNArguments), 0.1, "SmoothKNNDistance")
-        Dim rowsColsVals = report.Run(Function() SmoothKNN.ComputeMembershipStrengths(knnIndices, knnDistances, sigmasRhos.sigmas, sigmasRhos.rhos), 0.2, "ComputeMembershipStrengths")
-        Dim sparseMatrix = report.Run(Function() New SparseMatrix(rowsColsVals.Row, rowsColsVals.Col, rowsColsVals.X, (x.Length, x.Length)), 0.3, "Create SparseMatrix")
+        Dim sigmasRhos = New SmoothKNN(knnDistances, KNNArguments).SmoothKNNDistance()
+        Dim rowsColsVals = SmoothKNN.ComputeMembershipStrengths(knnIndices, knnDistances, sigmasRhos.sigmas, sigmasRhos.rhos)
+        Dim sparseMatrix = New SparseMatrix(rowsColsVals.Row, rowsColsVals.Col, rowsColsVals.X, (x.Length, x.Length))
         Dim transpose = sparseMatrix.Transpose()
         Dim prodMatrix = sparseMatrix.PairwiseMultiply(transpose)
-        Dim a = report.Run(Function() sparseMatrix.Add(CType(transpose, SparseMatrix)).Subtract(prodMatrix), 0.4, "T - prod")
-        Dim b = report.Run(Function() a.MultiplyScalar(setOpMixRatio), 0.5, "a * setOpMixRatio")
-        Dim c = report.Run(Function() prodMatrix.MultiplyScalar(1 - setOpMixRatio), 0.6, "prod * (1 - setOpMixRatio)")
-        Dim result = report.Run(Function() b.Add(c), 0.7, "b + c")
+        Dim a = sparseMatrix.Add(CType(transpose, SparseMatrix)).Subtract(prodMatrix)
+        Dim b = a.MultiplyScalar(setOpMixRatio)
+        Dim c = prodMatrix.MultiplyScalar(1 - setOpMixRatio)
+        Dim result = b.Add(c)
 
         Return result
     End Function
@@ -364,7 +376,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         ' 2019-06-21 DWR: If we need to support other spread, minDist values then we might 
         ' be able to use the LM implementation in Accord.NET but I'll hard code values that 
         ' relate to the default configuration for now
-        If spread <> 1 OrElse minDist <> 0.1F Then
+        If spread <> 1.0 OrElse minDist <> 0.1F Then
             Throw New ArgumentException($"Currently, the {NameOf(FindABParams)} method only supports spread, minDist values of 1, 0.1 (the Levenberg-Marquardt algorithm is required to process other values")
         End If
 
@@ -392,6 +404,22 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _optimizationState.Dim = [dim]
     End Sub
 
+    Public Function [Step](nEpochs As Integer) As Umap
+        Dim epochsIndex As IEnumerable(Of Integer)
+
+        If App.EnableTqdm Then
+            epochsIndex = Tqdm.Range(0, nEpochs)
+        Else
+            epochsIndex = Enumerable.Range(0, nEpochs)
+        End If
+
+        For Each i As Integer In epochsIndex
+            Call [Step]()
+        Next
+
+        Return Me
+    End Function
+
     ''' <summary>
     ''' Manually step through the optimization process one epoch at a time
     ''' </summary>
@@ -408,7 +436,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                 ' assumption that Step will be called the recommended number of times (the number-of-epochs value 
                 ' returned From InitializeFit)
                 ' Umap.ScaleProgressReporter(_progressReporter, 0.8F, 1)(CSng(currentEpoch) / numberOfEpochsToComplete, "OptimizeLayoutStep")
-                Call Console.Write(".")
+                ' Call Console.Write(".")
             End If
         End If
 
@@ -424,8 +452,8 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
     ''' </summary>
     Private Sub OptimizeLayoutStep(n As Integer)
         ' 在这里可以进行并行化？
-        For i = 0 To _optimizationState.EpochsPerSample.Length - 1
-            RunIterate(i, n)
+        For i As Integer = 0 To _optimizationState.EpochsPerSample.Length - 1
+            Call RunIterate(i, n)
         Next
 
         ' Preparation for future work for interpolating the table before optimizing
@@ -450,19 +478,19 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         Dim current = embeddingSpan.Slice(current_start, _optimizationState.Dim)
         Dim other = embeddingSpan.Slice(other_start, _optimizationState.Dim)
 
-        Dim distSquared = Umap.RDist(current, other)
+        Dim distSquared As Double = DistanceMethods.SquareDistance(current, other)
         Dim gradCoeff = 0F
         Dim gradD As Double
 
         If (distSquared > 0) Then
-            gradCoeff = -2 * _optimizationState.A * _optimizationState.B * stdNum.Pow(distSquared, _optimizationState.B - 1)
-            gradCoeff /= _optimizationState.A * stdNum.Pow(distSquared, _optimizationState.B) + 1
+            gradCoeff = -2 * _optimizationState.A * _optimizationState.B * std.Pow(distSquared, _optimizationState.B - 1)
+            gradCoeff /= _optimizationState.A * std.Pow(distSquared, _optimizationState.B) + 1
         End If
 
         Const clipValue = 4.0F
 
         For d As Integer = 0 To _optimizationState.Dim - 1
-            gradD = Umap.Clip(gradCoeff * (current(d) - other(d)), clipValue)
+            gradD = Math.Clip(gradCoeff * (current(d) - other(d)), clipValue)
             current(d) += gradD * _optimizationState.Alpha
 
             If (_optimizationState.MoveOther) Then
@@ -472,14 +500,14 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
 
         _optimizationState.EpochOfNextSample(i) += _optimizationState.EpochsPerSample(i)
 
-        Dim nNegSamples As Integer = stdNum.Floor((n - _optimizationState.EpochOfNextNegativeSample(i)) / _optimizationState.EpochsPerNegativeSample(i))
+        Dim nNegSamples As Integer = std.Floor((n - _optimizationState.EpochOfNextNegativeSample(i)) / _optimizationState.EpochsPerNegativeSample(i))
 
         For p = 0 To nNegSamples - 1
 
             k = _random.Next(0, _optimizationState.NVertices)
             other_start = k * _optimizationState.Dim
             other = embeddingSpan.Slice(other_start, _optimizationState.Dim)
-            distSquared = Umap.RDist(current, other)
+            distSquared = DistanceMethods.SquareDistance(current, other)
             gradCoeff = 0F
 
             If (distSquared > 0) Then
@@ -494,7 +522,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
                 gradD = 4.0F
 
                 If (gradCoeff > 0) Then
-                    gradD = Umap.Clip(gradCoeff * (current(d) - other(d)), clipValue)
+                    gradD = Math.Clip(gradCoeff * (current(d) - other(d)), clipValue)
                 End If
 
                 current(d) += gradD * _optimizationState.Alpha
@@ -504,31 +532,7 @@ Public NotInheritable Class Umap : Inherits IDataEmbedding
         _optimizationState.EpochOfNextNegativeSample(i) += nNegSamples * _optimizationState.EpochsPerNegativeSample(i)
     End Sub
 
-    ''' <summary>
-    ''' Reduced Euclidean distance
-    ''' </summary>
-    Private Shared Function RDist(x As Span(Of Double), y As Span(Of Double)) As Double
-        Dim distSquared = 0F
-        Dim d As Double
-
-        For i = 0 To x.Length - 1
-            d = x(i) - y(i)
-            distSquared += d * d
-        Next
-
-        Return distSquared
-    End Function
-
-    ''' <summary>
-    ''' Standard clamping of a value into a fixed range
-    ''' </summary>
-    Private Shared Function Clip(x As Double, clipValue As Double) As Double
-        If x > clipValue Then
-            Return clipValue
-        ElseIf x < -clipValue Then
-            Return -clipValue
-        Else
-            Return x
-        End If
-    End Function
+    Public Shared Sub SetMaxTreeDepth(maxDepth As Integer)
+        Tree.maxDepth = maxDepth
+    End Sub
 End Class

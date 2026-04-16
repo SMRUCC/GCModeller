@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::158371211551bd9def80911693561334, Data_science\Visualization\Plots\Scatter\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::140f627d2f00bd997850d7ad5ed29471, Data_science\Visualization\Plots\Scatter\Scatter.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 625
+    '    Code Lines: 518 (82.88%)
+    ' Comment Lines: 65 (10.40%)
+    '    - Xml Docs: 90.77%
+    ' 
+    '   Blank Lines: 42 (6.72%)
+    '     File Size: 27.99 KB
+
+
     ' Module Scatter
     ' 
-    '     Function: CreateAxisTicks, (+2 Overloads) FromPoints, FromVector, getSplinePoints, (+5 Overloads) Plot
-    '               PlotFunction
+    '     Function: CreateAxisTicks, (+2 Overloads) FromPoints, FromVector, getSplinePoints, Jitter
+    '               MakeJitter, (+5 Overloads) Plot, PlotFunction
     ' 
     '     Sub: Plot
     ' 
@@ -67,11 +79,71 @@ Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+#End If
 
 Public Module Scatter
 
+    ''' <summary>
+    ''' A jitter function to randomly assign the x-axis 
+    ''' positions for each x-parameter
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="width_jit"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+    ''' </remarks>
+    Public Function Jitter(a As Vector, width_jit As Double) As Vector
+        a += Vector.rand(a.Length) * width_jit - width_jit / 2
+        Return a
+    End Function
+
+    Public Iterator Function MakeJitter(groups As IEnumerable(Of NamedValue(Of Vector)),
+                                        width_jit As Double,
+                                        Optional dodge_gap As Double = 1) As IEnumerable(Of NamedValue(Of Vector))
+        For Each grp In groups
+            Dim grpl As Double = grp.Value.Length
+            Dim uniq As Double = Val(grp.Description)
+            Dim x As Vector = (grp.Value - 0.25 * dodge_gap) + 0.5 * dodge_gap * (grpl - 1) / (If(uniq = 0.0, grpl, uniq) - 1)
+
+            x = Jitter(x, width_jit)
+
+            Yield New NamedValue(Of Vector) With {
+                .Name = grp.Name,
+                .Value = x
+            }
+        Next
+    End Function
+
     <Extension>
-    Public Function CreateAxisTicks(array As SerialData(), Optional preferPositive As Boolean = False, Optional scaleX# = 1.2, Optional scaleY# = 1.2) As (x As Double(), y As Double())
+    Public Function CreateAxisTicks(array As SerialData(),
+                                    Optional preferPositive As Boolean = False,
+                                    Optional scaleX# = 1.2,
+                                    Optional scaleY# = 1.2) As (x As Double(), y As Double())
         Dim ptX#() = array _
             .Select(Function(s)
                         Return s.pts.Select(Function(pt) CDbl(pt.pt.X))
@@ -179,8 +251,8 @@ Public Module Scatter
                     Optional drawAxis As Boolean = True,
                     Optional Xlabel$ = "X",
                     Optional Ylabel$ = "Y",
-                    Optional ylim As Double = Double.NaN,
-                    Optional xlim As Double = Double.NaN,
+                    Optional ylim As Double() = Nothing,
+                    Optional xlim As Double() = Nothing,
                     Optional ablines As Line() = Nothing,
                     Optional htmlLabel As Boolean = False,
                     Optional ticksY# = -1,
@@ -203,7 +275,9 @@ Public Module Scatter
                     Optional axisStroke$ = Stroke.AxisStroke,
                     Optional axisLabelCSS$ = CSSFont.Win10Normal,
                     Optional scatterReorder As Boolean = False,
-                    Optional xAxisLabelRotate As Double = 0)
+                    Optional xAxisLabelRotate As Double = 0,
+                    Optional nticksX As Integer = 9,
+                    Optional nticksY As Integer = 9)
 
         Dim theme As New Theme With {
             .drawLegend = showLegend,
@@ -222,15 +296,22 @@ Public Module Scatter
             .legendLabelCSS = legendFontCSS,
             .legendSplitSize = legendSplit,
             .YaxisTickFormat = YtickFormat,
-            .xAxisRotate = xAxisLabelRotate
+            .xAxisRotate = xAxisLabelRotate,
+            .nticksX = nticksX,
+            .nticksY = nticksY
         }
         Dim plot As Plot
 
         If drawLine Then
-            plot = New Plots.LinePlot2D(data:=c, theme:=theme, fill:=fill) With {
+            plot = New Plots.LinePlot2D(data:=c, theme:=theme,
+                                        fill:=fill,
+                                        fillPie:=fillPie,
+                                        interplot:=interplot) With {
                 .xlabel = Xlabel,
                 .ylabel = Ylabel,
-                .main = title
+                .main = title,
+                .xlim = xlim,
+                .ylim = ylim
             }
         Else
             plot = New Plots.Scatter2D(
@@ -244,11 +325,14 @@ Public Module Scatter
                 .xlabel = Xlabel,
                 .ylabel = Ylabel,
                 .xlim = xlim,
-                .ylim = ylim
+                .ylim = ylim,
+                .XaxisAbsoluteScalling = XaxisAbsoluteScalling,
+                .YaxisAbsoluteScalling = YaxisAbsoluteScalling,
+                .main = title
             }
         End If
 
-        Call plot.Plot(g, rect.PlotRegion)
+        Call plot.Plot(g, rect.PlotRegion(g.LoadEnvironment))
     End Sub
 
     ''' <summary>
@@ -291,8 +375,8 @@ Public Module Scatter
                          Optional drawAxis As Boolean = True,
                          Optional Xlabel$ = "X",
                          Optional Ylabel$ = "Y",
-                         Optional ylim As Double = Double.NaN,
-                         Optional xlim As Double = Double.NaN,
+                         Optional ylim As Double() = Nothing,
+                         Optional xlim As Double() = Nothing,
                          Optional ablines As Line() = Nothing,
                          Optional htmlLabel As Boolean = False,
                          Optional ticksY# = -1,
@@ -315,7 +399,10 @@ Public Module Scatter
                          Optional axisStroke$ = Stroke.AxisStroke,
                          Optional axisLabelCSS$ = CSSFont.Win10Normal,
                          Optional scatterReorder As Boolean = False,
-                         Optional dpi As Integer = 100) As GraphicsData
+                         Optional nticksX As Integer = 9,
+                         Optional nticksY As Integer = 9,
+                         Optional dpi As Integer = 100,
+                         Optional driver As Drivers = Drivers.Default) As GraphicsData
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, layout As GraphicsRegion)
@@ -362,7 +449,9 @@ Public Module Scatter
                     YtickFormat:=YtickFormat,
                     axisStroke:=axisStroke,
                     scatterReorder:=scatterReorder,
-                    axisLabelCSS:=axisLabelCSS
+                    axisLabelCSS:=axisLabelCSS,
+                    nticksX:=nticksX,
+                    nticksY:=nticksY
                 )
             End Sub
 
@@ -371,7 +460,8 @@ Public Module Scatter
             padding:=padding,
             bg:=bg,
             plotAPI:=plotInternal,
-            dpi:=$"{dpi},{dpi}"
+            dpi:=dpi,
+            driver:=driver
         )
     End Function
 
@@ -405,13 +495,13 @@ Public Module Scatter
         End If
 
         Return New SerialData With {
-            .color = Drawing.Color.FromArgb(alpha, color.ToColor),
+            .color = color.ToColor.Alpha(alpha),
             .lineType = dash,
             .pointSize = ptSize,
             .title = title,
             .width = width,
             .pts = LinqAPI.Exec(Of PointData) <=
- _
+                                                _
                 From o As SeqValue(Of Double)
                 In y0.SeqIterator
                 Where Not o.value.IsNaNImaginary
@@ -531,7 +621,8 @@ Public Module Scatter
                          Optional lineWidth! = 5.0!,
                          Optional ptSize! = 15.0!,
                          Optional lineType As DashStyle = DashStyle.Solid,
-                         Optional gridFill$ = "rgb(250,250,250)") As GraphicsData
+                         Optional gridFill$ = "rgb(250,250,250)",
+                         Optional driver As Drivers = Drivers.Default) As GraphicsData
 
         Dim s As SerialData = points.FromPoints(
             lineColor:=lineColor$,
@@ -541,7 +632,7 @@ Public Module Scatter
             lineType:=lineType
         )
 
-        Return Bubble.Plot({s}, size:=$"{size.Width},{size.Height}", padding:=padding, bg:=bg, gridFill:=gridFill)
+        Return Bubble.Plot({s}, size:=$"{size.Width},{size.Height}", padding:=padding, bg:=bg, gridFill:=gridFill, driver:=driver)
     End Function
 
     <Extension>
@@ -573,7 +664,7 @@ Public Module Scatter
                                Optional lineType As DashStyle = DashStyle.Solid) As SerialData
 
         Return New SerialData With {
-            .color = lineColor.ToColor,
+            .color = lineColor.TranslateColor,
             .lineType = lineType,
             .pointSize = ptSize,
             .width = lineWidth,

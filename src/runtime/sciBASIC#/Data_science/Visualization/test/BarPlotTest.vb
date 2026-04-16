@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 61 (73.49%)
+    ' Comment Lines: 5 (6.02%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 17 (20.48%)
+    '     File Size: 4.16 KB
+
+
     ' Module BarPlotTest
     ' 
     '     Sub: Main, variableWidthTest

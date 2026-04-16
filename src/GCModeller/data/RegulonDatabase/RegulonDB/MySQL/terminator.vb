@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 10.49 KB
+
+
     ' Class terminator
     ' 
     '     Properties: key_id_org, terminator_class, terminator_dist_gene, terminator_id, terminator_internal_comment

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>clustering analysis of time course data</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>peakCMeans {geneExpression}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>clustering analysis of time course data</h2>
+
+        <h3>Description</h3>
+
+        <p><br /> This function performs clustering analysis of time course data</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>peakCMeans</strong>(<i>matrix</i>,
+    <i>nsize</i> = <span style='color: brown;'><strong>"3,3"</strong></span>,
+    <i>threshold</i> = <span style='color: green;'>10</span>,
+    <i>fuzzification</i> = <span style='color: green;'>2</span>,
+    <i>plotSize</i> = <span style='color: brown;'><strong>"8100,5200"</strong></span>,
+    <i>colorSet</i> = <span style='color: brown;'><strong>"Jet"</strong></span>,
+    <i>memberCutoff</i> = <span style='color: green;'>0.8</span>,
+    <i>empty.shared</i> = <span style='color: green;'>2</span>,
+    <i>max.cluster.shared</i> = <span style='color: green;'>3</span>,
+    <i>xlab</i> = <span style='color: brown;'><strong>"Spatial Regions"</strong></span>,
+    <i>ylab</i> = <span style='color: brown;'><strong>"z-score(Normalized Intensity)"</strong></span>,
+    <i>top.members</i> = <span style='color: green;'>0.2</span>,
+    <i>margin</i> = <span style='color: brown;'><strong>"padding:100px 100px 300px 100px;"</strong></span>,
+    <i>cluster.label.css</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 20; font-family: Bookman Old Style;"</strong></span>,
+    <i>legend.title.css</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 10; font-family: Microsoft YaHei;"</strong></span>,
+    <i>legend.tick.css</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 10; font-family: Microsoft YaHei;"</strong></span>,
+    <i>axis.tick.css</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 12; font-family: Segoe UI;"</strong></span>,
+    <i>axis.label.css</i> = <span style='color: brown;'><strong>"font-style: normal; font-size: 10; font-family: Microsoft YaHei;"</strong></span>,
+    <i>grid.fill</i> = <span style='color: #D3D3D3;'><strong>"LightGray"</strong></span>,
+    <i>grid.draw</i> = <span style='color: blue !important;'>TRUE</span>,
+    <i>x.lab.rotate</i> = <span style='color: green;'>45</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>matrix</dt>
+<dd><p>A gene expression data matrix object. [as <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a>]</p></dd>
+
+
+<dt>nsize</dt>
+<dd><p>the layout of the cmeans clustering visualization</p></dd>
+
+
+<dt>threshold</dt>
+<dd><p>the cmeans threshold. [as double]</p></dd>
+
+
+<dt>plotSize</dt>
+<dd><p>the image size of the cmeans plot</p></dd>
+
+
+<dt>colorSet</dt>
+<dd><p>the color palatte name. [as string]</p></dd>
+
+
+<dt>fuzzification</dt>
+<dd><p>cmeans fuzzification parameter. [as double]</p></dd>
+
+
+<dt>memberCutoff</dt>
+<dd><p>the cmeans membership cutoff value for create a molecule cluster. [as double]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        phenotype_kit
+
+        <h3>Value</h3>
+
+        <p>this function returns a tuple list that contains the pattern 
+ cluster matrix and the cmeans pattern plots.
+ 
+ 1. 'pattern' is a dataframe object that contains the object cluster patterns
+ 2. 'image' is a bitmap image that plot based on the object cluster patterns data.
+ 3. 'pdf' is a pdf image that could be edit</p><h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>geneExpression</em> version 1.0.0.0 <a
+                href="../geneExpression.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

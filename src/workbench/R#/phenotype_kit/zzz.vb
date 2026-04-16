@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a02eb4d1497e4acdd05456980275d8c3, R#\phenotype_kit\zzz.vb"
+﻿#Region "Microsoft.VisualBasic::7ffc74ac2bf4ab9a89a4b961530c73e5, R#\phenotype_kit\zzz.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 8 (72.73%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (27.27%)
+    '     File Size: 212 B
+
+
     ' Class zzz
     ' 
     '     Sub: onLoad
@@ -39,9 +51,14 @@
 
 #End Region
 
+Imports SMRUCC.Rsharp.Runtime.Interop
+
+<Assembly: RPackageModule>
+
 Public Class zzz
 
     Public Shared Sub onLoad()
+        Call DEGSample.Main()
         Call geneExpression.Main()
     End Sub
 End Class

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 61 (75.31%)
+    ' Comment Lines: 12 (14.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (9.88%)
+    '     File Size: 6.16 KB
+
+
     '     Module ModularRateLaws
     ' 
     '         Function: FluxRate

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f02080b0b8b819baa36d4af2cd71e4e5, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
+﻿#Region "Microsoft.VisualBasic::83ffeb321ed12617f449e6633b1014eb, data\RegulonDatabase\Regprecise\WebServices\WebParser\TranscriptionFactors.vb"
 
     ' Author:
     ' 
@@ -31,25 +31,40 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 226
+    '    Code Lines: 165 (73.01%)
+    ' Comment Lines: 34 (15.04%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 27 (11.95%)
+    '     File Size: 11.03 KB
+
+
     '     Class TranscriptionFactors
     ' 
     '         Properties: genomes, update
     ' 
     '         Function: BuildRegulatesTable, Export_TFBSInfo, FilteRegulators, GenericEnumerator, GetBacteriaGenomeProfile
-    '                   GetEnumerator, GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators
-    '                   Load, (+2 Overloads) Save
+    '                   GetRegulatorId, GetRegulators, InsertRegulog, ListAllRegulators, Load
+    '                   (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
+Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.SequenceModel
 
 Namespace Regprecise
@@ -64,13 +79,19 @@ Namespace Regprecise
     ''' for comparative and evolutionary analysis of TF binding site motifs and regulon content for orthologous
     ''' transcription factors.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' regprecise database is a collection of <see cref="BacteriaRegulome"/> reference data
+    ''' </remarks>
     '''
-    <XmlRoot("TranscriptionFactors", Namespace:="http://regprecise.lbl.gov/RegPrecise/")>
+    <XmlRoot("TranscriptionFactors", Namespace:="https://regprecise.lbl.gov/")>
     Public Class TranscriptionFactors
         Implements Enumeration(Of BacteriaRegulome)
         Implements ISaveHandle
 
+        ''' <summary>
+        ''' the reference genome of the regprecise database
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement>
         Public Property genomes As BacteriaRegulome()
         <XmlAttribute("update")>
@@ -78,6 +99,15 @@ Namespace Regprecise
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(FilePath, Encoding)
+        End Function
+
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
@@ -102,13 +132,13 @@ Namespace Regprecise
                     }
                 }
                 genome.regulome = regulog
-                genomes.Add(genome)
+                genomes.Append(genome)
 
                 Return True
             End If
 
             Dim Regulator = (From tf As Regulator In genome.regulome.regulators
-                             Where String.Equals(tf.locus_tag.name, RegulatorId, StringComparison.OrdinalIgnoreCase)
+                             Where tf.locus_tags.Any(Function(prot) String.Equals(prot.name, RegulatorId, StringComparison.OrdinalIgnoreCase))
                              Select tf).FirstOrDefault
             If Regulator Is Nothing Then
                 Regulator = CreateRegulator(Family, Bacteria, RegulatorSites, RegulatorId)
@@ -148,7 +178,7 @@ Namespace Regprecise
                               Where Not Regulator.GetMotifSite(locus_tag, MotifPosition) Is Nothing
                               Select Regulator).FirstOrDefault
                 If Not LQuery Is Nothing Then
-                    Return LQuery.locus_tag.name
+                    Return LQuery.locus_tags(0).name
                 End If
             Next
 
@@ -185,8 +215,8 @@ Namespace Regprecise
         Public Function Export_TFBSInfo() As FASTA.FastaFile
             Dim TFBS_sites = (From Regulator As Regulator In Me.ListAllRegulators()
                               Where Regulator.type = Types.TF
-                              Select (From site In Regulator.regulatorySites
-                                      Select RegulatorId = Regulator.locus_tag.name,
+                              Select (From site As MotifFasta In Regulator.regulatorySites
+                                      Select RegulatorId = Regulator.locus_tags.Keys.JoinBy(","),
                                           Regulator.family,
                                           Species = Strings.Split(Regulator.regulog.name, " - ").Last,
                                           Tfbs_siteInfo = site).ToArray).ToArray.ToVector
@@ -246,13 +276,9 @@ Namespace Regprecise
         End Function
 
         Public Iterator Function GenericEnumerator() As IEnumerator(Of BacteriaRegulome) Implements Enumeration(Of BacteriaRegulome).GenericEnumerator
-            For Each genome As BacteriaRegulome In genomes
+            For Each genome As BacteriaRegulome In genomes.SafeQuery
                 Yield genome
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of BacteriaRegulome).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::624954b0d976d4ee1ecf713953a6fcc5, Microsoft.VisualBasic.Core\src\Extensions\Collection\IsNullOrEmptyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::0f6ee546c74c57825c5bac3396e3e9f9, Microsoft.VisualBasic.Core\src\Extensions\Collection\IsNullOrEmptyExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 261
+    '    Code Lines: 130 (49.81%)
+    ' Comment Lines: 103 (39.46%)
+    '    - Xml Docs: 62.14%
+    ' 
+    '   Blank Lines: 28 (10.73%)
+    '     File Size: 8.72 KB
+
+
     ' Module IsNullOrEmptyExtensions
     ' 
-    '     Function: Empty, (+2 Overloads) GetLength, (+15 Overloads) IsNullOrEmpty
+    '     Function: Empty, (+2 Overloads) GetLength, (+16 Overloads) IsNullOrEmpty
     ' 
     ' /********************************************************************************/
 
@@ -51,6 +63,12 @@ Imports Microsoft.VisualBasic.Language.Vectorization
 <HideModuleName>
 Public Module IsNullOrEmptyExtensions
 
+    ''' <summary>
+    ''' check of the given collection is null or empty?
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="list"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Empty(Of T)(list As IEnumerable(Of T)) As Boolean
         Return list Is Nothing OrElse Not list.Any
@@ -245,12 +263,28 @@ Public Module IsNullOrEmptyExtensions
     End Function
 
     ''' <summary>
-    ''' This object array is a null object or contains zero count items.(判断某一个对象数组是否为空)
+    ''' This object array is a null object or contains zero count items.
     ''' </summary>
-    ''' <typeparam name="T"></typeparam>
     ''' <returns></returns>
-    ''' <remarks></remarks>
-    <Extension> Public Function IsNullOrEmpty(Of T)(array As T()) As Boolean
+    ''' <remarks>
+    ''' (判断某一个对象数组是否为空)
+    ''' </remarks>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function IsNullOrEmpty(array As Array) As Boolean
+        Return array Is Nothing OrElse array.Length = 0
+    End Function
+
+    ''' <summary>
+    ''' This object array is a null object or contains zero count items.
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' (判断某一个对象数组是否为空)
+    ''' </remarks>
+    <Extension>
+    Public Function IsNullOrEmpty(Of T)(array As T()) As Boolean
         Return array Is Nothing OrElse array.Length = 0
     End Function
 
@@ -260,7 +294,8 @@ Public Module IsNullOrEmptyExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="array"></param>
     ''' <returns></returns>
-    <Extension> Public Function GetLength(Of T)(array As T()) As Integer
+    <Extension>
+    Public Function GetLength(Of T)(array As T()) As Integer
         If array Is Nothing Then
             Return 0
         Else
@@ -268,7 +303,8 @@ Public Module IsNullOrEmptyExtensions
         End If
     End Function
 
-    <Extension> Public Function GetLength(Of T)(collect As IEnumerable(Of T)) As Integer
+    <Extension>
+    Public Function GetLength(Of T)(collect As IEnumerable(Of T)) As Integer
         If collect Is Nothing Then
             Return 0
         Else

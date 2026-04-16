@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 40 (61.54%)
+    ' Comment Lines: 15 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (15.38%)
+    '     File Size: 2.01 KB
+
+
     '     Class TextSegment
     ' 
     '         Properties: Array, Index, Segment

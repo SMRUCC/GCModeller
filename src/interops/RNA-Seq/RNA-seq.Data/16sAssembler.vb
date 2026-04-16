@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4a39f36458f3097622649e78ceb4aa8, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
+﻿#Region "Microsoft.VisualBasic::615f8640fe9bee5b16b705eab6b54c97, RNA-Seq\RNA-seq.Data\16sAssembler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 70 (68.63%)
+    ' Comment Lines: 13 (12.75%)
+    '    - Xml Docs: 61.54%
+    ' 
+    '   Blank Lines: 19 (18.63%)
+    '     File Size: 4.05 KB
+
+
     ' Module Assembler
     ' 
     '     Function: SequenceCoverage
@@ -59,7 +71,7 @@ Public Module Assembler
     Public Function SequenceCoverage(sam$, workspace$, Optional refProvider As Func(Of String(), IEnumerable(Of FastaSeq)) = Nothing) As Dictionary(Of String, Integer)
         Dim reader As New SAMStream(sam)
 
-        Call "Write SAM headers...".__INFO_ECHO
+        Call "Write SAM headers...".info
 
         Using headWriter = $"{workspace}/head.part".OpenWriter
             For Each header As SAMHeader In reader.IteratesAllHeaders
@@ -69,9 +81,9 @@ Public Module Assembler
             Next
         End Using
 
-        Dim refs As New Dictionary(Of String, StreamWriter)
+        Dim refs As New Dictionary(Of String, IO.StreamWriter)
 
-        Call "Split SAM target file...".__INFO_ECHO
+        Call "Split SAM target file...".info
 
         For Each read As AlignmentReads In reader _
             .IteratesAllReads _
@@ -86,7 +98,7 @@ Public Module Assembler
                 refs(key) = $"{workspace}/{key.First}/{key.NormalizePathString}.sam".OpenWriter
 
                 Call Console.WriteLine()
-                Call $"Open {key}".__INFO_ECHO
+                Call $"Open {key}".info
             Else
                 Console.Write("."c)
             End If
@@ -94,15 +106,15 @@ Public Module Assembler
             refs(key).WriteLine(read.GenerateDocumentLine)
         Next
 
-        Call "Write SAM file parts...".__INFO_ECHO
+        Call "Write SAM file parts...".info
 
-        For Each ref As StreamWriter In refs.Values
+        For Each ref As IO.StreamWriter In refs.Values
             Call ref.Flush()
             Call ref.Close()
             Call ref.Dispose()
         Next
 
-        Call "Calculate Coverage....".__INFO_ECHO
+        Call "Calculate Coverage....".info
 
         ' 下面开始进行装配为contig
         Call (ls - l - r - "*.sam" <= workspace) _
@@ -118,7 +130,7 @@ Public Module Assembler
                             Dim contig$ = reads.AsList.ShortestCommonSuperString().First
                             Dim covTxt$ = $"{path.TrimSuffix}/{ref.NormalizePathString}.txt"
 
-                            Using view As StreamWriter = covTxt.OpenWriter
+                            Using view As IO.StreamWriter = covTxt.OpenWriter
                                 Call reads.TableView(contig, view)
                             End Using
                         Next

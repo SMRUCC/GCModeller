@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bc1533efdec82e5390bade52dbf78d3, gr\network-visualization\Network.IO.Extensions\Cytoscape\Cytoscape.vb"
+﻿#Region "Microsoft.VisualBasic::1505384c2412f95a6b401698f9316aae, gr\network-visualization\Network.IO.Extensions\Cytoscape\Cytoscape.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 58 (70.73%)
+    ' Comment Lines: 9 (10.98%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 15 (18.29%)
+    '     File Size: 2.85 KB
+
+
     '     Class Edges
     ' 
     '         Properties: data, EdgeBetweenness, interaction, name, SUID
@@ -51,13 +63,8 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
-
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 

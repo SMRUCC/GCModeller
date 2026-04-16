@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f54c217cf212ccd150aee23de9c0283, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::d5ba5a85ba4e10084f1e9925aaee5d51, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\PathwayProfiles.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 96 (78.05%)
+    ' Comment Lines: 18 (14.63%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 9 (7.32%)
+    '     File Size: 5.93 KB
+
+
     '     Module PathwayProfiles
     ' 
-    '         Function: doProfiles, KEGGCategoryProfiles
+    '         Function: doProfiles, GetPathwayClass, GetProfileMapping, KEGGCategoryProfiles
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,10 +56,72 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     Public Module PathwayProfiles
+
+        ''' <summary>
+        ''' mapping kegg category to a given meta id list
+        ''' </summary>
+        ''' <param name="maps">a collection of kegg maps contains kegg id data</param>
+        ''' <param name="metainfo">
+        ''' a mapping of ``[keggId => metaID]``
+        ''' </param>
+        ''' <returns>
+        ''' a mapping of ``[kegg_category => metaID()]``
+        ''' </returns>
+        ''' 
+        <Extension>
+        Public Function GetProfileMapping(maps As IEnumerable(Of Map), metainfo As Dictionary(Of String, String)) As Dictionary(Of String, String())
+            ' get category data of the kegg pathway maps
+            Dim brite As Dictionary(Of String, String()) = BriteHEntry.Pathway _
+               .LoadDictionary _
+               .GroupBy(Function(p) p.Value.class) _
+               .ToDictionary(Function(p) p.Key,
+                             Function(p)
+                                 Return p _
+                                    .Values _
+                                    .Select(Function(d) d.EntryId.Match("\d+")) _
+                                    .ToArray
+                             End Function)
+            Dim mapIndex As Dictionary(Of String, String()) = maps _
+                .GroupBy(Function(m) m.EntryId.Match("\d+")) _
+                .ToDictionary(Function(m) m.Key,
+                              Function(m)
+                                  Return m _
+                                     .Select(Function(map) map.shapes.mapdata) _
+                                     .IteratesALL _
+                                     .Select(Function(a) a.IDVector) _
+                                     .IteratesALL _
+                                     .Distinct _
+                                     .ToArray
+                              End Function)
+            Dim getMapping = Function(c As KeyValuePair(Of String, String())) As String()
+                                 Dim mapId As String() = c.Value
+                                 Dim mapList As String() = mapId _
+                                    .Where(Function(id) mapIndex.ContainsKey(id)) _
+                                    .Select(Function(id) mapIndex(id)) _
+                                    .IteratesALL _
+                                    .Distinct _
+                                    .ToArray
+                                 Dim mapping As String() = mapList _
+                                    .Where(Function(id) metainfo.ContainsKey(id)) _
+                                    .Select(Function(id) metainfo(id)) _
+                                    .Distinct _
+                                    .ToArray
+
+                                 Return mapping
+                             End Function
+
+            Return brite _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return getMapping(c)
+                              End Function)
+        End Function
 
         <Extension>
         Private Function doProfiles(group As Pathway(), profiles As Dictionary(Of String, Double)) As NamedValue(Of Double)()
@@ -59,29 +133,37 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
                            Return New NamedValue(Of Double) With {
                                .Name = p.entry.text,
                                .Value = profiles(p.EntryId),
-                               .Description = p.entry.text
+                               .Description = p.category & ":" & p.EntryId
                            }
                        End Function) _
                .ToArray
         End Function
 
-        <ExportAPI("kegg.category_profiles")>
-        <Extension>
-        Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Double)) As Dictionary(Of String, NamedValue(Of Double)())
-            Dim brite As Dictionary(Of String, BriteHEntry.Pathway()) = BriteHEntry.Pathway _
+        ''' <summary>
+        ''' load pathway category class information from the internal database resource
+        ''' </summary>
+        ''' <returns>
+        ''' pathway entry id is integer number, zero padding may be exists
+        ''' </returns>
+        Public Function GetPathwayClass() As Dictionary(Of String, BriteHEntry.Pathway())
+            Return BriteHEntry.Pathway _
                 .LoadDictionary _
                 .GroupBy(Function(p) p.Value.class) _
                 .ToDictionary(Function(p) p.Key,
                               Function(p)
                                   Return p.Values
                               End Function)
+        End Function
 
-            profiles = profiles.ToDictionary(
-                Function(a) a.Key.Match("\d+"),
-                Function(a)
-                    Return a.Value
-                End Function)
+        <ExportAPI("kegg.category_profiles")>
+        <Extension>
+        Public Function KEGGCategoryProfiles(profiles As Dictionary(Of String, Double)) As Dictionary(Of String, NamedValue(Of Double)())
+            Dim brite As Dictionary(Of String, BriteHEntry.Pathway()) = GetPathwayClass()
 
+            profiles = profiles.ToDictionary(Function(a) a.Key.Match("\d+"),
+                                             Function(a)
+                                                 Return a.Value
+                                             End Function)
             Return brite _
                .ToDictionary(Function(p) p.Key,
                              Function(group)

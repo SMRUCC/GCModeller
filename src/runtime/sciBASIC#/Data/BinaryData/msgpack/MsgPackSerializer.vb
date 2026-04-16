@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e42a191b871a939595a2df60a82018c7, Data\BinaryData\msgpack\MsgPackSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::47c2f542cf1efa9f5a331efdf71337a4, Data\BinaryData\msgpack\MsgPackSerializer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 397
+    '    Code Lines: 317 (79.85%)
+    ' Comment Lines: 7 (1.76%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 73 (18.39%)
+    '     File Size: 16.36 KB
+
+
     ' Class MsgPackSerializer
     ' 
     '     Constructor: (+2 Overloads) Sub New
@@ -44,8 +56,6 @@
 
 #End Region
 
-Imports System.Collections
-Imports System.Diagnostics
 Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
@@ -78,10 +88,28 @@ Public Class MsgPackSerializer
     Private Shared Function GetInfo(type As Type) As TypeInfo
         Dim info As TypeInfo = Nothing
 
+#If MTA Then
+        ' thread unsafe
+
         If Not typeInfos.TryGetValue(type, info) Then
             info = New TypeInfo(type)
             typeInfos(type) = info
         End If
+#Else
+        ' thread safe for winform application
+
+        ' 20240511 typeInfos is a global shared object that contains the type
+        ' schema cache for read messagepack data. multiple thread may cased
+        ' the null reference error at here.
+        ' due to the reason of typeinfos collection modification problem
+        ' add synlock for avoid such multiple thread error.
+        SyncLock typeInfos
+            If Not typeInfos.TryGetValue(type, info) Then
+                info = New TypeInfo(type)
+                typeInfos(type) = info
+            End If
+        End SyncLock
+#End If
 
         Return info
     End Function
@@ -121,8 +149,13 @@ Public Class MsgPackSerializer
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Sub SerializeObject(o As Object, file As Stream)
+    Public Shared Sub SerializeObject(o As Object, file As Stream, Optional closeFile As Boolean = False)
         Call GetSerializer(o.GetType()).Serialize(o, file)
+        Call file.Flush()
+
+        If closeFile Then
+            Call file.Dispose()
+        End If
     End Sub
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -286,7 +319,7 @@ Public Class MsgPackSerializer
                     Throw New ApplicationException("The serialized map format isn't valid")
                 End If
 
-                For i = 0 To numElements - 1
+                For i As Integer = 0 To numElements - 1
                     Dim propName = CStr(ReadMsgPackString(reader, NilImplication.Null))
                     Dim propToProcess As SerializableProperty = Nothing
 
@@ -345,7 +378,7 @@ Public Class MsgPackSerializer
                 writer.Write(data)
             End If
 
-            For Each prop In props
+            For Each prop As SerializableProperty In props
                 prop.Serialize(o, writer, DefaultContext.SerializationMethod)
             Next
         End If

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 74 (73.27%)
+    ' Comment Lines: 10 (9.90%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 17 (16.83%)
+    '     File Size: 3.90 KB
+
+
     '     Class Grouping
     ' 
     '         Properties: GroupData

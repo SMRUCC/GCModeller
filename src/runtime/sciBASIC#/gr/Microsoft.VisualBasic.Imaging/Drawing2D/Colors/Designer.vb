@@ -1,48 +1,67 @@
-﻿#Region "Microsoft.VisualBasic::39666bc09821ba13b267be37f04600c5, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
+﻿#Region "Microsoft.VisualBasic::c8012f2694ef96afbec56d66cd5d334f, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Designer.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module Designer
-' 
-'         Properties: AvailableInterpolates, Category31, ClusterColour, ColorBrewer, ConsoleColors
-'                     MaterialPalette, Rainbow, TSF
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: Colors, ConsoleColor, CubicSpline, FromConsoleColor, FromNames
-'                   FromSchema, GetBrushes, (+2 Overloads) GetColors, getColorsInternal, internalFills
-'                   IsColorNameList, rangeConstraint, SplitColorList
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 638
+    '    Code Lines: 327 (51.25%)
+    ' Comment Lines: 242 (37.93%)
+    '    - Xml Docs: 88.43%
+    ' 
+    '   Blank Lines: 69 (10.82%)
+    '     File Size: 34.65 KB
+
+
+    '     Module Designer
+    ' 
+    '         Properties: AvailableInterpolates, Category31, ColorBrewer, ConsoleColors, MaterialPalette
+    '                     Typhoon
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ConsoleColor, FromConsoleColor, GetColors, getColorsInternal, IsColorNameList
+    '                   ParseAvailableInterpolates, ParseColorBrewer, SplitColorList, TryGetColorBrewer
+    ' 
+    '         Sub: (+2 Overloads) Register
+    '         Delegate Function
+    ' 
+    '             Function: Colors, CubicSpline, FromNames, FromSchema, GetBrushes
+    '                       GetColors, internalFills, rangeConstraint
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -207,41 +226,60 @@ Namespace Drawing2D.Colors
         ''' </remarks>
         Sub New()
             Try
-                Dim colors As Dictionary(Of String, String()) = My.Resources _
+                AvailableInterpolates = ParseAvailableInterpolates()
+            Catch ex As Exception
+                AvailableInterpolates = New Dictionary(Of Color, Color())
+
+                Call App.LogException(ex)
+            End Try
+
+            Try
+                ColorBrewer = ParseColorBrewer()
+            Catch ex As Exception
+                ColorBrewer = New Dictionary(Of String, ColorBrewer)
+
+                Call App.LogException(ex)
+                Call "ColorBrewer module is not available on Linux server".Warning
+            End Try
+        End Sub
+
+        Private Function ParseColorBrewer() As Dictionary(Of String, ColorBrewer)
+            Dim colorBrewerJSON$ = My.Resources.colorbrewer.GetString(Encodings.UTF8)
+            Dim ns As String() = r _
+                .Matches(colorBrewerJSON, """\d+""", RegexOptions.Singleline) _
+                .ToArray(Function(m)
+                             Return m.Trim(""""c)
+                         End Function)
+            Dim sb As New StringBuilder(colorBrewerJSON)
+
+            For Each n As String In ns.Distinct
+                Call sb.Replace($"""{n}""", $"""c{n}""")
+            Next
+
+            Dim [set] = sb.ToString.LoadJSON(Of Dictionary(Of String, ColorBrewer))
+
+            For Each key As String In [set].Keys.ToArray
+                [set](key.ToLower) = [set](key)
+            Next
+
+            Return [set]
+        End Function
+
+        Private Function ParseAvailableInterpolates() As Dictionary(Of Color, Color())
+            Dim colors As Dictionary(Of String, String()) = My.Resources _
                     .designer_colors _
                     .GetString(Encodings.UTF8) _
                     .LoadJSON(Of Dictionary(Of String, String()))
-                Dim valids As New Dictionary(Of Color, Color())
+            Dim valids As New Dictionary(Of Color, Color())
 
-                For Each x In colors
-                    valids(ColorTranslator.FromHtml(x.Key)) =
-                        x.Value.Select(AddressOf ColorTranslator.FromHtml).ToArray
-                Next
+            For Each ci As KeyValuePair(Of String, String()) In colors
+                valids(ColorTranslator.FromHtml(ci.Key)) = ci.Value _
+                    .Select(AddressOf ColorTranslator.FromHtml) _
+                    .ToArray
+            Next
 
-                AvailableInterpolates = valids
-
-                Dim colorBrewerJSON$ = My.Resources.colorbrewer.GetString(Encodings.UTF8)
-                Dim ns As String() = r _
-                    .Matches(colorBrewerJSON, """\d+""", RegexOptions.Singleline) _
-                    .ToArray(Function(m)
-                                 Return m.Trim(""""c)
-                             End Function)
-                Dim sb As New StringBuilder(colorBrewerJSON)
-
-                For Each n As String In ns.Distinct
-                    Call sb.Replace($"""{n}""", $"""c{n}""")
-                Next
-
-                ColorBrewer = sb.ToString.LoadJSON(Of Dictionary(Of String, ColorBrewer))
-
-            Catch ex As Exception
-                Call App.LogException(ex)
-                Call "ColorBrewer module is not available on Linux server".Warning
-
-                ColorBrewer = New Dictionary(Of String, ColorBrewer)
-                AvailableInterpolates = New Dictionary(Of Color, Color())
-            End Try
-        End Sub
+            Return valids
+        End Function
 
         ''' <summary>
         ''' <see cref="ColorMap"/> pattern names
@@ -276,6 +314,12 @@ Namespace Drawing2D.Colors
             "#988ED5", "#027093", "#73945A", "#8C564B", "#9467BD", "#D62829", "#2CA02C"
         }.AsColor()
 
+        Public ReadOnly Property Typhoon As Color() = {
+            "#FFFFFF", "#AAAAD4", "#5F59A0", "#3B277F", "#31277F",
+            "#355C83", "#539144", "#72AC3E", "#8CB73A", "#BACB2D",
+            "#FAEB3A", "#E4A726", "#CE5C18", "#C42917"
+        }.AsColor
+
         Const rgbPattern$ = "rgb\(\d+\s*(,\s*\d+\s*)+\)"
         Const rgbListPattern$ = rgbPattern & "(\s*,\s*" & rgbPattern & ")+"
 
@@ -301,7 +345,13 @@ Namespace Drawing2D.Colors
                 End If
             ElseIf Strings.LCase(exp) Like dotnetColorNames Then
                 ' is a single color name
-                Return True
+                ' gray may be is not a single color while this
+                ' function is apply for test color name list
+                If exp.TextEquals(ScalerPalette.Gray.Description) Then
+                    Return False
+                Else
+                    Return True
+                End If
             Else
                 Return False
             End If
@@ -332,7 +382,11 @@ Namespace Drawing2D.Colors
         End Function
 
         ''' <summary>
-        ''' 对于无效的键名称，默认是返回<see cref="Office2016"/>，请注意，如果是所有的.net的颜色的话，这里面还会包含有白色，所以还需要手工去除掉白色
+        ''' a unify method for get color maps.
+        ''' 
+        ''' (对于无效的键名称，默认是返回<see cref="Office2016"/>，请注意，
+        ''' 如果是所有的.net的颜色的话，这里面还会包含有白色，所以还需要手工
+        ''' 去除掉白色)
         ''' </summary>
         ''' <param name="exp$">
         ''' <see cref="DesignerExpression"/>.
@@ -354,31 +408,81 @@ Namespace Drawing2D.Colors
             End If
         End Function
 
+        ''' <summary>
+        ''' registry for external color palette
+        ''' </summary>
+        ReadOnly colorRegistry As New Dictionary(Of String, Color())
+
+        ''' <summary>
+        ''' register a custom color palette
+        ''' </summary>
+        ''' <param name="colorName"></param>
+        ''' <param name="colors"></param>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Register(colorName As String, ParamArray colors As Color())
+            colorRegistry(colorName) = colors
+        End Sub
+
+        Dim external As TryGetExternalColorPalette
+
+        ''' <summary>
+        ''' register an external custom color palette function
+        ''' </summary>
+        ''' <param name="external"></param>
+        Public Sub Register(external As TryGetExternalColorPalette)
+            Designer.external = external
+        End Sub
+
+        Private Function TryGetColorBrewer(ref As NamedValue(Of String)) As Color()
+            If ColorBrewer.ContainsKey(ref.Name) Then
+                Return ColorBrewer(ref.Name).GetColors(ref.Value)
+            ElseIf ref.Name = "" AndAlso ColorBrewer.ContainsKey(ref.Value) Then
+                Return ColorBrewer(ref.Value).GetColors(Nothing)
+            End If
+
+            Return Nothing
+        End Function
+
+        ''' <summary>
+        ''' a unify method for get color maps
+        ''' </summary>
+        ''' <param name="term$"></param>
+        ''' <returns></returns>
         Private Function getColorsInternal(term$) As Color()
             If Array.IndexOf(allColorMapNames, term.ToLower) > -1 Then
                 Return New ColorMap(20, 255).ColorSequence(term)
             End If
 
             Dim key As NamedValue(Of String) = Drawing2D.Colors.ColorBrewer.ParseName(term)
+            Dim colorBrewer = TryGetColorBrewer(key)
 
-            If ColorBrewer.ContainsKey(key.Name) Then
-                Return ColorBrewer(key.Name).GetColors(key.Value)
+            If colorBrewer IsNot Nothing Then
+                Return colorBrewer
             End If
 
             Select Case Strings.LCase(term).Trim
                 Case "material" : Return MaterialPalette
+                Case "typhoon" : Return Typhoon
                 Case "console.colors", "console" : Return ConsoleColors
                 Case "tsf" : Return CustomDesigns.TSF
                 Case "halloween" : Return CustomDesigns.Halloween
                 Case "unicorn" : Return CustomDesigns.Unicorn
                 Case "vibrant" : Return CustomDesigns.Vibrant
                 Case "rainbow" : Return CustomDesigns.Rainbow
+                Case "fleximaging" : Return CustomDesigns.FlexImaging
                 Case "paper" : Return CustomDesigns.Paper
                 Case "dotnet.colors" : Return AllDotNetPrefixColors
                 Case "scibasic.chart()" : Return ChartColors
                 Case "scibasic.category31()" : Return Category31
                 Case "clusters" : Return CustomDesigns.ClusterColour
                 Case "blackgreenred" : Return BlackGreenRed
+                Case "seismic" : Return CustomDesigns.Seismic
+                Case "icefire" : Return CustomDesigns.Icefire
+                Case "grays" : Return New ColorMap(20, 255).ColorSequence(ColorMap.PatternGray)
+
+                Case "red_channel" : Return {Color.FromArgb(0, 0, 0), Color.FromArgb(128, 0, 0), Color.FromArgb(255, 0, 0)}
+                Case "green_channel" : Return {Color.FromArgb(0, 0, 0), Color.FromArgb(0, 128, 0), Color.FromArgb(0, 255, 0)}
+                Case "blue_channel" : Return {Color.FromArgb(0, 0, 0), Color.FromArgb(0, 0, 128), Color.FromArgb(0, 0, 255)}
 
                     ' d3.js colors
                 Case "d3.scale.category10()" : Return d3js.category10
@@ -387,27 +491,50 @@ Namespace Drawing2D.Colors
                 Case "d3.scale.category20c()" : Return d3js.category20c
 
                     ' viridis
-                Case "viridis" : Return Viridis.viridis.ToArray
-                Case "viridis:magma" : Return Viridis.magma.ToArray
-                Case "viridis:inferno" : Return Viridis.inferno.ToArray
-                Case "viridis:plasma" : Return Viridis.plasma.ToArray
-                Case "viridis:cividis" : Return Viridis.cividis.ToArray
-                Case "viridis:mako" : Return Viridis.mako.ToArray
-                Case "viridis:rocket" : Return Viridis.rocket.ToArray
-                Case "viridis:turbo" : Return Viridis.turbo.ToArray
-            End Select
+                Case "viridis:viridis", "viridis" : Return Viridis.viridis.ToArray
+                Case "viridis:magma", "magma" : Return Viridis.magma.ToArray
+                Case "viridis:inferno", "inferno" : Return Viridis.inferno.ToArray
+                Case "viridis:plasma", "plasma" : Return Viridis.plasma.ToArray
+                Case "viridis:cividis", "cividis" : Return Viridis.cividis.ToArray
+                Case "viridis:mako", "mako" : Return Viridis.mako.ToArray
+                Case "viridis:rocket", "rocket" : Return Viridis.rocket.ToArray
+                Case "viridis:turbo", "turbo" : Return Viridis.turbo.ToArray
 
-            Return OfficeColorThemes.GetAccentColors(term)
+                Case Else
+
+                    If OfficeColorThemes.Themes.ContainsKey(term) Then
+                        Return OfficeColorThemes.GetAccentColors(term)
+                    ElseIf colorRegistry.ContainsKey(term) Then
+                        Return colorRegistry(term)
+                    Else
+                        Dim tryExternal As Color() = If(external Is Nothing, Nothing, external(term))
+
+                        If tryExternal.IsNullOrEmpty Then
+                            Call $"unknown color set name: '{term}', returns the paper schema by default.".Warning
+                            ' returns the default color set
+                            Return CustomDesigns.Paper
+                        Else
+                            Return tryExternal
+                        End If
+                    End If
+            End Select
         End Function
+
+        Public Delegate Function TryGetExternalColorPalette(term As String) As Color()
 
         ''' <summary>
         ''' 这个函数是获取得到一个连续的颜色谱
         ''' </summary>
-        ''' <param name="term$"></param>
-        ''' <param name="n%"></param>
-        ''' <param name="alpha%"></param>
+        ''' <param name="term"></param>
+        ''' <param name="n">negative or zero value means no interoplation, 
+        ''' just returns the raw color list which is mapping by the 
+        ''' <paramref name="term"/>
+        ''' </param>
+        ''' <param name="alpha">the transparency alpha channel data</param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' create color profile with <see cref="CubicSpline"/>.
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetColors(term$, Optional n% = 256, Optional alpha% = 255) As Color()
             Return CubicSpline(GetColors(term), n, alpha)
@@ -460,18 +587,27 @@ Namespace Drawing2D.Colors
         ''' **<see cref="ColorCube.GetColorSequence"/>**
         ''' 
         ''' Some useful color tables for images and tools to handle them.
-        ''' Several color scales useful for image plots: a pleasing rainbow style color table patterned after 
-        ''' that used in Matlab by Tim Hoar and also some simple color interpolation schemes between two or 
-        ''' more colors. There is also a function that converts between colors and a real valued vector.
+        ''' Several color scales useful for image plots: a pleasing rainbow 
+        ''' style color table patterned after that used in Matlab by Tim 
+        ''' Hoar and also some simple color interpolation schemes between 
+        ''' two or more colors. There is also a function that converts 
+        ''' between colors and a real valued vector.
         ''' </summary>
-        ''' <param name="col">A list of colors (names or hex values) to interpolate</param>
-        ''' <param name="n">Number of color levels. The setting n=64 is the orignal definition.</param>
+        ''' <param name="col">
+        ''' A list of colors (names or hex values) to interpolate.
+        ''' </param>
+        ''' <param name="n">
+        ''' Number of color levels. The setting n=64 is the 
+        ''' orignal definition.
+        ''' </param>
         ''' <param name="alpha">
-        ''' The transparency of the color – 255 is opaque and 0 is transparent. This is useful for 
-        ''' overlays of color and still being able to view the graphics that is covered.
+        ''' The transparency of the color – 255 is opaque and 0 is transparent. 
+        ''' This is useful for overlays of color and still being able to view 
+        ''' the graphics that is covered.
         ''' </param>
         ''' <returns>
-        ''' A vector giving the colors in a hexadecimal format, two extra hex digits are added for the alpha channel.
+        ''' A vector giving the colors in a hexadecimal format, two extra 
+        ''' hex digits are added for the alpha channel.
         ''' </returns>
         Public Function Colors(col As Color(), Optional n% = 256, Optional alpha% = 255) As Color()
             Dim out As New List(Of Color)
@@ -495,11 +631,25 @@ Namespace Drawing2D.Colors
         ''' </summary>
         ''' <param name="colors"></param>
         ''' <param name="n">所期望的颜色的数量</param>
+        ''' <param name="interpolate">
+        ''' set the interpolate parameter to value TRUE if apply the function 
+        ''' for the scalar palette, otherwise keeps the default value FALSE
+        ''' for deal with the category color palette.
+        ''' </param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' if the <paramref name="n"/> value less than the 
+        ''' collection size of the input <paramref name="colors"/>, 
+        ''' then top n colors will be takes from the input 
+        ''' color.
+        ''' </remarks>
         <Extension>
-        Public Function CubicSpline(colors As IEnumerable(Of Color), Optional n% = 256, Optional alpha% = 255) As Color()
-            Dim source As Color() = colors.ToArray
+        Public Function CubicSpline(colors As IEnumerable(Of Color),
+                                    Optional n% = 256,
+                                    Optional alpha% = 255,
+                                    Optional interpolate As Boolean = False) As Color()
+
+            Dim source As Color() = colors.SafeQuery.ToArray
 
             If source.Length = 1 Then
                 Call $"multiple color value is required, but you just provides one color, color seqeucne will just contains one single color: {source(Scan0).ToString}".Warning
@@ -508,7 +658,10 @@ Namespace Drawing2D.Colors
                     .Alpha(alpha) _
                     .Replicate(n) _
                     .ToArray
-            ElseIf n <= source.Length Then
+            ElseIf n <= 0 OrElse source.IsNullOrEmpty Then
+                ' return raw color list if n is negative or zero
+                Return source
+            ElseIf n <= source.Length AndAlso Not interpolate Then
                 Return source.Take(n).ToArray
             End If
 

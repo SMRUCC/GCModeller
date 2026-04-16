@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c0f574e40fbcdfa202a5debff83c5f0, core\Bio.Annotation\PTF\PtfFile.vb"
+﻿#Region "Microsoft.VisualBasic::e607a001aa3d379054421ead06aa353a, core\Bio.Annotation\PTF\PtfFile.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 77 (75.49%)
+    ' Comment Lines: 7 (6.86%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 18 (17.65%)
+    '     File Size: 3.95 KB
+
+
     '     Class PtfFile
     ' 
     '         Properties: attributes, proteins
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, (+2 Overloads) Load, ReadAnnotations, (+2 Overloads) Save
-    '                   (+2 Overloads) ToString
+    '         Function: GenericEnumerator, (+2 Overloads) Load, ReadAnnotations, (+3 Overloads) Save, (+2 Overloads) ToString
     ' 
     '         Sub: WriteStream
     ' 
@@ -53,6 +64,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf.Document
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Ptf
 
@@ -124,6 +136,16 @@ Namespace Ptf
             Return True
         End Function
 
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using output As New StreamWriter(s, encoding) With {
+                .NewLine = ASCII.LF
+            }
+                Call Document.writeTabular(Me, output)
+            End Using
+
+            Return True
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(path, encoding.CodePage)
@@ -133,10 +155,6 @@ Namespace Ptf
             For Each protein As ProteinAnnotation In proteins
                 Yield protein
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of ProteinAnnotation).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

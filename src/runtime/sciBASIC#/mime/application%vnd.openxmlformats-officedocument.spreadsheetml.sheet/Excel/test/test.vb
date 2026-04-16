@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139f0dbfcf4da3f97d04233ce967e2cf, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\test\test.vb"
+﻿#Region "Microsoft.VisualBasic::79657930c96d9787bc7f776dd465df38, mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\Excel\test\test.vb"
 
     ' Author:
     ' 
@@ -31,41 +31,56 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 30 (43.48%)
+    ' Comment Lines: 19 (27.54%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (28.99%)
+    '     File Size: 2.18 KB
+
+
     ' Module test
     ' 
-    '     Sub: IOtest, Main, styleModelTest, stylingTest, test
+    '     Sub: Main, styleModelTest, test
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Office
-Imports Microsoft.VisualBasic.MIME.Office.Excel
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
-Imports Xlsx = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.FileIO
+Imports Microsoft.VisualBasic.MIME.Office.Excel.XLSX.Model
 
 Module test
 
     Sub Main()
-        stylingTest()
+        testWriter()
+        zip_test()
+
+
+
+        ' stylingTest()
         styleModelTest()
 
-        Call IOtest()
+        ' Call IOtest()
         ' Call test()
     End Sub
 
-    Sub stylingTest()
-        Dim file = Excel.CreateNew
-        Dim style4 = Styling.ColorScale("black", "red", "green", "blue", "yellow")
+    'Sub stylingTest()
+    '    Dim file = Excel.XLSX.CreateNew
+    '    Dim style4 = Styling.ColorScale("black", "red", "green", "blue", "yellow")
 
-        Call file.SetColorScaleStyles("Sheet1", "A1:A100", style4)
+    '    Call file.SetColorScaleStyles("Sheet1", "A1:A100", style4)
 
-        Call file.SaveTo("D:\test.xlsx")
+    '    Call file.SaveTo("D:\test.xlsx")
 
-        Pause()
-    End Sub
+    '    Pause()
+    'End Sub
 
     Sub styleModelTest()
         Dim font = Styling.StyleFont(FontFace.BookmanOldStyle, 55, "yellow", True, True)
@@ -75,30 +90,31 @@ Module test
         Pause()
     End Sub
 
-    Sub IOtest()
-        Dim file = Excel.File.Open("E:\GCModeller\src\runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\test\test.xlsx")
-        Dim table As New csv
+    'Sub IOtest()
+    '    Dim file = Excel.XLSX.File.Open("E:\GCModeller\src\runtime\sciBASIC#\mime\application%vnd.openxmlformats-officedocument.spreadsheetml.sheet\test\test.xlsx")
+    '    Dim table As New csv
 
-        table += New RowObject({"", "ddddddddd", "+++++++"})
-        table += New RowObject({1, 2, 3, 4, 5})
+    '    table += New RowObject({"", "ddddddddd", "+++++++"})
+    '    table += New RowObject({1, 2, 3, 4, 5})
 
-        file.WriteSheetTable(table, "444444")
+    '    file.WriteSheetTable(table, "444444")
 
-        Call file.WriteXlsx("./dddd.xlsx")
+    '    Call file.WriteXlsx("./dddd.xlsx")
 
-        Pause()
-    End Sub
+    '    Pause()
+    'End Sub
 
     Sub test()
-        Call New Excel.XML.docProps.app With {
-            .HeadingPairs = New Excel.XML.docProps.Vectors With {
-                .vector = New Excel.XML.docProps.vector With {
-                    .variants = {New Excel.XML.docProps.variant With {.i4 = 4444, .lpstr = "1234"}, New Excel.XML.docProps.variant With {.i4 = 4444, .lpstr = "ffff"}},
+        Call New Excel.XLSX.XML.docProps.app With {
+            .HeadingPairs = New Excel.XLSX.XML.docProps.Vectors With {
+                .vector = New Excel.XLSX.XML.docProps.vector With {
+                    .variants = {New Excel.XLSX.XML.docProps.variant With {.i4 = 4444, .lpstr = "1234"}, New Excel.XLSX.XML.docProps.variant With {.i4 = 4444, .lpstr = "ffff"}},
                     .baseType = "fffffffffff",
                     .size = "4453"
             }
             },
-            .TitlesOfParts = New Excel.XML.docProps.Vectors With {.vector = New Excel.XML.docProps.vector With {.baseType = "test", .variants = {New Excel.XML.docProps.variant With {.i4 = "dddd", .lpstr = "1"}}}}
+            .TitlesOfParts = New Excel.XLSX.XML.docProps.Vectors With {
+            .vector = New Excel.XLSX.XML.docProps.vector With {.baseType = "test", .variants = {New Excel.XLSX.XML.docProps.variant With {.i4 = "dddd", .lpstr = "1"}}}}
         }.GetXml.SaveTo("D:\rrrr.xml")
 
         Pause()

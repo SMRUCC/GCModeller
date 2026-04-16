@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 99 (63.46%)
+    ' Comment Lines: 42 (26.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (9.62%)
+    '     File Size: 7.69 KB
+
+
     '     Class Cite
     ' 
     '         Properties: Abstract, AuthorAddress, Authors, DOI, ISSN

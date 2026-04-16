@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d572c06cc90291b5405a78857cb3cc2a, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
+﻿#Region "Microsoft.VisualBasic::1c0c38ffea4144a26f1cd7b4878c0815, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\NtMapping\BlastnMapping.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 92 (44.23%)
+    ' Comment Lines: 92 (44.23%)
+    '    - Xml Docs: 80.43%
+    ' 
+    '   Blank Lines: 24 (11.54%)
+    '     File Size: 8.51 KB
+
+
     '     Class BlastnMapping
     ' 
     '         Properties: AlignmentFullLength, Evalue, Extensions, GapsFraction, gapsValue
@@ -46,7 +58,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
@@ -111,7 +123,16 @@ Namespace LocalBLAST.Application.NtMapping
         ''' </summary>
         ''' <returns></returns>
         Public Property QueryLength As Integer
+
+        ''' <summary>
+        ''' Score(bits)
+        ''' </summary>
+        ''' <returns></returns>
         <Column("Score(bits)")> Public Property Score As Integer
+        ''' <summary>
+        ''' Score(Raw)
+        ''' </summary>
+        ''' <returns></returns>
         <Column("Score(Raw)")> Public Property RawScore As Integer
         <Column("E-value")> Public Property Evalue As Double
         ''' <summary>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 122 (76.25%)
+    ' Comment Lines: 12 (7.50%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 26 (16.25%)
+    '     File Size: 8.32 KB
+
+
     ' Class Assembler
     ' 
     '     Constructor: (+1 Overloads) Sub New

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb52178df5045203d30cfb6063d7aee4, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb"
+﻿#Region "Microsoft.VisualBasic::43c77d4ed013779030cc46285929b88e, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Models\BiDirectionalBesthit.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 51 (50.50%)
+    ' Comment Lines: 38 (37.62%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 12 (11.88%)
+    '     File Size: 4.04 KB
+
+
     '     Class BiDirectionalBesthit
     ' 
     '         Properties: description, forward, identities, length, level
@@ -47,18 +59,21 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace LocalBLAST.Application.BBH
 
     ''' <summary>
-    ''' Best hit result from the binary direction blastp result.(最佳双向比对结果，BBH，直系同源)
+    ''' Best hit result from the binary direction blastp result. Ortholog mapping result.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (最佳双向比对结果，BBH，直系同源)
+    ''' </remarks>
     Public Class BiDirectionalBesthit : Inherits I_BlastQueryHit
         Implements IKeyValuePair, IQueryHits
 
@@ -68,7 +83,8 @@ Namespace LocalBLAST.Application.BBH
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property description As String
+        Public Overrides Property description As String
+
         ''' <summary>
         ''' Category term annotiation for protein <see cref="BiDirectionalBesthit.QueryName"></see>, like COG/KO, etc
         ''' </summary>
@@ -82,7 +98,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property length As String
+        Public Property length As Integer
         Public Property level As Levels = Levels.NA
 
         <Ignored>
@@ -113,7 +129,7 @@ Namespace LocalBLAST.Application.BBH
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Format("{0} <==> {1}", QueryName, HitName)
+            Return $"[{level.ToString}]({QueryName}, {HitName}) identities:{identities} [{forward},{reverse}]"
         End Function
 
         Public Function ShadowCopy(Of T As {New, BiDirectionalBesthit})() As T

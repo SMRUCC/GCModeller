@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b9df1a94c26199ded5c1fdf4c0d30b4, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
+﻿#Region "Microsoft.VisualBasic::e13c3d55d168fd91f1cfbb6a85089755, core\Bio.Assembly\ComponentModel\DBLinkBuilder\DBLinksManager.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 92 (77.97%)
+    ' Comment Lines: 9 (7.63%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 17 (14.41%)
+    '     File Size: 4.50 KB
+
+
     '     Class DBLinksManager
     ' 
     '         Properties: Count, DBLinkObjects, DBLinks, PrefixDB
@@ -46,11 +58,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 
 Namespace ComponentModel.DBLinkBuilder
 
     Public MustInherit Class DBLinksManager(Of TLink As IDBLink)
         Implements IReadOnlyCollection(Of TLink)
+        Implements IsEmpty
 
         Public Shared ReadOnly Property PrefixDB As String() = New String() {
             "ChEBI", "3DMET", "HMDB",
@@ -157,6 +171,6 @@ Namespace ComponentModel.DBLinkBuilder
             Yield GetEnumerator()
         End Function
 
-        Public MustOverride ReadOnly Property IsEmpty As Boolean
+        Public MustOverride ReadOnly Property IsEmpty As Boolean Implements [Default].IsEmpty.IsEmpty
     End Class
 End Namespace

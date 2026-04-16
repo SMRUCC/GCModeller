@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41ba2dd93115d064fca9cd3c745bf034, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\HashModel.vb"
+﻿#Region "Microsoft.VisualBasic::67ca5a7fb418ba734bbc85f564de42de, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\BitMap\HashModel.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 42 (57.53%)
+    ' Comment Lines: 18 (24.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (17.81%)
+    '     File Size: 2.65 KB
+
+
     '     Interface IAddressOf
     ' 
     ' 
     ' 
-    '     Interface IAddress
+    '     Interface IIndexOf
     ' 
     '         Properties: Address
+    ' 
+    '     Interface IAddress
     ' 
     '         Sub: Assign
     ' 
@@ -68,19 +82,12 @@ Namespace ComponentModel
     ''' <summary>
     ''' This object gets a object handle value to indicated that the position this object exists 
     ''' in the list collection structure. 
-    ''' (这个对象具有一个用于指明该对象在列表对象中的位置的对象句柄值)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(这个对象具有一个用于指明该对象在列表对象中的位置的对象句柄值)</remarks>
     Public Interface IAddressOf : Inherits IAddress(Of Integer)
     End Interface
 
-    ''' <summary>
-    ''' This object gets a object handle value to indicated that the position this object exists 
-    ''' in the list collection structure. 
-    ''' (这个对象具有一个用于指明该对象在列表对象中的位置的对象句柄值)
-    ''' </summary>
-    ''' <remarks></remarks>
-    Public Interface IAddress(Of T As IComparable)
+    Public Interface IIndexOf(Of T As IComparable)
 
         ''' <summary>
         ''' The ID that this object in a list instance.
@@ -90,7 +97,15 @@ Namespace ComponentModel
         ''' <returns></returns>
         ''' <remarks>因为索引号在赋值之后是不可以被修改了的，所以这个属性使用ReadOnly</remarks>
         ReadOnly Property Address As T
+    End Interface
 
+    ''' <summary>
+    ''' This object gets a object handle value to indicated that the position this object exists 
+    ''' in the list collection structure. 
+    ''' (这个对象具有一个用于指明该对象在列表对象中的位置的对象句柄值)
+    ''' </summary>
+    ''' <remarks></remarks>
+    Public Interface IAddress(Of T As IComparable) : Inherits IIndexOf(Of T)
         Sub Assign(address As T)
     End Interface
 

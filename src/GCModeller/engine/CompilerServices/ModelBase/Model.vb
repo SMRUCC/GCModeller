@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e5550595f09c5def7d7d531063764cd, engine\CompilerServices\ModelBase\Model.vb"
+﻿#Region "Microsoft.VisualBasic::c500b29bcc2294865ad7d28c28cd575a, engine\CompilerServices\ModelBase\Model.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 40 (70.18%)
+    ' Comment Lines: 6 (10.53%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 11 (19.30%)
+    '     File Size: 2.11 KB
+
+
     ' Class ModelBaseType
     ' 
     '     Properties: properties
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: ISaveHandle_Save, Save, ToString
+    '     Function: ISaveHandle_Save, (+2 Overloads) Save, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -73,10 +86,21 @@ Public MustInherit Class ModelBaseType : Inherits XmlDataModel
     End Function
 
     Private Function ISaveHandle_Save(path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-        Dim implType As Type = MyClass.GetType
-        Dim xml As String = XmlExtensions.GetXml(Me, implType)
+        Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+            Return Save(file, encoding)
+        End Using
+    End Function
 
-        Return xml.SaveTo(path, encoding)
+    Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+        Using wr As New StreamWriter(s, encoding)
+            Dim implType As Type = MyClass.GetType
+            Dim xml As String = XmlExtensions.GetXml(Me, implType)
+
+            Call wr.WriteLine(xml)
+            Call wr.Flush()
+        End Using
+
+        Return True
     End Function
 
     Public Overrides Function ToString() As String

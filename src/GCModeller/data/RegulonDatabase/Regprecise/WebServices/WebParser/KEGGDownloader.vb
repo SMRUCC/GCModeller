@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc344d5207a92aea82c787a2bb9d2684, data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
+﻿#Region "Microsoft.VisualBasic::6cf8a986b2c783bf08c7e4aee87cc16d, data\RegulonDatabase\Regprecise\WebServices\WebParser\KEGGDownloader.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 56 (84.85%)
+    ' Comment Lines: 3 (4.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (10.61%)
+    '     File Size: 3.48 KB
+
+
     '     Module KEGGDownloader
     ' 
-    '         Function: (+3 Overloads) RegulatorDownloads
+    '         Function: (+2 Overloads) RegulatorDownloads
     ' 
     ' 
     ' /********************************************************************************/
@@ -58,37 +70,6 @@ Namespace Regprecise
                       Category:=APICategories.UtilityTools,
                       Description:="Sequence downloader for the regulators and the regulated genes in the regprecise database from KEGG server.")>
     Public Module KEGGDownloader
-
-        ''' <summary>
-        ''' 从KEGG数据库之中下载调控因子的蛋白质序列数据
-        ''' </summary>
-        ''' <param name="Regulator"></param>
-        ''' <param name="Bacteria"></param>
-        ''' <param name="ErrLog"></param>
-        ''' <param name="DownloadDirectory"></param>
-        ''' <param name="FastaSaved"></param>
-        ''' <returns></returns>
-        '''
-        <ExportAPI("Regulator.Downloads")>
-        Public Function RegulatorDownloads(Regulator As Regulator,
-                                           Bacteria As BacteriaRegulome,
-                                           ErrLog As LogFile,
-                                           DownloadDirectory As String,
-                                           FastaSaved As String) As FASTA.FastaSeq
-
-            If FileIO.FileSystem.FileExists(FastaSaved) AndAlso FileIO.FileSystem.GetFileInfo(FastaSaved).Length > 0 Then
-                Return FASTA.FastaSeq.Load(FastaSaved)
-            End If
-
-            Dim FastaObject = RegulatorDownloads(Regulator.locus_tag.name, ErrLog, Bacteria.genome.name)
-
-            If FastaObject Is Nothing Then
-                Return Nothing
-            Else
-                Call FastaObject.SaveTo(FastaSaved)
-                Return FastaObject
-            End If
-        End Function
 
         <ExportAPI("Regulator.Downloads", Info:="Download a regulators' protein fasta sequence using the gene's locus tag")>
         Public Function RegulatorDownloads(locusTag As String,

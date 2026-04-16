@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99bcd70494d7881dd2097db6484e32f6, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Program.vb"
+﻿#Region "Microsoft.VisualBasic::6e1ef9f1ff40cb8a2fc2b5a719c3c250, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\ProgressBar\Program.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 21 (47.73%)
+    ' Comment Lines: 17 (38.64%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 6 (13.64%)
+    '     File Size: 1.45 KB
+
+
     '     Module Program
+    ' 
+    '         Function: ProgressText
     ' 
     '         Sub: Run
     ' 
@@ -53,11 +67,34 @@ Namespace ApplicationServices.Terminal.ProgressBar
         ''' <param name="bar"></param>
         ''' <param name="wait">Sleep time of the thread</param>
         ''' <param name="[end]">Ends at this iteration</param>
-        <Extension> Public Sub Run(bar As AbstractBar, wait%, end%)
+        <Extension>
+        Public Sub Run(bar As AbstractBar, wait%, end%)
             For cont As Integer = 0 To [end] - 1
                 Call bar.[Step]()
                 Call Thread.Sleep(wait)
             Next
         End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="p">[0,1] represents the progress percentage</param>
+        ''' <returns>
+        ''' a progress bar liked string value, example as:
+        ''' 
+        ''' ```
+        ''' ####.......
+        ''' ```
+        ''' </returns>
+        Public Function ProgressText(p As Double,
+                                     Optional width As Integer = 16,
+                                     Optional fill As Char = "#"c,
+                                     Optional empty As Char = ".") As String
+
+            Dim fills As String = New String(fill, CInt(p * width))
+            Dim emptys As String = New String(empty, CInt((1 - p) * width))
+
+            Return fills & emptys
+        End Function
     End Module
 End Namespace

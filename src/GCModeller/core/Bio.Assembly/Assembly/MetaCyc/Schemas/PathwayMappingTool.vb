@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c71045f61d59b5c0c5e9952cf25319, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
+﻿#Region "Microsoft.VisualBasic::57cff47d8abfa906e6174db4148c2e6b, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayMappingTool.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 41 (54.67%)
+    ' Comment Lines: 24 (32.00%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 10 (13.33%)
+    '     File Size: 3.72 KB
+
 
     '     Class PathwayMappingTool
     ' 
@@ -69,14 +81,14 @@ Namespace Assembly.MetaCyc.Schema.Metabolism
         End Sub
 
         Public Sub Initlaize()
-            If Me.MetaCyc.Database.FASTAFiles.protseq.IsNullOrEmpty Then
-                Dim LQuery = (From Protein As Slots.Protein
-                              In Me.MetaCyc.GetProteins.Values
-                              Let Id As String = DBLinkManager.DBLink.GetUniprotId(Protein.DBLinksMgr)
-                              Where Not String.IsNullOrEmpty(Id)
-                              Select Uniprot.Web.DownloadProtein(Id)).ToArray
-                Call CType(LQuery, SequenceModel.FASTA.FastaFile).Save(Me.MetaCyc.Database.FASTAFiles.ProteinSourceFile, Encoding.UTF8)
-            End If
+            'If Me.MetaCyc.Database.FASTAFiles.protseq.IsNullOrEmpty Then
+            '    Dim LQuery = (From Protein As Slots.Protein
+            '                  In Me.MetaCyc.GetProteins.Values
+            '                  Let Id As String = DBLinkManager.DBLink.GetUniprotId(Protein.DBLinksMgr)
+            '                  Where Not String.IsNullOrEmpty(Id)
+            '                  Select Uniprot.Web.DownloadProtein(Id)).ToArray
+            '    Call CType(LQuery, SequenceModel.FASTA.FastaFile).Save(Me.MetaCyc.Database.FASTAFiles.ProteinSourceFile, Encoding.UTF8)
+            'End If
         End Sub
 
         ''' <summary>

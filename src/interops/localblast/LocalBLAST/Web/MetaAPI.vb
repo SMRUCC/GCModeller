@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::41bde5a9b3acb2b1a5571226fad8fec0, localblast\LocalBLAST\Web\MetaAPI.vb"
+﻿#Region "Microsoft.VisualBasic::a7074b71d9b572c67889092a6abdb9c5, localblast\LocalBLAST\Web\MetaAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 84 (79.25%)
+    ' Comment Lines: 12 (11.32%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 10 (9.43%)
+    '     File Size: 5.31 KB
+
+
     '     Module BBHMetaAPI
     ' 
     '         Function: DataParser, DensityScore, GetAlignmentRegion, Offset
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq

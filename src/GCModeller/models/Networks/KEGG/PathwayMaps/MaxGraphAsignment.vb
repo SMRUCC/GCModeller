@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b773ee19fe341ca83ef8e4e5f7a99ac2, models\Networks\KEGG\PathwayMaps\MaxGraphAsignment.vb"
+﻿#Region "Microsoft.VisualBasic::f3157769259b56f81dbb3be2243d4456, models\Networks\KEGG\PathwayMaps\MaxGraphAsignment.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 12 (52.17%)
+    ' Comment Lines: 4 (17.39%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (30.43%)
+    '     File Size: 648 B
+
+
     '     Class MaxGraphAsignment
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -42,7 +54,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace PathwayMaps
 

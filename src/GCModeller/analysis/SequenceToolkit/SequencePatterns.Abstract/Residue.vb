@@ -1,0 +1,179 @@
+﻿#Region "Microsoft.VisualBasic::fb7975cb602f16c6011ae8dcbc5034a9, analysis\SequenceToolkit\SequencePatterns.Abstract\Residue.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 94 (78.99%)
+    ' Comment Lines: 7 (5.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (15.13%)
+    '     File Size: 3.57 KB
+
+
+    ' Class Residue
+    ' 
+    '     Properties: frequency, Hi, index, isConserved, isEmpty
+    '                 topChar
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    ' 
+    '     Function: EnumerateKeys, EnumerateValues, GetEmpty, Max, ToString
+    ' 
+    '     Sub: Assign
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Information
+Imports SMRUCC.genomics.SequenceModel.Patterns
+
+''' <summary>
+''' residue site
+''' </summary>
+Public Class Residue : Implements IPatternSite
+
+    ''' <summary>
+    ''' should be sum equals to 1
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property frequency As Dictionary(Of String, Double)
+    Public Property index As Integer Implements IIndexOf(Of Integer).Address
+
+    Public ReadOnly Property topChar As Char
+        Get
+            Return Max(Me)
+        End Get
+    End Property
+
+    Default Public ReadOnly Property getFrequency(base As Char) As Double Implements IPatternSite.Probability
+        Get
+            Return _frequency.TryGetValue(base)
+        End Get
+    End Property
+
+    Public ReadOnly Property isEmpty As Boolean
+        Get
+            If frequency.IsNullOrEmpty Then
+                Return True
+            ElseIf frequency.Values.All(Function(p) p = 0.0) Then
+                Return True
+            Else
+                Return False
+            End If
+        End Get
+    End Property
+
+    Public ReadOnly Property Hi As Double Implements IPatternSite.Bits
+        Get
+            Return frequency.Values.ShannonEntropy()
+        End Get
+    End Property
+
+    Public ReadOnly Property isConserved As Boolean
+        Get
+            Return frequency.Values.Max > 0.5
+        End Get
+    End Property
+
+    Sub New()
+    End Sub
+
+    Sub New(freq As Double(), alphabets As String, Optional index As Integer = 1)
+        Me.index = index
+        Me.frequency = New Dictionary(Of String, Double)
+
+        For i As Integer = 0 To freq.Length - 1
+            Me.frequency(alphabets(i).ToString) = freq(i)
+        Next
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Function ToString() As String
+        Dim max As Double = -99999
+        Dim maxChar As Char?
+
+        For Each b In frequency
+            If b.Value > max Then
+                max = b.Value
+                maxChar = b.Key
+            End If
+        Next
+
+        If maxChar Is Nothing Then
+            Return "-"
+        ElseIf max >= 0.5 Then
+            Return Char.ToUpper(maxChar)
+        Else
+            Return Char.ToLower(maxChar)
+        End If
+    End Function
+
+    Public Shared Function GetEmpty() As Residue
+        Return New Residue With {
+            .frequency = New Dictionary(Of String, Double),
+            .index = -1
+        }
+    End Function
+
+    Public Shared Function Max(r As Residue) As Char
+        With r.frequency.ToArray
+            If .Values.All(Function(p) p = 0R) Then
+                Return "-"c
+            Else
+                Return .ElementAt(which.Max(.Values)) _
+                       .Key
+            End If
+        End With
+    End Function
+
+    Public Function EnumerateKeys() As IEnumerable(Of Char) Implements IPatternSite.EnumerateKeys
+        Return frequency.Keys.Select(Function(a) CChar(a))
+    End Function
+
+    Public Function EnumerateValues() As IEnumerable(Of Double) Implements IPatternSite.EnumerateValues
+        Return frequency.Values
+    End Function
+
+    Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
+        index = address
+    End Sub
+End Class

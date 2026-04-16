@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 13 (59.09%)
+    ' Comment Lines: 4 (18.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (22.73%)
+    '     File Size: 827 B
+
+
     '     Class Formula
     ' 
     '         Properties: Factors

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::23779b1bde4976c8680f30b67012e08f, Data_science\Visualization\Plots\Contour\PlotContour.vb"
+﻿#Region "Microsoft.VisualBasic::994b710994ae9569743c9357302bcee2, Data_science\Visualization\Plots\Contour\PlotContour.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 63 (88.73%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (11.27%)
+    '     File Size: 3.23 KB
+
+
     '     Module PlotContour
     ' 
     '         Function: (+2 Overloads) Plot
@@ -60,9 +72,10 @@ Namespace Contour
                              Optional legendTitleCSS$ = CSSFont.Win7LargeBold,
                              Optional tickCSS$ = CSSFont.Win10NormalLarger,
                              Optional tickAxisStroke$ = Stroke.ScatterLineStroke,
+                             Optional interpolateFill As Boolean = True,
                              Optional ppi% = 300) As GraphicsData
 
-            Dim contours As GeneralPath() = ContourLayer.GetContours(sample).ToArray
+            Dim contours As GeneralPath() = ContourLayer.GetContours(sample, interpolateFill:=interpolateFill).ToArray
             Dim theme As New Theme With {
                 .padding = padding,
                 .background = bg,

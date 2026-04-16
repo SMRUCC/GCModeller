@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c83077b820e815beb51f98ccce359a44, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\ILocalSearchHandle.vb"
+﻿#Region "Microsoft.VisualBasic::82f0022d25f157361c024c56c4c1e261, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\ILocalSearchHandle.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 6 (30.00%)
+    ' Comment Lines: 12 (60.00%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 2 (10.00%)
+    '     File Size: 831 B
+
+
     '     Interface ILocalSearchHandle
     ' 
     '         Function: Match, Matches
-    ' 
-    '     Module SearchFramework
-    ' 
-    '         Function: MultipleQuery, Query
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Namespace ComponentModel.DataSourceModel.Repository
 
@@ -66,40 +71,4 @@ Namespace ComponentModel.DataSourceModel.Repository
         ''' <returns></returns>
         Function Match(Keyword As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As Boolean
     End Interface
-
-    ''' <summary>
-    ''' Extensions for data query
-    ''' </summary>
-    Public Module SearchFramework
-
-        <Extension>
-        Public Iterator Function MultipleQuery(Of T, Term)(source As IEnumerable(Of T),
-                                                           query As IEnumerable(Of NamedValue(Of Term())),
-                                                           assert As Func(Of T, Term, Boolean)) As IEnumerable(Of NamedValue(Of Map(Of Term, T)))
-
-            Dim terms As NamedValue(Of Term())() = query.ToArray
-
-            For Each entity As T In source
-                For Each block In query
-                    For Each match As Term In block.Value
-                        If assert(entity, match) Then
-                            Yield New NamedValue(Of Map(Of Term, T)) With {
-                                .Name = block.Name,
-                                .Value = New Map(Of Term, T) With {
-                                    .Key = match,
-                                    .Maps = entity
-                                }
-                            }
-                        End If
-                    Next
-                Next
-            Next
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension>
-        Public Function Query(Of T, Term)(source As IEnumerable(Of T), queries As IEnumerable(Of Term), assert As Func(Of T, Term, Boolean)) As IEnumerable(Of Map(Of Term, T))
-            Return source.MultipleQuery({New NamedValue(Of Term())("null", queries.ToArray)}, assert).Values
-        End Function
-    End Module
 End Namespace

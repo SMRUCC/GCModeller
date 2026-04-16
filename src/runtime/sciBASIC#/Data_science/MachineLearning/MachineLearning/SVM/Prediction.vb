@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 93 (54.39%)
+    ' Comment Lines: 51 (29.82%)
+    '    - Xml Docs: 68.63%
+    ' 
+    '   Blank Lines: 27 (15.79%)
+    '     File Size: 7.33 KB
+
+
     '     Module Prediction
     ' 
     '         Function: (+2 Overloads) Predict, PredictLabels, PredictLabelsProbability, PredictProbability

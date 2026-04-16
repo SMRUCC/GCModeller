@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 44 (77.19%)
+    ' Comment Lines: 4 (7.02%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.79%)
+    '     File Size: 3.44 KB
+
+
     '     Module SystemVariables
     ' 
     '         Function: CreateDefault

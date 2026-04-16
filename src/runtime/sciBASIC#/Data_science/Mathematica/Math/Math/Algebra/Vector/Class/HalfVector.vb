@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21e597e0e1508e892c6dcf61d74efea0, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\HalfVector.vb"
+﻿#Region "Microsoft.VisualBasic::49b974652f41f31f5ed8db8743dc013e, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\HalfVector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 103 (78.03%)
+    ' Comment Lines: 3 (2.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 26 (19.70%)
+    '     File Size: 5.30 KB
+
 
     '     Class HalfVector
     ' 
@@ -142,7 +154,7 @@ Namespace LinearAlgebra
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator *(v As HalfVector, multiple As Vector) As Vector
             If v.Dim <> multiple.Dim Then
-                Throw New InvalidConstraintException
+                Throw New InvalidConstraintException($"the dimension size between two vector should be equals!")
             Else
                 Return New Vector(From i As Integer In v.Sequence Select CSng(v(i)) * multiple(i))
             End If

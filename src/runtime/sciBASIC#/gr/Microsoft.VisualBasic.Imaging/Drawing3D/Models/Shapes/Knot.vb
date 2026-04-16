@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a61e815183a1237df2a8788cad9efc2f, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Knot.vb"
+﻿#Region "Microsoft.VisualBasic::a37433b61968a91f4df29bee486df9a5, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Knot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 14 (66.67%)
+    ' Comment Lines: 5 (23.81%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 2 (9.52%)
+    '     File Size: 1009 B
+
+
     '     Class Knot
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -48,7 +60,7 @@ Namespace Drawing3D.Models.Isometric.Shapes
         ''' 
         ''' </summary>
         ''' <param name="origin">The shape model location</param>
-        ''' <param name="scale#">The scale size</param>
+        ''' <param name="scale">The scale size</param>
         Public Sub New(origin As Point3D, Optional scale# = 1 / 5)
             Push((New Prism(Math3D.ORIGIN, 5, 1, 1)).paths)
             Push((New Prism(New Point3D(4, 1, 0), 1, 4, 1)).paths)

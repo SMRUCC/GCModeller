@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8fe9b46ce1afdc942074e66332a05c12, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\Numeric.vb"
+﻿#Region "Microsoft.VisualBasic::b97cdfe36be2b2c0027f36ed5314030c, Microsoft.VisualBasic.Core\src\Language\Value\Numeric\Numeric.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 85 (44.74%)
+    ' Comment Lines: 80 (42.11%)
+    '    - Xml Docs: 88.75%
+    ' 
+    '   Blank Lines: 25 (13.16%)
+    '     File Size: 6.49 KB
+
 
     '     Module Numeric
     ' 
@@ -93,14 +105,29 @@ Namespace Language
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A zero-based index offset for the item with max value, -1 means empty collection
+        ''' </returns>
         <Extension>
         Public Function MaxIndex(Of T As IComparable)(source As IEnumerable(Of T)) As Integer
             Dim i As Integer = 0
-            Dim max As T = source.First
+            Dim max As T
             Dim maxInd As Integer = 0
+            Dim loops As T()
 
-            For Each x As T In source.Skip(1)
+            If source Is Nothing Then
+                Return -1
+            Else
+                loops = If(TypeOf source Is T(), DirectCast(source, T()), source.ToArray)
+
+                If loops.Length = 0 Then
+                    Return -1
+                Else
+                    max = loops(0)
+                End If
+            End If
+
+            For Each x As T In loops.Skip(1)
                 i += 1
 
                 If x.CompareTo(max) > 0 Then

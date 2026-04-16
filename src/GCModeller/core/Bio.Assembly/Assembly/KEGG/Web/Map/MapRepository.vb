@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43dc7958386a194999c5e398570df33a, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
+﻿#Region "Microsoft.VisualBasic::c584346a0a7bf0e021c7e1927cf8e31c, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapRepository.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 120 (71.43%)
+    ' Comment Lines: 27 (16.07%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 21 (12.50%)
+    '     File Size: 6.80 KB
+
+
     '     Class MapRepository
     ' 
     '         Properties: Maps
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: (+2 Overloads) BuildRepository, CreateIndex, Exists, GenericEnumerator, GetAll
-    '                   GetByKey, GetEnumerator, GetMapsAuto, GetWhere, QueryMapsByMembers
-    '                   ScanMaps
+    '                   GetByKey, GetMapsAuto, GetWhere, QueryMapsByMembers, ScanMaps
     ' 
     ' 
     ' /********************************************************************************/
@@ -53,6 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
 
@@ -71,7 +83,7 @@ Namespace Assembly.KEGG.WebServices
             End Get
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Set(value As MapIndex())
-                table = value.ToDictionary(Function(map) map.id)
+                table = value.ToDictionary(Function(map) map.EntryId.Match("\d+"))
             End Set
         End Property
 
@@ -114,14 +126,20 @@ Namespace Assembly.KEGG.WebServices
             Next
         End Function
 
+        ' key.Match("\d+") means ignores the kegg organism prefix
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Exists(key As String) As Boolean Implements IRepositoryRead(Of String, MapIndex).Exists
-            Return table.ContainsKey(key.Match("\d+"))
+            Return table.ContainsKey(key) OrElse table.ContainsKey(key.Match("\d+"))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetByKey(key As String) As MapIndex Implements IRepositoryRead(Of String, MapIndex).GetByKey
-            Return table(key.Match("\d+"))
+            If table.ContainsKey(key) Then
+                Return table(key)
+            Else
+                Return table(key.Match("\d+"))
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -156,20 +174,19 @@ Namespace Assembly.KEGG.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ScanMaps(directory As String) As IEnumerable(Of Map)
-            Return (ls - l - r - "*.XML" <= directory).Select(AddressOf LoadXml(Of Map))
+            Return (ls - l - r - {"*.XML", "*.xml", "*.Xml"} <= directory).Select(AddressOf LoadXml(Of Map))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function CreateIndex(map As Map, silent As Boolean) As MapIndex
             If Not silent Then
-                Call map.Name.__DEBUG_ECHO
+                Call map.Name.debug
             End If
 
             Return New MapIndex With {
-                .id = map.id,
+                .EntryId = map.EntryId,
                 .KeyVector = New TermsVector With {
-                    .terms = map _
-                        .shapes _
+                    .terms = map.shapes.mapdata _
                         .Select(Function(a) a.IDVector) _
                         .IteratesALL _
                         .Distinct _
@@ -177,12 +194,17 @@ Namespace Assembly.KEGG.WebServices
                         .ToArray
                 },
                 .shapes = map.shapes,
-                .Name = map.Name,
+                .name = map.name,
                 .PathwayImage = map.PathwayImage,
                 .URL = map.URL
             }
         End Function
 
+        ''' <summary>
+        ''' scan directory or load from a xml pack file
+        ''' </summary>
+        ''' <param name="repository"></param>
+        ''' <returns></returns>
         Public Shared Function GetMapsAuto(repository As String) As IEnumerable(Of Map)
             If repository.DirectoryExists Then
                 Return repository.DoCall(AddressOf ScanMaps)
@@ -196,13 +218,9 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Map) Implements Enumeration(Of Map).GenericEnumerator
-            For Each index In Maps
-                Yield index
+            For Each index As MapIndex In Maps
+                Yield DirectCast(index, Map)
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Map).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

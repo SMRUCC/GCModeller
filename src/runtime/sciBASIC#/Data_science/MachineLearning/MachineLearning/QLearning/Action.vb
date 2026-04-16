@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::568b3b0ba65c7d59340a3bca768edafe, Data_science\MachineLearning\MachineLearning\QLearning\Action.vb"
+﻿#Region "Microsoft.VisualBasic::e447eb813cb5c104a66868b83d7eb59b, Data_science\MachineLearning\MachineLearning\QLearning\Action.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 10 (32.26%)
+    ' Comment Lines: 16 (51.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 1.10 KB
+
+
     '     Class Action
     ' 
     '         Properties: EnvirState, Qvalues
@@ -43,7 +55,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace QLearning
 
@@ -69,7 +80,7 @@ Namespace QLearning
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"[ {EnvirState} ] {vbTab}--> {Qvalues.GetJson}"
+            Return $"[ {EnvirState} ] {vbTab}--> [{Qvalues.Select(Function(di) di.ToString("F4")).JoinBy(vbTab)}]"
         End Function
 
     End Class

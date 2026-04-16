@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f635f989a8b5402d0e31b7c6d363ff1, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\DataLabeler.vb"
+﻿#Region "Microsoft.VisualBasic::b8efab0111e9deb4c260437e4fd6adb1, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\DataLabeler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 53 (50.00%)
+    ' Comment Lines: 37 (34.91%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (15.09%)
+    '     File Size: 3.52 KB
+
+
     '     Class DataLabeler
     ' 
     '         Function: Anchors, GetEnumerator, Height, IEnumerable_GetEnumerator, Labels
@@ -50,6 +62,14 @@ Namespace d3js.Layout
 
         Protected m_labels As Label()
         Protected m_anchors As Anchor()
+
+        ''' <summary>
+        ''' the index of the labels which is unpinned
+        ''' (can move on the canvas) in the array of 
+        ''' <see cref="m_labels"/>, this index value 
+        ''' can also used for read anchor object from 
+        ''' the <see cref="m_anchors"/>.
+        ''' </summary>
         Protected unpinnedLabels As Integer()
 
         ''' <summary>
@@ -60,7 +80,9 @@ Namespace d3js.Layout
         Protected offset As PointF
 
         ''' <summary>
-        ''' main simulated annealing function.(这个函数运行完成之后，可以直接使用<see cref="Label.X"/>和<see cref="Label.Y"/>位置数据进行作图)
+        ''' main simulated annealing function.
+        ''' (这个函数运行完成之后，可以直接使用<see cref="Label.X"/>和
+        ''' <see cref="Label.Y"/>位置数据进行作图)
         ''' </summary>
         ''' <param name="nsweeps"></param>
         ''' <returns></returns>

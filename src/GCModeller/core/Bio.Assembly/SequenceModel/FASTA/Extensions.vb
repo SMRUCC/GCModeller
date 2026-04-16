@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::788ab58e4d570be079a34dd23a672164, core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2187635a62d0c16046a884634b8c5c6c, core\Bio.Assembly\SequenceModel\FASTA\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 43 (66.15%)
+    ' Comment Lines: 11 (16.92%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (16.92%)
+    '     File Size: 2.40 KB
+
+
     '     Module Extensions
     ' 
     '         Function: Index
+    ' 
+    '         Sub: writeFasta
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -70,5 +86,36 @@ Namespace SequenceModel.FASTA
                 Return idx
             End If
         End Function
+
+        ''' <summary>
+        ''' Writes the sequences in FASTA format to a file with the given name </summary>
+        ''' <param name="sequences"> </param>
+        ''' <param name="filename"> </param>
+        ''' 
+        <Extension>
+        Public Sub writeFasta(sequences As IEnumerable(Of String), filename As String,
+                              Optional break As Integer = 80,
+                              Optional prefix As String = "sequence")
+
+            Using printWriter As New IO.StreamWriter(filename.Open(FileMode.OpenOrCreate, doClear:=True))
+                Dim i As Integer = 0
+
+                For Each sequence As String In sequences
+                    Dim stringBuilder As New StringBuilder(sequence)
+                    i += 1
+
+                    Call Enumerable _
+                        .Range(0, sequence.Length / break) _
+                        .ForEach(Sub(j, o)
+                                     Call stringBuilder.Insert(j + break * (j + 1), vbLf)
+                                 End Sub)
+
+                    stringBuilder.Insert(0, String.Format("> {0}{1}" & vbLf, prefix, i))
+                    printWriter.WriteLine(stringBuilder.ToString())
+                Next
+
+                Call printWriter.Flush()
+            End Using
+        End Sub
     End Module
 End Namespace

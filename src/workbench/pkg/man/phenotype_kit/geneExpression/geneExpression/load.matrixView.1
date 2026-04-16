@@ -1,0 +1,25 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "load.matrixView" "load.matrixView"
+.SH NAME
+load.matrixView \- Load the HTS matrix into a lazy matrix viewer
+.SH SYNOPSIS
+\fIload.matrixView(\fBmat\fR as <generic> Matrix);\fR
+.SH DESCRIPTION
+.PP
+Load the HTS matrix into a lazy matrix viewer
+.PP
+.SH OPTIONS
+.PP
+\fBmat\fB \fR\- -. 
+.PP
+.SH EXAMPLES
+.PP
+let expr_mat = load.expr(file = "./rawdata.csv");
+ let view = load.matrixView(mat = expr_mat);
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

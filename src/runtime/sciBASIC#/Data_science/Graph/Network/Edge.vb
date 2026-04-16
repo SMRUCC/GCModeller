@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e75b50ef76a74078bdbac498b6cccc1, Data_science\Graph\Network\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::6fb4e0a7df136478bb06f391265b1dd0, Data_science\Graph\Network\Edge.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 10 (33.33%)
+    ' Comment Lines: 15 (50.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 734 B
+
+
     '     Class Edge
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Interface IndexEdge
+    ' 
+    '         Properties: U, V
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,9 +58,31 @@
 
 Namespace Network
 
+    ''' <summary>
+    ''' interaction edge is a tuple of two node vertex object
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class Edge(Of T As Node) : Inherits GraphTheory.Edge(Of T)
 
         Sub New()
         End Sub
     End Class
+
+    ''' <summary>
+    ''' an edge link: [u, v]
+    ''' </summary>
+    Public Interface IndexEdge
+
+        ''' <summary>
+        ''' index of the vertex u source
+        ''' </summary>
+        ''' <returns></returns>
+        Property U As Integer
+        ''' <summary>
+        ''' index of the vertex v target
+        ''' </summary>
+        ''' <returns></returns>
+        Property V As Integer
+
+    End Interface
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::654afc13fef556209f289b48bf96d7f4, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Pyramid.vb"
+﻿#Region "Microsoft.VisualBasic::676c5f023c4bc8e1645090a7f18b94be, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Pyramid.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 28 (68.29%)
+    ' Comment Lines: 6 (14.63%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.48 KB
+
+
     '     Class Pyramid
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -41,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Drawing3D.Models.Isometric.Shapes
 
@@ -66,7 +78,7 @@ Namespace Drawing3D.Models.Isometric.Shapes
             Dim paths As Path3D() = New Path3D(3) {}
             ' Push the face, and its opposite face, by rotating around the Z-axis 
             paths(0) = face1
-            paths(1) = face1.RotateZ(origin.Translate(dx / 2.0, dy / 2.0, 0), stdNum.PI)
+            paths(1) = face1.RotateZ(origin.Translate(dx / 2.0, dy / 2.0, 0), std.PI)
 
             ' Path parallel to the y-axis 
             Dim face2 As Path3D = {
@@ -75,7 +87,7 @@ Namespace Drawing3D.Models.Isometric.Shapes
                 New Point3D(origin.X, origin.Y + dy, origin.Z)
             }
             paths(2) = face2
-            paths(3) = face2.RotateZ(origin.Translate(dx / 2.0, dy / 2.0, 0), stdNum.PI)
+            paths(3) = face2.RotateZ(origin.Translate(dx / 2.0, dy / 2.0, 0), std.PI)
 
             MyBase.paths = paths.AsList
         End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af521f6975d7c21269ce0e2f77787740, Data_science\Visualization\Canvas3D\ColorPalette.vb"
+﻿#Region "Microsoft.VisualBasic::af521f6975d7c21269ce0e2f77787740, sciBASIC#\Data_science\Visualization\Canvas3D\ColorPalette.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,16 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 119
+    ' Comment Lines: 14
+    '   Blank Lines: 20
+    '     File Size: 5.46 KB
+
 
     '     Class ColorPalette
     ' 
@@ -105,11 +115,11 @@ Namespace Drawing2D.Colors
         ''' 大小或者选择了新颜色之后需要重新生成模型
         ''' </summary>
         Private Sub __colorsPaletteModels()
-            Dim n = Designer.TSF.Length
+            Dim TSF_colors = CustomDesigns.TSF()
+            Dim n = TSF_colors.Length
             Dim dw! = Width / n
             Dim dh! = Height / 2 - 10
             Dim y = 10
-            Dim colors As Color() = Designer.TSF
             Dim getColors =
                 Function() As ColorsPalette()
                     Dim out As New List(Of ColorsPalette)
@@ -122,7 +132,7 @@ Namespace Drawing2D.Colors
                                 .Width = dw,
                                 .Height = dh
                             },
-                            .Maps = colors(i)
+                            .Maps = TSF_colors(i)
                         }
                     Next
 
@@ -136,25 +146,25 @@ Namespace Drawing2D.Colors
 
             If current1 = 0 Then
                 c = {
-                    colors.Last,
-                    colors(0),
-                    colors(1)
+                    TSF_colors.Last,
+                    TSF_colors(0),
+                    TSF_colors(1)
                 }
-            ElseIf current1 = colors.Length - 1 Then
+            ElseIf current1 = TSF_colors.Length - 1 Then
                 c = {
-                    colors(colors.Length - 2),
-                    colors.Last,
-                    colors(0)
+                    TSF_colors(TSF_colors.Length - 2),
+                    TSF_colors.Last,
+                    TSF_colors(0)
                 }
             Else
                 c = {
-                    colors(current1 - 1),
-                    colors(current1),
-                    colors(current1 + 1)
+                    TSF_colors(current1 - 1),
+                    TSF_colors(current1),
+                    TSF_colors(current1 + 1)
                 }
             End If
 
-            colors = Designer.CubicSpline(c, n)
+            TSF_colors = Designer.CubicSpline(c, n)
             y = half + 10
             level2Colors = getColors()
             index = level2Colors _

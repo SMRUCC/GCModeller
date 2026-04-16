@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a56b5fd3747d3291a8e30335234286ce, R#\seqtoolkit\Annotations\uniprot.vb"
+﻿#Region "Microsoft.VisualBasic::9841fb94dc93ad32168ca77803d50dc4, R#\seqtoolkit\Annotations\uniprot.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,26 @@
 
     ' Summaries:
 
-    ' Module uniprot
+
+    ' Code Statistics:
+
+    '   Total Lines: 486
+    '    Code Lines: 329 (67.70%)
+    ' Comment Lines: 98 (20.16%)
+    '    - Xml Docs: 92.86%
     ' 
-    '     Function: getProteinSeq, IdUnify, openUniprotXmlAssembly, writePtfFile
+    '   Blank Lines: 59 (12.14%)
+    '     File Size: 21.17 KB
+
+
+    ' Module uniprotTools
+    ' 
+    '     Function: doaminTable, get_description, get_domains, get_keywords, get_pathwayNames
+    '               get_reactions, get_sequence, get_subcellularlocation, get_xrefs, getProteinSeq
+    '               IdUnify, metaboliteSet, openUniprotXmlAssembly, parseHeader, parseUniProt
+    '               proteinTable, readProteinTable, uniprotFastaHeaderTable, uniprotProteinTable
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -41,16 +58,27 @@
 
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.Uniprot
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.ProteinModel
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports protein = SMRUCC.genomics.Assembly.Uniprot.XML.entry
+Imports proteinTable = SMRUCC.genomics.Assembly.Uniprot.Web.Entry
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The Universal Protein Resource (UniProt)
@@ -91,119 +119,371 @@ Title:="The Universal Protein Resource (UniProt)",
 PubMed:=540024,
 Issue:="Database issue",
 URL:="https://www.uniprot.org/")>
-Module uniprot
+<RTypeExport("uniprot_kb", GetType(entry))>
+Module uniprotTools
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(entry()), AddressOf uniprotProteinTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(FastaHeader()), AddressOf uniprotFastaHeaderTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(DomainModel()), AddressOf doaminTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function uniprotFastaHeaderTable(headers As FastaHeader(), args As list, env As Environment) As dataframe
+        Dim rownames As Boolean = args.getValue({"row.names"}, env, [default]:=True)
+        Dim df As New dataframe With {
+            .rownames = If(rownames, headers.Keys, Nothing),
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        If Not rownames Then
+            Call df.add("uniprot id", From prot As FastaHeader
+                                      In headers
+                                      Select prot.UniprotID)
+        End If
+
+        Call df.add("entry name", From prot As FastaHeader In headers Select prot.EntryName)
+        Call df.add("gene name", From prot As FastaHeader In headers Select prot.GN)
+        Call df.add("PE", From prot As FastaHeader In headers Select prot.PE)
+        Call df.add("SV", From prot As FastaHeader In headers Select prot.SV)
+        Call df.add("OX", From prot As FastaHeader In headers Select prot.OX)
+        Call df.add("organism species", From prot As FastaHeader In headers Select prot.OrgnsmSpName)
+        Call df.add("protein name", From prot As FastaHeader In headers Select prot.ProtName)
+
+        Return df
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function uniprotProteinTable(uniprot As entry(), args As list, env As Environment) As dataframe
+        Return proteinTable(uniprot, env)
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function doaminTable(domains As DomainModel(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("id", From d In domains Select d.ID)
+        Call df.add("name", From d In domains Select d.name)
+        Call df.add("start", From d In domains Select d.start)
+        Call df.add("ends", From d In domains Select d.ends)
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' open a uniprot database file
     ''' </summary>
     ''' <param name="files"></param>
     ''' <param name="isUniParc"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function returns a pipeline stream of the uniprot protein entries.
+    ''' </returns>
     <ExportAPI("open.uniprot")>
-    Public Function openUniprotXmlAssembly(<RRawVectorArgument> files As Object, Optional isUniParc As Boolean = False, Optional env As Environment = Nothing) As pipeline
+    <RApiReturn(GetType(IEnumerable(Of entry)))>
+    Public Function openUniprotXmlAssembly(<RRawVectorArgument>
+                                           files As Object,
+                                           Optional isUniParc As Boolean = False,
+                                           Optional ignoreError As Boolean = True,
+                                           Optional tqdm As Boolean = True,
+                                           Optional env As Environment = Nothing) As Object
+
         Dim fileList As pipeline = pipeline.TryCreatePipeline(Of String)(files, env)
+        Dim fileSet As String()
 
         If fileList.isError Then
             Return fileList
+        Else
+            fileSet = fileList _
+                .populates(Of String)(env) _
+                .ToArray
+
+            For Each file As String In fileSet
+                If Not file.FileExists Then
+                    Return RInternal.debug.stop({
+                        $"uniprot database file is not found!",
+                        $"missing file: {file}"
+                    }, env)
+                End If
+            Next
         End If
 
         Return UniProtXML _
-            .EnumerateEntries(fileList.populates(Of String)(env).ToArray, isUniParc) _
+            .EnumerateEntries(
+                files:=fileSet,
+                isUniParc:=isUniParc,
+                ignoreError:=ignoreError,
+                tqdm:=tqdm
+            ) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
+    End Function
+
+    <ExportAPI("parseUniProt")>
+    Public Function parseUniProt(xml As String) As entry()
+        Dim uniprot As UniProtXML = UniProtXML.LoadXml(xml)
+        Dim proteins As entry() = uniprot.entries
+
+        Return proteins
+    End Function
+
+    ''' <summary>
+    ''' Parse the uniprot fasta header text 
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("parseHeader")>
+    <RApiReturn(GetType(FastaHeader))>
+    Public Function parseHeader(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim fasta As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env, allowString:=False)
+
+        If fasta Is Nothing Then
+            ' is a collection of the header text
+            Dim headers As String() = CLRVector.asCharacter(x)
+            Dim data As FastaHeader() = headers.Select(AddressOf FastaHeader.Parse).ToArray
+
+            Return data
+        Else
+            Dim seqs = fasta.Select(Function(fa) UniprotFasta.CreateObject(fa)).ToArray
+            Dim data As FastaHeader() = seqs.Select(Function(fa) fa.UniProtHeader).ToArray
+
+            Return data
+        End If
+    End Function
+
+    ''' <summary>
+    ''' read uniprot protein export output tsv file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.proteinTable")>
+    <RApiReturn(GetType(proteinTable))>
+    Public Function readProteinTable(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim buf = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+        If buf Like GetType(Message) Then
+            Return buf.TryCast(Of Message)
+        End If
+
+        Dim df As New csv(FileLoader.Load(buf.TryCast(Of Stream), trimBlanks:=False, isTsv:=True))
+        Dim result As proteinTable() = df.AsDataSource(Of proteinTable)(silent:=True).ToArray
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' export protein annotation data as data frame.
+    ''' </summary>
+    ''' <param name="uniprot"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("proteinTable")>
+    Public Function proteinTable(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim source = getUniprotData(uniprot, env)
+
+        If source Like GetType(Message) Then
+            Return source.TryCast(Of Message)
+        Else
+            Return source.TryCast(Of IEnumerable(Of entry)).ProteinTable
+        End If
+    End Function
+
+    <ExportAPI("get_domain")>
+    Public Function get_domains(prot As entry) As DomainModel()
+        Return prot.GetDomainData.ToArray
+    End Function
+
+    <ExportAPI("get_sequence")>
+    Public Function get_sequence(prot As entry) As FastaSeq
+        Dim seq As String = DirectCast(prot, IPolymerSequenceModel).SequenceData
+        Dim name As String = prot.name
+        Dim fa As New FastaSeq With {.Headers = {name}, .SequenceData = seq}
+        Return fa
+    End Function
+
+    <ExportAPI("get_description")>
+    Public Function get_description(prot As entry) As String()
+        Dim fullnames = prot.proteinFullName
+        Dim funcs = prot.CommentList.TryGetValue("function").SafeQuery.Select(Function(comment) comment.GetText).ToArray
+        Return {fullnames}.JoinIterates(funcs).Where(Function(str) Not str.StringEmpty(, True)).ToArray
+    End Function
+
+    ''' <summary>
+    ''' get subcellular location of current protein
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_subcellularlocation")>
+    Public Function get_subcellularlocation(prot As entry) As Object
+        Dim locs = prot.CommentList.TryGetValue("subcellular location") _
+            .SafeQuery _
+            .Select(Function(c) c.subcellularLocations) _
+            .IteratesALL _
+            .ToArray
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim flat_all = locs.Select(Function(c) c.locations.SafeQuery.Select(Function(l) (l, c.topology))).IteratesALL.ToArray
+
+        Call df.add("location", From loc In flat_all Select loc.l.value)
+        Call df.add("topology", From loc In flat_all Select loc.topology?.value)
+
+        Return df
+    End Function
+
+    ''' <summary>
+    ''' get related pathway names of current protein
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns></returns>
+    <ExportAPI("get_pathways")>
+    Public Function get_pathwayNames(prot As entry) As String()
+        Dim pathways = prot.CommentList _
+            .TryGetValue("pathway") _
+            .SafeQuery _
+            .Select(Function(c) c.GetText.StringSplit(";\s*")) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        Return pathways
+    End Function
+
+    <ExportAPI("get_reactions")>
+    Public Function get_reactions(prot As entry) As Object
+        Dim catalytic = prot.CommentList.TryGetValue("catalytic activity")
+        Dim list As list = list.empty
+
+        For Each reaction As reaction In catalytic.Select(Function(r) r.reaction)
+            If reaction Is Nothing Then
+                Continue For
+            End If
+
+            list.add(reaction.text, New list With {
+                .slots = New Dictionary(Of String, Object) From {
+                    {"equation", reaction.text},
+                    {"ec_number", reaction.GetECNumber},
+                    {"metabolites", reaction.GetChEBI}
+                }
+            })
+        Next
+
+        Return list
+    End Function
+
+    ''' <summary>
+    ''' get external database reference id set
+    ''' </summary>
+    ''' <param name="prot">target protein object to extract its database corss reference id</param>
+    ''' <param name="dbname">
+    ''' this function will returns a character vector of the db_xrefs for specific database if this db name is specificed.
+    ''' </param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' the uniprot database name will be named as: ``UniProtKB/Swiss-Prot`` for
+    ''' make unify with the genebank feature xrefs.
+    ''' </remarks>
+    <ExportAPI("get_xrefs")>
+    <RApiReturn(GetType(dataframe), GetType(String))>
+    Public Function get_xrefs(prot As entry, Optional dbname As String = Nothing) As Object
+        If dbname Is Nothing Then
+            Dim list As list = list.empty
+            Dim xrefs As list = list.empty
+
+            ' 20240804
+            ' /db_xref="UniProtKB/Swiss-Prot:P0AD65"
+            '
+            ' make unify with the genebank entry when insert into biocad_registry
+            xrefs.add("UniProtKB/Swiss-Prot", prot.accessions)
+
+            For Each link In prot.dbReferences.GroupBy(Function(r) r.type)
+                Call xrefs.add(link.Key, From i In link Select i.id)
+            Next
+
+            list.add("name", If(prot.name, prot.accessions.First))
+            list.add("xrefs", xrefs)
+
+            Return list
+        Else
+            Return prot.DbReferenceIds(dbname).ToArray
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get keyword dataframe about the given protein data
+    ''' </summary>
+    ''' <param name="prot"></param>
+    ''' <returns>
+    ''' a dataframe object that with two data fields: `id` - the keyword id and `keyword` - the keyword name.
+    ''' </returns>
+    <ExportAPI("get_keywords")>
+    <RApiReturn(GetType(dataframe))>
+    Public Function get_keywords(prot As entry) As Object
+        Dim labels As value() = prot.keywords
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = labels.SafeQuery _
+                .Select(Function(a) $"{a.id}:{a.value}") _
+                .ToArray
+        }
+
+        Call df.add("id", From word As value In labels.SafeQuery Select word.id)
+        Call df.add("keyword", From word As value In labels.SafeQuery Select word.value)
+
+        Return df
     End Function
 
     ''' <summary>
     ''' populate all protein fasta sequence from the given uniprot database reader
     ''' </summary>
-    ''' <param name="uniprot"></param>
-    ''' <param name="extractAll"></param>
+    ''' <param name="uniprot">a collection of the uniprot protein <see cref="entry"/> data.</param>
+    ''' <param name="extractAll">populate the sequence with all uniprot accession id</param>
+    ''' <param name="title">
+    ''' the fasta title header template, data keys for template could be:
+    ''' 
+    ''' 1. uniprot_id
+    ''' 2. fullname
+    ''' 3. name
+    ''' 4. ncbi_taxid
+    ''' 5. organism
+    ''' 6. ec_number
+    ''' 7. go_id
+    ''' 8. gene_name
+    ''' 9. ORF
+    ''' 10. subcellular_location
+    ''' 11. db_xrefs...
+    ''' </param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' a collection of the <see cref="FastaSeq"/> that export from the given protein set.
+    ''' 
+    ''' the generated fasta sequence header title in format: ``uniprot_id|db_xref|protein function``.
+    ''' the db_xref is optional if the parameter "db_xref" is not be omited.
+    ''' </returns>
     <ExportAPI("protein.seqs")>
+    <RApiReturn(GetType(FastaSeq))>
     Public Function getProteinSeq(<RRawVectorArgument> uniprot As Object,
                                   Optional extractAll As Boolean = False,
-                                  Optional KOseq As Boolean = False,
+                                  Optional title As String = "<uniprot_id> <fullname>",
                                   Optional env As Environment = Nothing) As pipeline
 
         Dim source = getUniprotData(uniprot, env)
-        Dim protFa = Iterator Function(prot As entry) As IEnumerable(Of FastaSeq)
-                         If KOseq Then
-                             Dim KO As dbReference = prot.KO
-
-                             If Not KO Is Nothing Then
-                                 Yield New FastaSeq With {
-                                    .Headers = {KO.id, prot.proteinFullName},
-                                    .SequenceData = prot.ProteinSequence
-                                 }
-                             End If
-                         ElseIf extractAll Then
-                             For Each accid As String In prot.accessions
-                                 Yield New FastaSeq With {
-                                    .Headers = {accid},
-                                    .SequenceData = prot.ProteinSequence
-                                 }
-                             Next
-                         Else
-                             Yield New FastaSeq With {
-                                .Headers = {prot.accessions(Scan0)},
-                                .SequenceData = prot.ProteinSequence
-                             }
-                         End If
-                     End Function
+        Dim builder As New TitleBuilder(title, extractAll)
 
         If source Like GetType(Message) Then
             Return source.TryCast(Of Message)
         Else
-            Return source.TryCast(Of IEnumerable(Of entry)) _
+            Return source.TryCast(Of IEnumerable(Of protein)) _
                 .Select(Function(prot)
-                            Return protFa(prot)
+                            Return builder.Fasta(prot)
                         End Function) _
                 .IteratesALL _
                 .DoCall(AddressOf pipeline.CreateFromPopulator)
         End If
     End Function
 
-    <ExportAPI("cache.ptf")>
-    Public Function writePtfFile(<RRawVectorArgument>
-                                 uniprot As Object,
-                                 file As Object,
-                                 Optional cacheTaxonomy As Boolean = False,
-                                 Optional env As Environment = Nothing) As Object
-
-        Dim source = getUniprotData(uniprot, env)
-
-        If source Like GetType(Message) Then
-            Return source.TryCast(Of Message)
-        Else
-            Dim stream As StreamWriter
-
-            If file Is Nothing Then
-                Return Internal.debug.stop({"file output can not be nothing!"}, env)
-            ElseIf TypeOf file Is String Then
-                stream = DirectCast(file, String).OpenWriter
-            ElseIf TypeOf file Is Stream Then
-                stream = New StreamWriter(DirectCast(file, Stream)) With {.NewLine = True}
-            ElseIf TypeOf file Is StreamWriter Then
-                stream = DirectCast(file, StreamWriter)
-            Else
-                Return Internal.debug.stop(Message.InCompatibleType(GetType(Stream), file.GetType, env,, NameOf(file)), env)
-            End If
-
-            Call source.TryCast(Of IEnumerable(Of entry)).WritePtfCache(stream, cacheTaxonomy)
-            Call stream.Flush()
-
-            If TypeOf file Is String Then
-                Call stream.Close()
-            End If
-
-            Return Nothing
-        End If
-    End Function
-
     ''' <summary>
     ''' id unify mapping
     ''' </summary>
-    ''' <param name="uniprot"></param>
+    ''' <param name="uniprot">a uniprot dataabse pipeline stream</param>
     ''' <param name="id"></param>
     ''' <param name="target">the database name for map to</param>
     ''' <param name="env"></param>
@@ -220,9 +500,45 @@ Module uniprot
             Return uniprotData
         End If
 
-        Dim rawIdList As String() = REnv.asVector(Of String)(id)
+        Dim rawIdList As String() = CLRVector.asCharacter(id)
         Dim mapId As Func(Of String, String) = GetIDs.IdMapping(uniprotData.populates(Of entry)(env), target)
 
-        Return rawIdList.Select(mapId).ToArray
+        Return rawIdList _
+            .Select(mapId) _
+            .ToArray
+    End Function
+
+    <ExportAPI("metaboliteSet")>
+    Public Function metaboliteSet(<RRawVectorArgument> uniprot As Object, Optional env As Environment = Nothing) As Object
+        Dim uniprotData As pipeline = pipeline.TryCreatePipeline(Of entry)(uniprot, env)
+
+        If uniprotData.isError Then
+            Return uniprotData
+        End If
+
+        Return uniprotData _
+            .populates(Of entry)(env) _
+            .ToDictionary(Function(p) p.accessions(Scan0),
+                          Function(p)
+                              Dim comments = p.comments _
+                                  .Where(Function(t) t.type = "catalytic activity") _
+                                  .ToArray
+                              Dim features = p.features _
+                                  .Where(Function(t) t.type = "binding site") _
+                                  .Where(Function(t) t.ligand IsNot Nothing AndAlso t.ligand.dbReference IsNot Nothing) _
+                                  .ToArray
+                              Dim substrates = comments _
+                                  .Select(Function(t) t.reaction.dbReferences) _
+                                  .IteratesALL _
+                                  .Where(Function(r) r.type = "ChEBI") _
+                                  .Select(Function(c) c.id) _
+                                  .ToArray
+
+                              Return features _
+                                  .Select(Function(f) f.ligand.dbReference.id) _
+                                  .JoinIterates(substrates) _
+                                  .Distinct _
+                                  .ToArray
+                          End Function)
     End Function
 End Module

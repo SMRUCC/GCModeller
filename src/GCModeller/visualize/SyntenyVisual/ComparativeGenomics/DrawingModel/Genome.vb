@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 57 (60.64%)
+    ' Comment Lines: 23 (24.47%)
+    '    - Xml Docs: 78.26%
+    ' 
+    '   Blank Lines: 14 (14.89%)
+    '     File Size: 3.40 KB
+
+
     '     Class GenomeModel
     ' 
     '         Properties: Count, genes, Length, SegmentOffset, Title

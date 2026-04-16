@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b20c07212994dac592af052b8a324152, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Delegates.vb"
+﻿#Region "Microsoft.VisualBasic::aa4b2a20b2c6976283a0a5b218159771, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Population\Delegates.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 9 (36.00%)
+    ' Comment Lines: 8 (32.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (32.00%)
+    '     File Size: 779 B
+
+
     '     Delegate Function
     ' 
     ' 
-    '     Delegate Function
+    '     Class IPopulation
     ' 
-    ' 
+    '         Properties: capacitySize
     ' 
     ' 
     ' 
@@ -44,18 +56,28 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 
-Namespace Darwinism.GAF
+Namespace Darwinism.GAF.Population
 
-    ''' <summary>
-    ''' 遗传算法的主要限速步骤是在fitness的计算之上
-    ''' </summary>
-    ''' <typeparam name="chr"></typeparam>
-    ''' <param name="source"></param>
-    ''' <returns></returns>
-    Public Delegate Function ParallelComputeFitness(Of chr As {Class, Chromosome(Of chr)})(comparator As FitnessPool(Of chr), source As PopulationCollection(Of chr)) As IEnumerable(Of NamedValue(Of Double))
     Public Delegate Function PopulationCollectionCreator(Of Chr As {Class, Chromosome(Of Chr)})() As PopulationCollection(Of Chr)
+
+    Public MustInherit Class IPopulation(Of Chr As {Class, Chromosome(Of Chr)})
+
+        Protected chromosomes As PopulationCollection(Of Chr)
+
+        ''' <summary>
+        ''' 种群的容量上限大小
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable Property capacitySize As Integer
+
+        ''' <summary>
+        ''' Add chromosome
+        ''' </summary>
+        ''' <param name="chromosome"></param>
+        Public MustOverride Sub Add(chromosome As Chr)
+
+    End Class
 
 End Namespace

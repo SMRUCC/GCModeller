@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 13 (44.83%)
+    ' Comment Lines: 12 (41.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (13.79%)
+    '     File Size: 945 B
+
+
     '     Class PwyBriteFunc
     ' 
     '         Properties: [Class], Category, Pathways

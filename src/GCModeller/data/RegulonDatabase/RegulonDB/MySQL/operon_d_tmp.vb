@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 89 (51.45%)
+    ' Comment Lines: 62 (35.84%)
+    '    - Xml Docs: 95.16%
+    ' 
+    '   Blank Lines: 22 (12.72%)
+    '     File Size: 10.66 KB
+
+
     ' Class operon_d_tmp
     ' 
     '     Properties: op_id, operon_gene_group, operon_id, operon_name, operon_promoter_group

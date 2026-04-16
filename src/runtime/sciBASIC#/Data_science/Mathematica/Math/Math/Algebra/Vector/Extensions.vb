@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f20c155f940398170a55ade863140469, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::059c381ca9c648320e2136514caf7d42, Data_science\Mathematica\Math\Math\Algebra\Vector\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 76 (55.47%)
+    ' Comment Lines: 46 (33.58%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (10.95%)
+    '     File Size: 5.50 KB
+
+
     '     Module Extensions
     ' 
     '         Function: AsVector, Point2D, (+2 Overloads) Points, (+2 Overloads) rand, Take
@@ -43,12 +55,13 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
-Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace LinearAlgebra
 
@@ -62,6 +75,10 @@ Namespace LinearAlgebra
         ''' <param name="y"></param>
         ''' <returns></returns>
         Public Iterator Function Points(x As Vector, y As Vector) As IEnumerable(Of PointF)
+            If x.Length <> y.Length Then
+                Throw New ArgumentException($"size of vector x({x.Length}) should be equals to the size of vector y({y.Length})!")
+            End If
+
             For i As Integer = 0 To x.Length - 1
                 Yield New PointF(x(i), y(i))
             Next
@@ -73,6 +90,15 @@ Namespace LinearAlgebra
             Return Points(point.x, point.y)
         End Function
 
+        ''' <summary>
+        ''' iterates a set of point from the given vector tuple
+        ''' </summary>
+        ''' <param name="polygon">
+        ''' two vector should be in size equals
+        ''' </param>
+        ''' <returns>
+        ''' a set of the point data in float data type
+        ''' </returns>
         <Extension>
         Public Function Point2D(polygon As (X As Vector, Y As Vector)) As IEnumerable(Of PointF)
             With polygon
@@ -80,11 +106,27 @@ Namespace LinearAlgebra
             End With
         End Function
 
-        <Extension> Public Function Top(vector As Vector, n%) As BooleanVector
-            Dim desc = vector.OrderByDescending(Function(x) x).Take(n).AsList
-            Dim bools As New BooleanVector(vector.Select(Function(x) desc.IndexOf(x) > -1))
-
-            Return bools
+        ''' <summary>
+        ''' Check of the elements of the vector inside the top n elements?
+        ''' </summary>
+        ''' <param name="vector"></param>
+        ''' <param name="n"></param>
+        ''' <returns>a logical vector that indicates that each corresponding element is inside the top n elements?</returns>
+        ''' <remarks>
+        ''' this function will create the top n element index, and then
+        ''' check of the each vector elements that existed inside the
+        ''' top n element index or not?
+        ''' </remarks>
+        <Extension>
+        Public Function Top(vector As Vector, n%) As BooleanVector
+            Dim cutoff As Double = vector _
+                .OrderByDescending(Function(x) x) _
+                .Take(n) _
+                .Min
+            Dim checks As New BooleanVector(From x As Double
+                                            In vector
+                                            Select x >= cutoff)
+            Return checks
         End Function
 
         ''' <summary>
@@ -98,29 +140,30 @@ Namespace LinearAlgebra
             Return New Vector(v.Takes(indices.ToArray))
         End Function
 
-        ReadOnly normalRange As New [Default](Of DoubleRange)({0, 1})
+        ReadOnly normalRange As New [Default](Of DoubleRange)(New DoubleRange(0, 1))
 
         ''' <summary>
         ''' 默认返回目标长度的``[0-1]``之间的随机数向量
         ''' </summary>
-        ''' <param name="size%"></param>
+        ''' <param name="size">the length of the result vector, or n lements</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this method can be affected by the <see cref="randf2.SetSeed(Integer)"/> method.
+        ''' </remarks>
         Public Function rand(size%, Optional range As DoubleRange = Nothing) As Vector
             Dim list As Double() = New Double(size - 1) {}
 
-            SyncLock seeds
-                If range Is Nothing Then
-                    For i As Integer = 0 To size - 1
-                        list(i) = seeds.NextDouble
-                    Next
-                Else
-                    Dim d = range.Length
+            If range Is Nothing Then
+                For i As Integer = 0 To size - 1
+                    list(i) = randf2.seeds.NextDouble
+                Next
+            Else
+                Dim d = range.Length
 
-                    For i As Integer = 0 To size - 1
-                        list(i) = seeds.NextDouble * d + range.Min
-                    Next
-                End If
-            End SyncLock
+                For i As Integer = 0 To size - 1
+                    list(i) = randf2.seeds.NextDouble * d + range.Min
+                Next
+            End If
 
             Return New Vector(list)
         End Function

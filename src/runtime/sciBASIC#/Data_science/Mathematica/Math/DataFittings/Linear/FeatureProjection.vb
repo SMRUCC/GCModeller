@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4727dd3905c17d0657064742b099e5c0, Data_science\Mathematica\Math\DataFittings\Linear\FeatureProjection.vb"
+﻿#Region "Microsoft.VisualBasic::fbc760d6747418de9a6e927903b92587, Data_science\Mathematica\Math\DataFittings\Linear\FeatureProjection.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 26 (68.42%)
+    ' Comment Lines: 6 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.79%)
+    '     File Size: 1.34 KB
+
+
     ' Module FeatureProjection
     ' 
     '     Function: (+3 Overloads) Project
@@ -43,6 +55,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module FeatureProjection
 
@@ -70,7 +83,7 @@ Public Module FeatureProjection
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function Project(vector As Vector, dimension%) As Vector
-        Dim x As Double() = vector.Sequence.Cast(Of Double).ToArray
+        Dim x As Double() = vector.Sequence.AsDouble
         Dim y As Double() = vector.ToArray
 
         Return (x, y).Project(dimension)

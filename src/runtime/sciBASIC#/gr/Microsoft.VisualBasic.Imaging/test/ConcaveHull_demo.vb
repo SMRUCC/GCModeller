@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 11 (50.00%)
+    ' Comment Lines: 7 (31.82%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (18.18%)
+    '     File Size: 738 B
+
+
     ' Module ConcaveHull_demo
     ' 
     '     Sub: Run_ConcaveHull_demo

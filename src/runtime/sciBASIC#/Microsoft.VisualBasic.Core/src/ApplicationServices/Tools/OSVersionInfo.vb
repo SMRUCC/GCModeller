@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c118018626760676a3fc9601c964582, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\OSVersionInfo.vb"
+﻿#Region "Microsoft.VisualBasic::c8a0dd0fbf4d1e3b1e4f9ea75946137f, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\OSVersionInfo.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 1099
+    '    Code Lines: 659 (59.96%)
+    ' Comment Lines: 249 (22.66%)
+    '    - Xml Docs: 69.48%
+    ' 
+    '   Blank Lines: 191 (17.38%)
+    '     File Size: 48.33 KB
+
 
     '     Module OSVersionInfo
     ' 
@@ -669,8 +681,8 @@ Namespace ApplicationServices
                             s_Name = WindowsNameList.WindowsCE '      name__1 = "Windows CE"
 
                         Case PlatformID.Win32Windows
-                            If True Then
-                                If majorVersion = 4 Then
+
+                            If majorVersion = 4 Then
                                     Dim csdVersion As String = osVersionInfo.szCSDVersion
                                     Select Case minorVersion
                                         Case 0
@@ -693,76 +705,75 @@ Namespace ApplicationServices
                                     End Select
                                 End If
 
-                            End If
+
                         Case PlatformID.Win32NT
-                            If True Then
-                                Dim productType As Byte = osVersionInfo.wProductType
 
-                                Select Case majorVersion
-                                    Case 3
-                                        s_Name = WindowsNameList.WindowsNT3_51 '    name__1 = "Windows NT 3.51"
+                            Dim productType As Byte = osVersionInfo.wProductType
 
-                                    Case 4
-                                        Select Case productType
-                                            Case 1
-                                                s_Name = WindowsNameList.WindowsNT4_0 '        name__1 = "Windows NT 4.0"
+                            Select Case majorVersion
+                                Case 3
+                                    s_Name = WindowsNameList.WindowsNT3_51 '    name__1 = "Windows NT 3.51"
 
-                                            Case 3
-                                                s_Name = WindowsNameList.WindowsNT4_0Server '     name__1 = "Windows NT 4.0 Server"
+                                Case 4
+                                    Select Case productType
+                                        Case 1
+                                            s_Name = WindowsNameList.WindowsNT4_0 '        name__1 = "Windows NT 4.0"
 
-                                        End Select
+                                        Case 3
+                                            s_Name = WindowsNameList.WindowsNT4_0Server '     name__1 = "Windows NT 4.0 Server"
 
-                                    Case 5
-                                        Select Case minorVersion
-                                            Case 0
-                                                s_Name = WindowsNameList.Windows2000 '        name__1 = "Windows 2000"
+                                    End Select
 
-                                            Case 1
-                                                s_Name = WindowsNameList.WindowsXP '       name__1 = "Windows XP"
+                                Case 5
+                                    Select Case minorVersion
+                                        Case 0
+                                            s_Name = WindowsNameList.Windows2000 '        name__1 = "Windows 2000"
 
-                                            Case 2
-                                                s_Name = WindowsNameList.WindowsServer2003 '       name__1 = "Windows Server 2003"
+                                        Case 1
+                                            s_Name = WindowsNameList.WindowsXP '       name__1 = "Windows XP"
 
-                                        End Select
+                                        Case 2
+                                            s_Name = WindowsNameList.WindowsServer2003 '       name__1 = "Windows Server 2003"
 
-                                    Case 6
-                                        Select Case minorVersion
-                                            Case 0
-                                                Select Case productType
-                                                    Case 1
-                                                        s_Name = WindowsNameList.WindowsVista '                                                    name__1 = "Windows Vista"
+                                    End Select
 
-                                                    Case 3
-                                                        s_Name = WindowsNameList.WindowsServer2008 '    name__1 = "Windows Server 2008"
+                                Case 6
+                                    Select Case minorVersion
+                                        Case 0
+                                            Select Case productType
+                                                Case 1
+                                                    s_Name = WindowsNameList.WindowsVista '                                                    name__1 = "Windows Vista"
 
-                                                End Select
+                                                Case 3
+                                                    s_Name = WindowsNameList.WindowsServer2008 '    name__1 = "Windows Server 2008"
+
+                                            End Select
 
 
-                                            Case 1
-                                                Select Case productType
-                                                    Case 1
-                                                        s_Name = WindowsNameList.Windows7 '    name__1 = "Windows 7"
+                                        Case 1
+                                            Select Case productType
+                                                Case 1
+                                                    s_Name = WindowsNameList.Windows7 '    name__1 = "Windows 7"
 
-                                                    Case 3
-                                                        s_Name = WindowsNameList.WindowsServer2008R2 '   name__1 = "Windows Server 2008 R2"
+                                                Case 3
+                                                    s_Name = WindowsNameList.WindowsServer2008R2 '   name__1 = "Windows Server 2008 R2"
 
-                                                End Select
+                                            End Select
 
-                                            Case 2
-                                                Select Case productType
-                                                    Case 1
-                                                        s_Name = WindowsNameList.Windows8 '      name__1 = "Windows 8"
+                                        Case 2
+                                            Select Case productType
+                                                Case 1
+                                                    s_Name = WindowsNameList.Windows8 '      name__1 = "Windows 8"
 
-                                                    Case 3
-                                                        s_Name = WindowsNameList.WindowsServer2012 '        name__1 = "Windows Server 2012"
+                                                Case 3
+                                                    s_Name = WindowsNameList.WindowsServer2012 '        name__1 = "Windows Server 2012"
 
-                                                End Select
+                                            End Select
 
-                                        End Select
+                                    End Select
 
-                                End Select
+                            End Select
 
-                            End If
                     End Select
 
                 Else

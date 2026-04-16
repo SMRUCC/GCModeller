@@ -1,42 +1,54 @@
-﻿#Region "Microsoft.VisualBasic::c50b4e81180d7f83f4af878655322baa, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::885e45b7501836faa7908eaebb4f79b6, Data_science\Visualization\Plots\BarPlot\Histogram\Histogram.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Module Histogram
-' 
-'         Function: (+2 Overloads) HistogramPlot, (+5 Overloads) Plot
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 328
+    '    Code Lines: 237 (72.26%)
+    ' Comment Lines: 69 (21.04%)
+    '    - Xml Docs: 94.20%
+    ' 
+    '   Blank Lines: 22 (6.71%)
+    '     File Size: 15.54 KB
+
+
+    '     Module Histogram
+    ' 
+    '         Function: (+2 Overloads) HistogramPlot, (+5 Overloads) Plot
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -45,12 +57,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
@@ -61,7 +70,6 @@ Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace BarPlot.Histogram
 
@@ -91,7 +99,7 @@ Namespace BarPlot.Histogram
                 .Serials = {
                     New NamedValue(Of Color) With {
                         .Name = NameOf(data),
-                        .Value = color.ToColor(Drawing.Color.Blue)
+                        .Value = color.ToColor(onFailure:="Blue".TranslateColor)
                     }
                 },
                 .Samples = {
@@ -205,7 +213,12 @@ Namespace BarPlot.Histogram
                              Optional axisLabelFontStyle$ = CSSFont.Win7LargerBold,
                              Optional xAxis$ = Nothing,
                              Optional title$ = Nothing,
-                             Optional titleCss$ = CSSFont.PlotTitle) As GraphicsData
+                             Optional titleCss$ = CSSFont.PlotTitle,
+                             Optional xlabelRotate As Double = 0,
+                             Optional xTickFormat As String = "F2",
+                             Optional yTickFormat As String = "F0",
+                             Optional dpi As Integer = 100,
+                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim theme As New Theme With {
                 .padding = padding,
@@ -214,7 +227,10 @@ Namespace BarPlot.Histogram
                 .mainCSS = titleCss,
                 .drawLegend = showLegend,
                 .legendBoxStroke = If(legendBorder Is Nothing, Nothing, legendBorder.ToString),
-                .drawGrid = showGrid
+                .drawGrid = showGrid,
+                .XaxisTickFormat = xTickFormat,
+                .YaxisTickFormat = yTickFormat,
+                .xAxisRotate = xlabelRotate
             }
             Dim app As New HistogramPlot(groups, alpha, drawRect, theme) With {
                 .xlabel = xlabel,
@@ -228,7 +244,7 @@ Namespace BarPlot.Histogram
                 theme.legendLayout = New Absolute(legendPos)
             End If
 
-            Return app.Plot(size)
+            Return app.Plot(size, ppi:=dpi, driver:=driver)
         End Function
 
         ''' <summary>
@@ -257,7 +273,11 @@ Namespace BarPlot.Histogram
                                       Optional xLabel$ = "X",
                                       Optional yLabel$ = "Y",
                                       Optional xAxis$ = Nothing,
-                                      Optional showLegend As Boolean = True) As GraphicsData
+                                      Optional xlabelRotate As Double = 0,
+                                      Optional xTickFormat As String = "F2",
+                                      Optional yTickFormat As String = "F0",
+                                      Optional showLegend As Boolean = True,
+                                      Optional dpi As Integer = 100) As GraphicsData
             Return data.ToArray _
                 .Hist([step]) _
                 .HistogramPlot(serialsTitle:=serialsTitle,
@@ -270,7 +290,11 @@ Namespace BarPlot.Histogram
                                xLabel:=xLabel,
                                yLabel:=yLabel,
                                xAxis:=xAxis,
-                               showLegend:=showLegend
+                               showLegend:=showLegend,
+                               dpi:=dpi,
+                               xTickFormat:=xTickFormat,
+                               yTickFormat:=yTickFormat,
+                               xlabelRotate:=xlabelRotate
                 )
         End Function
 
@@ -296,7 +320,13 @@ Namespace BarPlot.Histogram
                                       Optional xLabel$ = "X",
                                       Optional yLabel$ = "Y",
                                       Optional xAxis$ = Nothing,
-                                      Optional showLegend As Boolean = True) As GraphicsData
+                                      Optional showLegend As Boolean = True,
+                                      Optional xlabelRotate As Double = 0,
+                                      Optional xTickFormat As String = "F2",
+                                      Optional yTickFormat As String = "F0",
+                                      Optional highlights As NamedValue(Of DoubleRange)() = Nothing,
+                                      Optional dpi As Integer = 100,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim histLegend As New LegendObject With {
                 .color = color,
@@ -310,6 +340,28 @@ Namespace BarPlot.Histogram
                 .Serials = {s.SerialData}
             }
 
+            If Not highlights.IsNullOrEmpty Then
+                Dim samples As New List(Of HistProfile)(group.Samples)
+                Dim serials As New List(Of NamedValue(Of Color))(group.Serials)
+                Dim sourceData As HistogramData() = samples(0).data
+
+                For Each highlight As NamedValue(Of DoubleRange) In highlights
+                    serials.Add(New NamedValue(Of Color)(highlight.Name, highlight.Description.TranslateColor))
+                    samples.Add(New HistProfile() With {
+                        .legend = New LegendObject With {
+                            .color = highlight.Description,
+                            .fontstyle = CSSFont.Win7LargeBold,
+                            .style = LegendStyles.Rectangle,
+                            .title = highlight.Name
+                        },
+                        .data = HistogramData.CheckHighlightRange(sourceData, highlight.Value).ToArray
+                    })
+                Next
+
+                group.Samples = samples.ToArray
+                group.Serials = serials.ToArray
+            End If
+
             histData = s.data
 
             Return group.Plot(
@@ -318,7 +370,12 @@ Namespace BarPlot.Histogram
                 showTagChartLayer:=False,
                 xlabel:=xLabel, Ylabel:=yLabel,
                 xAxis:=xAxis,
-                showLegend:=showLegend
+                showLegend:=showLegend,
+                dpi:=dpi,
+                xTickFormat:=xTickFormat,
+                yTickFormat:=yTickFormat,
+                xlabelRotate:=xlabelRotate,
+                driver:=driver
             )
         End Function
     End Module

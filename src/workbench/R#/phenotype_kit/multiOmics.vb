@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af5845dc5473a3e5f209db3d4ea75a20, R#\phenotype_kit\multiOmics.vb"
+﻿#Region "Microsoft.VisualBasic::efd3c8bf3a16f9fa6caa9a61d43c3cd5, R#\phenotype_kit\multiOmics.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 56 (88.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (11.11%)
+    '     File Size: 2.66 KB
+
+
     ' Module multiOmics
     ' 
-    '     Function: getData, omics2DScatterPlot
+    '     Function: getData, map_force, omics2DScatterPlot
     ' 
     ' /********************************************************************************/
 
@@ -42,9 +54,12 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Analysis.Microarray
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports Matrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
 Imports REnv = SMRUCC.Rsharp.Runtime
 
 <Package("multi_omics")>
@@ -92,5 +107,10 @@ Module multiOmics
         Else
             Return {}
         End If
+    End Function
+
+    <ExportAPI("map_force")>
+    Public Function map_force(x As Matrix, y As Matrix, maps As Background) As Matrix
+        Return PathForceBuilder.CreateForce(x, y, maps)
     End Function
 End Module

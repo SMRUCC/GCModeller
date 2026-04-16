@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe79dc9907f00af89005ab4d3bed2e97, Microsoft.VisualBasic.Core\src\Language\Language\UnixBash\PS1.vb"
+﻿#Region "Microsoft.VisualBasic::dd8aa3f3495973e7b6210b68dbe998ca, Microsoft.VisualBasic.Core\src\Language\Language\UnixBash\PS1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 197
+    '    Code Lines: 97 (49.24%)
+    ' Comment Lines: 73 (37.06%)
+    '    - Xml Docs: 91.78%
+    ' 
+    '   Blank Lines: 27 (13.71%)
+    '     File Size: 6.54 KB
+
+
     '     Class PS1
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -43,6 +55,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Development
@@ -118,7 +131,7 @@ Namespace Language.UnixBash
 
         ReadOnly __pss As Dictionary(Of String, Func(Of String)) =
             New Dictionary(Of String, Func(Of String)) From {
- _
+                                                             _
                 {"\d", AddressOf d},
                 {"\H", Function() H},
                 {"\h", Function() hl},
@@ -157,7 +170,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function r() As String
-            Dim wk As String = FileIO.FileSystem.CurrentDirectory
+            Dim wk As String = Directory.GetCurrentDirectory()
             If String.Equals(wk, "/") OrElse String.Equals(wk, "C:\", StringComparison.OrdinalIgnoreCase) Then
                 Return "#"
             Else
@@ -170,7 +183,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function T() As String
-            Dim dt As Date = Now
+            Dim dt As Date = DateTime.UtcNow
             Return $"{dt.Hour}:{dt.Minute}:{dt.Second}"
         End Function
 
@@ -179,7 +192,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function tl() As String
-            Dim dt As Date = Now
+            Dim dt As Date = DateTime.UtcNow
             Return $"{dt.Hour}:{dt.Minute}:{dt.Second}"
         End Function
 
@@ -188,7 +201,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function A() As String
-            Dim dt As Date = Now
+            Dim dt As Date = DateTime.UtcNow
             Return $"{dt.Hour}:{dt.Minute}"
         End Function
 
@@ -215,7 +228,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function wl() As String
-            Return FileIO.FileSystem.CurrentDirectory
+            Return Directory.GetCurrentDirectory()
         End Function
 
         ''' <summary>
@@ -223,7 +236,7 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function W() As String
-            Return FileIO.FileSystem.CurrentDirectory.BaseName
+            Return Directory.GetCurrentDirectory().BaseName
         End Function
 
         ''' <summary>
@@ -231,10 +244,11 @@ Namespace Language.UnixBash
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function d() As String
-            Dim dt As Date = Now
-            Dim w As String = WeekdayName(Weekday(dt), FirstDayOfWeekValue:=FirstDayOfWeek.Sunday)
-            Dim m As String = MonthName(dt.Month)
-            Return $"{w} {m} {dt.Day}"
+            ' "ddd" 代表缩写的星期 (Mon, Tue...)
+            ' "MMM" 代表缩写的月份 (Jan, Aug...)
+            ' "d"  代表不补零的日期数字 (1, 2... 31)
+            ' 使用 CultureInfo.InvariantCulture 确保无论服务器在哪个国家，输出的永远是英文格式
+            Return DateTime.UtcNow.ToString("ddd MMM d", Globalization.CultureInfo.InvariantCulture)
         End Function
     End Class
 End Namespace

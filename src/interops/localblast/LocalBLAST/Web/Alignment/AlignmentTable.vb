@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0eabe67b3eeebf2ab8b34996ac44bb9, localblast\LocalBLAST\Web\Alignment\AlignmentTable.vb"
+﻿#Region "Microsoft.VisualBasic::d23026e1d60f33d9c71a1e5044215289, localblast\LocalBLAST\Web\Alignment\AlignmentTable.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 87 (62.14%)
+    ' Comment Lines: 34 (24.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (13.57%)
+    '     File Size: 5.44 KB
+
+
     '     Class AlignmentTable
     ' 
     '         Properties: Database, Hits, Iteration, Program, Query
     '                     RID
     ' 
-    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, GetEnumerator
-    '                   (+2 Overloads) Save, substituted, ToString
+    '         Function: __substituted2, DescriptionSubstituted, DescriptionSubstituted2, GenericEnumerator, (+3 Overloads) Save
+    '                   substituted, ToString
     ' 
     '         Sub: TrimLength
     ' 
@@ -46,6 +58,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -105,7 +118,7 @@ Namespace NCBIBlastResult.WebBlast
 
         Private Shared Function substituted(hitEntry As HitRecord, giTable As Dictionary(Of String, gbEntryBrief)) As HitRecord
             Dim entry = LinqAPI.DefaultFirst(Of gbEntryBrief) <=
- _
+                                                                _
                 From id As String
                 In hitEntry.GI
                 Where giTable.ContainsKey(id)
@@ -165,6 +178,15 @@ Namespace NCBIBlastResult.WebBlast
             Return Me.GetXml.SaveTo(Path, encoding)
         End Function
 
+        Private Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
+        End Function
+
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(path, encoding.CodePage)
         End Function
@@ -173,10 +195,6 @@ Namespace NCBIBlastResult.WebBlast
             For Each hit As HitRecord In Hits
                 Yield hit
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of HitRecord).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

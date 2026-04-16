@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a6b1f9230556b37eb4a0a11feb22014c, R#\metagenomics_kit\BIOMkit.vb"
+﻿#Region "Microsoft.VisualBasic::4996f7e15b54b86abcdf5038b7866791, R#\metagenomics_kit\BIOMkit.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 100 (74.07%)
+    ' Comment Lines: 21 (15.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (10.37%)
+    '     File Size: 5.40 KB
+
+
     ' Module BIOMkit
     ' 
-    '     Constructor: (+1 Overloads) Sub New
     '     Function: asDataFrame, getTaxonomy, readMatrix, unionBIOM
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -43,7 +56,7 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome.BIOMExtensions
 Imports SMRUCC.genomics.foundation
@@ -54,6 +67,7 @@ Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the BIOM file toolkit
@@ -62,83 +76,12 @@ Imports RDataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 <RTypeExport("biom.matrix", GetType(BIOMDataSet(Of Double)))>
 Public Module BIOMkit
 
-    Sub New()
-        Internal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
+    Sub Main()
+        RInternal.Object.Converts.makeDataframe.addHandler(GetType(BIOMDataSet(Of Double)), AddressOf asDataFrame)
     End Sub
 
-    ''' <summary>
-    ''' read matrix data from a given BIOM file.
-    ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="env"></param>
-    ''' <returns></returns>
-    <ExportAPI("read.matrix")>
-    <RApiReturn(GetType(BIOMDataSet(Of Double)))>
-    Public Function readMatrix(file As Object,
-                               Optional denseMatrix As Boolean = True,
-                               Optional suppressErr As Boolean = False,
-                               Optional env As Environment = Nothing) As Object
-
-        If file Is Nothing Then
-            Return Internal.debug.stop("the given file can not be nothing!", env)
-        ElseIf TypeOf file Is String Then
-            If DirectCast(file, String).FileExists Then
-                Try
-                    Return BIOM.ReadAuto(file, denseMatrix:=denseMatrix)
-                Catch ex As Exception
-                    If suppressErr Then
-                        Call env.AddMessage(New Exception("file read error on " & file, ex), MSG_TYPES.WRN)
-                        Return Nothing
-                    Else
-                        Throw ex
-                    End If
-                End Try
-            Else
-                Return Internal.debug.stop({"the given file is not found on your filesystem!", "file: " & file}, env)
-            End If
-        Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
-        End If
-    End Function
-
-    <ExportAPI("biom.taxonomy")>
-    <RApiReturn(GetType(Taxonomy))>
-    Public Function getTaxonomy(biom As Object, Optional env As Environment = Nothing) As Object
-        If biom Is Nothing Then
-            Return Internal.debug.stop("the given biom matrix object can not be nothing!", env)
-        ElseIf TypeOf biom Is BIOMDataSet(Of Double) Then
-            Return DirectCast(biom, BIOMDataSet(Of Double)).rows _
-                .Where(Function(r) r.hasMetaInfo) _
-                .Select(Function(row) row.metadata.lineage) _
-                .ToArray
-        Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(BIOMDataSet(Of Double)), biom.GetType, env), env)
-        End If
-    End Function
-
-    <ExportAPI("biom.union")>
-    <RApiReturn(GetType(DataSet))>
-    Public Function unionBIOM(tables As Object, Optional env As Environment = Nothing) As Object
-        Dim raw As pipeline = pipeline.TryCreatePipeline(Of BIOMDataSet(Of Double))(tables, env)
-
-        If raw.isError Then
-            Return raw.getError
-        End If
-
-        Dim result As DataSet() = raw.populates(Of BIOMDataSet(Of Double))(env) _
-            .Where(Function(tbl) Not tbl Is Nothing) _
-            .Union _
-            .ToArray
-
-        If raw.isError Then
-            Return raw.getError
-        Else
-            Return result
-        End If
-    End Function
-
-    Public Function asDataFrame(x As Object, args As list, env As Environment) As RDataframe
-        Dim biomTable As BIOMDataSet(Of Double) = DirectCast(x, BIOMDataSet(Of Double))
+    <RGenericOverloads("as.data.frame")>
+    Public Function asDataFrame(biomTable As BIOMDataSet(Of Double), args As list, env As Environment) As RDataframe
         Dim columns As New Dictionary(Of String, List(Of Double))
         Dim taxonomyNames As New List(Of String)
 
@@ -162,5 +105,86 @@ Public Module BIOMkit
                               End Function),
             .rownames = taxonomyNames.ToArray
         }
+    End Function
+
+    ''' <summary>
+    ''' read matrix data from a given BIOM file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.matrix")>
+    <RApiReturn(GetType(BIOMDataSet(Of Double)))>
+    Public Function readMatrix(file As Object,
+                               Optional denseMatrix As Boolean = True,
+                               Optional suppressErr As Boolean = False,
+                               Optional env As Environment = Nothing) As Object
+
+        If file Is Nothing Then
+            Return RInternal.debug.stop("the given file can not be nothing!", env)
+        ElseIf TypeOf file Is String Then
+            If DirectCast(file, String).FileExists Then
+                Try
+                    Return BIOM.ReadAuto(file, denseMatrix:=denseMatrix)
+                Catch ex As Exception When suppressErr
+                    Call env.AddMessage(New Exception("file read error on " & file, ex), MSG_TYPES.WRN)
+                    Return Nothing
+                Catch ex As Exception
+                    Throw
+                End Try
+            Else
+                Return RInternal.debug.stop({"the given file is not found on your filesystem!", "file: " & file}, env)
+            End If
+        Else
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(String), file.GetType, env), env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get the taxonomy information from the BIOM matrix
+    ''' </summary>
+    ''' <param name="biom"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("biom.taxonomy")>
+    <RApiReturn(GetType(Taxonomy))>
+    Public Function getTaxonomy(biom As Object, Optional env As Environment = Nothing) As Object
+        If biom Is Nothing Then
+            Return RInternal.debug.stop("the given biom matrix object can not be nothing!", env)
+        ElseIf TypeOf biom Is BIOMDataSet(Of Double) Then
+            Return DirectCast(biom, BIOMDataSet(Of Double)).rows _
+                .Where(Function(r) r.hasMetaInfo) _
+                .Select(Function(row) row.metadata.lineage) _
+                .ToArray
+        Else
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(BIOMDataSet(Of Double)), biom.GetType, env), env)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' union merge multiple biom matrix
+    ''' </summary>
+    ''' <param name="tables"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("biom.union")>
+    <RApiReturn(GetType(DataSet))>
+    Public Function unionBIOM(tables As Object, Optional env As Environment = Nothing) As Object
+        Dim raw As pipeline = pipeline.TryCreatePipeline(Of BIOMDataSet(Of Double))(tables, env)
+
+        If raw.isError Then
+            Return raw.getError
+        End If
+
+        Dim result As DataSet() = raw.populates(Of BIOMDataSet(Of Double))(env) _
+            .Where(Function(tbl) Not tbl Is Nothing) _
+            .Union _
+            .ToArray
+
+        If raw.isError Then
+            Return raw.getError
+        Else
+            Return result
+        End If
     End Function
 End Module

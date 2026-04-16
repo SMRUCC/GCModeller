@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b810442024d29c996e35ab3b00996009, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\Buffer.vb"
+﻿#Region "Microsoft.VisualBasic::51912bccf8e45edd957f0da4a5f1c13e, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\Buffer.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 72 (70.59%)
+    ' Comment Lines: 13 (12.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (16.67%)
+    '     File Size: 3.84 KB
+
+
     '     Structure Buffer
     ' 
     '         Properties: TotalBytes
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Serialize, ToString
+    '         Function: (+2 Overloads) Parse, Serialize, ToString
     ' 
     '     Delegate Function
     ' 
@@ -56,9 +68,9 @@
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Net.Protocols
 
 Namespace Serialization.BinaryDumping
 
@@ -71,7 +83,10 @@ Namespace Serialization.BinaryDumping
     ''' </remarks>
     Public Structure Buffer : Implements ISerializable
 
-        Dim Length As Long
+        ''' <summary>
+        ''' the length of <see cref="buffer"/> array
+        ''' </summary>
+        Dim Length As Integer
         Dim buffer As Byte()
 
         Sub New(buf As Byte())
@@ -79,21 +94,36 @@ Namespace Serialization.BinaryDumping
             buffer = buf
         End Sub
 
-        Public ReadOnly Property TotalBytes As Long
+        Public ReadOnly Property TotalBytes As Integer
             Get
-                Return Length + RawStream.INT64
+                Return Length + RawStream.INT32
             End Get
         End Property
 
         Public Overrides Function ToString() As String
-            Return $"{Length} bytes..."
+            Return StringFormats.Lanudry(bytes:=TotalBytes)
         End Function
 
         Public Function Serialize() As Byte() Implements ISerializable.Serialize
             Dim buffer As Byte() = New Byte(TotalBytes - 1) {}
-            Call Array.ConstrainedCopy(BitConverter.GetBytes(Length), Scan0, buffer, Scan0, RawStream.INT64)
-            Call Array.ConstrainedCopy(Me.buffer, Scan0, buffer, RawStream.INT64, Me.buffer.Length)
+            Call Array.ConstrainedCopy(BitConverter.GetBytes(Length), Scan0, buffer, Scan0, RawStream.INT32)
+            Call Array.ConstrainedCopy(Me.buffer, Scan0, buffer, RawStream.INT32, Length)
             Return buffer
+        End Function
+
+        Public Shared Function Parse(s As Stream) As Buffer
+            Dim bytes As Byte() = New Byte(RawStream.INT32 - 1) {}
+            Call s.Read(bytes, Scan0, RawStream.INT32)
+            Dim nlen As Integer = BitConverter.ToInt32(bytes, Scan0)
+            bytes = New Byte(nlen - 1) {}
+            Call s.Read(bytes, Scan0, nlen)
+            Return New Buffer(bytes)
+        End Function
+
+        Public Shared Function Parse(rd As BinaryReader) As Buffer
+            Dim nlen As Integer = rd.ReadInt32
+            Dim bytes As Byte() = rd.ReadBytes(nlen)
+            Return New Buffer(bytes)
         End Function
     End Structure
 

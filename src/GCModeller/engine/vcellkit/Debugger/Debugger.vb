@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89ce37a267caf278ed1d42e21fa76db2, engine\vcellkit\Debugger\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::a2f5b949e101b0120f17f6ff278bdf09, engine\vcellkit\Debugger\Debugger.vb"
 
     ' Author:
     ' 
@@ -31,32 +31,48 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 255
+    '    Code Lines: 195 (76.47%)
+    ' Comment Lines: 28 (10.98%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 32 (12.55%)
+    '     File Size: 10.74 KB
+
+
     ' Module Debugger
     ' 
-    '     Function: createFluxDynamicsEngine, CreateNetwork, GetFactor, GetFactors, loadDataDriver
-    '               ModelPathwayMap
+    '     Function: createFluxDynamicsEngine, CreateNetwork, dump_core, GetFactor, GetFactors
+    '               loadDataDriver, ModelPathwayMap
     ' 
-    '     Sub: createDynamicsSummary
+    '     Sub: createDynamicsSummary, set_symbols
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.ComponentModel.EquaionModel
-Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.IO.Raw
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine
@@ -70,6 +86,9 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports KeggReaction = SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.Reaction
 Imports MassFactor = SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.Factor
 
+''' <summary>
+''' debug helper for the virtual cell model
+''' </summary>
 <Package("debugger", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("dataset.driver", GetType(DataSetDriver))>
 Module Debugger
@@ -79,6 +98,13 @@ Module Debugger
         Call Summary.summary(inits, model, dir)
     End Sub
 
+    ''' <summary>
+    ''' create dynamics model from a kegg pathway map
+    ''' </summary>
+    ''' <param name="map"></param>
+    ''' <param name="reactions"></param>
+    ''' <param name="init"></param>
+    ''' <returns></returns>
     <ExportAPI("map.flux")>
     Public Function ModelPathwayMap(map As Map, reactions As ReactionRepository, Optional init As Double = 1000) As Vessel
         Dim mass As New MassTable
@@ -104,14 +130,22 @@ Module Debugger
             right = model.Products.Select(Function(a) a.ID).AsList
 
             For Each id As String In left + right
-                Call mass.AddNew(id, MassRoles.compound)
+                Call mass.addNew(id, MassRoles.compound, "Intracellular")
             Next
 
             fluxes += New Channel(mass(model.Reactants), mass(model.Products)) With {
                 .ID = reaction.ID,
                 .bounds = {10, 10},
-                .forward = New AdditiveControls With {.baseline = 1, .activation = mass.variables(left, 1).ToArray, .inhibition = mass.variables(right, 0.5).ToArray},
-                .reverse = New AdditiveControls With {.baseline = 1, .activation = mass.variables(right, 1).ToArray, .inhibition = mass.variables(left, 0.5).ToArray}
+                .forward = New AdditiveControls With {
+                    .baseline = 1,
+                    .activation = mass.variables(model.Reactants, 1).ToArray,
+                    .inhibition = mass.variables(model.Products, 0.5).ToArray
+                },
+                .reverse = New AdditiveControls With {
+                    .baseline = 1,
+                    .activation = mass.variables(model.Products, 1).ToArray,
+                    .inhibition = mass.variables(model.Reactants, 0.5).ToArray
+                }
             }
         Next
 
@@ -145,6 +179,17 @@ Module Debugger
             .AttatchFluxDriver(AddressOf flux.SnapshotDriver)
     End Function
 
+    ''' <summary>
+    ''' run network dynamics
+    ''' </summary>
+    ''' <param name="network">
+    ''' the target network graph model
+    ''' </param>
+    ''' <param name="init0">
+    ''' the system initial conditions
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("test_network")>
     <RApiReturn(GetType(Vessel))>
     Public Function CreateNetwork(<RRawVectorArgument> network As Object,
@@ -163,7 +208,7 @@ Module Debugger
         For Each expr As Expression In dynamicsSystem.populates(Of Expression)(env)
             If TypeOf expr Is DeclareLambdaFunction Then
                 Dim id As String = DirectCast(expr, DeclareLambdaFunction).parameterNames(Scan0)
-                Dim formula As ValueAssign = DirectCast(DirectCast(expr, DeclareLambdaFunction).closure, ValueAssign)
+                Dim formula As ValueAssignExpression = DirectCast(DirectCast(expr, DeclareLambdaFunction).closure, ValueAssignExpression)
                 Dim left As Variable() = formula.targetSymbols.Select(Function(a) a.GetFactors(vars)).IteratesALL.ToArray
                 Dim right As Variable() = formula.value.GetFactors(vars).ToArray
                 Dim channel As New Channel(left, right) With {
@@ -172,6 +217,10 @@ Module Debugger
                     .forward = New BaselineControls(2),
                     .reverse = New BaselineControls(1)
                 }
+
+                If channel.isBroken Then
+                    Throw New InvalidDataException(String.Format(channel.Message, channel.ID))
+                End If
 
                 flux += channel
 
@@ -224,6 +273,39 @@ Module Debugger
 
     <Extension>
     Private Function GetFactor(vars As Dictionary(Of String, MassFactor), symbol As SymbolReference) As MassFactor
-        Return vars.ComputeIfAbsent(symbol.symbol, Function() New MassFactor With {.ID = symbol.symbol, .Value = 100})
+        Return vars.ComputeIfAbsent(symbol.symbol, Function() New MassFactor(symbol.symbol, 100))
     End Function
+
+    ''' <summary>
+    ''' dump core for debug
+    ''' </summary>
+    ''' <param name="core"></param>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("dump_core")>
+    Public Function dump_core(core As Engine, file As Object, Optional env As Environment = Nothing) As Object
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Write, env)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Using str As New StreamWriter(s.TryCast(Of Stream))
+            Call core.DumpDynamicsCore(str)
+        End Using
+
+        Return Nothing
+    End Function
+
+    <ExportAPI("set_symbols")>
+    Public Sub set_symbols(driver As StorageDriver, vcell As VirtualCell)
+        Dim nameMaps As New Dictionary(Of String, CompoundInfo)
+
+        For Each idMap In vcell.GetMetaboliteSymbolNames
+            Call nameMaps.Add(idMap.Key, New CompoundInfo(idMap.Key, idMap.Value))
+        Next
+
+        Call driver.SetSymbolNames(nameMaps)
+    End Sub
 End Module

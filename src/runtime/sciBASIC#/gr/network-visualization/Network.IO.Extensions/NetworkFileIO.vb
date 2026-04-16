@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a833ab8148b9d516325196f6ae3f944e, gr\network-visualization\Network.IO.Extensions\NetworkFileIO.vb"
+﻿#Region "Microsoft.VisualBasic::8c2166477f0b9b5b68ecc93c4cb540be, gr\network-visualization\Network.IO.Extensions\NetworkFileIO.vb"
 
     ' Author:
     ' 
@@ -31,27 +31,41 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 71 (64.55%)
+    ' Comment Lines: 25 (22.73%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 14 (12.73%)
+    '     File Size: 5.07 KB
+
+
     ' Module NetworkFileIO
     ' 
-    '     Function: IsEmptyTables, (+2 Overloads) Load, loadMetaJson, Save
+    '     Function: IsEmptyTables, (+2 Overloads) Load, loadMetaJson, (+2 Overloads) Save
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
+Imports localDir = Microsoft.VisualBasic.FileIO.Directory
 
 Public Module NetworkFileIO
 
     ''' <summary>
-    '''
+    ''' Export the network graph object into data files
     ''' </summary>
     ''' <param name="output">The data directory for the data export, if the value of this directory is null then the data
     ''' will be exported at the current work directory.
@@ -61,31 +75,60 @@ Public Module NetworkFileIO
     ''' <remarks></remarks>
     ''' 
     <Extension>
-    Public Function Save(Of T_Node As Node, T_Edge As NetworkEdge)(network As Network(Of T_Node, T_Edge), output$, Optional encoding As Encoding = Nothing) As Boolean
-        With output Or App.CurrentDirectory.AsDefault
-            Call network.nodes.SaveTo($"{ .ByRef}/nodes.csv", False, encoding Or UTF8)
-            Call network.edges.SaveTo($"{ .ByRef}/network-edges.csv", False, encoding Or UTF8)
-            Call network.meta.GetJson(indent:=True).SaveTo($"{ .ByRef}/meta.json", UTF8)
-        End With
+    Public Function Save(Of V As Node, E As NetworkEdge)(network As Network(Of V, E),
+                                                         output$,
+                                                         Optional encoding As Encoding = Nothing,
+                                                         Optional silent As Boolean = True) As Boolean
+
+        Dim fs As IFileSystemEnvironment = localDir.FromLocalFileSystem(
+            dir:=output Or App.CurrentDirectory.AsDefault
+        )
+
+        Return network.Save(output:=fs, encoding, silent)
+    End Function
+
+    ''' <summary>
+    ''' Export the network graph object into data files
+    ''' </summary>
+    ''' <param name="output">The data directory for the data export, if the value of this directory is null then the data
+    ''' will be exported at the current work directory.
+    ''' (进行数据导出的文件夹，假若为空则会保存数据至当前的工作文件夹之中)</param>
+    ''' <param name="encoding">The file encoding of the exported node and edge csv file.</param>
+    ''' <returns></returns>
+    ''' <remarks></remarks>
+    ''' 
+    <Extension>
+    Public Function Save(Of V As Node, E As NetworkEdge)(g As Network(Of V, E), output As IFileSystemEnvironment,
+                                                         Optional encoding As Encoding = Nothing,
+                                                         Optional silent As Boolean = True) As Boolean
+        Dim args As New Write_csv.Arguments With {
+            .strict = False,
+            .encoding = encoding Or UTF8,
+            .silent = silent
+        }
+
+        Call g.nodes.SaveTo(file:=output.OpenFile($"/nodes.csv", FileMode.OpenOrCreate, FileAccess.ReadWrite), args)
+        Call g.edges.SaveTo(file:=output.OpenFile($"/network-edges.csv", FileMode.OpenOrCreate, FileAccess.ReadWrite), args)
+        Call output.WriteText(g.meta.GetJson(indent:=True), $"/meta.json")
 
         Return True
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function Load(Of T_Node As Node, T_Edge As NetworkEdge)(directory As String) As Network(Of T_Node, T_Edge)
-        Return New Network(Of T_Node, T_Edge) With {
-            .edges = $"{directory}/network-edges.csv".LoadCsv(Of T_Edge),
-            .nodes = $"{directory}/nodes.csv".LoadCsv(Of T_Node),
-            .meta = loadMetaJson(directory)
+    Public Function Load(Of V As Node, E As NetworkEdge)(directory As String, Optional silent As Boolean = True) As Network(Of V, E)
+        Return New Network(Of V, E) With {
+            .edges = $"{directory}/network-edges.csv".LoadCsv(Of E)(mute:=silent),
+            .nodes = $"{directory}/nodes.csv".LoadCsv(Of V)(mute:=silent),
+            .meta = loadMetaJson(localDir.FromLocalFileSystem(directory))
         }
     End Function
 
-    Private Function loadMetaJson(directory As String) As MetaData
-        Dim metaJson = $"{directory}/meta.json"
+    Private Function loadMetaJson(directory As IFileSystemEnvironment) As MetaData
+        Dim metaJson = directory.ReadAllText($"/meta.json")
         Dim meta As MetaData
 
-        If metaJson.FileExists Then
-            meta = metaJson.LoadJSON(Of MetaData) Or (New MetaData).AsDefault
+        If Not metaJson.StringEmpty Then
+            meta = Strings.Trim(metaJson).LoadJSON(Of MetaData) Or (New MetaData).AsDefault
         Else
             meta = New MetaData
         End If
@@ -96,18 +139,18 @@ Public Module NetworkFileIO
     ''' <summary>
     ''' Load network graph data from a saved network data direcotry.
     ''' </summary>
-    ''' <param name="DIR"></param>
+    ''' <param name="dir"></param>
     ''' <returns></returns>
-    Public Function Load(DIR$, Optional cytoscapeFormat As Boolean = False) As NetworkTables
-        Dim tables = NetworkTables.SearchNetworkTable(directory:=DIR)
+    Public Function Load(dir$, Optional cytoscapeFormat As Boolean = False, Optional verbose As Boolean = True) As NetworkTables
+        Dim tables = NetworkTables.SearchNetworkTable(directory:=dir)
 
         If cytoscapeFormat Then
             Return Cytoscape.CytoscapeExportAsTable(tables.edges, tables.nodes)
         Else
             Return New NetworkTables With {
-                .edges = tables.edges.LoadCsv(Of NetworkEdge),
-                .nodes = tables.nodes.LoadCsv(Of Node),
-                .meta = loadMetaJson(DIR)
+                .edges = tables.edges.LoadCsv(Of NetworkEdge)(mute:=Not verbose),
+                .nodes = tables.nodes.LoadCsv(Of Node)(mute:=Not verbose),
+                .meta = loadMetaJson(localDir.FromLocalFileSystem(dir))
             }
         End If
     End Function

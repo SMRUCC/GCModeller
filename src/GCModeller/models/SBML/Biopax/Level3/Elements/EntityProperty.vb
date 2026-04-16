@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f9b6ce29412b900245eacad4f328d0e, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
+﻿#Region "Microsoft.VisualBasic::6130f7c224adc7bb65bbcd8b3971f0e8, models\SBML\Biopax\Level3\Elements\EntityProperty.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 87 (52.73%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 78 (47.27%)
+    '     File Size: 3.27 KB
+
+
     '     Class structureFormat
     ' 
     ' 
@@ -39,7 +51,15 @@
     ' 
     ' 
     ' 
+    '     Class [structure]
+    ' 
+    ' 
+    ' 
     '     Class molecularWeight
+    ' 
+    ' 
+    ' 
+    '     Class chemicalFormula
     ' 
     ' 
     ' 
@@ -112,14 +132,6 @@
     ' 
     ' 
     '     Class participantStoichiometry
-    ' 
-    ' 
-    ' 
-    '     Class left
-    ' 
-    ' 
-    ' 
-    '     Class right
     ' 
     ' 
     ' 
@@ -206,7 +218,7 @@
 
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
-Namespace EntityProperties
+Namespace Level3
 
     Public Class structureFormat : Inherits EntityProperty
 
@@ -214,7 +226,13 @@ Namespace EntityProperties
     Public Class structureData : Inherits EntityProperty
 
     End Class
+    Public Class [structure] : Inherits EntityProperty
+
+    End Class
     Public Class molecularWeight : Inherits EntityProperty
+
+    End Class
+    Public Class chemicalFormula : Inherits EntityProperty
 
     End Class
     Public Class standardName : Inherits EntityProperty
@@ -284,14 +302,6 @@ Namespace EntityProperties
     End Class
 
     Public Class participantStoichiometry : Inherits EntityProperty
-
-    End Class
-
-    Public Class left : Inherits EntityProperty
-
-    End Class
-
-    Public Class right : Inherits EntityProperty
 
     End Class
 

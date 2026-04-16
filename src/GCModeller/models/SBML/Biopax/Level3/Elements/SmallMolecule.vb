@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5118eac13e2ef1544ba3dad9ed94a775, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
+﻿#Region "Microsoft.VisualBasic::8de568650573d2af2e10150bcec748b1, models\SBML\Biopax\Level3\Elements\SmallMolecule.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 137 (80.59%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 33 (19.41%)
+    '     File Size: 5.73 KB
+
+
     ' Class SmallMolecule
     ' 
-    '     Properties: cellularLocation, dataSource, displayName, entityReference, names
-    '                 standardName, xrefs
+    '     Properties: dataSource, standardName, xrefs
     ' 
     ' Class BiochemicalReaction
     ' 
     '     Properties: conversionDirection, dataSource, displayName, eCNumber, left
-    '                 right, xref
+    '                 name, participantStoichiometry, right, spontaneous, xref
+    ' 
+    ' Class spontaneous
+    ' 
+    ' 
     ' 
     ' Class CellularLocationVocabulary
     ' 
@@ -51,7 +66,11 @@
     ' 
     ' Class SmallMoleculeReference
     ' 
-    '     Properties: molecularWeight, name, xref
+    '     Properties: [structure], chemicalFormula, molecularWeight
+    ' 
+    ' Class MoleculeReference
+    ' 
+    '     Properties: displayName, name, xref
     ' 
     ' Class UnificationXref
     ' 
@@ -63,20 +82,19 @@
     ' 
     ' Class Complex
     ' 
-    '     Properties: cellularLocation, componentStoichiometry, dataSource, displayName, xref
+    '     Properties: component, componentStoichiometry, dataSource, xref
     ' 
     ' Class Protein
     ' 
-    '     Properties: cellularLocation, dataSource, displayName, entityReference, feature
-    '                 xref
+    '     Properties: dataSource, feature, xref
     ' 
     ' Class ProteinReference
     ' 
-    '     Properties: name, organism, xref
+    '     Properties: organism
     ' 
     ' Class BioSource
     ' 
-    '     Properties: name, xref
+    '     Properties: displayName, name, xref
     ' 
     ' Class FragmentFeature
     ' 
@@ -94,9 +112,18 @@
     ' 
     '     Properties: physicalEntity, stoichiometricCoefficient
     ' 
+    '     Function: ToString
+    ' 
+    ' Class Molecule
+    ' 
+    '     Properties: cellularLocation, displayName, entityReference, name
+    ' 
+    '     Function: GetEntityResourceId
+    ' 
     ' Class Catalysis
     ' 
-    '     Properties: controlled, controller, controlType, dataSource, xref
+    '     Properties: controlled, controller, controlType, dataSource, displayName
+    '                 xref
     ' 
     ' Class RelationshipXref
     ' 
@@ -113,146 +140,201 @@
     ' 
     ' Class PhysicalEntity
     ' 
-    '     Properties: cellularLocation, dataSource, displayName, xref
+    '     Properties: cellularLocation, dataSource, displayName, memberPhysicalEntity, name
+    '                 xref
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
-Imports SMRUCC.genomics.Model.Biopax.EntityProperties
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
-<XmlType("SmallMolecule")>
-Public Class SmallMolecule : Inherits RDFEntity
+Namespace Level3.Elements
 
-    Public Property standardName As standardName
-    Public Property displayName As displayName
+    <XmlType("SmallMolecule")>
+    Public Class SmallMolecule : Inherits Molecule
 
-    <XmlElement("name")> Public Property names As name()
-    Public Property cellularLocation As cellularLocation
-    Public Property entityReference As entityReference
-    <XmlElement("xref")> Public Property xrefs As xref()
-    Public Property dataSource As dataSource
+        Public Property standardName As standardName
+        <XmlElement("xref")>
+        Public Property xrefs As xref()
+        Public Property dataSource As dataSource
 
-End Class
+    End Class
 
+    Public Class BiochemicalReaction : Inherits RDFEntity
+        Public Property conversionDirection As conversionDirection
+        <XmlElement> Public Property left As EntityProperty()
+        <XmlElement> Public Property right As EntityProperty()
+        Public Property eCNumber As eCNumber
+        Public Property displayName As displayName
+        <XmlElement> Public Property xref As xref()
+        Public Property dataSource As dataSource
+        <XmlElement>
+        Public Property participantStoichiometry As participantStoichiometry()
+        Public Property spontaneous As spontaneous
+        Public Property name As name
 
-Public Class BiochemicalReaction : Inherits RDFEntity
-    Public Property conversionDirection As conversionDirection
-    <XmlElement> Public Property left As left()
-    <XmlElement> Public Property right As right()
-    Public Property eCNumber As eCNumber
-    Public Property displayName As displayName
-    <XmlElement> Public Property xref As xref()
-    Public Property dataSource As dataSource
-End Class
+        Public Overrides Function ToString() As String
+            Return displayName.value.DefaultFirst
+        End Function
+    End Class
 
-Public Class CellularLocationVocabulary : Inherits RDFEntity
-    Public Property term As term
-    <XmlElement> Public Property xref As xref()
-End Class
+    Public Class spontaneous : Inherits EntityProperty
 
-Public Class ChemicalStructure : Inherits RDFEntity
-    Public Property structureFormat As structureFormat
-    Public Property structureData As structureData
-End Class
+    End Class
 
-Public Class SmallMoleculeReference : Inherits RDFEntity
-    <XmlElement> Public Property name As name()
-    <XmlElement> Public Property xref As xref()
-    Public Property molecularWeight As molecularWeight
-End Class
-Public Class UnificationXref : Inherits RDFEntity
-    Public Property db As db
-    Public Property id As id
-    Public Property idVersion As idVersion
-End Class
-Public Class Provenance : Inherits RDFEntity
-    Public Property name As name
-End Class
+    Public Class CellularLocationVocabulary : Inherits RDFEntity
+        Public Property term As term
+        <XmlElement> Public Property xref As xref()
+    End Class
 
+    Public Class ChemicalStructure : Inherits RDFEntity
+        Public Property structureFormat As structureFormat
+        Public Property structureData As structureData
+    End Class
 
-Public Class Complex : Inherits RDFEntity
-    Public Property displayName As displayName
-    Public Property cellularLocation As cellularLocation
-    Public Property componentStoichiometry As componentStoichiometry
-    <XmlElement> Public Property xref As xref()
-    Public Property dataSource As dataSource
-End Class
+    <XmlType("SmallMoleculeReference", [Namespace]:=Level3.File.ns_bp)>
+    Public Class SmallMoleculeReference : Inherits MoleculeReference
+        Public Property molecularWeight As molecularWeight
+        Public Property chemicalFormula As chemicalFormula
+        Public Property [structure] As [structure]
+    End Class
 
+    Public MustInherit Class MoleculeReference : Inherits RDFEntity
 
+        Public Property displayName As displayName
 
-Public Class Protein : Inherits RDFEntity
-    Public Property displayName As displayName
-    Public Property cellularLocation As cellularLocation
-    Public Property entityReference As entityReference
-    Public Property feature As feature
-    <XmlElement> Public Property xref As xref()
-    Public Property dataSource As dataSource
-End Class
-Public Class ProteinReference : Inherits RDFEntity
-    Public Property organism As organism
-    <XmlElement> Public Property name As name()
-    <XmlElement> Public Property xref As xref()
-End Class
-Public Class BioSource : Inherits RDFEntity
-    Public Property name As name
-    <XmlElement> Public Property xref As xref()
-End Class
+        <XmlElement> Public Property name As name()
+        <XmlElement> Public Property xref As xref()
+    End Class
 
+    Public Class UnificationXref : Inherits RDFEntity
 
-Public Class FragmentFeature : Inherits RDFEntity
-    Public Property featureLocation As featureLocation
-End Class
-Public Class SequenceInterval : Inherits RDFEntity
-    Public Property sequenceIntervalBegin As sequenceIntervalBegin
-    Public Property sequenceIntervalEnd As sequenceIntervalEnd
-End Class
-Public Class SequenceSite : Inherits RDFEntity
-    Public Property sequencePosition As sequencePosition
-    Public Property positionStatus As positionStatus
-End Class
+        Public Property db As db
+        Public Property id As id
+        Public Property idVersion As idVersion
 
-Public Class Stoichiometry : Inherits RDFEntity
-    Public Property stoichiometricCoefficient As stoichiometricCoefficient
-    Public Property physicalEntity As PhysicalEntity
-End Class
+        Public Function GetDblink() As DBLink
+            Return New DBLink(db.value.DefaultFirst, id.value.DefaultFirst)
+        End Function
 
+        Public Overrides Function ToString() As String
+            Return GetDblink.ToString
+        End Function
 
+    End Class
 
-Public Class Catalysis : Inherits RDFEntity
-    Public Property controller As controller
-    Public Property controlled As controlled
-    Public Property controlType As controlType
-    <XmlElement> Public Property xref As xref()
-    Public Property dataSource As dataSource
-End Class
-Public Class RelationshipXref : Inherits RDFEntity
-    Public Property db As db
-    Public Property id As id
-    Public Property relationshipType As relationshipType
-End Class
-Public Class RelationshipTypeVocabulary : Inherits RDFEntity
-    Public Property term As term
-    Public Property xref As xref
-End Class
+    Public Class Provenance : Inherits RDFEntity
+        Public Property name As name
+    End Class
 
+    Public Class Complex : Inherits Molecule
 
-Public Class PublicationXref : Inherits RDFEntity
-    Public Property id As id
-    Public Property db As db
-    Public Property year As year
-    Public Property title As title
-    <XmlElement> Public Property author As author()
-    Public Property source As source
-End Class
+        <XmlElement> Public Property componentStoichiometry As componentStoichiometry()
+        <XmlElement> Public Property xref As xref()
+        Public Property dataSource As dataSource
+        <XmlElement> Public Property component As component()
 
+    End Class
 
+    Public Class Protein : Inherits Molecule
 
-Public Class PhysicalEntity : Inherits RDFEntity
-    <XmlElement> Public Property displayName As displayName
-    <XmlElement> Public Property cellularLocation As cellularLocation
-    <XmlElement> Public Property xref As xref()
-    <XmlElement> Public Property dataSource As dataSource
-End Class
+        Public Property feature As feature
+        <XmlElement>
+        Public Property xref As xref()
+        Public Property dataSource As dataSource
+    End Class
+
+    Public Class ProteinReference : Inherits MoleculeReference
+        Public Property organism As organism
+    End Class
+
+    Public Class BioSource : Inherits RDFEntity
+        Public Property name As name
+        Public Property displayName As displayName
+        <XmlElement> Public Property xref As xref()
+    End Class
+
+    Public Class FragmentFeature : Inherits RDFEntity
+        Public Property featureLocation As featureLocation
+    End Class
+
+    Public Class SequenceInterval : Inherits RDFEntity
+        Public Property sequenceIntervalBegin As sequenceIntervalBegin
+        Public Property sequenceIntervalEnd As sequenceIntervalEnd
+    End Class
+
+    Public Class SequenceSite : Inherits RDFEntity
+        Public Property sequencePosition As sequencePosition
+        Public Property positionStatus As positionStatus
+    End Class
+
+    Public Class Stoichiometry : Inherits RDFEntity
+        Public Property stoichiometricCoefficient As stoichiometricCoefficient
+        Public Property physicalEntity As EntityProperty
+
+        Public Overrides Function ToString() As String
+            Return $"{RDFId} [{physicalEntity}]"
+        End Function
+    End Class
+
+    Public MustInherit Class Molecule : Inherits RDFEntity
+
+        Public Property displayName As displayName
+        <XmlElement>
+        Public Property name As name()
+        Public Property cellularLocation As cellularLocation
+        Public Property entityReference As entityReference
+
+        Public Function GetEntityResourceId() As String
+            If entityReference Is Nothing OrElse entityReference.resource Is Nothing Then
+                Return ""
+            Else
+                Return entityReference.resource
+            End If
+        End Function
+    End Class
+
+    Public Class Catalysis : Inherits RDFEntity
+        Public Property controller As controller
+        Public Property controlled As controlled
+        Public Property controlType As controlType
+        <XmlElement> Public Property xref As xref()
+        Public Property dataSource As dataSource
+        Public Property displayName As displayName
+    End Class
+
+    Public Class RelationshipXref : Inherits RDFEntity
+        Public Property db As db
+        Public Property id As id
+        Public Property relationshipType As relationshipType
+    End Class
+
+    Public Class RelationshipTypeVocabulary : Inherits RDFEntity
+        Public Property term As term
+        Public Property xref As xref
+    End Class
+
+    Public Class PublicationXref : Inherits RDFEntity
+
+        Public Property id As id
+        Public Property db As db
+        Public Property year As year
+        Public Property title As title
+        <XmlElement> Public Property author As author()
+        Public Property source As source
+
+    End Class
+
+    Public Class PhysicalEntity : Inherits RDFEntity
+        <XmlElement> Public Property name As name()
+        <XmlElement> Public Property displayName As displayName
+        <XmlElement> Public Property cellularLocation As cellularLocation
+        <XmlElement> Public Property xref As xref()
+        <XmlElement> Public Property dataSource As dataSource
+        <XmlElement> Public Property memberPhysicalEntity As memberPhysicalEntity()
+    End Class
+End Namespace

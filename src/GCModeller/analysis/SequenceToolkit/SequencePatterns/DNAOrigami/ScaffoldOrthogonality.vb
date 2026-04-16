@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 76 (69.72%)
+    ' Comment Lines: 16 (14.68%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 17 (15.60%)
+    '     File Size: 4.33 KB
+
+
     '     Module ScaffoldOrthogonality
     ' 
     '         Function: CheckOrthogonality, circulariseScaffold, isMatch

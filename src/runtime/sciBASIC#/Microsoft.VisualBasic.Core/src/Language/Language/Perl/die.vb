@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 54 (57.45%)
+    ' Comment Lines: 20 (21.28%)
+    '    - Xml Docs: 85.00%
+    ' 
+    '   Blank Lines: 20 (21.28%)
+    '     File Size: 3.31 KB
+
+
     '     Structure ExceptionHandle
     ' 
     '         Function: [Default]

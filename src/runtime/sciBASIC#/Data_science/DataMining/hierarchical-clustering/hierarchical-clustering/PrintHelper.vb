@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 32 (65.31%)
+    ' Comment Lines: 9 (18.37%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 8 (16.33%)
+    '     File Size: 1.63 KB
+
+
     ' Module PrintHelper
     ' 
     '     Function: ToConsoleLine

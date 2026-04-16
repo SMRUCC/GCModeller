@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 73 (47.10%)
+    ' Comment Lines: 63 (40.65%)
+    '    - Xml Docs: 36.51%
+    ' 
+    '   Blank Lines: 19 (12.26%)
+    '     File Size: 8.18 KB
+
+
     '     Module Extensions
     ' 
     '         Function: Pagebreak, StripHTMLDirectly, StripHTMLSafely

@@ -1,44 +1,56 @@
-﻿#Region "Microsoft.VisualBasic::be9ecd4b50c4c63428cea914469d45f6, Data\Trinity\TextRank.vb"
+﻿#Region "Microsoft.VisualBasic::e3a01d8ff5bd73aeac48dbd5bf84ef49, Data\Trinity\TextRank.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-' Module TextRank
-' 
-'     Function: Removes, Sentences, Similarity, StripMessy, TextGraph
-'               TextRankGraph, Words
-' 
-'     Sub: TextRankGraph
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 244
+    '    Code Lines: 160 (65.57%)
+    ' Comment Lines: 50 (20.49%)
+    '    - Xml Docs: 82.00%
+    ' 
+    '   Blank Lines: 34 (13.93%)
+    '     File Size: 9.44 KB
+
+
+    ' Module TextRank
+    ' 
+    '     Function: IsEmpty, Removes, Sentences, Similarity, StripMessy
+    '               TextGraph, TextRankGraph, Words
+    ' 
+    '     Sub: TextRankGraph
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -53,7 +65,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' This module implements TextRank, an unsupervised keyword
@@ -210,52 +222,48 @@ Public Module TextRank
     ''' <summary>
     ''' Using for generate article's <see cref="NLPExtensions.Abstract(WeightedPRGraph, Integer, Double)"/>
     ''' </summary>
-    ''' <param name="text$"></param>
-    ''' <param name="similarityCut#"></param>
+    ''' <param name="text"></param>
+    ''' <param name="similarityCut"></param>
     ''' <returns></returns>
-    <Extension> Public Function TextGraph(text$, Optional similarityCut# = 0.05) As WeightedPRGraph
+    <Extension>
+    Public Function TextGraph(text$, Optional similarityCut# = 0.05) As WeightedPRGraph
         Dim list$() = text.StripMessy.Sentences.ToArray
         Dim words$()() = list _
             .Select(AddressOf LCase) _
             .Select(AddressOf TextRank.Words) _
             .ToArray
         Dim g As New WeightedPRGraph
+        Dim bar As Tqdm.ProgressBar = Nothing
 
         For Each sentence As String In list
             Call g.AddVertex(sentence)
         Next
 
-        Using progress As New ProgressBar("Build Text Graph...", 1, CLS:=True)
-            Dim tick As New ProgressProvider(progress, words.Length)
-            Dim ETA$, msg$
+        Call "Build Text Graph...".info
 
-            For x As Integer = 0 To words.Length - 1
-                Dim refIndex = x
-                Dim vector = seq(x, words.Length - 1, by:=1) _
-                    .Select(Function(y)
-                                Dim i% = CInt(y)
-                                Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
-                                Return (y:=i, similarity:=similarity)
-                            End Function) _
-                    .AsParallel _
-                    .ToArray
+        For Each x As Integer In Tqdm.Range(0, words.Length, bar:=bar)
+            Dim refIndex = x
+            Dim vector = seq(x, words.Length - 1, by:=1) _
+                .Select(Function(y)
+                            Dim i% = CInt(y)
+                            Dim similarity# = TextRank.Similarity(words(refIndex), words(i))
+                            Return (y:=i, similarity:=similarity)
+                        End Function) _
+                .AsParallel _
+                .ToArray
 
-                For Each sentence As (i%, similarity#) In vector
-                    Dim similarity = sentence.similarity
-                    Dim i% = sentence.i
+            For Each sentence As (i%, similarity#) In vector
+                Dim similarity = sentence.similarity
+                Dim i% = sentence.i
 
-                    If similarity >= similarityCut Then
-                        Call g.AddEdge(list(x), list(i), weight:=similarity)
-                        Call g.AddEdge(list(i), list(x), weight:=similarity)
-                    End If
-                Next
-
-                ETA = tick.ETA().FormatTime
-                msg = list(x) & " " & ETA
-
-                Call progress.SetProgress(tick.StepProgress, details:=msg)
+                If similarity >= similarityCut Then
+                    Call g.AddEdge(list(x), list(i), weight:=similarity)
+                    Call g.AddEdge(list(i), list(x), weight:=similarity)
+                End If
             Next
-        End Using
+
+            Call bar.SetLabel(list(x))
+        Next
 
         Return g
     End Function
@@ -281,9 +289,9 @@ Public Module TextRank
             Return 0
         End If
 
-        Dim denominator = stdNum.Log(wordList1.Count) + stdNum.Log(wordList2.Count)
+        Dim denominator = std.Log(wordList1.Count) + std.Log(wordList2.Count)
 
-        If stdNum.Abs(denominator) = 0R Then
+        If std.Abs(denominator) = 0R Then
             Return 0
         End If
 

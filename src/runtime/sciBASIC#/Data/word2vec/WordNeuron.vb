@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b9464a71dbcf7c8cce7014079a52442, Data\word2vec\WordNeuron.vb"
+﻿#Region "Microsoft.VisualBasic::01cfe022684ce1b8bf09430b16b86c57, Data\word2vec\WordNeuron.vb"
 
     ' Author:
     ' 
@@ -31,52 +31,65 @@
 
     ' Summaries:
 
-    '     Class WordNeuron
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 26 (66.67%)
+    ' Comment Lines: 4 (10.26%)
+    '    - Xml Docs: 100.00%
     ' 
-    '         Properties: name, pathNeurons
+    '   Blank Lines: 9 (23.08%)
+    '     File Size: 1.10 KB
+
+
+    ' Class WordNeuron
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '     Properties: name, pathNeurons
     ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.utils
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.HuffmanTree
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
-Namespace NlpVec
+''' <summary>
+''' Created by fangy on 13-12-17.
+''' 词神经元
+''' </summary>
+Public Class WordNeuron : Inherits HuffmanNeuron
 
-    ''' <summary>
-    ''' Created by fangy on 13-12-17.
-    ''' 词神经元
-    ''' </summary>
-    Public Class WordNeuron : Inherits HuffmanNeuron
+    Public Property name As String
 
-        Public Property name As String
+    Dim m_pathNeurons As IList(Of HuffmanNode)
 
-        Public ReadOnly Property pathNeurons As IList(Of HuffmanNode)
-            Get
-
-                If m_pathNeurons IsNot Nothing Then
-                    Return m_pathNeurons
-                End If
-
-                m_pathNeurons = HuffmanTree.getPath(Me)
+    Public ReadOnly Property pathNeurons As IList(Of HuffmanNode)
+        Get
+            If m_pathNeurons IsNot Nothing Then
                 Return m_pathNeurons
-            End Get
-        End Property
+            End If
 
-        Dim m_pathNeurons As IList(Of HuffmanNode)
+            m_pathNeurons = HuffmanTree.getPath(Me)
+            Return m_pathNeurons
+        End Get
+    End Property
 
-        Public Sub New(name As String, freq As Integer, vectorSize As Integer)
-            MyBase.New(freq, vectorSize)
+    Public Sub New(name As String, freq As Integer, vectorSize As Integer)
+        MyBase.New(freq, vectorSize)
 
-            Me.name = name
+        Me.name = name
 
-            For i = 0 To vector.Length - 1
-                vector(i) = (randf.seeds.NextDouble - 0.5) / vectorSize
-            Next
-        End Sub
-    End Class
-End Namespace
+        For i = 0 To vector.Length - 1
+            vector(i) = (randf.seeds.NextDouble - 0.5) / vectorSize
+        Next
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{name}={frequency}"
+    End Function
+End Class

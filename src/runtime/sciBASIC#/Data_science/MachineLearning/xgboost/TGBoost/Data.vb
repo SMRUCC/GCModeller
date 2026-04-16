@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a68e4380ca892f55c4ae86f502de81ed, Data_science\MachineLearning\xgboost\TGBoost\Data.vb"
+﻿#Region "Microsoft.VisualBasic::6e8ca794754a10d8b7ee0cabf1f7c6cb, Data_science\MachineLearning\xgboost\TGBoost\Data.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 32 (57.14%)
+    ' Comment Lines: 8 (14.29%)
+    '    - Xml Docs: 37.50%
+    ' 
+    '   Blank Lines: 16 (28.57%)
+    '     File Size: 1.86 KB
+
 
     '     Class Data
     ' 
@@ -64,6 +76,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 <Assembly: InternalsVisibleTo("Microsoft.VisualBasic.MachineLearning.XGBoost.DataSet")>
 <Assembly: InternalsVisibleTo("MLkit")>
+<Assembly: InternalsVisibleTo("enigma")>
 
 Namespace train
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89305fa9d44d117be96106d05e2396b5, analysis\Microarray\DEGProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::5591e3e984b0a56e59dcdf5ccfcc57b5, analysis\Microarray\DEGProfiling.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 59 (69.41%)
+    ' Comment Lines: 14 (16.47%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 12 (14.12%)
+    '     File Size: 3.32 KB
+
+
     ' Module DEGProfiling
     ' 
     '     Function: ColorsProfiling, createTable, GetDEGs
@@ -40,7 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 Public Module DEGProfiling
 

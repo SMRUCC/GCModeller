@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::858db9d2b8e7be531750d9db23d90e1f, R#\seqtoolkit\Blast.vb"
+﻿#Region "Microsoft.VisualBasic::ae0ef4b4a80016c8d70e048c1ec1cc92, R#\seqtoolkit\Blast.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 83 (67.48%)
+    ' Comment Lines: 28 (22.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (9.76%)
+    '     File Size: 5.25 KB
+
+
     ' Module Blast
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -44,14 +56,16 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.TagData
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 ''' <summary>
@@ -99,42 +113,47 @@ Module Blast
         Return SmithWaterman.Align(query, ref, blosum)
     End Function
 
-
     ''' <summary>
-    ''' 
+    ''' get the high score region from the given alignment result
     ''' </summary>
     ''' <param name="align"></param>
     ''' <param name="cutoff">[0,1] threshold</param>
     ''' <param name="minW"></param>
     ''' <returns></returns>
     <ExportAPI("HSP")>
-    Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer) As Object
+    <RApiReturn(GetType(Rdataframe), GetType(HSP))>
+    Public Function HSP_hits(align As SmithWaterman, cutoff As Double, minW As Integer, Optional as_dataframe As Boolean = True) As Object
         Dim outputs As Output = align.GetOutput(cutoff, minW)
-        Dim query As String() = outputs.HSP.Select(Function(r) r.Query).ToArray
-        Dim subject As String() = outputs.HSP.Select(Function(r) r.Subject).ToArray
-        Dim queryLen As Integer() = outputs.HSP.Select(Function(r) r.QueryLength).ToArray
-        Dim subjectLen As Integer() = outputs.HSP.Select(Function(r) r.SubjectLength).ToArray
-        Dim lenQuery As Integer() = outputs.HSP.Select(Function(r) r.LengthQuery).ToArray
-        Dim lenHit As Integer() = outputs.HSP.Select(Function(r) r.LengthHit).ToArray
-        Dim hspQuery As String() = outputs.HSP.Select(Function(r) $"{r.fromA}..{r.toA}").ToArray
-        Dim hspSubject As String() = outputs.HSP.Select(Function(r) $"{r.fromB}..{r.toB}").ToArray
-        Dim score As Double() = outputs.HSP.Select(Function(r) r.score).ToArray
-        Dim coverage As Double() = outputs.HSP.Select(Function(r) r.LengthQuery / r.QueryLength).ToArray
 
-        Return New Rdataframe With {
-            .columns = New Dictionary(Of String, Array) From {
-                {"query", query},
-                {"subject", subject},
-                {"query_length", queryLen},
-                {"subject_length", subjectLen},
-                {"length_query", lenQuery},
-                {"length_hit", lenHit},
-                {"hsp_query", hspQuery},
-                {"hsp_subject", hspSubject},
-                {"score", score},
-                {"coverage", coverage}
+        If as_dataframe Then
+            Dim query As String() = outputs.HSP.Select(Function(r) r.Query).ToArray
+            Dim subject As String() = outputs.HSP.Select(Function(r) r.Subject).ToArray
+            Dim queryLen As Integer() = outputs.HSP.Select(Function(r) r.QueryLength).ToArray
+            Dim subjectLen As Integer() = outputs.HSP.Select(Function(r) r.SubjectLength).ToArray
+            Dim lenQuery As Integer() = outputs.HSP.Select(Function(r) r.LengthQuery).ToArray
+            Dim lenHit As Integer() = outputs.HSP.Select(Function(r) r.LengthHit).ToArray
+            Dim hspQuery As String() = outputs.HSP.Select(Function(r) $"{r.fromA}..{r.toA}").ToArray
+            Dim hspSubject As String() = outputs.HSP.Select(Function(r) $"{r.fromB}..{r.toB}").ToArray
+            Dim score As Double() = outputs.HSP.Select(Function(r) r.score).ToArray
+            Dim coverage As Double() = outputs.HSP.Select(Function(r) r.LengthQuery / r.QueryLength).ToArray
+
+            Return New Rdataframe With {
+                .columns = New Dictionary(Of String, Array) From {
+                    {"query", query},
+                    {"subject", subject},
+                    {"query_length", queryLen},
+                    {"subject_length", subjectLen},
+                    {"length_query", lenQuery},
+                    {"length_hit", lenHit},
+                    {"hsp_query", hspQuery},
+                    {"hsp_subject", hspSubject},
+                    {"score", score},
+                    {"coverage", coverage}
+                }
             }
-        }
+        Else
+            Return outputs.HSP
+        End If
     End Function
 
     ''' <summary>
@@ -148,7 +167,7 @@ Module Blast
         Dim score As Double = 0
         Dim alignments = RunNeedlemanWunsch.RunAlign(query, ref, score).ToArray
 
-        Return (score, alignments)
+        Return FactorValue(Of Double, GlobalAlign(Of Char)()).Create(score, alignments)
     End Function
 
     <ExportAPI("align.gwANI")>

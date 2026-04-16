@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7b0ca27ef0b614670d74db93e9be357, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
+﻿#Region "Microsoft.VisualBasic::363b40c7ea37905d1ba4634b2e67ead7, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Interface.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,18 @@
 
     ' Summaries:
 
-    '     Interface IBlastHit
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 15 (53.57%)
+    ' Comment Lines: 9 (32.14%)
+    '    - Xml Docs: 88.89%
     ' 
-    '         Properties: hitName, queryName
-    ' 
-    '     Interface IQueryHits
-    ' 
-    '         Properties: identities
-    ' 
+    '   Blank Lines: 4 (14.29%)
+    '     File Size: 1.08 KB
+
+
     '     Module Extensions
     ' 
     '         Function: isEmpty
@@ -49,18 +53,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.BBH.Abstract
-
-    Public Interface IBlastHit
-        Property queryName As String
-        Property hitName As String
-    End Interface
-
-    Public Interface IQueryHits : Inherits IBlastHit
-        ReadOnly Property identities As Double
-    End Interface
 
     <HideModuleName> Public Module Extensions
 

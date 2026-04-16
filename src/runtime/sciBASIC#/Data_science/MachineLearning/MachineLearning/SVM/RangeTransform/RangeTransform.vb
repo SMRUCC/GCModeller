@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 74 (49.33%)
+    ' Comment Lines: 55 (36.67%)
+    '    - Xml Docs: 70.91%
+    ' 
+    '   Blank Lines: 21 (14.00%)
+    '     File Size: 6.35 KB
+
+
     '     Class RangeTransform
     ' 
     '         Constructor: (+2 Overloads) Sub New

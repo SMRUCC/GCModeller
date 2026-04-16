@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 14 (51.85%)
+    ' Comment Lines: 9 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 1.04 KB
+
+
     '     Module PCAPlot
     ' 
     '         Function: PC3

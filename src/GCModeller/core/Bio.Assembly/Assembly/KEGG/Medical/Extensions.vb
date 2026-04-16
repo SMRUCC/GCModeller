@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 62 (72.94%)
+    ' Comment Lines: 11 (12.94%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 12 (14.12%)
+    '     File Size: 3.38 KB
+
+
     '     Module Extensions
     ' 
     '         Function: BuildDrugCompoundMaps, CompoundsDrugs, DrugTargetGenes

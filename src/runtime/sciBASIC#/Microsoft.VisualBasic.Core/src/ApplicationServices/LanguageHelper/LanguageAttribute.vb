@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 26 (66.67%)
+    ' Comment Lines: 7 (17.95%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 6 (15.38%)
+    '     File Size: 1.41 KB
+
+
     '     Class LanguageAttribute
     ' 
     '         Properties: Language, Text

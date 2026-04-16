@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::431114117a6ab98b8e4e5ca7b9fbaf71, Microsoft.VisualBasic.Core\src\Text\Parser\CharEnumerator.vb"
+﻿#Region "Microsoft.VisualBasic::9b8336a7df943510a0f101032c245870, Microsoft.VisualBasic.Core\src\Text\Parser\CharEnumerator.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 68 (59.65%)
+    ' Comment Lines: 29 (25.44%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 17 (14.91%)
+    '     File Size: 3.81 KB
+
+
     '     Class CharPtr
     ' 
     '         Properties: Remaining
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: PeekNext, PopNext, ToString
-    '         Operators: (+2 Overloads) Not
+    '         Operators: <>, =, (+2 Overloads) Like, (+2 Overloads) Not
     ' 
     ' 
     ' /********************************************************************************/
@@ -108,12 +120,53 @@ Namespace Text.Parser
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Widening Operator CType(str As String) As CharPtr
+            If str Is Nothing Then
+                Return Nothing
+            End If
+
             Return New CharPtr(str)
         End Operator
 
+        ''' <summary>
+        ''' construct an in-memory dataset
+        ''' </summary>
+        ''' <param name="str">the in-memory string data</param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Widening Operator CType(str As StringBuilder) As CharPtr
             Return New CharPtr(str.ToString)
+        End Operator
+
+        ''' <summary>
+        ''' check of the string equals?
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <param name="text"></param>
+        ''' <returns></returns>
+        Public Overloads Shared Operator =(str As CharPtr, text As String) As Boolean
+            If str Is Nothing Then
+                Return text Is Nothing
+            Else
+                Return New String(str.buffer) = text
+            End If
+        End Operator
+
+        Public Overloads Shared Operator <>(str As CharPtr, text As String) As Boolean
+            Return Not str = text
+        End Operator
+
+        ''' <summary>
+        ''' Check of the text equals?
+        ''' </summary>
+        ''' <param name="str">text1</param>
+        ''' <param name="text">text2</param>
+        ''' <returns></returns>
+        Public Shared Operator Like(str As CharPtr, text As String) As Boolean
+            If str Is Nothing Then
+                Return text Is Nothing
+            Else
+                Return New String(str.buffer).TextEquals(text)
+            End If
         End Operator
     End Class
 End Namespace

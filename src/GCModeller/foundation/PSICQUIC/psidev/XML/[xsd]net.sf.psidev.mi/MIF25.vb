@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 37 (72.55%)
+    ' Comment Lines: 7 (13.73%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 7 (13.73%)
+    '     File Size: 1.78 KB
+
+
     '     Class EntrySet
     ' 
     '         Properties: Entries, FirstInstance

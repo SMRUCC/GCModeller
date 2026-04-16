@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7d2f1ec1d474bcc551045b6abe0cfca, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGs.vb"
+﻿#Region "Microsoft.VisualBasic::789c63557d6b00be461954c197ff4f8a, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\COGs.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 37 (32.74%)
+    ' Comment Lines: 67 (59.29%)
+    '    - Xml Docs: 71.64%
+    ' 
+    '   Blank Lines: 9 (7.96%)
+    '     File Size: 4.67 KB
+
 
     '     Module COGs
     ' 
@@ -113,17 +125,17 @@ Namespace Assembly.NCBI.COG.COGs
         ''' 
         <ExportAPI("Group.Release")>
         Public Function GroupRelease(Fasta As String) As Dictionary(Of String, ProtFasta())
-            Call $"Load document from {Fasta.ToFileURL}".__DEBUG_ECHO
+            Call $"Load document from {Fasta.ToFileURL}".debug
 
             Dim protFastas = ProtFasta.LoadDocument(Fasta)
-            Call $"Group by genome name operations...".__DEBUG_ECHO
+            Call $"Group by genome name operations...".debug
             Dim LQuery = (From prot As ProtFasta
                           In protFastas
                           Select prot
                           Group prot By prot.GenomeName Into Group) _
                             .ToDictionary(Function(genome) genome.GenomeName,
                                           Function(genome) genome.Group.ToArray)
-            Call $"{LQuery.Count} genomes in total!".__DEBUG_ECHO
+            Call $"{LQuery.Count} genomes in total!".debug
             Return LQuery
         End Function
 
@@ -138,7 +150,7 @@ Namespace Assembly.NCBI.COG.COGs
         Public Function SaveRelease(Fasta As String, EXPORT As String) As Boolean
             Dim groupData = COGs.GroupRelease(Fasta)
 
-            Call $"Save data in the repository: {EXPORT}".__DEBUG_ECHO
+            Call $"Save data in the repository: {EXPORT}".debug
 
             For Each genome In groupData
                 Dim name$ = genome.Key.NormalizePathString(True).Replace(" ", "_")
@@ -146,7 +158,7 @@ Namespace Assembly.NCBI.COG.COGs
                 Dim protFasta As New FastaFile(genome.Value)
 
                 Call protFasta.Save(path, Encoding.UTF8)
-                Call path.ToFileURL.__DEBUG_ECHO
+                Call path.ToFileURL.debug
             Next
 
             Return True

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 13 (61.90%)
+    ' Comment Lines: 4 (19.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (19.05%)
+    '     File Size: 691 B
+
+
     '     Class ActiveViewsAttribute
     ' 
     '         Properties: type, Views

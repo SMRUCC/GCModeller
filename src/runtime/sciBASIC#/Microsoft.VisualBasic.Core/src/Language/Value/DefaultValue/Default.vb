@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d4eb4bcc6bdabf192b318f8088b3a68, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\Default.vb"
+﻿#Region "Microsoft.VisualBasic::d3753a739d8821df26dad91fc2759cd0, Microsoft.VisualBasic.Core\src\Language\Value\DefaultValue\Default.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 233
+    '    Code Lines: 128 (54.94%)
+    ' Comment Lines: 75 (32.19%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 30 (12.88%)
+    '     File Size: 8.97 KB
+
 
     '     Delegate Function
     ' 
@@ -79,7 +91,13 @@ Namespace Language.Default
     ''' Apply on the structure type that assert the object is null or not.
     ''' </summary>
     Public Interface IsEmpty
+
+        ''' <summary>
+        ''' Does current object has any value inside?
+        ''' </summary>
+        ''' <returns></returns>
         ReadOnly Property IsEmpty As Boolean
+
     End Interface
 
     ''' <summary>
@@ -261,6 +279,7 @@ Namespace Language.Default
         End Operator
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
         Public Shared Widening Operator CType(obj As T) As [Default](Of T)
             Return New [Default](Of T) With {
                 .value = obj,

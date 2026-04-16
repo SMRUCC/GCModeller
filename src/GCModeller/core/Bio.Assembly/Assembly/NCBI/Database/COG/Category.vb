@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 33 (84.62%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (15.38%)
+    '     File Size: 1.31 KB
+
+
     '     Class Catalog
     ' 
     '         Properties: [Class], Description, SubClasses

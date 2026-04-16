@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 10.96 KB
+
+
     ' Class generegulation_tmp
     ' 
     '     Properties: conformation_status, gene_id_regulated, gene_id_regulator, gene_name_regulated, gene_name_regulator

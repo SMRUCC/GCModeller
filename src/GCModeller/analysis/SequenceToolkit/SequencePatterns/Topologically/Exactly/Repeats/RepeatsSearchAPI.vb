@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2190f697223bd33e4768bcf8f96f3e43, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
+﻿#Region "Microsoft.VisualBasic::2b79537cd417999320003229b376aa00, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 185
+    '    Code Lines: 126 (68.11%)
+    ' Comment Lines: 35 (18.92%)
+    '    - Xml Docs: 97.14%
+    ' 
+    '   Blank Lines: 24 (12.97%)
+    '     File Size: 9.28 KB
+
+
     '     Module RepeatsSearchAPI
     ' 
     '         Function: CreateRepeatLocis, (+2 Overloads) SaveDocument, SaveRepeatsViews, SaveRevViews, SearchRepeats
@@ -46,10 +58,11 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Write_csv
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -213,7 +226,7 @@ returns:    Return New Repeats With {
         <ExportAPI("Search.Batch")>
         Public Sub BatchSearch(Mla As FastaFile, Min As Integer, Max As Integer, Optional MinAppeared As Integer = 2, Optional saveDIR As String = "./")
             For Each genome As FastaSeq In Mla
-                Call genome.__DEBUG_ECHO
+                Call genome.debug
 
                 Dim repeats = RepeatsSearchAPI.SearchRepeats(genome, Min, Max, MinAppeared)
                 Dim rev = RepeatsSearchAPI.SearchReversedRepeats(genome, Min, Max, MinAppeared)

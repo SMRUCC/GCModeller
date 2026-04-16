@@ -1,0 +1,81 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "peakCMeans" "peakCMeans"
+.SH NAME
+peakCMeans \- clustering analysis of time course data
+.SH SYNOPSIS
+\fIpeakCMeans(\fBmatrix\fR as <generic> Matrix, 
+\fBnsize\fR as any = "3,3", 
+\fBthreshold\fR as double = 10, 
+\fBfuzzification\fR as double = 2, 
+\fBplotSize\fR as any = "8100,5200", 
+\fBcolorSet\fR as string = "Jet", 
+\fBmemberCutoff\fR as double = 0.8, 
+\fBempty_shared\fR as integer = 2, 
+\fBmax_cluster_shared\fR as integer = 3, 
+\fBxlab\fR as string = "Spatial Regions", 
+\fBylab\fR as string = "z-score(Normalized Intensity)", 
+\fBtop_members\fR as double = 0.2, 
+\fBmargin\fR as any = "padding:100px 100px 300px 100px;", 
+\fBcluster_label_css\fR as string = "font-style: normal; font-size: 20; font-family: Bookman Old Style;", 
+\fBlegend_title_css\fR as string = "font-style: normal; font-size: 10; font-family: Microsoft YaHei;", 
+\fBlegend_tick_css\fR as string = "font-style: normal; font-size: 10; font-family: Microsoft YaHei;", 
+\fBaxis_tick_css\fR as string = "font-style: normal; font-size: 12; font-family: Segoe UI;", 
+\fBaxis_label_css\fR as string = "font-style: normal; font-size: 10; font-family: Microsoft YaHei;", 
+\fBgrid_fill\fR as string = "LightGray", 
+\fBgrid_draw\fR as boolean = TRUE, 
+\fBx_lab_rotate\fR as double = 45, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+clustering analysis of time course data
+ 
+ This function performs clustering analysis of time course data
+.PP
+.SH OPTIONS
+.PP
+\fBmatrix\fB \fR\- A gene expression data matrix object. 
+.PP
+.PP
+\fBnsize\fB \fR\- 
+ the layout of the cmeans clustering visualization
+. 
+.PP
+.PP
+\fBthreshold\fB \fR\- the cmeans threshold. 
+.PP
+.PP
+\fBplotSize\fB \fR\- the image size of the cmeans plot. 
+.PP
+.PP
+\fBcolorSet\fB \fR\- 
+ the color palatte name
+. 
+.PP
+.PP
+\fBfuzzification\fB \fR\- 
+ cmeans fuzzification parameter
+. 
+.PP
+.PP
+\fBmemberCutoff\fB \fR\- 
+ the cmeans membership cutoff value for create a molecule cluster
+. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH VALUE
+.PP
+this function returns a tuple list that contains the pattern 
+ cluster matrix and the cmeans pattern plots.
+ 
+ 1. 'pattern' is a dataframe object that contains the object cluster patterns
+ 2. 'image' is a bitmap image that plot based on the object cluster patterns data.
+ 3. 'pdf' is a pdf image that could be edit
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

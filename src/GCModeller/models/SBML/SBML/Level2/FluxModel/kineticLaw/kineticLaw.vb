@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 43 (74.14%)
+    ' Comment Lines: 6 (10.34%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.52%)
+    '     File Size: 1.82 KB
+
+
     '     Class kineticLaw
     ' 
     '         Properties: listOfParameters, math, ObjectiveCoefficient

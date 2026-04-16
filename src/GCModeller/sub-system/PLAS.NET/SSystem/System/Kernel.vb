@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f55262484e5291d7d9e2ce5ac63138bb, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
+﻿#Region "Microsoft.VisualBasic::c706a7ed81fd4d72304992b20df5b9c8, sub-system\PLAS.NET\SSystem\System\Kernel.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 186
+    '    Code Lines: 99 (53.23%)
+    ' Comment Lines: 64 (34.41%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 23 (12.37%)
+    '     File Size: 6.42 KB
+
+
     '     Class Kernel
     ' 
-    '         Properties: finalTime, precision, RuntimeTicks, Vars
+    '         Properties: finalTime, precision, RuntimeTicks, strict, Vars
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: GetValue, (+3 Overloads) Run
     ' 
-    '         Sub: [Step], Break, SetMathSymbol
+    '         Sub: [Step], Break, SetBounds, SetMathSymbol
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +61,8 @@
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Framework
@@ -76,6 +89,8 @@ Namespace Kernel
         ''' <remarks></remarks>
         Friend kicks As Kicks
 
+        Public Property strict As Boolean = True
+
         ''' <summary>
         ''' Store the system state.(变量，也就是生化反应底物)
         ''' </summary>
@@ -100,6 +115,7 @@ Namespace Kernel
         Public Channels As Equation()
 
         Friend symbolTable As New Dictionary(Of var)
+        Friend bounds As New Dictionary(Of String, DoubleRange)
 
         ''' <summary>
         ''' Gets the system run time ticks
@@ -153,6 +169,10 @@ Namespace Kernel
             End If
         End Sub
 
+        Public Sub SetBounds(name As String, range As DoubleRange)
+            bounds(name) = range
+        End Sub
+
         ''' <summary>
         ''' The kernel loop.(内核循环, 会在这里更新数学表达式计算引擎的环境变量)
         ''' </summary>
@@ -168,28 +188,25 @@ Namespace Kernel
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function Run() As Integer
-            Using proc As New ProgressBar("Running PLAS.NET S-system kernel...")
-                Dim progress As New ProgressProvider(proc, finalTime * (1 / precision))
-
-                For _RuntimeTicks = 0 To progress.Target
-                    If is_terminated Then
-                        Exit For
-                    End If
+            For Each ti As Long In Tqdm.Range(0, CLng(finalTime * (1 / precision)))
+                If is_terminated Then
+                    Exit For
+                Else
+                    _RuntimeTicks = ti
+                End If
 #If DEBUG Then
-                    Call [Step](RuntimeTicks)
+                Call [Step](RuntimeTicks)
 #Else
-                    Try
-                        Call [Step](RuntimeTicks)
-                    Catch ex As Exception
-                        ex = New Exception("Model calculation error!", ex)
-                        Call App.LogException(ex)
-                        Call ex.PrintException
-                        Return -1
-                    End Try
+                Try
+                    Call [Step](RuntimeTicks)
+                Catch ex As Exception
+                    ex = New Exception("Model calculation error!", ex)
+                    Call App.LogException(ex)
+                    Call ex.PrintException
+                    Return -1
+                End Try
 #End If
-                    Call proc.SetProgress(progress.StepProgress)
-                Next
-            End Using
+            Next
 
             Return 0
         End Function
@@ -219,7 +236,7 @@ Namespace Kernel
         ''' <remarks></remarks>
         Public Overloads Shared Function Run(model As Script.Model, precise As Double) As List(Of DataSet)
             Dim snapshot As New MemoryCacheSnapshot
-            Dim kernel As New Kernel(model, AddressOf snapshot.cache) With {
+            Dim kernel As New Kernel(model, AddressOf snapshot.Cache) With {
                 .precision = precise
             }
             Call kernel.loadModel(model).Run()

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 8 (21.62%)
+    ' Comment Lines: 25 (67.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (10.81%)
+    '     File Size: 1.29 KB
+
+
     ' Enum BinaryStringFormat
     ' 
     '     ByteLengthPrefix, DwordLengthPrefix, NoPrefixOrTermination, UInt32LengthPrefix, WordLengthPrefix

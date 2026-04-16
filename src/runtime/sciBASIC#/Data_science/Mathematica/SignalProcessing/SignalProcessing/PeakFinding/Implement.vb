@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::be7a7595eeb47f6531bd5c61388357e0, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Implement.vb"
+﻿#Region "Microsoft.VisualBasic::1127e3a7ce14c46b7cf9266d983f2a6a, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Implement.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 61 (67.78%)
+    ' Comment Lines: 18 (20.00%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 11 (12.22%)
+    '     File Size: 3.85 KB
+
+
     '     Module Implement
     ' 
     '         Function: AccumulateLine, SignalBaseline, Triming
@@ -43,6 +55,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
@@ -88,14 +101,14 @@ Namespace PeakFinding
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Detection of the signal base line based on the quantile method.
         ''' </summary>
         ''' <param name="signals"></param>
         ''' <param name="quantile">一般建议值为0.65</param>
-        ''' <returns></returns>
+        ''' <returns>the intensity value cutoff for the noise/baseline</returns>
         <Extension>
-        Public Function SignalBaseline(signals As ITimeSignal(), quantile As Double) As Double
-            Dim allIntensity As Double() = signals.Select(Function(t) t.intensity).ToArray
+        Public Function SignalBaseline(Of T As ITimeSignal)(signals As IEnumerable(Of T), quantile As Double) As Double
+            Dim allIntensity As Double() = signals.Select(Function(ti) ti.intensity).ToArray
             Dim q As QuantileEstimationGK = allIntensity.GKQuantile
             Dim baseline As Double = q.Query(quantile)
 

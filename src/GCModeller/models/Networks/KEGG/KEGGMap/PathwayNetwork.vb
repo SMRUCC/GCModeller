@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7558afed30d7b9edbcd700f9d3b414e, models\Networks\KEGG\KEGGMap\PathwayNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::bca217a5ec17f6a8a51027dda1a09ca7, models\Networks\KEGG\KEGGMap\PathwayNetwork.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 31 (68.89%)
+    ' Comment Lines: 7 (15.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (15.56%)
+    '     File Size: 1.54 KB
+
+
     ' Module PathwayNetwork
     ' 
     '     Function: BuildNetwork
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module PathwayNetwork
 
@@ -58,7 +70,7 @@ Public Module PathwayNetwork
         Dim maps As Map() = ref.ToArray
 
         For Each map As Map In maps
-            Call nodeValue(graph.CreateNode(map.ID))
+            Call nodeValue(graph.CreateNode(map.EntryId))
         Next
 
         For Each A As Map In maps
@@ -67,15 +79,15 @@ Public Module PathwayNetwork
                 .Where(Function(id) id.IsPattern("C\d+")) _
                 .ToArray
 
-            For Each B In maps.Where(Function(bb) Not A Is bb)
+            For Each B As Map In maps.Where(Function(bb) Not A Is bb)
                 With B.GetMembers _
                     .Where(Function(id) id.IsPattern("C\d+")) _
                     .Intersect(compoundsA) _
                     .ToArray
 
                     If Not .IsNullOrEmpty Then
-                        Dim edge As Edge = graph.CreateEdge(A.ID, B.ID)
-                        edge.Weight = .Length
+                        Dim edge As Edge = graph.CreateEdge(A.EntryId, B.EntryId)
+                        edge.weight = .Length
                     End If
                 End With
             Next

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 132 (67.35%)
+    ' Comment Lines: 31 (15.82%)
+    '    - Xml Docs: 64.52%
+    ' 
+    '   Blank Lines: 33 (16.84%)
+    '     File Size: 8.16 KB
+
+
     '     Class BZip2OutputStream
     ' 
     '         Properties: CanRead, CanSeek, CanWrite, Length, Position

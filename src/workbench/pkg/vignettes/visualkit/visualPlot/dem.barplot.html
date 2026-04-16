@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>dem.barplot {visualPlot}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2></h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>dem.barplot</strong>(<i>sample</i>,
+    <i>upName</i> = <span style='color: brown;'><strong>"up"</strong></span>,
+    <i>downName</i> = <span style='color: brown;'><strong>"down"</strong></span>,
+    <i>size</i> = <span style='color: brown;'><strong>"2700,2400"</strong></span>,
+    <i>padding</i> = <span style='color: brown;'><strong>"padding:200px 350px 250px 200px;"</strong></span>,
+    <i>title</i> = <span style='color: brown;'><strong>"Statistic of Differently Expressed Metabolite"</strong></span>,
+    <i>headN</i> = <span style='color: green;'>60</span>,
+    <i>ppi</i> = <span style='color: green;'>300</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>sample</dt>
+<dd><p>DAM data between sample group comparisions, this parameter 
+ has two data format:
+ 
+ 1. dataframe - should contains at least two data fields: up and down, 
+    field values of up and down is the DAM counts number. row data in
+    dataframe is the sample comparision groups
+ 2. list - elements in the list is the sample comparision groups and 
+    each element slot values should be a tuple list which contains the 
+    DAM id vector, and each id vector is named up and down.</p></dd>
+
+
+<dt>upName</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>downName</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>size</dt>
+<dd><p>-</p></dd>
+
+
+<dt>padding</dt>
+<dd><p>-</p></dd>
+
+
+<dt>title</dt>
+<dd><p>[as string]</p></dd>
+
+
+<dt>headN</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>ppi</dt>
+<dd><p>[as integer]</p></dd>
+
+
+<dt>env</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Environment.html">Environment</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        visualkit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <i>any</i> kind.<h4>clr value class</h4><ul><li><i>any</i> kind</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>visualPlot</em> version 1.0.0.0 <a
+                href="../visualPlot.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

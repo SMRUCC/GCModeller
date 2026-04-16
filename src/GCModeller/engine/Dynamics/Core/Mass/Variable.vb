@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8d414ff3424d956f6df9cb3ea8258a2d, engine\Dynamics\Core\Mass\Variable.vb"
+﻿#Region "Microsoft.VisualBasic::369336a30aa92bf395f44b019daa92e7, engine\Dynamics\Core\Mass\Variable.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 20 (42.55%)
+    ' Comment Lines: 19 (40.43%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 8 (17.02%)
+    '     File Size: 1.70 KB
+
+
     '     Class Variable
     ' 
     '         Properties: coefficient, isTemplate, mass
@@ -43,7 +55,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Core
 
@@ -76,7 +88,7 @@ Namespace Core
 
         Sub New(mass As Factor, factor As Double, Optional isTemplate As Boolean = False)
             Me.mass = mass
-            Me.coefficient = stdNum.Abs(factor)
+            Me.coefficient = std.Abs(factor)
             Me.isTemplate = isTemplate
         End Sub
 

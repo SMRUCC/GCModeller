@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1554b6bdaa5a8f8f0f733a8ab6163986, Data\DataFrame\StorageProvider\ComponntModels\ProviderBase.vb"
+﻿#Region "Microsoft.VisualBasic::230ec7e3a4035d91642e1222aad26d67, Data\DataFrame\StorageProvider\ComponntModels\ProviderBase.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 74 (47.44%)
+    ' Comment Lines: 62 (39.74%)
+    '    - Xml Docs: 98.39%
+    ' 
+    '   Blank Lines: 20 (12.82%)
+    '     File Size: 6.13 KB
+
+
     '     Class StorageProvider
     ' 
     '         Properties: BindProperty, CanReadDataFromObject, CanWriteDataToObject, IsMetaField, LoadMethod
@@ -38,7 +50,7 @@
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: GetValue, ToString
+    '         Function: GetDescription, GetValue, ToString
     ' 
     '         Sub: SetValue
     ' 
@@ -47,17 +59,20 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Scripting
 
 Namespace StorageProvider.ComponentModels
 
     ''' <summary>
     ''' The base type of the data I/O object schema.
-    ''' (数据读写对象的基本类型)
     ''' </summary>
+    ''' <remarks>
+    ''' (数据读写对象的基本类型)
+    ''' </remarks>
     Public MustInherit Class StorageProvider
 
         ''' <summary>
@@ -77,9 +92,11 @@ Namespace StorageProvider.ComponentModels
         ''' If the target property didn't provides the column name by 
         ''' using custom attribute, then this property will returns 
         ''' the Class propertyName from <see cref="PropertyInfo"/>.
-        ''' (假若目标属性之中没有提供名称的话，则会使用属性名称来代替)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (假若目标属性之中没有提供名称的话，则会使用属性名称来代替)
+        ''' </remarks>
         Public MustOverride ReadOnly Property Name As String
 
         ''' <summary>
@@ -163,6 +180,8 @@ Namespace StorageProvider.ComponentModels
 
             If CasterString.ContainsKey(ElementType) Then
                 Me.LoadMethod = AddressOf CasterString(ElementType).Invoke
+            ElseIf Scripting.IsNullablePrimitive(ElementType) Then
+                Me.LoadMethod = AddressOf CasterString(ElementType.GenericTypeArguments.First).Invoke
             Else
                 ' Meta 字典类型，则忽略掉
             End If
@@ -180,6 +199,19 @@ Namespace StorageProvider.ComponentModels
         Public Overrides Function ToString() As String
             Dim vbDim$ = $"[Dim {Name} As {BindProperty.PropertyType.FullName}]"
             Return vbDim & $" //{Me.GetType.Name} --> {BindProperty.Name}"
+        End Function
+
+        Public Function GetDescription() As String
+            Dim description As DescriptionAttribute = BindProperty _
+                .GetCustomAttributes(GetType(DescriptionAttribute), inherit:=True) _
+                .OfType(Of DescriptionAttribute) _
+                .FirstOrDefault
+
+            If description Is Nothing Then
+                Return Nothing
+            Else
+                Return description.Description
+            End If
         End Function
     End Class
 End Namespace

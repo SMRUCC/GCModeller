@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 43 (86.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 2.53 KB
+
+
     '     Module MetaAPI
     ' 
     '         Function: CompilePTT, (+2 Overloads) FromMetaData

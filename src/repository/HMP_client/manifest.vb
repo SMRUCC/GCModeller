@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28480b1b6bdfcf1be0ada64291b38172, HMP_client\manifest.vb"
+﻿#Region "Microsoft.VisualBasic::dceb460a22b7f65fbe80b9a778fb5c05, HMP_client\manifest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 46 (74.19%)
+    ' Comment Lines: 8 (12.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.90%)
+    '     File Size: 2.02 KB
+
+
     ' Class manifest
     ' 
     '     Properties: AsperaURL, file_id, HttpURL, md5, sample_id
@@ -43,11 +55,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.OSSUtil
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Text
-Imports ThinkVB.FileSystem.OSS
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' 数据文件的下载信息

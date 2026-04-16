@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6917b8c8af09007df9ce6117b6648e38, gr\Microsoft.VisualBasic.Imaging\Drivers\ImageSynthesis.vb"
+﻿#Region "Microsoft.VisualBasic::9f57128f46191f3867e35d864430e465, gr\Microsoft.VisualBasic.Imaging\Drivers\ImageSynthesis.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 341
+    '    Code Lines: 92 (26.98%)
+    ' Comment Lines: 233 (68.33%)
+    '    - Xml Docs: 18.88%
+    ' 
+    '   Blank Lines: 16 (4.69%)
+    '     File Size: 13.28 KB
+
+
     '     Module ImageSynthesis
     ' 
-    '         Sub: (+30 Overloads) DrawImage, (+4 Overloads) DrawImageUnscaled, DrawImageUnscaledAndClipped
+    '         Sub: (+10 Overloads) DrawImage, (+4 Overloads) DrawImageUnscaled, DrawImageUnscaledAndClipped
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,35 +53,27 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Graphics
-Imports System.Drawing.Imaging
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.SVG
 
 Namespace Driver
 
     ''' <summary>
-    ''' Makes the ``DrawImage`` function compatible with old gdi+ interface
+    ''' Makes the ``DrawImage`` function compatible 
+    ''' with old gdi+ interface
     ''' </summary>
     Public Module ImageSynthesis
 
-        '
-        ' Summary:
-        '     Draws the specified System.Drawing.Image, using its original physical size, at
-        '     the specified location.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   point:
-        '     System.Drawing.Point structure that represents the location of the upper-left
-        '     corner of the drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, point As Point)
+        ''' <summary>
+        ''' Draws the specified System.Drawing.Image, using its original physical size, at
+        ''' the specified location.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="point">System.Drawing.Point structure that represents the location of the upper-left
+        ''' corner of the drawn image.</param>
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, point As Point)
             Call g.DrawImage(image, point.PointF)
         End Sub
         '
@@ -87,7 +91,8 @@ Namespace Driver
         ' Exceptions:
         '   T:System.ArgumentNullException:
         '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point)
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point)
 
         End Sub
         '
@@ -105,134 +110,102 @@ Namespace Driver
         ' Exceptions:
         '   T:System.ArgumentNullException:
         '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF)
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF)
 
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified System.Drawing.Image at the specified location and with the
-        '     specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   rect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, rect As Rectangle)
+
+        ''' <summary>
+        ''' Draws the specified System.Drawing.Image at the specified location and with the
+        ''' specified size.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="rect">System.Drawing.Rectangle structure that specifies the location and size of the
+        ''' drawn image.</param>
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, rect As Rectangle)
             Call g.DrawImage(image, New RectangleF(rect.Location.PointF, New SizeF(rect.Size.Width, rect.Size.Height)))
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified System.Drawing.Image, using its original physical size, at
-        '     the specified location.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   point:
-        '     System.Drawing.PointF structure that represents the upper-left corner of the
-        '     drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, point As PointF)
+
+        ''' <summary>
+        ''' Draws the specified System.Drawing.Image, using its original physical size, at
+        ''' the specified location.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="point">System.Drawing.PointF structure that represents the upper-left corner of the
+        ''' drawn image.</param>
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, point As PointF)
             If TypeOf g Is GraphicsSVG Then
                 Dim svg As GraphicsSVG = DirectCast(g, GraphicsSVG)
 
                 If image.Driver = Drivers.GDI Then
-                    Dim gdi As Drawing.Image = DirectCast(image, ImageData).Image
-                    Dim img As New XML.Image(gdi) With {
-                        .x = point.X,
-                        .y = point.Y
-                    }
-                    Call svg.__svgData.Add(img)
+                    Dim gdi As Image = DirectCast(image, ImageData).Image
+                    Dim rect As New Rectangle(point.X, point.Y, gdi.Width, gdi.Height)
+
+                    Call svg.DrawImageUnscaled(gdi, rect)
                 Else
                     ' 直接合并SVG的节点
                     Dim imageData As SVGDataLayers = DirectCast(image, SVGData).SVG
                     '在这里还需要根据位置计算出位移
-                    Call svg.__svgData.Add(imageData + point)
+                    Throw New NotImplementedException
                 End If
             Else
                 ' gdi+ engine只允许gdi+图像合并
                 If image.Driver = Drivers.SVG Then
                     Throw New NotImplementedException
                 Else
-                    Dim gdi As Drawing.Image = DirectCast(image, ImageData).Image
-                    Call DirectCast(g, Graphics2D).DrawImage(gdi, point)
+                    Dim gdi As Image = DirectCast(image, ImageData).Image
+                    Call g.DrawImage(gdi, point)
                 End If
             End If
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified System.Drawing.Image at the specified location and with the
-        '     specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   rect:
-        '     System.Drawing.RectangleF structure that specifies the location and size of the
-        '     drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, rect As RectangleF)
+
+        ''' <summary>
+        ''' Draws the specified System.Drawing.Image at the specified location and with the
+        ''' specified size.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="rect">System.Drawing.RectangleF structure that specifies the location and size of the
+        ''' drawn image.</param>
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, rect As RectangleF)
             If TypeOf g Is GraphicsSVG Then
                 Dim svg As GraphicsSVG = DirectCast(g, GraphicsSVG)
                 Dim point As PointF = rect.Location
 
                 If image.Driver = Drivers.GDI Then
-                    Dim gdi As Drawing.Image = DirectCast(image, ImageData).Image
-                    Dim img As New XML.Image(gdi, rect.Size) With {
-                        .x = point.X,
-                        .y = point.Y
-                    }
-                    Call svg.__svgData.Add(img)
+                    Call svg.DrawImage(DirectCast(image, ImageData).Image, rect)
                 Else
                     ' 直接合并SVG的节点
                     ' 还需要根据原始的大小与现在的rect参数之中的大小进行缩放合成
                     Dim imageData As SVGDataLayers = DirectCast(image, SVGData).SVG
                     '在这里还需要根据位置计算出位移
-                    Call svg.__svgData.Add(imageData + Point)
+                    Throw New NotImplementedException
                 End If
             Else
                 If image.Driver = Drivers.SVG Then
                     Throw New NotImplementedException
                 Else
-                    Dim gdi As Drawing.Image = DirectCast(image, ImageData).Image
-                    Call DirectCast(g, Graphics2D).DrawImage(gdi, rect)
+                    Dim gdi As Image = DirectCast(image, ImageData).Image
+                    Call g.DrawImage(gdi, rect)
                 End If
             End If
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified image, using its original physical size, at the location
-        '     specified by a coordinate pair.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   x:
-        '     The x-coordinate of the upper-left corner of the drawn image.
-        '
-        '   y:
-        '     The y-coordinate of the upper-left corner of the drawn image.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Integer, y As Integer)
+
+        ''' <summary>
+        ''' Draws the specified image, using its original physical size, at the location
+        ''' specified by a coordinate pair.
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="image">System.Drawing.Image to draw.</param>
+        ''' <param name="x">The x-coordinate of the upper-left corner of the drawn image.</param>
+        ''' <param name="y">The y-coordinate of the upper-left corner of the drawn image.</param>
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Integer, y As Integer)
             Call g.DrawImage(image, New PointF(x, y))
         End Sub
         '
@@ -253,115 +226,11 @@ Namespace Driver
         ' Exceptions:
         '   T:System.ArgumentNullException:
         '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Single, y As Single)
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Single, y As Single)
             Call g.DrawImage(image, New PointF(x, y))
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.RectangleF structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As RectangleF, srcRect As RectangleF, srcUnit As GraphicsUnit)
 
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcRect As Rectangle, srcUnit As GraphicsUnit)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.Point structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit)
-
-        End Sub
         '
         ' Summary:
         '     Draws the specified System.Drawing.Image at the specified location and with the
@@ -386,39 +255,11 @@ Namespace Driver
         ' Exceptions:
         '   T:System.ArgumentNullException:
         '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Single, y As Single, width As Single, height As Single)
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Single, y As Single, width As Single, height As Single)
             Call g.DrawImage(image, New RectangleF(New PointF(x, y), New SizeF(width, height)))
         End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.Point structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
 
-        End Sub
         '
         ' Summary:
         '     Draws the specified System.Drawing.Image at the specified location and with the
@@ -443,597 +284,11 @@ Namespace Driver
         ' Exceptions:
         '   T:System.ArgumentNullException:
         '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Integer, y As Integer, width As Integer, height As Integer)
+        <Extension>
+        Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Integer, y As Integer, width As Integer, height As Integer)
             Call g.DrawImage(image, New RectangleF(New PointF(x, y), New SizeF(width, height)))
         End Sub
-        '
-        ' Summary:
-        '     Draws a portion of an image at a specified location.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   x:
-        '     The x-coordinate of the upper-left corner of the drawn image.
-        '
-        '   y:
-        '     The y-coordinate of the upper-left corner of the drawn image.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the System.Drawing.Image
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Single, y As Single, srcRect As RectangleF, srcUnit As GraphicsUnit)
 
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws a portion of an image at a specified location.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   x:
-        '     The x-coordinate of the upper-left corner of the drawn image.
-        '
-        '   y:
-        '     The y-coordinate of the upper-left corner of the drawn image.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, x As Integer, y As Integer, srcRect As Rectangle, srcUnit As GraphicsUnit)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)
-        '     method according to application-determined criteria.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As DrawImageAbort)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)
-        '     method according to application-determined criteria.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As DrawImageAbort)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.Rectangle structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)
-        '     method according to application-determined criteria.
-        '
-        '   callbackData:
-        '     Value specifying additional data for the System.Drawing.Graphics.DrawImageAbort
-        '     delegate to use when checking whether to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Point[],System.Drawing.Rectangle,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)
-        '     method.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As Point, srcRect As Rectangle, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As DrawImageAbort, callbackData As Integer)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destPoints:
-        '     Array of three System.Drawing.PointF structures that define a parallelogram.
-        '
-        '   srcRect:
-        '     System.Drawing.RectangleF structure that specifies the portion of the image object
-        '     to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used by the srcRect parameter.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)
-        '     method according to application-determined criteria.
-        '
-        '   callbackData:
-        '     Value specifying additional data for the System.Drawing.Graphics.DrawImageAbort
-        '     delegate to use when checking whether to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.PointF[],System.Drawing.RectangleF,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.Int32)
-        '     method.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destPoints() As PointF, srcRect As RectangleF, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As DrawImageAbort, callbackData As Integer)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttrs:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttr As ImageAttributes)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttr:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for image.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)
-        '     method according to application-determined criteria.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttr As ImageAttributes, callback As DrawImageAbort)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttrs:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort)
-        '     method according to application-determined criteria.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As DrawImageAbort)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttrs:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Single,System.Single,System.Single,System.Single,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.IntPtr)
-        '     method according to application-determined criteria.
-        '
-        '   callbackData:
-        '     Value specifying additional data for the System.Drawing.Graphics.DrawImageAbort
-        '     delegate to use when checking whether to stop execution of the DrawImage method.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Single, srcY As Single, srcWidth As Single, srcHeight As Single, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As DrawImageAbort, callbackData As IntPtr)
-
-        End Sub
-        '
-        ' Summary:
-        '     Draws the specified portion of the specified System.Drawing.Image at the specified
-        '     location and with the specified size.
-        '
-        ' Parameters:
-        '   image:
-        '     System.Drawing.Image to draw.
-        '
-        '   destRect:
-        '     System.Drawing.Rectangle structure that specifies the location and size of the
-        '     drawn image. The image is scaled to fit the rectangle.
-        '
-        '   srcX:
-        '     The x-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcY:
-        '     The y-coordinate of the upper-left corner of the portion of the source image
-        '     to draw.
-        '
-        '   srcWidth:
-        '     Width of the portion of the source image to draw.
-        '
-        '   srcHeight:
-        '     Height of the portion of the source image to draw.
-        '
-        '   srcUnit:
-        '     Member of the System.Drawing.GraphicsUnit enumeration that specifies the units
-        '     of measure used to determine the source rectangle.
-        '
-        '   imageAttrs:
-        '     System.Drawing.Imaging.ImageAttributes that specifies recoloring and gamma information
-        '     for the image object.
-        '
-        '   callback:
-        '     System.Drawing.Graphics.DrawImageAbort delegate that specifies a method to call
-        '     during the drawing of the image. This method is called frequently to check whether
-        '     to stop execution of the System.Drawing.Graphics.DrawImage(System.Drawing.Image,System.Drawing.Rectangle,System.Int32,System.Int32,System.Int32,System.Int32,System.Drawing.GraphicsUnit,System.Drawing.Imaging.ImageAttributes,System.Drawing.Graphics.DrawImageAbort,System.IntPtr)
-        '     method according to application-determined criteria.
-        '
-        '   callbackData:
-        '     Value specifying additional data for the System.Drawing.Graphics.DrawImageAbort
-        '     delegate to use when checking whether to stop execution of the DrawImage method.
-        '
-        ' Exceptions:
-        '   T:System.ArgumentNullException:
-        '     image is null.
-        <Extension> Public Sub DrawImage(g As IGraphics, image As GraphicsData, destRect As Rectangle, srcX As Integer, srcY As Integer, srcWidth As Integer, srcHeight As Integer, srcUnit As GraphicsUnit, imageAttrs As ImageAttributes, callback As DrawImageAbort, callbackData As IntPtr)
-
-        End Sub
         '
         ' Summary:
         '     Draws a specified image using its original physical size at a specified location.

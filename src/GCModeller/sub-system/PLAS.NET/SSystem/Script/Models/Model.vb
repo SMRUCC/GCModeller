@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7083f0253e454dbe281346991b0c77a7, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
+﻿#Region "Microsoft.VisualBasic::587815e33b55230ec537f56b46b4f170, sub-system\PLAS.NET\SSystem\Script\Models\Model.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 65 (52.00%)
+    ' Comment Lines: 45 (36.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (12.00%)
+    '     File Size: 4.36 KB
+
 
     '     Class Model
     ' 
@@ -75,7 +87,7 @@ Namespace Script
         ''' <returns></returns>
         <XmlElement> Public Property [Constant] As NamedValue(Of String)()
 
-        Dim __varHash As Dictionary(Of var)
+        Dim __symbols As Dictionary(Of var)
 
         ''' <summary>
         ''' A collection of the system variables.
@@ -84,17 +96,17 @@ Namespace Script
         ''' <remarks></remarks>
         <XmlArray> Public Property Vars As var()
             Get
-                If __varHash Is Nothing Then
+                If __symbols Is Nothing Then
                     Return New var() {}
                 Else
-                    Return __varHash.Values.ToArray
+                    Return __symbols.Values.ToArray
                 End If
             End Get
             Set(value As var())
                 If value Is Nothing Then
-                    __varHash = New Dictionary(Of var)
+                    __symbols = New Dictionary(Of var)
                 Else
-                    __varHash = value.ToDictionary
+                    __symbols = value.ToDictionary
                 End If
             End Set
         End Property
@@ -129,11 +141,11 @@ Namespace Script
         End Property
 
         Public Sub Add(x As var)
-            Call __varHash.Add(x)
+            Call __symbols.Add(x)
         End Sub
 
         Public Function FindObject(x As String) As var
-            Return __varHash(x)
+            Return __symbols(x)
         End Function
 
         Public Overrides Function ToString() As String

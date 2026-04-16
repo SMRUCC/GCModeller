@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>construct a new kegg compound data model</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>compound {repository}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>construct a new kegg compound data model</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>compound</strong>(<i>entry</i>, <i>name</i>, <i>formula</i>, <i>exactMass</i>,
+    <i>reaction</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>enzyme</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>remarks</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>KCF</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>DBLinks</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>pathway</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>modules</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>entry</dt>
+<dd><p>the kegg compound id. [as string]</p></dd>
+
+
+<dt>name</dt>
+<dd><p>the compound common names. [as string]</p></dd>
+
+
+<dt>formula</dt>
+<dd><p>the chemical formula of the kegg compound. [as string]</p></dd>
+
+
+<dt>exactMass</dt>
+<dd><p>the evaluated exact mass value based on the formula string. [as double]</p></dd>
+
+
+<dt>reaction</dt>
+<dd><p>A set of the related kegg reaction data about current metabolite. [as string]</p></dd>
+
+
+<dt>enzyme</dt>
+<dd><p>A set of the related enzyme that associated with the reaction list. [as string]</p></dd>
+
+
+<dt>remarks</dt>
+<dd><p>comment text about this metabolite. [as string]</p></dd>
+
+
+<dt>KCF</dt>
+<dd><p>the molecular strucutre text. [as string]</p></dd>
+
+
+<dt>DBLinks</dt>
+<dd><p>A dataframe object that contains the external reference link to 
+ other database of current metabolite object, data fields: "db", "id", "link" should 
+ be exists in this dataframe object. [as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>pathway</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+
+<dt>modules</dt>
+<dd><p>[as <a href="/vignettes/clr/SMRUCC/Rsharp/Runtime/Internal/Object/dataframe.html">dataframe</a>]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        kegg_kit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Compound.html">Compound</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Assembly/KEGG/DBGET/bGetObject/Compound.html">Compound</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>repository</em> version 1.0.0.0 <a
+                href="../repository.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

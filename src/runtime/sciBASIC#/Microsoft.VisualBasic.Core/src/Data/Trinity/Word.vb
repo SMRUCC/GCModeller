@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d50d0ba2fcaaee407553abd3d8e34a41, Microsoft.VisualBasic.Core\src\Data\Trinity\Word.vb"
+﻿#Region "Microsoft.VisualBasic::ae637b4f6eadcb08451d98938a000a3b, Microsoft.VisualBasic.Core\src\Data\Trinity\Word.vb"
 
     ' Author:
     ' 
@@ -31,35 +31,85 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 33 (56.90%)
+    ' Comment Lines: 15 (25.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (17.24%)
+    '     File Size: 1.76 KB
+
+
     '     Class Word
     ' 
-    '         Properties: [Class], Text
+    '         Properties: [class], num, str
     ' 
-    '         Function: ToString
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: StartsWith, ToLower, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 
 Namespace Data.Trinity.NLP
 
+    ''' <summary>
+    ''' A single word text token
+    ''' </summary>
     Public Class Word : Implements Value(Of String).IValueOf
 
-        <XmlAttribute>
-        Public Property [Class] As WordClass
-        <XmlAttribute>
-        Public Property Text As String Implements Value(Of String).IValueOf.Value
+        ''' <summary>
+        ''' the word class type
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property [class] As WordClass
+
+        ''' <summary>
+        ''' the word text
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlAttribute> Public Property str As String Implements Value(Of String).IValueOf.Value
+
+        ''' <summary>
+        ''' the reference count of current word
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property num As Integer
+
+        Public Sub New(s As String)
+            Me.str = s
+            Me.num = 1
+        End Sub
 
         Public Overrides Function ToString() As String
             If [Class] = WordClass.NA Then
-                Return Text
+                Return str
             Else
-                Return $"{[Class].Description} {Text}"
+                Return $"{[class].Description} {str}"
             End If
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function StartsWith(token As String) As Boolean
+            Return str.StartsWith(token)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ToLower() As String
+            Return If(str, "").ToLower
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Narrowing Operator CType(w As Word) As String
+            Return w.str
+        End Operator
     End Class
 End Namespace

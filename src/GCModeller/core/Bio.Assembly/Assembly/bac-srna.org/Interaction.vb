@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb02d7b441a2bf7dd51f8c1b5fd39f0c, core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
+﻿#Region "Microsoft.VisualBasic::b3b0b9e0b0bc767459852f900d8927fa, core\Bio.Assembly\Assembly\bac-srna.org\Interaction.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 21 (42.86%)
+    ' Comment Lines: 21 (42.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (14.29%)
+    '     File Size: 1.61 KB
+
+
     '     Structure Interaction
     ' 
     '         Properties: Name, Organism, Reference, Regulation, sRNAid
@@ -44,11 +56,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 
 Namespace Assembly.Bac_sRNA.org
 

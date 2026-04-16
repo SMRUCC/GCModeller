@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a03a79b042b12082abfcd3540c9a7424, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::bc90c5df76a445c9f68da12398cbd7be, core\Bio.Assembly\SequenceModel\NucleicAcid\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 297
+    '    Code Lines: 174 (58.59%)
+    ' Comment Lines: 70 (23.57%)
+    '    - Xml Docs: 58.57%
+    ' 
+    '   Blank Lines: 53 (17.85%)
+    '     File Size: 11.62 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: HammingDistance, LevenshteinDistance, LevenshteinDistance2, Minimum, PatternMatched
-    '                   SegmentAssembler, Similarity
-    ' 
-    '         Sub: __assembly
+    '         Function: CalculateJCFromSequences, CalculateJukesCantorDistance, HammingDistance, LevenshteinDistance, LevenshteinDistance2
+    '                   Minimum, PatternMatched, Similarity
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,7 +57,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SequenceModel.NucleotideModels
 
@@ -61,8 +71,8 @@ Namespace SequenceModel.NucleotideModels
             Dim HammingDist As Integer = 0
 
             If seq1.Length <> seq2.Length Then
-                Length = stdNum.Min(seq1.Length, seq2.Length)
-                HammingDist = stdNum.Abs(seq1.Length - seq2.Length)
+                Length = std.Min(seq1.Length, seq2.Length)
+                HammingDist = std.Abs(seq1.Length - seq2.Length)
             End If
 
             For i As Integer = 0 To Length - 1
@@ -100,7 +110,7 @@ Namespace SequenceModel.NucleotideModels
                 Return n
             End If
 
-            d = MAT(Of Integer)(n + 1, m + 1)
+            d = RectangularArray.Matrix(Of Integer)(n + 1, m + 1)
 
             ' ========> Step 2
 
@@ -204,7 +214,7 @@ Namespace SequenceModel.NucleotideModels
                 For i = 1 To n
                     cost = If(s(i - 1) = t_j, 0, 1)
                     ' minimum of cell to the left+1, to the top+1, diagonally left and up +cost
-                    d(i) = stdNum.Min(Math.Min(d(i - 1) + 1, p(i) + 1), p(i - 1) + cost)
+                    d(i) = std.Min(Math.Min(d(i - 1) + 1, p(i) + 1), p(i - 1) + cost)
                 Next
 
                 ' copy current distance counts to 'previous row' distance counts
@@ -220,7 +230,7 @@ Namespace SequenceModel.NucleotideModels
 
         <ExportAPI("Similarity")>
         Public Function Similarity(s1 As String, s2 As String) As Double
-            Dim maxLength As Integer = stdNum.Max(s1.Length, s2.Length)
+            Dim maxLength As Integer = std.Max(s1.Length, s2.Length)
             Dim value As Double = 1.0 - CDbl(LevenshteinDistance(s1, s2)) / maxLength
             Return value
         End Function
@@ -246,72 +256,97 @@ Namespace SequenceModel.NucleotideModels
         End Function
 
         ''' <summary>
-        ''' 
+        ''' 根据Jukes-Cantor模型计算校正后的进化距离。
         ''' </summary>
-        ''' <param name="source"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function SegmentAssembler(source As IEnumerable(Of SimpleSegment)) As SimpleSegment()
-            Dim strands As Dictionary(Of String, SimpleSegment()) =
-                source _
-                .GroupBy(Function(s) s.Strand) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x)
-                                  Return x.ToArray
-                              End Function)
-            Dim out As New List(Of SimpleSegment)
-
-            If strands.ContainsKey("+") Then
-                Call strands("+").__assembly(out)
-            End If
-            If strands.ContainsKey("-") Then
-                Call strands("-").__assembly(out)
+        ''' <param name="p">观测到的序列差异比例 (范围 0 到 0.75)。</param>
+        ''' <returns>校正后的进化距离。如果输入无效，返回 Double.NaN。</returns>
+        Public Function CalculateJukesCantorDistance(p As Double) As Double
+            ' 输入验证
+            If p < 0 OrElse p >= 0.75 Then
+                ' 差异比例不能为负，且当 p >= 0.75 时，模型失效。
+                Return Double.NaN
             End If
 
-            Return out.ToArray
+            If Math.Abs(p) < 0.000000000001 Then ' 处理p=0的情况，避免不必要的计算
+                Return 0.0
+            End If
+
+            ' 应用 Jukes-Cantor 公式: d = - (3/4) * ln(1 - (4/3)*p)
+            Dim term As Double = 1.0 - (4.0 / 3.0) * p
+            If term <= 0 Then
+                Return Double.NaN ' 理论上在 p < 0.75 时不应发生，此处为安全保护
+            End If
+
+            Dim distance As Double = -(3.0 / 4.0) * Math.Log(term)
+            Return distance
         End Function
 
-        <Extension>
-        Private Sub __assembly(source As IEnumerable(Of SimpleSegment), ByRef out As List(Of SimpleSegment))
-            Dim list As New List(Of SimpleSegment)(source.OrderBy(Function(s) s.Start))
+        ''' <summary>
+        ''' 比较两条已对齐的DNA序列，并计算它们之间的Jukes-Cantor距离。
+        ''' </summary>
+        ''' <param name="sequence1">第一条DNA序列。</param>
+        ''' <param name="sequence2">第二条DNA序列。</param>
+        ''' <param name="ignoreCase">是否忽略大小写（默认忽略）。</param>
+        ''' <param name="gapPenalty">如何处理缺失位点（-）：‘N’=视为未知不计入， ‘P’=视为差异， ‘S’=跳过整个位点。</param>
+        ''' <returns>Jukes-Cantor距离。如果计算失败，返回 Double.NaN。</returns>
+        Public Function CalculateJCFromSequences(sequence1 As String,
+                                                 sequence2 As String,
+                                                 Optional ignoreCase As Boolean = True,
+                                                 Optional gapPenalty As String = "N") As Double
 
-            Do While list.Count > 0
-                Dim removes As New List(Of SimpleSegment)
-                Dim current As SimpleSegment = list(Scan0)
+            ' 1. 基本检查
+            If String.IsNullOrEmpty(sequence1) OrElse String.IsNullOrEmpty(sequence2) Then
+                Return Double.NaN
+            End If
 
-                list.RemoveAt(Scan0)
-                current.Ends = current.Start + current.SequenceData.Length
+            Dim seq1 As String = If(ignoreCase, sequence1.ToUpper(), sequence1)
+            Dim seq2 As String = If(ignoreCase, sequence2.ToUpper(), sequence2)
 
-                For i As Integer = 0 To list.Count - 1
+            If seq1.Length <> seq2.Length Then
+                Console.WriteLine("错误：序列长度不一致。")
+                Return Double.NaN
+            End If
 
-                    With list(i)
+            ' 2. 遍历序列，统计
+            Dim comparedSites As Integer = 0
+            Dim differentSites As Integer = 0
 
-                        .Ends = .Start + .SequenceData.Length ' 不信任輸入的數據的右端的位置？？
+            For i As Integer = 0 To seq1.Length - 1
+                Dim char1 As Char = seq1(i)
+                Dim char2 As Char = seq2(i)
 
-                        Dim loci = .MappingLocation
+                ' 处理缺失/未知位点
+                If char1 = "-"c OrElse char2 = "-"c OrElse char1 = "N"c OrElse char2 = "N"c Then
+                    Select Case gapPenalty
+                        Case "N"c ' 忽略此位点，不参与比较
+                            Continue For
+                        Case "P"c ' 视为差异
+                            differentSites += 1
+                            comparedSites += 1
+                        Case "S"c ' 严格模式：遇到缺失即认为整个比对无效（示例中直接跳过）
+                            Continue For
+                        Case Else
+                            Continue For
+                    End Select
+                Else
+                    ' 正常核苷酸比较
+                    comparedSites += 1
+                    If char1 <> char2 Then
+                        differentSites += 1
+                    End If
+                End If
+            Next
 
-                        If current.MappingLocation(True).Inside(loci, 0) Then
-                            removes.Add(list(i))  ' target is already includes in current, ignores
-                        ElseIf current.MappingLocation.IsOverlapping(loci) Then
-                            Dim l = current.MappingLocation.Right - loci.Left + 1   ' extends current
-                            Dim seq$ = Mid(.SequenceData, l)
+            ' 3. 计算差异比例并调用核心JC函数
+            If comparedSites = 0 Then
+                Console.WriteLine("警告：没有可用于比较的有效位点。")
+                Return Double.NaN
+            End If
 
-                            current.SequenceData &= seq
-                            current.Ends += seq.Length
+            Dim p As Double = differentSites / comparedSites
+            Console.WriteLine($"信息：比较了 {comparedSites} 个位点，其中 {differentSites} 个不同，差异比例 p = {p:F4}")
 
-                            removes.Add(list(i))
-                        Else
-                            Exit For
-                        End If
-                    End With
-                Next
-
-                For Each s In removes
-                    Call list.Remove(s)
-                Next
-
-                Call out.Add(current)
-            Loop
-        End Sub
+            Return CalculateJukesCantorDistance(p)
+        End Function
     End Module
 End Namespace

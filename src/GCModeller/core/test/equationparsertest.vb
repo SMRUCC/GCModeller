@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::746e826a92e215e68d65f8b276453074, core\test\equationparsertest.vb"
+﻿#Region "Microsoft.VisualBasic::d12ffb18a86a033878e5d578cbe1574d, core\test\equationparsertest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 13 (72.22%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (27.78%)
+    '     File Size: 599 B
+
+
     ' Module equationparsertest
     ' 
     '     Sub: Main
@@ -50,9 +62,9 @@ Module equationparsertest
         Dim eq2$ = "C00024 + C00400 <=> C00010 + C09870"
         Dim eq3$ = "C00024 + C00083 + 2C00005 + 4C00080 <=> C02843 + C00010 + C00011 + 2C00006 + C00001"
 
-        Call Equation.TryParse(eq1).GetJson.__DEBUG_ECHO
-        Call Equation.TryParse(eq2).GetJson.__DEBUG_ECHO
-        Call Equation.TryParse(eq3).GetJson.__DEBUG_ECHO
+        Call Equation.TryParse(eq1).GetJson.debug
+        Call Equation.TryParse(eq2).GetJson.debug
+        Call Equation.TryParse(eq3).GetJson.debug
 
         Pause()
     End Sub

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bca50246b74ffaebaa2aa8a1bc0df11c, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MeasureData.vb"
+﻿#Region "Microsoft.VisualBasic::8fa064850ce9e9f183238e31d68491ce, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MeasureData.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 23 (46.00%)
+    ' Comment Lines: 18 (36.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (18.00%)
+    '     File Size: 1.28 KB
+
+
     '     Class MeasureData
     ' 
     '         Properties: X, Y, Z
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -43,29 +55,37 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.HeatMap
+
 Namespace Drawing2D.Math2D.MarchingSquares
 
     ''' <summary>
     ''' 测量数据
     ''' </summary>
-    Public Class MeasureData
+    Public Class MeasureData : Implements Pixel
 
         ''' <summary>
         ''' 坐标X
         ''' </summary>
-        Public Property X As Integer
+        Public Property X As Integer Implements Pixel.X
 
         ''' <summary>
         ''' 坐标Y
         ''' </summary>
-        Public Property Y As Integer
+        Public Property Y As Integer Implements Pixel.Y
 
         ''' <summary>
         ''' 高度
         ''' </summary>
-        Public Property Z As Double
+        Public Property Z As Double Implements Pixel.Scale
 
         Sub New()
+        End Sub
+
+        Sub New(pt As Pixel)
+            X = pt.X
+            Y = pt.Y
+            Z = pt.Scale
         End Sub
 
         ''' <summary>

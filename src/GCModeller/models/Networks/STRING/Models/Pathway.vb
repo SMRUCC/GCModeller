@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 27 (43.55%)
+    ' Comment Lines: 28 (45.16%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (11.29%)
+    '     File Size: 2.19 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: Effectors, OCS, TCSSystem, TF, TF_MiST2Type

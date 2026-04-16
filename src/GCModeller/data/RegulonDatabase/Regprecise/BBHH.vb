@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b7e74bbfed0ac5f3bf31eff89964a099, data\RegulonDatabase\Regprecise\BBHH.vb"
+﻿#Region "Microsoft.VisualBasic::99c3f7ed71586c0d94b23e7e44c124c7, data\RegulonDatabase\Regprecise\BBHH.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 27 (57.45%)
+    ' Comment Lines: 14 (29.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (12.77%)
+    '     File Size: 1.83 KB
+
+
     '     Class bbhMappings
     ' 
     '         Properties: definition, Family, hit_name, Identities, Positive
@@ -47,8 +59,7 @@
 
 #End Region
 
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace Regprecise
 
@@ -71,7 +82,7 @@ Namespace Regprecise
         Public Property hit_name As String Implements IBlastHit.hitName
         Public Property vimssId As Integer
         Public Property Family As String
-        Public Property definition As String
+        Public Property definition As String Implements IBlastHit.description
 
         Public Overrides Function ToString() As String
             Return $"{query_name}  --> {hit_name}"

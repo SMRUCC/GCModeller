@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ace5fbf8bf94db31bd3e2384fd9c01f6, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
+﻿#Region "Microsoft.VisualBasic::a1429b06a36df7e168079515360be397, models\Networks\KEGG\PathwayMaps\ReferenceMap.vb"
 
     ' Author:
     ' 
@@ -31,40 +31,79 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 567
+    '    Code Lines: 466 (82.19%)
+    ' Comment Lines: 38 (6.70%)
+    '    - Xml Docs: 47.37%
+    ' 
+    '   Blank Lines: 63 (11.11%)
+    '     File Size: 26.68 KB
+
+
     '     Module ReferenceMap
     ' 
     '         Function: (+2 Overloads) BuildNetworkModel, buildNetworkModelInternal, createNodeTable, getCompoundClassCategory, getCompoundIndex
     '                   (+2 Overloads) getCompoundsInMap, getKOlist, reactionKOFilter
     ' 
-    '         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, removesUnmapped
+    '         Sub: doMapAssignment, edgesFromClassFilter, edgesFromNoneClassFilter, mapColors, removesUnmapped
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace PathwayMaps
 
     Public Module ReferenceMap
 
         Private Function getCompoundsInMap(map As Map) As IEnumerable(Of NamedValue(Of String))
-            Return map.shapes _
+            Return map.shapes.mapdata _
                 .Select(Function(a) a.Names) _
                 .IteratesALL _
                 .Where(Function(term)
@@ -74,7 +113,7 @@ Namespace PathwayMaps
                             Return New NamedValue(Of String) With {
                                 .Name = c.Name,
                                 .Value = c.Value,
-                                .Description = map.id
+                                .Description = map.EntryId
                             }
                         End Function)
         End Function
@@ -112,27 +151,30 @@ Namespace PathwayMaps
         End Function
 
         <Extension>
-        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))(), compoundsWithBiologicalRoles As Dictionary(Of String, String)) As Dictionary(Of String, Node)
-            Dim nodes As New Dictionary(Of String, Node)
-            Dim node As Node
-            Dim mapList$
+        Private Function createNodeTable(compounds As IGrouping(Of String, NamedValue(Of String))(),
+                                         compoundsWithBiologicalRoles As Dictionary(Of String, String)) As NetworkGraph
 
-            For Each compound In compounds
+            Dim node As Node, data As NodeData
+            Dim mapList$
+            Dim g As New NetworkGraph
+
+            For Each compound As IGrouping(Of String, NamedValue(Of String)) In compounds
                 mapList = compound.Select(Function(map) map.Description).JoinBy("|")
-                node = New Node With {
-                    .ID = compound.Key,
-                    .NodeType = "compound",
+                data = New NodeData With {
+                    .label = compound.Key,
+                    .origID = compound.Key,
                     .Properties = New Dictionary(Of String, String) From {
-                        {"label", compound.First.Value},
                         {"maps", mapList},
-                        {"class", compoundsWithBiologicalRoles.TryGetValue(compound.Key, [default]:="NA")}
+                        {"class", compoundsWithBiologicalRoles.TryGetValue(compound.Key, [default]:="NA")},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "compound"}
                     }
                 }
+                node = New Node(compound.Key, data)
 
-                Call nodes.Add(compound.Key, node)
+                Call g.AddNode(node)
             Next
 
-            Return nodes
+            Return g
         End Function
 
         ''' <summary>
@@ -174,7 +216,6 @@ Namespace PathwayMaps
         ''' 
         ''' </summary>
         ''' <param name="maps">
-        ''' <see cref="OrganismModel.EnumerateModules(String)"/>
         ''' </param>
         ''' <param name="reactions"></param>
         ''' <returns></returns>
@@ -184,7 +225,8 @@ Namespace PathwayMaps
                                           Optional doRemoveUnmmaped As Boolean = False,
                                           Optional coverageCutoff As Double = 0,
                                           Optional categoryLevel2 As Boolean = False,
-                                          Optional topMaps As String() = Nothing) As NetworkTables
+                                          Optional topMaps As String() = Nothing,
+                                          Optional groupColors As Color() = Nothing) As NetworkGraph
             Dim mapsVector = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.ToArray
             Dim compounds = mapsVector _
@@ -210,7 +252,8 @@ Namespace PathwayMaps
                 doRemoveUnmmaped:=doRemoveUnmmaped,
                 coverageCutoff:=coverageCutoff,
                 categoryLevel2:=categoryLevel2,
-                topMaps:=topMaps
+                topMaps:=topMaps,
+                groupColors:=groupColors
             )
         End Function
 
@@ -223,13 +266,13 @@ Namespace PathwayMaps
                                                    doRemoveUnmmaped As Boolean,
                                                    coverageCutoff As Double,
                                                    categoryLevel2 As Boolean,
-                                                   topMaps As String()) As NetworkTables
+                                                   topMaps As String(),
+                                                   groupColors As Color()) As NetworkGraph
 
             Dim reactantIndex = reactionVector.getCompoundIndex(Function(r) r.substrates)
             Dim productIndex = reactionVector.getCompoundIndex(Function(r) r.products)
             Dim compoundsWithBiologicalRoles = getCompoundClassCategory()
-            Dim nodes As Dictionary(Of String, Node) = compounds.createNodeTable(compoundsWithBiologicalRoles)
-            Dim edges As New List(Of NetworkEdge)
+            Dim g As NetworkGraph = compounds.createNodeTable(compoundsWithBiologicalRoles)
 
             ' 下面的两个for循环产生的是从reactant a到products b的反应过程边连接
             For Each a As IGrouping(Of String, NamedValue(Of String)) In compounds
@@ -251,56 +294,49 @@ Namespace PathwayMaps
                                           Return group.Select(Function(r) r.r).ToArray
                                       End Function)
 
-                    Call producs.edgesFromNoneClassFilter(a, compounds, nodes, edges, aName)
+                    Call producs.edgesFromNoneClassFilter(a, compounds, g, aName)
                 Else
-                    Call forwards.edgesFromClassFilter(a.Key, aName, nodes, edges, reactionClass)
+                    Call forwards.edgesFromClassFilter(a.Key, aName, g, reactionClass)
                 End If
             Next
 
-            Dim g As New NetworkTables(nodes.Values, edges)
-            Dim nodesVector As Node() = nodes.Values.ToArray
-
-            Call nodesVector.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff, categoryLevel2, topMaps)
+            Call g.vertex.ToArray.doMapAssignment(compoundCluster, reactionCluster, coverageCutoff, categoryLevel2, topMaps, groupColors)
             Call g.removesUnmapped(doRemoveUnmmaped)
             Call g.RemoveDuplicated()
-            Call g.RemovesIsolatedNodes()
             Call g.ComputeNodeDegrees
+            Call g.RemovesIsolatedNodes()
 
-            Call $"Result network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
+            Call $"Result network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".info
 
             Return g
         End Function
 
         <Extension>
-        Private Sub removesUnmapped(g As NetworkTables, doRemoveUnmmaped As Boolean)
+        Private Sub removesUnmapped(g As NetworkGraph, doRemoveUnmmaped As Boolean)
             If Not doRemoveUnmmaped Then
                 Return
             Else
-                Call "All of the unmapped node and the related edges will be removed from the network graph.".__DEBUG_ECHO
+                Call "All of the unmapped node and the related edges will be removed from the network graph.".debug
             End If
 
-            Dim nodesToRemoves As Index(Of String) = g.nodes.Where(Function(n) n("group") = "NA").Keys.Indexing
+            Dim nodesToRemoves As Index(Of String) = g.vertex.Where(Function(n) n.data("group") = "NA").Keys.Indexing
 
-            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".__INFO_ECHO
-            Call $"Current network size=[{g.nodes.Length} nodes, {g.edges.Length} edges]".__INFO_ECHO
+            Call $"There are {nodesToRemoves.Count} unmapped nodes will be removes from graph".info
+            Call $"Current network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges]".info
 
             ' removes all of the unmapped nodes
-            g.nodes = g.nodes.Where(Function(n) Not n.ID Like nodesToRemoves).ToArray
             ' removes all of the unmapped node related edges
-            g.edges = g.edges _
-                .Where(Function(e)
-                           Return Not New String() {e.fromNode, e.toNode}.Any(Function(id) id Like nodesToRemoves)
-                       End Function) _
-                .ToArray
+            Call g.graphEdges.Where(Function(e) e.U.label Like nodesToRemoves OrElse e.V.label Like nodesToRemoves).DoEach(Sub(e) Call g.RemoveEdge(e))
+            Call g.vertex.Where(Function(v) v.label Like nodesToRemoves).DoEach(Sub(v) Call g.RemoveNode(v))
 
-            Call $"Network size=[{g.nodes.Length} nodes, {g.edges.Length} edges] after operation of removes unmapped nodes".__INFO_ECHO
+            Call $"Network size=[{g.vertex.Count} nodes, {g.graphEdges.Count} edges] after operation of removes unmapped nodes".info
         End Sub
 
         <Extension>
         Private Sub edgesFromClassFilter(forwards As ReactionTable(), aId$, aName$,
-                                         ByRef nodes As Dictionary(Of String, Node),
-                                         ByRef edges As List(Of NetworkEdge),
+                                         g As NetworkGraph,
                                          reactionClass As ReactionClassifier)
+            Dim data1, data2 As EdgeData
 
             For Each flux As ReactionTable In forwards
                 For Each transform In reactionClass.GetReactantTransform(flux.entry, {aId}, flux.products)
@@ -314,40 +350,38 @@ Namespace PathwayMaps
 
                     Dim bName = transform.to
 
-                    ' reactant -> reaction
-                    ' reaction -> product
-                    Dim edge1 As New NetworkEdge With {
-                        .fromNode = aId,
-                        .toNode = flux.entry,
-                        .interaction = "substrate",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", aName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-                    Dim edge2 As New NetworkEdge With {
-                        .fromNode = flux.entry,
-                        .toNode = transform.to,
-                        .interaction = "product",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", bName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-
-                    edges = edges + edge1 + edge2
-
-                    If Not nodes.ContainsKey(flux.entry) Then
-                        Dim fluxNode As New Node With {
-                            .ID = flux.entry,
-                            .NodeType = "flux",
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault}
+                    If g.GetElementByID(flux.entry) Is Nothing Then
+                        Dim fluxNode As New Node(flux.entry) With {
+                            .data = New NodeData With {
+                                .label = flux.EC.JoinBy("+") Or flux.name.AsDefault,
+                                .origID = flux.entry,
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "flux"}
+                                }
                             }
                         }
 
-                        Call nodes.Add(flux.entry, fluxNode)
+                        Call g.AddNode(fluxNode)
                     End If
+
+                    ' reactant -> reaction
+                    ' reaction -> product
+                    data1 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", aName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "substrate"}
+                        }
+                    }
+                    g.CreateEdge(aId, flux.entry,, data1)
+                    data2 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", bName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"}
+                        }
+                    }
+                    g.CreateEdge(flux.entry, transform.to,, data2)
                 Next
             Next
         End Sub
@@ -356,9 +390,9 @@ Namespace PathwayMaps
         Private Sub edgesFromNoneClassFilter(producs As Dictionary(Of String, ReactionTable()),
                                              a As IGrouping(Of String, NamedValue(Of String)),
                                              compounds As IGrouping(Of String, NamedValue(Of String))(),
-                                             ByRef nodes As Dictionary(Of String, Node),
-                                             ByRef edges As List(Of NetworkEdge),
+                                             g As NetworkGraph,
                                              aName$)
+            Dim data1, data2 As EdgeData
 
             For Each b In compounds.Where(Function(c) c.Key <> a.Key AndAlso producs.ContainsKey(c.Key))
                 Dim bName$ = b.First.Value
@@ -366,38 +400,35 @@ Namespace PathwayMaps
                 ' reactant -> reaction
                 ' reaction -> product
                 For Each flux As ReactionTable In producs(b.Key)
-                    Dim edge1 As New NetworkEdge With {
-                        .fromNode = a.Key,
-                        .toNode = flux.entry,
-                        .interaction = "substrate",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", aName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-                    Dim edge2 As New NetworkEdge With {
-                        .fromNode = flux.entry,
-                        .toNode = b.Key,
-                        .interaction = "product",
-                        .Properties = New Dictionary(Of String, String) From {
-                            {"compound.name", bName},
-                            {"flux.name", flux.EC.FirstOrDefault}
-                        }
-                    }
-
-                    edges = edges + edge1 + edge2
-
-                    If Not nodes.ContainsKey(flux.entry) Then
-                        Dim fluxNode As New Node With {
-                            .ID = flux.entry,
-                            .NodeType = "flux",
-                            .Properties = New Dictionary(Of String, String) From {
-                                {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault}
+                    If g.GetElementByID(flux.entry) Is Nothing Then
+                        Dim fluxNode As New Node(flux.entry) With {
+                            .data = New NodeData With {
+                                .Properties = New Dictionary(Of String, String) From {
+                                    {"label", flux.EC.JoinBy("+") Or flux.name.AsDefault},
+                                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "flux"}
+                                }
                             }
                         }
 
-                        Call nodes.Add(flux.entry, fluxNode)
+                        Call g.AddNode(fluxNode)
                     End If
+
+                    data1 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", aName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "substrate"}
+                        }
+                    }
+                    g.CreateEdge(a.Key, flux.entry,, data1)
+                    data2 = New EdgeData With {
+                        .Properties = New Dictionary(Of String, String) From {
+                            {"compound.name", bName},
+                            {"flux.name", flux.EC.FirstOrDefault},
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, "product"}
+                        }
+                    }
+                    g.CreateEdge(flux.entry, b.Key,, data2)
                 Next
             Next
         End Sub
@@ -408,10 +439,11 @@ Namespace PathwayMaps
                                     reactionCluster As NamedCollection(Of String)(),
                                     coverageCutoff As Double,
                                     categoryLevel2 As Boolean,
-                                    topMaps As String())
+                                    topMaps As String(),
+                                    groupColors As Color())
 
-            Dim compoundsId = nodes.Where(Function(n) n.NodeType <> "flux").Keys
-            Dim reactionsId = nodes.Where(Function(n) n.NodeType = "flux").Keys
+            Dim compoundsId = nodes.Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) <> "flux").Keys
+            Dim reactionsId = nodes.Where(Function(n) n.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "flux").Keys
             Dim compoundsAssignment = MapAssignment.MapAssignmentByCoverage(
                 objects:=compoundsId,
                 maps:=compoundCluster,
@@ -426,20 +458,20 @@ Namespace PathwayMaps
                 topMaps:=topMaps
             ).CategoryValues
 
-            Call "Do node map assignment.".__DEBUG_ECHO
+            Call "Do node map assignment.".debug
 
             For Each node As Node In nodes
-                If node.NodeType = "flux" Then
+                If node.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = "flux" Then
                     If reactionsAssignment.ContainsKey(node.ID) Then
-                        node("group") = reactionsAssignment(node.ID)
+                        node.data("group") = reactionsAssignment(node.ID)
                     Else
-                        node("group") = "NA"
+                        node.data("group") = "NA"
                     End If
                 Else
                     If compoundsAssignment.ContainsKey(node.ID) Then
-                        node("group") = compoundsAssignment(node.ID)
+                        node.data("group") = compoundsAssignment(node.ID)
                     Else
-                        node("group") = "NA"
+                        node.data("group") = "NA"
                     End If
                 End If
             Next
@@ -448,32 +480,40 @@ Namespace PathwayMaps
             Dim map As Pathway
 
             If categoryLevel2 Then
-                Call "Do map assignment in category level 3".__DEBUG_ECHO
+                Call "Do map assignment in category level 3".debug
             End If
 
             For Each node As Node In nodes
-                If node("group") <> "NA" Then
-                    map = mapCategories(node("group").Match("\d+"))
+                If node.data("group") <> "NA" Then
+                    map = mapCategories(node.data("group").Match("\d+"))
 
-                    node("group.class") = map.class
-                    node("group.category") = If(categoryLevel2, map.entry.text, map.category)
+                    node.data("group.class") = map.class
+                    node.data("group.category") = If(categoryLevel2, map.entry.text, map.category)
                 End If
             Next
 
+            If Not groupColors.IsNullOrEmpty Then
+                Call mapColors(nodes, groupColors)
+            End If
+        End Sub
+
+        Private Sub mapColors(nodes As Node(), groupColor As Color())
             Dim category As Dictionary(Of String, String) = nodes _
-                .Where(Function(n) n("group") <> "NA") _
-                .ToDictionary(Function(n) n.ID,
+                .Where(Function(n) n.data("group") <> "NA") _
+                .ToDictionary(Function(n) n.label,
                               Function(n)
-                                  Return n("group.category")
+                                  Return n.data("group.category")
                               End Function)
-            Dim categoryColors As New CategoryColorProfile(
-                category:=category,
-                colorSchema:="Set1:c8"
-            )
+            Dim catIndex = category.Values.Distinct.Indexing
+            Dim i As Integer
 
             For Each node As Node In nodes
-                If node("group") <> "NA" Then
-                    node("group.category.color") = categoryColors.GetColor(node.ID).ToHtmlColor
+                If node.data("group") <> "NA" Then
+                    i = catIndex.IndexOf(node.data("group"))
+
+                    If i < groupColor.Length Then
+                        node.data.color = New SolidBrush(groupColor(i))
+                    End If
                 End If
             Next
         End Sub
@@ -492,7 +532,11 @@ Namespace PathwayMaps
 
         <Extension>
         Private Function getKOlist(maps As IEnumerable(Of Map)) As Index(Of String)
-            Return maps.Select(Function(map) map.shapes.Select(Function(a) a.IDVector)) _
+            Return maps _
+                .Select(Function(map)
+                            Return map.shapes.mapdata _
+                                .Select(Function(a) a.IDVector)
+                        End Function) _
                 .IteratesALL _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("K\d+")) _
@@ -507,7 +551,7 @@ Namespace PathwayMaps
         ''' <see cref="MapRepository.ScanMaps(String)"/>
         ''' </param>
         ''' <param name="reactions">
-        ''' <see cref="ReactionTable.Load(String)"/>
+        ''' <see cref="ReactionTable.LoadXmls(String)"/>
         ''' </param>
         ''' <returns></returns>
         Public Function BuildNetworkModel(maps As IEnumerable(Of Map), reactions As IEnumerable(Of ReactionTable),
@@ -517,7 +561,8 @@ Namespace PathwayMaps
                                           Optional coverageCutoff As Double = 0,
                                           Optional categoryLevel2 As Boolean = False,
                                           Optional topMaps As String() = Nothing,
-                                          Optional ignores As Index(Of String) = Nothing) As NetworkTables
+                                          Optional ignores As Index(Of String) = Nothing,
+                                          Optional groupColors As Color() = Nothing) As NetworkGraph
 
             Dim mapsVector As Map() = maps.ToArray
             Dim reactionVector As ReactionTable() = reactions.reactionKOFilter(mapsVector.getKOlist).ToArray
@@ -571,7 +616,8 @@ Namespace PathwayMaps
                 doRemoveUnmmaped:=doRemoveUnmmaped,
                 coverageCutoff:=coverageCutoff,
                 categoryLevel2:=categoryLevel2,
-                topMaps:=topMaps
+                topMaps:=topMaps,
+                groupColors:=groupColors
             )
         End Function
     End Module

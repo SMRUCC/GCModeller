@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bf2e39c6d6b51cf3bf926f6c49d630c, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
+﻿#Region "Microsoft.VisualBasic::0bef4d29db88c3a503c8eacd0d77c0f6, core\Bio.Assembly\SequenceModel\FASTA\IO\StreamIterator.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 96 (56.47%)
+    ' Comment Lines: 46 (27.06%)
+    '    - Xml Docs: 71.74%
+    ' 
+    '   Blank Lines: 28 (16.47%)
+    '     File Size: 6.64 KB
+
+
     '     Class StreamIterator
     ' 
     '         Properties: DefaultSuffix
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: __loops, BufferProvider, ReadStream, SeqSource, Split
+    '         Function: BufferProvider, Loops, ReadStream, SeqSource, Split
     ' 
     '         Sub: (+2 Overloads) Dispose
     ' 
@@ -75,7 +87,7 @@ Namespace SequenceModel.FASTA
         Public Iterator Function ReadStream() As IEnumerable(Of FastaSeq)
             Dim stream As New List(Of String)
 
-            For Each fa As FastaSeq In __loops(stream)
+            For Each fa As FastaSeq In Loops(stream)
                 Yield fa
             Next
 
@@ -100,7 +112,7 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="stream"></param>
         ''' <returns></returns>
-        Private Iterator Function __loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
+        Private Iterator Function Loops(stream As List(Of String)) As IEnumerable(Of FastaSeq)
             For Each line As String In BufferProvider()   ' 读取一个数据块
                 If line.StringEmpty Then  ' 跳过空白的行
                     Continue For
@@ -166,7 +178,7 @@ Namespace SequenceModel.FASTA
         Public Shared Iterator Function SeqSource(handle$, Optional ext$() = Nothing, Optional debug As Boolean = False) As IEnumerable(Of FastaSeq)
             If (handle.Last <> "/"c AndAlso handle.Last <> "\"c) AndAlso handle.FixPath.FileExists Then
                 If debug Then
-                    Call "File exists, reading fasta data from file...".__DEBUG_ECHO
+                    Call "File exists, reading fasta data from file...".debug
                 End If
 
                 For Each fa As FastaSeq In New StreamIterator(handle).ReadStream
@@ -174,13 +186,13 @@ Namespace SequenceModel.FASTA
                 Next
             Else
                 If debug Then
-                    Call "Directory exists, reading fasta data from files in DATA directory...".__DEBUG_ECHO
-                    Call $"File types: {(ext Or DefaultSuffix).GetJson}".__DEBUG_ECHO
+                    Call "Directory exists, reading fasta data from files in DATA directory...".debug
+                    Call $"File types: {(ext Or DefaultSuffix).GetJson}".debug
                 End If
 
                 For Each file As String In ls - l - r - (ext Or DefaultSuffix) <= handle
                     If debug Then
-                        Call file.ToFileURL.__DEBUG_ECHO
+                        Call file.ToFileURL.debug
                     End If
                     For Each nt As FastaSeq In New StreamIterator(file).ReadStream
                         Yield nt

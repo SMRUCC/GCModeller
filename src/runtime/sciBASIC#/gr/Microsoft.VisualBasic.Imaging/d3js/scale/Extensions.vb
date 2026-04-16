@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::297a7b17bb958a3901d06fef61a79138, gr\Microsoft.VisualBasic.Imaging\d3js\scale\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2137b78b3599d92712897360b2681cbb, gr\Microsoft.VisualBasic.Imaging\d3js\scale\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 24 (26.37%)
+    ' Comment Lines: 61 (67.03%)
+    '    - Xml Docs: 85.25%
+    ' 
+    '   Blank Lines: 6 (6.59%)
+    '     File Size: 4.22 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: linear, LinearScale, ordinal
+    '         Function: constant, linear, LinearScale, ordinal
     ' 
     ' 
     ' /********************************************************************************/
@@ -90,6 +102,10 @@ Namespace d3js.scale
             Return New OrdinalScale
         End Function
 
+        Public Function constant(val As Double) As ConstantScale
+            Return New ConstantScale(val)
+        End Function
+
         ''' <summary>
         ''' > Quantitative scales have a continuous domain, such as the set of real numbers, or dates.
         ''' 
@@ -122,8 +138,8 @@ Namespace d3js.scale
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function LinearScale(domain As IEnumerable(Of Double)) As LinearScale
-            Return d3js.scale.linear.domain(domain)
+        Public Function LinearScale(domain As IEnumerable(Of Double), Optional reverse As Boolean = False) As LinearScale
+            Return d3js.scale.linear(reverse:=reverse).domain(domain)
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82bb5071ed84375223c4645b0496c05a, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SiteSigma.vb"
+﻿#Region "Microsoft.VisualBasic::dd1a993c8bf80d81708090f387e4ddd1, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\SiteSigma.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 6 (54.55%)
+    ' Comment Lines: 4 (36.36%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (9.09%)
+    '     File Size: 405 B
+
+
     ' Class SiteSigma
     ' 
     '     Properties: Sigma, Similarity, Site
@@ -39,8 +51,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports SMRUCC.genomics.Analysis.SequenceTools.DNA_Comparative.DeltaSimilarity1998.DifferenceMeasurement
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 ''' <summary>
 ''' 基因组两两比较所得到的位点距离数据

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8bfcb735248004c0e3dd29141ab3df0, engine\Model\Cellular\Molecule\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::77d0c1b5fef6c5fdd66202c9a0480dde, engine\Model\Cellular\Molecule\Protein.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 20 (50.00%)
+    ' Comment Lines: 13 (32.50%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.18 KB
+
+
     '     Structure Protein
     ' 
-    '         Properties: ProteinID
+    '         Properties: isAutoConstructed, ProteinID
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,7 +67,19 @@ Namespace Cellular.Molecule
         Dim polypeptides As String()
         Dim compounds As String()
 
+        ''' <summary>
+        ''' the unique id of current protein complex
+        ''' </summary>
+        ''' <returns></returns>
         Public Property ProteinID As String
+
+        Public ReadOnly Property isAutoConstructed As Boolean
+            Get
+                Return polypeptides.TryCount = 1 AndAlso
+                    compounds.IsNullOrEmpty AndAlso
+                    polypeptides.First = ProteinID
+            End Get
+        End Property
 
         ''' <summary>
         ''' 这个蛋白质是由一条多肽链所构成的
@@ -63,6 +88,10 @@ Namespace Cellular.Molecule
         Sub New(proteinId As String)
             polypeptides = {proteinId}
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return If(isAutoConstructed, "[auto-construct] ", "") & ProteinID
+        End Function
 
     End Structure
 End Namespace

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Data.RCSB.PDB.PDB</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PDB {SMRUCC.genomics.Data.RCSB.PDB}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PDB</h2>
+
+        <h3>Description</h3>
+
+        <p>The <strong>RCSB PDB file format</strong> is a standardized text-based format used to represent 3D structural
+ data of biological macromolecules, such as proteins, nucleic acids, and viruses. Managed by the
+ Research Collaboratory for Structural Bioinformatics (RCSB), it serves as the primary format for 
+ entries in the Protein Data Bank (PDB), a global repository for experimentally determined structures. 
+ Below is a detailed introduction:
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Key Features</strong>
+ 
+ 1. <strong>Text-Based Structure</strong>:  
+    Plain text file (`.pdb` extension) with a <strong>fixed-column format</strong>, meaning data is organized 
+    into specific columns for consistency. Each line begins with a <strong>record type</strong> (e.g., `ATOM`, 
+    `HETATM`, `HEADER`) that defines the data it contains.
+ 
+ 2. <strong>Core Components</strong>:  
+    - <strong>Atomic Coordinates</strong>: Stored in `ATOM` (standard residues) and `HETATM` (heteroatoms, e.g., water, ligands) records.  
+    - <strong>Metadata</strong>: Includes details like the title (`TITLE`), experimental method (`EXPDTA`), authors (`AUTHOR`), and biological source (`SOURCE`).  
+    - <strong>Sequence Information</strong>: Provided in `SEQRES` lines.  
+    - <strong>Secondary Structure</strong>: Annotated in `HELIX`, `SHEET`, and `TURN` records.  
+    - <strong>Connectivity</strong>: Bonds between atoms are listed in `CONECT` lines.  
+    - <strong>Crystallographic Data</strong>: Unit cell parameters (`CRYST1`), symmetry operations, and resolution.
+ 
+ 3. <strong>Example ATOM/HETATM Line</strong>:  
+
+
+<pre><code class="">    ATOM   2301  CA  SER A 301      26.417  24.105  34.560  1.00 30.97           C  
+    HETATM 9101  O   HOH A 910      10.500  20.100  30.500  1.00 25.00           O  
+</code></pre>
+
+</p>
+
+<p>- <strong>Columns 1-6</strong>: Record type (e.g., `ATOM`).  
+    - <strong>Columns 7-11</strong>: Atom serial number.  
+    - <strong>Columns 13-16</strong>: Atom name (e.g., `CA` for alpha carbon).  
+    - <strong>Columns 17-20</strong>: Residue name (e.g., `SER` for serine).  
+    - <strong>Column 22</strong>: Chain identifier (e.g., `A`).  
+    - <strong>Columns 23-26</strong>: Residue number.  
+    - <strong>Columns 31-54</strong>: X, Y, Z coordinates.  
+    - <strong>Columns 55-60</strong>: Occupancy and temperature factor (B-factor).  
+    - <strong>Columns 77-78</strong>: Element symbol (e.g., `C`, `O`).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Common Record Types</strong>
+ <table>
+
+<thead>
+<tr><th>Record</th><th>Description</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>
+
+<hr />
+
+</th><th>
+
+<hr />
+
+</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HEADER`</th><th>Molecular type, deposition date, and PDB ID (e.g., `1ABC`).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`TITLE`</th><th>Title of the structure.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`COMPND`</th><th>Molecular components in the entry (e.g., protein, ligand, ion).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`SEQRES`</th><th>Amino acid/nucleotide sequence of the macromolecule.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`ATOM`</th><th>3D coordinates of standard residues (e.g., amino acids in a protein).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HETATM`</th><th>Coordinates of heteroatoms (non-standard residues: ligands, water, ions).</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`HELIX`</th><th>Details of α-helices.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`SHEET`</th><th>Details of β-sheets.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`CONECT`</th><th>Bonds between atoms not covered by standard residue templates.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> <table>
+
+<thead>
+<tr><th>`REMARK`</th><th>Annotations, experimental details, or warnings.</th></tr>
+</thead>
+<tbody>
+
+</tbody>
+
+</table> 
+ 
+
+<hr /></p>
+
+<p>### <strong>Limitations</strong>
+ - <strong>Column Width Restrictions</strong>: Legacy format limits data fields (e.g., residue numbers up to 9999, atom serial numbers up to 99,999).  
+ - <strong>Sparse Connectivity Data</strong>: Bonds are often inferred rather than explicitly listed.  
+ - <strong>No Support for Large Structures<em></em>: Superseded by the <em></em>mmCIF/PDBx format</strong> (more flexible, supports larger datasets).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Modernization: mmCIF/PDBx Format</strong>
+ The PDB now prioritizes the <strong>mmCIF format</strong> (Macromolecular Crystallographic Information File), which 
+ uses a flexible, key-value-based structure without column limits. Legacy PDB files are automatically 
+ converted to mmCIF for archiving.
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Tools for Viewing/Editing</strong>
+ - <strong>Visualization</strong>: PyMOL, Chimera, VMD, RCSB PDB Viewer.  
+ - <strong>Analysis</strong>: BioPython, MDAnalysis.  
+ - <strong>Database Access</strong>: <a href='https://www.rcsb.org/' title='RCSB PDB website'>RCSB PDB website</a> (search, download, and explore entries).
+ 
+ 
+
+<hr /></p>
+
+<p>### <strong>Example PDB File Snippet</strong>
+
+
+<pre><code class=""> HEADER    HYDROLASE                             15-JUL-98   1ABC              
+ TITLE     CRYSTAL STRUCTURE OF EXAMPLE ENZYME                                 
+ COMPND    MOL_ID: 1;                                                           
+ COMPND   2 MOLECULE: EXAMPLE ENZYME; CHAIN: A;                                 
+ SEQRES   1 A  321  SER GLY LEU ARG TYR ...                                      
+ ATOM      1  N   SER A   1      10.000  20.000  30.000  1.00 25.00           N  
+ ATOM      2  CA  SER A   1      11.000  21.000  31.000  1.00 26.00           C  
+ HETATM 1001  O   HOH A 1001     40.000  50.000  60.000  1.00 30.00           O  
+ HELIX    1  ALA A 10 THR A 20  1                                            
+ CONECT 1001 1002
+</code></pre>
+
+</p>
+
+<p><hr /></p>
+
+<p>### <strong>Use Cases</strong>
+ - Studying protein-ligand interactions.  
+ - Analyzing enzyme active sites.  
+ - Visualizing mutations in diseases.  
+ - Teaching structural biology concepts.
+ 
+ For more details, visit the <a href='https://www.rcsb.org/' title='RCSB PDB'>RCSB PDB</a> and explore entries like <a href='https://www.rcsb.org/structure/1ATP' title='1ATP'>1ATP</a>.</p>
+
+<p>pdb file is the struct data about a protein complex, one pdb file may includes 
+ multiple protein and metabolite compound data.</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Data.RCSB.PDB
+export class PDB {
+   ANISOU: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ANISOU.html">ANISOU</a>;
+   # Populate out the multiple structure models inside current pdb data file
+   AtomStructures: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">iterates(Atom)</a>;
+   Author: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Author.html">Author</a>;
+   CAVEAT: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CAVEAT.html">CAVEAT</a>;
+   CISPEP: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CISPEP.html">CISPEP</a>;
+   Compound: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Compound.html">Compound</a>;
+   Conect: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CONECT.html">CONECT</a>;
+   crystal1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CRYST1.html">CRYST1</a>;
+   DbRef: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/DbReference.html">DbReference</a>;
+   Experiment: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ExperimentData.html">ExperimentData</a>;
+   Formula: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Formula.html">Formula</a>;
+   Header: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Header.html">Header</a>;
+   Helix: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Helix.html">Helix</a>;
+   Het: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Het.html">Het</a>;
+   HetName: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HetName.html">HetName</a>;
+   HETSYN: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETSYN.html">HETSYN</a>;
+   Journal: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Journal.html">Journal</a>;
+   Keywords: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Keywords.html">Keywords</a>;
+   Links: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Link.html">Link</a>;
+   Master: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Master.html">Master</a>;
+   Matrix1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   Matrix2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   Matrix3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a>;
+   MaxSpace: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>;
+   MDLTYP: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MDLTYP.html">MDLTYP</a>;
+   MinSpace: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a>;
+   MODRES: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MODRES.html">MODRES</a>;
+   # number of models inside current pdb file
+   NUMMDL: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/NUMMDL.html">NUMMDL</a>;
+   Origin1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Origin2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Origin3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a>;
+   Remark: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Remark.html">Remark</a>;
+   Revisions: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Revision.html">Revision</a>;
+   Scale1: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   Scale2: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   Scale3: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a>;
+   seqadv: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SEQADV.html">SEQADV</a>;
+   Sequence: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sequence.html">Sequence</a>;
+   Sheet: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sheet.html">Sheet</a>;
+   SIGATM: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGATM.html">SIGATM</a>;
+   SIGUIJ: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGUIJ.html">SIGUIJ</a>;
+   Site: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Site.html">Site</a>;
+   Source: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Source.html">Source</a>;
+   # the input data text of this pdb object
+   SourceText: string;
+   SPLIT: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPLIT.html">SPLIT</a>;
+   SPRSDE: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPRSDE.html">SPRSDE</a>;
+   SSBOND: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SSBOND.html">SSBOND</a>;
+   Title: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Title.html">Title</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>ANISOU</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ANISOU.html">ANISOU</a></li>
+<li>use by <i>property</i> member <code>AtomStructures</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Atom.html">iterates(Atom)</a></li>
+<li>use by <i>property</i> member <code>Author</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Author.html">Author</a></li>
+<li>use by <i>property</i> member <code>CAVEAT</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CAVEAT.html">CAVEAT</a></li>
+<li>use by <i>property</i> member <code>CISPEP</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CISPEP.html">CISPEP</a></li>
+<li>use by <i>property</i> member <code>Compound</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Compound.html">Compound</a></li>
+<li>use by <i>property</i> member <code>Conect</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CONECT.html">CONECT</a></li>
+<li>use by <i>property</i> member <code>crystal1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/CRYST1.html">CRYST1</a></li>
+<li>use by <i>property</i> member <code>DbRef</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/DbReference.html">DbReference</a></li>
+<li>use by <i>property</i> member <code>Experiment</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ExperimentData.html">ExperimentData</a></li>
+<li>use by <i>property</i> member <code>Formula</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Formula.html">Formula</a></li>
+<li>use by <i>property</i> member <code>Header</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Header.html">Header</a></li>
+<li>use by <i>property</i> member <code>Helix</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Helix.html">Helix</a></li>
+<li>use by <i>property</i> member <code>Het</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Het.html">Het</a></li>
+<li>use by <i>property</i> member <code>HetName</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HetName.html">HetName</a></li>
+<li>use by <i>property</i> member <code>HETSYN</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/HETSYN.html">HETSYN</a></li>
+<li>use by <i>property</i> member <code>Journal</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Journal.html">Journal</a></li>
+<li>use by <i>property</i> member <code>Keywords</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Keywords.html">Keywords</a></li>
+<li>use by <i>property</i> member <code>Links</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Link.html">Link</a></li>
+<li>use by <i>property</i> member <code>Master</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Master.html">Master</a></li>
+<li>use by <i>property</i> member <code>Matrix1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>Matrix2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>Matrix3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MTRIX123.html">MTRIX123</a></li>
+<li>use by <i>property</i> member <code>MaxSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li>
+<li>use by <i>property</i> member <code>MDLTYP</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MDLTYP.html">MDLTYP</a></li>
+<li>use by <i>property</i> member <code>MinSpace</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Point3D.html">Point3D</a></li>
+<li>use by <i>property</i> member <code>MODRES</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/MODRES.html">MODRES</a></li>
+<li>use by <i>property</i> member <code>NUMMDL</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/NUMMDL.html">NUMMDL</a></li>
+<li>use by <i>property</i> member <code>Origin1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Origin2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Origin3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/ORIGX123.html">ORIGX123</a></li>
+<li>use by <i>property</i> member <code>Remark</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Remark.html">Remark</a></li>
+<li>use by <i>property</i> member <code>Revisions</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Revision.html">Revision</a></li>
+<li>use by <i>property</i> member <code>Scale1</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>Scale2</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>Scale3</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SCALE123.html">SCALE123</a></li>
+<li>use by <i>property</i> member <code>seqadv</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SEQADV.html">SEQADV</a></li>
+<li>use by <i>property</i> member <code>Sequence</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sequence.html">Sequence</a></li>
+<li>use by <i>property</i> member <code>Sheet</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Sheet.html">Sheet</a></li>
+<li>use by <i>property</i> member <code>SIGATM</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGATM.html">SIGATM</a></li>
+<li>use by <i>property</i> member <code>SIGUIJ</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SIGUIJ.html">SIGUIJ</a></li>
+<li>use by <i>property</i> member <code>Site</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Site.html">Site</a></li>
+<li>use by <i>property</i> member <code>Source</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Source.html">Source</a></li>
+<li>use by <i>property</i> member <code>SPLIT</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPLIT.html">SPLIT</a></li>
+<li>use by <i>property</i> member <code>SPRSDE</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SPRSDE.html">SPRSDE</a></li>
+<li>use by <i>property</i> member <code>SSBOND</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/SSBOND.html">SSBOND</a></li>
+<li>use by <i>property</i> member <code>Title</code>: <a href="/vignettes/clr/SMRUCC/genomics/Data/RCSB/PDB/Keywords/Title.html">Title</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

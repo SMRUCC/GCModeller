@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ad779fb38713ae0f7e8cb4e53be8ad5, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
+﻿#Region "Microsoft.VisualBasic::fba11fe59cae7baa83e4492ed85e738a, core\Bio.Assembly\ComponentModel\Locus\ExtensionMethods.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 113 (68.07%)
+    ' Comment Lines: 29 (17.47%)
+    '    - Xml Docs: 89.66%
+    ' 
+    '   Blank Lines: 24 (14.46%)
+    '     File Size: 7.51 KB
+
+
     '     Module LociAPI
     ' 
     '         Function: __assembly, FragmentAssembly, Group, Group_p, InternalAssembler
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.ComponentModel.Loci.Location
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci
 
@@ -87,8 +99,8 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         <Extension> Public Function Merge(Of TLoci As Location)(a As TLoci, b As TLoci) As TLoci
-            a.left = stdNum.Min(a.left, b.left)
-            a.right = stdNum.Max(a.right, b.right)
+            a.left = std.Min(a.left, b.left)
+            a.right = std.Max(a.right, b.right)
             Return a
         End Function
 
@@ -98,8 +110,8 @@ Namespace ComponentModel.Loci
             lc = (From lcl In lc Select lcl Order By lcl.left Ascending)
             Dim GroupOperation = (From item In lc.AsParallel
                                   Let Possible_Duplicated = (From o As TLocation In lc
-                                                             Where stdNum.Abs(o.left - item.left) < Length_Offset AndAlso
-                                                                   stdNum.Abs(o.FragmentSize - item.FragmentSize) < Length_Offset
+                                                             Where std.Abs(o.left - item.left) < Length_Offset AndAlso
+                                                                   std.Abs(o.FragmentSize - item.FragmentSize) < Length_Offset
                                                              Select o
                                                              Order By o.left).ToArray
                                   Let mLeft As Integer = (From o In Possible_Duplicated Select o.left).Min

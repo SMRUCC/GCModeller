@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 34 (70.83%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (29.17%)
+    '     File Size: 1.51 KB
+
+
     ' Module ColaTest
     ' 
     '     Sub: Main

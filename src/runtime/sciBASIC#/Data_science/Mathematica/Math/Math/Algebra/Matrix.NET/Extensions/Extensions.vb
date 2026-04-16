@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf3e4b930bf153bd722fcbb27e577cf6, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::74ac0e61b6c1583c78147f66dd73f0aa, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 99 (66.89%)
+    ' Comment Lines: 27 (18.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (14.86%)
+    '     File Size: 5.30 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: CenterNormalize, ColumnVector, Covariance, rand, size
+    '         Function: CenterNormalize, ColumnVector, Covariance, eig, ncol
+    '                   nrow, rand, size
     ' 
     '         Sub: Print
     ' 
@@ -47,12 +60,34 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports Microsoft.VisualBasic.Text
+Imports rand2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace LinearAlgebra.Matrix
 
     <HideModuleName>
     Public Module Extensions
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function nrow(x As GeneralMatrix) As Integer
+            Return x.RowDimension
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function ncol(x As GeneralMatrix) As Integer
+            Return x.ColumnDimension
+        End Function
+
+        <Extension>
+        Public Function eig(m As GeneralMatrix) As EigenvalueDecomposition
+            Return New EigenvalueDecomposition(m)
+        End Function
+
+        ''' <summary>
+        ''' get a specific column data as vector
+        ''' </summary>
+        ''' <param name="matrix"></param>
+        ''' <param name="i%"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ColumnVector(matrix As GeneralMatrix, i%) As Vector
             Return New Vector(matrix({i}).ArrayPack.Select(Function(r) r(Scan0)))
@@ -77,7 +112,7 @@ Namespace LinearAlgebra.Matrix
         ''' </returns>
 
         Public Function rand(m%, n%) As GeneralMatrix
-            With New Random()
+            With rand2.seeds
                 Dim A As New NumericMatrix(m, n)
                 Dim X As Double()() = A.Array
 
@@ -95,9 +130,10 @@ Namespace LinearAlgebra.Matrix
         ''' Centers each column of the data matrix at its mean.
         ''' Normalizes the input matrix so that each column is centered at 0.
         ''' </summary>
-        <Extension> Public Function CenterNormalize(m As GeneralMatrix) As GeneralMatrix
+        <Extension>
+        Public Function CenterNormalize(m As GeneralMatrix) As GeneralMatrix
             Dim input = m.ArrayPack
-            Dim out As Double()() = MAT(Of Double)(input.Length, input(0).Length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(input.Length, input(0).Length)
 
             For i As Integer = 0 To input.Length - 1
                 Dim meanValue As Double = input(i).Average
@@ -116,7 +152,7 @@ Namespace LinearAlgebra.Matrix
         <Extension>
         Public Function Covariance(matrix As GeneralMatrix) As GeneralMatrix
             Dim length As Integer = matrix.RowDimension
-            Dim out As Double()() = MAT(Of Double)(length, length)
+            Dim out As Double()() = RectangularArray.Matrix(Of Double)(length, length)
             Dim array = matrix.ArrayPack
 
             For i As Integer = 0 To out.Length - 1

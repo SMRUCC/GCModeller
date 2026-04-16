@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d6d3f1dd47d5cd44aea4bc083855486, analysis\SequenceToolkit\SNP\Genotype.vb"
+﻿#Region "Microsoft.VisualBasic::e766c63260c6c926c78197d2c1515797, analysis\SequenceToolkit\SNP\Genotype.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 278
+    '    Code Lines: 203 (73.02%)
+    ' Comment Lines: 19 (6.83%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 56 (20.14%)
+    '     File Size: 8.92 KB
+
+
     ' Module Genotype
     ' 
     '     Function: ExpandLocis, Frequencies, FrequencyParser, Genotypes, Statics
@@ -55,9 +67,9 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON

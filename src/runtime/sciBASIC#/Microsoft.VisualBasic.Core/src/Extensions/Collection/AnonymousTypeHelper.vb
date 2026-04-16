@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 14 (38.89%)
+    ' Comment Lines: 18 (50.00%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 4 (11.11%)
+    '     File Size: 1.53 KB
+
+
     ' Module AnonymousTypeHelper
     ' 
     '     Function: CopyTypeDef, CreateEmptyList

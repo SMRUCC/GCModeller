@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00d3927b8ed86ee97e518953da8dc6a0, Data_science\Mathematica\Math\Math\Distributions\Sample.vb"
+﻿#Region "Microsoft.VisualBasic::039f7a36c1f0970020c898083caae62e, Data_science\Mathematica\Math\Math\Distributions\Sample.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 104 (63.41%)
+    ' Comment Lines: 38 (23.17%)
+    '    - Xml Docs: 92.11%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 5.52 KB
+
+
     '     Class SampleDistribution
     ' 
     '         Properties: average, CI95Range, max, min, mode
     '                     outlierBoundary, quantile, size, stdErr
     ' 
-    '         Constructor: (+3 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
     '         Function: EvaluateMode, GetRange, ToString
     ' 
     ' 
@@ -64,6 +76,14 @@ Namespace Distributions
         <XmlAttribute> Public Property min As Double
         <XmlAttribute> Public Property max As Double
         <XmlAttribute> Public Property average As Double
+
+        ''' <summary>
+        ''' standard deviation of the population
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' evaluated from the <see cref="SD"/> function.
+        ''' </remarks>
         <XmlAttribute> Public Property stdErr As Double
 
         ''' <summary>
@@ -105,10 +125,27 @@ Namespace Distributions
         Sub New()
         End Sub
 
+        ''' <summary>
+        ''' Construct a feature data based on a specific dataframe column data
+        ''' </summary>
+        ''' <param name="data">the raw data matrix column data</param>
+        ''' <param name="estimateQuantile"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(data As IEnumerable(Of Double), Optional estimateQuantile As Boolean = True)
             Call Me.New(data.SafeQuery.ToArray, estimateQuantile)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(data As IEnumerable(Of Single), Optional estimateQuantile As Boolean = True)
+            Call Me.New(data.SafeQuery.Select(Function(f) CDbl(f)).ToArray, estimateQuantile)
+        End Sub
+
+        ''' <summary>
+        ''' Construct a feature data based on a specific dataframe column data
+        ''' </summary>
+        ''' <param name="v">the raw data matrix column data</param>
+        ''' <param name="estimateQuantile"></param>
         Sub New(v As Double(), Optional estimateQuantile As Boolean = True)
             If v.Length = 0 Then
                 min = Double.NaN

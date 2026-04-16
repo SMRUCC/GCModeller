@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1fde2d72026cc7d0a33cd87cde2ee6f1, models\Networks\KEGG\KOLinks.vb"
+﻿#Region "Microsoft.VisualBasic::294d500cbd8f1fd610ee629236c548f3, models\Networks\KEGG\KOLinks.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 36 (58.06%)
+    ' Comment Lines: 21 (33.87%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (8.06%)
+    '     File Size: 2.27 KB
+
+
     ' Class KOLinks
     ' 
     '     Properties: definition, entry, name, pathways, reactions
     ' 
-    '     Function: Build
+    '     Function: (+2 Overloads) Build
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 
@@ -67,14 +80,8 @@ Public Class KOLinks
     ''' <see cref="Orthology"/>
     ''' </param>
     ''' <returns></returns>
-    Public Shared Iterator Function Build(ko00001 As String) As IEnumerable(Of KOLinks)
-        For Each path As String In ls - l - r - "*.XML" <= ko00001
-            Dim xml As Orthology = path.LoadXml(Of Orthology)
-
-            If xml.pathway.IsNullOrEmpty Then
-                Continue For
-            End If
-
+    Public Shared Iterator Function Build(ko00001 As IEnumerable(Of Orthology)) As IEnumerable(Of KOLinks)
+        For Each xml As Orthology In ko00001.SafeQuery.Where(Function(o) Not o.pathway.IsNullOrEmpty)
             Dim reactions$() = xml.xref.Terms _
                 .Where(Function(l) l.name = "RN") _
                 .Select(Function(x) x.comment) _
@@ -93,5 +100,18 @@ Public Class KOLinks
                 .reactions = reactions
             }
         Next
+    End Function
+
+    ''' <summary>
+    ''' 使用这个函数直接从KEGG的直系同源注释数据转换
+    ''' </summary>
+    ''' <param name="ko00001">
+    ''' <see cref="Orthology"/>
+    ''' </param>
+    ''' <returns></returns>
+    Public Shared Function Build(ko00001 As String) As IEnumerable(Of KOLinks)
+        Return (ls - l - r - "*.XML" <= ko00001) _
+            .Select(Function(file) file.LoadXml(Of Orthology)) _
+            .DoCall(AddressOf Build)
     End Function
 End Class

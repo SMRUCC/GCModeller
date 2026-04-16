@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93e5dc8f01ee650c736b33059c090441, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
+﻿#Region "Microsoft.VisualBasic::29ebba01f6dbe56d476434de12111d07, Data_science\Mathematica\Math\Math\Distributions\pnorm.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 359
+    '    Code Lines: 147 (40.95%)
+    ' Comment Lines: 174 (48.47%)
+    '    - Xml Docs: 75.86%
+    ' 
+    '   Blank Lines: 38 (10.58%)
+    '     File Size: 15.49 KB
+
+
     '     Module pnorm
     ' 
-    '         Function: AboveStandardDistribution, BelowStandardDistribution, BetweenStandardDistribution, DeviationStandardization, (+2 Overloads) Eval
+    '         Function: AboveStandardDistribution, BelowStandardDistribution, BetweenStandardDistribution, DeviationStandardization, (+2 Overloads) eval
     '                   Logistic, OutsideStandardDistribution, (+2 Overloads) ProbabilityDensity, StandardDistribution, TrapezodialRule
-    '                   TruncNDist, (+2 Overloads) Z
+    '                   TruncNDist, (+3 Overloads) Z
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,8 +57,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Math.Scripting.Rscript.MathExtension
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Distributions
 
@@ -70,12 +81,11 @@ Namespace Distributions
         ''' ``Z-score`` 标准化的过程几乎就是一个除0的过程，结果不可预料。
         ''' </remarks>
         Public Function Z#(x#, μ#, σ#)
-            Dim answer As Double = (x - μ) / σ
-            Return answer
+            Return (x - μ) / σ
         End Function
 
         ''' <summary>
-        ''' ## Standard score
+        ''' ## Standard score(z-score)
         ''' 
         ''' In statistics, the standard score is the signed number of standard deviations by which the value of 
         ''' an observation or data point is above the mean value of what is being observed or measured. Observed 
@@ -92,11 +102,38 @@ Namespace Distributions
         ''' <remarks>
         ''' http://blog.163.com/huai_jing@126/blog/static/171861983201321074124426/
         ''' </remarks>
-        <Extension> Public Function Z(x As Vector) As Vector
+        <Extension>
+        Public Function Z(x As Vector) As Vector
             Dim μ# = x.Average ' μ is the mean of the population.
             Dim σ# = x.SD   ' σ is the standard deviation of the population.
             Dim x1 As Vector = (x - μ) / σ
             Return x1
+        End Function
+
+        ''' <summary>
+        ''' ## Standard score(z-score)
+        ''' 
+        ''' In statistics, the standard score is the signed number of standard deviations by which the value of 
+        ''' an observation or data point is above the mean value of what is being observed or measured. Observed 
+        ''' values above the mean have positive standard scores, while values below the mean have negative 
+        ''' standard scores. The standard score is a dimensionless quantity obtained by subtracting the population 
+        ''' mean from an individual raw score and then dividing the difference by the population standard deviation. 
+        ''' This conversion process is called standardizing or normalizing (however, "normalizing" can refer to 
+        ''' many types of ratios; see normalization for more).
+        ''' 
+        ''' > https://en.wikipedia.org/wiki/Standard_score
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' http://blog.163.com/huai_jing@126/blog/static/171861983201321074124426/
+        ''' </remarks>
+        <Extension>
+        Public Function Z(x As Double()) As Double()
+            Dim u = x.Average
+            Dim d = x.SD
+            Dim z1 = SIMD.Divide.f64_op_divide_f64_scalar(SIMD.Subtract.f64_op_subtract_f64_scalar(x, u), d)
+            Return z1
         End Function
 
         ''' <summary>
@@ -111,7 +148,7 @@ Namespace Distributions
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Logistic(L#, x#, x0#, k#) As Double
-            Return L / (1 + stdNum.E ^ (-k * (x - x0)))
+            Return L / (1 + std.E ^ (-k * (x - x0)))
         End Function
 
         ''' <summary>
@@ -126,7 +163,8 @@ Namespace Distributions
         ''' 将其转化为无量纲的纯数值，便于不同单位或量级的指标能够进行比较和加权。
         ''' 其中最典型的就是0-1标准化和Z标准化
         ''' </remarks>
-        <Extension> Public Function DeviationStandardization(x As Vector) As Vector
+        <Extension>
+        Public Function DeviationStandardization(x As Vector) As Vector
             Dim max# = x.Max
             Dim min# = x.Min
             Dim x1 As Vector = (x - min) / (max - min)
@@ -157,7 +195,8 @@ Namespace Distributions
             Dim z As New List(Of Double)()
 
             While z.Count < len
-                eps = Normal.rnorm(len, 1.0, sd)
+                eps = Gaussian.rnorm(len, 1.0, sd)
+
                 For Each it As Double In eps
                     If it >= 0.0 AndAlso it <= 2.0 Then
                         z.Add(it)
@@ -175,9 +214,9 @@ Namespace Distributions
         ''' <param name="x"></param>
         ''' <returns></returns>
         Public Function StandardDistribution(x As Double) As Double
-            Dim answer As Double = 1 / ((stdNum.Sqrt(2 * stdNum.PI)))
-            Dim exp1 As Double = stdNum.Pow(x, 2) / 2
-            Dim exp As Double = stdNum.Pow(stdNum.E, -(exp1))
+            Dim answer As Double = 1 / ((std.Sqrt(2 * std.PI)))
+            Dim exp1 As Double = std.Pow(x, 2) / 2
+            Dim exp As Double = std.Pow(std.E, -(exp1))
             answer = answer * exp
             Return answer
         End Function
@@ -194,7 +233,10 @@ Namespace Distributions
         ''' <param name="lower_tail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
         ''' <param name="logP">logical; if TRUE, probabilities p are given as log(p).</param>
         ''' <returns></returns>
-        Public Function Eval(q#,
+        ''' <remarks>
+        ''' implements of the R language ``pnorm`` function
+        ''' </remarks>
+        Public Function eval(q#,
                              Optional mean# = 0,
                              Optional sd# = 1,
                              Optional lower_tail As Boolean = True,
@@ -209,7 +251,7 @@ Namespace Distributions
             End If
 
             If logP Then
-                Return stdNum.Log10(p)
+                Return std.Log10(p)
             Else
                 Return p
             End If
@@ -225,7 +267,10 @@ Namespace Distributions
         ''' <param name="lower_tail">logical; if TRUE (default), probabilities are ``P[X ≤ x]`` otherwise, ``P[X > x]``.</param>
         ''' <param name="logP">logical; if TRUE, probabilities p are given as log(p).</param>
         ''' <returns></returns>
-        Public Function Eval(q As Vector,
+        ''' <remarks>
+        ''' implements of the R language ``pnorm`` function
+        ''' </remarks>
+        Public Function eval(q As Vector,
                              Optional mean# = 0,
                              Optional sd# = 1,
                              Optional lower_tail As Boolean = True,
@@ -252,28 +297,67 @@ Namespace Distributions
             End If
         End Function
 
+        ' exp((x-mu)^2/(2*sd^2))/(sd * sqrt(2*PI)) 
+        ' mu = exp(mu)
+        ' sd = 2*sd^(-4)
+
+        ReadOnly sqrt_2PI As Double = std.Sqrt(2 * std.PI)
+        ReadOnly PI2 As Double = 2 * std.PI
+
+        '''' <summary>
+        '''' #### normal-pdf
+        '''' 
+        '''' Get normal distribution density value at a point.
+        '''' </summary>
+        '''' <param name="x"></param>
+        '''' <param name="u"></param>
+        '''' <param name="v"></param>
+        '''' <returns></returns>
+        'Public Function normal_pdf(x As Double, Optional u As Double = 0, Optional v As Double = 1) As Double
+        '    If v = 0 Then
+        '        Return If(x = u, Double.PositiveInfinity, 0)
+        '    End If
+
+        '    Return std.Exp(-0.5 * ((x - u) ^ 2) / v) / std.Sqrt(PI2 * v)
+        'End Function
+
         ''' <summary>
-        ''' Normal Distribution.(正态分布)
+        ''' #### normal-pdf
+        ''' 
+        ''' Gaussian PDF function,
+        ''' Normal Distribution.
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="m">Mean</param>
         ''' <param name="sd"></param>
-        ''' <returns></returns>
+        ''' <returns>Get normal distribution density value at a point.</returns>
+        ''' <remarks>
+        ''' (正态分布)
+        ''' </remarks>
         Public Function ProbabilityDensity(x#, m#, sd#) As Double
-            Dim answer As Double = 1 / (sd * (stdNum.Sqrt(2 * stdNum.PI)))
+            ' 1 / (sd * sqrt(2 * PI)) * exp(-(x - u)^2 / (2* sd ^ 2))
+
+            Dim answer As Double = 1 / (sd * sqrt_2PI)
             Dim exp As Double = (x - m) ^ 2
             Dim expP2 As Double = 2 * (sd ^ 2)
-            Dim expP3 As Double = stdNum.E ^ (-(exp / expP2))
+            Dim expP3 As Double = std.Exp(-(exp / expP2))
             answer = answer * expP3
             Return answer
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="m"></param>
+        ''' <param name="sd"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function ProbabilityDensity(x As Vector, m#, sd#) As Vector
-            Dim answer As Double = 1 / (sd * (stdNum.Sqrt(2 * stdNum.PI)))
+            Dim answer As Double = 1 / (sd * sqrt_2PI)
             Dim exp = (x - m) ^ 2.0
-            Dim expP2 As Double = 2 * stdNum.Pow(sd, 2.0)
-            Dim expP3 = stdNum.E ^ -(exp / expP2)
+            Dim expP2 As Double = 2 * std.Pow(sd, 2.0)
+            Dim expP3 = Vector.Exp(-(exp / expP2))
             Dim y As Vector = answer * expP3
 
             Return y
@@ -313,7 +397,7 @@ Namespace Distributions
         ''' <param name="m#"></param>
         ''' <param name="sd#"></param>
         ''' <returns></returns>
-        Public Function TrapezodialRule(a#, b#, resolution%, m#, sd#) As Double
+        Private Function TrapezodialRule(a#, b#, resolution%, m#, sd#) As Double
             Dim dx As Double = (b - a) / resolution
             Dim a1 As Double = ProbabilityDensity(a, m, sd)
             Dim b1 As Double = ProbabilityDensity(b, m, sd)

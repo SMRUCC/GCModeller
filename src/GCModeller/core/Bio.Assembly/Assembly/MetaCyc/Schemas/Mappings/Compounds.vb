@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 18 (62.07%)
+    ' Comment Lines: 4 (13.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (24.14%)
+    '     File Size: 896 B
+
+
     '     Class EffectorMap
     ' 
     '         Properties: CHEBI, CommonName, Effector, EffectorAlias, KEGGCompound

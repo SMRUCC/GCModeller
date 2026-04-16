@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1e784aa1d07cc2365b0e4a2b3d61566, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
+﻿#Region "Microsoft.VisualBasic::06af88c58c7ec0a58ad126a33c281c6d, annotations\GSEA\FisherCore\KnowledgeBase\Background.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 60 (51.72%)
+    ' Comment Lines: 42 (36.21%)
+    '    - Xml Docs: 97.62%
+    ' 
+    '   Blank Lines: 14 (12.07%)
+    '     File Size: 3.79 KB
+
+
     ' Class Background
     ' 
     '     Properties: build, clusters, comments, id, name
     '                 size
     ' 
-    '     Function: GetClusterTable, SubsetOf, ToString
+    '     Function: GetBackgroundGene, GetClusterByMemberGeneId, GetClusterTable, SubsetOf, ToString
     ' 
     ' /********************************************************************************/
 
@@ -49,8 +61,12 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
 ''' <summary>
-''' 假设基因组是有许多个功能聚类的集合构成的
+''' a collection of the functional related gene consist of this background model.
+''' (假设基因组是有许多个功能聚类的集合构成的)
 ''' </summary>
+''' <remarks>
+''' the functional related geneset is modelling as the <see cref="clusters"/> at here.
+''' </remarks>
 <XmlRoot("background", [Namespace]:="http://gcmodeller.org/GSEA/background.xml")>
 Public Class Background : Inherits XmlDataModel
     Implements INamedValue
@@ -69,9 +85,33 @@ Public Class Background : Inherits XmlDataModel
     ''' <returns></returns>
     Public Property size As Integer
 
+    ''' <summary>
+    ''' a collection of the functional related genesets.
+    ''' </summary>
+    ''' <returns></returns>
     <XmlElement>
     Public Property clusters As Cluster()
 
+    ''' <summary>
+    ''' get background cluster object via its id reference
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property Item(id As String) As Cluster
+        Get
+            Return clusters _
+                .Where(Function(c) c.ID = id) _
+                .FirstOrDefault
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' take subset of the clusters
+    ''' </summary>
+    ''' <param name="predicate">
+    ''' condition test for take clusters subset
+    ''' </param>
+    ''' <returns></returns>
     Public Function SubsetOf(predicate As Func(Of Cluster, Boolean)) As Background
         Return New Background With {
             .build = build,
@@ -82,6 +122,45 @@ Public Class Background : Inherits XmlDataModel
         }
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="geneId"></param>
+    ''' <returns>
+    ''' returns nothing if target gene is not found
+    ''' </returns>
+    Public Function GetBackgroundGene(geneId As String) As BackgroundGene
+        For Each cluster As Cluster In clusters
+            Dim gene As BackgroundGene = cluster.GetMemberById(geneId)
+
+            If Not gene Is Nothing Then
+                Return gene
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    Public Function GetClusterByMemberGeneId(geneId As String) As Cluster
+        If geneId.StringEmpty(, True) Then
+            Return Nothing
+        End If
+
+        For Each cluster As Cluster In clusters
+            Dim gene As BackgroundGene = cluster.GetMemberById(geneId)
+
+            If Not gene Is Nothing Then
+                Return cluster
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' Make a dictionary index of the <see cref="clusters"/>, via the <see cref="Cluster.ID"/> as key.
+    ''' </summary>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetClusterTable() As Dictionary(Of String, Cluster)
         Return clusters.ToDictionary(Function(c) c.ID)

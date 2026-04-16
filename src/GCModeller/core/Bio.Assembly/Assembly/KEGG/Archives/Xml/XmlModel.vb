@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82673a33e74b4e7799259e546a4aa720, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb"
+﻿#Region "Microsoft.VisualBasic::3c6b78341a6805a452d8570c86dd9928, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\XmlModel.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 93 (68.38%)
+    ' Comment Lines: 27 (19.85%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 16 (11.76%)
+    '     File Size: 5.08 KB
+
+
     '     Class XmlModel
     ' 
     '         Properties: EC_Mappings, Metabolome, Modules, Pathways, spCode
     ' 
-    '         Function: GetAllPathways, GetMaps, GetReaction, (+2 Overloads) Save
+    '         Function: GetAllPathways, GetMaps, GetReaction, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -156,9 +169,20 @@ Namespace Assembly.KEGG.Archives.Xml
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             If String.IsNullOrEmpty(Path) Then
                 Throw New Exception("Path is empty!")
+            Else
+                Using file As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                    Return Save(file, encoding)
+                End Using
             End If
+        End Function
 
-            Return Me.GetXml.SaveTo(Path, encoding)
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(file, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

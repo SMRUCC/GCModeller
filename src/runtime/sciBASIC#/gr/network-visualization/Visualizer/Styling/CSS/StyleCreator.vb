@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab6e2c7e7ca22bd8bbfdee795d1fd3b6, gr\network-visualization\Visualizer\Styling\CSS\StyleCreator.vb"
+﻿#Region "Microsoft.VisualBasic::d5d5bfdd314798d5ce6f5667a72e8520, gr\network-visualization\Visualizer\Styling\CSS\StyleCreator.vb"
 
     ' Author:
     ' 
@@ -31,41 +31,60 @@
 
     ' Summaries:
 
-    '     Delegate Function
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 46 (64.79%)
+    ' Comment Lines: 18 (25.35%)
+    '    - Xml Docs: 100.00%
     ' 
-    ' 
-    '     Delegate Function
-    ' 
-    ' 
+    '   Blank Lines: 7 (9.86%)
+    '     File Size: 2.66 KB
+
+
     '     Structure StyleCreator
     ' 
     '         Function: CompileSelector
-    ' 
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Styling.FillBrushes
+Imports Microsoft.VisualBasic.Data.visualize.Network.Styling.Numeric
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Microsoft.VisualBasic.Serialization
 
-Namespace Styling.CSS
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports TextureBrush = System.Drawing.TextureBrush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
-    ''' <summary>
-    ''' 这个函数描述了这样的一个过程：
-    ''' 
-    ''' 对一个节点集合进行成员的枚举，然后将每一个成员映射为一个大小数值，并返回这些映射集合
-    ''' </summary>
-    ''' <param name="node"></param>
-    ''' <returns></returns>
-    Public Delegate Function GetSize(node As IEnumerable(Of Node)) As IEnumerable(Of Map(Of Node, Single))
-    Public Delegate Function GetBrush(node As IEnumerable(Of Node)) As IEnumerable(Of Map(Of Node, Brush))
+Namespace Styling.CSS
 
     Public Structure StyleCreator
 
@@ -84,11 +103,11 @@ Namespace Styling.CSS
         ''' <summary>
         ''' 对对象进行填充的样式画笔
         ''' </summary>
-        Dim fill As GetBrush
+        Dim fill As IGetBrush
         ''' <summary>
         ''' 主要是针对于节点对象的大小直径的获取函数
         ''' </summary>
-        Dim size As GetSize
+        Dim size As IGetSize
 
         ''' <summary>
         ''' 从对象之中得到标签字符串的方法函数指针

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c3edeff98a6595cb3ca708b98b07391, data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
+﻿#Region "Microsoft.VisualBasic::b760c57cccb2bf77083d483478769a5f, data\SABIO-RK\docuRESTfulWeb\docuRESTfulWeb.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
-    ' Module docuRESTfulWeb
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 33 (55.93%)
+    ' Comment Lines: 17 (28.81%)
+    '    - Xml Docs: 88.24%
     ' 
-    '     Function: getModelById, searchKineticLaws, searchKineticLawsRawXml
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 2.33 KB
+
+
+    '     Module docuRESTfulWebHelper
+    ' 
+    '         Function: getModelById, searchKineticLaws, searchKineticLawsRawXml
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -43,51 +56,58 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
 
-Public Module docuRESTfulWeb
+Namespace docuRESTfulWeb
 
-    ''' <summary>
-    ''' Get a single kinetic law entry by SABIO entry ID
-    ''' </summary>
-    ''' <param name="id"></param>
-    ''' <returns></returns>
-    Public Function getModelById(id As String, Optional level As Integer = 2, Optional version As Integer = 3, Optional annotation As String = "identifier") As SabiorkSBML
-        Dim url = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & id
-        Dim sbml As String = url.GET
+    Public Module docuRESTfulWebHelper
 
-        Return sbml.LoadXml(Of SabiorkSBML)
-    End Function
+        ''' <summary>
+        ''' Get a single kinetic law entry by SABIO entry ID
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <returns></returns>
+        Public Function getModelById(id As String,
+                                 Optional level As Integer = 2,
+                                 Optional version As Integer = 3,
+                                 Optional annotation As String = "identifier") As SabiorkSBML
 
-    ''' <summary>
-    ''' Search for SABIO kinetic law entries by a query string
-    ''' </summary>
-    ''' <param name="q"></param>
-    ''' <returns></returns>
-    Public Function searchKineticLawsRawXml(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As String
-        Static api As New Dictionary(Of String, ModelQuery)
+            Dim url = SabiorkSBML.URL_SABIORK_KINETIC_LAWS_QUERY & id
+            Dim sbml As String = url.GET
 
-        ' do file data query
-        Return api.ComputeIfAbsent(
-            key:=cache,
-            lazyValue:=Function()
-                           Return New ModelQuery(cache)
-                       End Function) _
-                  .QueryCacheText(q)
-    End Function
+            Return sbml.LoadXml(Of SabiorkSBML)
+        End Function
 
-    ''' <summary>
-    ''' Search for SABIO kinetic law entries by a query string
-    ''' </summary>
-    ''' <param name="q"></param>
-    ''' <returns></returns>
-    Public Function searchKineticLaws(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As sbXML
-        Static api As New Dictionary(Of String, ModelQuery)
+        ''' <summary>
+        ''' Search for SABIO kinetic law entries by a query string
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        Public Function searchKineticLawsRawXml(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As String
+            Static api As New Dictionary(Of String, ModelQuery)
 
-        ' do file data query
-        Return api.ComputeIfAbsent(
-            key:=cache,
-            lazyValue:=Function()
-                           Return New ModelQuery(cache)
-                       End Function) _
-                  .Query(Of sbXML)(q)
-    End Function
-End Module
+            ' do file data query
+            Return api.ComputeIfAbsent(
+                key:=cache,
+                lazyValue:=Function()
+                               Return New ModelQuery(cache)
+                           End Function) _
+                      .QueryCacheText(q)
+        End Function
+
+        ''' <summary>
+        ''' Search for SABIO kinetic law entries by a query string
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        Public Function searchKineticLaws(q As Dictionary(Of QueryFields, String), Optional cache$ = "./") As sbXML
+            Static api As New Dictionary(Of String, ModelQuery)
+
+            ' do file data query
+            Return api.ComputeIfAbsent(
+                key:=cache,
+                lazyValue:=Function()
+                               Return New ModelQuery(cache)
+                           End Function) _
+                      .Query(Of sbXML)(q)
+        End Function
+    End Module
+End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0d6ed223e923e63f3b5f955baa01063, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
+﻿#Region "Microsoft.VisualBasic::159491a39d386ddc3c151916715448a2, Data_science\MachineLearning\MachineLearning\SVM\Solver\Solver.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 656
+    '    Code Lines: 461 (70.27%)
+    ' Comment Lines: 70 (10.67%)
+    '    - Xml Docs: 28.57%
+    ' 
+    '   Blank Lines: 125 (19.05%)
+    '     File Size: 21.52 KB
+
 
     '     Class Solver
     ' 
@@ -252,55 +264,52 @@ Namespace SVM
             unshrink = False
 
             ' initialize alpha_status
-            If True Then
-                alpha_status = New Byte(l - 1) {}
 
-                For i = 0 To l - 1
-                    update_alpha_status(i)
-                Next
-            End If
+            alpha_status = New Byte(l - 1) {}
+
+            For i As Integer = 0 To l - 1
+                update_alpha_status(i)
+            Next
 
             ' initialize active set (for shrinking)
-            If True Then
-                active_set = New Integer(l - 1) {}
 
-                For i = 0 To l - 1
-                    active_set(i) = i
-                Next
+            active_set = New Integer(l - 1) {}
 
-                active_size = l
-            End If
+            For i As Integer = 0 To l - 1
+                active_set(i) = i
+            Next
+
+            active_size = l
 
             ' initialize gradient
-            If True Then
-                G = New Double(l - 1) {}
-                G_bar = New Double(l - 1) {}
-                Dim i As Integer
 
-                For i = 0 To l - 1
-                    G(i) = p(i)
-                    G_bar(i) = 0
-                Next
+            G = New Double(l - 1) {}
+            G_bar = New Double(l - 1) {}
 
-                For i = 0 To l - 1
+            For i = 0 To l - 1
+                G(i) = p(i)
+                G_bar(i) = 0
+            Next
 
-                    If Not is_lower_bound(i) Then
-                        Dim Q_i = Q.GetQ(i, l)
-                        Dim alpha_i = alpha(i)
-                        Dim j As Integer
+            For i = 0 To l - 1
 
+                If Not is_lower_bound(i) Then
+                    Dim Q_i = Q.GetQ(i, l)
+                    Dim alpha_i = alpha(i)
+                    Dim j As Integer
+
+                    For j = 0 To l - 1
+                        G(j) += alpha_i * Q_i(j)
+                    Next
+
+                    If is_upper_bound(i) Then
                         For j = 0 To l - 1
-                            G(j) += alpha_i * Q_i(j)
+                            G_bar(j) += get_C(i) * Q_i(j)
                         Next
-
-                        If is_upper_bound(i) Then
-                            For j = 0 To l - 1
-                                G_bar(j) += get_C(i) * Q_i(j)
-                            Next
-                        End If
                     End If
-                Next
-            End If
+                End If
+            Next
+
 
             ' optimization step
 
@@ -420,49 +429,45 @@ Namespace SVM
                 Dim delta_alpha_i = alpha(i) - old_alpha_i
                 Dim delta_alpha_j = alpha(j) - old_alpha_j
 
-                For k = 0 To active_size - 1
+                For k As Integer = 0 To active_size - 1
                     G(k) += Q_i(k) * delta_alpha_i + Q_j(k) * delta_alpha_j
                 Next
 
                 ' update alpha_status and G_bar
+                Dim ui = is_upper_bound(i)
+                Dim uj = is_upper_bound(j)
+                update_alpha_status(i)
+                update_alpha_status(j)
+                If ui <> is_upper_bound(i) Then
+                    Q_i = Q.GetQ(i, l)
 
-                If True Then
-                    Dim ui = is_upper_bound(i)
-                    Dim uj = is_upper_bound(j)
-                    update_alpha_status(i)
-                    update_alpha_status(j)
-                    Dim k As Integer
+                    If ui Then
+                        For k = 0 To l - 1
+                            G_bar(k) -= C_i * Q_i(k)
+                        Next
+                    Else
 
-                    If ui <> is_upper_bound(i) Then
-                        Q_i = Q.GetQ(i, l)
-
-                        If ui Then
-                            For k = 0 To l - 1
-                                G_bar(k) -= C_i * Q_i(k)
-                            Next
-                        Else
-
-                            For k = 0 To l - 1
-                                G_bar(k) += C_i * Q_i(k)
-                            Next
-                        End If
-                    End If
-
-                    If uj <> is_upper_bound(j) Then
-                        Q_j = Q.GetQ(j, l)
-
-                        If uj Then
-                            For k = 0 To l - 1
-                                G_bar(k) -= C_j * Q_j(k)
-                            Next
-                        Else
-
-                            For k = 0 To l - 1
-                                G_bar(k) += C_j * Q_j(k)
-                            Next
-                        End If
+                        For k = 0 To l - 1
+                            G_bar(k) += C_i * Q_i(k)
+                        Next
                     End If
                 End If
+
+                If uj <> is_upper_bound(j) Then
+                    Q_j = Q.GetQ(j, l)
+
+                    If uj Then
+                        For k = 0 To l - 1
+                            G_bar(k) -= C_j * Q_j(k)
+                        Next
+                    Else
+
+                        For k = 0 To l - 1
+                            G_bar(k) += C_j * Q_j(k)
+                        Next
+                    End If
+                End If
+
             End While
 
             If iter >= max_iter Then
@@ -481,23 +486,19 @@ Namespace SVM
             si.rho = calculate_rho()
 
             ' calculate objective value
-            If True Then
-                Dim v As Double = 0
-                Dim i As Integer
+            Dim v As Double = 0
 
-                For i = 0 To l - 1
-                    v += alpha(i) * (G(i) + p(i))
-                Next
+            For i As Integer = 0 To l - 1
+                v += alpha(i) * (G(i) + p(i))
+            Next
 
-                si.obj = v / 2
-            End If
+            si.obj = v / 2
+
 
             ' put back the solution
-            If True Then
-                For i = 0 To l - 1
-                    alpha_(active_set(i)) = alpha(i)
-                Next
-            End If
+            For i As Integer = 0 To l - 1
+                alpha_(active_set(i)) = alpha(i)
+            Next
 
             si.upper_bound_p = Cp
             si.upper_bound_n = Cn

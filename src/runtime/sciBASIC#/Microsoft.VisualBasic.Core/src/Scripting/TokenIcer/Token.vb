@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b332caec6ef970ab66731a848fe4aa8c, Microsoft.VisualBasic.Core\src\Scripting\TokenIcer\Token.vb"
+﻿#Region "Microsoft.VisualBasic::6ffc121d7acb4d0f6af1a4c8d579f664, Microsoft.VisualBasic.Core\src\Scripting\TokenIcer\Token.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 78 (63.41%)
+    ' Comment Lines: 26 (21.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (15.45%)
+    '     File Size: 4.24 KB
+
+
     '     Class CodeToken
     ' 
     '         Properties: isNumeric, length, name, span, text
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: ToString, Trim
+    '         Function: SetLine, ToString, Trim
     '         Operators: (+2 Overloads) <>, (+2 Overloads) =
     ' 
     ' 
@@ -108,6 +120,16 @@ Namespace Scripting.TokenIcer
         Sub New()
         End Sub
 
+        Public Function SetLine(line As Integer) As CodeToken(Of Tokens)
+            If span Is Nothing Then
+                span = New CodeSpan() With {.line = line}
+            Else
+                span.line = line
+            End If
+
+            Return Me
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Trim(ParamArray chars As Char()) As String
             Return text.Trim(chars)
@@ -115,10 +137,20 @@ Namespace Scripting.TokenIcer
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
+            Dim text As String = Me.text
+
+            If text = vbCr Then
+                text = "\r"
+            ElseIf text = vbLf Then
+                text = "\n"
+            ElseIf text = vbTab Then
+                text = "\t"
+            ElseIf text = " " Then
+                text = "\s"
+            End If
+
             Return $"[{name}] {text}"
         End Function
-
-#If NET_48 = 1 Or netcore5 = 1 Then
 
         ''' <summary>
         ''' token is target token type andalso token text is one of any in the given text items 
@@ -145,7 +177,5 @@ Namespace Scripting.TokenIcer
         Public Overloads Shared Operator <>(token As CodeToken(Of Tokens), element As (Tokens, String)) As Boolean
             Return Not token = element
         End Operator
-
-#End If
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7900fd0f4e68c4e4cd3bc5261ce419f, Data_science\MachineLearning\MachineLearning\SVM\StorageProcedure\TextWriter\ModelText.vb"
+﻿#Region "Microsoft.VisualBasic::50f1aec5cfe8f6859b72205ad8caf0c7, Data_science\MachineLearning\MachineLearning\SVM\StorageProcedure\TextWriter\ModelText.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 82 (68.33%)
+    ' Comment Lines: 6 (5.00%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 32 (26.67%)
+    '     File Size: 4.19 KB
+
+
     '     Module ModelText
     ' 
     '         Function: ToString
@@ -44,7 +56,7 @@
 
 Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace SVM
 
@@ -69,15 +81,14 @@ Namespace SVM
             output.Write("nr_class {0}" & ASCII.LF, nr_class)
             output.Write("total_sv {0}" & ASCII.LF, l)
 
-            If True Then
-                output.Write("rho")
 
-                For i As Integer = 0 To CInt(nr_class * (nr_class - 1) / 2) - 1
-                    output.Write(" {0:0.000000}", model.rho(i))
-                Next
+            output.Write("rho")
 
-                output.Write(ASCII.LF)
-            End If
+            For i As Integer = 0 To CInt(nr_class * (nr_class - 1) / 2) - 1
+                output.Write(" {0:0.000000}", model.rho(i))
+            Next
+
+            output.Write(ASCII.LF)
 
             If model.classLabels IsNot Nothing Then
                 output.Write("label")

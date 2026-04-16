@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 30 (55.56%)
+    ' Comment Lines: 18 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (11.11%)
+    '     File Size: 2.11 KB
+
+
     ' Module ProfileStreams
     ' 
     '     Function: GenerateProfiles, LoadProfiles, WriteProfiles

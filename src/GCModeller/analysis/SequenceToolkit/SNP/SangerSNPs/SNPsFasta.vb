@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 34 (44.74%)
+    ' Comment Lines: 29 (38.16%)
+    '    - Xml Docs: 44.83%
+    ' 
+    '   Blank Lines: 13 (17.11%)
+    '     File Size: 3.31 KB
+
+
     '     Module SNPsFasta
     ' 
     '         Function: SNPSitesFasta

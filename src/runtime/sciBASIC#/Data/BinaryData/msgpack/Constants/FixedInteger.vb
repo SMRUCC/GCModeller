@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 9
+    '    Code Lines: 8 (88.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (11.11%)
+    '     File Size: 296 B
+
+
     '     Class FixedInteger
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa0235b5e688c852b5a5364f82481152, Microsoft.VisualBasic.Core\src\Text\Parser\HtmlParser\TagAttributeParser.vb"
+﻿#Region "Microsoft.VisualBasic::bcff1fa04f7dfcaf506cce59570a238b, Microsoft.VisualBasic.Core\src\Text\Parser\HtmlParser\TagAttributeParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 103 (65.61%)
+    ' Comment Lines: 31 (19.75%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 23 (14.65%)
+    '     File Size: 5.89 KB
+
 
     '     Module TagAttributeParser
     ' 
@@ -127,8 +139,15 @@ Namespace Text.Parser.HtmlParser
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Html.Href")>
-        <Extension> Public Function href(<Parameter("HTML", "A string that contains the url string pattern like: href=""url_text""")> html$) As String
-            Return html.attr("href")
+        <Extension>
+        Public Function href(<Parameter("HTML", "A string that contains the url string pattern like: href=""url_text""")> html$, Optional default$ = "") As String
+            Dim url As String = html.attr("href")
+
+            If url.StringEmpty Then
+                Return [default]
+            Else
+                Return url
+            End If
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -169,7 +188,7 @@ Namespace Text.Parser.HtmlParser
             Return img.attr("src")
         End Function
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NET8_0_OR_GREATER Then
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>

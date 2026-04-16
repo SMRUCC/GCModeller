@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 57 (74.03%)
+    ' Comment Lines: 6 (7.79%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 14 (18.18%)
+    '     File Size: 3.52 KB
+
+
     '     Module RuleBetaSheet
     ' 
     '         Function: CalculateCore, ExtendCore, Invoke

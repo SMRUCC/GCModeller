@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 57 (75.00%)
+    ' Comment Lines: 5 (6.58%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (18.42%)
+    '     File Size: 2.68 KB
+
+
     '     Class PathwayLink
     ' 
     '         Properties: Id, LinkedPathways, LinkType, Substrate

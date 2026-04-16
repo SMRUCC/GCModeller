@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::279d5f8932e56eb5963414a847240e4a, Microsoft.VisualBasic.Core\src\Scripting\Actives.vb"
+﻿#Region "Microsoft.VisualBasic::27c333b6bd29ff15f95eb5c512551df0, Microsoft.VisualBasic.Core\src\Scripting\Actives.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 131 (72.38%)
+    ' Comment Lines: 31 (17.13%)
+    '    - Xml Docs: 93.55%
+    ' 
+    '   Blank Lines: 19 (10.50%)
+    '     File Size: 7.20 KB
+
 
     '     Module Activity
     ' 
@@ -122,7 +134,7 @@ Namespace Scripting
             End If
             If type.Equals(GetType(Date)) OrElse
                 type.Equals(GetType(DateTime)) Then
-                Return Now
+                Return DateTime.UtcNow
             End If
             If __examples.ContainsKey(type) Then
                 Return __examples(type)

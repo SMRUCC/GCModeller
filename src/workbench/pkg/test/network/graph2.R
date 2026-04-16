@@ -1,8 +1,10 @@
 require(GCModeller);
 require(igraph);
+require(ColorBrewer);
 
-imports "igraph.layouts" from "igraph";
-imports "igraph.render" from "igraph";
+imports "layouts" from "igraph";
+imports "visualizer" from "igraph";
+imports "styler" from "igraph";
 
 const data = read.csv(file = `${@dir}/all_enriched.csv`);
 
@@ -55,14 +57,35 @@ for(pid in names(links)) {
     }
 }
 
-g = g |> layout.force_directed;
-
-print(g);
-
-save.network(g, file = @dir);
-
 bitmap(file = `${@dir}/enriched.png`) {
-    render(g);
+    g = g 
+    |> compute.network 
+    |> layout.force_directed(
+        size       = [3000, 2100], 
+        iterations = 2000,
+        condenseFactor = 13,
+        algorithm = "degree_weighted"
+    )
+    ;
+    
+    # const d = unlist(degree(g)) |> ColorBrewer::TrIQ();
+
+    size(V(g)) = lapply(degree(g), x -> x * 5);
+
+    color(V(g)[~group == "pathway"])  = "red";
+    color(V(g)[~group == "compound"]) = "green";
+
+    color(E(g)) = "lightgray";
+
+    const w = unlist(weight(E(g))) |> ColorBrewer::TrIQ();
+
+    width(E(g)) = lapply(weight(E(g)), x -> 4 * ifelse(x > w, w, x));   
+
+    str(weight(E(g)));
+    print(g);
+
+    save.network(g, file = @dir);
+    render(g, canvasSize = [3000, 2100], labelerIterations = -1);
 }
 
 # for(i in 1:length(IF)) {

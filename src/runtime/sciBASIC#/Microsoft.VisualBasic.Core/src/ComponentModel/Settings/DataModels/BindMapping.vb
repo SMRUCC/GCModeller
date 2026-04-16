@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 68 (76.40%)
+    ' Comment Lines: 9 (10.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.48%)
+    '     File Size: 2.99 KB
+
+
     '     Class BindMapping
     ' 
     '         Properties: AsOutString, BindProperty, Description, Name, Type

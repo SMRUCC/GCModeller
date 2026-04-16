@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6515685c3c13a560eaa944eee6b277d, models\Networks\KEGG\Dunnart\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::52b5102d080128894635970507eb71a8, models\Networks\KEGG\Dunnart\Builder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 160 (80.40%)
+    ' Comment Lines: 9 (4.52%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 30 (15.08%)
+    '     File Size: 7.96 KB
+
+
     '     Module Extensions
     ' 
     '         Function: CreateModel, FromNetwork, OptmizeGraph
@@ -40,6 +52,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
@@ -47,7 +60,6 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
@@ -67,8 +79,7 @@ Namespace Dunnart
         ''' <param name="lighten"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function FromNetwork(network As NetworkGraph,
-                                    Optional colorSet As String = "Paired:c12",
+        Public Function FromNetwork(network As NetworkGraph, colorSet As Color(),
                                     Optional groupKey As String = "map",
                                     Optional fillOpacity As Double = 0.5,
                                     Optional lighten As Double = 0.1) As GraphObject
@@ -98,10 +109,7 @@ Namespace Dunnart
                 links += New Link With {.source = link.U.ID, .target = link.V.ID}
             Next
 
-            Dim colors As LoopArray(Of String) = Designer _
-                .GetColors(colorSet) _
-                .Select(Function(c) c.ToHtmlColor) _
-                .ToArray
+            Dim colors As LoopArray(Of String) = colorSet.Select(Function(c) c.ToHtmlColor).ToArray
             Dim color As Value(Of String) = ""
             Dim style As String
 
@@ -143,9 +151,8 @@ Namespace Dunnart
         End Function
 
         <Extension>
-        Public Function CreateModel(template As NetworkGraph, maps As Pathway(),
+        Public Function CreateModel(template As NetworkGraph, maps As Pathway(), colorSet As Color(),
                                     Optional desc As Boolean = False,
-                                    Optional colorSet As String = "Paired:c12",
                                     Optional fillOpacity As Double = 0.5,
                                     Optional lighten As Double = 0.1,
                                     Optional isConnected As Boolean = True) As GraphObject

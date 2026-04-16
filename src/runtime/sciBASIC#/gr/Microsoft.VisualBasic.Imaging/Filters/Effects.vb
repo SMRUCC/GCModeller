@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::981343b86afa32fae5111455cf423738, gr\Microsoft.VisualBasic.Imaging\Filters\Effects.vb"
+﻿#Region "Microsoft.VisualBasic::013564c353a88c8732e00c76039b437c, gr\Microsoft.VisualBasic.Imaging\Filters\Effects.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 140 (69.31%)
+    ' Comment Lines: 27 (13.37%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 35 (17.33%)
+    '     File Size: 7.70 KB
+
+
     '     Module Effects
     ' 
     '         Function: Diffusion, Emboss, Pencil, Sharp, Soften
@@ -49,7 +61,7 @@ Namespace Filters
     Public Module Effects
 
         <Extension>
-        Public Function Pencil(img As BitmapBuffer, Optional ByVal Sensitivity As Long = 25, Optional woodCarving As Boolean = False) As BitmapBuffer
+        Public Function Pencil(img As BitmapBuffer, Optional Sensitivity As Long = 25, Optional woodCarving As Boolean = False) As BitmapBuffer
             Dim M As Long
             Dim N As Long
             Dim Col As Long
@@ -190,7 +202,7 @@ Namespace Filters
         End Function
 
         <Extension>
-        Public Function Sharp(img As BitmapBuffer, Optional ByVal SharpDgree As Single = 0.3, Optional max As Double = 255) As BitmapBuffer
+        Public Function Sharp(img As BitmapBuffer, Optional SharpDgree As Single = 0.3, Optional max As Double = 255) As BitmapBuffer
             Dim OutPutWid = img.Width
             Dim OutPutHei = img.Height
             Dim Div1 As Single = 1 + SharpDgree

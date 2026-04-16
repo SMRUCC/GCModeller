@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 58 (60.42%)
+    ' Comment Lines: 27 (28.12%)
+    '    - Xml Docs: 74.07%
+    ' 
+    '   Blank Lines: 11 (11.46%)
+    '     File Size: 5.30 KB
+
+
     '     Class MappingBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New

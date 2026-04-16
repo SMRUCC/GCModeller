@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fffe9a0cfb156f7e9811b69edb282111, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
+﻿#Region "Microsoft.VisualBasic::647149809afaefa7cd57fc747115b1a4, data\Xfam\Pfam\Pipeline\PfamString\PfamString.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 150
+    '    Code Lines: 97 (64.67%)
+    ' Comment Lines: 33 (22.00%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 20 (13.33%)
+    '     File Size: 6.27 KB
+
+
     '     Class PfamString
     ' 
     '         Properties: Description, Domains, HasChouFasmanData, Length, PfamString
@@ -48,7 +60,7 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ProteinModel.ChouFasmanRules
 
 Namespace PfamString

@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH SIMULATOR 2 2000-1月 "engine.load" "engine.load"
+.SH NAME
+engine.load \- create a new virtual cell engine
+.SH SYNOPSIS
+\fIengine.load(\fBvcell\fR as <generic> CellularModule, 
+\fBinits\fR as <generic> Definition = \fB<NULL>\fR, 
+\fBiterations\fR as integer = 100, 
+\fBtime_resolutions\fR as integer = 10000, 
+\fBdynamics\fR as <generic> FluxBaseline = \fB<NULL>\fR, 
+\fBshowProgress\fR as boolean = TRUE, 
+\fBunit_test\fR as boolean = FALSE, 
+\fBdebug\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+create a new virtual cell engine
+.PP
+.SH OPTIONS
+.PP
+\fBinits\fB \fR\- 
+ the initial mass environment definition
+. 
+.PP
+.PP
+\fBvcell\fB \fR\- The virtual cell object model, contains the definition of the cellular network graph data. 
+.PP
+.PP
+\fBiterations\fB \fR\- 
+ the number of the iteration loops for run the simulation
+. 
+.PP
+.PP
+\fBtime_resolutions\fB \fR\- 
+ the time steps
+. 
+.PP
+.PP
+\fBdynamics\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+simulator
+.SH FILES
+.PP
+vcellkit.dll
+.PP

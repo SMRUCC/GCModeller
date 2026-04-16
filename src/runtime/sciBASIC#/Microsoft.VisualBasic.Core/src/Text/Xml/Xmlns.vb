@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 108 (67.08%)
+    ' Comment Lines: 29 (18.01%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 24 (14.91%)
+    '     File Size: 6.00 KB
+
+
     '     Class Xmlns
     ' 
     '         Properties: [namespace], xmlns, xsd, xsi
@@ -39,7 +51,7 @@
     ' 
     '         Function: RootParser, ToString
     ' 
-    '         Sub: [Set], __replace, Clear, WriteNamespace
+    '         Sub: __replace, [Set], Clear, WriteNamespace
     ' 
     ' 
     ' /********************************************************************************/

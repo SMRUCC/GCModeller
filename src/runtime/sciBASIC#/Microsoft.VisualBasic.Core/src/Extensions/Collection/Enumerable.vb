@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dd37d36153684f17defa3b71c50f41e, Microsoft.VisualBasic.Core\src\Extensions\Collection\Enumerable.vb"
+﻿#Region "Microsoft.VisualBasic::c220ae65481804afdd1e929ee7a1b078, Microsoft.VisualBasic.Core\src\Extensions\Collection\Enumerable.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 305
+    '    Code Lines: 211 (69.18%)
+    ' Comment Lines: 51 (16.72%)
+    '    - Xml Docs: 98.04%
+    ' 
+    '   Blank Lines: 43 (14.10%)
+    '     File Size: 12.50 KB
+
+
     ' Module IEnumerations
     ' 
-    '     Function: [Next], CreateDictionary, (+2 Overloads) Differ, ExceptType, (+2 Overloads) FindByItemKey
-    '               FindByItemValue, (+2 Overloads) GetItem, GetItems, OfType, Take
-    '               (+2 Overloads) Takes, ToDictionary, ToEntryDictionary
+    '     Function: [Next], ContainsAll, CreateDictionary, (+2 Overloads) Differ, ExceptType
+    '               (+2 Overloads) FindByItemKey, FindByItemValue, (+2 Overloads) GetItem, GetItems, OfType
+    '               Permutations, Take, (+2 Overloads) Takes, ToDictionary, ToEntryDictionary
+    '               Zip
+    ' 
     ' 
     ' /********************************************************************************/
 
@@ -52,6 +66,16 @@ Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
 
 <Extension>
 Public Module IEnumerations
+
+    <Extension>
+    Public Iterator Function Zip(Of T1, T2)(first As IEnumerable(Of T1), join As IEnumerable(Of T2)) As IEnumerable(Of (First As T1, Second As T2))
+        Dim pull1 = first.GetEnumerator
+        Dim pull2 = join.GetEnumerator
+
+        Do While pull1.MoveNext AndAlso pull2.MoveNext
+            Yield (pull1.Current, pull2.Current)
+        Loop
+    End Function
 
     <Extension>
     Public Function OfType(Of A, B, T)(source As IEnumerable(Of [Variant](Of A, B))) As IEnumerable(Of T)
@@ -89,7 +113,7 @@ Public Module IEnumerations
 
         Dim targetIndex As String() = (From item As T In source Select item.Key).ToArray
         Dim LQuery$() = LinqAPI.Exec(Of String) _
- _
+                                                _
             () <= From item As T2
                   In toDiffer
                   Let strId As String = getId(item)
@@ -140,19 +164,22 @@ Public Module IEnumerations
     ''' </summary>
     ReadOnly TextCompareStrict As [Default](Of StringComparison) = StringComparison.Ordinal
 
-    <Extension> Public Function FindByItemKey(source As IEnumerable(Of KeyValuePair), Key As String, Optional strict As Boolean = True) As KeyValuePair()
+    <Extension>
+    Public Function FindByItemKey(source As IEnumerable(Of KeyValuePair), Key As String, Optional strict As Boolean = True) As KeyValuePair()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
         Dim LQuery = (From item In source Where String.Equals(item.Key, Key, method) Select item).ToArray
         Return LQuery
     End Function
 
-    <Extension> Public Function FindByItemKey(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Key As String, Optional strict As Boolean = True) As PairItemType()
+    <Extension>
+    Public Function FindByItemKey(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Key As String, Optional strict As Boolean = True) As PairItemType()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
         Dim LQuery = (From item In source Where String.Equals(item.Key, Key, method) Select item).ToArray
         Return LQuery
     End Function
 
-    <Extension> Public Function FindByItemValue(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Value As String, Optional strict As Boolean = True) As PairItemType()
+    <Extension>
+    Public Function FindByItemValue(Of PairItemType As IKeyValuePair)(source As IEnumerable(Of PairItemType), Value As String, Optional strict As Boolean = True) As PairItemType()
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
         Dim LQuery = (From item In source Where String.Equals(item.Key, Value, method) Select item).ToArray
         Return LQuery
@@ -184,7 +211,7 @@ Public Module IEnumerations
             End If
         Else
             Return LinqAPI.Exec(Of T) _
- _
+                                      _
                 () <= From x As T
                       In source
                       Where String.Equals(x.Key, uniqueId, StringComparison.OrdinalIgnoreCase)
@@ -203,7 +230,7 @@ Public Module IEnumerations
     <Extension> Public Function Takes(Of T As INamedValue)(list As IEnumerable(Of String), source As IEnumerable(Of T)) As T()
         Dim table As Dictionary(Of T) = source.ToDictionary
         Dim LQuery As T() = LinqAPI.Exec(Of T) _
- _
+                                               _
             () <= From sId As String
                   In list
                   Where table.ContainsKey(sId)
@@ -224,7 +251,7 @@ Public Module IEnumerations
     <Extension> Public Function Take(Of T As INamedValue)(source As IEnumerable(Of T), uniqueId As String, Optional strict As Boolean = True) As T
         Dim level As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(strict)
         Dim LQuery As T = LinqAPI.DefaultFirst(Of T) _
- _
+                                                     _
             () <= From o As T
                   In source
                   Where String.Equals(uniqueId, o.Key, comparisonType:=level)
@@ -240,7 +267,7 @@ Public Module IEnumerations
     <Extension> Public Function GetItem(Of T As IReadOnlyId)(source As IEnumerable(Of T), uniqueId As String, Optional caseSensitive As Boolean = True) As T
         Dim method As StringComparison = StringComparison.OrdinalIgnoreCase Or TextCompareStrict.When(caseSensitive)
         Dim LQuery = LinqAPI.DefaultFirst(Of T) _
- _
+                                                _
             () <= From itemObj As T
                   In source
                   Where String.Equals(itemObj.Identity, uniqueId, method)
@@ -258,7 +285,8 @@ Public Module IEnumerations
     ''' True: 这个参数会去处重复项
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function ToDictionary(Of T As INamedValue)(source As IEnumerable(Of T), distinct As Boolean) As Dictionary(Of T)
+    <Extension>
+    Public Function ToDictionary(Of T As INamedValue)(source As IEnumerable(Of T), distinct As Boolean) As Dictionary(Of T)
         If Not distinct Then
             Return source.ToDictionary
         End If
@@ -279,5 +307,56 @@ Public Module IEnumerations
         End If
 
         Return table
+    End Function
+
+    Public Function Permutations(Of T)(collection As IReadOnlyList(Of T)) As IEnumerable(Of T())
+        Dim n = collection.Count
+        Dim used = New Boolean(n - 1) {}
+        Dim result = New T(n - 1) {}
+        Dim memo = New Dictionary(Of T, Integer)()
+        Dim recurse As Func(Of Integer, IEnumerable(Of T())) =
+            Iterator Function(m As Integer) As IEnumerable(Of T())
+                If m = n Then
+                    Yield result.ToArray()
+                Else
+                    Dim j As Integer = Nothing
+
+                    If (Not memo.TryGetValue(collection(m), j)) Then
+                        j = 0
+                    End If
+
+                    For i As Integer = j To n - 1
+                        If used(i) Then
+                            Continue For
+                        End If
+
+                        used(i) = True
+                        result(i) = collection(m)
+                        memo(collection(m)) = i + 1
+
+                        For Each res In recurse(m + 1)
+                            Yield res
+                        Next
+
+                        used(i) = False
+                        memo(collection(m)) = j
+                    Next
+                End If
+            End Function
+
+        Return recurse(0)
+    End Function
+
+    <Extension>
+    Public Function ContainsAll(Of T)([set] As ISet(Of T), all As IEnumerable(Of T)) As Boolean
+        If Not all Is Nothing Then
+            For Each item As T In all
+                If Not [set].Contains(item) Then
+                    Return False
+                End If
+            Next
+        End If
+
+        Return True
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2925e31f95f6bafbad82bbb6c889e7ad, Data_science\Visualization\Plots-statistics\Heatmap\CorrelationData.vb"
+﻿#Region "Microsoft.VisualBasic::f4f3ddc61508a3d7d2571446d15f9785, Data_science\Visualization\Plots-statistics\HeatMap\CorrelationData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 60 (77.92%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 17 (22.08%)
+    '     File Size: 2.29 KB
+
+
     '     Class CorrelationData
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -44,7 +56,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.DataFrame
+Imports Microsoft.VisualBasic.Math.Matrix
 
 Namespace Heatmap
 

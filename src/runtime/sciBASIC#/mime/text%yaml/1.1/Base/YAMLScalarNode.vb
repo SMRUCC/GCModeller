@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 261
+    '    Code Lines: 214 (81.99%)
+    ' Comment Lines: 3 (1.15%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 44 (16.86%)
+    '     File Size: 8.40 KB
+
+
     '     Class YAMLScalarNode
     ' 
     '         Properties: Empty, IsIndent, IsMultyline, NodeType, Style

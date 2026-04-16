@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::315ee4d224a189b2559c32bbb212e7f9, mime\application%pdf\PdfFileWriter\PDF\PdfLayers.vb"
+﻿#Region "Microsoft.VisualBasic::1fe5cc32e25d960842bf301f58b770c4, mime\application%pdf\PdfFileWriter\PDF\PdfLayers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 209
+    '    Code Lines: 119 (56.94%)
+    ' Comment Lines: 52 (24.88%)
+    '    - Xml Docs: 65.38%
+    ' 
+    '   Blank Lines: 38 (18.18%)
+    '     File Size: 7.59 KB
+
 
     '     Enum ListMode
     ' 
@@ -92,7 +104,7 @@ Imports System.Text
         ''' </summary>
         ''' <param name="Document">PDF Document</param>
         ''' <param name="Name">Layers name</param>
-        Public Sub New(ByVal Document As PdfDocument, ByVal Name As String)
+        Public Sub New(Document As PdfDocument, Name As String)
             MyBase.New(Document)
             ' Make sure it is done only once
             If Document.Layers IsNot Nothing Then Throw New ApplicationException("PdfLayers is already defined")
@@ -113,7 +125,7 @@ Imports System.Text
         ''' Layer's display order in layers panel
         ''' </summary>
         ''' <param name="Layer">Layer object</param>
-        Public Sub DisplayOrder(ByVal Layer As PdfLayer)
+        Public Sub DisplayOrder(Layer As PdfLayer)
             OrderList.Add(Layer)
             Return
         End Sub
@@ -122,7 +134,7 @@ Imports System.Text
         ''' Layer's display order group start marker
         ''' </summary>
         ''' <param name="GroupName">Optional group name</param>
-        Public Sub DisplayOrderStartGroup(ByVal Optional GroupName As String = "")
+        Public Sub DisplayOrderStartGroup(Optional GroupName As String = "")
             OrderList.Add(GroupName)
             Return
         End Sub

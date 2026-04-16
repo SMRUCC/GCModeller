@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 33 (27.05%)
+    ' Comment Lines: 79 (64.75%)
+    '    - Xml Docs: 92.41%
+    ' 
+    '   Blank Lines: 10 (8.20%)
+    '     File Size: 5.74 KB
+
+
     '     Class Promoter
     ' 
     '         Properties: AbsolutePlus1Pos, BindsSigmaFactor, ComponentOf, Direction, Minus10Left

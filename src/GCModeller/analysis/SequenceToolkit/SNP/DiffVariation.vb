@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::342976ae0e27ecf7546b8d52f7ff7eda, analysis\SequenceToolkit\SNP\DiffVariation.vb"
+﻿#Region "Microsoft.VisualBasic::a143266cfd97b35279a3caf9b794319c, analysis\SequenceToolkit\SNP\DiffVariation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 113 (74.34%)
+    ' Comment Lines: 13 (8.55%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 26 (17.11%)
+    '     File Size: 5.49 KB
+
+
     ' Module DiffVariation
     ' 
     '     Function: [Date], GetSeqs, GroupByDate
@@ -45,9 +57,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -72,7 +83,7 @@ Public Module DiffVariation
             Throw New Exception(
                 $"Reference sequence index value {refIndex} is not valid!")
         Else
-            Call $"Using reference sequence: {source(index).Title}".__DEBUG_ECHO
+            Call $"Using reference sequence: {source(index).Title}".debug
         End If
 
         Dim ref As FastaSeq = source(index%)
@@ -178,7 +189,7 @@ Public Module DiffVariation
                 .Properties = rawRow
             }
 
-            Call tag.__DEBUG_ECHO
+            Call tag.debug
         Next
 
         Return out

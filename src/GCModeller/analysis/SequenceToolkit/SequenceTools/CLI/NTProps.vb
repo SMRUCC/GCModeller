@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47c011a868ffa9a07e51f8f25c8cf478, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
+﻿#Region "Microsoft.VisualBasic::841581dca48c6aac09c56506c613c486, analysis\SequenceToolkit\SequenceTools\CLI\NTProps.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 300
+    '    Code Lines: 234 (78.00%)
+    ' Comment Lines: 25 (8.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 41 (13.67%)
+    '     File Size: 13.90 KB
+
+
     ' Module Utilities
     ' 
     '     Function: __lociFa, __segments, __where, ConvertMirrors, ConvertMirrorsBatch
@@ -41,18 +53,18 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -117,7 +129,7 @@ Partial Module Utilities
         Dim outDIR As String = args.GetValue("/out", [in].TrimSuffix)
         Dim data As PalindromeLoci() = [in].LoadCsv(Of PalindromeLoci)
         Dim cut As Double = args.GetValue("/fuzzy", -1.0R)
-        Dim batch As Boolean = args.GetBoolean("/batch")
+        Dim batch As Boolean = args("/batch")
 
         If cut > 0 Then
             For Each g As GroupResult(Of PalindromeLoci, String) In data.FuzzyGroups(
@@ -209,10 +221,10 @@ Partial Module Utilities
     Public Function MirrorContextBatch(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim PTT_DIR As String = args("/PTT")
-        Dim trans As Boolean = args.GetBoolean("/trans")
+        Dim trans As Boolean = args("/trans")
         Dim strand As String = args.GetValue("/strand", "+")
         Dim dist As Integer = args.GetValue("/dist", 500)
-        Dim stranded As Boolean = args.GetBoolean("/stranded")
+        Dim stranded As Boolean = args("/stranded")
         Dim EXPORT As String = args.GetValue("/out", [in].TrimDIR & ".genomics_context_" & dist & "/")
         Dim cliTask As Func(Of String, String, String) =
             Function(mirror, PTT)
@@ -258,13 +270,13 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim PTT As String = args("/PTT")
         Dim strand As String = args.GetValue("/strand", "+")
-        Dim stranded As Boolean = args.GetBoolean("/stranded")
+        Dim stranded As Boolean = args("/stranded")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "." & PTT.BaseName & "." & strand & ".csv")
         Dim context As PTT = TabularFormat.PTT.Load(PTT)
         Dim genome As New GenomeContextProvider(Of GeneBrief)(context)  ' 构建基因组的上下文模型
         Dim lStrand As Strands = strand.GetStrand
         Dim dist As Integer = args.GetValue("/dist", 500)
-        Dim trans As Boolean = args.GetBoolean("/trans")
+        Dim trans As Boolean = args("/trans")
 
         If trans Then
             If lStrand <> Strands.Reverse Then
@@ -273,7 +285,7 @@ Partial Module Utilities
         End If
 
         If trans Then
-            Call $"Reversed strand location will be transformed by genome size!".__DEBUG_ECHO
+            Call $"Reversed strand location will be transformed by genome size!".debug
             out = out.TrimSuffix & ".trans.Csv"
         End If
 

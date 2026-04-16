@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7c3ae85564596a3d9b88f3f94db5041f, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::605e89268aa8f2429d7a0af348cf18ef, Data\BinaryData\BinaryData\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 101 (60.12%)
+    ' Comment Lines: 42 (25.00%)
+    '    - Xml Docs: 97.62%
+    ' 
+    '   Blank Lines: 25 (14.88%)
+    '     File Size: 5.17 KB
+
+
     ' Interface IMagicBlock
     ' 
     '     Properties: magic
     ' 
     ' Module Extensions
     ' 
-    '     Function: OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector, skip, (+3 Overloads) VerifyMagicSignature
+    '     Function: (+2 Overloads) CheckMagicNumber, OpenBinaryReader, ReadAsDoubleVector, ReadAsInt64Vector, skip
+    '               (+3 Overloads) VerifyMagicSignature
     ' 
     '     Sub: WriteByte
     ' 
@@ -48,6 +61,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Text
 
 Public Interface IMagicBlock
@@ -71,6 +85,45 @@ End Interface
         Call buffer.Seek(nbytes, SeekOrigin.Current)
 
         Return nbytes
+    End Function
+
+    ''' <summary>
+    ''' check the magic number inside <see cref="RequestStream.ChunkBuffer"/>
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <param name="magic"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this function will verify the given target stream <paramref name="s"/> is null or empty.
+    ''' </remarks>
+    <Extension>
+    Public Function CheckMagicNumber(s As RequestStream, magic As IEnumerable(Of Byte)) As Boolean
+        Dim i As Integer = 0
+
+        If s Is Nothing OrElse s.ChunkBuffer Is Nothing Then
+            Return False
+        End If
+
+        Dim bin As Byte() = s.ChunkBuffer
+
+        For Each b As Byte In magic
+            If bin.Length = i Then
+                Return False
+            ElseIf bin(i) <> b Then
+                Return False
+            End If
+
+            i += 1
+        Next
+
+        Return True
+    End Function
+
+    <Extension>
+    Public Function CheckMagicNumber(s As Stream, magic As IReadOnlyCollection(Of Byte)) As Boolean
+        Dim buf As Byte() = New Byte(magic.Count - 1) {}
+        s.Read(buf, 0, buf.Length)
+        Return buf.SequenceEqual(magic)
     End Function
 
     <Extension>
@@ -132,21 +185,12 @@ End Interface
     ''' </summary>
     ''' <param name="path"></param>
     ''' <param name="encoding"></param>
-    ''' <param name="buffered%">
-    ''' 默认的缓存临界大小是10MB，当超过这个大小的时候则不会进行缓存，假若没有操作这个临界值，则程序会一次性读取所有数据到内存之中以提高IO性能
-    ''' </param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function OpenBinaryReader(path$, Optional encoding As Encodings = Encodings.ASCII, Optional buffered& = 1024 * 1024 * 10) As BinaryDataReader
-        If FileIO.FileSystem.GetFileInfo(path).Length <= buffered Then
-            ' 文件数据将会被缓存
-            Dim byts As Byte() = FileIO.FileSystem.ReadAllBytes(path)
-            Dim ms As New MemoryStream(byts)
-
-            Return New BinaryDataReader(ms, encoding)
-        Else
-            Return New BinaryDataReader(File.OpenRead(path), encoding)
-        End If
+    Public Function OpenBinaryReader(path$, Optional encoding As Encodings = Encodings.ASCII) As BinaryDataReader
+        Return New BinaryDataReader(path.Open(FileMode.Open, doClear:=False, [readOnly]:=True), encoding)
     End Function
 
     ''' <summary>

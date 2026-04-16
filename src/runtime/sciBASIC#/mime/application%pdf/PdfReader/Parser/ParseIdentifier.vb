@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ead901cdf633319d4c8c42bd9842f59, mime\application%pdf\PdfReader\Parser\ParseIdentifier.vb"
+﻿#Region "Microsoft.VisualBasic::748d91e51ef8646508f3e52ddf93b2dc, mime\application%pdf\PdfReader\Parser\ParseIdentifier.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 29 (80.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (19.44%)
+    '     File Size: 1.23 KB
+
+
     '     Class ParseIdentifier
     ' 
     '         Properties: Value
@@ -54,7 +66,7 @@ Namespace PdfReader
         Private Shared _lookup As ConcurrentDictionary(Of String, ParseIdentifier) = New ConcurrentDictionary(Of String, ParseIdentifier)()
         Private Shared _nullUpdate As Func(Of String, ParseIdentifier, ParseIdentifier) = Function(x, y) y
 
-        Public Sub New(ByVal value As String)
+        Public Sub New(value As String)
             Me.Value = value
         End Sub
 
@@ -62,12 +74,12 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _Value = value
             End Set
         End Property
 
-        Public Shared Function GetParse(ByVal identifier As String) As ParseIdentifier
+        Public Shared Function GetParse(identifier As String) As ParseIdentifier
             Dim parseIdentifier As ParseIdentifier = Nothing
 
             If Not _lookup.TryGetValue(identifier, parseIdentifier) Then

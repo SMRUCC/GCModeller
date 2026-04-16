@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::85604320fc93554e703d573ded5fe2a8, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipLib.vb"
+﻿#Region "Microsoft.VisualBasic::34fba8a07a7025d9d94f7c1cfedb9723, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Zip\ZipLib.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 356
+    '    Code Lines: 188 (52.81%)
+    ' Comment Lines: 119 (33.43%)
+    '    - Xml Docs: 64.71%
+    ' 
+    '   Blank Lines: 49 (13.76%)
+    '     File Size: 15.47 KB
+
 
     '     Module ZipLib
     ' 
@@ -107,7 +119,7 @@ Namespace ApplicationServices.Zip
         ''' <returns></returns>
         <Extension>
         Public Function IsSourceFolderZip(zip$, Optional ByRef folder$ = Nothing) As Boolean
-            Using file As FileStream = zip.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            Using file As Stream = zip.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
                 Return file.IsSourceFolderZip(folder)
             End Using
         End Function
@@ -282,12 +294,24 @@ Namespace ApplicationServices.Zip
 
             End Select
 
-            'Opens the zip file in the mode we specified
+            ' Opens the zip file in the mode we specified
             Using zipFile As ZipArchive = IO.Compression.ZipFile.Open(archiveFullName, mode)
                 Call zipFile.WriteFiles(files.ToArray, mode, fileOverwrite, compression, relativeDir)
             End Using
         End Sub
 
+        ''' <summary>
+        ''' add files into the zip file archive object
+        ''' </summary>
+        ''' <param name="zipFile"></param>
+        ''' <param name="files">
+        ''' a file path list to save into the zip package file, should be full path!
+        ''' </param>
+        ''' <param name="mode"></param>
+        ''' <param name="fileOverwrite"></param>
+        ''' <param name="compression"></param>
+        ''' <param name="relativeDir"></param>
+        ''' <param name="parent$"></param>
         <Extension>
         Public Sub WriteFiles(zipFile As ZipArchive, files As String(), mode As ZipArchiveMode,
                               Optional fileOverwrite As Overwrite = Overwrite.IfNewer,

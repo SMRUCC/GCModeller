@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 50 (76.92%)
+    ' Comment Lines: 4 (6.15%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 11 (16.92%)
+    '     File Size: 2.34 KB
+
+
     '     Class PfamFamily
     ' 
     '         Properties: Entries, EntryCount, Release, ReleaseDate

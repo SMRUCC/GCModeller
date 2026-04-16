@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d0b58a6f6b3b0ca1023df018be39184, gr\network-visualization\Datavisualization.Network\Analysis\Model\EdgeSet.vb"
+﻿#Region "Microsoft.VisualBasic::08dfecfca86d16b42016c708fa822e3d, gr\network-visualization\Datavisualization.Network\Analysis\Model\EdgeSet.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 16 (59.26%)
+    ' Comment Lines: 6 (22.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 856 B
+
+
     '     Class EdgeSet
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 
 Namespace Analysis.Model
 

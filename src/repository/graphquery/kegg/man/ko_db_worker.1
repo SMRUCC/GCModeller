@@ -1,0 +1,43 @@
+﻿.TH KO_DB_WORKER 1 2026-2月 "internal" "Internal Worker Function for KO Database Creation"
+.SH NAME
+ko_db_worker \- ko_db_worker(db, species,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)
+.SH SYNOPSIS
+\fIko_db_worker(db, species,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>)\fR
+.SH DESCRIPTION
+.PP
+This is an internal helper function that implements the core logic for creating
+the KO sequence database. It iterates through all KO entries in the KO index
+and triggers the download of associated gene sequences.
+.PP
+.SH OPTIONS
+.PP
+\fBdb\fB \fR\- . A local repository connection to the target KEGG genes database for
+saving and caching downloaded data. See \code{\link{ko_db}} for details.
+.PP
+.PP
+\fBspecies\fB \fR\- . A character vector of KEGG organism species codes for filtering
+genes to download. Default is \code{NULL} (no filtering). See
+\code{\link{ko_db}} for details and examples.
+.PP
+.PP
+\fBseqtype\fB \fR\- 'c'('ntseq', 'aaseq'). The type of FASTA sequence data to download. Must be either
+\code{"ntseq"} (gene nucleotide sequence) or \code{"aaseq"} (protein amino
+acid sequence). Default is \code{"ntseq"}.
+.PP
+.PP
+\fBdownload.seqs\fB \fR\- TRUE. 
+.PP
+.SH VALUE
+.PP
+Returns \code{NULL} invisibly.
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.ko_db_worker at ko_db.R:line 117
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, MIT Licensed 2026

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38bd72bf139ce2ae31370d7b677d92fe, engine\Model\Cellular\Process\Kinetics.vb"
+﻿#Region "Microsoft.VisualBasic::2816021e56bc2b665bf84911fbc913f7, engine\Model\Cellular\Process\Kinetics.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 47 (62.67%)
+    ' Comment Lines: 18 (24.00%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 10 (13.33%)
+    '     File Size: 2.84 KB
+
+
     '     Structure Kinetics
     ' 
     '         Function: CompileLambda, ExpressionModel, ToString
@@ -47,9 +59,19 @@ Imports Microsoft.VisualBasic.Math.Scripting
 Namespace Cellular.Process
 
     Public Structure Kinetics
-
+        ''' <summary>
+        ''' body expression of the lambda expression
+        ''' </summary>
         Dim formula As Impl.Expression
+        ''' <summary>
+        ''' parameter names for create lambda expression
+        ''' </summary>
         Dim parameters As String()
+        ''' <summary>
+        ''' parameter value list data of the lambda <see cref="parameters"/>. 
+        ''' numeric value means constant value and string value means
+        ''' id reference of the substrate
+        ''' </summary>
         Dim paramVals As Object()
         ''' <summary>
         ''' enzyme target
@@ -70,19 +92,35 @@ Namespace Cellular.Process
             Return ScriptEngine.ParseExpression(formula)
         End Function
 
-        Public Function CompileLambda() As DynamicInvoke
+        Public Function CompileLambda(geneMaps As Dictionary(Of String, CentralDogma)) As DynamicInvoke
             Dim lambda As LambdaExpression = ExpressionCompiler.CreateLambda(parameters, formula)
             Dim handler As [Delegate] = lambda.Compile
             Dim vm = Me
+            Dim paramVals As Object() = Me.paramVals
+
+            For i As Integer = 0 To paramVals.Length - 1
+                If TypeOf paramVals(i) Is String Then
+                    Dim id As String = CStr(paramVals(i))
+                    Dim gene As CentralDogma = geneMaps.TryGetValue(id)
+
+                    If Not gene.polypeptide.StringEmpty(, True) Then
+                        ' paramVals(i) = gene.polypeptide & ".complex"
+                    End If
+                End If
+            Next
 
             Return Function(getVal As Func(Of String, Double)) As Double
-                       Dim vals = vm.paramVals.ToArray
+                       Dim vals As Object() = paramVals.ToArray
 
-                       For i As Integer = 0 To vals.Length - 1
-                           If TypeOf vals(i) Is String Then
-                               vals(i) = getVal(vals(i))
-                           End If
-                       Next
+                       If vm.parameters.Length = 0 Then
+                           vals = {}
+                       Else
+                           For i As Integer = 0 To vals.Length - 1
+                               If TypeOf vals(i) Is String Then
+                                   vals(i) = getVal(vals(i))
+                               End If
+                           Next
+                       End If
 
                        Return handler.DynamicInvoke(vals)
                    End Function

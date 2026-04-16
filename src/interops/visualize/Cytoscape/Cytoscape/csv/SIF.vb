@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d124ae632f2164588a9e55f99a6d336d, visualize\Cytoscape\Cytoscape\csv\SIF.vb"
+﻿#Region "Microsoft.VisualBasic::277cc90f374d7f3563ec28ca362e58ef, visualize\Cytoscape\Cytoscape\csv\SIF.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 13 (40.62%)
+    ' Comment Lines: 15 (46.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (12.50%)
+    '     File Size: 927 B
+
+
     '     Class SIF
     ' 
     '         Properties: interaction, source, target
@@ -44,10 +56,25 @@
 
 Namespace Tables
 
+    ''' <summary>
+    ''' the cytoscape simple interaction format table
+    ''' </summary>
     Public Class SIF
 
+        ''' <summary>
+        ''' the source node id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property source As String
+        ''' <summary>
+        ''' the iteraction type
+        ''' </summary>
+        ''' <returns></returns>
         Public Property interaction As String
+        ''' <summary>
+        ''' the target node id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property target As String
 
         Public Overrides Function ToString() As String

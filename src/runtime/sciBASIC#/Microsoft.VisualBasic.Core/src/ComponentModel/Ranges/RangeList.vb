@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 78 (82.11%)
+    ' Comment Lines: 1 (1.05%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (16.84%)
+    '     File Size: 3.35 KB
+
+
     '     Class RangeList
     ' 
     '         Constructor: (+1 Overloads) Sub New

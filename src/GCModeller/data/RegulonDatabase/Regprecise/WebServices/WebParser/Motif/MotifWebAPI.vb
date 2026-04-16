@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e66c2dcf43f8111fb52ad5f929c8a908, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::55d1aaff86ecd052ee9274cb76df5412, data\RegulonDatabase\Regprecise\WebServices\WebParser\Motif\MotifWebAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 61 (81.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (18.67%)
+    '     File Size: 3.03 KB
+
+
     '     Module MotifWebAPI
     ' 
     '         Function: __getEntry, __getTaxonomy, __getValue, Download
@@ -52,7 +64,7 @@ Namespace Regprecise
 
     Public Module MotifWebAPI
 
-        Public Const RegPrecise As String = "http://regprecise.lbl.gov/RegPrecise/"
+        Public Const RegPrecise As String = "https://regprecise.lbl.gov/"
 
         Const __logo As String = "<div id=""logoblock"">.+?</div>"
         Const __sites As String = "<a href=""[^""]+?""><b>DOWNLOAD</b></a>"

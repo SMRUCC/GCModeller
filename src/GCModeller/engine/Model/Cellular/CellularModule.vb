@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::677d3d4dfd5187abac2be740c6248587, engine\Model\Cellular\CellularModule.vb"
+﻿#Region "Microsoft.VisualBasic::377424ea7fd0325b809fab522c392083, engine\Model\Cellular\CellularModule.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 47 (49.47%)
+    ' Comment Lines: 32 (33.68%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 16 (16.84%)
+    '     File Size: 3.62 KB
+
+
     '     Structure CellularModule
     ' 
-    '         Function: ToString
+    '         Function: GetCompartments, GetCompartmentsInternal, GetPolypeptideIds, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Molecule
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Process
 Imports SMRUCC.genomics.Metagenomics
@@ -64,23 +78,71 @@ Namespace Cellular
     ''' </remarks>
     Public Structure CellularModule
 
+        ''' <summary>
+        ''' The organism taxonomy information
+        ''' </summary>
         Public Taxonomy As Taxonomy
 
         ''' <summary>
-        ''' Genome
+        ''' Genome information, usually be the gene expression event data
         ''' </summary>
         Public Genotype As Genotype
         ''' <summary>
-        ''' Metabolome
+        ''' Metabolome, usually be the cellular chemical reaction data
         ''' </summary>
         Public Phenotype As Phenotype
+
         ''' <summary>
         ''' 转录表达调控以及代谢调控
         ''' </summary>
         Public Regulations As Regulation()
 
+        ''' <summary>
+        ''' the compartment id of the intracellular environment, used for identify the different cell source of the compound data.
+        ''' usually be the organism taxonomy scientific name, or taxid, something.
+        ''' </summary>
+        Public CellularEnvironmentName As String
+
         Public Overrides Function ToString() As String
             Return Taxonomy.scientificName
+        End Function
+
+        Public Function GetCompartments() As IEnumerable(Of String)
+            Return GetCompartmentsInternal.Distinct.Where(Function(s) Not s.StringEmpty(, True))
+        End Function
+
+        Public Function GetPolypeptideIds() As IEnumerable(Of String)
+            If Genotype.ProteinMatrix.IsNullOrEmpty Then
+                Return {}
+            End If
+
+            Return Genotype.ProteinMatrix.Keys
+        End Function
+
+        Private Iterator Function GetCompartmentsInternal() As IEnumerable(Of String)
+            Yield CellularEnvironmentName
+
+            If Phenotype.fluxes Is Nothing Then
+                Return
+            End If
+
+            For Each rxn As Reaction In Phenotype.fluxes
+                If Not rxn.enzyme_compartment Is Nothing Then
+                    Yield rxn.enzyme_compartment
+                End If
+
+                For Each left As CompoundSpecieReference In rxn.equation.Reactants
+                    If Not left.Compartment Is Nothing Then
+                        Yield left.Compartment
+                    End If
+                Next
+
+                For Each right As CompoundSpecieReference In rxn.equation.Products
+                    If Not right.Compartment Is Nothing Then
+                        Yield right.Compartment
+                    End If
+                Next
+            Next
         End Function
 
     End Structure

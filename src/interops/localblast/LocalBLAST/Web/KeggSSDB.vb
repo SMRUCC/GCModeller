@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 70 (84.34%)
+    ' Comment Lines: 3 (3.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (12.05%)
+    '     File Size: 3.44 KB
+
+
     '     Module KeggSSDB
     ' 
     '         Function: (+2 Overloads) __export, (+2 Overloads) Export, EXPORT

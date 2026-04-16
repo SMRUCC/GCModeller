@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8e67673eeb57c96f49d0882f44f81e65, mime\application%pdf\PdfReader\Document\PdfInteger.vb"
+﻿#Region "Microsoft.VisualBasic::d52f2977aa4a6c44e7220b5248ef0b94, mime\application%pdf\PdfReader\Document\PdfInteger.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 27 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 941 B
+
+
     '     Class PdfInteger
     ' 
     '         Properties: ParseInteger, Value
@@ -50,7 +62,7 @@ Namespace PdfReader
     Public Class PdfInteger
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject, ByVal [integer] As ParseInteger)
+        Public Sub New(parent As PdfObject, [integer] As ParseInteger)
             MyBase.New(parent, [integer])
         End Sub
 
@@ -58,7 +70,7 @@ Namespace PdfReader
             Return Value.ToString()
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

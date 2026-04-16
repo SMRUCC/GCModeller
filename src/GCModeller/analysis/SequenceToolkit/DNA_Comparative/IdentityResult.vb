@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95c48f88d78d551bdfe2c25a2251551c, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
+﻿#Region "Microsoft.VisualBasic::0d0a3d26f369f2a10c046e4557a399fa, analysis\SequenceToolkit\DNA_Comparative\IdentityResult.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 89 (70.08%)
+    ' Comment Lines: 19 (14.96%)
+    '    - Xml Docs: 89.47%
+    ' 
+    '   Blank Lines: 19 (14.96%)
+    '     File Size: 4.75 KB
+
+
     ' Class IdentityResult
     ' 
     '     Properties: Identities, SeqId
@@ -43,7 +55,6 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -57,7 +68,6 @@ Imports SMRUCC.genomics.SequenceModel.FASTA
 Public Class IdentityResult : Implements INamedValue
 
     Public Property SeqId As String Implements INamedValue.Key
-    <Meta>
     Public Property Identities As Dictionary(Of String, Double)
 
     Public Overrides Function ToString() As String
@@ -112,7 +122,7 @@ Public Class IdentityResult : Implements INamedValue
                 .Value = 0R
             }
 
-            Call nt.UserTag.__DEBUG_ECHO
+            Call nt.UserTag.debug
 
             Yield New IdentityResult With {
                 .Identities = result.ToDictionary(Function(x) x.Name, Function(x) x.Value),
@@ -159,7 +169,7 @@ Public Class IdentityResult : Implements INamedValue
                   .Value = getValue(sigma * 1000)
               }
 
-            Call rule.UserTag.__DEBUG_ECHO
+            Call rule.UserTag.debug
 
             Yield New IdentityResult With {
                 .Identities = result _

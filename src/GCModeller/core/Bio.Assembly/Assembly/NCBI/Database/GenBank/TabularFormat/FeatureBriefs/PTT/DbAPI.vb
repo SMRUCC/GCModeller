@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 73 (73.74%)
+    ' Comment Lines: 14 (14.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (12.12%)
+    '     File Size: 3.73 KB
+
+
     '     Module DbAPI
     ' 
     '         Properties: PTTs

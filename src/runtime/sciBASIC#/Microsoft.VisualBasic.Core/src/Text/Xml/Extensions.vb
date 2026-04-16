@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebc08c7215ce057a4b1d3326309dfea7, Microsoft.VisualBasic.Core\src\Text\Xml\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d1f1cc0652a74b389c6d6b4a19ba044c, Microsoft.VisualBasic.Core\src\Text\Xml\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 144
+    '    Code Lines: 96 (66.67%)
+    ' Comment Lines: 27 (18.75%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 21 (14.58%)
+    '     File Size: 5.22 KB
+
 
     '     Module Extensions
     ' 
@@ -127,7 +139,12 @@ Namespace Text.Xml
             End Select
         End Function
 
-        <ExportAPI("Xml.GetAttribute")>
+        ''' <summary>
+        ''' get xml attribute value via regexp matches
+        ''' </summary>
+        ''' <param name="str"></param>
+        ''' <param name="Name"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetXmlAttrValue(str As String, Name As String) As String
             Dim m As Match = r.Match(str, Name & "\s*=\s*(("".+?"")|[^ ]*)")

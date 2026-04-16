@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1182
+    '    Code Lines: 155 (13.11%)
+    ' Comment Lines: 920 (77.83%)
+    '    - Xml Docs: 75.43%
+    ' 
+    '   Blank Lines: 107 (9.05%)
+    '     File Size: 48.80 KB
+
+
     '     Class BlastpOptionalArguments
     ' 
     '         Properties: BestHitOverhang, BestHitScoreEdge, CompBasedStats, CullingLimit, DbHardMask

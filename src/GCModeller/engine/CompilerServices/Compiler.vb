@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf5aed29fa3b14a332223f3ce11d70ad, engine\CompilerServices\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c3f690ca49d537b4a85908bac720ced7, engine\CompilerServices\Compiler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 185
+    '    Code Lines: 116 (62.70%)
+    ' Comment Lines: 35 (18.92%)
+    '    - Xml Docs: 57.14%
+    ' 
+    '   Blank Lines: 34 (18.38%)
+    '     File Size: 6.60 KB
+
+
     ' Class Compiler
     ' 
     '     Properties: [Return], CompileLogging, Version
@@ -53,7 +65,9 @@ Imports Microsoft.VisualBasic.Linq
 ''' <summary>
 ''' Model file of class type <see cref="ModelBaseType"></see> compiler.
 ''' </summary>
-''' <typeparam name="TModel"></typeparam>
+''' <typeparam name="TModel">
+''' the output model file
+''' </typeparam>
 ''' <remarks></remarks>
 Public MustInherit Class Compiler(Of TModel As ModelBaseType)
     Implements IDisposable
@@ -166,7 +180,7 @@ Public MustInherit Class Compiler(Of TModel As ModelBaseType)
                 "http://gcmodeller.org/"
             }
         Else
-            Call model.properties.URLs.Add("http://gcmodeller.org/")
+            Call model.properties.URLs.Append("http://gcmodeller.org/")
         End If
 
         If model.properties.authors.IsNullOrEmpty Then

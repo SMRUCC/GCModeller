@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 24 (72.73%)
+    ' Comment Lines: 5 (15.15%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (12.12%)
+    '     File Size: 1.11 KB
+
+
     ' Class Enzyme
     ' 
     '     Properties: EC, KO, name

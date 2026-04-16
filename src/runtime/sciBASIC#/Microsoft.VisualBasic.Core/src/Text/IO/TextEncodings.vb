@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7eae30de9a7a30da019e1d768ce52f24, Microsoft.VisualBasic.Core\src\Text\IO\TextEncodings.vb"
+﻿#Region "Microsoft.VisualBasic::0e2a5d0fefefe8e9a97b74701e06b1e4, Microsoft.VisualBasic.Core\src\Text\IO\TextEncodings.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 274
+    '    Code Lines: 141 (51.46%)
+    ' Comment Lines: 102 (37.23%)
+    '    - Xml Docs: 85.29%
+    ' 
+    '   Blank Lines: 31 (11.31%)
+    '     File Size: 13.42 KB
+
+
     '     Module TextEncodings
     ' 
     '         Properties: DefaultEncoding, TextEncodings, UTF8, UTF8WithoutBOM
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: __gbk2312_encoding, CodeArray, (+2 Overloads) CodePage, codePageTable, GetEncodings
-    '                   ParseEncodingsName, TransEncoding
+    '                   GetString, ParseEncodingsName, TransEncoding
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 Imports defaultEncoding = Microsoft.VisualBasic.Language.Default.Default(Of System.Text.Encoding)
 
@@ -89,6 +102,11 @@ Namespace Text
         Public ReadOnly Property TextEncodings As IReadOnlyDictionary(Of Encodings, Encoding) = codePageTable()
 
         ''' <summary>
+        ''' use for parse encoding flags from string
+        ''' </summary>
+        ReadOnly encodingFlags As Dictionary(Of String, Encodings)
+
+        ''' <summary>
         ''' 在这个函数之中会根据当前所运行的平台对utf8编码进行一下额外的处理
         ''' </summary>
         ''' <returns></returns>
@@ -105,7 +123,7 @@ Namespace Text
             End If
 
             Return New Dictionary(Of Encodings, Encoding) From {
- _
+                                                                _
                 {Encodings.ASCII, Encoding.ASCII},
                 {Encodings.GB2312, __gbk2312_encoding()},
                 {Encodings.Unicode, Encoding.Unicode},
@@ -149,7 +167,7 @@ Namespace Text
                     .ParseEncodingsName(codepage, Encodings.Default) _
                     .CodePage
 
-                Call $"*default_encoding* have been changed to {DefaultEncoding.DefaultValue.ToString}".__INFO_ECHO
+                Call $"*default_encoding* have been changed to {DefaultEncoding.DefaultValue.ToString}".info
             End If
 
             ' 如果检测到了gb2312编码被映射为了utf8编码，则提示用户为服务器安装gb2312编码
@@ -163,6 +181,20 @@ Namespace Text
                 }.JoinBy(ASCII.LF) _
                  .Warning
             End If
+
+            encodingFlags = Enums(Of Encodings) _
+                .Select(Iterator Function(b) As IEnumerable(Of (str As String, flag As Encodings))
+                            Yield (b.ToString, b)
+                            Yield (b.Description, b)
+                        End Function) _
+                .IteratesALL _
+                .GroupBy(Function(t) t.str) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First.flag
+                              End Function)
+
+            encodingFlags("utf-8") = Encodings.UTF8WithoutBOM
         End Sub
 
         Const gb2312_not_enable$ = "It seems that your Linux server didn't enable the gbk2312 text encoding, sciBASIC# will using the default utf8 encoding mapping to the gb2312 encoding."
@@ -194,7 +226,7 @@ Namespace Text
         ''' </remarks>
         Private Function __gbk2312_encoding() As Encoding
             Try
-#If netcore5 = 1 Then
+#If NETCOREAPP Then
                 ' 注册Nuget包System.Text.Encoding.CodePages中的编码到.NET Core
                 ' https://www.cnblogs.com/OpenCoder/p/10386540.html
                 Call Encoding.RegisterProvider(CodePagesEncodingProvider.Instance)
@@ -234,14 +266,21 @@ Namespace Text
         ''' <param name="encoding">名称的大小写不敏感</param>
         ''' <param name="onFailure"></param>
         ''' <returns></returns>
-        <Extension> Public Function ParseEncodingsName(encoding$, Optional onFailure As Encodings = Encodings.ASCII) As Encodings
-            For Each key In TextEncodings.Keys
-                If encoding.TextEquals(key.ToString) Then
-                    Return key
-                End If
-            Next
+        <Extension>
+        Public Function ParseEncodingsName(encoding$, Optional onFailure As Encodings = Encodings.ASCII) As Encodings
+            encoding = LCase(encoding)
 
-            Return onFailure
+            If encodingFlags.ContainsKey(encoding) Then
+                Return encodingFlags(encoding)
+            Else
+                Return onFailure
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetString(encoding As Encodings, bytes As Byte()) As String
+            Return encoding.CodePage.GetString(bytes)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

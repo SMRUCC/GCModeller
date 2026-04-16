@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 9 (69.23%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (30.77%)
+    '     File Size: 354 B
+
+
     '     Class linearGradient
     ' 
     '         Properties: x1, x2, y1, y2

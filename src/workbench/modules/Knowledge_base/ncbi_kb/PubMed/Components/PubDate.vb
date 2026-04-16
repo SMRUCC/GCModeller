@@ -1,0 +1,118 @@
+﻿#Region "Microsoft.VisualBasic::2af717aeb2afc63903736495baa47910, modules\Knowledge_base\ncbi_kb\PubMed\Components\PubDate.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 44 (73.33%)
+    ' Comment Lines: 2 (3.33%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (23.33%)
+    '     File Size: 1.93 KB
+
+
+    '     Class PubDate
+    ' 
+    '         Properties: DateType, Day, Hour, Minute, Month
+    '                     PubStatus, Year
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Globalization
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ValueTypes
+
+Namespace PubMed
+
+    Public Class PubDate
+
+        <XmlAttribute> Public Property PubStatus As String
+        <XmlAttribute> Public Property DateType As String
+
+        Public Property Year As String
+        Public Property Month As String
+        Public Property Day As String
+        Public Property Hour As String
+        Public Property Minute As String
+
+        Sub New()
+        End Sub
+
+        Sub New([date] As String)
+            ' 2022 Dec 27
+            Const format As String = "yyyy MMM dd"
+            Const format2 As String = "yyyy MMM"
+
+            Static provider As IFormatProvider = CultureInfo.InvariantCulture
+
+            If Not [date].StringEmpty(, True) Then
+                Dim result As DateTime
+
+                With [date].Split
+                    ' 20251108 ensure that the year has the correct value
+                    Year = CInt(Val(.First))
+
+                    Try
+                        If .Length = 2 Then
+                            result = DateTime.ParseExact([date], format2, provider)
+                        Else
+                            result = DateTime.ParseExact([date], format, provider)
+                        End If
+
+                        Year = result.Year
+                    Catch ex As Exception
+                    End Try
+                End With
+
+                Month = result.Month
+                Day = result.Day
+            End If
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"[{PubStatus}] {Year}-{Month}-{Day}"
+        End Function
+
+        Public Overloads Shared Narrowing Operator CType(d As PubDate) As Date
+            Return New Date(d.Year, DateTimeHelper.GetMonthInteger(d.Month), d.Day)
+        End Operator
+    End Class
+End Namespace

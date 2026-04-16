@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::920759a2b3cc9ff083af085f97622086, mime\application%xml\MathML\XML\Apply.vb"
+﻿#Region "Microsoft.VisualBasic::0e2bee6de84b7e0d2dee354b2f23fff5, mime\application%xml\MathML\XML\Apply.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 30 (57.69%)
+    ' Comment Lines: 12 (23.08%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 10 (19.23%)
+    '     File Size: 1.57 KB
+
+
     '     Class Apply
     ' 
     '         Properties: [operator], apply, cn, divide, plus
     '                     power, times
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +59,14 @@ Imports System.Xml.Serialization
 
 Namespace MathML
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' the math xml data should be parsed via the method:
+    ''' 
+    ''' <see cref="ContentBuilder.ParseXml(XmlElement)"/>
+    ''' </remarks>
     Public Class Apply : Inherits symbols
 
         Public Property divide As mathOperator
@@ -53,6 +75,11 @@ Namespace MathML
         Public Property power As mathOperator
 
         Public Property cn As constant
+
+        ' 20221113 基于xml反序列化具有一个bug：
+        ' 当节点同时存在ci符号名称以及apply表达式的时候
+        ' xml反序列化是无法了解到具体的顺序的
+        ' 这个会导致出现错误的表达式构建结果
 
         <XmlElement("apply")>
         Public Property apply As Apply()
@@ -72,6 +99,11 @@ Namespace MathML
                 End If
             End Get
         End Property
+
+        Public Overrides Function ToString() As String
+            Return $"({apply.JoinBy([operator])})"
+        End Function
+
     End Class
 
 End Namespace

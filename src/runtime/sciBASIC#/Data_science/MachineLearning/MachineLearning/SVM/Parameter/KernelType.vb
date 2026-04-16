@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 9 (32.14%)
+    ' Comment Lines: 18 (64.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (3.57%)
+    '     File Size: 706 B
+
+
     '     Enum KernelType
     ' 
     '         LINEAR, POLY, PRECOMPUTED, RBF, SIGMOID

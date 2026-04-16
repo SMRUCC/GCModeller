@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6936bef732765b7a4bd813a1ddf4eea, core\Bio.Assembly\ProteinModel\Chou-Fasman\SecondaryStructures.vb"
+﻿#Region "Microsoft.VisualBasic::0999bdaa4b86c3dc1d113732db536e38, core\Bio.Assembly\ProteinModel\Chou-Fasman\SecondaryStructures.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,20 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 9 (27.27%)
+    ' Comment Lines: 20 (60.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (12.12%)
+    '     File Size: 821 B
+
+
     '     Enum SecondaryStructures
     ' 
-    '         AlphaHelix, BetaSheet, BetaTurn, Coils
     ' 
     '  
     ' 
@@ -43,6 +54,8 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.ComponentModel
 
 Namespace ProteinModel.ChouFasmanRules
 
@@ -56,21 +69,22 @@ Namespace ProteinModel.ChouFasmanRules
         ''' alpha螺旋
         ''' </summary>
         ''' <remarks></remarks>
-        AlphaHelix
+        <Description("@")> AlphaHelix
         ''' <summary>
         ''' Beta折叠
         ''' </summary>
         ''' <remarks></remarks>
-        BetaSheet
+        <Description("-")> BetaSheet
         ''' <summary>
         ''' Beta转角
         ''' </summary>
         ''' <remarks></remarks>
-        BetaTurn
+        <Description("^")> BetaTurn
         ''' <summary>
         ''' 无规则卷曲
         ''' </summary>
         ''' <remarks></remarks>
-        Coils
+        <Description("&")> Coils
+
     End Enum
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9e9acc095d23340143b6f3f8fb3bfd2, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\StreamHelper.vb"
+﻿#Region "Microsoft.VisualBasic::01b08c6e3007da60376c93a41ed803ec, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\StreamHelper.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 86 (58.90%)
+    ' Comment Lines: 40 (27.40%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 20 (13.70%)
+    '     File Size: 4.91 KB
+
+
     ' Module StreamHelper
     ' 
-    '     Function: CastByte, CastSByte, CopyStream, PopulateBlocks
+    '     Function: CastByte, CastSByte, CopyStream, PopulateBlocks, ReadStringZero
+    '               ReadZEROBlock
     ' 
     '     Sub: Write, WriteLine
     ' 
@@ -57,7 +70,8 @@ Public Module StreamHelper
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("Stream.Copy")>
-    <Extension> Public Function CopyStream(stream As Stream, Optional target As Stream = Nothing, Optional bufferSize% = 64 * 1024) As Stream
+    <Extension>
+    Public Function CopyStream(stream As Stream, Optional target As Stream = Nothing, Optional bufferSize% = 64 * 1024) As Stream
         If stream Is Nothing Then
             Return If(target, New MemoryStream)
         End If
@@ -110,6 +124,14 @@ Public Module StreamHelper
         Loop
     End Function
 
+    ''' <summary>
+    ''' write target string <paramref name="value"/> into the 
+    ''' given <paramref name="stream"/> in no size prefix and
+    ''' zero terminator.
+    ''' </summary>
+    ''' <param name="stream"></param>
+    ''' <param name="value">target string value to write into the given <paramref name="stream"/></param>
+    ''' <param name="encoding"></param>
     <Extension>
     Public Sub Write(stream As Stream, value$, Optional encoding As Encoding = Nothing)
         With (encoding Or UTF8).GetBytes(value)
@@ -118,6 +140,36 @@ Public Module StreamHelper
         End With
     End Sub
 
+    ''' <summary>
+    ''' read current stream data until read a byte flag ZERO
+    ''' </summary>
+    ''' <param name="bin"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ReadZEROBlock(bin As BinaryReader) As IEnumerable(Of Byte)
+        Dim [byte] As Value(Of Byte) = 0
+
+        Do While ([byte] = bin.ReadByte) <> 0
+            Yield [byte].Value
+        Loop
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ReadStringZero(file As BinaryReader, encoding As Encoding) As String
+        Return encoding.GetString(file.ReadZEROBlock.ToArray)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="stream"></param>
+    ''' <param name="value"></param>
+    ''' <param name="encoding"></param>
+    ''' <param name="newLine"></param>
+    ''' <remarks>
+    ''' default use utf8 encoding
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Sub WriteLine(stream As Stream, Optional value$ = "", Optional encoding As Encoding = Nothing, Optional newLine$ = vbCrLf)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 38 (74.51%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (25.49%)
+    '     File Size: 1.42 KB
+
+
     '     Class ONE_CLASS_Q
     ' 
     '         Constructor: (+1 Overloads) Sub New

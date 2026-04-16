@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56dba3e0429f8d2cf2407c6adabc24a9, data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
+﻿#Region "Microsoft.VisualBasic::16e50b062901d564387382b874b89e76, data\GO_gene-ontology\GeneOntology\Files\Obo\GO.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 94 (65.73%)
+    ' Comment Lines: 27 (18.88%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 22 (15.38%)
+    '     File Size: 5.56 KB
+
+
     '     Class GO_OBO
     ' 
     '         Properties: headers, terms, typedefs
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, LoadDocument, Open, ParseHeader
-    '                   ReadTerms, Save, ToString
+    '         Function: GenericEnumerator, LoadDocument, Open, ParseHeader, ReadTerms
+    '                   Save, ToString
     ' 
-    '         Sub: SaveTable
+    '         Sub: Save, SaveTable
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +61,6 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO
@@ -80,20 +91,40 @@ Namespace OBO
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Function Save(path As String) As Boolean
-            Dim bufs As New List(Of String)
+            Using file As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Call Save(file)
+            End Using
+
+            Return True
+        End Function
+
+        Public Sub Save(file As Stream, Optional excludes As String() = Nothing, Optional strip_namespace_prefix As String = Nothing, Optional strip_property_unit As Boolean = False)
+            Dim text As New StreamWriter(file, encoding:=Encodings.ASCII.CodePage) With {.NewLine = vbLf}
             Dim schema = Reflection.LoadClassSchema(Of Term)()
+            Dim excludeList As Index(Of String) = Nothing
 
-            Call bufs.AddRange(headers.ToLines)
-            Call bufs.Add("")
+            If Not excludes.IsNullOrEmpty Then
+                excludeList = excludes.Indexing
+            End If
 
-            For Each lines In From t As Term In terms Select t.ToLines(schema)
-                Call bufs.Add(Term.Term)
-                Call bufs.AddRange(lines)
-                Call bufs.Add("")
+            Call headers.ToLines.DoEach(AddressOf text.WriteLine)
+            Call text.WriteLine()
+
+            For Each lines As String() In From t As Term
+                                          In terms
+                                          Select t.ToLines(
+                                              schema,
+                                              excludeList,
+                                              strip_namespace_prefix:=strip_namespace_prefix,
+                                              strip_property_unit:=strip_property_unit).ToArray
+
+                Call text.WriteLine(Term.Term)
+                Call lines.DoEach(AddressOf text.WriteLine)
+                Call text.WriteLine()
             Next
 
-            Return bufs.SaveTo(path, Encodings.ASCII.CodePage)
-        End Function
+            Call text.Flush()
+        End Sub
 
         ''' <summary>
         ''' 对于小文件可以使用这个方法来读取
@@ -166,10 +197,6 @@ Namespace OBO
             For Each item As Term In terms
                 Yield item
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Term).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

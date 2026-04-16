@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::305fdf5b50ac8b63d3d185dad07fce4f, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\ApplicationInfoUtils.vb"
+﻿#Region "Microsoft.VisualBasic::d3d66fc149195e9af2b1f57eb4d6508a, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\ApplicationInfoUtils.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 355
+    '    Code Lines: 242 (68.17%)
+    ' Comment Lines: 80 (22.54%)
+    '    - Xml Docs: 88.75%
+    ' 
+    '   Blank Lines: 33 (9.30%)
+    '     File Size: 15.12 KB
+
 
     '     Module ApplicationInfoUtils
     ' 
@@ -90,7 +102,7 @@ Namespace ApplicationServices.Development
             Dim dt As New DateTime(1970, 1, 1, 0, 0, 0)
 
             dt = dt.AddSeconds(secondsSince1970)
-            dt = dt.AddHours(TimeZone.CurrentTimeZone.GetUtcOffset(dt).Hours)
+            dt = dt.AddHours(TimeZoneInfo.Local.GetUtcOffset(dt).Hours)
 
             Return dt
         End Function

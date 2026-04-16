@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 26 (56.52%)
+    ' Comment Lines: 12 (26.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (17.39%)
+    '     File Size: 1.39 KB
+
+
     '     Module ScriptWriter
     ' 
     '         Function: (+2 Overloads) WriteScript

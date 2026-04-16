@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 29 (74.36%)
+    ' Comment Lines: 5 (12.82%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (12.82%)
+    '     File Size: 1.34 KB
+
+
     ' Module Clusters
     ' 
     '     Function: KMeans

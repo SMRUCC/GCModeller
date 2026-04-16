@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cebc3b825a25663efe4643332599591a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Triangle.vb"
+﻿#Region "Microsoft.VisualBasic::72242f5ac4e688b751e1f46be43225f2, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Triangle.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 64 (60.95%)
+    ' Comment Lines: 24 (22.86%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 17 (16.19%)
+    '     File Size: 3.72 KB
+
+
     '     Class Triangle
     ' 
     '         Properties: Angle, Color, Size, Vertex1, Vertex2
     '                     Vertex3
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: DrawAsRightTriangle
     ' 
@@ -50,6 +62,7 @@
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
@@ -57,14 +70,43 @@ Namespace Drawing2D.Shapes
 
         Public Property Color As Color
 
-        Public Property Vertex1 As Point
-        Public Property Vertex2 As Point
-        Public Property Vertex3 As Point
+        Public Property Vertex1 As PointF
+        Public Property Vertex2 As PointF
+        Public Property Vertex3 As PointF
         Public Property Angle As Single
+
+        '      vertex1
+        '     /       \
+        ' vertex2 -- vertex3
+
+        ''' <summary>
+        ''' get the possible shape size of the triangle shape object
+        ''' </summary>
+        ''' <returns>
+        ''' width is the delta of the vertex2 and vertex3 x location;
+        ''' height is the delta of the vertex1 with mean of vertex2 and vertex3 y location value.
+        ''' </returns>
+        Public Overrides ReadOnly Property Size As SizeF
+            Get
+                Dim height As Double = Vertex1.Y - (Vertex2.Y + Vertex3.Y) / 2
+                Dim width As Double = Vertex3.X - Vertex2.X
+
+                Return New SizeF(width, height)
+            End Get
+        End Property
 
         Sub New(Location As Point, Color As Color)
             Call MyBase.New(Location)
             Me.Color = Color
+        End Sub
+
+        Sub New(Location As PointF, Color As Color)
+            Call MyBase.New(Location)
+            Me.Color = Color
+        End Sub
+
+        Sub New()
+            Call MyBase.New(Nothing)
         End Sub
 
         ''' <summary>
@@ -75,12 +117,6 @@ Namespace Drawing2D.Shapes
         Public Function DrawAsRightTriangle(a As Integer, b As Integer) As Triangle
             Throw New NotImplementedException
         End Function
-
-        Public Overrides ReadOnly Property Size As Size
-            Get
-                Throw New NotImplementedException
-            End Get
-        End Property
 
         ''' <summary>
         ''' 
@@ -98,6 +134,7 @@ Namespace Drawing2D.Shapes
                                          Optional border As Stroke = Nothing,
                                          Optional reversed As Boolean = False)
             Dim t As New GraphicsPath
+            Dim css As CSSEnvirnment = g.LoadEnvironment
 
             If Not reversed Then
                 Dim a As New Point(topLeft.X + size.Width / 2, topLeft.Y)
@@ -122,7 +159,7 @@ Namespace Drawing2D.Shapes
             Call g.FillPath(br Or BlackBrush, t)
 
             If Not border Is Nothing Then
-                Call g.DrawPath(border.GDIObject, t)
+                Call g.DrawPath(css.GetPen(border), t)
             End If
         End Sub
     End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13f930113e18afbddf25233050ce2d69, Data_science\Mathematica\Math\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::13f930113e18afbddf25233050ce2d69, sciBASIC#\Data_science\Mathematica\Math\test\Program.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 141
+    '    Code Lines: 81
+    ' Comment Lines: 10
+    '   Blank Lines: 50
+    '     File Size: 4.09 KB
+
+
     ' Module Program
     ' 
     '     Function: Hash
@@ -46,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.HashMaps
 Imports Microsoft.VisualBasic.Math.Numerics
 Imports Microsoft.VisualBasic.Math.Scripting
@@ -55,11 +66,11 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module Program
 
     Sub RankingTest()
-        Call {1, 2, 2, 3}.StandardCompetitionRanking.GetJson.__DEBUG_ECHO
-        Call {1, 2, 2, 3}.ModifiedCompetitionRanking.GetJson.__DEBUG_ECHO
-        Call {1, 2, 2, 3}.OrdinalRanking.GetJson.__DEBUG_ECHO
-        Call {1, 2, 2, 3}.DenseRanking.GetJson.__DEBUG_ECHO
-        Call {1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0}.FractionalRanking.GetJson.__DEBUG_ECHO
+        Call {1, 2, 2, 3}.StandardCompetitionRanking.GetJson.debug
+        Call {1, 2, 2, 3}.ModifiedCompetitionRanking.GetJson.debug
+        Call {1, 2, 2, 3}.OrdinalRanking.GetJson.debug
+        Call {1, 2, 2, 3}.DenseRanking.GetJson.debug
+        Call {1.0, 1.0, 2.0, 3.0, 3.0, 4.0, 5.0, 5.0, 5.0}.FractionalRanking.GetJson.debug
     End Sub
 
     Public Function Hash(key$) As Long
@@ -80,6 +91,12 @@ Module Program
     End Sub
 
     Sub Main()
+
+        Dim time = {1, 2, 2.5, 3, 10, 10.5, 11, 20, 21, 21.5}
+        Dim time_slice = AxisDensity.GetClusters(time).ToArray
+
+        Pause()
+
 
         Call uncheckedTest()
 
@@ -106,9 +123,9 @@ Module Program
         ' Dim uid As New Uid
 
 
-        Call blizzard.HashBlizzard("XC_1183").ToString.__INFO_ECHO
-        Call blizzard.HashBlizzard("XC_1184").ToString.__INFO_ECHO
-        Call blizzard.HashBlizzard("XC_2252").ToString.__INFO_ECHO
+        Call blizzard.HashBlizzard("XC_1183").ToString.info
+        Call blizzard.HashBlizzard("XC_1184").ToString.info
+        Call blizzard.HashBlizzard("XC_2252").ToString.info
 
         Pause()
 
@@ -129,8 +146,8 @@ Module Program
 
         Dim hash = blizzard.HashBlizzard("unitneutralacritter.grp")
 
-        Call unchecked(&HA26067F3).uncheckedULong.ToString.__INFO_ECHO
-        Call hash.ToString.__INFO_ECHO
+        Call unchecked(&HA26067F3).uncheckedULong.ToString.info
+        Call hash.ToString.info
 
         Pause()
 
@@ -179,6 +196,6 @@ Module Program
 
         Dim after = {a, b, c, x, y, z}
 
-        'Call json.__DEBUG_ECHO
+        'Call json.debug
     End Sub
 End Module

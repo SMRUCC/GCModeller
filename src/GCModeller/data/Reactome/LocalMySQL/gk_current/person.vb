@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 93 (50.54%)
+    ' Comment Lines: 69 (37.50%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 22 (11.96%)
+    '     File Size: 8.02 KB
+
+
     ' Class person
     ' 
     '     Properties: DB_ID, eMailAddress, firstname, initial, project

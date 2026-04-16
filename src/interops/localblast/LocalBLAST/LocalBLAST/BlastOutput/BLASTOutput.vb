@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::758a7b10992d8c29e635cabd0a5082b0, localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
+﻿#Region "Microsoft.VisualBasic::0f885b900483245d7b7202fea80f24f8, localblast\LocalBLAST\LocalBLAST\BlastOutput\BLASTOutput.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 22 (46.81%)
+    ' Comment Lines: 17 (36.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (17.02%)
+    '     File Size: 2.05 KB
+
+
     '     Class IBlastOutput
     ' 
     '         Properties: Database, FilePath
@@ -42,12 +54,7 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Scripting
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.Views

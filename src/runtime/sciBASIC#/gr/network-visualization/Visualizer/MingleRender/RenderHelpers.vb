@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f52e114438a78ca9db1048040ae5e44, gr\network-visualization\Visualizer\MingleRender\RenderHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::14694429bb9acd747cdad45372a16883, gr\network-visualization\Visualizer\MingleRender\RenderHelpers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 82 (77.36%)
+    ' Comment Lines: 10 (9.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (13.21%)
+    '     File Size: 3.79 KB
+
 
     ' Module RenderHelpers
     ' 
@@ -138,7 +150,7 @@ Module RenderHelpers
             posItem = createPosItem(node, {coords(2), coords(3)}, 0, 1)
             a.Add(posItem)
 
-            collect.Add(a.ToArray)
+            collect.Append(a.ToArray)
         End If
     End Sub
 

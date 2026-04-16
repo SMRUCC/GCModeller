@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 36 (87.80%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (12.20%)
+    '     File Size: 1.70 KB
+
+
     '     Module DiseaseParser
     ' 
     '         Function: CreateDiseaseModel, ParseStream

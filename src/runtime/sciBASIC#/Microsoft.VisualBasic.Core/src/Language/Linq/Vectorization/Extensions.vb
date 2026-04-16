@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fef618e0b4e8a5afc7d73c7a372a656, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::eab1a2aea9a11660d9fcce8aa761668e, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 25 (59.52%)
+    ' Comment Lines: 10 (23.81%)
+    '    - Xml Docs: 70.00%
+    ' 
+    '   Blank Lines: 7 (16.67%)
+    '     File Size: 1.52 KB
+
 
     '     Module Extensions
     ' 
@@ -75,7 +87,7 @@ Namespace Language.Vectorization
             If x.buffer Is Nothing Then
                 x.buffer = {obj}
             Else
-                x.Array.Add(obj)
+                x.Array.Append(obj)
             End If
 
             Return x

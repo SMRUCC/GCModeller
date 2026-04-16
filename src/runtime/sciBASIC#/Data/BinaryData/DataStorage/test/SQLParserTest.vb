@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 85 (85.86%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (14.14%)
+    '     File Size: 3.79 KB
+
+
     ' Module SQLParserTest
     ' 
     '     Sub: Main, schemaTest, stringtest, test1, test2

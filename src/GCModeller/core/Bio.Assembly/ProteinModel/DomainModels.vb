@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a18ec0eeafaf58cbcd47f852023e1dd, core\Bio.Assembly\ProteinModel\DomainModels.vb"
+﻿#Region "Microsoft.VisualBasic::44709c798d891a4270abd43a44428988, core\Bio.Assembly\ProteinModel\DomainModels.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 41 (78.85%)
+    ' Comment Lines: 3 (5.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.38%)
+    '     File Size: 1.67 KB
+
+
     '     Class DomainModel
     ' 
-    '         Properties: DomainId, ends, Location, start
+    '         Properties: ends, ID, Location, name, start
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
@@ -56,11 +68,13 @@ Namespace ProteinModel
         Implements IMotifSite
         Implements IMotifDomain
 
-        Public Property DomainId As String Implements INamedValue.Key,
+        Public Property ID As String Implements INamedValue.Key,
             IKeyValuePairObject(Of String, Location).Key,
             IMotifSite.name,
             IMotifSite.family,
             IMotifDomain.Id
+
+        Public Property name As String
         Public Property start As Integer
         Public Property ends As Integer
 
@@ -77,7 +91,7 @@ Namespace ProteinModel
         End Property
 
         Sub New(domainId As String, Location As Location)
-            Me.DomainId = domainId
+            Me.ID = domainId
             Me.Location = Location
         End Sub
 
@@ -85,7 +99,11 @@ Namespace ProteinModel
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("{0}: {1}", DomainId, Location.ToString)
+            If name.StringEmpty Then
+                Return $"{ID}({start}|{ends})"
+            Else
+                Return $"{ID}:{name}({start}|{ends})"
+            End If
         End Function
     End Class
 End Namespace

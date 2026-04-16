@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81edf73aaa5651d4a87fcd113cdac8d5, data\GO_gene-ontology\GeneOntology\Files\Obo\OntologyRelations.vb"
+﻿#Region "Microsoft.VisualBasic::6be2e8906e39cebdf0e203b14d065dd7, data\GO_gene-ontology\GeneOntology\Files\Obo\OntologyRelations.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 53 (68.83%)
+    ' Comment Lines: 13 (16.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.29%)
+    '     File Size: 2.86 KB
+
+
     '     Class OntologyRelations
     ' 
     '         Properties: is_a
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GenericEnumerator, GetEnumerator, parseRelationships, ToString
+    '         Function: GenericEnumerator, parseRelationships, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -117,10 +129,6 @@ Namespace OBO
             For Each item As Relationship In allRelations
                 Yield item
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Relationship).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

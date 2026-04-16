@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 59 (70.24%)
+    ' Comment Lines: 15 (17.86%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 10 (11.90%)
+    '     File Size: 3.47 KB
+
+
     '     Module TsvExtensions
     ' 
     '         Function: CreateProperty, Types

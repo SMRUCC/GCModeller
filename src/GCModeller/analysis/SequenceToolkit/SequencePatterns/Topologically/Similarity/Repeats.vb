@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::668d2958b201ba0b9bc84c54aa3730bd, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::f15e5da81029e0f092b2beeebb883306, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\Repeats.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 261
+    '    Code Lines: 181 (69.35%)
+    ' Comment Lines: 47 (18.01%)
+    '    - Xml Docs: 76.60%
+    ' 
+    '   Blank Lines: 33 (12.64%)
+    '     File Size: 13.35 KB
+
+
     '     Module Repeats
     ' 
     '         Function: (+2 Overloads) doGenerateSeeds, doMatchLociLocations, (+2 Overloads) InvokeSearch, InvokeSearchReversed, MatchLociLocations
@@ -44,12 +56,12 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Similarity
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -160,7 +172,7 @@ Namespace Topologically.SimilarityMatches
                 source += tmp
             Next
 
-            Call $"Seeds generation thread for   {loci}    job done!".__DEBUG_ECHO
+            Call $"Seeds generation thread for   {loci}    job done!".debug
 
             Return LinqAPI.Exec(Of NamedValue(Of Double)) <=
                 From x
@@ -196,7 +208,7 @@ Namespace Topologically.SimilarityMatches
         Public Function InvokeSearch(SequenceData As String, Min As Integer, Max As Integer, Optional cutoff As Double = 0.65) As LociMatchedResult()
             SequenceData = SequenceData.ToUpper
 
-            Call "Start to generate seeds....".__DEBUG_ECHO
+            Call "Start to generate seeds....".debug
 
             Dim Seeds As String() =
                 LinqAPI.Exec(Of String) <= From rp As Topologically.Repeats
@@ -204,11 +216,11 @@ Namespace Topologically.SimilarityMatches
                                            Select seq = rp.loci
                                            Distinct  '生成搜索所需要的种子
 
-            Call $"Generate repeats search seeds, job done! {Seeds.Length} repeats sequence was export for seeds!".__DEBUG_ECHO
+            Call $"Generate repeats search seeds, job done! {Seeds.Length} repeats sequence was export for seeds!".debug
 
             Dim Chars As Char() = (From c As Char In SequenceData Select c Distinct).ToArray
 
-            Call "Scanning the whole sequence for each repeats loci.....".__DEBUG_ECHO
+            Call "Scanning the whole sequence for each repeats loci.....".debug
 
             Dim Repeats = (From Loci As String
                            In Seeds
@@ -223,7 +235,7 @@ Namespace Topologically.SimilarityMatches
                                Loci,
                                repeatsCollection = doMatchLociLocations(SequenceData, InternalSeedsSegment)).ToArray '遍历种子，进行全序列扫描
 
-            Call $"{Repeats.Length} repeats loci!".__DEBUG_ECHO
+            Call $"{Repeats.Length} repeats loci!".debug
 
             Dim setValue As New SetValue(Of LociMatchedResult)
             Dim LQuery As LociMatchedResult() =
@@ -238,7 +250,7 @@ Namespace Topologically.SimilarityMatches
                                                                       .InvokeSet(NameOf(loci.Loci), Group.Loci).obj).ToArray
                                                       Select data
 
-            Call $"Finally generate {LQuery.Length} repeats loci data!".__DEBUG_ECHO
+            Call $"Finally generate {LQuery.Length} repeats loci data!".debug
 
             Return LQuery
         End Function

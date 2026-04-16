@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f57074b5d39982c3d631ffe126fb643f, core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
+﻿#Region "Microsoft.VisualBasic::615e0ce06f74c0f011e92da1b60ad36b, core\Bio.Assembly\Assembly\MetaCyc\Schemas\EquationEquals.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 116
+    '    Code Lines: 76 (65.52%)
+    ' Comment Lines: 24 (20.69%)
+    '    - Xml Docs: 58.33%
+    ' 
+    '   Blank Lines: 16 (13.79%)
+    '     File Size: 5.62 KB
+
 
     '     Class EquationEquals
     ' 
@@ -139,7 +151,7 @@ Namespace Assembly.MetaCyc.Schema
                 If MetaCycItem Is Nothing Then
                     Return False
                 Else
-                    If MetaCycItem.StoiChiometry <> item.Key.StoiChiometry Then
+                    If MetaCycItem.Stoichiometry <> item.Key.Stoichiometry Then
                         Return False
                     End If
                 End If

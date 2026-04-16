@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 40 (88.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (11.11%)
+    '     File Size: 1.69 KB
+
+
     '     Module KDTreeMetric
     ' 
     '         Function: GetKNN

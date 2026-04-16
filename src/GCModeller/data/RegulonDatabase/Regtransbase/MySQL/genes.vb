@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 110 (52.88%)
+    ' Comment Lines: 76 (36.54%)
+    '    - Xml Docs: 96.05%
+    ' 
+    '   Blank Lines: 22 (10.58%)
+    '     File Size: 14.35 KB
+
+
     ' Class genes
     ' 
     '     Properties: art_guid, descript, ferment_num, fl_real_name, gene_function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42698506b0f6fd5081f8fd3954d68955, R#\seqtoolkit\models\Enums.vb"
+﻿#Region "Microsoft.VisualBasic::9c498c64f6f550df04dbf209ece6e9b3, R#\seqtoolkit\models\Enums.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 15 (65.22%)
+    ' Comment Lines: 6 (26.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (8.70%)
+    '     File Size: 447 B
+
+
     ' Enum TableTypes
     ' 
-    '     BBH, Mapping, SBH
+    '     BBH, Mapping, SBH, Terms
     ' 
     '  
     ' 
@@ -52,6 +64,7 @@
 #End Region
 
 Imports System.ComponentModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
 Public Enum TableTypes
     SBH
@@ -60,6 +73,10 @@ Public Enum TableTypes
     ''' blastn mapping of the short reads
     ''' </summary>
     Mapping
+    ''' <summary>
+    ''' <see cref="RankTerm"/>
+    ''' </summary>
+    Terms
 End Enum
 
 Public Enum BBHAlgorithm

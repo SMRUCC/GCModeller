@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a8baf821610ad8baf3062dfaaf1a5818, mime\text%html\Parser\TokenIcer.vb"
+﻿#Region "Microsoft.VisualBasic::cfc743deb7f7ea28f7cfd735fdf4f4e9, mime\text%html\Parser\TokenIcer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 107 (84.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (15.75%)
+    '     File Size: 4.43 KB
+
+
     '     Class TokenIcer
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -51,6 +63,7 @@ Namespace Language
         Dim buf As New CharBuffer
         Dim text As CharPtr
         Dim escape As New Escaping
+        Dim lastToken As Token
 
         Sub New(document As CharPtr)
             Me.text = document
@@ -60,6 +73,7 @@ Namespace Language
             Do While text
                 For Each t As Token In WalkChar(++text)
                     If Not t Is Nothing Then
+                        lastToken = t
                         Yield t
                     End If
                 Next
@@ -82,6 +96,26 @@ Namespace Language
                     escape.string = False
                     escape.quote = Nothing
                 Else
+                    buf += c
+                End If
+            ElseIf escape.scriptOpen Then
+                If c = "<"c Then
+                    If escape.checkScriptEnd = 0 Then
+                        escape.checkScriptEnd += c
+                    End If
+                ElseIf c = "/"c Then
+                    If escape.checkScriptEnd = "<" Then
+                        escape.checkScriptEnd *= 0
+                        escape.scriptOpen = False
+
+                        If buf > 0 Then
+                            Yield MeasureToken(New String(buf.PopAllChars))
+                            Yield New Token(HtmlTokens.openTag, "<")
+                            Yield New Token(HtmlTokens.splash, "/")
+                        End If
+                    End If
+                Else
+                    escape.checkScriptEnd.Clear()
                     buf += c
                 End If
             ElseIf c = "<"c Then
@@ -129,11 +163,15 @@ Namespace Language
         End Function
 
         Private Function MeasureToken(text As String) As Token
+            If lastToken IsNot Nothing AndAlso lastToken = (HtmlTokens.openTag, "<") AndAlso text.TextEquals("script") Then
+                escape.scriptOpen = True
+            End If
+
             If text = "=" Then
                 Return New Token(HtmlTokens.equalsSymbol, "=")
             ElseIf text = vbCr OrElse text = vbLf OrElse text = vbCrLf Then
                 Return Nothing
-            ElseIf text.Trim(" "c, ASCII.CR, Ascii.LF) = "" Then
+            ElseIf text.Trim(" "c, ASCII.CR, ASCII.LF) = "" Then
                 Return Nothing
             Else
                 Return New Token(HtmlTokens.text, text)

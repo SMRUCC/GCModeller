@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b94e72bbce38acfe2b38197e5bf7e9e, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\base\SlideWindow\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0a4b48d7a4100142bf00af0e09d41580, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\base\SlideWindow\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 95 (66.43%)
+    ' Comment Lines: 27 (18.88%)
+    '    - Xml Docs: 85.19%
+    ' 
+    '   Blank Lines: 21 (14.69%)
+    '     File Size: 6.47 KB
+
+
     '     Module SlideWindowExtensions
     ' 
-    '         Function: (+5 Overloads) [Select], __extendTails, CreateSlideWindows, SlideWindows
+    '         Function: __extendTails, (+5 Overloads) [Select], CreateSlideWindows, SlideWindows
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,14 +73,15 @@ Namespace ComponentModel.Algorithm.base
         ''' <returns></returns>
         ''' <param name="extTails">引用类型不建议打开这个参数</param>
         ''' <remarks></remarks>
-        <Extension> Public Function CreateSlideWindows(Of T)(data As IEnumerable(Of T), winSize%,
-                           Optional offset% = 1,
-                           Optional extTails As Boolean = False) As SlideWindow(Of T)()
+        <Extension>
+        Public Function CreateSlideWindows(Of T)(data As IEnumerable(Of T), winSize%,
+                                                 Optional offset% = 1,
+                                                 Optional extTails As Boolean = False) As SlideWindow(Of T)()
             Return data.SlideWindows(winSize, offset, extTails).ToArray
         End Function
 
         ''' <summary>
-        ''' Create a collection of slide Windows data for the target collection object.(创建一个滑窗集合)
+        ''' Create a collection of slide Windows data for the target collection object.
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="data"></param>
@@ -76,8 +89,9 @@ Namespace ComponentModel.Algorithm.base
         ''' <param name="offset">在序列之上移动的步长</param>
         ''' <returns></returns>
         ''' <param name="extTails">引用类型不建议打开这个参数</param>
-        ''' <remarks></remarks>
-        <Extension> Public Iterator Function SlideWindows(Of T)(data As IEnumerable(Of T), winSize%, Optional offset% = 1, Optional extTails As Boolean = False) As IEnumerable(Of SlideWindow(Of T))
+        ''' <remarks>(创建一个滑窗集合)</remarks>
+        <Extension>
+        Public Iterator Function SlideWindows(Of T)(data As IEnumerable(Of T), winSize%, Optional offset% = 1, Optional extTails As Boolean = False) As IEnumerable(Of SlideWindow(Of T))
             Dim tmp As New List(Of T)(data)
             Dim n% = tmp.Count
 
@@ -86,7 +100,7 @@ Namespace ComponentModel.Algorithm.base
                 Return
             ElseIf winSize >= n Then
                 Yield New SlideWindow(Of T)() With {
-                    .Left = 0,
+                    .left = 0,
                     .Items = tmp.ToArray
                 }
                 ' 这里要return，否则会出现重复的数据
@@ -94,7 +108,7 @@ Namespace ComponentModel.Algorithm.base
             End If
 
             If offset < 1 Then
-                Call VBDebugger.Warning($"The offset parameter '{offset}' is not correct, set its value to 1 as default!")
+                Call $"The offset parameter '{offset}' is not correct, set its value to 1 as default!".warning
                 offset = 1
             End If
 
@@ -107,7 +121,7 @@ Namespace ComponentModel.Algorithm.base
 
                 Yield New SlideWindow(Of T)() With {
                     .Items = buf,
-                    .Left = i,
+                    .left = i,
                     .Index = ++p
                 }
 
@@ -125,7 +139,7 @@ Namespace ComponentModel.Algorithm.base
                     Next
                 Else
                     Yield New SlideWindow(Of T)() With {
-                        .Left = left,
+                        .left = left,
                         .Items = tmp.ToArray,
                         .Index = p
                     }

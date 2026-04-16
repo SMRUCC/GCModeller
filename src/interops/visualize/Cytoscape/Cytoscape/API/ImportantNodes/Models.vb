@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8013d204ac660905c6b0577d1ba32f67, visualize\Cytoscape\Cytoscape\API\ImportantNodes\Models.vb"
+﻿#Region "Microsoft.VisualBasic::d1b1b8683cc688673b964634a5b47140, visualize\Cytoscape\Cytoscape\API\ImportantNodes\Models.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 25 (54.35%)
+    ' Comment Lines: 10 (21.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (23.91%)
+    '     File Size: 1.48 KB
+
+
     '     Class Regulations
     ' 
     '         Properties: ORF, Regulator
@@ -52,8 +64,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace API.ImportantNodes
@@ -62,11 +74,11 @@ Namespace API.ImportantNodes
     ''' 从footprint之中导出来的Cytoscape的网络数据文件
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Regulations
-        Implements IInteraction
+    Public Class Regulations : Implements IInteraction
 
         Public Property Regulator As String Implements IInteraction.source
         Public Property ORF As String Implements IInteraction.target
+
     End Class
 
     Public Class RankRegulations

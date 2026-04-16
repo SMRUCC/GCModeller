@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File.XGMMLgraph</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>XGMMLgraph {SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>XGMMLgraph</h2>
+
+        <h3>Description</h3>
+
+        <p>The Cytoscape software XML format network visualization model.(Cytoscape软件的网络XML模型文件)</p>
+
+<p>请注意，由于在Cytoscape之中，每一个Xml元素都是小写字母的，所以在这个类之中的所有的Xml序列化的标记都不可以再更改大小写了</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+export class XGMMLgraph {
+   # the graph attributes
+   attributes: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/GraphAttribute.html">GraphAttribute[]</a>;
+   # The edges between these nodes have the direction from one node to another node?
+   #  (这个网络模型文件之中的相互作用的节点之间的边是否是具有方向性的)
+   directed: string;
+   documentVersion: string;
+   edges: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/XGMMLedge.html">XGMMLedge[]</a>;
+   graphics: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/Graphics.html">Graphics</a>;
+   id: string;
+   # The brief title information of this cytoscape network model.(这个Cytoscape网络模型文件的摘要标题信息)
+   label: string;
+   # 在这个属性里面会自动设置Graph对象的属性列表里面的数据
+   networkMetadata: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/NetworkMetadata.html">NetworkMetadata</a>;
+   nodes: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/XGMMLnode.html">XGMMLnode[]</a>;
+   Size: <a href="/vignettes/clr/System/Drawing/Size.html">Size</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>attributes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/GraphAttribute.html">GraphAttribute</a></li>
+<li>use by <i>property</i> member <code>edges</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/XGMMLedge.html">XGMMLedge</a></li>
+<li>use by <i>property</i> member <code>graphics</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/Graphics.html">Graphics</a></li>
+<li>use by <i>property</i> member <code>networkMetadata</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/NetworkMetadata.html">NetworkMetadata</a></li>
+<li>use by <i>property</i> member <code>nodes</code>: <a href="/vignettes/clr/SMRUCC/genomics/Visualize/Cytoscape/CytoscapeGraphView/XGMML/File/XGMMLnode.html">XGMMLnode</a></li>
+<li>use by <i>property</i> member <code>Size</code>: <a href="/vignettes/clr/System/Drawing/Size.html">Size</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

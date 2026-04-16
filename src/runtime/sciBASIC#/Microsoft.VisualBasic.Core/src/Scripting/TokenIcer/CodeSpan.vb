@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 11 (35.48%)
+    ' Comment Lines: 15 (48.39%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 906 B
+
+
     '     Class CodeSpan
     ' 
     '         Properties: line, start, stops

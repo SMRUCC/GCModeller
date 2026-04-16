@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42d9ef426fa54b64617a5065d87944a9, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::5447a902b4729a0a994719bfa9b9af46, Microsoft.VisualBasic.Core\src\Language\Linq\Vectorization\Vector.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 407
+    '    Code Lines: 237 (58.23%)
+    ' Comment Lines: 131 (32.19%)
+    '    - Xml Docs: 79.39%
+    ' 
+    '   Blank Lines: 39 (9.58%)
+    '     File Size: 15.08 KB
+
+
     '     Class Vector
     ' 
-    '         Properties: Array, First, IsSingle, Last, Length
+    '         Properties: Array, First, IsScalar, Last, Length
     ' 
     '         Constructor: (+3 Overloads) Sub New
     '         Function: Copy, GetEnumerator, IEnumerable_GetEnumerator, Subset, ToString
@@ -47,6 +59,7 @@
 Imports System.Dynamic
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Expressions
@@ -70,6 +83,8 @@ Namespace Language.Vectorization
         ''' Gets the element counts in this vector collection
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <ScriptIgnore>
         Public Overridable ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -77,9 +92,14 @@ Namespace Language.Vectorization
             End Get
         End Property
 
-        Public ReadOnly Property IsSingle As Boolean
+        ''' <summary>
+        ''' current vector size is one element?
+        ''' </summary>
+        ''' <returns></returns>
+        <ScriptIgnore>
+        Public ReadOnly Property IsScalar As Boolean
             Get
-                Return Length = 1
+                Return buffer.Length = 1
             End Get
         End Property
 
@@ -91,6 +111,8 @@ Namespace Language.Vectorization
         ''' <remarks>
         ''' <see cref="buffer"/>
         ''' </remarks>
+        ''' 
+        <ScriptIgnore>
         Public Overridable ReadOnly Property Array As T()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -103,6 +125,8 @@ Namespace Language.Vectorization
         ''' The last elements in the collection <see cref="List(Of T)"/>
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <ScriptIgnore>
         Public Property Last As T
             Get
                 If Length = 0 Then
@@ -124,6 +148,8 @@ Namespace Language.Vectorization
         ''' The first elements in the collection <see cref="List(Of T)"/>
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <ScriptIgnore>
         Public Property First As T
             Get
                 If Length = 0 Then
@@ -255,7 +281,7 @@ Namespace Language.Vectorization
         Default Public Overloads Property Item(range As IntRange) As List(Of T)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New List(Of T)(Me.Skip(range.Min).Take(range.Length))
+                Return New List(Of T)(Me.Skip(range.Min).Take(range.Interval))
             End Get
             Set(value As List(Of T))
                 Dim indices As Integer() = range.ToArray
@@ -266,7 +292,7 @@ Namespace Language.Vectorization
             End Set
         End Property
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
         Default Public Overloads Property Item(range As (start%, ends%)) As List(Of T)
             Get
                 Return New List(Of T)(Me.Skip(range.start).Take(count:=range.ends - range.start))
@@ -300,7 +326,7 @@ Namespace Language.Vectorization
         ''' <param name="booleans"></param>
         ''' <returns></returns>
         Public Iterator Function Subset(booleans As IEnumerable(Of Boolean)) As IEnumerable(Of T)
-            For Each index In booleans.SeqIterator
+            For Each index As SeqValue(Of Boolean) In booleans.SeqIterator
                 If index.value = True Then
                     Yield buffer(index.i)
                 End If
@@ -315,7 +341,9 @@ Namespace Language.Vectorization
         Default Public Overloads ReadOnly Property Item([where] As Predicate(Of T)) As T()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return buffer.Where(Function(o) where(o)).ToArray
+                Return buffer _
+                    .Where(Function(o) where(o)) _
+                    .ToArray
             End Get
         End Property
 
@@ -340,12 +368,14 @@ Namespace Language.Vectorization
                             buffer(i) = [single]
                         End If
                     Next
-                Else
-                    For Each i In flags.SeqIterator
-                        If i.value Then
+                ElseIf flags.Length = value.Length Then
+                    For i As Integer = 0 To flags.Length - 1
+                        If True = flags(i) Then
                             buffer(i) = value(i)
                         End If
                     Next
+                Else
+                    Throw New InvalidProgramException($"the test cndition size({flags.Length}) must be equals to the value vector size({value.Length})!")
                 End If
             End Set
         End Property
@@ -389,6 +419,11 @@ Namespace Language.Vectorization
             Yield GetEnumerator()
         End Function
 
+        ''' <summary>
+        ''' get the index vector where the element test assert success
+        ''' </summary>
+        ''' <param name="assert"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Which(assert As Func(Of T, Boolean)) As Integer()
             Return Linq.which(Me.Select(assert))

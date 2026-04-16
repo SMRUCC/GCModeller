@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d20306ac0094c9c0646fabd81e1c2151, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\FuzzyGroup.vb"
+﻿#Region "Microsoft.VisualBasic::fdf64d52e5c337945c01669ca66e12fa, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\FuzzyGroup.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 88 (60.27%)
+    ' Comment Lines: 39 (26.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (13.01%)
+    '     File Size: 6.08 KB
+
 
     '     Module FuzzyGroup
     ' 
@@ -103,7 +115,7 @@ Namespace ComponentModel.Collection
                                                             Select New __groupHelper(Of T) With {
                                                                 .cut = cut,
                                                                 .key = s_key,
-                                                                .keyASC = s_key.Select(AddressOf Asc).ToArray,
+                                                                .keyASC = s_key.Select(AddressOf AscW).ToArray,
                                                                 .x = x
                                                             }
             Dim out As GroupResult(Of T, String)
@@ -111,7 +123,7 @@ Namespace ComponentModel.Collection
                 buf.ToDictionary(Function(x) x, Function(x) Nothing)
 
             If parallel Then
-                Call "Fuzzy grouping running in parallel mode...".__DEBUG_ECHO
+                Call "Fuzzy grouping running in parallel mode...".debug
             End If
 
             Do While lhash.Count > 0
@@ -180,7 +192,7 @@ Namespace ComponentModel.Collection
                 Dim edits As DistResult = ComputeDistance(
                     keyASC, x.keyASC,
                     Function(a, b) a = b,
-                    AddressOf Strings.Chr)
+                    AddressOf Strings.ChrW)
 
                 If edits Is Nothing Then
                     Return False

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49 (73.13%)
+    ' Comment Lines: 3 (4.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (22.39%)
+    '     File Size: 2.52 KB
+
+
     '     Module CommandHelpExtensions
     ' 
     '         Function: HasCommandName, PrintCommandHelp

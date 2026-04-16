@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::475e72225775a694ad0555d24de13292, engine\Dynamics\Drivers\OmicsTuple.vb"
+﻿#Region "Microsoft.VisualBasic::f37b513d0fbbf9dc2c661c5c46dd556a, engine\Dynamics\Drivers\OmicsTuple.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17 (65.38%)
+    ' Comment Lines: 4 (15.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (19.23%)
+    '     File Size: 779 B
+
+
     '     Class OmicsTuple
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -41,8 +53,14 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace Engine
 
+    ''' <summary>
+    ''' A triple of the omics data in general three levels
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class OmicsTuple(Of T)
 
         Public ReadOnly transcriptome As T
@@ -55,6 +73,7 @@ Namespace Engine
             Me.metabolome = metabolome
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return GetType(T).Name
         End Function

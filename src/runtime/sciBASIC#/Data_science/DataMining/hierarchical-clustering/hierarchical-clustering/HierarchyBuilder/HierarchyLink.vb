@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ee29fb5759c35da6ddb646ec1a6f0c8, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyLink.vb"
+﻿#Region "Microsoft.VisualBasic::03eb5c7f92075aa7d4290533873246e8, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\HierarchyLink.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 47 (73.44%)
+    ' Comment Lines: 4 (6.25%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 13 (20.31%)
+    '     File Size: 2.20 KB
+
+
     '     Class HierarchyLink
     ' 
     '         Properties: HashKey
@@ -48,14 +60,14 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Math.HashMaps
 
 Namespace Hierarchy
 
-    Public Class HierarchyLink : Implements IComparable, IComparable(Of HierarchyLink), IReadOnlyId
+    Public Class HierarchyLink : Implements IComparable, IComparable(Of HierarchyLink)
 
         Public ReadOnly Tree As HierarchyTreeNode
-        Public ReadOnly Property HashKey As String Implements IReadOnlyId.Identity
+        Public ReadOnly Property HashKey As ULong
 
         Friend removed As Boolean = False
 
@@ -95,18 +107,18 @@ Namespace Hierarchy
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function hashCodePair(link As HierarchyTreeNode) As String
+        Public Function hashCodePair(link As HierarchyTreeNode) As ULong
             Return hashCodePair(link.Left(), link.Right())
         End Function
 
-        Public Function hashCodePair(lCluster As Cluster, rCluster As Cluster) As String
-            Dim lName = lCluster.Name
-            Dim rName = rCluster.Name
+        Public Function hashCodePair(lCluster As Cluster, rCluster As Cluster) As ULong
+            Dim lName = lCluster.Name.GetHashCode
+            Dim rName = rCluster.Name.GetHashCode
 
-            If lName.CompareTo(rName) < 0 Then
-                Return lName & "~~~" & rName
+            If lCluster.Name.CompareTo(rCluster.Name) < 0 Then
+                Return HashMap.HashCodePair(lName, rName)
             Else
-                Return rName & "~~~" & lName
+                Return HashMap.HashCodePair(rName, lName)
             End If
         End Function
     End Module

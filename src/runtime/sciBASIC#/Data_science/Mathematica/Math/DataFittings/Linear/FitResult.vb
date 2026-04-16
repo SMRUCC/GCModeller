@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d42548a2570bfa2c18e954ec8a0f03f, Data_science\Mathematica\Math\DataFittings\Linear\FitResult.vb"
+﻿#Region "Microsoft.VisualBasic::bd4fee869b83aaa7822785481805c1a8, Data_science\Mathematica\Math\DataFittings\Linear\FitResult.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 67 (45.89%)
+    ' Comment Lines: 66 (45.21%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 13 (8.90%)
+    '     File Size: 5.03 KB
+
+
     ' Class FitResult
     ' 
     '     Properties: AdjustR_square, ErrorTest, FactorSize, Intercept, IsPolyFit
-    '                 Polynomial, R_square, RMSE, Slope, SSE
-    '                 SSR
+    '                 Polynomial, R_square, Residuals, RMSE, Slope
+    '                 SSE, SSR
     ' 
     '     Function: IFitted_GetY, ToString
     ' 
@@ -44,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 ''' <summary>
@@ -84,25 +97,6 @@ Public Class FitResult : Implements IFitted
     ''' 保存拟合后的y值，在拟合时可设置为不保存节省内存
     ''' </summary>
     Public Property ErrorTest As IFitError() Implements IFitted.ErrorTest
-
-    ''' <summary>
-    ''' 根据x获取拟合方程的y值
-    ''' </summary>
-    ''' <param name="x"></param>
-    ''' <returns></returns>
-    Default Public ReadOnly Property GetY(x As Double) As Double
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return DirectCast(Polynomial, Polynomial).F(x)
-        End Get
-    End Property
-
-    Public ReadOnly Property IsPolyFit As Boolean
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Get
-            Return Not DirectCast(Polynomial, Polynomial).IsLinear
-        End Get
-    End Property
 
     ''' <summary>
     ''' 获取斜率
@@ -151,6 +145,34 @@ Public Class FitResult : Implements IFitted
             Dim p As Integer = FactorSize - 1
 
             Return 1 - (1 - R_square) * (n - 1) / (n - p - 1)
+        End Get
+    End Property
+
+    Public ReadOnly Property Residuals As Double()
+        Get
+            Return ErrorTest _
+                .SafeQuery _
+                .Select(Function(e) e.Y - e.Yfit) _
+                .ToArray
+        End Get
+    End Property
+
+    ''' <summary>
+    ''' 根据x获取拟合方程的y值
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <returns></returns>
+    Default Public ReadOnly Property GetY(x As Double) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return DirectCast(Polynomial, Polynomial).F(x)
+        End Get
+    End Property
+
+    Public ReadOnly Property IsPolyFit As Boolean
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return Not DirectCast(Polynomial, Polynomial).IsLinear
         End Get
     End Property
 

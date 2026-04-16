@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3777d4dd98e0fb72214b4f824740c1ee, gr\Microsoft.VisualBasic.Imaging\Filters\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::a274f381f96d12545852a1748022b1e5, gr\Microsoft.VisualBasic.Imaging\Filters\Matrix.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 70 (74.47%)
+    ' Comment Lines: 7 (7.45%)
+    '    - Xml Docs: 57.14%
+    ' 
+    '   Blank Lines: 17 (18.09%)
+    '     File Size: 3.54 KB
+
+
     '     Class Matrix
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -42,13 +54,14 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
-Imports System.Runtime.InteropServices
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports std = System.Math
 
 Namespace Filters
 
     ''' <summary>
+    ''' the bitmap image gauss smooth helper
+    ''' 
     ''' https://zhuanlan.zhihu.com/p/73363439
     ''' </summary>
     Public Class Matrix
@@ -80,17 +93,13 @@ Namespace Filters
 
         Public Shared Function Image_2_Arry2D(srcBmp As Bitmap) As Byte(,)
             Dim rect As New Rectangle(0, 0, srcBmp.Width, srcBmp.Height)
-            Dim srcBmpData As BitmapData = srcBmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb)
+            Dim srcBmpData As BitmapBuffer = BitmapBuffer.FromBitmap(srcBmp)
             Dim srcPtr As IntPtr = srcBmpData.Scan0
             Dim Stride As Integer = srcBmpData.Stride
-            Dim space As Integer = stdNum.Abs(Stride) - rect.Width * 3
-            Dim bytes As Integer = stdNum.Abs(Stride) * rect.Height - space
-            Dim srcRGBValues = New Byte(bytes - 1) {}
+            Dim space As Integer = std.Abs(Stride) - rect.Width * 3
+            Dim bytes As Integer = std.Abs(Stride) * rect.Height - space
+            Dim srcRGBValues As Byte() = srcBmpData.RawBuffer
             Dim mat = New Byte(rect.Height - 1, rect.Width - 1) {}
-
-            Marshal.Copy(srcPtr, srcRGBValues, 0, bytes)
-            srcBmp.UnlockBits(srcBmpData)
-
             Dim ptr = 0
             Dim temp As Double
 
@@ -113,11 +122,11 @@ Namespace Filters
             Dim width = mat.GetLength(1)
             Dim srcBmp As New Bitmap(width, height)
             Dim rect As New Rectangle(0, 0, width, height)
-            Dim srcBmpData As BitmapData = srcBmp.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb)
+            Dim srcBmpData As BitmapBuffer = BitmapBuffer.FromBitmap(srcBmp)
             Dim Stride As Integer = srcBmpData.Stride
-            Dim space = stdNum.Abs(Stride) - width * 3
-            Dim bytes = stdNum.Abs(Stride) * height - space
-            Dim RGBs = New Byte(bytes - 1) {}
+            Dim space = std.Abs(Stride) - width * 3
+            Dim bytes = std.Abs(Stride) * height - space
+            Dim RGBs As Byte() = srcBmpData.RawBuffer
             Dim ptr = 0
 
             For y As Integer = 0 To rect.Height - 1
@@ -132,8 +141,7 @@ Namespace Filters
                 ptr += space
             Next
 
-            Marshal.Copy(RGBs, 0, srcBmpData.Scan0, bytes)
-            srcBmp.UnlockBits(srcBmpData)
+            Call srcBmpData.Dispose()
 
             Return srcBmp
         End Function

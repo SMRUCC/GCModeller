@@ -1,117 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Reaction" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="0.5" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>QAAAAABAgAAAgIAEAAABAAAAAACMAAAAAAADBAAAgAA=</HashCode>
-      <FileName>Models\Metabolism.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.My.MySettings" Collapsed="true">
-    <Position X="0.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
   <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.NamespaceDoc" Collapsed="true">
-    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Position X="0.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>NamespaceDoc.vb</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.RNAComposition" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="1.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACAAAAAAAAAABAEAAAQAAAAAAAAAAAEAAAAqAACAAA=</HashCode>
-      <FileName>Models\Vector\RNAComposition.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Class Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.ProteinComposition" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="4" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAQAAQAAAABAEgAAAAAAAAAAAAAAEAAAAvv7+IQA=</HashCode>
-      <FileName>Models\Vector\ProteinComposition.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Class>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.CellularModule" Collapsed="true">
-    <Position X="0.5" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEQEAAAAAAAAAAAAAAAAAEEAAAAAA=</HashCode>
-      <FileName>Models\CellularModule.vb</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.CentralDogma" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="2.25" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAQAAAABAAQQAAAAIIAAQAAAAA=</HashCode>
-      <FileName>Models\CentralDogma.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Struct>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Protein" Collapsed="true">
-    <Position X="2.25" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAIAAAAAAAAEAAAAAAAAAAAAAAAAAAAIAAAAAAAAA=</HashCode>
-      <FileName>Models\CentralDogma.vb</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Genotype" Collapsed="true" BaseTypeListCollapsed="true">
-    <Position X="4" Y="4" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAACAAAAABAEAAAAAAAAAgAAAAAUAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Genotype.vb</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" Collapsed="true" />
-  </Struct>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Phenotype" Collapsed="true">
-    <Position X="0.5" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAIAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Models\Phenotype.vb</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Regulation" Collapsed="true">
-    <Position X="4" Y="5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAAAAAAIEAAAFAAAAAAAAACAAAAA=</HashCode>
-      <FileName>Models\Regulation.vb</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Enum Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.RNATypes" Collapsed="true">
-    <Position X="2.25" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBIAAAAAA=</HashCode>
-      <FileName>Models\CentralDogma.vb</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Processes" Collapsed="true">
-    <Position X="0.5" Y="6.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAACAAgAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
-      <FileName>Models\Regulation.vb</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.Extensions" Collapsed="true">
-    <Position X="0.5" Y="2.75" Width="1.5" />
+    <Position X="0.5" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAABABAAAAAAABAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Extensions.vb</FileName>
     </TypeIdentifier>
   </Module>
   <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.My.Resources.Resources" Collapsed="true">
-    <Position X="4" Y="2.75" Width="1.5" />
+    <Position X="2.25" Y="1.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
-    </TypeIdentifier>
-  </Module>
-  <Module Name="SMRUCC.genomics.GCModeller.ModellingEngine.Model.My.MySettingsProperty" Collapsed="true">
-    <Position X="2.25" Y="2.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
     </TypeIdentifier>
   </Module>
   <Font Name="微软雅黑" Size="9" />

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62d65cb77b8d7cd14621916bec3d0f4a, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::03f81ed464d4495de716e65dbe4cb3ce, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\blastp\BlastpOutputReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 141 (73.44%)
+    ' Comment Lines: 25 (13.02%)
+    '    - Xml Docs: 68.00%
+    ' 
+    '   Blank Lines: 26 (13.54%)
+    '     File Size: 7.49 KB
+
+
     '     Module BlastpOutputReader
     ' 
     '         Function: HspParserInternal, internalQueryParser, QueryBlockIterates, QueryParser, RunParser
@@ -46,6 +58,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex
@@ -64,7 +77,7 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim skip As Boolean = True
             Dim buffer As New List(Of String)
 
-            For Each line As String In path.IterateAllLines
+            For Each line As String In path.IterateAllLines(tqdm_wrap:=App.EnableTqdm)
                 If InStr(line, "Query=", CompareMethod.Binary) = 1 Then
                     ' 新的block数据块
                     ' 则需要将前面的buffer数据抛出去
@@ -95,7 +108,9 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
             Dim source As IEnumerable(Of String) = QueryBlockIterates(path, encoding)
 
             For Each queryText As String In source
-                Yield queryText.QueryParser(fast)
+                If queryText <> "" Then
+                    Yield queryText.QueryParser(fast)
+                End If
             Next
         End Function
 
@@ -169,15 +184,43 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus
                 pos += score.Length
             Next
 
-            For Each x In tmp
+            For Each x As FragmentHit In tmp
                 x.HitLength = subjectInfo.Value
                 x.HitName = subjectInfo.Name
             Next
 
+            Dim qscore As Score
+
+            If tmp.Count = 1 Then
+                qscore = tmp(0).Score
+            ElseIf tmp.Count > 1 Then
+                qscore = New Score With {
+                    .Score = tmp.Average(Function(a) a.Score.Score),
+                    .Expect = tmp.Average(Function(a) a.Score.Expect),
+                    .Method = tmp.First.Score.Method,
+                    .RawScore = tmp.Average(Function(a) a.Score.RawScore),
+                    .Gaps = New Percentage() With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Gaps))
+                    },
+                    .Identities = New Percentage() With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Identities))
+                    },
+                    .Positives = New Percentage With {
+                        .Denominator = 1,
+                        .Numerator = tmp.Average(Function(a) CDbl(a.Score.Positives))
+                    }
+                }
+            Else
+                qscore = Nothing
+            End If
+
             Return New BlastpSubjectHit With {
                 .Length = subjectInfo.Value,
                 .Name = subjectInfo.Name,
-                .FragmentHits = tmp
+                .FragmentHits = tmp,
+                .Score = qscore
             }
         End Function
 

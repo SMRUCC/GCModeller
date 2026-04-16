@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 18 (51.43%)
+    ' Comment Lines: 9 (25.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (22.86%)
+    '     File Size: 1.06 KB
+
+
     '     Structure [Function]
     ' 
     '         Properties: Declaration, Name

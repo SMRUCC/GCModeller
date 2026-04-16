@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eccff19573e008c32f36873c4d36d361, data\SABIO-RK\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::ffe8c6971e5e64ca3c618cb3db950ef9, data\SABIO-RK\test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 54 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (18.18%)
+    '     File Size: 2.51 KB
+
+
     ' Module Module1
     ' 
-    '     Sub: Main, parseMathMLTest, xmlReadertest
+    '     Sub: load_rheaDataabse, Main, parseMathMLTest, rhea_rdf_test, xmlReadertest
     ' 
     ' /********************************************************************************/
 
@@ -42,6 +54,8 @@
 Imports SMRUCC.genomics.Model.SBML.Level3
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports SMRUCC.genomics.Data.Rhea
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Module1
 
@@ -55,6 +69,8 @@ Module Module1
     End Sub
 
     Sub Main()
+        Call load_rheaDataabse()
+        Call rhea_rdf_test()
         Call parseMathMLTest()
     End Sub
 
@@ -62,19 +78,42 @@ Module Module1
         Dim sbml = XmlFile(Of SBMLReaction).LoadDocument("E:\GCModeller\src\GCModeller\engine\Rscript\modelling\sabio-rk.sbml.xml")
         Dim newML As New XmlFile(Of SBMLReaction) With {
             .model = New Model(Of SBMLReaction) With {
-            .listOfReactions = {New SBMLReaction With {
+            .listOfReactions = New reactionList(Of SBMLReaction) With {.reactions = {New SBMLReaction With {
             .kineticLaw = New kineticLaw With {
             .annotation = New kineticLawAnnotation With {
                 .sabiork = New sabiorkAnnotation With {.kineticLawID = 5},
-                .RDF = New AnnotationInfo With {.description = New SbmlAnnotationData With {
+                .RDF = New AnnotationInfo With {.description = {New SbmlAnnotationData With {
                 .about = "12344",
                 .isDescribedBy = {New [is] With {.Bag = New MIME.application.rdf_xml.Array With {.list = {New li With {.resource = "abccc"}}}}}}}
         }
-        }}}}}
+        }}}}}}}
 
-        Call newML.GetXml.SaveTo("X:\11111.XML")
+        Call newML.GetXml.SaveTo("Z:\11111.XML")
 
         Pause()
     End Sub
 
+    Sub rhea_rdf_test()
+        Dim test As New RheaDescription With {
+            .subClassOf = {New Resource With {.resource = "aaaaaa"}},
+            .type = New RDFType With {.resource = "xxxxx"},
+            .about = "test"
+        }
+        Dim doc As New RheaRDF() With {.description = {
+            test
+        }}
+
+        Call doc.GetXml.SaveTo("Z:/dddddd.xml")
+        Call Pause()
+    End Sub
+
+    Sub load_rheaDataabse()
+        Dim doc As RheaRDF = RheaRDF.Load("J:\ossfs\rhea.rdf")
+        Dim reactions = doc.GetReactions.ToArray
+
+        Call reactions.GetJson.SaveTo("Z:/rhea.json")
+        Call New ReactionList With {.items = reactions}.GetXml.SaveTo("Z:/rhea.xml")
+
+        Pause()
+    End Sub
 End Module

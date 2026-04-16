@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::caabd6dc3cf11d963f5c87ad23402985, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::ae5280739a8d72d96b0d3cf69299195c, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 130 (60.47%)
+    ' Comment Lines: 60 (27.91%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 25 (11.63%)
+    '     File Size: 8.91 KB
+
+
     '     Module LocusExtensions
     ' 
     '         Function: (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins, NCBIstyle
@@ -45,13 +57,14 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports r = System.Text.RegularExpressions.Regex
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci
 
-    <Package("Loci.API", Description:="Methods for some nucleotide utility.")>
+    ''' <summary>
+    ''' Methods for some nucleotide utility.
+    ''' </summary>
     <HideModuleName>
     Public Module LocusExtensions
 
@@ -164,7 +177,7 @@ Namespace ComponentModel.Loci
         Public Function TryParse(loci As String) As NucleotideLocation
             If loci.StringEmpty Then
                 Return Nothing
-            ElseIf InStr(loci, " ==> ") > 0 OrElse InStr(loci, " ~ ") > 0 Then
+            ElseIf InStr(loci, " ==> ") > 0 OrElse InStr(loci, "~") > 0 Then
                 Return tryParseInternal(loci)
             End If
 
@@ -173,7 +186,7 @@ Namespace ComponentModel.Loci
             Dim isComplement As Boolean = r.Match(loci, complement, RegexOptions.IgnoreCase).Success
             Dim s As Strands = Strands.Forward Or Strands.Reverse.When(isComplement)
             Dim pos%() = LinqAPI.Exec(Of Integer) _
- _
+                                                  _
                 () <= From match As Match
                       In Regex.Matches(loci, "\d+")
                       Let n As Integer = CInt(Val(match.Value))
@@ -203,12 +216,13 @@ Namespace ComponentModel.Loci
         ''' <summary>
         ''' ```
         ''' 388739 ==> 389772 #Forward
+        ''' 388739~389772#Forward
         ''' ```
         ''' </summary>
         ''' <param name="input"></param>
         ''' <returns></returns>
         Private Function tryParseInternal(input As String) As NucleotideLocation
-            Dim t$() = input.Split
+            Dim t As String() = input.Split(" "c, "#"c, "~"c).Where(Function(si) Not si.StringEmpty).ToArray
             Dim left As Integer = CInt(Val(t(0)))
             Dim right As Integer = CInt(Val(t(2)))
             Dim strand As Strands = GetStrand(t(3))
@@ -248,8 +262,8 @@ Namespace ComponentModel.Loci
             If allowedOffset = 0 Then
                 Return loci1.Min = loci2.Min AndAlso loci1.Max = loci2.Max
             Else
-                Return stdNum.Abs(loci1.Min - loci2.Min) <= allowedOffset AndAlso
-                       stdNum.Abs(loci1.Max - loci2.Max) <= allowedOffset
+                Return std.Abs(loci1.Min - loci2.Min) <= allowedOffset AndAlso
+                       std.Abs(loci1.Max - loci2.Max) <= allowedOffset
             End If
         End Function
     End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::960fe2e678a99d65bc0d8a9609c3868d, Microsoft.VisualBasic.Core\src\Net\MIME\MIME.vb"
+﻿#Region "Microsoft.VisualBasic::877cddff5d140637372e2c876a6550f3, Microsoft.VisualBasic.Core\src\Net\MIME\MIME.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 68 (64.76%)
+    ' Comment Lines: 26 (24.76%)
+    '    - Xml Docs: 88.46%
+    ' 
+    '   Blank Lines: 11 (10.48%)
+    '     File Size: 4.56 KB
+
+
     '     Module MIME
     ' 
     '         Properties: ContentTypes, SuffixTable, UnknownType
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: loadContents
+    '         Function: fetchUniqueContents, loadContents
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 
 Namespace Net.Protocols.ContentTypes
 
@@ -58,6 +71,9 @@ Namespace Net.Protocols.ContentTypes
         ''' 枚举出所有已知的文件拓展名列表，Key全部都是小写的 (格式: ``.ext``)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' recommended use <see cref="Utils.FileMimeType"/> to get this mime type data
+        ''' </remarks>
         Public ReadOnly Property SuffixTable As IReadOnlyDictionary(Of String, ContentType)
         ''' <summary>
         ''' 根据类型来枚举，Key全部都是小写的
@@ -75,30 +91,53 @@ Namespace Net.Protocols.ContentTypes
         Public Const Png As String = "image/png"
         Public Const Xml As String = "text/xml"
         Public Const Html As String = "text/html"
+        Public Const Text As String = "plain/text"
+        Public Const JSONText As String = "text/json"
 
         ''' <summary>
         ''' ``application/octet-stream``
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property UnknownType As New ContentType With {
-            .FileExt = "*.*",
+            .FileExt = ".*",
             .MIMEType = Unknown,
             .Name = NameOf(Unknown)
         }
 
         Sub New()
-            SuffixTable = My.Resources _
+            SuffixTable = fetchUniqueContents() _
+                .ToDictionary(Function(x) x.FileExt.ToLower,
+                              Function(x)
+                                  Return x
+                              End Function)
+            ContentTypes = SuffixTable.Values _
+                .GroupBy(Function(f) f.MIMEType.ToLower) _
+                .ToDictionary(Function(x)
+                                  Return x.Key
+                              End Function,
+                              Function(x)
+                                  Return x.First
+                              End Function)
+        End Sub
+
+        Private Iterator Function fetchUniqueContents() As IEnumerable(Of ContentType)
+            Dim uniqs = My.Resources _
                 .List_of_MIME_types___Internet_Media_Types_ _
                 .LineTokens _
                 .loadContents _
                 .Where(Function(x) Not x.IsEmpty) _
                 .GroupBy(Function(x) x.FileExt.ToLower) _
-                .ToDictionary(Function(x) x.Key,
-                              Function(x) x.First)
-            ContentTypes = SuffixTable _
-                .Values _
-                .ToDictionary(Function(x) x.MIMEType.ToLower)
-        End Sub
+                .ToArray
+
+            For Each group In uniqs
+                Yield group.First
+            Next
+
+            ' add exteneded content types
+            Yield New ContentType With {.Details = "Deep Zoom Image", .FileExt = ".dzi", .MIMEType = "application/xml", .Name = "Deep Zoom Image"}
+            Yield New ContentType With {.Details = "Jpeg image", .FileExt = ".jpeg", .MIMEType = "image/jpeg", .Name = "Jpeg image"}
+            Yield New ContentType With {.Details = "ECMAScript Module JavaScript", .FileExt = ".mjs", .MIMEType = "application/javascript", .Name = "ECMAScript Module"}
+        End Function
 
         <Extension>
         Private Iterator Function loadContents(lines As IEnumerable(Of String)) As IEnumerable(Of ContentType)
@@ -111,7 +150,7 @@ Namespace Net.Protocols.ContentTypes
                 Try
                     ' 2016-11-28
                     ' Not sure why a bugs happed here, there is no bugs here before!
-                    Yield ContentType.__createObject(line)
+                    Yield ContentType.parseLine(line)
                 Catch ex As Exception
 #If DEBUG Then
                     Call line.Warning

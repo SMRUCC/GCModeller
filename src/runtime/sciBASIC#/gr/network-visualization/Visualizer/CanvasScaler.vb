@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f791c82963c241cece84669d01eedd87, gr\network-visualization\Visualizer\CanvasScaler.vb"
+﻿#Region "Microsoft.VisualBasic::88c04bff2c1c0d96bfae25a7ea16bb4f, gr\network-visualization\Visualizer\CanvasScaler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 42 (33.07%)
+    ' Comment Lines: 71 (55.91%)
+    '    - Xml Docs: 35.21%
+    ' 
+    '   Blank Lines: 14 (11.02%)
+    '     File Size: 5.10 KB
+
 
     ' Module CanvasScaler
     ' 
@@ -70,8 +82,8 @@ Public Module CanvasScaler
     '    Dim centraOffset As PointF = Nothing
 
     '    Call net.CalculateNodePositions(frameSize, padding, scaleFactor, centraOffset)
-    '    Call $"Scale factor of polygon shape: [{scaleFactor.Width}, {scaleFactor.Height}]".__DEBUG_ECHO
-    '    Call $"centraOffset of polygon shape: [{centraOffset.X}, {centraOffset.Y}]".__DEBUG_ECHO
+    '    Call $"Scale factor of polygon shape: [{scaleFactor.Width}, {scaleFactor.Height}]".debug
+    '    Call $"centraOffset of polygon shape: [{centraOffset.X}, {centraOffset.Y}]".debug
 
     '    ' 1. 先做缩放
     '    Dim edges As Edge() = net.graphEdges _

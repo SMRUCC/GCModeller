@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b7d1b360d013f82f9063cdbb44ddd86, localblast\LocalBLAST\Web\Alignment\HitTableParser.vb"
+﻿#Region "Microsoft.VisualBasic::f23fe851bfd07029a446679bcddbcc7b, localblast\LocalBLAST\Web\Alignment\HitTableParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 118 (73.75%)
+    ' Comment Lines: 21 (13.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (13.12%)
+    '     File Size: 6.09 KB
+
+
     '     Module HitTableParser
     ' 
     '         Function: IterateTables, LoadTable, Mapper, parseTable
@@ -40,7 +52,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
+#If NETCOREAPP Then
 Imports System.Data
 #End If
 

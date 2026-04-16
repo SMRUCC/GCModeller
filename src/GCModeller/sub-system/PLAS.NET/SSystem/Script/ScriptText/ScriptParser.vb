@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 189
+    '    Code Lines: 154 (81.48%)
+    ' Comment Lines: 11 (5.82%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 24 (12.70%)
+    '     File Size: 7.11 KB
+
+
     '     Module ScriptParser
     ' 
     '         Function: getCommentText, getScriptTokenGroups, getTimeFinalConfig, getTitleOrDefault, getUserFunctionOrDefault

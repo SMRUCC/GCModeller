@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 125 (69.44%)
+    ' Comment Lines: 37 (20.56%)
+    '    - Xml Docs: 91.89%
+    ' 
+    '   Blank Lines: 18 (10.00%)
+    '     File Size: 7.41 KB
+
+
     ' Module LociFilter
     ' 
     '     Function: (+5 Overloads) RangeSelects

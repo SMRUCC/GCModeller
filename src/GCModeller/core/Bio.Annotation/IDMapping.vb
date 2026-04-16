@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 51 (69.86%)
+    ' Comment Lines: 11 (15.07%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (15.07%)
+    '     File Size: 2.71 KB
+
+
     ' Module IDMapping
     ' 
     '     Function: createUnifyIdIndex, Mapping, populateIdMaps, UnifyIdMapping

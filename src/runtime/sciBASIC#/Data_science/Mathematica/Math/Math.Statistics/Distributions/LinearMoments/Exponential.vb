@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 34 (69.39%)
+    ' Comment Lines: 10 (20.41%)
+    '    - Xml Docs: 30.00%
+    ' 
+    '   Blank Lines: 5 (10.20%)
+    '     File Size: 1.67 KB
+
+
     '     Class Exponential
     ' 
     '         Constructor: (+3 Overloads) Sub New

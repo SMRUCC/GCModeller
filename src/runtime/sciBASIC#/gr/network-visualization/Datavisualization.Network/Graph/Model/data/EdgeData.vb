@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8cc482c25a8c023c328fe7eb41224510, gr\network-visualization\Datavisualization.Network\Graph\Model\data\EdgeData.vb"
+﻿#Region "Microsoft.VisualBasic::cd290acf913b0aabe08ffaff0d2dbf9c, gr\network-visualization\Datavisualization.Network\Graph\Model\data\EdgeData.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 77 (75.49%)
+    ' Comment Lines: 12 (11.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (12.75%)
+    '     File Size: 3.61 KB
+
+
     '     Class EdgeData
     ' 
     '         Properties: bends, length, style
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: Clone, ToString
     ' 
     ' 
@@ -43,10 +55,37 @@
 
 #End Region
 
-Imports System.Drawing
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.EdgeBundling
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+Imports TextureBrush = System.Drawing.TextureBrush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
 Namespace Graph
 
@@ -57,7 +96,7 @@ Namespace Graph
         ''' </summary>
         ''' <returns></returns>
         Public Property length As Double
-        Public Property bends As XYMetaHandle()
+        Public Property bends As WayPointVector()
 
         ''' <summary>
         ''' [color, width, dash]
@@ -81,15 +120,23 @@ Namespace Graph
             Me.Properties = New Dictionary(Of String, String)(copy.Properties)
         End Sub
 
+        Sub New(metadata As Dictionary(Of String, String))
+            If metadata Is Nothing Then
+                Properties = New Dictionary(Of String, String)
+            Else
+                Properties = New Dictionary(Of String, String)(metadata)
+            End If
+        End Sub
+
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
         Public Function Clone() As EdgeData
-            Dim bendList As XYMetaHandle() = bends _
+            Dim bendList As WayPointVector() = bends _
                 .SafeQuery _
                 .Select(Function(a)
-                            Return New XYMetaHandle(a)
+                            Return New WayPointVector(a)
                         End Function) _
                 .ToArray
             Dim styleCopy As Pen = Nothing

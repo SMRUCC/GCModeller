@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a73f9d73d1f05901b6ec3a248043a1aa, visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
+﻿#Region "Microsoft.VisualBasic::45fa0dfc69dc9503fe0b40251d86ef04, visualize\ChromosomeMap\FootPrintMap\RegulationMotifSite.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 63 (68.48%)
+    ' Comment Lines: 12 (13.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (18.48%)
+    '     File Size: 3.55 KB
+
+
     '     Class RegulationMotifSite
     ' 
     '         Function: __topVertex, __vertexDown, TriangleModel
@@ -39,6 +51,34 @@
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Drawing
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace FootprintMap
 
@@ -58,10 +98,10 @@ Namespace FootprintMap
         ''' <param name="Width"></param>
         ''' <param name="UpSideDown"></param>
         ''' <returns></returns>
-        Public Shared Function TriangleModel(Position As System.Drawing.Point,
+        Public Shared Function TriangleModel(Position As Point,
                                              Height As Integer,
                                              Width As Integer,
-                                             UpSideDown As Integer) As System.Drawing.Drawing2D.GraphicsPath
+                                             UpSideDown As Integer) As GraphicsPath
 
             Dim Model = If(UpSideDown <> 0,
                            __topVertex(Position, Height, Width),  ' 顶点在上面
@@ -71,14 +111,14 @@ Namespace FootprintMap
             Return Model
         End Function
 
-        Private Shared Function __vertexDown(Position As System.Drawing.Point,
+        Private Shared Function __vertexDown(Position As Point,
                                      Height As Integer,
-                                     Width As Integer) As System.Drawing.Drawing2D.GraphicsPath
+                                     Width As Integer) As GraphicsPath
 
-            Dim Model As System.Drawing.Drawing2D.GraphicsPath = New System.Drawing.Drawing2D.GraphicsPath
+            Dim Model As New GraphicsPath
 
-            Dim RightTop = New System.Drawing.Point(Position.X + 0.5 * Width, Position.Y - Height)
-            Dim LeftTop = New System.Drawing.Point(RightTop.X - Width, RightTop.Y)
+            Dim RightTop = New Point(Position.X + 0.5 * Width, Position.Y - Height)
+            Dim LeftTop = New Point(RightTop.X - Width, RightTop.Y)
 
             Call Model.AddLine(Position, RightTop)
             Call Model.AddLine(RightTop, LeftTop)
@@ -87,14 +127,14 @@ Namespace FootprintMap
             Return Model
         End Function
 
-        Private Shared Function __topVertex(Position As System.Drawing.Point,
+        Private Shared Function __topVertex(Position As Point,
                                      Height As Integer,
-                                     Width As Integer) As System.Drawing.Drawing2D.GraphicsPath
+                                     Width As Integer) As GraphicsPath
 
-            Dim Model As System.Drawing.Drawing2D.GraphicsPath = New System.Drawing.Drawing2D.GraphicsPath
+            Dim Model As New GraphicsPath
 
-            Dim RightButtom = New System.Drawing.Point(Position.X + 0.5 * Width, Position.Y + Height)
-            Dim LeftButtom = New System.Drawing.Point(RightButtom.X - Width, RightButtom.Y)
+            Dim RightButtom = New Point(Position.X + 0.5 * Width, Position.Y + Height)
+            Dim LeftButtom = New Point(RightButtom.X - Width, RightButtom.Y)
 
             Call Model.AddLine(Position, RightButtom)
             Call Model.AddLine(RightButtom, LeftButtom)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de32fe5450970ad208dbe02936370186, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::fb63f48b7dd981644236985c8a42c431, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 26 (70.27%)
+    ' Comment Lines: 6 (16.22%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.21 KB
+
+
     '     Module TaxonomyExtensions
     ' 
     '         Function: BuildBIOM
@@ -55,7 +67,8 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="nodes"></param>
         ''' <returns></returns>
         ''' 
-        <Extension> Public Function BuildBIOM(nodes As IEnumerable(Of TaxonomyNode)) As String
+        <Extension>
+        Public Function BuildBIOM(nodes As IEnumerable(Of TaxonomyNode)) As String
             Dim data As Dictionary(Of String, String) = TaxonomyNode.RankTable(nodes)
             Dim list As New List(Of String)
 

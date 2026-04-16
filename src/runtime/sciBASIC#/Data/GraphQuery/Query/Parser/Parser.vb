@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d01cddb7ddf40c0f3f9db5201f64c3b1, Data\GraphQuery\Query\Parser\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::527088b05cd9e8df35457f3a57f650e1, Data\GraphQuery\Query\Parser\Parser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 51 (76.12%)
+    ' Comment Lines: 2 (2.99%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (20.90%)
+    '     File Size: 2.22 KB
+
 
     ' Class Parser
     ' 
@@ -76,7 +88,8 @@ Public MustInherit Class Parser
     Protected Shared Function GetElementByIndex(list As InnerPlantText(), i As Integer?) As InnerPlantText
         If i Is Nothing Then
             Return New HtmlElement With {
-                .HtmlElements = list
+                .HtmlElements = list,
+                .Attributes = {AutoContext.Attribute}
             }
         ElseIf i >= list.Length Then
             Return New InnerPlantText With {.InnerText = ""}

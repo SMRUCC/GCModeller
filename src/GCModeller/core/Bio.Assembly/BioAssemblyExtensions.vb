@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e719e4eb2ba499b14099150bae66b556, core\Bio.Assembly\BioAssemblyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::14dbc7cb376b8c16e41b76c079e26f4a, core\Bio.Assembly\BioAssemblyExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 225
+    '    Code Lines: 143 (63.56%)
+    ' Comment Lines: 63 (28.00%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 19 (8.44%)
+    '     File Size: 8.67 KB
+
+
     ' Module BioAssemblyExtensions
     ' 
-    '     Function: [DirectCast], AsSegment, CreatePTTObject, GetBriefCode, GetBriefStrandCode
+    '     Function: [DirectCast], AsSegment, CreatePTTObject, ExpressionValue, GetBriefStrandCode
     '               GetCOGCategory, GetStrands, Group, IsNullOrEmpty, IsPure
     '               IsReversed, IsUnknown
     ' 
@@ -43,7 +55,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -51,6 +62,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -63,6 +75,27 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 <Package("Bio.Extensions", Publisher:="xie.guigang@gcmodeller.org")>
 Public Module BioAssemblyExtensions
 
+    ''' <summary>
+    ''' Extract of the gene expression value
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="genes"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ExpressionValue(Of T As IExpressionValue)(genes As IEnumerable(Of T)) As Dictionary(Of String, Double)
+        Dim v As New Dictionary(Of String, Double)
+
+        For Each gene As IExpressionValue In genes
+            If v.ContainsKey(gene.Identity) Then
+                v(gene.Identity) += gene.ExpressionValue
+            Else
+                v.Add(gene.Identity, gene.ExpressionValue)
+            End If
+        Next
+
+        Return v
+    End Function
+
     <Extension>
     Public Function AsSegment(gene As GeneTable) As SimpleSegment
         Return New SimpleSegment With {
@@ -74,7 +107,8 @@ Public Module BioAssemblyExtensions
         }
     End Function
 
-    <Extension> Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
+    <Extension>
+    Public Function IsNullOrEmpty(compound As bGetObject.Compound) As Boolean
         If compound Is Nothing Then
             Return True
         End If
@@ -131,8 +165,8 @@ Public Module BioAssemblyExtensions
     ''' <param name="str"></param>
     ''' <returns></returns>
     ''' 
-    <ExportAPI("TrimText.COG")>
-    <Extension> Public Function GetCOGCategory(str As String) As String
+    <Extension>
+    Public Function GetCOGCategory(str As String) As String
         If String.IsNullOrEmpty(str) OrElse String.Equals("-", str) Then
             Return "-"
         Else
@@ -148,25 +182,9 @@ Public Module BioAssemblyExtensions
     ''' <typeparam name="TFasta"><see cref="FastaSeq"/></typeparam>
     ''' <param name="data">Target fasta source collection which its elements base type is <see cref="FastaSeq"/></param>
     ''' <returns></returns>
-    <Extension> Public Function [DirectCast](Of TFasta As FastaSeq)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
-        Dim FastaFile As New FastaFile(From Fasta As TFasta In data Select DirectCast(Fasta, FASTA.FastaSeq))
-        Return FastaFile
-    End Function
-
-    ''' <summary>
-    ''' Convert the nucleotide sequence strand direction enumeration as character brief code. [<see cref="ComponentModel.Loci.Strands"/> => +, -, ?]
-    ''' </summary>
-    ''' <param name="strand"></param>
-    ''' <returns></returns>
-    ''' 
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetBriefCode(strand As Strands) As String
-        Select Case strand
-            Case Strands.Forward : Return "+"
-            Case Strands.Reverse : Return "-"
-            Case Else
-                Return "?"
-        End Select
+    <Extension>
+    Public Function [DirectCast](Of TFasta As FastaSeq)(data As IEnumerable(Of TFasta)) As FASTA.FastaFile
+        Return New FastaFile(From fa As TFasta In data Select DirectCast(fa, FastaSeq))
     End Function
 
     ''' <summary>
@@ -177,9 +195,9 @@ Public Module BioAssemblyExtensions
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetBriefStrandCode(strand As String) As String
-        Dim value As Strands = GetStrand(strand)
-        Return value.GetBriefCode
+    <Extension>
+    Public Function GetBriefStrandCode(strand As String) As String
+        Return GetStrand(strand).Description
     End Function
 
     ''' <summary>
@@ -190,7 +208,8 @@ Public Module BioAssemblyExtensions
     ''' <remarks></remarks>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function GetStrands(c As Char) As Strands
+    <Extension>
+    Public Function GetStrands(c As Char) As Strands
         Return CStr(c).GetStrand
     End Function
 
@@ -202,7 +221,8 @@ Public Module BioAssemblyExtensions
     ''' (请注意，这个只允许核酸序列)
     ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function IsReversed(nt As IPolymerSequenceModel) As Boolean
+    <Extension>
+    Public Function IsReversed(nt As IPolymerSequenceModel) As Boolean
         If Not InStrAny(nt.SequenceData, "ATG", "GTG") = 1 Then
             Dim last As String = Mid(nt.SequenceData, Len(nt.SequenceData) - 3, 3)
             Return Not String.IsNullOrEmpty(last.EqualsAny("GTG", "GTA"))
@@ -211,7 +231,8 @@ Public Module BioAssemblyExtensions
         End If
     End Function
 
-    <Extension> Public Function CreatePTTObject(contigs As IEnumerable(Of SimpleSegment)) As TabularFormat.PTT
+    <Extension>
+    Public Function CreatePTTObject(contigs As IEnumerable(Of SimpleSegment)) As TabularFormat.PTT
         Dim genes As GeneBrief() = contigs.Select(Function(gene) gene.ToPTTGene).ToArray
         Dim PTT As New TabularFormat.PTT(genes)
         Return PTT
@@ -223,11 +244,9 @@ Public Module BioAssemblyExtensions
     ''' <param name="contigs"></param>
     ''' <param name="offsets"></param>
     ''' <returns></returns>
-    <Extension> Public Function Group(Of Contig As NucleotideModels.Contig)(
-                                         contigs As IEnumerable(Of Contig),
-                                         Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
-
-        Dim Groups As New Dictionary(Of Integer, List(Of Contig))
+    <Extension>
+    Public Function Group(Of Contig As NucleotideModels.Contig)(contigs As IEnumerable(Of Contig), Optional offsets As Integer = 5) As Dictionary(Of Integer, Contig())
+        Dim groups As New Dictionary(Of Integer, List(Of Contig))
         Dim idx As i32 = 1
 
         For Each loci As Contig In contigs
@@ -240,18 +259,22 @@ Public Module BioAssemblyExtensions
                                                                    Select site
             Dim hash As Integer =
                 LinqAPI.DefaultFirst(Of Integer) <= From x
-                                                    In Groups.AsParallel
+                                                    In groups.AsParallel
                                                     Let equal As Contig = equalContig(x.Value)
                                                     Where Not equal Is Nothing
                                                     Select x.Key
             If hash < 1 Then
-                Call Groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
+                Call groups.Add(++idx, New List(Of Contig) From {loci})      ' 新的分组
             Else
-                Dim list As List(Of Contig) = Groups(hash)
+                Dim list As List(Of Contig) = groups(hash)
                 Call list.Add(item:=loci)
             End If
         Next
 
-        Return Groups.ToDictionary(Function(x) x.Key, Function(x) x.Value.ToArray)
+        Return groups _
+            .ToDictionary(Function(x) x.Key,
+                          Function(x)
+                              Return x.Value.ToArray
+                          End Function)
     End Function
 End Module

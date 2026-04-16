@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 22 (75.86%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (24.14%)
+    '     File Size: 900 B
+
+
     '     Class TypeInfo
     ' 
     '         Properties: IsGenericDictionary, IsGenericList, IsSerializableGenericCollection, Schema

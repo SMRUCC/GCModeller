@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 27 (49.09%)
+    ' Comment Lines: 18 (32.73%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 10 (18.18%)
+    '     File Size: 1.89 KB
+
+
     '     Module Shell
     ' 
     '         Function: GetConsoleWindow, SetConsoleCtrlHandler, ShowWindow

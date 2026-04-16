@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70003e87abf3f1c42bdc9eba12a0bbc8, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\DefaultClusteringAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::e2446cf9274b188b39e302338285633f, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\DefaultClusteringAlgorithm.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 110 (63.95%)
+    ' Comment Lines: 28 (16.28%)
+    '    - Xml Docs: 17.86%
+    ' 
+    '   Blank Lines: 34 (19.77%)
+    '     File Size: 7.30 KB
+
+
     ' Class DefaultClusteringAlgorithm
     ' 
     '     Properties: debug
     ' 
-    '     Function: (+2 Overloads) createClusters, createLinkages, performClustering, performFlatClustering, performWeightedClustering
+    '     Function: alignRow, (+2 Overloads) createClusters, createLinkages, performClustering, performFlatClustering
+    '               performWeightedClustering
     ' 
     '     Sub: checkArguments
     ' 
@@ -44,6 +57,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -70,7 +84,6 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
     Public Property debug As Boolean = False
 
     Public Function performClustering(distances As Double()(), clusterNames$(), linkageStrategy As LinkageStrategy) As Cluster Implements ClusteringAlgorithm.performClustering
-
         Call checkArguments(distances, clusterNames, linkageStrategy)
 
         ' Setup model 
@@ -80,14 +93,17 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
         ' Process 
         Dim builder As New HierarchyBuilder(clusters, linkages)
         Dim i As i32 = 1
+        Dim total As Integer = clusters.Count
+        Dim tqdm As ProgressBar = TqdmWrapper.Wrap(total)
 
         Do While Not builder.TreeComplete
-            builder.Agglomerate(linkageStrategy)
-
-            If debug Then
-                Call Console.WriteLine($"[iteration_{++i}] {builder.Clusters.Count}...")
-            End If
+            Call builder.Agglomerate(linkageStrategy)
+            Call tqdm.SetLabel($"[iteration_{++i}] {builder.Clusters.Count}...")
+            Call tqdm.Progress(total - builder.Clusters.Count, total)
         Loop
+
+        Call tqdm.Finish()
+        Call VBDebugger.EchoLine("")
 
         Return builder.RootCluster
     End Function
@@ -157,30 +173,13 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
             Return linkages
         Else
             ' 当数量很大的时候，这里也是一个限速步骤，需要使用并行
+            Dim copy As Cluster() = clusters.ToArray
             Dim LQuery = From c As SeqValue(Of Cluster)
                          In clusters.SeqIterator.AsParallel
                          Let col As Integer = c.i
                          Let lCluster As Cluster = c.value
-                         Let factory =
-                             Function()
-                                 Dim list As New List(Of HierarchyTreeNode)
-                                 Dim n = clusters.Count
-                                 Dim copy = clusters.ToArray
-
-                                 For row As Integer = col + 1 To n - 1
-                                     Dim rCluster As Cluster = copy(row)
-                                     Dim link As New HierarchyTreeNode With {
-                                         .LinkageDistance = distances(col)(row),
-                                         .Left = (lCluster),
-                                         .Right = (rCluster)
-                                     }
-
-                                     Call list.Add(link)
-                                 Next
-
-                                 Return list
-                             End Function
-                         Select factory()
+                         Let list = alignRow(lCluster, col, distances, copy)
+                         Select list.ToArray
 
             Dim links = LQuery _
                 .IteratesALL _
@@ -188,6 +187,21 @@ Public Class DefaultClusteringAlgorithm : Implements ClusteringAlgorithm
 
             Return New DistanceMap(links)
         End If
+    End Function
+
+    Private Iterator Function alignRow(lCluster As Cluster, col As Integer, distances As Double()(), clusters As Cluster()) As IEnumerable(Of HierarchyTreeNode)
+        Dim n = clusters.Length
+
+        For row As Integer = col + 1 To n - 1
+            Dim rCluster As Cluster = clusters(row)
+            Dim link As New HierarchyTreeNode With {
+                .LinkageDistance = distances(col)(row),
+                .Left = lCluster,
+                .Right = rCluster
+            }
+
+            Yield link
+        Next
     End Function
 
     ''' <summary>

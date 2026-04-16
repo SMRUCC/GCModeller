@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a992e756e51d3808693892d174053f40, localblast\CLI_tools\CLI\Web.vb"
+﻿#Region "Microsoft.VisualBasic::4ae2c7814e10dbb9c4320c009b62d6b1, localblast\CLI_tools\CLI\Web.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 60 (86.96%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (13.04%)
+    '     File Size: 2.77 KB
+
+
     ' Module CLI
     ' 
     '     Function: AlignmentTableTopBest, ExportWebAlignmentTable, ParseAlignmentTableGIlist
@@ -42,7 +54,7 @@
 Imports System.ComponentModel
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
@@ -54,9 +66,9 @@ Partial Module CLI
     <Group(CLIGrouping.WebTools)>
     Public Function ExportWebAlignmentTable(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim isSplit As Boolean = args.GetBoolean("/split")
+        Dim isSplit As Boolean = args("/split")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix)
-        Dim headerSplit? = args.GetBoolean("/header.split")
+        Dim headerSplit? = args("/header.split")
         Dim tables As IEnumerable(Of AlignmentTable) = [in].IterateTables(headerSplit)
 
         If isSplit Then

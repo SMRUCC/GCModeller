@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04adec1c15b1ca149f1bf3dcfef9b637, Bio.Repository\KEGG\ReactionRepository\RepositoryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::499368b9a4b069851e9b98d1ea37e07c, Bio.Repository\KEGG\ReactionRepository\RepositoryExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 48 (84.21%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (15.79%)
+    '     File Size: 2.11 KB
+
+
     '     Module RepositoryExtensions
     ' 
     '         Function: FetchCompoundRepository, FetchPathwayRepository, FetchReactionRepository
@@ -45,7 +57,7 @@
 
 #End Region
 
-#If netcore5 Then
+#If NETCOREAPP Then
 Imports System.Data
 #End If
 Imports System.Runtime.CompilerServices

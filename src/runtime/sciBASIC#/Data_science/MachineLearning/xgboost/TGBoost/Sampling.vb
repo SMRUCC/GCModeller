@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 35 (76.09%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (23.91%)
+    '     File Size: 1.30 KB
+
+
     '     Class RowSampler
     ' 
     '         Constructor: (+1 Overloads) Sub New

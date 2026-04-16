@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 27 (77.14%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (22.86%)
+    '     File Size: 1.24 KB
+
+
     ' Module Module1
     ' 
     '     Sub: Main, sourceMapDecodeTest, vlqtest

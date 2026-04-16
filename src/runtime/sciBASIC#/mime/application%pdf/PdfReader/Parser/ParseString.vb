@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc11eb05aed966ef5571f424a36cb1a3, mime\application%pdf\PdfReader\Parser\ParseString.vb"
+﻿#Region "Microsoft.VisualBasic::0eced02fc7dc4e461f7ba0cc1fe72fac, mime\application%pdf\PdfReader\Parser\ParseString.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 22 (81.48%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 710 B
+
+
     '     Class ParseString
     ' 
     '         Properties: Token, Value, ValueAsBytes
@@ -47,7 +59,7 @@ Namespace PdfReader
     Public Class ParseString
         Inherits ParseObjectBase
 
-        Public Sub New(ByVal token As TokenString)
+        Public Sub New(token As TokenString)
             Me.Token = token
         End Sub
 
@@ -63,7 +75,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Function BytesToString(ByVal bytes As Byte()) As String
+        Public Function BytesToString(bytes As Byte()) As String
             Return Token.BytesToString(bytes)
         End Function
 

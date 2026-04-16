@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 18 (69.23%)
+    ' Comment Lines: 3 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (19.23%)
+    '     File Size: 664 B
+
+
     '     Class NamespaceIgnorantXmlTextReader
     ' 
     '         Properties: NamespaceURI

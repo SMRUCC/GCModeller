@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f685703b4c3f91abe28cb0ef29214cb, Microsoft.VisualBasic.Core\src\CommandLine\CommandLine.vb"
+﻿#Region "Microsoft.VisualBasic::38efa0e1db1653962a95448ecc55db29, Microsoft.VisualBasic.Core\src\CommandLine\CommandLine.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 889
+    '    Code Lines: 465 (52.31%)
+    ' Comment Lines: 321 (36.11%)
+    '    - Xml Docs: 89.72%
+    ' 
+    '   Blank Lines: 103 (11.59%)
+    '     File Size: 37.64 KB
+
+
     '     Class CommandLine
     ' 
     '         Properties: BoolFlags, cli, Count, EnvironmentVariables, IsNothing
     '                     IsNullOrEmpty, IsReadOnly, Keys, Name, ParameterList
     '                     Parameters, SingleValue, Tokens
     ' 
-    '         Function: Assert, CheckMissingRequiredArguments, CheckMissingRequiredParameters, Contains, ContainsParameter
-    '                   GetBoolean, GetByte, GetBytes, GetChar, GetChars
-    '                   GetDateTime, GetDecimal, GetDictionary, GetDouble, GetEnumerator
-    '                   GetEnumerator1, GetFloat, GetFullDIRPath, GetFullFilePath, GetGuid
-    '                   GetInt16, GetInt32, GetInt64, GetObject, GetOrdinal
-    '                   GetString, GetValue, HavebFlag, IsNull, IsTrue
-    '                   OpenHandle, OpenStreamInput, OpenStreamOutput, Parse, ParseTokens
-    '                   ReadInput, (+2 Overloads) Remove, ToArgumentVector, ToString, TrimNamePrefix
+    '         Function: Assert, (+2 Overloads) BuildFromArguments, CheckMissingRequiredArguments, CheckMissingRequiredParameters, Contains
+    '                   ContainsParameter, GetDataReader, GetDictionary, GetEnumerator, GetEnumerator1
+    '                   GetFullDIRPath, GetFullFilePath, GetObject, GetOrdinal, GetSize
+    '                   (+2 Overloads) GetString, GetValue, hasKey, HavebFlag, IsTrue
+    '                   MoveNext, OpenHandle, OpenStreamInput, OpenStreamOutput, Parse
+    '                   ParseTokens, ReadInput, (+2 Overloads) Remove, Required, ToArgumentVector
+    '                   ToString, TrimNamePrefix
     ' 
     '         Sub: (+2 Overloads) Add, Clear, CopyTo
     ' 
@@ -58,6 +69,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Parsers
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -66,8 +78,9 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.Expressions
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Text.Parser
+Imports StringReader = Microsoft.VisualBasic.ComponentModel.DataSourceModel.StringReader
 
 Namespace CommandLine
 
@@ -86,6 +99,7 @@ Namespace CommandLine
     Public Class CommandLine
         Implements ICollection(Of NamedValue(Of String))
         Implements INamedValue
+        Implements IStringGetter
 
         Friend arguments As New List(Of NamedValue(Of String))
         ''' <summary>
@@ -97,11 +111,12 @@ Namespace CommandLine
 
         ''' <summary>
         ''' The command name that parse from the input command line.
-        ''' (从输入的命令行中所解析出来的命令的名称)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (从输入的命令行中所解析出来的命令的名称)
+        ''' </remarks>
         Public Property Name As String Implements INamedValue.Key
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -114,11 +129,12 @@ Namespace CommandLine
 
         ''' <summary>
         ''' The command tokens that were parsed from the input commandline.
-        ''' (从所输入的命令行之中所解析出来的命令参数单元)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (从所输入的命令行之中所解析出来的命令参数单元)
+        ''' </remarks>
         Public Property Tokens As String()
 
         ''' <summary>
@@ -145,11 +161,12 @@ Namespace CommandLine
 
         ''' <summary>
         ''' The parameters in the commandline without the first token of the command name.
-        ''' (将命令行解析为词元之后去掉命令的名称之后所剩下的所有的字符串列表)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (将命令行解析为词元之后去掉命令的名称之后所剩下的所有的字符串列表)
+        ''' </remarks>
         Public ReadOnly Property Parameters As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -165,9 +182,11 @@ Namespace CommandLine
         Public Property BoolFlags As String()
 
         ''' <summary>
-        ''' 获取得到通过``/@set``参数所传入的环境变量
+        ''' 获取得到通过``/@set``参数所传入的环境变量(键值对之间使用分号分隔)
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this readonly property ensure that the result dictionary is always not null, but may be empty.
+        ''' </returns>
         Public ReadOnly Property EnvironmentVariables As Dictionary(Of String, String)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -176,17 +195,19 @@ Namespace CommandLine
                 If Name.TextEquals("/@set") Then
                     Return DictionaryParser.TryParse(Parameters(Scan0))
                 Else
-                    Return GetDictionary("/@set")
+                    Return If(GetDictionary("/@set"), New Dictionary(Of String, String))
                 End If
             End Get
         End Property
 
         ''' <summary>
-        ''' Get the original command line string.(获取所输入的命令行对象的原始的字符串)
+        ''' Get the original command line string.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (获取所输入的命令行对象的原始的字符串)
+        ''' </remarks>
         Public ReadOnly Property cli As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -196,7 +217,6 @@ Namespace CommandLine
 
         ''' <summary>
         ''' The parameter name is not case sensitive.
-        ''' (开关的名称是不区分大小写的，进行字符串插值脚本化处理的时候，是使用的<see cref="App.GetVariable"/>函数来获取环境变量值)
         ''' </summary>
         ''' <param name="paramName">
         ''' The argument name in the commandline.
@@ -208,7 +228,9 @@ Namespace CommandLine
         ''' </param>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (开关的名称是不区分大小写的，进行字符串插值脚本化处理的时候，是使用的<see cref="App.GetVariable"/>函数来获取环境变量值)
+        ''' </remarks>
         Default Public ReadOnly Property Item(paramName As String) As DefaultString
             Get
                 Dim LQuery As NamedValue(Of String) = arguments _
@@ -254,10 +276,9 @@ Namespace CommandLine
 
         ''' <summary>
         ''' See if the target logical flag argument is exists in the commandline?
-        ''' (查看命令行之中是否存在某一个逻辑开关)
         ''' </summary>
         ''' <param name="name"></param>
-        ''' <returns></returns>
+        ''' <returns>(查看命令行之中是否存在某一个逻辑开关)</returns>
         Public Function HavebFlag(name As String) As Boolean
             If Me.BoolFlags.IsNullOrEmpty Then
                 Return False
@@ -268,10 +289,12 @@ Namespace CommandLine
         End Function
 
         ''' <summary>
-        ''' Returns the original cli command line argument string.(返回所传入的命令行的原始字符串)
+        ''' Returns the original cli command line argument string.
         ''' </summary>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (返回所传入的命令行的原始字符串)
+        ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
@@ -295,27 +318,41 @@ Namespace CommandLine
         End Function
 
         ''' <summary>
-        ''' Get specific argument value as full file path.(这个函数还会同时修正file://协议的头部)
+        ''' Get specific argument value as full file path.
         ''' </summary>
         ''' <param name="name">parameter name</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个函数还会同时修正file://协议的头部)
+        ''' </remarks>
         Public Function GetFullFilePath(name As String) As String
             Dim path$ = Me(name)
             path = FixPath(path)
             Return FileIO.FileSystem.GetFileInfo(path).FullName
         End Function
 
+        Public Function Required(name As String, error$) As String
+            Dim val As String = Me(name)
+
+            If String.IsNullOrEmpty(val) Then
+                Throw New InvalidProgramException([error])
+            Else
+                Return val
+            End If
+        End Function
+
         ''' <summary>
         ''' Checking for the missing required parameter, this function will returns the missing parameter
         ''' in the current cli command line object using a specific parameter name list.
-        ''' (检查<paramref name="list"></paramref>之中的所有参数是否存在，函数会返回不存在的参数名)
         ''' </summary>
         ''' <param name="list"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (检查<paramref name="list"></paramref>之中的所有参数是否存在，函数会返回不存在的参数名)
+        ''' </remarks>
         Public Function CheckMissingRequiredParameters(list As IEnumerable(Of String)) As String()
             Dim LQuery$() = LinqAPI.Exec(Of String) _
- _
+                                                    _
                 () <= From p As String
                       In list
                       Where String.IsNullOrEmpty(Me(p))
@@ -337,11 +374,12 @@ Namespace CommandLine
 
         ''' <summary>
         ''' Does this cli command line object contains any parameter argument information.
-        ''' (查看本命令行参数对象之中是否存在有参数信息)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (查看本命令行参数对象之中是否存在有参数信息)
+        ''' </remarks>
         Public ReadOnly Property IsNullOrEmpty As Boolean
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -362,20 +400,26 @@ Namespace CommandLine
 
         ''' <summary>
         ''' Does the specific argument exists in this commandline? argument name is not case sensitity.
-        ''' (参数名称字符串大小写不敏感)
         ''' </summary>
         ''' <param name="parameterName"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (参数名称字符串大小写不敏感)
+        ''' </remarks>
         Public Function ContainsParameter(parameterName As String, Optional trim As Boolean = False) As Boolean
             Dim namer As String = If(trim, parameterName.TrimParamPrefix, parameterName)
             Dim LQuery = LinqAPI.DefaultFirst(Of Integer) _
- _
+                                                          _
                 () <= From para As NamedValue(Of String)
                       In Me.arguments  '  名称都是没有处理过的
                       Where String.Equals(namer, para.Name, StringComparison.OrdinalIgnoreCase)
                       Select 100
 
             Return LQuery > 50
+        End Function
+
+        Private Function hasKey(name As String) As Boolean Implements IStringGetter.HasKey
+            Return ContainsParameter(name)
         End Function
 
         ''' <summary>
@@ -402,7 +446,7 @@ Namespace CommandLine
         ''' <param name="failure"></param>
         ''' <returns></returns>
         Public Function Assert(name As String, Optional failure As String = "") As String
-            If GetBoolean(name) Then
+            If IsTrue(name) Then
                 Return name
             Else
                 Return failure
@@ -411,10 +455,12 @@ Namespace CommandLine
 
         ''' <summary>
         ''' If the target parameter is not presents in the CLI, then this function will returns nothing.
-        ''' (键值对之间使用分号分隔)
         ''' </summary>
-        ''' <param name="name$"></param>
+        ''' <param name="name"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (键值对之间使用分号分隔)
+        ''' </remarks>
         Public Function GetDictionary(name$, Optional default$ = Nothing) As Dictionary(Of String, String)
             Dim s$ = Me(name$)
 
@@ -429,6 +475,14 @@ Namespace CommandLine
             End If
         End Function
 
+        ''' <summary>
+        ''' Gets the value Of the specified column As a Boolean.
+        ''' </summary>
+        ''' <param name="parameter">可以包含有开关参数</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个函数也同时包含有开关参数的，开关参数默认为逻辑值类型，当包含有开关参数的时候，其逻辑值为True，反之函数会检查参数列表，参数不存在则为空值字符串，则也为False)
+        ''' </remarks>
         Public Function IsTrue(parameter$) As Boolean
             If Me.HavebFlag(parameter) Then
                 Return True
@@ -519,148 +573,12 @@ Namespace CommandLine
 #Region "IDataRecord Methods"
 
         ''' <summary>
-        ''' Gets the value Of the specified column As a Boolean.
-        ''' (这个函数也同时包含有开关参数的，开关参数默认为逻辑值类型，当包含有开关参数的时候，其逻辑值为True，反之函数会检查参数列表，参数不存在则为空值字符串，则也为False)
-        ''' </summary>
-        ''' <param name="parameter">可以包含有开关参数</param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetBoolean(parameter As String) As Boolean
-            Return Me.IsTrue(parameter)
-        End Function
-
-        ''' <summary>
-        ''' Gets the 8-bit unsigned Integer value Of the specified column.
-        ''' </summary>
-        ''' <param name="parameter"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetByte(parameter As String) As Byte
-            Return CByte(Val(Me(parameter)))
-        End Function
-
-        ''' <summary>
-        ''' Reads a stream Of bytes from the specified column offset into the buffer As an array, starting at the given buffer offset.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetBytes(parameter As String) As Byte()
-            Dim tokens As String() = Me(parameter).DefaultValue.Split(","c)
-            Return (From s As String In tokens Select CByte(Val(s))).ToArray
-        End Function
-
-        ''' <summary>
-        ''' Gets the character value Of the specified column.
-        ''' </summary>
-        ''' <returns></returns>
-        Public Function GetChar(parameter As String) As Char
-            Dim s As String = Me(parameter)
-
-            If String.IsNullOrEmpty(s) Then
-                Return ASCII.NUL
-            Else
-                Return s.First
-            End If
-        End Function
-
-        ''' <summary>
-        ''' Reads a stream Of characters from the specified column offset into the buffer As an array, starting at the given buffer offset.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetChars(parameter As String) As Char()
-            Return Me(parameter)
-        End Function
-
-        ''' <summary>
-        ''' Gets the Date And time data value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDateTime(parameter As String) As DateTime
-            Return Me(parameter).DefaultValue.ParseDateTime
-        End Function
-
-        ''' <summary>
-        ''' Gets the fixed-position numeric value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDecimal(parameter As String) As Decimal
-            Return CDec(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Gets the Double-precision floating point number Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetDouble(parameter As String) As Double
-            Return Val(Me(parameter).DefaultValue)
-        End Function
-
-        ''' <summary>
-        ''' Gets the Single-precision floating point number Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetFloat(parameter As String) As Single
-            Return CSng(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Returns the GUID value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetGuid(parameter As String) As Guid
-            Return Guid.Parse(Me(parameter))
-        End Function
-
-        ''' <summary>
-        ''' Gets the 16-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt16(parameter As String) As Int16
-            Return CType(Val(Me(parameter).DefaultValue), Int16)
-        End Function
-
-        ''' <summary>
-        ''' Gets the 32-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt32(parameter As String) As Int32
-            Return CInt(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
-        ''' Gets the 64-bit signed Integer value Of the specified field.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetInt64(parameter As String) As Int64
-            Return CLng(Val(Me(parameter).DefaultValue))
-        End Function
-
-        ''' <summary>
         ''' Return the index Of the named field. If the name is not exists in the parameter list, then a -1 value will be return.
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetOrdinal(parameter As String) As Integer
+        Public Function GetOrdinal(parameter As String) As Integer Implements IStringGetter.GetOrdinal
             Dim i% = LinqAPI.DefaultFirst(Of Integer)(-1) _
- _
+                                                          _
                 <= From entry As NamedValue(Of String)
                    In Me.arguments
                    Where String.Equals(parameter, entry.Name, StringComparison.OrdinalIgnoreCase)
@@ -675,18 +593,12 @@ Namespace CommandLine
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetString(parameter As String) As String
-            Return Me(parameter)
-        End Function
+        Public Function GetString(parameter As String) As String Implements IStringGetter.GetString
+            If IsTrue(parameter) Then
+                Return "true"
+            End If
 
-        ''' <summary>
-        ''' Return whether the specified field Is Set To null.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function IsNull(parameter As String) As Boolean
-            Return Not Me.ContainsParameter(parameter, False)
+            Return Me(parameter)
         End Function
 
         ''' <summary>
@@ -715,7 +627,7 @@ Namespace CommandLine
             If Not Me.ContainsParameter(name, False) Then
                 If GetType(T).Equals(GetType(Boolean)) Then
                     If HavebFlag(name) Then
-                        Return DirectCast(DirectCast(GetBoolean(name), Object), T)
+                        Return CType(CObj(True), T)
                     End If
                 End If
 
@@ -826,7 +738,7 @@ Namespace CommandLine
         ''' <returns></returns>
         Public Function Contains(item As NamedValue(Of String)) As Boolean Implements ICollection(Of NamedValue(Of String)).Contains
             Dim LQuery% = LinqAPI.DefaultFirst(-1) _
- _
+                                                   _
                 <= From obj As NamedValue(Of String)
                    In Me.arguments
                    Where String.Equals(obj.Name, item.Name, StringComparison.OrdinalIgnoreCase)
@@ -867,7 +779,7 @@ Namespace CommandLine
         ''' <returns></returns>
         Public Function Remove(paramName As String) As Boolean
             Dim LQuery = LinqAPI.DefaultFirst(Of NamedValue(Of String)) _
- _
+                                                                        _
                 () <= From obj As NamedValue(Of String)
                       In Me.arguments
                       Where String.Equals(obj.Name, paramName, StringComparison.OrdinalIgnoreCase)
@@ -899,6 +811,9 @@ Namespace CommandLine
         ''' 请注意，逻辑值开关的名称会被去掉前缀)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' the description value in the populated vector is indicates the argument value type.
+        ''' </remarks>
         Public Function ToArgumentVector() As NamedValue(Of String)()
             Dim list As New List(Of NamedValue(Of String))
 
@@ -906,13 +821,15 @@ Namespace CommandLine
                     In arguments.SafeQuery
                     Select New NamedValue(Of String) With {
                         .Name = arg.Name,
-                        .Value = arg.Value
+                        .Value = arg.Value,
+                        .Description = "string"
                     }
             list += From bs As String
                     In BoolFlags.SafeQuery
                     Select New NamedValue(Of String) With {
                         .Name = bs,
-                        .Value = "True"
+                        .Value = "True",
+                        .Description = "boolean"
                     }
 
             Return list
@@ -1012,6 +929,30 @@ Namespace CommandLine
 
         Public Shared Function ParseTokens(commandlineStr As String) As String()
             Return commandlineStr.GetTokens
+        End Function
+
+        Public Shared Function BuildFromArguments(args As String()) As CommandLine
+            Return Parsers.TryParse(args, False, rawInput:=args.Select(Function(s) s.CLIToken).JoinBy(" "))
+        End Function
+
+        Public Shared Function BuildFromArguments(name As String, args As String()) As CommandLine
+            Return Parsers.TryParse({name}.JoinIterates(args), False, name.CLIToken & " " & args.Select(Function(s) s.CLIToken).JoinBy(" "))
+        End Function
+
+        Public Function GetDataReader() As StringReader
+            Return New StringReader(Me)
+        End Function
+
+        Private Function GetString(ordinal As Integer) As String Implements IStringGetter.GetString
+            Return arguments(ordinal).Value
+        End Function
+
+        Private Function GetSize() As Integer Implements IStringGetter.GetSize
+            Return Count
+        End Function
+
+        Private Function MoveNext() As Boolean Implements IStringGetter.MoveNext
+            Return False
         End Function
     End Class
 End Namespace

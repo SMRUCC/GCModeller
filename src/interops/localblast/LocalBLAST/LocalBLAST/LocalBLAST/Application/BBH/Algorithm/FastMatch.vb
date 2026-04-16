@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba67984fc2b635621e59dea9e7220e08, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\FastMatch.vb"
+﻿#Region "Microsoft.VisualBasic::8e0a9db4bd84669f98341c36b152593a, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\FastMatch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 79 (84.04%)
+    ' Comment Lines: 3 (3.19%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (12.77%)
+    '     File Size: 4.05 KB
+
+
     '     Module FastMatch
     ' 
     '         Function: BinaryMatch
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace LocalBLAST.Application.BBH
 
@@ -110,7 +122,7 @@ Namespace LocalBLAST.Application.BBH
                         .HitName = query.HitName,
                         .length = query.query_length,
                         .level = Levels.BBH,
-                        .positive = stdNum.Max(query.positive, rev.positive),
+                        .positive = std.Max(query.positive, rev.positive),
                         .reverse = rev.SBHScore,
                         .term = query.HitName
                     }
@@ -124,8 +136,8 @@ Namespace LocalBLAST.Application.BBH
                         .forward = query.SBHScore,
                         .HitName = query.HitName,
                         .length = query.query_length,
-                        .level = Levels.PartialBBH,
-                        .positive = stdNum.Max(query.positive, rev.positive),
+                        .level = Levels.BHR,
+                        .positive = std.Max(query.positive, rev.positive),
                         .reverse = rev.SBHScore,
                         .term = query.HitName
                     }

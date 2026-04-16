@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c63ab9c7cadc621eefbc068f4b5d9139, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::88ac0264a7fb5f538c884101a8af82fd, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 359
+    '    Code Lines: 267 (74.37%)
+    ' Comment Lines: 52 (14.48%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 40 (11.14%)
+    '     File Size: 15.77 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: __lociUid, __protShort, _16SribosomalRNA, CreateGenbankObject, ExportProteins
-    '                   ExportProteins_Short, GeneList, GetObjects, LoadPTT, loadRepliconTable
-    '                   (+2 Overloads) LocusMaps
+    '         Function: _16SribosomalRNA, CreateGenbankObject, (+2 Overloads) ExportProteins, ExportProteins_Short, GeneList
+    '                   GetObjects, LoadPTT, loadRepliconTable, (+2 Overloads) LocusMaps, makeProtSeqShort
+    '                   toUniqueId
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,9 +57,12 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv.Tables
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -66,10 +81,10 @@ Namespace Assembly.NCBI.GenBank
         <Extension>
         Public Function loadRepliconTable(genome As String) As Dictionary(Of String, GBFF.File)
             Return GBFF.File _
-           .LoadDatabase(filePath:=genome) _
-           .ToDictionary(Function(gb)
-                             Return gb.Locus.AccessionID
-                         End Function)
+               .LoadDatabase(filePath:=genome) _
+               .ToDictionary(Function(gb)
+                                 Return gb.Locus.AccessionID
+                             End Function)
         End Function
 
         <Extension>
@@ -152,18 +167,19 @@ Namespace Assembly.NCBI.GenBank
         ''' <returns></returns>
         <ExportAPI("Locus.Maps"), Extension>
         Public Function LocusMaps(PTT As PTT) As Dictionary(Of String, String)
-            Dim LQuery = (From x As GeneBrief
+            Dim LQuery = (From gene As GeneBrief
                           In PTT.GeneObjects
-                          Let locus As String = x.Synonym
+                          Let locus As String = gene.Synonym
                           Where Not String.IsNullOrEmpty(locus)
                           Select locus,
-                              loci = x.Location.__lociUid
+                              loci = gene.Location.toUniqueId
                           Group By loci Into Group).ToArray
             Dim hash = LQuery.ToDictionary(Function(x) x.loci, Function(x) x.Group.First.locus)
             Return hash
         End Function
 
-        <Extension> Private Function __lociUid(loci As NucleotideLocation) As String
+        <Extension>
+        Private Function toUniqueId(loci As NucleotideLocation) As String
             Call loci.Normalization()
 
             If loci.Strand = Strands.Forward Then
@@ -173,32 +189,38 @@ Namespace Assembly.NCBI.GenBank
             End If
         End Function
 
+        ''' <summary>
+        ''' a shortcut of the <see cref="PTT.Load(String, Boolean)"/> function.
+        ''' </summary>
+        ''' <param name="path"></param>
+        ''' <returns></returns>
         <ExportAPI("Read.PTT")>
         Public Function LoadPTT(path As String) As PTT
             Return PTT.Load(path)
         End Function
 
-        <Extension> Public Function GetObjects(Of TGene As IGeneBrief)(source As IEnumerable(Of TGene), site As Integer, direction As Strands) As TGene()
-            Dim Data As TGene()
+        <Extension>
+        Public Function GetObjects(Of TGene As IGeneBrief)(source As IEnumerable(Of TGene), site As Integer, direction As Strands) As TGene()
+            Dim genes As TGene()
 
             If direction = Strands.Reverse Then
-                Data = (From ItemGene As TGene
+                genes = From gene As TGene
                         In source
-                        Where ItemGene.Location.Strand = Strands.Reverse
-                        Select ItemGene).ToArray
+                        Where gene.Location.Strand = Strands.Reverse
+                        Select gene
             ElseIf direction = Strands.Forward Then
-                Data = (From ItemGene As TGene
+                genes = From gene As TGene
                         In source
-                        Where ItemGene.Location.Strand = Strands.Forward
-                        Select ItemGene).ToArray
+                        Where gene.Location.Strand = Strands.Forward
+                        Select gene
             Else
-                Data = source.ToArray
+                genes = source
             End If
 
-            Dim LQuery = (From item As TGene
-                          In Data
-                          Where item.Location.IsInside(site)
-                          Select item).ToArray
+            Dim LQuery = (From gene As TGene
+                          In genes
+                          Where gene.Location.IsInside(site)
+                          Select gene).ToArray
             Return LQuery
         End Function
 
@@ -207,49 +229,105 @@ Namespace Assembly.NCBI.GenBank
         ''' </summary>
         ''' <param name="gbk"></param>
         ''' <returns></returns>
-        <Extension> Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File) As FastaFile
-            Dim LQuery = From feature As gbffFeature
-                         In gbk.Features
-                         Where String.Equals(feature.KeyName, "CDS")
-                         Let attrs As String() = New String() {
-                             "gi",
-                             gbk.Accession.ToString,
-                             "gb",
-                             feature.Query("protein_id"),
-                             feature.Query("locus_tag"),
-                             feature.Query("gene"),
-                             feature.Location.ToString,
-                             feature.Query("product")
-                         }
-                         Select New FastaSeq With {
-                             .Headers = attrs,
-                             .SequenceData = feature.Query("translation")
-                         } '
-            Dim Fasta As New FastaFile(LQuery)
-            Return Fasta
+        <Extension>
+        Public Function ExportProteins(gbk As NCBI.GenBank.GBFF.File, Optional filterEmpty As Boolean = False) As FastaFile
+            Dim template As New StringTemplate("gi|<gb_asm_id>|gb|<protein_id>|<locus_tag>|<gene>|<nucl_loc>|<product>")
+            Dim fasta As New FastaFile(gbk.ExportProteins(template, filterEmpty:=filterEmpty))
+            Return fasta
         End Function
 
         ''' <summary>
-        ''' Locus_tag Product_Description
+        ''' Export protein sequence with custom annotation title with given template.
         ''' </summary>
         ''' <param name="gb"></param>
+        ''' <param name="headers">the fasta sequence header template</param>
+        ''' <param name="filterEmpty"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function ExportProteins(gb As GBFF.File,
+                                                headers As StringTemplate,
+                                                Optional filterEmpty As Boolean = False) As IEnumerable(Of FastaSeq)
+            Dim i As i32 = 1
+            Dim accessionId As String = gb.Accession.AccessionId
+            Dim lineage As String = gb.Source.BiomString
+
+            Call headers.SetDefaultKey("ncbi_taxid", gb.Taxon)
+            Call headers.SetDefaultKey("lineage", lineage)
+            Call headers.SetDefaultKey("gb_asm_id", accessionId)
+            Call headers.SetDefaultKey("species_name", gb.Source.SpeciesName)
+
+            If gb.DbLinks IsNot Nothing Then
+                Call headers.SetDefaultKey("assembly", If(gb.DbLinks.assembly_id, "n/a"))
+                Call headers.SetDefaultKey("bioproject", If(gb.DbLinks.bioproject, "n/a"))
+                Call headers.SetDefaultKey("biosample", If(gb.DbLinks.biosample, "n/a"))
+            Else
+                Call headers.SetDefaultKey("assembly", "n/a")
+                Call headers.SetDefaultKey("bioproject", "n/a")
+                Call headers.SetDefaultKey("biosample", "n/a")
+            End If
+
+            For Each feature As gbffFeature In gb.Features.AsEnumerable
+                If feature.KeyName <> "CDS" Then
+                    Continue For
+                Else
+                    Call headers.SetDefaultKey("locus_tag", $"locus_{++i}")
+                    Call headers.SetDefaultKey("nucl_loc", feature.Location.ContiguousRegion.ToString)
+                End If
+
+                Dim prot_seq As String = feature.Query(FeatureQualifiers.translation)
+                Dim title_str As String = headers.CreateString(feature)
+
+                If filterEmpty AndAlso prot_seq.StringEmpty Then
+                    Continue For
+                End If
+
+                Yield New FastaSeq(prot_seq, title:=title_str)
+            Next
+        End Function
+
+        ''' <summary>
+        ''' fasta sequence title header in format: locus_tag product_description
+        ''' </summary>
+        ''' <param name="gb"></param>
+        ''' <param name="duplicateOldLocusTag">
+        ''' andalso populate an duplicated sequence data if ``old_locus_tag`` is existed inside thse CDS feature.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <Extension> Public Function ExportProteins_Short(gb As NCBI.GenBank.GBFF.File,
-                                                         <Parameter("locusId.Only")>
-                                                         Optional onlyLocusTag As Boolean = False) As FastaFile
-            Dim LQuery = From feature As gbffFeature
+        <Extension>
+        Public Function ExportProteins_Short(gb As NCBI.GenBank.GBFF.File,
+                                             Optional onlyLocusTag As Boolean = False,
+                                             Optional duplicateOldLocusTag As Boolean = False) As FastaFile
+
+            Dim LQuery As IEnumerable(Of FastaSeq)
+
+            If duplicateOldLocusTag Then
+                Dim pull As IEnumerable(Of FastaSeq()) = From feature As gbffFeature
+                                                         In gb.Features
+                                                         Where String.Equals(feature.KeyName, "CDS")
+                                                         Let seq As FastaSeq = feature.makeProtSeqShort(onlyLocusTag)
+                                                         Let old As FastaSeq = feature.makeProtSeqShort(onlyLocusTag, oldLocusTag:=True)
+                                                         Select New FastaSeq() {seq, old}
+                LQuery = From seq As FastaSeq
+                         In pull.IteratesALL
+                         Where Not seq Is Nothing
+            Else
+                LQuery = From feature As gbffFeature
                          In gb.Features
                          Where String.Equals(feature.KeyName, "CDS")
-                         Select feature.__protShort(onlyLocusTag)
+                         Select feature.makeProtSeqShort(onlyLocusTag)
+            End If
+
             Dim unique As IEnumerable(Of FastaSeq) = LQuery _
                 .GroupBy(Function(seq) seq.Headers(Scan0)) _
                 .OrderBy(Function(seq) seq.Key) _
-                .Select(Function(seq) seq.First)
-            Dim Fasta As New FastaFile(unique)
+                .Select(Function(seq)
+                            Return seq.First
+                        End Function)
+            Dim fasta As New FastaFile(unique)
 
-            Return Fasta
+            Return fasta
         End Function
 
         ''' <summary>
@@ -261,12 +339,25 @@ Namespace Assembly.NCBI.GenBank
         ''' <remarks>
         ''' > locus_id info
         ''' </remarks>
-        <Extension> Private Function __protShort(feature As gbffFeature, onlyLocusTag As Boolean) As FastaSeq
+        <Extension>
+        Private Function makeProtSeqShort(feature As gbffFeature, onlyLocusTag As Boolean, Optional oldLocusTag As Boolean = False) As FastaSeq
             Dim product As String = feature.Query("product")
+            Dim locusId As String
+
             If product Is Nothing Then
                 product = ""
             End If
-            Dim locusId As String = feature.Query("locus_tag")
+
+            If oldLocusTag Then
+                locusId = feature.Query("old_locus_tag")
+
+                If locusId.StringEmpty Then
+                    Return Nothing
+                End If
+            Else
+                locusId = feature.Query("locus_tag")
+            End If
+
             If locusId.StringEmpty Then
                 locusId = feature.QueryDuplicated("db_xref").FirstOrDefault
             End If
@@ -285,20 +376,21 @@ Namespace Assembly.NCBI.GenBank
         End Function
 
         ''' <summary>
-        '''
+        ''' export all gene features: RNA + CDS
         ''' </summary>
         ''' <returns>{locus_tag, gene}</returns>
         ''' <remarks></remarks>
         '''
         <ExportAPI("Export.GeneList")>
-        <Extension> Public Function GeneList(Gbk As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
+        <Extension>
+        Public Function GeneList(gbk_asm As NCBI.GenBank.GBFF.File) As NamedValue(Of String)()
             Dim GQuery As IEnumerable(Of gbffFeature) =
                 From feature
-                In Gbk.Features
+                In gbk_asm.Features
                 Where String.Equals(feature.KeyName, "gene")
                 Select feature 'Gene list query
             Dim AQuery = LinqAPI.Exec(Of NamedValue(Of String)) <=
- _
+                                                                  _
                 From locusTag
                 In GQuery.ToArray
                 Select New NamedValue(Of String)(locusTag.Query("locus_tag"), locusTag.Query("gene")) '
@@ -306,9 +398,15 @@ Namespace Assembly.NCBI.GenBank
             Return AQuery
         End Function
 
-        <ExportAPI("Export.16SrRNA")>
-        <Extension> Public Function _16SribosomalRNA(Gbk As NCBI.GenBank.GBFF.File) As gbffFeature
-            Dim LQuery = From feature In Gbk.Features.AsParallel
+        ''' <summary>
+        ''' make export of the annotated 16s RNA from the given genbank assembly
+        ''' </summary>
+        ''' <param name="Gbk"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function _16SribosomalRNA(Gbk As NCBI.GenBank.GBFF.File) As gbffFeature
+            Dim LQuery = From feature As gbffFeature
+                         In Gbk.Features.AsParallel
                          Where String.Equals(feature.KeyName, "rRNA") AndAlso InStr(feature.Query("product"), "16S ribosomal RNA")
                          Select feature '
             Return LQuery.First

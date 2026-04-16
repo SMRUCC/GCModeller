@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 14 (58.33%)
+    ' Comment Lines: 7 (29.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (12.50%)
+    '     File Size: 857 B
+
+
     ' Class TemplateAttribute
     ' 
     '     Properties: AliasName, Category

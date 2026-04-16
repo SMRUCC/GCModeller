@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 25 (78.12%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (21.88%)
+    '     File Size: 1.05 KB
+
+
     '     Structure [Error]
     ' 
     '         Properties: X, Y, Yfit

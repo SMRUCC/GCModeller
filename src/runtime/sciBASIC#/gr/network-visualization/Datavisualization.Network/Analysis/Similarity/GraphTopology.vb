@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 86 (76.11%)
+    ' Comment Lines: 9 (7.96%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 18 (15.93%)
+    '     File Size: 4.83 KB
+
+
     '     Module GraphTopology
     ' 
     '         Function: AllNodeDistance, allNodeTopology, calcVertexDistance, nodeClassTopology, nodeGroupDistance

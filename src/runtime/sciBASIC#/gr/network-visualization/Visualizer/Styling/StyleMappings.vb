@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a5935b5a8ba6e940dfb400014459c22, gr\network-visualization\Visualizer\Styling\StyleMappings.vb"
+﻿#Region "Microsoft.VisualBasic::d079cbf5b776731328e7f43c4e80f957, gr\network-visualization\Visualizer\Styling\StyleMappings.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 110 (73.83%)
+    ' Comment Lines: 19 (12.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (13.42%)
+    '     File Size: 6.16 KB
+
+
     '     Module StyleMappings
     ' 
     '         Function: ColorMapping, DiscreteMapping, GetProperty, (+2 Overloads) NumericMapping
@@ -49,6 +61,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -80,7 +93,9 @@ Namespace Styling
         End Function
 
         <Extension>
-        Public Function NumericMapping(Of T As IDynamicsTable)(source As IEnumerable(Of T), key$, range As DoubleRange) As Map(Of T, Double)()
+        Public Function NumericMapping(Of T As IDynamicsTable)(source As IEnumerable(Of T),
+                                                               key$,
+                                                               range As DoubleRange) As Map(Of T, Double)()
             Dim properties = GetProperty(Of T)()
             Dim array As T() = source.ToArray
             Dim flag As T = array(Scan0)
@@ -166,8 +181,12 @@ Namespace Styling
         ''' <param name="level%"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ColorMapping(Of T As IDynamicsTable)(source As IEnumerable(Of T), key$, colorSchema$, Optional level% = 100) As Map(Of T, Color)()
-            Dim levels As Map(Of T, Double)() = source.NumericMapping(key, {0, 1})
+        Public Function ColorMapping(Of T As IDynamicsTable)(source As IEnumerable(Of T),
+                                                             key$,
+                                                             colorSchema$,
+                                                             Optional level% = 100) As Map(Of T, Color)()
+
+            Dim levels As Map(Of T, Double)() = source.NumericMapping(key, New Double() {0, 1})
             Dim out As New List(Of Map(Of T, Color))
             Dim colors As Color() = Designer.GetColors(colorSchema, level)
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b561c85dacd9d283f0722a9c1792ba14, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
+﻿#Region "Microsoft.VisualBasic::23ece0c4801f457fe5e6f121ee7b2930, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Circle.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 75 (71.43%)
+    ' Comment Lines: 13 (12.38%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 17 (16.19%)
+    '     File Size: 3.88 KB
+
+
     '     Class Circle
     ' 
-    '         Properties: FillColor, Radius, Size
+    '         Properties: fill, Radius, Size
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
@@ -53,21 +65,20 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
 
 Namespace Drawing2D.Shapes
 
     Public Class Circle : Inherits Shape
 
-        Dim Brush As SolidBrush
+        Public Property fill As String
+        Public Overrides ReadOnly Property Size As SizeF
 
-        Public Property FillColor As Color
+        Public ReadOnly Property Radius As Single
             Get
-                Return Brush.Color
+                Return std.Min(Size.Width, Size.Height) / 2
             End Get
-            Set(value As Color)
-                Brush = New SolidBrush(value)
-            End Set
         End Property
 
         ''' <summary>
@@ -76,27 +87,19 @@ Namespace Drawing2D.Shapes
         ''' <param name="topLeft">左上角</param>
         ''' <param name="d">圆的直径</param>
         ''' <remarks></remarks>
-        Public Sub New(topLeft As Point, d As Integer, FillColor As Color)
+        Public Sub New(topLeft As PointF, d As Integer, fillColor As Color)
             Call MyBase.New(topLeft)
-            _Size = New Size(d, d)
-            Me.FillColor = FillColor
+            _Size = New SizeF(d, d)
+            _fill = fillColor.ToHtmlColor
         End Sub
 
         Public Sub New(d%, fill As Color)
             Me.New(Nothing, d, fill)
         End Sub
 
-        Public Overrides ReadOnly Property Size As Size
-
-        Public ReadOnly Property Radius As Single
-            Get
-                Return Min(Size.Width, Size.Height) / 2
-            End Get
-        End Property
-
         Public Overrides Function Draw(ByRef g As IGraphics, Optional overridesLoci As Point = Nothing) As RectangleF
             Dim rect = MyBase.Draw(g, overridesLoci)
-            Call Draw(g, Location, Radius, Brush)
+            Call Draw(g, Location, Radius, fill.GetBrush)
             Return rect
         End Function
 
@@ -108,7 +111,7 @@ Namespace Drawing2D.Shapes
         End Function
 
         Public Shared Iterator Function PathIterator(centerX!, centerY!, radius!, Optional vertices% = 30) As IEnumerable(Of PointF)
-            Dim deltaAngle# = 2 * stdNum.PI / vertices
+            Dim deltaAngle# = 2 * std.PI / vertices
             Dim X#, Y#
 
             For i As Integer = 0 To vertices - 1
@@ -140,9 +143,11 @@ Namespace Drawing2D.Shapes
             Call g.FillPie(br Or BlackBrush, rect, 0, 360)
 
             If Not border Is Nothing Then
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+
                 rect = New RectangleF With {
-                    .X = center.X - radius - border.width,
-                    .Y = center.Y - radius - border.width,
+                    .X = center.X - radius - css.GetLineWidth(border),
+                    .Y = center.Y - radius - css.GetLineWidth(border),
                     .Width = radius * 2 + 1,
                     .Height = .Width
                 }
@@ -151,7 +156,7 @@ Namespace Drawing2D.Shapes
                 Call g.DrawCircle(
                     centra:=rect.Centre,
                     r:=radius,
-                    color:=border.GDIObject,
+                    color:=css.GetPen(border),
                     fill:=False
                 )
             End If

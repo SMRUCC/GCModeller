@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b21d77b637ccd27f9c13293e61123aa, R#\TRNtoolkit\WGCNA.vb"
+﻿#Region "Microsoft.VisualBasic::9f45018c285691ac4204fa96674d86f7, R#\TRNtoolkit\WGCNA.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 103 (74.10%)
+    ' Comment Lines: 15 (10.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (15.11%)
+    '     File Size: 5.71 KB
+
+
     ' Module WGCNA
     ' 
-    '     Function: CorrelationNetwork, FilterRegulation
+    '     Function: CorrelationNetwork, (+2 Overloads) expr_cor, FilterRegulation
     ' 
     ' /********************************************************************************/
 
@@ -45,8 +57,16 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
+Imports SMRUCC.genomics.Model.Network.Regulons
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports any = Microsoft.VisualBasic.Scripting
+Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 
 <Package("WGCNA")>
 Module WGCNA
@@ -85,9 +105,9 @@ Module WGCNA
     ''' <returns></returns>
     <ExportAPI("interations")>
     Public Function CorrelationNetwork(g As NetworkGraph, WGCNA As WGCNAWeight, modules As list, Optional threshold As Double = 0.3) As Object
-        For Each conn As Weight In WGCNA.AsEnumerable.Where(Function(cn) cn.Weight >= threshold)
-            Dim u As Node = g.GetElementByID(conn.FromNode)
-            Dim v As Node = g.GetElementByID(conn.ToNode)
+        For Each conn As Weight In WGCNA.AsEnumerable.Where(Function(cn) cn.weight >= threshold)
+            Dim u As Node = g.GetElementByID(conn.fromNode)
+            Dim v As Node = g.GetElementByID(conn.toNode)
 
             If u Is Nothing OrElse v Is Nothing Then
                 Continue For
@@ -101,14 +121,72 @@ Module WGCNA
             data(NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE) = If(color1 = color2, color1, $"{color1}+{color2}")
 
             If edges.Length = 0 Then
-                g.CreateEdge(u, v, conn.Weight, data)
+                g.CreateEdge(u, v, conn.weight, data)
             Else
                 For Each link In edges
-                    link.weight += conn.Weight
+                    link.weight += conn.weight
                 Next
             End If
         Next
 
         Return g
+    End Function
+
+    <ExportAPI("expr_cor")>
+    <RApiReturn(GetType(LazyCorrelationMatrix), GetType(dataframe))>
+    Public Function expr_cor(expr As Object,
+                             <RRawVectorArgument(TypeCodes.string)> Optional id1 As Object = Nothing,
+                             <RRawVectorArgument(TypeCodes.string)> Optional id2 As Object = Nothing,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim check_eval As Boolean = id1 IsNot Nothing AndAlso id2 IsNot Nothing
+
+        If check_eval Then
+            If Not TypeOf expr Is LazyCorrelationMatrix Then
+                Return RInternal.debug.stop("the given data expr object should be a correlation matrix object when id1 and id2 is presentes!", env)
+            End If
+
+            Dim cor As LazyCorrelationMatrix = DirectCast(expr, LazyCorrelationMatrix)
+            Dim idset1 As GetVectorElement = GetVectorElement.Create(Of String)(id1)
+            Dim idset2 As GetVectorElement = GetVectorElement.Create(Of String)(id2)
+
+            If Not GetVectorElement.DoesSizeMatch(idset1, idset2) Then
+                Return RInternal.debug.stop($"the dimension size of id1({idset1.size}) is not matched with the dimension size of id2({idset2.size})!", env)
+            Else
+                Return expr_cor(cor, idset1, idset2)
+            End If
+        ElseIf TypeOf expr Is HTSMatrix Then
+            Return New LazyCorrelationMatrix(DirectCast(expr, HTSMatrix))
+        Else
+            Return Message.InCompatibleType(GetType(HTSMatrix), expr.GetType, env)
+        End If
+    End Function
+
+    Private Function expr_cor(cor As LazyCorrelationMatrix, idset1 As GetVectorElement, idset2 As GetVectorElement) As dataframe
+        Dim eval As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim id1vec As New List(Of String)
+        Dim id2vec As New List(Of String)
+        Dim corvec As New List(Of Double)
+        Dim pvalvec As New List(Of Double)
+
+        For Each tuple In TqdmWrapper.Wrap(GetVectorElement.Zip(idset1, idset2).ToArray)
+            Dim x As String = CStr(tuple.Item1)
+            Dim y As String = CStr(tuple.Item2)
+            Dim corResult = cor.Correlation(x, y)
+
+            Call id1vec.Add(x)
+            Call id2vec.Add(y)
+            Call corvec.Add(corResult.cor)
+            Call pvalvec.Add(corResult.pval)
+        Next
+
+        Call eval.add("id1", id1vec)
+        Call eval.add("id2", id2vec)
+        Call eval.add("cor", corvec)
+        Call eval.add("pval", pvalvec)
+
+        Return eval
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42ab668d81d321a063ced7ada88421dc, Data_science\DataMining\DataMining\ComponentModel\Discretizer\Discretizer.vb"
+﻿#Region "Microsoft.VisualBasic::87d2d39ad9ae6597043e4c2ff484c42d, Data_science\DataMining\DataMining\ComponentModel\Discretizer\Discretizer.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 52 (61.90%)
+    ' Comment Lines: 17 (20.24%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 15 (17.86%)
+    '     File Size: 2.46 KB
+
+
     '     Class Discretizer
     ' 
-    '         Properties: delta, max, min
+    '         Properties: binList, binSize, delta, max, min
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: createBins, GetLevel
@@ -62,6 +74,18 @@ Namespace ComponentModel.Discretion
 
         Dim bins As DoubleRange()
 
+        Public ReadOnly Property binSize As Integer
+            Get
+                Return bins.Length
+            End Get
+        End Property
+
+        Public ReadOnly Property binList As IEnumerable(Of DoubleRange)
+            Get
+                Return bins.Select(Function(a) New DoubleRange(a))
+            End Get
+        End Property
+
         Sub New(sample As IEnumerable(Of Double), levels As Integer)
             With sample.ToArray
                 min = .Min
@@ -86,6 +110,14 @@ Namespace ComponentModel.Discretion
             Loop
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns>
+        ''' full value range of this level function is [0, <see cref="binSize"/>],
+        ''' source sample value range is [0, <see cref="binSize"/> - 1].
+        ''' </returns>
         Public Function GetLevel(x As Double) As Integer
             If bins Is Nothing Then
                 bins = createBins.ToArray

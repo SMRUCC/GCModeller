@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.SequenceTools.HMMER.ProfileHMM</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ProfileHMM {SMRUCC.genomics.Analysis.SequenceTools.HMMER}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>ProfileHMM</h2>
+
+        <h3>Description</h3>
+
+        <p>Profile HMM模型类
+ 表示HMMER3格式的隐马尔可夫模型</p>
+
+<p>Profile HMM是一种特殊的隐马尔可夫模型，专门用于蛋白质序列比对。
+ 它包含三种状态：
+ - Match (M): 匹配状态，对应模型中的一个保守位置
+ - Insert (I): 插入状态，允许在模型位置之间插入残基
+ - Delete (D): 删除状态，允许跳过模型中的某个位置
+ 
+ 每个位置有：
+ - 20个氨基酸的匹配发射概率
+ - 20个氨基酸的插入发射概率
+ - 7个转移概率</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.SequenceTools.HMMER
+export class ProfileHMM {
+   Alphabet: string;
+   Checksum: integer;
+   CompositionEmission: double;
+   CompositionInsert: double;
+   CompositionTransitions: double;
+   EffectiveNum: double;
+   HMMInitialProb: double;
+   HMMObservables: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HiddenMarkovChain/Models/Observable.html">Observable[]</a>;
+   HMMStates: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HiddenMarkovChain/Models/StatesObject.html">StatesObject[]</a>;
+   InsertEmissions: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   Length: integer;
+   MatchEmissions: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   Name: string;
+   NumSequences: integer;
+   StatsForward: tuple[double, double];
+   StatsMSV: tuple[double, double];
+   StatsViterbi: tuple[double, double];
+   Transitions: <a href="/vignettes/clr/System/Double.html">iterates(Double[])</a>;
+   Version: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>HMMObservables</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HiddenMarkovChain/Models/Observable.html">Observable</a></li>
+<li>use by <i>property</i> member <code>HMMStates</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HiddenMarkovChain/Models/StatesObject.html">StatesObject</a></li>
+<li>use by <i>property</i> member <code>InsertEmissions</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>MatchEmissions</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+<li>use by <i>property</i> member <code>StatsForward</code>: tuple[double, double]</li>
+<li>use by <i>property</i> member <code>StatsMSV</code>: tuple[double, double]</li>
+<li>use by <i>property</i> member <code>StatsViterbi</code>: tuple[double, double]</li>
+<li>use by <i>property</i> member <code>Transitions</code>: <a href="/vignettes/clr/System/Double.html">iterates(Double)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

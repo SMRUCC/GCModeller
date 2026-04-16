@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d9f154d595f501b416d529de2e273cd, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::df8e2bdcc2fffdbd8d7b82fb3edc9f73, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Palindrome.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 581
+    '    Code Lines: 480 (82.62%)
+    ' Comment Lines: 44 (7.57%)
+    '    - Xml Docs: 97.73%
+    ' 
+    '   Blank Lines: 57 (9.81%)
+    '     File Size: 28.77 KB
+
+
     ' Module Utilities
     ' 
     '     Function: __hairpinksCLI, __imperfectsPalindromeTask, __palindromeTask, BatchSearchImperfectsPalindrome, BatchSearchPalindrome
@@ -44,11 +56,12 @@
 #End Region
 
 Imports System.ComponentModel
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -56,7 +69,6 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.SimilarityMatches
@@ -222,7 +234,7 @@ Partial Module Utilities
 
         n = LQuerySchedule.AutoConfig(n)
 
-        If args.GetBoolean("/mp") Then
+        If args("/mp") Then
             Dim api As String = GetType(Utilities).API(NameOf(SearchMirrotFasta))
             Dim task As Func(Of String, String) =
                 Function(path) $"{api} /nt {path.CLIPath} /out {(out & "/" & path.BaseName & ".csv").CLIPath} /min {Min} /max {Max}"
@@ -446,7 +458,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FilteringMatchesBatch(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim min As Integer = args.GetInt32("/min")
+        Dim min As Integer = args("/min")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-min." & min & "/")
         Dim CLI As New List(Of String)
         Dim n As Integer = args.GetValue("/num_threads", -1)
@@ -463,7 +475,7 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function FilteringMatches(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim min As Integer = args.GetInt32("/min")
+        Dim min As Integer = args("/min")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-min." & min & ".csv")
 
         If FileIO.FileSystem.GetFileInfo([in]).Length > 1024 * 1024 * 16 Then
@@ -543,10 +555,10 @@ Partial Module Utilities
     <Group(CLIGrouping.PalindromeTools)>
     Public Function ToVector(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
-        Dim min = args.GetInt32("/min")
-        Dim max = args.GetInt32("/max")
+        Dim min = args("/min")
+        Dim max = args("/max")
         Dim out As String = args("/out")
-        Dim size As Integer = args.GetInt32("/size")
+        Dim size As Integer = args("/size")
         Dim vector = Topologically.Palindrome.ImperfectPalindromeVector(inDIR, size, min, max)
         Return vector.Select(Function(n) CStr(n)).FlushAllLines(out).CLICode
     End Function
@@ -558,7 +570,7 @@ Partial Module Utilities
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR.TrimDIR & ".Mirror.Vector.txt")
         Dim files As IEnumerable(Of String) = ls - l - r - wildcards("*.csv") <= inDIR
-        Dim size As Integer = args.GetInt32("/size")
+        Dim size As Integer = args("/size")
         Dim Loads = (From path As String
                      In files
                      Select path.BaseName,
@@ -589,7 +601,7 @@ Partial Module Utilities
         Dim output As New List(Of PalindromeLoci)
 
         For Each promoter As FastaSeq In source
-            Call promoter.Title.__DEBUG_ECHO
+            Call promoter.Title.debug
 
             If mirror Then
                 output += promoter.SearchMirrorPalindrome(min, max, promoter.Title)

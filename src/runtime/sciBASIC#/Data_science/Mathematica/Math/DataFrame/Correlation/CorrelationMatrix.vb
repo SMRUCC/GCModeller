@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4b23cf44c73f9331d66f9a1af5a3a4d, Data_science\Mathematica\Math\DataFrame\Correlation\CorrelationMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::86e0950afa837402c1c753840a3476ab, Data_science\Mathematica\Math\DataFrame\Correlation\CorrelationMatrix.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 121 (72.02%)
+    ' Comment Lines: 26 (15.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (12.50%)
+    '     File Size: 5.77 KB
+
+
     ' Class CorrelationMatrix
     ' 
     '     Properties: (+2 Overloads) pvalue
     ' 
     '     Constructor: (+2 Overloads) Sub New
-    '     Function: GetCorrelationQuantile, GetPvalueMatrix, GetPvalueQuantile, GetUniqueTuples
+    '     Function: GetCorrelationQuantile, GetPvalueMatrix, GetPvalueQuantile, GetUniqueTuples, PositiveMatrix
+    '               Power, Sign
+    '     Operators: *
     ' 
     ' /********************************************************************************/
 
@@ -45,10 +59,14 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Math.Quantile
-Imports stdNum = System.Math
+Imports std = System.Math
 
+''' <summary>
+''' the correlation matrix join the pvalue matrix
+''' </summary>
 Public Class CorrelationMatrix : Inherits DataMatrix
 
     ReadOnly pvalueMat As Double()()
@@ -80,6 +98,12 @@ Public Class CorrelationMatrix : Inherits DataMatrix
         Call MyBase.New(names)
     End Sub
 
+    ''' <summary>
+    ''' Create a new correlation matrix data
+    ''' </summary>
+    ''' <param name="names"></param>
+    ''' <param name="matrix"></param>
+    ''' <param name="pvalue"></param>
     Sub New(names As Index(Of String), matrix As Double()(), pvalue As Double()())
         Call MyBase.New(names, matrix)
 
@@ -91,7 +115,7 @@ Public Class CorrelationMatrix : Inherits DataMatrix
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Private Function GetUniqueTuples() As (a$, b$)()
+    Public Function GetUniqueTuples() As IEnumerable(Of (a$, b$))
         Return keys _
             .Select(Function(a)
                         Return keys _
@@ -104,15 +128,14 @@ Public Class CorrelationMatrix : Inherits DataMatrix
                             .OrderBy(Function(str) str) _
                             .JoinBy("-")
                      End Function) _
-            .Select(Function(t) t.First) _
-            .ToArray
+            .Select(Function(t) t.First)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetCorrelationQuantile() As FastRankQuantile
         Return GetUniqueTuples _
             .Select(Function(t)
-                        Return stdNum.Abs(Me(t.a, t.b))
+                        Return std.Abs(Me(t.a, t.b))
                     End Function) _
             .DoCall(Function(q)
                         Return New FastRankQuantile(q)
@@ -127,10 +150,77 @@ Public Class CorrelationMatrix : Inherits DataMatrix
     Public Function GetPvalueQuantile() As FastRankQuantile
         Return GetUniqueTuples _
             .Select(Function(t)
-                        Return -stdNum.Log10(pvalue(t.a, t.b))
+                        Return -std.Log10(pvalue(t.a, t.b))
                     End Function) _
             .DoCall(Function(q)
                         Return New FastRankQuantile(q)
                     End Function)
     End Function
+
+    ''' <summary>
+    ''' cor ^ exp
+    ''' </summary>
+    ''' <param name="exp"></param>
+    ''' <returns></returns>
+    Public Function Power(exp As Double) As CorrelationMatrix
+        Dim cor As Double()() = matrix.ToArray
+        Dim pow As Double()() = cor _
+            .Select(Function(c)
+                        Return c.Select(Function(ci) ci ^ exp).ToArray
+                    End Function) _
+            .ToArray
+
+        Return New CorrelationMatrix(names, pow, pvalueMat)
+    End Function
+
+    ''' <summary>
+    ''' get the sign of the correlation value
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function Sign() As Double()()
+        Return matrix _
+            .Select(Function(c)
+                        Return c.Select(Function(ci) CDbl(std.Sign(ci))).ToArray
+                    End Function) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' just get the positive correlation part of the matrix
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function PositiveMatrix() As CorrelationMatrix
+        Dim cor As Double()() = New Double(matrix.Length - 1)() {}
+        Dim pval As Double()() = New Double(matrix.Length - 1)() {}
+
+        For i As Integer = 0 To matrix.Length - 1
+            Dim row As Double() = matrix(i)
+            Dim p As Double() = pvalueMat(i)
+            Dim cor_v As Double() = New Double(row.Length - 1) {}
+            Dim p_v As Double() = New Double(row.Length - 1) {}
+
+            For j As Integer = 0 To row.Length - 1
+                If row(j) > 0 Then
+                    cor_v(j) = row(j)
+                    p_v(j) = p(j)
+                End If
+            Next
+
+            cor(i) = cor_v
+            pval(i) = p_v
+        Next
+
+        Return New CorrelationMatrix(names, cor, pval)
+    End Function
+
+    Public Shared Operator *(x As Double()(), y As CorrelationMatrix) As CorrelationMatrix
+        Dim cor As Double()() = y.matrix
+        Dim mul As Double()() = x _
+            .Select(Function(xi, i)
+                        Return (New Vector(xi) * New Vector(cor(i))).ToArray
+                    End Function) _
+            .ToArray
+
+        Return New CorrelationMatrix(y.names, mul, y.pvalueMat)
+    End Operator
 End Class

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 52 (61.90%)
+    ' Comment Lines: 22 (26.19%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (11.90%)
+    '     File Size: 3.42 KB
+
+
     '     Class Bayesian
     ' 
     '         Function: Classify, GetAllClass, Load, (+3 Overloads) P, ToString

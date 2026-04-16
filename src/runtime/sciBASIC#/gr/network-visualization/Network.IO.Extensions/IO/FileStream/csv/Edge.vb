@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28ec82426f8983e63105035bb2664c6a, gr\network-visualization\Network.IO.Extensions\IO\FileStream\csv\Edge.vb"
+﻿#Region "Microsoft.VisualBasic::9363122e870be28347e0f3de455e1440, gr\network-visualization\Network.IO.Extensions\IO\FileStream\csv\Edge.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 108 (69.68%)
+    ' Comment Lines: 28 (18.06%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 19 (12.26%)
+    '     File Size: 6.25 KB
+
+
     '     Class NetworkEdge
     ' 
     '         Properties: fromNode, interaction, Key, selfLoop, toNode
@@ -46,25 +58,21 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
-
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace FileStream
 
     ''' <summary>
-    ''' The edge between the two nodes in the network.(节点与节点之间的相互关系)
+    ''' The edge between the two nodes in the network.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(节点与节点之间的相互关系)</remarks>
     <XmlType("VisualizeNode")>
     Public Class NetworkEdge : Inherits IDynamicsTable
         Implements IInteraction, INetworkEdge
@@ -80,7 +88,7 @@ Namespace FileStream
         ''' <returns></returns>
         <XmlAttribute("value")>
         Public Overridable Property value As Double Implements INetworkEdge.value
-        <Column(Name:="interaction_type"), XmlText>
+        <Column(Name:=NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE), XmlText>
         Public Overridable Property interaction As String Implements INetworkEdge.Interaction
 
         ''' <summary>
@@ -145,8 +153,10 @@ Namespace FileStream
         ''' <param name="Node"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetConnectedNode(Node As String) As String
-            Return Graph.Abstract.GetConnectedNode(Me, Node)
+            Return GraphTheory.Network.GetConnectedNode(Me, Node)
         End Function
 
         Public Overloads Function Equals(Id1 As String, Id2 As String) As Boolean

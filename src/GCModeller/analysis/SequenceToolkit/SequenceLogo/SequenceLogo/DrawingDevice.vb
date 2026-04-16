@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ede8d60aed5c8bc7b45fa277f817418, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::269df90281cabfa6baa9072ca7739237, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 223
+    '    Code Lines: 161 (72.20%)
+    ' Comment Lines: 45 (20.18%)
+    '    - Xml Docs: 97.78%
+    ' 
+    '   Blank Lines: 17 (7.62%)
+    '     File Size: 12.91 KB
+
+
     '     Module DrawingDevice
     ' 
     '         Properties: WordSize
     ' 
-    '         Function: __getColors, DrawFrequency, E, InvokeDrawing
+    '         Function: CharColorImages, (+2 Overloads) DrawFrequency, E, InvokeDrawing
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -54,6 +67,32 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel.FASTA
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace SequenceLogo
 
@@ -109,6 +148,49 @@ For example, we identified a new domain, likely to have a role downstream of the
         ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
         ''' (绘制各个残基的出现频率)
         ''' </summary>
+        ''' <param name="pwm">The alignment export data from the clustal software.</param>
+        ''' <param name="title">The sequence logo display title.</param>
+        ''' <returns></returns>
+        <ExportAPI("Drawing.Frequency")>
+        <Extension>
+        Public Function DrawFrequency(pwm As MotifPWM, title$,
+                                      Optional height As Integer = 75,
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 10%;",
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
+
+            Dim model As New DrawingModel With {.ModelsId = title}
+#If DEBUG Then
+            Dim m As String = New String(PWM.pwm.Select(Function(r) r.AsChar))
+            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
+#End If
+            model.Residues =
+                LinqAPI.Exec(Of ResidueSite, Residue)(pwm.pwm) <=
+                    Function(rsd As ResidueSite)
+                        Return New Residue With {
+                            .Bits = rsd.bits,
+                            .Position = rsd.site,
+                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
+                                                                      In rsd.PWM.SeqIterator
+                                                                      Select New Alphabet With {
+                                                                          .Alphabet = pwm.alphabets(x.i),
+                                                                          .RelativeFrequency = x.value
+                                                                      }  ' alphabets
+                        }  ' residues
+                    End Function
+
+            Return InvokeDrawing(
+                model:=model,
+                frequencyOrder:=True,
+                height:=height,
+                driver:=driver,
+                logoPadding:=logoPadding
+            )
+        End Function
+
+        ''' <summary>
+        ''' Drawing the sequence logo just simply modelling this motif site from the clustal multiple sequence alignment.
+        ''' (绘制各个残基的出现频率)
+        ''' </summary>
         ''' <param name="Fasta">The alignment export data from the clustal software.</param>
         ''' <param name="title">The sequence logo display title.</param>
         ''' <returns></returns>
@@ -117,42 +199,22 @@ For example, we identified a new domain, likely to have a role downstream of the
         Public Function DrawFrequency(fasta As FastaFile,
                                       Optional title$ = "",
                                       Optional ByRef getModel As MotifPWM = Nothing,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim PWM As MotifPWM = Motif.PWM.FromMla(fasta)
-            Dim model As New DrawingModel
-
-#If DEBUG Then
-            Dim m As String = New String(PWM.PWM.Select(Function(r) r.AsChar))
-            Call VBDebugger.WriteLine(m, ConsoleColor.Magenta)
-#End If
 
             If String.IsNullOrEmpty(title) Then
                 If Not String.IsNullOrEmpty(fasta.FilePath) Then
-                    model.ModelsId = fasta.FilePath.BaseName
+                    title = fasta.FilePath.BaseName
                 Else
-                    model.ModelsId = New String(PWM.PWM.Select(Function(r) r.AsChar).ToArray)
+                    title = New String(PWM.pwm.Select(Function(r) r.AsChar).ToArray)
                 End If
-            Else
-                model.ModelsId = title
             End If
 
             getModel = PWM
-            model.Residues =
-                LinqAPI.Exec(Of ResidueSite, Residue)(PWM.PWM) <=
-                    Function(rsd As ResidueSite)
-                        Return New Residue With {
-                            .Bits = rsd.Bits,
-                            .Position = rsd.Site,
-                            .Alphabets = LinqAPI.Exec(Of Alphabet) <= From x As SeqValue(Of Double)
-                                                                      In rsd.PWM.SeqIterator
-                                                                      Select New Alphabet With {
-                                                                          .Alphabet = PWM.Alphabets(x.i),
-                                                                          .RelativeFrequency = x.value
-                                                                      }  ' alphabets
-                        }  ' residues
-                    End Function
-            Return InvokeDrawing(model, True, height:=height)
+
+            Return PWM.DrawFrequency(title, height, driver)
         End Function
 
         ''' <summary>
@@ -170,142 +232,48 @@ For example, we identified a new domain, likely to have a role downstream of the
         End Function
 
         <Extension>
-        Private Function __getColors(model As DrawingModel) As Dictionary(Of Char, Image)
-            Return If(model.Alphabets = 4,
-                SequenceLogo.ColorSchema.NucleotideSchema,
-                SequenceLogo.ColorSchema.ProteinSchema)
+        Friend Function CharColorImages(model As DrawingModel, backColor As Color) As Dictionary(Of Char, Image)
+            With New ColorSchema(backColor)
+                If model.Alphabets = 4 Then
+                    Return .NucleotideSchema
+                Else
+                    Return .ProteinSchema
+                End If
+            End With
         End Function
 
         ''' <summary>
-        ''' Drawing the sequence logo for the sequence motif model.(绘制SequenceLogo图)
+        ''' Drawing the sequence logo for the sequence motif model.
         ''' </summary>
         ''' <param name="model">The model can be achieve from clustal alignment or meme software.</param>
         ''' <param name="frequencyOrder">Reorder the alphabets in each residue site in the order of frequency values. default is yes!</param>
         ''' <param name="reverse">Reverse the residue sequence order in the drawing model?</param>
+        ''' <param name="height">
+        ''' height of the alphabet plot image
+        ''' </param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (绘制SequenceLogo图)
+        ''' </remarks>
         <Extension>
         Public Function InvokeDrawing(model As DrawingModel,
                                       Optional frequencyOrder As Boolean = True,
-                                      Optional logoPadding$ = g.DefaultPadding,
+                                      Optional logoPadding$ = "padding: 30% 5% 20% 10%;",
                                       Optional reverse As Boolean = False,
-                                      Optional height As Integer = 75) As GraphicsData
+                                      Optional height As Integer = 75,
+                                      Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            Dim n As Integer = model.Alphabets
-            Dim margin As Padding = Padding.TryParse(logoPadding)
-            Dim width! = model.Residues.Length * WordSize + margin.Horizontal
-            Dim X, Y As Integer
-            Dim font As New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.6), FontStyle.Bold)
-            Dim location As PointF
-            Dim plotInternal =
-                Sub(ByRef g As IGraphics, plotRegion As GraphicsRegion)
-                    Dim size As SizeF
-                    Dim region As Rectangle = plotRegion.PlotRegion
+            Dim width! = (model.Residues.Length + 8) * WordSize
+            Dim size1 As New Size(width, (model.Alphabets + 3) * height)
+            Dim theme As New Theme With {
+                .tagCSS = New CSSFont(FontFace.MicrosoftYaHei, WordSize * 0.8).CSSValue,
+                .padding = logoPadding,
+                .background = "white",
+                .mainCSS = "font-style: strong; font-size: 36; font-family: " & FontFace.MicrosoftYaHei & ";"
+            }
+            Dim logo As New Logo(model, reverse, frequencyOrder, theme)
 
-                    size = g.MeasureString(model.ModelsId, font)
-                    location = New PointF(region.Left + (region.Width - size.Width) / 2, y:=margin.Top / 2.5)
-                    g.DrawString(model.ModelsId, font, Brushes.Black, location)
-
-                    font = New Font(FontFace.MicrosoftYaHei, CInt(WordSize * 0.4))
-
-#Region "画坐标轴"
-                    ' 坐标轴原点
-                    X = margin.Left
-                    Y = region.Height + margin.Top
-
-                    Dim maxBits As Double = Math.Log(n, newBase:=2)
-                    Dim yHeight As Integer = n * height
-
-                    Call g.DrawLine(Pens.Black, New Point(X, Y - yHeight), New Point(X, Y))
-                    Call g.DrawLine(Pens.Black, New Point(X, Y), New Point(X + model.Residues.Length * DrawingDevice.WordSize, y:=Y))
-
-                    ' nt 2 steps,  aa 5 steps
-                    Dim departs As Integer = If(maxBits = 2, 2, 5)
-                    Dim d As Double = maxBits / departs
-
-                    ' 步进
-                    yHeight = d / maxBits * (height * n)
-                    d = Math.Round(d, 1)
-
-                    Dim yBits As Double = 0
-                    Dim y1!
-
-                    For j As Integer = 0 To departs
-                        size = g.MeasureString(yBits, font:=font)
-
-                        y1 = Y - size.Height / 2
-                        g.DrawString(CStr(yBits), font, Brushes.Black, New Point(x:=X - size.Width, y:=y1))
-
-                        y1 = Y '- sz.Height / 8
-                        g.DrawLine(Pens.Black, New Point(x:=X, y:=y1), New Point(x:=X + 10, y:=y1))
-
-                        yBits += d
-                        Y -= yHeight
-                    Next
-
-                    Dim source As IEnumerable(Of Residue) = If(reverse, model.Residues.Reverse, model.Residues)
-                    Dim colorSchema As Dictionary(Of Char, Image) = model.__getColors
-                    Dim order As Alphabet()
-
-                    Call VBDebugger.WriteLine(New String("-"c, model.Residues.Length), ConsoleColor.Green)
-
-                    For Each residue As Residue In source
-
-
-                        If Not frequencyOrder Then
-                            order = residue.Alphabets
-                        Else
-                            order = (From rsd As Alphabet
-                             In residue.Alphabets
-                                     Select rsd
-                                     Order By rsd.RelativeFrequency Ascending).ToArray
-                        End If
-
-                        Y = region.Height + margin.Top
-
-                        ' YHeight is the max height of current residue, and its value is calculate from its Bits value
-                        yHeight = (n * height) * (If(residue.Bits > maxBits, maxBits, residue.Bits) / maxBits)
-
-                        Dim idx As String = CStr(residue.Position)
-                        Dim loci As New Point(X + size.Width / If(Math.Abs(residue.Position) < 10, 2, 5), Y)
-
-                        size = g.MeasureString(idx, font)
-                        g.DrawString(idx, font, Brushes.Black, loci)
-
-                        For Each Alphabet As Alphabet In order
-
-                            ' H is the drawing height of the current drawing alphabet, 
-                            ' this height value can be calculate from the formula that show above. 
-                            ' As the YHeight variable is transform from the current residue Bits value, so that from this statement
-                            ' The drawing height of the alphabet can be calculated out. 
-
-                            Dim H As Single = Alphabet.RelativeFrequency * yHeight
-
-                            ' Due to the reason of the Y Axis in gdi+ is up side down, so that we needs Subtraction operation, 
-                            ' and then this makes the next alphabet move up direction 
-                            Y -= H
-
-                            g.DrawImage(
-                        colorSchema(Alphabet.Alphabet),   ' Drawing alphabet
-                        CSng(X), CSng(Y),                 ' position
-                        CSng(DrawingDevice.WordSize), H)  ' Size and relative height
-                        Next
-
-                        X += DrawingDevice.WordSize
-                        Call residue.AsChar.Echo
-                    Next
-
-                    Call Console.WriteLine()
-
-                    '绘制bits字符串
-                    font = New Font(font.Name, font.Size / 2)
-                    size = g.MeasureString("Bits", font)
-
-                    Call g.RotateTransform(-90)
-                    Call g.DrawString("Bits", font, Brushes.Black, New Point((height - size.Width) / 2, margin.Left / 3))
-#End Region
-                End Sub
-
-            Return g.GraphicsPlots(New Size(width, (n + 1) * height + margin.Vertical), margin, "transparent", plotInternal)
+            Return logo.Plot($"{size1.Width},{size1.Height}",, driver)
         End Function
     End Module
 End Namespace

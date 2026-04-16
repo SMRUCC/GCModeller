@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6093adb9d3e359702292ab0f1bfd0bc4, Data\BinaryData\BinaryData\Stream\BinaryDataWriter.vb"
+﻿#Region "Microsoft.VisualBasic::b3fdf26f6255e3bbe9c8c3d69a0c071e, Data\BinaryData\BinaryData\Stream\BinaryDataWriter.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 611
+    '    Code Lines: 286 (46.81%)
+    ' Comment Lines: 266 (43.54%)
+    '    - Xml Docs: 93.61%
+    ' 
+    '   Blank Lines: 59 (9.66%)
+    '     File Size: 25.53 KB
+
+
     ' Class BinaryDataWriter
     ' 
     '     Properties: ByteOrder, Encoding, Position, RerouteInt32ToUnsigned
     ' 
-    '     Constructor: (+5 Overloads) Sub New
+    '     Constructor: (+6 Overloads) Sub New
     ' 
     '     Function: DecimalToBytes, ReserveOffset, (+2 Overloads) Seek, (+2 Overloads) TemporarySeek, ToString
     '               (+2 Overloads) Write, WriteByteLengthPrefixString, WriteDwordLengthPrefixString, WriteNoPrefixOrTerminationString, WriteWordLengthPrefixString
     '               WriteZeroTerminatedString
     ' 
-    '     Sub: Align, Finalize, (+20 Overloads) Write, WriteMultiple, WriteReversed
+    '     Sub: Align, Finalize, (+22 Overloads) Write, WriteMultiple, WriteReversed
     ' 
     ' /********************************************************************************/
 
@@ -56,8 +68,8 @@ Imports Microsoft.VisualBasic.Text
 ''' <summary>
 ''' Represents an extended <see cref="BinaryWriter"/> supporting special file format data types.
 ''' </summary>
-Public Class BinaryDataWriter
-    Inherits BinaryWriter
+Public Class BinaryDataWriter : Inherits BinaryWriter
+    Implements IByteWriter
 
     Dim _byteOrder As ByteOrder
     Dim _needsReversion As Boolean
@@ -69,6 +81,9 @@ Public Class BinaryDataWriter
     ''' <param name="output">The output stream.</param>
     ''' <exception cref="ArgumentException">The stream does not support writing or is already closed.</exception>
     ''' <exception cref="ArgumentNullException">output is null.</exception>
+    ''' <remarks>
+    ''' this data writer object inherits the <see cref="BinaryWriter"/>.
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub New(output As Stream)
         Me.New(output, New UTF8Encoding(), False)
@@ -83,6 +98,9 @@ Public Class BinaryDataWriter
     ''' is disposed; otherwise <c>false</c>.</param>
     ''' <exception cref="ArgumentException">The stream does not support writing or is already closed.</exception>
     ''' <exception cref="ArgumentNullException">output is null.</exception>
+    ''' <remarks>
+    ''' this data writer object inherits the <see cref="BinaryWriter"/>.
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub New(output As Stream, leaveOpen As Boolean)
         Me.New(output, New UTF8Encoding(), leaveOpen)
@@ -96,6 +114,9 @@ Public Class BinaryDataWriter
     ''' <param name="encoding">The character encoding to use.</param>
     ''' <exception cref="ArgumentException">The stream does not support writing or is already closed.</exception>
     ''' <exception cref="ArgumentNullException">output or encoding is null.</exception>
+    ''' <remarks>
+    ''' this data writer object inherits the <see cref="BinaryWriter"/>.as
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub New(output As Stream, encoding As Encoding)
         Me.New(output, encoding, False)
@@ -120,6 +141,17 @@ Public Class BinaryDataWriter
         MyBase.New(output, encoding, leaveOpen)
         Me.Encoding = encoding
         ByteOrder = ByteOrderHelper.SystemByteOrder
+    End Sub
+
+    ''' <summary>
+    ''' Construct a data writer for write a numeric vector
+    ''' </summary>
+    ''' <param name="output"></param>
+    ''' <param name="byteOrder"></param>
+    Sub New(output As Stream, byteOrder As ByteOrder)
+        MyBase.New(output, Encodings.UTF8.CodePage, leaveOpen:=False)
+        Me.Encoding = Encodings.UTF8.CodePage
+        Me.ByteOrder = byteOrder
     End Sub
 
     ''' <summary>
@@ -237,6 +269,18 @@ Public Class BinaryDataWriter
     Public Function TemporarySeek(offset As Long, origin As SeekOrigin) As SeekTask
         Return New SeekTask(BaseStream, offset, origin)
     End Function
+
+    ''' <inheritdoc />
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <DebuggerStepThrough>
+    Public Overrides Sub Write(buffer As Byte()) Implements IByteWriter.Write
+        Call MyBase.Write(buffer)
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overrides Sub Write(b As Byte) Implements IByteWriter.Write
+        Call MyBase.Write(b)
+    End Sub
 
     ''' <summary>
     ''' Writes a <see cref="DateTime"/> to this stream. The <see cref="DateTime"/> will be available in the

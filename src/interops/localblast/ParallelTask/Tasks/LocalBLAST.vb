@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::888cc7cc8b81f52ec0be6076784b0080, localblast\ParallelTask\Tasks\LocalBLAST.vb"
+﻿#Region "Microsoft.VisualBasic::6842b88bf5051e069ababf5b34fcbb2f, localblast\ParallelTask\Tasks\LocalBLAST.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 42 (66.67%)
+    ' Comment Lines: 7 (11.11%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 14 (22.22%)
+    '     File Size: 2.51 KB
+
+
     '     Module LocalBLAST
     ' 
     '         Function: BLAST, runBlast
@@ -56,7 +68,7 @@ Namespace Tasks
 
             Dim LogFile As String = VennDataBuilder.BuildFileName(File1, File2, logDIR)
 
-            Call $"[{File1}, {File2}]".__DEBUG_ECHO
+            Call $"[{File1}, {File2}]".debug
             Call LocalBlast.Blastp(File1, File2, LogFile, e:="1").Start(waitForExit:=True) 'performence the BLAST
 
             Return LogFile

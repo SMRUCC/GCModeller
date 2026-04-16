@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1422bf711a0478493750cae9d83b900, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
+﻿#Region "Microsoft.VisualBasic::c14bc8c2b1ef928a387aa7b9dfe903df, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Module.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 74 (66.67%)
+    ' Comment Lines: 19 (17.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (16.22%)
+    '     File Size: 4.11 KB
+
+
     '     Class [Module]
     ' 
-    '         Properties: [Class], briteID, Category, EntryId, Name
-    '                     NumberGenes, PathwayGenes, Reactions, Type
+    '         Properties: [Class], briteID, Category, EntryId, NumberGenes
+    '                     PathwayGenes, Reactions, Type
     ' 
-    '         Function: [Imports], GenerateObject, GetPathwayGenes
+    '         Function: [Imports], GenerateObject, GetCompoundSet, GetPathwayGenes
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -75,9 +84,6 @@ Namespace Assembly.KEGG.Archives.Csv
 
         Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
 
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
 
 #Region "Brite Infomation"
 
@@ -100,7 +106,6 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Property Category As String
 #End Region
 
-        Public Property Name As String
         Public Property Reactions As String()
 
         Public Overrides ReadOnly Property briteID As String
@@ -112,7 +117,7 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function GenerateObject(XmlModel As KEGG.DBGET.bGetObject.Module) As [Module]
             Dim ReactionIdlist As String()
 
-            If XmlModel.Reaction.IsNullOrEmpty Then
+            If XmlModel.reaction.IsNullOrEmpty Then
                 ReactionIdlist = New String() {}
             Else
                 ReactionIdlist = LinqAPI.Exec(Of String) <= From rxn As NamedValue
@@ -123,9 +128,9 @@ Namespace Assembly.KEGG.Archives.Csv
 
             Return New [Module] With {
                 .EntryId = XmlModel.EntryId,
-                .description = XmlModel.Description,
+                .description = XmlModel.description,
                 .PathwayGenes = XmlModel.GetPathwayGenes,
-                .Name = XmlModel.Name,
+                .name = XmlModel.name,
                 .Reactions = ReactionIdlist
             }
         End Function
@@ -151,6 +156,13 @@ Namespace Assembly.KEGG.Archives.Csv
             Next
 
             Return mods
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d361b1e130e7f3f52b601bff68514375, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\PSData.vb"
+﻿#Region "Microsoft.VisualBasic::62606d80e109f8aaa67e138dcef3810f, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\PSData.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
-    '     Class PSData
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 27 (79.41%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
     ' 
-    '         Properties: Driver
+    '   Blank Lines: 7 (20.59%)
+    '     File Size: 971 B
+
+
+    '     Class PostScriptData
+    ' 
+    '         Properties: Driver, Previews
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetDataURI, (+2 Overloads) Save
+    '         Function: GetDataURI, Save
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,19 +62,25 @@ Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
 
-    Public Class PSData : Inherits GraphicsData
+    Public Class PostScriptData : Inherits GraphicsData
+
+        Public Overrides ReadOnly Property Driver As Drivers
+            Get
+                Return Drivers.PostScript
+            End Get
+        End Property
+
+        Public Overrides ReadOnly Property Previews As String
+            Get
+                Return "PostScript"
+            End Get
+        End Property
 
         Public Sub New(img As Object, size As Size, padding As Padding)
             MyBase.New(img, size, padding)
         End Sub
 
-        Public Overrides ReadOnly Property Driver As Drivers
-
         Public Overrides Function GetDataURI() As DataURI
-            Throw New NotImplementedException()
-        End Function
-
-        Public Overrides Function Save(path As String) As Boolean
             Throw New NotImplementedException()
         End Function
 

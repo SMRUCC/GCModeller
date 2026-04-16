@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21024dd2b91c69e806c9baf297002f7f, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
+﻿#Region "Microsoft.VisualBasic::79d0c564743bf1cb581a53c8838360c2, analysis\Metagenome\Metagenome\OTUTable\OTUTable.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,62 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 98 (61.25%)
+    ' Comment Lines: 47 (29.38%)
+    '    - Xml Docs: 82.98%
+    ' 
+    '   Blank Lines: 15 (9.38%)
+    '     File Size: 6.14 KB
+
+
     ' Class OTUTable
     ' 
-    '     Properties: taxonomy
+    '     Properties: Properties, taxonomy
     ' 
-    '     Function: FromOTUData, LoadSample
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: FromOTUData, LoadSample, (+2 Overloads) SumDuplicatedOTU, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.Metagenomics
 
 ''' <summary>
+''' ### OTU table (sequence count table)
+''' 
+''' A OTU table contains the number of sequences that are observed for each taxonomic 
+''' unit (OTUs) in each samples. Columns usually represent samples and rows represent
+''' genera or species specific taxonomic units (OTUs). OTU tables are often saved as
+''' BIOM formatted files.
+''' 
+''' ### Limited taxonomic resolution
+''' 
+''' OTU resolution depends On the 16S approach which has some limits In distinguishing at 
+''' the species level, For example,
+''' 
+''' Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
+''' 
+''' Alternative approaches are developed To achieve higher resolution up To strain level 
+''' by considering larger Or complete sets Of genes.
+''' </summary>
+''' <remarks>
 ''' 这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少
 ''' 
-''' 这个对象的数据结构与<see cref="OTUData"/>类似, 二者可以做等价替换
-''' </summary>
+''' 这个对象的数据结构与<see cref="OTUData(Of Double)"/>类似, 二者可以做等价替换
+''' </remarks>
 Public Class OTUTable : Inherits DataSet
+    Implements IGeneExpression
 
     ''' <summary>
     ''' OTU编号所对应的物种分类信息
@@ -62,6 +95,72 @@ Public Class OTUTable : Inherits DataSet
     ''' 
     <Column("taxonomy", GetType(BIOMTaxonomyParser))>
     Public Property taxonomy As Taxonomy
+
+    ''' <summary>
+    ''' sample data
+    ''' </summary>
+    ''' <returns></returns>
+    Public Overrides Property Properties As Dictionary(Of String, Double) Implements IGeneExpression.Expression
+        Get
+            Return MyBase.Properties
+        End Get
+        Set(value As Dictionary(Of String, Double))
+            MyBase.Properties = value
+        End Set
+    End Property
+
+    Sub New()
+    End Sub
+
+    ''' <summary>
+    ''' make otu data copy
+    ''' </summary>
+    ''' <param name="otudata"></param>
+    Sub New(otudata As OTUTable)
+        ID = otudata.ID
+        taxonomy = otudata.taxonomy
+        propertyTable = New Dictionary(Of String, Double)(otudata.propertyTable)
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return $"{ID} - {taxonomy} [{Properties.Keys.JoinBy(", ")}]"
+    End Function
+
+    ''' <summary>
+    ''' make group by <see cref="OTUTable.taxonomy"/> and then sum sample data in each group
+    ''' </summary>
+    ''' <param name="otus"></param>
+    ''' <returns></returns>
+    Public Shared Iterator Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable)) As IEnumerable(Of OTUTable)
+        For Each otu As IGrouping(Of String, OTUTable) In otus.GroupBy(Function(o) o.taxonomy.ToString)
+            Dim allSampleName As String() = otu.PropertyNames
+            Dim taxonomy = otu.First.taxonomy
+            Dim v As Dictionary(Of String, Double) = allSampleName _
+                .ToDictionary(Function(name) name,
+                              Function(name)
+                                  Return Aggregate m As OTUTable
+                                         In otu
+                                         Into Sum(m(name))
+                              End Function)
+            Dim unionNames As String = otu.Keys.JoinBy("+")
+
+            Yield New OTUTable With {
+                .ID = unionNames,
+                .taxonomy = taxonomy,
+                .Properties = v
+            }
+        Next
+    End Function
+
+    Public Shared Function SumDuplicatedOTU(otus As IEnumerable(Of OTUTable), rank As TaxonomyRanks) As IEnumerable(Of OTUTable)
+        Return SumDuplicatedOTU(
+            From otu As OTUTable
+            In otus
+            Let tax_atrank As Taxonomy = otu.taxonomy.Rank(rank)
+            Select New OTUTable(otu) With {
+                .taxonomy = tax_atrank
+            })
+    End Function
 
     ''' <summary>
     ''' 这个函数会自动兼容csv或者tsv格式的
@@ -79,7 +178,7 @@ Public Class OTUTable : Inherits DataSet
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData), Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
+    Public Shared Function FromOTUData(data As IEnumerable(Of OTUData(Of Double)), Optional brief As Boolean = True) As IEnumerable(Of OTUTable)
         Dim parser As TaxonomyLineageParser = If(brief, BriefParser, CompleteParser)
 
         Return data _
@@ -89,26 +188,26 @@ Public Class OTUTable : Inherits DataSet
 
                         Return New OTUTable With {
                             .ID = d.OTU,
-                            .Properties = d.data.AsNumeric,
+                            .Properties = d.data,
                             .taxonomy = lineage
                         }
                     End Function)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Overloads Shared Narrowing Operator CType(table As OTUTable) As OTUData
-        Return New OTUData With {
+    Public Overloads Shared Narrowing Operator CType(table As OTUTable) As OTUData(Of Double)
+        Return New OTUData(Of Double) With {
             .OTU = table.ID,
-            .data = table.Properties.AsCharacter,
+            .data = table.Properties,
             .taxonomy = table.taxonomy.ToString(BIOMstyle:=True)
         }
     End Operator
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Widening Operator CType(data As OTUData) As OTUTable
+    Public Shared Widening Operator CType(data As OTUData(Of Double)) As OTUTable
         Return New OTUTable With {
             .ID = data.OTU,
-            .Properties = data.data.AsNumeric,
+            .Properties = data.data,
             .taxonomy = BIOMTaxonomy _
                 .TaxonomyParser(data.taxonomy) _
                 .AsTaxonomy

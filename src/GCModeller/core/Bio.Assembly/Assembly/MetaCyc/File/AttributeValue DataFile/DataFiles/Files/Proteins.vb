@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 43 (70.49%)
+    ' Comment Lines: 12 (19.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (9.84%)
+    '     File Size: 3.69 KB
+
+
     '     Class Proteins
     ' 
     '         Properties: AttributeList

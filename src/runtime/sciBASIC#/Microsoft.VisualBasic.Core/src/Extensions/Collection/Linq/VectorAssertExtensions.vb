@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 33 (53.23%)
+    ' Comment Lines: 22 (35.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (11.29%)
+    '     File Size: 2.38 KB
+
+
     '     Module VectorAssertExtensions
     ' 
     '         Function: InsideAny, LengthEquals, TestPairData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e56018c1e94db7648183289009cac8f0, Data_science\DataMining\UMAP\Components\Tree\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::0f8fbf3961c9a092cdd14b5c49db0ffa, Data_science\DataMining\UMAP\Components\Tree\Tree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 268
+    '    Code Lines: 183 (68.28%)
+    ' Comment Lines: 46 (17.16%)
+    '    - Xml Docs: 65.22%
+    ' 
+    '   Blank Lines: 39 (14.55%)
+    '     File Size: 11.86 KB
+
+
     '     Module Tree
     ' 
     '         Function: EuclideanRandomProjectionSplit, FlattenTree, MakeEuclideanTree, MakeLeafArray, MakeTree
@@ -50,18 +62,29 @@ Namespace Tree
     Friend Module Tree
 
         ''' <summary>
+        ''' max depth for make tree 
+        ''' </summary>
+        Public maxDepth As Integer = 100000
+
+        ''' <summary>
         ''' Construct a random projection tree based on ``data`` with leaves of size at most ``leafSize``
         ''' </summary>
         Public Function MakeTree(data As Double()(), leafSize As Integer, n As Integer, random As IProvideRandomValues) As RandomProjectionTreeNode
-            Dim indices = Enumerable.Range(0, data.Length).ToArray()
-            Return Tree.MakeEuclideanTree(data, indices, leafSize, n, random)
+            Return Tree.MakeEuclideanTree(data, Enumerable.Range(0, data.Length).ToArray(), leafSize, n, 0, random)
         End Function
 
-        Private Function MakeEuclideanTree(data As Double()(), indices As Integer(), leafSize As Integer, q As Integer, random As IProvideRandomValues) As RandomProjectionTreeNode
-            If indices.Length > leafSize Then
+        Private Function MakeEuclideanTree(ByRef data As Double()(),
+                                           ByRef indices As Integer(),
+                                           leafSize As Integer,
+                                           q As Integer,
+                                           depth As Integer,
+                                           random As IProvideRandomValues) As RandomProjectionTreeNode
+            ' 20250611 
+            ' set max tree depth for avoid stack overflow
+            If indices.Length > leafSize AndAlso depth < maxDepth Then
                 Dim any = Tree.EuclideanRandomProjectionSplit(data, indices, random)
-                Dim leftChild = Tree.MakeEuclideanTree(data, any.indicesLeft, leafSize, q + 1, random)
-                Dim rightChild = Tree.MakeEuclideanTree(data, any.IndicesRight, leafSize, q + 1, random)
+                Dim leftChild = Tree.MakeEuclideanTree(data, any.indicesLeft, leafSize, q + 1, depth + 1, random)
+                Dim rightChild = Tree.MakeEuclideanTree(data, any.IndicesRight, leafSize, q + 1, depth + 1, random)
 
                 Return New RandomProjectionTreeNode With {
                     .Indices = indices,
@@ -77,7 +100,7 @@ Namespace Tree
                     .LeftChild = Nothing,
                     .RightChild = Nothing,
                     .IsLeaf = True,
-                    .Hyperplane = Nothing,
+                    .Hyperplane = New Double() {},
                     .Offset = 0
                 }
             End If
@@ -88,12 +111,12 @@ Namespace Tree
             Dim nLeaves = NumLeaves(tree)
 
             ' TODO[umap-js]: Verify that sparse code is not relevant...
-            Dim hyperplanes = Utils.Range(nNodes).[Select](Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
+            Dim hyperplanes = Utils.Range(nNodes).Select(Function(__) New Double(tree.Hyperplane.Length - 1) {}).ToArray()
             Dim offsets = New Double(nNodes - 1) {}
-            Dim children = Utils.Range(nNodes).[Select](Function(__) {-1, -1}).ToArray()
-            Dim indices = Utils.Range(nLeaves).[Select](Function(__) Utils.Range(leafSize).[Select](Function(____) -1).ToArray()).ToArray()
+            Dim children = Utils.Range(nNodes).Select(Function(__) {-1, -1}).ToArray()
+            Dim indices = Utils.Range(nLeaves).Select(Function(__) Utils.Range(leafSize).Select(Function(____) -1).ToArray()).ToArray()
 
-            RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
+            Call RecursiveFlatten(tree, hyperplanes, offsets, children, indices, 0, 0)
 
             Return New FlatTree With {
                 .Hyperplanes = hyperplanes,
@@ -104,10 +127,12 @@ Namespace Tree
         End Function
 
         ''' <summary>
-        ''' Given a set of ``indices`` for data points from ``data``, create a random hyperplane to split the data, 
-        ''' returning two arrays indices that fall on either side of the hyperplane. This is the basis for a random 
-        ''' projection tree, which simply uses this splitting recursively. This particular split uses euclidean 
-        ''' distance to determine the hyperplane and which side each data sample falls on.
+        ''' Given a set of ``indices`` for data points from ``data``, create 
+        ''' a random hyperplane to split the data, returning two arrays indices 
+        ''' that fall on either side of the hyperplane. This is the basis for
+        ''' a random projection tree, which simply uses this splitting recursively.
+        ''' This particular split uses euclidean distance to determine the 
+        ''' hyperplane and which side each data sample falls on.
         ''' </summary>
         Private Function EuclideanRandomProjectionSplit(data As Double()(), indices As Integer(), random As IProvideRandomValues) As (indicesLeft As Integer(), IndicesRight As Integer(), HyperplaneVector As Double(), HyperplaneOffset As Double)
             Dim [dim] = data(0).Length
@@ -120,22 +145,25 @@ Namespace Tree
             Dim left = indices(leftIndex)
             Dim right = indices(rightIndex)
 
-            ' Compute the normal vector to the hyperplane (the vector between the two points) and the offset from the origin
+            ' Compute the normal vector to the hyperplane (the vector between the
+            ' two points) and the offset from the origin
             Dim hyperplaneOffset = 0F
             Dim hyperplaneVector = New Double([dim] - 1) {}
 
-            For i = 0 To hyperplaneVector.Length - 1
+            For i As Integer = 0 To hyperplaneVector.Length - 1
                 hyperplaneVector(i) = data(left)(i) - data(right)(i)
                 hyperplaneOffset -= hyperplaneVector(i) * (data(left)(i) + data(right)(i)) / 2
             Next
 
             ' For each point compute the margin (project into normal vector)
-            ' If we are on lower side of the hyperplane put in one pile, otherwise put it in the other pile (if we hit hyperplane on the nose, flip a coin)
+            ' If we are on lower side of the hyperplane put in one pile,
+            ' otherwise put it in the other pile (if we hit hyperplane on the
+            ' nose, flip a coin)
             Dim nLeft = 0
             Dim nRight = 0
             Dim side = New Integer(indices.Length - 1) {}
 
-            For i = 0 To indices.Length - 1
+            For i As Integer = 0 To indices.Length - 1
                 Dim margin = hyperplaneOffset
 
                 For d = 0 To [dim] - 1
@@ -163,11 +191,12 @@ Namespace Tree
             Dim indicesLeft = New Integer(nLeft - 1) {}
             Dim indicesRight = New Integer(nRight - 1) {}
 
-            ' Populate the arrays with indices according to which side they fell on
+            ' Populate the arrays with indices according to which
+            ' side they fell on
             nLeft = 0
             nRight = 0
 
-            For i = 0 To side.Length - 1
+            For i As Integer = 0 To side.Length - 1
 
                 If side(i) = 0 Then
                     indicesLeft(nLeft) = indices(i)
@@ -181,13 +210,25 @@ Namespace Tree
             Return (indicesLeft, indicesRight, hyperplaneVector, hyperplaneOffset)
         End Function
 
-        Private Function RecursiveFlatten(tree As RandomProjectionTreeNode, hyperplanes As Double()(), offsets As Double(), children As Integer()(), indices As Integer()(), nodeNum As Integer, leafNum As Integer) As (nodeNum As Integer, leafNum As Integer)
+        Private Function RecursiveFlatten(tree As RandomProjectionTreeNode,
+                                          ByRef hyperplanes As Double()(),
+                                          ByRef offsets As Double(),
+                                          ByRef children As Integer()(),
+                                          ByRef indices As Integer()(),
+                                          nodeNum As Integer,
+                                          leafNum As Integer) As (nodeNum As Integer, leafNum As Integer)
             If tree.IsLeaf Then
                 children(nodeNum)(0) = -leafNum
 
-                ' TODO[umap-js]: Triple check this operation corresponds to
-                ' indices[leafNum : tree.indices.shape[0]] = tree.indices
-                tree.Indices.CopyTo(indices(leafNum), 0)
+                If indices(leafNum).Length < tree.Indices.Length Then
+                    ' 20250817 fill with the size of indices(leafNum)?
+                    indices(leafNum) = tree.Indices.ToArray
+                Else
+                    ' TODO[umap-js]: Triple check this operation corresponds to
+                    ' indices[leafNum : tree.indices.shape[0]] = tree.indices
+                    tree.Indices.CopyTo(indices(leafNum), 0)
+                End If
+
                 leafNum += 1
                 Return (nodeNum, leafNum)
             Else
@@ -215,9 +256,14 @@ Namespace Tree
         End Function
 
         ''' <summary>
-        ''' Generate an array of sets of candidate nearest neighbors by constructing a random projection forest and taking the leaves of all the trees. Any given tree has leaves that are
-        ''' a set of potential nearest neighbors.Given enough trees the set of all such leaves gives a good likelihood of getting a good set of nearest neighbors in composite. Since such
-        ''' a random projection forest is inexpensive to compute, this can be a useful means of seeding other nearest neighbor algorithms.
+        ''' Generate an array of sets of candidate nearest neighbors by 
+        ''' constructing a random projection forest and taking the leaves
+        ''' of all the trees. Any given tree has leaves that are a set 
+        ''' of potential nearest neighbors.Given enough trees the set of
+        ''' all such leaves gives a good likelihood of getting a good set
+        ''' of nearest neighbors in composite. Since such a random 
+        ''' projection forest is inexpensive to compute, this can be a 
+        ''' useful means of seeding other nearest neighbor algorithms.
         ''' </summary>
         Public Function MakeLeafArray(forest As FlatTree()) As Integer()()
             If forest.Length > 0 Then

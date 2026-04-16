@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd8a7701a59d4adf5229712a0fda25c0, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\Providers.vb"
+﻿#Region "Microsoft.VisualBasic::869b5c6e372cba1fb5eb17fbdf4ee9e5, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\Providers.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 46 (75.41%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (24.59%)
+    '     File Size: 2.22 KB
+
 
     '     Class OneSignal
     ' 
@@ -65,7 +77,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Source
 
@@ -81,7 +93,7 @@ Namespace Source
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function calculate(freq As Double, phase As Double) As Double
-            Return stdNum.Sign(stdNum.Sin(freq + phase))
+            Return std.Sign(std.Sin(freq + phase))
         End Function
     End Class
 
@@ -89,7 +101,7 @@ Namespace Source
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function calculate(freq As Double, phase As Double) As Double
-            Return 2 * ((freq + phase) / (2 * stdNum.PI) - stdNum.Floor(0.5 + (freq + phase) / (2 * stdNum.PI)))
+            Return 2 * ((freq + phase) / (2 * std.PI) - std.Floor(0.5 + (freq + phase) / (2 * std.PI)))
         End Function
     End Class
 
@@ -97,7 +109,7 @@ Namespace Source
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function calculate(freq As Double, phase As Double) As Double
-            Return stdNum.Sin(freq + phase)
+            Return std.Sin(freq + phase)
         End Function
     End Class
 
@@ -105,7 +117,7 @@ Namespace Source
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function calculate(freq As Double, phase As Double) As Double
-            Return stdNum.Sin(2 * stdNum.PI * (freq - phase)) / (2 * stdNum.PI * (freq - phase))
+            Return std.Sin(2 * std.PI * (freq - phase)) / (2 * std.PI * (freq - phase))
         End Function
     End Class
 
@@ -113,7 +125,7 @@ Namespace Source
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function calculate(freq As Double, phase As Double) As Double
-            Return 2 * stdNum.Abs(2 * ((freq + phase) / (2 * stdNum.PI) - stdNum.Floor((freq + phase) / (2 * stdNum.PI) + 0.5))) - 1
+            Return 2 * std.Abs(2 * ((freq + phase) / (2 * std.PI) - std.Floor((freq + phase) / (2 * std.PI) + 0.5))) - 1
         End Function
     End Class
 

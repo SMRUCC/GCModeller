@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d1918b58b44c5eda308090b429c4fb, mime\text%html\Render\CSS\CssDrawingHelper.vb"
+﻿#Region "Microsoft.VisualBasic::28ddb49e5bf56837d6cfe52830441d4b, mime\text%html\Render\CSS\CssDrawingHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 285
+    '    Code Lines: 179 (62.81%)
+    ' Comment Lines: 57 (20.00%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 49 (17.19%)
+    '     File Size: 11.64 KB
+
+
     '     Class CssDrawingHelper
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -54,7 +66,7 @@ Imports System.Drawing.Drawing2D
 Imports rect = System.Drawing.Rectangle
 
 Namespace Render.CSS
-
+#If NET48 Then
     ''' <summary>
     ''' Provides some drawing functionallity
     ''' </summary>
@@ -332,4 +344,5 @@ Namespace Render.CSS
             Return path
         End Function
     End Class
+#End If
 End Namespace

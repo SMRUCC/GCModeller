@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b060967f0a2b4c92a027d1aabeb71951, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2894e9d8ef4f7e94bc838b4848c65cd4, core\Bio.Assembly\SequenceModel\TypeExtensions.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 76 (54.29%)
+    ' Comment Lines: 49 (35.00%)
+    '    - Xml Docs: 95.92%
+    ' 
+    '   Blank Lines: 15 (10.71%)
+    '     File Size: 4.99 KB
+
+
     '     Module TypeExtensions
     ' 
-    '         Properties: AA, NT
+    '         Properties: AA, NT, RNA
     ' 
-    '         Function: GetSeqType, IsProteinSource
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CheckSeqType, GetSeqType, GetVector, (+2 Overloads) IsProteinSource, ParseSeqType
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
 
@@ -55,13 +69,25 @@ Namespace SequenceModel
         ''' <summary>
         ''' Enumeration for nucleotide residues
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>[ATGC]</returns>
         Public ReadOnly Property NT As IReadOnlyCollection(Of Char) = {"A"c, "T"c, "G"c, "C"c}
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>[AUGC]</returns>
+        Public ReadOnly Property RNA As IReadOnlyCollection(Of Char) = {"A"c, "U"c, "G"c, "C"c}
+
         ''' <summary>
         ''' Enumeration for amino acid.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = {"A"c, "R"c, "N"c, "D"c, "C"c, "E"c, "Q"c, "G"c, "H"c, "I"c, "L"c, "K"c, "M"c, "F"c, "P"c, "S"c, "T"c, "W"c, "Y"c, "V"c}
+        ''' <remarks>
+        ''' X is unknown amino acid inside a sequence
+        ''' </remarks>
+        Public ReadOnly Property AA As IReadOnlyCollection(Of Char) = AminoAcidObjUtility.AminoAcidLetters _
+            .Join({"X"c}) _
+            .ToArray
 
 #Region "Constants"
 
@@ -77,11 +103,65 @@ Namespace SequenceModel
         Public Const NA_CHARS_ALL As String = "ATGCU"
 #End Region
 
+        ReadOnly type_parser As New Dictionary(Of String, SeqTypes)
+
+        Sub New()
+            For Each type As SeqTypes In Enums(Of SeqTypes)()
+                type_parser(type.ToString) = type
+                type_parser(type.ToString.ToLower) = type
+                type_parser(type.Description) = type
+                type_parser(CInt(type).ToString) = type
+            Next
+        End Sub
+
+        Public Function ParseSeqType(desc As String, Optional [default] As SeqTypes = SeqTypes.Generic) As SeqTypes
+            If type_parser.ContainsKey(desc) Then
+                Return type_parser(desc)
+            Else
+                Return [default]
+            End If
+        End Function
+
+        ''' <summary>
+        ''' Get composition vector by sequence type flag
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function GetVector(seq As SeqTypes) As IReadOnlyCollection(Of Char)
+            Select Case seq
+                Case SeqTypes.DNA : Return NT
+                Case SeqTypes.RNA : Return RNA
+                Case SeqTypes.Protein
+                    Return AA
+                Case Else
+                    Return AA
+            End Select
+        End Function
+
+        ''' <summary>
+        ''' try to measure the sequence type based on the given sequence chars
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function GetSeqType(seq As IPolymerSequenceModel) As SeqTypes
             If IsProteinSource(seq) Then
                 Return SeqTypes.Protein
             ElseIf seq.SequenceData.Any(Function(c) c = "U"c) Then
+                Return SeqTypes.RNA
+            Else
+                Return SeqTypes.DNA
+            End If
+        End Function
+
+        Public Function CheckSeqType(seq As String) As SeqTypes
+            If seq.StringEmpty(, True) Then
+                Return SeqTypes.Generic
+            ElseIf IsProteinSource(seq) Then
+                Return SeqTypes.Protein
+            ElseIf seq.Any(Function(c) c = "U"c) Then
                 Return SeqTypes.RNA
             Else
                 Return SeqTypes.DNA
@@ -96,7 +176,18 @@ Namespace SequenceModel
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsProteinSource(seq As IPolymerSequenceModel) As Boolean
-            Return seq.SequenceData _
+            Return IsProteinSource(seq.SequenceData)
+        End Function
+
+        ''' <summary>
+        ''' 目标序列数据是否为一条蛋白质序列
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function IsProteinSource(seq As String) As Boolean
+            Return seq _
                 .ToUpper _
                 .Where(Function(c) c <> "N"c AndAlso AA_CHARS_ALL.IndexOf(c) > -1) _
                 .FirstOrDefault _

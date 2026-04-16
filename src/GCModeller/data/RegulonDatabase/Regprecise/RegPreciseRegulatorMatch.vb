@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53b243eee14a98c49c6756b4b7b3d8c0, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
+﻿#Region "Microsoft.VisualBasic::09236346dbd392a364cd5e1d8dd479e5, data\RegulonDatabase\Regprecise\RegPreciseRegulatorMatch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 49 (45.37%)
+    ' Comment Lines: 45 (41.67%)
+    '    - Xml Docs: 97.78%
+    ' 
+    '   Blank Lines: 14 (12.96%)
+    '     File Size: 3.82 KB
+
+
     '     Class RegPreciseRegulatorMatch
     ' 
     '         Properties: biological_process, Description, effector, Family, Identities
@@ -57,7 +69,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::345fe63b267d1ab00acc2bbd540c7efb, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
+﻿#Region "Microsoft.VisualBasic::4764975bb8f735ca73627067045b5866, engine\IO\GCMarkupLanguage\GCML_Documents\XmlElements\BacterialModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 80 (52.29%)
+    ' Comment Lines: 56 (36.60%)
+    '    - Xml Docs: 91.07%
+    ' 
+    '   Blank Lines: 17 (11.11%)
+    '     File Size: 6.69 KB
+
+
     ' Class BacterialModel
     ' 
     '     Properties: BacteriaGenome, CultivationMediums, DispositionModels, Height, IFBAC2MetabolismNetwork
@@ -55,7 +67,7 @@ Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.Comp
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Bacterial_GENOME
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.Metabolism
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.GCML_Documents.XmlElements.SignalTransductions
-Imports SMRUCC.genomics.GCModeller.Framework.Kernel_Driver.LDM
+Imports SMRUCC.genomics.GCModeller.CompilerServices
 Imports SMRUCC.genomics.Model.SBML
 Imports SMRUCC.genomics.Model.SBML.FLuxBalanceModel
 
@@ -147,7 +159,7 @@ Public Class BacterialModel : Inherits ModelBaseType
             Call Xslt.Load(Style)
             Call Xslt.Transform(Input, Output)
         Catch ex As Exception
-            Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", ex.ToString, append:=False)
+            Call FileIO.FileSystem.WriteAllText(App.ExecutablePath & "/Error.log", ex.ToString, append:=False)
             Throw
         End Try
     End Sub

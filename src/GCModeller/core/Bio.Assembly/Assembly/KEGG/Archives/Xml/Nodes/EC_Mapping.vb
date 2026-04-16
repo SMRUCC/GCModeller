@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3aa987de88b2dbfb61677c3891f7a683, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
+﻿#Region "Microsoft.VisualBasic::7bfee6f88f5130f9830faf6c840d4ca0, core\Bio.Assembly\Assembly\KEGG\Archives\Xml\Nodes\EC_Mapping.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 92 (73.60%)
+    ' Comment Lines: 15 (12.00%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 18 (14.40%)
+    '     File Size: 5.51 KB
+
+
     '     Class ReactionMaps
     ' 
     '         Properties: EC, Reactions
@@ -52,7 +64,6 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 
 Namespace Assembly.KEGG.Archives.Xml.Nodes
@@ -113,9 +124,9 @@ Namespace Assembly.KEGG.Archives.Xml.Nodes
                         Select (From Pathway As bGetObject.Pathway
                                 In cat.Pathways
                                 Where Not Pathway.genes.IsNullOrEmpty
-                                Select (From gene As NamedValue In Pathway.genes
-                                        Let EC As String() = gene.text.EcParser
-                                        Select locusId = gene.name,
+                                Select (From gene As bGetObject.GeneName In Pathway.genes
+                                        Let EC As String() = gene.EC
+                                        Select locusId = gene.geneName,
                                             EC).ToArray).ToArray).IteratesALL.IteratesALL
             Dim gLst = (From GG In (From GO In gECs
                                     Select GO

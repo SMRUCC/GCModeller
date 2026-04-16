@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45c2219496530e8e675231fb11c6e4de, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
+﻿#Region "Microsoft.VisualBasic::14a6daab848b0a6a34b101004e876270, gr\network-visualization\Datavisualization.Network\Analysis\Statistics.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 95 (71.43%)
+    ' Comment Lines: 20 (15.04%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 18 (13.53%)
+    '     File Size: 6.49 KB
+
+
     '     Module Statistics
     ' 
     '         Function: BetweennessCentrality, ComputeBetweennessCentrality, ComputeDegreeData, ComputeNodeDegrees, ConnectedDegrees
@@ -44,8 +56,9 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Dijkstra
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
 Imports GraphNetwork = Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports names = Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic.NamesOf
@@ -57,15 +70,15 @@ Namespace Analysis
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ComputeDegreeData(Of T As IInteraction)(edges As IEnumerable(Of T)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+        Public Function ComputeDegreeData(Of T As IInteraction)(edges As IEnumerable(Of T)) As DegreeData
             Return GraphNetwork.ComputeDegreeData(edges, Function(l) l.source, Function(l) l.target)
         End Function
 
         <Extension>
-        Public Function Sum(degrees As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))) As Dictionary(Of String, Integer)
-            Dim degreeValue As New Dictionary(Of String, Integer)(degrees.in)
+        Public Function Sum(degrees As DegreeData) As Dictionary(Of String, Integer)
+            Dim degreeValue As New Dictionary(Of String, Integer)(degrees.In)
 
-            For Each node As KeyValuePair(Of String, Integer) In degrees.out
+            For Each node As KeyValuePair(Of String, Integer) In degrees.Out
                 degreeValue(node.Key) += degreeValue(node.Key) + node.Value
             Next
 
@@ -73,7 +86,8 @@ Namespace Analysis
         End Function
 
         <Extension>
-        Public Function BetweennessCentrality(graph As NetworkGraph, Optional undirected As Boolean = False) As Dictionary(Of String, Integer)
+        Public Function BetweennessCentrality(graph As NetworkGraph,
+                                              Optional undirected As Boolean = False) As Dictionary(Of String, Integer)
             Return DijkstraRouter.FromNetwork(graph, undirected).BetweennessCentrality
         End Function
 
@@ -84,7 +98,12 @@ Namespace Analysis
         ''' <returns></returns>
         <Extension>
         Public Function ComputeBetweennessCentrality(ByRef graph As NetworkGraph, Optional base% = 0) As Dictionary(Of String, Integer)
-            Dim data As Dictionary(Of String, Integer) = graph.BetweennessCentrality.ToDictionary(Function(a) a.Key, Function(a) a.Value + base)
+            Dim data As Dictionary(Of String, Integer) = graph _
+                .BetweennessCentrality _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.Value + base
+                              End Function)
             ' convert to double for avoid the integer upbound overflow
             ' when deal with the network graph in ultra large size
             Dim sumAll As Double = data.Values.Select(Function(i) CDbl(i)).Sum
@@ -126,12 +145,14 @@ Namespace Analysis
         Public Function ComputeNodeDegrees(ByRef g As NetworkGraph, Optional base% = 0) As Dictionary(Of String, Integer)
             Dim connectNodes As Dictionary(Of String, Integer) = g.ConnectedDegrees
             Dim d%
-            Dim dt As (Integer, Integer)
+            Dim dt As NodeDegree
             Dim degreeList = g.graphEdges.ComputeDegreeData
-            Dim sumAllOut As Double = degreeList.out.Values.Sum + base * g.vertex.Count
+            Dim sumAllOut As Double = degreeList.Out.Values.Sum + base * g.vertex.Count
             Dim sumAllDegree As Double = connectNodes.Values.Sum + base * g.vertex.Count
 
             For Each node As Graph.Node In g.vertex
+                dt = New NodeDegree
+
                 If Not connectNodes.ContainsKey(node.label) Then
                     ' 这个节点是孤立的节点，度为零
                     node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, base)
@@ -141,24 +162,24 @@ Namespace Analysis
                     node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_OUTDEGREE_CENTRALITY, base / sumAllOut)
                 Else
                     d = connectNodes(node.label)
-                    dt = (0, 0)
+
                     node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE, d)
                     node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_DEGREE_CENTRALITY, d / sumAllDegree)
 
-                    If degreeList.in.ContainsKey(node.label) Then
-                        d = degreeList.in(node.label)
+                    If degreeList.In.ContainsKey(node.label) Then
+                        d = degreeList.In(node.label)
                         node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_IN, d)
-                        dt = (d, 0)
+                        dt = New NodeDegree(d, 0)
                     End If
-                    If degreeList.out.ContainsKey(node.label) Then
-                        d = degreeList.out(node.label)
+                    If degreeList.Out.ContainsKey(node.label) Then
+                        d = degreeList.Out(node.label)
                         node.data.SetValue(names.REFLECTION_ID_MAPPING_DEGREE_OUT, d)
                         node.data.SetValue(names.REFLECTION_ID_MAPPING_RELATIVE_OUTDEGREE_CENTRALITY, d / sumAllOut)
-                        dt = (dt.Item1, d)
+                        dt = New NodeDegree(dt.In, d)
                     End If
-
-                    node.degree = dt
                 End If
+
+                node.degree = dt
             Next
 
             Return connectNodes

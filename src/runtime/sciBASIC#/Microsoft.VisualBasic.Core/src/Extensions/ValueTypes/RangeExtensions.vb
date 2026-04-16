@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 10 (45.45%)
+    ' Comment Lines: 9 (40.91%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (13.64%)
+    '     File Size: 778 B
+
+
     '     Module RangeExtensions
     ' 
     '         Function: Percentage

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 38 (80.85%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (19.15%)
+    '     File Size: 1.58 KB
+
+
     '     Class Partition
     ' 
     '         Properties: members, NumOfEntity, PropertyMeans, Tag, uids

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d5c1571d2a2e4babdccb6e8da2357382, Data_science\Graph\test\DijkstraTest.vb"
+﻿#Region "Microsoft.VisualBasic::1287dade6eda2b08295697196c1c76a0, Data_science\Graph\test\DijkstraTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 26 (78.79%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (21.21%)
+    '     File Size: 988 B
+
+
     ' Module DijkstraTest
     ' 
     '     Sub: Main
@@ -39,7 +51,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.Graph
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.GraphTheory
 
 Module DijkstraTest
 
@@ -65,8 +78,8 @@ Module DijkstraTest
         g.AddEdge(7, 9, weight.NextDouble)
         g.AddEdge(9, 6, weight.NextDouble)
 
-        Dim Dijkstra As New Dijkstra.DijkstraRouteFind(g)
-        Dim route = Dijkstra.CalculateMinCost(g.Vertex(0))
+        Dim Dijkstra As New Dijkstra.DijkstraRouter(g)
+        Dim route = Dijkstra.CalculateMinCost(g.vertex(0))
 
         Pause()
     End Sub

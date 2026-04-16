@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::092859cc52d2a0b5f2367e236eb90040, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
+﻿#Region "Microsoft.VisualBasic::fe5ec299ad066748691015be7180f449, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Clustal.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,36 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 82 (71.93%)
+    ' Comment Lines: 16 (14.04%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 16 (14.04%)
+    '     File Size: 4.66 KB
+
+
     '     Class Clustal
     ' 
     '         Properties: Conservation, Frequency
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: __getSite, __mid, GetEnumerator, IEnumerable_GetEnumerator, Mid
-    '                   (+2 Overloads) Save
+    '         Function: GetEnumerator, GetSite, IEnumerable_GetEnumerator, Mid, (+3 Overloads) Save
+    '                   Span
     ' 
-    '         Sub: __initCommon
+    '         Sub: Initialize
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
@@ -65,26 +79,29 @@ Namespace SequenceModel.Patterns.Clustal
         Dim _SRChains As SRChain()
 
         Public ReadOnly Property Frequency As IReadOnlyDictionary(Of Integer, IReadOnlyDictionary(Of Char, Double))
+        Public ReadOnly Property Conservation As SR()
 
+        ''' <summary>
+        ''' read the alignment result file.
+        ''' </summary>
+        ''' <param name="path"></param>
         Sub New(path As String)
             Call Me.New(New FastaFile(path))
         End Sub
 
         Sub New(source As IEnumerable(Of FastaSeq))
             _innerList = source.AsList
-            Call __initCommon()
+            Call Initialize()
         End Sub
 
         Sub New(fa As FastaFile)
             Call Me.New(source:=fa)
         End Sub
 
-        Public ReadOnly Property Conservation As SR()
-
         ''' <summary>
         ''' 计算每一个位点上面的保守性
         ''' </summary>
-        Private Sub __initCommon()
+        Private Sub Initialize()
             _SRChains = SR.FromAlign(_innerList, levels:=_innerList.Count)
             Dim variations As Patterns.PatternModel = Patterns.Frequency(_innerList)
             Dim dict As IReadOnlyDictionary(Of Integer, IReadOnlyDictionary(Of Char, Double)) =
@@ -95,10 +112,10 @@ Namespace SequenceModel.Patterns.Clustal
                                       Return DirectCast(y.value.Alphabets, IReadOnlyDictionary(Of Char, Double))
                                   End Function)
             _Frequency = dict
-            _Conservation = dict.Select(Function(x) __getSite(x)).ToArray
+            _Conservation = dict.Select(Function(x) GetSite(x)).ToArray
         End Sub
 
-        Private Shared Function __getSite(x As KeyValuePair(Of Integer, IReadOnlyDictionary(Of Char, Double))) As SR
+        Private Shared Function GetSite(x As KeyValuePair(Of Integer, IReadOnlyDictionary(Of Char, Double))) As SR
             Dim topSite = (From site As KeyValuePair(Of Char, Double) In x.Value
                            Select site
                            Order By site.Value Descending).First
@@ -120,13 +137,13 @@ Namespace SequenceModel.Patterns.Clustal
             Dim LQuery = (From x As FastaSeq In _innerList
                           Let midFa As FastaSeq = New FastaSeq With {
                               .Headers = x.Headers,
-                              .SequenceData = __mid(left, right, x.SequenceData)
+                              .SequenceData = Span(left, right, x.SequenceData)
                           }
                           Select midFa).ToArray
             Return New FastaFile(LQuery)
         End Function
 
-        Private Shared Function __mid(left As Integer, right As Integer, s As String) As String
+        Private Shared Function Span(left As Integer, right As Integer, s As String) As String
             s = Strings.Mid(s, 1, s.Length - right)
             s = Strings.Mid(s, left - 1)
             Return s
@@ -138,8 +155,13 @@ Namespace SequenceModel.Patterns.Clustal
             Next
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Save(FilePath$, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return New FastaFile(_innerList).Save(-1, FilePath, Encoding)
+            Return New FastaFile(_innerList).Save(lineBreak:=-1, FilePath, encoding:=Encoding)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Return New FastaFile(_innerList).Save(-1, s, encoding)
         End Function
 
         Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3769f376effdde50e6dfcc6310c7463, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
+﻿#Region "Microsoft.VisualBasic::27ec635455d2233eda49e7b1ef310f65, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Box.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 39 (55.71%)
+    ' Comment Lines: 19 (27.14%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 12 (17.14%)
+    '     File Size: 2.33 KB
+
+
     '     Class Box
     ' 
-    '         Properties: Size
+    '         Properties: border, box, fill, Size
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Sub: DrawRectangle
     ' 
     ' 
@@ -45,27 +57,70 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Shapes
 
+    ''' <summary>
+    ''' rectangle model
+    ''' </summary>
     Public Class Box : Inherits Shape
 
-        Sub New(Location As Point, Size As Size, Color As Color)
-            Call MyBase.New(Location)
+        Public Property box As SizeF
+        Public Property fill As String
+        Public Property border As Stroke
+
+        Public Overrides ReadOnly Property Size As SizeF
+            Get
+                Return box
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="Location"></param>
+        ''' <param name="Size"></param>
+        ''' <param name="Color">the fill color of the rectangle object</param>
+        Sub New(location As Point, size As Size, color As Color)
+            Call MyBase.New(location)
         End Sub
 
-        Public Overrides ReadOnly Property Size As Size
+        ''' <summary>
+        ''' Create new rectangle box with fill color
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <param name="color">the fill color</param>
+        Sub New(rect As Rectangle, color As Color)
+            Call MyBase.New(rect.Location)
+
+            Me.box = New SizeF(rect.Width, rect.Height)
+            Me.fill = color.ToHtmlColor
+        End Sub
+
+        ''' <summary>
+        ''' Create new rectangle box with fill color
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <param name="color">the fill color</param>
+        Sub New(rect As RectangleF, color As Color)
+            Call MyBase.New(rect.Location)
+
+            Me.box = rect.Size
+            Me.fill = color.ToHtmlColor
+        End Sub
 
         Public Shared Sub DrawRectangle(ByRef g As IGraphics,
                                         topLeft As Point,
                                         size As Size,
                                         Optional br As Brush = Nothing,
                                         Optional border As Stroke = Nothing)
+            Dim css = g.LoadEnvironment
 
             Call g.FillRectangle(br Or BlackBrush, New Rectangle(topLeft, size))
 
             If Not border Is Nothing Then
-                Call g.DrawRectangle(border.GDIObject, New Rectangle(topLeft, size))
+                Call g.DrawRectangle(css.GetPen(border), New Rectangle(topLeft, size))
             End If
         End Sub
     End Class

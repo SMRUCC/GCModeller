@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6332ac4898baa85d28703b9746753e2f, mime\text%html\Xml\Node.vb"
+﻿#Region "Microsoft.VisualBasic::481824f8075b86514380f1212e59346a, mime\text%html\Xml\Node.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 12 (30.77%)
+    ' Comment Lines: 19 (48.72%)
+    '    - Xml Docs: 89.47%
+    ' 
+    '   Blank Lines: 8 (20.51%)
+    '     File Size: 1.12 KB
+
+
     '     Class Node
     ' 
     '         Properties: [class], id, style
@@ -52,6 +64,14 @@ Namespace XmlMeta
     ''' <summary>
     ''' The base of the html node
     ''' </summary>
+    ''' <remarks>
+    ''' this object class model has these basically html element attributes:
+    ''' 
+    ''' 1. id
+    ''' 2. class
+    ''' 3. style
+    ''' 
+    ''' </remarks>
     Public MustInherit Class Node
 
         <XmlAttribute> Public Property id As String
@@ -59,7 +79,7 @@ Namespace XmlMeta
         ''' node class id, just like the id in HTML, you can also using this attribute to tweaks on the style by CSS.
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property [class] As String
+        <XmlAttribute> Public Property [class] As String()
 
         ''' <summary>
         ''' CSS style definition <see cref="ICSSValue"/>.(请注意，假若是SVG对象则赋值这个属性无效)

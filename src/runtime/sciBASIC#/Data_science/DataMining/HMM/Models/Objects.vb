@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2e2a8d37fde7991bd8fe73fadc9adea, Data_science\DataMining\HMM\Models\Objects.vb"
+﻿#Region "Microsoft.VisualBasic::333f36ad900b2fd75705bf92e57e7080, Data_science\DataMining\HMM\Models\Objects.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 26 (47.27%)
+    ' Comment Lines: 14 (25.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (27.27%)
+    '     File Size: 1.36 KB
+
+
     '     Class StatesObject
     ' 
     '         Properties: prob, state
@@ -43,35 +55,71 @@
     ' 
     '         Function: ToString
     ' 
+    '     Class Alpha
+    ' 
+    '         Properties: alphaF, alphas
+    ' 
+    '     Class Beta
+    ' 
+    '         Properties: betaF, betas
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Models
 
     Public Class StatesObject
 
+        ''' <summary>
+        ''' the state name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property state As String
         Public Property prob As Double()
 
         Public Overrides Function ToString() As String
-            Return $"{state}: {prob.Select(Function(d) stdNum.Round(d, 3)).ToArray.GetJson}"
+            Return $"{state}: {prob.Select(Function(d) std.Round(d, 3)).ToArray.GetJson}"
         End Function
 
     End Class
 
     Public Class Observable
 
+        ''' <summary>
+        ''' the observed state name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property obs As String
         Public Property prob As Double()
 
         Public Overrides Function ToString() As String
-            Return $"{obs}: {prob.Select(Function(d) stdNum.Round(d, 3)).ToArray.GetJson}"
+            Return $"{obs}: {prob.Select(Function(d) std.Round(d, 3)).ToArray.GetJson}"
         End Function
+
+    End Class
+
+    ''' <summary>
+    ''' alpha and alpha matrix
+    ''' </summary>
+    Public Class Alpha
+
+        Public Property alphaF As Double
+        Public Property alphas As List(Of List(Of Double))
+
+    End Class
+
+    ''' <summary>
+    ''' beta and beta matrix
+    ''' </summary>
+    Public Class Beta
+
+        Public Property betas As Double()()
+        Public Property betaF As Double
 
     End Class
 End Namespace

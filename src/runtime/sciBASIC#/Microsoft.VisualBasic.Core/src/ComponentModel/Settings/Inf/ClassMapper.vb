@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc9722d3dead7ea1fe31aeab80c665a3, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\ClassMapper.vb"
+﻿#Region "Microsoft.VisualBasic::1116a469efcc1ad425bfb282067f5e45, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\ClassMapper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 96 (65.31%)
+    ' Comment Lines: 28 (19.05%)
+    '    - Xml Docs: 96.43%
+    ' 
+    '   Blank Lines: 23 (15.65%)
+    '     File Size: 5.50 KB
+
+
     '     Module ClassMapper
     ' 
     '         Function: (+2 Overloads) ClassWriter, LoadIni, (+2 Overloads) MapParser, WriteClass
@@ -46,6 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace ComponentModel.Settings.Inf
 
@@ -75,7 +88,7 @@ Namespace ComponentModel.Settings.Inf
                 name = nameCLS.Name
             End If
 
-            Dim source = DataFrameColumnAttribute.LoadMapping(type)
+            Dim source = DataFrameColumnAttribute.LoadMapping(type, mapsAll:=True)
             Dim binds = source.Values.ToArray
 
             Return New NamedValue(Of BindProperty(Of DataFrameColumnAttribute)()) With {
@@ -99,11 +112,17 @@ Namespace ComponentModel.Settings.Inf
         Public Function ClassWriter(ini As IniFile, type As Type) As Object
             Dim obj As Object = Activator.CreateInstance(type)
             Dim maps = MapParser(type)
+            Dim o As Object
 
-            For Each map In maps.Value
+            For Each map As BindProperty(Of DataFrameColumnAttribute) In maps.Value
                 Dim key As String = map.field.Name
-                Dim value As String = ini.ReadValue(maps.Name, key)
-                Dim o As Object = Scripting.CTypeDynamic(value, map.Type)
+
+                If Not DataFramework.IsPrimitive(map.Type) Then
+                    o = ClassWriter(ini, map.Type)
+                Else
+                    o = any.CTypeDynamic(ini.ReadValue(maps.Name, key), map.Type)
+                End If
+
                 Call map.SetValue(obj, o)
             Next
 
@@ -122,12 +141,20 @@ Namespace ComponentModel.Settings.Inf
 
             For Each map As BindProperty(Of DataFrameColumnAttribute) In maps.Value
                 Dim key As String = map.field.Name
-                Dim value As String = Scripting.ToString(map.GetValue(x))
+                Dim value As Object = map.GetValue(x)
 
-                If value.StringEmpty Then
+                If value IsNot Nothing AndAlso Not DataFramework.IsPrimitive(value.GetType) Then
+                    Call ClassDumper(value.GetType, value, ini)
+                    Continue For
+                End If
+
+                Dim val_str As String = any.ToString(value)
+                Dim comment As String = map.member.Description
+
+                If val_str.StringEmpty Then
                     Call ini.WriteComment(maps.Name, $"{key}=<{map.Type.FullName}>", key)
                 Else
-                    Call ini.WriteValue(maps.Name, key, value)
+                    Call ini.WriteValue(maps.Name, key, val_str, comment)
                 End If
             Next
         End Sub
@@ -153,9 +180,15 @@ Namespace ComponentModel.Settings.Inf
         ''' <param name="ini"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function WriteClass(Of T As Class)(x As T, ini As String) As Boolean
+        Public Function WriteClass(Of T As Class)(x As T, ini As String, Optional clean As Boolean = False) As Boolean
+            If clean Then
+                Call "".SaveTo(ini)
+            End If
+
             Try
-                Call x.ClassDumper(New IniFile(ini))
+                Using inf As New IniFile(ini)
+                    Call x.ClassDumper(inf)
+                End Using
             Catch ex As Exception
                 ex = New Exception(ini, ex)
                 ex = New Exception(GetType(T).FullName, ex)

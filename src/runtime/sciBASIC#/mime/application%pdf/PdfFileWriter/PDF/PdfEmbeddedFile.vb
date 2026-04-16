@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d181d429169d4718ef2df9776a785d11, mime\application%pdf\PdfFileWriter\PDF\PdfEmbeddedFile.vb"
+﻿#Region "Microsoft.VisualBasic::9a4ecfe50ac2f18a6e9dde7d23476422, mime\application%pdf\PdfFileWriter\PDF\PdfEmbeddedFile.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,35 @@
 
     ' Summaries:
 
-    '     Class PdfEmbeddedFile
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 79 (38.16%)
+    ' Comment Lines: 91 (43.96%)
+    '    - Xml Docs: 47.25%
     ' 
-    '         Properties: FileName, MimeType
+    '   Blank Lines: 37 (17.87%)
+    '     File Size: 7.56 KB
+
+
+    ' Class PdfEmbeddedFile
     ' 
-    '         Constructor: (+3 Overloads) Sub New
-    '         Function: CompareTo, CreateEmbeddedFile
+    '     Properties: FileName, MimeType
     ' 
-    '     Class ExtToMime
+    '     Constructor: (+3 Overloads) Sub New
+    '     Function: CompareTo, CreateEmbeddedFile
     ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: CompareTo, TranslateExtToMime
+    ' Class ExtToMime
+    ' 
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: CompareTo, TranslateExtToMime
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -70,206 +82,187 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
-Imports System
 Imports System.IO
-Imports System.Collections.Generic
 
+''' <summary>
+''' PDF Embedded file class
+''' </summary>
+Public Class PdfEmbeddedFile
+    Inherits PdfObject
+    Implements IComparable(Of PdfEmbeddedFile)
 
     ''' <summary>
-    ''' PDF Embedded file class
+    ''' Gets file name
     ''' </summary>
-    Public Class PdfEmbeddedFile
-        Inherits PdfObject
-        Implements IComparable(Of PdfEmbeddedFile)
-        ''' <summary>
-        ''' Gets file name
-        ''' </summary>
+    Public Property FileName As String
 
-        ''' <summary>
-        ''' Gets Mime type
-        ''' </summary>
-        ''' <remarks>
-        ''' <para>
-        ''' The PDF embedded file translates the file extension into mime type string.
-        ''' If the translation fails the MimeType is set to null.
-        ''' </para>
-        ''' </remarks>
-        Private _FileName As String, _MimeType As String
+    ''' <summary>
+    ''' Gets Mime type
+    ''' </summary>
+    ''' <remarks>
+    ''' <para>
+    ''' The PDF embedded file translates the file extension into mime type string.
+    ''' If the translation fails the MimeType is set to null.
+    ''' </para>
+    ''' </remarks>
+    Public Property MimeType As String
 
-        Public Property FileName As String
-            Get
-                Return _FileName
-            End Get
-            Private Set(ByVal value As String)
-                _FileName = value
-            End Set
-        End Property
+    Private Sub New()
+    End Sub
 
-        Public Property MimeType As String
-            Get
-                Return _MimeType
-            End Get
-            Private Set(ByVal value As String)
-                _MimeType = value
-            End Set
-        End Property
+    Private Sub New(Document As PdfDocument, FileName As String, PdfFileName As String)
+        MyBase.New(Document, ObjectType.Dictionary, "/Filespec")
+        ' save file name
+        Me.FileName = FileName
 
-        Private Sub New()
-        End Sub
+        ' test exitance
+        If Not File.Exists(FileName) Then Throw New ApplicationException("Embedded file " & FileName & " does not exist")
 
-        Private Sub New(ByVal Document As PdfDocument, ByVal FileName As String, ByVal PdfFileName As String)
-            MyBase.New(Document, ObjectType.Dictionary, "/Filespec")
-            ' save file name
-            Me.FileName = FileName
+        ' get file length
+        Dim FI As FileInfo = New FileInfo(FileName)
+        If FI.Length > Integer.MaxValue - 4095 Then Throw New ApplicationException("Embedded file " & FileName & " too long")
+        Dim FileLength As Integer = FI.Length
 
-            ' test exitance
-            If Not File.Exists(FileName) Then Throw New ApplicationException("Embedded file " & FileName & " does not exist")
+        ' translate file extension to mime type string
+        MimeType = ExtToMime.TranslateExtToMime(FI.Extension)
 
-            ' get file length
-            Dim FI As FileInfo = New FileInfo(FileName)
-            If FI.Length > Integer.MaxValue - 4095 Then Throw New ApplicationException("Embedded file " & FileName & " too long")
-            Dim FileLength As Integer = FI.Length
+        ' create embedded file object
+        Dim EmbeddedFile As PdfObject = New PdfObject(Document, ObjectType.Stream, "/EmbeddedFile")
 
-            ' translate file extension to mime type string
-            MimeType = ExtToMime.TranslateExtToMime(FI.Extension)
+        ' save uncompressed file length
+        EmbeddedFile.Dictionary.AddFormat("/Params", "<</Size {0}>>", FileLength)
 
-            ' create embedded file object
-            Dim EmbeddedFile As PdfObject = New PdfObject(Document, ObjectType.Stream, "/EmbeddedFile")
+        ' file data content byte array
+        EmbeddedFile.ObjectValueArray = New Byte(FileLength - 1) {}
 
-            ' save uncompressed file length
-            EmbeddedFile.Dictionary.AddFormat("/Params", "<</Size {0}>>", FileLength)
+        ' load all the file's data
+        Dim DataStream As FileStream = Nothing
 
-            ' file data content byte array
-            EmbeddedFile.ObjectValueArray = New Byte(FileLength - 1) {}
+        Try
+            ' open the file
+            DataStream = New FileStream(FileName, FileMode.Open, FileAccess.Read)
 
-            ' load all the file's data
-            Dim DataStream As FileStream = Nothing
+            ' read all the file
+            If DataStream.Read(EmbeddedFile.ObjectValueArray, 0, FileLength) <> FileLength Then Throw New Exception()
 
-            Try
-                ' open the file
-                DataStream = New FileStream(FileName, FileMode.Open, FileAccess.Read)
+            ' loading file failed
+        Catch __unusedException1__ As Exception
+            Throw New ApplicationException("Invalid media file: " & FileName)
+        End Try
 
-                ' read all the file
-                If DataStream.Read(EmbeddedFile.ObjectValueArray, 0, FileLength) <> FileLength Then Throw New Exception()
+        ' close the file
+        DataStream.Close()
 
-                ' loading file failed
-            Catch __unusedException1__ As Exception
-                Throw New ApplicationException("Invalid media file: " & FileName)
-            End Try
+        ' debug
+        If Document.Debug Then EmbeddedFile.ObjectValueArray = Document.TextToByteArray("*** MEDIA FILE PLACE HOLDER ***")
 
-            ' close the file
-            DataStream.Close()
+        ' write stream
+        EmbeddedFile.WriteObjectToPdfFile()
 
-            ' debug
-            If Document.Debug Then EmbeddedFile.ObjectValueArray = Document.TextToByteArray("*** MEDIA FILE PLACE HOLDER ***")
+        ' file spec object type
+        Dictionary.Add("/Type", "/Filespec")
 
-            ' write stream
-            EmbeddedFile.WriteObjectToPdfFile()
+        ' PDF file name
+        If String.IsNullOrWhiteSpace(PdfFileName) Then PdfFileName = FI.Name
+        Dictionary.AddPdfString("/F", PdfFileName)
+        Dictionary.AddPdfString("/UF", PdfFileName)
 
-            ' file spec object type
-            Dictionary.Add("/Type", "/Filespec")
+        ' add reference
+        Dictionary.AddFormat("/EF", "<</F {0} 0 R /UF {0} 0 R>>", EmbeddedFile.ObjectNumber)
+    End Sub
 
-            ' PDF file name
-            If String.IsNullOrWhiteSpace(PdfFileName) Then PdfFileName = FI.Name
-            Dictionary.AddPdfString("/F", PdfFileName)
-            Dictionary.AddPdfString("/UF", PdfFileName)
+    Private Sub New(FileName As String)
+        ' save file name
+        Me.FileName = FileName
+    End Sub
 
-            ' add reference
-            Dictionary.AddFormat("/EF", "<</F {0} 0 R /UF {0} 0 R>>", EmbeddedFile.ObjectNumber)
-            Return
-        End Sub
+    ''' <summary>
+    ''' PDF embedded file class constructor
+    ''' </summary>
+    ''' <param name="Document">Current document</param>
+    ''' <param name="FileName">File name</param>
+    ''' <param name="PdfFileName">PDF file name (see remarks)</param>
+    ''' <returns>PdfEmbeddedFile object</returns>
+    ''' <remarks>
+    ''' <para>
+    ''' FileName is the name of the source file on the hard disk.
+    ''' PDFFileName is the name of the as saved within the PDF document file.
+    ''' If PDFFileName is not given or it is set to null, the class takes
+    ''' the hard disk's file name without the path.
+    ''' </para>
+    ''' </remarks>
+    Public Shared Function CreateEmbeddedFile(Document As PdfDocument, FileName As String, Optional PdfFileName As String = Nothing) As PdfEmbeddedFile
+        ' first time
+        If Document.EmbeddedFileArray Is Nothing Then Document.EmbeddedFileArray = New List(Of PdfEmbeddedFile)()
 
-        Private Sub New(ByVal FileName As String)
-            ' save file name
-            Me.FileName = FileName
-            Return
-        End Sub
+        ' search list for a duplicate
+        Dim Index As Integer = Document.EmbeddedFileArray.BinarySearch(New PdfEmbeddedFile(FileName))
 
-        ''' <summary>
-        ''' PDF embedded file class constructor
-        ''' </summary>
-        ''' <param name="Document">Current document</param>
-        ''' <param name="FileName">File name</param>
-        ''' <param name="PdfFileName">PDF file name (see remarks)</param>
-        ''' <returns>PdfEmbeddedFile object</returns>
-        ''' <remarks>
-        ''' <para>
-        ''' FileName is the name of the source file on the hard disk.
-        ''' PDFFileName is the name of the as saved within the PDF document file.
-        ''' If PDFFileName is not given or it is set to null, the class takes
-        ''' the hard disk's file name without the path.
-        ''' </para>
-        ''' </remarks>
-        Public Shared Function CreateEmbeddedFile(ByVal Document As PdfDocument, ByVal FileName As String, ByVal Optional PdfFileName As String = Nothing) As PdfEmbeddedFile
-            ' first time
-            If Document.EmbeddedFileArray Is Nothing Then Document.EmbeddedFileArray = New List(Of PdfEmbeddedFile)()
+        ' this is a duplicate
+        If Index >= 0 Then Return Document.EmbeddedFileArray(Index)
 
-            ' search list for a duplicate
-            Dim Index As Integer = Document.EmbeddedFileArray.BinarySearch(New PdfEmbeddedFile(FileName))
+        ' new object
+        Dim EmbeddedFile As PdfEmbeddedFile = New PdfEmbeddedFile(Document, FileName, PdfFileName)
 
-            ' this is a duplicate
-            If Index >= 0 Then Return Document.EmbeddedFileArray(Index)
+        ' save new string in array
+        Document.EmbeddedFileArray.Insert(Not Index, EmbeddedFile)
 
-            ' new object
-            Dim EmbeddedFile As PdfEmbeddedFile = New PdfEmbeddedFile(Document, FileName, PdfFileName)
+        ' exit
+        Return EmbeddedFile
+    End Function
 
-            ' save new string in array
-            Document.EmbeddedFileArray.Insert(Not Index, EmbeddedFile)
+    ''' <summary>
+    ''' Compare two PdfEmbededFile objects
+    ''' </summary>
+    ''' <param name="Other">Other argument</param>
+    ''' <returns>Compare result</returns>
+    Public Overloads Function CompareTo(Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
+        Return String.Compare(FileName, Other.FileName, True)
+    End Function
+End Class
 
-            ' exit
-            Return EmbeddedFile
-        End Function
+Friend Class ExtToMime : Implements IComparable(Of ExtToMime)
 
-        ''' <summary>
-        ''' Compare two PdfEmbededFile objects
-        ''' </summary>
-        ''' <param name="Other">Other argument</param>
-        ''' <returns>Compare result</returns>
-        Public Function CompareTo(ByVal Other As PdfEmbeddedFile) As Integer Implements IComparable(Of PdfEmbeddedFile).CompareTo
-            Return String.Compare(FileName, Other.FileName, True)
-        End Function
-    End Class
+    Friend Ext As String
+    Friend Mime As String
 
-    Friend Class ExtToMime
-        Implements IComparable(Of ExtToMime)
+    Friend Sub New(Ext As String, Mime As String)
+        Me.Ext = Ext
+        Me.Mime = Mime
+    End Sub
 
-        Friend Ext As String
-        Friend Mime As String
+    Friend Shared Function TranslateExtToMime(Ext As String) As String
+        Dim Index As Integer = Array.BinarySearch(ExtToMimeArray, New ExtToMime(Ext, Nothing))
+        Return If(Index >= 0, ExtToMimeArray(Index).Mime, Nothing)
+    End Function
 
-        Friend Sub New(ByVal Ext As String, ByVal Mime As String)
-            Me.Ext = Ext
-            Me.Mime = Mime
-            Return
-        End Sub
+    ''' <summary>
+    ''' Compare ExtToMime records
+    ''' </summary>
+    ''' <param name="Other">Other record</param>
+    ''' <returns></returns>
+    Public Function CompareTo(Other As ExtToMime) As Integer Implements IComparable(Of ExtToMime).CompareTo
+        Return String.Compare(Ext, Other.Ext, True)
+    End Function
 
-        Friend Shared Function TranslateExtToMime(ByVal Ext As String) As String
-            Dim Index As Integer = Array.BinarySearch(ExtToMimeArray, New ExtToMime(Ext, Nothing))
-            Return If(Index >= 0, ExtToMimeArray(Index).Mime, Nothing)
-        End Function
+    ''' <summary>
+    ''' Covers most Windows-compatible formats including .avi and .divx
+    ''' </summary>
+    Private Shared ExtToMimeArray As ExtToMime() = {
+        New ExtToMime(".avi", "video/avi"),
+        New ExtToMime(".divx", "video/avi"),      ' Covers most Windows-compatible formats including .avi and .divx
+        New ExtToMime(".mpg", "video/mpeg"),      ' MPEG-1 video with multiplexed audio; Defined in RFC 2045 and RFC 2046
+        New ExtToMime(".mpeg", "video/mpeg"),     ' MPEG-1 video with multiplexed audio; Defined in RFC 2045 and RFC 2046
+        New ExtToMime(".mp4", "video/mp4"),       ' MP4 video; Defined in RFC 4337
+        New ExtToMime(".mov", "video/quicktime"), ' QuickTime video .mov
+        New ExtToMime(".wav", "audio/wav"),       ' audio
+        New ExtToMime(".wma", "audio/x-ms-wma"),  ' audio
+        New ExtToMime(".mp3", "audio/mpeg")       ' audio
+    }
 
-        ''' <summary>
-        ''' Compare ExtToMime records
-        ''' </summary>
-        ''' <param name="Other">Other record</param>
-        ''' <returns></returns>
-        Public Function CompareTo(ByVal Other As ExtToMime) As Integer Implements IComparable(Of ExtToMime).CompareTo
-            Return String.Compare(Ext, Other.Ext, True)
-        End Function
-
-        Private Shared ExtToMimeArray As ExtToMime() = {New ExtToMime(".avi", "video/avi"), New ExtToMime(".divx", "video/avi"), New ExtToMime(".mpg", "video/mpeg"), New ExtToMime(".mpeg", "video/mpeg"), New ExtToMime(".mp4", "video/mp4"), New ExtToMime(".mov", "video/quicktime"), New ExtToMime(".wav", "audio/wav"), New ExtToMime(".wma", "audio/x-ms-wma"), New ExtToMime(".mp3", "audio/mpeg")}         ' Covers most Windows-compatible formats including .avi and .divx
-        ' Covers most Windows-compatible formats including .avi and .divx
-        ' MPEG-1 video with multiplexed audio; Defined in RFC 2045 and RFC 2046
-        ' MPEG-1 video with multiplexed audio; Defined in RFC 2045 and RFC 2046
-        ' MP4 video; Defined in RFC 4337
-        ' QuickTime video .mov
-        ' audio
-        ' audio
-        ' audio
-
-        Shared Sub New()
-            Array.Sort(ExtToMimeArray)
-            Return
-        End Sub
-    End Class
+    Shared Sub New()
+        Array.Sort(ExtToMimeArray)
+    End Sub
+End Class

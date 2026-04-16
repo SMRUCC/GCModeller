@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 123 (71.10%)
+    ' Comment Lines: 32 (18.50%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 18 (10.40%)
+    '     File Size: 9.56 KB
+
+
     '     Module API
     ' 
     '         Function: __enzymeClassify, (+2 Overloads) EnzymeClassification, GenerateBasicDocument, InternalDefaultHandler

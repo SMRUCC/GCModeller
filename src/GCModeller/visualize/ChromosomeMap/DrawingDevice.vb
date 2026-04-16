@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1ed3f982c85f6cd0127442f09b43679, visualize\ChromosomeMap\DrawingDevice.vb"
+﻿#Region "Microsoft.VisualBasic::61e8815bd0cf953111c484fd177d8121, visualize\ChromosomeMap\DrawingDevice.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 470
+    '    Code Lines: 344 (73.19%)
+    ' Comment Lines: 47 (10.00%)
+    '    - Xml Docs: 85.11%
+    ' 
+    '   Blank Lines: 79 (16.81%)
+    '     File Size: 18.51 KB
+
+
     ' Class DrawingDevice
     ' 
     '     Properties: Height, RulerFont, Width
@@ -59,6 +71,32 @@ Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Visualize
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Class DrawingDevice
 
@@ -164,7 +202,7 @@ Public Class DrawingDevice
 
     Public Function InvokeDrawing(model As ChromesomeDrawingModel) As GraphicsData()
         With model
-            Call .ToString.__DEBUG_ECHO
+            Call .ToString.debug
 
             .MotifSites = .MotifSites Or Empty(Of MotifSite)()
             .MutationDatas = .MutationDatas Or Empty(Of MultationPointData)()
@@ -222,7 +260,7 @@ Public Class DrawingDevice
                                Call doRender(g, region, chr, args)
                            End Sub
 
-        Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
+        Call $"Resolution is {_Width}, {_Height}".debug
 
         Return g.GraphicsPlots(New Size(_Width, _Height), g.DefaultPadding, "white", plotInternal)
     End Function
@@ -380,7 +418,7 @@ Public Class DrawingDevice
     End Sub
 
     Private Shared Function getRulerText(n As Single) As String
-        Dim s As String = Format(n, "##.#")
+        Dim s As String = Strings.Format(n, "##.#")
         Dim p = InStr(s, ".")
 
         If p = 0 Then
@@ -459,14 +497,14 @@ Public Class DrawingDevice
     End Function
 
     Public Function ExportColorProfiles(ObjectModel As ChromesomeDrawingModel) As Image
-        Dim g As Graphics2D
+        Dim g As IGraphics
         Dim _Width As Integer = 1920, _Height As Integer = 1200
 
         Try
-            Call $"Resolution is {_Width}, {_Height}".__DEBUG_ECHO
+            Call $"Resolution is {_Width}, {_Height}".debug
             Call FlushMemory()
 
-            g = New Size(_Width, _Height).CreateGDIDevice
+            g = DriverLoad.CreateGraphicsDevice(New Size(_Width, _Height))
         Catch ex As Exception
             Call Console.WriteLine(GDI_PLUS_MEMORY_EXCEPTION & vbCrLf)
             Throw
@@ -492,6 +530,6 @@ Public Class DrawingDevice
             Call g.DrawString("No motif site on the map.", Font, Brushes.Gray, New Point(Left, Top + 10))
         End If
 
-        Return g.ImageResource
+        Return DirectCast(g, GdiRasterGraphics).ImageResource
     End Function
 End Class

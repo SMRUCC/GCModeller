@@ -128,73 +128,73 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame.Extensions\DataFramework.Extensions.vbproj">
-      <Project>{344bf0cf-107f-45d2-9074-9865d8f86506}</Project>
-      <Name>DataFramework.Extensions</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{3d9314da-87ac-475c-a56a-7d8f8c567a52}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.NET5.vbproj">
+      <Project>{8b4966ab-8873-4b1d-a594-0253c785517f}</Project>
+      <Name>DataMining.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\DataMining\DataMining.vbproj">
-      <Project>{1b42809b-603f-4cea-a0db-91276582b9ca}</Project>
-      <Name>DataMining</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\HCTreePlot\HCTreePlot.vbproj">
+      <Project>{1c7250f6-1eaa-4a4f-beb9-54810c3334cd}</Project>
+      <Name>HCTreePlot</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hierarchical-clustering.vbproj">
-      <Project>{6ca54af6-cadc-457e-94b9-384f2990f07e}</Project>
-      <Name>hierarchical-clustering</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\hctree.NET5.vbproj">
+      <Project>{5f61e770-f2b1-4f70-921f-ddbea3e898bd}</Project>
+      <Name>hctree.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
-      <Project>{203bc68f-a0cd-443a-ab62-4af4110f752f}</Project>
-      <Name>GraphTheory</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
+      <Project>{44a0f91b-9bc0-498a-821e-3909bae26434}</Project>
+      <Name>graph-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\DataFittings.vbproj">
-      <Project>{fc125b0d-1942-496f-b502-9c0eb80e35b6}</Project>
-      <Name>DataFittings</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFittings\linear-netcore5.vbproj">
+      <Project>{e71492c1-ca9a-48e8-b7a4-1a8b6d33a3b6}</Project>
+      <Name>linear-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\DataFrame.vbproj">
-      <Project>{6140aed7-e317-46dd-9c15-7fe400795992}</Project>
-      <Name>DataFrame</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj">
+      <Project>{26205db8-d7c5-402f-8518-71aa6c37420e}</Project>
+      <Name>dataframeUtils-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj">
+      <Project>{fd581bca-b6b6-497f-b644-be4e0ff076a5}</Project>
+      <Name>stats-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\Plots.vbproj">
-      <Project>{17f8e821-0a01-4975-9caa-ac95251226d5}</Project>
-      <Name>Plots</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{7ba7b90f-ce4a-492a-9aa9-995fe313d4b7}</Project>
+      <Name>Math.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\Microsoft.VisualBasic.Imaging.vbproj">
-      <Project>{85e71b4b-9276-4ec8-aadc-c849205f1ea8}</Project>
-      <Name>Microsoft.VisualBasic.Imaging</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots\plots-netcore5.vbproj">
+      <Project>{a184d075-c0b2-4dd5-ad25-d5e111f541f1}</Project>
+      <Name>plots-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Network.GraphTheory</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj">
+      <Project>{4ec9bbdf-a35a-466a-9263-b46b5193a4d4}</Project>
+      <Name>imaging.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
-      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
-      <Name>Network.IO.Extensions</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj">
+      <Project>{58ab3e9b-8499-4f7f-b256-a1b7cfbe6550}</Project>
+      <Name>network_graph-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\physics\physics.vbproj">
-      <Project>{3291389c-ea87-4b33-a9a5-65a2d60ba3e2}</Project>
-      <Name>physics</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj">
+      <Project>{6030b76b-3c47-4b85-bed7-d4c8bf970bf8}</Project>
+      <Name>network_io-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{da65f3f5-b19e-4651-9334-92832fbe9bf7}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\MIME-htmls.vbproj">
-      <Project>{2dd4be80-ddc3-4767-94a7-10f1c3395716}</Project>
-      <Name>MIME-htmls</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\mime\text%25html\html_netcore5.vbproj">
+      <Project>{715b2dae-39d4-4c53-92b1-0f1ab5163aec}</Project>
+      <Name>html_netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\workbench\modules\ExperimentDesigner\ExperimentDesigner.vbproj">
-      <Project>{fce39d85-b8c5-490c-b330-79ff3a5bfa27}</Project>
-      <Name>ExperimentDesigner</Name>
+    <ProjectReference Include="..\..\..\..\workbench\modules\ExperimentDesigner\designer-netcore5.vbproj">
+      <Project>{38f5aa58-1002-49cd-bb36-612badb642d9}</Project>
+      <Name>designer-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix.vbproj">
-      <Project>{abaf35b4-d393-4393-8d99-b66860ebdb1d}</Project>
-      <Name>HTS_matrix</Name>
+    <ProjectReference Include="..\..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj">
+      <Project>{1838b2dd-1dcf-46e3-aa4c-7d2d6a11f512}</Project>
+      <Name>HTS_matrix-netcore5</Name>
     </ProjectReference>
     <ProjectReference Include="..\WGCNA\WGCNA.vbproj">
       <Project>{ba633917-6ae5-4f55-987a-1e2c803a131c}</Project>

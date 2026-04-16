@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c7e7530aedb04a97906cd61db09f6a0, mime\application%pdf\PdfReader\Document\PdfIndirectObjects.vb"
+﻿#Region "Microsoft.VisualBasic::5983793eebd6d1e42f63e4a7337c6072, mime\application%pdf\PdfReader\Document\PdfIndirectObjects.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 73 (78.49%)
+    ' Comment Lines: 1 (1.08%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 19 (20.43%)
+    '     File Size: 3.35 KB
+
+
     '     Class PdfIndirectObjects
     ' 
     '         Properties: Count, Ids, Values
@@ -55,7 +67,7 @@ Namespace PdfReader
 
         Private _ids As Dictionary(Of Integer, PdfIndirectObjectId) = New Dictionary(Of Integer, PdfIndirectObjectId)()
 
-        Public Sub New(ByVal parent As PdfObject)
+        Public Sub New(parent As PdfObject)
             MyBase.New(parent)
         End Sub
 
@@ -65,7 +77,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Function ContainsId(ByVal id As Integer) As Boolean
+        Public Function ContainsId(id As Integer) As Boolean
             Return _ids.ContainsKey(id)
         End Function
 
@@ -85,25 +97,25 @@ Namespace PdfReader
             Return _ids.GetEnumerator()
         End Function
 
-        Default Public ReadOnly Property Item(ByVal id As Integer) As PdfIndirectObjectId
+        Default Public ReadOnly Property Item(id As Integer) As PdfIndirectObjectId
             Get
                 Return _ids(id)
             End Get
         End Property
 
-        Default Public ReadOnly Property Item(ByVal id As Integer, ByVal gen As Integer) As PdfIndirectObject
+        Default Public ReadOnly Property Item(id As Integer, gen As Integer) As PdfIndirectObject
             Get
                 Return _ids(id)(gen)
             End Get
         End Property
 
-        Default Public ReadOnly Property Item(ByVal reference As PdfObjectReference) As PdfIndirectObject
+        Default Public ReadOnly Property Item(reference As PdfObjectReference) As PdfIndirectObject
             Get
                 Return Me(reference.Id, reference.Gen)
             End Get
         End Property
 
-        Public Function OptionalValue(Of T As PdfObject)(ByVal reference As PdfObjectReference) As T
+        Public Function OptionalValue(Of T As PdfObject)(reference As PdfObjectReference) As T
             Dim obj = Document.ResolveReference(reference.Id, reference.Gen)
 
             If obj IsNot Nothing Then
@@ -114,19 +126,19 @@ Namespace PdfReader
             Return Nothing
         End Function
 
-        Public Function MandatoryValue(Of T As PdfObject)(ByVal reference As PdfObjectReference) As T
+        Public Function MandatoryValue(Of T As PdfObject)(reference As PdfObjectReference) As T
             Dim obj = Document.ResolveReference(reference.Id, reference.Gen)
             If obj Is Nothing OrElse Not (TypeOf obj Is T) Then Throw New ApplicationException($"Mandatory indirect object ({reference.Id},{reference.Gen}) missing or incorrect type.")
             Return obj
         End Function
 
-        Public Sub ResolveAllReferences(ByVal document As PdfDocument)
+        Public Sub ResolveAllReferences(document As PdfDocument)
             For Each id In Values
                 id.ResolveAllReferences(document)
             Next
         End Sub
 
-        Public Sub AddXRef(ByVal xref As TokenXRefEntry)
+        Public Sub AddXRef(xref As TokenXRefEntry)
             ' If this is the first time we have encountered this id, then add it
             Dim indirectId As PdfIndirectObjectId = Nothing
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2545004bbf22df1b121354da8939da63, Microsoft.VisualBasic.Core\src\Extensions\Security\SHA.vb"
+﻿#Region "Microsoft.VisualBasic::af0079c08e8717711dfaece43adc6b67, Microsoft.VisualBasic.Core\src\Extensions\Security\SHA.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 285
+    '    Code Lines: 122 (42.81%)
+    ' Comment Lines: 88 (30.88%)
+    '    - Xml Docs: 43.18%
+    ' 
+    '   Blank Lines: 75 (26.32%)
+    '     File Size: 11.90 KB
+
+
     '     Class SHA256
     ' 
     '         Properties: CertificateSigned, Passphrase
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Decrypt, DecryptString, Deserialization, Encrypt, EncryptData
-    '                   (+2 Overloads) GetDynamicsCertification, Serialization, ToString
+    '         Function: Create, Decrypt, DecryptString, Deserialization, Encrypt
+    '                   EncryptData, (+2 Overloads) GetDynamicsCertification, Serialization, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Security.Cryptography
 Imports System.Text
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -267,10 +280,8 @@ Namespace SecurityString
 
             Dim plainTextBytes As Byte() = Encoding.UTF8.GetBytes(plainText)
             Dim password As New PasswordDeriveBytes(strPassphrase, saltValueBytes, hashAlgorithm, passwordIterations)
-#Disable Warning
             Dim keyBytes As Byte() = password.GetBytes(keySize \ 8)
-#Enable Warning
-            Dim symmetricKey As New RijndaelManaged()
+            Dim symmetricKey As Rijndael = Rijndael.Create()
 
             symmetricKey.Mode = CipherMode.CBC
 
@@ -322,6 +333,11 @@ Namespace SecurityString
             Dim saltValue As String = Microsoft.VisualBasic.SecurityString.GetFileMd5(GetType(SHA256).Assembly.Location)
             saltValue = Mid(saltValue, 3, 8)
             Return New SHA256(Password, saltValue)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Create() As System.Security.Cryptography.SHA256
+            Return System.Security.Cryptography.SHA256.Create
         End Function
     End Class
 End Namespace

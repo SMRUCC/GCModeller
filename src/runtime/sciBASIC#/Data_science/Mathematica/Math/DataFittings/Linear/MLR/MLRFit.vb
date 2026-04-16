@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 39 (52.00%)
+    ' Comment Lines: 27 (36.00%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 9 (12.00%)
+    '     File Size: 2.58 KB
+
+
     '     Class MLRFit
     ' 
     '         Properties: beta, ErrorTest, Fx, N, p

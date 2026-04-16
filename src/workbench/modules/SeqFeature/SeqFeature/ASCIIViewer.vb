@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ca4ec493bdfb4a0d1b62d91da242d32, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
+﻿#Region "Microsoft.VisualBasic::92c8fc02e20a15ae43fa03326443e3c2, modules\SeqFeature\SeqFeature\ASCIIViewer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 65 (62.50%)
+    ' Comment Lines: 22 (21.15%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 17 (16.35%)
+    '     File Size: 3.42 KB
+
 
     ' Module ASCIIViewer
     ' 
@@ -101,7 +113,7 @@ Public Module ASCIIViewer
                         Dim delta% = lefts(j) - left
 
                         Call .Write(New String(" "c, delta - 1) & "|")
-                        Call left.SetValue(lefts(j))
+                        Call left.InlineCopy(lefts(j))
                     Next
                 End If
 

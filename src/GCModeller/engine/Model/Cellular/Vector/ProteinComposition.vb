@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51a9d20a61b4d80112c1b6e7dcc3821c, engine\Model\Cellular\Vector\ProteinComposition.vb"
+﻿#Region "Microsoft.VisualBasic::760b2fc60af81bb36a7574e7e59661cb, engine\Model\Cellular\Vector\ProteinComposition.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 65 (37.57%)
+    ' Comment Lines: 95 (54.91%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (7.51%)
+    '     File Size: 5.59 KB
+
+
     '     Class ProteinComposition
     ' 
     '         Properties: A, C, D, E, F
@@ -40,7 +52,7 @@
     '                     V, W, Y
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: Blank, FromRefSeq, GetEnumerator, IEnumerable_GetEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,13 +60,21 @@
 #End Region
 
 Imports System.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Cellular.Vector
 
-    Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double))
+    ''' <summary>
+    ''' the amino acid composition vector
+    ''' </summary>
+    Public Class ProteinComposition : Implements IEnumerable(Of NamedValue(Of Double)), INamedValue
 
-        Public Property proteinID As String
+        ''' <summary>
+        ''' is the polypeptide unique reference id
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property proteinID As String Implements INamedValue.Key
 
         ''' <summary>
         ''' L-Alanine
@@ -162,7 +182,7 @@ Namespace Cellular.Vector
         ''' <returns></returns>
         Public Property U As Integer
         ''' <summary>
-        ''' L-Pyrrolysine
+        ''' * L-Pyrrolysine
         ''' </summary>
         ''' <returns></returns>
         Public Property O As Integer
@@ -176,6 +196,10 @@ Namespace Cellular.Vector
                 .OrderBy(Function(p) p.Name) _
                 .ToArray
         End Sub
+
+        Public Shared Function Blank(protId As String) As ProteinComposition
+            Return New ProteinComposition With {.proteinID = protId}
+        End Function
 
         Public Shared Function FromRefSeq(sequence As String, proteinID As String) As ProteinComposition
             Dim protein As New ProteinComposition With {.proteinID = proteinID}

@@ -159,49 +159,53 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\47_dotnet_ms-vb_data.framework.vbproj">
-      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
-      <Name>47_dotnet_ms-vb_data.framework</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj">
+      <Project>{4ea5d1a3-20ac-5ef2-e8e3-8e8c905d86b7}</Project>
+      <Name>dataframework-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\GraphTheory.vbproj">
-      <Project>{203BC68F-A0CD-443A-AB62-4AF4110F752F}</Project>
-      <Name>GraphTheory</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj">
+      <Project>{7f1e95fa-3271-f9b8-c142-4aba8bf9d01a}</Project>
+      <Name>graph-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
-      <Project>{E3367B88-5D0C-495A-8273-331656D4B5AA}</Project>
-      <Name>math-core</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj">
+      <Project>{132ee744-eff7-3644-6a33-d81504e7f9ef}</Project>
+      <Name>Math.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\ODEsSolver.vbproj">
-      <Project>{14e0b048-3a0d-4fd6-aa79-9b815d6f1b30}</Project>
-      <Name>ODEsSolver</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\ODE\odes-netcore5.vbproj">
+      <Project>{adaec26b-13cf-f03b-60c9-610dfca1cab0}</Project>
+      <Name>odes-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\Network.GraphTheory.vbproj">
-      <Project>{076315ee-b598-40dc-9280-c71cdf9b6a48}</Project>
-      <Name>Network.GraphTheory</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Datavisualization.Network\network_graph-netcore5.vbproj">
+      <Project>{d74caf3d-5460-6347-b9ea-350777e8d07d}</Project>
+      <Name>network_graph-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\Network.IO.Extensions.vbproj">
-      <Project>{78cb32e6-2904-41e7-acca-f1e2757bfa8e}</Project>
-      <Name>Network.IO.Extensions</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\gr\network-visualization\Network.IO.Extensions\network_io-netcore5.vbproj">
+      <Project>{a579caad-286d-4588-e3e6-a8cbbc38b281}</Project>
+      <Name>network_io-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\47-dotnet_Microsoft.VisualBasic.vbproj">
-      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
-      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj">
+      <Project>{d6a933d3-a04d-0d7b-c14a-d8f9a9f8fa51}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\core\Bio.Assembly\Bio.Assembly.vbproj">
-      <Project>{c699d311-9923-4c19-bf70-5048d0e2cf5d}</Project>
-      <Name>Bio.Assembly</Name>
+    <ProjectReference Include="..\..\..\core\Bio.Assembly\biocore-netcore5.vbproj">
+      <Project>{337d6884-20a4-1a04-31e6-cf595656d545}</Project>
+      <Name>biocore-netcore5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Dynamics.Debugger\Dynamics.Debugger.vbproj">
-      <Project>{58e6a154-af80-4eb7-a274-a9474a277815}</Project>
-      <Name>Dynamics.Debugger</Name>
+    <ProjectReference Include="..\..\BootstrapLoader\BootstrapLoader.NET5.vbproj">
+      <Project>{45589c72-b103-8fb7-3b74-c6bc64d52c42}</Project>
+      <Name>BootstrapLoader.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Model\Model.vbproj">
-      <Project>{7bb5e78b-37bb-43df-baf4-4ecd4b5748d6}</Project>
-      <Name>Model</Name>
+    <ProjectReference Include="..\..\Dynamics.Debugger\vcellDebugger.NET5.vbproj">
+      <Project>{c1b574f5-dc95-d8a2-a9c6-0f719f14cb78}</Project>
+      <Name>vcellDebugger.NET5</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dynamics.vbproj">
-      <Project>{df077c8b-9b53-41c3-81f3-2ba4f3d7fc9f}</Project>
-      <Name>Dynamics</Name>
+    <ProjectReference Include="..\..\Model\Model.Core.NET5.vbproj">
+      <Project>{db8a0282-ec93-2625-3d87-ed9a432acd83}</Project>
+      <Name>Model.Core.NET5</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dynamics.NET5.vbproj">
+      <Project>{9bf7109c-3894-4720-31ac-c2ecce1fd404}</Project>
+      <Name>Dynamics.NET5</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

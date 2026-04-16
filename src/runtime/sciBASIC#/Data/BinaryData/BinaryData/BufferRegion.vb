@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7344cef4fa9e83ffc02b4af5705d356f, Data\BinaryData\BinaryData\BufferRegion.vb"
+﻿#Region "Microsoft.VisualBasic::f5da74d30a4d7a2c63910c0f8c52befa, Data\BinaryData\BinaryData\BufferRegion.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,43 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 27 (54.00%)
+    ' Comment Lines: 15 (30.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (16.00%)
+    '     File Size: 1.25 KB
+
+
     ' Class BufferRegion
     ' 
-    '     Properties: nextBlock, position, size
+    '     Properties: nextBlock, position, size, Zero
     ' 
+    '     Constructor: (+3 Overloads) Sub New
     '     Function: ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+''' <summary>
+''' A binary data region in the binary raw data file
+''' </summary>
 Public Class BufferRegion
 
+    ''' <summary>
+    ''' the start position of the data region
+    ''' </summary>
+    ''' <returns></returns>
     Public Property position As Long
+    ''' <summary>
+    ''' the region size in bytes
+    ''' </summary>
+    ''' <returns></returns>
     Public Property size As Integer
 
     Public ReadOnly Property nextBlock As Long
@@ -52,8 +76,31 @@ Public Class BufferRegion
         End Get
     End Property
 
+    ''' <summary>
+    ''' start position is zero and there is no buffer size
+    ''' </summary>
+    ''' <returns></returns>
+    Public Shared ReadOnly Property Zero As BufferRegion
+        Get
+            Return New BufferRegion(0, -1)
+        End Get
+    End Property
+
+    Sub New()
+    End Sub
+
+    Sub New(scan0 As Long, size As Integer)
+        Me.position = scan0
+        Me.size = size
+    End Sub
+
+    Sub New(copy As BufferRegion)
+        Me.size = copy.size
+        Me.position = copy.position
+    End Sub
+
     Public Overrides Function ToString() As String
-        Return $"&{position} [{size} bytes]"
+        Return $"&{StringFormats.Lanudry(position)} [{StringFormats.Lanudry(size)}]"
     End Function
 
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de12f037db6ea1670c77e8dc72c9d543, mime\application%pdf\PdfFileWriter\PDF\PdfRadialShading.vb"
+﻿#Region "Microsoft.VisualBasic::3b32182b261eb8cf9adcdf6e847bdfc7, mime\application%pdf\PdfFileWriter\PDF\PdfRadialShading.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 83 (42.56%)
+    ' Comment Lines: 84 (43.08%)
+    '    - Xml Docs: 54.76%
+    ' 
+    '   Blank Lines: 28 (14.36%)
+    '     File Size: 7.32 KB
+
+
     ' Class PdfRadialShading
     ' 
-    '     Constructor: (+3 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Sub: AntiAlias, ExtendShading, SetBoundingBox, SetGradientDirection, WriteObjectToPdfFile
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -63,13 +75,10 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
-Imports System
-Imports SysMedia = System.Windows.Media
 Imports stdNum = System.Math
 
-'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 ''' <summary>
 ''' PDF radial shading resource class
 ''' </summary>
@@ -93,7 +102,7 @@ Public Class PdfRadialShading
     Private ExtendShadingBefore As Boolean = True
     Private ExtendShadingAfter As Boolean = True
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' PDF radial shading constructor.
     ''' </summary>
@@ -103,8 +112,8 @@ Public Class PdfRadialShading
     ''' <param name="BBoxWidth">Bounding box width</param>
     ''' <param name="BBoxHeight">Bounding box height</param>
     ''' <param name="ShadingFunction">Shading function</param>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub New(ByVal Document As PdfDocument, ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double, ByVal ShadingFunction As PdfShadingFunction)
+
+    Public Sub New(Document As PdfDocument, BBoxLeft As Double, BBoxBottom As Double, BBoxWidth As Double, BBoxHeight As Double, ShadingFunction As PdfShadingFunction)
         MyBase.New(Document)
         ' create resource code
         ResourceCode = Document.GenerateResourceNumber("S"c)
@@ -140,20 +149,8 @@ Public Class PdfRadialShading
     ''' </summary>
     ''' <param name="Document">Parent PDF document object.</param>
     ''' <param name="ShadingFunction">Shading function.</param>
-    Public Sub New(ByVal Document As PdfDocument, ByVal ShadingFunction As PdfShadingFunction)
+    Public Sub New(Document As PdfDocument, ShadingFunction As PdfShadingFunction)
         Me.New(Document, 0.0, 0.0, 1.0, 1.0, ShadingFunction)
-    End Sub
-
-    ''' <summary>
-    ''' PDF radial shading constructor for one unit bounding box
-    ''' </summary>
-    ''' <param name="Document">Parent PDF document object.</param>
-    ''' <param name="MediaBrush">System.Windows.Media brush</param>
-    ''' <remarks>Support for WPF media</remarks>
-    Public Sub New(ByVal Document As PdfDocument, ByVal MediaBrush As SysMedia.RadialGradientBrush)
-        Me.New(Document, 0.0, 0.0, 1.0, 1.0, New PdfShadingFunction(Document, MediaBrush))
-        SetGradientDirection(MediaBrush.Center.X, MediaBrush.Center.Y, 0.0, MediaBrush.GradientOrigin.X, MediaBrush.GradientOrigin.Y, 0.5 * (MediaBrush.RadiusX + MediaBrush.RadiusY), If(MediaBrush.MappingMode = SysMedia.BrushMappingMode.RelativeToBoundingBox, MappingMode.Relative, MappingMode.Absolute))
-        Return
     End Sub
 
     ''' <summary>
@@ -163,7 +160,7 @@ Public Class PdfRadialShading
     ''' <param name="BBoxBottom">Bounding box bottom</param>
     ''' <param name="BBoxWidth">Bounding box width</param>
     ''' <param name="BBoxHeight">Bounding box height</param>
-    Public Sub SetBoundingBox(ByVal BBoxLeft As Double, ByVal BBoxBottom As Double, ByVal BBoxWidth As Double, ByVal BBoxHeight As Double)
+    Public Sub SetBoundingBox(BBoxLeft As Double, BBoxBottom As Double, BBoxWidth As Double, BBoxHeight As Double)
         ' bounding box
         Me.BBoxLeft = BBoxLeft
         Me.BBoxBottom = BBoxBottom
@@ -182,7 +179,7 @@ Public Class PdfRadialShading
     ''' <param name="EndCenterY">End circle center y position</param>
     ''' <param name="EndRadius">End circle center radius</param>
     ''' <param name="Mapping">Mapping mode (relative absolute)</param>
-    Public Sub SetGradientDirection(ByVal StartCenterX As Double, ByVal StartCenterY As Double, ByVal StartRadius As Double, ByVal EndCenterX As Double, ByVal EndCenterY As Double, ByVal EndRadius As Double, ByVal Mapping As MappingMode)
+    Public Sub SetGradientDirection(StartCenterX As Double, StartCenterY As Double, StartRadius As Double, EndCenterX As Double, EndCenterY As Double, EndRadius As Double, Mapping As MappingMode)
         Me.StartCenterX = StartCenterX
         Me.StartCenterY = StartCenterY
         Me.StartRadius = StartRadius
@@ -193,33 +190,33 @@ Public Class PdfRadialShading
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Sets anti-alias parameter
     ''' </summary>
     ''' <param name="Value">Anti-alias true or false</param>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub AntiAlias(ByVal Value As Boolean)
+
+    Public Sub AntiAlias(Value As Boolean)
         Dictionary.AddBoolean("/AntiAlias", Value)
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Extend shading beyond axis
     ''' </summary>
     ''' <param name="Before">Before (true or false)</param>
     ''' <param name="After">After (true or false)</param>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Sub ExtendShading(ByVal Before As Boolean, ByVal After As Boolean)
+
+    Public Sub ExtendShading(Before As Boolean, After As Boolean)
         ExtendShadingBefore = Before
         ExtendShadingAfter = After
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Write object to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
     Friend Overrides Sub WriteObjectToPdfFile()
         ' bounding box

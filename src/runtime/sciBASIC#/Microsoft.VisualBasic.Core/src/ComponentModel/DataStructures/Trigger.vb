@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae5886bdee1b150a22ab337c8978e358, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Trigger.vb"
+﻿#Region "Microsoft.VisualBasic::b9fe904fb825674721841624781ebce7, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Trigger.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 91 (57.59%)
+    ' Comment Lines: 39 (24.68%)
+    '    - Xml Docs: 89.74%
+    ' 
+    '   Blank Lines: 28 (17.72%)
+    '     File Size: 5.07 KB
+
 
     '     Class ITrigger
     ' 
@@ -130,11 +142,11 @@ Namespace ComponentModel.Triggers
         End Sub
 
         Sub New(hh As Integer, mm As Integer, task As Action, Optional interval As Integer = 100)
-            MyBase.New(New Date(Now.Year, Now.Month, Now.Day, hh, mm, 0), task, interval)
+            MyBase.New(New Date(DateTime.UtcNow.Year, DateTime.UtcNow.Month, DateTime.UtcNow.Day, hh, mm, 0), task, interval)
         End Sub
 
         Protected Overrides Function __test() As Boolean
-            Dim d As Date = Now
+            Dim d As Date = DateTime.UtcNow
 
             If d.Hour <> Time.Hour OrElse d.Minute <> Time.Minute Then
                 Return False
@@ -191,7 +203,7 @@ Namespace ComponentModel.Triggers
         ''' </summary>
         ''' <returns></returns>
         Protected Overrides Function __test() As Boolean
-            Dim d As Date = Now
+            Dim d As Date = DateTime.UtcNow
 
             If d.Year <> Time.Year Then
                 Return False

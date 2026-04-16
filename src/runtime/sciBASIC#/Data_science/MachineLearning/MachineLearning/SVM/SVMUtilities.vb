@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77cf0e6b9b104b79ae33000dd4b1e6a7, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
+﻿#Region "Microsoft.VisualBasic::aa22f7ff703b28bdc6b0e829f48723a8, Data_science\MachineLearning\MachineLearning\SVM\SVMUtilities.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 83 (74.11%)
+    ' Comment Lines: 10 (8.93%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 19 (16.96%)
+    '     File Size: 4.50 KB
+
+
     '     Module SVMUtilities
     ' 
     '         Function: CreateMulticlassProblem, CreateRegressionProblem, CreateTwoClassProblem
@@ -43,6 +55,10 @@
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
 
 Namespace SVM
+
+    ''' <summary>
+    ''' svm demo test
+    ''' </summary>
     Public Module SVMUtilities
 
         Const SCALE As Double = 100
@@ -51,9 +67,10 @@ Namespace SVM
         Public Const TESTING_SEED As Integer = 20140407
 
         Public Function CreateTwoClassProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
-            Dim prob As Problem = New Problem()
-            prob.maxIndex = 2
-            Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
+            Dim prob As New Problem() With {
+                .maxIndex = 2
+            }
+            Dim rand As New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             ' create points on either side of the vertical axis
             Dim positive As Integer = CInt(count / 2)
             Dim labels As New List(Of String)()
@@ -73,9 +90,13 @@ Namespace SVM
         End Function
 
         Public Function CreateMulticlassProblem(numberOfClasses As Integer, count As Integer, Optional isTraining As Boolean = True) As Problem
-            If numberOfClasses > 8 Then Throw New ArgumentException("Number of classes must be < 8")
-            Dim prob As Problem = New Problem()
-            prob.maxIndex = 3
+            If numberOfClasses > 8 Then
+                Throw New ArgumentException("Number of classes must be < 8")
+            End If
+
+            Dim prob As New Problem() With {
+                .maxIndex = 3
+            }
             Dim samplesPerClass = New Integer(numberOfClasses - 1) {}
             Dim countPerClass As Integer = count / numberOfClasses
             Dim current = countPerClass
@@ -115,9 +136,16 @@ Namespace SVM
             Return prob
         End Function
 
+        ''' <summary>
+        ''' SVR
+        ''' </summary>
+        ''' <param name="count"></param>
+        ''' <param name="isTraining"></param>
+        ''' <returns></returns>
         Public Function CreateRegressionProblem(count As Integer, Optional isTraining As Boolean = True) As Problem
-            Dim prob As Problem = New Problem()
-            prob.maxIndex = 2
+            Dim prob As New Problem() With {
+                .maxIndex = 2
+            }
             Dim rand As Random = New Random(If(isTraining, TRAINING_SEED, TESTING_SEED))
             Dim labels As New List(Of String)()
             Dim data As List(Of Node()) = New List(Of Node())()

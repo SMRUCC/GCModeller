@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 23 (46.94%)
+    ' Comment Lines: 18 (36.73%)
+    '    - Xml Docs: 33.33%
+    ' 
+    '   Blank Lines: 8 (16.33%)
+    '     File Size: 1.96 KB
+
+
     ' Class DataStorage
     ' 
     '     Function: WriteData

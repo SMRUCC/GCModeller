@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>Microsoft.VisualBasic.Math.Calculus</RootNamespace>
-		<TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
 		<AssemblyName>Microsoft.VisualBasic.Math.ODEsSolver.Extensions</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
@@ -16,7 +16,7 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>LAPACK (Linear Algebra PACKage)</Description>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;nuget_release</Configurations>
 		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 
@@ -54,6 +54,10 @@
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.Extensions.xml</DocumentationFile>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|AnyCPU'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.Extensions.xml</DocumentationFile>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.Extensions.xml</DocumentationFile>
 	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
@@ -74,7 +78,7 @@
 	  <DefineDebug>false</DefineDebug>
 	  <DefineTrace>true</DefineTrace>
 	  <BaseAddress>4194304</BaseAddress>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	  
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
@@ -87,10 +91,22 @@
 	  <DefineDebug>false</DefineDebug>
 	  <DefineTrace>true</DefineTrace>
 	  <BaseAddress>4194304</BaseAddress>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	  
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.Extensions.xml</DocumentationFile>
+	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineTrace>true</DefineTrace>
+	  <BaseAddress>4194304</BaseAddress>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.Extensions.xml</DocumentationFile>
 	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
 	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
@@ -121,6 +137,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Buffers" Version="4.6.1" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.6.1" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 

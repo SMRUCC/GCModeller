@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71b14357a52e636a760a8e03156f3762, mime\application%pdf\PdfReader\Document\PdfContentsParser.vb"
+﻿#Region "Microsoft.VisualBasic::ceee1a2c48db068f6cb1c925f7e6fe70, mime\application%pdf\PdfReader\Document\PdfContentsParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 40 (68.97%)
+    ' Comment Lines: 8 (13.79%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 10 (17.24%)
+    '     File Size: 2.20 KB
+
+
     '     Class PdfContentsParser
     ' 
     '         Properties: Contents
@@ -55,7 +67,7 @@ Namespace PdfReader
         Private _index As Integer = 0
         Private _parser As Parser
 
-        Public Sub New(ByVal parent As PdfContents)
+        Public Sub New(parent As PdfContents)
             MyBase.New(parent)
         End Sub
 

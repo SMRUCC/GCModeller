@@ -1,0 +1,60 @@
+.\" man page create by R# package system.
+.TH BACKGROUND 2 2000-1月 "geneSet.intersects" "geneSet.intersects"
+.SH NAME
+geneSet.intersects \- get an intersection id list between the background
+.SH SYNOPSIS
+\fIgeneSet.intersects(\fBcluster\fR as any, 
+\fBgeneSet\fR as string, 
+\fBisLocusTag\fR as boolean = FALSE, 
+\fBget_clusterID\fR as boolean = FALSE, 
+\fBterm_map\fR as boolean = FALSE, 
+\fBid_map\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get an intersection id list between the background
+ model and the given gene id list.
+.PP
+.SH OPTIONS
+.PP
+\fBcluster\fB \fR\- 
+ A gene cluster model or gsea background model object.
+. 
+.PP
+.PP
+\fBgeneSet\fB \fR\- -. 
+.PP
+.PP
+\fBisLocusTag\fB \fR\- -. 
+.PP
+.PP
+\fBget_clusterID\fB \fR\- 
+ this function will returns a set of mapping cluster id if this 
+ parameter value is set to value TRUE, otherwise this function
+ returns a set of intersected geneID list by default.
+ 
+ this parameter only works when the cluster object is a 
+ gsea background model object.
+. 
+.PP
+.SH VALUE
+.PP
+a character vector of the intersected gene id set or the cluster id set based on the option of parameter **`get_clusterID`**.
+.PP
+.SH EXAMPLES
+.PP
+let kb = read.background("kegg_background.xml");
+ let idset = c("id1","id2","id3");
+ 
+ print("intersect gene ids:");
+ print(kb |> geneSet.intersects(idset));
+ 
+ print("intersect cluster ids:");
+ print(kb |> geneSet.intersects(idset, get_clusterID=TRUE));
+.PP
+.SH SEE ALSO
+background
+.SH FILES
+.PP
+gseakit.dll
+.PP

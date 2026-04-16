@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9728a83c5c5a63bfb62f215976e9126a, gr\network-visualization\test\layoutTest.vb"
+﻿#Region "Microsoft.VisualBasic::9728a83c5c5a63bfb62f215976e9126a, sciBASIC#\gr\network-visualization\test\layoutTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 200
+    '    Code Lines: 138
+    ' Comment Lines: 17
+    '   Blank Lines: 45
+    '     File Size: 5.90 KB
+
+
     ' Module layoutTest
     ' 
     '     Function: repel, spring, Vector2D
@@ -54,6 +64,7 @@
 Imports System.Drawing
 Imports System.Math
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Imaging.Physics

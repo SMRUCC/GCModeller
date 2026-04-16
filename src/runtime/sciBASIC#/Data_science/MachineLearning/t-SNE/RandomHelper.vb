@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e429487764fc08e60f156b3bb194a438, Data_science\MachineLearning\t-SNE\RandomHelper.vb"
+﻿#Region "Microsoft.VisualBasic::7148346980fca295237af199a2de9462, Data_science\MachineLearning\t-SNE\RandomHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 57 (52.78%)
+    ' Comment Lines: 26 (24.07%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 25 (23.15%)
+    '     File Size: 2.85 KB
+
+
     ' Class RandomHelper
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,7 @@
 #End Region
 
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Friend Class RandomHelper
 
@@ -69,7 +81,7 @@ Friend Class RandomHelper
             Return GaussRandom()
         End If
 
-        Dim c = stdNum.Sqrt(-2 * stdNum.Log(r) / r)
+        Dim c = std.Sqrt(-2 * std.Log(r) / r)
 
         ' cache this for next function call for efficiency
         tSNE.mVal = v * c

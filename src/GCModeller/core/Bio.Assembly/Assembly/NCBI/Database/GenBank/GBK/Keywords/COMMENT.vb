@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8e634600ba035c00c128268c080dd1b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb"
+﻿#Region "Microsoft.VisualBasic::a85c277dd44de5f2685db612b97c7904, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\COMMENT.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 24 (63.16%)
+    ' Comment Lines: 4 (10.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (26.32%)
+    '     File Size: 1.24 KB
+
+
     '     Class COMMENT
     ' 
     '         Properties: Comment
@@ -50,6 +62,12 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
     Public Class COMMENT : Inherits KeyWord
 
         <XmlIgnore> Public Property Comment As String
+
+        ''' <summary>
+        ''' This constant using for NCBI.Genbank keywords parsing.
+        ''' </summary>
+        ''' <remarks></remarks>
+        Public Const BLANKS_INDEX As UInteger = 12
 
         Public Overrides Function ToString() As String
             Return Comment
@@ -72,11 +90,5 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
             Return New COMMENT With {.Comment = sBuilder.ToString}
         End Operator
-
-        ''' <summary>
-        ''' This constant using for NCBI.Genbank keywords parsing.
-        ''' </summary>
-        ''' <remarks></remarks>
-        Public Const BLANKS_INDEX As UInteger = 12
     End Class
 End Namespace

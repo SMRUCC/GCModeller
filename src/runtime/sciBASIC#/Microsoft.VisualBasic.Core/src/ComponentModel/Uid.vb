@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::093f3951c2aa495d4aba8c68c2da5396, Microsoft.VisualBasic.Core\src\ComponentModel\Uid.vb"
+﻿#Region "Microsoft.VisualBasic::e3f030f0b7bcf2cc2151826a729f2f2b, Microsoft.VisualBasic.Core\src\ComponentModel\Uid.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 125 (53.88%)
+    ' Comment Lines: 73 (31.47%)
+    '    - Xml Docs: 93.15%
+    ' 
+    '   Blank Lines: 34 (14.66%)
+    '     File Size: 8.12 KB
+
 
     '     Class Uid
     ' 
@@ -161,7 +173,8 @@ Namespace ComponentModel
         ''' ZERO
         ''' </summary>
         ''' <param name="caseSensitive">
-        ''' 大小写敏感？假若是需要应用于文件名称，在Windows操作系统之上建议设置为False不敏感，否则会出现相同字母但是不同大小写的文件会被覆盖的情况出现
+        ''' 大小写敏感？假若是需要应用于文件名称，在Windows操作系统之上建议设置为False不敏感，
+        ''' 否则会出现相同字母但是不同大小写的文件会被覆盖的情况出现
         ''' </param>
         Sub New(Optional caseSensitive As Boolean = True)
             Call Me.New(Scan0, caseSensitive)
@@ -177,10 +190,10 @@ Namespace ComponentModel
             Next
         End Sub
 
-        Public Shared Function GetRandomId() As Uid
+        Public Shared Function GetRandomId(Optional width As Integer = 6) As Uid
             Dim chars As New List(Of Integer)
 
-            For i As Integer = 0 To 3
+            For i As Integer = 0 To width - 1
                 chars.Add(randf.NextInteger(10))
             Next
 

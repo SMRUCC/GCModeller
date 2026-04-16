@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Microsoft.VisualBasic.Imaging.LayoutModel.Point2D</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Point2D {Microsoft.VisualBasic.Imaging.LayoutModel}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Point2D</h2>
+
+        <h3>Description</h3>
+
+        <p>Implements a 2-dimensional point with double precision coordinates.</p>
+
+<p>这个数据对象主要是用来储存作图的原始数据
+ 因为如果作图的原始数据值很高的话，往往会超过single的上限，所以会需要使用double
+ 类型的数据进行存储，在经过绘图函数的scale之后，就可以转换为pointf对象进行作图了</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace Microsoft.VisualBasic.Imaging.LayoutModel
+export class Point2D {
+   # Returns the coordinates as a new point.
+   Point: <a href="/vignettes/clr/System/Drawing/Point.html">Point</a>;
+   PointF: <a href="/vignettes/clr/System/Drawing/PointF.html">PointF</a>;
+   # Returns the x-coordinate of the point.
+   X: double;
+   # Returns the x-coordinate of the point.
+   Y: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>Point</code>: <a href="/vignettes/clr/System/Drawing/Point.html">Point</a></li>
+<li>use by <i>property</i> member <code>PointF</code>: <a href="/vignettes/clr/System/Drawing/PointF.html">PointF</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

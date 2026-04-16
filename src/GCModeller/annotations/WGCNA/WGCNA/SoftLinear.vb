@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 17 (73.91%)
+    ' Comment Lines: 3 (13.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (13.04%)
+    '     File Size: 932 B
+
+
     ' Module SoftLinear
     ' 
     '     Function: CreateLinear

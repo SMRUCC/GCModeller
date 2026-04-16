@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 25 (80.65%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (19.35%)
+    '     File Size: 1.09 KB
+
+
     '     Class CalculateProb
     ' 
     '         Constructor: (+1 Overloads) Sub New

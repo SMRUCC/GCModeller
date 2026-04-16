@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f92b5965d8dffb1d4f34e8cb09319d61, Microsoft.VisualBasic.Core\src\Extensions\Collection\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::6dd832257865b71c97f267f7c771ae21, Microsoft.VisualBasic.Core\src\Extensions\Collection\Vector.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 706
+    '    Code Lines: 390 (55.24%)
+    ' Comment Lines: 236 (33.43%)
+    '    - Xml Docs: 92.37%
+    ' 
+    '   Blank Lines: 80 (11.33%)
+    '     File Size: 25.66 KB
+
+
     ' Module VectorExtensions
     ' 
-    '     Function: (+2 Overloads) After, All, Append, Coalesce, (+3 Overloads) Delete
-    '               (+2 Overloads) Fill, GetRange, IndexOf, Last, LoadAsNumericVector
-    '               MappingData, Midv, PadLeft, RepeatCalls, Replicate
-    '               SetValue, (+3 Overloads) Sort, Split, VectorShadows
+    '     Function: (+2 Overloads) After, All, Coalesce, Construct, (+2 Overloads) CopyOf
+    '               (+3 Overloads) Delete, (+2 Overloads) Fill, GetRange, IndexOf, Last
+    '               LoadAsNumericVector, MappingData, Midv, PadLeft, RepeatCalls
+    '               Replicate, SetValue, (+3 Overloads) Sort, Split, VectorShadows
     ' 
-    '     Sub: (+4 Overloads) Add, InsertAt, (+2 Overloads) Memset, RotateLeft, RotateRight
+    '     Sub: (+4 Overloads) Append, InsertAt, (+2 Overloads) Memset, RotateLeft, RotateRight
     ' 
     ' /********************************************************************************/
 
@@ -55,6 +67,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.IteratorExtensions
 Imports Microsoft.VisualBasic.My.JavaScript.Linq
+Imports std = System.Math
 
 ''' <summary>
 ''' Extension methods for the .NET object sequence
@@ -64,7 +77,7 @@ Imports Microsoft.VisualBasic.My.JavaScript.Linq
 Public Module VectorExtensions
 
     <Extension>
-    Public Sub RotateLeft(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
+    Public Sub RotateLeft(Of T)(ByRef ArrayToRotate As T(), iPlacesToRotate As Integer)
         Dim kdd = ArrayToRotate.Take(iPlacesToRotate).ToArray
         Dim ddk = ArrayToRotate.Skip(iPlacesToRotate).ToArray
 
@@ -73,7 +86,7 @@ Public Module VectorExtensions
     End Sub
 
     <Extension>
-    Public Sub RotateRight(Of T)(ByRef ArrayToRotate As T(), ByVal iPlacesToRotate As Integer)
+    Public Sub RotateRight(Of T)(ByRef ArrayToRotate As T(), iPlacesToRotate As Integer)
         ArrayToRotate = ArrayToRotate.Reverse.ToArray
 
         Dim ddk = ArrayToRotate.Take(iPlacesToRotate).Reverse.ToArray
@@ -157,13 +170,25 @@ Public Module VectorExtensions
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="template"></param>
-    ''' <param name="n"></param>
+    ''' <param name="n">
+    ''' the size of the generated sequence
+    ''' </param>
     ''' <returns></returns>
     <Extension>
     Public Iterator Function Replicate(Of T)(template As T, n%) As IEnumerable(Of T)
         For i As Integer = 0 To n - 1
             Yield template
         Next
+    End Function
+
+    Public Function Construct(Of T As New)(length As Integer) As T()
+        Dim array = New T(length - 1) {}
+
+        For i = 0 To length - 1
+            array(i) = New T()
+        Next
+
+        Return array
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -182,13 +207,17 @@ Public Module VectorExtensions
     End Function
 
     ''' <summary>
-    ''' Dynamics add a element into the target array.(注意：不推荐使用这个函数来频繁的向数组中添加元素，这个函数会频繁的分配内存，效率非常低)
+    ''' Dynamics add a element into the target array.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="vector"></param>
     ''' <param name="value"></param>
+    ''' <remarks>
+    ''' (注意：不推荐使用这个函数来频繁的向数组中添加元素，这个函数会频繁的分配内存，效率非常低，<strong>这个函数会修改原始的<paramref name="vector"/>输入</strong>)
+    ''' </remarks>
+    ''' 
     <Extension>
-    Public Sub Add(Of T)(ByRef vector As T(), value As T)
+    Public Sub Append(Of T)(ByRef vector As T(), value As T)
         If vector.IsNullOrEmpty Then
             vector = {value}
         Else
@@ -205,7 +234,11 @@ Public Module VectorExtensions
     ''' <typeparam name="T"></typeparam>
     ''' <param name="vector"></param>
     ''' <param name="values"></param>
-    <Extension> Public Sub Add(Of T)(ByRef vector As T(), values As IEnumerable(Of T))
+    ''' <remarks>
+    ''' <strong>这个函数会修改原始的<paramref name="vector"/>输入</strong>
+    ''' </remarks>
+    <Extension>
+    Public Sub Append(Of T)(ByRef vector As T(), values As IEnumerable(Of T))
         Dim data = values.SafeQuery.ToArray
         Dim appendBuffer As T() = New T(vector.Length + data.Length - 1) {}
 
@@ -222,12 +255,17 @@ Public Module VectorExtensions
     End Sub
 
     ''' <summary>
-    ''' Add given elements into an array object.(会自动跳过空集合，这个方法是安全的)
+    ''' Add given elements into an array object.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="vector"></param>
     ''' <param name="value"></param>
-    <Extension> Public Sub Add(Of T)(ByRef vector As T(), ParamArray value As T())
+    ''' <remarks>
+    ''' (会自动跳过空集合，这个方法是安全的，<strong>这个函数会修改原始的<paramref name="vector"/>输入</strong>)
+    ''' </remarks>
+    ''' 
+    <Extension>
+    Public Sub Append(Of T)(ByRef vector As T(), ParamArray value As T())
         If value.IsNullOrEmpty Then
             Return
         End If
@@ -242,31 +280,18 @@ Public Module VectorExtensions
     End Sub
 
     ''' <summary>
-    ''' Add given elements into an array object and then returns the target array object <paramref name="buffer"/>.
-    ''' </summary>
-    ''' <typeparam name="T"></typeparam>
-    ''' <param name="buffer"></param>
-    ''' <param name="value"></param>
-    ''' <returns></returns>
-    <Extension> Public Function Append(Of T)(buffer As T(), value As IEnumerable(Of T)) As T()
-        If buffer Is Nothing Then
-            Return value.ToArray
-        End If
-
-        Call buffer.Add(value.ToArray)
-        Return buffer
-    End Function
-
-    ''' <summary>
     ''' Add given elements into an array object.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="array"></param>
     ''' <param name="value"></param>
-    ''' 
+    ''' <remarks>
+    ''' <strong>这个函数会修改原始的<paramref name="array"/>输入</strong>
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Sub Add(Of T)(ByRef array As T(), value As List(Of T))
-        Call Add(Of T)(array, value.ToArray)
+    <Extension>
+    Public Sub Append(Of T)(ByRef array As T(), value As List(Of T))
+        Call Append(Of T)(array, value.ToArray)
     End Sub
 
     ''' <summary>
@@ -327,12 +352,15 @@ Public Module VectorExtensions
     End Function
 
     ''' <summary>
-    ''' Removes array element at index.(请注意，这个函数并不会修改原来的数组，而是创建一个新的拷贝)
+    ''' Removes array element at index.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="vector"></param>
-    ''' <param name="index%"></param>
+    ''' <param name="index"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (请注意，这个函数并不会修改原来的数组，而是创建一个新的拷贝)
+    ''' </remarks>
     <Extension>
     Public Function Delete(Of T)(vector As T(), index%) As T()
         Dim newVector As T() = New T(vector.Length - 2) {}
@@ -396,7 +424,7 @@ Public Module VectorExtensions
     ''' <returns></returns>
     <Extension>
     Public Function Coalesce(Of T As Structure)(source As IEnumerable(Of T?)) As IEnumerable(Of T)
-        Debug.Assert(source IsNot Nothing)
+        System.Diagnostics.Debug.Assert(source IsNot Nothing)
         Return source.Where(Function(x) x.HasValue).[Select](Function(x) CType(x, T))
     End Function
 
@@ -404,7 +432,7 @@ Public Module VectorExtensions
     Public Function Sort(Of T)(source As IEnumerable(Of NamedValue(Of T)), by As Index(Of String), Optional throwNoOrder As Boolean = False) As NamedValue(Of T)()
         Dim out As NamedValue(Of T)() = New NamedValue(Of T)(by.Count - 1) {}
 
-        For Each x In source
+        For Each x As NamedValue(Of T) In source
             Dim i% = by(x.Name)
 
             If i = -1 Then
@@ -429,7 +457,8 @@ Public Module VectorExtensions
     ''' <param name="index%"></param>
     ''' <param name="count%"></param>
     ''' <returns></returns>
-    <Extension> Public Iterator Function GetRange(Of T)(vector As T(), index%, count%) As IEnumerable(Of T)
+    <Extension>
+    Public Iterator Function GetRange(Of T)(vector As T(), index%, count%) As IEnumerable(Of T)
         Dim ends% = index + count - 1
 
         For i As Integer = index To ends
@@ -500,7 +529,9 @@ Public Module VectorExtensions
     ''' <param name="array">要搜索的从零开始的一维数组。</param>
     ''' <param name="o">要在 array 中查找的对象。</param>
     ''' <returns>如果在整个 array 中找到 value 的第一个匹配项，则为该项的从零开始的索引；否则为 -1。</returns>
-    ''' 
+    ''' <remarks>
+    ''' this function returns -1 always if the given array is nothing
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function IndexOf(Of T)(array As T(), o As T) As Integer
@@ -602,7 +633,8 @@ Public Module VectorExtensions
     ''' <param name="start">0 base</param>
     ''' <param name="length"></param>
     ''' <returns></returns>
-    <Extension> Public Function Midv(Of T)(source As IEnumerable(Of T), start%, length%) As T()
+    <Extension>
+    Public Function Midv(Of T)(source As IEnumerable(Of T), start%, length%) As T()
         If source Is Nothing Then
             Return New T() {}
         ElseIf source.Count < length Then
@@ -627,7 +659,8 @@ Public Module VectorExtensions
     ''' </summary>
     ''' <param name="path"></param>
     ''' <returns></returns>
-    <Extension> Public Function LoadAsNumericVector(path As String) As Double()
+    <Extension>
+    Public Function LoadAsNumericVector(path As String) As Double()
         Dim array As String() = IO.File.ReadAllLines(path)
         Dim n As Double() = array.Select(AddressOf Val).ToArray
         Return n
@@ -645,7 +678,9 @@ Public Module VectorExtensions
     ''' <param name="deliPosition">是否还应该在分区的结果之中包含有分隔符对象？默认不包含</param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function Split(Of T)(source As IEnumerable(Of T), delimiter As Predicate(Of T), Optional deliPosition As DelimiterLocation = DelimiterLocation.NotIncludes) As IEnumerable(Of T())
+    Public Iterator Function Split(Of T)(source As IEnumerable(Of T),
+                                         delimiter As Predicate(Of T),
+                                         Optional deliPosition As DelimiterLocation = DelimiterLocation.NotIncludes) As IEnumerable(Of T())
         Dim tmp As New List(Of T)
 
         For Each x As T In source.SafeQuery
@@ -654,7 +689,10 @@ Public Module VectorExtensions
 
                 ' 是否将这个分隔符也包含在分组内
                 ' 如果是，则包含在下一个分组内
-                If deliPosition <> DelimiterLocation.NotIncludes Then
+                If deliPosition = DelimiterLocation.Individual Then
+                    Yield tmp.PopAll
+                    Yield New T() {x}
+                ElseIf deliPosition <> DelimiterLocation.NotIncludes Then
                     If deliPosition = DelimiterLocation.NextFirst Then
                         Yield tmp.ToArray
 
@@ -678,5 +716,49 @@ Public Module VectorExtensions
         If Not tmp = 0 Then
             Yield tmp.ToArray
         End If
+    End Function
+
+    ''' <summary>
+    ''' java arrays.copyOf
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="a"></param>
+    ''' <param name="newLen"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CopyOf(Of T)(a As T(), newLen As Integer) As T()
+        Dim newVec As T() = New T(newLen - 1) {}
+        Dim copy_size As Integer = std.Min(a.Length, newLen)
+        Array.ConstrainedCopy(a, Scan0, newVec, Scan0, copy_size)
+        Return newVec
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="v"></param>
+    ''' <param name="ordinals"></param>
+    ''' <param name="base1"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' default index ordinals offset value is zero-based.
+    ''' </remarks>
+    <Extension>
+    Public Function CopyOf(Of T)(v As T(), ordinals As Integer(), Optional base1 As Boolean = False) As T()
+        Dim newVec As T() = New T(ordinals.Length - 1) {}
+
+        If base1 Then
+            ' the index is 1-based, needs -1
+            For i As Integer = 0 To ordinals.Length - 1
+                newVec(i) = v(ordinals(i) - 1)
+            Next
+        Else
+            For i As Integer = 0 To ordinals.Length - 1
+                newVec(i) = v(ordinals(i))
+            Next
+        End If
+
+        Return newVec
     End Function
 End Module

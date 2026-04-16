@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 6 (33.33%)
+    ' Comment Lines: 12 (66.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 0 (0.00%)
+    '     File Size: 687 B
+
+
     ' Class SegmentRenderData
     ' 
     '     Properties: Identities, Positive, QueryId, SubjectId

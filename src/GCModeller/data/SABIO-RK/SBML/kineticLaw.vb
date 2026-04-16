@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::71dfa12d7ee4eb22d3892f5b8f748760, data\SABIO-RK\SBML\kineticLaw.vb"
+﻿#Region "Microsoft.VisualBasic::7c97e52caa77e593259734df1331e1ad, data\SABIO-RK\SBML\kineticLaw.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 76 (70.37%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 32 (29.63%)
+    '     File Size: 3.60 KB
+
+
     '     Class kineticLaw
     ' 
     '         Properties: annotation, listOfLocalParameters, math, metaid, sboTerm
@@ -40,26 +52,37 @@
     '         Properties: RDF, sabiork
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: ToString
     ' 
     '     Class sabiorkAnnotation
     ' 
     '         Properties: experimentalConditions, kineticLawID
     ' 
+    '         Function: ToString
+    ' 
     '     Class experimentalConditions
     ' 
     '         Properties: buffer, pHValue, temperature
+    ' 
+    '         Function: ToString
     ' 
     '     Class temperature
     ' 
     '         Properties: startValueTemperature, temperatureUnit
     ' 
+    '         Function: ToString
+    ' 
     '     Class pH
     ' 
     '         Properties: startValuepH
     ' 
+    '         Function: ToString
+    ' 
     '     Class localParameter
     ' 
     '         Properties: id, name, sboTerm, units, value
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -74,6 +97,7 @@ Imports SMRUCC.genomics.Model.SBML.Level3
 Namespace SBML
 
     Public Class kineticLaw
+
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property sboTerm As String
 
@@ -81,6 +105,7 @@ Namespace SBML
         <XmlElement("math", Namespace:="http://www.w3.org/1998/Math/MathML")>
         Public Property math As Math
         Public Property listOfLocalParameters As localParameter()
+
     End Class
 
     Public Class kineticLawAnnotation
@@ -97,19 +122,30 @@ Namespace SBML
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
             xmlns.Add("sbrk", "http://sabiork.h-its.org")
         End Sub
+
+        Public Overrides Function ToString() As String
+            Return sabiork.ToString
+        End Function
+
     End Class
 
     <XmlType("sabiork", Namespace:="http://sabiork.h-its.org")>
     Public Class sabiorkAnnotation
+
         <XmlElement("kineticLawID", Namespace:="http://sabiork.h-its.org")>
         Public Property kineticLawID As Integer
 
         <XmlElement("experimentalConditions", [Namespace]:="http://sabiork.h-its.org")>
         Public Property experimentalConditions As experimentalConditions
 
+        Public Overrides Function ToString() As String
+            Return $"{kineticLawID}: {experimentalConditions}"
+        End Function
+
     End Class
 
     Public Class experimentalConditions
+
         <XmlElement("temperature", [Namespace]:="http://sabiork.h-its.org")>
         Public Property temperature As temperature
         <XmlElement("pH", [Namespace]:="http://sabiork.h-its.org")>
@@ -117,25 +153,47 @@ Namespace SBML
 
         <XmlElement("buffer", [Namespace]:="http://sabiork.h-its.org")>
         Public Property buffer As String
+
+        Public Overrides Function ToString() As String
+            Return $"{buffer}, ph={pHValue?.startValuepH}, {temperature}"
+        End Function
+
     End Class
 
     Public Class temperature
+
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property startValueTemperature As Double
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property temperatureUnit As String
+
+        Public Overrides Function ToString() As String
+            Return $"{startValueTemperature} {temperatureUnit}"
+        End Function
+
     End Class
 
     Public Class pH
+
         <XmlElement([Namespace]:="http://sabiork.h-its.org")>
         Public Property startValuepH As Double
+
+        Public Overrides Function ToString() As String
+            Return "pH " & startValuepH
+        End Function
     End Class
 
     Public Class localParameter
+
         <XmlAttribute> Public Property id As String
         <XmlAttribute> Public Property name As String
         <XmlAttribute> Public Property value As Double
         <XmlAttribute> Public Property sboTerm As String
         <XmlAttribute> Public Property units As String
+
+        Public Overrides Function ToString() As String
+            Return $"({id}){name} = {value} {units}"
+        End Function
+
     End Class
 End Namespace

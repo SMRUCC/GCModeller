@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 7 (43.75%)
+    ' Comment Lines: 8 (50.00%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 1 (6.25%)
+    '     File Size: 345 B
+
+
     '     Enum Types
     ' 
     '         RNA, TF

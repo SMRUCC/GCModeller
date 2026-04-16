@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 56 (53.33%)
+    ' Comment Lines: 33 (31.43%)
+    '    - Xml Docs: 69.70%
+    ' 
+    '   Blank Lines: 16 (15.24%)
+    '     File Size: 3.73 KB
+
+
     '     Class RegTree
     ' 
     '         Function: getLeafIndex, getLeafValue

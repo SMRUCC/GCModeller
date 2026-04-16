@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 159 (88.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (11.67%)
+    '     File Size: 6.33 KB
+
+
     '     Module IEnumerableExtensions
     ' 
     '         Function: (+11 Overloads) ExportYAML

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff31bc32602386ff0b7f25628b13297b, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FishersExact\FisherTest.vb"
+﻿#Region "Microsoft.VisualBasic::fb391f1128dde96e792b4477d749963b, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FishersExact\FisherTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 131 (60.93%)
+    ' Comment Lines: 54 (25.12%)
+    '    - Xml Docs: 81.48%
+    ' 
+    '   Blank Lines: 30 (13.95%)
+    '     File Size: 7.42 KB
+
+
     '     Module FishersExactTest
     ' 
     '         Function: exact, FishersExact, hyper, hyper_323, hyper0
@@ -44,7 +56,7 @@
 Imports Microsoft.VisualBasic.Math.Distributions.MathGamma
 Imports f64 = System.Double
 Imports i32 = System.Int32
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Hypothesis.FishersExact
 
@@ -79,7 +91,7 @@ Namespace Hypothesis.FishersExact
         End Function
 
         Public Function hyper_323(n11 As i32, n1_ As i32, n_1 As i32, n As i32) As f64
-            Return stdNum.Exp((lnbico(n1_, n11) + lnbico(n - n1_, n_1 - n11) - lnbico(n, n_1)))
+            Return std.Exp((lnbico(n1_, n11) + lnbico(n - n1_, n_1 - n11) - lnbico(n, n_1)))
         End Function
 
         Public Function hyper(s As HyperState, n11 As i32) As f64
@@ -150,6 +162,11 @@ Namespace Hypothesis.FishersExact
 
             prob = hyper0(s, n11, n1_, n_1, n)
             sleft = 0.0
+
+            If prob.IsNaNImaginary Then
+                Return (1.0, 1.0, 1.0, 1.0, 1.0, New HyperState)
+            End If
+
             p = hyper(s, min)
             i = min + 1
 
@@ -185,7 +202,7 @@ Namespace Hypothesis.FishersExact
                 j += 1
             End If
 
-            If stdNum.Abs(i - n11) < stdNum.Abs(j - n11) Then
+            If std.Abs(i - n11) < std.Abs(j - n11) Then
                 sless = sleft
                 slarg = 1.0 - sleft + prob
             Else

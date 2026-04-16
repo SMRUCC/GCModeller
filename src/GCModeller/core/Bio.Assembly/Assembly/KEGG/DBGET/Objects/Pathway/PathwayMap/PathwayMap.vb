@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fbe103ead75139ca060868e95820f4d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::5ba8f80a3e9f25bf393e0ce0b13eddae, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\PathwayMap\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -31,46 +31,76 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 144
+    '    Code Lines: 89 (61.81%)
+    ' Comment Lines: 37 (25.69%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (12.50%)
+    '     File Size: 5.61 KB
+
+
     '     Class PathwayMap
     ' 
     '         Properties: brite, disease, KEGGCompound, KEGGEnzyme, KEGGGlycan
     '                     KEGGOrthology, KEGGReaction, KOpathway, Map, modules
-    '                     name
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Download, DownloadAll, DownloadPathwayMap, GetCompounds, GetMapImage
-    '                   GetPathwayGenes, ToPathway
+    '         Function: DownloadPathwayMap, GetCompounds, GetCompoundSet, GetMapImage, GetPathwayGenes
+    '                   ToPathway
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
+Imports Microsoft.VisualBasic.Net.WebClient
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.Annotation
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
     ''' <see cref="BriteHEntry.Pathway.LoadFromResource()"/>.
-    ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
     ''' </summary>
+    ''' <remarks>
+    ''' (相对于<see cref="Pathway"/>而言，这个对象是参考用的，并非某个特定的物种的)
+    ''' </remarks>
     Public Class PathwayMap : Inherits PathwayBrief
-
-        ''' <summary>
-        ''' The name value of this pathway object
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property name As String
 
         Public Property KOpathway As String
         Public Property disease As NamedValue()
@@ -120,11 +150,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             xmlnsImports.Add("KO", OrthologyTerms.Xmlns)
         End Sub
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overrides Function GetPathwayGenes() As String()
-            Return KEGGOrthology.EntityList
-        End Function
-
         Public Function GetCompounds(Optional includesGlycan As Boolean = True) As Index(Of String)
             Dim cids As New List(Of String)(KEGGCompound.SafeQuery.Select(Function(c) c.name))
 
@@ -135,7 +160,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Return cids.Distinct.Indexing
         End Function
 
-        Public Function GetMapImage() As Bitmap
+        Public Function GetMapImage() As Image
             If String.IsNullOrEmpty(Map) Then
                 Return Nothing
             Else
@@ -153,47 +178,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             }
         End Function
 
-        Public Shared Function Download(entry As BriteHEntry.Pathway, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap
-            Dim url As String = "http://www.genome.jp/dbget-bin/www_bget?pathway:map" & entry.EntryId
-            Dim WebForm As New WebForm(url)
-
-            If WebForm.Count = 0 Then
-                Return Nothing
-            Else
-                Return WebForm.DoCall(Function(form) mapParserInternal(form, entry, cache, offline))
-            End If
-        End Function
-
-        ''' <summary>
-        ''' 测试用的函数
-        ''' </summary>
-        ''' <param name="entryId$">mapxxxx</param>
-        ''' <returns></returns>
-        Public Shared Function Download(entryId$, Optional cache$ = "./", Optional offline As Boolean = False) As PathwayMap
-            Dim entry As New BriteHEntry.Pathway With {
-                .entry = New NamedValue With {
-                    .name = entryId.Match("\d+")
-                }
-            }
-
-            Return Download(entry, cache, offline)
-        End Function
-
-        ''' <summary>
-        ''' 函数会返回失败的个数
-        ''' </summary>
-        ''' <param name="EXPORT"></param>
-        ''' <param name="briteFile"></param>
-        ''' <param name="directoryOrganized"></param>
-        ''' <returns></returns>
-        Public Shared Function DownloadAll(EXPORT$,
-                                           Optional briteFile$ = "",
-                                           Optional directoryOrganized As Boolean = True,
-                                           Optional [overrides] As Boolean = False) As Integer
-
-            Return PathwayMapDownloads.DownloadAll(EXPORT, briteFile, directoryOrganized, [overrides])
-        End Function
-
         ''' <summary>
         ''' 下载pathway的图片
         ''' </summary>
@@ -206,6 +190,14 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Dim path$ = String.Format("{0}/{1}{2}.png", EXPORT, sp, entry)
 
             Return wget.Download(url, save:=path)
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return KEGGOrthology.Terms.Select(Function(term) New NamedValue(Of String)(term.name, term.value, term.comment))
+        End Function
+
+        Public Overrides Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Return KEGGCompound.Select(Function(ni) New NamedValue(Of String)(ni.name, ni.text))
         End Function
     End Class
 End Namespace

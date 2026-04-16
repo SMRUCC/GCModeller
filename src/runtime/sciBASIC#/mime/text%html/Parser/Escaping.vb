@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3de1dcd3c85a4ff5f4aa502544b62980, mime\text%html\Parser\Escaping.vb"
+﻿#Region "Microsoft.VisualBasic::a7ce9547eb8fd742cf239f8912399202, mime\text%html\Parser\Escaping.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 10 (55.56%)
+    ' Comment Lines: 3 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (27.78%)
+    '     File Size: 414 B
+
+
     '     Class Escaping
     ' 
     ' 
@@ -40,6 +52,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Text.Parser
+
 Namespace Language
 
     Friend Class Escaping
@@ -47,6 +61,12 @@ Namespace Language
         Public [string] As Boolean
         Public quote As Char
         Public tagOpen As Boolean
+        ''' <summary>
+        ''' the html script tag is a special tag 
+        ''' </summary>
+        Public scriptOpen As Boolean
+
+        Public checkScriptEnd As New CharBuffer
 
     End Class
 End Namespace

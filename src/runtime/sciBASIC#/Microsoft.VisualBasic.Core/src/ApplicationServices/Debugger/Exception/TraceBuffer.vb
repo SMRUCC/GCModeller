@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 66 (75.86%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (24.14%)
+    '     File Size: 3.00 KB
+
+
     '     Class TraceBuffer
     ' 
     '         Properties: StackTrace

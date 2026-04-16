@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e84e52e3262464a500a9bd0da9e985d8, mime\application%pdf\PdfReader\Tokenizer\TokenXRefEntry.vb"
+﻿#Region "Microsoft.VisualBasic::045cb54968ef158f7b2485d5cd5f0c76, mime\application%pdf\PdfReader\Tokenizer\TokenXRefEntry.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 44 (88.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (12.00%)
+    '     File Size: 1.32 KB
+
+
     '     Class TokenXRefEntry
     ' 
     '         Properties: Gen, Id, Offset, Used
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Id As Integer, _Gen As Integer, _Offset As Long, _Used As Boolean
 
-        Public Sub New(ByVal id As Integer, ByVal gen As Integer, ByVal offset As Long, ByVal used As Boolean)
+        Public Sub New(id As Integer, gen As Integer, offset As Long, used As Boolean)
             Me.Id = id
             Me.Gen = gen
             Me.Offset = offset
@@ -59,7 +71,7 @@ Namespace PdfReader
             Get
                 Return _Id
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Id = value
             End Set
         End Property
@@ -68,7 +80,7 @@ Namespace PdfReader
             Get
                 Return _Gen
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Gen = value
             End Set
         End Property
@@ -77,7 +89,7 @@ Namespace PdfReader
             Get
                 Return _Offset
             End Get
-            Private Set(ByVal value As Long)
+            Private Set(value As Long)
                 _Offset = value
             End Set
         End Property
@@ -86,7 +98,7 @@ Namespace PdfReader
             Get
                 Return _Used
             End Get
-            Private Set(ByVal value As Boolean)
+            Private Set(value As Boolean)
                 _Used = value
             End Set
         End Property

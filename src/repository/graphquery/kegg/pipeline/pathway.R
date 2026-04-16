@@ -1,36 +1,35 @@
-require(kegg_graphquery);
+imports "package_utils" from "devkit";
+imports "http" from "webKit";
 
-const cache_dir = ?"--cache" || `${dirname(@script)}/.cache/`;
-const Tcode     = ?"--tcode" || "map";
+# package_utils::attach("D:\\GCModeller\\src\\workbench\\pkg");
+# package_utils::attach("D:\\GCModeller\\src\\repository\\graphquery\\kegg");
 
-options(http.cache_dir = cache_dir);
+require(kegg_api);
+require(HDS);
+require(GCModeller);
 
-# create resource url based on the organism Tcode exists or not
-const url = (
-    if (Tcode == "map") {
-        "https://www.kegg.jp/entry/ko%s";
-    } else {
-        gsub("https://www.genome.jp/entry/pathway+%c%s", "%c", Tcode);
-    }
-);
-const img     = "https://www.kegg.jp/kegg/pathway/ko/ko%s.png";
-const maps    = as.data.frame(pathway_category());
-const repoDir = enumeratePath(maps, Tcode);
-const id      = maps[, "entry"];
+# script for create gsea background
 
-print("get all kegg pathway maps:");
-str(maps);
+const Tcode     =  ?"--tcode" || "map";
+const cache_dir = [?"--cache" || relative_work(`${Tcode}.hds`)] 
+|> HDS::openStream(allowCreate = TRUE)
+|> http::http.cache()
+;
+const pathways  = list_pathway(Tcode, cache = cache_dir);
 
-for(i in 1:nrow(maps)) {
-    const map = kegg_pathway(url = sprintf(url, id[i]));
+for(name in names(pathways)) {  
+    const pathway = kegg_pathway(name, cache = cache_dir);
+    const dir = paste([pathway]::class, "/");
 
-    if ((map != "") && (!is.null(map))) {
-
-        map
-        |> xml
-        |> writeLines(con = `${repoDir(i)}.XML`)
-        ;
-
-        # wget(sprintf(img, id[i]), `${repoDir(i)}.png`);
-    }     
+    print(`${name}: ${pathways[[name]]} | ${dir}`);
+    
+    pathway
+    |> xml()
+    |> writeLines(
+        con = `/pathways/${dir}/${name}.xml`, 
+        fs = [cache_dir]::fs
+    )
+    ;
 }
+
+close([cache_dir]::fs);

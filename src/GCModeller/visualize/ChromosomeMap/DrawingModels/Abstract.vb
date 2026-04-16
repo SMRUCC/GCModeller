@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 19 (65.52%)
+    ' Comment Lines: 4 (13.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (20.69%)
+    '     File Size: 844 B
+
+
     '     Class Site
     ' 
     '         Properties: Comments, Left, Right, SiteName, Width

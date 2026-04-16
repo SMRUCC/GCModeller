@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f13ea8556ad8d7833dfbd328e3818857, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Pointers.vb"
+﻿#Region "Microsoft.VisualBasic::5e09a95e0fff15fe0fa0b237e3e6c169, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Pointers.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 46 (61.33%)
+    ' Comment Lines: 11 (14.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (24.00%)
+    '     File Size: 2.53 KB
+
+
     '     Class [Integer]
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -53,7 +65,7 @@
     ' 
     '     Class [Byte]
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '     Class [IntPtr]
     ' 
@@ -117,8 +129,15 @@ Namespace Emit.Marshal
         ''' </summary>
         ''' <param name="p">The start address location of the array in the memory</param>
         ''' <param name="chunkSize">array length</param>
+        ''' <remarks>
+        ''' Make bytes data unsafe copy from a given memory location in this constructor
+        ''' </remarks>
         Sub New(p As System.IntPtr, chunkSize As Integer)
             Call MyBase.New(p, chunkSize, AddressOf Copy, AddressOf Copy)
+        End Sub
+
+        Sub New(ByRef data As Byte(), Optional p As System.IntPtr? = Nothing)
+            Call MyBase.New(data, p)
         End Sub
     End Class
 

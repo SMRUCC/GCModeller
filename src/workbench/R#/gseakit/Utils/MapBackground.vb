@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::315696f9557217ab330df0fcc40cd559, R#\gseakit\Utils\MapBackground.vb"
+﻿#Region "Microsoft.VisualBasic::c3850c63ef4ea7ce5946ac525f990ae7, R#\gseakit\Utils\MapBackground.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 122 (83.56%)
+    ' Comment Lines: 10 (6.85%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 6.52 KB
+
+
     ' Module MapBackground
     ' 
     '     Function: fromOrganismSpecificHtext, fromPtfAnnotation, fromUniprot, KOMaps
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Annotation.Ptf
@@ -50,6 +62,7 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 
 Module MapBackground
@@ -64,7 +77,7 @@ Module MapBackground
     ''' <returns>
     ''' [geneId -> KO]
     ''' </returns>
-    Public Function KOMaps(genes As Object, geneId$, KO$, env As Environment) As Object
+    Public Function KOMaps(genes As Object, geneId$, KO$, name$, env As Environment) As Object
         If TypeOf genes Is list Then
             If KO.StringEmpty OrElse geneId.StringEmpty Then
                 Return DirectCast(genes, list).slots _
@@ -86,14 +99,16 @@ Module MapBackground
                     .ToArray
             End If
         ElseIf TypeOf genes Is Rdataframe Then
-            Dim idVec As String() = DirectCast(genes, Rdataframe).columns(geneId)
-            Dim koVec As String() = DirectCast(genes, Rdataframe).columns(KO)
+            Dim idVec As String() = CLRVector.asCharacter(DirectCast(genes, Rdataframe).columns(geneId))
+            Dim koVec As String() = CLRVector.asCharacter(DirectCast(genes, Rdataframe).columns(KO))
+            Dim nameVec As String() = CLRVector.asCharacter(If(name.StringEmpty, Nothing, DirectCast(genes, Rdataframe).columns(name)))
 
             Return idVec _
                 .Select(Function(id, i)
                             Return New NamedValue(Of String) With {
                                 .Name = id,
-                                .Value = koVec(i)
+                                .Value = koVec(i),
+                                .Description = nameVec.ElementAtOrNull(i)
                             }
                         End Function) _
                 .ToArray

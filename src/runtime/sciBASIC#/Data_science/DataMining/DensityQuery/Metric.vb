@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c76fec6abb4bf34f6795ac2ba125c205, Data_science\DataMining\DensityQuery\Metric.vb"
+﻿#Region "Microsoft.VisualBasic::453b0a0fab09415b7343d1090b9c8344, Data_science\DataMining\DensityQuery\Metric.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 36 (76.60%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (23.40%)
+    '     File Size: 1.52 KB
+
+
     ' Class Metric
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: activate, getByDimension, GetDimensions, metric, nodeIs
     ' 
-    '     Sub: setByDimensin
+    '     Sub: setByDimension
     ' 
     ' /********************************************************************************/
 
@@ -62,7 +74,7 @@ Public Class Metric : Inherits KdNodeAccessor(Of ClusterEntity)
         Me.dimNames = Me.dims.Keys.ToArray
     End Sub
 
-    Public Overrides Sub setByDimensin(x As ClusterEntity, dimName As String, value As Double)
+    Public Overrides Sub setByDimension(x As ClusterEntity, dimName As String, value As Double)
         x(dims(dimName)) = value
     End Sub
 

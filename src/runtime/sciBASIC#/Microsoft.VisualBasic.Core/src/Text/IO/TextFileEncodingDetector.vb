@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 406
+    '    Code Lines: 224 (55.17%)
+    ' Comment Lines: 123 (30.30%)
+    '    - Xml Docs: 8.94%
+    ' 
+    '   Blank Lines: 59 (14.53%)
+    '     File Size: 21.10 KB
+
+
     '     Module TextFileEncodingDetector
     ' 
     '         Properties: TextCodings

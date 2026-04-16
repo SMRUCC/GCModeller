@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 43 (79.63%)
+    ' Comment Lines: 1 (1.85%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (18.52%)
+    '     File Size: 2.18 KB
+
+
     '     Class AllLinksWidget
     ' 
     '         Properties: Links

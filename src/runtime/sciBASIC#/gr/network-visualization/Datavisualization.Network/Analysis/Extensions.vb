@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a6ceb9f4b477c99766be2864c257541, gr\network-visualization\Datavisualization.Network\Analysis\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8a2105d4076304178537746b9a4569a8, gr\network-visualization\Datavisualization.Network\Analysis\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 106 (67.09%)
+    ' Comment Lines: 28 (17.72%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 24 (15.19%)
+    '     File Size: 6.71 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: DecomposeGraph, isTupleEdge
+    '         Function: (+3 Overloads) DecomposeGraph, DecomposeGraphByGroup, getEdgeSet, isTupleEdge, IteratesSubNetworks
+    ' 
+    ' 
+    '     Class NodeReader
+    ' 
+    '         Function: getMetadata, hasMetadata
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,11 +58,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Linq
+Imports Node = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
 
 Namespace Analysis
 
@@ -61,7 +82,7 @@ Namespace Analysis
         ''' <param name="edge"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function isTupleEdge(Of Node As INamedValue, IEdge As {Class, IInteraction})(edge As IEdge, g As GraphIndex(Of Node, IEdge)) As Boolean
+        Public Function isTupleEdge(Of Node As INamedValue, IEdge As {Class, SparseGraph.IInteraction})(edge As IEdge, g As GraphIndex(Of Node, IEdge)) As Boolean
             Dim uset = g.GetEdges(edge.source).ToArray
             Dim vset = g.GetEdges(edge.target).ToArray
 
@@ -70,6 +91,73 @@ Namespace Analysis
             Else
                 Return False
             End If
+        End Function
+
+        <Extension>
+        Public Iterator Function DecomposeGraphByGroup(g As NetworkGraph, Optional minVertices As Integer = 5) As IEnumerable(Of NetworkGraph)
+            Dim nodeGroups = g.vertex.GroupBy(Function(v) v.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)).ToArray
+            Dim getEdgeGoups =
+                Iterator Function() As IEnumerable(Of Edge())
+                    For Each nodeSet In nodeGroups
+                        Yield g.getEdgeSet(nodeSet)
+                    Next
+                End Function
+
+            For Each group In getEdgeGoups().DecomposeGraph(minVertices)
+                Yield group
+            Next
+        End Function
+
+        <Extension>
+        Public Function getEdgeSet(g As NetworkGraph, nodeSet As IEnumerable(Of Node)) As Edge()
+            ' find a subset of edges from a
+            ' given node set of the network.
+            Dim id As Index(Of String) = nodeSet _
+                .Select(Function(v) v.label) _
+                .Indexing
+            Dim edgeSet = g.graphEdges _
+                .Where(Function(url)
+                           Return url.U.label Like id OrElse url.V.label Like id
+                       End Function) _
+                .ToArray
+
+            Return edgeSet
+        End Function
+
+        <Extension>
+        Public Function DecomposeGraph(components As Edge(), minVertices As Integer) As NetworkGraph
+            Dim subnetwork As New NetworkGraph
+            Dim nodes = components _
+                .Select(Function(a) {a.U, a.V}) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
+
+            If nodes.Length < minVertices Then
+                Return Nothing
+            End If
+
+            For Each v As Node In nodes.Select(Function(a) a.Clone)
+                Call subnetwork.AddNode(v)
+            Next
+            For Each edge As Edge In components.Select(Function(a) a.Clone)
+                Call subnetwork.CreateEdge(edge.U, edge.V, 0, edge.data)
+            Next
+
+            Return subnetwork
+        End Function
+
+        <Extension>
+        Public Iterator Function DecomposeGraph(components As IEnumerable(Of Edge()), minVertices As Integer) As IEnumerable(Of NetworkGraph)
+            Dim subnetwork As NetworkGraph
+
+            For Each part As Edge() In components
+                subnetwork = part.DecomposeGraph(minVertices)
+
+                If Not subnetwork Is Nothing Then
+                    Yield subnetwork
+                End If
+            Next
         End Function
 
         ''' <summary>
@@ -82,35 +170,48 @@ Namespace Analysis
         ''' <param name="minVertices"></param>
         ''' <returns></returns>
         <Extension>
-        Public Iterator Function DecomposeGraph(g As NetworkGraph,
-                                                Optional weakMode As Boolean = True,
-                                                Optional minVertices As Integer = 5) As IEnumerable(Of NetworkGraph)
+        Public Function DecomposeGraph(g As NetworkGraph,
+                                       Optional weakMode As Boolean = True,
+                                       Optional minVertices As Integer = 5) As IEnumerable(Of NetworkGraph)
 
             Dim analysis As Kosaraju = Kosaraju.StronglyConnectedComponents(g)
-            Dim subnetwork As NetworkGraph
-            Dim nodes As Node()
+            Dim components = analysis _
+                .GetComponents _
+                .Where(Function(a) a.Length <> g.size.edges) _
+                .DecomposeGraph(minVertices)
 
-            For Each part As Edge() In analysis.GetComponents.Where(Function(a) a.Length <> g.size.edges)
-                subnetwork = New NetworkGraph
-                nodes = part _
-                    .Select(Function(a) {a.U, a.V}) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
+            Return components
+        End Function
 
-                If nodes.Length < minVertices Then
-                    Continue For
-                End If
+        ''' <summary>
+        ''' 枚举出所输入的网络数据模型之中的所有互不相连的子网络
+        ''' </summary>
+        ''' <param name="network"></param>
+        ''' <param name="edgeCut">
+        ''' all of the edge weight less than this 
+        ''' cutff value will be ignored.
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function IteratesSubNetworks(network As NetworkGraph,
+                                            Optional singleNodeAsGraph As Boolean = False,
+                                            Optional edgeCut As Double = -1,
+                                            Optional breakKeys As String() = Nothing) As IEnumerable(Of NetworkGraph)
 
-                For Each v As Node In nodes.Select(Function(a) a.Clone)
-                    Call subnetwork.AddNode(v)
-                Next
-                For Each edge As Edge In part.Select(Function(a) a.Clone)
-                    Call subnetwork.CreateEdge(edge.U, edge.V, 0, edge.data)
-                Next
-
-                Yield subnetwork
-            Next
+            Return New SubNetworkComponents(Of Node, Edge, NetworkGraph)(network, singleNodeAsGraph, edgeCut, breakKeys, New NodeReader)
         End Function
     End Module
+
+    Friend Class NodeReader : Implements NodeMetaDataAccessor(Of Node)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function hasMetadata(v As Node, key As String) As Boolean Implements NodeMetaDataAccessor(Of Node).hasMetadata
+            Return v.data.HasProperty(key)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function getMetadata(v As Node, key As String) As String Implements NodeMetaDataAccessor(Of Node).getMetadata
+            Return v.data(key)
+        End Function
+    End Class
 End Namespace

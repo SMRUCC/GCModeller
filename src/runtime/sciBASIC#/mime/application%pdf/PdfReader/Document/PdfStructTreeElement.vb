@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd3a3a4d4a3dee9c6bf61fe1a34c0b75, mime\application%pdf\PdfReader\Document\PdfStructTreeElement.vb"
+﻿#Region "Microsoft.VisualBasic::fe4b3e25b75f0cb077ef652fa237e67e, mime\application%pdf\PdfReader\Document\PdfStructTreeElement.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 93 (81.58%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (18.42%)
+    '     File Size: 3.94 KB
+
+
     '     Class PdfStructTreeElement
     ' 
     '         Properties: A, ActualText, Alt, C, E
@@ -53,7 +65,7 @@ Namespace PdfReader
 
         Private _elements As List(Of PdfStructTreeElement)
 
-        Public Sub New(ByVal dictionary As PdfDictionary)
+        Public Sub New(dictionary As PdfDictionary)
             MyBase.New(dictionary.Parent, dictionary.ParseDictionary)
         End Sub
 

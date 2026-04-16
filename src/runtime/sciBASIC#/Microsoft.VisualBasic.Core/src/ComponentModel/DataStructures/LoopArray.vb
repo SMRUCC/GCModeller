@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cbca453e2ad0186dd0aa5e35dce4f3a, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\LoopArray.vb"
+﻿#Region "Microsoft.VisualBasic::389ebc5e68795e26088493ec3004cf12, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\LoopArray.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 89 (63.57%)
+    ' Comment Lines: 27 (19.29%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 24 (17.14%)
+    '     File Size: 4.23 KB
+
 
     '     Class LoopArray
     ' 
@@ -151,9 +163,15 @@ Namespace ComponentModel.DataStructures
             Return New LoopArray(Of T)(array)
         End Operator
 
+        ''' <summary>
+        ''' get current value and then move to next
+        ''' </summary>
+        ''' <param name="array"></param>
+        ''' <returns></returns>
         Public Shared Operator +(array As LoopArray(Of T)) As SeqValue(Of T)
+            Dim current = array.Current
             Call array.Next()
-            Return array.Current
+            Return current
         End Operator
 
         Dim _break As Boolean

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 267
+    '    Code Lines: 75 (28.09%)
+    ' Comment Lines: 160 (59.93%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 32 (11.99%)
+    '     File Size: 13.12 KB
+
+
     '     Class Protein
     ' 
     '         Properties: Catalyzes, CommonName, ComponentOf, Components, DNAFootprintSize

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e34d0aa6832de6a79452cd791056a477, mime\application%pdf\PdfReader\Tokenizer\TokenStringHex.vb"
+﻿#Region "Microsoft.VisualBasic::ffcb6265eb577b45fa2968c21ab4348f, mime\application%pdf\PdfReader\Tokenizer\TokenStringHex.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 29 (70.73%)
+    ' Comment Lines: 3 (7.32%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (21.95%)
+    '     File Size: 1.50 KB
+
+
     '     Class TokenStringHex
     ' 
     '         Properties: Resolved, ResolvedAsBytes
@@ -49,7 +61,7 @@ Namespace PdfReader
     Public Class TokenStringHex
         Inherits TokenString
 
-        Public Sub New(ByVal raw As String)
+        Public Sub New(raw As String)
             MyBase.New(raw)
         End Sub
 
@@ -79,7 +91,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Overrides Function BytesToString(ByVal bytes As Byte()) As String
+        Public Overrides Function BytesToString(bytes As Byte()) As String
             Return EncodedBytesToString(bytes)
         End Function
     End Class

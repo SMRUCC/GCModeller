@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3fa61f1589fbe61f8f409d33a6a53ec, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
+﻿#Region "Microsoft.VisualBasic::caf2803358308feecc7a7ccf3384dbaa, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\SSDB\Models\Ortholog.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 43 (74.14%)
+    ' Comment Lines: 9 (15.52%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 6 (10.34%)
+    '     File Size: 2.31 KB
+
+
     '     Class Ortholog
     ' 
     '         Properties: bestAll, bits, Definition, hit_name, identity
@@ -44,11 +56,7 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
 

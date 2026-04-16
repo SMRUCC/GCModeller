@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 52 (53.06%)
+    ' Comment Lines: 34 (34.69%)
+    '    - Xml Docs: 97.06%
+    ' 
+    '   Blank Lines: 12 (12.24%)
+    '     File Size: 3.56 KB
+
+
     '     Class HashBlizzard
     ' 
     ' 

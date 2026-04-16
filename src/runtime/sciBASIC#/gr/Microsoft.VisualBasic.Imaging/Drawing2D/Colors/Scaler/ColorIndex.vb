@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::816ee368b23f588554b98ef2ac658fb3, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\ColorIndex.vb"
+﻿#Region "Microsoft.VisualBasic::f3ed7cbe3b4ac62ecd512d166ff4a2fd, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\Scaler\ColorIndex.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 76 (79.17%)
+    ' Comment Lines: 3 (3.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (17.71%)
+    '     File Size: 3.27 KB
+
+
     '     Class ColorIndex
     ' 
     '         Constructor: (+2 Overloads) Sub New
     '         Function: GetLevel, IndexOf
-    ' 
-    '     Structure ColorRange
-    ' 
-    '         Properties: Level, Points
-    ' 
-    '         Function: GetMinDistance, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,15 +55,16 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Drawing2D.Colors.Scaler
 
+    ''' <summary>
+    ''' map colors and the numeric range
+    ''' </summary>
     Public Class ColorIndex
 
         Dim colors As Color()
@@ -141,28 +148,4 @@ Namespace Drawing2D.Colors.Scaler
         End Function
     End Class
 
-    Public Structure ColorRange : Implements INamedValue
-
-        Public Property Level$ Implements INamedValue.Key
-        Public Property Points As Color()
-
-        ''' <summary>
-        ''' 返回和最近的一个颜色点的距离值
-        ''' </summary>
-        ''' <param name="color"></param>
-        ''' <returns></returns>
-        Public Function GetMinDistance(color As Color) As Double
-            With color
-                Dim array As Double() = { .R, .G, .B}
-                Return Points.Min(
-                    Function(x)
-                        Return DistanceMethods.EuclideanDistance(array, New Double() {x.R, x.G, x.B})
-                    End Function)
-            End With
-        End Function
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
-    End Structure
 End Namespace

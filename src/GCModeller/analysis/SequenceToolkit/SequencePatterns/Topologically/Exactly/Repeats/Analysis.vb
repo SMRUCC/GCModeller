@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bd2d324f8d78b4d98c4898906239d483, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::e8ec6a3faf16388f417ef15326df5bfe, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Analysis.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 84 (71.79%)
+    ' Comment Lines: 17 (14.53%)
+    '    - Xml Docs: 76.47%
+    ' 
+    '   Blank Lines: 16 (13.68%)
+    '     File Size: 6.39 KB
+
+
     '     Module Analysis
     ' 
     '         Function: Density, (+2 Overloads) RepeatsDensity, RevRepeatsDensity
@@ -41,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -124,13 +136,13 @@ Namespace Topologically
             VBDebugger.Mute = False
 
             If refGenome Is Nothing Then
-                Call $"Reference `{ref}` is not exists in the dataset, using the first sequence as default!".__DEBUG_ECHO
+                Call $"Reference `{ref}` is not exists in the dataset, using the first sequence as default!".debug
                 refGenome = Vecotrs.First.Value
             End If
 
-            Call New String("="c, 120).__DEBUG_ECHO
-            Call $"cutoff={cutoff}".__DEBUG_ECHO
-            Call $"genomes={Vecotrs.Count}".__DEBUG_ECHO
+            Call New String("="c, 120).debug
+            Call $"cutoff={cutoff}".debug
+            Call $"genomes={Vecotrs.Count}".debug
 
             Dim p_vectors As Double() = size _
                 .Sequence _

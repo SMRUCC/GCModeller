@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e05a0813974e9a0894c81e74d997169e, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
+﻿#Region "Microsoft.VisualBasic::1d8c3f3b1da9336daf3081cb6f21bc7f, analysis\SequenceToolkit\SequencePatterns.Abstract\Scanner.vb"
 
     ' Author:
     ' 
@@ -31,140 +31,75 @@
 
     ' Summaries:
 
-    '     Class IScanner
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 51 (69.86%)
+    ' Comment Lines: 10 (13.70%)
+    '    - Xml Docs: 100.00%
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __complement, Complement, (+2 Overloads) FindLocation, ToString
-    ' 
+    '   Blank Lines: 12 (16.44%)
+    '     File Size: 2.80 KB
+
+
     '     Class Scanner
     ' 
+    '         Properties: name
+    ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) Scan
+    '         Function: GetBaseSequence, (+2 Overloads) Scan
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif.Patterns
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Motif
 
-    Public MustInherit Class IScanner
-
-        Protected ReadOnly nt As String
-
-        Sub New(nt As IPolymerSequenceModel)
-            Me.nt = nt.SequenceData.ToUpper
-        End Sub
-
-        Public Overrides Function ToString() As String
-            Return $"{nt.Length}bp...."
-        End Function
-
-        Public MustOverride Function Scan(pattern As String) As SimpleSegment()
-
-        ''' <summary>
-        ''' Found out all of the loci site on the target sequence.
-        ''' </summary>
-        ''' <param name="seq"></param>
-        ''' <param name="loci"></param>
-        ''' <returns></returns>
-        Public Shared Function FindLocation(seq As IPolymerSequenceModel, loci As String) As Integer()
-            Return FindLocation(seq.SequenceData, loci).ToArray
-        End Function
-
-        ''' <summary>
-        ''' Found out all of the loci site on the target sequence.
-        ''' (使用字符串查找得到目标位点在序列之上的所有的位置集合)
-        ''' </summary>
-        ''' <param name="seq"></param>
-        ''' <param name="Loci"></param>
-        ''' <returns></returns>
-        ''' <remarks>这个位置查找函数是OK的</remarks>
-        Public Shared Iterator Function FindLocation(seq$, loci$) As IEnumerable(Of Integer)
-            Dim pI32% = 1
-
-            Do While True
-                ' 这里需要进行迭代查找，即在上一个位置之后查找，否则会出现无限的重复查找
-#If netcore5 = 1 Then
-                pI32 = Strings.InStr(StartPos:=pI32, String1:=seq, String2:=loci)
-#Else
-                pI32 = Strings.InStr(Start:=pI32, String1:=seq, String2:=loci)
-#End If
-                If pI32 > 0 Then
-                    Yield pI32
-                Else
-                    Exit Do
-                End If
-
-                pI32 += 1
-            Loop
-        End Function
-
-        Public Shared Function Complement(pattern As String) As String
-            Dim tokens As String() = PatternParser.SimpleTokens(pattern)
-
-            For i As Integer = 0 To tokens.Length - 1
-                Dim s As String = tokens(i)
-                If s.Length = 1 Then
-                    s = CStr(__complement(s.First))
-                Else
-                    s = s.GetStackValue("[", "]")
-                    Dim temp As New List(Of Char)
-
-                    For Each c As Char In s
-                        temp += __complement(c)
-                    Next
-
-                    s = New String("["c + temp + "]"c)
-                End If
-
-                tokens(i) = s
-            Next
-
-            tokens = tokens.Reverse.ToArray
-            pattern = String.Join("", tokens)
-
-            Return pattern
-        End Function
-
-        Private Shared Function __complement(c As Char) As Char
-            Select Case c
-                Case "A"c
-                    Return "T"c
-                Case "G"c
-                    Return "C"c
-                Case "C"c
-                    Return "G"c
-                Case "T"c
-                    Return "A"c
-                Case "N"c, "."c
-                    Return "."c
-                Case Else
-                    Throw New Exception("Illegal characters in the pattern expression!")
-            End Select
-        End Function
-
-    End Class
-
     ''' <summary>
-    ''' 使用正则表达式扫描序列得到可能的motif位点
+    ''' A motif site scanner with a specific nt sequence
     ''' </summary>
+    ''' <remarks>
+    ''' 使用正则表达式扫描序列得到可能的motif位点
+    ''' </remarks>
     Public Class Scanner : Inherits IScanner
 
-        Sub New(nt As IPolymerSequenceModel)
+        ReadOnly reverse_search As Boolean = False
+
+        Public ReadOnly Property name As String
+
+        Sub New(nt As IPolymerSequenceModel, Optional reverse_search As Boolean = False)
             Call MyBase.New(nt)
+
+            Me.name = nt.ToString
+            Me.reverse_search = reverse_search
         End Sub
 
+        ''' <summary>
+        ''' get the input source sequence data
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetBaseSequence() As String
+            Return nt
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Scan(pattern As String) As SimpleSegment()
-            Return (Scan(nt, pattern, "+"c).AsList + Scan(nt, Complement(pattern), "-"c)).OrderBy(Function(x) x.Start).ToArray
+            Dim result = Scan(nt, pattern, "+"c).AsList
+
+            If reverse_search Then
+                result += Scan(nt, Complement(pattern), "-"c)
+            End If
+
+            Return result.OrderBy(Function(x) x.Start).ToArray
         End Function
 
         Public Overloads Shared Function Scan(nt As String, pattern As String, strand As Char) As SimpleSegment()
@@ -173,13 +108,13 @@ Namespace Motif
                 .Distinct _
                 .ToArray
             Dim locis = LinqAPI.Exec(Of SimpleSegment) _
- _
+                                                       _
                 () <= From m As String
                       In ms
-                      Let pos As Integer() = FindLocation(nt, m)
+                      Let pos As Integer() = FindLocation(nt, m).ToArray
                       Let rc As String = New String(NucleicAcid.Complement(m).Reverse.ToArray)
                       Select LinqAPI.Exec(Of Integer, SimpleSegment)(pos) _
- _
+                                                                          _
                           <= Function(ind As Integer) As SimpleSegment
                                  Return New SimpleSegment With {
                                      .Ends = ind + m.Length,

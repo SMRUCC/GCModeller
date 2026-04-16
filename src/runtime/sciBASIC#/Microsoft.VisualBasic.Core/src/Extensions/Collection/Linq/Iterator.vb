@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f9aaba1e934584b734ef25a8b9995d05, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::4fd03054802117f298b88aca2fa68ac4, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Iterator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 145
+    '    Code Lines: 94 (64.83%)
+    ' Comment Lines: 33 (22.76%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 18 (12.41%)
+    '     File Size: 5.63 KB
+
+
     '     Module IteratorExtensions
     ' 
     '         Function: [Next], (+2 Overloads) Indices, Ordinals, Previous, (+2 Overloads) SeqIterator
@@ -43,14 +55,12 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Linq
 
     <HideModuleName>
     Public Module IteratorExtensions
-
-#If NET_48 Or netcore5 = 1 Then
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -58,8 +68,6 @@ Namespace Linq
         Public Function Tuples(Of T)(seq As IEnumerable(Of SeqValue(Of T))) As IEnumerable(Of (i%, val As T))
             Return seq.Select(Function(i) (i.i, i.value))
         End Function
-
-#End If
 
         ''' <summary>
         ''' 
@@ -105,7 +113,7 @@ Namespace Linq
             End If
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NET8_0_OR_GREATER Then
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
@@ -118,7 +126,7 @@ Namespace Linq
         <Extension>
         Public Iterator Function SeqTuple(Of T1, T2)(tuple As (x As T1(), y As T2()), Optional offset% = 0) As IEnumerable(Of SeqValue(Of (a As T1, b As T2)))
             Dim value As (T1, T2)
-            Dim length% = stdNum.Max(tuple.x.Length, tuple.y.Length)
+            Dim length% = std.Max(tuple.x.Length, tuple.y.Length)
 
             For i As Integer = 0 To length - 1
                 value = (

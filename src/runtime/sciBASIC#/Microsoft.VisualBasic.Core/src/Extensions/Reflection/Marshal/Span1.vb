@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::853134c9b8f16567c71f1478ebe03ad9, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Span1.vb"
+﻿#Region "Microsoft.VisualBasic::df001eecc22389649d2e0afe308f5f02, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Span1.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 60 (66.67%)
+    ' Comment Lines: 16 (17.78%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (15.56%)
+    '     File Size: 2.71 KB
+
+
     '     Class Span
     ' 
-    '         Properties: ArrayLength, Length, SpanView
+    '         Properties: ArrayLength, Length, OffsetEnds, SpanView
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Slice, ToString
+    '         Function: Slice, SpanCopy, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic.Language.Python
 
 Namespace Emit.Marshal
 
@@ -58,7 +68,7 @@ Namespace Emit.Marshal
         ReadOnly span_size As Integer
 
         ''' <summary>
-        ''' the span size
+        ''' current span view size
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Length As Integer
@@ -69,7 +79,7 @@ Namespace Emit.Marshal
 
         Public ReadOnly Property SpanView As T()
             Get
-                Return buffer.SpanSlice(start, span_size)
+                Return SpanCopy()
             End Get
         End Property
 
@@ -92,22 +102,38 @@ Namespace Emit.Marshal
             End Set
         End Property
 
+        ''' <summary>
+        ''' the offset ends in the raw input buffer
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property OffsetEnds As Integer
+            Get
+                Return start + Length
+            End Get
+        End Property
+
         Sub New(ByRef raw As T())
             buffer = raw
         End Sub
 
-        Private Sub New(ByRef raw As T(), start As Integer, length As Integer)
+        Public Sub New(ByRef raw As T(), start As Integer, length As Integer)
             Me.buffer = raw
             Me.start = start
             Me.span_size = length
         End Sub
+
+        Public Function SpanCopy() As T()
+            Dim v As T() = New T(span_size - 1) {}
+            Call Array.ConstrainedCopy(buffer, start, v, Scan0, span_size)
+            Return v
+        End Function
 
         Public Function Slice(start As Integer, length As Integer) As Span(Of T)
             Return New Span(Of T)(buffer, start, length)
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"Dim Span As {GetType(T).Name}[] = new {GetType(T).Name}[{ArrayLength - 1}][&{start}:&{start + span_size}]"
+            Return $"Dim Span As {GetType(T).Name}[] = new {GetType(T).Name}[{ArrayLength - 1}][ span_view={start}:{OffsetEnds}, span_size={Length} ]"
         End Function
 
         Public Shared Widening Operator CType(raw As T()) As Span(Of T)

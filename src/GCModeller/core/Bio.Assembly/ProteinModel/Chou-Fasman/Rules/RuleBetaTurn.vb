@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 29 (70.73%)
+    ' Comment Lines: 5 (12.20%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.66 KB
+
+
     '     Module RuleBetaTurn
     ' 
     '         Function: Invoke

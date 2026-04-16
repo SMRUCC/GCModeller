@@ -1,0 +1,304 @@
+﻿#Region "Microsoft.VisualBasic::f090740eb6804a1ff7bdd4b76cf82434, analysis\SequenceToolkit\MotifScanner\Scanner\ProbabilityScanner.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 185 (73.71%)
+    ' Comment Lines: 34 (13.55%)
+    '    - Xml Docs: 64.71%
+    ' 
+    '   Blank Lines: 32 (12.75%)
+    '     File Size: 11.25 KB
+
+
+    ' Module ProbabilityScanner
+    ' 
+    '     Function: (+2 Overloads) LinearScan, pairwiseIdentities, RefLoci, (+3 Overloads) ScanSites, ToResidues
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
+Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.SmithWaterman
+Imports Microsoft.VisualBasic.Emit.Marshal
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports std = System.Math
+
+Public Module ProbabilityScanner
+
+    ''' <summary>
+    ''' 基于PWM的概率匹配
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <param name="minW%"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ScanSites(motif As SequenceMotif, target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional identities As Double = 0.8,
+                                       Optional pvalue As Double = 0.05,
+                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
+
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW, identities:=identities, pvalue_cut:=pvalue, top:=top)
+            If Not motif.seeds Is Nothing Then
+                scan.seeds = motif.seeds.names
+            Else
+                scan.seeds = {motif.tag}
+            End If
+
+            Yield scan
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 基于PWM的概率匹配
+    ''' </summary>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff#"></param>
+    ''' <param name="minW%"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ScanSites(motif As Probability, target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW# = 0.9,
+                                       Optional identities As Double = 0.8,
+                                       Optional pvalue As Double = 0.05,
+                                       Optional top As Integer = 9,
+                                       Optional permutation As Integer = 1000) As IEnumerable(Of MotifMatch)
+
+        For Each scan As MotifMatch In motif.region.ScanSites(target, cutoff, minW * motif.width,
+                                                              identities:=identities,
+                                                              pvalue_cut:=pvalue,
+                                                              top:=top,
+                                                              n:=permutation)
+            scan.seeds = New String() {motif.name}
+
+            Yield scan
+        Next
+    End Function
+
+    <Extension>
+    Public Iterator Function LinearScan(motif As SequenceMotif, target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
+        For Each scan As MotifMatch In motif.region.LinearScan(target, n)
+            If Not motif.seeds Is Nothing Then
+                scan.seeds = motif.seeds.names
+            Else
+                scan.seeds = {motif.tag}
+            End If
+
+            Yield scan
+        Next
+    End Function
+
+    <Extension>
+    Public Function LinearScan(PWM As IReadOnlyCollection(Of Residue), target As FastaSeq, Optional n As Integer = 1000) As IEnumerable(Of MotifMatch)
+        Dim slices = target.SequenceData.CreateSlideWindows(PWM.Count)
+        Dim motifStr As String = PWM.JoinBy("")
+        Dim seqTitle As String = target.Title
+        Dim zero As String() = New String(n - 1) {}
+        Dim background As New ZERO(background:=NT.ToDictionary(Function(b) b, Function(b) target.SequenceData.Count(b) / target.Length))
+
+        For i As Integer = 0 To zero.Length - 1
+            zero(i) = background.NextSequence(PWM.Count)
+        Next
+
+        Dim one As Vector = Vector.Ones(PWM.Count)
+        Dim matches = slices.Select(Function(frag, offset)
+                                        Dim total As Double = 0
+                                        Dim v As Double() = New Double(frag.Length - 1) {}
+
+                                        For i As Integer = 0 To frag.Length - 1
+                                            v(i) = PWM(i)(frag(i))
+                                            total += v(i)
+                                        Next
+
+                                        Dim score2 As Double = one.SSM(v.AsVector)
+                                        Dim extremes = zero.Select(Function(si) NullTest.score(si, PWM)).Count(Function(a) a >= total)
+                                        Dim pvalue = (extremes + 1) / (n + 1)
+
+                                        Return New MotifMatch With {
+                                            .start = offset + 1,
+                                            .ends = .start + frag.Length,
+                                            .motif = motifStr,
+                                            .segment = frag.CharString,
+                                            .title = seqTitle,
+                                            .score1 = total,
+                                            .score2 = -std.Log10(pvalue),
+                                            .identities = score2
+                                        }
+                                    End Function).OrderByDescending(Function(a) a.score1 * a.score2).ToArray
+
+        Return matches.Take(5)
+    End Function
+
+    ''' <summary>
+    ''' 基于PWM的概率匹配，从目标基因组序列中找到Motif位点用于建立调控关系
+    ''' </summary>
+    ''' <param name="PWM">PWM</param>
+    ''' <param name="target"></param>
+    ''' <param name="cutoff"></param>
+    ''' <param name="minW"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function ScanSites(PWM As Residue(), target As FastaSeq,
+                                       Optional cutoff# = 0.6,
+                                       Optional minW% = 6,
+                                       Optional pvalue_cut As Double = 0.05,
+                                       Optional identities As Double = 0.8,
+                                       Optional n As Integer = 500,
+                                       Optional top As Integer = 9) As IEnumerable(Of MotifMatch)
+
+        ' define a general smith-waterman symbol comparer
+        ' mapping the char in target sequence as the PWM column object
+        ' example as: A mapping as [1 0 0 0]
+        '             T mapping as [0 1 0 0]
+        '             G mapping as [0 0 1 0]  
+        '             C mapping as [0 0 0 1]
+        Dim chars As Char() = target.SequenceData.ToCharArray
+        Dim subject As Residue() = target.ToResidues.ToArray
+        ' use PWM seuqnece to search target sequence
+        ' find all best local alignment HSP as motif site candidates
+        Dim result As Match() = SmithWaterman.MakeAlignment(PWM, subject, cutoff:=cutoff, minW:=minW, top:=top).ToArray
+        Dim seqTitle As String = target.Title
+        Dim background As New ZERO(background:=NT _
+               .ToDictionary(Function(b) b,
+                             Function(b)
+                                 Return target.SequenceData.Count(b) / target.Length
+                             End Function))
+
+        ' evaluate each local best alignment HSP result
+        For Each m As Match In result
+            Dim len As Integer = std.Min(m.toA - m.fromA, m.toB - m.fromB)
+            Dim motifSpan As New Span(Of Residue)(PWM, m.fromA, len)
+            Dim motifSlice As Residue() = motifSpan.SpanView
+            Dim site As New Span(Of Char)(chars, m.fromB, motifSpan.Length)
+            Dim motifStr As String = motifSpan.SpanCopy.JoinBy("")
+            Dim v As Double() = New Double(motifStr.Length - 1) {}
+            Dim total As Double = 0
+            Dim one As Vector = Vector.Ones(v.Length)
+
+            For i As Integer = 0 To motifStr.Length - 1
+                v(i) = motifSpan(i)(site(i))
+                total += v(i)
+            Next
+
+            Dim null As New NullTest(background, motifSlice, v.Length, permutation:=n)
+            Dim pvalue As Double = null.Pvalue(total, Hypothesis.Greater)
+
+            If pvalue >= pvalue_cut Then
+                Continue For
+            End If
+
+            Dim score2 As Double = one.SSM(v.AsVector)
+
+            If score2 < identities Then
+                Continue For
+            End If
+
+            ' found a significant motif site match on target sequence
+            ' as the TFBS candidates, this site will be used for
+            ' re-construct of the TRN network 
+            Yield New MotifMatch With {
+                .identities = score2,
+                .segment = site.SpanCopy.CharString,
+                .motif = motifStr,
+                .score1 = m.score,
+                .score2 = total,
+                .title = seqTitle,
+                .start = m.fromB,
+                .ends = m.toB,
+                .pvalue = pvalue
+            }
+        Next
+    End Function
+
+    <Extension>
+    Private Function pairwiseIdentities(match As Match,
+                                        PWM As IReadOnlyCollection(Of Residue),
+                                        subject As Residue(),
+                                        pairwiseMatrix As ScoreMatrix(Of Residue)) As GlobalAlign(Of Residue)
+
+        Dim q = PWM.Skip(match.fromA).Take(match.toA - match.fromA).ToArray
+        Dim s = subject.Skip(match.fromB).Take(match.toB - match.fromA).ToArray
+        Dim pairwise As New MotifNeedlemanWunsch(q, s, ResidueScore.Gene)
+
+        Return pairwise _
+            .Compute() _
+            .PopulateAlignments _
+            .OrderByDescending(Function(gl)
+                                   Return gl.Identities(pairwiseMatrix)
+                               End Function) _
+            .FirstOrDefault
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function RefLoci(m As Match) As Location
+        Return New Location(m.fromB, m.toB)
+    End Function
+
+    <Extension>
+    Public Iterator Function ToResidues(seq As FastaSeq) As IEnumerable(Of Residue)
+        For Each base As Char In seq.SequenceData
+            Dim frq As New Dictionary(Of String, Double)
+
+            For Each b As Char In NT
+                If base = b Then
+                    frq(b) = 1
+                Else
+                    frq(b) = 0
+                End If
+            Next
+
+            Yield New Residue With {
+                .frequency = frq
+            }
+        Next
+    End Function
+End Module

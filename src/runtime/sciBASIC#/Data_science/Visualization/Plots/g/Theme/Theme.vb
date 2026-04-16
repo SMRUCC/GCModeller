@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91618f7b6b9325717e5468fb56733fc4, Data_science\Visualization\Plots\g\Theme\Theme.vb"
+﻿#Region "Microsoft.VisualBasic::099d0dbc372e5f8398ee0eb99bc69539, Data_science\Visualization\Plots\g\Theme\Theme.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 228
+    '    Code Lines: 94 (41.23%)
+    ' Comment Lines: 99 (43.42%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 35 (15.35%)
+    '     File Size: 8.06 KB
+
+
     '     Class Theme
     ' 
     '         Properties: axisLabelCSS, axisStroke, axisTickCSS, axisTickPadding, axisTickStroke
     '                     background, colorSet, drawAxis, drawGrid, drawLabels
-    '                     drawLegend, gridFill, gridStrokeX, gridStrokeY, htmlLabel
-    '                     legendBoxBackground, legendBoxStroke, legendLabelCSS, legendLayout, legendSplitSize
-    '                     legendTickAxisStroke, legendTickCSS, legendTickFormat, legendTitleCSS, lineStroke
-    '                     mainCSS, padding, pointSize, subtitleCSS, tagColor
-    '                     tagCSS, tagLinkStroke, xAxisLayout, xAxisRotate, XaxisTickFormat
+    '                     drawLegend, flipAxis, gridFill, gridStrokeX, gridStrokeY
+    '                     htmlLabel, legendBoxBackground, legendBoxStroke, legendCustomTicks, legendLabelCSS
+    '                     legendLayout, legendSplitSize, legendTickAxisStroke, legendTickCSS, legendTickFormat
+    '                     legendTitleCSS, lineStroke, mainCSS, mainTextColor, mainTextWrap
+    '                     nticksX, nticksY, padding, pointSize, shapeStroke
+    '                     subtitleCSS, tagColor, tagCSS, tagFormat, tagLinkStroke
+    '                     xAxisLayout, xAxisReverse, xAxisRotate, XaxisTickFormat, yAxislabelPosition
     '                     yAxisLayout, YaxisTickFormat
     ' 
-    '         Function: Clone, GetLegendPosition, NewColorSet, ToString
+    '         Function: Clone, GetLegendPosition, GetXAxisDecimals, GetYAxisDecimals, NewColorSet
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -58,6 +73,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Graphic.Canvas
 
+    ''' <summary>
+    ''' The plot style theme definition 
+    ''' </summary>
     Public Class Theme : Implements ICloneable
 
         ''' <summary>
@@ -76,6 +94,7 @@ Namespace Graphic.Canvas
         ''' <returns></returns>
         Public Property mainCSS As String = CSSFont.PlotTitle
         Public Property mainTextColor As String = "black"
+        Public Property mainTextWrap As Boolean = False
 
         ''' <summary>
         ''' 副标题字体样式
@@ -98,13 +117,18 @@ Namespace Graphic.Canvas
         Public Property legendTickCSS As String = CSSFont.Win7Normal
         Public Property legendTickAxisStroke As String = Stroke.AxisStroke
         Public Property legendTickFormat As String = "F2"
+        Public Property legendCustomTicks As Double? = Nothing
 
         ''' <summary>
         ''' 图例标签字体样式
         ''' </summary>
         ''' <returns></returns>
         Public Property legendLabelCSS As String = CSSFont.Win7LargerNormal
-        Public Property legendSplitSize As Integer
+        ''' <summary>
+        ''' divided the legend elements into multiple block group by this element number value.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property legendSplitSize As Integer = 16
         ''' <summary>
         ''' 图例的布局位置
         ''' </summary>
@@ -128,6 +152,11 @@ Namespace Graphic.Canvas
         Public Property tagCSS As String = CSSFont.PlotLabelNormal
         Public Property tagColor As String = "black"
         ''' <summary>
+        ''' 在图表上的数字标签的格式
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property tagFormat As String = "F2"
+        ''' <summary>
         ''' 数据点与数据标签之间的连接线的样式
         ''' </summary>
         ''' <returns></returns>
@@ -150,12 +179,20 @@ Namespace Graphic.Canvas
         Public Property xAxisLayout As XAxisLayoutStyles = XAxisLayoutStyles.Bottom
 
         Public Property xAxisRotate As Double = 0
+        Public Property xAxisReverse As Boolean = False
+
+        ''' <summary>
+        ''' Swapping X- and Y-Axes?
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property flipAxis As Boolean = False
 
         ''' <summary>
         ''' Y坐标轴的布局
         ''' </summary>
         ''' <returns></returns>
         Public Property yAxisLayout As YAxisLayoutStyles = YAxisLayoutStyles.Left
+        Public Property yAxislabelPosition As YlabelPosition = YlabelPosition.LeftCenter
 
         ''' <summary>
         ''' 坐标轴上的标签的字体样式
@@ -167,9 +204,9 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <returns></returns>
         Public Property axisTickCSS As String = CSSFont.PlotLabelNormal
-        Public Property axisTickStroke As String = Stroke.ScatterLineStroke
+        Public Property axisTickStroke As String = "stroke: black; stroke-width: 1px; stroke-dash: solid;"
         Public Property axisTickPadding As Double = 5
-        Public Property axisStroke As String = Stroke.AxisStroke
+        Public Property axisStroke As String = "stroke: black; stroke-width: 2px; stroke-dash: solid;"
 
         ''' <summary>
         ''' 一般为F2或者G3
@@ -177,6 +214,9 @@ Namespace Graphic.Canvas
         ''' <returns></returns>
         Public Property XaxisTickFormat As String = "F2"
         Public Property YaxisTickFormat As String = "F2"
+
+        Public Property nticksX As Integer = 9
+        Public Property nticksY As Integer = 9
 
 #End Region
 
@@ -197,14 +237,20 @@ Namespace Graphic.Canvas
 
 #End Region
 
+        Public Property shapeStroke As String = Stroke.HighlightStroke
+
         ''' <summary>
         ''' 绘制的线条的样式
         ''' </summary>
         ''' <returns></returns>
         Public Property lineStroke As String = Stroke.AxisStroke
 
-        Public Property gridStrokeX As String = Stroke.AxisGridStroke
-        Public Property gridStrokeY As String = Stroke.AxisGridStroke
+        Public Property gridStrokeX As String = "stroke: lightgray; stroke-width: 1px; stroke-dash: dash;"
+        Public Property gridStrokeY As String = "stroke: lightgray; stroke-width: 1px; stroke-dash: dash;"
+        ''' <summary>
+        ''' the background of the charting plot region
+        ''' </summary>
+        ''' <returns></returns>
         Public Property gridFill As String = "white"
 
         Public Property htmlLabel As Boolean = False
@@ -212,6 +258,22 @@ Namespace Graphic.Canvas
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
+        End Function
+
+        Public Function GetXAxisDecimals() As Integer
+            If XaxisTickFormat.IsPattern("F\d+") Then
+                Return Integer.Parse(XaxisTickFormat.Match("\d+"))
+            Else
+                Return 2
+            End If
+        End Function
+
+        Public Function GetYAxisDecimals() As Integer
+            If YaxisTickFormat.IsPattern("F\d+") Then
+                Return Integer.Parse(YaxisTickFormat.Match("\d+"))
+            Else
+                Return 2
+            End If
         End Function
 
         Public Function NewColorSet(colorSet As Color()) As Theme

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::826234bc668cedcaccfaa20d0f9f99e8, mime\application%pdf\PdfReader\Tokenizer\TokenReal.vb"
+﻿#Region "Microsoft.VisualBasic::141eea8be2379a150b8c7f6e31aecd0f, mime\application%pdf\PdfReader\Tokenizer\TokenReal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 17 (85.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 457 B
+
+
     '     Class TokenReal
     ' 
     '         Properties: Value
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Value As Single
 
-        Public Sub New(ByVal real As Single)
+        Public Sub New(real As Single)
             Value = real
         End Sub
 
@@ -56,7 +68,7 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _Value = value
             End Set
         End Property

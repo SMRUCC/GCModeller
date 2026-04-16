@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84b04d9ef2f2f61c34f5f342f6bf5bb1, mime\application%pdf\PdfReader\Document\PdfInfo.vb"
+﻿#Region "Microsoft.VisualBasic::4a7bb088d7895eab98e032e24feb94a5, mime\application%pdf\PdfReader\Document\PdfInfo.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 56 (83.58%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (16.42%)
+    '     File Size: 1.96 KB
+
+
     '     Class PdfInfo
     ' 
     '         Properties: Author, CreationDate, Creator, Keywords, ModDate
@@ -48,11 +60,11 @@ Namespace PdfReader
     Public Class PdfInfo
         Inherits PdfDictionary
 
-        Public Sub New(ByVal parent As PdfObject, ByVal parse As ParseDictionary)
+        Public Sub New(parent As PdfObject, parse As ParseDictionary)
             MyBase.New(parent, parse)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

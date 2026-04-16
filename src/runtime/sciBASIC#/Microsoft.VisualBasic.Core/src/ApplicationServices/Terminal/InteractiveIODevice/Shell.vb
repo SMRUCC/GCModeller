@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::354efdba57a08f8ffa12f354e40b0265, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\InteractiveIODevice\Shell.vb"
+﻿#Region "Microsoft.VisualBasic::95586916d8f25225b339b0a5378f6cc3, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\InteractiveIODevice\Shell.vb"
 
     ' Author:
     ' 
@@ -31,38 +31,67 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 43 (51.19%)
+    ' Comment Lines: 25 (29.76%)
+    '    - Xml Docs: 88.00%
+    ' 
+    '   Blank Lines: 16 (19.05%)
+    '     File Size: 2.61 KB
+
+
+    '     Interface IShellDevice
+    ' 
+    '         Function: ReadLine
+    ' 
+    '         Sub: SetPrompt
+    ' 
     '     Class Shell
     ' 
-    '         Properties: autoCompleteCandidates, dev, History, ps1, Quite
-    '                     shell
+    '         Properties: History, ps1, Quite, shell, ttyDev
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: Run
+    '         Function: Run
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO__
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.LineEdit
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace ApplicationServices.Terminal
+
+    Public Interface IShellDevice
+
+        Sub SetPrompt(s As String)
+        Function ReadLine() As String
+
+    End Interface
 
     ''' <summary>
     ''' Shell model for console.
     ''' </summary>
     Public Class Shell
 
-        Public ReadOnly Property ps1 As PS1
-        Public ReadOnly Property shell As Action(Of String)
+        Public Property ps1 As PS1
+
         ''' <summary>
-        ''' a candidate list for implements auto-complete for console input.
+        ''' engine for execute the command, example as execute script text in ``R#``.
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property autoCompleteCandidates As New List(Of String)
-        Public ReadOnly Property dev As IConsole
+        Public ReadOnly Property shell As Action(Of String)
+
+        Public ReadOnly Property ttyDev As IShellDevice
+            Get
+                Return dev
+            End Get
+        End Property
 
         ''' <summary>
         ''' Command text for exit the shell loop 
@@ -73,12 +102,17 @@ Namespace ApplicationServices.Terminal
         Public Property Quite As String = ":q"
         Public Property History As String = ":h"
 
+        Dim WithEvents dev As IShellDevice
+
         ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="ps1">The commandline prompt prefix headers.</param>
         ''' <param name="exec">How to execute the command line input.</param>
-        Sub New(ps1 As PS1, exec As Action(Of String), Optional dev As IConsole = Nothing)
+        ''' <param name="dev">
+        ''' <see cref="LineReader"/>
+        ''' </param>
+        Sub New(ps1 As PS1, exec As Action(Of String), Optional dev As IShellDevice = Nothing)
             Me.ps1 = ps1
             Me.shell = exec
             Me.dev = If(dev, New Terminal)
@@ -87,11 +121,12 @@ Namespace ApplicationServices.Terminal
         ''' <summary>
         ''' 执行一个配置好的命令行模型, 代码会被一直阻塞在这里
         ''' </summary>
-        Public Sub Run()
+        Public Function Run() As Integer
             Dim cli As Value(Of String) = ""
 
+            ' do while true while current program is running
             Do While App.Running
-                Call dev.Write(ps1.ToString)
+                Call dev.SetPrompt(ps1.ToString)
 
                 If Strings.Trim((cli = dev.ReadLine)).StringEmpty OrElse
                     cli.Value = vbCrLf OrElse
@@ -105,6 +140,8 @@ Namespace ApplicationServices.Terminal
                     Call _shell(cli)
                 End If
             Loop
-        End Sub
+
+            Return 0
+        End Function
     End Class
 End Namespace

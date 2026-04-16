@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83848b18a85f28c4ccdda3a42f93c1fb, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\FEATURES.vb"
+﻿#Region "Microsoft.VisualBasic::72e0ca08e5567a6e82388fb5f3e82931, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\FEATURES.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 92 (62.59%)
+    ' Comment Lines: 36 (24.49%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 19 (12.93%)
+    '     File Size: 5.68 KB
+
 
     '     Class FEATURES
     ' 
@@ -127,12 +139,14 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <summary>
         ''' 列举出所有 该字段之下的域的数据
         ''' </summary>
-        ''' <param name="fieldName"></param>
+        ''' <param name="fieldName">
+        ''' the feature name, example as gene/CDS/tRNA/rRNA, etc
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ListFeatures(fieldName As String) As IEnumerable(Of Feature)
             Return From feature As Feature
-                   In _innerList
+                   In _innerList.AsParallel
                    Let assert As Boolean = String.Equals(feature.KeyName, fieldName, StringComparison.OrdinalIgnoreCase)
                    Where True = assert
                    Select feature

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 65 (77.38%)
+    ' Comment Lines: 3 (3.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (19.05%)
+    '     File Size: 2.83 KB
+
+
     '     Structure NTheader
     ' 
     '         Function: ParseId, (+2 Overloads) ParseNTheader, ToString, Trim

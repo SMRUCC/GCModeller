@@ -1,0 +1,34 @@
+﻿.TH KEGG_COLORS 1 2026-4月 "" "generate color map for do colorful encode of the kegg map url"
+.SH NAME
+kegg_colors \- kegg_colors(id, log2FC,
+    <i>up</i> = <span style='color: #FF0000;'><strong>'red'</strong></span>,
+    <i>down</i> = <span style='color: #0000FF;'><strong>'blue'</strong></span>)
+.SH SYNOPSIS
+\fIkegg_colors(id, log2FC,
+    <i>up</i> = <span style='color: #FF0000;'><strong>'red'</strong></span>,
+    <i>down</i> = <span style='color: #0000FF;'><strong>'blue'</strong></span>)\fR
+.SH OPTIONS
+.PP
+\fBid\fB \fR\- . a character vector of a collection of the kegg id
+.PP
+.PP
+\fBlog2FC\fB \fR\- . a numeric vector of the log2 Foldchange value of the corresponding kegg id
+.PP
+.PP
+\fBup\fB \fR\- 'red'. 
+.PP
+.PP
+\fBdown\fB \fR\- 'blue'. 
+.PP
+.SH VALUE
+.PP
+a lambda function that accept two parameters for generates the kegg pathway map url:
+1. map_id: the kegg pathway map id
+2. idset: a character vector of the kegg id for make url
+.PP
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.kegg_colors at url_encode.R:line 50
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2026

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c6a1f2ea063a534f0d1ff88edb6ab89, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\QueryCache.vb"
+﻿#Region "Microsoft.VisualBasic::f83955bf5991802eead54fcbdd5a80c2, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Repository\QueryCache.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 50 (54.95%)
+    ' Comment Lines: 29 (31.87%)
+    '    - Xml Docs: 89.66%
+    ' 
+    '   Blank Lines: 12 (13.19%)
+    '     File Size: 3.73 KB
+
+
     '     Class QueryCacheFactory
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -46,7 +58,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DataSourceModel.Repository

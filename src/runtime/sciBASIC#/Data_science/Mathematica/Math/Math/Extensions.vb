@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ee0095306f2f14c289e696cf589830d, Data_science\Mathematica\Math\Math\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::0d4449cbeb1b858a30fffafb1f1026e4, Data_science\Mathematica\Math\Math\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 379
+    '    Code Lines: 212 (55.94%)
+    ' Comment Lines: 122 (32.19%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 45 (11.87%)
+    '     File Size: 14.09 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: [Shadows], AsSample, (+4 Overloads) AsVector, DoubleRange, FDR
-    '               FirstDecrease, FirstIncrease, FlipCoin, IntRange, IsInside
-    '               Iterates, (+2 Overloads) Range, Reach, seq2, Sim
-    '               SSM, Tanimoto, X, Y
+    '     Function: [Shadows], AsSample, (+4 Overloads) AsVector, DoubleRange, (+2 Overloads) FDR
+    '               FilterNaN, FirstDecrease, FirstIncrease, FlipCoin, ImputeNA
+    '               IntRange, IsInside, Iterates, (+2 Overloads) Range, Reach
+    '               seq2, Sim, SSM, SSM_SIMD, Tanimoto
+    '               X, Y
     ' 
     ' /********************************************************************************/
 
@@ -52,7 +65,8 @@ Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Math.Statistics
+Imports std = System.Math
 
 ' i++
 ' Math.Min(Threading.Interlocked.Increment(i), i - 1)
@@ -108,13 +122,35 @@ Imports stdNum = System.Math
         If q.All(Function(a) a = 0.0R) OrElse s.All(Function(a) a = 0.0R) Then
             Return 0
         Else
-            Dim score As Double = (q * s).Sum / stdNum.Sqrt((q ^ 2).Sum * (s ^ 2).Sum)
+            Dim score As Double = (q * s).Sum / std.Sqrt((q ^ 2).Sum * (s ^ 2).Sum)
 
             If score.IsNaNImaginary Then
                 Return 0
             Else
                 Return score
             End If
+        End If
+    End Function
+
+    ''' <summary>
+    ''' SIMD version of the modified cosine score
+    ''' </summary>
+    ''' <param name="q"></param>
+    ''' <param name="s"></param>
+    ''' <returns></returns>
+    Public Function SSM_SIMD(q As Double(), s As Double()) As Double
+        If q.All(Function(a) a = 0.0R) OrElse s.All(Function(a) a = 0.0R) Then
+            Return 0.0
+        End If
+
+        Dim qs_sum As Double = SIMD.Multiply.f64_op_multiply_f64(q, s).Sum
+        Dim qqss_sum As Double = SIMD.Multiply.f64_op_multiply_f64(q, q).Sum * SIMD.Multiply.f64_op_multiply_f64(s, s).Sum
+        Dim score As Double = qs_sum / std.Sqrt(qqss_sum)
+
+        If score.IsNaNImaginary Then
+            Return 0
+        Else
+            Return score
         End If
     End Function
 
@@ -178,10 +214,22 @@ Imports stdNum = System.Math
     ''' <param name="pvalue"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function FDR(pvalue As IEnumerable(Of Double)) As Vector
+    Public Function FDR(pvalue As IEnumerable(Of Double), Optional n As Integer? = Nothing) As Vector
         Dim x As New Vector(pvalue)
-        Dim fdr_result = (x.Dim * x) / x.FractionalRanking
+        Dim fdr_result = (If(n, x.Dim) * x) / x.FractionalRanking
+
         Return fdr_result
+    End Function
+
+    <Extension>
+    Public Iterator Function FDR(Of T As IStatFDR)(result As IEnumerable(Of T)) As IEnumerable(Of T)
+        Dim sortPval As T() = result.OrderBy(Function(a) a.pValue).ToArray
+        Dim fdrVal As Vector = sortPval.Select(Function(a) a.pValue).FDR
+
+        For i As Integer = 0 To sortPval.Length - 1
+            sortPval(i).adjPVal = fdrVal(i)
+            Yield sortPval(i)
+        Next
     End Function
 
     ''' <summary>
@@ -189,9 +237,12 @@ Imports stdNum = System.Math
     ''' </summary>
     ''' <param name="range">Number values iterates from value ``from`` to value ``to``.</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' step 1 or -1 based on the to - from delta value its sign symbol.
+    ''' </remarks>
     <Extension>
     Public Iterator Function Iterates(range As (From%, To%)) As IEnumerable(Of Integer)
-        Dim step% = stdNum.Sign(range.To - range.From)
+        Dim step% = std.Sign(range.To - range.From)
 
         For i As Integer = range.From To range.To Step [step]
             Yield i
@@ -298,7 +349,7 @@ Imports stdNum = System.Math
     <Extension>
     Public Function Reach(data As IEnumerable(Of Double), n As Double, Optional offset As Double = 0) As Integer
         For Each x As SeqValue(Of Double) In data.SeqIterator
-            If stdNum.Abs(x.value - n) <= offset Then
+            If std.Abs(x.value - n) <= offset Then
                 Return x.i
             End If
         Next
@@ -341,8 +392,8 @@ Imports stdNum = System.Math
     ''' x·y是x和y共同具有的属性数，而xy是x具有的属性数与y具有的属性数的几何均值。于是，sim(x,y)是公共属性相
     ''' 对拥有的一种度量。
     ''' </summary>
-    ''' <param name="x"></param>
-    ''' <param name="y"></param>
+    ''' <param name="x">vector of elements of 0 or 1 binary data</param>
+    ''' <param name="y">vector of elements of 0 or 1 binary data</param>
     ''' <returns></returns>
     ''' <remarks>
     ''' http://xiao5461.blog.163.com/blog/static/22754562201211237567238/
@@ -363,5 +414,23 @@ Imports stdNum = System.Math
     <Extension>
     Public Function X(points As IEnumerable(Of PointF)) As Vector
         Return points.Select(Function(pt) CDbl(pt.X)).AsVector
+    End Function
+
+    <Extension>
+    Public Function FilterNaN(ByRef m As Double()(), replace As Double) As Double()()
+        For Each xi As Double() In m
+            For i As Integer = 0 To xi.Length - 1
+                If xi(i).IsNaNImaginary Then
+                    xi(i) = replace
+                End If
+            Next
+        Next
+
+        Return m
+    End Function
+
+    <Extension>
+    Public Function ImputeNA(v As Vector, fill_as As Double) As Vector
+        Return New Vector(From xi As Double In v.Array Select If(xi.IsNaNImaginary, fill_as, xi))
     End Function
 End Module

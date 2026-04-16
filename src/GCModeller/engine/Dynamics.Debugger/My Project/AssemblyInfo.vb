@@ -1,4 +1,54 @@
-﻿Imports System
+﻿#Region "Microsoft.VisualBasic::ce957aaccc6e7a43a558988d325b7ec2, engine\Dynamics.Debugger\My Project\AssemblyInfo.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 15 (41.67%)
+    ' Comment Lines: 15 (41.67%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (16.67%)
+    '     File Size: 1.20 KB
+
+
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -7,7 +57,7 @@ Imports System.Runtime.InteropServices
 ' associated with an assembly.
 
 ' Review the values of the assembly attributes
-
+#if netcore5=0 then 
 <Assembly: AssemblyTitle("Dynamics.Debugger")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("")>
@@ -33,3 +83,4 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyVersion("1.0.0.0")>
 <Assembly: AssemblyFileVersion("1.0.0.0")>
+#end if

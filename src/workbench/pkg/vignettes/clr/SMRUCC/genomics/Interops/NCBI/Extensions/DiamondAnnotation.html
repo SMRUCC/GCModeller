@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>DiamondAnnotation {SMRUCC.genomics.Interops.NCBI.Extensions}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>DiamondAnnotation</h2>
+
+        <h3>Description</h3>
+
+        <p>代表 DIAMOND BLASTP 结果文件 (.m8) 中的一行记录</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions
+export class DiamondAnnotation {
+   # 12. Bit Score (比特得分)
+   BitScore: double;
+   # 11. E-value (期望值)
+   EValue: double;
+   # 6. Gap 打开次数
+   GapOpen: integer;
+   # 4. 比对长度
+   Length: integer;
+   # 5. 错配数
+   Mismatch: integer;
+   # 3. 比对一致性百分比
+   Pident: double;
+   # 8. 查询序列结束位置
+   QEnd: integer;
+   # 1. 查询序列ID
+   QseqId: string;
+   # 7. 查询序列起始位置
+   QStart: integer;
+   # 10. 目标序列结束位置
+   SEnd: integer;
+   # 2. 目标序列ID
+   SseqId: string;
+   # 9. 目标序列起始位置
+   SStart: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        this clr type has no other .net clr type reference.
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

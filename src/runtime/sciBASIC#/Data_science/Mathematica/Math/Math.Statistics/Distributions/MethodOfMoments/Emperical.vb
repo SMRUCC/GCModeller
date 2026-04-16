@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 25 (58.14%)
+    ' Comment Lines: 12 (27.91%)
+    '    - Xml Docs: 25.00%
+    ' 
+    '   Blank Lines: 6 (13.95%)
+    '     File Size: 1.73 KB
+
+
     '     Class Emperical
     ' 
     '         Function: GetCDF, GetInvCDF, GetPDF, Validate

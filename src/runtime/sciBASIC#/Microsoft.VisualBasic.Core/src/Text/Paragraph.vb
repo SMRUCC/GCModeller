@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9bc73033c5aafb7d024daec3c94433eb, Microsoft.VisualBasic.Core\src\Text\Paragraph.vb"
+﻿#Region "Microsoft.VisualBasic::042edf4b849718f1c0444d96f054ab03, Microsoft.VisualBasic.Core\src\Text\Paragraph.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 51 (66.23%)
+    ' Comment Lines: 17 (22.08%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 9 (11.69%)
+    '     File Size: 3.15 KB
+
+
     '     Module Paragraph
     ' 
-    '         Function: Chunks, SplitParagraph, Trim
+    '         Function: Chunks, SplitParagraph
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,9 +53,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Parser
 
 Namespace Text
 
@@ -74,61 +86,46 @@ Namespace Text
         ''' 假若长度分割落在单词内，则添加一个连接符，假如是空格或者标点符号，则不处理
         ''' </remarks>
         <Extension>
-        Public Iterator Function SplitParagraph(text$, len%) As IEnumerable(Of String)
+        Public Iterator Function SplitParagraph(text$, len%,
+                                                Optional delimiters As String = ";:,.-_&*!+'~ " & ASCII.TAB,
+                                                Optional floatChars As Integer = 6) As IEnumerable(Of String)
             Dim lines$() = text.LineTokens
+            Dim delIndex As Index(Of Char) = delimiters.Indexing
 
-            For Each i As SeqValue(Of String) In lines.SeqIterator
-                Dim line$ = i.value
-                Dim s As New Value(Of String)
-                Dim left% = Scan0 + 1
+            For Each line As String In lines.Select(Function(l) l.Trim(delIndex.Objects))
+                Dim buf As New CharBuffer
+                Dim i As New CharPtr(line)
+                Dim c As Char
 
-                Do While (s = Mid$(line$, left, len)).Length = len
-                    If s.Value.Length = 0 Then
-                        ' 已经结束了
-                        Exit Do
-                    Else
-                        left += len
+                Do While Not (i.EndRead OrElse i.NullEnd)
+                    c = ++i
+                    buf += c
+
+                    If c Like delIndex Then
+                        If buf.Size >= len OrElse len - buf.Size < floatChars Then
+                            Yield buf.PopAllChars.CharString
+                        End If
+                    ElseIf buf.Size >= len Then
+                        Dim floats = Enumerable _
+                            .Range(0, floatChars) _
+                            .Select(Function(ci) i(ci)) _
+                            .Any(Function(ci)
+                                     Return ci <> ASCII.NUL AndAlso ci Like delIndex
+                                 End Function)
+
+                        ' if the next 3 chars contains a delimiter
+                        ' then not break current line
+                        If Not floats Then
+                            Yield buf.PopAllChars.CharString
+                        End If
                     End If
-
-                    Dim nextLine$ = Mid(line, left, len).Replace(ASCII.TAB, " "c)
-                    Dim part As NamedValue(Of String) = nextLine.GetTagValue
-
-                    If String.IsNullOrEmpty(nextLine) Then
-                        Exit Do
-                    End If
-
-                    If Not String.IsNullOrEmpty(part.Name) Then ' 有空格
-                        s.Value = Trim((+s) & part.Name)
-                        left += part.Name.Length + 1
-                    ElseIf nextLine.First = " "c Then ' 第一个字符是空格，则忽略掉
-                        left += 1
-                    Else
-                        s.Value &= nextLine  ' 是剩余的结束部分
-                        Yield Trim(+s)
-                        s.Value = Nothing ' 必须要value值删除字符串，否则会重复出现最后一行
-                        Exit Do
-                    End If
-
-                    Yield Trim(+s)
                 Loop
 
-                If Not String.IsNullOrEmpty(+s) Then
-                    Yield Trim(+s)
-                Else
-                    If i.i <> lines.Length - 1 Then
-                        Yield vbCrLf
-                    End If
+                If buf > 0 Then
+                    buf += i.Current
+                    Yield buf.PopAllChars.CharString
                 End If
             Next
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function Trim(s$) As String
-            If s Is Nothing Then
-                Return ""
-            Else
-                Return s.Trim(" ", ASCII.TAB)
-            End If
         End Function
     End Module
 End Namespace

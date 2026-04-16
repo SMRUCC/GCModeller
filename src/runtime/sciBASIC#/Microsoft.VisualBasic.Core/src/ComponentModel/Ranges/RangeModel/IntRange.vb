@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dc59df59459baa5f3e01bf2aa9b97dbf, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\IntRange.vb"
+﻿#Region "Microsoft.VisualBasic::532fc13a5d26c7de766401db6aa27c7b, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\RangeModel\IntRange.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 79 (43.65%)
+    ' Comment Lines: 77 (42.54%)
+    '    - Xml Docs: 74.03%
+    ' 
+    '   Blank Lines: 25 (13.81%)
+    '     File Size: 6.53 KB
+
+
     '     Class IntRange
     ' 
-    '         Properties: Length, Max, Min
+    '         Properties: Interval, Max, Min
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: GetEnumerator, IEnumerable_GetEnumerator, (+3 Overloads) IsInside, (+2 Overloads) IsOverlapping, ScaleMapping
-    '                   ToString
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, (+3 Overloads) IsInside, (+2 Overloads) IsOverlapping, MinMax
+    '                   ScaleMapping, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -74,7 +86,7 @@ Namespace ComponentModel.Ranges.Model
         ''' <summary>
         ''' Length of the range (deffirence between maximum and minimum values)
         ''' </summary>
-        Public ReadOnly Property Length As Integer
+        Public ReadOnly Property Interval As Integer
             Get
                 Return Max - Min
             End Get
@@ -96,10 +108,10 @@ Namespace ComponentModel.Ranges.Model
         ''' </summary>
         ''' <param name="source"></param>
         Sub New(source As IEnumerable(Of Integer))
-            With source.ToArray
-                Min = .Min
-                Max = .Max
-            End With
+            Dim minmax As Integer() = IntRange.MinMax(source)
+
+            Min = minmax(0)
+            Max = minmax(1)
         End Sub
 
         Sub New()
@@ -169,8 +181,8 @@ Namespace ComponentModel.Ranges.Model
         ''' <param name="valueRange"></param>
         ''' <returns></returns>
         Public Function ScaleMapping(x%, valueRange As IntRange) As Double
-            Dim percent# = (x - Min) / Length
-            Dim value# = percent * valueRange.Length + valueRange.Min
+            Dim percent# = (x - Min) / Interval
+            Dim value# = percent * valueRange.Interval + valueRange.Min
             Return value
         End Function
 
@@ -207,5 +219,21 @@ Namespace ComponentModel.Ranges.Model
                 Return New IntRange(.Min, .Max)
             End With
         End Operator
+
+        Public Shared Function MinMax(ints As IEnumerable(Of Integer)) As Integer()
+            Dim min As Integer = Integer.MaxValue
+            Dim max As Integer = Integer.MinValue
+
+            For Each i As Integer In ints
+                If i > max Then
+                    max = i
+                End If
+                If i < min Then
+                    min = i
+                End If
+            Next
+
+            Return {min, max}
+        End Function
     End Class
 End Namespace

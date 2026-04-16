@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93fb06629f3981628547ad820dad307d, Bio.Repository\KEGG\SSDB.vb"
+﻿#Region "Microsoft.VisualBasic::22d1f1bc1fe17be128799d25ff4987cc, Bio.Repository\KEGG\SSDB.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 44 (62.86%)
+    ' Comment Lines: 14 (20.00%)
+    '    - Xml Docs: 64.29%
+    ' 
+    '   Blank Lines: 12 (17.14%)
+    '     File Size: 2.68 KB
+
 
     ' Module SSDB
     ' 
@@ -65,7 +77,7 @@ Public Module SSDB
         Dim cuts As New FastaFile(save, throwEx:=False)
         Dim titles As New Index(Of String)(cuts.Select(Function(f) f.Title))
 
-        Using write As StreamWriter = save.OpenWriter(Encodings.ASCII)
+        Using write As IO.StreamWriter = save.OpenWriter(Encodings.ASCII)
             For Each fa In cuts
                 Call write.WriteLine(fa.GenerateDocument(60))
             Next
@@ -91,15 +103,15 @@ Public Module SSDB
                 Dim title$ = id & " " & region.ToString
 
                 If titles(title) > -1 AndAlso Not [overrides] Then
-                    Call $"Skip existed {title}...".__DEBUG_ECHO
+                    Call $"Skip existed {title}...".debug
                     Continue For
                 End If
 
-                Dim seq As FastaSeq =
-                    SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB.API.CutSequence(
-                    region,
-                    org:=code,
-                    vector:=loci.Strand)
+                Dim seq As FastaSeq '=
+                'SMRUCC.genomics.Assembly.KEGG.DBG.API.CutSequence(
+                'region,
+                'org:=code,
+                'vector:=loci.Strand)
 
                 seq.Headers = {title}
 

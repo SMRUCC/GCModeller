@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb65a4f6c18461bb8a65cf1e21e0b11a, R#\metagenomics_kit\HMP.vb"
+﻿#Region "Microsoft.VisualBasic::98182538ce30840229682687e3404d80, R#\metagenomics_kit\HMP.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 35 (67.31%)
+    ' Comment Lines: 11 (21.15%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 6 (11.54%)
+    '     File Size: 1.91 KB
+
+
     ' Module HMP
     ' 
     '     Function: fetch, readFileManifest
@@ -39,12 +51,14 @@
 
 #End Region
 
+Imports Darwinism.OSSUtil
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Data.Repository.NIH.HMP
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' An internal ``HMP`` client for download data files from ``https://portal.hmpdacc.org/`` website
@@ -61,7 +75,10 @@ Module HMP
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("fetch")>
-    Public Function fetch(<RRawVectorArgument> files As Object, outputdir As String, Optional env As Environment = Nothing) As Object
+    Public Function fetch(<RRawVectorArgument> files As Object, outputdir As String,
+                          Optional aspera As Aspera = Nothing,
+                          Optional env As Environment = Nothing) As Object
+
         Dim filesManifest As pipeline = pipeline.TryCreatePipeline(Of manifest)(files, env)
 
         If filesManifest.isError Then
@@ -70,7 +87,7 @@ Module HMP
 
         Return filesManifest _
             .populates(Of manifest)(env) _
-            .HandleFileDownloads(save:=outputdir) _
+            .HandleFileDownloads(save:=outputdir, aspera) _
             .ToArray
     End Function
 
@@ -78,11 +95,11 @@ Module HMP
     <RApiReturn(GetType(manifest))>
     Public Function readFileManifest(file As String, Optional env As Environment = Nothing) As Object
         If file Is Nothing Then
-            Return Internal.debug.stop("the required file path can not be nothing!", env)
+            Return RInternal.debug.stop("the required file path can not be nothing!", env)
         ElseIf file.FileExists Then
             Return manifest.LoadTable(file).ToArray
         Else
-            Return Internal.debug.stop({"the given file is not exists!", "path: " & file}, env)
+            Return RInternal.debug.stop({"the given file is not exists!", "path: " & file}, env)
         End If
     End Function
 End Module

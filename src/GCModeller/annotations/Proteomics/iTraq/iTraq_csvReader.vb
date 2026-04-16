@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4c70cb2dd21e1fc201e63489f21aad1, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
+﻿#Region "Microsoft.VisualBasic::7ed074c4d3a409650049b2cd960fc5f8, annotations\Proteomics\iTraq\iTraq_csvReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 189
+    '    Code Lines: 146 (77.25%)
+    ' Comment Lines: 20 (10.58%)
+    '    - Xml Docs: 25.00%
+    ' 
+    '   Blank Lines: 23 (12.17%)
+    '     File Size: 7.33 KB
+
+
     ' Module iTraq_csvReader
     ' 
     '     Function: __mergeHeaders, Combinations, iTraqMatrix, MergeShotgunAnnotations, StripCsv
@@ -43,7 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.Uniprot

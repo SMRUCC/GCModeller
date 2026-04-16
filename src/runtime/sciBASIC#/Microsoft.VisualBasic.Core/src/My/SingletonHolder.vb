@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10375cbace45f2956453893b51f96c1f, Microsoft.VisualBasic.Core\src\My\SingletonHolder.vb"
+﻿#Region "Microsoft.VisualBasic::de045038e7dbdd5390bce387149e0ccc, Microsoft.VisualBasic.Core\src\My\SingletonHolder.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 55 (45.45%)
+    ' Comment Lines: 45 (37.19%)
+    '    - Xml Docs: 17.78%
+    ' 
+    '   Blank Lines: 21 (17.36%)
+    '     File Size: 3.96 KB
+
+
     '     Class SingletonHolder
     ' 
     '         Properties: Instance
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Class SingletonList
+    ' 
+    '         Function: ForEach
+    ' 
+    '         Sub: (+2 Overloads) Add, Clear
     ' 
     '     Class SharedObject
     ' 
@@ -122,6 +140,28 @@ Namespace My
 
         Private Sub New()
         End Sub
+    End Class
+
+    Public NotInheritable Class SingletonList(Of T)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Sub Add(item As T)
+            Call SingletonHolder(Of List(Of T)).Instance.Add(item)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Sub Add(items As IEnumerable(Of T))
+            Call SingletonHolder(Of List(Of T)).Instance.AddRange(items)
+        End Sub
+
+        Public Shared Sub Clear()
+            Call SingletonHolder(Of List(Of T)).Instance.Clear()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function ForEach() As IEnumerable(Of T)
+            Return SingletonHolder(Of List(Of T)).Instance
+        End Function
     End Class
 
     Public NotInheritable Class SharedObject(Of T)

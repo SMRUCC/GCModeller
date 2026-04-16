@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 34 (79.07%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (20.93%)
+    '     File Size: 1.48 KB
+
+
     '     Class ORGANISM
     ' 
     '         Properties: Lineage, SpeciesName

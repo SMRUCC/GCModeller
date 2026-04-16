@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44df1138dae7e0401ed8b4b74deddf2a, Data_science\Visualization\Plots\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::9a465981ce4560b483486b9536b1b9bb, Data_science\Visualization\Plots\ImageData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 87 (87.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (13.00%)
+    '     File Size: 3.93 KB
+
+
     ' Module ImageDataExtensions
     ' 
     '     Function: Image2DMap, Image3DMap, PointZProvider, SurfaceProvider
@@ -45,6 +57,32 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Driver
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Module ImageDataExtensions
 
@@ -83,7 +121,11 @@ Public Module ImageDataExtensions
     End Function
 
     <Extension>
-    Public Function Image2DMap(img As Image, Optional steps% = 1) As GraphicsData
+    Public Function Image2DMap(img As Image,
+                               Optional scaleName As String = "Jet",
+                               Optional mapLevels% = 25,
+                               Optional steps% = 1) As GraphicsData
+
         Dim color = img.PointZProvider
         Dim xrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Width}")
         Dim yrange As DoubleRange = DoubleRange.TryParse($"0 -> {img.Height}")
@@ -91,8 +133,9 @@ Public Module ImageDataExtensions
         Return Contour.HeatMap.Plot(
             color, xrange, yrange,
             xsteps:=steps, ysteps:=steps, unit:=1,
-            colorMap:="Jet",
-            legendTitle:="GrayScale Heatmap")
+            colorMap:=scaleName,
+            legendTitle:="GrayScale Heatmap"
+        )
     End Function
 
     <Extension>

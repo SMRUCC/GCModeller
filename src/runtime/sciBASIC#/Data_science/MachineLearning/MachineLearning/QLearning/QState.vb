@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d905c75c6a19898f5417868a2e7c335a, Data_science\MachineLearning\MachineLearning\QLearning\QState.vb"
+﻿#Region "Microsoft.VisualBasic::38db7f194f62b5cf3172d0da708b2383, Data_science\MachineLearning\MachineLearning\QLearning\QState.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 35 (49.30%)
+    ' Comment Lines: 23 (32.39%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 13 (18.31%)
+    '     File Size: 2.86 KB
+
+
+    '     Interface IQStateFeatureSet
+    ' 
+    '         Properties: AllQStates, QValueNames, stateFeatures
+    ' 
+    '         Function: ExtractStateVector
+    ' 
     '     Class QState
     ' 
-    '         Properties: Current, State
+    '         Properties: AllQStates, Current, State
     ' 
     '         Sub: SetState
     ' 
@@ -45,16 +63,37 @@
 Namespace QLearning
 
     ''' <summary>
+    ''' interface helper for write cdf model file
+    ''' </summary>
+    Public Interface IQStateFeatureSet
+
+        ReadOnly Property stateFeatures As IEnumerable(Of String)
+        ReadOnly Property QValueNames As IEnumerable(Of String)
+        ReadOnly Property AllQStates As IEnumerable
+
+        Function ExtractStateVector(stat As Object) As Double()
+
+    End Interface
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <typeparam name="T">Status object</typeparam>
-    Public MustInherit Class QState(Of T As ICloneable)
+    Public MustInherit Class QState(Of T As ICloneable) : Implements IQStateFeatureSet
 
         Protected stateValue As T
+        Protected allStates As New Dictionary(Of String, T)
 
         Public Sub SetState(x As T)
             stateValue = x
+            allStates(x.ToString) = x
         End Sub
+
+        Public ReadOnly Property AllQStates As IEnumerable Implements IQStateFeatureSet.AllQStates
+            Get
+                Return allStates.Values
+            End Get
+        End Property
 
         ''' <summary>
         ''' 假若操作不会涉及到数据修改，请使用这个属性来减少性能的损失，<see cref="Current"/>属性返回的值和本属性是一样的，
@@ -77,6 +116,9 @@ Namespace QLearning
             End Get
         End Property
 
+        Public MustOverride ReadOnly Property stateFeatures As IEnumerable(Of String) Implements IQStateFeatureSet.stateFeatures
+        Public MustOverride ReadOnly Property QValueNames As IEnumerable(Of String) Implements IQStateFeatureSet.QValueNames
+
         ''' <summary>
         ''' Gets the <see cref="Current"/> states.
         ''' Returns the map state which results from an initial map state after an
@@ -85,5 +127,7 @@ Namespace QLearning
         ''' <param name="action"> taken by the avatar ('@') </param>
         ''' <returns> resulting map after the action is taken </returns>
         Public MustOverride Function GetNextState(action As Integer) As T
+
+        Public MustOverride Function ExtractStateVector(stat As Object) As Double() Implements IQStateFeatureSet.ExtractStateVector
     End Class
 End Namespace

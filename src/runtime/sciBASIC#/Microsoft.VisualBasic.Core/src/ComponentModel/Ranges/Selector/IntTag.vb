@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 41 (82.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (18.00%)
+    '     File Size: 1.75 KB
+
+
     '     Structure IntTag
     ' 
     '         Constructor: (+2 Overloads) Sub New

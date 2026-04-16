@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 226
+    '    Code Lines: 161 (71.24%)
+    ' Comment Lines: 35 (15.49%)
+    '    - Xml Docs: 91.43%
+    ' 
+    '   Blank Lines: 30 (13.27%)
+    '     File Size: 8.98 KB
+
+
     '     Module EntryAPI
     ' 
     '         Properties: Resources

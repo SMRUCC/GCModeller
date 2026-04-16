@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2651fea6ca00af2d65a7ef2a1efdff4c, annotations\Proteomics\LabelFree\SignificanceAB.vb"
+﻿#Region "Microsoft.VisualBasic::656854f0c594d856e5ed2a3ed6ff174f, annotations\Proteomics\LabelFree\SignificanceAB.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 50 (40.00%)
+    ' Comment Lines: 60 (48.00%)
+    '    - Xml Docs: 48.33%
+    ' 
+    '   Blank Lines: 15 (12.00%)
+    '     File Size: 4.93 KB
+
+
     ' Module SignificanceAB
     ' 
     '     Function: SignificanceA, SignificanceA_VB, SignificantB
@@ -44,10 +56,6 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-#If netcore5 = 0 Then
-Imports RDotNET.Extensions.VisualBasic
-Imports RDotNET.Extensions.VisualBasic.API
-#End If
 
 ''' <summary>
 ''' 当T检验无法正常工作的时候，使用这个模块进行P值的计算
@@ -95,40 +103,37 @@ Public Module SignificanceAB
     ''' <param name="ratio"></param>
     ''' <returns></returns>
     Public Function SignificanceA(ratio As Vector) As Vector
-#If netcore5 = 0 Then
-        Dim quantile#()
+        'Dim quantile#()
 
-        ratio = ratio.Log(base:=2)
-        quantile = stats.quantile(ratio, {0.1587, 0.5, 0.8413}, narm:=True).Rvar.As(Of Double())
+        'ratio = ratio.Log(base:=2)
+        'quantile = stats.quantile(ratio, {0.1587, 0.5, 0.8413}, narm:=True).Rvar.As(Of Double())
 
-        Dim rl# = quantile(Scan0)
-        Dim rm# = quantile(1)
-        Dim rh# = quantile(2)
-        Dim p As Vector = ratio _
-            .Select(Function(x As Double) As String
-                        If x.IsNaNImaginary Then
-                            Return 0
-                        Else
-                            Dim z#
+        'Dim rl# = quantile(Scan0)
+        'Dim rm# = quantile(1)
+        'Dim rh# = quantile(2)
+        'Dim p As Vector = ratio _
+        '    .Select(Function(x As Double) As String
+        '                If x.IsNaNImaginary Then
+        '                    Return 0
+        '                Else
+        '                    Dim z#
 
-                            If x > rm Then
-                                z = (x - rm) / (rh - rm)
-                            Else
-                                z = (rm - x) / (rm - rl)
-                            End If
+        '                    If x > rm Then
+        '                        z = (x - rm) / (rh - rm)
+        '                    Else
+        '                        z = (rm - x) / (rm - rl)
+        '                    End If
 
-                            Return stats.pnorm(z, lowertail:=False)
-                        End If
-                    End Function) _
-            .Select(Function(x)
-                        Return var.EvaluateAs(Of Double)(x)
-                    End Function) _
-            .AsVector
+        '                    Return stats.pnorm(z, lowertail:=False)
+        '                End If
+        '            End Function) _
+        '    .Select(Function(x)
+        '                Return var.EvaluateAs(Of Double)(x)
+        '            End Function) _
+        '    .AsVector
 
-        Return p
-#Else
+        'Return p
         Throw New NotImplementedException
-#End If
     End Function
 
     ''' <summary>

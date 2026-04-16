@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::21ac88be2870d2d5d179374bc2a3382f, localblast\LocalBLAST\Pipeline\COG\Reports\MyvaCOG.vb"
+﻿#Region "Microsoft.VisualBasic::b10ea48e42ea4cb1aa2503f6a4a521d2, localblast\LocalBLAST\Pipeline\COG\Reports\MyvaCOG.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 36 (53.73%)
+    ' Comment Lines: 23 (34.33%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 8 (11.94%)
+    '     File Size: 2.69 KB
+
+
     '     Class MyvaCOG
     ' 
     '         Properties: Category, COG, DataAsset, Description, Evalue
@@ -46,10 +58,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
 Namespace Pipeline.COG
 
@@ -72,7 +83,7 @@ Namespace Pipeline.COG
         ''' <remarks></remarks>
         <Column("COG_category")> Public Property Category As String Implements ICOGCatalog.Catalog
         <Column("COG")> Public Property COG As String Implements IFeatureDigest.Feature, IBlastHit.hitName, ICOGCatalog.COG
-        <Column("description")> Public Property Description As String
+        <Column("description")> Public Property Description As String Implements IBlastHit.description
 
         Public Property Evalue As Double
         Public Property Identities As Double Implements IQueryHits.identities

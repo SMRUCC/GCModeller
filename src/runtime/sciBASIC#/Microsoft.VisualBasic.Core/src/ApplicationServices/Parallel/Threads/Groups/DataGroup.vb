@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::077af45831c994379f79d089e5016e46, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\Groups\DataGroup.vb"
+﻿#Region "Microsoft.VisualBasic::2cd98254883bfaadfd9f40f5b56709d2, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\Groups\DataGroup.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 51 (72.86%)
+    ' Comment Lines: 5 (7.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (20.00%)
+    '     File Size: 2.08 KB
+
+
     '     Class TaggedGroupData
     ' 
     '         Properties: Tag
@@ -52,10 +64,7 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel.Linq
-Imports Microsoft.VisualBasic.Parallel.Threads
 
 Namespace Parallel
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62b2ae550cd3c405da5548bf91cc4123, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
+﻿#Region "Microsoft.VisualBasic::9e57e9cffd83b5518697a3ca278a281b, visualize\Cytoscape\Cytoscape\Graph\Serialization\ExportToFile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 392
+    '    Code Lines: 311 (79.34%)
+    ' Comment Lines: 31 (7.91%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 50 (12.76%)
+    '     File Size: 17.77 KB
+
+
     '     Module ExportToFile
     ' 
     '         Function: __createTypeMapping, __exportEdge, __exportEdges, __exportNode, __exportNodes
@@ -43,13 +55,14 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.Reflector
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection.Reflector
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.NetworkEdge
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Node
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
@@ -111,7 +124,7 @@ Namespace CytoscapeGraphView.Serialization
                                                  EdgeTypeMapping:=GetType(Edge).GetDataFrameworkTypeSchema(False),
                                                  schema:=interMaps)
             Model.attributes = ModelAttributes
-            Model.attributes.Add(NetworkMetadata.createAttribute("GCModeller Exports: " & title, "https://gcmodeller.org"))
+            Model.attributes.Append(NetworkMetadata.createAttribute("GCModeller Exports: " & title, "https://gcmodeller.org"))
 
             VBDebugger.Mute = True
 
@@ -284,6 +297,11 @@ Namespace CytoscapeGraphView.Serialization
         Private Function __exportNode(dict As Dictionary(Of String, String), __getType As Func(Of String, String)) As XGMMLnode
             Dim ID As String = dict(REFLECTION_ID_MAPPING_IDENTIFIER)
             Dim attrs As New List(Of Attribute)
+            Dim x As Double = Val(dict.TryGetValue("x"))
+            Dim y As Double = Val(dict.TryGetValue("y"))
+            Dim z As Double = Val(dict.TryGetValue("z"))
+            Dim degree As Double = Val(dict.TryGetValue("degree"))
+            Dim color As String = dict.TryGetValue("color")
 
             attrs += New Attribute With {
                 .name = ATTR_SHARED_NAME,
@@ -296,6 +314,9 @@ Namespace CytoscapeGraphView.Serialization
                 .Type = ATTR_VALUE_TYPE_STRING
             }
             Call dict.Remove(REFLECTION_ID_MAPPING_IDENTIFIER)
+            Call dict.Remove("x")
+            Call dict.Remove("y")
+            Call dict.Remove("z")
 
             attrs += From item As KeyValuePair(Of String, String)
                      In dict
@@ -308,7 +329,15 @@ Namespace CytoscapeGraphView.Serialization
             Dim node As New XGMMLnode With {
                 .label = ID,
                 .attributes = attrs.ToArray,
-                .graphics = New NodeGraphics
+                .graphics = New NodeGraphics With {
+                    .x = x,
+                    .y = y,
+                    .w = degree,
+                    .Width = degree,
+                    .h = degree,
+                    .z = z,
+                    .Fill = color
+                }
             }
 
             Return node
@@ -351,26 +380,26 @@ Namespace CytoscapeGraphView.Serialization
             Dim fromNode As XGMMLnode = Nodes.TryGetValue(nodeName)
 
             If fromNode Is Nothing Then
-                Call $"fromNode '{nodeName}' could not be found in the node list!".__DEBUG_ECHO
+                Call $"fromNode '{nodeName}' could not be found in the node list!".debug
                 fromNode = New XGMMLnode With {
                     .label = nodeName,
                     .id = Nodes.Count
                 }
                 Call Nodes.Add(nodeName, fromNode)
-                Call $"INSERT this absence node into network...".__DEBUG_ECHO
+                Call $"INSERT this absence node into network...".debug
             Else
                 nodeName = dict(REFLECTION_ID_MAPPING_TO_NODE)
             End If
 
             Dim toNode As XGMMLnode = Nodes.TryGetValue(nodeName)
             If toNode Is Nothing Then
-                Call $"toNode '{nodeName}' could not be found in the node list!".__DEBUG_ECHO
+                Call $"toNode '{nodeName}' could not be found in the node list!".debug
                 toNode = New XGMMLnode With {
                     .label = nodeName,
                     .id = Nodes.Count
                 }
                 Call Nodes.Add(nodeName, toNode)
-                Call $"INSERT this absence node into network...".__DEBUG_ECHO
+                Call $"INSERT this absence node into network...".debug
             End If
 
             Dim InteractionType As String = dict.TryGetValue(REFLECTION_ID_MAPPING_INTERACTION_TYPE)

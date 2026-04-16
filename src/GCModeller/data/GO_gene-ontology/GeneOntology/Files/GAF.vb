@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::104af7c7cf918bd95dd83381d61a447d, data\GO_gene-ontology\GeneOntology\Files\GAF.vb"
+﻿#Region "Microsoft.VisualBasic::47e8d0431f2dd47192d8e409c717891b, data\GO_gene-ontology\GeneOntology\Files\GAF.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 411
+    '    Code Lines: 119 (28.95%)
+    ' Comment Lines: 259 (63.02%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 33 (8.03%)
+    '     File Size: 21.99 KB
+
+
     ' Class GAF
     ' 
     '     Properties: [Date], AnnotationExtension, Aspect, AssignedBy, DB
@@ -51,6 +63,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' GO Annotation File (GAF) Format 2.0

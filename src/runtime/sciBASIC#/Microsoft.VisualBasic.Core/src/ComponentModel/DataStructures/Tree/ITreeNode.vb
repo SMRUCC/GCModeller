@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b6696441a2046b70e2472e46d333064, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\ITreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::6728f763b2c263e93848803114f1e89b, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\ITreeNode.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,27 @@
 
     ' Summaries:
 
-    '     Interface ITreeNode
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 14 (42.42%)
+    ' Comment Lines: 11 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (24.24%)
+    '     File Size: 1020 B
+
+
+    '     Interface ITreeNodeData
     ' 
     '         Properties: ChildNodes, FullyQualifiedName, IsLeaf, IsRoot, Parent
     ' 
-    '         Function: GetRootNode, IteratesAllChilds
+    '     Interface ITreeNode
     ' 
-    '         Sub: ChildCountsTravel
+    '         Function: GetRootNode
+    ' 
+    '         Sub: Add, ChildCountsTravel
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,15 +60,15 @@
 
 Namespace ComponentModel.DataStructures.Tree
 
-    Public Interface ITreeNode(Of T)
+    Public Interface ITreeNodeData(Of T As ITreeNodeData(Of T))
 
         Property Parent() As T
+
         ''' <summary>
         ''' Children
         ''' </summary>
-        Property ChildNodes() As List(Of T)
+        ReadOnly Property ChildNodes() As IReadOnlyCollection(Of T)
 
-        ReadOnly Property FullyQualifiedName() As String
         ''' <summary>
         ''' Is this node have no childs
         ''' </summary>
@@ -65,10 +79,15 @@ Namespace ComponentModel.DataStructures.Tree
         ''' </summary>
         ''' <returns></returns>
         ReadOnly Property IsRoot() As Boolean
+        ReadOnly Property FullyQualifiedName() As String
+
+    End Interface
+
+    Public Interface ITreeNode(Of T As ITreeNode(Of T)) : Inherits ITreeNodeData(Of T)
 
         Function GetRootNode() As T
-        Function IteratesAllChilds() As IEnumerable(Of T)
         Sub ChildCountsTravel(distribute As Dictionary(Of String, Double), Optional getID As Func(Of T, String) = Nothing)
+        Sub Add(child As T)
 
     End Interface
 End Namespace

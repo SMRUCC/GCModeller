@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 4 (30.77%)
+    ' Comment Lines: 6 (46.15%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 448 B
+
+
     ' Module Module1
     ' 
     '     Sub: Main

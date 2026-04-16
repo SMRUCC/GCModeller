@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b6cf4a0216328cdf7d2281ab123c3ef, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\WebServices.vb"
+﻿#Region "Microsoft.VisualBasic::b4b9093d05eb54c44f46da3fa4f6c84e, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Web\WebServices.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 32 (42.11%)
+    ' Comment Lines: 36 (47.37%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 8 (10.53%)
+    '     File Size: 3.62 KB
+
 
     '     Module WebServices
     ' 
@@ -106,21 +118,13 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.WebServices
         ''' 
         <Extension>
         Public Iterator Function BatchQuery(chebiIDlist$(), localCache$, Optional sleepInterval% = 2000) As IEnumerable(Of ChEBIEntity)
-            Using progress As New ProgressBar("Downloading ChEBI data...")
-                Dim tick As New ProgressProvider(progress, chebiIDlist.Length)
-                Dim ETA$
-                Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
+            Dim query As New QueryImpl(localCache, sleep:=sleepInterval)
 
-                For Each id As String In chebiIDlist
-                    For Each part As ChEBIEntity In query.Query(Of ChEBIEntity())(id).SafeQuery
-                        Yield part
-                    Next
-
-                    ETA = $"ETA=" & tick.ETA().FormatTime
-
-                    progress.SetProgress(tick.StepProgress, ETA)
+            For Each id As String In Tqdm.Wrap(chebiIDlist)
+                For Each part As ChEBIEntity In query.Query(Of ChEBIEntity())(id).SafeQuery
+                    Yield part
                 Next
-            End Using
+            Next
         End Function
     End Module
 End Namespace

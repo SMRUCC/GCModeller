@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 16 (30.19%)
+    ' Comment Lines: 33 (62.26%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 4 (7.55%)
+    '     File Size: 1.85 KB
+
+
     '     Class MetaCycField
     ' 
     '         Properties: Name, Type

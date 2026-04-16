@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 41 (68.33%)
+    ' Comment Lines: 1 (1.67%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (30.00%)
+    '     File Size: 1.92 KB
+
+
     '     Class Edge
     ' 
     ' 

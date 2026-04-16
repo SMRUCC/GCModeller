@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 81 (50.31%)
+    ' Comment Lines: 58 (36.02%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.66%)
+    '     File Size: 8.07 KB
+
+
     ' Class t_factor_d_tmp
     ' 
     '     Properties: t_factor_id, t_factor_key_id_org, t_factor_name, t_factor_site_group, t_factor_site_length

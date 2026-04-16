@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ae888f626a3b818319faa9b836de1a0, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\BinaryHeap.vb"
+﻿#Region "Microsoft.VisualBasic::82ca367a55e3f908306e6349e342139c, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\BinaryHeap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 178
+    '    Code Lines: 118 (66.29%)
+    ' Comment Lines: 32 (17.98%)
+    '    - Xml Docs: 15.62%
+    ' 
+    '   Blank Lines: 28 (15.73%)
+    '     File Size: 6.05 KB
+
+
     '     Class BinaryHeap
     ' 
     '         Properties: peek, size
@@ -47,7 +59,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Collection
 
@@ -158,7 +170,7 @@ Namespace ComponentModel.Collection
             ' When at 0, an element can not go up any further.
             Do While n > 0
                 ' Compute the parent element's index, and fetch it.
-                Dim parentN% = stdNum.Floor((n + 1) / 2) - 1
+                Dim parentN% = std.Floor((n + 1) / 2) - 1
                 Dim parent = content(parentN)
 
                 ' Swap the elements if the parent is greater.

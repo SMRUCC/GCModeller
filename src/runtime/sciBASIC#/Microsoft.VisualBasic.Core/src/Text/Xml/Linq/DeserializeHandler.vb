@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73ec576aa7efd1e7c755d62144fc32f4, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\DeserializeHandler.vb"
+﻿#Region "Microsoft.VisualBasic::3a7853c18fc37ddfc0bf3c2770fdd2ce, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\DeserializeHandler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 43 (53.09%)
+    ' Comment Lines: 24 (29.63%)
+    '    - Xml Docs: 54.17%
+    ' 
+    '   Blank Lines: 14 (17.28%)
+    '     File Size: 3.30 KB
+
 
     '     Class DeserializeHandler
     ' 
@@ -104,7 +116,7 @@ Namespace Text.Xml.Linq
         ''' </summary>
         ''' <param name="xml"></param>
         ''' <returns></returns>
-        Public Function LoadXml(xml As String) As T
+        Public Function LoadXml(xml As String, Optional variants As Type() = Nothing) As T
             Call sb.Clear()
             Call sb.AppendLine("<?xml version=""1.0"" encoding=""utf-16""?>")
             Call sb.AppendLine(process(xml))
@@ -116,7 +128,7 @@ Namespace Text.Xml.Linq
             xml = sb.ToString
 
             ' 对调整好的Xml文档执行反序列化操作
-            Return xml.LoadFromXml(Of T)(doNamespaceIgnorant:=True)
+            Return xml.LoadFromXml(Of T)(doNamespaceIgnorant:=True, variants:=variants)
         End Function
 
         Public Overrides Function ToString() As String

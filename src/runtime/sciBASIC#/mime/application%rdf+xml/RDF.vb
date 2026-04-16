@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90e4ab445881618c1e1e862acc3d84d5, mime\application%rdf+xml\RDF.vb"
+﻿#Region "Microsoft.VisualBasic::0489aca431875708f74ca5c222af642a, mime\application%rdf+xml\RDF.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 12 (31.58%)
+    ' Comment Lines: 20 (52.63%)
+    '    - Xml Docs: 55.00%
+    ' 
+    '   Blank Lines: 6 (15.79%)
+    '     File Size: 1.35 KB
+
 
     ' Class RDF
     ' 
@@ -64,9 +76,18 @@ Public MustInherit Class RDF(Of T As Description)
     Public xmlns As New XmlSerializerNamespaces
 
     <XmlElement("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
-    Public Property description As T
+    Public Property description As T()
 
     Sub New()
-        xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        Call xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+        Call xmlns.Add("rdfs", RDFEntity.rdfs)
     End Sub
+
+    'Sub New(ParamArray ns As NamedValue(Of String)())
+    '    Call xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+
+    '    For Each [namespace] As NamedValue(Of String) In ns
+    '        Call xmlns.Add([namespace].Name, ns:=[namespace].Value)
+    '    Next
+    'End Sub
 End Class

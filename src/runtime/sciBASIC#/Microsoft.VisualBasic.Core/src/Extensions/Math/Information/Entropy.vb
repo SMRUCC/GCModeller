@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::149889335b38136e0d3eccf502b78876, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\Entropy.vb"
+﻿#Region "Microsoft.VisualBasic::6dd6604afe2341b9eb13a42f0d00e94d, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\Entropy.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 28 (26.67%)
+    ' Comment Lines: 71 (67.62%)
+    '    - Xml Docs: 85.92%
+    ' 
+    '   Blank Lines: 6 (5.71%)
+    '     File Size: 4.74 KB
+
+
     '     Module Entropy
     ' 
-    '         Function: ShannonEnt, ShannonEntropy
+    '         Function: Gini, ShannonEnt, ShannonEntropy
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Math.Information
 
@@ -85,7 +97,8 @@ Namespace Math.Information
         ''' </summary>
         ''' <param name="probs">Sum of this probability vector must equals to 1, Histogram array.</param>
         ''' <returns></returns>
-        ''' <remarks><para>The input array is treated as histogram, i.e. its
+        ''' <remarks><para>
+        ''' The input array is treated as histogram, i.e. its
         ''' indexes are treated as values of stochastic function, but
         ''' array values are treated as "probabilities" (total amount of
         ''' hits).</para>
@@ -119,7 +132,7 @@ Namespace Math.Information
             Dim entropy# = Aggregate prob As Double
                            In probs
                            Where prob > 0  ' 因为是求和，所以prob等于零的时候，乘上ln应该也是零的，因为零对求和无影响，所以在这里直接使用where跳过零了
-                           Let ln = stdNum.Log(prob, newBase:=2)
+                           Let ln = std.Log(prob, newBase:=2)
                            Into Sum(prob * ln)
             ' 和的负数，注意在这里最后的结果还需要乘以-1
             ' 有一个负号
@@ -132,7 +145,9 @@ Namespace Math.Information
         ''' 
         ''' 基尼指数越大，说明不确定性就越大；基尼系数越小，不确定性越小，数据分割越彻底，越干净。
         ''' </summary>
-        ''' <param name="p"></param>
+        ''' <param name="p">
+        ''' the data probability
+        ''' </param>
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

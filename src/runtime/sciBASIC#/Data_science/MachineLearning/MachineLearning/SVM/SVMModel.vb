@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fc50a5f635477e0da86ab9216e7ae374, Data_science\MachineLearning\MachineLearning\SVM\SVMModel.vb"
+﻿#Region "Microsoft.VisualBasic::7da1d0311966dcd31d1574e2b64e9f98, Data_science\MachineLearning\MachineLearning\SVM\SVMModel.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 38 (59.38%)
+    ' Comment Lines: 12 (18.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (21.88%)
+    '     File Size: 2.07 KB
+
+
     '     Class SVMModel
     ' 
-    '         Properties: dimensionNames, factors, model, transform
+    '         Properties: dimensionNames, factors, model, SVR, transform
     ' 
     '         Function: ToString
     ' 
@@ -59,7 +71,7 @@ Namespace SVM
     ''' </summary>
     <KnownType(GetType(RangeTransform))>
     <KnownType(GetType(GaussianTransform))>
-    Public Class SVMModel
+    Public Class SVMModel : Inherits MachineLearning.Model
 
         Public Property model As Model
         Public Property transform As IRangeTransform
@@ -70,6 +82,15 @@ Namespace SVM
         ''' </summary>
         ''' <returns></returns>
         Public Property factors As ClassEncoder
+
+        Public ReadOnly Property SVR As Boolean
+            Get
+                Dim type = model.parameter.svmType
+                Dim is_svr = type = SvmType.EPSILON_SVR OrElse type = SvmType.NU_SVR
+
+                Return is_svr
+            End Get
+        End Property
 
         Public ReadOnly Property dimensionNames As String()
             Get

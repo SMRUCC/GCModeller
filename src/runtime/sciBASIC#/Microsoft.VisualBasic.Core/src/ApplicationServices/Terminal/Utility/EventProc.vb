@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5d124ec5793dd97ffb34ea0fbf396f7, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\EventProc.vb"
+﻿#Region "Microsoft.VisualBasic::9d3a72bf7346f09c6360e4967bd1099b, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\Utility\EventProc.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 54 (57.45%)
+    ' Comment Lines: 27 (28.72%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 13 (13.83%)
+    '     File Size: 2.85 KB
+
 
     '     Class EventProc
     ' 
@@ -102,7 +114,7 @@ Namespace ApplicationServices.Terminal.Utility
             End If
 
             If ++current Mod delta = 0 Then
-                Call ToString.__DEBUG_ECHO
+                Call ToString.debug
             Else
                 Call out.Write(".")
             End If

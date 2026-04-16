@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5250d45938ca020ddab3f6efbe18a8ba, HMP_client\Download.vb"
+﻿#Region "Microsoft.VisualBasic::43bf2f9f3bf673a068342a2069970c99, HMP_client\Download.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 48 (73.85%)
+    ' Comment Lines: 8 (12.31%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 9 (13.85%)
+    '     File Size: 2.31 KB
+
+
     ' Module Download
     ' 
     '     Function: createLocalFileName, HandleFileDownloads, runFileDownloader
@@ -41,10 +53,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Threading
-Imports Microsoft.VisualBasic.Net.Http
+Imports Darwinism.OSSUtil
+Imports Microsoft.VisualBasic.Net.WebClient
 Imports Microsoft.VisualBasic.SecurityString
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports ThinkVB.FileSystem.OSS
 
 Public Module Download
 

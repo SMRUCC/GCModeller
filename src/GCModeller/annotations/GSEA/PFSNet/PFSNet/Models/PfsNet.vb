@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 48 (42.86%)
+    ' Comment Lines: 52 (46.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (10.71%)
+    '     File Size: 4.34 KB
+
+
     '     Class PFSNetGraphNode
     ' 
     '         Properties: name, weight, weight2

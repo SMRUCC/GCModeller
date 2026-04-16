@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22e5be5f815630600b195677ffe376dd, foundation\PSICQUIC\psidev\TAB\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::f29bdf2322c0ea98cc33343e6512a4e9, foundation\PSICQUIC\psidev\TAB\Parser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 25 (80.65%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (19.35%)
+    '     File Size: 1.14 KB
+
+
     '     Module Parser
     ' 
     '         Function: LoadMItab
@@ -43,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps.DataFrameColumnAttribute
 Imports Microsoft.VisualBasic.Linq
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace TAB
 
@@ -51,14 +64,14 @@ Namespace TAB
         <Extension>
         Public Iterator Function LoadMItab(Of T)(path As String) As IEnumerable(Of T)
             Dim schema = LoadMapping(Of T)(mapsAll:=True)
-            Dim header As String() = path.ReadFirstLine.Split(Text.ASCII.TAB)
+            Dim header As String() = path.ReadFirstLine.Split(ASCII.TAB)
             Dim index As Dictionary(Of String, Integer) = header _
                 .SeqIterator _
                 .ToDictionary(Function(x) x.value,
                               Function(x) x.i)
 
             For Each line As String In path.IterateAllLines.Skip(1)
-                Dim tokens As String() = line.Split(Text.ASCII.TAB)
+                Dim tokens As String() = line.Split(ASCII.TAB)
                 Dim x As T = Activator.CreateInstance(Of T)
 
                 For Each p In schema.Values

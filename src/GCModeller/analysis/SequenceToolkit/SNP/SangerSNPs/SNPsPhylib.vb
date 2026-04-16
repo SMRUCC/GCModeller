@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15019a0e6e7e374fd2476a5667a2e378, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
+﻿#Region "Microsoft.VisualBasic::ca6f5ded42bf310558ae25393bd143f0, analysis\SequenceToolkit\SNP\SangerSNPs\SNPsPhylib.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 54 (52.43%)
+    ' Comment Lines: 30 (29.13%)
+    '    - Xml Docs: 43.33%
+    ' 
+    '   Blank Lines: 19 (18.45%)
+    '     File Size: 4.02 KB
+
+
     '     Module SNPsPhylib
     ' 
     '         Function: PhylibOfSNPSites
@@ -44,15 +56,10 @@
 
 #End Region
 
-Imports System.IO
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.FASTA
-Imports FILE = System.IO.StreamWriter
 
 Namespace SangerSNPs
 

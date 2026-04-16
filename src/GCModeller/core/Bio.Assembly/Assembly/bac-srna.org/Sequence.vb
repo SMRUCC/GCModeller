@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 65 (75.58%)
+    ' Comment Lines: 8 (9.30%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 13 (15.12%)
+    '     File Size: 3.00 KB
+
+
     '     Class Sequence
     ' 
     '         Properties: Name, SequenceData, Specie, UniqueId
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: [CType], __getMappingLoci, ToFasta, ToString
+    '         Function: __getMappingLoci, [CType], ToFasta, ToString
     ' 
     ' 
     ' /********************************************************************************/

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 51 (60.71%)
+    ' Comment Lines: 22 (26.19%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (13.10%)
+    '     File Size: 3.12 KB
+
+
     '     Class Hsa_gene
     ' 
     '         Properties: AA, Definition, Disease, DrugTarget, Entry

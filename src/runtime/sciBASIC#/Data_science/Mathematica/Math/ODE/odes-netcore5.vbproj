@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<RootNamespace>Microsoft.VisualBasic.Math.Calculus</RootNamespace>
-		<TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
 		<AssemblyName>Microsoft.VisualBasic.Math.ODEsSolver</AssemblyName>
 		<Authors>xie.guigang@live.com</Authors>
 		<Company>sciBASIC.NET</Company>
@@ -16,8 +16,10 @@
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<Description>LAPACK (Linear Algebra PACKage)</Description>
-		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit</Configurations>
+		<Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;gcmodeller_desktop;nuget_release;CellaLAB-Desktop</Configurations>
 		<RepositoryType>git</RepositoryType>
+		<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -30,19 +32,27 @@
 	  <BaseAddress>4194304</BaseAddress>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
-	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
-	  <DebugSymbols>true</DebugSymbols>
-	  <DebugType>full</DebugType>
-	  <DefineConstants>netcore5=1</DefineConstants>
-	</PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>../../../../.nuget/</OutputPath>
+  </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|AnyCPU'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|AnyCPU'">
 	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
 	</PropertyGroup>
 
@@ -74,7 +84,32 @@
 	  <DefineDebug>false</DefineDebug>
 	  <DefineTrace>true</DefineTrace>
 	  <BaseAddress>4194304</BaseAddress>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
+	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineTrace>true</DefineTrace>
+	  <BaseAddress>4194304</BaseAddress>
+	 
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CellaLAB-Desktop|x64'">
+	  <DocumentationFile>Microsoft.VisualBasic.Math.ODEsSolver.xml</DocumentationFile>
+	  <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+	  <RemoveIntegerChecks>true</RemoveIntegerChecks>
+	  <Optimize>false</Optimize>
+	  <DebugSymbols>true</DebugSymbols>
+	  <DebugType>full</DebugType>
+	  <DefineDebug>false</DefineDebug>
+	  <DefineTrace>true</DefineTrace>
+	  <BaseAddress>4194304</BaseAddress>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
@@ -87,7 +122,7 @@
 	  <DefineDebug>false</DefineDebug>
 	  <DefineTrace>true</DefineTrace>
 	  <BaseAddress>4194304</BaseAddress>
-	  <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+	
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
@@ -121,6 +156,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Composition" Version="10.0.5" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="10.0.5" />
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.5" />
     <PackageReference Include="System.Runtime" Version="4.3.1" />
   </ItemGroup>
 

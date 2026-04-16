@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04e52d99ad351a31827a2add1b5efe36, Microsoft.VisualBasic.Core\src\Language\Language\Java\Arrays.vb"
+﻿#Region "Microsoft.VisualBasic::706247781bce17acc728c07864170f2a, Microsoft.VisualBasic.Core\src\Language\Language\Java\Arrays.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 54 (56.25%)
+    ' Comment Lines: 28 (29.17%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 14 (14.58%)
+    '     File Size: 3.85 KB
+
+
     '     Module Arrays
     ' 
-    '         Function: copyOfRange, Max, Min, shuffle, subList
-    ' 
-    '         Sub: fill
+    '         Function: copyOf, copyOfRange, fill, hashCode, Max
+    '                   Min, shuffle, subList, toString
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -50,12 +62,29 @@ Namespace Language.Java
 
     Public Module Arrays
 
+        ''' <summary>
+        ''' fill and set all elements in target array 
+        ''' <paramref name="a"/> with a specific value
+        ''' <paramref name="val"/>.
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="a"></param>
+        ''' <param name="val"></param>
+        ''' <remarks>
+        ''' this function will not break the given vector its class reference
+        ''' </remarks>
         <Extension>
-        Public Sub fill(Of T)(ByRef a As T(), val As T)
+        Public Function fill(Of T)(<Out> ByRef a As T(), val As T) As T()
             For i% = 0 To a.Length - 1
                 a(i%) = val
             Next
-        End Sub
+
+            Return a
+        End Function
+
+        Public Function copyOf(Of T)(matrix As T(), start As Integer) As T()
+            Return copyOfRange(matrix, start, matrix.Length - start)
+        End Function
 
         Public Function copyOfRange(Of T)(matrix As T(), start As Integer, length As Integer) As T()
             Dim out As T() = New T(length - 1) {}
@@ -83,7 +112,7 @@ Namespace Language.Java
         ''' <returns>a view of the specified range within this list</returns>
         ''' 
         <Extension>
-        Public Function subList(Of T)(list As System.Collections.Generic.List(Of T), fromIndex%, toIndex%) As List(Of T)
+        Public Function subList(Of T)(list As IList(Of T), fromIndex%, toIndex%) As List(Of T)
             Return list.Skip(fromIndex).Take(toIndex - fromIndex).AsList
         End Function
 
@@ -95,6 +124,28 @@ Namespace Language.Java
         <Extension>
         Public Function Max(Of T As IComparable(Of T))(source As IEnumerable(Of T)) As T
             Return Enumerable.Max(source)
+        End Function
+
+        Public Function toString(Of T)(x As IEnumerable(Of T)) As String
+            Return x.JoinBy(", ")
+        End Function
+
+        Public Function hashCode(ints As IEnumerable(Of Integer)) As Integer
+            ' 1. 处理空数组引用
+            If Not ints Is Nothing Then
+                ' 2. 初始化哈希值 (非零种子可以防止全零数组的哈希冲突过于简单)
+                Dim hash As Integer = 1
+
+                ' 3. 遍历数组，使用公式：hash = 31 * hash + element
+                ' 这里利用了整数溢出自动回绕的特性，不需要手动处理
+                For Each num As Integer In ints
+                    hash = hash * 31 + num
+                Next
+
+                Return hash
+            Else
+                Return 0
+            End If
         End Function
     End Module
 End Namespace

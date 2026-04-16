@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ca02b3f8652f03a649f551247c73f05d, Data_science\Mathematica\Math\Math\Quantile\QuantileEstimationGK.vb"
+﻿#Region "Microsoft.VisualBasic::563567fc9ae96822dbb06b3ac7b5a82a, Data_science\Mathematica\Math\Math\Quantile\QuantileEstimationGK.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 89 (52.35%)
+    ' Comment Lines: 53 (31.18%)
+    '    - Xml Docs: 60.38%
+    ' 
+    '   Blank Lines: 28 (16.47%)
+    '     File Size: 5.78 KB
+
+
     '     Class QuantileEstimationGK
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: Query, ToString
+    '         Function: GetEnumerator, IEnumerable_GetEnumerator, Query, ToString
     ' 
     '         Sub: compress, (+2 Overloads) Insert
     ' 
@@ -45,7 +57,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '
 '   Copyright 2012 Andrew Wang (andrew@umbrant.com)
@@ -73,7 +85,7 @@ Namespace Quantile
     ''' 
     ''' > Greenwald and Khanna, "Space-efficient online computation of quantile summaries" in SIGMOD 2001
     ''' </summary>
-    Public Class QuantileEstimationGK : Implements QuantileQuery
+    Public Class QuantileEstimationGK : Implements QuantileQuery, IEnumerable(Of QuantileThreshold)
 
         ''' <summary>
         ''' Acceptable % error in percentile estimate
@@ -139,7 +151,7 @@ Namespace Quantile
             If idx = 0 OrElse idx = sample.Count Then
                 delta = 0
             Else
-                delta = CInt(Fix(stdNum.Floor(2 * epsilon * count)))
+                delta = CInt(Fix(std.Floor(2 * epsilon * count)))
             End If
 
             Call sample.Insert(idx, New X(v, 1, delta))
@@ -164,7 +176,7 @@ Namespace Quantile
 
                 ' Merge the items together if we don't need it to maintain the
                 ' error bound
-                If x.g + x1.g + x1.delta <= stdNum.Floor(2 * epsilon * count) Then
+                If x.g + x1.g + x1.delta <= std.Floor(2 * epsilon * count) Then
                     x1.g += x.g
                     sample.RemoveAt(i)
                     removed += 1
@@ -198,6 +210,19 @@ Namespace Quantile
 
             ' edge case of wanting max value
             Return sample(sample.Count - 1).value
+        End Function
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of QuantileThreshold) Implements IEnumerable(Of QuantileThreshold).GetEnumerator
+            For q As Double = 0 To 1 Step 0.1
+                Yield New QuantileThreshold With {
+                    .quantile = q,
+                    .sample = Query(q)
+                }
+            Next
+        End Function
+
+        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Return GetEnumerator()
         End Function
     End Class
 End Namespace

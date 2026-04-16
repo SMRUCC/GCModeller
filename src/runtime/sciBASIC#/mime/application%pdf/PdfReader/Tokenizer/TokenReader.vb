@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::541f95618d46dd707147ff68a4b39836, mime\application%pdf\PdfReader\Tokenizer\TokenReader.vb"
+﻿#Region "Microsoft.VisualBasic::682a555806749427e2de832145c600aa, mime\application%pdf\PdfReader\Tokenizer\TokenReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 91 (74.59%)
+    ' Comment Lines: 11 (9.02%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (16.39%)
+    '     File Size: 4.39 KB
+
+
     '     Class TokenReader
     ' 
     '         Properties: Position
@@ -58,7 +70,7 @@ Namespace PdfReader
         Private _end As Integer
         Private _position As Long
 
-        Public Sub New(ByVal stream As Stream)
+        Public Sub New(stream As Stream)
             _stream = stream
             _position = stream.Position
             _bytes = New Byte(1023) {}
@@ -70,7 +82,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Function GetBytes(ByVal length As Integer) As Byte()
+        Public Function GetBytes(length As Integer) As Byte()
             ' Make sure we have some data to process
             If _start = _end AndAlso ReadBytes(False) = 0 Then Return Nothing
             Dim ret = New Byte(length - 1) {}
@@ -144,7 +156,7 @@ Namespace PdfReader
             _position = _stream.Position
         End Sub
 
-        Private Function ReadBytes(ByVal newBuffer As Boolean) As Integer
+        Private Function ReadBytes(newBuffer As Boolean) As Integer
             ' Read in a buffer of ASCII characters
             _start = 0
             If newBuffer Then _bytes = New Byte(1023) {}
@@ -152,7 +164,7 @@ Namespace PdfReader
             Return _end
         End Function
 
-        Private Sub AppendBytes(ByVal bytes As Byte(), ByVal start As Integer, ByVal length As Integer, ByRef existing As TokenByteSplice)
+        Private Sub AppendBytes(bytes As Byte(), start As Integer, length As Integer, ByRef existing As TokenByteSplice)
             If existing.Bytes Is Nothing Then
                 existing.Bytes = bytes
                 existing.Start = start

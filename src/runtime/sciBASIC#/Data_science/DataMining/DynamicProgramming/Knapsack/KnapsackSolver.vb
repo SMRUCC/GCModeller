@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed7ca8761ecff331969643e5a858332d, Data_science\DataMining\DynamicProgramming\Knapsack\KnapsackSolver.vb"
+﻿#Region "Microsoft.VisualBasic::78e2c2cd7ffa0437d5b9d8207b92ff43, Data_science\DataMining\DynamicProgramming\Knapsack\KnapsackSolver.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 57 (78.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (21.92%)
+    '     File Size: 2.41 KB
+
+
     '     Class KnapsackSolver
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -42,7 +54,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Knapsack
 
@@ -105,7 +117,7 @@ Namespace Knapsack
                     If item.Weight > col Then
                         table(row, col) = table(row - 1, col)
                     Else
-                        table(row, col) = stdNum.Max(table(row - 1, col), table(row - 1, col - item.Weight) + item.Value)
+                        table(row, col) = std.Max(table(row - 1, col), table(row - 1, col - item.Weight) + item.Value)
                     End If
                 Next
             Next

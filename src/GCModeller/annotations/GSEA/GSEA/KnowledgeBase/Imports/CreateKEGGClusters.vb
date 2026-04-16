@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0ac55d2b014ec1eca55e799ab84526dc, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
+﻿#Region "Microsoft.VisualBasic::3fa8b349d802faed2ef5a9a260345fd1, annotations\GSEA\GSEA\KnowledgeBase\Imports\CreateKEGGClusters.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 61 (84.72%)
+    ' Comment Lines: 5 (6.94%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 6 (8.33%)
+    '     File Size: 3.27 KB
+
+
     ' Module CreateKEGGClusters
     ' 
-    '     Function: (+3 Overloads) KEGGClusters
+    '     Function: (+2 Overloads) KEGGClusters
     ' 
     ' /********************************************************************************/
 
@@ -50,17 +62,17 @@ Public Module CreateKEGGClusters
 
     <Extension>
     Public Function KEGGClusters(maps As IEnumerable(Of MapIndex)) As GetClusterTerms
-        Dim mapsList As Dictionary(Of String, MapIndex) = maps.ToDictionary(Function(m) m.id)
+        Dim mapsList As Dictionary(Of String, MapIndex) = maps.ToDictionary(Function(m) m.EntryId)
         Dim clusters = mapsList.Values _
             .Select(Function(map)
-                        Return map.KOIndex.Objects.Select(Function(ko) (ko, map.id))
+                        Return map.KOIndex.Objects.Select(Function(ko) (ko, map.EntryId))
                     End Function) _
             .IteratesALL _
             .GroupBy(Function(ko) ko.ko) _
             .ToDictionary(Function(ko) ko.Key,
                           Function(map)
                               Return maps _
-                                  .Select(Function(a) a.id) _
+                                  .Select(Function(a) a.EntryId) _
                                   .Distinct _
                                   .ToArray
                           End Function)
@@ -109,27 +121,5 @@ Public Module CreateKEGGClusters
                           End Function)
 
         Return Function(id) terms.TryGetValue(id)
-    End Function
-
-    <Extension>
-    Public Function KEGGClusters(maps As IEnumerable(Of Map)) As GetClusterTerms
-        Dim mapsList = maps.ToDictionary(Function(m) m.id)
-        Dim clusters = mapsList.Values.KEGGMapRelation
-
-        Return Function(id)
-                   If clusters.ContainsKey(id) Then
-                       Return Iterator Function() As IEnumerable(Of NamedValue(Of String))
-                                  For Each mapID As String In clusters(id)
-                                      Yield New NamedValue(Of String) With {
-                                          .Name = mapID,
-                                          .Value = mapsList(mapID).Name,
-                                          .Description = mapsList(mapID).URL
-                                      }
-                                  Next
-                              End Function().ToArray
-                   Else
-                       Return {}
-                   End If
-               End Function
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0118c4385691492fcdb3b573f936599a, engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
+﻿#Region "Microsoft.VisualBasic::5e27bb4cdcec450e1f5c3eb78751f916, engine\Compiler\MarkupCompiler\CompileMetabolismWorkflow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 95 (88.79%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (11.21%)
+    '     File Size: 5.02 KB
+
 
     '     Class CompileMetabolismWorkflow
     ' 
@@ -93,8 +105,7 @@ Namespace MarkupCompiler
                     If Not enzymeUnits.IsNullOrEmpty Then
                         maps += New Pathway With {
                             .ID = map.KOpathway,
-                            .name = map.name,
-                            .enzymes = enzymeUnits
+                            .name = map.name
                         }
                     End If
                 Next
@@ -111,26 +122,21 @@ Namespace MarkupCompiler
         Friend Iterator Function getCompounds(reactions As IEnumerable(Of XmlReaction)) As IEnumerable(Of Compound)
             Dim allCompoundId$() = reactions _
                 .Select(Function(r)
-                            Return Equation.TryParse(r.Equation) _
+                            Return Equation.TryParse(r.equation) _
                                            .GetMetabolites _
                                            .Select(Function(compound) compound.ID)
                         End Function) _
                 .IteratesALL _
                 .Distinct _
                 .ToArray
-            Dim compounds As CompoundRepository = compiler.KEGG.GetCompounds
+            Dim compounds As CompoundRepository '= compiler.KEGG.GetCompounds
 
             For Each id As String In allCompoundId.Where(Function(cid) compounds.Exists(cid))
                 Dim keggModel = compounds.GetByKey(id).Entity
 
                 Yield New Compound With {
                     .ID = id,
-                    .name = keggModel.commonNames _
-                        .ElementAtOrDefault(0, keggModel.formula),
-                    .otherNames = keggModel.commonNames _
-                        .SafeQuery _
-                        .Skip(1) _
-                        .ToArray
+                    .name = keggModel.commonNames.ElementAtOrDefault(0, keggModel.formula)
                 }
             Next
         End Function
@@ -138,7 +144,7 @@ Namespace MarkupCompiler
         Friend Iterator Function createEnzymes(metabolicProcess As IEnumerable(Of Regulation), KOgenes As Dictionary(Of String, CentralDogma)) As IEnumerable(Of Enzyme)
             For Each catalysis As IGrouping(Of String, Regulation) In metabolicProcess.GroupBy(Function(c) c.regulator)
                 Yield New Enzyme With {
-                    .geneID = catalysis.Key,
+                    .proteinID = catalysis.Key,
                     .catalysis = catalysis _
                         .Select(Function(reg)
                                     Return New Catalysis With {
@@ -147,7 +153,7 @@ Namespace MarkupCompiler
                                     }
                                 End Function) _
                         .ToArray,
-                    .KO = KOgenes.TryGetValue(.geneID).orthology,
+                    .KO = KOgenes.TryGetValue(.proteinID).orthology,
                     .ECNumber = ""
                 }
             Next

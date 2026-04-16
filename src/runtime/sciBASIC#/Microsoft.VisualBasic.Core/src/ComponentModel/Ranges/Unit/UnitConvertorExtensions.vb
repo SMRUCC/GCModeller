@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 50 (81.97%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (18.03%)
+    '     File Size: 2.30 KB
+
+
     '     Module UnitConvertorExtensions
     ' 
     '         Function: Base, GetUnitConvertor, IndexOf, (+4 Overloads) Unit

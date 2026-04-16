@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::38e4da842964962ec773d2ee03ac539c, annotations\GO\CatalogPlots.vb"
+﻿#Region "Microsoft.VisualBasic::de7c515e7bd4f604fd110f81f32336be, annotations\GO\CatalogPlots.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 410
+    '    Code Lines: 316 (77.07%)
+    ' Comment Lines: 43 (10.49%)
+    '    - Xml Docs: 95.35%
+    ' 
+    '   Blank Lines: 51 (12.44%)
+    '     File Size: 17.94 KB
+
 
     ' Module CatalogPlots
     ' 
@@ -347,7 +359,8 @@ Public Module CatalogPlots
                     GO_terms As Dictionary(Of Term),
                     Optional usingCorrected As Boolean = False,
                     Optional top% = -1,
-                    Optional pvalue# = 0.05) As CatalogProfiles
+                    Optional pvalue# = 0.05,
+                    Optional sort As Boolean = True) As CatalogProfiles
 
         Dim profile As New CatalogProfiles
         Dim testPvalue As Func(Of EnrichmentTerm, Boolean)
@@ -359,6 +372,10 @@ Public Module CatalogPlots
             testPvalue = Function(term) term.Pvalue <= pvalue
         End If
 
+        If GO_terms.Values.All(Function(a) a.namespace Is Nothing) Then
+            Throw New InvalidProgramException("missing namespace attribute data of the go terms!")
+        End If
+
         For Each term As EnrichmentTerm In data _
             .Where(Function(x)
                        Return GO_terms.ContainsKey(x.Go_ID) AndAlso testPvalue(x)
@@ -366,6 +383,11 @@ Public Module CatalogPlots
 
             With GO_terms(term.Go_ID)
                 namespace$ = .namespace
+
+                If [namespace] Is Nothing Then
+                    Call $"missing namespace attribute data for term {term.Go_ID}".Warning
+                    Continue For
+                End If
 
                 If Not profile.haveCategory([namespace]) Then
                     Call profile.catalogs.Add([namespace], New CatalogProfile)
@@ -389,15 +411,19 @@ Public Module CatalogPlots
             Next
         End If
 
-        Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
+        If sort Then
+            Dim orders As New Dictionary(Of String, NamedValue(Of Double)())
 
-        With orders
-            !biological_process = profile!biological_process
-            !cellular_component = profile!cellular_component
-            !molecular_function = profile!molecular_function
-        End With
+            With orders
+                !biological_process = profile!biological_process
+                !cellular_component = profile!cellular_component
+                !molecular_function = profile!molecular_function
+            End With
 
-        Return New CatalogProfiles(orders)
+            Return New CatalogProfiles(orders)
+        Else
+            Return profile
+        End If
     End Function
 
     ''' <summary>

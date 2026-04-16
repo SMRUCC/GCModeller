@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 136
+    '    Code Lines: 111 (81.62%)
+    ' Comment Lines: 5 (3.68%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 20 (14.71%)
+    '     File Size: 5.34 KB
+
+
     '     Module ExecuteImpl
     ' 
     '         Function: CreateCLIPipelineFile, ListingRelatedCommands

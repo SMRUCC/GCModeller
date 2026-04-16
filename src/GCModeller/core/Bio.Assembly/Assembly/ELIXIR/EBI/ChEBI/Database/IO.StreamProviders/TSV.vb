@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ebc026f8741786ef997fde490c6158a1, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
+﻿#Region "Microsoft.VisualBasic::24b232245825ed77edd3ea7d32a08aaf, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\IO.StreamProviders\TSV.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 76 (61.29%)
+    ' Comment Lines: 33 (26.61%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 15 (12.10%)
+    '     File Size: 5.45 KB
+
 
     '     Class TSVTables
     ' 
@@ -160,9 +172,9 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
             If fieldData.IsNullOrEmpty Then
                 Dim path$ = $"{_DIR}/{FileName}"
                 Dim st = Stopwatch.StartNew
-                Call $"[{GetType(T).FullName}] Load data from {path.ToFileURL}".__DEBUG_ECHO
+                Call $"[{GetType(T).FullName}] Load data from {path.ToFileURL}".debug
                 fieldData = TsvFileIO.Load(Of T)(path).ToArray
-                Call $"[LOAD_DATA_DONE] Performance load {fieldData.Length} objects in {st.ElapsedMilliseconds} ms...".__DEBUG_ECHO
+                Call $"[LOAD_DATA_DONE] Performance load {fieldData.Length} objects in {st.ElapsedMilliseconds} ms...".debug
             End If
             Return fieldData
         End Function

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 54 (58.70%)
+    ' Comment Lines: 20 (21.74%)
+    '    - Xml Docs: 40.00%
+    ' 
+    '   Blank Lines: 18 (19.57%)
+    '     File Size: 3.06 KB
+
+
     '     Class CBusyIndicator
     ' 
     '         Constructor: (+1 Overloads) Sub New

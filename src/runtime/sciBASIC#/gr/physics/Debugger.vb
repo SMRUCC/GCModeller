@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::53be0e0688910726f8ba1fbef0059abc, gr\physics\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::d51a52356a99258d44c69eaa167423e7, gr\physics\Debugger.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 60 (78.95%)
+    ' Comment Lines: 5 (6.58%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (14.47%)
+    '     File Size: 2.96 KB
+
+
     ' Module Debugger
     ' 
     '     Function: Vector2D
@@ -42,10 +54,37 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+Imports TextureBrush = System.Drawing.TextureBrush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
 Public Module Debugger
 
@@ -55,12 +94,13 @@ Public Module Debugger
         Return New PointF(v(X), v(Y))
     End Function
 
-    <Extension> Public Sub ShowForce(m As MassPoint, ByRef canvas As Graphics2D, F As IEnumerable(Of Force), Optional offset As PointF = Nothing)
+    <Extension>
+    Public Sub ShowForce(m As MassPoint, ByRef canvas As IGraphics, F As IEnumerable(Of Force), Optional offset As PointF = Nothing)
         Dim font As New Font(FontFace.MicrosoftYaHei, 12, FontStyle.Bold)
         Dim a = m.Point.Vector2D.OffSet2D(offset)
 
         '#If DEBUG Then
-        '        Call $"Sum({F.JoinBy(", ")}) = {F.Sum}".__DEBUG_ECHO
+        '        Call $"Sum({F.JoinBy(", ")}) = {F.Sum}".debug
         '#End If
 
         With canvas

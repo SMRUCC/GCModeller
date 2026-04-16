@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d2091a73852dad2ecf932e43efb19249, visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
+﻿#Region "Microsoft.VisualBasic::4b45c8d7bc26698c025b28eed905f330, visualize\DataVisualizationExtensions\CategoryImpactBox\Impact.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 28 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (17.65%)
+    '     File Size: 1.22 KB
+
+
     ' Class Impact
     ' 
     '     Properties: classLabel, impactFactors
@@ -42,7 +54,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Math.Distributions
-Imports stdnum = System.Math
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports std = System.Math
 
 Public Class Impact
 
@@ -65,7 +78,7 @@ Public Class Impact
                             .classLabel = group.Key,
                             .impactFactors = group _
                                 .Select(Function(deg)
-                                            Return deg.VIP * (-stdnum.Log10(deg.pvalue)) * (stdnum.Abs(deg.logFC))
+                                            Return deg.VIP * (-std.Log10(deg.pvalue)) * (std.Abs(deg.logFC))
                                         End Function) _
                                 .ToArray
                         }

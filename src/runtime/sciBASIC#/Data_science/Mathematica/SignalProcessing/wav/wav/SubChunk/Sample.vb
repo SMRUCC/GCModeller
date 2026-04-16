@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 42 (70.00%)
+    ' Comment Lines: 6 (10.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (20.00%)
+    '     File Size: 1.98 KB
+
+
     ' Structure Sample
     ' 
     '     Properties: left, right

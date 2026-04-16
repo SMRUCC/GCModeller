@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01dbbf525abada87951888cf1a5b3a25, Data_science\DataMining\DataMining\ComponentModel\Encoder\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f8ea19c8ec55061968ad51aee2367ee6, Data_science\DataMining\DataMining\ComponentModel\Encoder\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 35 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (16.67%)
+    '     File Size: 1.65 KB
+
+
     '     Module Extensions
     ' 
     '         Function: ClassEncoder, GetClassMapping, ToEnumsTable
@@ -51,7 +63,7 @@ Namespace ComponentModel.Encoder
 
         <Extension>
         Public Function ToEnumsTable(Of T)(classes As IEnumerable(Of ColorClass)) As Dictionary(Of T, ColorClass)
-            Return classes.ToDictionary(Function(c) DirectCast(CObj(c.enumInt), T))
+            Return classes.ToDictionary(Function(c) DirectCast(CObj(c.factor), T))
         End Function
 
         <Extension>
@@ -60,13 +72,17 @@ Namespace ComponentModel.Encoder
             Dim unique As Index(Of String) = raw.Distinct.Indexing
 
             With Imaging.AllDotNetPrefixColors.AsLoop
-                Dim colors As String() = unique.Objects.Select(Function(a) .Next.ToHtmlColor).ToArray
+                Dim colors As String() = unique.Objects _
+                    .Select(Function(a)
+                                Return .Next.ToHtmlColor
+                            End Function) _
+                    .ToArray
 
                 For Each label As String In raw
                     Yield New ColorClass With {
-                        .enumInt = unique.IndexOf(label) * distance,
+                        .factor = unique.IndexOf(label) * distance,
                         .name = label,
-                        .color = colors(.enumInt)
+                        .color = colors(.factor)
                     }
                 Next
             End With

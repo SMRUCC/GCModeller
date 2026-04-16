@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c61a18c2d5047625d82d7fc4cb416bc, visualize\ChromosomeMap\RegionMap.vb"
+﻿#Region "Microsoft.VisualBasic::c3e6635177ad865c2488ba5e49b409a0, visualize\ChromosomeMap\RegionMap.vb"
 
     ' Author:
     ' 
@@ -31,26 +31,159 @@
 
     ' Summaries:
 
-    ' Module RegionMap
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 133 (80.61%)
+    ' Comment Lines: 15 (9.09%)
+    '    - Xml Docs: 86.67%
     ' 
-    '     Function: Plot
+    '   Blank Lines: 17 (10.30%)
+    '     File Size: 7.11 KB
+
+
+    ' Class RegionMap
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: PlotRegion
+    ' 
+    '     Sub: PlotInternal
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' Draw a map of the selected region
 ''' </summary>
-Public Module RegionMap
+Public Class RegionMap : Inherits Plot
+
+    ReadOnly model As ChromesomeDrawingModel
+    ReadOnly geneShapeHeight%
+    ReadOnly disableLevelSkip As Boolean
+    ReadOnly referenceLineStroke$
+    ReadOnly drawShapeStroke As Boolean
+
+    Private Sub New(model As ChromesomeDrawingModel, geneShapeHeight%, disableLevelSkip As Boolean, drawShapeStroke As Boolean, referenceLineStroke$, theme As Theme)
+        MyBase.New(theme)
+
+        Me.drawShapeStroke = drawShapeStroke
+        Me.geneShapeHeight = geneShapeHeight
+        Me.disableLevelSkip = disableLevelSkip
+        Me.referenceLineStroke = referenceLineStroke
+        Me.model = model
+    End Sub
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, region As GraphicsRegion)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
+        Dim startLength% = model.GeneObjects.Select(Function(gene) gene.Left).Min
+        Dim preRight#
+        Dim level%
+        Dim width = region.Width
+        Dim top = margin.Top
+        Dim scaleFactor# = (width - margin.Horizontal) / model.Size
+        Dim pos As Point
+        Dim locusTagFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
+        Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
+
+        If disableLevelSkip Then
+            ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
+            Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
+            Dim right As New Point(width - margin.Right, left.Y)
+            Dim refLineStroke As Pen = css.GetPen(Stroke.TryParse(referenceLineStroke))
+
+            Call g.DrawLine(refLineStroke, left, right)
+        End If
+
+        For Each gene As SegmentObject In model.GeneObjects
+
+            If disableLevelSkip Then
+                If gene.Left < preRight Then
+                    gene.Left = preRight
+                Else
+                    level = 0
+                End If
+            Else
+                If gene.Left < preRight Then
+                    ' 前后的位置有冲突，则变化下一个基因图形的位置
+                    level += 1
+                Else
+                    level = 0
+                End If
+            End If
+
+            If gene.Left > preRight Then
+                preRight = gene.Right
+            End If
+
+            gene.Height = geneShapeHeight
+
+            Dim drawingLociLeft As Integer = (gene.Left - startLength) * scaleFactor + margin.Left
+            Dim Y = top + 100 + level * 110
+            Dim drawingSize As Size = gene.Draw(
+                g:=g,
+                location:=New Point(drawingLociLeft, Y),
+                factor:=scaleFactor,
+                RightLimited:=model.Size,
+                locusTagFont:=locusTagFont,
+                drawLocusTag:=theme.drawLabels,
+                drawShapeStroke:=drawShapeStroke
+            )
+        Next
+
+        pos = New Point With {
+            .X = margin.Left,
+            .Y = region.Height - margin.Bottom * 2
+        }
+
+        Call g.DrawingCOGColors(
+            model.COGs,
+            ref:=pos,
+            legendFont:=legendFont,
+            width:=width,
+            margin:=margin.Left
+        )
+    End Sub
 
     ''' <summary>
     ''' 只绘制一个局部的区域图形，所以不会出现换行的情况
@@ -62,95 +195,28 @@ Public Module RegionMap
     ''' <param name="geneShapeHeight%"></param>
     ''' <param name="locusTagFontCSS$"></param>
     ''' <returns></returns>
-    Public Function Plot(model As ChromesomeDrawingModel,
-                         Optional size$ = "5000,2000",
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white",
-                         Optional geneShapeHeight% = 85,
-                         Optional locusTagFontCSS$ = CSSFont.Win7Normal,
-                         Optional disableLevelSkip As Boolean = False,
-                         Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
-                         Optional drawLocusTag As Boolean = False,
-                         Optional drawShapeStroke As Boolean = False,
-                         Optional legendFontCSS$ = CSSFont.Win7Large,
-                         Optional dpi As Integer = 100) As GraphicsData
+    Public Overloads Shared Function PlotRegion(model As ChromesomeDrawingModel,
+                                                Optional size$ = "5000,2000",
+                                                Optional padding$ = g.DefaultPadding,
+                                                Optional bg$ = "white",
+                                                Optional geneShapeHeight% = 85,
+                                                Optional locusTagFontCSS$ = CSSFont.Win7Normal,
+                                                Optional disableLevelSkip As Boolean = False,
+                                                Optional referenceLineStroke$ = "stroke: black; stroke-width: 8px; stroke-dash: solid;",
+                                                Optional drawLocusTag As Boolean = False,
+                                                Optional drawShapeStroke As Boolean = False,
+                                                Optional legendFontCSS$ = CSSFont.Win7Large,
+                                                Optional dpi As Integer = 100,
+                                                Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Dim theme As New Theme With {
+            .padding = padding,
+            .background = bg,
+            .tagCSS = locusTagFontCSS,
+            .drawLabels = drawLocusTag,
+            .legendLabelCSS = legendFontCSS
+        }
+        Dim map As New RegionMap(model, geneShapeHeight, disableLevelSkip, drawShapeStroke, referenceLineStroke$, theme)
 
-        Dim startLength% = 0
-        Dim preRight#
-        Dim level%
-        Dim locusTagFont As Font = CSSFont.TryParse(locusTagFontCSS).GDIObject(dpi)
-        Dim legendFont As Font = CSSFont.TryParse(legendFontCSS).GDIObject(dpi)
-        Dim plotInternal =
-            Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                Dim width = region.Width
-                Dim top = region.Padding.Top
-                Dim margin As Padding = region.Padding
-                Dim scaleFactor# = (width - margin.Horizontal) / model.Size
-                Dim pos As Point
-
-                If disableLevelSkip Then
-                    ' 如果都绘制在一条线上面的画，则会绘制一条水平的参考线
-                    Dim left As New Point(margin.Left, top + 100 + geneShapeHeight / 2)
-                    Dim right As New Point(width - margin.Right, left.Y)
-                    Dim refLineStroke As Pen = Stroke.TryParse(referenceLineStroke)
-
-                    Call g.DrawLine(refLineStroke, left, right)
-                End If
-
-                For Each gene As SegmentObject In model.GeneObjects
-
-                    If disableLevelSkip Then
-                        If gene.Left < preRight Then
-                            gene.Left = preRight
-                        Else
-                            level = 0
-                        End If
-                    Else
-                        If gene.Left < preRight Then
-                            ' 前后的位置有冲突，则变化下一个基因图形的位置
-                            level += 1
-                        Else
-                            level = 0
-                        End If
-                    End If
-
-                    If gene.Left > preRight Then
-                        preRight = gene.Right
-                    End If
-
-                    gene.Height = geneShapeHeight
-
-                    Dim drawingLociLeft As Integer = (gene.Left - startLength) * scaleFactor + margin.Left
-                    Dim Y = top + 100 + level * 110
-                    Dim drawingSize As Size = gene.Draw(
-                        g:=g,
-                        location:=New Point(drawingLociLeft, Y),
-                        factor:=scaleFactor,
-                        RightLimited:=model.Size,
-                        locusTagFont:=locusTagFont,
-                        drawLocusTag:=drawLocusTag,
-                        drawShapeStroke:=drawShapeStroke
-                    )
-                Next
-
-                pos = New Point With {
-                    .X = margin.Left,
-                    .Y = region.Height - margin.Bottom * 2
-                }
-
-                Call g.DrawingCOGColors(
-                    model.COGs,
-                    ref:=pos,
-                    legendFont:=legendFont,
-                    width:=width,
-                    margin:=margin.Left
-                )
-            End Sub
-
-        Return g.GraphicsPlots(
-            size.SizeParser, padding,
-            bg,
-            plotInternal, Drivers.SVG
-        )
+        Return map.Plot(size.FloatSizeParser, dpi:=dpi, driver:=driver)
     End Function
-End Module
+End Class

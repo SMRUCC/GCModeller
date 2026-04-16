@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::802e18b3a0207e31c900371e274252e9, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\BinaryTree\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::bd7193e5c81cae9d7075761a459e8275, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\BinaryTree\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 46 (60.53%)
+    ' Comment Lines: 20 (26.32%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 10 (13.16%)
+    '     File Size: 2.69 KB
+
+
     '     Module Extensions
     ' 
     '         Function: NameCompare, NameFuzzyMatch
@@ -41,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.DataStructures.BinaryTree
 
@@ -71,7 +83,7 @@ Namespace ComponentModel.DataStructures.BinaryTree
                 Return 0
             Else
 
-                Dim minl = stdNum.Min(a.Length, b.Length)
+                Dim minl = std.Min(a.Length, b.Length)
                 Dim c1, c2 As Char
 
                 For i As Integer = 0 To minl - 1

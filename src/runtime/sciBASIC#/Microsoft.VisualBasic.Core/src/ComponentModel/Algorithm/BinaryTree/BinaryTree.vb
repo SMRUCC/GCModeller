@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cfc6bcf6877a49f0b31778d7d0153675, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\BinaryTree.vb"
+﻿#Region "Microsoft.VisualBasic::178da0c1c1b40e2251f3b369dc7b9cfa, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\BinaryTree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 77 (74.04%)
+    ' Comment Lines: 12 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 3.65 KB
+
+
     '     Module Extensions
     ' 
     '         Function: Find, HasKey, Max, MaxKey, Min
@@ -45,6 +57,10 @@ Imports System.Runtime.CompilerServices
 
 Namespace ComponentModel.Algorithm.BinaryTree
 
+    ''' <summary>
+    ''' Help methods for the binary tree operations
+    ''' </summary>
+    <HideModuleName>
     Public Module Extensions
 
         ''' <summary>
@@ -78,8 +94,6 @@ Namespace ComponentModel.Algorithm.BinaryTree
 
         <Extension>
         Public Iterator Function TakeRange(Of K, V)(tree As BinaryTree(Of K, V), min As K, max As K, compares As Comparison(Of K)) As IEnumerable(Of Map(Of K, V))
-#If NET_48 Or netcore5 = 1 Then
-
             Do While Not tree Is Nothing
                 Dim compare = (
                     min:=compares(min, tree.Key),
@@ -102,9 +116,6 @@ Namespace ComponentModel.Algorithm.BinaryTree
                     tree = tree.Right
                 End If
             Loop
-#Else
-            Throw New NotImplementedException
-#End If
         End Function
 
         <Extension>

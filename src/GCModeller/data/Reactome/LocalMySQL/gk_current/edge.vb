@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 93 (51.10%)
+    ' Comment Lines: 67 (36.81%)
+    '    - Xml Docs: 95.52%
+    ' 
+    '   Blank Lines: 22 (12.09%)
+    '     File Size: 10.12 KB
+
+
     ' Class edge
     ' 
     '     Properties: DB_ID, edgeType, pathwayDiagram, pathwayDiagram_class, pointCoordinates

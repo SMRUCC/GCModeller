@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2587947bba388a6f54f5f06c0d5246f1, Microsoft.VisualBasic.Core\src\Net\HTTP\Multipart.vb"
+﻿#Region "Microsoft.VisualBasic::677c758bd017f2f842c196eee33b23f3, Microsoft.VisualBasic.Core\src\Net\HTTP\Multipart.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 100 (62.50%)
+    ' Comment Lines: 36 (22.50%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 24 (15.00%)
+    '     File Size: 6.31 KB
+
+
     '     Class MultipartForm
     ' 
-    '         Function: POST
+    '         Function: POST, ToBase64
     ' 
     '         Sub: (+2 Overloads) Add, (+2 Overloads) Dispose, Dump
     ' 
@@ -57,10 +69,11 @@ Namespace Net.Http
     Public Class MultipartForm : Implements IDisposable
 
         ReadOnly buffer As New MemoryStream
+
         ''' <summary>
         ''' 需要使用<see cref="Encoding.ASCII"/>来进行编码
         ''' </summary>
-        ReadOnly boundary$ = "---------------------------" & DateTime.Now.Ticks.ToString("x")
+        Public ReadOnly boundary$ = "---------------------------" & DateTime.Now.Ticks.ToString("x")
 
         Private disposedValue As Boolean
 
@@ -118,13 +131,17 @@ Namespace Net.Http
             Call buffer.ToArray.FlushStream(path)
         End Sub
 
+        Public Function ToBase64() As String
+            Return buffer.ToBase64String
+        End Function
+
         ''' <summary>
         ''' POST this multipart form package to a specific web <paramref name="api"/>
         ''' </summary>
         ''' <param name="api$"></param>
         ''' <param name="headers"></param>
         ''' <returns></returns>
-        Public Function POST(api$, Optional headers As Dictionary(Of String, String) = Nothing) As String
+        Public Function POST(api$, Optional headers As Dictionary(Of String, String) = Nothing) As WebResponseResult
             Dim request As HttpWebRequest = WebRequest.Create(api)
             request.ContentType = "multipart/form-data; boundary=" & boundary
             request.Method = "POST"
@@ -141,13 +158,32 @@ Namespace Net.Http
                 requestStream.Flush()
             End Using
 
-            Using response As WebResponse = request.GetResponse,
-                responseStream As Stream = response.GetResponseStream
+            Using response As WebResponse = request.GetResponse
+                Try
+                    Dim responseStream As Stream = response.GetResponseStream
 
-                Using responseReader As New IO.StreamReader(responseStream)
-                    Dim responseText = responseReader.ReadToEnd()
-                    Return responseText
-                End Using
+                    Using responseReader As New StreamReader(responseStream)
+                        Dim responseText = responseReader.ReadToEnd()
+
+                        Return New WebResponseResult With {
+                            .url = api,
+                            .headers = ResponseHeaders.Header200,
+                            .html = responseText,
+                            .timespan = 0,
+                            .payload = ""
+                        }
+                    End Using
+                Catch ex As Exception When TypeOf ex Is WebException
+                    Dim page_stream = DirectCast(ex, WebException).Response.GetResponseStream
+
+                    Return New WebResponseResult With {
+                        .html = WebServiceUtils.readStreamText(page_stream),
+                        .headers = ResponseHeaders.Header500InternalServerError,
+                        .url = api
+                    }
+                Catch ex As Exception
+                    Throw
+                End Try
             End Using
         End Function
 

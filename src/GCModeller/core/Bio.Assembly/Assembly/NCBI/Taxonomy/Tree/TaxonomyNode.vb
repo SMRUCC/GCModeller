@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cccf82a64456efb0b4438dbc7377d154, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
+﻿#Region "Microsoft.VisualBasic::f4a5f6aaa7612902f6fb954dafba9578, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Tree\TaxonomyNode.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 49 (51.04%)
+    ' Comment Lines: 34 (35.42%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 13 (13.54%)
+    '     File Size: 3.45 KB
+
+
     '     Class TaxonomyNode
     ' 
-    '         Properties: children, name, parent, rank, taxid
+    '         Properties: children, name, nchilds, parent, rank
+    '                     taxid
     ' 
-    '         Function: RankTable, Taxonomy, ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: HasChilds, RankTable, Taxonomy, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,16 +58,24 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Assembly.NCBI.Taxonomy
 
     ''' <summary>
-    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>
+    ''' The tree node calculation model for <see cref="NcbiTaxonomyTree"/>, a labeled tree node for a specific ncbi taxid.
     ''' </summary>
     Public Class TaxonomyNode
 
+        ''' <summary>
+        ''' the NCBI taxonomy id
+        ''' </summary>
+        ''' <returns></returns>
         Public Property taxid As Integer
+
+        ''' <summary>
+        ''' the scientific name of current taxonomy node
+        ''' </summary>
+        ''' <returns></returns>
         Public Property name As String
 
         ''' <summary>
@@ -71,10 +93,37 @@ Namespace Assembly.NCBI.Taxonomy
         ''' </summary>
         ''' <returns></returns>
         Public Property parent As String
-        Public Property children As List(Of Integer)
+        Public Property children As List(Of String)
+
+        ''' <summary>
+        ''' get size of list <see cref="children"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property nchilds As Integer
+            Get
+                If children.IsNullOrEmpty Then
+                    Return 0
+                Else
+                    Return children.Count
+                End If
+            End Get
+        End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(taxid As Integer, name As String, Optional rank As String = "no_rank")
+            Me.taxid = taxid
+            Me.name = name
+            Me.rank = rank
+        End Sub
+
+        Public Function HasChilds() As Boolean
+            Return Not children.IsNullOrEmpty
+        End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"ncbi_taxid: {taxid} - {name}({rank});  all_childs: {children.JoinBy(", ")}"
         End Function
 
         ''' <summary>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 7 (30.43%)
+    ' Comment Lines: 12 (52.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (17.39%)
+    '     File Size: 763 B
+
+
     '     Interface BElement
     ' 
     '         Function: (+2 Overloads) ToBencodedString

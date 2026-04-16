@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef232de001f4d07d12b206313d8623ca, Data_science\Mathematica\Math\Math\Distributions\Gamma.vb"
+﻿#Region "Microsoft.VisualBasic::fdb45a8bebcee07ecf06d849cf254a6b, Data_science\Mathematica\Math\Math\Distributions\Gamma.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 86 (47.51%)
+    ' Comment Lines: 72 (39.78%)
+    '    - Xml Docs: 80.56%
+    ' 
+    '   Blank Lines: 23 (12.71%)
+    '     File Size: 6.62 KB
+
+
     '     Module MathGamma
     ' 
     '         Function: (+2 Overloads) gamma, lngamm, lngamma
@@ -42,13 +54,22 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Distributions
 
     ''' <summary>
     ''' gamma function (Γ) from mathematics
     ''' </summary>
+    ''' <remarks>
+    ''' |特性|lngamm函数|lngamma函数|
+    ''' |----|----------|-----------|
+    ''' |实现的方法|Lanczos 近似|Spouge 近似​|
+    ''' |核心注释|引用 Lanczos 1964 年的论文，翻译自 Alan Miller 的 FORTRAN 代码。|注释标明适用于大参数（large arguments）。|
+    ''' |系数数组|使用数组 p|使用数组 p_ln|
+    ''' |函数定义|标准函数|扩展方法（带有 Extension 属性）|
+    ''' |主要适用场景|通用的高精度计算|特别适合处理较大的参数值|
+    ''' </remarks>
     Public Module MathGamma
 
         Const g = 7
@@ -85,6 +106,16 @@ Namespace Distributions
             0.0000036899182659531625
         }
 
+        ' 下面的两个函数 lngamm和 lngamma都实现了计算伽马函数的自然对数（LogGamma）的功能，但它们基于不同的数学近似方法。
+
+        ' |特性|lngamm函数|lngamma函数|
+        ' |----|----------|-----------|
+        ' |实现的方法|Lanczos 近似|Spouge 近似​|
+        ' |核心注释|引用 Lanczos 1964 年的论文，翻译自 Alan Miller 的 FORTRAN 代码。|注释标明适用于大参数（large arguments）。|
+        ' |系数数组|使用数组 p|使用数组 p_ln|
+        ' |函数定义|标准函数|扩展方法（带有 <Extension>属性）|
+        ' |主要适用场景|通用的高精度计算|特别适合处理较大的参数值|
+
         ''' <summary>
         ''' Reference: "Lanczos, C. 'A precision approximation
         ''' of the gamma function', J. SIAM Numer. Anal., B, 1, 86-96, 1964."
@@ -93,6 +124,15 @@ Namespace Distributions
         ''' </summary>
         ''' <param name="Z"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' Lanczos 近似算法实现的log gamma函数，是一个通用的高精度计算方法
+        '''
+        ''' 参考资料：
+        ''' 
+        ''' - Lanczos, C. "A precision approximation of the gamma function", J. SIAM Numer. Anal., B, 1, 86-96, 1964.
+        ''' - Alan Miller的FORTRAN实现翻译
+        ''' - [http://lib.stat.cmu.edu/apstat/245](http://lib.stat.cmu.edu/apstat/245)
+        ''' </remarks>
         Public Function lngamm(Z As Double) As Double
             Dim x As Double = 0.0
 
@@ -106,7 +146,7 @@ Namespace Distributions
             x += 676.52036812188351 / (Z)
             x += 0.99999999999951827
 
-            Return stdNum.Log(x) - 5.5810614667953278 - Z + (Z - 0.5) * stdNum.Log(Z + 6.5)
+            Return std.Log(x) - 5.5810614667953278 - Z + (Z - 0.5) * std.Log(Z + 6.5)
         End Function
 
         ''' <summary>
@@ -115,6 +155,9 @@ Namespace Distributions
         ''' <param name="z"></param>
         ''' <returns></returns>
         ''' <remarks>
+        ''' Spouge 近似算法实现的log gamma函数，适用于大参数
+        '''
+        ''' 参考资料：
         ''' http://lib.stat.cmu.edu/apstat/245
         ''' </remarks>
         <Extension>
@@ -128,7 +171,7 @@ Namespace Distributions
             Next
 
             Dim t As Double = z + g_ln + 0.5
-            Dim lngm = 0.5 * stdNum.Log(2 * stdNum.PI) + (z + 0.5) * stdNum.Log(t) - t + stdNum.Log(x) - stdNum.Log(z)
+            Dim lngm = 0.5 * std.Log(2 * std.PI) + (z + 0.5) * std.Log(t) - t + std.Log(x) - std.Log(z)
 
             Return lngm
         End Function
@@ -171,9 +214,9 @@ Namespace Distributions
         <Extension>
         Public Function gamma(z As Double) As Double
             If (z < 0.5) Then
-                Return stdNum.PI / (stdNum.Sin(stdNum.PI * z) * gamma(1 - z))
+                Return std.PI / (std.Sin(std.PI * z) * gamma(1 - z))
             ElseIf (z > 100) Then
-                Return stdNum.Exp(lngamma(z))
+                Return std.Exp(lngamma(z))
             Else
                 Dim x As Double = p(0)
 
@@ -185,7 +228,7 @@ Namespace Distributions
 
                 Dim t As Double = z + g + 0.5
 
-                Return stdNum.Sqrt(2 * stdNum.PI) * stdNum.Pow(t, z + 0.5) * stdNum.Exp(-t) * x
+                Return std.Sqrt(2 * std.PI) * std.Pow(t, z + 0.5) * std.Exp(-t) * x
             End If
         End Function
     End Module

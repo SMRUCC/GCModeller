@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0444cc5817effe7e932f28332d44cae3, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::02cfbb87e73558edd46d3cdb191db0c3, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\Cluster.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 118 (60.51%)
+    ' Comment Lines: 50 (25.64%)
+    '    - Xml Docs: 64.00%
+    ' 
+    '   Blank Lines: 27 (13.85%)
+    '     File Size: 6.09 KB
+
+
     ' Class Cluster
     ' 
-    '     Properties: Children, Distance, DistanceValue, isLeaf, LeafNames
-    '                 Leafs, Name, Parent, TotalDistance, WeightValue
+    '     Properties: Children, Distance, DistanceValue, isLeaf, IsRoot
+    '                 LeafNames, Leafs, Name, Parent, TotalDistance
+    '                 WeightValue
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
@@ -49,6 +62,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 
 '
@@ -69,7 +83,10 @@ Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 ' *****************************************************************************
 '
 
-Public Class Cluster : Implements INamedValue
+''' <summary>
+''' the hierarchy cluster tree
+''' </summary>
+Public Class Cluster : Implements INamedValue, ITreeNodeData(Of Cluster)
 
     Public Property Distance As Distance
 
@@ -89,20 +106,32 @@ Public Class Cluster : Implements INamedValue
         End Get
     End Property
 
-    Public Property Parent As Cluster
+    Public Property Parent As Cluster Implements ITreeNodeData(Of Cluster).Parent
     ''' <summary>
     ''' 名称是唯一的？
     ''' </summary>
     ''' <returns></returns>
-    Public Property Name As String Implements INamedValue.Key
-    Public ReadOnly Property Children As IList(Of Cluster)
+    Public Property Name As String Implements INamedValue.Key, ITreeNodeData(Of Cluster).FullyQualifiedName
+    Public ReadOnly Property Children As IReadOnlyCollection(Of Cluster) Implements ITreeNodeData(Of Cluster).ChildNodes
+        Get
+            Return m_childs
+        End Get
+    End Property
+
+    Dim m_childs As New List(Of Cluster)
+
     Public ReadOnly Property LeafNames As List(Of String)
+    Public ReadOnly Property IsRoot As Boolean Implements ITreeNodeData(Of Cluster).IsRoot
+        Get
+            Return Parent Is Nothing OrElse Parent Is Me
+        End Get
+    End Property
 
     ''' <summary>
     ''' 是否是一个叶节点？
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property isLeaf As Boolean
+    Public ReadOnly Property isLeaf As Boolean Implements ITreeNodeData(Of Cluster).IsLeaf
         Get
             Return Children.Count = 0
         End Get
@@ -133,7 +162,6 @@ Public Class Cluster : Implements INamedValue
     Public Sub New(name$)
         Me.Name = name
         LeafNames = New List(Of String)
-        Children = New List(Of Cluster)
         Distance = New Distance
     End Sub
 
@@ -145,14 +173,22 @@ Public Class Cluster : Implements INamedValue
         LeafNames.AddRange(lnames)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub AddChild(cluster As Cluster)
-        Children.Add(cluster)
+        m_childs.Add(cluster)
     End Sub
 
     Public Function contains(cluster As Cluster) As Boolean
         Return Children.Contains(cluster)
     End Function
 
+    ''' <summary>
+    ''' get the cluster entity plot orders from this function
+    ''' </summary>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' this function could be used for get the re-order labels of the data rows for plot heatmap
+    ''' </remarks>
     Public Function OrderLeafs() As String()
         If Children.IsNullOrEmpty Then
             Return New String() {Name}

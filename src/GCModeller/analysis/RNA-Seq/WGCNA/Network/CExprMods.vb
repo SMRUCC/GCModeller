@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6402eb025b428af7b97ae51cae538316, analysis\RNA-Seq\WGCNA\Network\CExprMods.vb"
+﻿#Region "Microsoft.VisualBasic::07fefe8326a85e054bb2731b22f67817, analysis\RNA-Seq\WGCNA\Network\CExprMods.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 21 (52.50%)
+    ' Comment Lines: 12 (30.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.33 KB
+
+
     '     Class CExprMods
     ' 
     '         Properties: altName, nodeName, nodesPresent
@@ -42,7 +54,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 Namespace Network
 
@@ -50,13 +63,19 @@ Namespace Network
     ''' CytoscapeNodes
     ''' </summary>
     ''' <remarks>
-    ''' nodeName	altName	nodeAttr[nodesPresent, ]
+    ''' nodeName \t altName \t nodeAttr[nodesPresent, ]
     ''' </remarks>
-    Public Class CExprMods
+    Public Class CExprMods : Implements INamedValue
 
-        Public Property nodeName As String
+        Public Property nodeName As String Implements INamedValue.Key
         Public Property altName As String
 
+        ''' <summary>
+        ''' cluster module of current feature node
+        ''' </summary>
+        ''' <returns>
+        ''' usually be a color name, such as "blue", "turquoise", "brown" and so on.
+        ''' </returns>
         <Column("nodeAttr[nodesPresent, ]")>
         Public Property nodesPresent As String
 

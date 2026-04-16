@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ccd8c5edeb41241f44c48cb110f3def2, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinarySearchFunction.vb"
+﻿#Region "Microsoft.VisualBasic::4a1c009f242c865e8db147a045a75fe4, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinarySearchFunction.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 76 (68.47%)
+    ' Comment Lines: 22 (19.82%)
+    '    - Xml Docs: 86.36%
+    ' 
+    '   Blank Lines: 13 (11.71%)
+    '     File Size: 3.68 KB
+
+
     '     Class BinarySearchFunction
+    ' 
+    '         Properties: size
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: BinarySearch
@@ -41,31 +55,53 @@
 
 #End Region
 
-#If netcore5 = 1 Or NET_48 = 1 Then
 Imports Microsoft.VisualBasic.Linq
-#End If
 
 Namespace ComponentModel.Algorithm
 
-#If netcore5 = 1 Or NET_48 = 1 Then
-
+    ''' <summary>
+    ''' 精确查找某一个对象
+    ''' </summary>
+    ''' <typeparam name="K"></typeparam>
+    ''' <typeparam name="T"></typeparam>
     Public Class BinarySearchFunction(Of K, T)
 
         ReadOnly sequence As (index As Integer, key As K, T)()
         ReadOnly order As Comparison(Of K)
-        ReadOnly rawOrder As T()
+        ReadOnly fuzzy As Boolean = False
 
+        Friend ReadOnly rawOrder As T()
+
+        ''' <summary>
+        ''' negative index value means read from reverse seqeucne
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
         Default Public ReadOnly Property Item(i As Integer) As T
             Get
-                If i = -1 Then
-                    Return Nothing
+                If i < 0 Then
+                    Return rawOrder(rawOrder.Length + i)
                 Else
                     Return rawOrder(i)
                 End If
             End Get
         End Property
 
-        Sub New(source As IEnumerable(Of T), key As Func(Of T, K), compares As Comparison(Of K))
+        ''' <summary>
+        ''' the length of the input sequence data
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property size As Integer
+            Get
+                Return rawOrder.Length
+            End Get
+        End Property
+
+        Sub New(source As IEnumerable(Of T),
+                key As Func(Of T, K),
+                compares As Comparison(Of K),
+                Optional allowFuzzy As Boolean = False)
+
             order = compares
             rawOrder = source.ToArray
             sequence = rawOrder _
@@ -76,6 +112,7 @@ Namespace ComponentModel.Algorithm
                                 key:=Function(i) i.Item2
                             )
                         End Function)
+            fuzzy = allowFuzzy
         End Sub
 
         ''' <summary>
@@ -121,10 +158,11 @@ Namespace ComponentModel.Algorithm
                 Return sequence(min).index
             ElseIf 0 = order(sequence(max).key, target) Then
                 Return sequence(max).index
+            ElseIf fuzzy Then
+                Return x.index
             Else
                 Return -1
             End If
         End Function
     End Class
-#End If
 End Namespace

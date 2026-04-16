@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb2453a5007580b085f1e29e6a2a44a, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::425d2d1da0e210431094761cf4beb491, core\Bio.Assembly\SequenceModel\MWCalculator.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 245
+    '    Code Lines: 146 (59.59%)
+    ' Comment Lines: 68 (27.76%)
+    '    - Xml Docs: 92.65%
+    ' 
+    '   Blank Lines: 31 (12.65%)
+    '     File Size: 9.28 KB
+
+
     '     Module MolecularWeightCalculator
     ' 
-    '         Function: CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: (+2 Overloads) CalcMW_Nucleotides, (+2 Overloads) CalcMW_Polypeptide, DeoxyribonucleotideFormula, PolypeptideFormula, RibonucleotideFormula
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +56,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.ComponentModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
 
 Namespace SequenceModel
@@ -54,7 +69,8 @@ Namespace SequenceModel
     <Package("MolecularWeights", Publisher:="xie.guigang@gcmodeller.org")>
     Public Module MolecularWeightCalculator
 
-        Private ReadOnly AminoAcidMolecularWeights As New SortedDictionary(Of AminoAcid, Double) From {
+        ReadOnly AminoAcidX As FormulaData
+        ReadOnly AminoAcidMolecularWeights As New SortedDictionary(Of AminoAcid, Double) From {
             {AminoAcid.Alanine, 71.0779},
             {AminoAcid.Arginine, 156.1857},
             {AminoAcid.Asparagine, 114.1026},
@@ -77,13 +93,72 @@ Namespace SequenceModel
             {AminoAcid.Valine, 99.1311}
         }
 
-        Private ReadOnly NucleicAcidsMolecularWeights As New SortedDictionary(Of Char, Double) From {
-            {"A"c, 491.2},
-            {"C"c, 467.2},
-            {"G"c, 507.2},
-            {"T"c, 482.2},
-            {"U"c, 324.2}
+#Region "Deoxyribonucleotide - DNA"
+        ''' <summary>
+        ''' C10H12N5O6P + H2O
+        ''' </summary>
+        Const dAMP As Double = 347.0625338201
+        ''' <summary>
+        ''' C10H13N2O8P + H2O
+        ''' </summary>
+        Const dTMP As Double = 338.0509664201
+        ''' <summary>
+        ''' C9H12N3O7P + H2O
+        ''' </summary>
+        Const dCMP As Double = 323.0513008201
+        ''' <summary>
+        ''' C10H12N5O7P + H2O
+        ''' </summary>
+        Const dGMP As Double = 363.0574488201
+#End Region
+
+#Region "Ribonucleotide - RNA"
+        ''' <summary>
+        ''' C10H12N5O7P
+        ''' </summary>
+        Const AMP As Double = 345.0468846201
+        ''' <summary>
+        ''' C9H11N2O9P
+        ''' </summary>
+        Const UMP As Double = 322.0196680201
+        ''' <summary>
+        ''' C9H12N3O8P
+        ''' </summary>
+        Const CMP As Double = 321.0356516201
+        ''' <summary>
+        ''' C10H12N5O8P
+        ''' </summary>
+        Const GMP As Double = 361.0417996201
+#End Region
+
+        ReadOnly Deoxyribonucleotide As New Dictionary(Of Char, Double) From {
+            {"A"c, dAMP}, {"T"c, dTMP}, {"C"c, dCMP}, {"G"c, dGMP},
+            {"-"c, (dAMP + dTMP + dCMP + dGMP) / 4} ' N/- means any kind of Deoxyribonucleotide char, use the average mass at here
         }
+
+        ReadOnly Ribonucleotide As New Dictionary(Of Char, Double) From {
+            {"A"c, AMP}, {"U"c, UMP}, {"C"c, CMP}, {"G"c, GMP},
+            {"-"c, (AMP + UMP + CMP + GMP) / 4} ' N/- means any kind of Ribonucleotide char, use the average mass at here
+        }
+
+        Sub New()
+            Dim n As Integer = AminoAcidObjUtility.OneLetterFormula.Count
+
+            AminoAcidX = New FormulaData(New Dictionary(Of String, Integer))
+
+            For Each formula As FormulaData In AminoAcidObjUtility.OneLetterFormula.Values
+                AminoAcidX = AminoAcidX + formula
+            Next
+
+            AminoAcidX = AminoAcidX / n
+
+            ' DegenerateBasesExtensions
+            For Each var In New DegenerateBasesExtensions().DegenerateBases
+                Deoxyribonucleotide(var.Key) = var.Value _
+                    .Select(Function(c) Deoxyribonucleotide(c)) _
+                    .Average
+            Next
+        End Sub
 
         ''' <summary>
         ''' 计算蛋白质序列的相对分子质量
@@ -97,13 +172,91 @@ Namespace SequenceModel
             Return seq.SequenceData.CalcMW_Polypeptide
         End Function
 
+        ''' <summary>
+        ''' evaluate the exact mass of the given polypeptide <paramref name="seq"/>
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
         <ExportAPI("MW.Polypeptide")>
-        <Extension> Public Function CalcMW_Polypeptide(seq As String) As Double
-            Dim polypeptide = ConstructVector(seq)
-            Dim mw As Double = Aggregate aa As AminoAcid
-                               In polypeptide
-                               Into Sum(AminoAcidMolecularWeights(aa))
-            Return mw
+        <Extension>
+        Public Function CalcMW_Polypeptide(seq As String) As Double
+            Static aa_avg As Double = AminoAcidObjUtility.OneChar2Mass.Values.Average
+            ' X is the unknown amino acid
+            Dim mw As Double = Aggregate aa As Char
+                               In seq.ToUpper
+                               Let w As Double = If(
+                                   aa = "X"c OrElse
+                                   aa = "-"c OrElse
+                                   Not AminoAcidObjUtility.OneChar2Mass.ContainsKey(aa),
+                                   aa_avg, AminoAcidObjUtility.OneChar2Mass(aa))
+                               Into Sum(w)
+            Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
+
+            Return mw - water
+        End Function
+
+        ''' <summary>
+        ''' Create formula for protein polypeptide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        Public Function PolypeptideFormula(seq As String) As FormulaData
+            Dim formula As FormulaData = FormulaData.Empty
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+
+            For Each aa As Char In seq.ToUpper
+                If aa = "X"c OrElse aa = "-"c OrElse Not AminoAcidObjUtility.OneLetterFormula.ContainsKey(aa) Then
+                    formula = formula + AminoAcidX
+                Else
+                    formula = formula + AminoAcidObjUtility.OneLetterFormula(aa)
+                End If
+            Next
+
+            Return formula - water
+        End Function
+
+        ''' <summary>
+        ''' Create formula for DNA nucleotide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        Public Function DeoxyribonucleotideFormula(seq As String) As FormulaData
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+            Dim formula As FormulaData = FormulaData.Empty
+
+            Static any As FormulaData = Bases.Deoxyribonucleotide.Values.Sum / 4
+
+            For Each c As Char In seq.ToUpper.Replace("N", "-")
+                If c = "-"c Then
+                    formula = formula + any
+                Else
+                    formula = formula + Bases.Deoxyribonucleotide(c)
+                End If
+            Next
+
+            Return formula - water
+        End Function
+
+        ''' <summary>
+        ''' Create formula for RNA nucleotide sequence
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        Public Function RibonucleotideFormula(seq As String) As FormulaData
+            Dim water As FormulaData = FormulaData.H2O * (seq.Length - 1)
+            Dim formula As FormulaData = FormulaData.Empty
+
+            Static any As FormulaData = Bases.Ribonucleotide.Values.Sum / 4
+
+            For Each c As Char In seq.ToUpper
+                If c = "-"c Then
+                    formula = formula + any
+                Else
+                    formula = formula + Bases.Ribonucleotide(c)
+                End If
+            Next
+
+            Return formula - water
         End Function
 
         ''' <summary>
@@ -113,13 +266,35 @@ Namespace SequenceModel
         ''' <returns></returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("MW.NT")>
-        Public Function CalcMW_Nucleotides(seq As ISequenceModel) As Double
-            With seq.SequenceData
-                Return Aggregate ch As Char
-                       In .ToUpper
-                       Into Sum(NucleicAcidsMolecularWeights(ch))
-            End With
+        <Extension>
+        Public Function CalcMW_Nucleotides(seq As ISequenceModel, Optional is_rna As Boolean = False) As Double
+            Return CalcMW_Nucleotides(seq.SequenceData, is_rna)
+        End Function
+
+        ''' <summary>
+        ''' 计算核酸序列的相对分子质量
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function CalcMW_Nucleotides(seq As String, Optional is_rna As Boolean = False) As Double
+            Dim total As Double
+            Dim water As Double = (seq.Length - 1) * PeriodicTable.H2O
+
+            seq = seq.ToUpper.Replace("N", "-")
+
+            If is_rna Then
+                total = Aggregate ch As Char
+                        In seq
+                        Into Sum(Ribonucleotide(ch))
+            Else
+                total = Aggregate ch As Char
+                        In seq
+                        Into Sum(Deoxyribonucleotide(ch))
+            End If
+
+            Return total - water
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5950d7ab9de8c7aa48cc2d7899e80d56, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\MarkdownRender.vb"
+﻿#Region "Microsoft.VisualBasic::96425ebcab95df0e8286324d2aa20b13, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\MarkdownRender.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 377
+    '    Code Lines: 287 (76.13%)
+    ' Comment Lines: 45 (11.94%)
+    '    - Xml Docs: 82.22%
+    ' 
+    '   Blank Lines: 45 (11.94%)
+    '     File Size: 13.85 KB
+
+
     '     Class MarkdownRender
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: bufferAllIs, bufferIs, DefaultStyleRender
     ' 
-    '         Sub: applyGlobal, DoParseSpans, DoPrint, EndSpan, Print
-    '              PrintSpans, Reset, restoreStyle, WalkChar
+    '         Sub: applyGlobal, buildTableSimple, DoParseSpans, DoPrint, EndSpan
+    '              Print, PrintSpans, Reset, restoreStyle, WalkChar
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +58,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
@@ -65,8 +78,6 @@ Namespace ApplicationServices.Terminal
     ''' </remarks>
     Public Class MarkdownRender
 
-#If NET_48 Or netcore5 = 1 Then
-
         Shared ReadOnly defaultTheme As [Default](Of MarkdownTheme) = New MarkdownTheme With {
             .[Global] = Nothing,
             .BlockQuote = (ConsoleColor.Black, ConsoleColor.Gray),
@@ -77,21 +88,38 @@ Namespace ApplicationServices.Terminal
             .Italy = (ConsoleColor.Yellow, ConsoleColor.DarkGray),
             .HeaderSpan = (ConsoleColor.DarkGreen, ConsoleColor.Yellow)
         }
-#End If
+
         Dim theme As MarkdownTheme
         Dim markdown As CharPtr
         Dim indent As Integer
 
-        Dim initialGlobal As ConsoleFontStyle
+        Dim initialGlobal As ConsoleFormat
 
-        Private Sub New(theme As MarkdownTheme)
+        Sub New(theme As MarkdownTheme, Optional defaultBack As ConsoleColor? = Nothing, Optional defaultFore As ConsoleColor? = Nothing)
             Me.theme = theme
-            Me.initialGlobal = New ConsoleFontStyle With {
-                .BackgroundColor = Console.BackgroundColor,
-                .ForeColor = Console.ForegroundColor
-            }
+
+            If defaultBack Is Nothing OrElse defaultFore Is Nothing Then
+                Me.initialGlobal = New ConsoleFormat With {
+                    .Background = Console.BackgroundColor,
+                    .Foreground = Console.ForegroundColor
+                }
+            Else
+                Me.initialGlobal = New ConsoleFormat With {
+                    .Background = defaultBack,
+                    .Foreground = defaultFore
+                }
+            End If
         End Sub
 
+        Sub New()
+            Call Me.New(theme:=defaultTheme)
+        End Sub
+
+        ''' <summary>
+        ''' print the given markdown text with current theme styles
+        ''' </summary>
+        ''' <param name="markdown$"></param>
+        ''' <param name="indent%"></param>
         Public Sub DoPrint(markdown$, indent%)
             Me.markdown = markdown.LineTokens.JoinBy(ASCII.LF)
             Me.indent = indent
@@ -119,11 +147,12 @@ Namespace ApplicationServices.Terminal
         Dim lastNewLine As Boolean = True
         Dim controlBuf As New List(Of Char)
         Dim textBuf As New List(Of Char)
+        Dim tableSpan As Boolean = False
 
-        Friend styleStack As New Stack(Of ConsoleFontStyle)
-        Friend currentStyle As ConsoleFontStyle
+        Friend styleStack As New Stack(Of ConsoleFormat)
+        Friend currentStyle As ConsoleFormat
 
-        Dim spans As New List(Of Span)
+        Dim spans As New List(Of TextSpan)
 
         Public Sub Reset()
             blockquote = False
@@ -187,12 +216,12 @@ Namespace ApplicationServices.Terminal
         Private Sub PrintSpans()
             Dim isNewLine As Boolean = True
 
-            For Each span As Span In spans
+            For Each span As TextSpan In spans
                 If isNewLine Then
                     Console.CursorLeft = indent
                 End If
 
-                span.Print()
+                Console.Write(span)
                 isNewLine = span.IsEndByNewLine
             Next
 
@@ -200,20 +229,25 @@ Namespace ApplicationServices.Terminal
             Call Console.WriteLine()
         End Sub
 
+        ''' <summary>
+        ''' create new <see cref="TextSpan"/> and then clear the <see cref="textBuf"/> 
+        ''' for pull next text span object.
+        ''' </summary>
+        ''' <param name="byNewLine"></param>
         Private Sub EndSpan(byNewLine As Boolean)
             Dim text As String = textBuf.CharString
-            Dim style As ConsoleFontStyle = currentStyle.Clone
+            Dim style As ConsoleFormat = currentStyle.Clone
 
             If text.StartsWith("((http(s)?)|(ftp))[:]//", RegexICSng) Then
                 style = theme.Url
             End If
 
             If styleStack.Count > 0 AndAlso styleStack.Peek.Equals(theme.CodeBlock) Then
-                style.BackgroundColor = theme.CodeBlock.BackgroundColor
+                style.Background = theme.CodeBlock.Background
             End If
 
             If text.Length > 0 Then
-                spans += New Span With {
+                spans += New TextSpan With {
                     .style = style,
                     .text = text,
                     .IsEndByNewLine = byNewLine
@@ -222,7 +256,62 @@ Namespace ApplicationServices.Terminal
             End If
         End Sub
 
+        Dim tableBuf As New List(Of String)
+
+        Private Sub buildTableSimple()
+            If tableBuf.Count = 0 Then
+                spans.Add(New TextSpan With {.IsEndByNewLine = True, .text = ""})
+            End If
+
+            Dim header As String() = tableBuf(0).Split("|"c)
+            Dim rows As String()() = tableBuf.Skip(2) _
+                .Where(Function(r) Not Strings.Trim(r).StringEmpty) _
+                .Select(Function(l) l.Split("|"c)) _
+                .ToArray
+            Dim tbl As New ConsoleTableBaseData(header, rows)
+            Dim println As String = ConsoleTableBuilder.From(tbl) _
+                .WithFormat(theme.Table) _
+                .Export _
+                .ToString
+
+            For Each line As String In println.LineTokens
+                Call spans.Add(New TextSpan With {.text = line & vbCrLf, .IsEndByNewLine = True})
+            Next
+
+            spans.Add(New TextSpan With {.IsEndByNewLine = True, .text = vbLf})
+        End Sub
+
         Private Sub WalkChar(c As Char)
+            If tableSpan Then
+                Select Case c
+                    Case ASCII.LF
+                        lastNewLine = True
+                        tableBuf.Add(New String(textBuf.PopAll))
+
+                        If tableBuf.Last.StringEmpty Then
+                            ' break the table context by empty line
+                            tableSpan = False
+                            buildTableSimple()
+                        End If
+
+                        Return
+                    Case ""
+                        ' is a empty line
+                        ' end of table context
+                        tableSpan = False
+                        tableBuf.Add(New String(textBuf.PopAll))
+                        buildTableSimple()
+                    Case ">"c, "`"c, "#"c
+                        ' end of table context
+                        tableSpan = False
+                        tableBuf.Add(New String(textBuf.PopAll))
+                        buildTableSimple()
+                    Case Else
+                        textBuf += c
+                        Return
+                End Select
+            End If
+
             Select Case c
                 Case "`"c
                     controlBuf += c
@@ -237,6 +326,14 @@ Namespace ApplicationServices.Terminal
                     textBuf += ASCII.LF
                     EndSpan(True)
                     restoreStyle()
+                Case "|"c
+                    If lastNewLine AndAlso controlBuf = 0 Then
+                        ' is probably a markdown table
+                        tableSpan = True
+                    End If
+
+                    textBuf += c
+                    lastNewLine = False
                 Case ">"c
                     If lastNewLine AndAlso controlBuf = 0 Then
                         controlBuf += c
@@ -310,22 +407,30 @@ Namespace ApplicationServices.Terminal
             End Select
         End Sub
 
+        ''' <summary>
+        ''' do console writeline with styles
+        ''' </summary>
+        ''' <param name="markdown">the markdown text to print on the console</param>
+        ''' <param name="theme">
+        ''' the theme styles for make console print
+        ''' </param>
+        ''' <param name="indent">the prefix space indent number.</param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Sub Print(markdown As String, Optional theme As MarkdownTheme = Nothing, Optional indent% = 0)
-#If NET_48 Or netcore5 = 1 Then
-            Call New MarkdownRender(theme Or defaultTheme).DoPrint(markdown, indent)
-#Else
-            Throw New NotImplementedException
-#End If
+            If App.Platform <> PlatformID.Win32NT Then
+                Call New MarkdownRender(theme Or defaultTheme, ConsoleColor.Black, ConsoleColor.White).DoPrint(markdown, indent)
+            Else
+                Call New MarkdownRender(theme Or defaultTheme).DoPrint(markdown, indent)
+            End If
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function DefaultStyleRender() As MarkdownRender
-#If NET_48 Or netcore5 = 1 Then
-            Return New MarkdownRender(defaultTheme)
-#Else
-            Throw New NotImplementedException
-#End If
+            If App.Platform <> PlatformID.Win32NT Then
+                Return New MarkdownRender(defaultTheme, ConsoleColor.Black, ConsoleColor.White)
+            Else
+                Return New MarkdownRender(defaultTheme)
+            End If
         End Function
     End Class
 End Namespace

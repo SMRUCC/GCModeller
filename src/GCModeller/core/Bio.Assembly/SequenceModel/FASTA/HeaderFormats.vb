@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 34 (59.65%)
+    ' Comment Lines: 14 (24.56%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 9 (15.79%)
+    '     File Size: 1.90 KB
+
+
     '     Module HeaderFormats
     ' 
     '         Function: GetUniProtAccession, HasVersionNumber, TrimAccessionVersion, TryGetUniProtAccession

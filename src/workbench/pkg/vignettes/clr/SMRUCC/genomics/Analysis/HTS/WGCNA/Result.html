@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.HTS.WGCNA.Result</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>Result {SMRUCC.genomics.Analysis.HTS.WGCNA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>Result</h2>
+
+        <h3>Description</h3>
+
+        <p>WGCNA分析结果类</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.HTS.WGCNA
+export class Result {
+   # 最佳beta值测试结果
+   beta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a>;
+   # 基因显著性结果列表
+   #  存储每个基因与每个表型的相关性分析结果
+   geneSignificance: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/GeneSignificanceResult.html">iterates(GeneSignificanceResult)</a>;
+   # 层次聚类树
+   hclust: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a>;
+   # 连接度向量
+   K: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Vector.html">Vector</a>;
+   # 模块特征基因详细结果列表
+   #  包含方差解释比例等信息
+   moduleEigengeneResults: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleEigengeneResult.html">iterates(ModuleEigengeneResult)</a>;
+   # 模块特征基因字典（模块名→特征基因值数组）
+   #  每个模块的特征基因是该模块内所有基因表达值的第一主成分
+   moduleEigengenes: list;
+   # 模块成员结果列表
+   #  存储每个基因与每个模块特征基因的相关性
+   moduleMembership: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleMembershipResult.html">iterates(ModuleMembershipResult)</a>;
+   # 模块与表型相关性结果列表
+   #  存储每个模块与每个表型的相关性分析结果
+   modulePhenotypeCorrelations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModulePhenotypeCorrelation.html">iterates(ModulePhenotypeCorrelation)</a>;
+   # 模块字典（模块名→基因列表）
+   modules: list;
+   # 网络图对象
+   network: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/visualize/Network/Graph/NetworkGraph.html">NetworkGraph</a>;
+   # 所有beta候选值的测试结果
+   softBeta: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest[]</a>;
+   # TOM矩阵
+   TOM: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/GeneralMatrix.html">GeneralMatrix</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>beta</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a></li>
+<li>use by <i>property</i> member <code>geneSignificance</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/GeneSignificanceResult.html">iterates(GeneSignificanceResult)</a></li>
+<li>use by <i>property</i> member <code>hclust</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/DataMining/HierarchicalClustering/Cluster.html">Cluster</a></li>
+<li>use by <i>property</i> member <code>K</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Vector.html">Vector</a></li>
+<li>use by <i>property</i> member <code>moduleEigengeneResults</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleEigengeneResult.html">iterates(ModuleEigengeneResult)</a></li>
+<li>use by <i>property</i> member <code>moduleEigengenes</code>: list</li>
+<li>use by <i>property</i> member <code>moduleMembership</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModuleMembershipResult.html">iterates(ModuleMembershipResult)</a></li>
+<li>use by <i>property</i> member <code>modulePhenotypeCorrelations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/ModulePhenotypeCorrelation.html">iterates(ModulePhenotypeCorrelation)</a></li>
+<li>use by <i>property</i> member <code>modules</code>: list</li>
+<li>use by <i>property</i> member <code>network</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/visualize/Network/Graph/NetworkGraph.html">NetworkGraph</a></li>
+<li>use by <i>property</i> member <code>softBeta</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/WGCNA/BetaTest.html">BetaTest</a></li>
+<li>use by <i>property</i> member <code>TOM</code>: <a href="/vignettes/clr/Microsoft/VisualBasic/Math/LinearAlgebra/Matrix/GeneralMatrix.html">GeneralMatrix</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8dd4c86e80538d2dfee5c082ea81314a, modules\ExperimentDesigner\Templates\SampleTuple.vb"
+﻿#Region "Microsoft.VisualBasic::ea11b13fb1ac6911bdb458340bfcf84c, modules\ExperimentDesigner\Templates\SampleTuple.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 17 (60.71%)
+    ' Comment Lines: 7 (25.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.29%)
+    '     File Size: 786 B
+
+
     ' Class SampleTuple
     ' 
     '     Properties: Label, sample1, sample2
@@ -43,7 +55,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ''' <summary>
 ''' Using for paired sample T-test

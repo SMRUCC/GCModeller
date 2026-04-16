@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd53e1ea4e2aeca478463442e55348f0, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
+﻿#Region "Microsoft.VisualBasic::f339976db4f4febfe15306b66ea95dea, data\SABIO-RK\docuRESTfulWeb\ModelQuery.vb"
 
     ' Author:
     ' 
@@ -31,55 +31,111 @@
 
     ' Summaries:
 
-    ' Class ModelQuery
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 70 (82.35%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: cacheGuid, CreateQueryURL, parseSBML
+    '   Blank Lines: 15 (17.65%)
+    '     File Size: 3.41 KB
+
+
+    '     Class ModelQuery
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: contextPrefix, CreateQueryURL, doParseGuid, doParseObject, doParseUrl
+    '                   isEmptyContent, parseSBML
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports sbXML = SMRUCC.genomics.Model.SBML.Level3.XmlFile(Of SMRUCC.genomics.Data.SABIORK.SBML.SBMLReaction)
+Imports SMRUCC.genomics.Data.SABIORK.SBML
+Imports SMRUCC.genomics.Model.SBML.Level3
 
-Public Class ModelQuery : Inherits WebQuery(Of Dictionary(Of QueryFields, String))
+Namespace docuRESTfulWeb
 
-    Public Sub New(<CallerMemberName>
-                   Optional cache As String = Nothing,
-                   Optional interval As Integer = -1,
-                   Optional offline As Boolean = False)
+    Public Class ModelQuery : Inherits WebQueryModule(Of Dictionary(Of QueryFields, String))
 
-        MyBase.New(
-            url:=AddressOf CreateQueryURL,
-            contextGuid:=AddressOf cacheGuid,
-            parser:=AddressOf parseSBML,
-            prefix:=Function(guid) guid.First,
-            cache:=cache,
-            interval:=interval,
-            offline:=offline
-        )
-    End Sub
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub New(<CallerMemberName>
+                       Optional cache As String = Nothing,
+                       Optional interval As Integer = -1,
+                       Optional offline As Boolean = False)
 
-    Private Shared Function cacheGuid(q As Dictionary(Of QueryFields, String)) As String
-        Return q.GetJson.MD5
-    End Function
+            Call MyBase.New(cache, interval, offline)
+        End Sub
 
-    Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
-        Dim searches As String() = q _
-            .Select(Function(t)
-                        Return $"{t.Key.Description}:""{t.Value}"""
-                    End Function) _
-            .ToArray
-        Dim query As String = searches.JoinBy(" AND ").UrlEncode
-        Dim url As String = $"http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q={query}"
+        Public Sub New(cache As IFileSystemEnvironment,
+                       Optional interval As Integer = -1,
+                       Optional offline As Boolean = False)
 
-        Return url
-    End Function
+            Call MyBase.New(cache, interval, offline)
+        End Sub
 
-    Public Shared Function parseSBML(xml As String, schema As Type) As Object
-        Return xml.LoadFromXml(Of sbXML)(throwEx:=False)
-    End Function
-End Class
+        Public Shared Function CreateQueryURL(q As Dictionary(Of QueryFields, String)) As String
+            Dim searches As String() = q _
+                .Select(Function(t)
+                            Return $"{t.Key.Description}:""{t.Value}"""
+                        End Function) _
+                .ToArray
+            Dim query As String = searches.JoinBy(" AND ").UrlEncode
+            Dim url As String = $"http://sabiork.h-its.org/sabioRestWebServices/searchKineticLaws/sbml?q={query}"
+
+            Return url
+        End Function
+
+        Protected Overrides Function isEmptyContent(cache_path As String) As Boolean
+            Dim str = Strings.Trim(cache.ReadAllText(cache_path))
+
+            If str.StringEmpty(, True) Then
+                Return True
+            ElseIf str = "No results found for query" Then
+                Return True
+            Else
+                Return False
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function parseSBML(xml As String, Optional schema As Type = Nothing) As Object
+            If schema Is GetType(XmlFile(Of SBMLReaction)) Then
+                Return SbmlDocument.LoadXml(xml)
+            Else
+                Return SbmlDocument.LoadDocument(xml)
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseUrl(context As Dictionary(Of QueryFields, String)) As String
+            Return CreateQueryURL(q:=context)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseObject(html As String, schema As Type) As Object
+            Return parseSBML(html, schema)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Overrides Function doParseGuid(context As Dictionary(Of QueryFields, String)) As String
+            Return context.GetJson.MD5
+        End Function
+
+        Protected Overrides Function contextPrefix(guid As String) As String
+            If TypeOf cache Is Directory Then
+                Return guid.Substring(1, 2)
+            Else
+                Return $"/.cache/{guid.Substring(1, 2)}"
+            End If
+        End Function
+    End Class
+End Namespace

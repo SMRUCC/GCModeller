@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ea68b1fea99a9a11a54af19657eff93, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::34a437332459b34102a93bc706625821, modules\ExperimentDesigner\Templates\AnalysisDesigner.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 35 (42.17%)
+    ' Comment Lines: 36 (43.37%)
+    '    - Xml Docs: 80.56%
+    ' 
+    '   Blank Lines: 12 (14.46%)
+    '     File Size: 2.41 KB
+
+
     ' Class AnalysisDesigner
     ' 
     '     Properties: controls, note, title, treatment
@@ -43,7 +55,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ' 数据对比类型
 
@@ -65,19 +77,27 @@ Imports Microsoft.VisualBasic.Data.csv
 Public Class AnalysisDesigner
 
     ''' <summary>
-    ''' 对照组
+    ''' the group label of controls.
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 对照组
+    ''' </remarks>
     <XmlAttribute("control")>
     Public Property controls As String
+
     ''' <summary>
-    ''' 处理组
+    ''' the group label of treatments. 
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' 处理组
+    ''' </remarks>
     <XmlAttribute("treatment")>
     Public Property treatment As String
+
     ''' <summary>
-    ''' 用户备注信息，这个属性不会被使用
+    ''' 用户备注信息，这个属性一般不会被使用
     ''' </summary>
     ''' <returns></returns>
     <XmlText>

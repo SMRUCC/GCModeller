@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f28e2e0e9939fa9246be1670ec2f2d5, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::403f911bc968344d0bec895fb97d0625, core\Bio.Assembly\Assembly\MetaCyc\Schemas\Reaction\Reaction.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 34 (77.27%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (22.73%)
+    '     File Size: 2.31 KB
+
+
     '     Class Compound
     ' 
-    '         Properties: StoiChiometry
+    '         Properties: Stoichiometry
     ' 
     '     Class Reaction
     ' 
@@ -53,7 +65,7 @@ Namespace Assembly.MetaCyc.Schema.Metabolism
     Public Class Compound : Inherits MetaCyc.File.DataFiles.Slots.Object
         Implements ComponentModel.EquaionModel.ICompoundSpecies
 
-        Public Property StoiChiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.StoiChiometry
+        Public Property Stoichiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.Stoichiometry
     End Class
 
     Public Class Reaction : Inherits MetaCyc.File.DataFiles.Slots.Object
@@ -76,8 +88,8 @@ Namespace Assembly.MetaCyc.Schema.Metabolism
             Dim SchemaModel As Reaction = New Reaction With {._InnerBaseType = FileObject}
             Call FileObject.CopyTo(Of Reaction)(SchemaModel)
             SchemaModel.Reversible = String.Equals(FileObject.ReactionDirection, "REVERSIBLE")
-            SchemaModel.Reactants = (From Id As String In FileObject.Left Select New Compound With {.Identifier = Id, .StoiChiometry = 1}).ToArray
-            SchemaModel.Products = (From Id As String In FileObject.Right Select New Compound With {.Identifier = Id, .StoiChiometry = 1}).ToArray
+            SchemaModel.Reactants = (From Id As String In FileObject.Left Select New Compound With {.Identifier = Id, .Stoichiometry = 1}).ToArray
+            SchemaModel.Products = (From Id As String In FileObject.Right Select New Compound With {.Identifier = Id, .Stoichiometry = 1}).ToArray
             SchemaModel._strEquation = ComponentModel.EquaionModel.ToString(Of Compound)(SchemaModel)
 
             Return SchemaModel

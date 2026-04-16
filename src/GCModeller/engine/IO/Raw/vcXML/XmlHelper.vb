@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 18 (72.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (28.00%)
+    '     File Size: 724 B
+
+
     '     Module XmlHelper
     ' 
     '         Constructor: (+1 Overloads) Sub New

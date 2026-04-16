@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 41 (67.21%)
+    ' Comment Lines: 11 (18.03%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (14.75%)
+    '     File Size: 2.29 KB
+
+
     '     Module RlangInterop
     ' 
     '         Function: ProcessingRRawUniCode, ProcessingRUniCode

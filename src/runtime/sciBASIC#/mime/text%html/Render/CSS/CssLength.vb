@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::773b152fe806b97ae8969f0253538bf8, mime\text%html\Render\CSS\CssLength.vb"
+﻿#Region "Microsoft.VisualBasic::93a398cbb668dc353321f63846bfeb22, mime\text%html\Render\CSS\CssLength.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 206
+    '    Code Lines: 113 (54.85%)
+    ' Comment Lines: 51 (24.76%)
+    '    - Xml Docs: 86.27%
+    ' 
+    '   Blank Lines: 42 (20.39%)
+    '     File Size: 7.03 KB
+
+
     '     Class CssLength
     ' 
+    '         Properties: HasError, IsPercentage, IsRelative, Length, Number
+    '                     Unit
     ' 
-    '         Enum CssUnit
-    ' 
-    '             Centimeters, Ems, Ex, Inches, Milimeters
-    '             None, Picas, Pixels, Points
-    ' 
-    ' 
-    ' 
-    '  
-    ' 
-    '     Properties: HasError, IsPercentage, IsRelative, Length, Number
-    '                 Unit
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: ConvertEmToPixels, ConvertEmToPoints, ToString
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ConvertEmToPixels, ConvertEmToPoints, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,6 +57,7 @@
 #End Region
 
 Imports System.Globalization
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Render.CSS
 
@@ -65,47 +68,36 @@ Namespace Render.CSS
     ''' http://www.w3.org/TR/CSS21/syndata.html#length-units
     ''' </remarks>
     Public Class CssLength
-#Region "Enum"
 
         ''' <summary>
-        ''' Represents the possible units of the CSS lengths
+        ''' Gets the number in the length
         ''' </summary>
-        ''' <remarks>
-        ''' http://www.w3.org/TR/CSS21/syndata.html#length-units
-        ''' </remarks>
-        Public Enum CssUnit
-            None
+        Public ReadOnly Property Number() As Single
 
-            Ems
+        ''' <summary>
+        ''' Gets if the length has some parsing error
+        ''' </summary>
+        Public ReadOnly Property HasError() As Boolean
 
-            Pixels
+        ''' <summary>
+        ''' Gets if the length represents a precentage (not actually a length)
+        ''' </summary>
+        Public ReadOnly Property IsPercentage() As Boolean
 
-            Ex
+        ''' <summary>
+        ''' Gets if the length is specified in relative units
+        ''' </summary>
+        Public ReadOnly Property IsRelative() As Boolean
 
-            Inches
+        ''' <summary>
+        ''' Gets the unit of the length
+        ''' </summary>
+        Public ReadOnly Property Unit() As CssUnit
 
-            Centimeters
-
-            Milimeters
-
-            Points
-
-            Picas
-        End Enum
-
-#End Region
-
-#Region "Fields"
-        Private _number As Single
-        Private _isRelative As Boolean
-        Private _unit As CssUnit
-        Private _length As String
-        Private _isPercentage As Boolean
-        Private _hasError As Boolean
-
-#End Region
-
-#Region "Ctor"
+        ''' <summary>
+        ''' Gets the length as specified in the string
+        ''' </summary>
+        Public ReadOnly Property Length() As String
 
         ''' <summary>
         ''' Creates a new CssLength from a length specified on a CSS style sheet or fragment
@@ -126,6 +118,14 @@ Namespace Render.CSS
             If length.EndsWith("%") Then
                 _number = CssValue.ParseNumber(length, 1)
                 _isPercentage = True
+                Return
+            End If
+
+            If length.IsSimpleNumber Then
+                ' default is px
+                _Unit = CssUnit.Pixels
+                _IsRelative = False
+                _Number = Single.Parse(length)
                 Return
             End If
 
@@ -176,76 +176,11 @@ Namespace Render.CSS
                     Return
             End Select
 
-            If Not Single.TryParse(number, System.Globalization.NumberStyles.Number, NumberFormatInfo.InvariantInfo, _number) Then
-                _hasError = True
+            If Not Single.TryParse(number, NumberStyles.Number, NumberFormatInfo.InvariantInfo, _Number) Then
+                _HasError = True
 
             End If
         End Sub
-
-#End Region
-
-#Region "Props"
-
-        ''' <summary>
-        ''' Gets the number in the length
-        ''' </summary>
-        Public ReadOnly Property Number() As Single
-            Get
-                Return _number
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Gets if the length has some parsing error
-        ''' </summary>
-        Public ReadOnly Property HasError() As Boolean
-            Get
-                Return _hasError
-            End Get
-        End Property
-
-
-        ''' <summary>
-        ''' Gets if the length represents a precentage (not actually a length)
-        ''' </summary>
-        Public ReadOnly Property IsPercentage() As Boolean
-            Get
-                Return _isPercentage
-            End Get
-        End Property
-
-
-        ''' <summary>
-        ''' Gets if the length is specified in relative units
-        ''' </summary>
-        Public ReadOnly Property IsRelative() As Boolean
-            Get
-                Return _isRelative
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Gets the unit of the length
-        ''' </summary>
-        Public ReadOnly Property Unit() As CssUnit
-            Get
-                Return _unit
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' Gets the length as specified in the string
-        ''' </summary>
-        Public ReadOnly Property Length() As String
-            Get
-                Return _length
-            End Get
-        End Property
-
-
-#End Region
-
-#Region "Methods"
 
         ''' <summary>
         ''' If length is in Ems, returns its value in points
@@ -325,7 +260,5 @@ Namespace Render.CSS
                 Return String.Format(NumberFormatInfo.InvariantInfo, "{0}{1}", Number, u)
             End If
         End Function
-
-#End Region
     End Class
 End Namespace

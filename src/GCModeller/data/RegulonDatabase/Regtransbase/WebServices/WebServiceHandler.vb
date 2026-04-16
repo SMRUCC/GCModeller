@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87c49d2488e691860133c99550e0a3df, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
+﻿#Region "Microsoft.VisualBasic::7351a4e4ffd6203a822996abf29c1569, data\RegulonDatabase\Regtransbase\WebServices\WebServiceHandler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 125 (79.11%)
+    ' Comment Lines: 12 (7.59%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 21 (13.29%)
+    '     File Size: 10.20 KB
+
+
     '     Class WebServiceHandler
     ' 
     '         Function: DownloadSequenceData, HandleErrorSequence, TFFamily
@@ -40,9 +52,7 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regtransbase.WebServices
@@ -50,7 +60,7 @@ Namespace Regtransbase.WebServices
     Public Class WebServiceHandler
 
         Public Shared Function TFFamily() As WebServices.RegPreciseTFFamily
-            Dim url = "http://regprecise.lbl.gov/RegPrecise/collections_tffam.jsp"
+            Dim url = "https://regprecise.lbl.gov/collections_tffam.jsp"
             Return WebServices.RegPreciseTFFamily.Download(url)
         End Function
 
@@ -93,7 +103,7 @@ Namespace Regtransbase.WebServices
                 Dim RegulatorEntries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=RegulatorId)
                 If RegulatorEntries.IsNullOrEmpty Then 'NO_ENTRY_FOUND
                     Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Regulog:={0}" & vbCrLf & vbCrLf, Item.Key)
-                    Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, True)
+                    Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, True)
                     Call Console.WriteLine(Err)
                 ElseIf RegulatorEntries.Count = 1 AndAlso String.Equals(RegulatorEntries.First.locusID, RegulatorId) Then
                     '则本Regulog列表之下的所有调控位点都被认为可以被该Regulator对象所调控
@@ -121,20 +131,20 @@ Namespace Regtransbase.WebServices
                     Catch ex As Exception
                         Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] [Regulog={0}] [KEGG_ENTRY={1}:{2}]" & vbCrLf, Item.Key, RegulatorEntry.speciesID, RegulatorId)
                         Call Console.WriteLine(Err)
-                        Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
+                        Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, append:=True)
                     End Try
                 Else '为通用的基因名称，则按照TFBS的LocusTag信息得到KEGG的物种编号，在进行组合查询
                     Dim TempObject As SMRUCC.genomics.SequenceModel.FASTA.FastaSeq = Nothing
                     Dim TempObject_LocusTagList As List(Of String) = New List(Of String)
 
-                    For Each LocusId In Item.Value  'LocusId的物种是唯一的
+                    For Each LocusId As KeyValuePair(Of String, String()) In Item.Value  'LocusId的物种是唯一的
                         Dim Entries = SMRUCC.genomics.Assembly.KEGG.WebServices.WebRequest.HandleQuery(keyword:=LocusId.Key)
                         If Not Entries.IsNullOrEmpty Then '获得目标物种编号
                             Dim Temp As String() = (From Entry In Entries Where String.Equals(Entry.locusID, LocusId.Key) Select Entry.speciesID).ToArray
                             Dim KEGG_speciesId As String = ""
                             If Temp.IsNullOrEmpty Then
                                 Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Locus_tag:={0}, Regulog:={1}" & vbCrLf & vbCrLf, LocusId, Item.Key)
-                                Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, True)
+                                Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, True)
                                 Call Console.WriteLine(Err)
                                 Continue For
                             Else
@@ -166,11 +176,11 @@ Namespace Regtransbase.WebServices
                             Catch ex As Exception
                                 Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] [Regulog={0}] [KEGG_ENTRY={1}:{2}]" & vbCrLf, Item.Key, KEGG_speciesId, RegulatorId)
                                 Call Console.WriteLine(Err)
-                                Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
+                                Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, append:=True)
                             End Try
                         Else '搜索不到任何记录
                             Dim Err As String = String.Format("[KEGG_ID_NOT_FOUND] Locus_tag:={0} ---> {1}, Regulog:={2}" & vbCrLf & vbCrLf, LocusId, stringLine(LocusId.Value), Item.Key)
-                            Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, True)
+                            Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, True)
                             Call Console.WriteLine(Err)
                         End If
                     Next
@@ -179,7 +189,7 @@ Namespace Regtransbase.WebServices
                     If TempObject Is Nothing Then '记录下错误
                         Dim Err = String.Format("[KEGG_DBGET_QUERY_EXCEPTION] Could not found any query entry for object [Regulog={0}] !" & vbCrLf, Item.Key)
                         Call Console.WriteLine(Err)
-                        Call FileIO.FileSystem.WriteAllText(My.Application.Info.DirectoryPath & "/Error.log", Err, append:=True)
+                        Call FileIO.FileSystem.WriteAllText(App.ProductSharedTemp & "/Error.log", Err, append:=True)
                     Else '将缓存数据写入文件
                         Dim TempList = TempObject.Headers.First
                         Dim LOCUS_TAG_ENTRY As String = stringLine(TempObject_LocusTagList.ToArray)

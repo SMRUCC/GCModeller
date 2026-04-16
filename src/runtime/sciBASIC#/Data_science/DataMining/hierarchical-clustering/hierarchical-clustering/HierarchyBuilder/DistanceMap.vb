@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c18b9ce8f18730eb01804ee15fb80a6, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\DistanceMap.vb"
+﻿#Region "Microsoft.VisualBasic::18efb640df84f6d2df6f5ff3d7a00bd0, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\DistanceMap.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 108 (68.35%)
+    ' Comment Lines: 20 (12.66%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 30 (18.99%)
+    '     File Size: 5.06 KB
+
+
     '     Class DistanceMap
     ' 
     '         Properties: MinimalDistance
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: Add, Dequeue, FindByCodePair, Remove, RemoveFirst
+    '         Function: Add, Dequeue, FindByCodePair, (+2 Overloads) Remove, RemoveFirst
     '                   ToList, ToString
     ' 
     '         Sub: Enqueue, Sort
@@ -60,7 +72,7 @@ Namespace Hierarchy
     ''' </summary>
     Public Class DistanceMap
 
-        Dim linkTable As New Dictionary(Of String, HierarchyLink)
+        Dim linkTable As New Dictionary(Of ULong, HierarchyLink)
         Dim data As New List(Of HierarchyLink)
 
         ''' <summary>
@@ -121,6 +133,13 @@ Namespace Hierarchy
             Return l
         End Function
 
+        ''' <summary>
+        ''' dictionary hash search for the link
+        ''' </summary>
+        ''' <param name="c1"></param>
+        ''' <param name="c2"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function FindByCodePair(c1 As Cluster, c2 As Cluster) As HierarchyTreeNode
             Return linkTable(hashCodePair(c1, c2)).Tree
         End Function
@@ -140,6 +159,14 @@ Namespace Hierarchy
                     Return .ByRef
                 End With
             End If
+        End Function
+
+        Public Function Remove(pending As IEnumerable(Of HierarchyTreeNode)) As Boolean
+            For Each i As HierarchyTreeNode In pending
+                Call Remove(i)
+            Next
+
+            Return True
         End Function
 
         Public Function Remove(link As HierarchyTreeNode) As Boolean
@@ -164,8 +191,9 @@ Namespace Hierarchy
             Dim hlink As New HierarchyLink(link)
 
             If linkTable.ContainsKey(hlink.HashKey) Then
-                Dim existingItem As HierarchyLink = linkTable(hlink.HashKey)
 #If DEBUG Then
+                Dim existingItem As HierarchyLink = linkTable(hlink.HashKey)
+
                 Call Console _
                     .Error _
                     .WriteLine("hashCode = " & existingItem.HashKey & " adding redundant link:" & link.ToString & " (exist:" & existingItem.ToString & ")")

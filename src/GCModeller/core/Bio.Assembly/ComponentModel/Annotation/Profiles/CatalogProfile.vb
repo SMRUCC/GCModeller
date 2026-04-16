@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5377f2ffff4da30543f7fa5a6aea58ab, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
+﻿#Region "Microsoft.VisualBasic::aef3ff161a60fcba499d316cb2037ce7, core\Bio.Assembly\ComponentModel\Annotation\Profiles\CatalogProfile.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 85 (71.43%)
+    ' Comment Lines: 16 (13.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (15.13%)
+    '     File Size: 4.43 KB
+
+
     '     Class CatalogProfile
     ' 
     '         Properties: information, isEmpty, profile
     ' 
     '         Constructor: (+4 Overloads) Sub New
-    '         Function: (+2 Overloads) Add, GenericEnumerator, GetEnumerator, OrderByValues, Take
-    '                   ToString
+    '         Function: (+2 Overloads) Add, GenericEnumerator, OrderByValues, Take, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,19 +57,27 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.Annotation
 
-    Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double))
+    ''' <summary>
+    ''' a wrapper of <see cref="Dictionary(Of String, Double)"/>
+    ''' </summary>
+    Public Class CatalogProfile : Implements Enumeration(Of NamedValue(Of Double)), IsEmpty
 
         Public Property profile As New Dictionary(Of String, Double)
         Public Property information As New Dictionary(Of String, String)
 
-        Public ReadOnly Property isEmpty As Boolean
+        ''' <summary>
+        ''' does the <see cref="profile"/> is empty?
+        ''' </summary>
+        ''' <returns></returns>
+        Private ReadOnly Property isEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
-                Return profile.Count = 0
+                Return profile.IsNullOrEmpty
             End Get
         End Property
 
@@ -91,12 +110,15 @@ Namespace ComponentModel.Annotation
             Return Me
         End Function
 
-        Public Function Add(name As String, value As Double)
+        Public Function Add(name As String, value As Double) As CatalogProfile
             Call profile.Add(name, value)
-
             Return Me
         End Function
 
+        ''' <summary>
+        ''' just sort desc
+        ''' </summary>
+        ''' <returns></returns>
         Public Function OrderByValues() As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),
@@ -106,6 +128,11 @@ Namespace ComponentModel.Annotation
             }
         End Function
 
+        ''' <summary>
+        ''' sort desc and then take top N
+        ''' </summary>
+        ''' <param name="topN"></param>
+        ''' <returns></returns>
         Public Function Take(topN As Integer) As CatalogProfile
             Return New CatalogProfile With {
                 .information = New Dictionary(Of String, String)(information),
@@ -128,10 +155,6 @@ Namespace ComponentModel.Annotation
                     .Description = information.TryGetValue(item.Key)
                 }
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of NamedValue(Of Double)).GetEnumerator
-            Yield GenericEnumerator()
         End Function
 
         Public Overloads Shared Widening Operator CType(profile As NamedValue(Of Double)()) As CatalogProfile

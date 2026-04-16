@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdadca718d96cfde616f0c4466e646a7, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\ConcaveHull\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3b511ad156a4f135d73391eddc1ba2b5, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\ConcaveHull\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 24 (41.38%)
+    ' Comment Lines: 29 (50.00%)
+    '    - Xml Docs: 89.66%
+    ' 
+    '   Blank Lines: 5 (8.62%)
+    '     File Size: 3.17 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: ConcaveHull
+    '         Function: (+2 Overloads) ConcaveHull
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,19 +54,59 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing2D.Math2D.ConcaveHull
 
     <HideModuleName>
     Public Module Extensions
 
-        <Extension> Public Function ConcaveHull(points As IEnumerable(Of PointF), Optional r# = -1) As PointF()
+        ''' <summary>
+        ''' The Concave Hull of a Set of Points
+        ''' 
+        ''' In geometry, the convex hull or convex envelope or convex closure of a shape is the 
+        ''' smallest convex set that contains it. The convex hull may be defined either as the 
+        ''' intersection of all convex sets containing a given subset of a Euclidean space, or 
+        ''' equivalently as the set of all convex combinations of points in the subset. For a 
+        ''' bounded subset of the plane, the convex hull may be visualized as the shape enclosed 
+        ''' by a rubber band stretched around the subset.
+        '''
+        ''' Convex hulls of open sets are open, and convex hulls of compact sets are compact. Every 
+        ''' compact convex set is the convex hull of its extreme points. The convex hull operator 
+        ''' is an example of a closure operator, and every antimatroid can be represented by applying
+        ''' this closure operator to finite sets of points. The algorithmic problems of finding the 
+        ''' convex hull of a finite set of points in the plane or other low-dimensional Euclidean 
+        ''' spaces, and its dual problem of intersecting half-spaces, are fundamental problems of 
+        ''' computational geometry. They can be solved in time (log)(n\log n) for two or three 
+        ''' dimensional point sets, and in time matching the worst-case output complexity given by 
+        ''' the upper bound theorem in higher dimensions.
+        '''
+        ''' As well as for finite point sets, convex hulls have also been studied for simple polygons, 
+        ''' Brownian motion, space curves, and epigraphs of functions. Convex hulls have wide 
+        ''' applications in mathematics, statistics, combinatorial optimization, economics, geometric 
+        ''' modeling, and ethology. Related structures include the orthogonal convex hull, convex 
+        ''' layers, Delaunay triangulation and Voronoi diagram, and convex skull.
+        ''' </summary>
+        ''' <param name="points"></param>
+        ''' <param name="r">the ball radius</param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ConcaveHull(points As IEnumerable(Of PointF), Optional r# = -1, Optional verbose As Boolean = True) As PointF()
             With New BallConcave(points)
                 If r# <= 0 Then
                     r# = .RecomandedRadius
                 End If
-                Return .GetConcave_Ball(r).ToArray
+
+                Return .GetConcave_Ball(r, verbose) _
+                       .ToArray
             End With
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function ConcaveHull(points As Polygon2D, Optional r# = -1, Optional verbose As Boolean = True) As PointF()
+            Return points.AsEnumerable.ConcaveHull(r#, verbose)
         End Function
     End Module
 End Namespace

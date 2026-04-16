@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 26 (83.87%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 1.28 KB
+
+
     '     Class DomainAlignment
     ' 
     '         Properties: IsMatch, ProteinQueryDomainDs, ProteinSbjctDomainDs, Score

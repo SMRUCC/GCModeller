@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 8 (23.53%)
+    ' Comment Lines: 22 (64.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (11.76%)
+    '     File Size: 1.40 KB
+
+
     '     Interface IRangeModel
     ' 
     '         Function: (+2 Overloads) IsInside, IsOverlapping

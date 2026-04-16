@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e3ac7af12befd51d12704f7ab00fbc2, Data_science\Visualization\Plots\3D\Scatter.vb"
+﻿#Region "Microsoft.VisualBasic::0ebc027883247673244bf36e6d25c4e8, Data_science\Visualization\Plots\3D\Scatter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 107 (69.48%)
+    ' Comment Lines: 32 (20.78%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 15 (9.74%)
+    '     File Size: 6.55 KB
+
+
     '     Module Scatter
     ' 
     '         Function: (+2 Overloads) Plot
@@ -52,6 +64,20 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+#End If
 
 Namespace Plot3D
 
@@ -91,7 +117,8 @@ Namespace Plot3D
                              Optional showLegend As Boolean = True,
                              Optional showHull As Boolean = True,
                              Optional hullAlpha As Integer = 150,
-                             Optional hullBspline As Single = 2) As GraphicsData
+                             Optional hullBspline As Single = 2,
+                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim size$ = $"{camera.screen.Width},{camera.screen.Height}"
             Dim theme As New Theme With {
@@ -116,7 +143,7 @@ Namespace Plot3D
                 .xlabel = labX,
                 .ylabel = labY,
                 .zlabel = labZ
-            }.Plot(size:=size)
+            }.Plot(size:=size, driver:=driver)
         End Function
 
         ''' <summary>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 36 (59.02%)
+    ' Comment Lines: 14 (22.95%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 11 (18.03%)
+    '     File Size: 1.84 KB
+
+
     '     Class Selector
     ' 
     '         Properties: Expression, Key, Type, value

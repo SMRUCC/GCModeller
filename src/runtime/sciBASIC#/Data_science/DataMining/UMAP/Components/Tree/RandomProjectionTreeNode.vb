@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 10 (90.91%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (9.09%)
+    '     File Size: 410 B
+
+
     '     Class RandomProjectionTreeNode
     ' 
     '         Properties: Hyperplane, Indices, IsLeaf, LeftChild, Offset

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::429f0909b137a8cd1e9ef42c85e2bf27, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Path3D.vb"
+﻿#Region "Microsoft.VisualBasic::e0dff2a17dd8400993279879c0712425, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Path3D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 234
+    '    Code Lines: 156 (66.67%)
+    ' Comment Lines: 32 (13.68%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 46 (19.66%)
+    '     File Size: 8.31 KB
+
+
     '     Class Path3D
     ' 
     '         Properties: Depth, isDot3D, isLine3D, Points
@@ -50,12 +62,19 @@ Imports Microsoft.VisualBasic.Imaging.Math2D
 
 Namespace Drawing3D.Models.Isometric
 
+    ''' <summary>
+    ''' a collection of the 3d point consist a graphics path
+    ''' </summary>
     Public Class Path3D
 
+        ''' <summary>
+        ''' the 3d point collection
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Points As List(Of Point3D)
 
         ''' <summary>
-        ''' 
+        ''' z-depth value
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Depth() As Double
@@ -100,6 +119,11 @@ Namespace Drawing3D.Models.Isometric
             Return $"depth={Depth}, [{pts.JoinBy(" ")}]"
         End Function
 
+        ''' <summary>
+        ''' add a new point into current path object
+        ''' </summary>
+        ''' <param name="point"></param>
+        ''' <returns></returns>
         Public Function Push(point As Point3D) As Path3D
             Call Points.Add(point)
             Return Me

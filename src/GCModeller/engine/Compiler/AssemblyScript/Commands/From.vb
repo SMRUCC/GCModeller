@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 22 (66.67%)
+    ' Comment Lines: 3 (9.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (24.24%)
+    '     File Size: 895 B
+
+
     '     Class From
     ' 
     '         Properties: base, tag

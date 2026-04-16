@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb3f13228b6371778f3e0d31ab01245d, Microsoft.VisualBasic.Core\src\Language\Language\UnixBash\ShellSyntax.vb"
+﻿#Region "Microsoft.VisualBasic::cb9914c32e4c2b1e0bc864358ae83df0, Microsoft.VisualBasic.Core\src\Language\Language\UnixBash\ShellSyntax.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 37 (50.00%)
+    ' Comment Lines: 24 (32.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (17.57%)
+    '     File Size: 2.43 KB
+
+
     '     Module ShellSyntax
     ' 
     '         Properties: f, l, ls, lsDIR, r
@@ -57,7 +69,12 @@ Namespace Language.UnixBash
         ''' ``ls -l -ext("*.xml") &lt;= DIR``,  The filesystem search proxy
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property ls As New Search
+        Public ReadOnly Property ls As Search
+            Get
+                Return New Search
+            End Get
+        End Property
+
         ''' <summary>
         ''' Long name(DIR+fiename), if not only file name.
         ''' </summary>

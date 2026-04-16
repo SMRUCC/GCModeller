@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::173bfb3b84059653648c9d5a76894fea, Data\DataFrame.Extensions\Outlining\OutliningDataLoader.vb"
+﻿#Region "Microsoft.VisualBasic::a1510640b4cee1a05cec0b0de92050b9, Data\DataFrame.Extensions\Outlining\OutliningDataLoader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 69 (72.63%)
+    ' Comment Lines: 12 (12.63%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 14 (14.74%)
+    '     File Size: 3.98 KB
+
+
     '     Module OutliningDataLoader
     ' 
     '         Function: createBuilderByHeaders, LoadOutlining, RowIndentLevel
@@ -41,9 +53,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports TableSchema = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.SchemaProvider
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports TableSchema = Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels.SchemaProvider
 
 Namespace Outlining
 

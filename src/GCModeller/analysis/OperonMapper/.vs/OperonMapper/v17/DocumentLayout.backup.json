@@ -1,0 +1,55 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\analysis\\OperonMapper\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}|OperonMapper.vbproj|g:\\gcmodeller\\src\\gcmodeller\\analysis\\operonmapper\\featurescores.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{C2D07FA9-C6C7-4526-8E26-BEBB3CE701A8}|OperonMapper.vbproj|solutionrelative:featurescores.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FeatureScores.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\analysis\\OperonMapper\\FeatureScores.vb",
+              "RelativeDocumentMoniker": "FeatureScores.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\analysis\\OperonMapper\\FeatureScores.vb",
+              "RelativeToolTip": "FeatureScores.vb",
+              "ViewState": "AgIAAF4AAAAAAAAAAAAowHsAAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2025-09-05T12:36:12.898Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1858,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0431f76fd59429038369498d47dbbacf, RNA-Seq\RNA-seq.Data\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::541731c094dad478931f78af0c1cd9d2, RNA-Seq\RNA-seq.Data\Contig.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,19 @@
 
     ' Summaries:
 
-    ' Class Contig
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 30 (75.00%)
+    ' Comment Lines: 3 (7.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.26 KB
+
+
+    ' Class ContigSequence
     ' 
     '     Properties: FLAGS, Headers, Location, SequenceData, Title
     ' 
@@ -44,10 +56,14 @@
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Public Class Contig : Inherits NucleotideModels.Contig
+''' <summary>
+''' sequence region on a genomics sequence data
+''' </summary>
+Public Class ContigSequence : Inherits NucleotideModels.Contig
     Implements IAbstractFastaToken
 
     Public Property FLAGS As String()
+
     Public Property Location As NucleotideLocation
         Get
             Return Me._MappingLocation
@@ -57,13 +73,13 @@ Public Class Contig : Inherits NucleotideModels.Contig
         End Set
     End Property
 
-    Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
+    Public ReadOnly Property Title As String Implements IAbstractFastaToken.title
         Get
             Return Me.ToString
         End Get
     End Property
 
-    Public Property Headers As String() Implements IAbstractFastaToken.Headers
+    Public Property Headers As String() Implements IAbstractFastaToken.headers
     Public Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
 
     Public Function ToFastaToken() As FastaSeq

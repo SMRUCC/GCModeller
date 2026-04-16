@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 16 (57.14%)
+    ' Comment Lines: 8 (28.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.29%)
+    '     File Size: 886 B
+
+
     '     Class Enzyme
     ' 
     '         Properties: [class], comment, commonNames, entry, genes

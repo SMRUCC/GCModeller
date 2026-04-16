@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa510a263189c706d79236ee5359172f, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
+﻿#Region "Microsoft.VisualBasic::bf8c539d67388294b90cc877359bba61, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\Ranges.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 30 (81.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (18.92%)
+    '     File Size: 1.24 KB
+
+
     '     Class Ranges
     ' 
     '         Properties: MaxExpression, raw
@@ -43,11 +55,8 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Scripting.TokenIcer
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Motif.Patterns

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e17390153e398d62e934039349beb25e, Microsoft.VisualBasic.Core\src\Net\HTTP\WebResponse.vb"
+﻿#Region "Microsoft.VisualBasic::d3a33f49cc4137c8622b8bae9e8f5cc6, Microsoft.VisualBasic.Core\src\Net\HTTP\WebResponse.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 88 (77.88%)
+    ' Comment Lines: 4 (3.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (18.58%)
+    '     File Size: 3.98 KB
+
+
     '     Class WebResponseResult
     ' 
-    '         Properties: headers, html, timespan, url
+    '         Properties: headers, html, payload, timespan, url
+    ' 
+    '         Function: ToString
     ' 
     '     Class ResponseHeaders
     ' 
-    '         Properties: customHeaders, headers
+    '         Properties: contentType, customHeaders, headers, httpCode
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) TryGetValue
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: Header200, Header404NotFound, Header500InternalServerError, HttpRequestError, (+2 Overloads) TryGetValue
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,15 +62,27 @@
 #End Region
 
 Imports System.Net
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Net.Protocols.ContentTypes
 
 Namespace Net.Http
 
     Public Class WebResponseResult
 
+        ''' <summary>
+        ''' the text content result data of the current web http request
+        ''' </summary>
+        ''' <returns></returns>
         Public Property html As String
         Public Property headers As ResponseHeaders
         Public Property timespan As Long
         Public Property url As String
+        Public Property payload As String
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overrides Function ToString() As String
+            Return html
+        End Function
 
     End Class
 
@@ -65,7 +91,20 @@ Namespace Net.Http
         Public Property headers As New Dictionary(Of HttpHeaderName, String)
         Public Property customHeaders As New Dictionary(Of String, String)
 
+        Public ReadOnly Property httpCode As HTTP_RFC
+            Get
+                Return code
+            End Get
+        End Property
+
+        Public ReadOnly Property contentType As String
+            Get
+                Return headers.TryGetValue(HttpHeaderName.ContentType, [default]:="text/html")
+            End Get
+        End Property
+
         Dim stringIndex As New Dictionary(Of String, String)
+        Dim code As HTTP_RFC = HTTP_RFC.RFC_OK
 
         Sub New(raw As WebHeaderCollection)
             Dim header As HttpHeaderName
@@ -83,10 +122,53 @@ Namespace Net.Http
             Next
         End Sub
 
+        Private Sub New()
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Header404NotFound() As ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                },
+                .code = HTTP_RFC.RFC_NOT_FOUND
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Header500InternalServerError() As ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                },
+                .code = HTTP_RFC.RFC_INTERNAL_SERVER_ERROR
+            }
+        End Function
+
+        Public Shared Function HttpRequestError(err As Integer) As ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                },
+                .code = err
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Header200() As ResponseHeaders
+            Return New ResponseHeaders With {
+                .headers = New Dictionary(Of HttpHeaderName, String) From {
+                    {HttpHeaderName.ContentType, MIME.Text}
+                }
+            }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TryGetValue(header As HttpHeaderName) As String
             Return headers.TryGetValue(header)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TryGetValue(header As String) As String
             Return stringIndex.TryGetValue(Strings.LCase(header))
         End Function

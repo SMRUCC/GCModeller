@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d78439964c9dee886517ca87740b7d40, Data_science\MachineLearning\MLDebugger\DataSetExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::23c099f6851399ed73502859a3f52c08, Data_science\MachineLearning\MLDebugger\DataSetExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 54 (67.50%)
+    ' Comment Lines: 16 (20.00%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 10 (12.50%)
+    '     File Size: 3.12 KB
+
+
     ' Module DataSetExtensions
     ' 
     '     Function: SampleSetCreator, ToTable
@@ -41,8 +53,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 <HideModuleName>
 Public Module DataSetExtensions

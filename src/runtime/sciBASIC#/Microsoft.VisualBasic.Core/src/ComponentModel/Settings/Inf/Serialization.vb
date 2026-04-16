@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b0d51b5393f39ab9816abbfe05e69ca, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::1d44d652497a6ebf460ff86e255809ba, Microsoft.VisualBasic.Core\src\ComponentModel\Settings\Inf\Serialization.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 28 (49.12%)
+    ' Comment Lines: 19 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (17.54%)
+    '     File Size: 1.98 KB
+
+
     '     Class ClassName
     ' 
     '         Properties: Name
@@ -56,8 +68,12 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Namespace ComponentModel.Settings.Inf
 
     ''' <summary>
-    ''' 定义在Ini配置文件之中的Section的名称
+    ''' define a single section inside a ini configuration file
     ''' </summary>
+    ''' <remarks>
+    ''' you may needs defined a class array for mapping multiple sections inside a ini file.
+    ''' (定义在Ini配置文件之中的Section的名称)
+    ''' </remarks>
     <AttributeUsage(AttributeTargets.Class, AllowMultiple:=False, Inherited:=True)>
     Public Class ClassName : Inherits Attribute
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dcefbd38e18e7e5fe55f539b812e0a6, Data\DataFrame\StorageProvider\Reflection\Attributes\Column.vb"
+﻿#Region "Microsoft.VisualBasic::172b2b61dcfb7746c362b2c75246a7e1, Data\DataFrame\StorageProvider\Reflection\Attributes\Column.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 52 (58.43%)
+    ' Comment Lines: 24 (26.97%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (14.61%)
+    '     File Size: 3.66 KB
+
+
     '     Class ColumnAttribute
     ' 
     '         Properties: CustomParser, ProviderId, TypeInfo
@@ -43,9 +55,6 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#End If
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Scripting.Runtime
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04d2bbcee772f2e37da0108e60374f21, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
+﻿#Region "Microsoft.VisualBasic::0c50b7e5653fcc57a72ef09b5661c1e8, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\RegulatorQuery.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 140 (77.35%)
+    ' Comment Lines: 6 (3.31%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 35 (19.34%)
+    '     File Size: 7.92 KB
+
 
     '     Class RegulatorQuery
     ' 
@@ -93,7 +105,7 @@ Namespace Regprecise
             regulator.type = If(InStr(list(++i), " RNA "), Types.RNA, Types.TF)
 
             Dim entry As String = r.Match(list(++i), "href="".+?"">.+?</a>").Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & entry.href
+            Dim url As String = "https://regprecise.lbl.gov/" & entry.href
             regulator.regulator = New NamedValue With {
                 .name = RegulomeQuery.GetsId(entry),
                 .text = url
@@ -107,41 +119,66 @@ Namespace Regprecise
         Protected Overrides Function doParseObject(html As String, schema As Type) As Object
             Dim infoTable$ = html.Match("<table class=""proptbl"">.+?</table>", RegexOptions.Singleline)
             Dim properties$() = r.Matches(infoTable, "<tr>.+?</tr>", RegexICSng).ToArray
-            Dim i As i32 = 1
+            Dim i As i32 = 0
             Dim regulator As New Regulator
+
+            regulator.type = If(InStr(properties(++i), "RNA regulatory element") > 0, Types.RNA, Types.TF)
 
             With r.Match(html, "\[<a href="".+?"">see more</a>\]", RegexOptions.IgnoreCase).Value
                 If Not .StringEmpty Then
-                    regulator.infoURL = $"http://regprecise.lbl.gov/RegPrecise/{ .href}"
+                    regulator.infoURL = $"https://regprecise.lbl.gov/{ .href}"
                 End If
             End With
 
             If regulator.type = Types.TF Then
-                Dim LocusTag As String = r _
-                    .Match(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
-                    .Value
-                regulator.locus_tag = New NamedValue With {
-                    .name = RegulomeQuery.GetsId(LocusTag),
-                    .text = LocusTag.href
-                }
+                Dim LocusTags As String() = r _
+                    .Matches(properties(++i), "href="".+?"">.+?</a>", RegexOptions.Singleline) _
+                    .ToArray
+
+                If LocusTags.IsNullOrEmpty Then
+                    Dim tmp As String = properties(CInt(i) - 1).GetColumnsHTML.ElementAtOrDefault(1)
+
+                    If tmp = "" Then
+                        regulator.locus_tags = {}
+                    Else
+                        LocusTags = tmp.StringSplit("[;,]")
+
+                        regulator.locus_tags = LocusTags.Select(Function(str)
+                                                                    Return New NamedValue(str)
+                                                                End Function).ToArray
+                    End If
+                Else
+                    regulator.locus_tags = LocusTags.Select(Function(str)
+                                                                Return New NamedValue With {
+                        .name = RegulomeQuery.GetsId(str),
+                        .text = str.href
+                    }
+                                                            End Function).ToArray
+                End If
+
                 regulator.family = getTagValue_td(properties(++i).Replace("<td>Regulator family:</td>", ""))
             Else
                 Dim Name As String = r.Matches(properties(++i), "<td>.+?</td>", RegexICSng).ToArray.Last
                 Name = Mid(Name, 5)
                 Name = Mid(Name, 1, Len(Name) - 5)
-                regulator.locus_tag = New NamedValue With {
+                regulator.locus_tags = {New NamedValue With {
                     .name = Name,
                     .text = ""
-                }
+                }}
                 regulator.family = r.Match(infoTable, "<td class=""[^""]+?"">RFAM:</td>[^<]+?<td>.+?</td>", RegexOptions.Singleline).Value
                 regulator.family = getTagValue_td(regulator.family)
+                i += 1
+            End If
+
+            If regulator.family.StringEmpty() Then
+                regulator.family = html.Match("<span\s+class[=]""titleItem"">.*?</span>").GetValue
             End If
 
             regulator.regulationMode = getTagValue_td(properties(++i))
             regulator.biological_process = getTagValue_td(properties(++i)).StringSplit("\s*;\s*")
 
             Dim regulogEntry$ = r.Match(properties(i + 1), "href="".+?"">.+?</a>", RegexOptions.Singleline).Value
-            Dim url As String = "http://regprecise.lbl.gov/RegPrecise/" & regulogEntry.href
+            Dim url As String = "https://regprecise.lbl.gov/" & regulogEntry.href
 
             regulator.regulog = New NamedValue With {
                 .name = RegulomeQuery _
@@ -154,7 +191,7 @@ Namespace Regprecise
 
             Dim exportServletLnks$() = exportServlet(html)
             Dim motifFile$ = exportServletLnks.ElementAtOrDefault(1)
-            Dim cache$ = motifFile.Replace("http://regprecise.lbl.gov/RegPrecise/", "").NormalizePathString(True).Replace("_", "/")
+            Dim cache$ = motifFile.Replace("https://regprecise.lbl.gov/", "").NormalizePathString(True).Replace("_", "/")
 
             cache = $"{Me.cache}/{cache}.txt"
 
@@ -170,7 +207,7 @@ Namespace Regprecise
 
         Private Shared Function getTagValue_td(strData As String) As String
             strData = r.Match(strData, "<td>.+?</td>", RegexOptions.Singleline).Value
-            If String.IsNullOrEmpty(Trim(strData)) Then
+            If String.IsNullOrEmpty(Strings.Trim(strData)) Then
                 Return ""
             End If
             strData = Mid(strData, 5)
@@ -184,7 +221,7 @@ Namespace Regprecise
 
             links = links _
                 .Select(Function(s) Regex.Match(s, "href="".+?""><b>DOWNLOAD</b>").Value) _
-                .Select(Function(s) "http://regprecise.lbl.gov/RegPrecise/" & s.href) _
+                .Select(Function(s) "https://regprecise.lbl.gov/" & s.href) _
                 .ToArray
 
             Return links
@@ -194,7 +231,7 @@ Namespace Regprecise
             s = Regex.Match(s, """>.+?</td>").Value
             s = Mid(s, 3)
             s = Mid(s, 1, Len(s) - 5)
-            Return Trim(s)
+            Return Strings.Trim(s)
         End Function
     End Class
 End Namespace

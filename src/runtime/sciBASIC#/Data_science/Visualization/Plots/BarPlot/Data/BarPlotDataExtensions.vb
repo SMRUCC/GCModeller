@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a119b28ea327aec2097f32abe61c2190, Data_science\Visualization\Plots\BarPlot\Data\BarPlotDataExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::80e232f9be0420ebe85aa6e23e7b0690, Data_science\Visualization\Plots\BarPlot\Data\BarPlotDataExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 133 (77.78%)
+    ' Comment Lines: 19 (11.11%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 19 (11.11%)
+    '     File Size: 7.01 KB
+
+
     '     Module BarPlotDataExtensions
     ' 
-    '         Function: GroupBy, LoadDataSet, Normalize, SerialDatas, Takes
+    '         Function: GroupBy, Normalize, SerialDatas, Takes
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,15 +57,12 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace BarPlot.Data
 
@@ -71,56 +80,6 @@ Namespace BarPlot.Data
                             }
                         End Function) _
                 .ToArray
-        End Function
-
-        Public Function LoadDataSet(path$,
-                                    Optional schema$ = "scibasic.category31()",
-                                    Optional groupByColumn! = yes,
-                                    Optional tsv! = no) As BarDataGroup
-
-            Dim csv As File = path.LoadTable
-            Dim samples As New List(Of BarDataSample)
-            Dim serialsName$()
-            Dim matrix As IEnumerable(Of String())
-
-            If groupByColumn Then
-                matrix = csv.Columns
-            Else
-                matrix = csv.Select(Function(row) row.ToArray)
-            End If
-
-            With matrix
-                serialsName = .First _
-                    .Skip(1) _
-                    .ToArray
-
-                For Each column As String() In .Skip(1)
-                    Dim groupName$ = column(Scan0)
-                    Dim data#() = column.Skip(1).AsDouble()
-                    Dim sample As New BarDataSample With {
-                        .Tag = groupName,
-                        .data = data
-                    }
-
-                    samples += sample
-                Next
-            End With
-
-            Dim colors As Color() = Designer.GetColors(schema, serialsName.Length)
-            Dim out As New BarDataGroup With {
-                .Samples = samples,
-                .Serials = serialsName _
-                    .SeqIterator _
-                    .Select(Function(i)
-                                Return New NamedValue(Of Color) With {
-                                    .Name = i.value,
-                                    .Value = colors(i)
-                                }
-                            End Function) _
-                    .ToArray
-            }
-
-            Return out
         End Function
 
         ''' <summary>
@@ -187,7 +146,7 @@ Namespace BarPlot.Data
                 .ToArray
 
             For i As Integer = 0 To groups.Length - 1
-                Call groups(i).data.Add(merges(i))
+                Call groups(i).data.Append(merges(i))
             Next
 
             Dim colors = data _

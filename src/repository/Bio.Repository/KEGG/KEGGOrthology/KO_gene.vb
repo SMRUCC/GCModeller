@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 12 (27.27%)
+    ' Comment Lines: 29 (65.91%)
+    '    - Xml Docs: 86.21%
+    ' 
+    '   Blank Lines: 3 (6.82%)
+    '     File Size: 1.36 KB
+
+
     ' Class KO_gene
     ' 
     '     Properties: gene, id, ko, name, sp_code

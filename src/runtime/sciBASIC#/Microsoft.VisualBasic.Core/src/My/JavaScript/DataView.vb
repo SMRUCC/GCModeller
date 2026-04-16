@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ce6a388835862690583474ba263c241, Microsoft.VisualBasic.Core\src\My\JavaScript\DataView.vb"
+﻿#Region "Microsoft.VisualBasic::313e3d556a3fb5524e6c53ff0045fef3, Microsoft.VisualBasic.Core\src\My\JavaScript\DataView.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 37 (50.68%)
+    ' Comment Lines: 22 (30.14%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 14 (19.18%)
+    '     File Size: 2.38 KB
+
+
     '     Class DataView
     ' 
     '         Properties: byteLength
@@ -44,6 +56,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 
 Namespace My.JavaScript
 
@@ -61,9 +74,14 @@ Namespace My.JavaScript
         ''' </summary>
         Public Const LITTLE_ENDIAN As UShort = &HFFFE
 
-        Protected stream As MemoryStream
+        Protected stream As Stream
 
+        ''' <summary>
+        ''' the <see cref="System.IO.Stream.Length"/>
+        ''' </summary>
+        ''' <returns></returns>
         Public Overridable ReadOnly Property byteLength As Integer
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return stream.Length
             End Get
@@ -77,7 +95,7 @@ Namespace My.JavaScript
             Call Me.New(CType(CObj(bytes), Byte()))
         End Sub
 
-        Sub New(bytes As MemoryStream)
+        Sub New(bytes As Stream)
             Me.stream = bytes
         End Sub
 

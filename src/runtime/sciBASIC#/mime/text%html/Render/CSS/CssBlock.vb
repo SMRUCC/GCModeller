@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c350eab75a81b8b5d6755568db0c951, mime\text%html\Render\CSS\CssBlock.vb"
+﻿#Region "Microsoft.VisualBasic::5051c2efd2283b5055f1da424078fc44, mime\text%html\Render\CSS\CssBlock.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 58 (49.57%)
+    ' Comment Lines: 37 (31.62%)
+    '    - Xml Docs: 81.08%
+    ' 
+    '   Blank Lines: 22 (18.80%)
+    '     File Size: 3.76 KB
+
+
     '     Class CssBlock
     ' 
     '         Properties: BlockSource, Properties, PropertyValues
@@ -47,7 +59,7 @@ Imports System.Reflection
 Imports System.Text.RegularExpressions
 
 Namespace Render.CSS
-
+#If NET48 Then
     ''' <summary>
     ''' Represents a block of CSS property values
     ''' </summary>
@@ -158,4 +170,5 @@ Namespace Render.CSS
         End Sub
 #End Region
     End Class
+#End If
 End Namespace

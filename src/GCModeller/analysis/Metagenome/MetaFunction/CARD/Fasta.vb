@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59d3688348d2b43d0df83e6a2df3b747, analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
+﻿#Region "Microsoft.VisualBasic::065b8057e4b9fe4e534f77b4176a5d5c, analysis\Metagenome\MetaFunction\CARD\Fasta.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 40 (72.73%)
+    ' Comment Lines: 8 (14.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (12.73%)
+    '     File Size: 1.95 KB
+
+
     ' Class SeqHeader
     ' 
     '     Properties: AccessionID, ARO, loci, name, species
@@ -43,7 +55,7 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports r = System.Text.RegularExpressions.Regex
 

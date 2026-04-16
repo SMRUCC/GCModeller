@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 37 (68.52%)
+    ' Comment Lines: 9 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 2.17 KB
+
+
     '     Class Graphics
     ' 
     '         Properties: ScaleFactor

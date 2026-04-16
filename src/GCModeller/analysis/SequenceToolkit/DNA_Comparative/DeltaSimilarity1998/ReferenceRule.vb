@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 73 (61.86%)
+    ' Comment Lines: 33 (27.97%)
+    '    - Xml Docs: 84.85%
+    ' 
+    '   Blank Lines: 12 (10.17%)
+    '     File Size: 4.82 KB
+
+
     '     Module ReferenceRule
     ' 
     '         Properties: dnaA, gyrB

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::355f866df3ef990a8172ef908e940619, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
+﻿#Region "Microsoft.VisualBasic::df63494a8c9398f24386cb980e60e767, annotations\GSEA\FisherCore\KnowledgeBase\Cluster.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 79 (63.71%)
+    ' Comment Lines: 31 (25.00%)
+    '    - Xml Docs: 93.55%
+    ' 
+    '   Blank Lines: 14 (11.29%)
+    '     File Size: 4.48 KB
+
+
     ' Class Cluster
     ' 
-    '     Properties: description, ID, members, names
+    '     Properties: [class], category, description, ID, memberIds
+    '                 members, names
     ' 
-    '     Function: getCollection, getSize, Intersect, ToString
+    '     Function: getCollection, GetMemberById, getSize, Intersect, ToString
+    ' 
+    '     Sub: loadIndex
     ' 
     ' /********************************************************************************/
 
@@ -50,14 +65,20 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
 ''' <summary>
-''' 主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果
+''' A collection of the functional related <see cref="BackgroundGene"/>.
 ''' </summary>
+''' <remarks>
+''' (主要是KEGG代谢途径，也可以是其他的具有生物学意义的聚类结果)
+''' </remarks>
 Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     Implements INamedValue
 
     ''' <summary>
-    ''' The cluster id.(代谢途径的编号或者其他的标识符)
+    ''' The cluster id.
     ''' </summary>
+    ''' <remarks>
+    ''' (代谢途径的编号或者其他的标识符)
+    ''' </remarks>
     ''' <returns></returns>
     <XmlAttribute>
     Public Property ID As String Implements IKeyedEntity(Of String).Key
@@ -65,7 +86,7 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     ''' The common name of current term <see cref="ID"/>
     ''' </summary>
     ''' <returns></returns>
-    Public Property names As String
+    <XmlAttribute> Public Property names As String
 
     ''' <summary>
     ''' A brief description on term function.
@@ -73,6 +94,9 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
     ''' <returns></returns>
     <XmlElement>
     Public Property description As String
+
+    Public Property category As String
+    Public Property [class] As String
 
     ''' <summary>
     ''' 当前的这个聚类之中的基因列表
@@ -82,34 +106,76 @@ Public Class Cluster : Inherits ListOf(Of BackgroundGene)
 
     Dim index As Index(Of String)
 
+    ''' <summary>
+    ''' get the collection of all member theirs <see cref="BackgroundGene.accessionID"/>
+    ''' </summary>
+    ''' <returns></returns>
+    Public ReadOnly Property memberIds As String()
+        Get
+            Return members _
+                .Select(Function(gene) gene.accessionID) _
+                .ToArray
+        End Get
+    End Property
+
+    Public Function GetMemberById(id As String) As BackgroundGene
+        Return members _
+            .Where(Function(g)
+                       Dim test1 = g.accessionID.TextEquals(id, null_equals:=False, empty_equals:=False)
+                       If test1 Then Return True
+                       test1 = g.locus_tag IsNot Nothing AndAlso g.locus_tag.name.TextEquals(id, null_equals:=False, empty_equals:=False)
+                       Return test1
+                   End Function) _
+            .FirstOrDefault
+    End Function
+
+    Private Sub loadIndex(is_locus_tag As Boolean)
+        If Not is_locus_tag Then
+            ' create id index from all id dataset
+            index = members _
+                .Select(Function(name) name.EnumerateAllIds) _
+                .IteratesALL _
+                .Where(Function(str) Not str.StringEmpty) _
+                .Distinct _
+                .ToArray
+        Else
+            ' create id index just from the locus tag data
+            index = members _
+                .Select(Function(name)
+                            If name.locus_tag Is Nothing OrElse name.locus_tag.name.StringEmpty Then
+                                Return ""
+                            Else
+                                Return Strings _
+                                    .Trim(name.locus_tag.name) _
+                                    .Split(":"c) _
+                                    .Last
+                            End If
+                        End Function) _
+                .Where(Function(str) Not str.StringEmpty) _
+                .Distinct _
+                .ToArray
+        End If
+    End Sub
+
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Intersect(list As IEnumerable(Of String), Optional isLocustag As Boolean = False) As IEnumerable(Of String)
         If index Is Nothing Then
-            If Not isLocustag Then
-                index = members _
-                    .Select(Function(name) name.AsEnumerable) _
-                    .IteratesALL _
-                    .Distinct _
-                    .ToArray
-            Else
-                index = members _
-                    .Select(Function(name) name.locus_tag.name.Split(":"c).Last) _
-                    .Distinct _
-                    .ToArray
-            End If
+            Call loadIndex(isLocustag)
         End If
 
         Return index.Intersect(collection:=list)
     End Function
 
     Public Overrides Function ToString() As String
-        Return $"Dim {ID} = '{names}'"
+        Return $"Dim {ID} = '{names}' {{{size}}}"
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Overrides Function getSize() As Integer
         Return members.Length
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Overrides Function getCollection() As IEnumerable(Of BackgroundGene)
         Return members
     End Function

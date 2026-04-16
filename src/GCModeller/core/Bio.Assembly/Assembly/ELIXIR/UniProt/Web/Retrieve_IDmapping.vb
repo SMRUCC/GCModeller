@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dd8b70f9e5294e41cbac6815dc60aa3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
+﻿#Region "Microsoft.VisualBasic::11e6aaf952f2244d81149f7e10d31cf3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\Web\Retrieve_IDmapping.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 250
+    '    Code Lines: 144 (57.60%)
+    ' Comment Lines: 73 (29.20%)
+    '    - Xml Docs: 57.53%
+    ' 
+    '   Blank Lines: 33 (13.20%)
+    '     File Size: 11.57 KB
+
+
     '     Module Retrieve_IDmapping
     ' 
     '         Function: GetMappingList, IDTypeParser, MappingReader, MappingsReader, SingleMappings
     '                   UniprotIDFilter
     ' 
     '         Sub: Mapping
-    ' 
-    '     Enum Formats
-    ' 
-    '         canonical, gff, isoform, list, mappingTable
-    '         rdf, tab, txt, xlsx, xml
-    ' 
-    '  
-    ' 
-    ' 
     ' 
     ' 
     ' /********************************************************************************/
@@ -64,9 +67,7 @@ Namespace Assembly.Uniprot.Web
 
     Public Module Retrieve_IDmapping
 
-        ReadOnly idTypes As Dictionary(Of String, ID_types) =
-            Enums(Of ID_types) _
-            .ToDictionary(Function(id) id.Description)
+        ReadOnly idTypes As Dictionary(Of String, ID_types) = Enums(Of ID_types).ToDictionary(Function(id) id.Description)
 
         Public Function IDTypeParser(value$, Optional [default] As ID_types = ID_types.P_REFSEQ_AC) As ID_types
             value = value.ToUpper
@@ -303,47 +304,4 @@ Namespace Assembly.Uniprot.Web
             Return MappingReader(path).Values.Unlist.Distinct.ToArray
         End Function
     End Module
-
-    Public Enum Formats
-        ''' <summary>
-        ''' FASTA (canonical)
-        ''' </summary>
-        canonical
-        ''' <summary>
-        ''' FASTA (canonical &amp; isoform)
-        ''' </summary>
-        isoform
-        ''' <summary>
-        ''' Tab-separated
-        ''' </summary>
-        tab
-        ''' <summary>
-        ''' Text
-        ''' </summary>
-        txt
-        ''' <summary>
-        ''' Excel
-        ''' </summary>
-        xlsx
-        ''' <summary>
-        ''' GFF
-        ''' </summary>
-        gff
-        ''' <summary>
-        ''' XML
-        ''' </summary>
-        xml
-        ''' <summary>
-        ''' Mapping Table
-        ''' </summary>         
-        mappingTable
-        ''' <summary>
-        ''' RDF/XML
-        ''' </summary>
-        rdf
-        ''' <summary>
-        ''' Target List
-        ''' </summary>
-        list
-    End Enum
 End Namespace

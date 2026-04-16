@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 122 (72.62%)
+    ' Comment Lines: 27 (16.07%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (11.31%)
+    '     File Size: 8.59 KB
+
+
     '     Module ConfigurationMappings
     ' 
     '         Function: __getCustomMapping, __getReads_MappingHandle, __getWrite_MappingHandle, __knowsIsIgnored, GetNodeMapping

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d15d647079709129f06785401b54d9b8, mime\application%pdf\PdfFileWriter\PDF\PdfImage.vb"
+﻿#Region "Microsoft.VisualBasic::febcb740e8ce1219e32e43dc28055fc6, mime\application%pdf\PdfFileWriter\PDF\PdfImage.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1164
+    '    Code Lines: 574 (49.31%)
+    ' Comment Lines: 334 (28.69%)
+    '    - Xml Docs: 38.02%
+    ' 
+    '   Blank Lines: 256 (21.99%)
+    '     File Size: 40.29 KB
+
+
     ' Enum SaveImageAs
     ' 
     '     BWImage, GrayImage, IndexedImage, Jpeg
@@ -55,7 +67,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -78,16 +90,40 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
-Imports System
-Imports System.Collections.Generic
-Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Runtime.InteropServices
-Imports stdNum = System.Math
 Imports i32 = Microsoft.VisualBasic.Language.i32
+Imports std = System.Math
+Imports System.Drawing
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' Save image as enumeration
@@ -130,10 +166,6 @@ Public Class PdfImage
     Implements IDisposable
 
     ''' <summary>
-    ''' Gets image width in pixels
-    ''' </summary>
-
-    ''' <summary>
     ''' Gets image height in pixels
     ''' </summary>
     Private _WidthPix As Integer, _HeightPix As Integer
@@ -169,7 +201,7 @@ Public Class PdfImage
         Get
             Return _Resolution
         End Get
-        Set(ByVal value As Double)
+        Set(value As Double)
             If value < 0 Then Throw New ApplicationException("Resolution must be greater than zero, or zero for default")
 
             ' save resolution
@@ -193,7 +225,7 @@ Public Class PdfImage
         Get
             Return _ImageQuality
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             ' set image quality
             If value <> DefaultQuality AndAlso (value < 0 OrElse value > 100) Then Throw New ApplicationException("PdfImageControl.ImageQuality must be DefaultQuality or 0 to 100")
             _ImageQuality = value
@@ -210,7 +242,7 @@ Public Class PdfImage
         Get
             Return _GrayToBWCutoff
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             If value < 1 OrElse value > 99 Then Throw New ApplicationException("PdfImageControl.GrayToBWCutoff must be 1 to 99 (default is 50)")
             _GrayToBWCutoff = value
         End Set
@@ -222,7 +254,7 @@ Public Class PdfImage
         Get
             Return _WidthPix
         End Get
-        Friend Set(ByVal value As Integer)
+        Friend Set(value As Integer)
             _WidthPix = value
         End Set
     End Property    ' in pixels
@@ -231,12 +263,16 @@ Public Class PdfImage
         Get
             Return _HeightPix
         End Get
-        Friend Set(ByVal value As Integer)
+        Friend Set(value As Integer)
             _HeightPix = value
         End Set
     End Property    ' in pixels
 
     Friend ImageRect As Rectangle
+
+    ''' <summary>
+    ''' Gets image width in pixels
+    ''' </summary>
     Friend Picture As Bitmap
     Friend DisposePicture As Boolean
     Friend DisposeImage As Boolean
@@ -247,7 +283,7 @@ Public Class PdfImage
     ''' PdfImage constructor
     ''' </summary>
     ''' <param name="Document">PdfDocument</param>
-    Public Sub New(ByVal Document As PdfDocument)
+    Public Sub New(Document As PdfDocument)
         MyBase.New(Document, ObjectType.Stream, "/XObject")
         ' set subtype to /Image
         Dictionary.Add("/Subtype", "/Image")
@@ -261,7 +297,7 @@ Public Class PdfImage
     ''' Load image from file
     ''' </summary>
     ''' <param name="ImageFileName">Image file name</param>
-    Public Sub LoadImage(ByVal ImageFileName As String)
+    Public Sub LoadImage(ImageFileName As String)
         LoadImage(LoadImageFromFile(ImageFileName))
         Return
     End Sub
@@ -270,7 +306,7 @@ Public Class PdfImage
     ''' Load image from Image derived class (Bitmap)
     ''' </summary>
     ''' <param name="Image">Image derived class</param>
-    Public Sub LoadImage(ByVal Image As Image)
+    Public Sub LoadImage(Image As Image)
         ' image rectangle
         ImageRectangle(Image)
 
@@ -291,7 +327,7 @@ Public Class PdfImage
     ''' Load image from black and white bool matrix
     ''' </summary>
     ''' <param name="BWImage">BW bool matrix</param>
-    Public Sub LoadImage(ByVal BWImage As Boolean(,))
+    Public Sub LoadImage(BWImage As Boolean(,))
         ' image dimensions
         WidthPix = BWImage.GetUpperBound(0) + 1
         HeightPix = BWImage.GetUpperBound(1) + 1
@@ -308,7 +344,7 @@ Public Class PdfImage
     ''' Load image fro Pdf417Encoder
     ''' </summary>
     ''' <param name="Pdf417Encoder">Pdf417 encoder</param>
-    Public Sub LoadImage(ByVal Pdf417Encoder As Pdf417Encoder)
+    Public Sub LoadImage(Pdf417Encoder As Pdf417Encoder)
         ' barcode width and height
         WidthPix = Pdf417Encoder.ImageWidth
         HeightPix = Pdf417Encoder.ImageHeight
@@ -331,7 +367,7 @@ Public Class PdfImage
     ''' Load image from QRCode encoder
     ''' </summary>
     ''' <param name="QREncoder">QRCode encoder</param>
-    Public Sub LoadImage(ByVal QREncoder As QREncoder)
+    Public Sub LoadImage(QREncoder As QREncoder)
         ' barcode width and height
         WidthPix = QREncoder.QRCodeImageDimension
         HeightPix = WidthPix
@@ -350,10 +386,10 @@ Public Class PdfImage
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Load image from disk file into Image class
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Friend Function LoadImageFromFile(ByVal ImageFileName As String) As Image
+
+    Friend Function LoadImageFromFile(ImageFileName As String) As Image
         ' test exitance
         If Not File.Exists(ImageFileName) Then Throw New ApplicationException("Image file " & ImageFileName & " does not exist")
 
@@ -387,11 +423,11 @@ Public Class PdfImage
         Return Image
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Create Image rectangle
     ' some images have origin not at top left corner
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Friend Sub ImageRectangle(ByVal Image As Image)
+
+    Friend Sub ImageRectangle(Image As Image)
         ' image rectangle
         ImageRect = New Rectangle(0, 0, Image.Width, Image.Height)
 
@@ -413,12 +449,12 @@ Public Class PdfImage
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Set image size in pixels
     ' If crop is active adjust image size to crop rectangle
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    Friend Sub ImageSizeInPixels(ByVal Image As Image)
+
+    Friend Sub ImageSizeInPixels(Image As Image)
         ' crop rectangle is given in percent width or height
         If CropRect.IsEmpty AndAlso Not CropPercent.IsEmpty Then
             CropRect = New Rectangle(0.01 * Image.Width * CropPercent.X + 0.5, 0.01 * Image.Height * CropPercent.Y + 0.5, 0.01 * Image.Width * CropPercent.Width + 0.5, 0.01 * Image.Height * CropPercent.Height + 0.5)
@@ -451,11 +487,11 @@ Public Class PdfImage
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    ' Convert image to bitmap
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-    Friend Sub ConvertImageToBitmap(ByVal Image As Image)
+    ' Convert image to bitmap
+
+
+    Friend Sub ConvertImageToBitmap(Image As Image)
         ' destination rectangle
         Dim DestRect As Rectangle = New Rectangle(0, 0, WidthPix, HeightPix)
 
@@ -558,9 +594,9 @@ Public Class PdfImage
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Write object to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Friend Overrides Sub WriteObjectToPdfFile()
         ' add items to dictionary
         Dictionary.AddInteger("/Width", WidthPix)
@@ -608,9 +644,9 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Convert .net bitmap image to PDF indexed bitmap image
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
     Friend Sub PictureToJpeg()
         ' create memory stream
@@ -648,9 +684,9 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Convert .net bitmap image to PDF indexed bitmap image
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
     Friend Function PictureToIndexedImage() As Boolean
         ' if Picture Bitmap cannot be converted to RGB array, return with false
@@ -664,7 +700,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         End Try
 
         ' frame width in bytes
-        Dim FrameWidth = stdNum.Abs(PictureData.Stride)
+        Dim FrameWidth = std.Abs(PictureData.Stride)
 
         ' number of unused bytes at the end of the frame
         Dim PicDelta = FrameWidth - 3 * WidthPix
@@ -690,7 +726,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
             For X = 0 To WidthPix - 1
                 If ColorArray.Count = 256 Then Return False
                 ' color order is blue, green and red
-                Dim Pixel As Integer = PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
+                Dim Pixel As Integer = PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
                 Dim Index = ColorArray.BinarySearch(Pixel)
                 If Index >= 0 Then Continue For
                 ColorArray.Insert(Not Index, Pixel)
@@ -721,7 +757,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
             For Y = 0 To HeightPix - 1
 
                 For X = 0 To WidthPix - 1
-                    Dim Pixel As Integer = PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
+                    Dim Pixel As Integer = PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
                     Dim Index = ColorArray.BinarySearch(Pixel)
                     If Index <> 0 Then ObjectValueArray(ObjPtr) = ObjectValueArray(ObjPtr) Or OneBitMask(X And 7)
                     If (X And 7) = 7 Then ObjPtr += 1
@@ -751,7 +787,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
                 Dim Shift = 6
 
                 For X = 0 To WidthPix - 1
-                    Dim Pixel As Integer = PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
+                    Dim Pixel As Integer = PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
                     Dim Index = ColorArray.BinarySearch(Pixel)
                     ObjectValueArray(ObjPtr) = ObjectValueArray(ObjPtr) Or CByte(Index << Shift)
                     Shift -= 2
@@ -786,13 +822,13 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
             For Y = 0 To HeightPix - 1
 
                 For X = 0 To WidthPix - 1
-                    Dim Pixel As Integer = PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
+                    Dim Pixel As Integer = PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
                     Dim Index = ColorArray.BinarySearch(Pixel)
 
                     If (X And 1) = 0 Then
                         ObjectValueArray(ObjPtr) = CByte(Index << 4)
                     Else
-                        ObjectValueArray(stdNum.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = ObjectValueArray(stdNum.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) Or CByte(Index)
+                        ObjectValueArray(std.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = ObjectValueArray(std.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) Or CByte(Index)
                     End If
                 Next
 
@@ -815,8 +851,8 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
             For Y = 0 To HeightPix - 1
 
                 For X = 0 To WidthPix - 1
-                    Dim Pixel As Integer = PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
-                    ObjectValueArray(stdNum.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = CByte(ColorArray.BinarySearch(Pixel))
+                    Dim Pixel As Integer = PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 8 Or PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) << 16
+                    ObjectValueArray(std.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = CByte(ColorArray.BinarySearch(Pixel))
                 Next
 
                 PicPtr += PicDelta
@@ -845,9 +881,9 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return True
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Convert .net bitmap image to PDF indexed bitmap image
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
     Friend Function PictureToGrayImage() As Boolean
         ' if Picture Bitmap cannot be converted to RGB array, return with false
@@ -861,7 +897,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         End Try
 
         ' frame width in bytes
-        Dim FrameWidth = stdNum.Abs(PictureData.Stride)
+        Dim FrameWidth = std.Abs(PictureData.Stride)
 
         ' number of unused bytes at the end of the frame
         Dim PicDelta = FrameWidth - 3 * WidthPix
@@ -889,8 +925,8 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
 
             For X = 0 To WidthPix - 1
                 ' bytes are in blue green red order
-                Dim Pixel As Integer = (11 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 59 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 30 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 50) / 100
-                ObjectValueArray(stdNum.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = CByte(Pixel)
+                Dim Pixel As Integer = (11 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 59 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 30 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 50) / 100
+                ObjectValueArray(std.Min(Threading.Interlocked.Increment(ObjPtr), ObjPtr - 1)) = CByte(Pixel)
             Next
 
             PicPtr += PicDelta
@@ -903,9 +939,9 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return True
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Convert .net bitmap image to PDF indexed bitmap image
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
 
     Friend Function PictureToBWImage() As Boolean
         ' if Picture Bitmap cannot be converted to RGB array, return with false
@@ -919,7 +955,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         End Try
 
         ' frame width in bytes
-        Dim FrameWidth = stdNum.Abs(PictureData.Stride)
+        Dim FrameWidth = std.Abs(PictureData.Stride)
 
         ' number of unused bytes at the end of the frame
         Dim PicDelta = FrameWidth - 3 * WidthPix
@@ -950,7 +986,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         For Row = 0 To HeightPix - 1
 
             For Col = 0 To WidthPix - 1
-                If 11 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 59 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 30 * PictureBytes(stdNum.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) >= Cutoff Then ObjectValueArray(RowPtr + (Col >> 3)) = ObjectValueArray(RowPtr + (Col >> 3)) Or CByte(1 << 7 - (Col And 7))
+                If 11 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 59 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) + 30 * PictureBytes(std.Min(Threading.Interlocked.Increment(PicPtr), PicPtr - 1)) >= Cutoff Then ObjectValueArray(RowPtr + (Col >> 3)) = ObjectValueArray(RowPtr + (Col >> 3)) Or CByte(1 << 7 - (Col And 7))
             Next
 
             PicPtr += PicDelta
@@ -964,9 +1000,9 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return True
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Convert .net bitmap image to PDF indexed bitmap image
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Friend Sub BooleanToBWImage()
         ' each row must be multiple of bytes
         Dim WidthBytes As Integer = (WidthPix + 7) / 8
@@ -993,10 +1029,10 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Return
     End Sub
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ' Write object to PDF file
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Private Function GetEncoderInfo(ByVal mimeType As String) As ImageCodecInfo
+
+    Private Function GetEncoderInfo(mimeType As String) As ImageCodecInfo
         Dim EncoderArray As ImageCodecInfo() = ImageCodecInfo.GetImageEncoders()
 
         For Each Encoder In EncoderArray
@@ -1006,7 +1042,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
         Throw New ApplicationException("GetEncoderInfo: image/jpeg encoder does not exist")
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Calculates image size to preserve aspect ratio.
     ''' </summary>
@@ -1015,12 +1051,12 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     ''' <remarks>
     ''' Calculates best fit to preserve aspect ratio.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function ImageSize(ByVal InputSize As SizeD) As SizeD
+
+    Public Function ImageSize(InputSize As SizeD) As SizeD
         Return ImageSizePos.ImageSize(WidthPix, HeightPix, InputSize.Width, InputSize.Height)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Calculates image size to preserve aspect ratio.
     ''' </summary>
@@ -1030,12 +1066,12 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     ''' <remarks>
     ''' Calculates best fit to preserve aspect ratio.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function ImageSize(ByVal Width As Double, ByVal Height As Double) As SizeD
+
+    Public Function ImageSize(Width As Double, Height As Double) As SizeD
         Return ImageSizePos.ImageSize(WidthPix, HeightPix, Width, Height)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Calculates image size to preserve aspect ratio and sets position.
     ''' </summary>
@@ -1046,12 +1082,12 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     ''' Calculates best fit to preserve aspect ratio and adjust
     ''' position according to content alignment argument.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function ImageSizePosition(ByVal InputSize As SizeD, ByVal Alignment As ContentAlignment) As PdfRectangle
+
+    Public Function ImageSizePosition(InputSize As SizeD, Alignment As ContentAlignment) As PdfRectangle
         Return ImageArea(WidthPix, HeightPix, 0.0, 0.0, InputSize.Width, InputSize.Height, Alignment)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Calculates image size to preserve aspect ratio and sets position.
     ''' </summary>
@@ -1063,16 +1099,16 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     ''' Calculates best fit to preserve aspect ratio and adjust
     ''' position according to content alignment argument.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    Public Function ImageSizePosition(ByVal Width As Double, ByVal Height As Double, ByVal Alignment As ContentAlignment) As PdfRectangle
+
+    Public Function ImageSizePosition(Width As Double, Height As Double, Alignment As ContentAlignment) As PdfRectangle
         Return ImageArea(WidthPix, HeightPix, 0.0, 0.0, Width, Height, Alignment)
     End Function
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     ''' <summary>
     ''' Dispose unmanaged resources
     ''' </summary>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
     Public Sub Dispose() Implements IDisposable.Dispose
         ' release bitmap
         If DisposePicture AndAlso Picture IsNot Nothing Then
@@ -1088,21 +1124,21 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     Private Const ObsoleteMsg As String = "This PdfImage constructor is obsolete. See latest documentation."
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Public Sub New(ByVal Document As PdfDocument, ByVal ImageFileName As String, ByVal Optional ImageControl As PdfImageControl = Nothing)
+    Public Sub New(Document As PdfDocument, ImageFileName As String, Optional ImageControl As PdfImageControl = Nothing)
         Me.New(Document)
         ConstructorHelper(LoadImageFromFile(ImageFileName), ImageControl)
         Return
     End Sub
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Public Sub New(ByVal Document As PdfDocument, ByVal Image As Image, ByVal Optional ImageControl As PdfImageControl = Nothing)
+    Public Sub New(Document As PdfDocument, Image As Image, Optional ImageControl As PdfImageControl = Nothing)
         Me.New(Document)
         ConstructorHelper(Image, ImageControl)
         Return
     End Sub
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Public Sub New(ByVal Document As PdfDocument, ByVal BWImage As Boolean(,), ByVal Optional ImageControl As PdfImageControl = Nothing)
+    Public Sub New(Document As PdfDocument, BWImage As Boolean(,), Optional ImageControl As PdfImageControl = Nothing)
         Me.New(Document)
         ' image dimensions
         WidthPix = BWImage.GetUpperBound(0) + 1
@@ -1130,7 +1166,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     End Sub
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Public Sub New(ByVal Document As PdfDocument, ByVal Pdf417Encoder As Pdf417Encoder)
+    Public Sub New(Document As PdfDocument, Pdf417Encoder As Pdf417Encoder)
         Me.New(Document)
         ' barcode width and height
         WidthPix = Pdf417Encoder.ImageWidth
@@ -1149,7 +1185,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     End Sub
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Public Sub New(ByVal Document As PdfDocument, ByVal QREncoder As QREncoder)
+    Public Sub New(Document As PdfDocument, QREncoder As QREncoder)
         Me.New(Document)
         ' barcode width and height
         WidthPix = QREncoder.QRCodeImageDimension
@@ -1168,7 +1204,7 @@ _Select0_CasePdfFileWriter_SaveImageAs_Jpeg:
     End Sub
 
     <Obsolete(ObsoleteMsg, ObsoleteError)>
-    Private Sub ConstructorHelper(ByVal Image As Image, ByVal ImageControl As PdfImageControl)
+    Private Sub ConstructorHelper(Image As Image, ImageControl As PdfImageControl)
         ' image control
         If ImageControl Is Nothing Then ImageControl = New PdfImageControl()
         CropRect = ImageControl.CropRect

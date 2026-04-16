@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97837eb575a987400f60d54726fa5dac, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
+﻿#Region "Microsoft.VisualBasic::33711191d0322aa7d079375e651a12c6, core\Bio.Assembly\Assembly\KEGG\Web\WebRequest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 377
+    '    Code Lines: 214 (56.76%)
+    ' Comment Lines: 112 (29.71%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 51 (13.53%)
+    '     File Size: 16.32 KB
+
+
     '     Module WebRequest
     ' 
     '         Function: GetText
@@ -38,7 +50,7 @@
     ' 
     '             Function: __downloadDirect, BatchQuery, doParseQueryEntry, Download16S_rRNA, Downloads
     '                       DownloadsBatch, DownloadSequence, downloadWithCache, (+2 Overloads) FetchNt, (+2 Overloads) FetchSeq
-    '                       GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery
+    '                       GetQueryEntry, GetSpCode, (+2 Overloads) HandleQuery, QueryURL
     ' 
     ' 
     ' 
@@ -52,6 +64,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject.SSDB
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -90,7 +103,6 @@ Namespace Assembly.KEGG.WebServices
         <Extension>
         Public Function GetText(form As WebForm, key$) As String
             Return form(key) _
-                .FirstOrDefault _
                 .StripHTMLTags _
                 .StripBlank _
                 .GetTagValue(vbLf) _
@@ -228,7 +240,7 @@ Namespace Assembly.KEGG.WebServices
         Public Function BatchQuery(keyword$, Optional limit As Integer = 30) As FastaFile
             Dim list As QueryEntry() = HandleQuery(keyword)
 
-            Call $"KEGG DBGET Service return {list.Length} records...".__DEBUG_ECHO
+            Call $"KEGG DBGET Service return {list.Length} records...".debug
 
             If limit > list.Length Then
                 limit = list.Length
@@ -253,7 +265,7 @@ Namespace Assembly.KEGG.WebServices
             Dim fa = WebRequest.FetchSeq(entry)
 
             If fa Is Nothing Then
-                Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(entry)}] KEGG not sure the object is a protein.".__DEBUG_ECHO
+                Call $"[KEGG_DATA_NOT_FOUND] [{Scripting.ToString(entry)}] KEGG not sure the object is a protein.".debug
             End If
 
             Return fa
@@ -269,7 +281,7 @@ Namespace Assembly.KEGG.WebServices
             Dim list As QueryEntry() = WebRequest.HandleQuery(locus_id)
 
             If list.IsNullOrEmpty Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".debug
                 Return Nothing
             End If
 
@@ -280,7 +292,7 @@ Namespace Assembly.KEGG.WebServices
             Dim entry As QueryEntry = LQuery.FirstOrDefault
 
             If entry Is Nothing Then
-                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".__DEBUG_ECHO
+                Call $"[KEGG_ENTRY_NOT_FOUND] [Query_LocusTAG={locus_id}]".debug
             End If
 
             Return entry
@@ -327,7 +339,7 @@ Namespace Assembly.KEGG.WebServices
                           Select Entry).FirstOrDefault
 
             If LQuery Is Nothing Then ' 找不到记录
-                Call $"Could not found any record from KEGG database for {list.Take(5).ToArray.JoinBy("; ")}!!!".__DEBUG_ECHO
+                Call $"Could not found any record from KEGG database for {list.Take(5).ToArray.JoinBy("; ")}!!!".debug
                 Return Nothing
             End If
 
@@ -375,7 +387,7 @@ Namespace Assembly.KEGG.WebServices
         ''' 
         <ExportAPI("Download.16S_rRNA")>
         Public Function Download16S_rRNA(outDIR As String) As FastaFile
-            Dim ortholog = DBGET.bGetObject.SSDB.API.QueryURL(_16S_rRNA)
+            Dim ortholog = QueryURL(_16S_rRNA)
             Dim out As New List(Of FastaSeq)
 
             For Each gene As QueryEntry In ortholog.genes
@@ -386,11 +398,16 @@ Namespace Assembly.KEGG.WebServices
                     Call fa.SaveTo(path)
                     Call out.Add(fa)
                 Else
-                    Call $"{gene.speciesID}:{gene.locusID} Download failure!".__DEBUG_ECHO
+                    Call $"{gene.speciesID}:{gene.locusID} Download failure!".debug
                 End If
             Next
 
             Return New FastaFile(out)
+        End Function
+
+        <ExportAPI("Query.From.URL")>
+        Public Function QueryURL(url As String) As Orthology
+            Throw New NotImplementedException
         End Function
 
         ''' <summary>

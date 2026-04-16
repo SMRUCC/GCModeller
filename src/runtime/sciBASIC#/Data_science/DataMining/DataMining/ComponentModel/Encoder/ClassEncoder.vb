@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1278cb38aaddd6612ebec571926ae901, Data_science\DataMining\DataMining\ComponentModel\Encoder\ClassEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::066cc25489e7c9e1f5422a63b2626def, Data_science\DataMining\DataMining\ComponentModel\Encoder\ClassEncoder.vb"
 
     ' Author:
     ' 
@@ -31,26 +31,48 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 101 (63.12%)
+    ' Comment Lines: 33 (20.62%)
+    '    - Xml Docs: 93.94%
+    ' 
+    '   Blank Lines: 26 (16.25%)
+    '     File Size: 4.93 KB
+
+
     '     Class ClassEncoder
     ' 
-    '         Properties: Colors
+    '         Properties: Colors, labels
     ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) AddClass, GetColor, PopulateFactors, Union
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: (+2 Overloads) AddClass, AsNumeric, GetColor, PopulateFactors, ToString
+    '                   Union
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports stdNum = System.Math
+Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports std = System.Math
 
 Namespace ComponentModel.Encoder
 
     Public Class ClassEncoder
 
+        ''' <summary>
+        ''' label class enums
+        ''' </summary>
         Dim m_colors As New Dictionary(Of String, ColorClass)
-        Dim labels As New List(Of String)
+        ''' <summary>
+        ''' the input label list
+        ''' </summary>
+        Dim m_labels As New List(Of String)
 
         ''' <summary>
         ''' get unique class label list
@@ -62,6 +84,12 @@ Namespace ComponentModel.Encoder
         Public ReadOnly Property Colors As ColorClass()
             Get
                 Return m_colors.Values.ToArray
+            End Get
+        End Property
+
+        Public ReadOnly Property labels As Double()
+            Get
+                Return AsNumeric(m_labels).ToArray
             End Get
         End Property
 
@@ -77,6 +105,24 @@ Namespace ComponentModel.Encoder
         ''' <summary>
         ''' 
         ''' </summary>
+        ''' <param name="labels">
+        ''' should not be distinct, duplicated is allowed
+        ''' </param>
+        Sub New(labels As IEnumerable(Of String))
+            For Each tag As String In labels
+                Call AddClass(tag)
+            Next
+        End Sub
+
+        Public Iterator Function AsNumeric(labels As IEnumerable(Of String)) As IEnumerable(Of Double)
+            For Each str As String In labels
+                Yield m_colors(str).factor
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
         ''' <param name="color"></param>
         ''' <returns></returns>
         ''' <remarks>
@@ -87,7 +133,7 @@ Namespace ComponentModel.Encoder
                 m_colors.Add(color.name, color)
             End If
 
-            labels.Add(color.name)
+            m_labels.Add(color.name)
 
             Return Me
         End Function
@@ -95,28 +141,41 @@ Namespace ComponentModel.Encoder
         Public Function AddClass(label As String) As ClassEncoder
             If Not m_colors.ContainsKey(label) Then
                 Dim enumInt As Integer
+                Dim color As Color
+                Dim tag As ColorClass
 
                 If m_colors.Count = 0 Then
                     enumInt = 0
                 Else
                     enumInt = m_colors _
                         .Values _
-                        .Select(Function(a) a.enumInt) _
+                        .Select(Function(a) a.factor) _
                         .Max
                 End If
 
-                m_colors.Add(label, New ColorClass With {.color = "#000000", .enumInt = enumInt + 1, .name = label})
+                color = Imaging.ChartColors(enumInt)
+                tag = New ColorClass With {
+                    .color = color.ToHtmlColor,
+                    .factor = enumInt + 1,
+                    .name = label
+                }
+
+                Call m_colors.Add(label, tag)
             End If
 
-            labels.Add(label)
+            Call m_labels.Add(label)
 
             Return Me
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return m_colors.Keys.GetJson
         End Function
 
         Public Function GetColor(value As Double) As ColorClass
             Dim min = m_colors.Values _
                 .Select(Function(cls)
-                            Return (ds:=stdNum.Abs(cls.enumInt - value), cls)
+                            Return (ds:=std.Abs(cls.factor - value), cls)
                         End Function) _
                 .OrderBy(Function(a) a.ds) _
                 .First
@@ -125,11 +184,11 @@ Namespace ComponentModel.Encoder
         End Function
 
         Public Iterator Function PopulateFactors() As IEnumerable(Of ColorClass)
-            For Each label As String In labels
+            For Each label As String In m_labels
                 Dim template As ColorClass = m_colors(label)
                 Dim factor As New ColorClass With {
                     .color = template.color,
-                    .enumInt = template.enumInt,
+                    .factor = template.factor,
                     .name = template.name
                 }
 

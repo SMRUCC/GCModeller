@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37ced5fd4eed5badc66ebc77405aaafb, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
+﻿#Region "Microsoft.VisualBasic::0721cb020919194fabec22e8a1cdf651, analysis\SequenceToolkit\DNA_Comparative\DeltaSimilarity1998\GenomeSignatures.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 61 (48.03%)
+    ' Comment Lines: 58 (45.67%)
+    '    - Xml Docs: 87.93%
+    ' 
+    '   Blank Lines: 8 (6.30%)
+    '     File Size: 5.78 KB
+
+
     '     Module GenomeSignatures
     ' 
     '         Function: __counts, __counts_p, CodonSignature, DinucleotideBIAS, DinucleotideBIAS_p
@@ -41,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Scripting.MetaData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba7b282e27a4b8ea0243c19158e8de3e, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
+﻿#Region "Microsoft.VisualBasic::51af1bbf5b7f1caa87bb96d790dc2dc2, visualize\DataVisualizationExtensions\ExpressionPattern\PatternPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 196 (84.48%)
+    ' Comment Lines: 13 (5.60%)
+    '    - Xml Docs: 69.23%
+    ' 
+    '   Blank Lines: 23 (9.91%)
+    '     File Size: 10.25 KB
+
+
     '     Class PatternPlot
     ' 
     '         Properties: clusterLabelStyle, legendTickStyle, legendTitleStyle, matrix, Prefix
@@ -60,8 +72,34 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
 Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace ExpressionPattern
 
@@ -71,24 +109,45 @@ Namespace ExpressionPattern
 
         ReadOnly patternsIndex As Dictionary(Of String, FuzzyCMeansEntity)
         ReadOnly colors As Color()
+        ReadOnly membershipCutoff As Double
+        ReadOnly topMembers As Double
 
         Public Property clusterLabelStyle As String = CSSFont.PlotSubTitle
         Public Property legendTitleStyle As String = CSSFont.Win7Small
         Public Property legendTickStyle As String = CSSFont.Win7Small
         Public Property Prefix As String = "Pattern"
 
-        Public Sub New(matrix As ExpressionPattern, theme As Theme, colorSet$, levels%)
-            MyBase.New(theme)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="matrix"></param>
+        ''' <param name="membershipCutoff">
+        ''' the cluster members is filter via the membership cutoff
+        ''' </param>
+        ''' <param name="theme"></param>
+        ''' <param name="colorSet$"></param>
+        ''' <param name="levels%"></param>
+        Public Sub New(matrix As ExpressionPattern,
+                       membershipCutoff As Double,
+                       topMembers As Double,
+                       theme As Theme,
+                       colorSet$,
+                       levels%)
+
+            Call MyBase.New(theme)
 
             Me.matrix = matrix
             Me.patternsIndex = matrix.Patterns.ToDictionary(Function(a) a.uid)
             Me.colors = Designer.GetColors(colorSet, levels)
+            Me.membershipCutoff = membershipCutoff
+            Me.topMembers = topMembers
         End Sub
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             ' 下面得到作图子区域的大小
             ' 用于计算布局信息
-            Dim plot As Rectangle = canvas.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim plot As Rectangle = canvas.PlotRegion(css)
             Dim intervalTotalWidth! = plot.Width * 0.3
             Dim intervalTotalHeight! = plot.Height * 0.3
             Dim w = (plot.Width - intervalTotalWidth) / matrix.dim(1)
@@ -100,22 +159,33 @@ Namespace ExpressionPattern
             Dim i As i32 = 1
             Dim layout As GraphicsRegion
             Dim x!
-            Dim y! = canvas.PlotRegion.Top + ih / 2
+            Dim y! = plot.Top + ih / 2
             Dim padding As String
             Dim clusterTagId As Integer
-            Dim clusterTagFont As Font = CSSFont.TryParse(clusterLabelStyle).GDIObject(g.Dpi)
+
+            Dim clusterTagFont As Font = css.GetFont(CSSFont.TryParse(clusterLabelStyle))
             Dim tagPos As PointF
             Dim levels As New Value(Of DoubleRange)
             Dim legendLayout As Rectangle
             Dim designer As SolidBrush() = colors _
                 .Select(Function(c) New SolidBrush(c)) _
                 .ToArray
-            Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleStyle).GDIObject(g.Dpi)
-            Dim legendTickFont As Font = CSSFont.TryParse(legendTickStyle).GDIObject(g.Dpi)
+            Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleStyle))
+            Dim legendTickFont As Font = css.GetFont(CSSFont.TryParse(legendTickStyle))
             Dim tickFormat As String
+            Dim left As Double = plot.Left + iw / 6
+            Dim topMembers As Integer = If(
+                Me.topMembers > 1,
+                Me.topMembers,                         ' is a integer number(real member size) 
+                Me.topMembers * matrix.Patterns.Length ' is a percentage number(needs multiply with the data size)
+            )
+            Dim label As String
 
-            For Each row As Matrix() In matrix.GetPartitionMatrix
-                x = canvas.PlotRegion.Left + iw / 5
+            For Each row As Matrix() In matrix.GetPartitionMatrix(
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
+                x = left + iw / 5
 
                 For Each col As Matrix In row
                     tagPos = New PointF(x, y - g.MeasureString("0", clusterTagFont).Height)
@@ -123,7 +193,7 @@ Namespace ExpressionPattern
                     legendLayout = New Rectangle With {
                         .X = x + w,
                         .Y = y,
-                        .Width = iw * 0.8,
+                        .Width = iw * 0.65,
                         .Height = h * 0.75
                     }
                     layout = New GraphicsRegion(canvas.Size, padding)
@@ -134,6 +204,7 @@ Namespace ExpressionPattern
                                      Return patternsIndex(gene.title).memberships(clusterTagId)
                                  End Function) _
                         .ToArray
+                    label = $"{Prefix} #{Integer.Parse(col.tag) + 1}"
 
                     If scatterData.Select(Function(l) l.pts.Select(Function(a) a.pt.Y).Max).Max > 3000 Then
                         tickFormat = "G2"
@@ -141,11 +212,13 @@ Namespace ExpressionPattern
                         tickFormat = "F2"
                     End If
 
-                    Call g.DrawString($"{Prefix} #{Integer.Parse(col.tag) + 1}", clusterTagFont, Brushes.Black, tagPos)
+                    Call g.DrawString(label, clusterTagFont, Brushes.Black, tagPos)
+                    Call VBDebugger.WriteLine(label & "...")
 
                     Call Scatter.Plot(
                         c:=scatterData,
                         g:=g,
+                        drawLine:=True,
                         rect:=layout,
                         Xlabel:=xlabel,
                         Ylabel:=ylabel,
@@ -153,7 +226,9 @@ Namespace ExpressionPattern
                         axisLabelCSS:=theme.axisLabelCSS,
                         showLegend:=False,
                         YtickFormat:=tickFormat,
-                        xAxisLabelRotate:=theme.xAxisRotate
+                        xAxisLabelRotate:=theme.xAxisRotate,
+                        gridFill:=theme.gridFill,
+                        showGrid:=theme.drawGrid
                     )
                     Call g.ColorMapLegend(
                         layout:=legendLayout,
@@ -189,7 +264,7 @@ Namespace ExpressionPattern
                     ' 聚类有时会出现一个成员元素的结果？
                     i = colors.Length - 1
                 Else
-                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), {0, colors.Length - 1}))
+                    i = CInt(levels.Value.ScaleMapping(patternsIndex(gene.geneID).memberships(clusterTagId), New Double() {0, colors.Length - 1}))
                 End If
 
                 Yield New SerialData With {

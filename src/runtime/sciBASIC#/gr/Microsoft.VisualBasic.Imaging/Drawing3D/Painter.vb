@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c44e05d47f832ce15deccbcd2daaa3c, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Painter.vb"
+﻿#Region "Microsoft.VisualBasic::c71043cf47305ce76776e23240983672, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Painter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 234
+    '    Code Lines: 145 (61.97%)
+    ' Comment Lines: 60 (25.64%)
+    '    - Xml Docs: 85.00%
+    ' 
+    '   Blank Lines: 29 (12.39%)
+    '     File Size: 8.92 KB
+
+
     '     Module PainterAlgorithm
     ' 
     '         Function: CreateCanvas2D, OrderProvider, PainterBuffer
@@ -54,6 +66,10 @@ Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
+#If NET48 Then
+Imports Microsoft.VisualBasic.Drawing
+#End If
+
 Namespace Drawing3D
 
     ''' <summary>
@@ -61,6 +77,7 @@ Namespace Drawing3D
     ''' </summary>
     Public Module PainterAlgorithm
 
+#If NET48 Then
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function CreateCanvas2D(camera As Camera, Optional bg$ = "white") As Graphics2D
@@ -86,7 +103,7 @@ Namespace Drawing3D
                 illumination)
             Call canvas.BufferPainting(buf, drawPath, offset)
         End Sub
-
+#End If
         ''' <summary>
         ''' 这个函数主要是应用于函数绘图的。请注意，这个并没有rotate，只会利用camera进行project
         ''' </summary>
@@ -126,6 +143,7 @@ Namespace Drawing3D
             Next
         End Sub
 
+#If NET48 Then
         ''' <summary>
         ''' 应用于WinForm的原生方法
         ''' </summary>
@@ -150,6 +168,7 @@ Namespace Drawing3D
                 End With
             Next
         End Sub
+#End If
 
         ''' <summary>
         ''' 生成三维图形绘图的多边形缓存。请注意，这个并没有rotate，只会利用camera进行project

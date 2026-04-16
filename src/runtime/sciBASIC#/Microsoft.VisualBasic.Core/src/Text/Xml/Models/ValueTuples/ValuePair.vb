@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 141
+    '    Code Lines: 95 (67.38%)
+    ' Comment Lines: 24 (17.02%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 22 (15.60%)
+    '     File Size: 5.63 KB
+
+
     '     Class KeyValuePair
     ' 
     '         Properties: Key, Value

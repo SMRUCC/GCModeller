@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 28 (71.79%)
+    ' Comment Lines: 4 (10.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.95%)
+    '     File Size: 1.46 KB
+
+
     '     Class GeneLink
     ' 
     '         Properties: annotation, Color, genome1, genome2, Score

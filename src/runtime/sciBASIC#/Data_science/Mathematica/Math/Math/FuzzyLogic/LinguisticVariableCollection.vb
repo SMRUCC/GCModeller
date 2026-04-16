@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 19 (37.25%)
+    ' Comment Lines: 24 (47.06%)
+    '    - Xml Docs: 33.33%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.77 KB
+
+
     '     Class LinguisticVariableCollection
     ' 
     '         Constructor: (+1 Overloads) Sub New

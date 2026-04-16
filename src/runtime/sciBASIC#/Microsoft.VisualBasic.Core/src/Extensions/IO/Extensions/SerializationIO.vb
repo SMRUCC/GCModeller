@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1bd7efd74d26ef3c83346b698b9aaa4, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\SerializationIO.vb"
+﻿#Region "Microsoft.VisualBasic::cb226939fed5a0311a0ec51f08716738, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\SerializationIO.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 59 (64.84%)
+    ' Comment Lines: 24 (26.37%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 8 (8.79%)
+    '     File Size: 3.48 KB
+
+
     ' Module SerializationIO
     ' 
     '     Function: DumpSerial, SaveAsTabularMapping, SolveListStream
@@ -47,6 +59,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Public Module SerializationIO
 

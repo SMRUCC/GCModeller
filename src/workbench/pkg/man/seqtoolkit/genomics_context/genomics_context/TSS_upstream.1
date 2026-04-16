@@ -1,0 +1,33 @@
+.\" man page create by R# package system.
+.TH GENOMICS_CONTEXT 2 2000-1月 "TSS_upstream" "TSS_upstream"
+.SH NAME
+TSS_upstream \- get TSS upstream site sequence data
+.SH SYNOPSIS
+\fITSS_upstream(\fBgenome\fR as any, 
+\fBgenes\fR as any = \fB<NULL>\fR, 
+\fBupstream_len\fR as integer = 150, 
+\fBsimple_title\fR as boolean = TRUE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get TSS upstream site sequence data
+.PP
+.SH OPTIONS
+.PP
+\fBgenome\fB \fR\- -. 
+.PP
+.PP
+\fBgenes\fB \fR\- 
+ gene list could be omit if the input genome data is a ncbi genbank model object. 
+ then all gene features inside the input genbank assembly will be used for export of 
+ the TSS upstream site.. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+genomics_context
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP

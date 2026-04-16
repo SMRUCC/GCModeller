@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f1966fbba1f44cda361c1e0f27730f7, modules\keggReport\ReportRender.vb"
+﻿#Region "Microsoft.VisualBasic::fe867d67f4c3a237ca17f57eb1758a50, modules\keggReport\ReportRender.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 102 (77.86%)
+    ' Comment Lines: 17 (12.98%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 12 (9.16%)
+    '     File Size: 5.16 KB
+
+
     ' Class ReportRender
     ' 
-    '     Function: (+3 Overloads) CreateMap, Render
-    ' 
-    ' Class MapShape
-    ' 
-    '     Properties: entities, isEntity, location, shape, title
-    ' 
-    '     Function: ToString
+    '     Function: (+3 Overloads) CreateMap, (+3 Overloads) Render
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.SymbolBuilder
@@ -53,6 +60,33 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Class ReportRender
 
@@ -98,6 +132,42 @@ Public Class ReportRender
         }
     End Function
 
+    Public Shared Function Render(map As Map,
+                                  compounds As NamedValue(Of String)(),
+                                  genes As NamedValue(Of String)(),
+                                  proteins As NamedValue(Of String)(),
+                                  Optional text_color As String = "white") As String
+
+        Dim highlights As New MapHighlights With {
+            .compounds = compounds,
+            .genes = genes,
+            .proteins = proteins
+        }
+
+        Return Render(map, highlights, text_color)
+    End Function
+
+    Public Shared Function Render(map As Map, highlights As MapHighlights, Optional text_color As String = "white") As String
+        Dim mapjson As MapShape() = map.shapes.mapdata _
+            .Select(AddressOf CreateMap) _
+            .ToArray
+        Dim rendering As Image = LocalRender.Rendering(map, highlights, textColor:=text_color)
+
+        With New ScriptBuilder(My.Resources.map_template)
+            !title = map.name
+            !map_json = mapjson.GetJson(indent:=True)
+            !map_base64 = New DataURI(rendering).ToString
+            !image_width = rendering.Width
+            !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
+                .name = If(map.EntryId.IsPattern("\d+"), $"map{map.EntryId}", map.EntryId),
+                .description = map.name,
+                .value = highlights.PopulateAllHighlights.ToArray
+            }.KEGGURLEncode
+
+            Return .ToString
+        End With
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -106,43 +176,9 @@ Public Class ReportRender
     ''' a collection of ``[kegg_id => color]`` tuples.
     ''' </param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function Render(map As Map, highlights As IEnumerable(Of NamedValue(Of String)), Optional text_color As String = "white") As String
-        Dim mapjson As MapShape() = map.shapes _
-            .Select(AddressOf CreateMap) _
-            .ToArray
-        Dim objectList As NamedValue(Of String)() = highlights.ToArray
-        Dim rendering As Image = LocalRender.Rendering(map, objectList, textColor:=text_color)
-
-        With New ScriptBuilder(My.Resources.map_template)
-            !title = map.Name
-            !map_json = mapjson.GetJson(indent:=True)
-            !map_base64 = New DataURI(rendering).ToString
-            !image_width = rendering.Width
-            !keggLink = New NamedCollection(Of NamedValue(Of String))() With {
-                .name = If(map.id.IsPattern("\d+"), $"map{map.id}", map.id),
-                .description = map.Name,
-                .value = objectList
-            }.KEGGURLEncode
-
-            Return .ToString
-        End With
+        Return Render(map, MapHighlights.CreateAuto(highlights), text_color)
     End Function
-End Class
-
-Public Class MapShape
-
-    Public Property shape As String
-    Public Property location As Double()
-    ''' <summary>
-    ''' kegg id list
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property entities As String()
-    Public Property title As String
-    Public Property isEntity As Boolean
-
-    Public Overrides Function ToString() As String
-        Return title
-    End Function
-
 End Class

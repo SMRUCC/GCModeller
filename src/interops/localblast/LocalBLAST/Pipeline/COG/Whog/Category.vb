@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 59 (79.73%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (20.27%)
+    '     File Size: 2.56 KB
+
+
     '     Class Category
     ' 
     '         Properties: category, COG_id, description, IdList, locus_tags

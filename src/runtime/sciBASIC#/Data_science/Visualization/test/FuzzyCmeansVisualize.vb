@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 90 (73.17%)
+    ' Comment Lines: 14 (11.38%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 19 (15.45%)
+    '     File Size: 4.28 KB
+
+
     ' Module FuzzyCMeansVisualize
     ' 
     '     Function: CMeans

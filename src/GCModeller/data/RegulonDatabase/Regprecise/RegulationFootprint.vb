@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00fb6c980961cefc949931868aa19d05, data\RegulonDatabase\Regprecise\RegulationFootprint.vb"
+﻿#Region "Microsoft.VisualBasic::387e5e150d8547e85b8f078244c4a97b, data\RegulonDatabase\Regprecise\RegulationFootprint.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 27 (31.40%)
+    ' Comment Lines: 47 (54.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.95%)
+    '     File Size: 2.92 KB
+
+
     '     Class RegulationFootprint
     ' 
     '         Properties: biological_process, distance, effector, family, identities
@@ -45,7 +57,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 

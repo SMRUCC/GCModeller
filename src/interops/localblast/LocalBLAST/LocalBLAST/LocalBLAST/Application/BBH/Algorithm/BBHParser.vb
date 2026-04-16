@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c624bc2532a46d4510c0094b2ff15a58, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
+﻿#Region "Microsoft.VisualBasic::d90988e8330487d1309d795fb153d166, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Algorithm\BBHParser.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 381
+    '    Code Lines: 248 (65.09%)
+    ' Comment Lines: 93 (24.41%)
+    '    - Xml Docs: 83.87%
+    ' 
+    '   Blank Lines: 40 (10.50%)
+    '     File Size: 17.57 KB
+
+
     '     Module BBHParser
     ' 
     '         Function: __topBesthit, BBHScore, BBHTop, bhTopTable, generateBBH
     '                   get_DiReBh, GetBBHTop, GetDirreBhAll, (+2 Overloads) GetDirreBhAll2, hashSet
-    '                   MapsNames, QueryNames, SBHScore, StripTopBest, TopHit
+    '                   MapsNames, QueryNames, StripTopBest, TopHit
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,8 +56,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
@@ -169,19 +181,6 @@ Namespace LocalBLAST.Application.BBH
                       Order By x.SBHScore Descending
 
             Return LQuery
-        End Function
-
-        ''' <summary>
-        ''' 因为Evalue是评价hsp的相似度的高低的因素，而identity和coverage则是评价序列整体相似度的因素，
-        ''' 所以在这里仅需要identity和coverage这两个因素来计算得分就好了
-        ''' </summary>
-        ''' <param name="hit"></param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function SBHScore(hit As BestHit) As Double
-            ' Dim E# = If(hit.evalue = 0R, 500, -Math.Log10(hit.evalue))
-            Dim score# = (hit.identities * hit.coverage) ' * E
-            Return score
         End Function
 
         Private Function generateBBH(hits As String(), Id As String, row As BestHit) As BiDirectionalBesthit

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39e9e3381490242489d5b0956473dffb, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
+﻿#Region "Microsoft.VisualBasic::19bb20c7ef9437cebcac66584f4d3803, visualize\DataVisualizationExtensions\CatalogProfiling\ColorProfileManager.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 33 (68.75%)
+    ' Comment Lines: 8 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 2.04 KB
+
+
     '     Module Extensions
     ' 
     '         Function: GetColors
@@ -43,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.ComponentModel.Annotation
 

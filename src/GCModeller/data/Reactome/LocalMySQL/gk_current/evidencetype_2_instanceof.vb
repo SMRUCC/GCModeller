@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79 (49.69%)
+    ' Comment Lines: 58 (36.48%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 6.81 KB
+
+
     ' Class evidencetype_2_instanceof
     ' 
     '     Properties: DB_ID, instanceOf, instanceOf_class, instanceOf_rank

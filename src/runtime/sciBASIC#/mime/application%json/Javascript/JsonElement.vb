@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c2a9046b1db4922fce76570dd40864c, mime\application%json\Javascript\JsonElement.vb"
+﻿#Region "Microsoft.VisualBasic::f8318e74705c915ca4cbfeb0789eca83, mime\application%json\Javascript\JsonElement.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 27 (54.00%)
+    ' Comment Lines: 16 (32.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (14.00%)
+    '     File Size: 1.84 KB
+
+
     '     Class JsonElement
     ' 
-    '         Function: [As], ParseJSON, ToString
+    '         Function: [As], Parse, ParseJSON, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.My.JavaScript
 
 Namespace Javascript
 
@@ -63,9 +76,29 @@ Namespace Javascript
             Return DirectCast(Me, T)
         End Function
 
+        ''' <summary>
+        ''' Parse the json string as clr json element
+        ''' </summary>
+        ''' <param name="jsonStr"></param>
+        ''' <param name="default">
+        ''' set the default json value returns if the given json string is nothing or ``null`` literal.
+        ''' </param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ParseJSON(jsonStr As String) As JsonElement
-            Return New JsonParser().OpenJSON(jsonStr)
+        Public Shared Function ParseJSON(jsonStr As String, Optional [default] As JsonElement = Nothing) As JsonElement
+            Return If(New JsonParser(jsonStr).OpenJSON, [default])
         End Function
+
+        Public Shared Function Parse(json_str As String) As Task(Of JsonElement)
+            Return Task(Of JsonElement).Run(Function() ParseJSON(json_str))
+        End Function
+
+        Public Shared Narrowing Operator CType(js As JsonElement) As JavaScriptObject
+            If TypeOf js Is JsonObject Then
+                Return DirectCast(js, JsonObject).CreateJsObject
+            Else
+                Return Nothing
+            End If
+        End Operator
     End Class
 End Namespace

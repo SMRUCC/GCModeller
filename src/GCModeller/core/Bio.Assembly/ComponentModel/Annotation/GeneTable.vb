@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5daa726c8b0a014a2389462701a0fe34, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
+﻿#Region "Microsoft.VisualBasic::f37e0a5860d094b78a790b273836a81d, core\Bio.Assembly\ComponentModel\Annotation\GeneTable.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 50 (51.55%)
+    ' Comment Lines: 40 (41.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (7.22%)
+    '     File Size: 3.79 KB
+
+
     '     Class GeneTable
     ' 
     '         Properties: [function], CDS, COG, commonName, EC_Number
     '                     GC_Content, geneName, GI, GO, InterPro
     '                     KO, left, length, Location, locus_id
-    '                     ProteinId, right, species, SpeciesAccessionID, strand
-    '                     Transl_table, Translation, UniprotSwissProt, UniprotTrEMBL
+    '                     ProteinId, replicon_accessionID, right, species, strand
+    '                     transl_table, translation, type, UniprotSwissProt, UniprotTrEMBL
     ' 
     '         Function: ToString
     ' 
@@ -46,6 +58,7 @@
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Loci
@@ -54,9 +67,10 @@ Namespace ComponentModel.Annotation
 
     ''' <summary>
     ''' The gene dump information from the NCBI genbank.
-    ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' (从GBK文件之中所导出来的一个基因对象的简要信息，尝试使用这个对象以csv表格的格式存储一个基因的所有的注释信息)
+    ''' </remarks>
     Public Class GeneTable : Implements INamedValue
         Implements IGeneBrief
 
@@ -106,10 +120,10 @@ Namespace ComponentModel.Annotation
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property SpeciesAccessionID As String
-        Public Property Translation As String
-        Public Property Transl_table As String
+        ''' <remarks>the sequence id of the target genome(replicon).</remarks>
+        Public Property replicon_accessionID As String
+        Public Property translation As String
+        Public Property transl_table As String
 
         ''' <summary>
         ''' The COG feature
@@ -118,19 +132,23 @@ Namespace ComponentModel.Annotation
         Public Property COG As String Implements IFeatureDigest.Feature
         Public Property length As Integer Implements IGeneBrief.Length
 
+        <IgnoreDataMember>
         Public Property Location As NucleotideLocation Implements IGeneBrief.Location
             Get
                 Return New NucleotideLocation(left, right, Strand:=strand)
             End Get
             Set(value As NucleotideLocation)
-                left = value.left
-                right = value.right
-                strand = If(value.Strand = Strands.Forward, "+", "-")
-                length = value.FragmentSize
+                If Not value Is Nothing Then
+                    left = value.left
+                    right = value.right
+                    strand = If(value.Strand = Strands.Forward, "+", "-")
+                    length = value.FragmentSize
+                End If
             End Set
         End Property
 
-        Public Property EC_Number As String
+        Public Property EC_Number As String()
+        Public Property type As String
 
         Public Overrides Function ToString() As String
             Return locus_id & ": " & commonName

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 18 (58.06%)
+    ' Comment Lines: 9 (29.03%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 4 (12.90%)
+    '     File Size: 986 B
+
+
     '     Module Reflection
     ' 
     '         Function: GetConstructor, NewInstance

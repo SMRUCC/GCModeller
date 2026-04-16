@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::140159388cfb232e28bb0b2783a151fc, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Entity.vb"
+﻿#Region "Microsoft.VisualBasic::b667d85dd15bb1057b1ba005d05e9f66, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\Entity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 20 (55.56%)
+    ' Comment Lines: 11 (30.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (13.89%)
+    '     File Size: 1.23 KB
+
+
     '     Class FuzzyCMeansEntity
     ' 
     '         Properties: MarkClusterCenter, memberships, probablyMembership
@@ -49,6 +61,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace FuzzyCMeans
 
+    ''' <summary>
+    ''' A numeric vector object that tagged with the fuzzy cmeans cluster membership values
+    ''' </summary>
     Public Class FuzzyCMeansEntity : Inherits ClusterEntity
 
         ''' <summary>
@@ -64,8 +79,7 @@ Namespace FuzzyCMeans
         ''' <returns></returns>
         Public ReadOnly Property probablyMembership As Integer
             Get
-                Return memberships _
-                    .Keys _
+                Return memberships.Keys _
                     .Select(Function(i) memberships(i)) _
                     .MaxIndex
             End Get

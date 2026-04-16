@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 19 (82.61%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (17.39%)
+    '     File Size: 769 B
+
+
     '     Module geneName
     ' 
     '         Function: TryParseGeneName

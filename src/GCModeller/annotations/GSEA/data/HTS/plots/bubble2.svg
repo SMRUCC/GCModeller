@@ -1,0 +1,199 @@
+<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMax" width="8000" height="12000" viewBox="0 0 8000 12000">
+  <rect x="0" y="0" width="8000" height="12000" style="fill: #FFFFFF" />
+  <text x="2379.594482421875" y="196.3216094970703" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of phenylpropanoids</text>
+  <line x1="3874.738525390625" x2="7900" y1="196.3216094970703" y2="196.3216094970703" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4364.265,155.07541 a 41.2462 41.2462 0 1 1 0 1 z" style="fill: #9A3D6D" />
+  <text x="2168.656982421875" y="407.035888671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of unsaturated fatty acids</text>
+  <line x1="3874.738525390625" x2="7900" y1="407.035888671875" y2="407.035888671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4357.34,369.82465 a 37.211246 37.211246 0 1 1 0 1 z" style="fill: #8D437A" />
+  <text x="2696.529541015625" y="617.7501831054688" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Glucosinolate biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="617.7501831054688" y2="617.7501831054688" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4344.44,580.53894 a 37.211246 37.211246 0 1 1 0 1 z" style="fill: #7B4C8C" />
+  <text x="2052.0390625" y="828.4644775390625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Glycine, serine and threonine metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="828.4644775390625" y2="828.4644775390625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4342.061,795.2882 a 33.176292 33.176292 0 1 1 0 1 z" style="fill: #7B4C8C" />
+  <text x="2928.869873046875" y="1039.1788330078125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Pyruvate metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="1039.1788330078125" y2="1039.1788330078125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4315.032,1010.0375 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #466FB6" />
+  <text x="2694.698486328125" y="1249.89306640625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Oxidative phosphorylation</text>
+  <line x1="3874.738525390625" x2="7900" y1="1249.89306640625" y2="1249.89306640625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4280.523,1224.7867 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #33AC74" />
+  <text x="2707.068115234375" y="1460.6072998046875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Monobactam biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="1460.6072998046875" y2="1460.6072998046875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4262.8286,1431.466 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #47B24D" />
+  <text x="2085.405029296875" y="1671.321533203125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Carbon fixation pathways in prokaryotes</text>
+  <line x1="3874.738525390625" x2="7900" y1="1671.321533203125" y2="1671.321533203125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4235.999,1642.1802 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #9550A4" />
+  <text x="1075.721435546875" y="1882.0357666015625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of alkaloids derived from terpenoid and polyketide</text>
+  <line x1="3874.738525390625" x2="7900" y1="1882.0357666015625" y2="1882.0357666015625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4216.9087,1852.8944 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #F7710A" />
+  <text x="1914.2218017578125" y="2092.75" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Carbon fixation in photosynthetic organisms</text>
+  <line x1="3874.738525390625" x2="7900" y1="2092.75" y2="2092.75" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4216.5884,2067.6436 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #FF8F00" />
+  <text x="3022.294677734375" y="2303.464111328125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Lysine degradation</text>
+  <line x1="3874.738525390625" x2="7900" y1="2303.464111328125" y2="2303.464111328125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4208.031,2274.3228 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #FFA600" />
+  <text x="2308.549560546875" y="2514.178466796875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Ascorbate and aldarate metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="2514.178466796875" y2="2514.178466796875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4208.031,2485.037 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #FFA600" />
+  <text x="2926.794677734375" y="2724.892822265625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Methane metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="2724.892822265625" y2="2724.892822265625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4196.401,2691.7166 a 33.176292 33.176292 0 1 1 0 1 z" style="fill: #FFD408" />
+  <text x="2765.82470703125" y="2935.607177734375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of cofactors</text>
+  <line x1="3874.738525390625" x2="7900" y1="2935.607177734375" y2="2935.607177734375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4174.7036,2882.256 a 53.351063 53.351063 0 1 1 0 1 z" style="fill: #FFD408" />
+  <text x="2082.719482421875" y="3146.321533203125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Nicotinate and nicotinamide metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="3146.321533203125" y2="3146.321533203125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4187.5093,3117.1802 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #E4E332" />
+  <text x="2245.47998046875" y="3357.035888671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Cutin, suberine and wax biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="3357.035888671875" y2="3357.035888671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4189.1514,3331.9294 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #D5CC2E" />
+  <text x="3031.73486328125" y="3567.750244140625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Purine metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="3567.750244140625" y2="3567.750244140625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4171.0913,3534.574 a 33.176292 33.176292 0 1 1 0 1 z" style="fill: #AA4D34" />
+  <text x="2307.0439453125" y="3778.464599609375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Pantothenate and CoA biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="3778.464599609375" y2="3778.464599609375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4171.3926,3753.3582 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #E76B9E" />
+  <text x="2238.318359375" y="3989.178955078125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Cysteine and methionine metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="3989.178955078125" y2="3989.178955078125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4158.7812,3960.0376 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #C799B7" />
+  <text x="2650.427490234375" y="4199.8935546875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of amino acids</text>
+  <line x1="3874.738525390625" x2="7900" y1="4199.8935546875" y2="4199.8935546875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 5665.01,4118.298 a 81.59574 81.59574 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2403.4794921875" y="4410.60791015625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">2-Oxocarboxylic acid metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="4410.60791015625" y2="4410.60791015625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4486.541,4361.292 a 49.31611 49.31611 0 1 1 0 1 z" style="fill: #D6202B" />
+  <text x="1873.5316162109375" y="4621.322265625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Alanine, aspartate and glutamate metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="4621.322265625" y2="4621.322265625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4893.688,4580.076 a 41.2462 41.2462 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2054.887451171875" y="4832.03662109375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Glyoxylate and dicarboxylate metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="4832.03662109375" y2="4832.03662109375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4874.4614,4782.7207 a 49.31611 49.31611 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2569.332275390625" y="5042.7509765625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Cyanoamino acid metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="5042.7509765625" y2="5042.7509765625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4864.413,4997.4697 a 45.281155 45.281155 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="1355.6280517578125" y="5253.46533203125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of alkaloids derived from shikimate pathway</text>
+  <line x1="3874.738525390625" x2="7900" y1="5253.46533203125" y2="5253.46533203125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4455.903,5204.1494 a 49.31611 49.31611 0 1 1 0 1 z" style="fill: #CF2333" />
+  <text x="1501.420654296875" y="5464.1796875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of various secondary metabolites - part 3</text>
+  <line x1="3874.738525390625" x2="7900" y1="5464.1796875" y2="5464.1796875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4449.9307,5426.9683 a 37.211246 37.211246 0 1 1 0 1 z" style="fill: #C8273B" />
+  <text x="2998.205810546875" y="5674.89404296875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Carbon metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="5674.89404296875" y2="5674.89404296875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4831.5645,5617.508 a 57.386017 57.386017 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="729.1231079101562" y="5885.6083984375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of alkaloids derived from onithine, lysine and nicotinic acid</text>
+  <line x1="3874.738525390625" x2="7900" y1="5885.6083984375" y2="5885.6083984375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4833.494,5836.2925 a 49.31611 49.31611 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="1304.236328125" y="6096.32275390625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of alkaloids derived from histidine and purine</text>
+  <line x1="3874.738525390625" x2="7900" y1="6096.32275390625" y2="6096.32275390625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4444.068,6063.1465 a 33.176292 33.176292 0 1 1 0 1 z" style="fill: #C8273B" />
+  <text x="2480.302490234375" y="6307.037109375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of plant hormones</text>
+  <line x1="3874.738525390625" x2="7900" y1="6307.037109375" y2="6307.037109375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4825.7188,6257.721 a 49.31611 49.31611 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2707.922607421875" y="6517.75146484375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Phenylalanine metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="6517.75146484375" y2="6517.75146484375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4426.6714,6480.54 a 37.211246 37.211246 0 1 1 0 1 z" style="fill: #C12A42" />
+  <text x="2977.453857421875" y="6728.4658203125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Metabolic pathways</text>
+  <line x1="3874.738525390625" x2="7900" y1="6728.4658203125" y2="6728.4658203125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4383.917,6517.7515 a 210.71428 210.71428 0 1 1 0 1 z" style="fill: #DD1D24" />
+  <text x="2892.330322265625" y="6939.18017578125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Galactose metabolism</text>
+  <line x1="3874.738525390625" x2="7900" y1="6939.18017578125" y2="6939.18017578125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4680.551,6897.934 a 41.2462 41.2462 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2810.62451171875" y="7149.89453125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Citrate cycle (TCA cycle)</text>
+  <line x1="3874.738525390625" x2="7900" y1="7149.89453125" y2="7149.89453125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4418.832,7120.7534 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #BB2D4A" />
+  <text x="1939.0833740234375" y="7360.60888671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Biosynthesis of plant secondary metabolites</text>
+  <line x1="3874.738525390625" x2="7900" y1="7360.60888671875" y2="7360.60888671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 6614.5933,7254.803 a 105.805466 105.805466 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="1837.8870849609375" y="7571.3232421875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Microbial metabolism in diverse environments</text>
+  <line x1="3874.738525390625" x2="7900" y1="7571.3232421875" y2="7571.3232421875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4326.961,7461.483 a 109.84042 109.84042 0 1 1 0 1 z" style="fill: #B43051" />
+  <text x="2914.221435546875" y="7782.03759765625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Arginine biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="7782.03759765625" y2="7782.03759765625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4385.1177,7752.8965 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #A03A67" />
+  <text x="2016.679443359375" y="7992.751953125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Valine, leucine and isoleucine biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="7992.751953125" y2="7992.751953125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4385.1177,7963.611 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #A03A67" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="100" y2="8107.14453125" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="100" width="201.26307678222656" height="8007.14453125" style="fill: #D3D3D3" />
+  <text x="2140.90625" y="8308.8232421875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Carbohydrate digestion and absorption</text>
+  <line x1="3874.738525390625" x2="7900" y1="8308.8232421875" y2="8308.8232421875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4347.155,8279.682 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #7B4C8C" />
+  <text x="3008.541259765625" y="8519.537109375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">GABAergic synapse</text>
+  <line x1="3874.738525390625" x2="7900" y1="8519.537109375" y2="8519.537109375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4175.996,8498.466 a 21.071428 21.071428 0 1 1 0 1 z" style="fill: #E76B9E" />
+  <text x="3040.9306640625" y="8730.2509765625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Taste transduction</text>
+  <line x1="3874.738525390625" x2="7900" y1="8730.2509765625" y2="8730.2509765625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4470.4307,8697.074 a 33.176292 33.176292 0 1 1 0 1 z" style="fill: #CF2333" />
+  <text x="2623.165283203125" y="8940.96484375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Glucagon signaling pathway</text>
+  <line x1="3874.738525390625" x2="7900" y1="8940.96484375" y2="8940.96484375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4723.485,8903.754 a 37.211246 37.211246 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="3018.87646484375" y="9151.6787109375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Mineral absorption</text>
+  <line x1="3874.738525390625" x2="7900" y1="9151.6787109375" y2="9151.6787109375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 6802.468,9078.153 a 73.52583 73.52583 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2415.6865234375" y="9362.392578125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Protein digestion and absorption</text>
+  <line x1="3874.738525390625" x2="7900" y1="9362.392578125" y2="9362.392578125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 6748.9033,9280.797 a 81.59574 81.59574 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="8212.501953125" y2="9476.78515625" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="8212.501953125" width="201.26307678222656" height="1264.283203125" style="fill: #D3D3D3" />
+  <text x="2964.392333984375" y="9678.4638671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Renal cell carcinoma</text>
+  <line x1="3874.738525390625" x2="7900" y1="9678.4638671875" y2="9678.4638671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4318.3438,9657.393 a 21.071428 21.071428 0 1 1 0 1 z" style="fill: #3F75B8" />
+  <text x="3075.8427734375" y="9889.177734375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Parkinson disease</text>
+  <line x1="3874.738525390625" x2="7900" y1="9889.177734375" y2="9889.177734375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4232.3726,9864.071 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #B64583" />
+  <text x="2863.72509765625" y="10099.8916015625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Vancomycin resistance</text>
+  <line x1="3874.738525390625" x2="7900" y1="10099.8916015625" y2="10099.8916015625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4209.2583,10074.785 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #FFB700" />
+  <text x="3367.061767578125" y="10310.60546875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Alcoholism</text>
+  <line x1="3874.738525390625" x2="7900" y1="10310.60546875" y2="10310.60546875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4163.401,10289.534 a 21.071428 21.071428 0 1 1 0 1 z" style="fill: #999999" />
+  <text x="2263.505615234375" y="10521.3193359375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Central carbon metabolism in cancer</text>
+  <line x1="3874.738525390625" x2="7900" y1="10521.3193359375" y2="10521.3193359375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 7591.473,10431.653 a 89.66565 89.66565 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="9582.142578125" y2="10635.7119140625" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="9582.142578125" width="201.26307678222656" height="1053.5693359375" style="fill: #D3D3D3" />
+  <text x="2126.990234375" y="10837.390625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Neuroactive ligand-receptor interaction</text>
+  <line x1="3874.738525390625" x2="7900" y1="10837.390625" y2="10837.390625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4199.551,10808.249 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #FFD408" />
+  <text x="2779.293212890625" y="11048.1044921875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">cAMP signaling pathway</text>
+  <line x1="3874.738525390625" x2="7900" y1="11048.1044921875" y2="11048.1044921875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4202.259,11022.998 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #FFD408" />
+  <text x="2401.48583984375" y="11258.818359375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Phosphotransferase system (PTS)</text>
+  <line x1="3874.738525390625" x2="7900" y1="11258.818359375" y2="11258.818359375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4179.893,11229.677 a 29.141336 29.141336 0 1 1 0 1 z" style="fill: #AE7D21" />
+  <text x="3106.80810546875" y="11469.5322265625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">ABC transporters</text>
+  <line x1="3874.738525390625" x2="7900" y1="11469.5322265625" y2="11469.5322265625" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 6284.307,11371.797 a 97.73556 97.73556 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <text x="2801.71337890625" y="11680.24609375" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Two-component system</text>
+  <line x1="3874.738525390625" x2="7900" y1="11680.24609375" y2="11680.24609375" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4786.003,11634.965 a 45.281155 45.281155 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="10741.0693359375" y2="11794.638671875" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="10741.0693359375" width="201.26307678222656" height="1053.5693359375" style="fill: #D3D3D3" />
+  <text x="2559.118896484375" y="11996.3173828125" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Aminoacyl-tRNA biosynthesis</text>
+  <line x1="3874.738525390625" x2="7900" y1="11996.3173828125" y2="11996.3173828125" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 6174.214,11922.792 a 73.52583 73.52583 0 1 1 0 1 z" style="fill: #E41A1C" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="11899.99609375" y2="12110.7099609375" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="11899.99609375" width="201.26307678222656" height="210.7138671875" style="fill: #D3D3D3" />
+  <text x="2953.161865234375" y="12312.388671875" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">Bacterial chemotaxis</text>
+  <line x1="3874.738525390625" x2="7900" y1="12312.388671875" y2="12312.388671875" style="stroke: #D3D3D3; stroke-width: 2px; stroke-dash: dash;" stroke-dasharray="8 4" />
+  <path d="M 4470.168,12287.282 a 25.106382 25.106382 0 1 1 0 1 z" style="fill: #CF2333" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="12216.0673828125" y2="12426.78125" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <rect x="7900" y="12216.0673828125" width="201.26307678222656" height="210.7138671875" style="fill: #D3D3D3" />
+  <line x1="100" x2="7900" y1="11900" y2="11900" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <line x1="3874.738525390625" x2="3874.738525390625" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="3858.10009765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">0</text>
+  <line x1="4545.615234375" x2="4545.615234375" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="4502.4912109375" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">5.00</text>
+  <line x1="5216.4921875" x2="5216.4921875" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="5162.8134765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">10.00</text>
+  <line x1="5887.369140625" x2="5887.369140625" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="5833.8134765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">15.00</text>
+  <line x1="6558.24609375" x2="6558.24609375" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="6504.8134765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">20.00</text>
+  <line x1="7229.123046875" x2="7229.123046875" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="7175.8134765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">25.00</text>
+  <line x1="7900" x2="7900" y1="11900" y2="11910" style="stroke: #000000; stroke-width: 5px; stroke-dash: solid;" />
+  <text x="7846.8134765625" y="11953.6669921875" style="font-style: normal;font-size: 37.5px;font-family: Bookman Old Style;color: black;fill: #000000;">30.00</text>
+  <text x="3826.38916015625" y="12045.3212890625" style="font-style: strong;font-weight:bold;font-size: 75px;font-family: Microsoft YaHei;color: black;fill: #000000;">-log10(p)</text>
+</svg>

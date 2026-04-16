@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59dd70b9b96bddb6ff71c28ee99462f8, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
+﻿#Region "Microsoft.VisualBasic::d01721dab037a1649810d64058d4037d, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Map.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 76 (62.81%)
+    ' Comment Lines: 27 (22.31%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 18 (14.88%)
+    '     File Size: 4.11 KB
+
+
     '     Class Map
     ' 
-    '         Properties: description, id, Name, PathwayImage, shapes
-    '                     URL
+    '         Properties: PathwayImage, shapes, URL
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, GetImage, GetMembers, ParseFromUrl
+    '         Function: GenericEnumerator, GetCompoundSet, GetImage, GetMembers, GetPathwayGenes
     '                   ToString
     ' 
     ' 
@@ -44,55 +55,48 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
-Namespace Assembly.KEGG.WebServices
+#If NET48 Then
+Imports Image = System.Drawing.Image
+#Else
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+#End If
+
+Namespace Assembly.KEGG.WebServices.XML
 
     ''' <summary>
     ''' The kegg reference map
     ''' </summary>
     <XmlRoot("Map", [Namespace]:=Map.XmlNamespace)>
-    Public Class Map : Inherits XmlDataModel
+    Public Class Map : Inherits PathwayBrief
         Implements INamedValue
         Implements Enumeration(Of Area)
 
         Public Const XmlNamespace$ = "http://GCModeller.org/core/KEGG/KGML_map.xsd"
 
-        <XmlAttribute>
-        Public Property id As String Implements IKeyedEntity(Of String).Key
-
-        ''' <summary>
-        ''' The map title
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlElement("name")>
-        Public Property Name As String
         Public Property URL As String
-
-        <XmlElement>
-        Public Property description As String
 
         ''' <summary>
         ''' 节点的位置，在这里面包含有代谢物(小圆圈)以及基因(方块)的位置定义
         ''' </summary>
         ''' <returns></returns>
-        <XmlArray("shapes")>
-        Public Property shapes As Area()
+        Public Property shapes As MapData
 
         ''' <summary>
         ''' base64 image
         ''' </summary>
         ''' <returns></returns>
-        <XmlElement("KEGGmap")>
+        <XmlElement("image")>
         Public Property PathwayImage As String
 
         ''' <summary>
@@ -101,7 +105,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetMembers() As String()
-            Return shapes _
+            Return shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Distinct _
@@ -123,19 +127,52 @@ Namespace Assembly.KEGG.WebServices
             Return shapes.GetJson
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ParseFromUrl(url As String) As Map
-            Return ParseHTML(html:=url.GET)
-        End Function
-
         Public Iterator Function GenericEnumerator() As IEnumerator(Of Area) Implements Enumeration(Of Area).GenericEnumerator
-            For Each item As Area In shapes
+            For Each item As Area In shapes.mapdata
                 Yield item
             Next
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Area).GetEnumerator
-            Yield GenericEnumerator()
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>
+        ''' a unique set of the gene id
+        ''' </returns>
+        Public Overrides Iterator Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Dim unique As New Index(Of String)
+
+            For Each shape As Area In shapes.mapdata
+                Dim list = shape.Names.ToArray
+
+                For Each id As NamedValue(Of String) In list
+                    If (Not id.Name.IsPattern("[CDGRM]\d+")) AndAlso Not id.Name Like unique Then
+                        unique.Add(id.Name)
+                        Yield id
+                    End If
+                Next
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns>
+        ''' a unique set of the kegg compound id
+        ''' </returns>
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+            Dim unique As New Index(Of String)
+
+            For Each shape As Area In shapes.mapdata
+                Dim list = shape.Names.ToArray
+
+                For Each id As NamedValue(Of String) In list
+                    If id.Name.IsPattern("C\d+") AndAlso Not id.Name Like unique Then
+                        unique.Add(id.Name)
+                        Yield id
+                    End If
+                Next
+            Next
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ef75e9008795b9d84284de476479592, Data_science\Visualization\Plots\Scatter\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::5a97f8cb970f47a2678919f0ba2707cc, Data_science\Visualization\Plots\Scatter\Heatmap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 92 (77.31%)
+    ' Comment Lines: 18 (15.13%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 9 (7.56%)
+    '     File Size: 5.25 KB
+
+
     ' Module Scatter
     ' 
     '     Function: PlotHeatmap
@@ -43,13 +55,15 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Partial Module Scatter
 
@@ -72,7 +86,7 @@ Partial Module Scatter
     ''' <param name="legendTitle$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function PlotHeatmap(data As IEnumerable(Of DataSet),
+    Public Function PlotHeatmap(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(data As IEnumerable(Of DataSet),
                                 Optional fieldX$ = "X",
                                 Optional fieldY$ = "Y",
                                 Optional valueField$ = "value",
@@ -114,11 +128,13 @@ Partial Module Scatter
     End Function
 
     <Extension>
-    Private Sub __plotInternal(g As IGraphics, rect As GraphicsRegion, data As DataSet(), colors As Color(),
+    Private Sub __plotInternal(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)})(g As IGraphics, rect As GraphicsRegion, data As DataSet(), colors As Color(),
                                fieldX$, fieldY$, fieldValue$,
                                labelX$, labelY$, legendTitle$,
                                ptSize%)
 
+        Dim css As New CSSEnvirnment(rect.Size)
+        Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, rect.Padding)
         Dim points As (pt As PointF, value#)() = data.Select(
             Function(o) (New PointF(o(fieldX), o(fieldY)), o(fieldValue))).ToArray
         Dim levels%() = points.Select(Function(pt) pt.value) _
@@ -146,9 +162,9 @@ Partial Module Scatter
             title:=legendTitle,
             min:=points.Min(Function(pt) pt.value),
             max:=points.Max(Function(pt) pt.value),
-            lsize:=New Size(rect.Size.Width - leftWidth + rect.Padding.Right, rect.Size.Height * 0.7))
+            lsize:=New Size(rect.Size.Width - leftWidth + padding.Right, rect.Size.Height * 0.7))
 
-        leftWidth -= (rect.Padding.Right)
+        leftWidth -= (padding.Right)
 
         With g
             .DrawImageUnscaled(left, New Point)

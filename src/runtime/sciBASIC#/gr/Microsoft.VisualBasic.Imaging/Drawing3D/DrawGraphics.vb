@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3255304f4e1657156450c0a91a15d53, gr\Microsoft.VisualBasic.Imaging\Drawing3D\DrawGraphics.vb"
+﻿#Region "Microsoft.VisualBasic::af8d1d673f61aad241b44bdcaa3f8c3e, gr\Microsoft.VisualBasic.Imaging\Drawing3D\DrawGraphics.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 4 (33.33%)
+    ' Comment Lines: 5 (41.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 424 B
+
+
     '     Delegate Sub
     ' 
     ' 
@@ -48,6 +60,6 @@ Namespace Drawing3D
     ''' </summary>
     ''' <param name="canvas">gdi+ handle</param>
     ''' <param name="camera">3d camera</param>
-    Public Delegate Sub DrawGraphics(ByRef canvas As Graphics, camera As Camera)
+    Public Delegate Sub DrawGraphics(ByRef canvas As IGraphics, camera As Camera)
 
 End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 23 (76.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (23.33%)
+    '     File Size: 1.16 KB
+
+
     '     Class BiDirectionalBesthit
     ' 
     '         Properties: Score, Similarity

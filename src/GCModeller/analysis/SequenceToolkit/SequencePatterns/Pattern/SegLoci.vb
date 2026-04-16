@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92bbef691903e4b86954c9e2fc43f36e, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
+﻿#Region "Microsoft.VisualBasic::91a862bf87d4e15189e876467b7b47d7, analysis\SequenceToolkit\SequencePatterns\Pattern\SegLoci.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 28 (53.85%)
+    ' Comment Lines: 16 (30.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.38%)
+    '     File Size: 1.99 KB
+
+
     '     Class SegLoci
     ' 
     '         Properties: Left, Length, Right, Sequence
@@ -44,7 +56,7 @@
 
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
 
 Namespace Pattern
@@ -85,11 +97,8 @@ Namespace Pattern
                 .Sequence = SegmentValue.Value,
                 .Length = SegmentValue.Length
             }
-#If netcore5 = 0 Then
+
             Segment.Left = Strings.InStr(Start:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
-#Else
-            Segment.Left = Strings.InStr(StartPos:=startLeft, String1:=WholeSeq, String2:=Segment.Sequence, Compare:=CompareMethod.Text)
-#End If
             Segment.Right = Segment.Left + Segment.Length - 1
             startLeft = Segment.Left + 1
 

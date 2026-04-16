@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f13c45b8a7809ff0abac9fcf16bc5240, R#\TRNtoolkit\TRNBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::ef4e77d7e7e3247e42f94b574c9b2731, R#\TRNtoolkit\TRNBuilder.vb"
 
     ' Author:
     ' 
@@ -31,28 +31,45 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 276
+    '    Code Lines: 183 (66.30%)
+    ' Comment Lines: 57 (20.65%)
+    '    - Xml Docs: 35.09%
+    ' 
+    '   Blank Lines: 36 (13.04%)
+    '     File Size: 12.80 KB
+
+
     ' Module TRNBuilder
     ' 
-    '     Function: ParsePromoterReport, readFootprintSites, readRegulations, RegulationFootprint, RegulationFootprints
-    '               TRN, writeRegulationFootprints
+    '     Function: motif_search, open_motifdb, readFootprintSites, readRegulations, RegulationFootprint
+    '               writeRegulationFootprints
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Model.Network.VirtualFootprint
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' tools for create a transcription regulation network
@@ -60,9 +77,63 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("TRN.builder")>
 Module TRNBuilder
 
-    <ExportAPI("as.promoter.models")>
-    Public Function ParsePromoterReport(text As String) As GeneReport()
-        Return ReportParser.ParseReport(text).ToArray
+    <ExportAPI("open_motifdb")>
+    <RApiReturn(GetType(SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase))>
+    Public Function open_motifdb(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        If isScalarVector(file) AndAlso TypeOf getFirst(file) Is String AndAlso CLRVector.asScalarCharacter(file).DirectoryExists Then
+            Return New MEMEMotifRepository(CLRVector.asScalarCharacter(file))
+        Else
+            Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env)
+
+            If s Like GetType(Message) Then
+                Return s.TryCast(Of Message)
+            End If
+
+            Return Motif.PWMDatabase.OpenReadOnly(s.TryCast(Of Stream))
+        End If
+    End Function
+
+    <ExportAPI("motif_search")>
+    <RApiReturn(GetType(MotifMatch))>
+    Public Function motif_search(db As SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.PWMDatabase, <RRawVectorArgument> search_regions As Object,
+                                 <RRawVectorArgument(TypeCodes.string)>
+                                 Optional family As Object = Nothing,
+                                 Optional identities_cutoff As Double = 0.8,
+                                 Optional minW As Double = 0.85,
+                                 Optional top As Integer = 3,
+                                 Optional permutation As Integer = 2500,
+                                 Optional tqdm_bar As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(search_regions, env)
+        Dim familyIds As String() = CLRVector.asCharacter(family)
+
+        If seqs Is Nothing Then
+            Return RInternal.debug.stop("invalid fasta sequence source for run TFBS motif site search!", env)
+        End If
+
+        Dim motifs As Dictionary(Of String, Probability())
+
+        If familyIds.IsNullOrEmpty Then
+            motifs = db.LoadMotifs
+        Else
+            motifs = familyIds _
+                .Distinct _
+                .ToDictionary(Function(name) name,
+                              Function(name)
+                                  Return db _
+                                      .LoadFamilyMotifs(name) _
+                                      .ToArray
+                              End Function)
+        End If
+
+        Dim tfbs_hits = motifs.ScanSequential(seqs,
+                                              identities_cutoff:=identities_cutoff,
+                                              minW:=minW,
+                                              top:=top,
+                                              permutation:=permutation,
+                                              tqdm_bar:=tqdm_bar)
+        Return tfbs_hits
     End Function
 
     ''' <summary>
@@ -95,9 +166,9 @@ Module TRNBuilder
     <ExportAPI("write.regulations")>
     Public Function writeRegulationFootprints(regulationFootprints As Object, file$, Optional env As Environment = Nothing) As Object
         If regulationFootprints Is Nothing Then
-            Return Internal.debug.stop("no content data provides!", env)
+            Return RInternal.debug.stop("no content data provides!", env)
         ElseIf file.StringEmpty Then
-            Return Internal.debug.stop("no file write information provides!", env)
+            Return RInternal.debug.stop("no file write information provides!", env)
         End If
 
         If TypeOf regulationFootprints Is RegulationFootprint() Then
@@ -111,52 +182,52 @@ Module TRNBuilder
 
             Return True
         Else
-            Return Internal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
+            Return RInternal.debug.stop($"invalid data type for write: {regulationFootprints.GetType.FullName }", env)
         End If
     End Function
 
-    <ExportAPI("regulations")>
-    <RApiReturn(GetType(RegulationFootprint))>
-    Public Function RegulationFootprints(regDb As RegPreciseScan,
-                                         <RRawVectorArgument> factors As Object,
-                                         <RRawVectorArgument> tfbs As Object,
-                                         seqs As list,
-                                         Optional env As Environment = Nothing) As Object
+    '<ExportAPI("regulations")>
+    '<RApiReturn(GetType(RegulationFootprint))>
+    'Public Function RegulationFootprints(regDb As RegPreciseScan,
+    '                                     <RRawVectorArgument> factors As Object,
+    '                                     <RRawVectorArgument> tfbs As Object,
+    '                                     seqs As list,
+    '                                     Optional env As Environment = Nothing) As Object
 
-        Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
-        Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
-        Dim seqList As Dictionary(Of String, String) = seqs.AsGeneric(Of String)(env)
+    '    Dim TF As pipeline = pipeline.TryCreatePipeline(Of RegpreciseBBH)(factors, env)
+    '    Dim TFBSlist As pipeline = pipeline.TryCreatePipeline(Of MotifMatch)(tfbs, env)
+    '    Dim seqList As Dictionary(Of String, String) = seqs.AsGeneric(Of String)(env)
 
-        If TF.isError Then
-            Return TF.getError
-        ElseIf TFBSlist.isError Then
-            Return TFBSlist.getError
-        End If
+    '    If TF.isError Then
+    '        Return TF.getError
+    '    ElseIf TFBSlist.isError Then
+    '        Return TFBSlist.getError
+    '    End If
 
-        Return regDb.CreateFootprints(
-            regulators:=TF.populates(Of RegpreciseBBH)(env),
-            tfbs:=TFBSlist.populates(Of MotifMatch)(env)
-        ) _
-            .Select(Function(r)
-                        r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData)) + 1
-                        Return r
-                    End Function) _
-            .Where(Function(r) r.distance <> -seqList(r.regulated).Length) _
-            .ToArray
-    End Function
+    '    Return regDb.CreateFootprints(
+    '        regulators:=TF.populates(Of RegpreciseBBH)(env),
+    '        tfbs:=TFBSlist.populates(Of MotifMatch)(env)
+    '    ) _
+    '        .Select(Function(r)
+    '                    r.distance = -(seqList(r.regulated).Length - seqList(r.regulated).IndexOf(r.sequenceData)) + 1
+    '                    Return r
+    '                End Function) _
+    '        .Where(Function(r) r.distance <> -seqList(r.regulated).Length) _
+    '        .ToArray
+    'End Function
 
-    <ExportAPI("TRN")>
-    Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
-        Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
+    '<ExportAPI("TRN")>
+    'Public Function TRN(<RRawVectorArgument> footprints As Object, Optional env As Environment = Nothing) As Object
+    '    Dim network As pipeline = pipeline.TryCreatePipeline(Of RegulationFootprint)(footprints, env)
 
-        If network.isError Then
-            Return network.getError
-        Else
-            Return network _
-                .populates(Of RegulationFootprint)(env) _
-                .RegulationFootprintTRN
-        End If
-    End Function
+    '    If network.isError Then
+    '        Return network.getError
+    '    Else
+    '        Return network _
+    '            .populates(Of RegulationFootprint)(env) _
+    '            .RegulationFootprintTRN
+    '    End If
+    'End Function
 
     <ExportAPI("regulation.footprint")>
     Public Function RegulationFootprint(<RRawVectorArgument>
@@ -177,7 +248,7 @@ Module TRNBuilder
                 .populates(Of BestHit)(env) _
                 .ToArray
         Else
-            Return Internal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)
+            Return RInternal.debug.stop($"invalid regulator maps: '{regulators.GetType.FullName }'!", env)
         End If
 
         Dim regulatorTable As New Dictionary(Of String, List(Of (genome As BacteriaRegulome, Regulator)))
@@ -253,7 +324,7 @@ Module TRNBuilder
                        Next
                    Next
                End Function() _
- _
+                              _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 End Module

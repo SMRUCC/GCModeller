@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b67e287e7d13ae5fe21ee53579fa5377, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
+﻿#Region "Microsoft.VisualBasic::7c9f42112b1afd021a2f0a58a109527a, visualize\Cytoscape\Cytoscape\API\ImportantNodes\ImportantNodes.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 154 (78.97%)
+    ' Comment Lines: 20 (10.26%)
+    '    - Xml Docs: 85.00%
+    ' 
+    '   Blank Lines: 21 (10.77%)
+    '     File Size: 9.94 KB
+
+
     '     Module ImportantNodes
     ' 
     '         Function: __equivalenceFast, __nodes, EquivalenceClass, LoadNodeTable, ReadRankedNodes
@@ -44,8 +56,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData

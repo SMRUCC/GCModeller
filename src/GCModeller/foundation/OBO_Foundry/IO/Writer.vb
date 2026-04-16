@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c74d036eb9fb2eae6cf32525be00866d, foundation\OBO_Foundry\IO\Writer.vb"
+﻿#Region "Microsoft.VisualBasic::06e8c51feab8f3a5ed1e44acaceb8ed1, foundation\OBO_Foundry\IO\Writer.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 87 (73.11%)
+    ' Comment Lines: 16 (13.45%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 16 (13.45%)
+    '     File Size: 5.20 KB
+
+
     '     Module Writer
     ' 
-    '         Function: (+2 Overloads) ToLines
+    '         Function: stripUnit, (+2 Overloads) ToLines
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,8 +55,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection
+Imports any = Microsoft.VisualBasic.Scripting
 Imports Field = SMRUCC.genomics.foundation.OBO_Foundry.IO.Reflection.Field
 
 Namespace IO
@@ -59,11 +71,16 @@ Namespace IO
         ''' <param name="schema"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ToLines(Of T As Class)(target As T, schema As Dictionary(Of BindProperty(Of Field))) As String()
-            Dim bufs As New List(Of String)
+        Public Iterator Function ToLines(Of T As Class)(target As T,
+                                                        schema As Dictionary(Of BindProperty(Of Field)),
+                                                        Optional excludes As Index(Of String) = Nothing,
+                                                        Optional strip_namespace_prefix As String = Nothing,
+                                                        Optional strip_property_unit As Boolean = False) As IEnumerable(Of String)
             Dim name$
             Dim value As Object
-            Dim vals As Object()
+            Dim vals As Array = Nothing
+            Dim pvalue As IEnumerable(Of String)
+            Dim property_namespace_prefix As Boolean = strip_namespace_prefix Is Nothing
 
             For Each [property] As BindProperty(Of Field) In schema.Values
                 If [property].Type Is GetType(String) Then
@@ -72,29 +89,70 @@ Namespace IO
 
                     If value Is Nothing Then
                         Continue For
-                    End If
-
-                    bufs += String.Format("{0}: {1}", name, value.ToString)
-                Else
-                    vals = [property].GetValue(target)
-
-                    If vals.IsNullOrEmpty Then
+                    ElseIf Not excludes Is Nothing AndAlso name Like excludes Then
                         Continue For
                     End If
 
-                    Dim pvalue = From o As Object
-                                 In vals
-                                 Let str As String = Scripting.ToString(o)
-                                 Select str
+                    Yield String.Format("{0}: {1}", name, value.ToString)
+                Else
+                    value = [property].GetValue(target)
 
-                    bufs += From val As String
-                            In pvalue
-                            Let pname As String = [property].field.name
-                            Select String.Format("{0}: {1}", pname, val)
+                    If value Is Nothing Then
+                        Continue For
+                    ElseIf value.GetType.IsArray Then
+                        vals = value
+                    ElseIf TypeOf value Is Dictionary(Of String, String) Then
+                        vals = DirectCast(value, Dictionary(Of String, String)) _
+                            .Select(Function(t1) $"{t1.Key} ""{t1.Value}""") _
+                            .ToArray
+                    Else
+                        Throw New NotImplementedException(value.GetType.FullName)
+                    End If
+
+                    If vals.IsNullOrEmpty Then
+                        Continue For
+                    Else
+                        name = [property].field.name
+
+                        If Not excludes Is Nothing AndAlso name Like excludes Then
+                            Continue For
+                        End If
+                    End If
+
+                    If property_namespace_prefix OrElse name <> "property_value" Then
+                        ' do nothing when reserved namespace prefix
+                        pvalue = From o As Object
+                                 In vals.AsParallel
+                                 Let str As String = any.ToString(o)
+                                 Select String.Format("{0}: {1}", name, If(strip_property_unit, str.stripUnit, str))
+                    Else
+                        ' trim namespace prefix for property valye
+                        pvalue = From o As Object
+                                 In vals.AsParallel
+                                 Let str As String = any.ToString(o).Replace(strip_namespace_prefix, "")
+                                 Select String.Format("{0}: {1}", name, If(strip_property_unit, str.stripUnit, str))
+                    End If
+
+                    For Each line As String In pvalue
+                        Yield line
+                    Next
                 End If
             Next
+        End Function
 
-            Return bufs.ToArray
+        <Extension>
+        Private Function stripUnit(value As String) As String
+            Static xsd_units As String() = {"xsd:string", "xsd:double", "xsd:boolean", "xsd:integer"}
+
+            If value Is Nothing Then
+                Return value
+            End If
+
+            For Each unit As String In xsd_units
+                value = value.Replace(unit, "")
+            Next
+
+            Return value.Trim
         End Function
 
         ''' <summary>
@@ -107,7 +165,9 @@ Namespace IO
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToLines(Of T As Class)(target As T) As String()
-            Return target.ToLines(Reflector.LoadClassSchema(Of T)())
+            Return target _
+                .ToLines(Reflector.LoadClassSchema(Of T)()) _
+                .ToArray
         End Function
     End Module
 End Namespace

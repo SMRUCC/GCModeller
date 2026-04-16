@@ -102,6 +102,7 @@ GCModeller provides a set of .NET libraries and CLI tools for processing biologi
 
 + Cellular module simulator, and virtual cell model generator protocol.
 + Proteomics data analysis toolkit
++ Single-cell data analysis toolkit
 
 ### GCModeller R# scripting
 
@@ -161,6 +162,15 @@ Here listing the scientific paperworks that based on the analysis services of GC
 
 ## Gallery
 
+![](./src/GCModeller/analysis/SingleCell/STdeconvolve/demo/raw/pixels.png)
+
+single cell data toolkit includes in GCModeller:
+
++ [PhenoGraph](./src/GCModeller/analysis/SingleCell/PhenoGraph/PhenoGraph)
++ [STdeconvolve](./src/GCModeller/analysis/SingleCell/STdeconvolve/STdeconvolve)
+
+![](./images/cmeans_keggSet.png)
+![](./images/upsetPlot.png)
 [![](./src/workbench/R%23/demo/HTS/patterns.png)](./src/workbench/R%23/demo/HTS/expression_patterns.R)
 ![](./images/vocano.plot.png)
 ![](./images/KEGG-pathway-network-clusters.png)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 28 (68.29%)
+    ' Comment Lines: 6 (14.63%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.32 KB
+
+
     '     Class ValueVector
     ' 
     '         Properties: Y

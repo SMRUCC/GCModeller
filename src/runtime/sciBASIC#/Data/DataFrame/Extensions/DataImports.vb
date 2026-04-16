@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5219f93ae994a22f4d71499b8bc6d0e2, Data\DataFrame\Extensions\DataImports.vb"
+﻿#Region "Microsoft.VisualBasic::2685ae94ccea86bf38c71f5fabc870e9, Data\DataFrame\Extensions\DataImports.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 212
+    '    Code Lines: 110 (51.89%)
+    ' Comment Lines: 81 (38.21%)
+    '    - Xml Docs: 91.36%
+    ' 
+    '   Blank Lines: 21 (9.91%)
+    '     File Size: 8.74 KB
+
+
     ' Module DataImports
     ' 
-    '     Function: (+2 Overloads) [Imports], FixLengthImports, (+3 Overloads) ImportsData, ImportsTsv, (+2 Overloads) RowParsing
-    '               SampleForType
+    '     Function: (+2 Overloads) [Imports], FixLengthImports, (+3 Overloads) ImportsData, ImportsTsv, ReadCsv
+    '               (+2 Overloads) RowParsing, SampleForType
     ' 
     ' /********************************************************************************/
 
@@ -45,11 +57,13 @@ Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
-Imports csvFile = Microsoft.VisualBasic.Data.csv.IO.File
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports csvFile = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' Module provides the csv data imports operation of the csv document creates from a text file.
@@ -67,6 +81,15 @@ Public Module DataImports
     ''' </summary>
     ''' <remarks></remarks>
     Public Const SplitRegxExpression As String = "[" & vbTab & "{0}](?=(?:[^""]|""[^""]*"")*$)"
+
+    ''' <summary>
+    ''' Parse the csv table file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    Public Function ReadCsv(file As String, Optional encoding As Encodings = Encodings.UTF8) As File
+        Return file.LoadCsv(encoding)
+    End Function
 
     ''' <summary>
     ''' Imports the data in a well formatted text file using a specific delimiter, default delimiter is comma character.
@@ -91,17 +114,19 @@ Public Module DataImports
     ''' <param name="delimiter"></param>
     ''' <param name="encoding"></param>
     ''' <returns></returns>
-    <Extension> Public Function [Imports](Of T As Class)(path$,
-                                                         Optional delimiter$ = ",",
-                                                         Optional encoding As Encoding = Nothing,
-                                                         Optional nameMaps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of T)
+    <Extension>
+    Public Function [Imports](Of T As Class)(path$,
+                                             Optional delimiter$ = ",",
+                                             Optional encoding As Encoding = Nothing,
+                                             Optional nameMaps As Dictionary(Of String, String) = Nothing,
+                                             Optional mute As Boolean = False) As IEnumerable(Of T)
 
         Dim source As IO.File = [Imports](path, delimiter, encoding)
 
         If source.RowNumbers = 0 Then
             Return New T() {}
         Else
-            Return source.AsDataSource(Of T)(False, maps:=nameMaps)
+            Return source.AsDataSource(Of T)(False, maps:=nameMaps, silent:=mute)
         End If
     End Function
 
@@ -163,17 +188,21 @@ Public Module DataImports
     ''' <remarks></remarks>
     ''' 
     Public Function RowParsing(Line As String, SplitRegxExpression As String) As RowObject
-        Dim columns$() = Regex.Split(Line, SplitRegxExpression)
+        If Line.StringEmpty(whitespaceAsEmpty:=False) Then
+            Return New RowObject(New String() {})
+        Else
+            Dim columns$() = Regex.Split(Line, SplitRegxExpression)
 
-        For i As Integer = 0 To columns.Length - 1
-            If Not String.IsNullOrEmpty(columns(i)) Then
-                If columns(i).First = """"c AndAlso columns(i).Last = """"c Then
-                    columns(i) = Mid(columns(i), 2, Len(columns(i)) - 2)
+            For i As Integer = 0 To columns.Length - 1
+                If Not String.IsNullOrEmpty(columns(i)) Then
+                    If columns(i).First = """"c AndAlso columns(i).Last = """"c Then
+                        columns(i) = Mid(columns(i), 2, Len(columns(i)) - 2)
+                    End If
                 End If
-            End If
-        Next
+            Next
 
-        Return columns
+            Return New RowObject(columns)
+        End If
     End Function
 
     ''' <summary>
@@ -194,7 +223,7 @@ Public Module DataImports
 
         Dim Lines As String() = txtPath.ReadAllLines(encoding)
         Dim LQuery As RowObject() = LinqAPI.Exec(Of RowObject) <=
- _
+                                                                 _
             From line As String
             In Lines
             Select RowParsing(line, length:=length)
@@ -231,7 +260,7 @@ Public Module DataImports
     <ExportAPI("DataType.Match")>
     <Extension>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function SampleForType(column As IEnumerable(Of String)) As Type
-        Return IO.DataImports.SampleForType(column.ToArray)
+    Public Function SampleForType(column As IEnumerable(Of String), Optional checkNullFactor As Boolean = False) As Type
+        Return TypeCast.DataImports.SampleForType(column.ToArray, checkNullFactor)
     End Function
 End Module

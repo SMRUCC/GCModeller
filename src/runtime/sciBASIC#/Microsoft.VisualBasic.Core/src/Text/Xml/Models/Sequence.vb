@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::023e62024aa46f51d84770b70a446c3f, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Sequence.vb"
+﻿#Region "Microsoft.VisualBasic::bf5aecd9e4773292b0d7775cd58fc0d7, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Sequence.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 40 (64.52%)
+    ' Comment Lines: 11 (17.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (17.74%)
+    '     File Size: 1.83 KB
+
+
     '     Class Sequence
     ' 
     '         Properties: n, range, steps
     ' 
     '         Constructor: (+3 Overloads) Sub New
-    '         Function: GenericEnumerator, GetEnumerator, ToArray, ToString
+    '         Function: GenericEnumerator, ToArray, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -102,10 +114,6 @@ Namespace Text.Xml.Models
             For Each value As Double In range.Enumerate(n)
                 Yield value
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Double).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2393125faf83bc9ae53a165797bdd6f1, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MapStream\MSReader.vb"
+﻿#Region "Microsoft.VisualBasic::3daaf89b84573541467366ac2ee1b7f1, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\MMFProtocol\MapStream\MSReader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 77 (59.69%)
+    ' Comment Lines: 28 (21.71%)
+    '    - Xml Docs: 46.43%
+    ' 
+    '   Blank Lines: 24 (18.60%)
+    '     File Size: 4.58 KB
+
 
     '     Class MapStream
     ' 
@@ -133,8 +145,13 @@ Namespace Parallel.MMFProtocol.MapStream
         ''' <param name="ChunkSize">内存映射文件的数据块的预分配大小</param>
         Sub New(uri As String, callback As DataArrival, ChunkSize As Long)
             Call MyBase.New(uri, ChunkSize)
+
+#If WINDOWS Then
             file = MemoryMappedFile.OpenExisting(uri)
             _dataArrivals = callback
+#Else
+            Throw New NotSupportedException
+#End If
 
             Call Parallel.RunTask(AddressOf __threadElapsed)
         End Sub

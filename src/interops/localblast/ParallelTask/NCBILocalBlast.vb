@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d0491f47e5ad537aff230da6b87422f, localblast\ParallelTask\NCBILocalBlast.vb"
+﻿#Region "Microsoft.VisualBasic::29cb7b5d770a47b679ce851c6660a4cb, localblast\ParallelTask\NCBILocalBlast.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 390
+    '    Code Lines: 262 (67.18%)
+    ' Comment Lines: 82 (21.03%)
+    '    - Xml Docs: 97.56%
+    ' 
+    '   Blank Lines: 46 (11.79%)
+    '     File Size: 20.18 KB
+
+
     ' Module NCBILocalBlast
     ' 
     '     Function: __blastn, __blastX, __integrity, (+2 Overloads) Blastn, Blastp
@@ -45,15 +57,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Repository
-Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
@@ -79,7 +91,7 @@ Public Module NCBILocalBlast
     ''' <remarks></remarks>
     <Extension> Public Function FastCheckIntegrityProvider(query As FASTA.FastaFile, path$) As Boolean
         Dim queries$() = LinqAPI.Exec(Of String) _
- _
+                                                 _
             () <= From line As String
                   In path.IterateAllLines
                   Let entry As String = r.Match(line, "Query\s*=\s*.+").Value
@@ -204,7 +216,7 @@ Public Module NCBILocalBlast
             Call Handle.FormatDb(nt, Handle.MolTypeNucleotide).Start(waitForExit:=True)
         End If
 
-        Call $"{NameOf(GenomeSource)}:={GenomeSource.Count}".__DEBUG_ECHO
+        Call $"{NameOf(GenomeSource)}:={GenomeSource.Count}".debug
 
         Dim taskArray As Func(Of Boolean)() = (From Subject As String
                                                In GenomeSource
@@ -294,7 +306,7 @@ Public Module NCBILocalBlast
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(blastbin, LocalBLAST.InteropService.Program.BlastPlus)
         End If
 
-        Dim Directories As String() = ProgramPathSearchTool.SearchDirectory("blast*", "")
+        Dim Directories As String() = {ProgramPathSearchTool.Which("blastp"), ProgramPathSearchTool.Which("blastn")}.Select(Function(path) path.ParentPath).Distinct.ToArray
         If Directories.IsNullOrEmpty Then
             Return Nothing
         End If
@@ -305,20 +317,13 @@ Public Module NCBILocalBlast
             Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
         End If
 
-        Dim EXEList As String() = ProgramPathSearchTool.SearchProgram(BLAST, "blast")
-
-        If EXEList.Length > 1 Then
-            BLAST = RepositoryFileSystem.GetMostAppreancePath(EXEList)
-            Return NCBI.Extensions.LocalBLAST.InteropService.CreateInstance(BLAST, LocalBLAST.InteropService.Program.BlastPlus)
-        Else
-            Return Nothing
-        End If
+        Return Nothing
     End Function
 
     <ExportAPI("blastp")>
     Public Function Blastp(session As LocalBLAST.InteropService.InteropService, Query As String, Db As String, Evalue As String, BlastOutput As String) As String
         If String.IsNullOrEmpty(BlastOutput) Then
-            BlastOutput = My.Computer.FileSystem.SpecialDirectories.Temp & "/blast_output.log"
+            BlastOutput = App.AppSystemTemp & "/blast_output.log"
         Else
             Call FileIO.FileSystem.CreateDirectory(FileIO.FileSystem.GetParentPath(BlastOutput))
         End If

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c93b27f7d2978e2f422722b97ebcb24, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MapMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::0f1c2b2debd2f2741ae244538ea696d1, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\MarchingSquares\MapMatrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 108 (62.07%)
+    ' Comment Lines: 37 (21.26%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 29 (16.67%)
+    '     File Size: 5.84 KB
+
 
     '     Class MapMatrix
     ' 
@@ -119,7 +131,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .IteratesALL _
                 .ToArray
             Dim range As DoubleRange = data
-            Dim percentage As DoubleRange = {0, 1}
+            Dim percentage As New DoubleRange(0, 1)
 
             Return levels _
                 .Select(Function(p)
@@ -180,6 +192,13 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 .OrderBy(Function(j) j.i)
         End Function
 
+        ''' <summary>
+        ''' 进行数据插值
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <param name="j"></param>
+        ''' <param name="interpolateFill"></param>
+        ''' <returns></returns>
         Private Function interpolate(i As Integer, j As Integer, interpolateFill As Boolean) As SeqValue(Of Double)
             Dim value As Single = 0
             Dim find As Boolean = False
@@ -193,6 +212,7 @@ Namespace Drawing2D.Math2D.MarchingSquares
                 End If
             Next
 
+            ' 20220210 进行矩阵插值似乎会导致绘制的图形非常失真？
             If interpolateFill AndAlso Not find Then
                 Dim lD As Double = 0
                 Dim DV As Double = 0

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9f4f1258992702d689b293512d3ae19, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
+﻿#Region "Microsoft.VisualBasic::cf88e191210b636af4889e5faf3ebe66, Data_science\Visualization\Plots-statistics\PCA\ScreePlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 58 (86.57%)
+    ' Comment Lines: 3 (4.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (8.96%)
+    '     File Size: 3.19 KB
+
+
     '     Module ScreePlot
     ' 
     '         Function: Plot
@@ -48,9 +60,10 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports PCA_analysis = Microsoft.VisualBasic.Math.LinearAlgebra.Prcomp.PCA
 
 Namespace PCA
 
@@ -60,7 +73,7 @@ Namespace PCA
     Public Module ScreePlot
 
         <Extension>
-        Public Function Plot(pca As PCA_analysis,
+        Public Function Plot(pca As MultivariateAnalysisResult,
                              Optional size$ = "3300,2700",
                              Optional margin$ = g.DefaultUltraLargePadding,
                              Optional bg$ = "white",
@@ -72,7 +85,7 @@ Namespace PCA
                              Optional labelFontStyle$ = CSSFont.Win7VeryLarge,
                              Optional axisStrokeCSS$ = Stroke.AxisStroke) As GraphicsData
 
-            Dim cv As Vector = pca.CumulativeVariance
+            Dim cv As Vector = pca.Contributions.AsVector
             Dim X$() = cv.Dim _
                 .SeqIterator(offset:=1) _
                 .Select(Function(i) $"Comp.{i}") _
@@ -80,9 +93,10 @@ Namespace PCA
             Dim Y As Vector = cv.CreateAxisTicks
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim rect As Rectangle = region.PlotRegion
-                    Dim Xscaler = d3js.scale.ordinal.domain(X).range(integers:={rect.Left, rect.Right})
-                    Dim Yscaler = d3js.scale.linear.domain(Y).range(integers:={rect.Top, rect.Bottom})
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim rect As Rectangle = region.PlotRegion(css)
+                    Dim Xscaler = d3js.scale.ordinal.domain(tags:=X).range(integers:={rect.Left, rect.Right})
+                    Dim Yscaler = d3js.scale.linear.domain(values:=Y).range(integers:={rect.Top, rect.Bottom})
                     Dim scaler As New TermScaler With {
                         .AxisTicks = (X, Y),
                         .X = Xscaler,
@@ -92,7 +106,10 @@ Namespace PCA
                     Dim labelColor As Brush = CSSFont.TryParse(labelFontStyle).color.GetBrush
                     Dim tickColor As Brush = CSSFont.TryParse(tickFontStyle).color.GetBrush
 
-                    Call g.DrawY(Stroke.TryParse(axisStrokeCSS), "Variances", scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, labelColor, CSSFont.TryParse(tickFontStyle).GDIObject(g.Dpi), tickColor, htmlLabel:=False, tickFormat:="F2")
+                    Call g.DrawY(css.GetPen(Stroke.TryParse(axisStrokeCSS)), "Variances", scaler, -1, Y, YAxisLayoutStyles.Left, Nothing, labelFontStyle, labelColor,
+                                 css.GetFont(CSSFont.TryParse(tickFontStyle)), tickColor,
+                                 htmlLabel:=False,
+                                 tickFormat:="F2")
                 End Sub
 
             Return g.GraphicsPlots(

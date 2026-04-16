@@ -1,0 +1,207 @@
+﻿#Region "Microsoft.VisualBasic::a4a02f034d136a1e1d4c4ecfb2e407d5, R#\seqtoolkit\kmersTools.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 103 (67.32%)
+    ' Comment Lines: 25 (16.34%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 25 (16.34%)
+    '     File Size: 5.86 KB
+
+
+    ' Module kmersTools
+    ' 
+    '     Function: cdhit_nr, kmers_from_seq, kmers_matrix, oneHot_vectorizer, tfidf_vectorizer
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.SequenceAlignment
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
+Imports SMRUCC.genomics.Model.MotifGraph.ProteinStructure
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SeqMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+
+<Package("kmers")>
+Module kmersTools
+
+    ''' <summary>
+    ''' Create kmers from a given sequence
+    ''' </summary>
+    ''' <param name="seq"></param>
+    ''' <param name="k"></param>
+    ''' <returns></returns>
+    <ExportAPI("kmers")>
+    Public Function kmers_from_seq(seq As String, k As Integer) As String()
+        Return KSeq.KmerSpans(seq, k).ToArray
+    End Function
+
+    ''' <summary>
+    ''' generate sequence k-mer count data matrix
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="k"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kmers_matrix")>
+    <RApiReturn(GetType(SeqMatrix))>
+    Public Function kmers_matrix(<RRawVectorArgument> x As Object, Optional k As Integer = 3, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline
+
+        If TypeOf x Is FastQFile Then
+            pull = pipeline.CreateFromPopulator(DirectCast(x, FastQFile).ToArray)
+        Else
+            pull = pipeline.TryCreatePipeline(Of IFastaProvider)(x, env)
+        End If
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim seqs As New List(Of NamedValue(Of Dictionary(Of String, Double)))
+
+        For Each seq As IFastaProvider In pull.populates(Of IFastaProvider)(env)
+            Call seqs.Add(KMers.KMerSample(seq, k))
+        Next
+
+        Dim features As String() = seqs.Select(Function(a) a.Value.Keys) _
+            .IteratesALL _
+            .GroupBy(Function(m) m) _
+            .Keys _
+            .OrderBy(Function(m) m) _
+            .ToArray
+        Dim samples As New List(Of DataFrameRow)
+
+        For Each seq As NamedValue(Of Dictionary(Of String, Double)) In seqs
+            Dim counts = seq.Value
+            Dim v As IEnumerable(Of Double) = From ks As String
+                                              In features
+                                              Select If(counts.ContainsKey(ks), counts(ks), 0.0)
+
+            Call samples.Add(New DataFrameRow(seq.Name, v))
+        Next
+
+        Return New SeqMatrix With {
+            .expression = samples.ToArray,
+            .sampleID = features,
+            .tag = $"k-mer(k={k})"
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="x">should be a collection of the <see cref="FastaSeq"/> sequence collection</param>
+    ''' <param name="type">the sequence data type, default is protein sequence</param>
+    ''' <param name="k">the length of the k-mers</param>
+    ''' <param name="L2_norm">do L2 normalized of the generated matrix data?</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' make sequence embedding via TF-IDF algorithm which is implemented via <see cref="KmerTFIDFVectorizer"/>
+    ''' </remarks>
+    <ExportAPI("tfidf_vectorizer")>
+    Public Function tfidf_vectorizer(<RRawVectorArgument> x As Object,
+                                     Optional type As SeqTypes = SeqTypes.Protein,
+                                     Optional k As Integer = 6,
+                                     Optional L2_norm As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim latent As New KmerTFIDFVectorizer(type, k)
+        Call latent.AddRange(seqs)
+        Dim vec = latent.TfidfVectorizer(L2_norm)
+        Dim df As dataframe = vec.toDataframe(list.empty, env)
+        Return df
+    End Function
+
+    <ExportAPI("onehot_vectorizer")>
+    Public Function oneHot_vectorizer(<RRawVectorArgument> x As Object,
+                                      Optional type As SeqTypes = SeqTypes.Protein,
+                                      Optional k As Integer = 6,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim latent As New KmerTFIDFVectorizer(type, k)
+        Call latent.AddRange(seqs)
+        Dim vec = latent.OneHotVectorizer
+        Dim df As dataframe = vec.toDataframe(list.empty, env)
+        Return df
+    End Function
+
+    <ExportAPI("cdhit_nr")>
+    Public Function cdhit_nr(<RRawVectorArgument> x As Object,
+                             Optional k As Integer = 12,
+                             Optional identities As Double = 0.8,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(x, env)
+
+        If seqs Is Nothing Then
+            Return Nothing
+        End If
+
+        Dim cdhit As CDHit = New CDHit(k).Setup(seqs)
+        Dim nr = cdhit.NrSeqs(threshold:=identities).ToArray
+
+        Return nr
+    End Function
+End Module
+

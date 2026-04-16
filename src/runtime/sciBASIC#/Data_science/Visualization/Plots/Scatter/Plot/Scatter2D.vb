@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b8b3091006060666c5b62a9ae599b56, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::59804a2767d3ac660b437801079d8e7f, Data_science\Visualization\Plots\Scatter\Plot\Scatter2D.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 381
+    '    Code Lines: 288 (75.59%)
+    ' Comment Lines: 43 (11.29%)
+    '    - Xml Docs: 62.79%
+    ' 
+    '   Blank Lines: 50 (13.12%)
+    '     File Size: 17.13 KB
+
+
     '     Class Scatter2D
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: DrawScatter, GetDataScaler
+    '         Function: (+2 Overloads) DrawScatter, GetDataScaler
     ' 
     '         Sub: PlotInternal
     ' 
@@ -45,6 +57,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots
@@ -57,10 +70,37 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConvexHull
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Plots
 
@@ -82,14 +122,22 @@ Namespace Plots
         ReadOnly ablines As Line()
         ReadOnly hullPolygonIndex As Index(Of String)
 
-        Friend xlim As Double = -1
-        Friend ylim As Double = -1
+        Friend xlim As Double() = Nothing
+        Friend ylim As Double() = Nothing
+        Friend XaxisAbsoluteScalling As Boolean = False
+        Friend YaxisAbsoluteScalling As Boolean = False
+
+        ''' <summary>
+        ''' show debug message if verbose
+        ''' </summary>
+        Friend verbose As Boolean = False
 
         Public Sub New(data As IEnumerable(Of SerialData), theme As Theme,
                        Optional scatterReorder As Boolean = False,
                        Optional fillPie As Boolean = True,
                        Optional ablines As Line() = Nothing,
-                       Optional hullConvexList As IEnumerable(Of String) = Nothing)
+                       Optional hullConvexList As IEnumerable(Of String) = Nothing,
+                       Optional verbose As Boolean = False)
 
             Call MyBase.New(theme)
 
@@ -98,41 +146,69 @@ Namespace Plots
             Me.scatterReorder = scatterReorder
             Me.fillPie = fillPie
             Me.ablines = ablines
+            Me.verbose = verbose
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(scatter As IEnumerable(Of PointData), theme As Theme,
+                Optional scatterReorder As Boolean = False,
+                Optional fillPie As Boolean = True,
+                Optional ablines As Line() = Nothing,
+                Optional hullConvexList As IEnumerable(Of String) = Nothing,
+                Optional verbose As Boolean = False)
+
+            Call Me.New({New SerialData("Scatter data", scatter) With {.pointSize = theme.pointSize}}, theme,
+                        scatterReorder:=scatterReorder,
+                        fillPie:=fillPie,
+                        ablines:=ablines,
+                        hullConvexList:=hullConvexList,
+                        verbose:=verbose)
         End Sub
 
         Public Function GetDataScaler(ByRef g As IGraphics, rect As GraphicsRegion) As DataScaler
             Dim XTicks#(), YTicks#()
 
-            '    With array.CreateAxisTicks(
-            '    preferPositive:=preferPositive,
-            '    scaleX:=If(XaxisAbsoluteScalling, 1, 1.25),
-            '    scaleY:=If(YaxisAbsoluteScalling, 1, 1.25)
-            ')
-
-            '        XTicks = .x
-            '        YTicks = .y
-            '    End With
             XTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.X)).ToArray
             YTicks = array.Select(Function(s) s.pts).IteratesALL.Select(Function(p) CDbl(p.pt.Y)).ToArray
 
-            Call Console.WriteLine($"xlim: {xlim}; ylim: {ylim}")
-
-            If (Not xlim.IsNaNImaginary) AndAlso xlim > 0 Then
-                XTicks = XTicks.JoinIterates({xlim}).ToArray
-            End If
-            If (Not ylim.IsNaNImaginary) AndAlso ylim > 0 Then
-                YTicks = YTicks.JoinIterates({ylim}).ToArray
+            If verbose Then
+                Call VBDebugger.EchoLine("set [x,y] axis range manually:")
+                Call VBDebugger.EchoLine($"xlim: {xlim};")
+                Call VBDebugger.EchoLine($"ylim: {ylim};")
             End If
 
-            XTicks = XTicks.Range.CreateAxisTicks
-            YTicks = YTicks.Range.CreateAxisTicks
+            If Not xlim.IsNullOrEmpty Then
+                If xlim.Length = 1 OrElse XaxisAbsoluteScalling Then
+                    XTicks = xlim.JoinIterates({0.0}).CreateAxisTicks(decimalDigits:=theme.GetXAxisDecimals)
+                Else
+                    ' xlim is [min,max]
+                    XTicks = xlim.CreateAxisTicks(decimalDigits:=theme.GetXAxisDecimals)
+                End If
+            Else
+                If XaxisAbsoluteScalling Then
+                    XTicks = {0.0}.JoinIterates(XTicks).ToArray
+                End If
 
-            'If ticksY > 0 Then
-            '    YTicks = AxisScalling.GetAxisByTick(YTicks, tick:=ticksY)
-            'End If
+                XTicks = XTicks.Range.CreateAxisTicks(decimalDigits:=theme.GetXAxisDecimals)
+            End If
+
+            If Not ylim.IsNullOrEmpty Then
+                If ylim.Length = 1 OrElse YaxisAbsoluteScalling Then
+                    YTicks = ylim.JoinIterates({0.0}).CreateAxisTicks(decimalDigits:=theme.GetYAxisDecimals)
+                Else
+                    ' ylim is [min,max]
+                    YTicks = ylim.CreateAxisTicks(decimalDigits:=theme.GetYAxisDecimals)
+                End If
+            Else
+                If YaxisAbsoluteScalling Then
+                    YTicks = {0.0}.JoinIterates(YTicks).ToArray
+                End If
+
+                YTicks = YTicks.Range.CreateAxisTicks(decimalDigits:=theme.GetYAxisDecimals)
+            End If
 
             Dim canvas As IGraphics = g
-            Dim region As Rectangle = rect.PlotRegion
+            Dim region As Rectangle = rect.PlotRegion(g.LoadEnvironment)
             Dim X As d3js.scale.Scaler
             Dim Y As d3js.scale.LinearScale
 
@@ -161,13 +237,13 @@ Namespace Plots
             Else
                 X = d3js.scale _
                     .linear _
-                    .domain(XTicks) _
+                    .domain(values:=XTicks) _
                     .range(integers:={region.Left, region.Right})
             End If
 
             Y = d3js.scale _
                 .linear _
-                .domain(YTicks) _
+                .domain(values:=YTicks) _
                 .range(integers:={region.Bottom, region.Top})
 
             Return New DataScaler With {
@@ -178,36 +254,79 @@ Namespace Plots
             }
         End Function
 
+        Public Shared Function DrawScatter(g As IGraphics, cluster As SerialData, scaler As DataScaler,
+                                           Optional fillPie As Boolean = True,
+                                           Optional strokeCss As Stroke = Nothing) As IEnumerable(Of PointF)
+
+            Dim color As Brush = New SolidBrush(cluster.color)
+            Dim brush As Func(Of PointData, Brush) = Function(a) color
+
+            Return DrawScatter(g, cluster.pts, scaler, fillPie, cluster.shape, cluster.pointSize, brush, strokeCss, serialName:=cluster.title)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="scatter"></param>
+        ''' <param name="scaler"></param>
+        ''' <param name="fillPie"></param>
+        ''' <param name="shape"></param>
+        ''' <param name="pointSize"></param>
+        ''' <param name="getPointBrush"></param>
+        ''' <param name="strokeCss"></param>
+        ''' <returns>
+        ''' this function will populate out a collection of the translated points 
+        ''' for draw hull polygon if needed.
+        ''' </returns>
         Public Shared Iterator Function DrawScatter(g As IGraphics,
                                                     scatter As IEnumerable(Of PointData),
                                                     scaler As DataScaler,
                                                     fillPie As Boolean,
                                                     shape As LegendStyles,
                                                     pointSize As Single,
-                                                    getPointBrush As Func(Of PointData, Brush)) As IEnumerable(Of PointF)
+                                                    getPointBrush As Func(Of PointData, Brush),
+                                                    strokeCss As Stroke,
+                                                    serialName As String,
+                                                    Optional commentText As Boolean = False) As IEnumerable(Of PointF)
             Dim r As Single = pointSize / 2
             Dim d As Single = pointSize
-            Dim shapeSize As New Size(d, d)
+            Dim writer As IElementCommentWriter = g.CheckElementWriter
+
+            commentText = commentText AndAlso Not writer Is Nothing
 
             For Each pt As PointData In scatter
                 Dim pt1 = scaler.Translate(pt)
 
                 Yield pt1
 
+                If pt1.X.IsNaNImaginary OrElse pt1.Y.IsNaNImaginary OrElse Not g.IsVisible(pt1) Then
+                    ' current point is very outside the canvas
+                    ' skip of drawing this point?
+                    Call $"Point ({pt.ToString}) is very outside of the canvas!".Warning
+                    Continue For
+                End If
+
                 If fillPie Then
+                    Dim rd As Single = If(pt.size Is Nothing, r, pt.size / 2)
+                    Dim dz As Single = If(pt.size Is Nothing, d, pt.size)
+                    Dim shapeSize As New Size(dz, dz)
+
                     Select Case shape
                         Case LegendStyles.Circle
-                            pt1 = New PointF(pt1.X - r, pt1.Y - r)
+                            pt1 = New PointF(pt1.X - rd, pt1.Y - rd)
                         Case LegendStyles.Square
-                            pt1 = New PointF(pt1.X, pt1.Y - d)
+                            pt1 = New PointF(pt1.X, pt1.Y - dz)
                         Case Else
                             ' do nothing
                     End Select
 
-                    g.DrawLegendShape(pt1, shapeSize, shape, getPointBrush(pt))
-                End If
+                    g.DrawLegendShape(pt1, shapeSize, shape, getPointBrush(pt), border:=strokeCss)
 
-                Call Parallel.DoEvents()
+                    If commentText Then
+                        Call writer.SetLastComment($"scatter point of [{pt.pt.X.ToString("F2")},{pt.pt.Y.ToString("F2")}] size:{d} - serial:{serialName}")
+                    End If
+                End If
             Next
         End Function
 
@@ -215,7 +334,8 @@ Namespace Plots
             Dim scaler As DataScaler = GetDataScaler(g, rect)
             Dim gSize As Size = rect.Size
             Dim canvas As IGraphics = g
-            Dim region As Rectangle = rect.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim region As Rectangle = rect.PlotRegion(css)
 
             If theme.drawAxis Then
                 Call g.DrawAxis(
@@ -235,13 +355,12 @@ Namespace Plots
                 )
             End If
 
-            Dim width As Double = rect.PlotRegion.Width / 200
+            Dim width As Double = region.Width / 200
             Dim annotations As New Dictionary(Of String, (raw As SerialData, line As SerialData))
 
             For Each line As SerialData In array
                 Dim pen As Pen = line.GetPen
                 Dim fillBrush As New SolidBrush(Color.FromArgb(100, baseColor:=line.color))
-                Dim bottom! = gSize.Height - rect.PlotRegion.Bottom
                 Dim scatter As IEnumerable(Of PointData)
 
                 If scatterReorder Then
@@ -256,7 +375,9 @@ Namespace Plots
                     fillPie:=fillPie,
                     shape:=line.shape,
                     pointSize:=line.pointSize,
-                    getPointBrush:=line.BrushHandler
+                    getPointBrush:=line.BrushHandler,
+                    Nothing,
+                    serialName:=line.title
                 ) _
                 .ToArray
 
@@ -289,7 +410,7 @@ Namespace Plots
 
             If theme.drawLegend Then
                 Dim legends As LegendObject() = LinqAPI.Exec(Of LegendObject) _
- _
+                                                                              _
                     () <= From s As SerialData
                           In array
                           Let sColor As String = s.color.RGBExpression
@@ -309,8 +430,9 @@ Namespace Plots
             For Each line As Line In ablines.SafeQuery
                 Dim a As PointF = scaler.Translate(line.A)
                 Dim b As PointF = scaler.Translate(line.B)
+                Dim style As Pen = css.GetPen(line.Stroke)
 
-                Call g.DrawLine(line.Stroke, a, b)
+                Call g.DrawLine(style, a, b)
             Next
         End Sub
     End Class

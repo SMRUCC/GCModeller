@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2fdbc8c7512a818299cded8f96ebd5a3, Data_science\Mathematica\Math\DataFittings\Linear\LeastSquares.vb"
+﻿#Region "Microsoft.VisualBasic::9146cfaf3d7d7ce6afe4393b0c9ead9a, Data_science\Mathematica\Math\DataFittings\Linear\LeastSquares.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 228
+    '    Code Lines: 149 (65.35%)
+    ' Comment Lines: 53 (23.25%)
+    '    - Xml Docs: 71.70%
+    ' 
+    '   Blank Lines: 26 (11.40%)
+    '     File Size: 7.66 KB
+
+
     ' Module LeastSquares
     ' 
     '     Function: (+3 Overloads) LinearFit, (+3 Overloads) PolyFit, SeriesLength
@@ -44,13 +56,15 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ' 尘中远，于2014.03.20
 ' 主页：http://blog.csdn.net/czyt1988/article/details/21743595
 ' 参考：http://blog.csdn.net/maozefa/article/details/1725535
 
 ''' <summary>
+''' Linear interpolator
+''' 
 ''' 曲线拟合类，只适用于线性拟合：
 ''' 
 ''' + ``y = a*x + b``
@@ -75,6 +89,13 @@ Public Module LeastSquares
         Return LinearFit(x.ToArray, y.ToArray, SeriesLength(x, y))
     End Function
 
+    ''' <summary>
+    ''' Least squares resolve the linear fitting
+    ''' </summary>
+    ''' <param name="x">x axis</param>
+    ''' <param name="y">y axis</param>
+    ''' <param name="length">length of the vector of x or y</param>
+    ''' <returns></returns>
     Public Function LinearFit(x As Double(), y As Double(), length As Integer) As FitResult
         Dim t1 As Double = 0, t2 As Double = 0, t3 As Double = 0, t4 As Double = 0
         Dim factor#() = New Double(1) {}
@@ -96,7 +117,7 @@ Public Module LeastSquares
         }
 
         ' 计算误差
-        calcError(x, y, length, result)
+        Call calcError(x, y, length, result)
 
         Return result
     End Function
@@ -203,7 +224,7 @@ Public Module LeastSquares
             }
         Next
 
-        result.RMSE = stdNum.Sqrt(result.SSE / CDbl(length))
+        result.RMSE = std.Sqrt(result.SSE / CDbl(length))
         result.ErrorTest = err _
             .Select(Function(e) DirectCast(e, IFitError)) _
             .ToArray
@@ -217,12 +238,12 @@ Public Module LeastSquares
         Dim max As Double
 
         For k = 0 To n - 2
-            max = stdNum.Abs(A(k * n + k))
+            max = std.Abs(A(k * n + k))
             ' find maxmum
             r = k
             For i = k + 1 To n - 2
-                If max < stdNum.Abs(A(i * n + i)) Then
-                    max = stdNum.Abs(A(i * n + i))
+                If max < std.Abs(A(i * n + i)) Then
+                    max = std.Abs(A(i * n + i))
                     r = i
                 End If
             Next

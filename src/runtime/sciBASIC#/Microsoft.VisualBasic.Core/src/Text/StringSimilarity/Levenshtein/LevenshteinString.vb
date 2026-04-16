@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 53 (60.92%)
+    ' Comment Lines: 24 (27.59%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 10 (11.49%)
+    '     File Size: 2.95 KB
+
+
     '     Structure LevenshteinString
     ' 
     '         Constructor: (+1 Overloads) Sub New

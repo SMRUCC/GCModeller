@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e61df22310d9cd324848208aab086e17, core\Bio.Assembly\Assembly\DOOR\IO.vb"
+﻿#Region "Microsoft.VisualBasic::0ebbec22be88397f1611a7cb9a236afa, core\Bio.Assembly\Assembly\DOOR\IO.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 53 (72.60%)
+    ' Comment Lines: 12 (16.44%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (10.96%)
+    '     File Size: 2.51 KB
+
+
     '     Module DOOR_IO
     ' 
-    '         Function: [Imports], __lines, Text
+    '         Function: __lines, [Imports], Text
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,13 +53,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports API = SMRUCC.genomics.Assembly.DOOR.DOOR_API
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.DOOR
 

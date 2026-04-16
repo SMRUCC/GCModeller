@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9cdc121012fa3d4a1d5bc7003b9d87b3, engine\Dynamics\Drivers\Driver.vb"
+﻿#Region "Microsoft.VisualBasic::a88633448a865bd2a60a3a1618a719d7, engine\Dynamics\Drivers\Driver.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 30 (51.72%)
+    ' Comment Lines: 14 (24.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (24.14%)
+    '     File Size: 2.28 KB
+
+
     '     Delegate Sub
     ' 
     ' 
@@ -38,20 +50,22 @@
     ' 
     '         Properties: mass
     ' 
-    '         Sub: FluxSnapshot, MassSnapshot
+    '         Sub: FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     '     Class FinalSnapshotDriver
     ' 
     '         Properties: flux, mass, massIndex
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: FluxSnapshot, MassSnapshot
+    '         Sub: FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Engine
 
@@ -77,6 +91,9 @@ Namespace Engine
 
         Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
         Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double))
+        Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double))
+
     End Interface
 
     Public Class FinalSnapshotDriver : Implements IOmicsDataAdapter
@@ -89,12 +106,20 @@ Namespace Engine
         Sub New()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub MassSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.MassSnapshot
             _mass = data
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub FluxSnapshot(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.FluxSnapshot
             _flux = data
+        End Sub
+
+        Private Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+        End Sub
+
+        Private Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
         End Sub
     End Class
 End Namespace

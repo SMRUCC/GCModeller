@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f01b4b6e68e9d47a97ba57134c35eea, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchs.vb"
+﻿#Region "Microsoft.VisualBasic::3bd7635a2f981203a934d812bd853b22, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\RepeatsSearchs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 30 (73.17%)
+    ' Comment Lines: 4 (9.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.69 KB
+
+
     '     Class RepeatsSearcher
     ' 
     '         Properties: CountStatics, MinAppeared, ResultSet
@@ -43,10 +55,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 

@@ -1,53 +1,53 @@
 ﻿#Region "Microsoft.VisualBasic::c6b78f18f5991bbf73cecf4cecd5b1cb, Shared\Settings.Configuration\Session\Session.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    '     Module Session
-    ' 
-    ' 
-    '     Module Session
-    ' 
-    '         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
-    '                     SettingsFile, SHA256Provider, TEMP, Templates
-    ' 
-    '         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
-    '                   InstallPython, List, Mothur, MothurHome, SetValue
-    '                   TryGetShoalShellBin
-    ' 
-    '         Sub: Finallize, Save, saveProfile
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+'     Module Session
+' 
+' 
+'     Module Session
+' 
+'         Properties: DataCache, Initialized, LogDIR, ProfileData, SettingsDIR
+'                     SettingsFile, SHA256Provider, TEMP, Templates
+' 
+'         Function: FolkShoalThread, GetSettings, GetSettingsFile, Initialize, InstallJavaBin
+'                   InstallPython, List, Mothur, MothurHome, SetValue
+'                   TryGetShoalShellBin
+' 
+'         Sub: Finallize, Save, saveProfile
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -119,6 +119,11 @@ Namespace Settings
             End Get
         End Property
 
+        ''' <summary>
+        ''' this function will do <see cref="Initialize"/> automatically if 
+        ''' the settings session has not been <see cref="Initialized"/>.
+        ''' </summary>
+        ''' <returns></returns>
         Public Function GetSettingsFile() As Settings.File
             If Not Initialized Then
                 Call Initialize()
@@ -176,7 +181,7 @@ Namespace Settings
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property SettingsDIR As String
+        Public ReadOnly Property SettingsDir As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return File.DefaultXmlFile.ParentPath
@@ -195,16 +200,18 @@ Namespace Settings
         ''' <returns></returns>
         ''' <remarks></remarks>
         ''' 
-        Public Function Initialize() As Settings.File
-            Call FileIO.FileSystem.CreateDirectory(SettingsDIR)
+        Public Function Initialize(Optional base_dir As String = Nothing) As Settings.File
+            Dim settingsDir As String = If(base_dir.StringEmpty, Session.SettingsDir, base_dir)
+
+            Call FileIO.FileSystem.CreateDirectory(settingsDir)
             Call FileIO.FileSystem.CreateDirectory(_LogDir)
             Call FileIO.FileSystem.CreateDirectory(TEMP)
             Call FileIO.FileSystem.CreateDirectory(DataCache)
 
-            Dim settings As String = Session.SettingsDIR & "/Settings.xml"
+            Dim settings As String = settingsDir & "/Settings.xml"
             Dim save As Action(Of Settings.File, String) = AddressOf saveProfile
 #If DEBUG Then
-            Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".__DEBUG_ECHO
+            Call $"Load GCModeller settings data from xml file: {settings.ToFileURL}".debug
 #End If
             Session._profileData = ProfileEngine.Settings(Of Settings.File).LoadFile(settings, save)
             Session.initFlag = True
@@ -263,21 +270,21 @@ Namespace Settings
             End If
 
             '没有找到，由于这个函数本身可能就是从Shoal脚本之中调用的，则尝试使用自身作为解释器程序
-            Dim App As String = My.Application.Info.DirectoryPath & "/" & My.Application.Info.AssemblyName & ".exe"
-            Dim AskVersion = New IORedirectFile(App, "--version")
+            Dim AppPath As String = $"{App.HOME}/{App.AssemblyName}.exe"
+            Dim AskVersion = New IORedirectFile(AppPath, "--version")
             Call AskVersion.Run()
 
             If Not Regex.Match(AskVersion.StandardOutput, "Shoal Shell \d+(\.\d+)*").Success Then
                 Call $"Could not found the ShoalShell interpreter environment!".PrintException
                 Return ""
             Else
-                Call $"Test self ""{App}"" as the ShoalShell interpreter!".PrintException
+                Call $"Test self ""{AppPath}"" as the ShoalShell interpreter!".PrintException
             End If
 
-            Session.SettingsFile.ShoalShell = App
+            Session.SettingsFile.ShoalShell = AppPath
             Session.SettingsFile.Save()
 
-            Return App
+            Return AppPath
         End Function
 
         ''' <summary>
@@ -314,11 +321,11 @@ Namespace Settings
 
                 SettingsFile.Python = Python
                 SettingsFile.Save()
-                Call $"Set up python.exe path to {Python.CLIPath}".__DEBUG_ECHO
+                Call $"Set up python.exe path to {Python.CLIPath}".debug
 
                 Return Python
             Else
-                Call $"The {NameOf(Python)} path is not exists on {Python.CLIPath}!".__DEBUG_ECHO
+                Call $"The {NameOf(Python)} path is not exists on {Python.CLIPath}!".debug
                 Return ""
             End If
         End Function
@@ -327,7 +334,7 @@ Namespace Settings
         ''' Close the application session and save the settings file.
         ''' </summary>
         ''' <remarks></remarks>
-        ''' 
+        <ExportAPI("Profile.Save")>
         Public Sub Finallize()
             Call ProfileData.Save(Nothing)
         End Sub
@@ -364,11 +371,6 @@ Namespace Settings
             Return ProfileData.Set(name, value)
         End Function
 
-        <ExportAPI("Profile.Save")>
-        Public Sub Save()
-            Call ProfileData.Save(Nothing)
-        End Sub
-
         ''' <summary>
         ''' For unawareless of overrides the original data file, this function will automatcly add a .std_out extension to the STDOUT filepath.
         ''' (新构建一个Shoal实例运行一个分支脚本任务，在.NET之中线程的效率要比进程的效率要低，使用这种多线程的方法来实现并行的效率要高很多？？？？)
@@ -389,7 +391,7 @@ Namespace Settings
             Call Script.SaveTo(ScriptPath)
 
             STDOUT = STDOUT & ".std_out"
-            Call $"{NameOf(STDOUT)} >>> {STDOUT.ToFileURL}".__DEBUG_ECHO
+            Call $"{NameOf(STDOUT)} >>> {STDOUT.ToFileURL}".debug
 
             Return New IORedirectFile(ShoalShell, argv:=ScriptPath.CLIPath, stdRedirect:=STDOUT).Run
         End Function

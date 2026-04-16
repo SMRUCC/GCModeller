@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d433fb656f6aac29ae700b352aad239, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
+﻿#Region "Microsoft.VisualBasic::e0a4f955fe0ee3a3530a097343525162, data\Xfam\Pfam\MPAlignment\Output\MPAlignmentOutput.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 54 (58.06%)
+    ' Comment Lines: 27 (29.03%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 12 (12.90%)
+    '     File Size: 4.66 KB
+
+
     '     Class AlignmentOutput
     ' 
     '         Properties: AlignmentResult, DeltaScore, FullScore, LengthDelta, ProteinQuery
@@ -45,7 +57,7 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ProteinDomainArchitecture.MPAlignment
 
@@ -102,7 +114,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
 
             Call ChunkBuffer.Add(String.Join(" ", {String.Format("Query{0}", New String(" "c, QueryMaxLength - 5)), String.Format("Subject{0}", New String(" "c, SbjctMaxLength - 7)), "Score"}))
             Call ChunkBuffer.Add(String.Join("+", {String.Format("-----{0}", New String("-"c, QueryMaxLength - 6)), String.Format("-------{0}", New String("-"c, SbjctMaxLength - 8)),
-                                                       New String("-", Len(stdNum.E.ToString) + 5)}))
+                                                       New String("-", Len(std.E.ToString) + 5)}))
             For Each item In data.AlignmentResult
                 Call ChunkBuffer.Add(item.FormatPlantTextOutput(QueryMaxLength, SbjctMaxLength))
             Next

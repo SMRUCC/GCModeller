@@ -1,0 +1,227 @@
+﻿#Region "Microsoft.VisualBasic::bfaca29738c0b80c2e154f118cecd963, gr\network-visualization\Datavisualization.Network\GraphRouter.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 117 (70.48%)
+    ' Comment Lines: 23 (13.86%)
+    '    - Xml Docs: 43.48%
+    ' 
+    '   Blank Lines: 26 (15.66%)
+    '     File Size: 6.73 KB
+
+
+    ' Class GraphRouter
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: CastRoute, ConvertToMatrix, (+2 Overloads) FindPath, LoadMatrix
+    '     Class Route
+    ' 
+    '         Properties: Count, PathwayNodes
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis
+Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.Dijkstra
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+
+Public Class GraphRouter
+
+    Dim dijkstra As DijkstraAlgoritm
+    Dim nodes As Dictionary(Of Network.Graph.Node, Integer)
+    Dim nodeSet As Network.Graph.Node()
+
+    Public Class Route : Inherits Dijkstra.RoutePathway
+
+        Public Overrides ReadOnly Property Count As Integer
+            Get
+                Return PathwayNodes.TryCount
+            End Get
+        End Property
+
+        Public Property PathwayNodes As Network.Graph.Node()
+
+        Public Sub New(id As String)
+            MyBase.New(id)
+        End Sub
+    End Class
+
+    Private Sub New(matrix As SparseMatrix, nodes As Dictionary(Of Network.Graph.Node, Integer), nodeSet As Network.Graph.Node())
+        Me.dijkstra = New DijkstraAlgoritm(matrix, nodeSet.Length)
+        Me.nodes = nodes
+        Me.nodeSet = nodeSet
+    End Sub
+
+    Public Function FindPath(start As Network.Graph.Node, ends As Network.Graph.Node) As Route
+        Dim i As Integer = nodes.TryGetValue(start, [default]:=-1)
+        Dim j As Integer = nodes.TryGetValue(ends, [default]:=-1)
+
+        If i < 0 OrElse j < 0 Then
+            Return Nothing
+        Else
+            Dim path = dijkstra.FindPath(startIndex:=i, endIndex:=j)
+            Dim route = CastRoute(path)
+
+            Return route
+        End If
+    End Function
+
+    Private Function CastRoute(routeNode As DijkstraAlgoritm.Node) As Route
+        If routeNode Is Nothing Then
+            Return Nothing
+        End If
+
+        Return New Route(nodeSet(routeNode.Index).label) With {
+            .Cost = routeNode.TotalDistance,
+            .PathwayNodes = (From idx As Integer
+                             In routeNode.Path
+                             Select nodeSet(idx)).ToArray()
+        }
+    End Function
+
+    Public Function FindPath(start As Network.Graph.Node) As Route()
+        Dim i As Integer = nodes.TryGetValue(start, [default]:=-1)
+
+        If i < 0 Then
+            Return {}
+        End If
+
+        Dim result = dijkstra.DistanceFinder(startIndex:=i)
+        Dim routes As Route() = (From route As DijkstraAlgoritm.Node
+                                 In result.AsParallel
+                                 Where Not route.Path.IsNullOrEmpty
+                                 Select CastRoute(route)).ToArray
+        Return routes
+    End Function
+
+    ''' <summary>
+    ''' 将自定义的Graph对象转换为Dijkstra算法所需的二维整数矩阵。
+    ''' </summary>
+    ''' <param name="networkGraph">自定义的网络图对象</param>
+    ''' <returns>邻接矩阵</returns>
+    Public Shared Function LoadMatrix(networkGraph As NetworkGraph, Optional undirected As Boolean = False) As GraphRouter
+        ' 1. 获取节点总数
+        Dim nodeCount As Integer = networkGraph.vertex.Count
+
+        If nodeCount = 0 Then
+            Return New GraphRouter(
+                matrix:=SparseMatrix.Empty,
+                nodes:=New Dictionary(Of Network.Graph.Node, Integer),
+                nodeSet:={}
+            )
+        Else
+            Dim nodeSet As List(Of Network.Graph.Node) = Nothing
+            Dim nodeIndexMap As Dictionary(Of Network.Graph.Node, Integer) = Nothing
+            Dim matrix As SparseMatrix = ConvertToMatrix(networkGraph, undirected, nodeSet, nodeIndexMap)
+
+            Return New GraphRouter(
+                matrix:=matrix,
+                nodes:=nodeIndexMap,
+                nodeSet:=nodeSet.ToArray()
+            )
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 将自定义的Graph对象转换为Dijkstra算法所需的二维整数矩阵。
+    ''' </summary>
+    ''' <param name="networkGraph">自定义的网络图对象</param>
+    ''' <returns>邻接矩阵</returns>
+    Public Shared Function ConvertToMatrix(networkGraph As NetworkGraph,
+                                           Optional undirected As Boolean = False,
+                                           Optional ByRef nodeSet As List(Of Network.Graph.Node) = Nothing,
+                                           Optional ByRef nodeIndexMap As Dictionary(Of Network.Graph.Node, Integer) = Nothing,
+                                           Optional eval As Func(Of Edge, Double) = Nothing) As SparseMatrix
+        ' 1. 获取节点总数
+        Dim nodeCount As Integer = networkGraph.vertex.Count
+
+        If nodeCount = 0 Then
+            Return SparseMatrix.Empty
+        Else
+            nodeSet = If(nodeSet, New List(Of Network.Graph.Node))
+            nodeIndexMap = If(nodeIndexMap, New Dictionary(Of Network.Graph.Node, Integer))
+        End If
+
+        ' 2. 初始化矩阵，所有位置默认为 0 (表示无连接)
+        Dim row As New List(Of Integer)
+        Dim col As New List(Of Integer)
+        Dim w As New List(Of Double)
+
+        ' 3. 建立 Node 对象到矩阵索引的映射 (Dictionary)
+        ' 这样我们可以根据 Node 对象快速找到它在数组中的位置 (0, 1, 2...)
+        Dim i As i32 = 0
+        ' nodeIndexMap(v) start from zero
+        ' vb.net中 ++i 等价于i++
+        ' i = 0 1 2 3 4 ...
+        For Each v As Network.Graph.Node In networkGraph.vertex
+            nodeIndexMap(v) = ++i
+            nodeSet.Add(v)
+        Next
+
+        ' 4. 遍历所有边并填充矩阵
+        For Each edge As Edge In networkGraph.graphEdges
+            ' 检查边的两个端点是否都在我们的节点列表中
+            If nodeIndexMap.ContainsKey(edge.U) AndAlso nodeIndexMap.ContainsKey(edge.V) Then
+                Dim uIndex As Integer = nodeIndexMap(edge.U)
+                Dim vIndex As Integer = nodeIndexMap(edge.V)
+                Dim weight As Double = If(eval Is Nothing, edge.weight, eval(edge))
+
+                ' 添加正向边 U -> V
+                Call row.Add(uIndex)
+                Call col.Add(vIndex)
+                Call w.Add(weight)
+
+                ' 将权重填入矩阵
+                ' 注意：这里假设图是有向图。如果是无向图（双向道路），
+                If undirected Then
+                    Call row.Add(vIndex)
+                    Call col.Add(uIndex)
+                    Call w.Add(weight)
+                End If
+            End If
+        Next
+
+        Return New SparseMatrix(row.ToArray, col.ToArray, w.ToArray, m:=nodeCount, n:=nodeCount)
+    End Function
+End Class

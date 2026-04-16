@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 16 (69.57%)
+    ' Comment Lines: 3 (13.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (17.39%)
+    '     File Size: 713 B
+
+
     '     Class NucleotideLocationParser
     ' 
     '         Function: ToString, TryParse

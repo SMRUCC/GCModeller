@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ad8a30674163b942fabc88202645c8, engine\Dynamics\Core\Flux\Channel.vb"
+﻿#Region "Microsoft.VisualBasic::fefa3c90b8d3716a8bdcf9c1579eef02, engine\Dynamics\Core\Flux\Channel.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 101 (57.71%)
+    ' Comment Lines: 47 (26.86%)
+    '    - Xml Docs: 80.85%
+    ' 
+    '   Blank Lines: 27 (15.43%)
+    '     File Size: 6.79 KB
+
+
     '     Class Channel
     ' 
-    '         Properties: bounds, direct, forward, ID, reverse
+    '         Properties: bounds, direct, forward, ID, isBroken
+    '                     Message, name, reverse
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: CoverLeft, CoverRight, (+2 Overloads) minimalUnit, ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: CoverLeft, CoverRight, GetCurrentDirection, (+2 Overloads) minimalUnit, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 
@@ -53,10 +67,15 @@ Namespace Core
     ''' 
     ''' (反应过程通道)
     ''' </summary>
+    ''' <remarks>
+    ''' make flux dynamics association between a set of metabolite mass <see cref="Variable"/>.
+    ''' the flux dynamics could be affects via the environment <see cref="Controls"/>. dynamics
+    ''' of the reaction flux was contraint via the <see cref="bounds"/> range.
+    ''' </remarks>
     Public Class Channel : Implements INamedValue
 
-        Friend left As Variable()
-        Friend right As Variable()
+        Friend ReadOnly left As Variable()
+        Friend ReadOnly right As Variable()
 
         Public Property forward As Controls
         Public Property reverse As Controls
@@ -74,22 +93,60 @@ Namespace Core
         ''' <returns></returns>
         Public Overloads ReadOnly Property direct As Directions
             Get
-                If forward > reverse Then
-                    Return Directions.forward
-                ElseIf reverse > forward Then
-                    Return Directions.reverse
-                Else
-                    Return Directions.stop
-                End If
+                Return GetCurrentDirection()
             End Get
         End Property
 
+        Public ReadOnly Property isBroken As Boolean
+        Public ReadOnly Property Message As String
+
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+        ''' <summary>
+        ''' the debug name
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property name As String
 
         Sub New(left As IEnumerable(Of Variable), right As IEnumerable(Of Variable))
             Me.left = left.ToArray
             Me.right = right.ToArray
+
+            If Me.left.IsNullOrEmpty Then
+                Message = "{0} - left side is empty!"
+            ElseIf Me.right.IsNullOrEmpty Then
+                Message = "{0} - right side is empty!"
+            End If
+
+            ' 20250830 check of the zero factor
+            Dim zero = Me.left.Where(Function(f) f.coefficient = 0.0).ToArray
+
+            If zero.Length > 0 Then
+                Message = $"{0} - left side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+            End If
+
+            zero = Me.right.Where(Function(f) f.coefficient = 0.0).ToArray
+
+            If zero.Length > 0 Then
+                Message = $"{0} - right side has zero coefficient factor: {zero.Select(Function(v) v.mass.ID).JoinBy(", ")}"
+            End If
+
+            isBroken = Not Message.StringEmpty()
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(left As Variable, right As Variable)
+            Call Me.New({left}, {right})
+        End Sub
+
+        Public Function GetCurrentDirection() As Directions
+            If forward > reverse Then
+                Return Directions.forward
+            ElseIf reverse > forward Then
+                Return Directions.reverse
+            Else
+                Return Directions.stop
+            End If
+        End Function
 
         ''' <summary>
         ''' 
@@ -98,7 +155,13 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverLeft(shares As Dictionary(Of String, Double), regulation#) As Double
-            Return minimalUnit(shares, left, regulation, bounds.forward)
+            If isBroken Then
+                Return 0
+            ElseIf left.Any(Function(v) v.mass.Value = 0.0) Then
+                Return 0
+            Else
+                Return minimalUnit(shares, left, regulation, bounds.forward)
+            End If
         End Function
 
         ''' <summary>
@@ -108,7 +171,13 @@ Namespace Core
         ''' <param name="regulation"></param>
         ''' <returns></returns>
         Public Function CoverRight(shares As Dictionary(Of String, Double), regulation#) As Double
-            Return minimalUnit(shares, right, regulation, bounds.reverse)
+            If isBroken Then
+                Return 0
+            ElseIf right.Any(Function(v) v.mass.Value <= 0.0) Then
+                Return 0
+            Else
+                Return minimalUnit(shares, right, regulation, bounds.reverse)
+            End If
         End Function
 
         ''' <summary>
@@ -117,7 +186,10 @@ Namespace Core
         ''' <param name="factors"></param>
         ''' <param name="regulation"></param>
         ''' <returns></returns>
-        Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), factors As IEnumerable(Of Variable), regulation#, max#) As Double
+        Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double),
+                                            factors As IEnumerable(Of Variable),
+                                            regulation#,
+                                            max#) As Double
             Return factors _
                 .Select(Function(v)
                             Dim reactionUnit = minimalUnit(parallel, regulation, v)
@@ -129,8 +201,8 @@ Namespace Core
         End Function
 
         Private Shared Function minimalUnit(parallel As Dictionary(Of String, Double), regulation#, v As Variable) As Double
-            Dim r = regulation * v.coefficient
-            Dim shares# = parallel(v.mass.ID)
+            Dim r# = regulation * v.coefficient
+            Dim shares# = parallel(v.mass.ID) + 1
             Dim massUnit = v.mass.Value / shares
             Dim reactionUnit As Double
 
@@ -151,7 +223,7 @@ Namespace Core
 
         Public Overrides Function ToString() As String
             If direct = Directions.stop Then
-                Return "stopped..."
+                Return $"[{ID}] stopped... ({name})"
             Else
                 Return Core.ToString(Me)
             End If

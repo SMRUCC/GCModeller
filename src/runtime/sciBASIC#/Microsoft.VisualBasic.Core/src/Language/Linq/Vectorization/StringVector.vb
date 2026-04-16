@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 63 (64.95%)
+    ' Comment Lines: 17 (17.53%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 17 (17.53%)
+    '     File Size: 3.83 KB
+
+
     '     Class StringVector
     ' 
     '         Properties: Len

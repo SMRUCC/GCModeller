@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 95 (52.20%)
+    ' Comment Lines: 65 (35.71%)
+    '    - Xml Docs: 95.38%
+    ' 
+    '   Blank Lines: 22 (12.09%)
+    '     File Size: 12.72 KB
+
+
     ' Class promoter_feature
     ' 
     '     Properties: box_10_left, box_10_right, box_10_sequence, box_35_left, box_35_right

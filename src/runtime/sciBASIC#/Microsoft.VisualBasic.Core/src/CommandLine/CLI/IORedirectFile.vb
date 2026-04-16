@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::87570c41c61d689f83fc0c2f44326be7, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirectFile.vb"
+﻿#Region "Microsoft.VisualBasic::672054d8d343300897027e54f5729bbf, Microsoft.VisualBasic.Core\src\CommandLine\CLI\IORedirectFile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 291
+    '    Code Lines: 156 (53.61%)
+    ' Comment Lines: 95 (32.65%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 40 (13.75%)
+    '     File Size: 14.31 KB
+
+
     '     Class IORedirectFile
     ' 
     '         Properties: Bin, CLIArguments, redirectDevice, StandardOutput
@@ -39,7 +51,7 @@
     ' 
     '         Function: CopyRedirect, Run, (+2 Overloads) Start, ToString, writeScript
     ' 
-    '         Sub: __processExitHandle, (+2 Overloads) Dispose, Start
+    '         Sub: (+2 Overloads) Dispose, ProcessExitHandle, Start
     ' 
     ' 
     ' /********************************************************************************/
@@ -71,6 +83,7 @@ Namespace CommandLine
         ''' </summary>
         ''' <remarks>当使用.tmp拓展名的时候会由于APP框架里面的GC线程里面的自动临时文件清理而产生冲突，所以这里需要其他的文件拓展名来避免这个冲突</remarks>
         Protected ReadOnly _TempRedirect As String = TempFileSystem.GetAppSysTempFile(".proc_IO_std.out", App.PID)
+        Protected ReadOnly _win_os As Boolean
 
         ''' <summary>
         ''' shell文件接口
@@ -148,7 +161,8 @@ Namespace CommandLine
                 Optional stdRedirect$ = "",
                 Optional stdin$ = Nothing,
                 Optional debug As Boolean = True,
-                Optional isShellCommand As Boolean = False)
+                Optional isShellCommand As Boolean = False,
+                Optional win_os As Boolean? = Nothing)
 
             If Not String.IsNullOrEmpty(stdRedirect) Then
                 _TempRedirect = stdRedirect.CLIPath
@@ -172,6 +186,7 @@ Namespace CommandLine
             Bin = file
             argv = $"{app_argv} > {_TempRedirect}"
             CLIArguments = argv
+            _win_os = If(win_os Is Nothing, App.IsMicrosoftPlatform, CBool(win_os))
 
             ' 系统可能不会自动创建文件夹，则需要在这里使用这个方法来手工创建，
             ' 避免出现无法找到文件的问题
@@ -179,7 +194,7 @@ Namespace CommandLine
             ' 在Unix平台上面这个文件不会被自动创建？？？
             Call "".SaveTo(_TempRedirect)
 
-            If App.IsMicrosoftPlatform Then
+            If _win_os Then
                 shellScript = ScriptingExtensions.Cmd(file, argv, environment, folkNew, stdin, isShellCommand)
             Else
                 shellScript = ScriptingExtensions.Bash(file, argv, environment, folkNew, stdin, isShellCommand)
@@ -187,12 +202,12 @@ Namespace CommandLine
 
             If debug Then
                 If isShellCommand Then
-                    Call $"""{file}"" {app_argv}".__DEBUG_ECHO
+                    Call $"""{file}"" {app_argv}".debug
                 Else
-                    Call $"""{file.ToFileURL}"" {app_argv}".__DEBUG_ECHO
+                    Call $"""{file.ToFileURL}"" {app_argv}".debug
                 End If
 
-                Call $"stdout_temp: {_TempRedirect}".__DEBUG_ECHO
+                Call $"stdout_temp: {_TempRedirect}".debug
             End If
         End Sub
 
@@ -208,6 +223,13 @@ Namespace CommandLine
             Dim path$ = writeScript()
             Dim exitCode As Integer
 
+#If NET48 Then
+            exitCode = Interaction.Shell(
+                path,
+                Style:=AppWinStyle.Hide,
+                Wait:=True
+            )
+#Else
 #If UNIX Then
             ' xdg-open: file '/tmp/gut_16s/15201/tmp00003.sh' does not exist
             With New Process() With {
@@ -236,23 +258,16 @@ Namespace CommandLine
             '   at System.Reflection.MethodBase.Invoke (System.Object obj, System.Object[] parameters) [0x00000] in <902ab9e386384bec9c07fa19aa938869>:0
             '   at Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints.APIEntryPoint.__directInvoke (System.Object[] callParameters, System.Object target, System.Boolean Throw) [0x0000c] in <d9cf6734998c48a092e8a1528ac0142f>:0
             '    --- End of inner exception stack trace ---
-#If netcore5 = 0 Then
-            exitCode = Interaction.Shell(
-                path,
-                Style:=AppWinStyle.Hide,
-                Wait:=True
-            )
-#Else
             [Call](path, "", "")
 #End If
 #End If
-            Call path.DeleteFile
+            Call path.debug
 
             Return exitCode
         End Function
 
         Private Function writeScript() As String
-            Dim ext$ = If(App.IsMicrosoftPlatform, ".bat", ".sh")
+            Dim ext$ = If(_win_os, ".bat", ".sh")
             Dim path$ = TempFileSystem.GetAppSysTempFile(ext, App.PID)
             Call shellScript.SaveTo(path, Encodings.UTF8WithoutBOM.CodePage)
             Return path
@@ -280,16 +295,16 @@ Namespace CommandLine
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Start(Optional procExitCallback As Action = Nothing)
-            Call New Tasks.Task(Of Action)(procExitCallback, AddressOf __processExitHandle).Start()
+            Call New Tasks.Task(Of Action)(procExitCallback, AddressOf ProcessExitHandle).Start()
         End Sub
 
-        Private Sub __processExitHandle(ProcessExitCallback As Action)
-            Dim ExitCode = Run()
+        Private Sub ProcessExitHandle(callback As Action)
+            Dim exitCode As Integer = Run()
 
-            RaiseEvent ProcessExit(ExitCode, Now.ToString)
+            RaiseEvent ProcessExit(exitCode, DateTime.UtcNow.ToString)
 
-            If Not ProcessExitCallback Is Nothing Then
-                Call ProcessExitCallback()
+            If Not callback Is Nothing Then
+                Call callback()
             End If
         End Sub
 

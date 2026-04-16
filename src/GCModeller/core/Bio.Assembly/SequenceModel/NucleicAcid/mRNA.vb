@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c437cfd45fdcc6dcd5874e3fff2dc139, core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
+﻿#Region "Microsoft.VisualBasic::bf8dad5b29e5ebf5559a2a0bb028aa68, core\Bio.Assembly\SequenceModel\NucleicAcid\mRNA.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 62 (67.39%)
+    ' Comment Lines: 9 (9.78%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 21 (22.83%)
+    '     File Size: 3.42 KB
+
+
     '     Module mRNA
     ' 
     '         Function: Putative_mRNA
@@ -40,7 +52,9 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#Const DEBUG = 0
 
 Namespace SequenceModel.NucleotideModels
 
@@ -111,11 +125,10 @@ Namespace SequenceModel.NucleotideModels
                         Dim Adjacent As String = Mid(Nt, 1, ATG)
                         Dim a As Double = NucleotideModels.GCContent(ORF)
                         Dim b As Double = NucleotideModels.GCContent(Adjacent)
-                        Dim d As Double = stdNum.Abs(a - b)
+                        Dim d As Double = std.Abs(a - b)
                         Dim accept As Boolean = d > 0.1
-#Const DEBUG = 0
 #If DEBUG Then
-                    Call Console.WriteLine($"[DEBUG {Now.ToString}] ORF({ATG},{TGA})     {NameOf(Nt)}({a}) -->  {NameOf(Adjacent)}({b})   =====> d_gc%={d};   accept? {accept }")
+                        Call Console.WriteLine($"[DEBUG {Now.ToString}] ORF({ATG},{TGA})     {NameOf(Nt)}({a}) -->  {NameOf(Adjacent)}({b})   =====> d_gc%={d};   accept? {accept }")
 #End If
                         If accept Then
                             Return True

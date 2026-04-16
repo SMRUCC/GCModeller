@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82a6423362bceedd1e650fe27282a3dc, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
+﻿#Region "Microsoft.VisualBasic::d90b7a3580b10521e3833bca8417b169, analysis\SequenceToolkit\MotifScanner\PatternScanner.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 95 (79.83%)
+    ' Comment Lines: 12 (10.08%)
+    '    - Xml Docs: 58.33%
+    ' 
+    '   Blank Lines: 12 (10.08%)
+    '     File Size: 4.24 KB
+
+
     ' Class PatternScanner
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -48,7 +60,8 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.ListExtensions
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -123,7 +136,7 @@ Public Class PatternScanner : Inherits IScanner
         Dim out As Output = GetOutput(GSW, 0, (2 / 3) * words.Length)
 
         Return LinqAPI.Exec(Of SimpleSegment) _
- _
+                                              _
             () <= From x As HSP
                   In out.HSP
                   Select New SimpleSegment With {

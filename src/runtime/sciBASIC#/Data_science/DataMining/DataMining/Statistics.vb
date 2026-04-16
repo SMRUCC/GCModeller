@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7453f1296ec9729f498106fe4d88fcfb, Data_science\DataMining\DataMining\Statistics.vb"
+﻿#Region "Microsoft.VisualBasic::03b505fd9b9ff0e9620f7cdb771288ee, Data_science\DataMining\DataMining\Statistics.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 288
+    '    Code Lines: 90 (31.25%)
+    ' Comment Lines: 178 (61.81%)
+    '    - Xml Docs: 70.79%
+    ' 
+    '   Blank Lines: 20 (6.94%)
+    '     File Size: 9.50 KB
+
+
     ' Module Statistics
     ' 
-    '     Function: Entropy, GetRange, Mean, Median, Mode
-    '               (+2 Overloads) StdDev
+    '     Function: GetRange, Mean, Median, Mode, (+2 Overloads) StdDev
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports std = System.Math
 
 ' AForge Math Library
 ' AForge.NET framework
@@ -47,9 +61,6 @@
 ' Copyright © AForge.NET, 2005-2011
 ' contacts@aforgenet.com
 '
-
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports stdNum = System.Math
 
 ''' <summary>
 ''' Set of statistics functions.
@@ -165,7 +176,7 @@ Public Module Statistics
             i += 1
         End While
 
-        Return If((total = 0), 0, stdNum.Sqrt(stddevVal / total))
+        Return If((total = 0), 0, std.Sqrt(stddevVal / total))
     End Function
 
     ''' <summary>
@@ -261,7 +272,7 @@ Public Module Statistics
         Next
 
         Dim min As Integer, max As Integer, hits As Integer
-        Dim h As Integer = CInt(stdNum.Truncate(total * (percent + (1 - percent) / 2)))
+        Dim h As Integer = CInt(std.Truncate(total * (percent + (1 - percent) / 2)))
 
         ' get range min value
         min = 0

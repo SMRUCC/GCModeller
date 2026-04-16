@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c531d94a39ce5108889a1b1346f006c, Microsoft.VisualBasic.Core\src\Text\Xml\Models\ListOf.vb"
+﻿#Region "Microsoft.VisualBasic::4a028e3e9b2a4aff72ed1bfd964f118a, Microsoft.VisualBasic.Core\src\Text\Xml\Models\ListOf.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 78 (60.47%)
+    ' Comment Lines: 32 (24.81%)
+    '    - Xml Docs: 84.38%
+    ' 
+    '   Blank Lines: 19 (14.73%)
+    '     File Size: 4.27 KB
+
+
     '     Interface IList
     ' 
     '         Properties: size
@@ -39,12 +51,13 @@
     ' 
     '         Properties: size
     ' 
-    '         Function: GenericEnumerator, GetEnumerator
+    '         Function: GenericEnumerator
     ' 
     '     Class XmlList
     ' 
     '         Properties: items, TypeComment
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: getCollection, getSize
     ' 
     ' 
@@ -53,17 +66,18 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports System.Runtime.Serialization
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
-#If netcore5 = 1 Then
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports Microsoft.VisualBasic.Linq
+
+#If NETCOREAPP Then
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+#Else
+Imports System.Web.Script.Serialization
+#End If
 
 Namespace Text.Xml.Models
 
@@ -77,12 +91,15 @@ Namespace Text.Xml.Models
     ''' 可以通过<see cref="AsEnumerable"/>拓展函数转换这个列表对象为枚举类型
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
+    ''' 
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
     Public MustInherit Class ListOf(Of T) : Implements Enumeration(Of T)
 
         ''' <summary>
         ''' 在这个列表之中的元素数量的长度
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>auto generated list size</returns>
         ''' <remarks>
         ''' 这个属性值会在进行XML序列化的时候自动生成，无需设置
         ''' </remarks>
@@ -101,15 +118,15 @@ Namespace Text.Xml.Models
             Next
         End Function
 
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of T).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
-
         Protected MustOverride Function getSize() As Integer
         Protected MustOverride Function getCollection() As IEnumerable(Of T)
 
     End Class
 
+    ''' <summary>
+    ''' a general list model for export a collection of the clr object to a single xml file
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public Class XmlList(Of T) : Inherits ListOf(Of T)
         Implements XmlDataModel.IXmlType
 
@@ -122,7 +139,6 @@ Namespace Text.Xml.Models
         ''' </remarks>
         <DataMember>
         <IgnoreDataMember>
-        <ScriptIgnoreAttribute>
         <SoapIgnore>
         <XmlAnyElement>
         Public Property TypeComment As XmlComment Implements XmlDataModel.IXmlType.TypeComment
@@ -138,6 +154,13 @@ Namespace Text.Xml.Models
         End Property
 
         <XmlElement("item")> Public Property items As T()
+
+        Sub New()
+        End Sub
+
+        Sub New(data As IEnumerable(Of T))
+            items = data.SafeQuery.ToArray
+        End Sub
 
         Protected Overrides Function getSize() As Integer
             If items Is Nothing Then
@@ -158,6 +181,16 @@ Namespace Text.Xml.Models
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(array As T()) As XmlList(Of T)
             Return New XmlList(Of T) With {.items = array}
+        End Operator
+
+        ''' <summary>
+        ''' cast the scalar value to a list
+        ''' </summary>
+        ''' <param name="scalar"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Widening Operator CType(scalar As T) As XmlList(Of T)
+            Return New XmlList(Of T) With {.items = {scalar}}
         End Operator
     End Class
 End Namespace

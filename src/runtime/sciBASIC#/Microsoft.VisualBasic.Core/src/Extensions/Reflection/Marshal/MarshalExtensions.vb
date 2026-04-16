@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 34 (49.28%)
+    ' Comment Lines: 30 (43.48%)
+    '    - Xml Docs: 96.67%
+    ' 
+    '   Blank Lines: 5 (7.25%)
+    '     File Size: 3.81 KB
+
+
     '     Module MarshalExtensions
     ' 
     '         Function: AllocHGlobal, (+2 Overloads) MarshalAs

@@ -1,0 +1,202 @@
+﻿#Region "Microsoft.VisualBasic::c0525ca017f4f7981c8b6fc83f916fb1, modules\Knowledge_base\ncbi_kb\PubMed\PlainTextParser.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 112 (75.68%)
+    ' Comment Lines: 22 (14.86%)
+    '    - Xml Docs: 45.45%
+    ' 
+    '   Blank Lines: 14 (9.46%)
+    '     File Size: 6.10 KB
+
+
+    ' Module PlainTextParser
+    ' 
+    '     Function: LoadArticles, LoadTerms, ParseArticle, TryParseAID
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.GCModeller.Workbench.Knowledge_base.NCBI.PubMed
+
+''' <summary>
+''' parse the pubmed database file in plaintext format
+''' </summary>
+Public Module PlainTextParser
+
+    Public Iterator Function LoadArticles(file As String) As IEnumerable(Of PubmedArticle)
+        Dim blocks As String()() = file _
+            .LineIterators _
+            .Split(Function(line) line.StringEmpty, includes:=False) _
+            .Where(Function(b)
+                       Return Not (b.IsNullOrEmpty OrElse
+                           b.All(Function(si) si.StringEmpty(, True)))
+                   End Function) _
+            .ToArray
+
+        For Each block As String() In TqdmWrapper.Wrap(blocks)
+            Yield ParseArticle(block)
+        Next
+    End Function
+
+    Private Function ParseArticle(lines As String()) As PubmedArticle
+        Dim terms As Dictionary(Of String, String()) = LoadTerms(lines) _
+            .GroupBy(Function(a) a.Name) _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.Values
+                          End Function)
+        Dim article As New Article With {
+            .Abstract = New Abstract(terms.TryGetValue("AB")),
+            .ArticleTitle = terms.TryGetValue("TI").JoinBy("; "),
+            .Journal = New Journal(terms.TryGetValue("JT").JoinBy("; ")),
+            .AuthorList = New AuthorList With {
+                .Authors = terms.TryGetValue("AU") _
+                    .SafeQuery _
+                    .Select(Function(name) New Author With {.Initials = name}) _
+                    .ToArray
+            },
+            .ArticleDate = New PubDate(terms.TryGetValue("DP").DefaultFirst)
+        }
+        Dim cite As New MedlineCitation With {
+            .Owner = terms.TryGetValue("OWN").JoinBy("; "),
+            .Status = terms.TryGetValue("STAT").JoinBy("; "),
+            .PMID = New PMID(terms.TryGetValue("PMID").DefaultFirst),
+            .Article = article,
+            .KeywordList = New KeywordList With {
+                .Keywords = terms _
+                    .TryGetValue("OT") _
+                    .SafeQuery _
+                    .Select(Function(key) New Keyword(key)) _
+                    .ToArray
+            },
+            .MeshHeadingList = terms.TryGetValue("MH") _
+                .SafeQuery _
+                .Select(Function(key) New MeshHeading(key)) _
+                .ToArray
+        }
+        Dim metadata As New PubmedData With {
+            .ArticleIdList = terms.TryGetValue("AID") _
+                .SafeQuery _
+                .Select(Function(aid)
+                            Dim id As String = Nothing
+                            Dim type As String = Nothing
+
+                            If TryParseAID(aid, id, type) Then
+                                Return New ArticleId(id, type)
+                            Else
+                                Return Nothing
+                            End If
+                        End Function) _
+                .Where(Function(aid) aid IsNot Nothing) _
+                .ToArray
+        }
+
+        Return New PubmedArticle With {
+            .MedlineCitation = cite,
+            .PubmedData = metadata
+        }
+    End Function
+
+    ''' <summary>
+    ''' 解析字符串，提取标识符和类型部分。
+    ''' </summary>
+    ''' <param name="input">输入的字符串（例如 "ijms24010457 [pii]"）</param>
+    ''' <param name="identifier">输出解析后的标识符</param>
+    ''' <param name="type">输出解析后的类型</param>
+    ''' <returns>解析成功返回 True，失败返回 False</returns>
+    Public Function TryParseAID(input As String, ByRef identifier As String, ByRef type As String) As Boolean
+        If String.IsNullOrWhiteSpace(input) Then
+            Return False
+        End If
+
+        ' 正则表达式模式说明：
+        ' ^         : 字符串开始
+        ' (.*?)     : 非贪婪匹配任意字符（标识符部分），直到遇到后续模式
+        ' \s*       : 零个或多个空格
+        ' \[        : 匹配左方括号"["
+        ' (.*?)     : 非贪婪匹配方括号内的内容（类型部分）
+        ' \]        : 匹配右方括号"]"
+        ' \s*       : 零个或多个尾部空格
+        ' $         : 字符串结束
+        Dim pattern As String = "^(.*?)\s*\[(.*?)\]\s*$"
+        Dim match As Match = Regex.Match(input, pattern)
+
+        If match.Success AndAlso match.Groups.Count = 3 Then
+            ' 使用 Trim() 去除捕获值中可能残留的首尾空格
+            identifier = match.Groups(1).Value.Trim()
+            type = match.Groups(2).Value.Trim()
+            Return True
+        End If
+
+        ' 匹配失败时返回 False
+        identifier = Nothing
+        type = Nothing
+        Return False
+    End Function
+
+    Private Iterator Function LoadTerms(lines As String()) As IEnumerable(Of NamedValue(Of String))
+        Dim data As New List(Of NamedValue(Of String))
+        Dim temp As New List(Of String)
+        Dim term As String = Nothing
+
+        For Each line As String In lines
+            If Not line.StartsWith("    ") Then
+                ' start with new term
+                If temp.Any Then
+                    Yield New NamedValue(Of String)(Strings.Trim(term), temp.JoinBy(" "))
+                    Call temp.Clear()
+                End If
+
+                term = line.Substring(0, 4)
+                temp.Add(line.Substring(5).Trim)
+            Else
+                temp.Add(line.Trim)
+            End If
+        Next
+
+        If temp.Any Then
+            Yield New NamedValue(Of String)(Strings.Trim(term), temp.JoinBy(" "))
+        End If
+    End Function
+End Module
+

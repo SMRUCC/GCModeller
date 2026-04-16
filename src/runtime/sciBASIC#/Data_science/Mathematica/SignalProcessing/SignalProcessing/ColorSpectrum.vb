@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 52 (75.36%)
+    ' Comment Lines: 10 (14.49%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 7 (10.14%)
+    '     File Size: 2.11 KB
+
+
     ' Module ColorSpectrum
     ' 
     '     Function: WavelengthToColor

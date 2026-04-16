@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79 (50.00%)
+    ' Comment Lines: 57 (36.08%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (13.92%)
+    '     File Size: 7.15 KB
+
+
     ' Class regulon_d_tmp
     ' 
     '     Properties: re_id, regulon_id, regulon_key_id_org, regulon_name, regulon_tf_group

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd1aa5a1ba7dc369bf5fe01ebc7fc7cf, gr\Microsoft.VisualBasic.Imaging\Filters\Matrix2DFilters.vb"
+﻿#Region "Microsoft.VisualBasic::15cd722c4175754609d1da23676e423e, gr\Microsoft.VisualBasic.Imaging\Filters\Matrix2DFilters.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 108 (82.44%)
+    ' Comment Lines: 3 (2.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (15.27%)
+    '     File Size: 4.86 KB
+
 
     '     Enum Matrix2DFilters
     ' 
@@ -70,9 +82,8 @@ Namespace Filters
             Dim Mat = New Byte(mH - 1, mW - 1) {}
             Dim block = New Byte(8) {}
 
-            For y = 1 To mH - 1 - 1
-
-                For x = 1 To mW - 1 - 1
+            For y As Integer = 1 To mH - 1 - 1
+                For x As Integer = 1 To mW - 1 - 1
                     block(0) = sMat(y - 1, x + 1)
                     block(1) = sMat(y - 1, x)
                     block(2) = sMat(y - 1, x - 1)
@@ -113,19 +124,18 @@ Namespace Filters
             Dim Mat = New Byte(mH - 1, mW - 1) {}
             Dim temp As Byte = 0
 
-            For y = 1 To mH - 1 - 1
-
-                For x = 1 To mW - 1 - 1
-                    temp = sMat(y, x)
-                    temp = If(temp < sMat(y + 1, x), temp, sMat(y + 1, x))
-                    temp = If(temp < sMat(y - 1, x), temp, sMat(y - 1, x))
-                    temp = If(temp < sMat(y, x - 1), temp, sMat(y, x - 1))
-                    temp = If(temp < sMat(y + 1, x - 1), temp, sMat(y + 1, x - 1))
-                    temp = If(temp < sMat(y - 1, x - 1), temp, sMat(y - 1, x - 1))
-                    temp = If(temp < sMat(y, x + 1), temp, sMat(y, x + 1))
-                    temp = If(temp < sMat(y + 1, x + 1), temp, sMat(y + 1, x + 1))
-                    temp = If(temp < sMat(y - 1, x + 1), temp, sMat(y - 1, x + 1))
-                    Mat(y, x) = temp
+            For y As Integer = 1 To mH - 1 - 1
+                For X As Integer = 1 To mW - 1 - 1
+                    temp = sMat(y, X)
+                    temp = If(temp < sMat(y + 1, X), temp, sMat(y + 1, X))
+                    temp = If(temp < sMat(y - 1, X), temp, sMat(y - 1, X))
+                    temp = If(temp < sMat(y, X - 1), temp, sMat(y, X - 1))
+                    temp = If(temp < sMat(y + 1, X - 1), temp, sMat(y + 1, X - 1))
+                    temp = If(temp < sMat(y - 1, X - 1), temp, sMat(y - 1, X - 1))
+                    temp = If(temp < sMat(y, X + 1), temp, sMat(y, X + 1))
+                    temp = If(temp < sMat(y + 1, X + 1), temp, sMat(y + 1, X + 1))
+                    temp = If(temp < sMat(y - 1, X + 1), temp, sMat(y - 1, X + 1))
+                    Mat(y, X) = temp
                 Next
             Next
 
@@ -138,19 +148,19 @@ Namespace Filters
             Dim Mat = New Byte(mH - 1, mW - 1) {}
             Dim temp As Byte = 0
 
-            For y = 1 To mH - 1 - 1
+            For y As Integer = 1 To mH - 1 - 1
 
-                For x = 1 To mW - 1 - 1
-                    temp = sMat(y, x)
-                    temp = If(temp > sMat(y + 1, x), temp, sMat(y + 1, x))
-                    temp = If(temp > sMat(y - 1, x), temp, sMat(y - 1, x))
-                    temp = If(temp > sMat(y, x - 1), temp, sMat(y, x - 1))
-                    temp = If(temp > sMat(y + 1, x - 1), temp, sMat(y + 1, x - 1))
-                    temp = If(temp > sMat(y - 1, x - 1), temp, sMat(y - 1, x - 1))
-                    temp = If(temp > sMat(y, x + 1), temp, sMat(y, x + 1))
-                    temp = If(temp > sMat(y + 1, x + 1), temp, sMat(y + 1, x + 1))
-                    temp = If(temp > sMat(y - 1, x + 1), temp, sMat(y - 1, x + 1))
-                    Mat(y, x) = temp
+                For X As Integer = 1 To mW - 1 - 1
+                    temp = sMat(y, X)
+                    temp = If(temp > sMat(y + 1, X), temp, sMat(y + 1, X))
+                    temp = If(temp > sMat(y - 1, X), temp, sMat(y - 1, X))
+                    temp = If(temp > sMat(y, X - 1), temp, sMat(y, X - 1))
+                    temp = If(temp > sMat(y + 1, X - 1), temp, sMat(y + 1, X - 1))
+                    temp = If(temp > sMat(y - 1, X - 1), temp, sMat(y - 1, X - 1))
+                    temp = If(temp > sMat(y, X + 1), temp, sMat(y, X + 1))
+                    temp = If(temp > sMat(y + 1, X + 1), temp, sMat(y + 1, X + 1))
+                    temp = If(temp > sMat(y - 1, X + 1), temp, sMat(y - 1, X + 1))
+                    Mat(y, X) = temp
                 Next
             Next
 
@@ -163,9 +173,9 @@ Namespace Filters
             Dim Mat = New Byte(mH - 1, mW - 1) {}
             Dim temp = 0
 
-            For y = 1 To mH - 1 - 1
+            For y As integer= 1 To mH - 1 - 1
 
-                For x = 1 To mW - 1 - 1
+                For x As Integer = 1 To mW - 1 - 1
                     temp = sMat(y - 1, x + 1)
                     temp += sMat(y - 1, x)
                     temp += sMat(y - 1, x - 1)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83acf0710495996b2d0c99f72e5d717f, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\TreeNodeBase.vb"
+﻿#Region "Microsoft.VisualBasic::06df92ed3e784008ae4f006c9c8d018a, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Tree\TreeNodeBase.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 186
+    '    Code Lines: 96 (51.61%)
+    ' Comment Lines: 63 (33.87%)
+    '    - Xml Docs: 90.48%
+    ' 
+    '   Blank Lines: 27 (14.52%)
+    '     File Size: 6.37 KB
+
+
     '     Class TreeNodeBase
     ' 
     '         Properties: ChildNodes, FullyQualifiedName, IsLeaf, IsRoot, Name
@@ -38,8 +50,8 @@
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: __travelInternal, GetEnumerator, GetLeafNodes, GetNonLeafNodes, GetRootNode
-    '                   IEnumerable_GetEnumerator, IteratesAllChilds, MaxTravelDepth
+    '         Function: __travelInternal, GenericEnumerator, GetLeafNodes, GetNonLeafNodes, GetRootNode
+    '                   MaxTravelDepth
     ' 
     '         Sub: AddChild, AddChildren, ChildCountsTravel
     ' 
@@ -49,6 +61,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DataStructures.Tree
 
@@ -57,19 +70,8 @@ Namespace ComponentModel.DataStructures.Tree
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <remarks>https://www.codeproject.com/Articles/345191/Simple-Generic-Tree</remarks>
-    Public MustInherit Class TreeNodeBase(Of T As {
-                                              Class, ITreeNode(Of T)
-                                          })
-        Implements ITreeNode(Of T), IEnumerable(Of T)
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="name"></param>
-        Protected Sub New(name As String)
-            Me.Name = name
-            ChildNodes = New List(Of T)()
-        End Sub
+    Public MustInherit Class TreeNodeBase(Of T As {Class, ITreeNode(Of T)})
+        Implements ITreeNode(Of T), Enumeration(Of T)
 
         ''' <summary>
         ''' Name
@@ -84,7 +86,13 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <summary>
         ''' Children
         ''' </summary>
-        Public Property ChildNodes() As List(Of T) Implements ITreeNode(Of T).ChildNodes
+        Public ReadOnly Property ChildNodes() As IReadOnlyCollection(Of T) Implements ITreeNode(Of T).ChildNodes
+            Get
+                Return m_childs
+            End Get
+        End Property
+
+        Protected m_childs As New List(Of T)
 
         ''' <summary>
         ''' Me/this
@@ -92,12 +100,25 @@ Namespace ComponentModel.DataStructures.Tree
         Public MustOverride ReadOnly Property MySelf() As T
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Protected Sub New(name As String)
+            Me.Name = name
+        End Sub
+
+        ''' <summary>
         ''' True if a Leaf Node
         ''' </summary>
+        ''' <value>
+        ''' True for <see cref="ChildNodes"/> contains no data.
+        ''' </value>
         Public ReadOnly Property IsLeaf() As Boolean Implements ITreeNode(Of T).IsLeaf
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return ChildNodes.Count = 0
+                Return ChildNodes.IsNullOrEmpty
             End Get
         End Property
 
@@ -173,9 +194,13 @@ Namespace ComponentModel.DataStructures.Tree
         ''' Add a Child Tree Node
         ''' </summary>
         ''' <param name="child"></param>
-        Public Sub AddChild(child As T)
+        ''' <remarks>
+        ''' 1. hook <see cref="MySelf"/> to <see cref="Parent"/>
+        ''' 2. add <paramref name="child"/> to <see cref="ChildNodes"/>
+        ''' </remarks>
+        Public Sub AddChild(child As T) Implements ITreeNode(Of T).Add
+            m_childs.Add(child)
             child.Parent = MySelf
-            ChildNodes.Add(child)
         End Sub
 
         ''' <summary>
@@ -184,7 +209,7 @@ Namespace ComponentModel.DataStructures.Tree
         ''' <param name="children"></param>
         Public Sub AddChildren(children As IEnumerable(Of T))
             For Each child As T In children
-                AddChild(child)
+                Call AddChild(child)
             Next
         End Sub
 
@@ -211,25 +236,13 @@ Namespace ComponentModel.DataStructures.Tree
         End Sub
 
         ''' <summary>
-        ''' Iterates all of my childs
+        ''' enumerates all childs in current tree node
         ''' </summary>
         ''' <returns></returns>
-        Public Iterator Function GetEnumerator() As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
-            For Each myChild As T In ChildNodes
-                Yield myChild
-
-                For Each child As T In myChild.IteratesAllChilds
-                    Yield child
-                Next
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+            For Each child As T In Me.EnumerateAllChilds
+                Yield child
             Next
-        End Function
-
-        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
-            Yield GetEnumerator()
-        End Function
-
-        Public Function IteratesAllChilds() As IEnumerable(Of T) Implements ITreeNode(Of T).IteratesAllChilds
-            Return Me
         End Function
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::94719152a098083183a484812c6f9ecc, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsMedian.vb"
+﻿#Region "Microsoft.VisualBasic::2ac3e1b08fe079436fbc8635015fc956, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsMedian.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 570
+    '    Code Lines: 136 (23.86%)
+    ' Comment Lines: 410 (71.93%)
+    '    - Xml Docs: 5.61%
+    ' 
+    '   Blank Lines: 24 (4.21%)
+    '     File Size: 21.55 KB
+
 
     '     Module EnumerableStatsMedian
     ' 
@@ -116,21 +128,23 @@ Namespace Math.Statistics.Linq
         ''' <summary>
         ''' Computes the Median of a sequence of <see cref="Double"/> values.
         ''' </summary>
-        ''' <param name="source">A sequence of <see cref="Double"/> values to calculate the Median of.</param>
+        ''' <param name="source">
+        ''' A sequence of <see cref="Double"/> values to calculate the Median of.
+        ''' </param>
         ''' <returns>The Median of the sequence of values.</returns>
         <Extension>
         Public Function Median(source As IEnumerable(Of Double)) As Double
-            Dim sortedList = From number In source Order By number Select number
-            Dim count As Integer = sortedList.Count()
+            Dim sortedList = (From number As Double In source Order By number Select number).ToArray
+            Dim count As Integer = sortedList.Length
             Dim itemIndex As Integer = count \ 2
 
             If count Mod 2 = 0 Then
                 ' Even number of items.
-                Return (sortedList.ElementAt(itemIndex) + sortedList.ElementAt(itemIndex - 1)) / 2
+                Return (sortedList(itemIndex) + sortedList(itemIndex - 1)) / 2
+            Else
+                ' Odd number of items.
+                Return sortedList(itemIndex)
             End If
-
-            ' Odd number of items.
-            Return sortedList.ElementAt(itemIndex)
         End Function
 
         '

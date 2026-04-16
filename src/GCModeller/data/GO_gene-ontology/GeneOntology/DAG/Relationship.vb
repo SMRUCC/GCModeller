@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::83f23bf2c73146a6b9ae74813fb9cf89, data\GO_gene-ontology\GeneOntology\DAG\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::7bc235f1db525e80832e659695bc1e04, data\GO_gene-ontology\GeneOntology\DAG\Relationship.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 38 (60.32%)
+    ' Comment Lines: 12 (19.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (20.63%)
+    '     File Size: 2.62 KB
+
+
     '     Structure Relationship
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -60,9 +72,9 @@ Namespace DAG
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")
 
-            parentName = tokens(1%)
+            parentName = tokens.ElementAtOrNull(1%)
             tokens = tokens(Scan0).Split
-            type = relationshipParser(tokens(Scan0))
+            type = relationshipParser.TryGetValue(tokens(Scan0), [default]:=OntologyRelations.none)
             parent = tokens(1).GetTagValue(":")
         End Sub
 
@@ -90,12 +102,18 @@ Namespace DAG
         ''' 父节点的实例
         ''' </summary>
         Dim term As TermNode
+        Dim attributes As String
 
         Sub New(value$)
             Dim tokens$() = Strings.Split(value$, " ! ")
 
             term_id = tokens(Scan0%)
-            name = tokens(1%)
+            name = tokens.ElementAtOrDefault(1%, [default]:=term_id)
+
+            If InStr(term_id, "{") > 0 AndAlso InStr(term_id, "}") > 0 Then
+                attributes = term_id.GetStackValue("{", "}")
+                term_id = term_id.Replace(attributes, "").Replace("{}", "").Trim
+            End If
         End Sub
 
         Public Overrides Function ToString() As String

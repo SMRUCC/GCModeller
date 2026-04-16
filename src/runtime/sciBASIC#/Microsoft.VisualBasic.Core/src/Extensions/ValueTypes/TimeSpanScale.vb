@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 11 (73.33%)
+    ' Comment Lines: 3 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (6.67%)
+    '     File Size: 288 B
+
+
     '     Enum TimeSpanScale
     ' 
     ' 

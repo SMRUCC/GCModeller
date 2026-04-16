@@ -1,44 +1,44 @@
 ﻿#Region "Microsoft.VisualBasic::88060860832e82999e9cb874e1fda05d, CLI_tools\eggHTS\CLI\Samples\LabelFree.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module CLI
-    ' 
-    '     Function: ExtractMatrix, LabelFreeMatrix, LabelFreeMatrixSplit, labelFreeTtest, MajorityProteinIDs
-    '               matrixByInternal, matrixByUniprot, MatrixColRenames, MatrixNormalize, PerseusStatics
-    '               PerseusTable
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Module CLI
+' 
+'     Function: ExtractMatrix, LabelFreeMatrix, LabelFreeMatrixSplit, labelFreeTtest, MajorityProteinIDs
+'               matrixByInternal, matrixByUniprot, MatrixColRenames, MatrixNormalize, PerseusStatics
+'               PerseusTable
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -58,6 +58,7 @@ Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.HTS.Proteomics
 Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Experiments = SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Partial Module CLI
 
@@ -217,8 +218,8 @@ Partial Module CLI
         Dim out$ = args.GetValue("/out", (args <= "/in").TrimSuffix & ".log2FC.t.test.csv")
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
         Dim designer As New AnalysisDesigner With {
-            .Controls = args <= "/control",
-            .Treatment = args <= "/treatment"
+            .controls = args <= "/control",
+            .treatment = args <= "/treatment"
         }
         Dim usingSignificantAB As Boolean = (args("/significant") Or "t.test") = "AB"
         Dim DEPs As DEP_iTraq() = data.logFCtest(designer, sampleInfo, level, pvalue, FDR, significantA:=usingSignificantAB)
@@ -240,8 +241,8 @@ Partial Module CLI
         Dim designer As AnalysisDesigner() = (args <= "/designer").LoadCsv(Of AnalysisDesigner)
 
         For Each analysis As AnalysisDesigner In designer
-            Dim controls = sampleInfo.SampleIDs(analysis.Controls)
-            Dim treatments = sampleInfo.SampleIDs(analysis.Treatment)
+            Dim controls = sampleInfo.SampleIDs(analysis.controls)
+            Dim treatments = sampleInfo.SampleIDs(analysis.treatment)
             Dim subMatrix As DataSet() =
                 Iterator Function(projection As String()) As IEnumerable(Of DataSet)
                     For Each protein In matrix
@@ -249,12 +250,12 @@ Partial Module CLI
                     Next
                 End Function(controls + treatments).ToArray
 
-            Dim controlGroup = sampleInfo.TakeGroup(analysis.Controls).AsList
-            Dim treatmentGroup As SampleInfo() = sampleInfo.TakeGroup(analysis.Treatment)
+            Dim controlGroup = sampleInfo.TakeGroup(analysis.controls).AsList
+            Dim treatmentGroup As SampleInfo() = sampleInfo.TakeGroup(analysis.treatment)
 
-            Names(subMatrix) = controlGroup + treatmentGroup
+            Experiments.Names(subMatrix) = controlGroup + treatmentGroup
 
-            Call subMatrix.SaveTo($"{out}/{analysis.Title}.csv")
+            Call subMatrix.SaveTo($"{out}/{analysis.title}.csv")
         Next
 
         Return 0
@@ -269,7 +270,7 @@ Partial Module CLI
         Dim matrix As DataSet() = DataSet.LoadDataSet([in]).ToArray
         Dim sampleInfo As SampleInfo() = (args <= "/sampleInfo").LoadCsv(Of SampleInfo)
 
-        Names(matrix) = sampleInfo
+        Experiments.Names(matrix) = sampleInfo
 
         Return matrix.SaveTo(out).CLICode
     End Function

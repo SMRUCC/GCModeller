@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 95 (81.20%)
+    ' Comment Lines: 4 (3.42%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 18 (15.38%)
+    '     File Size: 4.00 KB
+
+
     '     Class Scanner
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::190df25fbad54e34a7d42666819ef248, gr\network-visualization\Datavisualization.Network\Analysis\Model\EdgeTraversalPolicy.vb"
+﻿#Region "Microsoft.VisualBasic::c2489a21f6c1562c734f930c4bec4e37, gr\network-visualization\Datavisualization.Network\Analysis\Model\EdgeTraversalPolicy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 27 (72.97%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (27.03%)
+    '     File Size: 1.19 KB
+
 
     '     Interface EdgeTraversalPolicy
     ' 
@@ -65,7 +77,7 @@ Namespace Analysis.Model
         End Sub
 
         Public Overridable Function edges(v As DirectedVertex) As ISet(Of Edge) Implements EdgeTraversalPolicy.edges
-            Return v.outgoingEdges
+            Return v.m_outgoingEdges
         End Function
 
         Public Overridable Function vertex(e As Edge) As Node Implements EdgeTraversalPolicy.vertex
@@ -79,7 +91,7 @@ Namespace Analysis.Model
         End Sub
 
         Public Overridable Function edges(v As DirectedVertex) As ISet(Of Edge) Implements EdgeTraversalPolicy.edges
-            Return v.incomingEdges
+            Return v.m_incomingEdges
         End Function
 
         Public Overridable Function vertex(e As Edge) As Node Implements EdgeTraversalPolicy.vertex

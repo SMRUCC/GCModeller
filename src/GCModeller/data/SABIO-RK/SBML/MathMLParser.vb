@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b254b435c382c44545396f33beddb7e1, data\SABIO-RK\SBML\MathMLParser.vb"
+﻿#Region "Microsoft.VisualBasic::647b14244c038e7e04fd4c742a4b33fc, data\SABIO-RK\SBML\MathMLParser.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 62 (70.45%)
+    ' Comment Lines: 14 (15.91%)
+    '    - Xml Docs: 78.57%
+    ' 
+    '   Blank Lines: 12 (13.64%)
+    '     File Size: 3.28 KB
+
+
     '     Module MathMLParser
     ' 
-    '         Function: ParseMathML
+    '         Function: DefaultKineticis, ParseMathML
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,11 +54,15 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.xml
+Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
 
 Namespace SBML
 
+    ''' <summary>
+    ''' parser helper for the mathML enzymatic kinetics
+    ''' </summary>
     Public Module MathMLParser
 
         Const startTag As String = "<listOfFunctionDefinitions"
@@ -55,6 +71,12 @@ Namespace SBML
         Public Iterator Function ParseMathML(sbmlText As String) As IEnumerable(Of NamedValue(Of XmlElement))
             Dim start = sbmlText.IndexOf(startTag)
             Dim ends = sbmlText.IndexOf("</listOfFunctionDefinitions>")
+
+            ' 20241223
+            ' No results found for query
+            If start < 0 OrElse ends < 0 Then
+                Return
+            End If
 
             sbmlText = sbmlText _
                 .Substring(start + startTag.Length + 1, ends - start - startTag.Length - 1) _
@@ -81,5 +103,40 @@ Namespace SBML
                 }
             Next
         End Function
+
+        ''' <summary>
+        ''' Populate the default enzyme kinetics math lambda expression
+        ''' 
+        ''' ```
+        ''' Km, kcat, E
+        ''' V = Kcat[E]t[S] / ( KM + [S])
+        ''' ```
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function DefaultKineticis() As LambdaExpression
+            Dim exp As MathExpression = New BinaryExpression With {
+                .[operator] = "/",
+                .applyleft = New BinaryExpression With {
+                    .[operator] = "*",
+                    .applyleft = New BinaryExpression With {
+                        .[operator] = "*",
+                        .applyleft = New SymbolExpression("kcat"),
+                        .applyright = New SymbolExpression("E")
+                    },
+                    .applyright = New SymbolExpression("S")
+                },
+                .applyright = New BinaryExpression With {
+                    .[operator] = "+",
+                    .applyleft = New SymbolExpression("Km"),
+                    .applyright = New SymbolExpression("S")
+                }
+            }
+
+            Return New LambdaExpression With {
+                .parameters = {"Km", "kcat", "E", "S"},
+                .lambda = exp
+            }
+        End Function
+
     End Module
 End Namespace

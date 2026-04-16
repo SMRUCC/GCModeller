@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 15 (39.47%)
+    ' Comment Lines: 18 (47.37%)
+    '    - Xml Docs: 16.67%
+    ' 
+    '   Blank Lines: 5 (13.16%)
+    '     File Size: 1.26 KB
+
+
     '     Class X
     ' 
     '         Properties: delta, g, value

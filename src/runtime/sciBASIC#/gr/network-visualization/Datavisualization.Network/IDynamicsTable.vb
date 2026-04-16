@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 13 (56.52%)
+    ' Comment Lines: 7 (30.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (13.04%)
+    '     File Size: 816 B
+
+
     '     Class IDynamicsTable
     ' 
     '         Properties: Properties

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8851236c844e6a47964e928d1c70bf9f, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
+﻿#Region "Microsoft.VisualBasic::f23e39c7cd655220175668f5f1014fec, visualize\ChromosomeMap\PlasmidMap\DrawGene.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 53 (77.94%)
+    ' Comment Lines: 9 (13.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (8.82%)
+    '     File Size: 2.86 KB
+
+
     '     Module DrawGene
     ' 
     '         Function: Draw
@@ -44,6 +56,34 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Imaging
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.DrawingModels
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
 
 Namespace PlasmidMap.DrawingModels
 

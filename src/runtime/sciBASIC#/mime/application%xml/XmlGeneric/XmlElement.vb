@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::220fb2fc26c4801f852da9f89216fe3e, mime\application%xml\XmlGeneric\XmlElement.vb"
+﻿#Region "Microsoft.VisualBasic::4c5ba42f85d951eacdbbc78735c14f21, mime\application%xml\XmlGeneric\XmlElement.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 37 (55.22%)
+    ' Comment Lines: 21 (31.34%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 9 (13.43%)
+    '     File Size: 2.05 KB
+
+
     ' Class XmlElement
     ' 
-    '     Properties: [namespace], attributes, elements, id, name
-    '                 text
+    '     Properties: [namespace], attributes, comment, elements, id
+    '                 name, text
     ' 
     '     Function: getElementById, getElementsByTagName, ParseXmlText, ToString
     ' 
@@ -42,7 +54,13 @@
 
 #End Region
 
-Public Class XmlElement
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+
+''' <summary>
+''' A generic xml element node
+''' </summary>
+Public Class XmlElement : Implements IReadOnlyId
 
     ''' <summary>
     ''' the xml tag name
@@ -58,23 +76,28 @@ Public Class XmlElement
     ''' </summary>
     ''' <returns></returns>
     Public Property text As String
+    ''' <summary>
+    ''' the content text of the comment in current node
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property comment As String
 
-    Public ReadOnly Property id As String
+    Public ReadOnly Property id As String Implements IReadOnlyId.Identity
         Get
-            Return attributes _
-                .Where(Function(a) a.Key = "id") _
-                .FirstOrDefault _
-                .Value
+            Return attributes.TryGetValue("id")
         End Get
     End Property
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function getElementById(id As String) As XmlElement
-        Return elements.Where(Function(a) a.id = id).FirstOrDefault
+        Return elements _
+            .Where(Function(a) a.id = id) _
+            .FirstOrDefault
     End Function
 
     Public Iterator Function getElementsByTagName(name As String) As IEnumerable(Of XmlElement)
         For Each element As XmlElement In elements
-            If element.name = name Then
+            If TypeOf element Is XmlElement AndAlso DirectCast(element, XmlElement).name = name Then
                 Yield element
             End If
         Next
@@ -87,8 +110,10 @@ Public Class XmlElement
     ''' <summary>
     ''' parse the xml document text
     ''' </summary>
-    ''' <param name="xmlText">the xml dcument text</param>
+    ''' <param name="xmlText">the xml document text</param>
     ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function ParseXmlText(xmlText As String) As XmlElement
         Return XmlParser.ParseXml(xmlText)
     End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::00be1d6d919b48e02d8de045b9739b5a, Microsoft.VisualBasic.Core\src\My\Framework\IOHandler.vb"
+﻿#Region "Microsoft.VisualBasic::8706a214f475ed7e0654afb26a40df64, Microsoft.VisualBasic.Core\src\My\Framework\IOHandler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 31 (62.00%)
+    ' Comment Lines: 8 (16.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (22.00%)
+    '     File Size: 2.06 KB
+
 
     '     Module IOHandler
     ' 
@@ -69,7 +81,7 @@ Namespace My.FrameworkInternal
         ReadOnly defaultWriter As New [Default](Of ISave)(AddressOf SaveJSON)
 
         Public Function getLogger(category As String, Optional split As LoggingDriver = Nothing) As LogFile
-            Dim path As String = App.CurrentDirectory & $"/{category}{MD5(Now.ToString & RandomASCIIString(8))}.log"
+            Dim path As String = App.CurrentDirectory & $"/{category}{MD5(DateTime.UtcNow.ToString & RandomASCIIString(8))}.log"
             Dim file As New LogFile(path, split:=split)
 
             Return file

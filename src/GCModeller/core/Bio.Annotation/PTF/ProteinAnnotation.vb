@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::139d909787996cd077ef51f72f31ba62, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::fd74f5723d9b0387523bd4ebc1cc2d6b, core\Bio.Annotation\PTF\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 37 (56.06%)
+    ' Comment Lines: 21 (31.82%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 8 (12.12%)
+    '     File Size: 2.29 KB
+
+
     '     Class ProteinAnnotation
     ' 
     '         Properties: attributes, description, geneId, geneName, locus_id
+    '                     sequence
     ' 
     '         Function: [get], has, ToString
     ' 
@@ -43,6 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Ptf
@@ -50,13 +64,13 @@ Namespace Ptf
     ''' <summary>
     ''' A uniy protein annotation model in GCModeller softwares
     ''' </summary>
-    Public Class ProteinAnnotation
+    Public Class ProteinAnnotation : Implements INamedValue
 
         ''' <summary>
         ''' A unique symbol id
         ''' </summary>
         ''' <returns></returns>
-        Public Property geneId As String
+        Public Property geneId As String Implements INamedValue.Key
         Public Property locus_id As String
         Public Property geneName As String
 
@@ -70,6 +84,7 @@ Namespace Ptf
         ''' </summary>
         ''' <returns></returns>
         Public Property attributes As Dictionary(Of String, String())
+        Public Property sequence As String
 
         Default Public Property attr(key As String) As String
             Get
@@ -91,7 +106,9 @@ Namespace Ptf
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function has(attrName As String) As Boolean
-            Return attributes.ContainsKey(attrName)
+            Return attributes IsNot Nothing AndAlso
+                attributes.ContainsKey(attrName) AndAlso
+                Not _attributes(attrName).IsNullOrEmpty
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

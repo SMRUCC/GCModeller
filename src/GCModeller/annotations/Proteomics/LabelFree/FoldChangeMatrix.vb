@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7da7e681b4c7cafc5873730da6faf398, annotations\Proteomics\LabelFree\FoldChangeMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::d5ef2f476811c28c14d77e14ec500d3a, annotations\Proteomics\LabelFree\FoldChangeMatrix.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 114 (71.25%)
+    ' Comment Lines: 29 (18.12%)
+    '    - Xml Docs: 75.86%
+    ' 
+    '   Blank Lines: 17 (10.62%)
+    '     File Size: 6.77 KB
+
+
     ' Module FoldChangeMatrix
     ' 
     '     Function: (+2 Overloads) iTraqMatrix, iTraqMatrixNormalized, (+2 Overloads) TotalSumNormalize
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f2492c0796ad85ab891091031fad3f0, Microsoft.VisualBasic.Core\src\ComponentModel\LazyLoader.vb"
+﻿#Region "Microsoft.VisualBasic::3a77694e7dafebe4cd0276c06a2ca095, Microsoft.VisualBasic.Core\src\ComponentModel\LazyLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 85 (56.29%)
+    ' Comment Lines: 43 (28.48%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (15.23%)
+    '     File Size: 4.84 KB
+
 
     '     Class LazyLoader
     ' 
@@ -114,7 +126,7 @@ Namespace ComponentModel
             Dim msg As String =
             String.Format(DATA_LOADED_MESSAGE, url, _innerData.GetType.FullName, method, ElapsedMilliseconds)
 
-            Call msg.__DEBUG_ECHO
+            Call msg.debug
         End Sub
 
         ''' <summary>

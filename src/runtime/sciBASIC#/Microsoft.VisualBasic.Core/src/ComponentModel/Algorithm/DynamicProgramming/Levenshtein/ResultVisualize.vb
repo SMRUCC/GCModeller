@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d74a5a24d8a1d7da6fe7b5324892b56f, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\ResultVisualize.vb"
+﻿#Region "Microsoft.VisualBasic::8ffb84c19a3f9896534db734afb42e76, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\ResultVisualize.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 147 (86.47%)
+    ' Comment Lines: 4 (2.35%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (11.18%)
+    '     File Size: 6.60 KB
+
+
     '     Module ResultVisualize
     ' 
-    '         Function: doVisualizeHTML, HTMLVisualize, internalMatrix
+    '         Function: CreateVisualizeHTML, HTMLVisualize, internalMatrix
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,7 +58,7 @@ Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Text.Xml
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
@@ -59,7 +71,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
         <Extension>
         Public Function HTMLVisualize(result As DistResult) As String
             Try
-                Return result.doVisualizeHTML().FormatHTML
+                Return result.CreateVisualizeHTML().FormatHTML
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return _
@@ -75,7 +87,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
         End Function
 
         <Extension>
-        Private Function doVisualizeHTML(dist As DistResult) As String
+        Private Function CreateVisualizeHTML(dist As DistResult) As String
             Dim html As New XmlBuilder()
             Dim edits$ = dist.DistEdits
 
@@ -180,7 +192,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
                 Dim r As New XmlBuilder
 
                 For j As Integer = 0 To Len(Hypotheses) - 1
-                    Dim c = stdNum.Round(matrix.DistTable(i)(j), 2)
+                    Dim c = std.Round(matrix.DistTable(i)(j), 2)
 
                     If dict.ContainsKey(i) AndAlso Array.IndexOf(dict(i), j) > -1 Then
                         r += <td style="background-color:green;color:white">

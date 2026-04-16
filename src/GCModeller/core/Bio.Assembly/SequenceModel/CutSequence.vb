@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::de7392c4ef7be2d7d38f9caf880b03c9, core\Bio.Assembly\SequenceModel\CutSequence.vb"
+﻿#Region "Microsoft.VisualBasic::02812af762065710cdf093deb055b2bb, core\Bio.Assembly\SequenceModel\CutSequence.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 136 (57.87%)
+    ' Comment Lines: 68 (28.94%)
+    '    - Xml Docs: 86.76%
+    ' 
+    '   Blank Lines: 31 (13.19%)
+    '     File Size: 9.22 KB
+
+
     '     Module CutSequence
     ' 
-    '         Function: CutSequenceBylength, (+3 Overloads) CutSequenceCircular, (+4 Overloads) CutSequenceLinear, ReadComplement
+    '         Function: CutSequenceByLength, (+3 Overloads) CutSequenceCircular, (+4 Overloads) CutSequenceLinear, Length, ReadComplement
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
@@ -52,6 +65,11 @@ Namespace SequenceModel
     ''' Cut sequence for DNA/protein
     ''' </summary>
     Public Module CutSequence
+
+        <Extension>
+        Public Function Length(range As IntRange) As Integer
+            Return range.Max - range.Min + 1
+        End Function
 
         ''' <summary>
         ''' 核酸分子和蛋白质分子都适用
@@ -87,6 +105,11 @@ Namespace SequenceModel
                 cut = seq.Substring(start)
             Else
                 ' 计算是从1开始的，不是从零开始的
+                If left <= 0 Then
+                    Call $"set negative start position({left}) to base 1.".Warning
+                    left = 1
+                End If
+
                 cut = seq.Substring(left - 1, l)
             End If
 
@@ -115,9 +138,17 @@ Namespace SequenceModel
         End Function
 #End Region
 
+        ''' <summary>
+        ''' Cut sequence by given left loci and segment length.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="left"></param>
+        ''' <param name="length"></param>
+        ''' <param name="tag$">the tag information about this sequence segment.</param>
+        ''' <returns></returns>
         <Extension>
-        Public Function CutSequenceBylength(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
-            Dim cut$ = Mid(seq.SequenceData, left, length)
+        Public Function CutSequenceByLength(seq As IPolymerSequenceModel, left%, length%, Optional tag$ = Nothing) As SimpleSegment
+            Dim cut$ = seq.SequenceData.Substring(left - 1, length)
 
             Return New SimpleSegment With {
                 .SequenceData = cut,

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d794bc65492944ce9b743b97471a22bf, gr\Microsoft.VisualBasic.Imaging\SVG\SVGWriter.vb"
+﻿#Region "Microsoft.VisualBasic::faf5645f154ca28d3abae7ca98c7ddb2, gr\Microsoft.VisualBasic.Imaging\SVG\SVGWriter.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 71 (62.28%)
+    ' Comment Lines: 25 (21.93%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 18 (15.79%)
+    '     File Size: 4.29 KB
+
+
     '     Module SVGWriter
     ' 
-    '         Function: SVG, (+2 Overloads) WriteSVG
+    '         Function: (+2 Overloads) SVG, (+3 Overloads) WriteSVG
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Drawing
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Text
 
 Namespace SVG
 
@@ -68,9 +79,27 @@ Namespace SVG
         <Extension>
         Public Function SVG(g As GraphicsSVG,
                             Optional size$ = Nothing,
-                            Optional comment$ = Nothing,
-                            Optional desc$ = Nothing) As SVGXml
-            Return g.__svgData.GetSVG(size.SizeParser, xmlComment:=comment, desc:=desc)
+                            Optional comment As String = Nothing) As SvgDocument
+
+            Return SVGWriter.SVG(g.__svgData, size, comment)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function SVG(g As SVGDataLayers,
+                            Optional size$ = Nothing,
+                            Optional comment As String = Nothing) As SvgDocument
+
+            Dim svgDoc As SvgDocument = g.svg
+
+            If Not size.StringEmpty Then
+                Call svgDoc.Size(size.SizeParser)
+            End If
+            If Not comment.StringEmpty Then
+                Call svgDoc.SetCommentText(comment)
+            End If
+
+            Return svgDoc
         End Function
 
         ''' <summary>
@@ -79,11 +108,12 @@ Namespace SVG
         ''' <param name="g"></param>
         ''' <param name="path$">``*.svg``保存的SVG文件的路径</param>
         ''' <returns></returns>
-        <Extension> Public Function WriteSVG(g As GraphicsSVG, path$,
-                                             Optional size$ = "1440,900",
-                                             Optional comments$ = Nothing,
-                                             Optional desc$ = Nothing,
-                                             Optional title$ = Nothing) As Boolean
+        <Extension>
+        Public Function WriteSVG(g As GraphicsSVG, path$,
+                                 Optional size$ = "1440,900",
+                                 Optional comments$ = Nothing,
+                                 Optional desc$ = Nothing,
+                                 Optional title$ = Nothing) As Boolean
             ' 2019-04-18
             '
             ' 如果目标文件没有被事先清空的话
@@ -105,17 +135,31 @@ Namespace SVG
             End Using
         End Function
 
-        <Extension> Public Function WriteSVG(g As GraphicsSVG, out As Stream,
-                                             Optional size$ = "1440,900",
-                                             Optional comments$ = Nothing,
-                                             Optional desc$ = Nothing,
-                                             Optional title$ = Nothing) As Boolean
-            Dim sz As Size = size.SizeParser
-            Dim svg As SVGXml = g.__svgData.GetSVG(sz, comments, desc, title)
-            Dim XML$ = svg.GetSVGXml
-            Dim bytes As Byte() = TextEncodings.UTF8WithoutBOM.GetBytes(XML)
+        <Extension>
+        Public Function WriteSVG(g As GraphicsSVG, out As Stream,
+                                 Optional size$ = "1440,900",
+                                 Optional comments$ = Nothing,
+                                 Optional desc$ = Nothing,
+                                 Optional title$ = Nothing) As Boolean
 
-            Call out.Write(bytes, Scan0, bytes.Length)
+            Dim svg As SvgDocument = g.SVG(size:=size)
+
+            Call svg.Save(out, encoding:=Encoding.UTF8)
+            Call out.Flush()
+
+            Return True
+        End Function
+
+        <Extension>
+        Public Function WriteSVG(g As SVGDataLayers, out As Stream,
+                                 Optional size$ = "1440,900",
+                                 Optional comments$ = Nothing,
+                                 Optional desc$ = Nothing,
+                                 Optional title$ = Nothing) As Boolean
+
+            Dim svg As SvgDocument = SVGWriter.SVG(g, size:=size, comments)
+
+            Call svg.Save(out, encoding:=Encoding.UTF8)
             Call out.Flush()
 
             Return True

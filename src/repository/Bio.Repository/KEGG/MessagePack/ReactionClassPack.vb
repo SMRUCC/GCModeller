@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 53 (84.13%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (15.87%)
+    '     File Size: 2.96 KB
+
+
     '     Class ReactionClassPack
     ' 
     '         Constructor: (+1 Overloads) Sub New

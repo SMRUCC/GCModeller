@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8519a5c6ed0113bd6a1224556f51b37, models\Networks\Network.Regulons\TRN.vb"
+﻿#Region "Microsoft.VisualBasic::86523512facfda42d994c544403783cf, models\Networks\Network.Regulons\TRN.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 19 (67.86%)
+    ' Comment Lines: 6 (21.43%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 3 (10.71%)
+    '     File Size: 1.08 KB
+
+
     ' Module TRN
     ' 
     '     Function: CorrelationNetwork
@@ -40,9 +52,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.Microarray
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Public Module TRN
 
@@ -66,4 +78,44 @@ Public Module TRN
                        Return Math.Abs(cnn.cor) >= cutoff
                    End Function)
     End Function
+
+    <Extension>
+    Public Function CorrelationImpl(gene As DataSet, matrix As DataSet(), sampleNames$(), isSelfComparison As Boolean, skipIndirect As Boolean, cutoff#) As Connection()
+        Dim fpkm As Double() = gene(sampleNames)
+        Dim links As Connection() = matrix _
+            .Where(Function(g)
+                       If isSelfComparison Then
+                           Return g.ID <> gene.ID
+                       Else
+                           Return True
+                       End If
+                   End Function) _
+            .AsParallel _
+            .Select(Function(g)
+                        Dim fpkm2 As Double() = g(sampleNames)
+                        Dim cor As Double = GetPearson(fpkm, fpkm2)
+
+                        If Math.Abs(cor) >= cutoff AndAlso skipIndirect Then
+                            Return New Connection With {
+                                .cor = cor,
+                                .gene1 = gene.ID,
+                                .gene2 = g.ID,
+                                .is_directly = True
+                            }
+                        Else
+                            Return New Connection With {
+                                .cor = Spearman(fpkm, fpkm2),
+                                .gene1 = gene.ID,
+                                .gene2 = g.ID,
+                                .is_directly = False
+                            }
+                        End If
+                    End Function) _
+            .ToArray
+
+        Call gene.ID.info
+
+        Return links
+    End Function
 End Module
+

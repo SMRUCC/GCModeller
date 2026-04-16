@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddd4f3d9177a5eb7ba50715e04470430, Data_science\Mathematica\Math\ODE\ODESolvers\ODEOutput.vb"
+﻿#Region "Microsoft.VisualBasic::7a79af86e80cedb87d754cb2ad9bece7, Data_science\Mathematica\Math\ODE\ODESolvers\ODEOutput.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 42 (76.36%)
+    ' Comment Lines: 4 (7.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.36%)
+    '     File Size: 1.63 KB
+
+
     ' Class ODEOutput
     ' 
-    '     Properties: Description, ID, X, xrange, Y
-    '                 y0
+    '     Properties: description, ID, sum, X, xrange
+    '                 Y, y0
     ' 
     '     Function: GetPointsData, ToString
     ' 

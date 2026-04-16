@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ff3a6ba29d153d2d58e058f80a0eef4, gr\Microsoft.VisualBasic.Imaging\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::354925f422b3b0a74630504d8d1cdaac, gr\Microsoft.VisualBasic.Imaging\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 61 (78.21%)
+    ' Comment Lines: 6 (7.69%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 2.98 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: AsGDIImage, AsSVG
+    '     Function: ArgbColor, AsGDIImage, AsSVG, ToVector
     ' 
     '     Sub: (+4 Overloads) FillCircles
     ' 
@@ -46,9 +58,23 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 <HideModuleName> Public Module Extensions
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ArgbColor(v As Vector) As Color
+        Return Color.FromArgb(v(0), v(1), v(2), v(3))
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function ToVector(c As Color) As Vector
+        Return New Vector(New Double() {c.A, c.R, c.G, c.B})
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AsSVG(img As GraphicsData, Optional comment$ = Nothing) As SVGData
         Dim svg As SVGData = DirectCast(img, SVGData)
@@ -61,7 +87,8 @@ Imports Microsoft.VisualBasic.Linq
     ''' </summary>
     ''' <param name="img"></param>
     ''' <returns></returns>
-    <Extension> Public Function AsGDIImage(img As GraphicsData) As Image
+    <Extension>
+    Public Function AsGDIImage(img As GraphicsData) As Image
         If img.Driver = Drivers.GDI Then
             Return DirectCast(img, ImageData).Image
         Else

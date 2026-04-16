@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 60 (84.51%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (15.49%)
+    '     File Size: 2.72 KB
+
+
     '     Class Iteration
     ' 
     '         Properties: Hits, IterNum, QueryDef, QueryId, QueryLen

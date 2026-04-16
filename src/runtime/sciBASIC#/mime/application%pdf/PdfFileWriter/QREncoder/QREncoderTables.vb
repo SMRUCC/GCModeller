@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a7ae7f93498f08af88c06a318c0e25eb, mime\application%pdf\PdfFileWriter\QREncoder\QREncoderTables.vb"
+﻿#Region "Microsoft.VisualBasic::a17b4d092fa56006cc772e1cdd9f81ae, mime\application%pdf\PdfFileWriter\QREncoder\QREncoderTables.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 344
+    '    Code Lines: 283 (82.27%)
+    ' Comment Lines: 55 (15.99%)
+    '    - Xml Docs: 5.45%
+    ' 
+    '   Blank Lines: 6 (1.74%)
+    '     File Size: 26.66 KB
+
+
     ' Class QREncoderTables
     ' 
     ' 
@@ -39,7 +51,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	QR Code Encoder Library
 '
@@ -72,7 +84,7 @@
 '	The Article accompanying the Work may not be distributed or republished
 '	without the Author's consent
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 'namespace QRCodeEncoderLibrary
 

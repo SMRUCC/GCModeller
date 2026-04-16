@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cafa00dc9889175256cf6220b15f67bc, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\LevenshteinModel.vb"
+﻿#Region "Microsoft.VisualBasic::1fd56d58bfc756fd52e135b58795d8c6, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\LevenshteinModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 124 (70.86%)
+    ' Comment Lines: 20 (11.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 31 (17.71%)
+    '     File Size: 5.73 KB
+
+
     '     Class ArrayRow
     ' 
     '         Properties: data
@@ -55,7 +67,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
@@ -112,6 +124,10 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
             Return LQuery > 50
         End Function
 
+        ''' <summary>
+        ''' the edit distance
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Distance As Double
             Get
                 If DistTable.IsNullOrEmpty Then
@@ -196,7 +212,7 @@ Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
                 .Select(Function(row)
                             Dim values#() = row _
                                 .data _
-                                .Select(Function(n) stdNum.Round(n, l)) _
+                                .Select(Function(n) std.Round(n, l)) _
                                 .ToArray
 
                             Return New ArrayRow With {

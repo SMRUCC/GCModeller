@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8148bc260b8c24426e8144382079ef46, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::a6abc30d1c83a6bcadc31d9571c75017, Data_science\Visualization\Plots-statistics\HistStackedBarplot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 123 (77.85%)
+    ' Comment Lines: 16 (10.13%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 19 (12.03%)
+    '     File Size: 6.91 KB
+
+
     ' Module HistStackedBarplot
     ' 
     '     Function: Plot, SampleDataSet
@@ -47,13 +59,14 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot
 Imports Microsoft.VisualBasic.Data.ChartPlots.BarPlot.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module HistStackedBarplot
@@ -105,7 +118,8 @@ Public Module HistStackedBarplot
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                Dim plotRegion As Rectangle = region.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim plotRegion As Rectangle = region.PlotRegion(css)
                 Dim treeRegion As New Rectangle With {
                     .Location = plotRegion.Location,
                     .Width = MeasureWidthOrHeight(treeWidth, plotRegion.Width),
@@ -116,13 +130,13 @@ Public Module HistStackedBarplot
                 ' rowKeys得到的是sample的从上到下的绘图顺序
                 Dim cluster As Cluster = Time(AddressOf array.RunCluster)
                 Dim rowKeys$() = histCanvas(cluster) _
-                    .Paint(DirectCast(g, Graphics2D), treeRegion) _
+                    .Paint(g, treeRegion) _
                     .OrderBy(Function(x) x.Value.Y) _
                     .Keys
 
                 Dim left! = treeRegion.Right + dtreeBar
                 Dim top! = treeRegion.Top
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
+                Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleFontCSS))
                 Dim maxLabelSize As SizeF = data _
                     .Serials _
                     .Keys _

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1b5d4a48e3ee868d2e81ec165c9902f4, annotations\GSEA\GSEA.KnowledgeBase.Extensions\KOBASDatabase.vb"
+﻿#Region "Microsoft.VisualBasic::741762f082cd3478e21410cb3b71f6b5, annotations\GSEA\GSEA.KnowledgeBase.Extensions\KOBASDatabase.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 6 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (25.00%)
+    '     File Size: 246 B
+
+
     ' Module KOBASDatabase
     ' 
     '     Function: ImportsKOBASSqlite3
@@ -44,6 +56,6 @@ Imports Microsoft.VisualBasic.Data.IO.ManagedSqlite.Core
 Public Module KOBASDatabase
 
     Public Function ImportsKOBASSqlite3(kobas_db As Sqlite3Database) As Background
-
+        Throw New NotImplementedException
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6aaf9640ad1904e80694d9d74f3bb56a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
+﻿#Region "Microsoft.VisualBasic::bb50669ebc3503efd70ba0df65464e54, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\GBFFFeatureDumps.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 142 (78.45%)
+    ' Comment Lines: 19 (10.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (11.05%)
+    '     File Size: 8.01 KB
+
+
     '     Module GBFFFeatureDumps
     ' 
-    '         Function: FeatureDumps, GbffToPTT, InternalDump3UTRs, InternalDump5UTRs, InternalDumpCDS
-    '                   InternalDumpMiscFeature, InternalDumpRegulatory
+    '         Function: FeatureDumps, GbffToPTT, GetmRNASequence, InternalDump3UTRs, InternalDump5UTRs
+    '                   InternalDumpCDS, InternalDumpMiscFeature, InternalDumpRegulatory
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,6 +61,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
+Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.NCBI.GenBank
 
@@ -105,12 +119,12 @@ Namespace Assembly.NCBI.GenBank
                 LinqAPI.Exec(Of Feature, GeneTable)(features) <=
                     Function(feature As Feature) New GeneTable With {
                         .COG = "misc_feature",
-                        .Function = feature("note"),
+                        .function = feature("note"),
                         .commonName = feature("note"),
                         .Location = feature.Location.ContiguousRegion,
                         .locus_id = feature("locus_tag"),
                         .geneName = feature("gene") & "_mics_feature",
-                        .Translation = feature("translation"),
+                        .translation = feature("translation"),
                         .ProteinId = feature("protein_id"),
                         .CDS = feature.SequenceData
                     }
@@ -121,12 +135,12 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "regulatory",
-                    .Function = feature("regulatory_class"),
+                    .function = feature("regulatory_class"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
                     .geneName = feature("gene") & "_regulatory",
-                    .Translation = feature("translation"),
+                    .translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
                }).ToArray
@@ -138,12 +152,12 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "CDS",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = feature("locus_tag"),
                     .geneName = feature("gene"),
-                    .Translation = feature("translation"),
+                    .translation = feature("translation"),
                     .ProteinId = feature("protein_id"),
                     .CDS = feature.SequenceData
                }).ToArray
@@ -154,7 +168,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "5'UTR",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = $"5'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
@@ -168,7 +182,7 @@ Namespace Assembly.NCBI.GenBank
             Dim dump As GeneTable() = features.Select(
                 Function(feature) New GeneTable With {
                     .COG = "3'UTR",
-                    .Function = feature("function"),
+                    .function = feature("function"),
                     .commonName = feature("note"),
                     .Location = feature.Location.ContiguousRegion,
                     .locus_id = $"3'UTR_{feature.Location.ContiguousRegion.left}..{feature.Location.ContiguousRegion.right}",
@@ -191,6 +205,32 @@ Namespace Assembly.NCBI.GenBank
             }
 
             Return description
+        End Function
+
+        ''' <summary>
+        ''' get mRNA sequence
+        ''' </summary>
+        ''' <returns>
+        ''' the DNA sequence of the target <paramref name="mRNA"/> gene.
+        ''' </returns>
+        ''' <remarks>
+        ''' Cut and join genomics DNA sequence for the given mRNA features.
+        ''' </remarks>
+        <Extension>
+        Public Function GetmRNASequence(gb As GBFF.File, mRNA As Feature) As String
+            Dim locs = mRNA.Location
+
+            If locs.Locations.IsNullOrEmpty Then
+                Return mRNA.SequenceData
+            Else
+                Dim extrons As New List(Of String)
+
+                For Each loc As NucleotideLocation In locs.JoinLocations
+                    Call extrons.Add(gb.Origin.CutSequenceLinear(loc).SequenceData)
+                Next
+
+                Return extrons.JoinBy("")
+            End If
         End Function
     End Module
 End Namespace

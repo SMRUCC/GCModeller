@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 58 (51.33%)
+    ' Comment Lines: 43 (38.05%)
+    '    - Xml Docs: 90.70%
+    ' 
+    '   Blank Lines: 12 (10.62%)
+    '     File Size: 3.89 KB
+
+
     '     Class ExternalCall
     ' 
     '         Constructor: (+1 Overloads) Sub New

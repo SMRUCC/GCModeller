@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 31 (68.89%)
+    ' Comment Lines: 6 (13.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (17.78%)
+    '     File Size: 1.71 KB
+
+
     '     Class ProteinQuery
     ' 
     '         Constructor: (+1 Overloads) Sub New

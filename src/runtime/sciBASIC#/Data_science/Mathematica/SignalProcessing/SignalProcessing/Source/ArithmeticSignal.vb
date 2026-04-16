@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bccd0e3489dc2ef45453e4b326860f9, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\ArithmeticSignal.vb"
+﻿#Region "Microsoft.VisualBasic::38f0479071ac97be84356c55ee29f444, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\ArithmeticSignal.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 78 (63.93%)
+    ' Comment Lines: 20 (16.39%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 24 (19.67%)
+    '     File Size: 5.12 KB
+
 
     '     Class ArithmeticSignal
     ' 
@@ -66,10 +78,11 @@ Imports System.Runtime.CompilerServices
 
 Namespace Source.Arithmetic
 
-    '
-    '* Advanced Signal class for operations on two Signals.
-    '* Extend this class and implement the calculate method which is used by all the other methods.
-    '
+    ''' <summary>
+    ''' Advanced Signal class for operations on two Signals.
+    ''' Extend this class and implement the calculate method 
+    ''' which is used by all the other methods.
+    ''' </summary>
     Public MustInherit Class ArithmeticSignal
 
         Protected Friend audioPosA, audioPosB As Double
@@ -118,7 +131,7 @@ Namespace Source.Arithmetic
         ''' <summary>
         ''' Generates a byte array with Signal.BUFFER_SIZE samples to be played back, resembling the sound of the signal.
         ''' This method uses the internal phase and frequency values of its operand members. </summary>
-        ''' <returns>    	the samples </returns>
+        ''' <returns>the samples </returns>
         Public Overridable ReadOnly Property AudioBytes As SByte()
             Get
                 Dim samples(Signal.BUFFER_SIZE - 1) As SByte

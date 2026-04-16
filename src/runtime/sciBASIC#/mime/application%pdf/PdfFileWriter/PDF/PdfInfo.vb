@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::89414a916c7f1f44897c1fff07996ae8, mime\application%pdf\PdfFileWriter\PDF\PdfInfo.vb"
+﻿#Region "Microsoft.VisualBasic::5226191c6ecf7811df3dcb0a34f69ba0, mime\application%pdf\PdfFileWriter\PDF\PdfInfo.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 51 (34.69%)
+    ' Comment Lines: 82 (55.78%)
+    '    - Xml Docs: 64.63%
+    ' 
+    '   Blank Lines: 14 (9.52%)
+    '     File Size: 5.34 KB
+
+
     '     Class PdfInfo
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -44,7 +56,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -67,7 +79,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 
 
@@ -90,7 +102,7 @@
     ''' <item><description>Producer is PdfFileWriter C# Class Library Version No</description></item>
     ''' </list>
     ''' </remarks>
-    Public Shared Function CreatePdfInfo(ByVal Document As PdfDocument) As PdfInfo
+    Public Shared Function CreatePdfInfo(Document As PdfDocument) As PdfInfo
             ' create a new default info object
             If Document.InfoObject Is Nothing Then
                 ' create and add info object to trailer dictionary
@@ -106,7 +118,7 @@
         ''' Protected constructor
         ''' </summary>
         ''' <param name="Document">Main document object</param>
-        Protected Sub New(ByVal Document As PdfDocument)
+        Protected Sub New(Document As PdfDocument)
             MyBase.New(Document, ObjectType.Dictionary)
             ' set creation and modify dates
             Dim LocalTime = Date.Now
@@ -123,7 +135,7 @@
         ''' Sets document creation date and time
         ''' </summary>
         ''' <param name="Date">Creation date and time</param>
-        Public Sub CreationDate(ByVal [Date] As Date)
+        Public Sub CreationDate([Date] As Date)
             Dictionary.AddPdfString("/CreationDate", String.Format("D:{0}", [Date].ToString("yyyyMMddHHmmss")))
             Return
         End Sub
@@ -132,7 +144,7 @@
         ''' Sets document last modify date and time
         ''' </summary>
         ''' <param name="Date">Modify date and time</param>
-        Public Sub ModDate(ByVal [Date] As Date)
+        Public Sub ModDate([Date] As Date)
             Dictionary.AddPdfString("/ModDate", String.Format("D:{0}", [Date].ToString("yyyyMMddHHmmss")))
             Return
         End Sub
@@ -141,7 +153,7 @@
         ''' Sets document title
         ''' </summary>
         ''' <param name="pTitle">Title</param>
-        Public Sub Title(ByVal pTitle As String)
+        Public Sub Title(pTitle As String)
             Dictionary.AddPdfString("/Title", pTitle)
             Return
         End Sub
@@ -150,7 +162,7 @@
         ''' Sets document author 
         ''' </summary>
         ''' <param name="pAuthor">Author</param>
-        Public Sub Author(ByVal pAuthor As String)
+        Public Sub Author(pAuthor As String)
             Dictionary.AddPdfString("/Author", pAuthor)
             Return
         End Sub
@@ -159,7 +171,7 @@
         ''' Sets document subject
         ''' </summary>
         ''' <param name="pSubject">Subject</param>
-        Public Sub Subject(ByVal pSubject As String)
+        Public Sub Subject(pSubject As String)
             Dictionary.AddPdfString("/Subject", pSubject)
             Return
         End Sub
@@ -168,7 +180,7 @@
         ''' Sets keywords associated with the document
         ''' </summary>
         ''' <param name="pKeywords">Keywords list</param>
-        Public Sub Keywords(ByVal pKeywords As String)
+        Public Sub Keywords(pKeywords As String)
             Dictionary.AddPdfString("/Keywords", pKeywords)
             Return
         End Sub
@@ -177,7 +189,7 @@
         ''' Sets the name of the application that created the document
         ''' </summary>
         ''' <param name="pCreator">Creator</param>
-        Public Sub Creator(ByVal pCreator As String)
+        Public Sub Creator(pCreator As String)
             Dictionary.AddPdfString("/Creator", pCreator)
             Return
         End Sub
@@ -186,7 +198,7 @@
         ''' Sets the name of the application that produced the document
         ''' </summary>
         ''' <param name="pProducer">Producer</param>
-        Public Sub Producer(ByVal pProducer As String)
+        Public Sub Producer(pProducer As String)
             Dictionary.AddPdfString("/Producer", pProducer)
             Return
         End Sub

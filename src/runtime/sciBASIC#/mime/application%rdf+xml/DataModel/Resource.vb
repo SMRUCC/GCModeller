@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::907e91b15dfcbce18a79e1c8697590c5, mime\application%rdf+xml\DataModel\Resource.vb"
+﻿#Region "Microsoft.VisualBasic::1631558438f9cab4d79c8d6d45cc4563, mime\application%rdf+xml\DataModel\Resource.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 14 (58.33%)
+    ' Comment Lines: 4 (16.67%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 6 (25.00%)
+    '     File Size: 577 B
+
+
     ' Class Resource
     ' 
     '     Properties: resource
     ' 
-    ' Class DataValue
-    ' 
-    '     Properties: datatype, value
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ToString
     ' 
     ' /********************************************************************************/
 
@@ -48,17 +59,22 @@ Imports System.Xml.Serialization
 ''' <summary>
 ''' a data resource reference
 ''' </summary>
+''' 
+<XmlType("resource", [Namespace]:=RDFEntity.xmlns_nil)>
 Public Class Resource
 
     <XmlAttribute("resource", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Property resource As String
-End Class
 
-Public Class DataValue
+    <XmlNamespaceDeclarations()>
+    Public xmlns As New XmlSerializerNamespaces
 
-    <XmlAttribute("datatype", [Namespace]:=RDFEntity.XmlnsNamespace)>
-    Public Property datatype As String
-    <XmlText>
-    Public Property value As String
+    Sub New()
+        Call xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
+    End Sub
+
+    Public Overrides Function ToString() As String
+        Return resource
+    End Function
 
 End Class

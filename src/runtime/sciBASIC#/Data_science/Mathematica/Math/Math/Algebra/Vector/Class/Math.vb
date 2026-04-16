@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::deedf17da6de49576ebe6d243ec03d3b, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Math.vb"
+﻿#Region "Microsoft.VisualBasic::3cbd4aafa3c0176e4382f69f51cab34c, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\Math.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 227
+    '    Code Lines: 134 (59.03%)
+    ' Comment Lines: 62 (27.31%)
+    '    - Xml Docs: 93.55%
+    ' 
+    '   Blank Lines: 31 (13.66%)
+    '     File Size: 9.83 KB
+
+
     '     Class Vector
     ' 
-    '         Function: Abs, BesselI, Exp, floor, (+2 Overloads) Log
-    '                   Log10, (+3 Overloads) Max, (+3 Overloads) Min, Order, pchisq
-    '                   Quantile, round, Sign, Sinh, Sort
-    '                   Sqrt, (+2 Overloads) Sum, Trunc
+    '         Function: (+2 Overloads) Abs, BesselI, (+2 Overloads) Exp, floor, (+2 Overloads) Log
+    '                   (+2 Overloads) Log10, (+3 Overloads) Max, (+3 Overloads) Min, Order, pchisq
+    '                   Quantile, round, Sign, Sinh, Sqrt
+    '                   Trunc
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,7 +57,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Quantile
@@ -63,7 +74,6 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Sqrt")>
         Public Shared Function Sqrt(x As Vector) As Vector
             Return New Vector(From n In x Select sys.Sqrt(n))
         End Function
@@ -80,9 +90,29 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Exp")>
         Public Shared Function Exp(x As Vector) As Vector
             Return New Vector(From n As Double In x Select sys.Exp(n))
+        End Function
+
+        ''' <summary>
+        ''' log computes logarithms, by default natural logarithms, log10 computes common (i.e., base 10) logarithms, 
+        ''' and log2 computes binary (i.e., base 2) logarithms. 
+        ''' The general form log(x, base) computes logarithms with base base.
+        ''' log1p(x) computes log(1+x) accurately also for |x| &lt;&lt; 1.
+        ''' exp computes the exponential function.
+        ''' expm1(x) computes exp(x) - 1 accurately also for |x| &lt;&lt; 1.
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks></remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Exp() As Vector
+            Dim vexp As Double() = New Double([Dim] - 1) {}
+
+            For i As Integer = 0 To vexp.Length - 1
+                vexp(i) = sys.Exp(buffer(i))
+            Next
+
+            Return New Vector(vexp)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -116,7 +146,6 @@ Namespace LinearAlgebra
         ''' <param name="base">a positive or complex number: the base with respect to which logarithms are computed. Defaults to e=exp(1).</param>
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Log")>
         Public Shared Function Log(x As Vector, Optional base As Double = sys.E) As Vector
             Return New Vector(From n As Double In x Select sys.Log(n, base))
         End Function
@@ -126,8 +155,11 @@ Namespace LinearAlgebra
             Return Log(x, base:=10)
         End Function
 
+        Public Function Log10() As Vector
+            Return Log(Me, base:=10)
+        End Function
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Max")>
         Public Shared Function Max(x As Vector) As Double
             Return x.Max
         End Function
@@ -145,7 +177,6 @@ Namespace LinearAlgebra
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Min")>
         Public Shared Function Min(x As Vector) As Double
             Return x.Min
         End Function
@@ -169,14 +200,17 @@ Namespace LinearAlgebra
         ''' <returns></returns>
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Trunc")>
         Public Shared Function Trunc(x As Vector) As Vector
             Return New Vector(x.Select(AddressOf sys.Truncate))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Abs")>
         Public Shared Function Abs(x As Vector) As Vector
+            Return New Vector(From d As Double In x Select sys.Abs(d))
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Abs(x As IEnumerable(Of Double)) As Vector
             Return New Vector(From d As Double In x Select sys.Abs(d))
         End Function
 
@@ -225,35 +259,6 @@ Namespace LinearAlgebra
         <ExportAPI("pchisq")>
         Public Shared Function pchisq(q As Vector, df As Vector, Optional ncp As Integer = 0, Optional lowertail As Boolean = True, Optional logp As Boolean = False) As Vector
             Throw New NotImplementedException
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Sum")>
-        Public Shared Function Sum(x As Vector, Optional NaRM As Boolean = False) As Vector
-            Return New Vector({x.Sum})
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Sum")>
-        Public Shared Function Sum(x As BooleanVector, Optional NaRM As Boolean = False) As Vector
-            Dim data = (From b As Boolean In x Select If(b, 1, 0)).ToArray
-            Return New Vector(integers:={data.Sum})
-        End Function
-
-        ''' <summary>
-        ''' Sorting or Ordering Vectors
-        ''' Sort (or order) a vector or factor (partially) into ascending or descending order. For ordering along more than one variable, e.g., for sorting data frames, see order.
-        ''' </summary>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <ExportAPI("Sort")>
-        Public Shared Function Sort(x As Vector, Optional decreasing As Boolean = False) As Vector
-            If decreasing Then
-                Return New Vector(x.OrderByDescending(Function(n) n))
-            Else
-                Return New Vector(x.OrderBy(Function(n) n))
-            End If
         End Function
 
         ''' <summary>

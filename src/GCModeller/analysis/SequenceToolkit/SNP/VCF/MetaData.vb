@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6f6775d35259b2962a4d5d841658095a, analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
+﻿#Region "Microsoft.VisualBasic::df9c51a2b084ba561bd86acae2f811dc, analysis\SequenceToolkit\SNP\VCF\MetaData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 36 (56.25%)
+    ' Comment Lines: 14 (21.88%)
+    '    - Xml Docs: 35.71%
+    ' 
+    '   Blank Lines: 14 (21.88%)
+    '     File Size: 2.65 KB
+
+
     '     Class MetaData
     ' 
     '         Properties: contig, fileDate, fileformat, FILTER, FORMAT
@@ -43,7 +55,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 

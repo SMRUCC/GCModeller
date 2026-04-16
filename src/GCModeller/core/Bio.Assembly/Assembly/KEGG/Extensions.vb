@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 302
+    '    Code Lines: 190 (62.91%)
+    ' Comment Lines: 84 (27.81%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 28 (9.27%)
+    '     File Size: 12.28 KB
+
+
     '     Module Extensions
     ' 
     '         Function: DirectGetChEBI, DoKeggProfiles, GetIDpairedList, GetPathwayBrite, Glycan2CompoundId

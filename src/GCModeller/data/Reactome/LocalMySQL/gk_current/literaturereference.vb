@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 88 (50.29%)
+    ' Comment Lines: 65 (37.14%)
+    '    - Xml Docs: 95.38%
+    ' 
+    '   Blank Lines: 22 (12.57%)
+    '     File Size: 7.52 KB
+
+
     ' Class literaturereference
     ' 
     '     Properties: DB_ID, journal, pages, pubMedIdentifier, volume

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24d161ac9d27d305305dfad96dc62db2, Data_science\Mathematica\Math\DataFrame\Correlation\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::7cadea009ff9045e8b1cbd414488c1b4, Data_science\Mathematica\Math\DataFrame\Correlation\Builder.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,36 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 87 (66.92%)
+    ' Comment Lines: 31 (23.85%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 12 (9.23%)
+    '     File Size: 5.53 KB
+
+
     ' Module Builder
     ' 
-    '     Function: Correlation, corTuple, (+3 Overloads) MatrixBuilder
+    '     Function: Correlation, (+4 Overloads) MatrixBuilder
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.Mantel
 
 Public Module Builder
 
@@ -61,23 +77,22 @@ Public Module Builder
         Return data.MatrixBuilder(Function(x, y) (eval(x, y), 0), type)
     End Function
 
-    Friend Function corTuple(x As Double(), y As Double()) As (cor#, pvalue#)
-        Dim pvalue As Double
-        Dim corVal = Correlations.GetPearson(x, y, prob:=pvalue)
-
-        Return (corVal, pvalue)
-    End Function
-
+    ''' <summary>
+    ''' Create a new pearson correlation matrix
+    ''' </summary>
+    ''' <typeparam name="DataSet"></typeparam>
+    ''' <param name="data"></param>
+    ''' <param name="eval"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function Correlation(Of DataSet As INamedValue)(data As Enumeration(Of DataSet), eval As Func(Of DataSet, Double())) As CorrelationMatrix
-        Return data _
-            .AsEnumerable _
-            .ToArray _
-            .MatrixBuilder(
-                vector:=eval,
-                eval:=AddressOf corTuple,
-                type:=DataType.Correlation
-            )
+        Dim allData = data.AsEnumerable.ToArray
+        ' extract the matrix data
+        Dim mat As Double()() = allData.Select(eval).ToArray
+        Dim corr = mat.GetCorrelations(AddressOf Mantel.Pearson)
+        Dim keys As Index(Of String) = allData.Keys.Indexing
+
+        Return New CorrelationMatrix(keys, corr.cor, corr.pvalue)
     End Function
 
     ''' <summary>
@@ -104,11 +119,14 @@ Public Module Builder
     ''' 一个通用的距离矩阵创建函数
     ''' </summary>
     ''' <typeparam name="DataSet"></typeparam>
-    ''' <param name="eval"></param>
+    ''' <param name="eval">evaluate the (correlation,pvalue)</param>
     ''' <param name="type"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MatrixBuilder(Of DataSet As INamedValue)(allData As DataSet(), vector As Func(Of DataSet, Double()), eval As Func(Of Double(), Double(), (Double, Double)), type As DataType) As DataMatrix
+    Public Function MatrixBuilder(Of DataSet As INamedValue)(allData As DataSet(),
+                                                             vector As Func(Of DataSet, Double()),
+                                                             eval As Func(Of Double(), Double(), (Double, Double)),
+                                                             type As DataType) As DataMatrix
         Dim keys As String() = allData.Keys
         Dim evalData = allData _
             .SeqIterator _
@@ -118,33 +136,48 @@ Public Module Builder
                         Dim vec2 As New List(Of Double)
                         Dim x As Double() = vector(d)
                         Dim y As Double()
+                        Dim export As (cor As Double, pvalue As Double)
 
                         For Each row As DataSet In allData
                             y = vector(row)
-                            vec += eval(x, y).Item1
-                            vec2 += eval(x, y).Item2
+                            export = eval(x, y)
+                            vec += export.cor
+                            vec2 += export.pvalue
                         Next
 
-                        Return (d.i, vec.ToArray, vec2.ToArray)
+                        Return (d.i, cor:=vec.ToArray, pval:=vec2.ToArray)
                     End Function) _
             .OrderBy(Function(d) d.i) _
             .ToArray
         Dim matrix As Double()() = evalData _
-            .Select(Function(d) d.Item2) _
+            .Select(Function(d) d.cor) _
             .ToArray
+        Dim nameIndex = keys.Indexing
+
+        If keys.Length <> nameIndex.Count Then
+            Throw New InvalidDataContractException("there are some duplicated names of your data matrix, please makes the label of each data object be unique!")
+        End If
 
         If type = DataType.Correlation Then
             Return New CorrelationMatrix(
-                names:=keys.Indexing,
+                names:=nameIndex,
                 matrix:=matrix,
-                pvalue:=evalData.Select(Function(d) d.Item3).ToArray
+                pvalue:=evalData.Select(Function(d) d.pval).ToArray
             )
         Else
             Return New DistanceMatrix(
-                names:=keys.Indexing,
+                names:=nameIndex,
                 matrix:=matrix,
                 isDistance:=(type = DataType.Distance)
             )
         End If
+    End Function
+
+    <Extension>
+    Public Function MatrixBuilder(df As DataFrame, eval As Func(Of Double(), Double(), (Double, Double)), type As DataType) As DataMatrix
+        Return df _
+            .NumericMatrix _
+            .ToArray _
+            .MatrixBuilder(vector:=Function(i) i.value, eval, type)
     End Function
 End Module

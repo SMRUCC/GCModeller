@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::233fedda82169ca54292bc8373916359, Data\DataFrame\Extensions\PipeStream.vb"
+﻿#Region "Microsoft.VisualBasic::49ffb7925adfdcb00d07c7280329032c, Data\DataFrame\Extensions\PipeStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 60 (68.97%)
+    ' Comment Lines: 17 (19.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (11.49%)
+    '     File Size: 3.34 KB
+
+
     ' Module PipeStream
     ' 
     '     Function: AsDataSet, AsMatrix, CreateFilter, DataFrame, LoadStream
@@ -43,9 +55,9 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Public Module PipeStream
 
@@ -67,7 +79,9 @@ Public Module PipeStream
     End Function
 
     <Extension>
-    Public Iterator Function LoadStream(Of T As Class)(input As StreamReader, Optional strict As Boolean = False, Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of T)
+    Public Iterator Function LoadStream(Of T As Class)(input As StreamReader,
+                                                       Optional strict As Boolean = False,
+                                                       Optional maps As Dictionary(Of String, String) = Nothing) As IEnumerable(Of T)
 
     End Function
 

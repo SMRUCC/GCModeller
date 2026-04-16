@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 6 (35.29%)
+    ' Comment Lines: 9 (52.94%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (11.76%)
+    '     File Size: 362 B
+
+
     '     Enum MappingStyle
     ' 
     '         Block, Flow

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d434c747951046a1726c9ee26c365103, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
+﻿#Region "Microsoft.VisualBasic::c4617c4df19650111ec2e2ce5ab01bb9, analysis\SequenceToolkit\SequenceTools\CLI\Aligner.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 212
+    '    Code Lines: 174 (82.08%)
+    ' Comment Lines: 10 (4.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 28 (13.21%)
+    '     File Size: 9.36 KB
+
+
     ' Module Utilities
     ' 
     '     Function: __alignCommon, Align, Align2, AlignSelf, CutMlAlignment
@@ -48,23 +60,22 @@
 
 #End Region
 
-Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
-Imports SMRUCC.genomics.Analysis
-Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.GlobalAlignment
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Partial Module Utilities
 
     ''' <summary>
-    ''' <see cref="RunNeedlemanWunsch.RunAlign(FastaSeq, FastaSeq, TextWriter)"/>
+    ''' <see cref="RunNeedlemanWunsch.RunAlign"/>
     ''' </summary>
     ''' <param name="args"></param>
     ''' <returns></returns>
@@ -120,9 +131,9 @@ Partial Module Utilities
         Dim queryFa As New FASTA.FastaSeq(query)
         Dim subjectFa As New FASTA.FastaSeq(subject)
         Dim mat = If(String.IsNullOrEmpty(blosum), Nothing, BlosumParser.LoadMatrix(blosum))
-        Dim sw As SequenceTools.SmithWaterman = SequenceTools.SmithWaterman.Align(queryFa, subjectFa, mat)
+        Dim sw As SmithWaterman = SmithWaterman.Align(queryFa, subjectFa, mat)
         Dim output As Output = sw.GetOutput(0.65, 6)
-        Call output.__DEBUG_ECHO
+        Call output.debug
         Return output.SaveAsXml(out).CLICode
     End Function
 
@@ -163,7 +174,7 @@ Partial Module Utilities
                 Call result.HTMLVisualize.SaveTo(path)
             Next
 
-            Call queryToken.Title.__DEBUG_ECHO
+            Call queryToken.Title.debug
             Call FlushMemory()
         Next
 
@@ -258,6 +269,6 @@ Partial Module Utilities
 
         Dim out = aln.Mid(leftOffset, rightOffset)
         Dim outFile$ = args("/out") Or ((args <= "/in").TrimSuffix & $"{leftOffset}-{rightOffset}.fasta")
-        Return out.Save(-1, outFile, Encodings.ASCII).CLICode
+        Return out.Save(-1, outFile, encoding:=Encodings.ASCII).CLICode
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da4fb8f750d03884ed3899ab70d954bf, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
+﻿#Region "Microsoft.VisualBasic::f08657d6bb658699655a40ce1de490ad, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\OrthologyTerms.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 43 (71.67%)
+    ' Comment Lines: 8 (13.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.00%)
+    '     File Size: 2.05 KB
+
+
     '     Class OrthologyTerms
     ' 
     '         Properties: EntityList, Terms
     ' 
-    '         Function: getCollection, getSize, ToString
+    '         Function: FromTerms, getCollection, getSize, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -78,6 +90,15 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Overrides Function ToString() As String
             Return EntityList.GetJson
+        End Function
+
+        Public Shared Function FromTerms(terms As IEnumerable(Of NamedValue)) As OrthologyTerms
+            Return New OrthologyTerms With {
+                .Terms = terms _
+                    .SafeQuery _
+                    .Select(Function(t) New XmlProperty(t)) _
+                    .ToArray
+            }
         End Function
 
         Protected Overrides Function getSize() As Integer

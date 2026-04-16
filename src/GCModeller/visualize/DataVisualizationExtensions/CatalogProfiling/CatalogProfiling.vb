@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4d6d54f0974dfbe7463cc29a566d6b8, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
+﻿#Region "Microsoft.VisualBasic::c077f12078326b6b7df8ba56c0fb5348, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogProfiling.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 462
+    '    Code Lines: 331 (71.65%)
+    ' Comment Lines: 78 (16.88%)
+    '    - Xml Docs: 67.95%
+    ' 
+    '   Blank Lines: 53 (11.47%)
+    '     File Size: 21.64 KB
+
+
     '     Module CatalogProfilingPlot
     ' 
     '         Function: AsDouble, GetTicks, ProfilesPlot, removesNotAssign
@@ -50,14 +62,42 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors.Scaler
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.ComponentModel.Annotation
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace CatalogProfiling
 
@@ -148,11 +188,21 @@ Namespace CatalogProfiling
                                      Optional disableLabelColor As Boolean = False,
                                      Optional valueFormat$ = "F2",
                                      Optional labelTrimLength% = 64,
-                                     Optional dpi As Integer = 300) As GraphicsData
+                                     Optional dpi As Integer = 300,
+                                     Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             If removeNotAssign Then
                 profile = profile.removesNotAssign
             End If
+
+            ' the empty profile category should be removes too
+            ' when do data visualization plot
+            profile = profile.ImputeMissing
+            profile = New CatalogProfiles With {
+                .catalogs = profile.catalogs _
+                    .Where(Function(c) Not c.Value.is_empty) _
+                    .ToDictionary
+            }
 
             Dim colors As ColorProfile = profile.GetColors(colorSchema, logarithm:=-1)
             Dim mapperValues As Double() = profile.catalogs.Values _
@@ -179,15 +229,14 @@ Namespace CatalogProfiling
                            labelAlignmentRight:=labelRightAlignment,
                            valueFormat:=valueFormat,
                            disableLabelColor:=disableLabelColor,
-                           labelTrimLength:=labelTrimLength,
-                           dpi:=dpi
+                           labelTrimLength:=labelTrimLength
                         )
                     End If
                 End Sub
 
-            Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".__DEBUG_ECHO
+            Call $"Run catalog profile bar plot with size={size}, dpi={dpi}".debug
 
-            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, Drivers.GDI, $"{dpi},{dpi}")
+            Return g.GraphicsPlots(size.SizeParser, padding, bg, plotInternal, driver, dpi)
         End Function
 
         ''' <summary>
@@ -223,15 +272,17 @@ Namespace CatalogProfiling
                                      labelAlignmentRight As Boolean,
                                      disableLabelColor As Boolean,
                                      valueFormat$,
-                                     labelTrimLength%,
-                                     dpi%)
+                                     labelTrimLength%)
+
+            Dim css As CSSEnvirnment = g.LoadEnvironment
             ' 这里是大标签的字符串向量
             Dim classes$() = profile.Keys.ToArray
-            Dim titleFont As Font = CSSFont.TryParse(titleFontStyle).GDIObject(dpi)
-            Dim catalogFont As Font = CSSFont.TryParse(catalogFontStyle).GDIObject(dpi)
+            Dim titleFont As Font = css.GetFont(titleFontStyle)
+            Dim catalogFont As Font = css.GetFont(CSSFont.TryParse(catalogFontStyle))
             Dim catalogCharWidth! = g.MeasureString("A", catalogFont).Width
-            Dim classFont As Font = CSSFont.TryParse(classFontStyle).GDIObject(dpi)
+            Dim classFont As Font = css.GetFont(CSSFont.TryParse(classFontStyle))
             Dim padding As Padding = region.Padding
+            Dim layout = PaddingLayout.EvaluateFromCSS(css, padding)
             Dim size As Size = region.Size
             Dim maxLenSubKey$ = profile.catalogs.Values _
                 .Select(Function(o) o.AsEnumerable.Select(Function(oo) oo.Name)) _
@@ -262,26 +313,26 @@ Namespace CatalogProfiling
 
             Dim maxLenSubKeySize As SizeF = g.MeasureString(maxLenSubKey, catalogFont)
             Dim maxLenClsKeySize As SizeF = g.MeasureString(maxLenClsKey, classFont)
-            Dim valueFont As Font = CSSFont.TryParse(valueFontStyle).GDIObject(dpi)
+            Dim valueFont As Font = css.GetFont(valueFontStyle)
 
             ' 所绘制的图形的总的高度
             Dim totalHeight = classes.Length * (maxLenClsKeySize.Height + 5) +
                 profile.TotalTerms * (maxLenSubKeySize.Height + 4) +
                 classes.Length * 20
             Dim left!
-            Dim y! = region.Padding.Top + (region.PlotRegion.Height - totalHeight) / 2
+            Dim y! = layout.Top + (region.PlotRegion(css).Height - totalHeight) / 2
 
             ' barPlot的最左边的坐标
             Dim maxLabeLength% = CInt(Math.Max(maxLenSubKeySize.Width, maxLenClsKeySize.Width))
             Dim barRect As New RectangleF With {
-                .X = CSng(padding.Left * 1.5 + maxLabeLength),
+                .X = layout.Left * 1.5 + maxLabeLength,
                 .Y = y,
-                .Width = CSng(size.Width - padding.Horizontal - maxLabeLength - padding.Left / 2),
+                .Width = CSng(size.Width - padding.Horizontal(css) - maxLabeLength - layout.Left / 2),
                 .Height = totalHeight
             }
 
-            left = barRect.Left - padding.Left
-            left = (size.Width - padding.Horizontal - left) / 2 + left + padding.Left
+            left = barRect.Left - layout.Left
+            left = (size.Width - padding.Horizontal(css) - left) / 2 + left + layout.Left
 
             Dim titleSize As SizeF = g.MeasureString(title, titleFont)
             Dim anchor As New PointF With {
@@ -303,7 +354,7 @@ Namespace CatalogProfiling
             Dim gap! = 10.0!
             Dim grayColor As [Default](Of Color) = Color.Gray.AsDefault(Function() gray)
 
-            left = padding.Left
+            left = layout.Left
 
             For Each [class] As SeqValue(Of String) In classes.SeqIterator
                 Dim yPlot!
@@ -323,7 +374,7 @@ Namespace CatalogProfiling
                     Dim color As New SolidBrush(colors.GetColor(term))
                     Dim penColor As Color = color.Color Or grayColor
                     Dim linePen As New Pen(penColor, 2) With {
-                        .DashStyle = DashStyle.Dot
+                        .DashStyle = DashStyle.Dash
                     }
                     Dim pos As PointF
                     Dim label$
@@ -403,7 +454,7 @@ Namespace CatalogProfiling
             Dim maxValue# = profile.MaxValue
             Dim axisTicks#() = GetTicks(maxValue, tick)
             Dim d# = 25
-            Dim tickFont As Font = CSSFont.TryParse(tickFontStyle).GDIObject(dpi)
+            Dim tickFont As Font = css.GetFont(tickFontStyle)
             Dim tickSize As SizeF
             Dim tickPen As New Pen(Color.Black, 3)
             Dim tickX!
@@ -436,7 +487,7 @@ Namespace CatalogProfiling
 
             y += d + 10 + g.MeasureString("0", tickFont).Height
 
-            titleFont = CSSFont.TryParse(CSSFont.Win7LargerBold).GDIObject(dpi)
+            titleFont = css.GetFont(CSSFont.Win7LargerBold)
             titleSize = g.MeasureString(title, titleFont)
             left = barRect.Left + (barRect.Width - titleSize.Width) / 2
 
@@ -456,10 +507,10 @@ Namespace CatalogProfiling
         Public Function GetTicks(max#, tick!) As Double()
             If tick <= 0 Then
                 ' 自动生成
-                Call "Ticks created from auto axis ticking...".__INFO_ECHO
+                Call "Ticks created from auto axis ticking...".info
                 Return AxisScalling.CreateAxisTicks({0, max}.AsEnumerable, ticks:=5)
             Else
-                Call "Ticks created from tick sequence...".__INFO_ECHO
+                Call "Ticks created from tick sequence...".info
                 Return AxisScalling.GetAxisByTick(max, tick)
             End If
         End Function

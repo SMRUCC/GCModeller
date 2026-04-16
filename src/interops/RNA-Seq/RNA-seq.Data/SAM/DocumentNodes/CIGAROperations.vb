@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 13 (26.00%)
+    ' Comment Lines: 36 (72.00%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 1 (2.00%)
+    '     File Size: 1.49 KB
+
+
     '     Enum CIGAROperations
     ' 
     ' 

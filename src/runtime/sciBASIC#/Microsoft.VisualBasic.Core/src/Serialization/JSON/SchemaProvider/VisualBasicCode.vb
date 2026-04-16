@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 4 (36.36%)
+    ' Comment Lines: 3 (27.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (36.36%)
+    '     File Size: 203 B
+
+
     '     Class VisualBasicCode
     ' 
     ' 

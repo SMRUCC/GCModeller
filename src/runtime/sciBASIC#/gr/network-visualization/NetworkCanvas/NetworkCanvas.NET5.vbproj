@@ -1,0 +1,57 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Microsoft.VisualBasic.Data.visualize.Network.Canvas</RootNamespace>
+    <TargetFrameworks>net10.0-windows</TargetFrameworks>
+    <AssemblyName>Microsoft.VisualBasic.Data.visualize.Network.Canvas</AssemblyName>
+   
+    <Platforms>AnyCPU;x64</Platforms>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit;mzkit_win32;CellaLAB-Desktop</Configurations>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	  <AssemblyVersion>2.33.*</AssemblyVersion>
+	  <Deterministic>false</Deterministic>
+	  <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+	  <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+	  <StartupObject>Microsoft.VisualBasic.Data.visualize.Network.Canvas.My.MyApplication</StartupObject>
+	  <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  <UseWindowsForms>true</UseWindowsForms> 
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <Copyright>GPL3</Copyright>
+	  <PackageLicenseExpression>GPL3</PackageLicenseExpression>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <MyType>WindowsForms</MyType>
+    <NoWarn>$(NoWarn);WFO1000</NoWarn>
+
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Import Include="System.Data" />
+		<Import Include="System.Drawing" />
+		<Import Include="System.Windows.Forms" />
+		<Import Include="System.Windows.Forms.Design" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Data_science\Graph\graph-netcore5.vbproj" />
+	  <ProjectReference Include="..\..\..\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+	  <ProjectReference Include="..\..\..\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+	  <ProjectReference Include="..\..\avi\AVI.NET5.vbproj" />
+	  <ProjectReference Include="..\..\Drawing-net4.8\Drawing-net4.8.vbproj" />
+	  <ProjectReference Include="..\..\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
+	  <ProjectReference Include="..\..\physics\physics-netcore5.vbproj" />
+	  <ProjectReference Include="..\Datavisualization.Network\network_graph-netcore5.vbproj" />
+	  <ProjectReference Include="..\Network.IO.Extensions\network_io-netcore5.vbproj" />
+	  <ProjectReference Include="..\network_layout\network_layout.vbproj" />
+	  <ProjectReference Include="..\Visualizer\networkVisualizer.NET5.vbproj" />
+	</ItemGroup>
+
+
+
+</Project>

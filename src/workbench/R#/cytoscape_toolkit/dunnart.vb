@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1512b83291e272ab27800986dee42ac6, R#\cytoscape_toolkit\dunnart.vb"
+﻿#Region "Microsoft.VisualBasic::044a7ba99bd28582051008d265c4a415, R#\cytoscape_toolkit\dunnart.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 46 (83.64%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (16.36%)
+    '     File Size: 2.38 KB
+
+
     ' Module dunnart
     ' 
     '     Function: CreateModel, graphObject, OptmizeGraph
@@ -39,9 +51,11 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Model.Network.KEGG.Dunnart
@@ -57,7 +71,10 @@ Module dunnart
                                 Optional fillOpacity As Double = 0.5,
                                 Optional lighten As Double = 0.1) As GraphObject
 
-        Return network.FromNetwork(colorSet, group_key, fillOpacity, lighten)
+        Dim colors As Color() = Designer.GetColors(colorSet)
+        Dim g = network.FromNetwork(colors, group_key, fillOpacity, lighten)
+
+        Return g
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -69,10 +86,12 @@ Module dunnart
                                 Optional lighten As Double = 0.1,
                                 Optional isConnected As Boolean = True) As GraphObject
 
+        Dim colors As Color() = Designer.GetColors(colorSet)
+
         Return template.CreateModel(
-            maps, desc, colorSet, 
-            fillOpacity:=fillOpacity, 
-            lighten:=lighten, 
+            maps, colors, desc,
+            fillOpacity:=fillOpacity,
+            lighten:=lighten,
             isConnected:=isConnected
         )
     End Function

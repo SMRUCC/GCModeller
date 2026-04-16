@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b51a9043432967a5af627a4136fa0490, Data_science\DataMining\BinaryTree\ComparisonProvider\ComparisonProvider.vb"
+﻿#Region "Microsoft.VisualBasic::3905fd2d12302516e706bd7a632aafa5, Data_science\DataMining\BinaryTree\ComparisonProvider\ComparisonProvider.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 29 (60.42%)
+    ' Comment Lines: 11 (22.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (16.67%)
+    '     File Size: 1.54 KB
+
+
     ' Class ComparisonProvider
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -47,13 +59,25 @@ Public MustInherit Class ComparisonProvider
     Protected ReadOnly equalsDbl As Double
     Protected ReadOnly gt As Double
 
+    ''' <summary>
+    ''' create a new score generator
+    ''' </summary>
+    ''' <param name="equals">score level for construct a binary tree cluster</param>
+    ''' <param name="gt">score level for create a binary tree branch</param>
     Sub New(equals#, gt#)
         Me.equalsDbl = equals
         Me.gt = gt
     End Sub
 
-    Protected MustOverride Function GetSimilarity(x As String, y As String) As Double
+    Public MustOverride Function GetSimilarity(x As String, y As String) As Double
+    Public MustOverride Function GetObject(id As String) As Object
 
+    ''' <summary>
+    ''' binary tree generator
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="y"></param>
+    ''' <returns></returns>
     Public Function Compares(x As String, y As String) As Integer
         Dim similarity As Double = GetSimilarity(x, y)
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 41 (75.93%)
+    ' Comment Lines: 3 (5.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (18.52%)
+    '     File Size: 2.07 KB
+
+
     '     Class ObjectModel
     ' 
     '         Properties: uid

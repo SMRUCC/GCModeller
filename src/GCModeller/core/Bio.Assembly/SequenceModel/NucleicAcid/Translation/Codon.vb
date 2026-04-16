@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f1abdd7a13f6434c9da3560bc9411c35, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
+﻿#Region "Microsoft.VisualBasic::f22038f08cb75f4a12fac557ee1d3d1b, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\Codon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 73 (54.48%)
+    ' Comment Lines: 44 (32.84%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (12.69%)
+    '     File Size: 4.55 KB
+
 
     '     Class Codon
     ' 
@@ -162,8 +174,8 @@ Namespace SequenceModel.NucleotideModels.Translation
         ''' <returns></returns>
         Public Shared Function CreateHashTable() As Codon()
             Dim NNCols As DNA() = {DNA.dAMP, DNA.dCMP, DNA.dGMP, DNA.dTMP}
-            Dim combos = Combination.CreateCombos(NNCols, NNCols)
-            Dim tripleCombos = Combination.CreateCombos(combos, NNCols)
+            Dim combos = CreateCombos(NNCols, NNCols)
+            Dim tripleCombos = CreateCombos(combos, NNCols)
             Dim codens() = LinqAPI.Exec(Of Codon) _
  _
                 () <= From coden As (a As (DNA, DNA), b As DNA)

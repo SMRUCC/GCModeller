@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 85 (69.67%)
+    ' Comment Lines: 24 (19.67%)
+    '    - Xml Docs: 79.17%
+    ' 
+    '   Blank Lines: 13 (10.66%)
+    '     File Size: 6.40 KB
+
+
     ' Module Extensions
     ' 
     '     Function: __addMotifSites, (+2 Overloads) AddMotifSites, AddTSSs, LoadTSSs, TryExportMyva

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7eef05cf9a0afd39c5f2ad51bbd3c500, localblast\CLI_tools\CLI\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::7e73191d8cc54dce7ec48e1653da7bf1, localblast\CLI_tools\CLI\FastaTools.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 116 (84.06%)
+    ' Comment Lines: 2 (1.45%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (14.49%)
+    '     File Size: 6.07 KB
+
+
     ' Module CLI
     ' 
     '     Function: FetchTaxnData, Filter, MergeFetchTaxonData
@@ -46,8 +58,8 @@ Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -76,24 +88,24 @@ Partial Module CLI
             If(key.FileExists, key.BaseName, key.NormalizePathString.Replace(" ", "_"))
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & "-" & combine & ".fasta")
         Dim source As New StreamIterator([in])
-        Dim parallel As Boolean = args.GetBoolean("/p")
+        Dim parallel As Boolean = args("/p")
 
         Call "".SaveTo(out)
 
         If parallel Then
-            Call "Using parallel edition!".__DEBUG_ECHO
+            Call "Using parallel edition!".debug
         Else
-            ' Call "Using single thread mode on the 32bit platform".__DEBUG_ECHO
+            ' Call "Using single thread mode on the 32bit platform".debug
         End If
 
-        Using file As New StreamWriter(New FileStream(out, FileMode.OpenOrCreate), Encoding.ASCII)
+        Using file As New System.IO.StreamWriter(New FileStream(out, FileMode.OpenOrCreate), Encoding.ASCII)
 
             file.AutoFlush = True
 
             If Not key.FileExists Then ' 使用单个单词进行查询
                 Dim regex As New Regex(key, RegexICSng)
 
-                Call $"Compare regexp by key: {key}".__DEBUG_ECHO
+                Call $"Compare regexp by key: {key}".debug
 
                 If parallel Then
                     For Each block In LQuerySchedule.Where(source.ReadStream, Function(fa) regex.Match(fa.Title).Success)
@@ -105,21 +117,21 @@ Partial Module CLI
                     For Each fa As FastaSeq In source.ReadStream
                         If regex.Match(fa.Title).Success Then
                             Call file.WriteLine(fa.GenerateDocument(-1))
-                            ' Call fa.Title.__DEBUG_ECHO
+                            ' Call fa.Title.debug
                         End If
                     Next
                 End If
             Else
                 Dim words As String() = key.ReadAllLines ' 使用文件之中的一组关键词进行查询
 
-                If args.GetBoolean("/tokens") Then
+                If args("/tokens") Then
                     words = words.Select(Function(s) s.Split) _
                         .IteratesALL _
                         .Distinct _
                         .ToArray
                 End If
 
-                Call words.GetJson.__DEBUG_ECHO
+                Call words.GetJson.debug
                 Call Tasks.Parallel.ForEach(source.ReadStream,
                     Sub(fa)
                         For Each sKey As String In words

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7bfb3f92f6f4afb3463cbbb32687461, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
+﻿#Region "Microsoft.VisualBasic::0395eaa63384cb39da588b3b04db5552, Data_science\MachineLearning\MachineLearning\SVM\Training.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 53 (53.00%)
+    ' Comment Lines: 32 (32.00%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 15 (15.00%)
+    '     File Size: 4.06 KB
+
+
     '     Module Training
     ' 
     '         Function: doCrossValidation, PerformCrossValidation, Train
@@ -59,6 +71,7 @@
 ' * You should have received a copy of the GNU General Public License
 ' * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Imports System.Runtime.CompilerServices
 Imports stdNum = System.Math
 
 Namespace SVM
@@ -117,7 +130,7 @@ Namespace SVM
         Public Function PerformCrossValidation(problem As Problem, parameters As Parameter, nrfold As Integer) As Double
             Dim [error] = svm_check_parameter(problem, parameters)
 
-            If Equals([error], Nothing) Then
+            If [error].StringEmpty Then
                 Return doCrossValidation(problem, parameters, nrfold)
             Else
                 Throw New Exception([error])
@@ -131,9 +144,9 @@ Namespace SVM
         ''' <param name="parameters">The parameters to use</param>
         ''' <returns>A trained SVM Model</returns>
         Public Function Train(problem As Problem, parameters As Parameter) As Model
-            Dim [error] = svm_check_parameter(problem, parameters)
+            Dim [error] As String = svm_check_parameter(problem, parameters)
 
-            If Equals([error], Nothing) Then
+            If [error].StringEmpty Then
                 Return svm_train(problem, parameters)
             Else
                 Throw New Exception([error])

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 144 (71.29%)
+    ' Comment Lines: 34 (16.83%)
+    '    - Xml Docs: 38.24%
+    ' 
+    '   Blank Lines: 24 (11.88%)
+    '     File Size: 8.25 KB
+
+
     '     Class HalfHelper
     ' 
     '         Constructor: (+1 Overloads) Sub New

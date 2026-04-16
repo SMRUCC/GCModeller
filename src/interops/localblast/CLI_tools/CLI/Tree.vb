@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151a78f8c2305adc1c0c30df4ca4837d, localblast\CLI_tools\CLI\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::c4042c388b7d006b3e1d2b363621a60a, localblast\CLI_tools\CLI\Tree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 69 (86.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (13.75%)
+    '     File Size: 3.68 KB
+
+
     ' Module CLI
     ' 
     '     Function: ExportFasta, IdentitiesMAT
@@ -41,8 +53,8 @@
 
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions

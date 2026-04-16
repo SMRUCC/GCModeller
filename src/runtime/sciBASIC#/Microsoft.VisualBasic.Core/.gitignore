@@ -20,3 +20,15 @@ obj/
 .vs/Core/DesignTimeBuild/.dtbcache.v2
 
 Apps
+*.vsidx
+*.bin
+*.v2
+*.v1
+*.v2
+*.v5
+.vs/ProjectEvaluation/.net-core.metadata.v6.1
+.vs/ProjectEvaluation/.net-core.projects.v6.1
+.vs/ProjectEvaluation/netcoreapp-6.metadata.v6.1
+.vs/ProjectEvaluation/netcoreapp-6.projects.v6.1
+/.vs/netcoreapp-6/CopilotIndices/17.14.995.13737
+/.vs/netcoreapp-6/CopilotIndices/17.14.1091.29919

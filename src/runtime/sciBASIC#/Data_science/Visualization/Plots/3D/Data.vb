@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::27fb6702891675b93446219a3c649d16, Data_science\Visualization\Plots\3D\Data.vb"
+﻿#Region "Microsoft.VisualBasic::5335e479730c60f7b2efecd7b40bc8b0, Data_science\Visualization\Plots\3D\Data.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 313
+    '    Code Lines: 221 (70.61%)
+    ' Comment Lines: 52 (16.61%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 40 (12.78%)
+    '     File Size: 13.35 KB
+
+
     '     Module DataProvider
     ' 
-    '         Function: __2DIterates, __progressProvider, (+2 Overloads) Evaluate, (+2 Overloads) Grid, (+3 Overloads) Surface
+    '         Function: __2DIterates, (+2 Overloads) Evaluate, (+2 Overloads) Grid, (+3 Overloads) Surface
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,17 +54,27 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+#End If
 
 Namespace Plot3D
 
@@ -62,14 +84,14 @@ Namespace Plot3D
     Public Module DataProvider
 
         <Extension>
-        Public Function Surface(matrix As IEnumerable(Of EntityObject)) As IEnumerable(Of (sf As Surface, c As Double()))
+        Public Function Surface(Of T As {INamedValue, DynamicPropertyBase(Of String)})(matrix As IEnumerable(Of T)) As IEnumerable(Of (sf As Surface, c As Double()))
             Dim xData As New List(Of (pt As Point3D, C#)())
 
-            For Each line As EntityObject In matrix
-                Dim xi As Double = Val(line.ID)
+            For Each line As T In matrix
+                Dim xi As Double = Val(line.Key)
 
                 xData += LinqAPI.Exec(Of (pt As Point3D, C#)) <=
- _
+                                                                _
                     From p As KeyValuePair(Of String, String)
                     In line.Properties
                     Let yi As Double = Val(p.Key)
@@ -143,7 +165,7 @@ Namespace Plot3D
                                 Optional xsteps! = 0.01,
                                 Optional ysteps! = 0.01,
                                 Optional parallel As Boolean = False,
-                                Optional matrix As List(Of EntityObject) = Nothing) As IEnumerable(Of (sf As Surface, c As Double()))
+                                Optional matrix As List(Of Scatter3DPoint) = Nothing) As IEnumerable(Of (sf As Surface, c As Double()))
 
             Dim xdatas = f.Evaluate(x, y, xsteps, ysteps, parallel, matrix).ToArray
             Return xdatas.Surface
@@ -156,7 +178,7 @@ Namespace Plot3D
                                           Optional xsteps! = 0.01,
                                           Optional ysteps! = 0.01,
                                           Optional parallel As Boolean = False,
-                                          Optional matrix As List(Of EntityObject) = Nothing) As IEnumerable(Of (pt As Point3D, c#)())
+                                          Optional matrix As List(Of Scatter3DPoint) = Nothing) As IEnumerable(Of (pt As Point3D, c#)())
 
             For Each row In f.__2DIterates(x, y, xsteps, ysteps, parallel)
                 Dim out = LinqAPI.Exec(Of (pt As Point3D, C#)) <= From o
@@ -168,40 +190,18 @@ Namespace Plot3D
                                                                   }
                                                                   Select (pt, o.z.c)
                 If Not matrix Is Nothing Then
-                    matrix += New EntityObject With {
-                        .ID = out(Scan0).pt.X,
-                        .Properties = out.ToDictionary(
-                            Function(yk) CStr(yk.pt.Y),
-                            Function(z) z.pt.Z & ":" & z.C)
-                    }
+                    For Each xyz In out
+                        matrix += New Scatter3DPoint With {
+                            .x = out(Scan0).pt.X,
+                            .y = xyz.pt.Y,
+                            .z = xyz.pt.Z,
+                            .c = xyz.C
+                        }
+                    Next
                 End If
 
                 Yield out
             Next
-        End Function
-
-        Private Function __progressProvider(total%, yLen%, ysteps#, x As DoubleRange) As Action(Of Double)
-            If App.IsConsoleApp Then
-                Dim msg$ = $"Populates data points...(Estimates size: {total * (yLen / ysteps)}...)"
-                Dim prog As New ProgressBar(msg, 1, CLS:=True)
-                Dim tick As New ProgressProvider(prog, total)
-
-                Call tick.StepProgress()
-
-                Return Sub(xi#)
-                           Dim leftTime As String = tick _
-                               .ETA() _
-                               .FormatTime
-
-                           Call prog.SetProgress(
-                                tick.StepProgress,
-                                $" {xi} ({x.Min}, {x.Max}),  ETA {leftTime}")
-                       End Sub
-            Else
-                Return Sub()
-                           ' DO_NOTHING
-                       End Sub
-            End If
         End Function
 
         <Extension>
@@ -211,9 +211,11 @@ Namespace Plot3D
                                                         xsteps!, ysteps!,
                                                         parallel As Boolean) As IEnumerable(Of List(Of (x#, y#, z As Tout)))
 
-            Dim tick As Action(Of Double) = __progressProvider(x.Length / xsteps, y.Length, ysteps, x)
+            Dim ticks As Double() = seq(x.Min, x.Max, by:=xsteps).ToArray
 
-            For xi# = x.Min To x.Max Step xsteps!
+            Call "populates 2d grid data points...".info
+
+            For Each xi As Double In Tqdm.Wrap(ticks)
                 If parallel Then
                     Dim dy As New List(Of Double)
                     Dim x0# = xi
@@ -223,7 +225,7 @@ Namespace Plot3D
                     Next
 
                     Yield LinqAPI.MakeList(Of (x#, y#, Z As Tout)) <=
- _
+                                                                     _
                         From yi As Double
                         In dy.AsParallel
                         Let z As Tout = [in](x0, yi)
@@ -240,8 +242,6 @@ Namespace Plot3D
 
                     Yield out
                 End If
-
-                Call tick(xi)
             Next
         End Function
 
@@ -262,19 +262,17 @@ Namespace Plot3D
                                           Optional xsteps! = 0.01,
                                           Optional ysteps! = 0.01,
                                           Optional parallel As Boolean = False,
-                                          Optional matrix As List(Of DataSet) = Nothing) As IEnumerable(Of (X#, y#, z#)())
+                                          Optional matrix As List(Of Scatter3DPoint) = Nothing) As IEnumerable(Of (X#, y#, z#)())
 
             For Each row In f.__2DIterates(x, y, xsteps, ysteps, parallel)
                 If Not matrix Is Nothing Then
-                    matrix += New DataSet With {
-                        .ID = row(Scan0).x,
-                        .Properties = row _
-                            .ToDictionary(
-                                Function(pt) CStr(pt.y),
-                                Function(pt)
-                                    Return pt.z
-                                End Function)
+                    For Each xyz In row
+                        matrix += New Scatter3DPoint With {
+                        .x = xyz.x,
+                        .y = xyz.y,
+                        .z = xyz.z
                     }
+                    Next
                 End If
 
                 Yield row.ToArray
@@ -346,7 +344,7 @@ Namespace Plot3D
                                       Optional ysteps! = 0.01) As IEnumerable(Of Line3D)
             Dim array As Line3D() = Grid(f, x, y, xsteps, ysteps).ToArray
             Dim z#() = array _
-                .Select(Function(pt) stdNum.Round((pt.a.Z + pt.b.Z) / 2, 1)) _
+                .Select(Function(pt) std.Round((pt.a.Z + pt.b.Z) / 2, 1)) _
                 .Distinct _
                 .ToArray
             Dim levels As Dictionary(Of Double, Integer) =
@@ -361,7 +359,7 @@ Namespace Plot3D
                 Yield New Line3D With {
                     .a = line.a,
                     .b = line.b,
-                    .pen = New Pen(colors.ElementAtOrDefault(levels(stdNum.Round((.a.Z + .b.Z) / 2, 1)) - 1))
+                    .pen = New Pen(colors.ElementAtOrDefault(levels(std.Round((.a.Z + .b.Z) / 2, 1)) - 1))
                 }
             Next
         End Function

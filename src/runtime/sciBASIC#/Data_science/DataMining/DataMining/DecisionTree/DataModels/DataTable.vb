@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 32 (53.33%)
+    ' Comment Lines: 19 (31.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.00%)
+    '     File Size: 1.76 KB
+
+
     '     Class DataTable
     ' 
     '         Properties: columns, decisions, headers, rows

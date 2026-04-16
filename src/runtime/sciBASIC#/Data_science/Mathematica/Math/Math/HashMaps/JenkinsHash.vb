@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 212
+    '    Code Lines: 109 (51.42%)
+    ' Comment Lines: 74 (34.91%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 29 (13.68%)
+    '     File Size: 7.92 KB
+
+
     '     Module JenkinsHash
     ' 
     '         Function: [xor], add, byteToLong, fourByteToLong, (+3 Overloads) hash

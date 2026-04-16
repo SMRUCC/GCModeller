@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 13 (52.00%)
+    ' Comment Lines: 6 (24.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (24.00%)
+    '     File Size: 961 B
+
+
     '     Class DispositionReactant
     ' 
     '         Properties: Enzymes, GeneralType, UPPER_BOUND

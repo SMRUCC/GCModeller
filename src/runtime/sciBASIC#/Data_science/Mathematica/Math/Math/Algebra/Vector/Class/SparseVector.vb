@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ee6bcf25ddc0a349cb6fe8935983ff2, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\SparseVector.vb"
+﻿#Region "Microsoft.VisualBasic::8bc36daf35166d4a143ba3bce1fd05b2, Data_science\Mathematica\Math\Math\Algebra\Vector\Class\SparseVector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 303
+    '    Code Lines: 186 (61.39%)
+    ' Comment Lines: 75 (24.75%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 42 (13.86%)
+    '     File Size: 11.34 KB
+
+
     '     Class SparseVector
     ' 
     '         Properties: [Dim], Array, Data, Length, Precision
@@ -51,12 +63,10 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Linq.WhichIndex
 Imports Microsoft.VisualBasic.My.FrameworkInternal
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace LinearAlgebra
 
@@ -120,10 +130,13 @@ Namespace LinearAlgebra
         ''' returns all data values in current vector object.
         ''' </summary>
         ''' <returns></returns>
-        Protected Overrides ReadOnly Property Data As Double()
+        Protected Overrides Property Data As Double()
             Get
                 Return Me.ToArray
             End Get
+            Set(value As Double())
+                Throw New Exception("read only!")
+            End Set
         End Property
 
         Public Overrides ReadOnly Property Array As Double()
@@ -202,7 +215,7 @@ Namespace LinearAlgebra
             If Not precision.StringEmpty Then
                 SparseVector.Precision = precision.ParseDouble
 
-                Call $"The precision controls config of the sparse vector was set to {precision}".__INFO_ECHO
+                Call $"The precision controls config of the sparse vector was set to {precision}".info
             End If
         End Sub
 
@@ -239,7 +252,7 @@ Namespace LinearAlgebra
             Dim buffer As New Dictionary(Of Integer, Double)
 
             For Each x As Double In data
-                If stdNum.Abs(x) < Precision Then
+                If std.Abs(x) < Precision Then
                     ' 0.0
                 Else
                     ' has a non-ZERO value at current index
@@ -254,7 +267,7 @@ Namespace LinearAlgebra
         End Sub
 
         Public Sub SetValue(index%, value#)
-            If value = 0.0 OrElse stdNum.Abs(value) < Precision Then
+            If value = 0.0 OrElse std.Abs(value) < Precision Then
                 buffer.Remove(key:=index)
             Else
                 buffer.Remove(key:=index)
@@ -264,12 +277,12 @@ Namespace LinearAlgebra
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Min() As Double
-            Return stdNum.Min(0.0, Values.Min)
+            Return std.Min(0.0, Values.Min)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Max() As Double
-            Return stdNum.Max(0.0, Values.Max)
+            Return std.Max(0.0, Values.Max)
         End Function
 
         ''' <summary>
@@ -285,7 +298,7 @@ Namespace LinearAlgebra
         End Function
 
         Public Overloads Shared Function Equals(a#, b#) As Boolean
-            Return stdNum.Abs(a - b) <= Precision
+            Return std.Abs(a - b) <= Precision
         End Function
 
         ''' <summary>

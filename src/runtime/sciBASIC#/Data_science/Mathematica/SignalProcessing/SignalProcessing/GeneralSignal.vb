@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9c9b8a659c88d7d40ec26d46f5221950, Data_science\Mathematica\SignalProcessing\SignalProcessing\GeneralSignal.vb"
+﻿#Region "Microsoft.VisualBasic::45d621e19eefbc5b75104bdb25be0cad, Data_science\Mathematica\SignalProcessing\SignalProcessing\GeneralSignal.vb"
 
     ' Author:
     ' 
@@ -31,49 +31,78 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 111 (68.10%)
+    ' Comment Lines: 30 (18.40%)
+    '    - Xml Docs: 96.67%
+    ' 
+    '   Blank Lines: 22 (13.50%)
+    '     File Size: 5.38 KB
+
+
     ' Class GeneralSignal
     ' 
     '     Properties: description, MeasureRange, Measures, measureUnit, meta
-    '                 reference, Strength
+    '                 reference, Strength, weight
     ' 
-    '     Function: GetText, GetTimeSignals, PopulatePoints, ToString
+    '     Constructor: (+3 Overloads) Sub New
+    '     Function: GetText, (+2 Overloads) GetTimeSignals, PopulatePoints, Preprocessing, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.SignalProcessing.NDtw.Preprocessing
 
-Public Class GeneralSignal : Implements INamedValue
+''' <summary>
+''' 
+''' </summary>
+''' <remarks>
+''' a tuple of the signal vector data <see cref="Measures"/> and <see cref="Strength"/>
+''' </remarks>
+Public Class GeneralSignal : Implements INamedValue, IVector
 
     ''' <summary>
     ''' usually is the time in unit second.(x axis)
     ''' </summary>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' x axis
+    ''' </remarks>
     Public Property Measures As Double()
     ''' <summary>
     ''' the signal strength.(y axis)
     ''' </summary>
     ''' <returns></returns>
-    Public Property Strength As Double()
+    ''' <remarks>
+    ''' y axis
+    ''' </remarks>
+    Public Property Strength As Double() Implements IVector.Data
 
     ''' <summary>
-    ''' the unique reference
+    ''' the unique reference id, or the variable name
     ''' </summary>
     ''' <returns></returns>
     Public Property reference As String Implements INamedValue.Key
     Public Property measureUnit As String
     Public Property description As String
     Public Property meta As Dictionary(Of String, String)
+    Public Property weight As Double
 
     Public ReadOnly Property MeasureRange As DoubleRange
         Get
             If Measures.IsNullOrEmpty Then
-                Return {0, 0}
+                Return {0.0, 0.0}
             Else
                 Return {Measures.Min, Measures.Max}
             End If
@@ -109,8 +138,27 @@ Public Class GeneralSignal : Implements INamedValue
         End Get
     End Property
 
+    Sub New()
+    End Sub
+
+    Sub New(x As Double(), y As Double())
+        Measures = x
+        Strength = y
+    End Sub
+
+    Sub New(x As Double(), y As Double(), id As String, weight As Double)
+        Call Me.New(x, y)
+
+        Me.reference = id
+        Me.weight = weight
+    End Sub
+
     Public Overrides Function ToString() As String
-        Return description
+        If description.StringEmpty Then
+            Return $"{reference}, {Measures.Length} data points"
+        Else
+            Return description
+        End If
     End Function
 
     Public Function GetText() As String
@@ -142,6 +190,12 @@ Public Class GeneralSignal : Implements INamedValue
         Next
     End Function
 
+    Public Iterator Function GetTimeSignals(Of T As ITimeSignal)(activator As Func(Of Double, Double, T)) As IEnumerable(Of T)
+        For i As Integer = 0 To _Measures.Length - 1
+            Yield activator(_Measures(i), _Strength(i))
+        Next
+    End Function
+
     Public Iterator Function GetTimeSignals() As IEnumerable(Of ITimeSignal)
         For i As Integer = 0 To _Measures.Length - 1
             Yield New TimeSignal With {
@@ -149,5 +203,18 @@ Public Class GeneralSignal : Implements INamedValue
                 .intensity = _Strength(i)
             }
         Next
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Shared Function Preprocessing(sig As GeneralSignal, process As IPreprocessor) As GeneralSignal
+        Return New GeneralSignal() With {
+            .description = sig.description,
+            .Measures = process(sig.Measures),
+            .measureUnit = sig.measureUnit,
+            .meta = sig.meta,
+            .reference = sig.reference,
+            .Strength = process(sig.Strength),
+            .weight = sig.weight
+        }
     End Function
 End Class

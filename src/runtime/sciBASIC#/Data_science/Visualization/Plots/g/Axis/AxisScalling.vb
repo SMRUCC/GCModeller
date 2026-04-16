@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f3d86333d2beea01228a65d5940b83cf, Data_science\Visualization\Plots\g\Axis\AxisScalling.vb"
+﻿#Region "Microsoft.VisualBasic::ab60407a5b62b624851ec7a83387c6fa, Data_science\Visualization\Plots\g\Axis\AxisScalling.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 431
+    '    Code Lines: 242 (56.15%)
+    ' Comment Lines: 120 (27.84%)
+    '    - Xml Docs: 45.83%
+    ' 
+    '   Blank Lines: 69 (16.01%)
+    '     File Size: 17.85 KB
+
+
     '     Module AxisScalling
     ' 
-    '         Function: __fix, __max, AxisExpression, (+3 Overloads) CreateAxisTicks, (+2 Overloads) GetAxisByTick
+    '         Function: __fix, __max, AxisExpression, (+4 Overloads) CreateAxisTicks, (+2 Overloads) GetAxisByTick
     '                   (+2 Overloads) GetAxisValues
     ' 
     ' 
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Graphic.Axis
 
@@ -58,6 +70,12 @@ Namespace Graphic.Axis
         <Extension>
         Public Function CreateAxisTicks(data As IEnumerable(Of Double), Optional ticks% = 10, Optional decimalDigits% = 2) As Double()
             Return data.Range.CreateAxisTicks(ticks, decimalDigits)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function CreateAxisTicks(data As (min#, max#), Optional ticks% = 10, Optional decimalDigits% = 2) As Double()
+            Return New DoubleRange(data.min, data.max).CreateAxisTicks(ticks, decimalDigits)
         End Function
 
         ''' <summary>
@@ -81,9 +99,31 @@ Namespace Graphic.Axis
                                         Optional w_steps# = 0.8,
                                         Optional w_min# = 0.1,
                                         Optional w_max# = 0.1) As Double()
+
+            Static smallNumber As New DoubleRange(1.0E-300, 0.005)
+
+            If range.Length = 0 Then
+                Dim delta As Double = range.Max * 1.25 - range.Max
+                range = New DoubleRange(range.Min - delta, range.Max + delta)
+            End If
+
             With range
                 If .Min.IsNaNImaginary AndAlso .Max.IsNaNImaginary Then
                     Return {0, 1}
+                ElseIf range.Min = 0 AndAlso range.Max = 0 Then
+                    Return {0, 1}
+                ElseIf smallNumber.IsInside(std.Abs(.Min)) AndAlso smallNumber.IsInside(std.Abs(.Max)) Then
+                    Dim v As New Vector(.MinMax)
+                    Dim factor As Double = 1 / v.Min
+
+                    v = v * factor
+                    range = v.Range
+
+                    Dim ticksScaled = AxisScalling.CreateAxisTicks(range.Min, range.Max, ticks, decimalDigits, w_steps, w_max, w_min)
+
+                    ticksScaled = (ticksScaled.AsVector / factor).Array
+
+                    Return ticksScaled
                 Else
                     Return AxisScalling.CreateAxisTicks(.Min, .Max, ticks, decimalDigits, w_steps, w_max, w_min)
                 End If
@@ -147,7 +187,7 @@ Namespace Graphic.Axis
             Dim digits As Integer
 
             If (steps >= 1) Then
-                rounded = stdNum.Round(steps)
+                rounded = std.Round(steps)
                 digits = rounded.ToString().Length
             Else
                 Dim places = steps.ToString().Split("."c)(1)
@@ -174,9 +214,9 @@ Namespace Graphic.Axis
             Dim candidateSteps As New List(Of Double)
 
             For i As Integer = 0 To niceTicks.Length - 1
-                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits))
-                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits - 1))
-                candidateSteps.Add(niceTicks(i) * stdNum.Pow(10, digits + 1))
+                candidateSteps.Add(niceTicks(i) * std.Pow(10, digits))
+                candidateSteps.Add(niceTicks(i) * std.Pow(10, digits - 1))
+                candidateSteps.Add(niceTicks(i) * std.Pow(10, digits + 1))
             Next
 
             Dim minSteps As Double
@@ -187,18 +227,22 @@ Namespace Graphic.Axis
             For i As Integer = 0 To candidateSteps.Count - 1
                 steps = candidateSteps(i)
 
+                If (max - min) / steps > 100 Then
+                    Continue For
+                End If
+
                 ' starting value depends on whether Or Not 0 Is in the array
-                If (zeroFlag) Then
-                    minSteps = stdNum.Ceiling(stdNum.Abs(min) / steps)
+                If zeroFlag Then
+                    minSteps = std.Ceiling(std.Abs(min) / steps)
                     stepArray = {-minSteps * steps}.AsList
                 Else
-                    stepArray = {stdNum.Floor(min / steps) * steps}.AsList
+                    stepArray = {std.Floor(min / steps) * steps}.AsList
                 End If
 
                 Dim stepnum% = 1
 
-                Do While (stepArray(stepArray.Count - 1) < max)
-                    stepArray.Add((stepArray(0) + steps * stepnum))
+                Do While stepArray(stepArray.Count - 1) < max
+                    stepArray.Add(stepArray(0) + steps * stepnum)
                     stepnum += 1
                 Loop
 
@@ -222,11 +266,30 @@ Namespace Graphic.Axis
                 ' End If
             Next
 
+            If candidateArray.Count = 0 Then
+                Dim stepsArray As New List(Of Double)
+                Dim minT As Double = If(min = 0, 0, min * 0.85)
+                Dim maxT As Double = If(max = 0, 0, max * 1.125)
+                Dim st As Double = (maxT - minT) / 11
+                Dim tick As Double = minT
+
+                Do While tick < maxT
+                    stepsArray.Add(tick)
+                    tick += st
+                Loop
+
+                If tick = maxT Then
+                    stepArray.Add(tick)
+                End If
+
+                candidateArray.Add(stepsArray.ToArray)
+            End If
+
             ' 通过分别计算ticks的数量差值，是否容纳了输入的[min,max]范围来判断是否合适
             Dim maxSteps = candidateArray.Max(Function(candidate) candidate.Length)
-            Dim dSteps = maxSteps - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Length - ticks)).AsVector
-            Dim dMin = inputRange.Length - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Min - inputRange.Min)).AsVector
-            Dim dMax = inputRange.Length - candidateArray.Select(Function(candidate) stdNum.Abs(candidate.Max - inputRange.Max)).AsVector
+            Dim dSteps = maxSteps - candidateArray.Select(Function(candidate) std.Abs(candidate.Length - ticks)).AsVector
+            Dim dMin = inputRange.Length - candidateArray.Select(Function(candidate) std.Abs(candidate.Min - inputRange.Min)).AsVector
+            Dim dMax = inputRange.Length - candidateArray.Select(Function(candidate) std.Abs(candidate.Max - inputRange.Max)).AsVector
 
             dSteps = dSteps / dSteps.Max
             dMin = dMin / dMin.Max
@@ -240,7 +303,7 @@ Namespace Graphic.Axis
             ' 在这里加个开关，如果小于零就不在进行round了
             If decimalDigits >= 0 Then
                 For i As Integer = 0 To tickArray.Length - 1
-                    tickArray(i) = stdNum.Round(tickArray(i), decimalDigits)
+                    tickArray(i) = std.Round(tickArray(i), decimalDigits)
                 Next
             End If
 
@@ -271,13 +334,13 @@ Namespace Graphic.Axis
             Dim vmin#
 
             If min < 0 Then
-                vmin = -__max(stdNum.Abs(min), 0)
+                vmin = -__max(std.Abs(min), 0)
             Else
                 vmin = If(min < t * max, If(absoluteScalling, min, 0), min - (max - min) / 20)
             End If
 
             Dim d = __fix(vmax, True) - __fix(vmin, False)
-            Dim p = stdNum.Round(stdNum.Log10(d), 0)
+            Dim p = std.Round(std.Log10(d), 0)
             Dim tick# = 2 * ((10 ^ p) / parts)
             Dim out As List(Of Double) = GetAxisByTick(vmax, tick, vmin)
 
@@ -286,7 +349,7 @@ Namespace Graphic.Axis
             End If
 
             If 0 <= [decimal] Then
-                out = New List(Of Double)(out.Select(Function(x) stdNum.Round(x, [decimal])))
+                out = New List(Of Double)(out.Select(Function(x) std.Round(x, [decimal])))
             End If
 
             Return out.ToArray
@@ -328,11 +391,11 @@ Namespace Graphic.Axis
             '    End If
             'End If
 
-            Dim p% = stdNum.Round(stdNum.Log10(stdNum.Abs(n)), 0) ' Fix(Math.Log10(Math.Abs(n))) ' stdNum.Round(Math.Log10(Math.Abs(n)), 0)
+            Dim p% = std.Round(std.Log10(std.Abs(n)), 0) ' Fix(Math.Log10(std.Abs(n))) ' stdNum.Round(Math.Log10(std.Abs(n)), 0)
             Dim d = 10 ^ (p - 1)
             Dim v#
-            Dim s = stdNum.Sign(n)
-            Dim l% = CInt(Val(stdNum.Abs(n).ToString.First))
+            Dim s = std.Sign(n)
+            Dim l% = CInt(Val(std.Abs(n).ToString.First))
 
             If Not enlarge Then
                 p = 10 ^ (p - 1)
@@ -382,7 +445,7 @@ Namespace Graphic.Axis
         Public Function GetAxisValues(range As DoubleRange, Optional ticks% = 10, Optional absoluteScalling As Boolean = False) As Double()
             ' Return GetAxisValues(range.Max, parts, range.Min, absoluteScalling:=absoluteScalling)
             If absoluteScalling Then
-                Return New DoubleRange(stdNum.Min(0, range.Min), range.Max).CreateAxisTicks(ticks)
+                Return New DoubleRange(std.Min(0, range.Min), range.Max).CreateAxisTicks(ticks)
             Else
                 Return range.CreateAxisTicks(ticks)
             End If

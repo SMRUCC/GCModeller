@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e89d959e6a8a1b5bfde7cb4d9886656c, Microsoft.VisualBasic.Core\src\CommandLine\Reflection\RunDll.vb"
+﻿#Region "Microsoft.VisualBasic::c28059f86a578d80a1dcd736f65960ff, Microsoft.VisualBasic.Core\src\CommandLine\Reflection\RunDll.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 44 (51.76%)
+    ' Comment Lines: 30 (35.29%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 11 (12.94%)
+    '     File Size: 2.98 KB
+
+
     '     Class RunDllEntryPoint
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetDllMethod, GetPoint
+    '         Function: GetDllMainFunc, GetDllMethod, GetPoint
     ' 
     ' 
     ' /********************************************************************************/
@@ -56,14 +68,14 @@ Namespace CommandLine.Reflection
         ''' rundll namespace::api
         ''' </summary>
         ''' <param name="Name"></param>
-        Sub New(Name As String)
-            Call MyBase.New(Name, "")
+        Sub New(Optional name As String = "")
+            Call MyBase.New(name, "")
         End Sub
 
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="entrypoint$"></param>
+        ''' <param name="entrypoint"></param>
         ''' <returns>
         ''' 假若没有api的名称的话，是默认使用一个名字为``Main``的主函数来运行的
         ''' </returns>
@@ -81,13 +93,15 @@ Namespace CommandLine.Reflection
         ''' 大小写不敏感
         ''' </summary>
         ''' <param name="assembly"></param>
-        ''' <param name="entryPoint$"></param>
+        ''' <param name="entryPoint">
+        ''' namespace::funcName
+        ''' </param>
         ''' <returns></returns>
         Public Shared Function GetDllMethod(assembly As Assembly, entryPoint$) As MethodInfo
             Dim entry As NamedValue(Of String) = GetPoint(entryPoint)
             Dim types As Type() = GetTypesHelper(assm:=assembly)
             Dim dll As Type = LinqAPI.DefaultFirst(Of Type) _
- _
+                                                            _
                 () <= From type As Type
                       In types
                       Let load = type.GetCustomAttribute(Of RunDllEntryPoint)
@@ -98,16 +112,28 @@ Namespace CommandLine.Reflection
             If dll Is Nothing Then
                 Return Nothing
             Else
-                Dim matchName = Function(m As MethodInfo)
-                                    Return m.Name.TextEquals(entry.Value)
-                                End Function
-                Dim method As MethodInfo = dll _
-                    .GetMethods(PublicShared) _
-                    .Where(predicate:=matchName) _
-                    .FirstOrDefault
-
-                Return method
+                Return GetDllMainFunc(dll, entry.Value)
             End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="dll"></param>
+        ''' <param name="entry"></param>
+        ''' <returns>
+        ''' this function returns nothing if the method is not found
+        ''' </returns>
+        Public Shared Function GetDllMainFunc(dll As Type, Optional entry As String = "Main") As MethodInfo
+            Dim matchName = Function(m As MethodInfo)
+                                Return m.Name.TextEquals(entry)
+                            End Function
+            Dim method As MethodInfo = dll _
+                .GetMethods(PublicShared) _
+                .Where(predicate:=matchName) _
+                .FirstOrDefault
+
+            Return method
         End Function
     End Class
 

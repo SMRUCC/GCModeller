@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed1dda5563410a59b26a6ce5c5ddb336, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
+﻿#Region "Microsoft.VisualBasic::d8bfc2cc109b9675998ee5cedeee0d68, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\CharSet.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 115 (63.54%)
+    ' Comment Lines: 39 (21.55%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 27 (14.92%)
+    '     File Size: 8.94 KB
+
+
     '     Module CharSet
     ' 
     '         Function: (+2 Overloads) GenerateFontWeights, GetDotMatrix, (+2 Overloads) GetGeneralSize, GetWeight, LinearMap
@@ -43,8 +55,11 @@
 Imports System.Drawing
 Imports System.Math
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Drawing2D.Text.ASCIIArt
@@ -65,6 +80,8 @@ Namespace Drawing2D.Text.ASCIIArt
 ⣥⣈⠙⡻⠿⠿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⠿⠛⢉⣠⣶⣶⣿⣿
 ⣿⣿⣿⣶⣬⣅⣒⣒⡂⠈⠭⠭⠭⠭⠭⢉⣁⣄⡀⢾⣿⣿⣿⣿⣿⣿
 "
+
+        Friend ReadOnly DefaultFont As [Default](Of Font) = New Font("Tahoma", 8.0F)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetDotMatrix(Optional font As Font = Nothing) As WeightedChar()
@@ -99,7 +116,7 @@ Namespace Drawing2D.Text.ASCIIArt
 
             ' New object to hold Image, Weight and Char of new character
             ' For i As Integer = 32 To 126
-            Return allPrintables.GenerateFontWeights(font Or SystemFonts.DefaultFont.AsDefault)
+            Return allPrintables.GenerateFontWeights(font Or DefaultFont)
         End Function
 
         <Extension>
@@ -107,7 +124,7 @@ Namespace Drawing2D.Text.ASCIIArt
             ' Collect chars, their Images and weights in a list of WeightedChar
             Dim weightedChars As New List(Of WeightedChar)()
             Dim charList = chars.SafeQuery.Distinct.ToArray
-            Dim commonsize As SizeF = charList.GetGeneralSize(font Or SystemFonts.DefaultFont.AsDefault)
+            Dim commonsize As SizeF = charList.GetGeneralSize(font Or DefaultFont)
 
             ' Get standard size (nxn square), which will be common to all CharImages
             For Each c As Char In chars.SafeQuery.Distinct
@@ -143,7 +160,7 @@ Namespace Drawing2D.Text.ASCIIArt
         <Extension>
         Private Function GetGeneralSize(allPrintables As Char(), font As Font) As SizeF
             ' Create a dummy bitmap just to get a graphics object
-            Using g As IGraphics = New Size(1, 1).CreateGDIDevice
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(1, 1), driver:=Drivers.GDI)
                 Return g.GetGeneralSize(allPrintables, font)
             End Using
         End Function

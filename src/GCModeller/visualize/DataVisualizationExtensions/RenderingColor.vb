@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47260c7cacab47e188c402b8383bc205, visualize\DataVisualizationExtensions\RenderingColor.vb"
+﻿#Region "Microsoft.VisualBasic::a101fd2338999440bbb45cc2d1ca02e7, visualize\DataVisualizationExtensions\RenderingColor.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 121 (66.12%)
+    ' Comment Lines: 32 (17.49%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 30 (16.39%)
+    '     File Size: 6.88 KB
+
+
     ' Module RenderingColor
     ' 
     '     Function: CategoryMapsTextures, directlyMapping, GenerateColorProfiles, InitCOGColors, interpolateMapping
@@ -47,6 +59,22 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports SMRUCC.genomics.Assembly.NCBI
+
+#If NET48 Then
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
 Public Module RenderingColor
 

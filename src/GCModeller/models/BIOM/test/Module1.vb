@@ -45,12 +45,11 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Language.UnixBash
-Imports SMRUCC.genomics.foundation.BIOM.v10
-Imports Microsoft.VisualBasic.MIME.application.json
-Imports Microsoft.VisualBasic.MIME.application.json.Parser
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.foundation.BIOM.v10
 
 Module Module1
 
@@ -68,11 +67,11 @@ Module Module1
         '2016-10-31T17:30:49.768484
 
         Dim ddd = Regex.Match("2016-10-31T17:30:49.768484", JsonLongTime).Value
-        Dim json = Date.Parse(ddd).GetJson
+        Dim json = Date.Parse(ddd).GetJson(indent:=False, simpleDict:=True)
 
         Dim biom = SMRUCC.genomics.foundation.BIOM.v10.BIOMDataSet(Of Double).LoadFile("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.json")
 
-        Call biom.GetJson(indent:=True).SaveTo("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.formatted.json")
+        Call biom.GetJson(indent:=True, simpleDict:=True).SaveTo("C:\Users\xieguigang\Desktop\predictions_ko.L3.biom.formatted.json")
 
         Pause()
     End Sub
@@ -106,7 +105,7 @@ Module Module1
     Sub jsonDumpTest(file As String)
         Dim biom = SMRUCC.genomics.foundation.BIOM.v21.ReadFile(file)
 
-        Call biom.GetJson(indent:=True).SaveTo(file.ChangeSuffix("json"))
+        Call biom.GetJson(indent:=True, simpleDict:=True).SaveTo(file.ChangeSuffix("json"))
     End Sub
 
     Sub testCDFBIOM()

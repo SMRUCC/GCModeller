@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 56 (60.87%)
+    ' Comment Lines: 23 (25.00%)
+    '    - Xml Docs: 78.26%
+    ' 
+    '   Blank Lines: 13 (14.13%)
+    '     File Size: 3.73 KB
+
+
     '     Module TableParser
     ' 
     '         Function: GetColumnsHTML, GetRowsHTML, GetTablesHTML, ParseHtmlMeta

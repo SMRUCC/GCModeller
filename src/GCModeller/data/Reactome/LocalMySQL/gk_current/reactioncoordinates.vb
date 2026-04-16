@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 94 (51.09%)
+    ' Comment Lines: 68 (36.96%)
+    '    - Xml Docs: 95.59%
+    ' 
+    '   Blank Lines: 22 (11.96%)
+    '     File Size: 9.83 KB
+
+
     ' Class reactioncoordinates
     ' 
     '     Properties: DB_ID, locatedEvent, locatedEvent_class, locationContext, locationContext_class

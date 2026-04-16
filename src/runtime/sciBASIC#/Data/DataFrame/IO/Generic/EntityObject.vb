@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43ee1a9bf730f719b822c16f5dee981d, Data\DataFrame\IO\Generic\EntityObject.vb"
+﻿#Region "Microsoft.VisualBasic::a1760ad1f550faa1677ff4e93da5f361, Data\DataFrame\IO\Generic\EntityObject.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 131 (60.65%)
+    ' Comment Lines: 63 (29.17%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 22 (10.19%)
+    '     File Size: 8.89 KB
+
+
     '     Class EntityObject
     ' 
     '         Properties: ID
@@ -48,17 +60,18 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace IO
 
     ''' <summary>
     ''' The object entity, <see cref="DynamicPropertyBase(Of String)"/>, <see cref="String"/>.
-    ''' (有名称属性的表抽象对象)
     ''' </summary>
+    ''' <remarks>
+    ''' (有名称属性的表抽象对象)
+    ''' </remarks>
     Public Class EntityObject : Inherits Table
         Implements INamedValue
 

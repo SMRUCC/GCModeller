@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 80 (66.12%)
+    ' Comment Lines: 25 (20.66%)
+    '    - Xml Docs: 44.00%
+    ' 
+    '   Blank Lines: 16 (13.22%)
+    '     File Size: 4.91 KB
+
+
     '     Module HDF5
     ' 
     '         Function: matrixRows, observationRows, ReadFile, sampleColumns

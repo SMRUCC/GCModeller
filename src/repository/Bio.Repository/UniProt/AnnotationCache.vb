@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5f1729cd7ad2b22a17ffc9258176fec9, Bio.Repository\UniProt\AnnotationCache.vb"
+﻿#Region "Microsoft.VisualBasic::2b29ab0d42762e2e369128e8fe88a5e7, Bio.Repository\UniProt\AnnotationCache.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 111 (79.29%)
+    ' Comment Lines: 7 (5.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (15.71%)
+    '     File Size: 5.86 KB
+
+
     ' Module AnnotationCache
     ' 
     '     Function: toPtf, trimConflicts
@@ -52,7 +64,10 @@ Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Public Module AnnotationCache
 
     <Extension>
-    Public Sub WritePtfCache(proteins As IEnumerable(Of entry), cache As TextWriter, Optional includesNCBITaxonomy As Boolean = False, Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG")
+    Public Sub WritePtfCache(proteins As IEnumerable(Of entry), cache As TextWriter,
+                             Optional includesNCBITaxonomy As Boolean = False,
+                             Optional keys$ = "KEGG,KO,GO,Pfam,RefSeq,EC,InterPro,BioCyc,eggNOG")
+
         For Each protein As entry In proteins
             Call cache.WriteLine(PtfFile.ToString(toPtf(protein, includesNCBITaxonomy, keys)))
         Next
@@ -84,11 +99,25 @@ Public Module AnnotationCache
 
         dbNames = dbNameList.ComputeIfAbsent(keys, Function() keys.StringSplit("[,|;+]"))
         dbxref.Add("synonym", protein.accessions)
+        dbxref.Add("protein_name", {protein.name})
 
         For Each refDb As String In dbNames
             If protein.xrefs.ContainsKey(refDb) Then
                 refList = protein.xrefs(refDb) _
-                    .Select(Function(ref) ref.id) _
+                    .Select(Function(ref)
+                                Dim id As String = ref.id
+                                Dim tag As String = ""
+
+                                Select Case refDb
+                                    Case "GO" : tag = ref.PropertyValue("term")
+                                    Case "Pfam" : tag = ref.PropertyValue("entry name")
+                                    Case "InterPro" : tag = ref.PropertyValue("entry name")
+                                    Case Else
+                                        Return id
+                                End Select
+
+                                Return $"{id}@{tag}"
+                            End Function) _
                     .ToArray
 
                 Call dbxref.Add(refDb.ToLower, refList)
@@ -100,6 +129,8 @@ Public Module AnnotationCache
                         Call dbxref.Add("pfamstring", domains.Select(AddressOf trimConflicts).ToArray)
                     End If
                 End If
+            ElseIf refDb = "keyword" AndAlso Not protein.keywords.IsNullOrEmpty Then
+                Call dbxref.Add(refDb, protein.keywords.Select(Function(key) $"{key.id}@{key.value}").ToArray)
             End If
         Next
 
@@ -131,7 +162,8 @@ Public Module AnnotationCache
             .description = protein.proteinFullName,
             .attributes = dbxref,
             .locus_id = locus_id Or .geneId.AsDefault,
-            .geneName = geneName
+            .geneName = geneName,
+            .sequence = protein.ProteinSequence
         }
     End Function
 

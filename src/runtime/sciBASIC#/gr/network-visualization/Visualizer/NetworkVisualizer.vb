@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a399df7d32d7c80e7f262e63b085943, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
+﻿#Region "Microsoft.VisualBasic::5a623f4b5be242227ea579802a917b3f, gr\network-visualization\Visualizer\NetworkVisualizer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 458
+    '    Code Lines: 320 (69.87%)
+    ' Comment Lines: 85 (18.56%)
+    '    - Xml Docs: 72.94%
+    ' 
+    '   Blank Lines: 53 (11.57%)
+    '     File Size: 21.93 KB
+
+
     ' Module NetworkVisualizer
     ' 
     '     Properties: BackgroundColor
@@ -39,9 +51,14 @@
     ' 
     '     Delegate Function
     ' 
-    '         Function: DirectMapRadius, drawEdges, DrawImage, drawVertexNodes, internalDrawEdgeLine
     ' 
-    '         Sub: drawhullPolygon, drawLabels
+    '     Delegate Sub
+    ' 
+    '         Function: DirectMapRadius, DrawImage
+    ' 
+    '         Sub: drawhullPolygon
+    ' 
+    ' 
     ' 
     ' 
     ' 
@@ -62,23 +79,22 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.ConcaveHull
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
+
+<Assembly: InternalsVisibleTo("ggraph")>
 
 ''' <summary>
 ''' Image drawing of a network model
@@ -94,8 +110,9 @@ Public Module NetworkVisualizer
 
     Const WhiteStroke$ = "stroke: white; stroke-width: 2px; stroke-dash: solid;"
 
-    Public Delegate Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single, center As PointF) As RectangleF
+    Public Delegate Function DrawNodeShape(id As String, g As IGraphics, brush As Brush, radius As Single(), center As PointF) As RectangleF
     Public Delegate Function GetLabelPosition(node As Node, label$, shapeLayout As RectangleF, labelSize As SizeF) As PointF
+    Public Delegate Sub DrawShape(g As IGraphics, pos As PointF, gSize As SizeF, shape As String, color As Brush, border As Stroke, radius%, ByRef labelPos As PointF, lineWidth!)
 
     ''' <summary>
     ''' Rendering png or svg image from a given network graph model.
@@ -164,6 +181,7 @@ Public Module NetworkVisualizer
                               Optional edgeShadowDistance As Single = 0,
                               Optional drawNodeShape As DrawNodeShape = Nothing,
                               Optional nodeWidget As Func(Of IGraphics, PointF, Double, Node, RectangleF) = Nothing,
+                              Optional shapeRender As DrawShape = Nothing,
                               Optional getNodeLabel As Func(Of Node, String) = Nothing,
                               Optional getLabelPosition As GetLabelPosition = Nothing,
                               Optional getLabelColor As Func(Of Node, Color) = Nothing,
@@ -172,7 +190,6 @@ Public Module NetworkVisualizer
                               Optional hullPolygonGroups As NamedValue(Of String) = Nothing,
                               Optional labelerIterations% = 1500,
                               Optional labelWordWrapWidth% = -1,
-                              Optional isLabelPinned As Func(Of Node, String, Boolean) = Nothing,
                               Optional showLabelerProgress As Boolean = True,
                               Optional defaultEdgeColor$ = NameOf(Color.LightGray),
                               Optional defaultLabelColor$ = "black",
@@ -200,10 +217,9 @@ Public Module NetworkVisualizer
                             driverPrompt = ""
                         End If
 
-                        VBDebugger.WaitOutput()
-                        CLITools.AppSummary(assm, "Welcome to use network graph visualizer api from sciBASIC.NET framework.", driverPrompt, App.StdOut)
-
-                        Call Console.WriteLine()
+                        Call VBDebugger.WaitOutput()
+                        Call CLITools.AppSummary(assm, "Welcome to use network graph visualizer api from sciBASIC.NET framework.", driverPrompt, App.StdOut)
+                        Call VBDebugger.WriteLine("")
                     End Sub)
 
         ' 所绘制的图像输出的尺寸大小
@@ -216,8 +232,8 @@ Public Module NetworkVisualizer
                 .Top = 100
             })
 
-        Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".__DEBUG_ECHO
-        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".__DEBUG_ECHO
+        Call $"Canvas size expression '{canvasSize}' = [{frameSize.Width}, {frameSize.Height}]".debug
+        Call $"Canvas padding [{margin.Top}, {margin.Right}, {margin.Bottom}, {margin.Left}]".debug
 
         ' 1. 先将网络图形对象置于输出的图像的中心位置
         ' 2. 进行矢量图放大
@@ -226,17 +242,18 @@ Public Module NetworkVisualizer
         ' 获取得到当前的这个网络对象相对于图像的中心点的位移值
         Dim scalePos As Dictionary(Of String, PointF) = CanvasScaler.CalculateNodePositions(net, frameSize, margin)
 
-        Call "Initialize gdi objects...".__INFO_ECHO
+        Call "Initialize gdi objects...".info
 
-        Dim stroke As Pen = CSS.Stroke.TryParse(nodeStroke)?.GDIObject
-        Dim baseFont As Font = CSSFont.TryParse(
+        Dim env As CSSEnvirnment = CSSEnvirnment.Empty(ppi)
+        Dim stroke As Pen = env.GetPen(CSS.Stroke.TryParse(nodeStroke), allowNull:=True)
+        Dim baseFont As Font = env.GetFont(CSSFont.TryParse(
             labelFontBase, New CSSFont With {
                 .family = FontFace.MicrosoftYaHei,
                 .size = 12,
                 .style = FontStyle.Regular
-            }).GDIObject(ppi)
+            }))
 
-        Call "Initialize variables, done!".__INFO_ECHO
+        Call "Initialize variables, done!".info
 
         If edgeDashTypes Is Nothing Then
             edgeDashTypes = New Dictionary(Of String, DashStyle)
@@ -261,7 +278,7 @@ Public Module NetworkVisualizer
         ' 在这里不可以使用 <=，否则会导致等于最小值的时候出现无限循环的bug
         Dim minLinkWidthValue = minLinkWidth.AsDefault(Function(width) CInt(width) < minLinkWidth)
         Dim fontSizeMapper As Func(Of Node, Single)
-        Dim nodeRadiusMapper As Func(Of Node, Single)
+        Dim nodeRadiusMapper As Func(Of Node, Single())
 
         If fontSize Is Nothing Then
             fontSizeMapper = Function() 16.0!
@@ -273,13 +290,25 @@ Public Module NetworkVisualizer
         End If
 
         If nodeRadius Is Nothing Then
-            Dim min = stdNum.Min(frameSize.Width, frameSize.Height) / 25
-            nodeRadiusMapper = Function() min
+            ' check for node size data
+            If net.vertex.All(Function(v) v.data.size.IsNullOrEmpty) Then
+                ' all nodes has unify size
+                Dim min = std.Min(frameSize.Width, frameSize.Height) / 100
+                nodeRadiusMapper = Function() {min}
+            Else
+                ' use the node size
+                nodeRadiusMapper = Function(v)
+                                       Return v.data.size _
+                                          .Select(Function(d) CSng(d)) _
+                                          .ToArray
+                                   End Function
+            End If
         ElseIf nodeRadius Like GetType(Single) Then
             Dim radius As Single = nodeRadius
-            nodeRadiusMapper = Function() radius
+            nodeRadiusMapper = Function() {radius}
         Else
-            nodeRadiusMapper = nodeRadius
+            Dim func As Func(Of Node, Single) = nodeRadius
+            nodeRadiusMapper = Function(n) {func(n)}
         End If
 
         ' if required hide disconnected nodes, then only the connected node in the network 
@@ -292,12 +321,39 @@ Public Module NetworkVisualizer
         If linkWidth Is Nothing Then
             linkWidth = Function(edge) CSng(5 * edge.weight * 2) Or minLinkWidthValue
         End If
+        If getLabelColor Is Nothing Then
+            getLabelColor = Function(node) Nothing
+        End If
+
+        Dim renderEdge As New EdgeRendering(linkWidth, edgeDashTypes, scalePos, throwEx, edgeShadowDistance, defaultEdgeColor.TranslateColor, drawEdgeBends, drawEdgeDirection)
+        Dim renderNode As New NodeRendering(
+            graph:=net,
+            radiusValue:=nodeRadiusMapper,
+            fontSizeValue:=fontSizeMapper,
+            defaultColor:=defaultColor.TranslateColor,
+            stroke:=stroke,
+            baseFontCss:=baseFont,
+            scalePos:=scalePos,
+            throwEx:=throwEx,
+            getDisplayLabel:=getNodeLabel,
+            drawShape:=shapeRender,
+            drawNodeShape:=drawNodeShape,
+            getLabelPosition:=getLabelPosition,
+            labelWordWrapWidth:=labelWordWrapWidth,
+            nodeWidget:=nodeWidget)
+        Dim renderLabel As New LabelRendering(
+                        labelColorAsNodeColor:=labelColorAsNodeColor,
+                        iteration:=labelerIterations,
+                        showLabelerProgress:=showLabelerProgress,
+                        defaultLabelColorValue:=defaultLabelColor,
+                        labelTextStrokeCSS:=labelTextStroke,
+                        getLabelColor:=getLabelColor)
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
 
                 If Not hullPolygonGroups.IsEmpty Then
-                    Call "Render hull polygon layer...".__DEBUG_ECHO
+                    Call "Render hull polygon layer...".debug
                     Call g.drawhullPolygon(
                         drawPoints:=drawPoints,
                         hullPolygonGroups:=hullPolygonGroups,
@@ -310,64 +366,30 @@ Public Module NetworkVisualizer
                     )
                 End If
 
-                Call "Render network edges...".__INFO_ECHO
+                Call "Render network edges...".info
                 ' 首先在这里绘制出网络的框架：将所有的边绘制出来
-                labels += g.drawEdges(
-                    net,
-                    linkWidth,
-                    edgeDashTypes,
-                    scalePos,
-                    throwEx,
-                    edgeShadowDistance:=edgeShadowDistance,
-                    defaultEdgeColor:=defaultEdgeColor.TranslateColor,
-                    drawEdgeBends:=drawEdgeBends,
-                    drawEdgeDirection:=drawEdgeDirection
-                )
+                labels += renderEdge.drawEdges(g, graph:=net)
 
-                Call "Render network elements...".__INFO_ECHO
+                Call "Render network elements...".info
                 ' 然后将网络之中的节点绘制出来，同时记录下节点的位置作为label text的锚点
                 ' 最后通过退火算法计算出合适的节点标签文本的位置之后，再使用一个循环绘制出
                 ' 所有的节点的标签文本
 
                 ' 在这里进行节点的绘制
-                labels += g.drawVertexNodes(
-                    drawPoints:=drawPoints,
-                    radiusValue:=nodeRadiusMapper,
-                    fontSizeValue:=fontSizeMapper,
-                    defaultColor:=defaultColor.TranslateColor,
-                    stroke:=stroke,
-                    baseFont:=baseFont,
-                    scalePos:=scalePos,
-                    throwEx:=throwEx,
-                    getDisplayLabel:=getNodeLabel,
-                    drawNodeShape:=drawNodeShape,
-                    getLabelPosition:=getLabelPosition,
-                    labelWordWrapWidth:=labelWordWrapWidth,
-                    isLabelPinned:=isLabelPinned,
-                    nodeWidget:=nodeWidget
-                )
+                labels += renderNode.RenderingVertexNodes(drawPoints:=drawPoints, g:=g)
 
                 If displayId AndAlso labels = 0 Then
                     Call "There is no node label data could be draw currently, please check your data....".Warning
                 End If
 
                 If displayId AndAlso labels > 0 Then
-                    Call g.drawLabels(
-                        labels:=labels,
-                        frameSize:=frameSize.ToSize,
-                        labelColorAsNodeColor:=labelColorAsNodeColor,
-                        iteration:=labelerIterations,
-                        showLabelerProgress:=showLabelerProgress,
-                        defaultLabelColorValue:=defaultLabelColor,
-                        labelTextStrokeCSS:=labelTextStroke,
-                        getLabelColor:=getLabelColor
-                    )
+                    Call renderLabel.renderLabels(g, labels)
                 End If
 
-                Call "Network canvas rendering job done!".__DEBUG_ECHO
+                Call "Network canvas rendering job done!".debug
             End Sub
 
-        Call "Start Render...".__INFO_ECHO
+        Call "Start Render...".info
 
         Return g.GraphicsPlots(frameSize.ToSize, margin, background, plotInternal, driver:=driver)
     End Function
@@ -384,145 +406,6 @@ Public Module NetworkVisualizer
 
                    Return r * scale
                End Function
-    End Function
-
-    <Extension>
-    Private Iterator Function drawVertexNodes(g As IGraphics, drawPoints As Node(),
-                                              radiusValue As Func(Of Node, Single),
-                                              fontSizeValue As Func(Of Node, Single),
-                                              defaultColor As Color,
-                                              stroke As Pen,
-                                              baseFont As Font,
-                                              scalePos As Dictionary(Of String, PointF),
-                                              throwEx As Boolean,
-                                              getDisplayLabel As Func(Of Node, String),
-                                              drawNodeShape As DrawNodeShape,
-                                              getLabelPosition As GetLabelPosition,
-                                              labelWordWrapWidth As Integer,
-                                              isLabelPinned As Func(Of Node, String, Boolean),
-                                              nodeWidget As Func(Of IGraphics, PointF, Double, Node, RectangleF)) As IEnumerable(Of LayoutLabel)
-        Dim pt As Point
-        Dim br As Brush
-        Dim rect As RectangleF
-
-        Call "Rendering nodes...".__DEBUG_ECHO
-
-        If isLabelPinned Is Nothing Then
-            ' all of the label is unpinned by default 
-            isLabelPinned = Function(n, l) False
-        End If
-
-        For Each n As Node In drawPoints
-            Dim r# = radiusValue(n)
-            Dim center As PointF = scalePos(n.label)
-            Dim invalidRegion As Boolean = False
-
-            With DirectCast(New SolidBrush(defaultColor), Brush).AsDefault(n.NodeBrushAssert)
-                br = n.data.color Or .ByRef
-            End With
-
-            If drawNodeShape Is Nothing Then
-                With center
-                    pt = New Point(.X - r / 2, .Y - r / 2)
-                End With
-
-                rect = New RectangleF(pt, New Size(r, r))
-
-                ' 绘制节点，目前还是圆形
-                If TypeOf g Is Graphics2D Then
-                    Try
-                        Call g.FillPie(br, rect, 0, 360)
-
-                        If Not stroke Is Nothing Then
-                            Call g.DrawEllipse(stroke, rect)
-                        End If
-                    Catch ex As Exception
-                        If throwEx Then
-                            Throw New Exception(rect.GetJson, ex)
-                        Else
-                            Call $"Ignore of this invalid circle region: {rect.GetJson}".Warning
-                        End If
-
-                        invalidRegion = True
-                    End Try
-                Else
-                    Call g.DrawCircle(center, DirectCast(br, SolidBrush).Color, stroke, radius:=r)
-                End If
-            Else
-                rect = drawNodeShape(n.label, g, br, r, center)
-            End If
-
-            If Not nodeWidget Is Nothing Then
-                Dim rectLayout As RectangleF = nodeWidget(g, center, r, n)
-
-                If Not rectLayout.IsEmpty Then
-                    Yield New LayoutLabel With {
-                        .anchor = New Anchor(rectLayout),
-                        .color = Nothing,
-                        .label = New Label With {
-                            .height = rectLayout.Height,
-                            .pinned = True,
-                            .text = Nothing,
-                            .width = rectLayout.Width,
-                            .X = rectLayout.X,
-                            .Y = rectLayout.Y
-                        },
-                        .node = n,
-                        .shapeRectangle = rectLayout,
-                        .style = Nothing
-                    }
-                End If
-            End If
-
-            ' 如果当前的节点没有超出有效的视图范围,并且参数设置为显示id编号
-            ' 则生成一个label绘制的数据模型
-            Dim displayID As String = getDisplayLabel(n)
-
-            If (Not invalidRegion) AndAlso Not displayID.StringEmpty Then
-                Dim fontSize! = fontSizeValue(n)
-                Dim font As New Font(
-                    baseFont.Name,
-                    fontSize,
-                    baseFont.Style,
-                    baseFont.Unit,
-                    baseFont.GdiCharSet,
-                    baseFont.GdiVerticalFont
-                )
-                ' 节点的标签文本的位置默认在正中
-                Dim label As New Label With {
-                    .text = displayID,
-                    .pinned = isLabelPinned(n, displayID)
-                }
-
-                If labelWordWrapWidth > 0 Then
-                    label.text = WordWrap.DoWordWrap(label.text, labelWordWrapWidth)
-                End If
-
-                With g.MeasureString(label.text, font)
-                    label.width = .Width
-                    label.height = .Height
-
-                    If getLabelPosition Is Nothing Then
-                        label.X = center.X - .Width / 2
-                        label.Y = center.Y - .Height / 2
-                    Else
-                        With .DoCall(Function(lsz) getLabelPosition(n, label.text, rect, lsz))
-                            label.X = .X
-                            label.Y = .Y
-                        End With
-                    End If
-                End With
-
-                Yield New LayoutLabel With {
-                    .label = label,
-                    .anchor = New Anchor(rect),
-                    .style = font,
-                    .color = br,
-                    .node = n,
-                    .shapeRectangle = rect
-                }
-            End If
-        Next
     End Function
 
     ''' <summary>
@@ -555,8 +438,9 @@ Public Module NetworkVisualizer
                          Return n.data(hullPolygonGroups.Name)
                      End Function) _
             .ToArray
-        Dim colors As LoopArray(Of Color) = Designer.GetColors(hullPolygonGroups.Description Or "set1:c8".AsDefault)
-        Dim convexHullLabelFont As Font = CSSFont.TryParse(convexHullLabelFontCSS$).GDIObject(g.Dpi)
+        Dim colors As LoopArray(Of Color) = Designer.GetColors(hullPolygonGroups.Description Or "set1".AsDefault)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim convexHullLabelFont As Font = css.GetFont(CSSFont.TryParse(convexHullLabelFontCSS$))
         Dim singleGroupKey As String = Nothing
 
         If hullPolygonGroups.Value.StringEmpty Then
@@ -594,7 +478,7 @@ Public Module NetworkVisualizer
         For Each group In groups
             If group.Count > 2 AndAlso group.Key Like hullPolygon Then
 
-                Call $"[ConvexHull] render for {group.Key}".__DEBUG_ECHO
+                Call $"[ConvexHull] render for {group.Key}".debug
 
                 Dim positions = group _
                     .Select(Function(p) scalePos(p.label)) _
@@ -641,233 +525,4 @@ Public Module NetworkVisualizer
         End If
     End Sub
 
-    ''' <summary>
-    ''' 这个函数会将edge作为一个layout的shape返回用于标签的布局计算
-    ''' </summary>
-    ''' <param name="g"></param>
-    ''' <param name="net"></param>
-    ''' <param name="edgeDashTypes"></param>
-    ''' <param name="scalePos"></param>
-    ''' <param name="throwEx"></param>
-    ''' <param name="edgeShadowDistance"></param>
-    ''' <param name="defaultEdgeColor"></param>
-    ''' <param name="drawEdgeBends"></param>
-    ''' <param name="drawEdgeDirection"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Iterator Function drawEdges(g As IGraphics, net As NetworkGraph,
-                                        linkWidth As Func(Of Edge, Single),
-                                        edgeDashTypes As Dictionary(Of String, DashStyle),
-                                        scalePos As Dictionary(Of String, PointF),
-                                        throwEx As Boolean,
-                                        edgeShadowDistance As Single,
-                                        defaultEdgeColor As Color,
-                                        drawEdgeBends As Boolean,
-                                        drawEdgeDirection As Boolean) As IEnumerable(Of LayoutLabel)
-
-        For Each edge As Edge In net.graphEdges
-            Dim n As Node = edge.U
-            Dim otherNode As Node = edge.V
-            Dim w! = linkWidth(edge)
-            Dim lineColor As Pen
-
-            If edge.data.style Is Nothing Then
-                lineColor = New Pen(defaultEdgeColor, w)
-            Else
-                lineColor = New Pen(edge.data.style.Color, w) With {
-                    .DashStyle = edge.data.style.DashStyle
-                }
-            End If
-
-            With edge.data!interaction_type
-                If Not .IsNothing AndAlso edgeDashTypes.ContainsKey(.ByRef) Then
-                    lineColor.DashStyle = edgeDashTypes(.ByRef)
-                ElseIf edgeDashTypes.ContainsKey(edge.ID) Then
-                    lineColor.DashStyle = edgeDashTypes(edge.ID)
-                End If
-            End With
-
-            ' 在这里绘制的是节点之间相连接的边
-            Dim a = scalePos(n.label)
-            Dim b = scalePos(otherNode.label)
-            Dim edgeShadowColor As New Pen(Brushes.Gray) With {
-                .Width = lineColor.Width,
-                .DashStyle = lineColor.DashStyle
-            }
-            Dim draw = g.internalDrawEdgeLine(edgeShadowDistance, edgeShadowColor, lineColor)
-
-            Try
-                Dim bends As XYMetaHandle() = edge.data.bends.SafeQuery.ToArray
-                Dim isNan As Boolean = bends.Any(Function(bend) bend.isNaN)
-
-                If (Not isNan) AndAlso drawEdgeBends AndAlso Not bends.IsNullOrEmpty Then
-                    If bends.Length <> edge.data.bends.Length Then
-                        Call $"{edge.ID} removes {edge.data.bends.Length - bends.Length} bends points.".__DEBUG_ECHO
-                    End If
-
-                    If bends.Length = 1 Then
-                        Yield draw({a, b}, drawEdgeDirection)
-                    Else
-                        Dim segmentTuples = bends.SlideWindows(2).ToArray
-
-                        For i As Integer = 0 To segmentTuples.Length - 1
-                            Dim line As SlideWindow(Of XYMetaHandle) = segmentTuples(i)
-                            Dim pta = line(Scan0).GetPoint(a.X, a.Y, b.X, b.Y)
-                            Dim ptb = line(1).GetPoint(a.X, a.Y, b.X, b.Y)
-
-                            Yield draw({pta, ptb}, If(i = segmentTuples.Length - 1, drawEdgeDirection, False))
-                        Next
-                    End If
-                Else
-                    Yield draw({a, b}, drawEdgeDirection)
-                End If
-            Catch ex As Exception
-                Dim line As New Dictionary(Of String, String) From {
-                    {NameOf(a), $"[{a.X}, {a.Y}]"},
-                    {NameOf(b), $"[{b.X}, {b.Y}]"}
-                }
-
-                If throwEx Then
-                    Throw New Exception(line.GetJson, ex)
-                Else
-                    Call $"Ignore of this invalid line range: {line.GetJson}".Warning
-                End If
-            End Try
-        Next
-    End Function
-
-    <Extension>
-    Private Function internalDrawEdgeLine(g As IGraphics, edgeShadowDistance!, edgeShadowColor As Pen, lineColor As Pen) As Func(Of PointF(), Boolean, LayoutLabel)
-        Dim pt1, pt2 As PointF
-
-        Return Function(line, drawDir)
-                   If edgeShadowDistance <> 0 Then
-                       ' 绘制底层的阴影
-                       pt1 = line(0).OffSet2D(edgeShadowDistance, edgeShadowDistance)
-                       pt2 = line(1).OffSet2D(edgeShadowDistance, edgeShadowDistance)
-
-                       If drawDir Then
-                           edgeShadowColor.EndCap = LineCap.ArrowAnchor
-                       End If
-
-                       g.DrawLine(edgeShadowColor, pt1:=pt1, pt2:=pt2)
-                       edgeShadowColor.EndCap = LineCap.Flat
-                   End If
-
-                   If drawDir Then
-                       Dim bigArrow As New AdjustableArrowCap(4, 4)
-
-                       lineColor.CustomEndCap = bigArrow ' LineCap.ArrowAnchor
-                   End If
-
-                   ' 直接画一条直线
-                   g.DrawLine(lineColor, line(0), line(1))
-                   lineColor.EndCap = LineCap.Flat
-
-                   Return New LayoutLabel With {
-                       .anchor = New Anchor((line(Scan0).X + line(1).X) / 2, (line(Scan0).Y + line(1).Y) / 2, 5),
-                       .color = Nothing,
-                       .label = New Label(Nothing, .anchor, New Size(stdNum.Abs(line(Scan0).X - line(1).X), stdNum.Abs(line(Scan0).Y - line(1).Y))) With {
-                           .pinned = True
-                       },
-                       .node = Nothing,
-                       .shapeRectangle = .label.rectangle,
-                       .style = Nothing
-                   }
-               End Function
-    End Function
-
-    ''' <summary>
-    ''' 使用退火算法计算出节点标签文本的位置
-    ''' </summary>
-    ''' 
-    <Extension>
-    Private Sub drawLabels(g As IGraphics,
-                           labels As List(Of LayoutLabel),
-                           frameSize As Size,
-                           labelColorAsNodeColor As Boolean,
-                           iteration%,
-                           showLabelerProgress As Boolean,
-                           defaultLabelColorValue$,
-                           labelTextStrokeCSS$,
-                           getLabelColor As Func(Of Node, Color))
-        Dim br As Brush
-        Dim rect As Rectangle
-        Dim lx, ly As Single
-        Dim defaultLabelColor As New SolidBrush(defaultLabelColorValue.TranslateColor)
-        Dim labelTextStroke As Pen = Stroke.TryParse(labelTextStrokeCSS)
-        Dim color As Color
-
-        ' 小于等于零的时候表示不进行布局计算
-        If iteration > 0 Then
-            Call $"Do node label layouts, iteration={iteration}".__INFO_ECHO
-            Call d3js _
-                .labeler(maxMove:=1, maxAngle:=1, w_len:=1, w_inter:=2, w_lab2:=10, w_lab_anc:=10, w_orient:=2) _
-                .Anchors(labels.Select(Function(x) x.anchor)) _
-                .Labels(labels.Select(Function(x) x.label)) _
-                .Size(frameSize) _
-                .Start(nsweeps:=iteration, showProgress:=showLabelerProgress)
-        End If
-        If getLabelColor Is Nothing Then
-            getLabelColor = Function(node) Nothing
-        End If
-
-        For Each label As LayoutLabel In labels.Where(Function(a) Not a.color Is Nothing)
-            With label
-                If Not labelColorAsNodeColor Then
-                    color = getLabelColor(label.node)
-
-                    If color.IsEmpty Then
-                        br = defaultLabelColor
-                    Else
-                        br = New SolidBrush(color)
-                    End If
-                Else
-                    br = .color
-                    br = New SolidBrush(DirectCast(br, SolidBrush).Color.Darken(0.005))
-                End If
-
-                lx = .label.X
-                ly = .label.Y
-
-                If iteration > 0 Then
-                    If label.offsetDistance >= stdNum.Max(g.Size.Width, g.Size.Height) * 0.01 Then
-                        Call g.DrawLine(New Pen(Brushes.Gray, 10) With {.DashStyle = DashStyle.Dot}, label.anchor, label.GetTextAnchor)
-                    End If
-                End If
-
-                With g.MeasureString(.label.text, .style)
-                    If lx < 0 Then
-                        lx = 1
-                    ElseIf lx + .Width > frameSize.Width Then
-                        lx -= (lx + .Width - frameSize.Width) + 5
-                    End If
-
-                    If ly < 0 Then
-                        ly = 1
-                    ElseIf ly + .Height > frameSize.Height Then
-                        ly -= (ly + .Height - frameSize.Height) + 5
-                    End If
-
-                    rect = New Rectangle(lx, ly, .Width, .Height)
-                End With
-
-                Dim path As GraphicsPath = Imaging.GetStringPath(
-                    .label.text,
-                    g.DpiX,
-                    rect.OffSet2D(.style.Size / 5, 0).ToFloat,
-                    .style,
-                    StringFormat.GenericTypographic
-                )
-
-                If Not labelTextStroke Is Nothing Then
-                    ' 绘制轮廓（描边）
-                    Call g.DrawString(.label.text, .style, br, lx, ly)
-                    Call g.DrawPath(labelTextStroke, path)
-                Else
-                    Call WordWrap.DrawTextCentraAlign(g, .label, New PointF(lx, ly), br, .style)
-                End If
-            End With
-        Next
-    End Sub
 End Module

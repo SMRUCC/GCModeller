@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::db624dbf80fb266732c4201d0282b198, annotations\Proteomics\RSDPdensity.vb"
+﻿#Region "Microsoft.VisualBasic::793846cb5c4ec413ba1e95e5819106b4, annotations\Proteomics\RSDPdensity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 101 (73.72%)
+    ' Comment Lines: 24 (17.52%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 12 (8.76%)
+    '     File Size: 5.62 KB
+
+
     ' Module RSDPdensity
     ' 
     '     Function: RSDP, RSDPdensity
@@ -43,7 +55,7 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -51,8 +63,34 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-#If netcore5 = 0 Then
-Imports RDotNet.Extensions.VisualBasic.API
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
 #End If
 
 ''' <summary>
@@ -102,7 +140,7 @@ Public Module RSDPdensity
                                 Optional RSD# = 1,
                                 Optional lineStroke$ = "stroke: lightgray; stroke-width: 5px; stroke-dash: dash;") As GraphicsData
 
-        Call $"{NameOf(P_threshold)}={P_threshold}".__DEBUG_ECHO
+        Call $"{NameOf(P_threshold)}={P_threshold}".debug
 
         With points _
             .Where(Function(pt)
@@ -116,12 +154,13 @@ Public Module RSDPdensity
 
             Dim ticksX = .Select(Function(pt) CDbl(pt.X)).CreateAxisTicks.AsVector
             Dim ticksY = .Select(Function(pt) CDbl(pt.Y)).CreateAxisTicks.AsVector
+            Dim css As CSSEnvirnment = CSSEnvirnment.Empty(100)
 
             ' 分别绘制出P值和RSD值得临界值线
             ' P直线是横向的，即(0,P) (maxX,P)
             ' RSD线是竖向的，即(RSD,minY) (RSD, maxY)
             Dim P = P_threshold
-            Dim line As Pen = Stroke.TryParse(lineStroke).GDIObject
+            Dim line As Stroke = Stroke.TryParse(lineStroke)
             Dim xMax# = {1, ticksX.Max}.Max
 
             Dim Pa As New PointF(0!, P)

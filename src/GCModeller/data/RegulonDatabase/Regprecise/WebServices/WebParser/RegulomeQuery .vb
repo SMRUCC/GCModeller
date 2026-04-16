@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::912a61a533228d067b3ca7e649460edf, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulomeQuery .vb"
+﻿#Region "Microsoft.VisualBasic::584cdae46fff626ccf8d07345d661fc9, data\RegulonDatabase\Regprecise\WebServices\WebParser\RegulomeQuery .vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 64 (78.05%)
+    ' Comment Lines: 4 (4.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (17.07%)
+    '     File Size: 3.18 KB
+
 
     '     Class RegulomeQuery
     ' 
@@ -63,7 +75,7 @@ Namespace Regprecise
 
         Protected Overrides Function doParseUrl(context As String) As String
             Dim str$ = r.Match(context, "href="".+?"">.+?</a>").Value
-            Dim strUrl$ = "http://regprecise.lbl.gov/RegPrecise/" & str.href
+            Dim strUrl$ = "https://regprecise.lbl.gov/" & str.href
 
             Return strUrl
         End Function
@@ -114,7 +126,7 @@ Namespace Regprecise
             Dim left As Integer = InStr(strData, """>") + 2
             Dim Id As String = Mid(strData, left)
 
-            If String.IsNullOrEmpty(Trim(Id)) Then
+            If String.IsNullOrEmpty(Strings.Trim(Id)) Then
                 Return ""
             Else
                 Id = Mid(Id, 1, Len(Id) - 4)

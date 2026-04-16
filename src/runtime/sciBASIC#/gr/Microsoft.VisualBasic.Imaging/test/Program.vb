@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::459ce82c5dd9878666a540d01327dbc3, gr\Microsoft.VisualBasic.Imaging\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::fa41202b14f6f074b5e18129fe2e20e8, gr\Microsoft.VisualBasic.Imaging\test\Program.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 82 (51.25%)
+    ' Comment Lines: 21 (13.12%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 57 (35.62%)
+    '     File Size: 4.61 KB
+
+
     ' Module Program
     ' 
     '     Sub: ASCIIArt_test, Main, test3Dmodels
@@ -40,6 +52,10 @@
 #End Region
 
 Imports System.Drawing
+Imports System.Drawing.Drawing2D
+Imports System.Drawing.Text
+Imports Microsoft.VisualBasic.Drawing
+Imports Microsoft.VisualBasic.Drawing.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text.ASCIIArt
@@ -115,11 +131,12 @@ Module Program
 
     Sub Main()
 
+        Call hqx_test.Main1()
 
         Call ASCIIArt_test()
 
         Call test3Dmodels()
-        Call SVGTest.Test()
+        '  Call SVGTest.Test()
 
         Dim html As String = "
 <html>
@@ -145,12 +162,12 @@ log<sub>2</sub> ratio
         Using g As Graphics = Graphics.FromImage(bitmap)
 
             g.Clear(Color.White)
-            g.CompositingQuality = Drawing.Drawing2D.CompositingQuality.HighQuality
-            g.TextRenderingHint = Drawing.Text.TextRenderingHint.AntiAlias
+            g.CompositingQuality = CompositingQuality.HighQuality
+            g.TextRenderingHint = TextRenderingHint.AntiAlias
             Call g.Render(html, New PointF(10, 10), 500)
 
 
-            Call Microsoft.VisualBasic.Imaging.Drawing2D.Text.TextRender.RenderHTML(g, "<span style=""color:lime"">Green Color Text</span>", CSSFont.PlotTitle, New PointF(0, 200))
+            Call TextRender.RenderHTML(g, "<span style=""color:lime"">Green Color Text</span>", CSSFont.PlotTitle, New PointF(0, 200))
 
 
         End Using

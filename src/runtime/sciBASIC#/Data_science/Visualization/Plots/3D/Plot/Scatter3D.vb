@@ -1,46 +1,58 @@
-﻿#Region "Microsoft.VisualBasic::ce2544a5e72119eb8906f85cacab87be, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
+﻿#Region "Microsoft.VisualBasic::43d942565685591a3c68febe8dce21ec, Data_science\Visualization\Plots\3D\Plot\Scatter3D.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class Scatter3D
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: populateModels
-' 
-'         Sub: PlotInternal
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 157 (81.77%)
+    ' Comment Lines: 15 (7.81%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 20 (10.42%)
+    '     File Size: 7.79 KB
+
+
+    '     Class Scatter3D
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: populateModels
+    ' 
+    '         Sub: PlotInternal
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -59,6 +71,31 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Plot3D.Impl
 
@@ -81,7 +118,12 @@ Namespace Plot3D.Impl
         ''' <param name="hullAlpha">``[0, 255]``</param>
         ''' <param name="hullBspline"></param>
         ''' <param name="theme"></param>
-        Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$, showHull As Boolean, hullAlpha As Double, hullBspline As Single, theme As Theme)
+        Public Sub New(serials As IEnumerable(Of Serial3D), camera As Camera, arrowFactor$,
+                       showHull As Boolean,
+                       hullAlpha As Double,
+                       hullBspline As Single,
+                       theme As Theme)
+
             MyBase.New(theme)
 
             Me.serials = serials.ToArray
@@ -90,11 +132,9 @@ Namespace Plot3D.Impl
             Me.showHull = showHull
             Me.hullAlpha = hullAlpha
             Me.hullBspline = hullBspline
-
-            Call populateModels(100)
         End Sub
 
-        Private Iterator Function populateModels(ppi As Integer) As IEnumerable(Of Element3D)
+        Private Iterator Function populateModels(css As CSSEnvirnment) As IEnumerable(Of Element3D)
             Dim points As Point3D() = serials _
                 .Select(Function(s) s.Points.Values) _
                 .IteratesALL _
@@ -110,11 +150,12 @@ Namespace Plot3D.Impl
             End With
 
             ' 然后生成底部的网格
-            For Each line As Line In Grids.Grid1(X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
+            For Each line As Element3D In Grids.Grid1(css, X, Y, (X(1) - X(0), Y(1) - Y(0)), Z.Min)
                 Yield line
             Next
 
             For Each item As Element3D In AxisDraw.Axis(
+                    css,
                     xrange:=X, yrange:=Y, zrange:=Z,
                     labelFontCss:=theme.axisLabelCSS,
                     labels:=(xlabel, ylabel, zlabel),
@@ -168,8 +209,9 @@ Namespace Plot3D.Impl
                             }
                         End Function) _
                 .ToArray
-            Dim font As Font = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(g.Dpi)
-            Dim region As Rectangle = canvas.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim font As Font = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
+            Dim region As Rectangle = canvas.PlotRegion(css)
 
             ' 绘制图例？？
             Dim legendHeight! = (legends.Length * (font.Height + 5))
@@ -187,7 +229,7 @@ Namespace Plot3D.Impl
             Dim labelColor As New SolidBrush(theme.tagColor.TranslateColor)
 
             ' 要先绘制三维图形，要不然会将图例遮住的
-            Call populateModels(g.Dpi).RenderAs3DChart(
+            Call populateModels(css).RenderAs3DChart(
                 canvas:=g,
                 camera:=camera,
                 region:=canvas,

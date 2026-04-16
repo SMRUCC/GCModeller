@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97a8ba1406ac068eed28744e54a57846, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::2fec18e1aaa3da950cf65c5bc4f1b1b1, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 449
+    '    Code Lines: 262 (58.35%)
+    ' Comment Lines: 144 (32.07%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 43 (9.58%)
+    '     File Size: 18.05 KB
+
+
     ' Module VBDebugger
     ' 
     '     Properties: debugMode
     ' 
-    '     Function: die, LinqProc
+    '     Function: die, LinqProc, MapLevels
     '     Delegate Sub
     ' 
-    '         Properties: ForceSTDError, Mute, UsingxConsole
+    '         Properties: ForceSTDError, Mute
     ' 
-    '         Function: __DEBUG_ECHO, Assert, BENCHMARK, (+2 Overloads) PrintException, Warning
+    '         Function: Assert, benchmark, (+2 Overloads) PrintException, redirectWarning
     ' 
-    '         Sub: (+2 Overloads) __DEBUG_ECHO, __INFO_ECHO, (+3 Overloads) Assertion, AttachLoggingDriver, cat
-    '              (+3 Overloads) Echo, EchoLine, WaitOutput, WriteLine
+    '         Sub: [error], (+3 Overloads) Assertion, AttachLoggingDriver, cat, (+3 Overloads) debug
+    '              echo, (+3 Overloads) Echo, EchoLine, info, log
+    '              logging, WaitOutput, warning, WriteLine
     ' 
     ' 
     ' 
@@ -64,6 +77,10 @@ Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Language.Perl
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
+
+<Assembly: InternalsVisibleTo("REnv")>
+<Assembly: InternalsVisibleTo("R#")>
+<Assembly: InternalsVisibleTo("Microsoft.VisualBasic.Data.visualize.Network.Visualizer")>
 
 ''' <summary>
 ''' Debugger helper module for VisualBasic Enterprises System.
@@ -120,10 +137,23 @@ Public Module VBDebugger
     ''' 当前的调试器的信息输出登记，默认是输出所有的信息
     ''' </summary>
     Friend m_level As DebuggerLevels = DebuggerLevels.On
+
     ''' <summary>
     ''' 是否静默掉所有的调试器输出信息？默认不是
     ''' </summary>
     Friend m_mute As Boolean = False
+
+    Private Function MapLevels(level As MSG_TYPES) As DebuggerLevels
+        Select Case level
+            Case MSG_TYPES.DEBUG : Return DebuggerLevels.Debug
+            Case MSG_TYPES.ERR : Return DebuggerLevels.Error
+            Case MSG_TYPES.INF : Return DebuggerLevels.Info
+            Case MSG_TYPES.WRN : Return DebuggerLevels.Warning
+            Case MSG_TYPES.FINEST : Return DebuggerLevels.All
+            Case Else
+                Return DebuggerLevels.On
+        End Select
+    End Function
 
     ''' <summary>
     ''' 对外部开放的调试日志的获取接口类型的申明
@@ -167,79 +197,62 @@ Public Module VBDebugger
     ''' <param name="trace$"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function BENCHMARK(test As Action, <CallerMemberName> Optional trace$ = Nothing) As Long
-        Dim start = Now.ToLongTimeString
+    Public Function benchmark(test As Action, <CallerMemberName> Optional trace$ = Nothing) As Long
         Dim ms& = Utils.Time(test)
-        Dim end$ = Now.ToLongTimeString
-        Dim head$ = $"Benchmark `{ms.FormatTicks}` {start} - {[end]}"
-        Dim str$ = " " & $"{trace} -> {CStrSafe(test.Target, "null")}::{test.Method.Name}"
-
-        If Not My.Log4VB.redirectInfo Is Nothing Then
-            Call My.Log4VB.redirectInfo(head, str, MSG_TYPES.INF)
-        ElseIf Not Mute AndAlso m_level < DebuggerLevels.Warning Then
-            Call My.Log4VB.Print(head, str, ConsoleColor.Magenta, ConsoleColor.Magenta)
-        End If
-
+        Dim str$ = $"{trace} -> {CStrSafe(test.Target, "null")}::{test.Method.Name}"
+        Call log(str, "benchmark", AnsiColor.BrightMagenta, MSG_TYPES.INF, Mute, $" cost +{StringFormats.ReadableElapsedTime(TimeSpan.FromMilliseconds(ms))}")
         Return ms
     End Function
 
-    ''' <summary>
-    ''' Output the full debug information while the project is debugging in debug mode.
-    ''' (向标准终端和调试终端输出一些带有时间戳的调试信息)
-    ''' </summary>
-    ''' <param name="msg">
-    ''' The message fro output to the debugger console, this function will add a time 
-    ''' stamp automaticly To the leading position Of the message.
-    ''' </param>
-    ''' <param name="indent"></param>
-    ''' <param name="waitOutput">
-    ''' 等待调试器输出工作线程将内部的消息队列输出完毕
-    ''' </param>
-    ''' <returns>其实这个函数是不会返回任何东西的，只是因为为了Linq调试输出的需要，所以在这里是返回Nothing的</returns>
-    <Extension> Public Function __DEBUG_ECHO(msg$,
-                                             Optional indent% = 0,
-                                             Optional mute As Boolean = False,
-                                             Optional waitOutput As Boolean = False) As String
-        Static indents$() = {
-            "",
-            New String(" ", 1), New String(" ", 2), New String(" ", 3), New String(" ", 4),
-            New String(" ", 5), New String(" ", 6), New String(" ", 7), New String(" ", 8),
-            New String(" ", 9), New String(" ", 10)
-        }
-
-        If Not My.Log4VB.redirectDebug Is Nothing Then
-            Call My.Log4VB.redirectDebug($"{Now.ToString}", msg, MSG_TYPES.DEBUG)
-        ElseIf Not mute AndAlso Not VBDebugger.Mute AndAlso m_level < DebuggerLevels.Warning Then
-            Dim head As String = $"DEBUG {Now.ToString}"
-            Dim str As String = $"{indents(indent)} {msg}"
-
-            Call My.Log4VB.Print(head, str, ConsoleColor.White, MSG_TYPES.DEBUG)
-
-#If DEBUG Then
-            Call Debug.WriteLine($"[{head}]{str}")
-#End If
-        End If
-        If waitOutput Then
-            Call VBDebugger.WaitOutput()
-        End If
-
-        Return Nothing
+    Public Function redirectWarning() As Boolean
+        Return My.Log4VB.getLogger(MSG_TYPES.WRN) IsNot Nothing
     End Function
 
-    <Extension> Public Sub __INFO_ECHO(msg$, Optional silent As Boolean = False)
-        If Not My.Log4VB.redirectInfo Is Nothing Then
-            Call My.Log4VB.redirectInfo(Now.ToString, msg, MSG_TYPES.INF)
-        ElseIf Not Mute AndAlso m_level < DebuggerLevels.Warning Then
-            Dim head As String = $"INFOM {Now.ToString}"
-            Dim str As String = " " & msg
+    ''' <summary>
+    ''' Display the wraning level(YELLOW color) message on the console.
+    ''' </summary>
+    ''' <param name="msg"></param>
+    ''' <param name="mute"></param>
+    <Extension>
+    Public Sub warning(msg As String, Optional mute As Boolean = False)
+        Call log(msg, "warning", AnsiColor.BrightYellow, MSG_TYPES.WRN, mute, "")
+    End Sub
 
-            If Not silent Then
-                Call My.Log4VB.Print(head, str, ConsoleColor.White, MSG_TYPES.INF)
+    <Extension>
+    Public Sub debug(msg As String, Optional mute As Boolean = False)
+        Call log(msg, "debug", AnsiColor.Green, MSG_TYPES.DEBUG, mute, "")
+    End Sub
+
+    <Extension>
+    Public Sub info(msg As String, Optional mute As Boolean = False)
+        Call log(msg, "info", AnsiColor.BrightBlue, MSG_TYPES.INF, mute, "")
+    End Sub
+
+    <Extension>
+    Public Sub [error](msg As String, Optional mute As Boolean = False)
+        Call log(msg, "error", AnsiColor.Red, MSG_TYPES.ERR, mute, "")
+    End Sub
+
+    <Extension>
+    Public Sub logging(msg As String, Optional mute As Boolean = False)
+        Call log(msg, "log", AnsiColor.BrightWhite, MSG_TYPES.INF, mute, "")
+    End Sub
+
+    Public Sub log(msg As String, lv As String, color As AnsiColor, level As MSG_TYPES, mute As Boolean, tag As String)
+        Dim elapsed As TimeSpan = TimeSpan.FromMilliseconds(App.ElapsedMilliseconds)
+        Dim elapsedFormatted As String = StringFormats.Lanudry(elapsed)
+        Dim header As String = $"{lv}, {elapsedFormatted}{tag} - "
+        Dim log4vb As LoggingDriver = My.Log4VB.getLogger(level)
+
+        If log4vb IsNot Nothing Then
+            Call log4vb(header, msg, level)
+        ElseIf Not mute AndAlso Not VBDebugger.Mute AndAlso m_level <= MapLevels(level) Then
+            If Console.IsOutputRedirected OrElse Not App.EnableAnsiColor Then
+                ' just output the plain text
+                Call Console.WriteLine(header & msg)
+            Else
+                Call Console.WriteLine(New TextSpan(header & msg, color) & AnsiEscapeCodes.Reset)
             End If
-
-#If DEBUG Then
-            Call Debug.WriteLine($"[{head}]{str}")
-#End If
         End If
     End Sub
 
@@ -292,7 +305,7 @@ Public Module VBDebugger
                                    Optional enableRedirect As Boolean = True) As Boolean
 
         If My.Log4VB.redirectError Is Nothing OrElse Not enableRedirect Then
-            Return My.Log4VB.Print($"ERROR {Now.ToString}", $"<{memberName}>::{msg}", ConsoleColor.Red, MSG_TYPES.ERR)
+            Return My.Log4VB.Print($"ERROR {DateTime.UtcNow.ToString}", $"<{memberName}>::{msg}", ConsoleColor.Red, MSG_TYPES.ERR)
         Else
             Call My.Log4VB.redirectError(memberName, msg, MSG_TYPES.ERR)
             Return False
@@ -302,55 +315,39 @@ Public Module VBDebugger
     ''' <summary>
     ''' 等待调试器输出工作线程将内部的消息队列输出完毕
     ''' </summary>
+    ''' <remarks>
+    ''' ### 20230308
+    ''' 
+    ''' Do not combine of this method with the echo method
+    ''' in this <see cref="VBDebugger"/> module! Or a thread
+    ''' lock will be created and block the program running!
+    ''' 
+    ''' So i make this function access level from public to 
+    ''' friend.
+    ''' </remarks>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub WaitOutput()
         Call My.InnerQueue.WaitQueue()
     End Sub
 
     ''' <summary>
-    ''' 使用<see cref="xConsole"/>输出消息
+    ''' 输出的终端消息带有指定的终端颜色色彩
     ''' </summary>
-    ''' <returns></returns>
-    Public Property UsingxConsole As Boolean = False
-
-    ''' <summary>
-    ''' 输出的终端消息带有指定的终端颜色色彩，当<see cref="UsingxConsole"/>为True的时候，
-    ''' <paramref name="msg"/>参数之中的文本字符串兼容<see cref="xConsole"/>语法，
-    ''' 而<paramref name="color"/>将会被<see cref="xConsole"/>覆盖而不会起作用
-    ''' </summary>
-    ''' <param name="msg">兼容<see cref="xConsole"/>语法</param>
-    ''' <param name="color">当<see cref="UsingxConsole"/>参数为True的时候，这个函数参数将不会起作用</param>
-    ''' 
+    ''' <param name="msg"></param>
+    ''' <param name="color"></param>
+    ''' <remarks>
+    ''' works based on <see cref="My.Log4VB.redirectInfo"/>
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Sub WriteLine(msg$, color As ConsoleColor)
+    Public Sub WriteLine(msg$, Optional color As ConsoleColor = ConsoleColor.White)
         If Not My.redirectInfo Is Nothing Then
-            My.Log4VB.redirectInfo(Now.ToString, msg, MSG_TYPES.INF)
+            My.Log4VB.redirectInfo(DateTime.UtcNow.ToString, msg, MSG_TYPES.INF)
         Else
             My.Log4VB.Println(msg, color)
         End If
     End Sub
-
-    ''' <summary>
-    ''' Display the wraning level(YELLOW color) message on the console.
-    ''' </summary>
-    ''' <param name="msg"></param>
-    ''' <param name="calls"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function Warning(msg As String, <CallerMemberName> Optional calls As String = "") As String
-        If Not My.Log4VB.redirectWarning Is Nothing Then
-            Call My.Log4VB.redirectWarning(calls, msg, MSG_TYPES.WRN)
-        ElseIf Not Mute Then
-            Dim head As String = $"WARNG <{calls}> {Now.ToString}"
-
-            Call My.Log4VB.Print(head, " " & msg, ConsoleColor.Yellow, MSG_TYPES.DEBUG)
-#If DEBUG Then
-            Call Debug.WriteLine($"[{head}]{msg}")
-#End If
-        End If
-
-        Return Nothing
-    End Function
 
     ''' <summary>
     ''' If <paramref name="test"/> boolean value is False, then the assertion test failure. If the test is failure the specific message will be output on the console.
@@ -364,7 +361,7 @@ Public Module VBDebugger
         If Not test = True Then
             If level = MSG_TYPES.DEBUG Then
                 If m_level < DebuggerLevels.Warning Then
-                    Call fails.__DEBUG_ECHO(memberName:=calls)
+                    Call fails.debug
                 End If
             ElseIf level = MSG_TYPES.ERR Then
                 If m_level <> DebuggerLevels.Off Then
@@ -372,7 +369,7 @@ Public Module VBDebugger
                 End If
             ElseIf level = MSG_TYPES.WRN Then
                 If m_level <> DebuggerLevels.Error Then
-                    Call Warning(fails, calls)
+                    Call warning(fails, calls)
                 End If
             Else
                 If m_level < DebuggerLevels.Warning Then
@@ -403,27 +400,26 @@ Public Module VBDebugger
         Dim null = test Or die(message:=msg, caller:=calls)
     End Sub
 
-    Public Function Assert(test As Boolean,
-                           failed$,
+    Public Function Assert(test As Boolean, failed$,
                            Optional success$ = Nothing,
                            Optional failedLevel As MSG_TYPES = MSG_TYPES.ERR,
                            <CallerMemberName> Optional calls As String = "") As Boolean
         If test Then
             If Not String.IsNullOrEmpty(success) Then
-                Call success.__DEBUG_ECHO
+                Call success.debug
             End If
 
             Return True
         Else
             Select Case failedLevel
                 Case MSG_TYPES.DEBUG
-                    Call failed.__DEBUG_ECHO
+                    Call failed.debug
                 Case MSG_TYPES.ERR
                     Call failed.PrintException(calls)
                 Case MSG_TYPES.WRN
-                    Call failed.Warning(calls)
+                    Call failed.warning(calls)
                 Case Else
-                    Call failed.Echo(calls)
+                    Call failed.info
             End Select
 
             Return False
@@ -434,36 +430,61 @@ Public Module VBDebugger
     ''' Output the full debug information while the project is debugging in debug mode.
     ''' (向标准终端和调试终端输出一些带有时间戳的调试信息)
     ''' </summary>
-    ''' <param name="MSG">The message fro output to the debugger console, this function will add a time stamp automaticly To the leading position Of the message.</param>
+    ''' <param name="msg">The message fro output to the debugger console, this function will add a time stamp automaticly To the leading position Of the message.</param>
     ''' <param name="Indent"></param>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Sub __DEBUG_ECHO(MSG As StringBuilder, Optional Indent As Integer = 0)
-        Call MSG.ToString.__DEBUG_ECHO(Indent)
+    <Extension>
+    Public Sub debug(msg As StringBuilder, Optional indent As Integer = 0)
+        Call (New String(" ", indent) & msg.ToString).debug
     End Sub
 
-    <Extension> Public Sub __DEBUG_ECHO(Of T)(value As T, <CallerMemberName> Optional memberName As String = "")
-        Call ($"<{memberName}> {Scripting.InputHandler.ToString(value)}").__DEBUG_ECHO
+    <Extension>
+    Public Sub debug(Of T)(value As T, <CallerMemberName> Optional memberName As String = "")
+        Call ($"<{memberName}> {Scripting.InputHandler.ToString(value)}").debug
     End Sub
 
-    <Extension> Public Sub Echo(Of T)(array As IEnumerable(Of T), <CallerMemberName> Optional memberName As String = "")
-        Call String.Join(", ", array.Select(Function(obj) Scripting.ToString(obj)).ToArray).__DEBUG_ECHO
+    <Extension>
+    Public Sub echo(Of T)(array As IEnumerable(Of T))
+        Call array.SafeQuery.Select(Function(x) Scripting.ToString(x)).JoinBy(", ").debug
     End Sub
 
-    <Extension> Public Sub Echo(lines As IEnumerable(Of String))
+    <Extension>
+    Public Sub Echo(lines As IEnumerable(Of String))
         For Each line$ In lines
-            Call Console.WriteLine(line)
+            Call EchoLine(line)
         Next
     End Sub
 
     ''' <summary>
     ''' Alias for <see cref="Console.WriteLine"/>
     ''' </summary>
-    ''' <param name="s$"></param>
-    <Extension> Public Sub EchoLine(s$)
+    ''' <param name="s">the text content for write line</param>
+    ''' <remarks>
+    ''' works based on <see cref="My.Log4VB.redirectInfo"/>
+    ''' </remarks>
+    <Extension>
+    Public Sub EchoLine(s As String)
         If Not Mute Then
             Call My.InnerQueue.AddToQueue(
                 Sub()
-                    Call Console.WriteLine(s)
+                    Call WriteLine(s, ConsoleColor.White)
+                End Sub)
+        End If
+    End Sub
+
+    ''' <summary>
+    ''' wrapper for console.write
+    ''' </summary>
+    ''' <param name="str"></param>
+    Public Sub Echo(str As String)
+        If Not Mute Then
+            Call My.InnerQueue.AddToQueue(
+                Sub()
+                    If Not My.redirectInfo Is Nothing Then
+                        My.Log4VB.redirectInfo(DateTime.UtcNow.ToString, str & vbBack, MSG_TYPES.INF)
+                    Else
+                        My.Log4VB.Print(str, ConsoleColor.White)
+                    End If
                 End Sub)
         End If
     End Sub
@@ -472,7 +493,8 @@ Public Module VBDebugger
     ''' Alias for <see cref="Console.Write"/>
     ''' </summary>
     ''' <param name="c"></param>
-    <Extension> Public Sub Echo(c As Char)
+    <Extension>
+    Public Sub Echo(c As Char)
         If Not Mute Then
             Call Console.Write(c)
         End If

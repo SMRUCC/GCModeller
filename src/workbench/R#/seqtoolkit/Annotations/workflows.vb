@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70432bc564747dd6a463cd19693f5b65, R#\seqtoolkit\Annotations\workflows.vb"
+﻿#Region "Microsoft.VisualBasic::13e91d2e0f99be416b37d9fb18530b03, R#\seqtoolkit\Annotations\workflows.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 532
+    '    Code Lines: 399 (75.00%)
+    ' Comment Lines: 77 (14.47%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 56 (10.53%)
+    '     File Size: 24.80 KB
+
+
     ' Module workflows
     ' 
-    '     Function: ExportBBHHits, ExportSBHHits, FilterBesthitStream, flush, grepNames
-    '               openBlastReader, openWriter, parseBlastnMaps
+    '     Function: blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits, filter_low_level
+    '               FilterBesthitStream, flush, grepNames, openBlastReader, openWriter
+    '               parseBlastnMaps, read_bbhhits, read_besthits, read_m8, removeProteinSufifx
     ' 
-    '     Sub: writeStreamHelper
+    '     Sub: Main, writeStreamHelper
     ' 
     ' /********************************************************************************/
 
@@ -45,18 +58,25 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' A pipeline collection for proteins' biological function 
@@ -65,14 +85,47 @@ Imports REnv = SMRUCC.Rsharp.Runtime
 <Package("annotation.workflow", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 Module workflows
 
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BlastnMapping()), AddressOf blastn_table)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function blastn_table(blastn As BlastnMapping(), args As list, env As Environment) As Object
+        Dim tbl As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call tbl.add("query", From n As BlastnMapping In blastn Select n.ReadQuery)
+        Call tbl.add("reference", From n As BlastnMapping In blastn Select n.Reference)
+        Call tbl.add("query_len", From n As BlastnMapping In blastn Select n.QueryLength)
+        Call tbl.add("score(bits)", From n As BlastnMapping In blastn Select n.Score)
+        Call tbl.add("score(raw)", From n As BlastnMapping In blastn Select n.RawScore)
+        Call tbl.add("e-value", From n As BlastnMapping In blastn Select n.Evalue)
+        Call tbl.add("identities%", From n As BlastnMapping In blastn Select n.identitiesValue)
+        Call tbl.add("identities", From n As BlastnMapping In blastn Select n.IdentitiesFraction)
+        Call tbl.add("gaps%", From n As BlastnMapping In blastn Select n.gapsValue)
+        Call tbl.add("gaps", From n As BlastnMapping In blastn Select n.GapsFraction)
+        Call tbl.add("query_strand", From n As BlastnMapping In blastn Select n.QueryStrand)
+        Call tbl.add("reference_strand", From n As BlastnMapping In blastn Select n.ReferenceStrand)
+        Call tbl.add("strand", From n As BlastnMapping In blastn Select n.Strand)
+        Call tbl.add("query_left", From n As BlastnMapping In blastn Select n.QueryLeft)
+        Call tbl.add("query_right", From n As BlastnMapping In blastn Select n.QueryRight)
+        Call tbl.add("reference_left", From n As BlastnMapping In blastn Select n.ReferenceLeft)
+        Call tbl.add("reference_right", From n As BlastnMapping In blastn Select n.ReferenceRight)
+        Call tbl.add("is_unique", From n As BlastnMapping In blastn Select n.Unique)
+        Call tbl.add("is_full_len", From n As BlastnMapping In blastn Select n.AlignmentFullLength)
+        Call tbl.add("is_perfect", From n As BlastnMapping In blastn Select n.PerfectAlignment)
+
+        Return tbl
+    End Function
+
     ''' <summary>
     ''' Open the blast output text file for parse data result.
     ''' </summary>
     ''' <param name="file"></param>
     ''' <param name="type">``nucl`` or ``prot``</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
+    ''' <returns>a collection of the query hits result details</returns>
     <ExportAPI("read.blast")>
+    <RApiReturn(GetType(Query))>
     Public Function openBlastReader(file As String,
                                     Optional type As String = "nucl",
                                     Optional fastMode As Boolean = True,
@@ -83,11 +136,11 @@ Module workflows
         End If
 
         If LCase(type) = "nucl" Then
-            Return BlastPlus.TryParseUltraLarge(file).Queries.DoCall(AddressOf pipeline.CreateFromPopulator)
+            Return BlastPlus.TryParseUltraLarge(file).Queries.as_iterator
         ElseIf LCase(type) = "prot" Then
-            Return pipeline.CreateFromPopulator(BlastpOutputReader.RunParser(file, fast:=fastMode))
+            Return BlastpOutputReader.RunParser(file, fast:=fastMode).as_iterator
         Else
-            Return Internal.debug.stop($"invalid program type: {type}!", env)
+            Return RInternal.debug.stop($"invalid program type: {type}!", env)
         End If
     End Function
 
@@ -98,7 +151,10 @@ Module workflows
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("blastn.maphit")>
-    Public Function parseBlastnMaps(query As pipeline, Optional env As Environment = Nothing) As pipeline
+    <RApiReturn(GetType(BlastnMapping))>
+    Public Function parseBlastnMaps(query As pipeline,
+                                    Optional top_best As Boolean = False,
+                                    Optional env As Environment = Nothing) As pipeline
         If query Is Nothing Then
             Return Nothing
         ElseIf Not query.elementType Like GetType(Query) Then
@@ -106,14 +162,14 @@ Module workflows
         End If
 
         Return query.populates(Of Query)(env) _
-            .Export(parallel:=False) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+            .Export(parallel:=False, topBest:=top_best) _
+            .as_iterator
     End Function
 
     ''' <summary>
     ''' Export single side besthit
     ''' </summary>
-    ''' <param name="query"></param>
+    ''' <param name="query">the blast reader result from the ``read.blast`` iterator function.</param>
     ''' <param name="idetities"></param>
     ''' <param name="coverage"></param>
     ''' <param name="topBest"></param>
@@ -122,6 +178,7 @@ Module workflows
     ''' <returns></returns>
     <ExportAPI("blasthit.sbh")>
     <Extension>
+    <RApiReturn(GetType(BestHit))>
     Public Function ExportSBHHits(query As pipeline,
                                   Optional idetities As Double = 0.3,
                                   Optional coverage As Double = 0.5,
@@ -153,7 +210,7 @@ Module workflows
                             End Function
         End If
 
-        Return New pipeline(hitsPopulator().IteratesALL, GetType(BestHit))
+        Return hitsPopulator().IteratesALL.as_iterator
     End Function
 
     <ExportAPI("blasthit.bbh")>
@@ -175,6 +232,12 @@ Module workflows
             reverse = reverse.ExportSBHHits(env:=env)
             env.AddMessage($"Best hit result from raw query in reverse direction with default parameters.", MSG_TYPES.WRN)
         End If
+        If forward.elementType Like GetType(DiamondAnnotation) Then
+            forward = forward.populates(Of DiamondAnnotation)(env).Select(Function(a) a.GetSingleHit).as_iterator
+        End If
+        If reverse.elementType Like GetType(DiamondAnnotation) Then
+            reverse = reverse.populates(Of DiamondAnnotation)(env).Select(Function(a) a.GetSingleHit).as_iterator
+        End If
 
         If Not forward.elementType Like GetType(BestHit) Then
             Return REnv.Internal.debug.stop($"Invalid data type {forward.ToString} in forward direction for create bbh result!", env)
@@ -190,7 +253,7 @@ Module workflows
                         qvs:=forward.populates(Of BestHit)(env),
                         svq:=reverse.populates(Of BestHit)(env)
                     ) _
-                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    .as_iterator
 
             Case BBHAlgorithm.BHR
                 Throw New NotImplementedException
@@ -199,12 +262,36 @@ Module workflows
             Case BBHAlgorithm.HybridBHR
                 Return FastMatch _
                     .BinaryMatch(forward.populates(Of BestHit)(env), reverse.populates(Of BestHit)(env)) _
-                    .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    .as_iterator
             Case Else
                 Return REnv.Internal.debug.stop("invalid algorithm supports!", env)
         End Select
 
         Return REnv.Internal.debug.stop(New NotImplementedException, env)
+    End Function
+
+    ''' <summary>
+    ''' removes protein suffix id
+    ''' </summary>
+    ''' <param name="hits"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("remove_protein_suffix")>
+    Public Function removeProteinSufifx(<RRawVectorArgument> hits As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of I_BlastQueryHit)(hits, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim cleanup As IEnumerable = pull.populates(Of I_BlastQueryHit)(env) _
+            .Select(Function(hit)
+                        hit.QueryName = HeaderFormats.TrimAccessionVersion(hit.QueryName)
+                        hit.HitName = HeaderFormats.TrimAccessionVersion(hit.HitName)
+                        Return hit
+                    End Function)
+
+        Return New CLRIterator(cleanup, pull.elementType.GetRawElementType)
     End Function
 
     <ExportAPI("grep.names")>
@@ -249,21 +336,32 @@ Module workflows
                              End Function
         End If
 
-        Return New pipeline(queryPopulator(), GetType(Query))
+        Return queryPopulator().as_iterator
     End Function
 
+    ''' <summary>
+    ''' Save the annotation rawdata into the given stream file.
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <param name="stream">
+    ''' a stream data handler that generated via the ``open.stream`` function.
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("stream.flush")>
     Public Function flush(data As pipeline, stream As Object, Optional env As Environment = Nothing) As Object
         If stream Is Nothing Then
-            Return Internal.debug.stop("No output stream device!", env)
+            Return RInternal.debug.stop("No output stream device!", env)
         ElseIf data Is Nothing Then
-            Return Internal.debug.stop("No content data provided!", env)
+            Return RInternal.debug.stop("No content data provided!", env)
         ElseIf data.elementType Like GetType(BestHit) AndAlso Not TypeOf stream Is WriteStream(Of BestHit) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         ElseIf data.elementType Like GetType(BiDirectionalBesthit) AndAlso Not TypeOf stream Is WriteStream(Of BiDirectionalBesthit) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         ElseIf data.elementType Like GetType(BlastnMapping) AndAlso Not TypeOf stream Is WriteStream(Of BlastnMapping) Then
-            Return Internal.debug.stop("Unmatched stream device with the incoming data type!", env)
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
+        ElseIf data.elementType Like GetType(RankTerm) AndAlso Not TypeOf stream Is WriteStream(Of RankTerm) Then
+            Return RInternal.debug.stop("Unmatched stream device with the incoming data type!", env)
         End If
 
         Select Case data.elementType.raw
@@ -273,8 +371,10 @@ Module workflows
                 Call writeStreamHelper(Of BiDirectionalBesthit)(stream, data, env)
             Case GetType(BlastnMapping)
                 Call writeStreamHelper(Of BlastnMapping)(stream, data, env)
+            Case GetType(RankTerm)
+                Call writeStreamHelper(Of RankTerm)(stream, data, env)
             Case Else
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
         End Select
 
         Return True
@@ -290,9 +390,19 @@ Module workflows
         End With
     End Sub
 
-    <ExportAPI("besthit.filter")>
+    ''' <summary>
+    ''' make filter of the blast best hits via the given parameter combinations
+    ''' </summary>
+    ''' <param name="besthits">is a collection of the blastp/blastn parsed result: <see cref="BestHit"/></param>
+    ''' <param name="evalue">new cutoff value of the evalue for make filter of the given hits collection</param>
+    ''' <param name="delNohits">removes ``HITS_NOT_FOUND``? default is yes.</param>
+    ''' <param name="pickTop">pick the top one hit for each query group?</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("besthit_filter")>
     Public Function FilterBesthitStream(besthits As pipeline,
-                                        Optional evalue# = 0.00001,
+                                        Optional evalue As Double? = Nothing,
+                                        Optional identities As Double? = Nothing,
                                         Optional delNohits As Boolean = True,
                                         Optional pickTop As Boolean = False,
                                         Optional env As Environment = Nothing) As pipeline
@@ -302,13 +412,21 @@ Module workflows
             Return REnv.Internal.debug.stop($"could not handle the stream data: {besthits.elementType.fullName}", env)
         End If
 
+        Dim filter_identities As Boolean = Not identities Is Nothing
+        Dim filter_evalue As Boolean = Not evalue Is Nothing
         Dim filter As Func(Of BestHit, Boolean) =
             Function(hit)
                 If delNohits AndAlso hit.HitName = "HITS_NOT_FOUND" Then
                     Return False
-                Else
-                    Return hit.evalue <= evalue
                 End If
+                If filter_identities AndAlso hit.identities < identities.Value Then
+                    Return False
+                End If
+                If filter_evalue AndAlso hit.evalue > evalue.Value Then
+                    Return False
+                End If
+
+                Return True
             End Function
         Dim stream As IEnumerable(Of BestHit) = besthits _
             .populates(Of BestHit)(env) _
@@ -322,10 +440,47 @@ Module workflows
                                 .OrderByDescending(Function(hit) hit.score) _
                                 .First
                         End Function) _
-                .DoCall(AddressOf pipeline.CreateFromPopulator)
+                .as_iterator
         Else
             Return pipeline.CreateFromPopulator(stream)
         End If
+    End Function
+
+    <ExportAPI("filter_low_level")>
+    Public Function filter_low_level(<RRawVectorArgument> bbh As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BiDirectionalBesthit)(bbh, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return New CLRIterator(From hit As BiDirectionalBesthit
+                               In pull.populates(Of BiDirectionalBesthit)(env)
+                               Where hit.level <> Levels.NA AndAlso hit.level <> Levels.SBH, GetType(BiDirectionalBesthit))
+    End Function
+
+    ''' <summary>
+    ''' read the hits data in pipeline stream style
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="encoding"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.besthits")>
+    <RApiReturn(GetType(BestHit))>
+    Public Function read_besthits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
+        Return file _
+            .OpenHandle(encoding.CodePage) _
+            .AsLinq(Of BestHit) _
+            .as_iterator
+    End Function
+
+    <ExportAPI("read.bbh_hits")>
+    <RApiReturn(GetType(BiDirectionalBesthit))>
+    Public Function read_bbhhits(file As String, Optional encoding As Encodings = Encodings.ASCII) As Object
+        Return file _
+            .OpenHandle(encoding.CodePage) _
+            .AsLinq(Of BiDirectionalBesthit) _
+            .as_iterator
     End Function
 
     ''' <summary>
@@ -345,10 +500,7 @@ Module workflows
         Select Case type
             Case TableTypes.SBH
                 If ioRead Then
-                    Return file _
-                        .OpenHandle(encoding.CodePage) _
-                        .AsLinq(Of BestHit) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                    Return read_besthits(file, encoding)
                 Else
                     Return New WriteStream(Of BestHit)(file, encoding:=encoding)
                 End If
@@ -357,21 +509,81 @@ Module workflows
                     Return file _
                         .OpenHandle(encoding.CodePage) _
                         .AsLinq(Of BiDirectionalBesthit) _
-                        .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .as_iterator
                 Else
                     Return New WriteStream(Of BiDirectionalBesthit)(file, encoding:=encoding)
                 End If
             Case TableTypes.Mapping
                 If ioRead Then
                     Return file _
-                       .OpenHandle(encoding.CodePage) _
-                       .AsLinq(Of BlastnMapping) _
-                       .DoCall(AddressOf pipeline.CreateFromPopulator)
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of BlastnMapping) _
+                        .as_iterator
                 Else
                     Return New WriteStream(Of BlastnMapping)(file, encoding:=encoding, metaKeys:={})
+                End If
+            Case TableTypes.Terms
+                If ioRead Then
+                    Return file _
+                        .OpenHandle(encoding.CodePage) _
+                        .AsLinq(Of RankTerm) _
+                        .as_iterator
+                Else
+                    Return New WriteStream(Of RankTerm)(file, encoding:=encoding, metaKeys:={})
                 End If
             Case Else
                 Return REnv.Internal.debug.stop($"Invalid stream formatter: {type.ToString}", env)
         End Select
+    End Function
+
+    ''' <summary>
+    ''' read the diamond m8 annotation table file output
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="stream"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_m8")>
+    <RApiReturn(GetType(DiamondAnnotation))>
+    Public Function read_m8(file As String,
+                            Optional stream As Boolean = False,
+                            Optional filter As String = "unknown") As Object
+
+        Dim source As IEnumerable(Of DiamondAnnotation) = DiamondM8Parser.ParseFile(file)
+        Dim output As IEnumerable(Of DiamondAnnotation)
+
+        If Not filter.StringEmpty Then
+            output = From a As DiamondAnnotation
+                     In source
+                     Where a.QseqId <> filter AndAlso
+                         a.SseqId <> filter
+        Else
+            output = source
+        End If
+
+        If stream Then
+            Return output.as_iterator
+        Else
+            Return output.ToArray
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Make query group and convert to alignment hit collection
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("diamond_hitgroups")>
+    <RApiReturn(GetType(HitCollection))>
+    Public Function diamond_hitgroups(<RRawVectorArgument> x As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of DiamondAnnotation)(x, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of DiamondAnnotation)(env) _
+            .HitCollection _
+            .ToArray
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa5c4618e31015f57921880ffe4cac76, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Arrow.vb"
+﻿#Region "Microsoft.VisualBasic::bcccbb57197eddc0f0112c9414be3a2b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shapes\Arrow.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 80 (57.97%)
+    ' Comment Lines: 41 (29.71%)
+    '    - Xml Docs: 95.12%
+    ' 
+    '   Blank Lines: 17 (12.32%)
+    '     File Size: 5.60 KB
+
 
     '     Class Arrow
     ' 
@@ -67,7 +79,7 @@ Namespace Drawing2D.Shapes
         Public Property BodyHeightPercentage As Single = 0.85
 
         Public Property Color As Color
-        Public Property BodySize As Size
+        Public Property BodySize As SizeF
         Public Property DirectionLeft As Boolean
 
         ''' <summary>
@@ -84,26 +96,33 @@ Namespace Drawing2D.Shapes
 
         Sub New(source As Arrow)
             Call MyBase.New(source.Location)
-            Call Microsoft.VisualBasic.Serialization.ShadowCopy(source, Me)
+
+            Me.BodyHeightPercentage = source.BodyHeightPercentage
+            Me.BodySize = source.BodySize
+            Me.Color = source.Color
+            Me.DirectionLeft = source.DirectionLeft
+            Me.EnableAutoLayout = source.EnableAutoLayout
+            Me.HeadLengthPercentage = source.HeadLengthPercentage
+            Me.TooltipTag = source.TooltipTag
         End Sub
 
         ''' <summary>
         ''' 返回图形上面的绘图的大小，而非箭头本身的大小
         ''' </summary>
         ''' <returns></returns>
-        Public Overrides ReadOnly Property Size As Size
+        Public Overrides ReadOnly Property Size As SizeF
             Get
                 Return BodySize
             End Get
         End Property
 
-        Protected ReadOnly Property HeadLength As Integer
+        Protected ReadOnly Property HeadLength As Single
             Get
                 Return HeadLengthPercentage * BodySize.Width
             End Get
         End Property
 
-        Protected ReadOnly Property HeadSemiHeight As Integer
+        Protected ReadOnly Property HeadSemiHeight As Single
             Get
                 Return (BodySize.Height * (1 - BodyHeightPercentage)) / 2
             End Get
@@ -113,7 +132,7 @@ Namespace Drawing2D.Shapes
         ''' 忽略了箭头的方向，本箭头对象存粹的在进行图形绘制的时候的左右的位置
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Left As Integer
+        Public ReadOnly Property Left As Single
             Get
                 Return {Location.X, Location.X + If(Not DirectionLeft, 1, -1) * BodySize.Width}.Min
             End Get
@@ -122,7 +141,7 @@ Namespace Drawing2D.Shapes
         ''' 忽略了箭头的方向，本箭头对象存粹的在进行图形绘制的时候的左右的位置
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Right As Integer
+        Public ReadOnly Property Right As Single
             Get
                 Return {Location.X, Location.X + If(Not DirectionLeft, 1, -1) * BodySize.Width}.Max
             End Get
@@ -139,24 +158,24 @@ Namespace Drawing2D.Shapes
         '''  \|-----
         ''' </summary>
         Public Overrides Function Draw(ByRef g As IGraphics, Optional overridesLoci As Point = Nothing) As RectangleF
-            Dim Path As New GraphicsPath
-            Dim Direction As Integer = If(DirectionLeft, 1, -1)
+            Dim path As New GraphicsPath
+            Dim direction As Integer = If(DirectionLeft, 1, -1)
             Dim Top As Integer = Me.Location.Y - BodySize.Height / 2
             Dim Left = Me.Location.X
-            Dim Right = Left + Direction * BodySize.Width
+            Dim Right = Left + direction * BodySize.Width
             Dim Bottom = Top + BodySize.Height
             Dim prePoint As New Value(Of Point)
 
-            Call Path.AddLine(Me.Location, prePoint = New Point(Left + Direction * HeadLength, Top))                        '/
-            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Top + HeadSemiHeight))    ' |
-            Call Path.AddLine(prePoint.Value, prePoint = New Point(Right, Top + HeadSemiHeight))                            '  ----
-            Call Path.AddLine(prePoint.Value, prePoint = New Point(Right, Bottom - HeadSemiHeight))                         '      |
-            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Bottom - HeadSemiHeight)) '  ----
-            Call Path.AddLine(prePoint.Value, prePoint = New Point(Left + Direction * HeadLength, Bottom))                  ' |
-            Call Path.AddLine(prePoint.Value, Me.Location)                                                                  '\
-            Call Path.CloseFigure()
+            Call path.AddLine(Me.Location, prePoint = New Point(Left + direction * HeadLength, Top))                        '/
+            Call path.AddLine(prePoint.Value, prePoint = New Point(Left + direction * HeadLength, Top + HeadSemiHeight))    ' |
+            Call path.AddLine(prePoint.Value, prePoint = New Point(Right, Top + HeadSemiHeight))                            '  ----
+            Call path.AddLine(prePoint.Value, prePoint = New Point(Right, Bottom - HeadSemiHeight))                         '      |
+            Call path.AddLine(prePoint.Value, prePoint = New Point(Left + direction * HeadLength, Bottom - HeadSemiHeight)) '  ----
+            Call path.AddLine(prePoint.Value, prePoint = New Point(Left + direction * HeadLength, Bottom))                  ' |
+            Call path.AddLine(prePoint.Value, Me.Location)                                                                  '\
+            Call path.CloseFigure()
 
-            Call g.FillPath(New SolidBrush(Me.Color), Path)
+            Call g.FillPath(New SolidBrush(Me.Color), path)
 
             Return Nothing
         End Function

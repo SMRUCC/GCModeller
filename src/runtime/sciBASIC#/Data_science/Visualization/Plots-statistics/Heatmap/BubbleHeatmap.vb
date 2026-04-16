@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22afb8241ac9d9123c05d5adf563c642, Data_science\Visualization\Plots-statistics\Heatmap\BubbleHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::5cdfcb823c5c010fdb600204a27cd8d4, Data_science\Visualization\Plots-statistics\HeatMap\BubbleHeatmap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 41 (75.93%)
+    ' Comment Lines: 5 (9.26%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 2.26 KB
+
+
     '     Module BubbleHeatmap
     ' 
     '         Function: Plot
@@ -42,14 +54,15 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Heatmap
 
@@ -74,13 +87,13 @@ Namespace Heatmap
             Dim columnNames$() = dataMatrix.PropertyNames
             Dim nrows = dataMatrix.Length
             Dim ncols = dataMatrix(Scan0).Properties.Count
-            Dim valueRanges As DoubleRange()
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim plotRegion As Rectangle = region.PlotRegion
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim plotRegion As Rectangle = region.PlotRegion(css)
                     ' 应该是正方形的
-                    Dim maxRadius = stdNum.Min(plotRegion.Width / ncols, plotRegion.Height / nrows)
+                    Dim maxRadius = std.Min(plotRegion.Width / ncols, plotRegion.Height / nrows)
 
                 End Sub
 

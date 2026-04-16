@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::50f8f97448d02fff9f74ecdf7e62bb2a, Data_science\Graph\Analysis\Louvain\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::8615a2aa78b17622744db8a47b44baba, Data_science\Graph\Analysis\Louvain\Builder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 86 (76.11%)
+    ' Comment Lines: 3 (2.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (21.24%)
+    '     File Size: 4.30 KB
+
+
     '     Class Builder
     ' 
     '         Function: Load
@@ -44,7 +56,6 @@
 
 Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
 
 Namespace Analysis.Louvain
 
@@ -65,10 +76,15 @@ Namespace Analysis.Louvain
             global_edge(global_top).v = v
             global_edge(global_top).weight = weight
             global_edge(global_top).next = global_head(u)
-            global_head(u) = stdNum.Min(Threading.Interlocked.Increment(global_top), global_top - 1)
+            global_head(u) = global_top
+            global_top += 1
         End Sub
 
-        Friend Overridable Sub addEdge(ByRef louvain As LouvainCommunity, u As Integer, v As Integer, weight As Double)
+        Friend Overridable Sub addEdge(ByRef louvain As LouvainCommunity,
+                                       u As Integer,
+                                       v As Integer,
+                                       weight As Double)
+
             If louvain.edge(louvain.top) Is Nothing Then
                 louvain.edge(louvain.top) = New Edge()
             End If
@@ -76,11 +92,14 @@ Namespace Analysis.Louvain
             louvain.edge(louvain.top).v = v
             louvain.edge(louvain.top).weight = weight
             louvain.edge(louvain.top).next = louvain.head(u)
-            louvain.head(u) = stdNum.Min(Threading.Interlocked.Increment(louvain.top), louvain.top - 1)
+            louvain.head(u) = louvain.top
+            louvain.top += 1
         End Sub
 
-        Public Shared Function Load(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})(g As NetworkGraph(Of Node, Edge)) As LouvainCommunity
-            Dim louvain As New LouvainCommunity With {
+        Public Shared Function Load(Of Node As {New, Network.Node},
+                                       Edge As {New, Network.Edge(Of Node)})(g As NetworkGraph(Of Node, Edge), Optional eps As Double = 0.00000001) As LouvainCommunity
+
+            Dim louvain As New LouvainCommunity(eps:=eps) With {
                 .n = g.size.vertex,
                 .global_n = .n,
                 .m = g.size.edges * 2,
@@ -97,13 +116,13 @@ Namespace Analysis.Louvain
             builder.global_edge = New Louvain.Edge(louvain.m - 1) {}
             builder.global_head = New Integer(louvain.n - 1) {}
 
-            For i = 0 To louvain.n - 1
+            For i As Integer = 0 To louvain.n - 1
                 builder.global_head(i) = -1
             Next
 
             louvain.global_cluster = New Integer(louvain.n - 1) {}
 
-            For i = 0 To louvain.global_n - 1
+            For i As Integer = 0 To louvain.global_n - 1
                 louvain.global_cluster(i) = i
             Next
 
@@ -115,7 +134,11 @@ Namespace Analysis.Louvain
             Return louvain
         End Function
 
-        Private Shared Sub loadGraphMatrix(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})(ByRef louvain As LouvainCommunity, builder As Builder, g As NetworkGraph(Of Node, Edge))
+        Private Shared Sub loadGraphMatrix(Of Node As {New, Network.Node},
+                                              Edge As {New, Network.Edge(Of Node)})(ByRef louvain As LouvainCommunity,
+                                                                                    builder As Builder,
+                                                                                    g As NetworkGraph(Of Node, Edge))
+
             Dim hasWeight As Boolean = g.graphEdges.Any(Function(l) l.weight <> 0.0)
 
             For Each link As Edge In g.graphEdges

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::54a185b8235382c769fadb1bed250095, Microsoft.VisualBasic.Core\src\Extensions\Doc\LargeTextFile.vb"
+﻿#Region "Microsoft.VisualBasic::d650c537d0aac3c0200c949afbc67388, Microsoft.VisualBasic.Core\src\Extensions\Doc\LargeTextFile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 98 (48.04%)
+    ' Comment Lines: 80 (39.22%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 26 (12.75%)
+    '     File Size: 7.97 KB
+
+
     ' Module LargeTextFile
     ' 
     '     Function: FixEscapes, GetLastLine, IteratesStream, IteratesTableData, Merge
@@ -45,14 +57,15 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' Wrapper for the file operations.
 ''' </summary>
 ''' <remarks></remarks>
-<[Namespace]("Large_Text_File")>
 Public Module LargeTextFile
 
     ''' <summary>
@@ -76,23 +89,25 @@ Public Module LargeTextFile
     End Function
 
     ''' <summary>
-    ''' Iterates read all lines in a very large text file, using for loading a very large size csv/tsv file
+    ''' Iterates read all lines in a very large text file, 
+    ''' using for loading a very large size csv/tsv file
     ''' </summary>
-    ''' <param name="path$">file path</param>
-    ''' <param name="title$">The header line of this large size csv/tsv file.</param>
-    ''' <param name="skip%">Skip n lines, then start to populate data lines.</param>
+    ''' <param name="path">file path</param>
+    ''' <param name="title">The header line of this large size csv/tsv file.</param>
+    ''' <param name="skip">Skip n lines, then start to populate data lines.</param>
     ''' <param name="encoding">Text file encoding.</param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' A helper function for read the csv/tsv table file
+    ''' </remarks>
     <Extension>
     Public Function IteratesTableData(path$, ByRef title$, Optional skip% = -1, Optional encoding As Encodings = Encodings.ASCII) As IEnumerable(Of String)
         Using reader As StreamReader = path.OpenReader(encoding.CodePage)
-            Dim i% = skip
-
-            ' skip lines
-            Do While i > 0
-                reader.ReadLine()
-                i -= 1
-            Loop
+            For i As Integer = 1 To skip
+                ' read line and discard the data
+                ' implements the skip lines action
+                Call reader.ReadLine()
+            Next
 
             title = reader.ReadLine
 
@@ -101,14 +116,19 @@ Public Module LargeTextFile
     End Function
 
     ''' <summary>
-    ''' Populate all lines of the text data from current stream reader object
+    ''' Populate all lines of the text data from current 
+    ''' stream reader object
     ''' </summary>
-    ''' <param name="s"></param>
-    ''' <returns></returns>
+    ''' <param name="s">The stream connection to the target text file data resource.</param>
+    ''' <returns>
+    ''' Try to pull all text lines from the given text stream data
+    ''' </returns>
     <Extension>
     Public Iterator Function IteratesStream(s As StreamReader) As IEnumerable(Of String)
-        Do While Not s.EndOfStream
-            Yield s.ReadLine
+        Dim line As Value(Of String) = ""
+
+        Do While (line = s.ReadLine) IsNot Nothing
+            Yield CStr(line)
         Loop
     End Function
 

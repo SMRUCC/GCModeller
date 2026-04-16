@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 5
+    '    Code Lines: 5 (100.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 0 (0.00%)
+    '     File Size: 77 B
+
+
     ' Enum DataType
     ' 
     '     Correlation, Distance, Similarity

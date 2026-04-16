@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 59 (67.05%)
+    ' Comment Lines: 8 (9.09%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 21 (23.86%)
+    '     File Size: 2.37 KB
+
+
     ' Class CostFunction
     ' 
     '     Properties: mN

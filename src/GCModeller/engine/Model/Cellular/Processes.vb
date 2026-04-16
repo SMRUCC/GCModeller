@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4afeab892559a058bc05d7edc4f2a8f4, engine\Model\Cellular\Processes.vb"
+﻿#Region "Microsoft.VisualBasic::e3b8133b516f463052e5e3d37909182a, engine\Model\Cellular\Processes.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 7 (30.43%)
+    ' Comment Lines: 15 (65.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 1 (4.35%)
+    '     File Size: 600 B
+
+
     '     Enum Processes
     ' 
     '         MetabolicProcess, Transcription, Translation
@@ -47,8 +59,11 @@
 Namespace Cellular
 
     ''' <summary>
-    ''' 过程类型
+    ''' The enumeration of all biological process category.
     ''' </summary>
+    ''' <remarks>
+    ''' (枚举出所有生物学过程类型信息)
+    ''' </remarks>
     Public Enum Processes
         ''' <summary>
         ''' 转录过程

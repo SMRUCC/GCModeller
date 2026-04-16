@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31ffb644857677a13624e85fbba9654e, gr\Microsoft.VisualBasic.Imaging\test\imageSmoothTest.vb"
+﻿#Region "Microsoft.VisualBasic::cd7b11be8104964a93926a54466fb9a1, gr\Microsoft.VisualBasic.Imaging\test\imageSmoothTest.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,38 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 34 (69.39%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (30.61%)
+    '     File Size: 2.09 KB
+
+
     ' Module imageSmoothTest
     ' 
-    '     Sub: Main
+    '     Sub: gaussBlurTest, Main1
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Filters
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Drawing
 
 Module imageSmoothTest
 
-    Sub Main()
+    Sub Main1()
+
+        Call gaussBlurTest()
+
         Dim bitmap1 = "E:\mzkit\DATA\test\imzML\s042_229_continuous_large.png".LoadImage
         Dim bitmap2 = New GaussianSmooth(k:=250).Smooth(bitmap1)
 
@@ -67,5 +84,19 @@ Module imageSmoothTest
         Call New Matrix(GaussBlur.GaussBlur(bitmap1)).GetSmoothBitmap(Matrix2DFilters.Mean).SaveAs("E:\Resources\a.htm222l_Gauss+mean.png")
         Call New Matrix(GaussBlur.GaussBlur(bitmap1)).GetSmoothBitmap(Matrix2DFilters.Min).SaveAs("E:\Resources\a.htm222l_Gauss+min.png")
         Call New Matrix(GaussBlur.GaussBlur(bitmap1)).GetSmoothBitmap(Matrix2DFilters.Max).SaveAs("E:\Resources\a.htm222l_Gauss+max.png")
+    End Sub
+
+    Sub gaussBlurTest()
+        Dim large = "F:\184.9301.png".LoadImage
+        Dim blur As Bitmap = New Bitmap(large)
+
+        For i As Integer = 0 To 20
+            blur = GaussBlur.GaussBlur(blur)
+            Console.WriteLine(i)
+        Next
+
+        Call blur.SaveAs("F:\blur.png")
+
+        Pause()
     End Sub
 End Module

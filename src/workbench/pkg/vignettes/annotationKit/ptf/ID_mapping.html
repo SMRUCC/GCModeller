@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>do id mapping via the protein annotation cache</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ID_mapping {ptf}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>do id mapping via the protein annotation cache</h2>
+
+        <h3>Description</h3>
+
+        
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ID_mapping</strong>(<i>proteins</i>, <i>from</i>, <i>mapTo</i>,
+    <i>id</i> = <span style='color: blue !important;'>NULL</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>proteins</dt>
+<dd><p>the protein annotation data. [as <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Ptf/ProteinAnnotation.html">ProteinAnnotation</a>]</p></dd>
+
+
+<dt>id</dt>
+<dd><p>a character vector that will be do mapping,
+ this parameter will make id subset of the id mapping result,
+ nothing means no subset. [as string]</p></dd>
+
+
+<dt>mapTo</dt>
+<dd><p>external xrefs database name that the id will mapping to. [as string]</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        annotationKit
+
+        <h3>Value</h3>
+
+        <p>A character vector of the mapping result id set, 
+ unmapped id will be leaves blank in this result.</p><h4>clr value class</h4><ul><li>list</li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>ptf</em> version 1.0.0.0 <a
+                href="../ptf.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a591e45dcc98adcab22fca36e032fae5, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\UnixLibraryLoader.vb"
+﻿#Region "Microsoft.VisualBasic::94e9d675d53833b395d86af2ab3aba1d, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\UnixLibraryLoader.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 52 (58.43%)
+    ' Comment Lines: 21 (23.60%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 16 (17.98%)
+    '     File Size: 4.09 KB
+
+
     '     Class UnixLibraryLoader
     ' 
     '         Function: dlclose, dlerror, dlopen, dlsym, FreeLibrary
     '                   GetFunctionAddress, GetLastError, getSearchPaths, InternalLoadLibrary, LoadLibrary
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,10 +62,16 @@ Imports System.Security.Permissions
 Namespace ApplicationServices.DynamicInterop
 
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
-    Friend Class UnixLibraryLoader : Implements IDynamicLibraryLoader
+    Public Class UnixLibraryLoader : Implements IDynamicLibraryLoader
+
+        Public Const RTLD_LAZY = &H1
+        Public Const RTLD_NOW As Integer = &H2
+        Public Const RTLD_GLOBAL As Integer = &H100
+
+        Public dlopen_flag As Integer = RTLD_LAZY
 
         Public Function LoadLibrary(filename As String) As IntPtr Implements IDynamicLibraryLoader.LoadLibrary
-            Return InternalLoadLibrary(filename)
+            Return InternalLoadLibrary(filename, dlopen_flag)
         End Function
 
         ''' <summary>
@@ -79,8 +98,7 @@ Namespace ApplicationServices.DynamicInterop
             Return dlsym(hModule, lpProcName)
         End Function
 
-        Friend Shared Function InternalLoadLibrary(filename As String) As IntPtr
-            Const RTLD_LAZY = &H1
+        Friend Shared Function InternalLoadLibrary(filename As String, dlopen_flag As Integer) As IntPtr
             '            if (filename.StartsWith ("/")) {
             '                return dlopen (filename, RTLD_LAZY);
             '            }
@@ -92,13 +110,17 @@ Namespace ApplicationServices.DynamicInterop
             '                + String.Join ("\n", searchPaths));
             '            }
 
-            Dim result = dlopen(filename, RTLD_LAZY)
+            Dim result = dlopen(filename, dlopen_flag)
             Return result
         End Function
 
         Private Shared Function getSearchPaths(pathsEnvVar As String) As List(Of String)
             Dim searchPaths = If(Environment.GetEnvironmentVariable(pathsEnvVar), "").Split(Path.PathSeparator).ToList()
             Return searchPaths
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return $"UNIX<libdl.so>"
         End Function
 
         <DllImport("libdl")>

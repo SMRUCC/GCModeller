@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d053db75be3ad31bd7967315457f08c, gr\network-visualization\Datavisualization.Network\Analysis\Model\GraphIndex.vb"
+﻿#Region "Microsoft.VisualBasic::7f51cb88abd3779b653698cf7ac23d67, gr\network-visualization\Datavisualization.Network\Analysis\Model\GraphIndex.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 82 (63.08%)
+    ' Comment Lines: 28 (21.54%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 20 (15.38%)
+    '     File Size: 4.97 KB
+
+
     '     Class GraphIndex
     ' 
     '         Function: AddEdge, CreateNodeAdjacencySet, edges, (+2 Overloads) GetEdges, nodes
@@ -43,7 +55,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis.Model
@@ -123,7 +135,7 @@ Namespace Analysis.Model
         ''' </summary>
         ''' <param name="u"></param>
         ''' <param name="v"></param>
-        ''' <returns></returns>
+        ''' <returns>get a set of the directed edges</returns>
         Public Function GetEdges(u As Node, v As Node) As IEnumerable(Of Edge)
             If u Is Nothing OrElse v Is Nothing OrElse u.Key Is Nothing OrElse v.Key Is Nothing Then
                 Return Nothing

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::88862a46bf50cc0cb7264582af7bb8a6, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
+﻿#Region "Microsoft.VisualBasic::e08a9b0a3d2dee7c0af38de80786697c, core\Bio.Assembly\ComponentModel\DBLinkBuilder\IdMapping\Synonym.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 18 (45.00%)
+    ' Comment Lines: 16 (40.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.00%)
+    '     File Size: 1.29 KB
+
+
     '     Class Synonym
     ' 
     '         Properties: [alias], accessionID
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,26 +59,38 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace ComponentModel.DBLinkBuilder
 
+    ''' <summary>
+    ''' data alias model, a mapping of the main accession id to 
+    ''' a collection of the secondary accession id.
+    ''' </summary>
     <XmlType("synonym")>
     Public Class Synonym : Implements Enumeration(Of String)
 
+        ''' <summary>
+        ''' the main accession id
+        ''' </summary>
+        ''' <returns></returns>
         <XmlAttribute> Public Property accessionID As String
+        ''' <summary>
+        ''' the secondary accession id or the alias id in other database.
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement> Public Property [alias] As String()
 
         Public Overrides Function ToString() As String
             Return accessionID
         End Function
 
+        ''' <summary>
+        ''' get all accession id union
+        ''' </summary>
+        ''' <returns></returns>
         Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
             Yield accessionID
 
             For Each id As String In [alias]
                 Yield id
             Next
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of String).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

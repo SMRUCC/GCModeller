@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32543567e11838dd94f0b4b9de368ee2, mime\application%json\Serializer\JSONSerializerOptions.vb"
+﻿#Region "Microsoft.VisualBasic::495b80f65874bb50e35415f22ee9831e, mime\application%json\Serializer\JSONSerializerOptions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 20 (52.63%)
+    ' Comment Lines: 12 (31.58%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 6 (15.79%)
+    '     File Size: 1.22 KB
+
+
     ' Class JSONSerializerOptions
     ' 
-    '     Properties: digest, enumToString, indent, maskReadonly, unixTimestamp
+    '     Properties: comment, digest, enumToString, indent, indent_width
+    '                 maskReadonly, unicodeEscape, unixTimestamp
+    ' 
+    '     Function: createUniqueKey, offsets
     ' 
     ' /********************************************************************************/
 
@@ -41,10 +56,39 @@
 
 Public Class JSONSerializerOptions
 
-    Public Property maskReadonly As Boolean = False
+#Region "json string format"
     Public Property indent As Boolean = False
+    Public Property indent_width As Integer = 4
     Public Property enumToString As Boolean = True
     Public Property unixTimestamp As Boolean = True
+    Public Property unicodeEscape As Boolean = True
+#End Region
+
+#Region "clr type schema parser"
+    Public Property maskReadonly As Boolean = False
+    ''' <summary>
+    ''' show xml comment text in json? this option usually be applied for generates the json config file
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property comment As Boolean = False
+#End Region
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns></returns>
     Public Property digest As Dictionary(Of Type, Func(Of Object, Object))
+
+    Friend Function offsets(indent As Integer) As String
+        Return New String(" "c, indent * indent_width)
+    End Function
+
+    ''' <summary>
+    ''' create unique reference key for make internal schema cache reference 
+    ''' </summary>
+    ''' <returns></returns>
+    Friend Function createUniqueKey() As String
+        Return $"{maskReadonly},{comment}"
+    End Function
 
 End Class

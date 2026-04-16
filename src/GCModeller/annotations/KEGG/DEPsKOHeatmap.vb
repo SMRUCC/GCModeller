@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e171cc2970e9191f8efb1b72a9edd6e5, annotations\KEGG\DEPsKOHeatmap.vb"
+﻿#Region "Microsoft.VisualBasic::c54e3f523ee2d9ce4512d7ca3efdb992, annotations\KEGG\DEPsKOHeatmap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 51 (65.38%)
+    ' Comment Lines: 20 (25.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (8.97%)
+    '     File Size: 3.55 KB
+
+
     ' Module DEPsKOHeatmap
     ' 
     '     Function: ColorKO, KOColor, Plot
@@ -42,7 +54,7 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Statistics.Heatmap
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors

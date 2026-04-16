@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b47c227150b5e210da6579888f8987ae, core\Bio.Assembly\Assembly\DOMINE\Database.vb"
+﻿#Region "Microsoft.VisualBasic::42756e3c7edb8c7648acf5106fdb476e, core\Bio.Assembly\Assembly\DOMINE\Database.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 53 (80.30%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (19.70%)
+    '     File Size: 2.49 KB
+
+
     '     Class Database
     ' 
     '         Properties: FilePath, Go, Interaction, MimeType, Pfam
     '                     PGMap
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetInteractionDomains, (+2 Overloads) Save
+    '         Function: GetInteractionDomains, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic
@@ -81,6 +94,15 @@ Namespace Assembly.DOMINE
             End If
 
             Return Me.GetXml.SaveTo(Path, Encoding.ASCII)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Overloads Shared Widening Operator CType(FilePath As String) As DOMINE.Database

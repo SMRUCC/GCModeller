@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 68 (82.93%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (17.07%)
+    '     File Size: 3.18 KB
+
+
     '     Class CategoricalEncoder
     ' 
     '         Properties: properties

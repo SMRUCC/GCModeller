@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5fdc752e22decce062fed8f63eb5ffe4, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\Signal.vb"
+﻿#Region "Microsoft.VisualBasic::705d047bf34d602c110b89a93d10e69b, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\Signal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 42 (47.19%)
+    ' Comment Lines: 29 (32.58%)
+    '    - Xml Docs: 86.21%
+    ' 
+    '   Blank Lines: 18 (20.22%)
+    '     File Size: 3.49 KB
+
+
     '     Class Signal
     ' 
     '         Properties: Freq, Phase
@@ -46,12 +58,11 @@ Imports System.Runtime.CompilerServices
 
 Namespace Source
 
-    '
-    ' * Basic Signal class for providing all kinds of signal-data to the GUI.
-    ' * Extend this class and implement the calculate method which is used by all the other methods.
-    '
-
     ''' <summary>
+    ''' Basic Signal class for providing all kinds of signal-data to the GUI.
+    ''' Extend this class and implement the calculate method which is used 
+    ''' by all the other methods.
+    ''' 
     ''' > https://github.com/dks-rub/signalgenerator
     ''' </summary>
     Public MustInherit Class Signal

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b47f1a485c8e0461ee540c149317ddd, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\ColorBrewer.vb"
+﻿#Region "Microsoft.VisualBasic::ac2e876116c3af1b434e3869cf3d1a1a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Colors\ColorBrewer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 819
+    '    Code Lines: 531 (64.84%)
+    ' Comment Lines: 199 (24.30%)
+    '    - Xml Docs: 96.98%
+    ' 
+    '   Blank Lines: 89 (10.87%)
+    '     File Size: 29.95 KB
+
+
     '     Structure ColorBrewer
     ' 
     '         Properties: Accent, Blues, BrBG, BuGn, BuPu
@@ -44,7 +56,7 @@
     '                     Spectral, type, YlGn, YlGnBu, YlOrBr
     '                     YlOrRd
     ' 
-    '         Function: GetColors, ParseName, ToString
+    '         Function: GetColorHtml, GetColors, GetMaxColors, ParseName, ToString
     '         Class DivergingSchemes
     ' 
     '             Constructor: (+1 Overloads) Sub New
@@ -126,35 +138,59 @@ Namespace Drawing2D.Colors
 
         Public Property type As String
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return Me.GetJson
         End Function
 
-        Public Function GetColors(name$) As Color()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetColors(name As String) As Color()
+            Return GetColorHtml(name).Select(Function(si) si.ToColor).ToArray
+        End Function
+
+        Private Function GetColorHtml(name As String) As String()
+            If name Is Nothing Then
+                Return GetMaxColors()
+            End If
+
             Select Case LCase(name)
-                Case NameOf(c3)
-                    Return c3.Select(AddressOf ToColor).ToArray
-                Case NameOf(c4)
-                    Return c4.Select(AddressOf ToColor).ToArray
-                Case NameOf(c5)
-                    Return c5.Select(AddressOf ToColor).ToArray
-                Case NameOf(c6)
-                    Return c6.Select(AddressOf ToColor).ToArray
-                Case NameOf(c7)
-                    Return c7.Select(AddressOf ToColor).ToArray
-                Case NameOf(c8)
-                    Return c8.Select(AddressOf ToColor).ToArray
-                Case NameOf(c9)
-                    Return c9.Select(AddressOf ToColor).ToArray
-                Case NameOf(c10)
-                    Return c10.Select(AddressOf ToColor).ToArray
-                Case NameOf(c11)
-                    Return c11.Select(AddressOf ToColor).ToArray
-                Case NameOf(c12)
-                    Return c12.Select(AddressOf ToColor).ToArray
+                Case NameOf(c3) : Return c3
+                Case NameOf(c4) : Return c4
+                Case NameOf(c5) : Return c5
+                Case NameOf(c6) : Return c6
+                Case NameOf(c7) : Return c7
+                Case NameOf(c8) : Return c8
+                Case NameOf(c9) : Return c9
+                Case NameOf(c10) : Return c10
+                Case NameOf(c11) : Return c11
+                Case NameOf(c12) : Return c12
                 Case Else
-                    Return c3.Select(AddressOf ToColor).ToArray
+                    Return GetMaxColors()
             End Select
+        End Function
+
+        Private Function GetMaxColors() As String()
+            If Not c12.IsNullOrEmpty Then
+                Return c12
+            ElseIf Not c11.IsNullOrEmpty Then
+                Return c11
+            ElseIf Not c10.IsNullOrEmpty Then
+                Return c10
+            ElseIf Not c9.IsNullOrEmpty Then
+                Return c9
+            ElseIf Not c8.IsNullOrEmpty Then
+                Return c8
+            ElseIf Not c7.IsNullOrEmpty Then
+                Return c7
+            ElseIf Not c6.IsNullOrEmpty Then
+                Return c6
+            ElseIf Not c5.IsNullOrEmpty Then
+                Return c5
+            ElseIf Not c4.IsNullOrEmpty Then
+                Return c4
+            Else
+                Return c3
+            End If
         End Function
 
         ''' <summary>

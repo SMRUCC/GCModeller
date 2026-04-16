@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5de593130ab45a59330857717d6d6d00, core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
+﻿#Region "Microsoft.VisualBasic::fcdf674fccac1b3b57f6784095de0ec3, core\Bio.Assembly\Assembly\MetaCyc\Schemas\TransportReactions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 138 (83.64%)
+    ' Comment Lines: 5 (3.03%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (13.33%)
+    '     File Size: 7.54 KB
+
+
     '     Class TransportReaction
     ' 
     '         Properties: ECNumber, LEFT, PrefixTransportReactionTypes, Reversible, RIGHT
@@ -39,7 +51,7 @@
     '         Function: CreateEquatopnExpression, GetSubstrates, GetTransportReactionExpasyEntries, GetUniqueId
     '         Class CompoundSpecies
     ' 
-    '             Properties: Compartment, Identifier, StoiChiometry
+    '             Properties: Compartment, Identifier, Stoichiometry
     ' 
     '             Constructor: (+1 Overloads) Sub New
     '             Function: GetAttributeValue, ToString
@@ -115,7 +127,7 @@ Namespace Assembly.MetaCyc.Schema
                 End If
             End Function
 
-            Public Property StoiChiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.StoiChiometry
+            Public Property Stoichiometry As Double Implements ComponentModel.EquaionModel.ICompoundSpecies.Stoichiometry
         End Class
 
 #Region "Shadows Property"
@@ -164,11 +176,11 @@ Namespace Assembly.MetaCyc.Schema
                                                         Return String.Format("{0} [^COMPARTMENT - {1}]", item.Identifier, item.Compartment)
                                                     End If
                                                 End Function
-                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .StoiChiometry = item.StoiChiometry}).ToArray,
+                              Select New CompoundSpecieReference With {.ID = GetUniqueId(), .Stoichiometry = item.Stoichiometry}).ToArray,
                 .Products = (From x As CompoundSpecies In _Right
                              Select New CompoundSpecieReference With {
                                   .ID = GetUniqueId(x),
-                                  .StoiChiometry = x.StoiChiometry}).ToArray,
+                                  .Stoichiometry = x.Stoichiometry}).ToArray,
                                   .Reversible = Reversible
             }
             Return EquationBuilder.ToString(Model)

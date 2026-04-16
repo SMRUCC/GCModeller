@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 44 (75.86%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (24.14%)
+    '     File Size: 2.05 KB
+
+
     '     Class Interactor
     ' 
     '         Properties: InteractorType, Names, Synonym, Xref

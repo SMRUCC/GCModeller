@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bebe67715883c89948caddf616b8084, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\HullPolygonDraw.vb"
+﻿#Region "Microsoft.VisualBasic::e835ce4afafb9b91f1e42738e53da6d6, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\HullPolygonDraw.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 53 (63.86%)
+    ' Comment Lines: 19 (22.89%)
+    '    - Xml Docs: 73.68%
+    ' 
+    '   Blank Lines: 11 (13.25%)
+    '     File Size: 3.32 KB
+
+
     '     Module HullPolygonDraw
     ' 
     '         Function: buildPath
@@ -52,7 +64,8 @@ Namespace Drawing2D.Math2D
     Public Module HullPolygonDraw
 
         ''' <summary>
-        ''' 这个函数仅仅是作图函数，如果图形中有些离群点会导致图形面积过大的话，可以在调用这个函数之前做kmeans聚类过滤掉这些离群点
+        ''' 这个函数仅仅是作图函数，如果图形中有些离群点会导致图形面积过大的话，
+        ''' 可以在调用这个函数之前做kmeans聚类过滤掉这些离群点
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="polygon"></param>
@@ -60,6 +73,10 @@ Namespace Drawing2D.Math2D
         ''' <param name="strokeWidth!"></param>
         ''' <param name="alpha"><see cref="Color.A"/></param>
         ''' <param name="shadow"></param>
+        ''' <param name="convexHullCurveDegree">
+        ''' the spline degree of the polygon edges, smaller than value 1
+        ''' means on spline interpolation 
+        ''' </param>
         <Extension>
         Public Sub DrawHullPolygon(g As IGraphics,
                                    polygon As IEnumerable(Of PointF),

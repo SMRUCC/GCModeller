@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03bf4edfc5d6c124b7893312d5e1d017, models\SBML\SBML\Level2\Elements\speciesReference.vb"
+﻿#Region "Microsoft.VisualBasic::890fdc629ed87499128ae4c6bc1436bc, models\SBML\SBML\Level2\Elements\speciesReference.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 31 (60.78%)
+    ' Comment Lines: 12 (23.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.80 KB
+
+
     '     Class speciesReference
     ' 
     '         Properties: species, stoichiometry
@@ -43,7 +55,6 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.EquaionModel

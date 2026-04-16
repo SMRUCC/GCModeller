@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c33b39e3022caf222cd8a5f406855b7d, analysis\SequenceToolkit\SequenceTools\Program.vb"
+﻿#Region "Microsoft.VisualBasic::315615db216afa83fab7fc5aaf625216, analysis\SequenceToolkit\SequenceTools\Program.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 6
+    '    Code Lines: 5 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (16.67%)
+    '     File Size: 144 B
+
+
     ' Module Program
     ' 
     '     Function: Main
@@ -38,10 +50,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
-Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module Program
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 15 (38.46%)
+    ' Comment Lines: 21 (53.85%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 3 (7.69%)
+    '     File Size: 1.58 KB
+
+
     ' Class Offset
     ' 
     '     Properties: Position, Writer

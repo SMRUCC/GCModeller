@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a949f2ecbe5862e46bb0d5c3242bf83f, mime\application%pdf\PdfReader\Document\PdfArray.vb"
+﻿#Region "Microsoft.VisualBasic::0e746c32d70d05f3cd6ad951923b64a7, mime\application%pdf\PdfReader\Document\PdfArray.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 42 (66.67%)
+    ' Comment Lines: 7 (11.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (22.22%)
+    '     File Size: 1.82 KB
+
+
     '     Class PdfArray
     ' 
     '         Properties: Objects, ParseArray
@@ -57,11 +69,11 @@ Namespace PdfReader
 
         Private _wrapped As List(Of PdfObject)
 
-        Public Sub New(ByVal parent As PdfObject, ByVal array As ParseArray)
+        Public Sub New(parent As PdfObject, array As ParseArray)
             MyBase.New(parent, array)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

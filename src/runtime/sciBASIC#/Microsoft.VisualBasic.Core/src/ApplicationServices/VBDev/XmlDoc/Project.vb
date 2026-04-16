@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 122 (71.35%)
+    ' Comment Lines: 12 (7.02%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 37 (21.64%)
+    '     File Size: 7.19 KB
+
+
     '     Class Project
     ' 
     '         Properties: Name, Namespaces

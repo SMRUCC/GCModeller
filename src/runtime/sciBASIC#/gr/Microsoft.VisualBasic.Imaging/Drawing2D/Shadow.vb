@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65975eadc33fb63cb7f11d8015e228d5, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shadow.vb"
+﻿#Region "Microsoft.VisualBasic::0986654ff8ddb6047afdd2848abc6151, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Shadow.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 89 (70.63%)
+    ' Comment Lines: 17 (13.49%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 20 (15.87%)
+    '     File Size: 4.89 KB
+
+
     '     Class Shadow
     ' 
     '         Properties: alphaLevels, gradientLevels, shadowColor
@@ -45,10 +57,12 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Math2D
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Microsoft.VisualBasic.Drawing.Imaging.BitmapImage
+#End If
 
 Namespace Drawing2D
 
@@ -69,12 +83,12 @@ Namespace Drawing2D
         ''' <param name="scaleX!"></param>
         ''' <param name="scaleY!"></param>
         Sub New(distance!, angle!, Optional scaleX! = 1, Optional scaleY! = 1)
-            Dim alpha! = angle / 180 * stdNum.PI
+            Dim alpha! = angle / 180 * std.PI
 
             ' 计算出distance
             offset = New PointF With {
-                .X = distance * stdNum.Sin(alpha),
-                .Y = distance * stdNum.Cos(alpha)
+                .X = distance * std.Sin(alpha),
+                .Y = distance * std.Cos(alpha)
             }
             scale = New SizeF With {.Width = scaleX, .Height = scaleY}
         End Sub
@@ -93,14 +107,22 @@ Namespace Drawing2D
                 Call circle.AddLine(a, vertex)
             Next
 
-            Call DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
+#If NET48 Then
+            Call Effects.DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
+#Else
+            Throw New NotImplementedException
+#End If
         End Sub
 
         Sub RoundRectangle(g As IGraphics, rect As Rectangle, radius!)
             Dim modification As Rectangle = rect.OffSet2D(offset).Scale(scale)
             Dim rectangle As GraphicsPath = Shapes.RoundRect.GetRoundedRectPath(modification, radius)
 
-            Call DropdownShadows(g, rectangle, shadowColor, alphaLevels, gradientLevels)
+#If NET48 Then
+            Call Effects.DropdownShadows(g, rectangle, shadowColor, alphaLevels, gradientLevels)
+#Else
+            Call "draw round rectangle dropdown shadow has not been implemented".warning
+#End If
         End Sub
 
         Public Shared Sub DrawCircleShadow(g As IGraphics, centra As PointF, radius As Single,
@@ -116,7 +138,22 @@ Namespace Drawing2D
                 Call circle.AddLine(a, vertex)
             Next
 
-            Call DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
+#If NET48 Then
+            Call Effects.DropdownShadows(g, circle, shadowColor, alphaLevels, gradientLevels)
+#Else
+            Throw New NotImplementedException
+#End If
+        End Sub
+
+        Public Shared Sub DropdownShadows(g As IGraphics, polygon As GraphicsPath,
+                                          Optional shadowColor$ = NameOf(Color.Gray),
+                                          Optional alphaLevels$ = "0,120,150,200",
+                                          Optional gradientLevels$ = "[0,0.125,0.5,1]")
+#If NET48 Then
+            Call Effects.DropdownShadows(g, polygon, shadowColor, alphaLevels, gradientLevels)
+#Else
+            ' Throw New NotImplementedException
+#End If
         End Sub
 
         ''' <summary>
@@ -135,59 +172,12 @@ Namespace Drawing2D
 
             Call path.AddRectangle(rectangle)
             Call path.CloseAllFigures()
-            Call DropdownShadows(g, path, shadowColor, alphaLevels, gradientLevels)
-        End Sub
 
-        ''' <summary>
-        ''' Draw shadow of a specifc <paramref name="polygon"/>
-        ''' </summary>
-        ''' <param name="g"></param>
-        ''' <param name="polygon"></param>
-        ''' <param name="shadowColor$"></param>
-        ''' <param name="alphaLevels$"></param>
-        ''' <param name="gradientLevels$"></param>
-        Public Shared Sub DropdownShadows(g As IGraphics, polygon As GraphicsPath,
-                                          Optional shadowColor$ = NameOf(Color.Gray),
-                                          Optional alphaLevels$ = "0,120,150,200",
-                                          Optional gradientLevels$ = "[0,0.125,0.5,1]")
-
-            Dim alphas As Vector = alphaLevels
-            ' Create a color blend to manage our colors And positions And
-            ' since we need 3 colors set the default length to 3
-            Dim colorBlend As New ColorBlend(alphas.Length)
-            Dim baseColor As Color = shadowColor.TranslateColor
-
-            ' here Is the important part of the shadow making process, remember
-            ' the clamp mode on the colorblend object layers the colors from
-            ' the outside to the center so we want our transparent color first
-            ' followed by the actual shadow color. Set the shadow color to a 
-            ' slightly transparent DimGray, I find that it works best.|
-            colorBlend.Colors = alphas _
-                .Select(Function(a) Color.FromArgb(a, baseColor)) _
-                .ToArray
-
-            ' our color blend will control the distance of each color layer
-            ' we want to set our transparent color to 0 indicating that the 
-            ' transparent color should be the outer most color drawn, then
-            ' our Dimgray color at about 10% of the distance from the edge
-            colorBlend.Positions = CType(gradientLevels, Vector).AsSingle
-
-            If TypeOf g Is Graphics2D Then
-                ' this Is where we create the shadow effect, so we will use a 
-                ' pathgradientbursh And assign our GraphicsPath that we created of a 
-                ' Rounded Rectangle
-                Using pgBrush As New PathGradientBrush(polygon) With {
-                    .WrapMode = WrapMode.Clamp,
-                    .InterpolationColors = colorBlend
-                }
-                    ' fill the shadow with our pathgradientbrush
-                    Call g.FillPath(pgBrush, polygon)
-                End Using
-            Else
-                ' not sure how to implements a gradient brush in svg/ps
-                ' just do a normal shape fill
-                Call g.FillPath(New SolidBrush(baseColor), polygon)
-            End If
+#If NET48 Then
+            Call Effects.DropdownShadows(g, path, shadowColor, alphaLevels, gradientLevels)
+#Else
+            Throw New NotImplementedException
+#End If
         End Sub
     End Class
 End Namespace

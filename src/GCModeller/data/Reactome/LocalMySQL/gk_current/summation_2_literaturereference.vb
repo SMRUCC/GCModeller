@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 79 (49.69%)
+    ' Comment Lines: 58 (36.48%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 7.61 KB
+
+
     ' Class summation_2_literaturereference
     ' 
     '     Properties: DB_ID, literatureReference, literatureReference_class, literatureReference_rank

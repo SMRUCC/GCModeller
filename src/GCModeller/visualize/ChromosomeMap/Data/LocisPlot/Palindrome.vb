@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6841787ab2e319bda588cc02c8f373a0, visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
+﻿#Region "Microsoft.VisualBasic::5fb87c5695612a55b4bbf1192f87ca13, visualize\ChromosomeMap\Data\LocisPlot\Palindrome.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 60 (68.97%)
+    ' Comment Lines: 11 (12.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (18.39%)
+    '     File Size: 3.53 KB
+
 
     '     Module Palindrome
     ' 
@@ -71,7 +83,7 @@ Namespace Locis
                                              Optional fontStyle$ = CSSFont.Win10Normal,
                                              Optional complementPalindrom As Boolean = False) As SizeF
 
-            Dim font As Font = CSSFont.TryParse(fontStyle)
+            Dim font As Font = CSSFont.TryParse(fontStyle).GDIObject(100)
             Dim size As SizeF = g.MeasureString("A", font)  ' 计算出单个碱基的绘制大小，因为在这个函数之中是一个碱基一个碱基进行绘图的
             Dim A = palindrome.Loci, B = palindrome.MirrorSite
             Dim left! = location.X

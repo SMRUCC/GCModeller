@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::768f79291df9adec54f8d374bb657d8a, Data_science\Visualization\Plots\g\Plot.vb"
+﻿#Region "Microsoft.VisualBasic::06d2c4ea248fb8190a1b17753e61d093, Data_science\Visualization\Plots\g\Plot.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 276
+    '    Code Lines: 191 (69.20%)
+    ' Comment Lines: 50 (18.12%)
+    '    - Xml Docs: 94.00%
+    ' 
+    '   Blank Lines: 35 (12.68%)
+    '     File Size: 11.75 KB
+
+
     '     Class Plot
     ' 
     '         Properties: legendTitle, main, xlabel, ylabel, zlabel
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: EvaluateLayout, Plot
+    '         Function: EvaluateLayout, (+2 Overloads) Plot
     ' 
-    '         Sub: DrawLegends, DrawMainTitle, (+2 Overloads) Plot
+    '         Sub: DrawLegends, DrawMainTitle, DrawMultipleLineTitle, (+2 Overloads) Plot
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,7 +66,33 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Text
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Graphic
 
@@ -81,20 +119,49 @@ Namespace Graphic
             Me.theme = theme
         End Sub
 
+        ''' <summary>
+        ''' function for make plot
+        ''' </summary>
+        ''' <param name="size"></param>
+        ''' <param name="dpi"></param>
+        ''' <param name="driver"></param>
+        ''' <returns>this function returns a graphics plot wrapper object that supports save png/svg/pdf file</returns>
+        Public Overloads Function Plot(size As SizeF,
+                                       Optional dpi As Integer = 300,
+                                       Optional driver As Drivers = Drivers.Default) As GraphicsData
+            Return g.GraphicsPlots(
+                size:=size.ToSize,
+                padding:=theme.padding,
+                bg:=theme.background,
+                plotAPI:=AddressOf PlotInternal,
+                driver:=driver,
+                dpi:=dpi
+            )
+        End Function
+
+        ''' <summary>
+        ''' function for make plot
+        ''' </summary>
+        ''' <param name="size$"></param>
+        ''' <param name="ppi"></param>
+        ''' <param name="driver"></param>
+        ''' <returns>this function returns a graphics plot wrapper object that supports save png/svg/pdf file</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Plot(Optional size$ = Resolution2K.Size, Optional ppi As Integer = 300, Optional driver As Drivers = Drivers.Default) As GraphicsData
+        Public Overridable Overloads Function Plot(Optional size$ = Resolution2K.Size,
+                                                   Optional ppi As Integer = 300,
+                                                   Optional driver As Drivers = Drivers.Default) As GraphicsData
             Return g.GraphicsPlots(
                 size:=size.SizeParser,
                 padding:=theme.padding,
                 bg:=theme.background,
                 plotAPI:=AddressOf PlotInternal,
                 driver:=driver,
-                dpi:=$"{ppi},{ppi}"
+                dpi:=ppi
             )
         End Function
 
         ''' <summary>
-        ''' 
+        ''' make plot with a specific given layout information
         ''' </summary>
         ''' <param name="g"></param>
         ''' <param name="layout">
@@ -102,12 +169,17 @@ Namespace Graphic
         ''' </param>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Plot(ByRef g As IGraphics, layout As Rectangle)
+        Public Overloads Sub Plot(ByRef g As IGraphics, layout As Rectangle)
             Call PlotInternal(g, EvaluateLayout(g, layout))
         End Sub
 
+        ''' <summary>
+        ''' make plot with a specific given layout information
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="canvas"></param>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Plot(ByRef g As IGraphics, canvas As GraphicsRegion)
+        Public Overloads Sub Plot(ByRef g As IGraphics, canvas As GraphicsRegion)
             Call PlotInternal(g, canvas)
         End Sub
 
@@ -115,10 +187,10 @@ Namespace Graphic
             Dim padding As New Padding With {
                 .Left = layout.Left,
                 .Top = layout.Top,
-                .Bottom = g.Size.Height - layout.Bottom,
-                .Right = g.Size.Width - layout.Right
+                .Bottom = g.Height - layout.Bottom,
+                .Right = g.Width - layout.Right
             }
-            Dim canvas As New GraphicsRegion(g.Size, padding)
+            Dim canvas As New GraphicsRegion(New Size(g.Width, g.Height), padding)
 
             Return canvas
         End Function
@@ -133,13 +205,14 @@ Namespace Graphic
         ''' <param name="showBorder"></param>
         ''' <param name="canvas"></param>
         Protected Sub DrawLegends(g As IGraphics, legends As LegendObject(), showBorder As Boolean, canvas As GraphicsRegion)
-            Dim legendLabelFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim legendLabelFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
             Dim lsize As SizeF = g.MeasureString("A", legendLabelFont)
             Dim legendParts As LegendObject()() = Nothing
             Dim maxWidth!
             Dim legendPos As PointF
             Dim legendSize$
-            Dim region As Rectangle = canvas.PlotRegion
+            Dim region As Rectangle = canvas.PlotRegion(css)
 
             Const ratio As Double = 0.65
 
@@ -148,21 +221,16 @@ Namespace Graphic
 
             If theme.legendLayout Is Nothing Then
                 Dim maxLen = legends.Select(Function(l) l.title).MaxLengthString
-                Dim lFont As Font = CSSFont.TryParse(legends.First.fontstyle).GDIObject(g.Dpi)
+                Dim lFont As Font = css.GetFont(CSSFont.TryParse(legends.First.fontstyle))
 
                 maxWidth! = g.MeasureString(maxLen, lFont).Width
+                legendPos = New PointF With {
+                    .X = region.Right + lsize.Width,
+                    .Y = region.Top + lFont.Height
+                }
 
                 If theme.legendSplitSize > 0 AndAlso legends.Length > theme.legendSplitSize Then
                     legendParts = legends.Split(theme.legendSplitSize)
-                    legendPos = New PointF With {
-                        .X = region.Width - (lsize.Width + maxWidth + 5) * (legendParts.Length - 1),
-                        .Y = region.Top + lFont.Height
-                    }
-                Else
-                    legendPos = New PointF With {
-                        .X = region.Size.Width - lsize.Width / 4 - maxWidth,
-                        .Y = region.Top + lFont.Height
-                    }
                 End If
             Else
                 legendPos = theme.legendLayout.GetLocation(canvas, Nothing)
@@ -192,23 +260,77 @@ Namespace Graphic
             End If
         End Sub
 
-        Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle)
+        ''' <summary>
+        ''' draw main title upon the chart plot region
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="plotRegion">the chart plot region</param>
+        ''' <param name="offsetFactor"></param>
+        ''' <param name="commentText"></param>
+        Protected Sub DrawMainTitle(g As IGraphics, plotRegion As Rectangle, Optional offsetFactor As Double = 1.125, Optional commentText As Boolean = False)
             If Not main.StringEmpty Then
-                Dim fontOfTitle As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim fontOfTitle As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
                 Dim titleSize As SizeF = g.MeasureString(main, fontOfTitle)
-                Dim position As New PointF With {
-                    .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,
-                    .Y = plotRegion.Y - titleSize.Height * 1.125
-                }
                 Dim color As Brush = Brushes.Black
+
 
                 If Not theme.mainTextColor.StringEmpty Then
                     color = theme.mainTextColor.GetBrush
                 End If
 
-                Call g.DrawString(main, fontOfTitle, color, position)
+                If theme.mainTextWrap AndAlso titleSize.Width > plotRegion.Width Then
+                    Dim charWidth As Double = titleSize.Width / main.Length
+                    Dim maxChars As Integer = (plotRegion.Width / charWidth - 1) * 0.85
+
+                    Call DrawMultipleLineTitle(g, plotRegion, fontOfTitle, color, maxChars, offsetFactor)
+                Else
+                    ' middle of the X axis
+                    ' middle of the padding top
+                    Dim position As New PointF With {
+                        .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,
+                        .Y = plotRegion.Y - titleSize.Height * offsetFactor
+                    }
+
+                    If position.Y < 0 Then
+                        position = New PointF(position.X, 10)
+                    End If
+
+                    Call g.DrawString(main, fontOfTitle, color, position)
+                End If
+
+                If commentText Then
+                    Dim writer As IElementCommentWriter = g.CheckElementWriter
+
+                    If Not writer Is Nothing Then
+                        Call writer.SetLastComment($"main title: {main}")
+                    End If
+                End If
             End If
         End Sub
 
+        Private Sub DrawMultipleLineTitle(g As IGraphics,
+                                          plotRegion As Rectangle,
+                                          fontOfTitle As Font,
+                                          color As Brush,
+                                          maxChars As Integer,
+                                          offsetFactor As Double)
+
+            Dim lines As String() = main.SplitParagraph(len:=maxChars).ToArray
+            Dim titleSize As SizeF = g.MeasureString("A", fontOfTitle)
+            Dim y As Single = plotRegion.Y - titleSize.Height * offsetFactor * lines.Length
+            Dim position As PointF
+
+            For Each line As String In lines
+                titleSize = g.MeasureString(line, fontOfTitle)
+                position = New PointF With {
+                    .X = plotRegion.X + (plotRegion.Width - titleSize.Width) / 2,
+                    .Y = y
+                }
+
+                y += titleSize.Height + 5
+                g.DrawString(line, fontOfTitle, color, position)
+            Next
+        End Sub
     End Class
 End Namespace

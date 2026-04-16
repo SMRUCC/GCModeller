@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::369bf993402b42f04cd93681c9b35223, data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::189ba936d0dbc73301d3495ae1abc0de, data\RegulonDatabase\Regprecise\WebServices\WebParser\WebAPI.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 111 (85.38%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 19 (14.62%)
+    '     File Size: 5.31 KB
+
+
     '     Module WebAPI
     ' 
-    '         Function: __downloads, CreateRegulator, doDownload, Download, DownloadRegulatorSequence
-    '                   GetRegulates, ToType
+    '         Function: CreateRegulator, doDownload, Download, GetRegulates, ToType
     ' 
     ' 
     ' /********************************************************************************/
@@ -69,7 +80,6 @@ Namespace Regprecise
             Return RegulatedGene.DocParser(doc:=page)
         End Function
 
-        <ExportAPI("Regulator.Creates")>
         Public Function CreateRegulator(Family As String,
                                         Bacteria As String,
                                         RegulatorSites As FASTA.FastaFile,
@@ -79,7 +89,7 @@ Namespace Regprecise
                             Select FastaObject.ToFastaObject).ToArray
             Dim Regulator As Regulator = New Regulator With {
                 .family = Family,
-                .locus_tag = New NamedValue With {.name = RegulatorId},
+                .locus_tags = {New NamedValue With {.name = RegulatorId}},
                 .regulog = New NamedValue With {
                     .name = String.Format("{0} - {1}", Family, Bacteria)
                 },
@@ -102,16 +112,17 @@ Namespace Regprecise
         End Function
 
         Public Const TABLE_REGEX As String = "<table class=""stattbl"">.+</table>"
-        Public Const browse_genomes$ = "http://regprecise.lbl.gov/RegPrecise/browse_genomes.jsp"
+        Public Const browse_genomes$ = "https://regprecise.lbl.gov/browse_genomes.jsp"
+        Public Const taxonomic_collection$ = "https://regprecise.lbl.gov/collections_tax.jsp"
 
         <ExportAPI("Regprecise.Downloads")>
         Public Function Download(Optional EXPORT$ = "./") As TranscriptionFactors
             Dim html$
             Dim list$()
             Dim genomes As New List(Of BacteriaRegulome)
-            Dim index$ = $"{EXPORT}/index.html"
+            Dim index$ = $"{EXPORT}/.cache/index.html"
 
-            Call "Start to fetch regprecise genome information....".__DEBUG_ECHO
+            Call "Start to fetch regprecise genome information....".debug
 
             If index.FileLength > 1024 Then
                 html = index.ReadAllText
@@ -127,27 +138,16 @@ Namespace Regprecise
                 .Matches(html, "<tr .+?</tr>", RegexICSng) _
                 .ToArray
 
-            Call $"{list.Length} bacteria genome are ready to download!".__DEBUG_ECHO
+            Dim message As String
+            Dim bar As Tqdm.ProgressBar = Nothing
 
-            Using progress As New ProgressBar("Download regprecise database...")
-                Dim tick As New ProgressProvider(progress, total:=list.Length)
-                Dim ETA$
-                Dim message$
-                Dim skip As Boolean = False
+            Call $"{list.Length} bacteria genome are ready to download!".debug
 
-                For i As Integer = 0 To list.Length - 1
-                    genomes += doDownload(list(i), EXPORT, skip:=skip)
-                    ETA = tick.ETA().FormatTime
-                    message = $"{genomes(i).genome.name}  ETA: {ETA}"
-                    progress.SetProgress(tick.StepProgress, message)
-
-                    If Not skip Then
-                        Call Thread.Sleep(60 * 1000)
-                    End If
-
-                    ' Call Console.Clear()
-                Next
-            End Using
+            For Each entry As String In Tqdm.Wrap(list, bar:=bar)
+                genomes += doDownload(entry, EXPORT)
+                message = genomes.Last.genome.name
+                bar.SetLabel(message)
+            Next
 
             Return New TranscriptionFactors With {
                 .genomes = genomes,
@@ -155,7 +155,7 @@ Namespace Regprecise
             }
         End Function
 
-        Private Function doDownload(entryHref$, EXPORT$, ByRef skip As Boolean) As BacteriaRegulome
+        Private Function doDownload(entryHref$, EXPORT$) As BacteriaRegulome
             Dim str$ = r.Match(entryHref, "href="".+?"">.+?</a>").Value
             Dim entry$ = RegulomeQuery.GetsId(str)
             Dim name$ = entry.NormalizePathString
@@ -173,57 +173,12 @@ Namespace Regprecise
                 .genome = New JSON.genome With {
                     .name = entry
                 },
-                .regulome = WebApi.Query(Of Regulome)(entryHref, hitCache:=skip)
+                .regulome = WebApi.Query(Of Regulome)(entryHref)
             }
                 Call .GetXml.SaveTo(save)
 
                 Return .ByRef
             End With
-        End Function
-
-        ''' <summary>
-        ''' 从KEGG数据库中下载调控因子的蛋白质序列
-        ''' </summary>
-        ''' <param name="Regprecise"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        ''' 
-        <ExportAPI("Regulators.Downloads",
-                   Info:="Downloads the protein sequence of the regulators which is archives in Regprecise database.")>
-        Public Function DownloadRegulatorSequence(Regprecise As TranscriptionFactors, DownloadDIR As String) As FASTA.FastaFile
-            Dim FileData As FASTA.FastaFile = New FASTA.FastaFile
-            Using ErrLog As New LogFile($"{DownloadDIR}/DownloadError_{Now.ToString.NormalizePathString}.log")
-                For Each Bacteria As BacteriaRegulome In Regprecise.genomes
-                    Dim downloads = (From regulator As Regulator
-                                     In Bacteria.regulome.regulators
-                                     Let fa As FASTA.FastaSeq = __downloads(regulator, Bacteria, ErrLog, DownloadDIR)
-                                     Where Not fa Is Nothing
-                                     Select fa).ToArray
-                    Call FileData.AddRange(downloads)
-                Next
-            End Using
-
-            Return FileData
-        End Function
-
-        Private Function __downloads(regulator As Regulator,
-                                     genome As BacteriaRegulome,
-                                     ErrLog As LogFile,
-                                     DownloadDIR As String) As FASTA.FastaSeq
-
-            If regulator.type = Types.RNA Then
-                Return Nothing
-            End If
-
-            If String.IsNullOrEmpty(regulator.locus_tag.name) Then
-                Dim exMsg As String = $"[null_LOCUS_ID] [Regulog={regulator.regulog.name}] [Bacteria={genome.genome.name}]" & vbCrLf
-                Call ErrLog.WriteLine(exMsg, "", MSG_TYPES.INF)
-                Return Nothing
-            End If
-
-            Dim FastaSaved As String = String.Format("{0}/{1}.fasta", DownloadDIR, regulator.locus_tag.name)
-            Dim FastaObject = RegulatorDownloads(regulator, genome, ErrLog, DownloadDIR, FastaSaved)
-            Return FastaObject
         End Function
     End Module
 End Namespace

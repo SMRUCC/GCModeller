@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dca091eec55ee733de5a7efb8cc1f21, modules\keggReport\PathwayMapRender.vb"
+﻿#Region "Microsoft.VisualBasic::87edfb09b5bc42ce2a0bbd03be8d838b, modules\keggReport\PathwayMapRender.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 111 (76.03%)
+    ' Comment Lines: 19 (13.01%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 16 (10.96%)
+    '     File Size: 6.26 KB
+
+
     ' Module PathwayMapRender
     ' 
     '     Function: (+4 Overloads) QueryMaps, RenderMaps
@@ -39,7 +51,8 @@
 
 #End Region
 
-Imports System.Drawing
+Imports System.Drawing.Imaging
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.ApplicationServices.Zip
@@ -49,6 +62,32 @@ Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' 在空白的pathway map的基础上利用map中预先定义的位置进行区域颜色渲染 
@@ -110,29 +149,25 @@ Public Module PathwayMapRender
 
         ' 首先查找出化合物在哪些map之中出现，然后生成绘图查询数据
         For Each foundResult As NamedValue(Of String()) In render.IteratesMapNames(keggList.Keys, 3)
-            Dim nodes = foundResult _
-                .Value _
+            Dim nodes As NamedValue(Of String)() = foundResult.Value _
                 .Select(Function(x) idTable(x)) _
                 .ToArray
+            Dim highlights As MapHighlights = MapHighlights.CreateAuto(nodes)
 
             Try
                 Yield New NamedValue(Of Image) With {
                     .Name = foundResult.Name,
                     .Value = render _
-                        .Rendering(.Name, nodes,, scale:=scale),
+                        .Rendering(.Name, highlights,, scale:=scale),
                     .Description = foundResult _
                         .Value _
                         .JoinBy("|")
                 }
+            Catch ex As Exception When throwException
+                Throw New Exception(foundResult.GetJson, ex)
             Catch ex As Exception
-                ex = New Exception(foundResult.GetJson, ex)
-
-                If throwException Then
-                    Throw ex
-                Else
-                    Call ex.PrintException
-                    Call App.LogException(ex)
-                End If
+                Call ex.PrintException
+                Call App.LogException(ex)
             End Try
         Next
     End Function
@@ -144,7 +179,14 @@ Public Module PathwayMapRender
         For Each map As NamedValue(Of Image) In render.QueryMaps(idlist,, scale:=scale, throwException:=False)
             Dim save$ = $"{out}/{map.Name}.png"
 
-            map.Value.SaveAs(save, ImageFormats.Png)
+            Using s As Stream = save.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+#If NET48 Then
+                Call map.Value.Save(s, ImageFormat.Png)
+#Else
+                Call map.Value.Save(s, ImageFormats.Png)
+#End If
+            End Using
+
             maplist += New NamedValue(Of String) With {
                 .Name = map.Name,
                 .Value = render.GetTitle(map.Name),

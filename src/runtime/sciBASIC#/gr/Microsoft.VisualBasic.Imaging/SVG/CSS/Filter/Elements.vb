@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 31 (81.58%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.27 KB
+
+
     '     Class feMorphology
     ' 
     '         Properties: [in], [operator], radius, result

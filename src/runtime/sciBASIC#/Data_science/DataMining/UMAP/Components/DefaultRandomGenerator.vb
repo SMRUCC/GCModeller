@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 23 (60.53%)
+    ' Comment Lines: 7 (18.42%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (21.05%)
+    '     File Size: 1.79 KB
+
+
     ' Class DefaultRandomGenerator
     ' 
     '     Properties: DisableThreading, Instance, IsThreadSafe

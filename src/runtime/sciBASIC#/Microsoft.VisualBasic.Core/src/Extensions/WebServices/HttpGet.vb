@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::798a57d74898ed651d239cd4758cf766, Microsoft.VisualBasic.Core\src\Extensions\WebServices\HttpGet.vb"
+﻿#Region "Microsoft.VisualBasic::ac22a2658404e4aedaa58e4e7bc43049, Microsoft.VisualBasic.Core\src\Extensions\WebServices\HttpGet.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 240
+    '    Code Lines: 166 (69.17%)
+    ' Comment Lines: 36 (15.00%)
+    '    - Xml Docs: 58.33%
+    ' 
+    '   Blank Lines: 38 (15.83%)
+    '     File Size: 9.21 KB
+
+
     ' Module HttpGet
     ' 
     '     Properties: HttpRequestTimeOut
@@ -42,14 +54,15 @@
 #End Region
 
 Imports System.IO
+Imports System.IO.Compression
 Imports System.Net
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 ''' <summary>
 ''' Tools for http get
@@ -66,23 +79,20 @@ Public Module HttpGet
     ''' <returns>失败或者错误会返回空字符串</returns>
     ''' <remarks>这个工具只适合于文本数据的传输操作</remarks>
     ''' 
-    <Extension> Public Function [GET](url As String,
-                                      <Parameter("Request.TimeOut")>
-                                      Optional retry As UInt16 = 0,
-                                      Optional headers As Dictionary(Of String, String) = Nothing,
-                                      Optional proxy As String = Nothing,
-                                      Optional doNotRetry404 As Boolean = True,
-                                      Optional UA$ = Nothing,
-                                      Optional refer$ = Nothing,
-                                      Optional ByRef is404 As Boolean = False,
-                                      Optional echo As Boolean = True,
-                                      Optional timeoutSec As Long = 6000) As String
+    <Extension>
+    Public Function [GET](url As String,
+                          <Parameter("Request.TimeOut")>
+                          Optional retry As UInt16 = 0,
+                          Optional headers As Dictionary(Of String, String) = Nothing,
+                          Optional proxy As String = Nothing,
+                          Optional doNotRetry404 As Boolean = True,
+                          Optional UA$ = Nothing,
+                          Optional refer$ = Nothing,
+                          Optional ByRef is404 As Boolean = False,
+                          Optional echo As Boolean = True,
+                          Optional timeoutSec As Long = 6000) As String
 
         Dim isFileUrl As String = (InStr(url, "http://", CompareMethod.Text) <> 1) AndAlso (InStr(url, "https://", CompareMethod.Text) <> 1)
-
-        If echo Then
-            Call $"GET {If(isFileUrl, url.ToFileURL, url)}".__DEBUG_ECHO
-        End If
 
         ' do status indicator reset
         is404 = False
@@ -90,7 +100,7 @@ Public Module HttpGet
         ' 类似于php之中的file_get_contents函数,可以读取本地文件内容
         If File.Exists(url) Then
             If echo Then
-                Call "[Job DONE!]".__DEBUG_ECHO
+                Call $"GET {If(isFileUrl, url.ToFileURL, url)}".debug
             End If
 
             Return url.ReadAllText
@@ -136,7 +146,13 @@ Public Module HttpGet
         Try
 Re0:
             Return BuildWebRequest(url, headers, proxy, UA, timeout:=timeout).UrlGet(echo:=echo).html
-        Catch ex As Exception When InStr(ex.Message, "(404) Not Found") > 0 AndAlso doNotRetry404
+
+            ' 20230620 the http error message at here could be various
+            ' just check for the http status code 404 at here
+            ' default message for 404: (404) Not Found
+            ' but it also could be a custom error text, example like the ncbi web server response: (404) PUGREST.NotFound 
+            ' so just check for the http error code 404 at here
+        Catch ex As Exception When InStr(ex.Message, "(404)") > 0 AndAlso doNotRetry404
             is404 = True
             Return LogException(url, New Exception(url, ex))
 
@@ -148,6 +164,7 @@ Re0:
             GoTo Re0
 
         Catch ex As Exception
+            is404 = InStr(ex.Message, "(404)") > 0
             ex = New Exception(url, ex)
             ex.PrintException
 
@@ -203,7 +220,9 @@ Re0:
             Next
         End If
         If Not String.IsNullOrEmpty(proxy) Then
-            Call webRequest.SetProxy(proxy)
+            webRequest.SetProxy(proxy)
+        Else
+            webRequest.Proxy = Nothing
         End If
 
         Return webRequest
@@ -218,19 +237,27 @@ Re0:
     Public Function UrlGet(webrequest As HttpWebRequest, echo As Boolean) As WebResponseResult
         Dim timer As Stopwatch = Stopwatch.StartNew
         Dim url As String = webrequest.RequestUri.ToString
+        Dim html As String
 
-        Using response As WebResponse = webrequest.GetResponse,
-            respStream As Stream = response.GetResponseStream,
-            reader As New StreamReader(respStream)
+        Using response As HttpWebResponse = webrequest.GetResponse
+            ' 检查内容编码是否为gzip
+            If response.ContentEncoding.ToLower().Contains("gzip") Then
+                ' 使用GZipStream解压缩响应流
+                Using gzipStream As New GZipStream(response.GetResponseStream(), CompressionMode.Decompress)
+                    ' 读取解压缩后的流
+                    Using reader As New StreamReader(gzipStream, Encoding.UTF8)
+                        ' 返回响应内容
+                        html = reader.ReadToEnd()
+                    End Using
+                End Using
+            Else
+                ' 如果不是gzip压缩，直接读取响应流
+                Using reader As New StreamReader(response.GetResponseStream(), Encoding.UTF8)
+                    ' 返回响应内容
+                    html = reader.ReadToEnd()
+                End Using
+            End If
 
-            Dim htmlBuilder As New StringBuilder
-            Dim line As Value(Of String) = ""
-
-            Do While Not (line = reader.ReadLine) Is Nothing
-                htmlBuilder.AppendLine(line)
-            Loop
-
-            Dim html As String = htmlBuilder.ToString
             Dim timespan As Long = timer.ElapsedMilliseconds
             Dim headers As New ResponseHeaders(response.Headers)
 
@@ -250,7 +277,7 @@ Re0:
                 If timespan > 1000 Then
                     Call debug.Warning
                 Else
-                    Call debug.__INFO_ECHO
+                    Call debug.info
                 End If
             End If
 

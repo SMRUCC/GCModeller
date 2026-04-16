@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34fbce7e36348a9da72df2465a6aaab8, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Repeats.vb"
+﻿#Region "Microsoft.VisualBasic::31baff5bb550a8f9ce1bac8a044caf21, analysis\SequenceToolkit\SequenceTools\CLI\LociFeatures\Repeats.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 241
+    '    Code Lines: 187 (77.59%)
+    ' Comment Lines: 14 (5.81%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 40 (16.60%)
+    '     File Size: 9.80 KB
+
+
     ' Module Utilities
     ' 
     '     Function: BatchSearch, RepeatsDensity, ScreenRepeats, SearchRepeats, SSRFinder
@@ -41,12 +53,13 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.Data
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Math.Distributions.BinBox
@@ -222,7 +235,7 @@ Partial Module Utilities
                Usage:="/Write.Seeds /out <out.dat> [/prot /max <20>]")>
     <Group(CLIGrouping.RepeatsTools)>
     Public Function WriteSeeds(args As CommandLine) As Integer
-        Dim isProt As Boolean = args.GetBoolean("/prot")
+        Dim isProt As Boolean = args("/prot")
         Dim out As String = args("/out")
         Dim max As Integer = args.GetValue("/max", 20)
         Dim chars As Char() = If(isProt, ToChar.Values.Distinct.ToArray, {"A"c, "T"c, "G"c, "C"c})
@@ -262,7 +275,7 @@ Partial Module Utilities
                     Console.Write(".")
                     Continue For
                 Else
-                    Call nt.Title.__INFO_ECHO
+                    Call nt.Title.info
                 End If
 
                 Try

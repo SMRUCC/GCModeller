@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a952b0569dd164aaa4438e0c924225cb, Data\BinaryData\msgpack\Serialization\SchemaProvider.vb"
+﻿#Region "Microsoft.VisualBasic::a4890cf57fde5e00cded4c2f639b3a07, Data\BinaryData\msgpack\Serialization\SchemaProvider.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 31 (49.21%)
+    ' Comment Lines: 23 (36.51%)
+    '    - Xml Docs: 91.30%
+    ' 
+    '   Blank Lines: 9 (14.29%)
+    '     File Size: 2.31 KB
+
+
     '     Class SchemaProvider
     ' 
-    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ReadFile, Write
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
+Imports System.Linq
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
@@ -69,6 +84,35 @@ Namespace Serialization
         ''' </summary>
         ''' <returns></returns>
         Protected Friend MustOverride Iterator Function GetObjectSchema() As IEnumerable(Of (obj As Type, schema As Dictionary(Of String, NilImplication)))
+
+        Sub New()
+            Call MsgPackSerializer.DefaultContext.RegisterSerializer(Me)
+        End Sub
+
+        Public Shared Function ReadFile(file As Stream) As T()
+            Return MsgPackSerializer.Deserialize(Of T())(file)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="items"></param>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' data will be auto flush to <paramref name="file"/>.
+        ''' </remarks>
+        Public Shared Function Write(items As IEnumerable(Of T), file As Stream) As Boolean
+            Try
+                Call MsgPackSerializer.SerializeObject(items.ToArray, file)
+                Call file.Flush()
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Return False
+            End Try
+
+            Return True
+        End Function
 
     End Class
 End Namespace

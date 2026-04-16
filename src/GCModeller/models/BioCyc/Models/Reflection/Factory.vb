@@ -1,0 +1,105 @@
+﻿#Region "Microsoft.VisualBasic::7e9b9a0ee685dfe75513c4537640fef3, models\BioCyc\Models\Reflection\Factory.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 43 (84.31%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.84 KB
+
+
+    ' Module Factory
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ParseCompoundReference, ParseKineticsFactor, ParseReactionDirection
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+Imports SMRUCC.genomics.Data.BioCyc.Assembly.MetaCyc.Schema.Metabolism
+Module Factory
+
+    ReadOnly reactionDirections As New Dictionary(Of String, ReactionDirections)
+
+    Sub New()
+        For Each flag As ReactionDirections In Enums(Of ReactionDirections)()
+            reactionDirections(flag.Description) = flag
+        Next
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ParseReactionDirection(value As ValueString) As ReactionDirections
+        Return reactionDirections(value.value)
+    End Function
+
+    Public Function ParseCompoundReference(value As ValueString) As CompoundSpecieReference
+        Dim coef As String
+        Dim ref As New CompoundSpecieReference With {
+            .ID = value.value,
+            .Stoichiometry = 1
+        }
+        Dim factor As Double
+
+        ref.Compartment = value("COMPARTMENT")
+        coef = value("COEFFICIENT")
+
+        If Not coef.StringEmpty Then
+            If coef = "n" OrElse coef = "N" OrElse coef Like "n*" OrElse coef Like "*n" Then
+                ref.Stoichiometry = Double.PositiveInfinity
+            ElseIf Double.TryParse(coef, result:=factor) Then
+                ref.Stoichiometry = factor
+            Else
+                ref.Stoichiometry = 0
+            End If
+        End If
+        Return ref
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function ParseKineticsFactor(value As ValueString) As KineticsFactor
+        Return New KineticsFactor With {
+           .Km = Double.Parse(value.value),
+           .citations = value.getAttributes("CITATIONS"),
+           .substrate = value("SUBSTRATE")
+       }
+    End Function
+
+End Module

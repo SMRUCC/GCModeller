@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2901f45d3805a4a259a8f6516be6720b, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
+﻿#Region "Microsoft.VisualBasic::bf4a35f99e766bf5a5e44c5aff8d4d02, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\ACCESSION.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 112 (75.68%)
+    ' Comment Lines: 8 (5.41%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 28 (18.92%)
+    '     File Size: 4.93 KB
+
+
     '     Class ACCESSION
     ' 
     '         Properties: AccessionId, Alternative
@@ -62,7 +74,7 @@
 
 #End Region
 
-Imports System.Text
+Imports Microsoft.VisualBasic.Language.[Default]
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -157,12 +169,13 @@ RETURN_EMPTY:   Return New ACCESSION With {
     End Class
 
     Public Class VERSION : Inherits KeyWord
+        Implements IsEmpty
 
         Public Property Ver As String
         Public Property AccessionID As String
         Public Property GI As String
 
-        Public ReadOnly Property IsEmpty As Boolean
+        Public ReadOnly Property IsEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return String.IsNullOrEmpty(Ver) AndAlso
                     String.IsNullOrEmpty(AccessionID) AndAlso

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::32d09e35ef4e1fa2c90935ccc1f5fb1a, models\Networks\Microbiome\PathwayProfile\PathwayProfile.vb"
+﻿#Region "Microsoft.VisualBasic::bbe4cdb90a04c675d1a3de77e47ad01b, models\Networks\Microbiome\PathwayProfile\PathwayProfile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 86 (69.92%)
+    ' Comment Lines: 22 (17.89%)
+    '    - Xml Docs: 86.36%
+    ' 
+    '   Blank Lines: 15 (12.20%)
+    '     File Size: 5.00 KB
+
+
     '     Module PathwayProfiler
     ' 
     '         Function: EnrichmentTestInternal, (+2 Overloads) PathwayProfiles, ProfileEnrichment
@@ -43,7 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports RDotNet.Extensions.VisualBasic.API
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.Metagenomics
@@ -113,11 +125,11 @@ Namespace PathwayProfile
                     pvalue = 1
                 Else
                     vector(Scan0) += 0.0000001
-                    pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
+                    pvalue = t.Test(vector, ZERO, varEqual:=True).Pvalue
                 End If
             Else
                 ' 可能有很多零
-                pvalue = stats.Ttest(vector, ZERO, varEqual:=True).pvalue
+                pvalue = t.Test(vector, ZERO, varEqual:=True).Pvalue
             End If
 
             Return (profile, pvalue)

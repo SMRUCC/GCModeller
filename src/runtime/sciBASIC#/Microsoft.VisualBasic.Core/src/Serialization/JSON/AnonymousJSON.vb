@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3476fa9a65292ec12085b6f71a225118, Microsoft.VisualBasic.Core\src\Serialization\JSON\AnonymousJSON.vb"
+﻿#Region "Microsoft.VisualBasic::ced27b770225ef4247666144a2b8fdb1, Microsoft.VisualBasic.Core\src\Serialization\JSON\AnonymousJSON.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 48 (48.48%)
+    ' Comment Lines: 40 (40.40%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 11 (11.11%)
+    '     File Size: 3.87 KB
+
 
     '     Module AnonymousJSONExtensions
     ' 
@@ -66,11 +78,16 @@ Namespace Serialization.JSON
         End Function
 
         ''' <summary>
-        ''' 专门为任意字符串集合所创建的json序列化方法，在这个函数之中会自动调用ToArray后再进行json序列化
+        ''' get string array json
         ''' </summary>
-        ''' <param name="array"></param>
+        ''' <param name="array">a string collection, this function will convert this
+        ''' enumerable collection object as array and then serialize as json.
+        ''' </param>
         ''' <param name="indent"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 专门为任意字符串集合所创建的json序列化方法，在这个函数之中会自动调用ToArray后再进行json序列化
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GetJson(array As IEnumerable(Of String), Optional indent As Boolean = False) As String

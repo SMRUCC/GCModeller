@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3568d27bae2c091bb5c92f6aa85c2517, Data_science\Visualization\Visualization\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3518bbc4a76ff4ccaa57a210bbadcbda, Data_science\Visualization\Visualization\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 74 (73.27%)
+    ' Comment Lines: 17 (16.83%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 10 (9.90%)
+    '     File Size: 4.07 KB
+
+
     ' Module Extensions
     ' 
     '     Function: BuildTransactions, CastTo, ClusterResultFastLoad, Load, ToEntityObject
@@ -43,7 +55,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.AprioriRules.Entities
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.DataMining.KMeans

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67a2829f1312136bfb4849aa70887c7d, mime\application%pdf\PdfReader\Parser\ParseStream.vb"
+﻿#Region "Microsoft.VisualBasic::5951d3ecab33f5da2c21a51c7e80f4fa, mime\application%pdf\PdfReader\Parser\ParseStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 78 (81.25%)
+    ' Comment Lines: 2 (2.08%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (16.67%)
+    '     File Size: 3.46 KB
+
+
     '     Class ParseStream
     ' 
     '         Properties: Dictionary, HasFilter, StreamBytes, Value, ValueAsBytes
@@ -55,7 +67,7 @@ Namespace PdfReader
 
         Private _Dictionary As PdfReader.ParseDictionary, _StreamBytes As Byte()
 
-        Public Sub New(ByVal dictionary As ParseDictionary, ByVal streamBytes As Byte())
+        Public Sub New(dictionary As ParseDictionary, streamBytes As Byte())
             Me.Dictionary = dictionary
             Me.StreamBytes = streamBytes
         End Sub
@@ -64,7 +76,7 @@ Namespace PdfReader
             Get
                 Return _Dictionary
             End Get
-            Private Set(ByVal value As ParseDictionary)
+            Private Set(value As ParseDictionary)
                 _Dictionary = value
             End Set
         End Property
@@ -73,7 +85,7 @@ Namespace PdfReader
             Get
                 Return _StreamBytes
             End Get
-            Private Set(ByVal value As Byte())
+            Private Set(value As Byte())
                 _StreamBytes = value
             End Set
         End Property
@@ -96,7 +108,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Function DecodeBytes(ByVal bytes As Byte()) As Byte()
+        Public Function DecodeBytes(bytes As Byte()) As Byte()
             If HasFilter Then
                 ' Get the filtering as an array to be applied in order (if a single filter then convert from Name to an Array of one entry)
                 Dim obj = Dictionary("Filter")
@@ -120,7 +132,7 @@ Namespace PdfReader
             Return bytes
         End Function
 
-        Private Function FlateDecode(ByVal bytes As Byte()) As Byte()
+        Private Function FlateDecode(bytes As Byte()) As Byte()
             Using inputStream As MemoryStream = New MemoryStream(bytes)
 
                 Using outputStream As MemoryStream = New MemoryStream()

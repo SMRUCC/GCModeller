@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e4655c16e3372225d723ca27812cefc, Data_science\MachineLearning\MachineLearning\Darwinism\DifferentialEvolution.vb"
+﻿#Region "Microsoft.VisualBasic::b7bd9eff8987a9fbe1916e60e72f53f1, Data_science\MachineLearning\MachineLearning\Darwinism\DifferentialEvolution.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 296
+    '    Code Lines: 180 (60.81%)
+    ' Comment Lines: 79 (26.69%)
+    '    - Xml Docs: 65.82%
+    ' 
+    '   Blank Lines: 37 (12.50%)
+    '     File Size: 14.10 KB
+
 
     '     Interface IIndividual
     ' 
@@ -131,7 +143,7 @@ Namespace Darwinism
         ''' <param name="CR">crossover probability [0,1]</param>
         ''' <param name="PopulationSize%"></param>
         ''' <returns></returns>
-        Public Function Evolution(Of Individual As IIndividual)(
+        Public Function Evolution(Of Individual As {Class, IIndividual})(
                                          target As Func(Of Individual, Double),
                                           [new] As [New](Of Individual),
                                            N%,
@@ -146,10 +158,10 @@ Namespace Darwinism
 
             ' linked list that has our population inside
             Dim bestFit# = Integer.MaxValue
-            Dim fitnessFunction As Func(Of Individual, Boolean, Double) = AddressOf New FitnessPool(Of Individual)(
+            Dim fitnessFunction As Func(Of Individual, Boolean, Double) = AddressOf New GeneralFitnessPool(Of Individual)(
                 cacl:=target,
                 capacity:=PopulationSize * 100,
-                toString:=Function(id) id.ToString
+                toString:=Function(a) a.ToString
             ).Fitness
 
             Dim i As i32 = Scan0
@@ -167,7 +179,7 @@ Namespace Darwinism
                 Do While (++i < maxIterations)
                     Dim subPopulates As Individual()() = population.Split(parts)
                     Dim LQuery = LinqAPI.Exec(Of DoubleTagged(Of Individual())) <=
- _
+                                                                                  _
                         From subPop As Individual()
                         In subPopulates.AsParallel
                         Select subPop.subPopulationEvolute(
@@ -301,7 +313,7 @@ Namespace Darwinism
                     ' 所以需要在这里添加一个随机数来解决这个问题
                     ' 假设数量级很大的话，这里是否需要通过log10来取指数进行突变？
                     'Dim raw = individual1.Yield(R)
-                    'Dim mutate# = stdNum.Log10(Math.Abs(raw)) + F * (Math.Log10(Math.Abs(individual2.Yield(R))) - stdNum.Log10(Math.Abs(individual3.Yield(R))))
+                    'Dim mutate# = stdNum.Log10(std.Abs(raw)) + F * (Math.Log10(std.Abs(individual2.Yield(R))) - stdNum.Log10(std.Abs(individual3.Yield(R))))
                     'mutate = raw + If(random.NextBoolean, 1, -1) * 10 ^ mutate
                     Dim mutate# = individual1.Yield(R) + F * (individual2.Yield(R) - individual3.Yield(R))
                     mutate *= random.NextDouble

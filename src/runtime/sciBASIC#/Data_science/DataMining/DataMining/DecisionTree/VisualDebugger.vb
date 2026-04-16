@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 41 (80.39%)
+    ' Comment Lines: 4 (7.84%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 6 (11.76%)
+    '     File Size: 2.23 KB
+
+
     '     Module VisualDebugger
     ' 
     '         Sub: Print, PrintLegend

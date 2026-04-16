@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 83 (50.00%)
+    ' Comment Lines: 61 (36.75%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (13.25%)
+    '     File Size: 7.52 KB
+
+
     ' Class externalontology
     ' 
     '     Properties: DB_ID, definition, identifier, referenceDatabase, referenceDatabase_class

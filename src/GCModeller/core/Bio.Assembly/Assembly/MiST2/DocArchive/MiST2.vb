@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b556747c4077cea98720e43d0160457, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
+﻿#Region "Microsoft.VisualBasic::786849d1d156e42d38f2e63f879a185c, core\Bio.Assembly\Assembly\MiST2\DocArchive\MiST2.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 124 (78.98%)
+    ' Comment Lines: 9 (5.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (15.29%)
+    '     File Size: 7.16 KB
+
+
     '     Class MiST2
     ' 
     '         Properties: GC, Genes, MajorModules, MiST2Code, Organism
     '                     ProfileImageUrl, Proteins, Replicons, Size, Status
     '                     Taxonomy
     ' 
-    '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+2 Overloads) Save
+    '         Function: GetProfileImage, IsHisK, IsRR, ParseLine, (+3 Overloads) Save
     '                   ToString
     ' 
     '         Sub: Parse
@@ -47,13 +59,24 @@
 
 #End Region
 
-Imports System.Drawing
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
+
+#If NET48 Then
+Imports Image = System.Drawing.Image
+#Else
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
 
 Namespace Assembly.MiST2
 
@@ -174,7 +197,18 @@ Namespace Assembly.MiST2
         End Operator
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Me.GetXml.SaveTo(Path, encoding)
+            Using file As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, encoding)
+            End Using
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9b5a484ae21bfcda046a53daff85e4a, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Ranks.vb"
+﻿#Region "Microsoft.VisualBasic::d441abd42a10040d1d76a8ccb0c8ae1b, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Ranks.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 51 (65.38%)
+    ' Comment Lines: 16 (20.51%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 3.10 KB
+
+
     '     Delegate Function
     ' 
     ' 
@@ -57,7 +69,7 @@ Namespace Math
 
     Public Delegate Function Evaluate(Of T)(x As T) As Double
 
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NETCOREAPP Then
 
     Public Class Ranking(Of T)
 
@@ -79,7 +91,8 @@ Namespace Math
             Dim result As SeqValue(Of (T, Double))()
             Dim weights As IEnumerable(Of Double) = _Weight.Repeats(LQuery.Length)
 
-            If Max Then   ' 由于后面需要进行加权计算，所以在这里是反过来求最大的
+            If Max Then
+                ' 由于后面需要进行加权计算，所以在这里是反过来求最大的
                 result = (From x In LQuery Select x Order By x.v Ascending) _
                         .Select(Function(x) x.x) _
                         .Tuple(weights) _

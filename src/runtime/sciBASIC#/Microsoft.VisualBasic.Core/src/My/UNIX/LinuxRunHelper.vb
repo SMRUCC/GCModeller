@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1001930f9c4b17a4eb8503d1592fbf6, Microsoft.VisualBasic.Core\src\My\UNIX\LinuxRunHelper.vb"
+﻿#Region "Microsoft.VisualBasic::bfd3ac764bb5e440ba993c96553b02c4, Microsoft.VisualBasic.Core\src\My\UNIX\LinuxRunHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 80 (60.15%)
+    ' Comment Lines: 35 (26.32%)
+    '    - Xml Docs: 77.14%
+    ' 
+    '   Blank Lines: 18 (13.53%)
+    '     File Size: 4.90 KB
+
+
     '     Module LinuxRunHelper
     ' 
     '         Function: BashRun, BashShell, GetLocationHelper, getRunnerBash, MonoRun
@@ -41,16 +53,12 @@
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Buffers
-Imports Microsoft.VisualBasic.CommandLine.Reflection
-#End If
-
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace My.UNIX
 
@@ -64,7 +72,7 @@ Namespace My.UNIX
         End Function
 
         Private Function getRunnerBash() As Byte()
-#If netcore5 = 1 Then
+#If NETCOREAPP Then
             Return My.Resources.runNet5
 #Else
             Return My.Resources.runMono
@@ -94,12 +102,23 @@ Namespace My.UNIX
         ''' 'sudo chmod 777 cmd.sh'
         ''' ```
         ''' </summary>
+        ''' <param name="install_root">
+        ''' install command to root location: /usr/local/bin/
+        ''' </param>
         ''' <returns></returns>
-        Public Function BashShell() As Integer
+        Public Function BashShell(Optional install_root As Boolean = False) As Integer
             Dim path As String = App.ExecutablePath.TrimSuffix
-            Dim bash As String = BashRun().LineTokens.JoinBy(ASCII.LF)
+            Dim bash_run As String = BashRun().LineTokens.JoinBy(ASCII.LF)
             Dim dir As String = path.ParentPath
             Dim bashfile As String = dir & "/help"
+
+            If install_root Then
+                path = $"/usr/local/bin/{App.ExecutablePath.BaseName}"
+                bash_run = {
+                    $"#!/bin/bash",
+                    $"dotnet ""{App.HOME}/{App.AssemblyName}.dll"" $@"
+                }.JoinBy(ASCII.LF)
+            End If
 
             Console.WriteLine("Bash script save at:")
             Console.WriteLine(path)
@@ -107,9 +126,9 @@ Namespace My.UNIX
             ' 在这里写入的bash脚本都是没有文件拓展名的
             '
             ' 同时写入man命令帮助脚本
-            Call My.Resources.help.FlushStream(bashfile)
+            ' Call My.Resources.help.FlushStream(bashfile)
             ' bash run script of current application
-            Call BashRun _
+            Call bash_run _
                 .LineTokens _
                 .JoinBy(ASCII.LF) _
                 .SaveTo(path, Encodings.UTF8WithoutBOM.CodePage)

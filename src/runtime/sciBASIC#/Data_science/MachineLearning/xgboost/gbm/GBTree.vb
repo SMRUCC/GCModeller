@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 101 (69.18%)
+    ' Comment Lines: 15 (10.27%)
+    '    - Xml Docs: 20.00%
+    ' 
+    '   Blank Lines: 30 (20.55%)
+    '     File Size: 5.64 KB
+
+
     '     Class GBTree
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ede238136b36f43c7becdc97a1a432d, core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
+﻿#Region "Microsoft.VisualBasic::77503a96f2761828c82f4eb9a159a9a7, core\Bio.Assembly\ContextModel\Algorithm\ContextCore.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 48 (66.67%)
+    ' Comment Lines: 17 (23.61%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 7 (9.72%)
+    '     File Size: 3.19 KB
+
+
     '     Structure RelationDelegate
     ' 
     '         Function: GetATGRelation, GetRelation
@@ -44,7 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -70,10 +82,10 @@ Namespace ContextModel
             Dim result As IEnumerable(Of IntTag(Of T)) = Nothing
 
             If Not dataSource.Desc Then ' 目标序列是升序排序的
-                Dim n As Integer = loci.Right + dist
+                Dim n As Integer = loci.right + dist
                 result = dataSource.SelectUntilGreaterThan(n)
             Else ' 目标序列是降序排序的
-                Dim n As Integer = loci.Left - dist
+                Dim n As Integer = loci.left - dist
                 result = dataSource.SelectUntilLessThan(n)
             End If
 
@@ -106,7 +118,7 @@ Namespace ContextModel
             Dim LQuery As T() =
                 LinqAPI.Exec(Of T) <= From gene As T
                                       In genes
-                                      Where stdNum.Abs(GetATGDistance(loci, gene)) <= ATGdist
+                                      Where std.Abs(GetATGDistance(loci, gene)) <= ATGdist
                                       Select gene '获取ATG距离小于阈值的所有基因
             Return LQuery
         End Function

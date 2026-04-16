@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::64497e0d32bd0889220b369813bf56ab, models\SBML\SBML\Components\Notes.vb"
+﻿#Region "Microsoft.VisualBasic::d8f7b2afe6a0f4d38076696ebbcf47ba, models\SBML\SBML\Components\Notes.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 74 (74.00%)
+    ' Comment Lines: 3 (3.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (23.00%)
+    '     File Size: 3.26 KB
+
+
     '     Class Notes
     ' 
-    '         Properties: body, Properties, Text
+    '         Properties: body, Properties
     ' 
-    '         Function: ToString
+    '         Function: GetText, ToString
     ' 
     '     Class Body
     ' 
     '         Properties: Passage, Text
     ' 
-    '         Function: GetProperties, ToString
+    '         Function: GetProperties, GetText, ToString
     ' 
     '     Class [Property]
     ' 
@@ -54,27 +66,18 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
+Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq.Extensions
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Components
 
-    <XmlType("notes")> Public Class Notes
+    <XmlType("notes")> Public Class Notes : Inherits Body
 
         <XmlElement("body", [Namespace]:="http://www.w3.org/1999/xhtml")>
         Public Property body As Body
-
-        Public ReadOnly Property Text As String
-            Get
-                If body Is Nothing Then
-                    Return ""
-                Else
-                    Return body.Text
-                End If
-            End Get
-        End Property
 
         Public ReadOnly Property Properties As [Property]()
             Get
@@ -86,18 +89,53 @@ Namespace Components
             End Get
         End Property
 
+        Public Overrides Function GetText() As String
+            Dim sb As New StringBuilder
+
+            If Not Text.StringEmpty Then
+                Call sb.AppendLine(Text)
+            End If
+
+            If Not body Is Nothing Then
+                Call sb.AppendLine(body.GetText)
+            End If
+
+            If Not Passage.IsNullOrEmpty Then
+                Call Passage.DoEach(AddressOf sb.AppendLine)
+            End If
+
+            Return sb.ToString.Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
+        End Function
+
         Public Overrides Function ToString() As String
-            Return Text
+            Return GetText()
         End Function
     End Class
 
+    ''' <summary>
+    ''' A note document body
+    ''' </summary>
     <XmlType("body", [Namespace]:="http://www.w3.org/1999/xhtml")> Public Class Body
 
         <XmlElement("p")> Public Property Passage As String()
-        <XmlText> Public Property Text As String
+        <XmlText> Public Overridable Property Text As String
 
         Public Function GetProperties() As [Property]()
             Return Passage.Select(Function(s) [Property].Parser(s)).ToArray
+        End Function
+
+        Public Overridable Function GetText() As String
+            Dim sb As New StringBuilder
+
+            If Not Text.StringEmpty Then
+                Call sb.AppendLine(Text)
+            End If
+
+            If Not Passage.IsNullOrEmpty Then
+                Call Passage.DoEach(AddressOf sb.AppendLine)
+            End If
+
+            Return sb.ToString
         End Function
 
         Public Overrides Function ToString() As String

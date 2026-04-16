@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79e376c3fdd6e48c656cc6f2e68654bd, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Contig.vb"
+﻿#Region "Microsoft.VisualBasic::2d63bba59ce81cf0687a0ca6b00c79f9, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\Contig.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 58 (63.74%)
+    ' Comment Lines: 19 (20.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (15.38%)
+    '     File Size: 3.81 KB
+
+
     '     Class Contig
     ' 
     '         Properties: Location, MappingLocation
@@ -53,10 +65,12 @@ Imports SMRUCC.genomics.ContextModel
 Namespace SequenceModel.NucleotideModels
 
     ''' <summary>
-    ''' 这个基础的模型对象只有在基因组上面的位置信息
+    ''' a model for nucleotide sequence region on genomics sequence
     ''' </summary>
-    Public MustInherit Class Contig
-        Implements IContig
+    ''' <remarks>
+    ''' 这个基础的模型对象只有在基因组上面的位置信息
+    ''' </remarks>
+    Public MustInherit Class Contig : Implements IContig
 
         Protected _MappingLocation As NucleotideLocation
 
@@ -104,8 +118,7 @@ Namespace SequenceModel.NucleotideModels
         End Sub
 
         Public Function GetRelatedGenes(PTT As PTT, loc As SegmentRelationships, Optional atgDist As Integer = 500) As GeneBrief()
-            Dim found As Relationship(Of GeneBrief)() =
-                PTT.GetRelatedGenes(MappingLocation, True)
+            Dim found As Relationship(Of GeneBrief)() = PTT.GetRelatedGenes(MappingLocation, True)
             Dim gets As GeneBrief() =
                 LinqAPI.Exec(Of GeneBrief) <= From x As Relationship(Of GeneBrief)
                                               In found

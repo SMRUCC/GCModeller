@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d3e85da0c5b5d115124a0f54620f5bce, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Prism.vb"
+﻿#Region "Microsoft.VisualBasic::c2559fc356c20f79f74c4c492d4c2551, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Prism.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 36 (55.38%)
+    ' Comment Lines: 20 (30.77%)
+    '    - Xml Docs: 70.00%
+    ' 
+    '   Blank Lines: 9 (13.85%)
+    '     File Size: 2.32 KB
+
+
     '     Class Prism
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -60,9 +72,9 @@ Namespace Drawing3D.Models.Isometric.Shapes
         ''' 
         ''' </summary>
         ''' <param name="origin">位置</param>
-        ''' <param name="dx#">边长</param>
-        ''' <param name="dy#">边长</param>
-        ''' <param name="dz#">边长</param>
+        ''' <param name="dx">边长</param>
+        ''' <param name="dy">边长</param>
+        ''' <param name="dz">边长</param>
         Public Sub New(origin As Point3D, dx#, dy#, dz#)
             MyBase.New()
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::122488a7278145d336c07a6dff423890, analysis\Motifs\VirtualFootprint\RegPreciseScan.vb"
+﻿#Region "Microsoft.VisualBasic::ddd73a17ac143a93fa383fc103c5ea62, analysis\Motifs\VirtualFootprint\RegPreciseScan.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 57 (79.17%)
+    ' Comment Lines: 5 (6.94%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 10 (13.89%)
+    '     File Size: 3.04 KB
+
+
     ' Class RegPreciseScan
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH

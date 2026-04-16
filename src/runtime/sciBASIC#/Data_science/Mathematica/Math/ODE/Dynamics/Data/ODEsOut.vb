@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 65 (60.75%)
+    ' Comment Lines: 27 (25.23%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (14.02%)
+    '     File Size: 3.78 KB
+
+
     '     Class ODEsOut
     ' 
     '         Properties: dx, HaveNaN, params, Resolution, x

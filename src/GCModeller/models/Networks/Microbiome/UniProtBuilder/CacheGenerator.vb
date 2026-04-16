@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 79 (64.75%)
+    ' Comment Lines: 26 (21.31%)
+    '    - Xml Docs: 38.46%
+    ' 
+    '   Blank Lines: 17 (13.93%)
+    '     File Size: 4.61 KB
+
+
     ' Class CacheGenerator
     ' 
     '     Properties: counts, KO_list, taxonomy

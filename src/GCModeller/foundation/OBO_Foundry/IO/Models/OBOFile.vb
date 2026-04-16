@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79390a11f87c0839e63244530041112f, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
+﻿#Region "Microsoft.VisualBasic::0fea5aacd43aa6344caef66f5dc441e9, foundation\OBO_Foundry\IO\Models\OBOFile.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 327
+    '    Code Lines: 107 (32.72%)
+    ' Comment Lines: 194 (59.33%)
+    '    - Xml Docs: 84.02%
+    ' 
+    '   Blank Lines: 26 (7.95%)
+    '     File Size: 11.84 KB
+
+
     '     Class OBOFile
     ' 
     '         Properties: header
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: createRawTerm, GetRawTerms, populateLines, ToString
     ' 
@@ -47,6 +59,7 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -228,6 +241,7 @@ Namespace IO.Models
 
         ReadOnly file As String
         ReadOnly reader As StreamReader
+        ReadOnly cache As New List(Of RawTerm)
 
         Sub New(file$, Optional encoding As Encodings = Encodings.UTF8)
             If file.StringEmpty Then
@@ -238,6 +252,15 @@ Namespace IO.Models
             End If
 
             Call parseHeader()
+        End Sub
+
+        Sub New(file As Stream, Optional encoding As Encodings = Encodings.UTF8)
+            If TypeOf file Is FileStream Then
+                Me.file = DirectCast(file, FileStream).Name
+            End If
+
+            reader = New StreamReader(file, encoding.CodePage)
+            parseHeader()
         End Sub
 
         Private Sub parseHeader()
@@ -251,14 +274,37 @@ Namespace IO.Models
             header = bufs.LoadData(Of header)()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return file.ToFileURL
         End Function
 
+        ''' <summary>
+        ''' read term data from obo file stream
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this function has cache data, first time call this function will cache term data into memory
+        ''' then second time call this function will populate data from the memory cache directly. 
+        ''' </remarks>
         Public Iterator Function GetRawTerms() As IEnumerable(Of RawTerm)
-            For Each block As NamedCollection(Of String) In populateLines()
-                Yield createRawTerm(block)
-            Next
+            If cache.IsNullOrEmpty Then
+                Dim term As RawTerm
+
+                ' read from file at first time call of this function
+                ' term will be parsed from the file stream
+                ' and then cached into the cache list
+                For Each block As NamedCollection(Of String) In populateLines()
+                    term = createRawTerm(block)
+                    cache.Add(term)
+                    Yield term
+                Next
+            Else
+                ' use the in-memory cache data
+                For Each term As RawTerm In cache
+                    Yield term
+                Next
+            End If
         End Function
 
         Private Function createRawTerm(block As NamedCollection(Of String)) As RawTerm

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c0159267ba46eaceeb2921e3ac8902d8, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
+﻿#Region "Microsoft.VisualBasic::4a65fbdc045d1a268f044f48f742126e, data\GO_gene-ontology\obographs\obographs\DAGModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 109 (65.66%)
+    ' Comment Lines: 37 (22.29%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 20 (12.05%)
+    '     File Size: 6.31 KB
+
 
     ' Module DAGModel
     ' 
@@ -114,7 +126,7 @@ Public Module DAGModel
         ' 每一个term都单独构建出一条通往base namespace的途径
         For Each termId As String In terms.SafeQuery
             Call termsTable(termId).addTerm(g, termsTable, relIndex)
-            Call termsTable(termId).ToString.__INFO_ECHO
+            Call termsTable(termId).ToString.info
         Next
 
         Return g

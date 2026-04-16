@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 36 (76.60%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (23.40%)
+    '     File Size: 1.21 KB
+
+
     '     Class TokenObject
     ' 
     '         Constructor: (+1 Overloads) Sub New

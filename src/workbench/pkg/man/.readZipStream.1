@@ -1,26 +1,34 @@
-﻿.TH .READZIPSTREAM 1 2021-11-15 "" "Read zip stream data"
+﻿.TH .READZIPSTREAM 1 2026-4月 "" "Read zip stream data"
 .SH NAME
-.readZipStream \- .readZipStream(zipfile, entryName = NULL)
+.readZipStream \- .readZipStream(zipfile,
+    <i>entryName</i> = <span style='color: blue !important;'>NULL</span>)
 .SH SYNOPSIS
-\fI.readZipStream(zipfile, entryName = NULL)\fR
+\fI.readZipStream(zipfile,
+    <i>entryName</i> = <span style='color: blue !important;'>NULL</span>)\fR
 .SH DESCRIPTION
 .PP
-this function open the given zip archive file and then load the first file as data stream object if the zip entry name is missing.
+
+
+this function open the given zip archive
+file and then load the first file as data stream
+object if the zip entry name is missing.
 .PP
 .SH OPTIONS
 .PP
-\fBzipfile\fB \fR\- . the file path of the target zip file to read data stream
+\fBzipfile\fB \fR\- . the file path of the target zip file to
+read data stream
 .PP
 .PP
 \fBentryName\fB \fR\- NULL. the zip entry name.
 .PP
 .SH VALUE
 .PP
-A data steam object that read from the given zip archive file.
+A data steam object that read from the
+given zip archive file.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function..readZipStream at kegg_repository.R:line 50
+SMRUCC/R#.declare_function..readZipStream at utils.R:line 14
 .PP
 .SH COPYRIGHT
-Copyright © xieguigang, GPL3 Licensed 2021
+Copyright © xieguigang, GPL3 Licensed 2026

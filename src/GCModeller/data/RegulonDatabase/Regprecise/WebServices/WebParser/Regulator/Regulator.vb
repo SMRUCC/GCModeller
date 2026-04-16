@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03de0a176df6b6f58821d855dcf320f1, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
+﻿#Region "Microsoft.VisualBasic::512fce690277cefd45bc35af7300801c, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulator\Regulator.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 67 (58.77%)
+    ' Comment Lines: 33 (28.95%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 14 (12.28%)
+    '     File Size: 4.58 KB
+
+
     '     Class Regulator
     ' 
-    '         Properties: biological_process, effector, family, infoURL, locus_tag
+    '         Properties: biological_process, effector, family, infoURL, locus_tags
     '                     LocusId, operons, pathway, Regulates, regulationMode
     '                     regulator, regulatorySites, regulog, type
     ' 
@@ -48,11 +60,10 @@
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Data.Regtransbase.WebServices
-Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace Regprecise
 
@@ -65,7 +76,11 @@ Namespace Regprecise
         <XmlElement> Public Property regulator As NamedValue
         <XmlElement> Public Property effector As String
         <XmlElement> Public Property pathway As String
-        <XmlElement> Public Property locus_tag As NamedValue
+        ''' <summary>
+        ''' a group of regulators in this family
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement("locus_tag")> Public Property locus_tags As NamedValue()
         <XmlElement> Public Property biological_process As String()
         <XmlElement> Public Property regulog As NamedValue
 
@@ -76,6 +91,10 @@ Namespace Regprecise
         <XmlElement("url")>
         Public Property infoURL As String
 
+        ''' <summary>
+        ''' a collection of the motif sites
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("regulatory_sites", [Namespace]:=MotifFasta.xmlns)>
         Public Property regulatorySites As MotifFasta()
 
@@ -94,13 +113,17 @@ Namespace Regprecise
         ''' </summary>
         ''' <value></value>
         ''' <returns>
-        ''' id of <see cref="locus_tag"/>
+        ''' first id of <see cref="locus_tags"/>
         ''' </returns>
         ''' <remarks></remarks>
         Public ReadOnly Property LocusId As String Implements IReadOnlyId.Identity
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return locus_tag.name
+                If locus_tags.IsNullOrEmpty Then
+                    Return Nothing
+                Else
+                    Return locus_tags(0).name
+                End If
             End Get
         End Property
 
@@ -125,7 +148,7 @@ Namespace Regprecise
         ''' </summary>
         ''' <param name="trace">locus_tag:position</param>
         ''' <returns></returns>
-        Public Function GetMotifSite(trace As String) As Regtransbase.WebServices.MotifFasta
+        Public Function GetMotifSite(trace As String) As MotifFasta
             Dim Tokens As String() = trace.Split(":"c)
             Return GetMotifSite(Tokens(Scan0), CInt(Val(Tokens(1))))
         End Function
@@ -134,19 +157,17 @@ Namespace Regprecise
         ''' 这个函数会自动移除一些表示NNNN的特殊符号
         ''' </summary>
         ''' <returns></returns>
-        Public Function ExportMotifs() As FASTA.FastaSeq()
-            Return LinqAPI.Exec(Of FASTA.FastaSeq) _
- _
-                () <= From fa As Regtransbase.WebServices.MotifFasta
-                      In regulatorySites
-                      Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
-                      Let t As String = $"{fa.locus_tag}:{fa.position} [family={family}] [regulog={regulog.name}]"
-                      Let attrs = New String() {t}
-                      Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(fa)
-                      Select New FASTA.FastaSeq With {
-                           .SequenceData = seq,
-                           .Headers = attrs
-                      }
+        Public Function ExportMotifs() As IEnumerable(Of FastaSeq)
+            Return From fa As MotifFasta
+                   In regulatorySites
+                   Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
+                   Let t As String = $"{fa.locus_tag}:{fa.position} [family={family}] [regulog={regulog.name}]"
+                   Let attrs = New String() {t}
+                   Let seq As String = Regtransbase.WebServices.Regulator.SequenceTrimming(fa)
+                   Select New FastaSeq With {
+                       .SequenceData = seq,
+                       .Headers = attrs
+                   }
         End Function
     End Class
 End Namespace

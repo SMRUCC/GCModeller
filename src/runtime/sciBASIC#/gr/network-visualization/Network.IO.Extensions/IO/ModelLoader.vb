@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fced10408bf7e26d222ace89b3b8410e, gr\network-visualization\Network.IO.Extensions\IO\ModelLoader.vb"
+﻿#Region "Microsoft.VisualBasic::bd700e3489018143d2ad6b3c016ca0f1, gr\network-visualization\Network.IO.Extensions\IO\ModelLoader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 124 (81.05%)
+    ' Comment Lines: 16 (10.46%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 13 (8.50%)
+    '     File Size: 8.28 KB
+
+
     '     Module ModelLoader
     ' 
     '         Function: CreateGraph, CreateGraphGeneric, getEdgeGuid
@@ -43,9 +55,9 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
@@ -107,7 +119,7 @@ Namespace FileStream
             Dim defaultColor As Brush = New SolidBrush(defaultBrush.TranslateColor)
 
             If Not net.nodes.All(Function(node) node.Properties.ContainsKey(names.REFLECTION_ID_MAPPING_DEGREE)) Then
-                Call $"Not all of the nodes contains degree value, nodes' radius will use default value: {defaultNodeSize}".Warning
+                Call $"Not all of the nodes contains degree value, nodes' radius will use default value: {defaultNodeSize}".warning
             End If
 
             If nodeColor Is Nothing Then
@@ -123,7 +135,7 @@ Namespace FileStream
             End If
 
             Dim nodes = LinqAPI.Exec(Of Graph.Node) <=
- _
+                                                      _
                 From n As Node
                 In net.nodes
                 Let id = n.ID
@@ -148,11 +160,15 @@ Namespace FileStream
                                End If
                            Next
                        End Sub)
-                Select New Graph.Node(id, data)
+                Select New Graph.Node(id, data) With {
+                    .degree = New NodeDegree(
+                        CInt(Val(n(names.REFLECTION_ID_MAPPING_DEGREE_IN))),
+                        CInt(Val(n(names.REFLECTION_ID_MAPPING_DEGREE_OUT))))
+                }
 
             Dim nodeTable As New Dictionary(Of Graph.Node)(nodes)
             Dim edges As Edge() =
- _
+                                 _
                 LinqAPI.Exec(Of Edge) <= From edge As NetworkEdge
                                          In net.edges
                                          Let a = nodeTable(edge.fromNode)
@@ -161,7 +177,11 @@ Namespace FileStream
                                          Let data As EdgeData = New EdgeData With {
                                              .Properties = New Dictionary(Of String, String) From {
                                                  {names.REFLECTION_ID_MAPPING_INTERACTION_TYPE, edge.interaction}
-                                             }
+                                             },
+                                             .style = New Pen(
+                                                edge.Properties.TryGetValue("color", [default]:="black").TranslateColor,
+                                                CInt(Val(edge.Properties.TryGetValue("width", [default]:="1")))
+                                             )
                                          }.With(Sub(ed)
                                                     For Each key As String In edge.Properties.Keys
                                                         If Not ed.Properties.ContainsKey(key) Then

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 21 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (22.22%)
+    '     File Size: 911 B
+
+
     '     Class unitDefinition
     ' 
     '         Properties: id, listOfUnits

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 90 (49.45%)
+    ' Comment Lines: 70 (38.46%)
+    '    - Xml Docs: 97.14%
+    ' 
+    '   Blank Lines: 22 (12.09%)
+    '     File Size: 8.01 KB
+
+
     '     Class TranscriptUnit
     ' 
     '         Properties: BasalLevel, GeneCluster, MaxLevel, Name, PromoterGene

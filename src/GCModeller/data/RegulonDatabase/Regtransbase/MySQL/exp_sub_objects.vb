@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 180
+    '    Code Lines: 91 (50.56%)
+    ' Comment Lines: 67 (37.22%)
+    '    - Xml Docs: 95.52%
+    ' 
+    '   Blank Lines: 22 (12.22%)
+    '     File Size: 9.07 KB
+
+
     ' Class exp_sub_objects
     ' 
     '     Properties: art_guid, exp_guid, obj_guid, obj_type_id, order_num

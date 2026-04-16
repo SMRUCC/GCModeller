@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1eadcdd71d7a85a3b0a6688567f34e2a, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\FunctionInvoke.vb"
+﻿#Region "Microsoft.VisualBasic::e274d51f60449a8c9465aa46e27f65cb, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\FunctionInvoke.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,37 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 27 (71.05%)
+    ' Comment Lines: 3 (7.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (21.05%)
+    '     File Size: 1.29 KB
+
+
     '     Class FunctionInvoke
     ' 
     '         Properties: funcName, parameters
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Evaluate, ToString
+    '         Function: Evaluate, GetVariableSymbols, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.Linq
+
 Namespace Scripting.MathExpression.Impl
 
+    ''' <summary>
+    ''' f(x)
+    ''' </summary>
     Public Class FunctionInvoke : Inherits Expression
 
         Public Property funcName As String
@@ -65,6 +82,14 @@ Namespace Scripting.MathExpression.Impl
 
         Public Overrides Function ToString() As String
             Return $"{funcName}({parameters.JoinBy(", ")})"
+        End Function
+
+        Public Overrides Iterator Function GetVariableSymbols() As IEnumerable(Of String)
+            For Each arg As Expression In parameters.SafeQuery
+                For Each name As String In arg.GetVariableSymbols
+                    Yield name
+                Next
+            Next
         End Function
     End Class
 End Namespace

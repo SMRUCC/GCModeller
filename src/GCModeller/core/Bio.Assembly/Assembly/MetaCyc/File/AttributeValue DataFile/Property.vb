@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 62 (72.09%)
+    ' Comment Lines: 12 (13.95%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 12 (13.95%)
+    '     File Size: 3.55 KB
+
+
     '     Class [Property]
     ' 
     '         Properties: Authors, Database, FileName, GeneratedDate, Species

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e5a819f63d58b3343fb76d1cafa8f299, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
+﻿#Region "Microsoft.VisualBasic::ebff453a268a21f3e41be0bf2c0cb8fa, gr\Microsoft.VisualBasic.Imaging\Drawing2D\g.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 326
+    '    Code Lines: 193 (59.20%)
+    ' Comment Lines: 94 (28.83%)
+    '    - Xml Docs: 88.30%
+    ' 
+    '   Blank Lines: 39 (11.96%)
+    '     File Size: 13.46 KB
+
+
     '     Delegate Sub
     ' 
     ' 
@@ -44,14 +56,6 @@
     '                   MeasureWidthOrHeight, ParseDriverEnumValue
     ' 
     '         Sub: FillBackground, SetDriver
-    '         Class InternalCanvas
-    ' 
-    '             Properties: bg, padding, size
-    ' 
-    '             Function: InvokePlot
-    '             Operators: (+2 Overloads) +, <=, >=
-    ' 
-    ' 
     ' 
     ' 
     ' 
@@ -60,22 +64,25 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
-Imports System.Drawing.Text
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Imaging.PostScript
 Imports Microsoft.VisualBasic.Imaging.SVG
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.My.FrameworkInternal
 
+#If NET48 Then
+Imports System.Drawing.Drawing2D
+Imports System.Drawing.Text
+Imports Microsoft.VisualBasic.Drawing
+#End If
+
 Namespace Drawing2D
 
     ''' <summary>
-    ''' 
+    ''' An abstract function interface for make graphics plot
     ''' </summary>
     ''' <param name="g">GDI+设备</param>
     ''' <param name="grct">绘图区域的大小</param>
@@ -83,9 +90,10 @@ Namespace Drawing2D
 
     ''' <summary>
     ''' Data plots graphics engine common abstract. 
-    ''' (在命令行中使用``graphic_driver=svg``来切换默认的图形引擎为SVG矢量图作图引擎)
     ''' </summary>
-    ''' 
+    ''' <remarks>
+    ''' (在命令行中使用``graphic_driver=svg``来切换默认的图形引擎为SVG矢量图作图引擎)
+    ''' </remarks>
     <FrameworkConfig(GraphicDriverEnvironmentConfigName)>
     Public Module g
 
@@ -119,10 +127,20 @@ Namespace Drawing2D
         ''' </summary>
         Sub New()
             Dim type$ = Strings.LCase(App.GetVariable(GraphicDriverEnvironmentConfigName))
+            Dim defaultDriver = ParseDriverEnumValue(type)
 
-            g.__defaultDriver = ParseDriverEnumValue(type)
+            Call Driver.DefaultGraphicsDevice([default]:=defaultDriver)
+            Call ImageDriver.RegisterPostScript()
 
-            Call $"The default graphics driver value is config as {g.__defaultDriver.Description}({type}).".__INFO_ECHO
+#If NET48 Then
+            ' use the internal windows gdi+ library
+            ' for .net 4.8 program
+            Call ImageDriver.Register()
+#End If
+
+            If VBDebugger.debugMode Then
+                Call $"The default graphics driver value is config as {Driver.DefaultGraphicsDevice.Description}({type}).".info
+            End If
         End Sub
 
         Public Function ParseDriverEnumValue(str As String) As Drivers
@@ -130,9 +148,10 @@ Namespace Drawing2D
 
             Select Case type
                 Case "svg" : Return Drivers.SVG
-                Case "gdi" : Return Drivers.GDI
-                Case "ps" : Return Drivers.PS
+                Case "gdi", "bmp", "jpg", "jpeg", "png", "webp", "tif" : Return Drivers.GDI
+                Case "ps" : Return Drivers.PostScript
                 Case "wmf" : Return Drivers.WMF
+                Case "pdf" : Return Drivers.PDF
                 Case Else
                     Return Drivers.Default
             End Select
@@ -145,7 +164,7 @@ Namespace Drawing2D
         Public ReadOnly Property ActiveDriver As Drivers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return __defaultDriver
+                Return Driver.DefaultGraphicsDevice
             End Get
         End Property
 
@@ -159,19 +178,14 @@ Namespace Drawing2D
                     Case Drivers.SVG : Return "svg"
                     Case Drivers.GDI, Drivers.Default
                         Return "png"
-                    Case Drivers.PS : Return "ps"
+                    Case Drivers.PostScript : Return "ps"
                     Case Drivers.WMF : Return "wmf"
+                    Case Drivers.PDF : Return "pdf"
                     Case Else
                         Throw New NotImplementedException(ActiveDriver.Description)
                 End Select
             End Get
         End Property
-
-        ''' <summary>
-        ''' 用户所指定的图形引擎驱动程序类型，但是这个值会被开发人员设定的驱动程序类型的值所覆盖，
-        ''' 通常情况下，默认引擎选用的是``gdi+``引擎
-        ''' </summary>
-        Dim __defaultDriver As Drivers = Drivers.Default
 
         ''' <summary>
         ''' 这个函数不会返回<see cref="Drivers.Default"/>
@@ -182,11 +196,11 @@ Namespace Drawing2D
             If developerValue <> Drivers.Default Then
                 Return developerValue
             Else
-                If g.__defaultDriver = Drivers.Default Then
+                If Driver.DefaultGraphicsDevice = Drivers.Default Then
                     ' 默认为使用gdi引擎
                     Return Drivers.GDI
                 Else
-                    Return g.__defaultDriver
+                    Return Driver.DefaultGraphicsDevice
                 End If
             End If
         End Function
@@ -195,8 +209,10 @@ Namespace Drawing2D
         ''' 在代码中手动配置默认的驱动程序
         ''' </summary>
         ''' <param name="driver"></param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetDriver(driver As Drivers)
-            g.__defaultDriver = driver
+            Call Microsoft.VisualBasic.Imaging.Driver.DefaultGraphicsDevice(driver)
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -217,21 +233,23 @@ Namespace Drawing2D
 
             Select Case base.Driver
                 Case Drivers.GDI
-                    Using g As New Graphics2D(base.AsGDIImage)
+                    Using g As IGraphics = Driver.CreateGraphicsDevice(base.AsGDIImage, driver:=Drivers.GDI)
                         Dim rect As New Rectangle(New Point, g.Size)
-
-                        With g.Graphics
-                            .CompositingQuality = CompositingQuality.HighQuality
-                            .CompositingMode = CompositingMode.SourceOver
-                            .InterpolationMode = InterpolationMode.HighQualityBicubic
-                            .PixelOffsetMode = PixelOffsetMode.HighQuality
-                            .SmoothingMode = SmoothingMode.HighQuality
-                            .TextRenderingHint = TextRenderingHint.ClearTypeGridFit
-                        End With
-
+#If NET48 Then
+                        If TypeOf g Is Graphics2D Then
+                            With DirectCast(g, Graphics2D).Graphics
+                                .CompositingQuality = CompositingQuality.HighQuality
+                                .CompositingMode = CompositingMode.SourceOver
+                                .InterpolationMode = InterpolationMode.HighQualityBicubic
+                                .PixelOffsetMode = PixelOffsetMode.HighQuality
+                                .SmoothingMode = SmoothingMode.HighQuality
+                                .TextRenderingHint = TextRenderingHint.ClearTypeGridFit
+                            End With
+                        End If
+#End If
                         Call plot(g, region)
 
-                        Return New ImageData(g.ImageResource, region.Size, region.Padding)
+                        Return New ImageData(DirectCast(g, GdiRasterGraphics).ImageResource, region.Size, region.Padding)
                     End Using
                 Case Drivers.SVG
                     Throw New NotImplementedException
@@ -257,59 +275,22 @@ Namespace Drawing2D
                                       bg$,
                                       plotAPI As IPlot,
                                       Optional driver As Drivers = Drivers.Default,
-                                      Optional dpi$ = "100,100") As GraphicsData
+                                      Optional dpi As Integer = 100) As GraphicsData
 
             Dim driverUsed As Drivers = g.__getDriver(developerValue:=driver)
 
             size = size Or defaultSize
-            padding = padding Or defaultPaddingValue
+            ' 20221211 default config will makes the zero-padding
+            ' invalid, so we must removes this line
+            '
+            ' padding = padding Or defaultPaddingValue
 
-            Dim region As New GraphicsRegion With {
-                .Size = size,
-                .Padding = padding
-            }
-
-            Select Case driverUsed
-                Case Drivers.SVG
-                    Dim svg As New GraphicsSVG(size)
-
-                    Call svg.Clear(bg.TranslateColor)
-                    Call plotAPI(svg, region)
-
-                    Return New SVGData(svg, size, padding)
-                Case Drivers.PS
-                    Dim ps As New GraphicsPS(size)
-
-                    Throw New NotImplementedException
-                Case Drivers.WMF
-                    Using wmf As New Wmf(size, WmfData.wmfTmp, bg)
-                        Call plotAPI(wmf, region)
-                        Return New WmfData(wmf.wmfFile, size, padding)
-                    End Using
-                Case Else
-                    ' using gdi+ graphics driver
-                    ' 在这里使用透明色进行填充，防止当bg参数为透明参数的时候被CreateGDIDevice默认填充为白色
-                    Using g As Graphics2D = size.CreateGDIDevice(Color.Transparent, dpi:=dpi)
-                        Dim rect As New Rectangle(New Point, size)
-
-                        With g.Graphics
-
-                            Call .FillBackground(bg$, rect)
-
-                            .CompositingQuality = CompositingQuality.HighQuality
-                            .CompositingMode = CompositingMode.SourceOver
-                            .InterpolationMode = InterpolationMode.HighQualityBicubic
-                            .PixelOffsetMode = PixelOffsetMode.HighQuality
-                            .SmoothingMode = SmoothingMode.HighQuality
-                            .TextRenderingHint = TextRenderingHint.ClearTypeGridFit
-
-                        End With
-
-                        Call plotAPI(g, region)
-
-                        Return New ImageData(g.ImageResource, size, padding)
-                    End Using
-            End Select
+            Return New DeviceDescription(bg) With {
+                .dpi = dpi,
+                .driverUsed = driverUsed,
+                .padding = padding,
+                .size = size
+            }.GraphicsPlot(plotAPI)
         End Function
 
         ''' <summary>
@@ -322,7 +303,7 @@ Namespace Drawing2D
         ''' 3. 可能为base64图片字符串
         ''' </param>
         <Extension>
-        Public Sub FillBackground(ByRef g As Graphics, bg$, rect As Rectangle)
+        Public Sub FillBackground(ByRef g As IGraphics, bg$, rect As Rectangle)
             Dim bgColor As Color = bg.TranslateColor(throwEx:=False)
 
             If Not bgColor.IsEmpty Then
@@ -335,7 +316,7 @@ Namespace Drawing2D
         End Sub
 
         ''' <summary>
-        ''' <see cref="Graphics.MeasureString(String, Font)"/> extensions
+        ''' <see cref="IGraphics.MeasureString(String, Font)"/> extensions
         ''' </summary>
         ''' <param name="text$"></param>
         ''' <param name="g"></param>
@@ -348,9 +329,9 @@ Namespace Drawing2D
         End Function
 
         ''' <summary>
-        ''' <see cref="Graphics.MeasureString(String, Font)"/> extensions
+        ''' <see cref="IGraphics.MeasureString(String, Font)"/> extensions
         ''' </summary>
-        ''' <param name="text$"></param>
+        ''' <param name="text"></param>
         ''' <param name="g"></param>
         ''' <param name="font"></param>
         ''' <returns></returns>
@@ -375,12 +356,19 @@ Namespace Drawing2D
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function GraphicsPlots(plot As Action(Of IGraphics), ByRef size As Size, ByRef padding As Padding, bg$) As GraphicsData
+        Public Function GraphicsPlots(plot As Action(Of IGraphics),
+                                      ByRef size As Size,
+                                      ByRef padding As Padding,
+                                      bg$) As GraphicsData
+
             Return GraphicsPlots(size, padding, bg, Sub(ByRef g, rect) Call plot(g))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Allocate(Optional size As Size = Nothing, Optional padding$ = DefaultPadding, Optional bg$ = "white") As InternalCanvas
+        Public Function Allocate(Optional size As Size = Nothing,
+                                 Optional padding$ = DefaultPadding,
+                                 Optional bg$ = "white") As InternalCanvas
+
             Return New InternalCanvas With {
                 .size = size,
                 .bg = bg,
@@ -392,68 +380,12 @@ Namespace Drawing2D
         Public Function CreateGraphics(img As GraphicsData) As IGraphics
             If img.Driver = Drivers.SVG Then
                 Dim svg = DirectCast(img, SVGData).SVG
-                Return New GraphicsSVG(svg)
+                Dim g As New GraphicsSVG(svg, 300, 300)
+
+                Return g
             Else
-                Return Graphics2D.Open(DirectCast(img, ImageData).Image)
+                Return Driver.CreateGraphicsDevice(DirectCast(img, ImageData).Image, driver:=img.Driver)
             End If
         End Function
-
-        ''' <summary>
-        ''' 可以借助这个画布对象创建多图层的绘图操作
-        ''' </summary>
-        Public Class InternalCanvas
-
-            Dim plots As New List(Of IPlot)
-
-            Public Property size As Size
-            Public Property padding As Padding
-            Public Property bg As String
-
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Public Function InvokePlot() As GraphicsData
-                Return GraphicsPlots(
-                    size, padding, bg,
-                    Sub(ByRef g, rect)
-
-                        For Each plot As IPlot In plots
-                            Call plot(g, rect)
-                        Next
-                    End Sub)
-            End Function
-
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Public Shared Operator +(g As InternalCanvas, plot As IPlot) As InternalCanvas
-                g.plots += plot
-                Return g
-            End Operator
-
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Public Shared Operator +(g As InternalCanvas, plot As IPlot()) As InternalCanvas
-                g.plots += plot
-                Return g
-            End Operator
-
-            Public Shared Narrowing Operator CType(g As InternalCanvas) As GraphicsData
-                Return g.InvokePlot
-            End Operator
-
-            ''' <summary>
-            ''' canvas invoke this plot.
-            ''' </summary>
-            ''' <param name="g"></param>
-            ''' <param name="plot"></param>
-            ''' <returns></returns>
-            Public Shared Operator <=(g As InternalCanvas, plot As IPlot) As GraphicsData
-                Dim size As Size = g.size
-                Dim margin = g.padding
-                Dim bg As String = g.bg
-
-                Return GraphicsPlots(size, margin, bg, plot)
-            End Operator
-
-            Public Shared Operator >=(g As InternalCanvas, plot As IPlot) As GraphicsData
-                Throw New NotSupportedException
-            End Operator
-        End Class
     End Module
 End Namespace

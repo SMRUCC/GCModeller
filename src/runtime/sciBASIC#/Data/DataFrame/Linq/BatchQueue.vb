@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5b4a475bb4ebb9076ee8721b79eee35, Data\DataFrame\Linq\BatchQueue.vb"
+﻿#Region "Microsoft.VisualBasic::06952fd19d2352624edd82b33da6d833, Data\DataFrame\Linq\BatchQueue.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 86 (64.66%)
+    ' Comment Lines: 30 (22.56%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (12.78%)
+    '     File Size: 5.69 KB
+
+
     '     Module BatchQueue
     ' 
-    '         Function: IteratesAll, ReadQueue, RequestData, RequestFiles
+    '         Function: debug, IteratesAll, ReadQueue, RequestData, RequestFiles
     ' 
     ' 
     ' /********************************************************************************/
@@ -100,6 +112,12 @@ Namespace IO.Linq
             End If
         End Function
 
+        <Extension>
+        Private Function debug(msg As String) As String
+            Call VBDebugger.debug(msg)
+            Return msg
+        End Function
+
         ''' <summary>
         ''' {<see cref="Path.GetFileNameWithoutExtension(String)"/>, <typeparamref name="T"/>()}
         ''' </summary>
@@ -118,19 +136,19 @@ Namespace IO.Linq
             Dim sw As Stopwatch = Stopwatch.StartNew
             Dim encode As Encoding = encoding.CodePage
 
-            Call "Wait for the IO queue.....".__DEBUG_ECHO
+            Call "Wait for the IO queue.....".debug
 
             Dim IO As IEnumerable(Of NamedValue(Of String())) =
- _
+                                                               _
                 From path As String
                 In files.AsParallel
-                Let echoIni As String = $"{path.ToFileURL} init start...".__DEBUG_ECHO
+                Let echoIni As String = $"{path.ToFileURL} init start...".debug
                 Let buf As String() = path.ReadAllLines(encode)
-                Let echo As String = $"{path.ToFileURL} I/O read done!".__DEBUG_ECHO
+                Let echo As String = $"{path.ToFileURL} I/O read done!".debug
                 Let name As String = path.BaseName
                 Select New NamedValue(Of String())(name, buf) ' 不清楚为什么服务器上面有时候的IO会非常慢，则在这里可以一次性的先读完所有数据，然后再返回数据
 
-            Call $"All I/O queue job done!   {sw.ElapsedMilliseconds}ms...".__DEBUG_ECHO
+            Call $"All I/O queue job done!   {sw.ElapsedMilliseconds}ms...".debug
 
             For Each data As NamedValue(Of String()) In IO
                 Dim buf As T() = data.Value.LoadStream(Of T)(False).ToArray
@@ -165,28 +183,5 @@ Namespace IO.Linq
                 Next
             Next
         End Function
-
-#Region "How this workflow works?"
-
-        ' The data loading workflow can be explained by the example code show below:
-        ' ===========================================================================
-
-        ' Sub Main()
-        '    For Each x As String In TestWorkflowBase()
-        '        Console.WriteLine(x)
-        '    Next
-        ' End Sub
-
-        ' Private Iterator Function TestWorkflowBase() As IEnumerable(Of String)
-        '    Dim LQuery As IEnumerable(Of String) = From s As Integer
-        '                                           In {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}.AsParallel
-        '                                           Let exc = MsgBox(s)
-        '                                           Select CStr(s)
-        '    For Each s As String In LQuery
-        '        Yield s
-        '    Next
-        ' End Function
-#End Region
-
     End Module
 End Namespace

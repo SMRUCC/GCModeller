@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6ef1a2f35c001382b3869809465abd8c, Data_science\DataMining\HMM\Algorithm\HMMAlgorithm\Viterbi.vb"
+﻿#Region "Microsoft.VisualBasic::4448f12fe20ea513b4f475d37d55c7fb, Data_science\DataMining\HMM\Algorithm\HMMAlgorithm\Viterbi.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 24 (77.42%)
+    ' Comment Lines: 2 (6.45%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 1.40 KB
+
+
     '     Class Viterbi
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -57,7 +69,8 @@ Namespace Algorithm.HMMAlgorithm
         Public Function viterbiAlgorithm(obSequence As Chain) As viterbiSequence
             Dim viterbi As New viterbiFactory(HMM, obSequence)
             Dim initTrellis = viterbi.initViterbi()
-            ' Initialization Of psi arrays Is equal To 0, but I use null because 0 could later represent a state index
+            ' Initialization Of psi arrays Is equal To 0,
+            ' but I use null because 0 could later represent a state index
             Dim psiArrays As New PsiArray(HMM.states.map(Function(s) New List(Of Integer)))
             Dim recTrellisPsi = viterbi.recViterbi(initTrellis.ToArray, 1, psiArrays, New List(Of Double()) From {initTrellis.ToArray})
             Dim pTerm = viterbi.termViterbi(recTrellisPsi)

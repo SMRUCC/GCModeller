@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 49 (72.06%)
+    ' Comment Lines: 11 (16.18%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 8 (11.76%)
+    '     File Size: 2.75 KB
+
+
     '     Class AES
     ' 
     '         Constructor: (+1 Overloads) Sub New

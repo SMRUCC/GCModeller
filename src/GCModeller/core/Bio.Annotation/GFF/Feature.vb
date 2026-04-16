@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::122c6c9260b411e8d39bc4447386c540, core\Bio.Annotation\GFF\Feature.vb"
+﻿#Region "Microsoft.VisualBasic::1e7bfd1d38deda060bcd3eac8ecc4e46, core\Bio.Annotation\GFF\Feature.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 304
+    '    Code Lines: 159 (52.30%)
+    ' Comment Lines: 116 (38.16%)
+    '    - Xml Docs: 90.52%
+    ' 
+    '   Blank Lines: 29 (9.54%)
+    '     File Size: 14.36 KB
+
+
     '     Class Feature
     ' 
     '         Properties: attributes, COG, comments, ends, feature
@@ -45,6 +57,7 @@
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.Annotation
@@ -56,13 +69,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     ''' <summary>
     ''' A feature is here an interval (i.e., a range of positions) on a chromosome or a union of such intervals.
-    ''' (Feature是基因组序列片段之上的一个具备有生物学功能意义的区域，故而这个对象继承自核酸位点对象)
-    ''' 
+    '''
     ''' In the case of RNA-Seq, the features are typically genes, where each gene is considered here as the union of all its exons. 
     ''' One may also consider each exon as a feature, e.g., in order to check for alternative splicing. 
     ''' 
     ''' For comparative ChIP-Seq, the features might be binding region from a pre-determined list.
     ''' </summary>
+    ''' <remarks>
+    ''' (Feature是基因组序列片段之上的一个具备有生物学功能意义的区域，故而这个对象继承自核酸位点对象)
+    ''' </remarks>
     Public Class Feature : Inherits Contig
         Implements INamedValue
         Implements IGeneBrief
@@ -263,6 +278,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Set
         End Property
 
+        <IgnoreDataMember>
         Public Property Location As NucleotideLocation Implements IContig.Location
             Get
                 Return MappingLocation

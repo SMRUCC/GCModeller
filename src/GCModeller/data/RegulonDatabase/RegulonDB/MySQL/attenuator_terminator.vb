@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83 (50.61%)
+    ' Comment Lines: 59 (35.98%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 9.72 KB
+
+
     ' Class attenuator_terminator
     ' 
     '     Properties: a_terminator_attenuator_id, a_terminator_energy, a_terminator_id, a_terminator_posleft, a_terminator_posright

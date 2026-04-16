@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dfc7a1e2f48db6b0a6372e5712ade6a0, Data_science\Visualization\Visualization\Embedding\EmbeddingRender.vb"
+﻿#Region "Microsoft.VisualBasic::afc87cf68bc5bcb8a2c2f06abc8a0092, Data_science\Visualization\Visualization\Embedding\EmbeddingRender.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 45 (73.77%)
+    ' Comment Lines: 3 (4.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (21.31%)
+    '     File Size: 2.02 KB
+
+
     ' Class EmbeddingRender
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -44,9 +56,16 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
+
+#If NET48 Then
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+#Else
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+#End If
 
 Public MustInherit Class EmbeddingRender : Inherits Plot
 

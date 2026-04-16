@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::765b5116518c29a1435fb6c8bf52370b, R#\cytoscape_toolkit\bioModels\stringdbPPI.vb"
+﻿#Region "Microsoft.VisualBasic::43f61d6f2fafe601a4798dc3e7e230d1, R#\cytoscape_toolkit\bioModels\stringdbPPI.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,38 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 67 (66.34%)
+    ' Comment Lines: 22 (21.78%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 12 (11.88%)
+    '     File Size: 4.09 KB
+
+
     ' Module stringdbPPI
     ' 
-    '     Function: buildNetworkModel, readLayout, readNetwork
+    '     Function: buildNetworkModel, intersect, parseStringDb, readLayout, readNetwork
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING
+Imports SMRUCC.genomics.Data.[STRING].StringDB.Tsv
 Imports SMRUCC.genomics.Model.Network.KEGG
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer
 Imports SMRUCC.genomics.Model.Network.STRING
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
@@ -59,7 +75,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Module stringdbPPI
 
     ''' <summary>
-    ''' 
+    ''' export string-db interaction result set as graph
     ''' </summary>
     ''' <param name="stringNetwork"></param>
     ''' <param name="uniprot">``STRING -> uniprot``</param>
@@ -79,8 +95,7 @@ Module stringdbPPI
         End If
 
         Dim annotations = uniprotDb.populates(Of entry)(env).StringUniprot
-        Dim model As NetworkTables = stringNetwork.BuildModel(uniprot:=annotations, groupValues:=FunctionalNetwork.KOGroupTable)
-        Dim graph = model.CreateGraph
+        Dim graph As NetworkGraph = stringNetwork.BuildModel(uniprot:=annotations, groupValues:=SimpleBuilder.KOGroupTable)
 
         If Not coordinates.IsNullOrEmpty Then
             Return graph.applyLayout(coordinates)
@@ -91,11 +106,49 @@ Module stringdbPPI
 
     <ExportAPI("read.string_interactions")>
     Public Function readNetwork(string_interactions As String) As InteractExports()
-        Return string_interactions.LoadTsv(Of InteractExports).ToArray
+        Return string_interactions.LoadTsv(Of InteractExports)(encoding:=Encodings.UTF8, mute:=True).ToArray
     End Function
 
     <ExportAPI("read.coordinates")>
     Public Function readLayout(string_network_coordinates As String) As Coordinates()
-        Return string_network_coordinates.LoadTsv(Of Coordinates).ToArray
+        Return string_network_coordinates.LoadTsv(Of Coordinates)(encoding:=Encodings.UTF8, mute:=True).ToArray
+    End Function
+
+    ''' <summary>
+    ''' parse the string-db table file
+    ''' </summary>
+    ''' <param name="file">
+    ''' the string db protein links data files, example like:
+    ''' 
+    ''' 1. 9606.protein.links.v11.5.txt
+    ''' 2. 9606.protein.links.full.v11.5.txt
+    ''' 3. 9606.protein.links.detailed.v11.5.txt
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("read.string_db")>
+    <RApiReturn(GetType(linksDetail), GetType(StringIndex))>
+    Public Function parseStringDb(file As String,
+                                  Optional remove_taxonomyId As Boolean = True,
+                                  Optional link_matrix As Boolean = False,
+                                  Optional combine_score As Single = -1) As Object
+
+        Dim links As IEnumerable(Of linksDetail) = linksDetail.LoadFile(path:=file)
+
+        If remove_taxonomyId Then
+            links = StringIndex.RemoveTaxonomyIdPrefix(links)
+        End If
+        If combine_score > 0 Then
+            links = links.Where(Function(l) l.combined_score > combine_score)
+        End If
+        If link_matrix Then
+            Return New StringIndex(links)
+        Else
+            Return pipeline.CreateFromPopulator(links)
+        End If
+    End Function
+
+    <ROperator("&")>
+    Public Function intersect(cor As CorrelationMatrix, stringDb As StringIndex) As CorrelationMatrix
+        Return stringDb.Intersect(cor)
     End Function
 End Module

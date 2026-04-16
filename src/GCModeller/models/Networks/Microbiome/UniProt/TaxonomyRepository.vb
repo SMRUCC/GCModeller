@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 92 (59.35%)
+    ' Comment Lines: 44 (28.39%)
+    '    - Xml Docs: 93.18%
+    ' 
+    '   Blank Lines: 19 (12.26%)
+    '     File Size: 6.50 KB
+
+
     ' Class TaxonomyRepository
     ' 
     '     Properties: base, MimeType, taxonomy

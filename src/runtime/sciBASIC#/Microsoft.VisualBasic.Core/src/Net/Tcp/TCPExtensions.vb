@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf832c705c936b1a85e798efd98374e2, Microsoft.VisualBasic.Core\src\Net\Tcp\TCPExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::0472f25c2aad373b044e32b0cbfa6350, Microsoft.VisualBasic.Core\src\Net\Tcp\TCPExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 74 (56.06%)
+    ' Comment Lines: 38 (28.79%)
+    '    - Xml Docs: 76.32%
+    ' 
+    '   Blank Lines: 20 (15.15%)
+    '     File Size: 5.56 KB
+
+
     '     Module TCPExtensions
     ' 
-    '         Function: ConnectSocket, GetFirstAvailablePort, PortIsAvailable, PortIsUsed
+    '         Function: CheckIsSocketException, ConnectSocket, GetFirstAvailablePort, PortIsAvailable, PortIsUsed
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +55,8 @@
 Imports System.Net
 Imports System.Net.NetworkInformation
 Imports System.Net.Sockets
+Imports System.Runtime.CompilerServices
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Net.Tcp
 
@@ -96,7 +110,7 @@ Namespace Net.Tcp
         Public Function GetFirstAvailablePort(Optional BEGIN_PORT As Integer = 100) As Integer
             If BEGIN_PORT <= 0 Then
                 ' 为了避免高并发的时候出现端口占用的情况，在这里使用随机数来解决一些问题
-                BEGIN_PORT = Rnd() * (MAX_PORT - 1)
+                BEGIN_PORT = randf.NextInteger(MAX_PORT - 1)
             End If
 
             For i As Integer = BEGIN_PORT To MAX_PORT - 1
@@ -112,6 +126,9 @@ Namespace Net.Tcp
         ''' 获取操作系统已用的端口号
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' not supported on linux
+        ''' </remarks>
         Public Function PortIsUsed() As Integer()
             '获取本地计算机的网络连接和通信统计数据的信息
             Dim ipGlobalProperties As IPGlobalProperties = IPGlobalProperties.GetIPGlobalProperties()
@@ -126,7 +143,9 @@ Namespace Net.Tcp
 
             Call allPorts.AddRange(From ep As System.Net.IPEndPoint In ipsTCP Select ep.Port)
             Call allPorts.AddRange(From ep As System.Net.IPEndPoint In ipsUDP Select ep.Port)
-            Call allPorts.AddRange(From conn As TcpConnectionInformation In tcpConnInfoArray Select conn.LocalEndPoint.Port)
+            Call allPorts.AddRange(From conn As TcpConnectionInformation
+                                   In tcpConnInfoArray
+                                   Select conn.LocalEndPoint.Port)
 
             Return allPorts.ToArray
         End Function
@@ -146,6 +165,22 @@ Namespace Net.Tcp
             Next
 
             Return True
+        End Function
+
+        <Extension>
+        Public Function CheckIsSocketException(ex As Exception) As Boolean
+            Do While Not TypeOf ex Is SocketException
+                If ex.InnerException Is Nothing Then
+                    Exit Do
+                End If
+                If TypeOf ex.InnerException Is SocketException Then
+                    Return True
+                Else
+                    ex = ex.InnerException
+                End If
+            Loop
+
+            Return False
         End Function
     End Module
 End Namespace

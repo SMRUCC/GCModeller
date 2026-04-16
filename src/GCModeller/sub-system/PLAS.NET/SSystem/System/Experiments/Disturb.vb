@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 33 (63.46%)
+    ' Comment Lines: 9 (17.31%)
+    '    - Xml Docs: 44.44%
+    ' 
+    '   Blank Lines: 10 (19.23%)
+    '     File Size: 1.57 KB
+
+
     '     Class Disturb
     ' 
     '         Properties: IsReady, LeftKicks

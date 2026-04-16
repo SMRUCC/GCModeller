@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fd4eea6a026c054e1b97ca8c78f98bd8, Microsoft.VisualBasic.Core\src\Extensions\IO\Path\Directory.vb"
+﻿#Region "Microsoft.VisualBasic::120905f43bfab3b27a84066975bd667e, Microsoft.VisualBasic.Core\src\Extensions\IO\Path\Directory.vb"
 
     ' Author:
     ' 
@@ -31,44 +31,96 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 301
+    '    Code Lines: 160 (53.16%)
+    ' Comment Lines: 101 (33.55%)
+    '    - Xml Docs: 80.20%
+    ' 
+    '   Blank Lines: 40 (13.29%)
+    '     File Size: 12.50 KB
+
+
     '     Class Directory
     ' 
-    '         Properties: folder
+    '         Properties: [readonly], folder, strict
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: CopyTo, Exists, GetFullPath, GetRelativePath, GetSubDirectories
-    '                   IsAbsolutePath, ToString
+    '         Function: CopyTo, DeleteFile, EnumerateFiles, Exists, FileExists
+    '                   FileModifyTime, FileSize, FromLocalFileSystem, (+2 Overloads) GetFiles, GetFullPath
+    '                   GetRelativePath, GetSubDirectories, IsAbsolutePath, OpenFile, ReadAllText
+    '                   ToString, WriteText
     ' 
-    '         Sub: CreateDirectory, Delete
+    '         Sub: Close, CreateDirectory, Delete, Flush
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Language.UnixBash
 
 Namespace FileIO
 
     ''' <summary>
     ''' A wrapper object for the processing of relative file path. 
     ''' </summary>
-    Public Class Directory
+    ''' <remarks>
+    ''' a local filesystem implementation for <see cref="IFileSystemEnvironment"/>
+    ''' </remarks>
+    Public Class Directory : Implements IFileSystemEnvironment, IWorkspace
 
         ''' <summary>
         ''' 当前的这个文件夹对象的文件路径
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property folder As String
+        ''' <remarks>
+        ''' it is the full name via the function <see cref="FileSystem.GetDirectoryInfo"/>
+        ''' </remarks>
+        Public ReadOnly Property folder As String Implements IWorkspace.Workspace
+        Public ReadOnly Property strict As Boolean = False
+
+        Public ReadOnly Property [readonly] As Boolean Implements IFileSystemEnvironment.readonly
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return False
+            End Get
+        End Property
 
         ''' <summary>
         ''' Construct a directory object from the specific Dir path value.
         ''' </summary>
         ''' <param name="directory">Target directory path</param>
-        Sub New(directory As String)
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Sub New(directory As String, Optional strict As Boolean = False)
+            Me.strict = strict
             Me.folder = FileSystem.GetDirectoryInfo(directory).FullName
         End Sub
+
+        ''' <summary>
+        ''' Create a directory object
+        ''' </summary>
+        ''' <param name="dir"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this function will create target <paramref name="dir"/> if it is not exists 
+        ''' on your filesystem
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromLocalFileSystem(dir As String) As Directory
+            If Not dir.DirectoryExists Then
+                Call dir.MakeDir
+            End If
+
+            Return New Directory(dir)
+        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetSubDirectories() As IEnumerable(Of String)
@@ -79,15 +131,45 @@ Namespace FileIO
         ''' Gets the full path of the target file based on the path relative to this directory object.
         ''' </summary>
         ''' <param name="file">
-        ''' The relative path of the target file, and this parameter is also compatible with absolute file path.
+        ''' The relative path of the target file, and this parameter is 
+        ''' also compatible with absolute file path.
         ''' (相对路径)</param>
         ''' <returns></returns>
-        Public Function GetFullPath(file As String) As String
-            If Not IsAbsolutePath(file) Then
+        ''' <remarks>
+        ''' the given input <paramref name="file"/> should be inside current 
+        ''' directory location, the file path start with prefix / will also
+        ''' be treated as the relative path inside current directory on unix
+        ''' platform, due to the reason of path string combine operation:
+        ''' 
+        ''' ```
+        ''' dir/file
+        ''' ```
+        ''' </remarks>
+        Public Function GetFullPath(file As String) As String Implements IFileSystemEnvironment.GetFullPath
+            ' 20231017 due to the reason of the platform compatibility between
+            ' the local filesystem(win/unix) and the http filesystem, the file
+            ' path may start with / prefix, then check on unix environment will
+            ' always be treated as absolute path, this may cased the problem on
+            ' linux environment, so disable for check unix environment at here.
+            '
+            ' so file path input like /file will not be treated as the absolute
+            ' file path on linux platform
+            If Not IsAbsolutePath(file, checkUnix:=False) Then
                 file = $"{folder}/{file}"
             End If
 
-            file = FileSystem.GetFileInfo(file).FullName
+            If FileSystem.FileExists(file) Then
+                With FileSystem.GetFileInfo(file)
+                    file = .FullName
+                End With
+            ElseIf file.ExtensionSuffix.StringEmpty(, True) Then
+                ' is directory?
+                file = file.GetDirectoryFullPath
+            Else
+                ' is a file path that not existed
+                file = file.GetFullPath
+            End If
+
             Return file
         End Function
 
@@ -96,10 +178,10 @@ Namespace FileIO
         ''' </summary>
         ''' <param name="file"></param>
         ''' <returns></returns>
-        Public Shared Function IsAbsolutePath(file As String) As Boolean
+        Public Shared Function IsAbsolutePath(file As String, Optional checkUnix As Boolean = True) As Boolean
             If InStr(file, ":\") > 0 OrElse InStr(file, ":/") > 0 Then
                 Return True
-            ElseIf file.First = "/" AndAlso
+            ElseIf checkUnix AndAlso file.First = "/" AndAlso
                 (Environment.OSVersion.Platform = PlatformID.Unix OrElse
                  Environment.OSVersion.Platform = PlatformID.MacOSX) Then
                 Return True
@@ -113,11 +195,14 @@ Namespace FileIO
         ''' </summary>
         ''' <param name="target">The directory path of target folder.</param>
         ''' <returns></returns>
-        Public Function CopyTo(target$, Optional progress As Progress(Of String) = Nothing, Optional includeSrc As Boolean = False) As IEnumerable(Of String)
+        Public Function CopyTo(target$,
+                               Optional progress As IProgress(Of String) = Nothing,
+                               Optional includeSrc As Boolean = False) As IEnumerable(Of String)
+
             Dim list As New List(Of String)
             Dim action = Sub(path$)
                              If Not progress Is Nothing Then
-                                 Call DirectCast(progress, IProgress(Of String)).Report(path)
+                                 Call progress.Report(path)
                              End If
 
                              Call list.Add(path)
@@ -137,6 +222,11 @@ Namespace FileIO
             Return IO.Directory.Exists(DIR)
         End Function
 
+        ''' <summary>
+        ''' get relative of the given <paramref name="file"/> path that relative to current workspace dir
+        ''' </summary>
+        ''' <param name="file"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetRelativePath(file As String) As String
             Return PathExtensions.RelativePath(folder, file, appendParent:=False)
@@ -177,5 +267,98 @@ Namespace FileIO
         Public Shared Sub Delete(DIR As String)
             Call IO.Directory.Delete(DIR)
         End Sub
+
+        Public Function OpenFile(path As String,
+                                 Optional mode As FileMode = FileMode.OpenOrCreate,
+                                 Optional access As FileAccess = FileAccess.Read) As Stream Implements IFileSystemEnvironment.OpenFile
+
+            Dim fullPath As String = $"{folder}/{path}"
+            Dim check_readonly As Boolean = access = FileAccess.Read
+
+            If check_readonly AndAlso mode = FileMode.Open Then
+                Return fullPath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+            ElseIf mode = FileMode.Open Then
+                Return fullPath.Open(FileMode.Open, doClear:=False, [readOnly]:=False)
+            End If
+
+            Dim truncate As Boolean = mode = FileMode.Create OrElse
+                mode = FileMode.CreateNew OrElse
+                mode = FileMode.OpenOrCreate OrElse
+                mode = FileMode.Truncate
+            Dim file As Stream = fullPath.Open(
+                mode:=mode,
+                doClear:=truncate,
+                [readOnly]:=check_readonly
+            )
+
+            Return file
+        End Function
+
+        Public Function DeleteFile(path As String) As Boolean Implements IFileSystemEnvironment.DeleteFile
+            Dim fullPath As String = $"{folder}/{path}"
+            Return fullPath.DeleteFile
+        End Function
+
+        Public Function FileExists(path As String, Optional ZERO_Nonexists As Boolean = False) As Boolean Implements IFileSystemEnvironment.FileExists
+            Dim fullPath As String = $"{folder}/{path}"
+            Dim check = fullPath.FileExists(ZERO_Nonexists:=ZERO_Nonexists)
+
+            Return check
+        End Function
+
+        ''' <summary>
+        ''' Just do nothing for local filesystem
+        ''' </summary>
+        Public Sub Close() Implements IFileSystemEnvironment.Close
+            ' do nothing
+        End Sub
+
+        Public Function FileSize(path As String) As Long Implements IFileSystemEnvironment.FileSize
+            Dim fullPath As String = $"{folder}/{path}"
+            Return fullPath.FileLength
+        End Function
+
+        Public Function WriteText(text As String, path As String) As Boolean Implements IFileSystemEnvironment.WriteText
+            Dim fullPath As String = $"{folder}/{path}"
+            Return text.SaveTo(fullPath)
+        End Function
+
+        Public Function ReadAllText(path As String) As String Implements IFileSystemEnvironment.ReadAllText
+            Dim fullPath As String = $"{folder}/{path}"
+            Return fullPath.ReadAllText(throwEx:=strict)
+        End Function
+
+        Private Sub Flush() Implements IFileSystemEnvironment.Flush
+            ' do nothing
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetFiles() As IEnumerable(Of String) Implements IFileSystemEnvironment.GetFiles
+            Return ls - l - r - "*.*" <= folder
+        End Function
+
+        Public Function FileModifyTime(path As String) As Date Implements IFileSystemEnvironment.FileModifyTime
+            Dim fullPath As String = $"{folder}/{path}"
+
+            If fullPath.FileExists Then
+                Return File.GetLastWriteTime(fullPath)
+            Else
+                Return Nothing
+            End If
+        End Function
+
+        Public Function GetFiles(subdir As String, ParamArray exts() As String) As IEnumerable(Of String) Implements IFileSystemEnvironment.GetFiles
+            If exts.TryCount = 0 Then
+                exts = {"*.*"}
+            End If
+            Return ls - l - r - exts <= GetFullPath(subdir)
+        End Function
+
+        Public Function EnumerateFiles(subdir As String, ParamArray exts() As String) As IEnumerable(Of String) Implements IFileSystemEnvironment.EnumerateFiles
+            If exts.TryCount = 0 Then
+                exts = {"*.*"}
+            End If
+            Return GetFullPath(subdir).EnumerateFiles(exts)
+        End Function
     End Class
 End Namespace

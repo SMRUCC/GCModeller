@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::604dd213aadbf57061246382c24fec15, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
+﻿#Region "Microsoft.VisualBasic::b083c0465d66db8661dbfce49a4d8138, core\Bio.Assembly\Assembly\DOOR\Models\DOOR.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 194
+    '    Code Lines: 115 (59.28%)
+    ' Comment Lines: 53 (27.32%)
+    '    - Xml Docs: 96.23%
+    ' 
+    '   Blank Lines: 26 (13.40%)
+    '     File Size: 7.20 KB
+
+
     '     Class DOOR
     ' 
     '         Properties: DOOROperonView, Genes
     ' 
     '         Function: [Select], CreateEmpty, Export, GetEnumerator, GetOperon
     '                   HaveGene, HaveOperon, IEnumerable_GetEnumerator, IsOprPromoter, SameOperon
-    '                   (+2 Overloads) Save
+    '                   (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -159,7 +172,7 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         Public Function [Select](operonID As String) As OperonGene()
             Dim LQuery = LinqAPI.Exec(Of OperonGene) <=
- _
+                                                       _
                 From obj As OperonGene
                 In Genes
                 Where String.Equals(operonID, obj.OperonID)
@@ -182,6 +195,15 @@ Namespace Assembly.DOOR
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return SaveFile(Me.DOOROperonView.Operons, Path)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.DOOROperonView.Text)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Overloads Shared Widening Operator CType(Path As String) As DOOR

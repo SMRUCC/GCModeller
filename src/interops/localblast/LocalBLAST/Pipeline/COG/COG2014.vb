@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a398921e2085e82012226207d1aaf2b0, localblast\LocalBLAST\Pipeline\COG\COG2014.vb"
+﻿#Region "Microsoft.VisualBasic::fd83f765a5a8bc32ea68cda09f6fcb09, localblast\LocalBLAST\Pipeline\COG\COG2014.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 72 (71.29%)
+    ' Comment Lines: 13 (12.87%)
+    '    - Xml Docs: 69.23%
+    ' 
+    '   Blank Lines: 16 (15.84%)
+    '     File Size: 4.08 KB
+
+
     '     Module COG2014
     ' 
     '         Function: (+2 Overloads) COG2014_result, COGCatalog
@@ -51,6 +63,9 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 
 Namespace Pipeline.COG
 
+    ''' <summary>
+    ''' ftp://ftp.ncbi.nih.gov/pub/COG/COG2020/data
+    ''' </summary>
     Public Module COG2014
 
         <Extension>
@@ -110,7 +125,7 @@ Namespace Pipeline.COG
                 ' 直接使用字符串的split方法可能会因为空字符串的出现而出错，所以在这里使用vb6的split方法 
                 Dim cogs$() = Strings _
                     .Split(protein.COG, ";") _
-                    .Select(AddressOf Trim) _
+                    .Select(AddressOf Strings.Trim) _
                     .Where(Function(s) Not s.StringEmpty) _
                     .ToArray
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::436da6e2d3cb6b200b900648eabc4346, gr\network-visualization\NetworkCanvas\AVI.vb"
+﻿#Region "Microsoft.VisualBasic::edb4e0bc61a6d2ef2a000528748bb338, gr\network-visualization\NetworkCanvas\AVI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 62 (82.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (17.33%)
+    '     File Size: 3.20 KB
+
+
     ' Module AVI
     ' 
     '     Function: DoRenderVideo
@@ -39,13 +51,13 @@
 
 #End Region
 
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.AVIMedia
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -76,7 +88,7 @@ Public Module AVI
             }
         End If
 
-        Dim g As Graphics = Nothing
+        Dim g As IGraphics = Nothing
         Dim region As New Rectangle(New Point, canvasSize)
         Dim engine As IForceDirected
 
@@ -96,20 +108,16 @@ Public Module AVI
         Dim r As Double
 
         For i As Integer = 0 To drawFrames
-            Using canvas As Graphics2D = canvasSize.CreateGDIDevice
-                g = canvas.Graphics
-                g.CompositingQuality = CompositingQuality.HighQuality
-                g.SmoothingMode = SmoothingMode.HighQuality
-
+            Using canvas As IGraphics = DriverLoad.CreateGraphicsDevice(canvasSize, driver:=Drivers.GDI)
                 If render3D Then
                     r += 0.4
                     DirectCast(renderer, Renderer3D).rotate = r
                 End If
 
-                Call engine.Calculate(0.05F)
+                Call engine.Collide(0.05F)
                 Call renderer.Draw(0.05F, physicsUpdate:=False)
 
-                Call avi.addFrame(canvas.ImageResource)
+                Call avi.addFrame(DirectCast(canvas, GdiRasterGraphics).ImageResource)
             End Using
         Next
 

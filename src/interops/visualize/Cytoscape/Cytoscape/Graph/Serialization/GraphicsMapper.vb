@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 5 (41.67%)
+    ' Comment Lines: 4 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 372 B
+
+
     '     Class GraphicsMapper
     ' 
     ' 

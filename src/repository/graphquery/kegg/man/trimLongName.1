@@ -1,22 +1,25 @@
-﻿.TH TRIMLONGNAME 1 2021-08-18 "" "try to make the long name shorter"
+﻿.TH TRIMLONGNAME 1 2026-2月 "" "try to make the long name shorter"
 .SH NAME
-trimLongName \- trimLongName(longNames, maxChars = 64)
+trimLongName \- trimLongName(longNames,
+    <i>maxChars</i> = <span style='color: green;'>32</span>)
 .SH SYNOPSIS
-\fItrimLongName(longNames, maxChars = 64)\fR
+\fItrimLongName(longNames,
+    <i>maxChars</i> = <span style='color: green;'>32</span>)\fR
 .SH OPTIONS
 .PP
-\fBlongNames\fB \fR\- 
+\fBlongNames\fB \fR\- . 
 .PP
 .PP
-\fBmaxChars\fB \fR\- 64
+\fBmaxChars\fB \fR\- 32. 
 .PP
 .SH DETAILS
 .PP
-the name in long length will caused the filesystem errors on windows system.
+the name in long length will caused the filesystem errors
+on windows system.
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.trimLongName at brite.R:line 84
+SMRUCC/R#.declare_function.trimLongName at fs.R:line 51
 .PP
 .SH COPYRIGHT
-Copyright © xieguigang, MIT Licensed 2021
+Copyright © xieguigang, MIT Licensed 2026

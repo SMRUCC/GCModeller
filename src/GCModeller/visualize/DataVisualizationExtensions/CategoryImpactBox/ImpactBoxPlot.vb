@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 14 (73.68%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (26.32%)
+    '     File Size: 577 B
+
+
     ' Class ImpactBoxPlot
     ' 
     '     Constructor: (+1 Overloads) Sub New

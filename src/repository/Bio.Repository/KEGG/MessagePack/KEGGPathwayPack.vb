@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 72 (77.42%)
+    ' Comment Lines: 9 (9.68%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 12 (12.90%)
+    '     File Size: 4.29 KB
+
+
     '     Class KEGGPathwayPack
     ' 
     '         Constructor: (+2 Overloads) Sub New

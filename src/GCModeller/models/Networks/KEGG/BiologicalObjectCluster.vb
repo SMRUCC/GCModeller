@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293153671a178e649a6e55dce61384cb, models\Networks\KEGG\BiologicalObjectCluster.vb"
+﻿#Region "Microsoft.VisualBasic::9947fb320c3ab499b543809900219f20, models\Networks\KEGG\BiologicalObjectCluster.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 46 (90.20%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (9.80%)
+    '     File Size: 1.97 KB
+
+
     ' Module BiologicalObjectCluster
     ' 
     '     Function: (+2 Overloads) CompoundsMap, GetMapCategories, ReactionMap
@@ -45,7 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module BiologicalObjectCluster
 
@@ -60,8 +72,8 @@ Public Module BiologicalObjectCluster
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function CompoundsMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
-            .name = map.id,
-            .value = map.shapes _
+            .name = map.EntryId,
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("C\d+")) _
@@ -73,8 +85,8 @@ Public Module BiologicalObjectCluster
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ReactionMap(map As Map) As NamedCollection(Of String)
         Return New NamedCollection(Of String) With {
-            .name = map.id,
-            .value = map.shapes _
+            .name = map.EntryId,
+            .value = map.shapes.mapdata _
                 .Select(Function(a) a.IDVector) _
                 .IteratesALL _
                 .Where(Function(id) id.IsPattern("R\d+")) _

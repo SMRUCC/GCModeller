@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6fc9bf698a86322eb100798484b7ab47, Data_science\Visualization\Canvas3D\Device\Worker.vb"
+﻿#Region "Microsoft.VisualBasic::6fc9bf698a86322eb100798484b7ab47, sciBASIC#\Data_science\Visualization\Canvas3D\Device\Worker.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 101
+    ' Comment Lines: 22
+    '   Blank Lines: 26
+    '     File Size: 5.23 KB
+
+
     '     Class Worker
     ' 
     ' 
@@ -57,6 +67,7 @@
 
 Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Language
@@ -151,7 +162,7 @@ Namespace Drawing3D.Device
                     Call canvas.BufferPainting(buffer, .DrawPath)
                 End If
                 If Not .Plot Is Nothing Then
-                    Call .Plot()(canvas, ._camera)
+                    Call .Plot()(New Graphics2D(canvas, ._camera.screen), ._camera)
                 End If
                 If device.ShowDebugger Then
                     Call debugger.DrawInformation(canvas)

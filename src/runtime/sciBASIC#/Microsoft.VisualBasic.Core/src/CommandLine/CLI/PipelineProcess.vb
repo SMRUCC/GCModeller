@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::598c76d8b71404adeba4fa562574740b, Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
+﻿#Region "Microsoft.VisualBasic::54a322791f31657e3e2f8cc6f8a441b6, Microsoft.VisualBasic.Core\src\CommandLine\CLI\PipelineProcess.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 354
+    '    Code Lines: 191 (53.95%)
+    ' Comment Lines: 112 (31.64%)
+    '    - Xml Docs: 83.04%
+    ' 
+    '   Blank Lines: 51 (14.41%)
+    '     File Size: 13.74 KB
+
+
     '     Module PipelineProcess
     ' 
-    '         Function: (+2 Overloads) [Call], CallDotNetCorePipeline, CreatePipeline, (+2 Overloads) ExecSub, FindProc
-    '                   (+2 Overloads) GetProc
+    '         Function: (+2 Overloads) [Call], CallDotNetCorePipeline, CheckProcessStreamOpen, CreatePipeline, (+2 Overloads) ExecSub
+    '                   FindProc, (+2 Overloads) GetProc, handleRunStream
+    ' 
+    '         Sub: ReadLines
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +57,7 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Language
 Imports ConsoleApp = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
@@ -76,7 +91,7 @@ Namespace CommandLine
             Dim CLICompared As CommandLine = CommandLine.op_Implicit(cli)
             Dim listProc As Process() = Proc.GetProcesses
             Dim process = LinqAPI.DefaultFirst(Of Process) _
- _
+                                                           _
                 () <= From proc As Process
                       In listProc
                       Let args = Parsers.TryParse(proc.StartInfo.Arguments)
@@ -120,24 +135,32 @@ Namespace CommandLine
         ''' <remarks>https://github.com/lishewen/LSWFramework/blob/master/LSWClassLib/CMD/CMDHelper.vb</remarks>
         Public Function ExecSub(app$, args$, onReadLine As Action(Of String),
                                 Optional in$ = "",
-                                Optional ByRef stdErr As String = Nothing) As Integer
+                                Optional ByRef stdErr As String = Nothing,
+                                Optional workdir As String = Nothing,
+                                Optional shell As Boolean = False,
+                                Optional setProcess As Action(Of Process) = Nothing) As Integer
+            ' check for shell flag
+            Dim check_shell = app.ExtensionSuffix("sh", "cmd", "bat") OrElse
+                shell OrElse
+                Not app.FileExists
+            Dim p As Process = CreatePipeline(
+                appPath:=app,
+                args:=args,
+                it:=Not check_shell,
+                workdir:=workdir
+            )
 
-            Dim p As Process = CreatePipeline(app, args, it:=(Not app.ExtensionSuffix("sh")) OrElse app.FileExists)
-            Dim reader As StreamReader = p.StandardOutput
-            Dim errReader As StreamReader = p.StandardError
+            ' 20241224 there is a bug about access the standard output stream:
+            ' thread needs to sleep for a while
+            ' or the file access error will happends when access the standard output stream
+            Call Thread.Sleep(500)
 
-            If Not String.IsNullOrEmpty([in]) Then
-                Dim writer As StreamWriter = p.StandardInput
-
-                Call writer.WriteLine([in])
-                Call writer.Flush()
+            If p.StartInfo.RedirectStandardOutput Then
+                stdErr = handleRunStream(p, [in], onReadLine, async:=False)
             End If
-
-            While Not reader.EndOfStream
-                Call onReadLine(reader.ReadLine)
-            End While
-
-            stdErr = reader.ReadToEnd
+            If Not setProcess Is Nothing Then
+                setProcess(p)
+            End If
 
             Call p.WaitForExit()
 
@@ -147,7 +170,71 @@ Namespace CommandLine
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="app"></param>
+        ''' <param name="p"></param>
+        ''' <param name="in">
+        ''' the standard input
+        ''' </param>
+        ''' <param name="onReadLine">
+        ''' populate the standard output lines
+        ''' </param>
+        ''' <returns></returns>
+        Friend Function handleRunStream(p As Process, in$, onReadLine As Action(Of String), async As Boolean) As String
+            Dim errReader As StreamReader = p.StandardError
+
+            If Not String.IsNullOrEmpty([in]) Then
+                Dim writer As StreamWriter = p.StandardInput
+
+                Call writer.WriteLine([in])
+                Call writer.WriteLine()
+                Call writer.Flush()
+                Call writer.Close()
+            End If
+
+            If Not async Then
+                Call ReadLines(p, onReadLine)
+                Return errReader.ReadToEnd
+            Else
+                Call Task.Run(Sub() Call ReadLines(p, onReadLine))
+                Return Nothing
+            End If
+        End Function
+
+        Private Sub ReadLines(p As Process, onReadLine As Action(Of String))
+            Dim reader As StreamReader = p.StandardOutput
+
+            While CheckProcessStreamOpen(p, reader)
+                Call onReadLine(reader.ReadLine)
+            End While
+
+            For Each line As String In reader.ReadToEnd.LineTokens
+                Call onReadLine(line)
+            Next
+        End Sub
+
+        ''' <summary>
+        ''' A common wrapper for check of the sub-process stdout stream is avaiable?
+        ''' </summary>
+        ''' <param name="p"></param>
+        ''' <param name="reader"></param>
+        ''' <returns></returns>
+        Public Function CheckProcessStreamOpen(ByRef p As Process, ByRef reader As StreamReader) As Boolean
+            ' current program has flag exited
+            ' the loop thread should break for exit 
+            If Not App.Running Then
+                Return False
+            End If
+
+            If reader.EndOfStream Then
+                Return False
+            End If
+
+            Return Not p.HasExited
+        End Function
+
+        ''' <summary>
+        ''' Create a new process
+        ''' </summary>
+        ''' <param name="appPath"></param>
         ''' <param name="args"></param>
         ''' <param name="it">
         ''' this option will affects the UseShellExecute:
@@ -158,23 +245,59 @@ Namespace CommandLine
         ''' 
         ''' parameter value set to TRUE means not UseShellExecute
         ''' </param>
-        ''' <returns></returns>
-        Public Function CreatePipeline(app As String, args As String, Optional it As Boolean = True) As Process
+        ''' <returns>
+        ''' the target process object is already has been 
+        ''' started in this function.
+        ''' </returns>
+        Public Function CreatePipeline(appPath As String,
+                                       args As String,
+                                       Optional it As Boolean = True,
+                                       Optional workdir As String = Nothing) As Process
             Dim p As New Process
+
+            ' force shell exec when call a dotnet app
+            If appPath = "dotnet" Then
+                it = False
+                p.StartInfo.UseShellExecute = True
+            End If
+
             p.StartInfo = New ProcessStartInfo
-            p.StartInfo.FileName = app
+            p.StartInfo.FileName = appPath
             p.StartInfo.Arguments = args.TrimNewLine(replacement:=" ")
-            p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
-            p.StartInfo.RedirectStandardOutput = it
-            p.StartInfo.RedirectStandardInput = it
-            p.StartInfo.RedirectStandardError = it
-            p.StartInfo.UseShellExecute = Not it
-            p.StartInfo.CreateNoWindow = Microsoft.VisualBasic.App.IsMicrosoftPlatform
-            p.Start()
+
+            If it Then
+                ' io redirect
+                p.StartInfo.WindowStyle = ProcessWindowStyle.Hidden
+                p.StartInfo.RedirectStandardOutput = True
+                p.StartInfo.RedirectStandardInput = True
+                p.StartInfo.RedirectStandardError = True
+                p.StartInfo.UseShellExecute = False
+                p.StartInfo.CreateNoWindow = True
+            End If
+
+            If Not workdir.StringEmpty Then
+                If Not workdir.DirectoryExists Then
+                    Call $"mising work directory: {workdir}!".Warning
+                    Call workdir.MakeDir
+                End If
+
+                p.StartInfo.WorkingDirectory = workdir.GetDirectoryFullPath
+            End If
+
+            Call p.Start()
 
             Return p
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="app$"></param>
+        ''' <param name="args$"></param>
+        ''' <param name="in$"></param>
+        ''' <returns>The standard output of the target <paramref name="app"/>, the 
+        ''' data inside this stream object may contains text or image or other
+        ''' binary data.</returns>
         Public Function ExecSub(app$, args$, Optional in$ = "") As MemoryStream
             Dim p As Process = CreatePipeline(app, args)
             Dim reader As Stream = p.StandardOutput.BaseStream
@@ -190,7 +313,7 @@ Namespace CommandLine
             Dim chunk As Byte() = New Byte(1024 - 1) {}
             Dim nbytes As Integer
 
-            Do While True
+            Do While Microsoft.VisualBasic.App.Running
                 nbytes = reader.Read(chunk, Scan0, chunk.Length)
 
                 If nbytes = 0 Then
@@ -238,7 +361,8 @@ Namespace CommandLine
                                Optional [in] As String = "",
                                Optional debug As Boolean = False,
                                Optional ByRef stdErr As String = Nothing,
-                               Optional ByRef exitCode As Integer = 0) As String
+                               Optional ByRef exitCode As Integer = 0,
+                               Optional shell As Boolean = False) As String
 
             Dim stdout As New List(Of String)
             Dim readLine As Action(Of String)
@@ -252,7 +376,7 @@ Namespace CommandLine
                 readLine = AddressOf stdout.Add
             End If
 
-            exitCode = ExecSub(app, args, readLine, [in], stdErr)
+            exitCode = ExecSub(app, args, readLine, [in], stdErr, shell:=shell)
 
             Return stdout.JoinBy(vbCrLf)
         End Function

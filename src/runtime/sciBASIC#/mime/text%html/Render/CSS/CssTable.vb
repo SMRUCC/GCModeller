@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3be713a89836a5b6e7c45905528fc5cc, mime\text%html\Render\CSS\CssTable.vb"
+﻿#Region "Microsoft.VisualBasic::d34ee041c8a676bdb40e880cfec9f931, mime\text%html\Render\CSS\CssTable.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 878
+    '    Code Lines: 524 (59.68%)
+    ' Comment Lines: 205 (23.35%)
+    '    - Xml Docs: 69.76%
+    ' 
+    '   Blank Lines: 149 (16.97%)
+    '     File Size: 32.16 KB
+
+
     '     Class CssTable
     ' 
     '         Properties: AllRows, BodyRows, Caption, ColumnCount, ColumnMinWidths
@@ -59,9 +71,10 @@
 
 Imports System.Drawing
 Imports System.Math
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 
 Namespace Render.CSS
-
+#If NET48 Then
     Friend Class CssTable
 #Region "Subclasses"
 
@@ -467,7 +480,7 @@ Namespace Render.CSS
                         If len.IsPercentage Then
                             'Get width as a percentage
                             ColumnWidths(i) = CssValue.ParseNumber(Columns(i).Width, availCellSpace)
-                        ElseIf len.Unit = CssLength.CssUnit.Pixels OrElse len.Unit = CssLength.CssUnit.None Then
+                        ElseIf len.Unit = CssUnit.Pixels OrElse len.Unit = CssUnit.None Then
                             'Get width as an absolute-pixel value
                             ColumnWidths(i) = len.Number
                         End If
@@ -493,7 +506,7 @@ Namespace Render.CSS
                                 If len.IsPercentage Then
                                     'Get width as a percentage
                                     flen = CssValue.ParseNumber(row.Boxes(i).Width, availCellSpace)
-                                ElseIf len.Unit = CssLength.CssUnit.Pixels OrElse len.Unit = CssLength.CssUnit.None Then
+                                ElseIf len.Unit = CssUnit.Pixels OrElse len.Unit = CssUnit.None Then
                                     'Get width as an absolute-pixel value
                                     flen = len.Number
                                 End If
@@ -932,4 +945,5 @@ Namespace Render.CSS
 
 #End Region
     End Class
+#End If
 End Namespace

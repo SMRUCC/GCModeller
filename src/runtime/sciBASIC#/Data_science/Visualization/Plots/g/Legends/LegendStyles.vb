@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dac2a7257a48da24014e2da396ff89be, Data_science\Visualization\Plots\g\Legends\LegendStyles.vb"
+﻿#Region "Microsoft.VisualBasic::01e76870169f59779ff1a2858c48bca5, Data_science\Visualization\Plots\g\Legends\LegendStyles.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 15 (29.41%)
+    ' Comment Lines: 33 (64.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (5.88%)
+    '     File Size: 1.26 KB
+
+
     '     Enum LegendStyles
     ' 
     ' 
@@ -43,6 +55,8 @@
 
 #End Region
 
+Imports System.ComponentModel
+
 Namespace Graphic.Legend
 
     ''' <summary>
@@ -53,23 +67,23 @@ Namespace Graphic.Legend
         ''' <summary>
         ''' 矩形
         ''' </summary>
-        Rectangle = 2
+        <Description("rect")> Rectangle = 2
         ''' <summary>
         ''' 圆形
         ''' </summary>
-        Circle = 4
+        <Description("circle")> Circle = 4
         ''' <summary>
         ''' 实线
         ''' </summary>
-        SolidLine = 8
+        <Description("line")> SolidLine = 8
         ''' <summary>
         ''' 虚线
         ''' </summary>
-        DashLine = 16
+        <Description("dash")> DashLine = 16
         ''' <summary>
         ''' 菱形
         ''' </summary>
-        Diamond = 32
+        <Description("diamond")> Diamond = 32
         ''' <summary>
         ''' 三角形
         ''' </summary>

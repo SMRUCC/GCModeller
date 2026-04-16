@@ -1,7 +1,0 @@
-[submodule "TsBuild/runtime/vs_solutions/dev-kit"]
-	path = TsBuild/runtime/vs_solutions/dev-kit
-	url = https://github.com/xieguigang/dev-kit.git
-
-[submodule "TsBuild/runtime/Microsoft.VisualBasic.Core"]
-	path = TsBuild/runtime/Microsoft.VisualBasic.Core
-	url = https://github.com/xieguigang/sciBASIC-lang-core.git

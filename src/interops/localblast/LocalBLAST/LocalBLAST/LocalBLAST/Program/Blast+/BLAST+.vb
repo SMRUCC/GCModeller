@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::151392de126b7c63e48e19590cf5a9a7, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
+﻿#Region "Microsoft.VisualBasic::9401a3a60bc5f62d3b75e675f9f9abc9, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Program\Blast+\BLAST+.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 94 (57.32%)
+    ' Comment Lines: 47 (28.66%)
+    '    - Xml Docs: 95.74%
+    ' 
+    '   Blank Lines: 23 (14.02%)
+    '     File Size: 7.19 KB
+
+
     '     Class BLASTPlus
     ' 
     '         Properties: BlastnOptionalArguments, BlastpOptionalArguments, MolTypeNucleotide, MolTypeProtein, Version
@@ -45,7 +57,6 @@
 #End Region
 
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 
 Namespace LocalBLAST.Programs
@@ -89,9 +100,16 @@ Namespace LocalBLAST.Programs
         Sub New(bin As String)
             Call MyBase.New(bin)
 
-            _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin).CLIPath
-            _blastpAssembly = String.Format("{0}\blastp.exe", bin).CLIPath
-            _blastnAssembly = String.Format("{0}\blastn.exe", bin).CLIPath
+            If Environment.OSVersion.Platform = PlatformID.Win32NT Then
+                _makeBlastDbAsm = String.Format("{0}\makeblastdb.exe", bin)
+                _blastpAssembly = String.Format("{0}\blastp.exe", bin)
+                _blastnAssembly = String.Format("{0}\blastn.exe", bin)
+            Else
+                ' linux/macos
+                _makeBlastDbAsm = String.Format("{0}/makeblastdb", bin)
+                _blastpAssembly = String.Format("{0}/blastp", bin)
+                _blastnAssembly = String.Format("{0}/blastn", bin)
+            End If
         End Sub
 
         Const MAKE_BLAST_DB_PROT As String = "-dbtype prot -in ""{0}"""
@@ -107,71 +125,67 @@ Namespace LocalBLAST.Programs
         ''' <param name="Output"></param>
         ''' <param name="e"></param>
         ''' <returns></returns>
-        Public Overrides Function Blastp(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overrides Function Blastp(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             If String.IsNullOrEmpty(e) Then
                 e = "1e-3"
             End If
 
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-
-            Call FileIO.FileSystem.CreateDirectory(DIR)
-
             Dim argv As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
-            Dim Cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
-            Console.WriteLine("LOCALBLAST+::BLASTP" & vbCrLf & "  ---> {0}", Cmdl)
+            Dim cmdl As String = String.Format("{0} {1}", _blastpAssembly, argv)
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTP" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
-            Return New IORedirectFile(_blastpAssembly, argv)
+            Return New IORedirect(_blastpAssembly, argv, IOredirect:=False, hide:=False)
         End Function
 
         Public Overrides Function GetLastLogFile() As BLASTOutput.IBlastOutput
             Return BLASTOutput.BlastPlus.Parser.TryParse(MyBase._InternalLastBLASTOutputFile)
         End Function
 
-        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             If String.IsNullOrEmpty(e) Then
                 e = "1e-3"
             End If
 
-            Dim DIR As String = FileIO.FileSystem.GetFileInfo(Output).Directory.FullName
-            Call FileIO.FileSystem.CreateDirectory(DIR)
-
-            Dim Argums As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
+            Dim args As String = String.Format(BLAST_PLUS_ARGUMS, Input, TargetDb, e, Output, NumThreads)
 
             If BlastnOptionalArguments?.WordSize > 0 Then
-                Argums &= " -word_size " & BlastnOptionalArguments.WordSize
+                args &= " -word_size " & BlastnOptionalArguments.WordSize
             End If
             If BlastnOptionalArguments?.penalty > 0 Then
-                Argums &= $" -penalty {BlastnOptionalArguments.penalty} "
+                args &= $" -penalty {BlastnOptionalArguments.penalty} "
             End If
             If BlastnOptionalArguments?.reward > 0 Then
-                Argums &= $" -reward {BlastnOptionalArguments.reward}"
+                args &= $" -reward {BlastnOptionalArguments.reward}"
             End If
 
-            Dim Cmdl As String = String.Format("{0} {1}", _blastnAssembly, Argums)
-            Console.WriteLine("LOCALBLAST+::BLASTN" & vbCrLf & "  ---> {0}", Cmdl)
+            Dim cmdl As String = String.Format("{0} {1}", _blastnAssembly, args)
+            Call Output.ParentPath.MakeDir
+            Call VBDebugger.EchoLine("LOCALBLAST+::BLASTN" & vbCrLf & $" --> {cmdl}")
             MyBase._InternalLastBLASTOutputFile = Output
-            Return New IORedirectFile(_blastnAssembly, argv:=Argums)
+            Return New IORedirect(_blastnAssembly, args, IOredirect:=False, hide:=False)
         End Function
 
-        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirectFile
-            Dim Argums As String
+        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirect
+            Dim args As String
+
             If String.Equals(dbType, "prot") Then
-                Argums = String.Format(MAKE_BLAST_DB_PROT, Db)
+                args = String.Format(MAKE_BLAST_DB_PROT, Db)
             Else
-                Argums = String.Format(MAKE_BLAST_DB_NUCL, Db)
+                args = String.Format(MAKE_BLAST_DB_NUCL, Db)
             End If
 
-            Dim Cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, Argums)
-            Console.WriteLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & "  ---> {0}", Cmdl)
-            Return New IORedirectFile(_makeBlastDbAsm, argv:=Argums)
+            Dim cmdl As String = String.Format("{0} {1}", _makeBlastDbAsm, args)
+            VBDebugger.EchoLine("LOCALBLAST+::MAKE_BLAST_DB" & vbCrLf & $" --> {cmdl}")
+            Return New IORedirect(_makeBlastDbAsm, args, IOredirect:=False, hide:=False)
         End Function
 
         ''' <summary>
-        ''' The nucleotide molecular type value for the makeblastdb operation.(用于makeblastdb操作所需要的核酸链分子的命令行参数值)
+        ''' The nucleotide molecular type value for the makeblastdb operation.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(用于makeblastdb操作所需要的核酸链分子的命令行参数值)</remarks>
         Public Overrides ReadOnly Property MolTypeNucleotide As String
             Get
                 Return "nucl"
@@ -179,11 +193,11 @@ Namespace LocalBLAST.Programs
         End Property
 
         ''' <summary>
-        ''' The protein molecular type value for the makeblastdb operation.(用于makeblastdb操作所需要的蛋白质分子的命令行参数值)
+        ''' The protein molecular type value for the makeblastdb operation.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(用于makeblastdb操作所需要的蛋白质分子的命令行参数值)</remarks>
         Public Overrides ReadOnly Property MolTypeProtein As String
             Get
                 Return "prot"
@@ -191,14 +205,14 @@ Namespace LocalBLAST.Programs
         End Property
 
         ''' <summary>
-        ''' Gets the blast program group version.(获取blast程序组的版本信息)
+        ''' Gets the blast program group version.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(获取blast程序组的版本信息)</remarks>
         Public Overrides ReadOnly Property Version As String
             Get
-                Dim Process As IORedirect = New IORedirect(Me._blastnAssembly, "-version", hide:=False)
+                Dim Process As New IORedirect(Me._blastnAssembly, "-version", hide:=False)
                 Call Process.Start(True)
                 Dim str As String = Regex.Split(Process.StandardOutput, "Package:\s+", RegexOptions.IgnoreCase).Last.Trim
                 Return str

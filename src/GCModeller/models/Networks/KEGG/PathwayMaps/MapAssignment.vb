@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b71e8181108da20bec8b3ead7e5ed792, models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
+﻿#Region "Microsoft.VisualBasic::9117f8af6eafd5ba2251cbe81c8ffea4, models\Networks\KEGG\PathwayMaps\MapAssignment.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 87 (70.16%)
+    ' Comment Lines: 20 (16.13%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 17 (13.71%)
+    '     File Size: 6.10 KB
+
+
     '     Module MapAssignment
     ' 
     '         Function: CompoundsMapAssignment, MapAssignmentByCoverage, ReactionsMapAssignment
@@ -44,7 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace PathwayMaps
 
@@ -105,7 +117,7 @@ Namespace PathwayMaps
                     top = (orderMap, objectPool.Intersect(collection:=orderMap.Value).Count / (orderMap.Value.Length ^ 2))
                     topMaps.Delete(orderMap.Key)
 
-                    Call $"{orderMap.Key}".__INFO_ECHO
+                    Call $"{orderMap.Key}".info
                 End If
 
                 Dim intersectObjects As String() = objectPool _

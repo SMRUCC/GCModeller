@@ -1,0 +1,42 @@
+﻿proj,files,totalLines,commentLines,blankLines,lineOfCodes,class,property,method,functions,operator,size(bytes),size
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Extensions.vb,66,8,10,48,1,0,3,1,0,2288,2.29 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpDriver.vb,46,0,9,37,1,0,4,1,0,1486,1.49 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\ServerComponent.vb,11,0,4,7,1,0,1,0,0,231,231 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\SessionManager.vb,37,0,13,24,1,2,3,1,0,1021,1021 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Configuration\Configuration.vb,52,11,10,31,1,3,0,3,0,1837,1.84 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Configuration\Session.vb,19,0,6,13,1,3,0,0,0,606,606 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\FileSystem\FileObject.vb,91,5,23,63,3,6,3,5,0,2705,2.71 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\FileSystem\FileSystem.vb,243,49,38,156,1,1,1,12,0,9393,9.39 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\FileSystem\WebFileSystem.vb,52,7,10,35,1,1,2,0,0,1888,1.89 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpProcessor.vb,524,138,82,304,1,7,15,5,0,20028,20.03 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpServer.vb,222,77,31,114,1,3,6,2,0,8784,8.78 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpSocket.vb,50,7,11,32,3,0,4,1,0,1933,1.93 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpStream\HttpMultipart.vb,266,22,36,208,1,0,1,9,0,9550,9.55 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpStream\HttpPostedFile.vb,125,40,16,69,1,4,5,2,0,4808,4.81 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpStream\PostReader.vb,194,40,26,128,3,6,4,2,0,7768,7.77 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\HttpStream\StreamElement.vb,15,0,3,12,1,0,0,1,0,497,497 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\Http\Options\Preflight.vb,52,18,6,28,1,0,1,1,0,2488,2.49 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\Content.vb,39,12,6,21,1,3,1,1,0,1310,1.31 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\HttpPOSTRequest.vb,68,5,9,54,1,1,1,2,0,2647,2.65 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\HttpRequest.vb,107,31,14,62,1,7,3,4,0,3693,3.69 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\HttpResponse.vb,565,269,74,222,3,1,26,10,2,22856,22.86 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\JsonResponse.vb,17,0,4,13,1,2,0,1,0,406,406 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\Protocol\Cookies.vb,34,3,10,21,1,0,0,5,0,998,998 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\Protocol\HttpError.vb,49,0,11,38,1,0,3,2,0,1461,1.46 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\Protocol\HttpHeader.vb,41,0,6,35,2,0,2,0,0,1732,1.73 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\HttpMessage\Protocol\WebForm.vb,6,0,2,4,1,0,0,0,0,82,82 B
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,Flute\My Project\Resources.Designer.vb,73,26,9,38,1,3,0,0,0,3148,3.15 KB
+G:\GCModeller\src\runtime\httpd\src\Flute\Flute.NET5.vbproj,<project>,3064,768,479,1817,36,53,89,71,2,115644,115.64 KB
+G:\GCModeller\src\runtime\httpd\src\FluteBuild\FluteBuild.vbproj,FluteBuild\Program.vb,42,0,8,34,1,0,0,2,0,1573,1.57 KB
+G:\GCModeller\src\runtime\httpd\src\FluteBuild\FluteBuild.vbproj,<project>,42,0,8,34,1,0,0,2,0,1573,1.57 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\VBHtml.vb,153,46,22,85,1,3,4,5,0,5778,5.78 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\Interpolate\Foreach.vb,70,15,15,40,1,0,1,2,0,2553,2.55 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\Interpolate\Includes.vb,80,5,16,59,1,0,1,1,0,3477,3.48 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\Interpolate\Variable.vb,99,5,18,76,1,0,3,3,0,3676,3.68 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\My Project\Resources.Designer.vb,63,23,8,32,1,2,0,0,0,2791,2.79 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\Reflection\GetValue.vb,86,1,18,67,1,0,1,2,0,3253,3.25 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,SMRUCC.WebCloud.VBScript\test\Program.vb,36,0,12,24,2,2,2,0,0,905,905 B
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\Flute.Template.vbproj,<project>,587,95,109,383,8,7,12,13,0,22433,22.43 KB
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\test\test.vbproj,test\Program.vb,36,0,12,24,2,2,2,0,0,903,903 B
+G:\GCModeller\src\runtime\httpd\src\WebCloud\SMRUCC.WebCloud.VBScript\test\test.vbproj,<project>,36,0,12,24,2,2,2,0,0,903,903 B
+../,<root>,7458,1726,1216,4516,94,124,206,172,4,281106,281.11 KB

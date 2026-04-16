@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2edcf3c861bab0314dfa9dd38bd61775, annotations\GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
+﻿#Region "Microsoft.VisualBasic::41b7aaa82f7a8319afd91d95c0b42a5c, annotations\GSEA\PFSNet\PFSNet\Models\PFSNetResultOut.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 13 (31.71%)
+    ' Comment Lines: 22 (53.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (14.63%)
+    '     File Size: 1.36 KB
+
+
     '     Class PFSNetResultOut
     ' 
     '         Properties: class1, class2, phenotype1, phenotype2, tag
@@ -43,8 +55,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 
 Namespace DataStructure
 

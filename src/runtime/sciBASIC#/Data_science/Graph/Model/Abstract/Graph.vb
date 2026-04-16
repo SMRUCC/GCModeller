@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f4f9c17c06dc536c0bb22e1ac992e5f4, Data_science\Graph\Model\Abstract\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::240c2bad7264329eb70396ca96ef0ebb, Data_science\Graph\Model\Abstract\Graph.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 381
+    '    Code Lines: 206 (54.07%)
+    ' Comment Lines: 127 (33.33%)
+    '    - Xml Docs: 96.85%
+    ' 
+    '   Blank Lines: 48 (12.60%)
+    '     File Size: 13.30 KB
+
+
     ' Class Graph
     ' 
     '     Properties: graphEdges, size, vertex
     ' 
-    '     Function: (+3 Overloads) AddEdge, AddEdges, (+2 Overloads) AddVertex, CreateEdge, (+3 Overloads) Delete
-    '               ExistEdge, ExistVertex, GetConnectedVertex, GetEnumerator, IEnumerable_GetEnumerator
+    '     Constructor: (+1 Overloads) Sub New
+    ' 
+    '     Function: Add, (+3 Overloads) AddEdge, AddEdges, (+2 Overloads) AddVertex, CreateEdge
+    '               (+4 Overloads) Delete, (+2 Overloads) ExistEdge, ExistVertex, GetConnectedVertex, GetEdge
+    '               GetEdgeByID, GetEnumerator, IEnumerable_GetEnumerator, Insert, QueryEdge
+    ' 
+    '     Sub: clearEdges
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -60,7 +76,13 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     Implements IEnumerable(Of Edge)
 
 #Region "Let G=(V, E) be a simple graph"
-    Protected Friend edges As New Dictionary(Of Edge)
+
+    ReadOnly edges As New Dictionary(Of String, Edge)
+
+    ''' <summary>
+    ''' directed edge index
+    ''' </summary>
+    Protected ReadOnly linkIndex As New Dictionary(Of String, Dictionary(Of String, Edge))
 
     ''' <summary>
     ''' <see cref="vertices"/>和<see cref="buffer"/>哈希表分别使用了两种属性来对节点进行索引的建立：
@@ -73,7 +95,7 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' <summary>
     ''' Visit nodes directly by index number
     ''' </summary>
-    Protected Friend buffer As New HashList(Of V)
+    Protected Friend buffer As New Dictionary(Of UInteger, V)
 #End Region
 
     ''' <summary>
@@ -100,8 +122,10 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     End Property
 
     ''' <summary>
-    ''' 获取得到这个图中的所有的节点的边的集合，请注意，这个只读属性是一个枚举集合，
-    ''' 所以为了减少性能上的损失，不可以过多的使用下标来访问集合元素
+    ''' get the enumeration of the internal edge list data.
+    ''' (获取得到这个图中的所有的节点的边的集合，请注意，
+    ''' 这个只读属性是一个枚举集合，所以为了减少性能上的损失，
+    ''' 不可以过多的使用下标来访问集合元素.)
     ''' </summary>
     ''' <returns>
     ''' 因为在这里使用了一个<see cref="SortedDictionary(Of String, V)"/>来进行
@@ -113,6 +137,43 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
             Return edges.Values
         End Get
     End Property
+
+    Public Sub New()
+    End Sub
+
+    Protected Sub clearEdges()
+        Call edges.Clear()
+        Call linkIndex.Clear()
+    End Sub
+
+    ''' <summary>
+    ''' query edges by directed node tuple.
+    ''' </summary>
+    ''' <param name="from"></param>
+    ''' <returns>
+    ''' returns nothing if target node is not exists in the index
+    ''' </returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function QueryEdge(from As String, [to] As String) As Edge
+        If linkIndex.ContainsKey(from) Then
+            If linkIndex(from).ContainsKey([to]) Then
+                Return linkIndex(from)([to])
+            End If
+        End If
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' get a edge object by its unique reference id
+    ''' </summary>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetEdgeByID(id As String) As Edge
+        Return edges.TryGetValue(id)
+    End Function
 
     ''' <summary>
     ''' 返回所有至少具有一条边连接的节点的集合
@@ -133,10 +194,15 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' </summary>
     ''' <param name="u"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' the input node vertex <paramref name="u"/> must have the <see cref="TV.ID"/> 
+    ''' index value assigned before calling this function for add into the current 
+    ''' graph object.
+    ''' </remarks>
     Public Function AddVertex(u As V) As G
         If Not vertices.Have(u) Then
             vertices += u
-            buffer.Add(u)
+            buffer.Add(u.ID, u)
         End If
 
         Return Me
@@ -152,9 +218,49 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
         Return vertices.ContainsKey(name)
     End Function
 
+    ''' <summary>
+    ''' query edge item exists or not by edge id
+    ''' </summary>
+    ''' <param name="u"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Function ExistEdge(edge As Edge) As Boolean
-        Return edges.ContainsKey(edge.ID)
+    Public Overridable Function ExistEdge(u As String, v As String) As Boolean
+        If Not linkIndex.ContainsKey(u) Then
+            Return False
+        Else
+            Return linkIndex(u).ContainsKey(v)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' get direct edge link
+    ''' </summary>
+    ''' <param name="u"></param>
+    ''' <param name="v"></param>
+    ''' <returns></returns>
+    Public Function GetEdge(u As V, v As V) As Edge
+        If Not linkIndex.ContainsKey(u.label) Then
+            Return Nothing
+        Else
+            Return linkIndex(u.label).TryGetValue(v.label)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' query edge item exists or not by edge id
+    ''' </summary>
+    ''' <param name="edge"></param>
+    ''' <returns></returns>
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Overridable Function ExistEdge(edge As Edge) As Boolean
+        Dim u As V = edge.U
+        Dim v As V = edge.V
+
+        If Not linkIndex.ContainsKey(u.label) Then
+            Return False
+        End If
+
+        Return linkIndex(u.label).ContainsKey(v.label)
     End Function
 
     ''' <summary>
@@ -163,13 +269,16 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' </summary>
     ''' <param name="label$"></param>
     ''' <returns></returns>
-    Public Function AddVertex(label As String) As V
+    Public Overridable Function AddVertex(label As String) As V
         If vertices.ContainsKey(label) Then
+            ' skip of current already existed vertex node
             Return vertices(label)
         Else
+            Dim maxBuffer As Integer = If(buffer.Count = 0, 0, buffer.Keys.Max)
+
             With New V With {
-                .ID = buffer.GetAvailablePos,
-                .Label = label
+                .ID = maxBuffer + 1,
+                .label = label
             }
                 Call AddVertex(.ByRef)
                 Return .ByRef
@@ -177,29 +286,51 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
         End If
     End Function
 
-    Public Function AddEdge(u As V, v As V, Optional weight# = 0) As G
-        edges += New Edge With {
-            .U = u,
-            .V = v,
-            .weight = weight
-        }
-        If Not vertices.ContainsKey(u.Label) Then
-            vertices += u
-            buffer.Add(u)
+    ''' <summary>
+    ''' just add edges
+    ''' </summary>
+    ''' <param name="edge">
+    ''' vertex nodes in this given edge object 
+    ''' will be added into the graph if not 
+    ''' exists.
+    ''' </param>
+    ''' <returns></returns>
+    Public Overridable Function Insert(edge As Edge) As G
+        Dim u = edge.U
+        Dim v = edge.V
+
+        If Not linkIndex.ContainsKey(u.label) Then
+            linkIndex.Add(u.label, New Dictionary(Of String, Edge))
         End If
-        If Not vertices.ContainsKey(v.Label) Then
+
+        linkIndex(u.label)(v.label) = edge
+        edges.Add(edge.ID, edge)
+
+        If Not vertices.ContainsKey(u.label) Then
+            vertices += u
+            buffer.Add(u.ID, u)
+        End If
+        If Not vertices.ContainsKey(v.label) Then
             vertices += v
-            buffer.Add(v)
+            buffer.Add(v.ID, v)
         End If
 
         Return Me
     End Function
 
+    Public Function AddEdge(u As V, v As V, Optional weight# = 0) As G
+        Return Insert(New Edge With {
+            .U = u,
+            .V = v,
+            .weight = weight
+        })
+    End Function
+
     ''' <summary>
     ''' 这个函数使用起来比较方便，但是要求节点都必须要存在于列表之中
     ''' </summary>
-    ''' <param name="src$"></param>
-    ''' <param name="targets$"></param>
+    ''' <param name="src"></param>
+    ''' <param name="targets">a collection of the target vertex id</param>
     ''' <returns></returns>
     Public Function AddEdges(src$, targets$()) As G
         Dim U As V = vertices(src)
@@ -219,25 +350,33 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overridable Function AddEdge(i%, j%, Optional weight# = 0) As G
-        edges += New Edge With {
-            .U = buffer(i),
-            .V = buffer(j),
+        Dim newLink As New Edge With {
+            .U = buffer(key:=CUInt(i)),
+            .V = buffer(key:=CUInt(j)),
             .weight = weight
         }
-
+        Call edges.Add(newLink.ID, newLink)
         Return Me
     End Function
 
     ''' <summary>
     ''' <paramref name="u"/> and <paramref name="v"/> is the property ``<see cref="Data.GraphTheory.Vertex.label"/>``
     ''' </summary>
-    ''' <param name="u$"></param>
-    ''' <param name="v$"></param>
-    ''' <param name="weight#"></param>
+    ''' <param name="u"></param>
+    ''' <param name="v"></param>
+    ''' <param name="weight"></param>
     ''' <returns></returns>
     Public Overridable Function AddEdge(u$, v$, Optional weight# = 0) As G
-        edges += CreateEdge(u, v, weight)
+        Dim newLink As Edge = CreateEdge(u, v, weight)
+        Call edges.Add(newLink.ID, newLink)
         Return Me
+    End Function
+
+    Public Overloads Function Add(edge As (u$, v$)) As G
+        If Not ExistVertex(edge.u) Then Call AddVertex(edge.u)
+        If Not ExistVertex(edge.v) Then Call AddVertex(edge.v)
+
+        Return AddEdge(edge.u, edge.v, 1)
     End Function
 
     ''' <summary>
@@ -265,23 +404,32 @@ Public MustInherit Class Graph(Of V As {New, TV}, Edge As {New, Edge(Of V)}, G A
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(U As V, V As V) As G
-        Return Delete(U.ID, V.ID)
+        Return Delete(U.label, V.label)
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function Delete(edge As Edge) As G
+        Return Delete(edge.U.label, edge.V.label)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(u$, v$) As G
-        Return Delete(vertices(u).ID, vertices(v).ID)
+        If linkIndex.ContainsKey(u) Then
+            If linkIndex(u).ContainsKey(v) Then
+                Call edges.Remove(linkIndex(u)(v).ID)
+                Call linkIndex(u).Remove(v)
+            End If
+        End If
+
+        Return Me
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Delete(u%, v%) As G
-        Dim key$ = VertexEdge.EdgeKey(vertices(u), vertices(v))
+        Dim uNode As V = buffer(key:=CUInt(u))
+        Dim vNode As V = buffer(key:=CUInt(v))
 
-        If edges.ContainsKey(key) Then
-            Call edges.Remove(key)
-        End If
-
-        Return Me
+        Return Delete(uNode.label, vNode.label)
     End Function
 
     ''' <summary>

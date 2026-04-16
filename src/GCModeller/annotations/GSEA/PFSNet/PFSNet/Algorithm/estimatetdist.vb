@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 50 (69.44%)
+    ' Comment Lines: 8 (11.11%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (19.44%)
+    '     File Size: 2.82 KB
+
+
     ' Module estimatetdistFunction
     ' 
     '     Function: estimatetdist, estimatetdistLoop

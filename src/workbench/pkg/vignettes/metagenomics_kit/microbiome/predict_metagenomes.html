@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>creates the final metagenome functional predictions. It</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>predict_metagenomes {microbiome}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>creates the final metagenome functional predictions. It</h2>
+
+        <h3>Description</h3>
+
+        <p>multiplies each normalized OTU abundance by each predicted <br /> functional trait abundance to produce a table of functions <br /> (rows) by samples (columns).</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>predict_metagenomes</strong>(<i>PICRUSt</i>, <i>table</i>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>table</dt>
+<dd><p>should be a merged OTU dataframe object, that should be in format like:
+ 
+ 1. the colnames should be the sample name, and the column field value is the relative abundance value of each otu in each sample
+ 2. the rows in this dataframe should be the otu expression value across samples
+ 
+ the GCModeller internal <a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/Matrix.html">Matrix</a> is also avaiable 
+ for this parameter.</p></dd>
+
+        </table>
+
+
+        <h3 style="display: none;">Details</h3>
+
+        
+
+        <h3 style="display: block">Authors</h3>
+
+        metagenomics_kit
+
+        <h3>Value</h3>
+
+        this function returns data object of type <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a>.<h4>clr value class</h4><ul><li><a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a></li></ul>
+
+        <h3 style="display: none;">Examples</h3>
+
+        
+
+        <hr />
+        <div style="text-align: center;">[Package <em>microbiome</em> version 1.0.0.0 <a
+                href="../microbiome.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

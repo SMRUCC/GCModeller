@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 82 (50.00%)
+    ' Comment Lines: 60 (36.59%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 7.39 KB
+
+
     ' Class catalystactivity
     ' 
     '     Properties: activity, activity_class, DB_ID, physicalEntity, physicalEntity_class

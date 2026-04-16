@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::04555cff435ac9f30423b4f6b5bc4acc, Microsoft.VisualBasic.Core\src\Serialization\RawStream.vb"
+﻿#Region "Microsoft.VisualBasic::23af9d66f0dfea244754fabaa4ca1027, Microsoft.VisualBasic.Core\src\Serialization\RawStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 237
+    '    Code Lines: 166 (70.04%)
+    ' Comment Lines: 41 (17.30%)
+    '    - Xml Docs: 97.56%
+    ' 
+    '   Blank Lines: 30 (12.66%)
+    '     File Size: 10.45 KB
+
+
     '     Interface ISerializable
     ' 
     '         Function: Serialize
@@ -41,8 +53,8 @@
     '     Class RawStream
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: BytesInternal, GetBytes, (+2 Overloads) GetData, GetRawStream, readInternal
-    '                   Serialize
+    '         Function: BytesInternal, empty, GetBytes, (+2 Overloads) GetData, GetRawStream
+    '                   readInternal, Serialize
     ' 
     ' 
     ' 
@@ -129,7 +141,7 @@ Namespace Serialization
         ''' </summary>
         Public Const INT32 As Integer = 4
         ''' <summary>
-        ''' System.Double
+        ''' sizeof <see cref="Double"/>
         ''' </summary>
         Public Const DblFloat As Integer = 8
         Public Const ShortInt As Integer = 2
@@ -143,11 +155,36 @@ Namespace Serialization
             End Using
         End Function
 
+        Private Shared Function empty(code As TypeCode) As Array
+            Select Case code
+                Case TypeCode.Boolean : Return New Boolean() {}
+                Case TypeCode.Byte : Return New Byte() {}
+                Case TypeCode.Char : Return New Char() {}
+                Case TypeCode.DateTime : Return New Date() {}
+                Case TypeCode.DBNull : Return New DBNull() {}
+                Case TypeCode.Decimal : Return New Decimal() {}
+                Case TypeCode.Double : Return New Double() {}
+                Case TypeCode.Empty : Return New Object() {}
+                Case TypeCode.SByte : Return New SByte() {}
+                Case TypeCode.Single : Return New Single() {}
+                Case TypeCode.String : Return New String() {}
+                Case TypeCode.UInt16 : Return New UInt16() {}
+                Case TypeCode.UInt32 : Return New UInt32() {}
+                Case TypeCode.UInt64 : Return New UInt64() {}
+                Case Else
+                    Return New Object() {}
+            End Select
+        End Function
+
         Public Shared Function GetData(raw As Stream, code As TypeCode, Optional encoding As Encodings = Encodings.UTF8) As Array
             Dim type As Type = code.CreatePrimitiveType
             Dim bytes As Byte() = New Byte(raw.Length - 1) {}
 
-            Call raw.Read(bytes, Scan0, bytes.Length)
+            If bytes.Length = 0 Then
+                Return empty(code)
+            Else
+                Call raw.Read(bytes, Scan0, bytes.Length)
+            End If
 
             Select Case code
                 Case TypeCode.Boolean
@@ -185,7 +222,9 @@ Namespace Serialization
                     Return str.ToArray
                 Case TypeCode.DateTime
                     Dim timestamps = readInternal(bytes, AddressOf BitConverter.ToDouble)
-                    Dim time As DateTime() = timestamps.Select(AddressOf FromUnixTimeStamp).ToArray
+                    Dim time As DateTime() = timestamps _
+                        .Select(AddressOf FromUnixTimeStamp) _
+                        .ToArray
 
                     Return time
                 Case TypeCode.Int64
@@ -210,9 +249,23 @@ Namespace Serialization
             Return objs
         End Function
 
+        ''' <summary>
+        ''' this function only works for the primitive data types
+        ''' </summary>
+        ''' <param name="vector"></param>
+        ''' <param name="encoding"></param>
+        ''' <returns>
+        ''' the empty byte collection will be return if the input vector is nothing
+        ''' </returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function GetBytes(vector As Array, Optional encoding As Encodings = Encodings.UTF8) As Byte()
-            Return BytesInternal(vector, encoding).IteratesALL.ToArray
+            If vector Is Nothing OrElse vector.Length = 0 Then
+                Return {}
+            Else
+                Return BytesInternal(vector, encoding) _
+                    .IteratesALL _
+                    .ToArray
+            End If
         End Function
 
         Private Shared Function BytesInternal(vector As Array, encoding As Encodings) As IEnumerable(Of Byte())
@@ -235,7 +288,7 @@ Namespace Serialization
 
                 Return DirectCast(vector, String()) _
                     .Select(Function(str)
-                                Dim bytes As Byte() = codepage.GetBytes(str)
+                                Dim bytes As Byte() = If(str Is Nothing, {}, codepage.GetBytes(str))
                                 Dim size As Byte() = BitConverter.GetBytes(bytes.Length)
 
                                 Return size.JoinIterates(bytes).ToArray

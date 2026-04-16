@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 26 (66.67%)
+    ' Comment Lines: 4 (10.26%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 9 (23.08%)
+    '     File Size: 1.25 KB
+
+
     '     Class Dart
     ' 
     '         Constructor: (+1 Overloads) Sub New

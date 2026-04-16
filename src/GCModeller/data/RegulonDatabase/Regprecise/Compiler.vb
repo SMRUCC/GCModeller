@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e18c56bcc92c9fd3567655ee7c65eb3, data\RegulonDatabase\Regprecise\Compiler.vb"
+﻿#Region "Microsoft.VisualBasic::c96f595f4ea974c0f490d8d1ad5db881, data\RegulonDatabase\Regprecise\Compiler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 266
+    '    Code Lines: 212 (79.70%)
+    ' Comment Lines: 22 (8.27%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 32 (12.03%)
+    '     File Size: 15.17 KB
+
 
     '     Module Compiler
     ' 
@@ -88,7 +100,7 @@ Namespace Regprecise
                     predicate = AddressOf __predicate_taxonomyId
                     queryKey = Scripting.InputHandler.CTypeDynamic(Of Integer)(query)
                 Case Else
-                    Call $"Query type '{key}' is not a valid field, using genomeId as default!".__DEBUG_ECHO
+                    Call $"Query type '{key}' is not a valid field, using genomeId as default!".debug
                     predicate = AddressOf __predicate_genomeId
                     queryKey = Scripting.InputHandler.CTypeDynamic(Of Integer)(query)
             End Select
@@ -216,12 +228,12 @@ Namespace Regprecise
 #End Region
 
         ''' <summary>
-        ''' 生成meme计算所需要的调控位点的fasta文件（按照家族分类）
+        ''' Category export the motif fasta sites into file system.
+        ''' (生成meme计算所需要的调控位点的fasta文件（按照家族分类）)
         ''' </summary>
         ''' <param name="repositoryDIR">为了保持简洁性，没有引用配置项目。。。需要手动设定数据源</param>
         ''' <param name="genomePartitioning">当一个家族里面的序列数太多的时候是否需要按照基因组进行分组，默认不分组</param>
         ''' 
-        <ExportAPI("Sites.Category.ByFamily", Info:="Category export the motif fasta sites into file system.")>
         Public Sub SitesFamilyCategory(repositoryDIR As String, Optional genomePartitioning As Boolean = False)
             Dim Regulons = (From xmlFile As String
                             In FileIO.FileSystem.GetFiles(repositoryDIR & "/regulons/", FileIO.SearchOption.SearchTopLevelOnly, "*.xml")

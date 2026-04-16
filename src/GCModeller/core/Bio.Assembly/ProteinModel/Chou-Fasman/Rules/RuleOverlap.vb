@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::992bd4f610a2d3442d0b5aa7f72e19a5, core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb"
+﻿#Region "Microsoft.VisualBasic::9af8a2f377eb4dc13c343829d8346a85, core\Bio.Assembly\ProteinModel\Chou-Fasman\Rules\RuleOverlap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 62 (76.54%)
+    ' Comment Lines: 5 (6.17%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (17.28%)
+    '     File Size: 3.73 KB
+
+
     '     Module RuleOverlap
     ' 
     '         Sub: CalculateHelixSheetOverlap, CalculateHelixTurnOverlap, CalculateSheetTurnOverlap, Invoke, SetStructureType
@@ -39,8 +51,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports Microsoft.VisualBasic
 
 Namespace ProteinModel.ChouFasmanRules.Rules
 

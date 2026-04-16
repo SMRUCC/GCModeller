@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73fc5ccb77bbfc410ddaca2a5df52771, mime\text%html\Render\CSS\CssAnonymousBlockBox.vb"
+﻿#Region "Microsoft.VisualBasic::36fa126c4764a500ba9f7c8eb8cf23e1, mime\text%html\Render\CSS\CssAnonymousBlockBox.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 29 (64.44%)
+    ' Comment Lines: 10 (22.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (13.33%)
+    '     File Size: 1.44 KB
+
+
     '     Class CssAnonymousBlockBox
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -45,7 +57,7 @@
 #End Region
 
 Namespace Render.CSS
-
+#If NET48 Then
     ''' <summary>
     ''' Represents an anonymous block box
     ''' </summary>
@@ -87,4 +99,5 @@ Namespace Render.CSS
             Display = CssConstants.None
         End Sub
     End Class
+#End If
 End Namespace

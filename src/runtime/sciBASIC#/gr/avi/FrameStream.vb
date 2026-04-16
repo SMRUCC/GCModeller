@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 25 (71.43%)
+    ' Comment Lines: 2 (5.71%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (22.86%)
+    '     File Size: 1.11 KB
+
+
     ' Class FrameStream
     ' 
     '     Properties: length

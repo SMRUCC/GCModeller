@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cd8c515b0e42fc0cd704438aa617c45, engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::04ec1c21023e6e41b62971a5a91986aa, engine\Compiler\KineticsModeller\KineticsModellerHelpers.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 68 (76.40%)
+    ' Comment Lines: 10 (11.24%)
+    '    - Xml Docs: 30.00%
+    ' 
+    '   Blank Lines: 11 (12.36%)
+    '     File Size: 3.34 KB
+
+
     ' Module KineticsModellerHelpers
     ' 
     '     Function: compoundIdNameIndex, parseKineticsParameters
@@ -51,13 +63,14 @@ Module KineticsModellerHelpers
     <Extension>
     Friend Function compoundIdNameIndex(vcell As VirtualCell) As Dictionary(Of String, String)
         Dim index As New Dictionary(Of String, String)
+        Dim name As String
 
-        For Each cpd In vcell.metabolismStructure.compounds
-            For Each name As String In {cpd.name}.JoinIterates(cpd.otherNames)
-                If Not index.ContainsKey(name) Then
-                    Call index.Add(name, cpd.ID)
-                End If
-            Next
+        For Each cpd As Compound In vcell.metabolismStructure.compounds
+            name = cpd.name
+
+            If Not index.ContainsKey(name) Then
+                Call index.Add(name, cpd.ID)
+            End If
         Next
 
         Return index
@@ -68,7 +81,11 @@ Module KineticsModellerHelpers
     ''' </summary>
     ''' <returns></returns>
     <Extension>
-    Friend Iterator Function parseKineticsParameters(reaction As SBMLReaction， index As SBMLInternalIndexer, KO$, compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
+    Friend Iterator Function parseKineticsParameters(reaction As SBMLReaction,
+                                                     index As SBMLInternalIndexer,
+                                                     KO$,
+                                                     compoundId As Dictionary(Of String, String)) As IEnumerable(Of KineticsParameter)
+
         Dim locals As Dictionary(Of String, localParameter) = reaction.kineticLaw.listOfLocalParameters.ToDictionary(Function(a) a.id)
         Dim local As localParameter
         Dim id As String

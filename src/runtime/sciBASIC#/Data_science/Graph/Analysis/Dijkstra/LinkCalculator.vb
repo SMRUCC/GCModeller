@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::501d840aeedf2f0300b14221d9165c2b, Data_science\Graph\Analysis\Dijkstra\LinkCalculator.vb"
+﻿#Region "Microsoft.VisualBasic::949634f12c8512de50d1a04ce4faf380, Data_science\Graph\Analysis\Dijkstra\LinkCalculator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 230
+    '    Code Lines: 147 (63.91%)
+    ' Comment Lines: 36 (15.65%)
+    '    - Xml Docs: 86.11%
+    ' 
+    '   Blank Lines: 47 (20.43%)
+    '     File Size: 7.95 KB
+
+
     '     Class Neighbour
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -57,7 +69,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports number = System.Double
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Analysis.Dijkstra
 
@@ -86,7 +98,7 @@ Namespace Analysis.Dijkstra
         Public q As PairingHeap(Of Node)
     End Class
 
-    Class QueueEntry
+    Public Class QueueEntry
 
         Public node As Node
         Public prev As QueueEntry
@@ -129,20 +141,20 @@ Namespace Analysis.Dijkstra
             Me.es = es.ToArray
             Me.neighbours = New Node(Me.n - 1) {}
 
-            While stdNum.Max(Interlocked.Decrement(i), i + 1)
+            While std.Max(Interlocked.Decrement(i), i + 1)
                 Me.neighbours(i) = New Node(i)
             End While
 
             i = Me.es.Length
 
-            While stdNum.Max(Interlocked.Decrement(i), i + 1)
+            While std.Max(Interlocked.Decrement(i), i + 1)
                 Dim e = Me.es(i)
                 Dim u = getSourceIndex(e)
                 Dim v = getTargetIndex(e)
                 Dim d = getLength(e)
 
-                Me.neighbours(u).neighbours.Add(New Neighbour(v, d))
-                Me.neighbours(v).neighbours.Add(New Neighbour(u, d))
+                Me.neighbours(u).neighbours.Append(New Neighbour(v, d))
+                Me.neighbours(v).neighbours.Append(New Neighbour(u, d))
             End While
         End Sub
 
@@ -204,7 +216,7 @@ Namespace Analysis.Dijkstra
 
                 Dim i = u.neighbours.Length
 
-                While stdNum.Max(Interlocked.Decrement(i), i + 1)
+                While std.Max(Interlocked.Decrement(i), i + 1)
                     Dim neighbour = u.neighbours(i)
                     Dim v = Me.neighbours(neighbour.id)
 
@@ -244,7 +256,7 @@ Namespace Analysis.Dijkstra
             Dim i As Integer = Me.neighbours.Length
             Dim d As Integer() = New Integer(i - 1) {}
 
-            While stdNum.Max(Interlocked.Decrement(i), i + 1)
+            While std.Max(Interlocked.Decrement(i), i + 1)
                 Dim node = Me.neighbours(i)
                 node.d = If(i = start, 0, number.PositiveInfinity)
                 node.q = q.push(node)
@@ -267,7 +279,7 @@ Namespace Analysis.Dijkstra
 
                 i = u.neighbours.Length
 
-                While stdNum.Max(Interlocked.Decrement(i), i + 1)
+                While std.Max(Interlocked.Decrement(i), i + 1)
                     Dim neighbour = u.neighbours(i)
                     Dim v = Me.neighbours(neighbour.id)
                     Dim t = u.d + neighbour.distance

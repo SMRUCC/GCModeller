@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b39c20ab78117ce7e79e11a5f29c5c71, Microsoft.VisualBasic.Core\src\Net\MIME\ContentType.vb"
+﻿#Region "Microsoft.VisualBasic::29459a51bd13d441b9cf57569025dbca, Microsoft.VisualBasic.Core\src\Net\MIME\ContentType.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
-    '     Structure ContentType
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 50 (56.18%)
+    ' Comment Lines: 26 (29.21%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 13 (14.61%)
+    '     File Size: 2.65 KB
+
+
+    '     Class ContentType
     ' 
     '         Properties: Details, FileExt, IsEmpty, MIMEType, Name
     ' 
-    '         Function: __createObject, ToString
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: parseLine, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,15 +56,21 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Text
 
 Namespace Net.Protocols.ContentTypes
 
+#Disable Warning BC40000 ' Type or member is obsolete
     ''' <summary>
     ''' MIME types / Internet Media Types
     ''' </summary>
-    Public Structure ContentType : Implements IsEmpty
+    ''' 
+    <ClassInterface(ClassInterfaceType.AutoDual)>
+    <ComVisible(True)>
+    Public Class ContentType : Implements IsEmpty
+#Enable Warning BC40000 ' Type or member is obsolete
 
         ''' <summary>
         ''' Type name or brief info
@@ -63,6 +82,12 @@ Namespace Net.Protocols.ContentTypes
         ''' MIME Type / Internet Media Type
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' example as:
+        ''' 
+        ''' plain/text
+        ''' text/html
+        ''' </remarks>
         Public Property MIMEType As String
 
         ''' <summary>
@@ -87,11 +112,20 @@ Namespace Net.Protocols.ContentTypes
             End Get
         End Property
 
+        Sub New()
+        End Sub
+
+        Sub New(name$, mime$, ext_suffix$)
+            Me.Name = name
+            Me.MIMEType = mime
+            Me.FileExt = ext_suffix
+        End Sub
+
         Public Overrides Function ToString() As String
             Return $"{MIMEType} (*{FileExt})"
         End Function
 
-        Friend Shared Function __createObject(line As String) As ContentType
+        Friend Shared Function parseLine(line As String) As ContentType
             Dim tokens As String() = line.Split(ASCII.TAB)
 
             If tokens.IsNullOrEmpty OrElse tokens.Length < 3 Then
@@ -107,6 +141,6 @@ Namespace Net.Protocols.ContentTypes
                 Return mime
             End If
         End Function
-    End Structure
+    End Class
 
 End Namespace

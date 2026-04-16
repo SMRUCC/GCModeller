@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4674e9c3dc7a01652339fe6d3c67719f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::cc253ba428673597563d28420decc59f, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 56 (58.33%)
+    ' Comment Lines: 30 (31.25%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (10.42%)
+    '     File Size: 3.76 KB
+
+
     '     Class I_BlastQueryHit
     ' 
-    '         Properties: BBH_ID, HitName, isMatched, isSelfHit, QueryName
+    '         Properties: BBH_ID, description, HitName, isMatched, isSelfHit
+    '                     QueryName
     ' 
     '         Function: ToString
     ' 
@@ -42,18 +55,13 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Map(Of String, String)
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 
 Namespace LocalBLAST.Application.BBH.Abstract
@@ -86,6 +94,12 @@ Namespace LocalBLAST.Application.BBH.Abstract
             Implements IKeyValuePairObject(Of String, String).Value,
                        IBlastHit.hitName,
                        IMap.Maps
+
+        ''' <summary>
+        ''' The functional description of <see cref="HitName"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Overridable Property description As String Implements IBlastHit.description
 
         ''' <summary>
         ''' 仅仅是依靠对HitName的判断来使用这个属性了解<see cref="QueryName"></see>是否已经和<see cref="HitName"></see>比对上了
@@ -122,7 +136,7 @@ Namespace LocalBLAST.Application.BBH.Abstract
         Public ReadOnly Property BBH_ID As String
             Get
                 Dim asc As String() = LinqAPI.Exec(Of String) <=
- _
+                                                                _
                     From s As String
                     In {Me.QueryName, Me.HitName}
                     Select str = s.ToUpper

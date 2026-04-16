@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 27 (36.99%)
+    ' Comment Lines: 32 (43.84%)
+    '    - Xml Docs: 65.62%
+    ' 
+    '   Blank Lines: 14 (19.18%)
+    '     File Size: 3.83 KB
+
+
     '     Class ProtLigandCplxe
     ' 
     '         Properties: Catalyzes, CommonName, ComponentOf, Components, ConsensusSequence

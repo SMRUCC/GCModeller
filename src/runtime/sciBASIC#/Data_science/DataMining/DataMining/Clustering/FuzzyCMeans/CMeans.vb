@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c278f894f35dd9c9b9e36601f2820e22, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\CMeans.vb"
+﻿#Region "Microsoft.VisualBasic::6c70ed2073869e9b818f50987db0ac0e, Data_science\DataMining\DataMining\Clustering\FuzzyCMeans\CMeans.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 297
+    '    Code Lines: 196 (65.99%)
+    ' Comment Lines: 62 (20.88%)
+    '    - Xml Docs: 82.26%
+    ' 
+    '   Blank Lines: 39 (13.13%)
+    '     File Size: 13.71 KB
+
+
     '     Module CMeans
     ' 
-    '         Function: (+3 Overloads) CMeans, Dist, GetCenters, GetRandomMatrix, J
-    '                   PopulateClusters, scanRow
+    '         Function: (+3 Overloads) CMeans, GetCenters, GetRandomMatrix, J, PopulateClusters
+    '                   scanRow
     ' 
     '         Sub: updateMembership, updateMembershipParallel
     ' 
@@ -47,8 +59,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace FuzzyCMeans
 
@@ -141,15 +154,23 @@ Namespace FuzzyCMeans
             Dim membership_diff As Double
             Dim [loop] As i32 = Scan0
 
+            For Each v As ClusterEntity In entities
+                For i As Integer = 0 To v.Length - 1
+                    If v(i).IsNaNImaginary Then
+                        v(i) = 0
+                    End If
+                Next
+            Next
+
             While True
                 centers = GetCenters(classCount, fuzzification, u, entities, width).ToArray
                 j_new = J(fuzzification, u, centers, entities)
-                membership_diff = stdNum.Abs(j_new - j_old)
+                membership_diff = std.Abs(j_new - j_old)
 
                 If j_old <> -1 AndAlso membership_diff < threshold Then
                     Exit While
                 Else
-                    Call $"loop_{[loop]} membership_diff: |{j_new} - {j_old}| = {membership_diff}".__DEBUG_ECHO
+                    Call $"loop_{[loop]} membership_diff: |{j_new.ToString("G3")} - {j_old.ToString("G3")}| = {membership_diff.ToString("G4")}".debug
                 End If
 
                 j_old = j_new
@@ -188,6 +209,14 @@ Namespace FuzzyCMeans
                 .ToArray
         End Sub
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="centers">centers for each cluster</param>
+        ''' <param name="entity">a object entity data vector</param>
+        ''' <param name="classCount">number of the cluster to evaluates</param>
+        ''' <param name="m">fuzzification</param>
+        ''' <returns>cluster membership vector of current <paramref name="entity"/> object.</returns>
         <Extension>
         Private Function scanRow(centers As Double()(), entity As ClusterEntity, classCount As Integer, m As Double) As Double()
             Dim ui As Double() = New Double(classCount - 1) {}
@@ -196,7 +225,7 @@ Namespace FuzzyCMeans
                 Dim jIndex As Integer = j
                 Dim sumAll As Double = Aggregate x As Integer
                                        In Enumerable.Range(0, classCount)
-                                       Let a As Double = stdNum.Sqrt(Dist(entity, centers(jIndex))) / stdNum.Sqrt(Dist(entity, centers(x)))
+                                       Let a As Double = std.Sqrt(entity.SquareDistance(centers(jIndex))) / std.Sqrt(entity.SquareDistance(centers(x)))
                                        Let val As Double = a ^ (2 / (m - 1))
                                        Into Sum(val)
                 ui(j) = 1 / sumAll
@@ -220,8 +249,8 @@ Namespace FuzzyCMeans
                     Dim jIndex As Integer = j
                     Dim sumAll As Double = Aggregate x As Integer
                                            In classIndex
-                                           Let d1 As Double = stdNum.Sqrt(Dist(entities(index), centers(jIndex)))
-                                           Let d2 As Double = stdNum.Sqrt(Dist(entities(index), centers(x)))
+                                           Let d1 As Double = std.Sqrt(entities(index).SquareDistance(centers(jIndex)))
+                                           Let d2 As Double = std.Sqrt(entities(index).SquareDistance(centers(x)))
                                            Let a As Double = d1 / d2
                                            Let val As Double = a ^ (2 / (m - 1))
                                            Into Sum(val)
@@ -271,43 +300,55 @@ Namespace FuzzyCMeans
         End Function
 
         Public Iterator Function GetCenters(classCount As Integer, m As Double, u As Double()(), entities As ClusterEntity(), width As Integer) As IEnumerable(Of Double())
-            Dim entityIndex As Integer() = Enumerable.Range(0, entities.Count).ToArray
+            Dim entityIndex As Integer() = Enumerable.Range(0, entities.Length).ToArray
 
             For Each i As Integer In Enumerable.Range(0, classCount)
+                ' for each data dimension
                 Yield Enumerable.Range(0, width) _
-                    .[Select](Function(x)
-                                  Dim sumAll = Aggregate j As Integer In entityIndex Let val As Double = (u(j)(i) ^ m) * entities(j)(x) Into Sum(val)
-                                  Dim bValue = Aggregate j As Integer In entityIndex Let val As Double = u(j)(i) ^ m Into Sum(val)
+                    .Select(Function(x)
+                                Dim prow As Double() = (From j As Integer In entityIndex Let xi = u(j)(i) ^ m Select If(xi.IsNaNImaginary, 0, xi)).ToArray
+                                Dim v As Double() = (From j As Integer In entityIndex Let yi = entities(j)(x) Select If(yi.IsNaNImaginary, 0, yi)).ToArray
+                                Dim sumAll = Aggregate j As Integer
+                                             In entityIndex
+                                             Let val As Double = prow(j)
+                                             Into Sum(val * v(j))
+                                Dim bValue = prow.Sum
 
-                                  Return sumAll / bValue
-                              End Function) _
+                                If bValue = 0.0 Then
+                                    Return 10000
+                                End If
+
+                                Return sumAll / bValue
+                            End Function) _
                     .ToArray()
             Next
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="m">fuzzification</param>
+        ''' <param name="u"></param>
+        ''' <param name="centers"></param>
+        ''' <param name="entities"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function J(m As Double, u As Double()(), centers As Double()(), entities As ClusterEntity()) As Double
-            Return centers _
-                .Select(Function(x, i)
-                            Return entities _
-                                .Select(Function(y, j1)
-                                            Return (u(j1)(i) ^ m) * Dist(y, x)
-                                        End Function) _
-                                .Sum()
-                        End Function) _
-                .Sum()
-        End Function
+            Dim jsum As Double = 0
 
-        ''' <summary>
-        ''' 在这里面只会计算结果值，并不会修改数据
-        ''' </summary>
-        ''' <param name="obj"></param>
-        ''' <param name="center"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function Dist(obj As ClusterEntity, center As Double()) As Double
-            Return obj.entityVector.Select(Function(x, i) (x - center(i)) ^ 2).Sum()
+            For i As Integer = 0 To centers.Length - 1
+                Dim offset As Integer = i
+                Dim x = centers(i)
+                Dim sum As Double = entities _
+                    .Select(Function(y, j1)
+                                Return (u(j1)(offset) ^ m) * y.SquareDistance(x)
+                            End Function) _
+                    .Sum()
+
+                jsum += sum
+            Next
+
+            Return jsum
         End Function
     End Module
 End Namespace

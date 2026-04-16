@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 6 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (25.00%)
+    '     File Size: 211 B
+
+
     '     Class DatatypeProperty
     ' 
     '         Properties: domain

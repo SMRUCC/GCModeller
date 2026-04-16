@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4eaa8c8b85ada491dc7caeeede0509c1, mime\text%yaml\1.2\ParserCustom.vb"
+﻿#Region "Microsoft.VisualBasic::a82ae5aa9595a49619000694ec00227a, mime\text%yaml\1.2\ParserCustom.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 141
+    '    Code Lines: 108 (76.60%)
+    ' Comment Lines: 14 (9.93%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (13.48%)
+    '     File Size: 4.80 KB
+
 
     '     Class YamlParser
     ' 
@@ -64,7 +76,7 @@ Namespace Grammar
             If success Then
                 Return stream
             Else
-                Dim message$ = parser.GetEorrorMessages()
+                Dim message$ = parser.GetErrorMessageText()
                 Throw New Exception(message)
             End If
         End Function

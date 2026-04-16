@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6852c763020854d99c3bcd1579dd9df3, mime\application%pdf\PdfReader\Document\PdfOutlineLevel.vb"
+﻿#Region "Microsoft.VisualBasic::e700022e96f1f2062263295cf9f273e1, mime\application%pdf\PdfReader\Document\PdfOutlineLevel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 34 (80.95%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (19.05%)
+    '     File Size: 1.30 KB
+
+
     '     Class PdfOutlineLevel
     ' 
     '         Properties: Count, Items
@@ -51,7 +63,7 @@ Namespace PdfReader
 
         Private _Items As System.Collections.Generic.List(Of PdfReader.PdfOutlineItem)
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As PdfDictionary)
+        Public Sub New(parent As PdfObject, dictionary As PdfDictionary)
             MyBase.New(parent)
             Items = New List(Of PdfOutlineItem)()
 
@@ -65,7 +77,7 @@ Namespace PdfReader
             End If
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -79,7 +91,7 @@ Namespace PdfReader
             Get
                 Return _Items
             End Get
-            Private Set(ByVal value As List(Of PdfOutlineItem))
+            Private Set(value As List(Of PdfOutlineItem))
                 _Items = value
             End Set
         End Property

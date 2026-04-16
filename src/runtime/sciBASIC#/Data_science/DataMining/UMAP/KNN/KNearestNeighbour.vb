@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::265f66cd28164f4d96cc73ceb6364c8a, Data_science\DataMining\UMAP\KNN\KNearestNeighbour.vb"
+﻿#Region "Microsoft.VisualBasic::091995752ea7f0af68d751f027948c4c, Data_science\DataMining\UMAP\KNN\KNearestNeighbour.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 54 (54.00%)
+    ' Comment Lines: 29 (29.00%)
+    '    - Xml Docs: 82.76%
+    ' 
+    '   Blank Lines: 17 (17.00%)
+    '     File Size: 4.21 KB
+
+
     '     Class KNearestNeighbour
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -46,7 +58,7 @@ Imports Microsoft.VisualBasic.DataMining.UMAP.Tree
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports i32 = Microsoft.VisualBasic.Language.i32
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace KNN
 
@@ -75,22 +87,21 @@ Namespace KNN
         ''' <summary>
         ''' Compute the ``nNeighbors`` nearest points for each data point in ``X`` - this may be exact, but more likely is approximated via nearest neighbor descent.
         ''' </summary>
-        Friend Function NearestNeighbors(x As Double()(), progressReporter As RunSlavePipeline.SetProgressEventHandler) As KNNState
+        Friend Function NearestNeighbors(x As Double()()) As KNNState
             Dim metricNNDescent = New NNDescent(m_distanceFn, m_random)
 
-            Call progressReporter(0.05F, "Create NNDescent")
+            Call VBDebugger.EchoLine("Create NNDescent")
 
-            Dim nTrees = 5 + Round(stdNum.Sqrt(x.Length) / 20)
-            Dim nIters = stdNum.Max(5, CInt(stdNum.Floor(stdNum.Round(stdNum.Log(x.Length, 2)))))
+            Dim nTrees = 5 + Round(std.Sqrt(x.Length) / 20)
+            Dim nIters = std.Max(5, CInt(std.Floor(std.Round(std.Log(x.Length, 2)))))
 
-            Call progressReporter(0.1F, "Set Iteration Parameters")
+            Call VBDebugger.EchoLine("Set Iteration Parameters")
 
-            Dim leafSize = stdNum.Max(10, m_k)
-            Dim forestProgressReporter = ScaleProgressReporter(progressReporter, 0.1F, 0.4F)
+            Dim leafSize = std.Max(10, m_k)
             Dim i As i32 = Scan0
             Dim rpForest = New FlatTree(nTrees - 1) {}
 
-            Call forestProgressReporter(0, $"make {nTrees} trees...")
+            Call VBDebugger.EchoLine($"make {nTrees} trees...")
 
             For Each node As (i%, Tree.FlatTree) In Enumerable.Range(0, nTrees) _
                 .AsParallel _
@@ -101,23 +112,16 @@ Namespace KNN
                         End Function)
 
                 rpForest(node.i) = node.Item2
-                forestProgressReporter(CSng(++i) / nTrees, $"[{i}/{nTrees}] MakeTree")
             Next
 
             Dim leafArray As Integer()() = Tree.MakeLeafArray(rpForest)
-            Dim nnDescendProgressReporter As RunSlavePipeline.SetProgressEventHandler = ScaleProgressReporter(progressReporter, 0.5F, 1)
-
-            Call progressReporter(0.45F, "MakeNNDescent")
 
             ' Handle python3 rounding down from 0.5 discrpancy
             Return metricNNDescent.MakeNNDescent(
                 data:=x,
                 leafArray:=leafArray,
                 nNeighbors:=m_k,
-                nIters:=nIters,
-                startingIteration:=Sub(n, max, msg)
-                                       nnDescendProgressReporter(CSng(n) / max, msg)
-                                   End Sub)
+                nIters:=nIters)
         End Function
 
         ''' <summary>
@@ -129,7 +133,7 @@ Namespace KNN
             If n = 0.5 Then
                 Return 0
             Else
-                Return stdNum.Floor(stdNum.Round(n))
+                Return std.Floor(std.Round(n))
             End If
         End Function
 
@@ -143,13 +147,9 @@ Namespace KNN
         ''' </returns>
         Public Shared Function FindNeighbors(data As NumericMatrix, k As Integer,
                                              Optional distanceFn As DistanceCalculation = Nothing,
-                                             Optional random As IProvideRandomValues = Nothing,
-                                             Optional report As RunSlavePipeline.SetProgressEventHandler = Nothing) As KNNState
-            If report Is Nothing Then
-                report = AddressOf RunSlavePipeline.SendProgress
-            End If
+                                             Optional random As IProvideRandomValues = Nothing) As KNNState
 
-            Return New KNearestNeighbour(k, distanceFn, random).NearestNeighbors(data.Array, report)
+            Return New KNearestNeighbour(k, distanceFn, random).NearestNeighbors(data.Array)
         End Function
     End Class
 End Namespace

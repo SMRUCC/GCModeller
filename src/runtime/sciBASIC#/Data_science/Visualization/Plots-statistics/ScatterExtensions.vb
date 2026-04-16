@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 128 (71.51%)
+    ' Comment Lines: 39 (21.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (6.70%)
+    '     File Size: 7.03 KB
+
+
     ' Module ScatterExtensions
     ' 
     '     Function: FromODE, FromODEList, FromODEs, (+2 Overloads) Plot

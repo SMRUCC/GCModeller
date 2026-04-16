@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f524fbb68291258c1f6914b7fa502e06, Data\DataFrame\test\Outlining\Class1.vb"
+﻿#Region "Microsoft.VisualBasic::26397a95fc1fd9818d2143af06045b0a, Data\DataFrame\test\Outlining\Class1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 40 (85.11%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (14.89%)
+    '     File Size: 2.01 KB
+
+
     ' Class compound
     ' 
     '     Properties: Area, Checked, FIShCoverage, Formula, GroupArea
@@ -47,7 +59,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 Public Class compound
 

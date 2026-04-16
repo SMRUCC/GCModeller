@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::35e2b2119ee124417a2f364d0f0ec255, mime\application%pdf\PdfReader\Document\PdfPageInherit.vb"
+﻿#Region "Microsoft.VisualBasic::875c9bc26995764488a808cdabbe0ab9, mime\application%pdf\PdfReader\Document\PdfPageInherit.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 38 (61.29%)
+    ' Comment Lines: 10 (16.13%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (22.58%)
+    '     File Size: 2.67 KB
+
+
     '     Class PdfPageInherit
     ' 
     '         Properties: Inherit
@@ -50,7 +62,7 @@ Namespace PdfReader
     Public MustInherit Class PdfPageInherit
         Inherits PdfDictionary
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As ParseDictionary)
+        Public Sub New(parent As PdfObject, dictionary As ParseDictionary)
             MyBase.New(parent, dictionary)
         End Sub
 
@@ -60,9 +72,9 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public MustOverride Sub FindLeafPages(ByVal pages As List(Of PdfPage))
+        Public MustOverride Sub FindLeafPages(pages As List(Of PdfPage))
 
-        Public Function InheritableOptionalValue(Of T As PdfObject)(ByVal name As String) As T
+        Public Function InheritableOptionalValue(Of T As PdfObject)(name As String) As T
             ' Try and get the value from this dictionary
             Dim here = OptionalValue(Of T)(name)
 
@@ -71,7 +83,7 @@ Namespace PdfReader
             Return here
         End Function
 
-        Public Function InheritableOptionalRefValue(Of T As PdfObject)(ByVal name As String) As T
+        Public Function InheritableOptionalRefValue(Of T As PdfObject)(name As String) As T
             ' Try and get the value from this dictionary
             Dim here = OptionalValueRef(Of T)(name)
 
@@ -80,7 +92,7 @@ Namespace PdfReader
             Return here
         End Function
 
-        Public Function InheritableMandatoryValue(Of T As PdfObject)(ByVal name As String) As T
+        Public Function InheritableMandatoryValue(Of T As PdfObject)(name As String) As T
             ' Try and get the value from this dictionary
             Dim here = OptionalValue(Of T)(name)
 
@@ -92,7 +104,7 @@ Namespace PdfReader
             Return here
         End Function
 
-        Public Function InheritableMandatoryRefValue(Of T As PdfObject)(ByVal name As String) As T
+        Public Function InheritableMandatoryRefValue(Of T As PdfObject)(name As String) As T
             ' Try and get the value from this dictionary
             Dim here = OptionalValueRef(Of T)(name)
 

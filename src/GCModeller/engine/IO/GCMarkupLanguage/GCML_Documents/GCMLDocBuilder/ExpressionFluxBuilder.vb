@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 70 (55.56%)
+    ' Comment Lines: 39 (30.95%)
+    '    - Xml Docs: 94.87%
+    ' 
+    '   Blank Lines: 17 (13.49%)
+    '     File Size: 7.27 KB
+
+
     '     Class ExpressionFluxBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New

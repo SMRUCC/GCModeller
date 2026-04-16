@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 45 (63.38%)
+    ' Comment Lines: 18 (25.35%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 8 (11.27%)
+    '     File Size: 2.73 KB
+
+
     '     Class Transducin
     ' 
     '         Properties: [Class], GeneName, ImageUrl, Inputs, Outputs

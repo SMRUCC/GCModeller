@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::42b0d31e3e15013ffa93da5a1af8ff18, RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
+﻿#Region "Microsoft.VisualBasic::bc3fdcee7d8cc5a8572c47456f483f94, RNA-Seq\RNA-seq.Data\FastQ\Stream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 37 (54.41%)
+    ' Comment Lines: 18 (26.47%)
+    '    - Xml Docs: 27.78%
+    ' 
+    '   Blank Lines: 13 (19.12%)
+    '     File Size: 3.32 KB
+
+
     '     Module Stream
     ' 
     '         Function: AsReadsNode, ReadAllLines, WriteFastQ
@@ -44,15 +56,16 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace FQ
 
     Public Module Stream
 
         Public Iterator Function ReadAllLines(path$, Optional encoding As Encodings = Encodings.Default) As IEnumerable(Of FastQ)
-            Dim strBuffer As IEnumerable(Of String()) = TaskPartitions.SplitIterator(path.IterateAllLines, 4)
+            Dim strBuffer As IEnumerable(Of String()) = TaskPartitions.SplitIterator(path.IterateAllLines, 4, echo:=False)
 
-            For Each fq As FastQ In strBuffer.AsParallel.Select(AddressOf FastQ.FastaqParser)
+            For Each fq As FastQ In strBuffer.Select(AddressOf FastQ.FastQParser)
                 Yield fq
             Next
         End Function
@@ -62,7 +75,8 @@ Namespace FQ
         ''' </summary>
         ''' <param name="fq"></param>
         ''' <returns></returns>
-        <Extension> Public Function AsReadsNode(fq As FastQ) As String
+        <Extension>
+        Public Function AsReadsNode(fq As FastQ) As String
             Dim lines$() = New String(4 - 1) {}
 
             ' 对测序结果原始图像数据利用软件Bcl2fastq(v2.17.1.14)进行图像碱基识别（Base Calling），
@@ -82,15 +96,20 @@ Namespace FQ
             ' ASCII值减去33， 即为该碱基的测序质量值， 比如@对应的ASCII值为64， 那么其对应的碱基质量值是31。
             ' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
 
-            lines(Scan0) = fq.SEQ_ID.ToString
+            lines(Scan0) = If(fq.SEQ_ID.StringEmpty(, True),
+                "@" & fq.GetHashCode,
+                If(fq.SEQ_ID.StartsWith("@"),
+                    fq.SEQ_ID,
+                    "@" & fq.SEQ_ID))
             lines(1) = fq.SequenceData
-            lines(2) = If(fq.SEQ_ID2.IsEmpty, "+", fq.SEQ_ID2.ToString)
+            lines(2) = If(fq.SEQ_Info.StringEmpty(, True), "+", fq.SEQ_Info)
             lines(3) = fq.Quality
 
             Return lines.JoinBy(ASCII.LF)
         End Function
 
-        <Extension> Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        <Extension>
+        Public Function WriteFastQ(data As IEnumerable(Of FastQ), save$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Using file As IO.StreamWriter = save.OpenWriter(encoding)
                 For Each fq As FastQ In data
                     Call file.WriteLine(fq.AsReadsNode)

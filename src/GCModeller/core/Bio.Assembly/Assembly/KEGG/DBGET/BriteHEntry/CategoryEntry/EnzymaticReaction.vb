@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a754adf102b900a13d9bbbc6a7db53b, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
+﻿#Region "Microsoft.VisualBasic::dc78d5cc01b8cc497b9393e1ffa39aa3, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\EnzymaticReaction.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 66 (63.46%)
+    ' Comment Lines: 23 (22.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 3.83 KB
+
+
     '     Class EnzymaticReaction
     ' 
     '         Properties: [Class], Category, EC, Entry, SubCategory
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: Build, doLongFileNameTrim, DownloadReactions, getCategorySaveDirectory, KEGGrxns
-    '                   LoadFile, LoadFromResource, loadSource, ToString
-    ' 
-    '         Sub: downloaderInternal
+    '         Function: Build, KEGGrxns, LoadFile, LoadFromResource, loadSource
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -86,7 +94,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function LoadFromResource() As EnzymaticReaction()
-            Dim model As BriteHText = BriteHTextParser.Load(My.Resources.br08201)
+            Dim model As BriteHText = BriteHTextParser.Load(My.Resources.KEGGReactions.br08201)
             Return Build(model)
         End Function
 
@@ -149,83 +157,5 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             End If
         End Function
 
-        ''' <summary>
-        ''' 函数返回下载失败的列表
-        ''' </summary>
-        ''' <param name="EXPORT"></param>
-        ''' <returns>返回下载失败的代谢反应过程的编号列表</returns>
-        ''' <remarks></remarks>
-        Public Shared Function DownloadReactions(EXPORT$, Optional briefFile$ = "", Optional directoryOrganized As Boolean = True, Optional cache$ = "./br08201") As String()
-            Dim sources As EnzymaticReaction() = loadSource(briefFile)
-            Dim failures As New List(Of String)
-
-            Using progress As New ProgressBar("Download KEGG Reactions...", 1, CLS:=True)
-                Dim tick As New ProgressProvider(progress, sources.Length)
-                Dim ETA$
-                Dim doTick = Sub()
-                                 ETA$ = tick.ETA().FormatTime
-                                 Call progress.SetProgress(tick.StepProgress, "ETA=" & ETA)
-                             End Sub
-
-                For Each r As EnzymaticReaction In sources
-                    Call downloaderInternal(
-                        r, EXPORT, directoryOrganized,
-                        failures,
-                        doTick,
-                        cache
-                    )
-                Next
-            End Using
-
-            Return failures
-        End Function
-
-        Shared ReadOnly sleepTime% = 2000
-
-        Shared Sub New()
-            With App.GetVariable("sleep")
-                If Not .StringEmpty Then
-                    sleepTime = Val(.ByRef)
-
-                    If sleepTime <= 0 Then
-                        sleepTime = 2000
-                    End If
-                End If
-            End With
-        End Sub
-
-        Private Shared Sub downloaderInternal(r As EnzymaticReaction,
-                                              EXPORT$,
-                                              directoryOrganized As Boolean,
-                                              ByRef failures As List(Of String),
-                                              tick As Action,
-                                              cache As String)
-            Dim rnID As String = r.Entry.Key
-            Dim saveDIR As String = If(directoryOrganized, getCategorySaveDirectory(EXPORT, r), EXPORT)
-            Dim xmlFile As String = String.Format("{0}/{1}.xml", saveDIR, rnID)
-
-            Dim reaction As Reaction = ReactionWebAPI.Download(rnID, cache, sleepTime)
-
-            If reaction Is Nothing Then
-                failures += rnID
-            Else
-                Call reaction.GetXml.SaveTo(xmlFile)
-            End If
-EXIT_LOOP:
-            Call tick()
-        End Sub
-
-        Private Shared Function getCategorySaveDirectory(outDIR As String, entry As EnzymaticReaction) As String
-            Dim [class] As String = doLongFileNameTrim(entry.Class)
-            Dim cat As String = doLongFileNameTrim(entry.Category)
-            Dim subCat As String = doLongFileNameTrim(entry.SubCategory)
-            Dim ec As String = doLongFileNameTrim(entry.EC)
-
-            Return String.Join("/", outDIR, [class], cat, subCat, ec)
-        End Function
-
-        Private Shared Function doLongFileNameTrim(s As String) As String
-            Return If(s.Length > 56, Mid(s, 1, 56) & "~", s).Split("\/:*".ToCharArray).JoinBy(" ")
-        End Function
     End Class
 End Namespace

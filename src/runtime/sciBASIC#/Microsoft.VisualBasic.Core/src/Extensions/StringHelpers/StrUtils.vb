@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a8fe9a4285cd09d6e26f9d615f32614, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StrUtils.vb"
+﻿#Region "Microsoft.VisualBasic::6a739e72dbd1140f2163f63a058e881b, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StrUtils.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 675
+    '    Code Lines: 398 (58.96%)
+    ' Comment Lines: 216 (32.00%)
+    '    - Xml Docs: 78.24%
+    ' 
+    '   Blank Lines: 61 (9.04%)
+    '     File Size: 24.09 KB
+
 
     ' Module StrUtils
     ' 
@@ -86,6 +98,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports r = System.Text.RegularExpressions.Regex
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Public Module StrUtils
 
@@ -191,8 +204,6 @@ Public Module StrUtils
         Return AscW(c)
     End Function
 
-    ReadOnly newRandom As New [Default](Of Random)(Math.seeds)
-
     ''' <summary>
     ''' 32-126
     ''' </summary>
@@ -200,7 +211,7 @@ Public Module StrUtils
     ''' <param name="seed">默认是使用<see cref="Math.seeds"/>来作为随机种子的</param>
     ''' <returns></returns>
     Public Function RandomASCIIString(len%, Optional skipSymbols As Boolean = False, Optional seed As Random = Nothing) As String
-        With seed Or newRandom
+        With If(seed, randf.seeds)
             Return CharString(len, Function() .RandomASCII(skipSymbols))
         End With
     End Function
@@ -209,19 +220,19 @@ Public Module StrUtils
     Public Function RandomASCII(random As Random, skipSymbols As Boolean) As Char
         With random
             If Not skipSymbols Then
-                Return Strings.Chr(.Next(32, 127))
+                Return Strings.ChrW(.Next(32, 127))
             Else
                 ' 只有字母和数字
                 Select Case .NextDouble
                     Case <= 0.3
                         ' 数字
-                        Return Strings.Chr(.Next(48, 58))
+                        Return Strings.ChrW(.Next(48, 58))
                     Case <= 0.6
                         ' 小写字母
-                        Return Strings.Chr(.Next(97, 123))
+                        Return Strings.ChrW(.Next(97, 123))
                     Case Else
                         ' 大写字母
-                        Return Strings.Chr(.Next(65, 91))
+                        Return Strings.ChrW(.Next(65, 91))
                 End Select
             End If
         End With
@@ -229,7 +240,7 @@ Public Module StrUtils
 
     <Extension>
     Public Function RandomCharString(chars As IEnumerable(Of Char), len%) As String
-        With New Random
+        With randf.seeds
             Dim buffer = chars.ToArray
             Return CharString(len, Function() .Next(buffer))
         End With

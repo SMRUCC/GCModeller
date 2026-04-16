@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6685220a79285712bdf53ab38444660, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
+﻿#Region "Microsoft.VisualBasic::0dccc0e3fda456a94b9aaca9384b1785, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\DBLINK.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 47 (66.20%)
+    ' Comment Lines: 11 (15.49%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 13 (18.31%)
+    '     File Size: 2.34 KB
+
+
     '     Class DBLINK
     ' 
-    '         Properties: Links
+    '         Properties: assembly_id, bioproject, biosample, Links
     ' 
     '         Function: Parser, ToString
     ' 
@@ -43,10 +55,11 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -60,6 +73,24 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' </summary>
         ''' <returns></returns>
         Public Property Links As NamedValue(Of String)()
+
+        Public ReadOnly Property assembly_id As String
+            Get
+                Return Links.KeyItem("Assembly").Value
+            End Get
+        End Property
+
+        Public ReadOnly Property bioproject As String
+            Get
+                Return Links.KeyItem("BioProject").Value
+            End Get
+        End Property
+
+        Public ReadOnly Property biosample As String
+            Get
+                Return Links.KeyItem("BioSample").Value
+            End Get
+        End Property
 
         ''' <summary>
         ''' 返回的是genbank的这部分的文本数据，用于生成genbank文件
@@ -84,7 +115,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
                 links += Mid(line, 13).Trim.GetTagValue(":", trim:=True)
                 For Each line In list.Skip(1)
-                    links += Trim(line).GetTagValue(":", trim:=True)
+                    links += Strings.Trim(line).GetTagValue(":", trim:=True)
                 Next
             End If
 

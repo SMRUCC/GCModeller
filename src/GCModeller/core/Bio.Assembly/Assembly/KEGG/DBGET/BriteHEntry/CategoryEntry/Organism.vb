@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 73 (76.04%)
+    ' Comment Lines: 10 (10.42%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 13 (13.54%)
+    '     File Size: 3.37 KB
+
+
     '     Module Organism
     ' 
     '         Function: (+2 Overloads) FillTaxonomyTable, GetBacteriaList, GetResource, IsSpeciesLevel

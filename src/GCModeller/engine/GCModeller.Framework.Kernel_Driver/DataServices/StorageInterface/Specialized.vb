@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 18 (66.67%)
+    ' Comment Lines: 4 (14.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 959 B
+
+
     '     Class CHUNK_BUFFER_TransitionStates
     ' 
     ' 

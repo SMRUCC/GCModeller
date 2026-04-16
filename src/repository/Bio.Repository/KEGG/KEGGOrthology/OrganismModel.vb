@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e4296622d60d186264856fafb6625a92, Bio.Repository\KEGG\KEGGOrthology\OrganismModel.vb"
+﻿#Region "Microsoft.VisualBasic::1c17e20dd34a70cdbb95358fb7cbbbe9, Bio.Repository\KEGG\KEGGOrthology\OrganismModel.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 74 (65.49%)
+    ' Comment Lines: 29 (25.66%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 10 (8.85%)
+    '     File Size: 4.25 KB
+
 
     ' Class OrganismModel
     ' 
@@ -79,10 +91,10 @@ Public Class OrganismModel : Inherits XmlDataModel
                                      Return pathway.genes
                                  End Function) _
                          .IteratesALL _
-                         .GroupBy(Function(gene) gene.name.Split(":"c).First) _
+                         .GroupBy(Function(gene) gene.KO) _
                          .ToDictionary(Function(gene) gene.Key,
                                        Function(gene)
-                                           Return gene.First.text.Split.First
+                                           Return gene.First.description
                                        End Function)
         End Get
     End Property

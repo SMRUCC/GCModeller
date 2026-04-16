@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4cab2554ba379397601bfeae63c51629, core\Bio.Assembly\Query\IQueryExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::3f3b3bc42a59cc9d98d8464f12e1e6f9, core\Bio.Assembly\Query\IQueryExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 64 (60.95%)
+    ' Comment Lines: 27 (25.71%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 14 (13.33%)
+    '     File Size: 4.45 KB
+
 
     '     Module IQueryExtensions
     ' 
@@ -115,7 +127,8 @@ Namespace ObjectQuery
         ''' </summary>
         ''' <param name="fasta"></param>
         ''' <returns></returns>
-        <Extension> Public Function GetLocusTag(fasta As FastaSeq) As String
+        <Extension>
+        Public Function GetLocusTag(fasta As FastaSeq) As String
             Dim uid As String = fasta.Headers.First.Split.First.Trim
             Return uid
         End Function

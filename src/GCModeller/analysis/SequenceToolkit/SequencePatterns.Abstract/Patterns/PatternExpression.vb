@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fb8dc33b82fb56fe530d19686077ee9, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
+﻿#Region "Microsoft.VisualBasic::35dd4f1ca998ef362369f2a621847010, analysis\SequenceToolkit\SequencePatterns.Abstract\Patterns\PatternExpression.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 33 (68.75%)
+    ' Comment Lines: 6 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (18.75%)
+    '     File Size: 1.60 KB
+
+
     '     Class PatternExpression
     ' 
     '         Properties: Identifier, Motif, RangeExpr
@@ -42,14 +54,11 @@
 
 #End Region
 
-Imports System.Text
 Imports System.Text.RegularExpressions
-Imports System.Xml.Serialization
-Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.TokenIcer
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Motif.Patterns
 
@@ -67,8 +76,8 @@ Namespace Motif.Patterns
             End Get
             Set(value As Residue())
                 __motif = value
-                __regex = New Regex(String.Join("", value.Select(Function(x) x.Regex).ToArray))
-                __rc = New Regex(String.Join("", value.Reverse.Select(Function(x) x.GetComplement.Regex).ToArray))
+                __regex = New Regex(value.Select(Function(x) x.Regex).JoinBy(""))
+                __rc = New Regex(value.Reverse.Select(Function(x) x.GetComplement.Regex).JoinBy(""))
             End Set
         End Property
 

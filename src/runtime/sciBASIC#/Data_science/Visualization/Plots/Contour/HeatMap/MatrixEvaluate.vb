@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a38b43b6e6690227e6aa649b55adf872, Data_science\Visualization\Plots\Contour\HeatMap\MatrixEvaluate.vb"
+﻿#Region "Microsoft.VisualBasic::721f2322337ea261e549176e300a44e2, Data_science\Visualization\Plots\Contour\HeatMap\MatrixEvaluate.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 50 (62.50%)
+    ' Comment Lines: 19 (23.75%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 11 (13.75%)
+    '     File Size: 3.04 KB
+
+
     '     Class MatrixEvaluate
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -43,16 +55,17 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Contour.HeatMap
 
     ''' <summary> 
     ''' 直接返回矩阵数据
     ''' </summary>
-    Public Class MatrixEvaluate : Inherits EvaluatePoints
+    Public Class MatrixEvaluate(Of DataSet As {INamedValue, DynamicPropertyBase(Of Double)}) : Inherits EvaluatePoints
 
         ''' <summary>
         ''' [x -> [y, z]]
@@ -69,7 +82,7 @@ Namespace Contour.HeatMap
         Sub New(matrix As IEnumerable(Of DataSet), gridSize As SizeF)
             Dim compareWithError As Comparison(Of Double) =
                 Function(a, b)
-                    If stdNum.Abs(a - b) <= gridSize.Width Then
+                    If std.Abs(a - b) <= gridSize.Width Then
                         Return 0
                     ElseIf a < b Then
                         Return -1
@@ -92,7 +105,7 @@ Namespace Contour.HeatMap
         Private Shared Function fromMatrixQuery(matrix As IEnumerable(Of DataSet)) As IEnumerable(Of (x As Double, (y As Double, z As Double)()))
             Return From line As DataSet
                    In matrix
-                   Let xi = Val(line.ID)
+                   Let xi = Val(line.Key)
                    Let data = line.Properties.Select(Function(o) (Y:=Val(o.Key), Z:=o.Value)).OrderBy(Function(pt) pt.Y).ToArray
                    Select (xi, data)
         End Function

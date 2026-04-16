@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe531378bf78eb40977bea9a403e17a4, Data_science\Visualization\Plots\BarPlot\Histogram\DataModel.vb"
+﻿#Region "Microsoft.VisualBasic::d1cbcd97aac90fdd078207dfd3046268, Data_science\Visualization\Plots\BarPlot\Histogram\DataModel.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 241
+    '    Code Lines: 175 (72.61%)
+    ' Comment Lines: 39 (16.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 27 (11.20%)
+    '     File Size: 8.32 KB
+
+
     '     Structure HistogramData
     ' 
     '         Properties: LinePoint, width
     ' 
-    '         Function: ToString
+    '         Function: CheckHighlightRange, ToString
     ' 
     '     Class HistogramGroup
     ' 
@@ -67,6 +79,30 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace BarPlot.Histogram
 
@@ -114,6 +150,28 @@ Namespace BarPlot.Histogram
                 Return x2# - x1#
             End Get
         End Property
+
+        Public Shared Iterator Function CheckHighlightRange(data As IEnumerable(Of HistogramData), range As DoubleRange) As IEnumerable(Of HistogramData)
+            Dim checkLeft As Boolean = True
+            Dim checkRight As Boolean = True
+
+            For Each bar As HistogramData In data.OrderBy(Function(a) a.x1)
+                If checkLeft Then
+                    If bar.x1 >= range.Min Then
+                        Yield bar
+                        checkLeft = False
+                    End If
+                ElseIf checkRight Then
+                    If bar.x2 <= range.Max Then
+                        Yield bar
+                    Else
+                        Exit For
+                    End If
+                Else
+                    Exit For
+                End If
+            Next
+        End Function
 
         Public Overrides Function ToString() As String
             Return Me.GetJson
@@ -227,7 +285,13 @@ Namespace BarPlot.Histogram
         End Sub
 
         Public Overrides Function ToString() As String
-            Return legend.ToString
+            If data.IsNullOrEmpty Then
+                Return legend.ToString
+            End If
+
+            Dim range As New DoubleRange(data.Select(Function(a) {a.x1, a.x2}).IteratesALL)
+
+            Return $"[{range.Min} - {range.Max}] {legend.ToString}"
         End Function
 
         Public Function GetLine(color As Color, width!, ptSize!, Optional type As DashStyle = DashStyle.Solid) As SerialData

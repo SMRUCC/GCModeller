@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::866e15bb294b4fc0e34153d296a1d70c, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::4eb074de08538625c8bd9f0bbcd98fee, analysis\SequenceToolkit\SequencePatterns\LociExtensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 191
+    '    Code Lines: 142 (74.35%)
+    ' Comment Lines: 20 (10.47%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 29 (15.18%)
+    '     File Size: 6.64 KB
+
+
     ' Module LociExtensions
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -42,8 +54,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -58,7 +70,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
     <Extension>
     Public Function ToLoci(x As PalindromeLoci) As SimpleSegment
         Return New SimpleSegment With {
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
+            .Strand = x.MappingLocation.Strand.Description,
             .Start = x.MappingLocation.left,
             .Ends = x.MappingLocation.right,
             .SequenceData = x.Palindrome
@@ -75,7 +87,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Dim loc = loci.MappingLocation
 
         Return New SimpleSegment With {
-            .Strand = loc.Strand.GetBriefCode,
+            .Strand = loc.Strand.Description,
             .Start = loc.left,
             .Ends = loc.right,
             .SequenceData = loci.Loci & loci.Palindrome
@@ -125,7 +137,7 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
         Return New SimpleSegment With {
             .Start = x.MappingLocation.left,
             .Ends = x.MappingLocation.right,
-            .Strand = x.MappingLocation.Strand.GetBriefCode,
+            .Strand = x.MappingLocation.Strand.Description,
             .SequenceData = x.Palindrome,
             .ID = id
         }

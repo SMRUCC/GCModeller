@@ -1,0 +1,45 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "write.expr_matrix" "write.expr_matrix"
+.SH NAME
+write.expr_matrix \- write the gene expression data matrix file
+.SH SYNOPSIS
+\fIwrite.expr_matrix(\fBexpr\fR as <generic> Matrix, 
+\fBfile\fR as string, 
+\fBid\fR as string = "geneID", 
+\fBbinary\fR as boolean = FALSE);\fR
+.SH DESCRIPTION
+.PP
+write the gene expression data matrix file
+.PP
+.SH OPTIONS
+.PP
+\fBexpr\fB \fR\- The gene expression matrix object. 
+.PP
+.PP
+\fBfile\fB \fR\- The file path to a csv matrix file that used 
+ for export the given **`expr`** matrix data.. 
+.PP
+.PP
+\fBid\fB \fR\- The string content inside the first cell. 
+.PP
+.PP
+\fBbinary\fB \fR\- 
+ write matrix data in binary data format? default value 
+ is False means write matrix as csv matrix file.
+. 
+.PP
+.SH VALUE
+.PP
+A logical vector for indicates that the expression 
+ matrix save success or not.
+.PP
+.SH EXAMPLES
+.PP
+geneExpression::write.expr_matrix(expr_mat, file = "/path/to/matrix.csv", id = "gene_id");
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

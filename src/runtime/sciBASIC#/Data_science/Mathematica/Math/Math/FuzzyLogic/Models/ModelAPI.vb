@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39895d29fd09a958b135ec3c2e0d5745, Data_science\Mathematica\Math\Math\FuzzyLogic\Models\ModelAPI.vb"
+﻿#Region "Microsoft.VisualBasic::8112eee074f18744d99ecd62c70917bb, Data_science\Mathematica\Math\Math\FuzzyLogic\Models\ModelAPI.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 56 (75.68%)
+    ' Comment Lines: 3 (4.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (20.27%)
+    '     File Size: 2.92 KB
+
+
     '     Class FuzzyModel
     ' 
     '         Properties: Defuzzify, Fuzzify, Input, Output, Rules
     ' 
-    '         Function: FromXml, Load, (+2 Overloads) Save
+    '         Function: FromXml, Load, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -58,7 +71,18 @@ Namespace Logical.FuzzyLogic.Models
         Public Property Rules As RuleBlock
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Me.GetXml.SaveTo(FilePath, Encoding)
+            Using file As Stream = FilePath.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, Encoding)
+            End Using
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         ''' <summary>

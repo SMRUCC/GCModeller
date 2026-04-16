@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 44 (83.02%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (16.98%)
+    '     File Size: 1.63 KB
+
+
     '     Class ResourceElement
     ' 
     '         Properties: ResourceId

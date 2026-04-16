@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79 (50.00%)
+    ' Comment Lines: 57 (36.08%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (13.92%)
+    '     File Size: 7.52 KB
+
+
     ' Class organism
     ' 
     '     Properties: organism_description, organism_id, organism_internal_comment, organism_name, organism_note

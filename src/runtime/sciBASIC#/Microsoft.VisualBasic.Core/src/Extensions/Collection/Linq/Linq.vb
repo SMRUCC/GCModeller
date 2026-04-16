@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c62f777354a96b5ce47ae821f461717, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::89020f6891503323624f2ab12443e39f, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Linq.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 535
+    '    Code Lines: 303 (56.64%)
+    ' Comment Lines: 176 (32.90%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 56 (10.47%)
+    '     File Size: 19.99 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: DATA, Populate, (+2 Overloads) SafeQuery, ToArray
+    '         Function: AtWhich, DATA, Populate, (+2 Overloads) SafeQuery, (+2 Overloads) ToArray
     '         Delegate Sub
     ' 
     '             Function: (+2 Overloads) [With], CopyVector, DefaultFirst, FirstOrDefault, LastOrDefault
-    '                       MaxInd, (+2 Overloads) Read, RemoveLeft, (+2 Overloads) Removes, Repeats
+    '                       MaxInd, (+2 Overloads) Read, RemoveLeft, (+2 Overloads) Removes, (+2 Overloads) Repeats
     '                       (+2 Overloads) SeqIterator, (+4 Overloads) Sequence, (+3 Overloads) ToArray, ToVector, TryCatch
     ' 
     ' 
@@ -61,6 +73,34 @@ Namespace Linq
     <Extension>
     <HideModuleName>
     Public Module Extensions
+
+        ''' <summary>
+        ''' An index of liked function for find the first element its index offset that matches the condition test
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="collection"></param>
+        ''' <param name="where"></param>
+        ''' <returns>
+        ''' -1 means not found
+        ''' </returns>
+        <Extension>
+        Public Function AtWhich(Of T)(collection As IEnumerable(Of T), where As Func(Of T, Boolean)) As Integer
+            If collection Is Nothing Then
+                Return -1
+            End If
+
+            Dim i As Integer = 0
+
+            For Each item As T In collection
+                If where(item) Then
+                    Return i
+                End If
+
+                i += 1
+            Next
+
+            Return -1
+        End Function
 
         ''' <summary>
         ''' Parallel helper
@@ -99,6 +139,24 @@ Namespace Linq
                 Return New T() {}
             Else
                 Return (From x As Object In source Select DirectCast(x, T)).ToArray
+            End If
+        End Function
+
+        ''' <summary>
+        ''' make array data copy
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        ''' 
+        <Extension>
+        Public Function ToArray(Of T)(source As T()) As T()
+            If source.IsNullOrEmpty Then
+                Return New T() {}
+            Else
+                Dim copy As T() = New T(source.Length - 1) {}
+                Call Array.ConstrainedCopy(source, Scan0, copy, Scan0, copy.Length)
+                Return copy
             End If
         End Function
 
@@ -169,7 +227,8 @@ Namespace Linq
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        <Extension> Public Function MaxInd(Of T As IComparable)(source As IEnumerable(Of T)) As Integer
+        <Extension>
+        Public Function MaxInd(Of T As IComparable)(source As IEnumerable(Of T)) As Integer
             Dim i As Integer = 0
             Dim m As T
             Dim mi As Integer
@@ -193,7 +252,8 @@ Namespace Linq
         ''' <param name="source"></param>
         ''' <param name="match">符合这个条件的所有的元素都将会被移除</param>
         ''' <returns></returns>
-        <Extension> Public Function Removes(Of T)(source As IEnumerable(Of T), match As Func(Of T, Boolean), Optional parallel As Boolean = False) As T()
+        <Extension>
+        Public Function Removes(Of T)(source As IEnumerable(Of T), match As Func(Of T, Boolean), Optional parallel As Boolean = False) As T()
             Dim LQuery As T()
             If parallel Then
                 LQuery = (From x In source.AsParallel Where Not match(x) Select x).ToArray
@@ -203,7 +263,8 @@ Namespace Linq
             Return LQuery
         End Function
 
-        <Extension> Public Function Removes(Of T)(lst As List(Of T), match As Func(Of T, Boolean)) As List(Of T)
+        <Extension>
+        Public Function Removes(Of T)(lst As List(Of T), match As Func(Of T, Boolean)) As List(Of T)
             If lst.IsNullOrEmpty Then
                 Return New List(Of T)
             Else
@@ -266,8 +327,21 @@ Namespace Linq
         ''' <returns>An array consist of source with n elements.</returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function Repeats(Of T)(source As T, times%) As T()
+        <Extension>
+        Public Function Repeats(Of T)(source As T, times%) As T()
             Return times.Sequence.Select(Function(x) source).ToArray
+        End Function
+
+        <Extension>
+        Public Function Repeats(Of T)(source As T(), each%) As T()
+            Dim out As T() = New T([each] * source.Length - 1) {}
+            Dim i As i32 = 0
+
+            For Each xi As T In source
+                Call Array.ConstrainedCopy(xi.Repeats(each%), Scan0, out, (++i) * [each], [each])
+            Next
+
+            Return out
         End Function
 
         ''' <summary>
@@ -283,7 +357,8 @@ Namespace Linq
             Return n.Sequence.Select(Function(x) source()).ToArray
         End Function
 
-        <Extension> Public Function Read(Of T)(array As T(), ByRef i As Integer, ByRef out As T) As T
+        <Extension>
+        Public Function Read(Of T)(array As T(), ByRef i As Integer, ByRef out As T) As T
             out = array(i)
             i += 1
             Return out
@@ -297,7 +372,8 @@ Namespace Linq
         ''' <param name="array"></param>
         ''' <param name="i"></param>
         ''' <returns></returns>
-        <Extension> Public Function Read(Of T)(array As T(), ByRef i As Integer) As T
+        <Extension>
+        Public Function Read(Of T)(array As T(), ByRef i As Integer) As T
             Dim out As T = array(i)
             i += 1
             Return out
@@ -311,7 +387,8 @@ Namespace Linq
         ''' <remarks></remarks>
         '''
         <ExportAPI("Sequence")>
-        <Extension> Public Iterator Function Sequence(n As Integer) As IEnumerable(Of Integer)
+        <Extension>
+        Public Iterator Function Sequence(n As Integer) As IEnumerable(Of Integer)
             If n < 0 Then
                 Dim ex As String = $"n:={n} is not a valid index generator value for sequence!"
                 Throw New Exception(ex)
@@ -377,7 +454,8 @@ Namespace Linq
         ''' <remarks></remarks>
         '''
         <ExportAPI("Sequence")>
-        <Extension> Public Function Sequence(n As Long) As Long()
+        <Extension>
+        Public Function Sequence(n As Long) As Long()
             Dim List As Long() = New Long(n - 1) {}
             For i As Integer = 0 To n - 1
                 List(i) = i
@@ -393,7 +471,8 @@ Namespace Linq
         ''' <remarks></remarks>
         '''
         <ExportAPI("Sequence")>
-        <Extension> Public Function Sequence(n As UInteger) As Integer()
+        <Extension>
+        Public Function Sequence(n As UInteger) As Integer()
             Dim List(n - 1) As Integer
             For i As Integer = 0 To n - 1
                 List(i) = i
@@ -409,7 +488,8 @@ Namespace Linq
         ''' <param name="elementAt"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function ToArray(Of T)(len As Integer, elementAt As Func(Of Integer, T)) As T()
+        <Extension>
+        Public Function ToArray(Of T)(len As Integer, elementAt As Func(Of Integer, T)) As T()
             Return len _
                 .Sequence _
                 .Select(elementAt) _
@@ -417,7 +497,8 @@ Namespace Linq
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function ToArray(Of T)(len&, elementAt As Func(Of Long, T)) As T()
+        <Extension>
+        Public Function ToArray(Of T)(len&, elementAt As Func(Of Long, T)) As T()
             Return len _
                 .Sequence _
                 .Select(elementAt) _
@@ -433,7 +514,12 @@ Namespace Linq
         ''' If the sequence is nothing or contains no elements, then this default value will be returned.
         ''' </param>
         ''' <returns>default(TSource) if source is empty; otherwise, the first element in source.</returns>
-        <Extension> Public Function FirstOrDefault(Of TSource)(source As IEnumerable(Of TSource), [default] As TSource) As TSource
+        <Extension>
+        Public Function FirstOrDefault(Of TSource)(source As IEnumerable(Of TSource), [default] As TSource) As TSource
+            If source Is Nothing Then
+                Return [default]
+            End If
+
             Dim value As TSource = source.FirstOrDefault
 
             If value Is Nothing Then
@@ -459,11 +545,12 @@ Namespace Linq
         ''' </summary>
         ''' <typeparam name="T">The type of the elements of source.</typeparam>
         ''' <param name="source">The System.Collections.Generic.IEnumerable`1 to return the first element of.</param>
-        ''' <param name="[default]">
+        ''' <param name="default">
         ''' If the sequence is nothing or contains no elements, then this default value will be returned.
         ''' </param>
-        ''' <returns>default(TSource) if source is empty; otherwise, the first element in source.</returns>
-        <Extension> Public Function DefaultFirst(Of T)(source As IEnumerable(Of T), Optional [default] As T = Nothing) As T
+        ''' <returns>default(<typeparamref name="T"/>) if source is empty; otherwise, the first element in source.</returns>
+        <Extension>
+        Public Function DefaultFirst(Of T)(source As IEnumerable(Of T), Optional [default] As T = Nothing) As T
             If source Is Nothing OrElse Not source.Any Then
                 Return [default]
             Else
@@ -476,6 +563,9 @@ Namespace Linq
         ''' </summary>
         ''' <param name="source"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this function ensures that the array is not nothing
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToVector(source As IEnumerable) As Object()
@@ -492,6 +582,9 @@ Namespace Linq
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' this function ensures that the returns array is not nothing
+        ''' </remarks>
         <Extension>
         Public Function ToArray(Of T)(source As IEnumerable) As T()
             Return ToVector(source) _

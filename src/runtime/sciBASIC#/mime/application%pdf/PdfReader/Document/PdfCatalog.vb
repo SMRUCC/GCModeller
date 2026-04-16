@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::48d260beec9773ab30dee4b3afeacc1e, mime\application%pdf\PdfReader\Document\PdfCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::71ef5ad0667f2c0d2dd1be40af3dfefc, mime\application%pdf\PdfReader\Document\PdfCatalog.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 225
+    '    Code Lines: 178 (79.11%)
+    ' Comment Lines: 3 (1.33%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 44 (19.56%)
+    '     File Size: 7.34 KB
+
+
     '     Class PdfCatalog
     ' 
     '         Properties: AA, AcroForm, Collection, Dests, Lang
@@ -60,11 +72,11 @@ Namespace PdfReader
         Private _outlineRoot As PdfOutlineLevel
         Private _structTreeRoot As PdfStructTreeRoot
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As ParseDictionary)
+        Public Sub New(parent As PdfObject, dictionary As ParseDictionary)
             MyBase.New(parent, dictionary)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

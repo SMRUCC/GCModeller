@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 33 (35.11%)
+    ' Comment Lines: 51 (54.26%)
+    '    - Xml Docs: 98.04%
+    ' 
+    '   Blank Lines: 10 (10.64%)
+    '     File Size: 4.25 KB
+
+
     '     Structure Citation
     ' 
     '         Function: ToString

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26e005b70610addc80f083157c45cab9, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\Gamma.vb"
+﻿#Region "Microsoft.VisualBasic::2e8412f640e1a73de07d4e5f89194975, Data_science\Mathematica\Math\Math.Statistics\Distributions\MethodOfMoments\Gamma.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 41 (64.06%)
+    ' Comment Lines: 11 (17.19%)
+    '    - Xml Docs: 27.27%
+    ' 
+    '   Blank Lines: 12 (18.75%)
+    '     File Size: 2.27 KB
+
+
     '     Class Gamma
     ' 
     '         Constructor: (+3 Overloads) Sub New
@@ -41,7 +53,7 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports std = System.Math
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -55,27 +67,30 @@ Namespace Distributions.MethodOfMoments
     ''' <summary>
     ''' @author Will_and_Sara
     ''' </summary>
-    Public Class Gamma
-        Inherits Distributions.ContinuousDistribution
+    Public Class Gamma : Inherits ContinuousDistribution
 
         Private _Alpha As Double
         Private _Beta As Double
+
         Public Sub New()
             'for reflection
             _Alpha = 0
             _Beta = 0
         End Sub
+
         Public Sub New(data As Double())
             'http://www.itl.nist.gov/div898/handbook/eda/section3/eda366b.htm
             Dim BPM As New MomentFunctions.BasicProductMoments(data)
-            _Alpha = stdNum.Pow((BPM.Mean() / BPM.StDev()), 2)
+            _Alpha = std.Pow((BPM.Mean() / BPM.StDev()), 2)
             _Beta = 1 / (BPM.StDev() / BPM.Mean())
             PeriodOfRecord = (BPM.SampleSize())
         End Sub
+
         Public Sub New(Alpha As Double, Beta As Double)
             _Alpha = Alpha
             _Beta = Beta
         End Sub
+
         Public Overrides Function GetInvCDF(probability As Double) As Double
             Dim xn As Double = _Alpha / _Beta
             Dim testvalue As Double = GetCDF(xn)
@@ -84,15 +99,18 @@ Namespace Distributions.MethodOfMoments
                 xn = xn - ((testvalue - probability) / GetPDF(xn))
                 testvalue = GetCDF(xn)
                 i += 1
-            Loop While stdNum.Abs(testvalue - probability) <= 0.00000000000001 Or i = 100
+            Loop While std.Abs(testvalue - probability) <= 0.00000000000001 Or i = 100
             Return xn
         End Function
+
         Public Overrides Function GetCDF(value As Double) As Double
-            Return SpecialFunctions.IncompleteGamma(_Alpha, _Beta * value) / stdNum.Exp(SpecialFunctions.gammaln(_Alpha))
+            Return SpecialFunctions.IncompleteGamma(_Alpha, _Beta * value) / std.Exp(SpecialFunctions.gammaln(_Alpha))
         End Function
+
         Public Overrides Function GetPDF(value As Double) As Double
-            Return (((stdNum.Pow(_Beta, _Alpha)) * ((stdNum.Pow(value, _Alpha - 1)) * stdNum.Exp(-_Beta * value)) / stdNum.Exp(SpecialFunctions.gammaln(_Alpha))))
+            Return (((std.Pow(_Beta, _Alpha)) * ((std.Pow(value, _Alpha - 1)) * std.Exp(-_Beta * value)) / std.Exp(SpecialFunctions.gammaln(_Alpha))))
         End Function
+
         Public Overrides Iterator Function Validate() As IEnumerable(Of Exception)
             If _Beta <= 0 Then Yield New Exception("Beta must be greater than 0")
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f0473840fc5ad295910f61039799b9f1, Data_science\Visualization\Plots-statistics\SampleView.vb"
+﻿#Region "Microsoft.VisualBasic::7779ed7ce3263565900a865cd4c34953, Data_science\Visualization\Plots-statistics\SampleView.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 160
+    '    Code Lines: 135 (84.38%)
+    ' Comment Lines: 5 (3.12%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 20 (12.50%)
+    '     File Size: 6.83 KB
+
+
     ' Module SampleView
     ' 
     '     Function: NormalDistributionPlot, SDY
@@ -42,7 +54,6 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -52,7 +63,8 @@ Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.MomentFunctions
-Imports Microsoft.VisualBasic.MIME.HTML.CSS
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 ''' <summary>
@@ -93,10 +105,6 @@ Public Module SampleView
 
         Dim data As New BasicProductMoments(sample)
         Dim means = data.Mean
-        Dim meanLine As Pen = Stroke.TryParse(meanLineCSS).GDIObject
-        Dim normalErrorLine As Pen = Stroke.TryParse(normalErrorColor).GDIObject
-        Dim outlierLine As Pen = Stroke.TryParse(outlierColor).GDIObject
-        Dim normaldistLine As Pen = Stroke.TryParse(normaldistLineColor).GDIObject
         Dim dotBrush As Brush = dotColorStyle.GetBrush
         Dim dotSize As New Size(dotRadius * 2, dotRadius * 2)
         Dim d1# = data.StDev
@@ -127,11 +135,16 @@ Public Module SampleView
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
                 Dim X, Y As d3js.scale.LinearScale
-                Dim rect = region.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim rect = region.PlotRegion(css)
                 Dim up As New Rectangle(rect.Location, New Size(rect.Width, rect.Height / 2))
+                Dim meanLine As Pen = CSS.GetPen(Stroke.TryParse(meanLineCSS))
+                Dim normalErrorLine As Pen = css.GetPen(Stroke.TryParse(normalErrorColor))
+                Dim outlierLine As Pen = css.GetPen(Stroke.TryParse(outlierColor))
+                Dim normaldistLine As Pen = css.GetPen(Stroke.TryParse(normaldistLineColor))
 
-                X = d3js.scale.linear.domain(XTicks).range(integers:={up.Left, up.Right})
-                Y = d3js.scale.linear.domain(YTicks).range(integers:={up.Top, up.Bottom})
+                X = d3js.scale.linear.domain(values:=XTicks).range(integers:={up.Left, up.Right})
+                Y = d3js.scale.linear.domain(values:=YTicks).range(integers:={up.Top, up.Bottom})
 
                 Dim scaler As New DataScaler With {
                     .X = X,
@@ -165,8 +178,8 @@ Public Module SampleView
 
                 XTicks = ptX.Range.CreateAxisTicks
                 YTicks = ptY.Range.CreateAxisTicks
-                X = d3js.scale.linear.domain(XTicks).range(integers:={down.Left, down.Right})
-                Y = d3js.scale.linear.domain(YTicks).range(integers:={down.Top, down.Bottom})
+                X = d3js.scale.linear.domain(values:=XTicks).range(integers:={down.Left, down.Right})
+                Y = d3js.scale.linear.domain(values:=YTicks).range(integers:={down.Top, down.Bottom})
 
                 scaler = New DataScaler(rev:=True) With {
                     .X = X,

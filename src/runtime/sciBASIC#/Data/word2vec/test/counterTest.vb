@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14a20a3eb6c5ba80937b3f957a2c27ab, Data\word2vec\test\counterTest.vb"
+﻿#Region "Microsoft.VisualBasic::44e695ce6a6affa80a80a389617b4d77, Data\word2vec\test\counterTest.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,48 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 26 (70.27%)
+    ' Comment Lines: 1 (2.70%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (27.03%)
+    '     File Size: 1.07 KB
+
+
     ' Module counterTest
     ' 
-    '     Sub: Main
+    '     Sub: bigramTest, Main, WordCountTest
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.utils
+Imports Microsoft.VisualBasic.Data.NLP
+Imports Microsoft.VisualBasic.Data.NLP.Model
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module counterTest
 
     Public Sub Main()
+        Call bigramTest()
+    End Sub
+
+    Sub bigramTest()
+        Dim text As String = "E:\GCModeller\src\runtime\sciBASIC#\Data\TextRank\Rapunzel.txt".ReadAllText
+        Dim bi = Bigram.ParseText(text).ToArray
+
+        Call Console.WriteLine(bi.OrderByDescending(Function(a) a.count).ToArray.GetJson)
+
+        Pause()
+    End Sub
+
+    Sub WordCountTest()
         Dim strKeys = New String() {"1", "2", "3", "1", "2", "1", "3", "3", "3", "1", "2"}
-        Dim counter As Counter(Of String) = New Counter(Of String)()
+        Dim counter As New TokenCounter(Of String)()
 
         For Each strKey In strKeys
             counter.add(strKey)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 62 (80.52%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (19.48%)
+    '     File Size: 3.34 KB
+
+
     ' Class ProteinInteractionNetwork
     ' 
     '     Function: BuildInteraction, Equals
@@ -50,11 +62,9 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.ProteinModel
-Imports SMRUCC.genomics.SequenceModel
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic
 
 Public Class ProteinInteractionNetwork
 

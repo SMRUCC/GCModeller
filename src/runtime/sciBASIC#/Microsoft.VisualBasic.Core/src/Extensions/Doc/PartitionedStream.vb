@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::349dba59af30a71bbdc1a237da4f671c, Microsoft.VisualBasic.Core\src\Extensions\Doc\PartitionedStream.vb"
+﻿#Region "Microsoft.VisualBasic::53ea31afe0a7a57089d01cb381035e01, Microsoft.VisualBasic.Core\src\Extensions\Doc\PartitionedStream.vb"
 
     ' Author:
     ' 
@@ -31,8 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 79 (62.20%)
+    ' Comment Lines: 23 (18.11%)
+    '    - Xml Docs: 39.13%
+    ' 
+    '   Blank Lines: 25 (19.69%)
+    '     File Size: 4.61 KB
+
+
     ' Delegate Function
     ' 
+    ' 
+    '     Module PrintHelper
+    ' 
+    '         Sub: format
     ' 
     '     Class PartitionedStream
     ' 
@@ -50,12 +66,23 @@
 
 #End Region
 
+Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Language.C
 Imports Microsoft.VisualBasic.Linq
 
 Public Delegate Function PartitioningMethod(block As String, ByRef Left As String) As String()
 
 Namespace Text
+
+    Public Module PrintHelper
+
+        <Extension>
+        Public Sub format(ps As StreamWriter, format_str As String, ParamArray args As Object())
+            Call ps.Write(sprintf(format_str, args))
+        End Sub
+    End Module
 
     ''' <summary>
     ''' 只是针对文本文件的
@@ -113,7 +140,7 @@ Namespace Text
             End If
 
             Call _readerStream.Read(chunkBuffer, _Current, chunkBuffer.Length)
-            Call previous.Add(chunkBuffer)
+            Call previous.Append(chunkBuffer)
 
             Dim Text As String = _encoding.GetString(previous)
             Dim rtvl = Me._partitions(Text, Text)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08a58d2c383534e54a8070f5f32e0baa, Data_science\Visualization\Plots\BarPlot\Histogram\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::12e589610e8bed1ff72b0f7ac6994d2a, Data_science\Visualization\Plots\BarPlot\Histogram\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 33 (70.21%)
+    ' Comment Lines: 7 (14.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (14.89%)
+    '     File Size: 1.59 KB
+
 
     '     Module Extensions
     ' 

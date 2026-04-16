@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6274e65e2ed2855275ea80f5d0d4b50e, core\Bio.Annotation\GFF\GFF.vb"
+﻿#Region "Microsoft.VisualBasic::e0d753f158d9d116da728cd4a068ab2f, core\Bio.Annotation\GFF\GFF.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 304
+    '    Code Lines: 151 (49.67%)
+    ' Comment Lines: 112 (36.84%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 41 (13.49%)
+    '     File Size: 12.90 KB
+
+
     '     Class GFFTable
     ' 
     '         Properties: [date], DNA, features, GffVersion, processor
@@ -38,32 +50,30 @@
     '                     SrcVersion, type
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: __getStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes, GetStrandFeatures
-    '                   LoadDocument, (+2 Overloads) Save, ToString
+    '         Function: CreateGeneObjectIndex, filterStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes
+    '                   GetStrandFeatures, LoadDocument, (+3 Overloads) Save, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#End If
+Imports System.IO
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
-    'http://www.sanger.ac.uk/resources/software/gff/spec.html
+    ' http://www.sanger.ac.uk/resources/software/gff/spec.html
 
     ''' <summary>
     ''' GFF (General Feature Format) specifications document
@@ -196,8 +206,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Get
             Set(value As Feature())
                 _features = value
-                _forwards = __getStrandFeatures(Strands.Forward)
-                _reversed = __getStrandFeatures(Strands.Reverse)
+                _forwards = filterStrandFeatures(Strands.Forward)
+                _reversed = filterStrandFeatures(Strands.Reverse)
                 _contextModel = New GenomeContextProvider(Of Feature)(Me)
             End Set
         End Property
@@ -225,7 +235,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Sub New(gff As GFFTable, type As Features)
             Me.date = gff.date
             Me.DNA = gff.DNA
-            Me.Features = gff.GetsAllFeatures(type)
+            Me.features = gff.GetsAllFeatures(type)
             Me.GffVersion = gff.GffVersion
             Me.Protein = gff.Protein
             Me.RNA = gff.RNA
@@ -238,6 +248,16 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return SeqRegion.GetJson
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CreateGeneObjectIndex() As Dictionary(Of String, Feature)
+            Return _features _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -245,7 +265,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' <returns></returns>
         Public Function GetByName(Name As String) As Feature Implements IGenomicsContextProvider(Of Feature).GetByName
             Dim LQuery = From Feature As Feature
-                         In Me.Features
+                         In Me.features
                          Where Feature.attributes.ContainsKey("name") AndAlso
                              String.Equals(Feature.attributes("name"), Name, StringComparison.OrdinalIgnoreCase)
                          Select Feature
@@ -263,7 +283,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         Public Function GenerateDocument() As String
             Dim sb As New StringBuilder()
-            Dim features$() = Me.Features _
+            Dim features$() = Me.features _
                 .Select(AddressOf FeatureParser.ToString) _
                 .ToArray
 
@@ -277,7 +297,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                     Continue For
                 End If
 
-                Call sb.AppendLine($"{[property].name} {str}")
+                Call sb.AppendLine($"{[property].GetColumnName} {str}")
             Next
 
             Call sb.AppendLine(features.JoinBy(ASCII.LF))
@@ -289,6 +309,15 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return GenerateDocument.SaveTo(Path, encoding)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(GenerateDocument)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         ''' <summary>
@@ -306,7 +335,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
             Call Document.TrySetMetaData(text, gff, defaultVer:=defaultVersion)
             Call Linq.SetValue(Of GFFTable).InvokeSet(gff, NameOf(gff.features), Document.TryGetFreaturesData(text, gff.GffVersion))
-            Call $"There are {gff.Features.Length} genome features exists in the gff file: {path.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {gff.features.Length} genome features exists in the gff file: {path.ToFileURL}".debug
 
             Return gff
         End Function
@@ -320,8 +349,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return relates
         End Function
 
-        Private Function __getStrandFeatures(strand As Strands) As Feature()
-            Return (From x As Feature In Features Where x.strand = strand Select x).ToArray
+        Private Function filterStrandFeatures(strand As Strands) As Feature()
+            Return (From x As Feature In features Where x.strand = strand Select x).ToArray
         End Function
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures

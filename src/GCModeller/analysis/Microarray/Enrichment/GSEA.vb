@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efb02345c4bbf1a0a6b4627473e967f9, analysis\Microarray\Enrichment\GSEA.vb"
+﻿#Region "Microsoft.VisualBasic::0140289d75fdc0c7f6e91ff028484f62, analysis\Microarray\Enrichment\GSEA.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 47 (71.21%)
+    ' Comment Lines: 14 (21.21%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 5 (7.58%)
+    '     File Size: 2.79 KB
+
 
     ' Module GSEA
     ' 
@@ -94,9 +106,9 @@ Public Module GSEA
     Private Function Convert(term As EnrichmentResult, database$) As EnrichmentTerm
         Return New EnrichmentTerm With {
             .Backgrounds = term.cluster,
-            .number = term.enriched.Split("/"c).First,
+            .number = term.enriched,
             .ID = term.term,
-            .ORF = term.geneIDs,
+            .ORF = term.IDs,
             .Pvalue = term.pvalue,
             .Term = term.name.Replace("Reference pathway", "").Trim(" "c, "-"c),
             .CorrectedPvalue = term.FDR,

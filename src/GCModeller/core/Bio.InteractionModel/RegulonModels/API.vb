@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 72 (75.79%)
+    ' Comment Lines: 14 (14.74%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 9 (9.47%)
+    '     File Size: 5.49 KB
+
+
     '     Module RegulationModel
     ' 
     '         Function: GenerateRegulons, GetRegulators, SignificantModel, Trim

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 74 (76.29%)
+    ' Comment Lines: 6 (6.19%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 17 (17.53%)
+    '     File Size: 3.57 KB
+
+
     '     Module Meta
     ' 
     '         Function: DataFrameWithMeta, IsMetaRow, (+4 Overloads) ToCsvMeta, (+2 Overloads) TryGetMetaData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::232bbe365947ea59bd014276a37bb70c, models\SBML\SBML\Level3\annotation.vb"
+﻿#Region "Microsoft.VisualBasic::e0afee58d223b2293ef25bccdb1c0cc2, models\SBML\SBML\Level3\annotation.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 90 (72.58%)
+    ' Comment Lines: 11 (8.87%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 23 (18.55%)
+    '     File Size: 4.40 KB
+
+
     '     Class SbmlAnnotationData
     ' 
-    '         Properties: [is], hasTaxon, isDescribedBy, isVersionOf, occursIn
+    '         Properties: [is], hasPart, hasTaxon, isDescribedBy, isHomologTo
+    '                     isVersionOf, occursIn
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -41,11 +54,14 @@
     ' 
     '         Properties: Bag
     ' 
+    '         Function: GenericEnumerator, ToString
+    ' 
     '     Class annotation
     ' 
     '         Properties: RDF
     ' 
     '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetIdComponents, GetIdHomolog, GetIdList, GetIdMappings
     ' 
     '     Class AnnotationInfo
     ' 
@@ -56,7 +72,9 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 
 Namespace Level3
@@ -67,6 +85,10 @@ Namespace Level3
     <XmlType("Description", [Namespace]:=RDFEntity.XmlnsNamespace)>
     Public Class SbmlAnnotationData : Inherits Description
 
+        ''' <summary>
+        ''' the id mapping of current object
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
         Public Property [is] As [is]()
         <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
@@ -77,16 +99,38 @@ Namespace Level3
         Public Property hasTaxon As [is]
         <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
         Public Property occursIn As [is]
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property hasPart As [is]()
+        <XmlElement([Namespace]:=AnnotationInfo.bqbiol)>
+        Public Property isHomologTo As [is]()
 
         Sub New()
             Call MyBase.New
         End Sub
     End Class
 
-    Public Class [is]
+    Public Class [is] : Implements Enumeration(Of String)
 
+        ''' <summary>
+        ''' An rdf array
+        ''' </summary>
+        ''' <returns></returns>
         <XmlElement("Bag", [Namespace]:=RDFEntity.XmlnsNamespace)>
         Public Property Bag As Array
+
+        Public Overrides Function ToString() As String
+            Return Bag.ToString
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
+            If Bag Is Nothing Then
+                Return
+            End If
+
+            For Each li As String In Bag.AsEnumerable
+                Yield li
+            Next
+        End Function
     End Class
 
     <XmlType("annotation", [Namespace]:=sbmlXmlns)>
@@ -101,6 +145,41 @@ Namespace Level3
         Sub New()
             xmlns.Add("rdf", RDFEntity.XmlnsNamespace)
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetIdMappings() As IEnumerable(Of String)
+            Return GetIdList(Function(a) a.is)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetIdComponents() As IEnumerable(Of String)
+            Return GetIdList(Function(a) a.hasPart)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetIdHomolog() As IEnumerable(Of String)
+            Return GetIdList(Function(a) a.isHomologTo)
+        End Function
+
+        Private Iterator Function GetIdList(maps As Func(Of SbmlAnnotationData, [is]())) As IEnumerable(Of String)
+            If RDF Is Nothing Then
+                Return
+            End If
+
+            If RDF.description.IsNullOrEmpty Then
+                Return
+            End If
+
+            For Each desc As SbmlAnnotationData In RDF.description
+                For Each map As [is] In maps(desc).SafeQuery
+                    If Not map.Bag Is Nothing Then
+                        For Each item As li In map.Bag.list
+                            Yield item.resource.Split("/"c).Last
+                        Next
+                    End If
+                Next
+            Next
+        End Function
     End Class
 
     <XmlType("annoinfo", [Namespace]:=RDFEntity.XmlnsNamespace)>

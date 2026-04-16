@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c9718f69bc51aaaacf4f20cb2b39b34, mime\application%pdf\PdfReader\Document\PdfFunctionType3.vb"
+﻿#Region "Microsoft.VisualBasic::93a29262ff09a1330f332f1fae6d9419, mime\application%pdf\PdfReader\Document\PdfFunctionType3.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 47 (73.44%)
+    ' Comment Lines: 3 (4.69%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (21.88%)
+    '     File Size: 2.50 KB
+
+
     '     Class PdfFunctionType3
     ' 
     '         Properties: Bounds, Encode, Functions
@@ -57,7 +69,7 @@ Namespace PdfReader
         Private _boundValues As Single()
         Private _encodeValues As Single()
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As PdfDictionary)
+        Public Sub New(parent As PdfObject, dictionary As PdfDictionary)
             MyBase.New(parent, dictionary)
         End Sub
 
@@ -79,7 +91,7 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Overrides Function [Call](ByVal inputs As Single()) As Single()
+        Public Overrides Function [Call](inputs As Single()) As Single()
             If inputs.Length <> 1 Then Throw New ArgumentOutOfRangeException($"Provided with '{inputs.Length}' values but Function Type 3 is defined to take 1 value.")
 
             ' Find the function that handles values below the Bounds value

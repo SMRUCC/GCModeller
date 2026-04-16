@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b194581fbf0fbb2761d26f18fdecac57, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2BitOutputStream.vb"
+﻿#Region "Microsoft.VisualBasic::6bdb48be8b418b08602cc0db0a0e305c, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2BitOutputStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 47 (43.52%)
+    ' Comment Lines: 42 (38.89%)
+    '    - Xml Docs: 14.29%
+    ' 
+    '   Blank Lines: 19 (17.59%)
+    '     File Size: 3.73 KB
+
+
     '     Class BZip2BitOutputStream
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -47,7 +59,7 @@
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
 Imports System.IO
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Bzip2
     ''' <summary>Implements a bit-wise output stream</summary>
@@ -102,7 +114,7 @@ Namespace Bzip2
         ' 
 
         Public Sub WriteUnary(value As Integer)
-            While stdNum.Max(Threading.Interlocked.Decrement(value), value + 1) > 0
+            While std.Max(Threading.Interlocked.Decrement(value), value + 1) > 0
                 WriteBoolean(True)
             End While
 

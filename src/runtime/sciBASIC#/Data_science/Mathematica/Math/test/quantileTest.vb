@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43043136898fc0034c6f09b4be51bfe6, Data_science\Mathematica\Math\test\quantileTest.vb"
+﻿#Region "Microsoft.VisualBasic::43043136898fc0034c6f09b4be51bfe6, sciBASIC#\Data_science\Mathematica\Math\test\quantileTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,16 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 24
+    ' Comment Lines: 0
+    '   Blank Lines: 10
+    '     File Size: 885.00 B
+
+
     ' Module quantileTest
     ' 
     '     Sub: Main, quartile
@@ -52,7 +62,7 @@ Module quantileTest
         Dim q = New Double() {5, 100, 200, 2000, 300, 20, 20, 20, 20, 3000, 9999999, 1, 1, 1, 1, 1, 99}.GKQuantile
 
         For Each l In {0, 0.25, 0.5, 0.75, 1}
-            Call q.Query(l).__DEBUG_ECHO
+            Call q.Query(l).debug
         Next
     End Sub
 

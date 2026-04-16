@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14c8eef78ed023f1b27ccd480de23fbc, gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
+﻿#Region "Microsoft.VisualBasic::8d3f493bf5afd96dd5d3c3ec7a9493c1, gr\Microsoft.VisualBasic.Imaging\d3js\scale\IScale.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 61 (43.57%)
+    ' Comment Lines: 60 (42.86%)
+    '    - Xml Docs: 98.33%
+    ' 
+    '   Blank Lines: 19 (13.57%)
+    '     File Size: 5.40 KB
+
+
     '     Class Scaler
     ' 
     ' 
     ' 
     '     Class IScale
     ' 
-    '         Properties: rangeMax
+    '         Properties: rangeMax, rangeMin
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: (+3 Overloads) range
@@ -59,6 +71,8 @@ Namespace d3js.scale
     ''' </summary>
     Public MustInherit Class Scaler
 
+        Public MustOverride ReadOnly Property type As scalers
+
         ''' <summary>
         ''' value transform
         ''' </summary>
@@ -77,6 +91,27 @@ Namespace d3js.scale
         Default Public MustOverride ReadOnly Property Value(term$) As Double
 
         ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="vector">
+        ''' vector should be a string array or float64 numeric array
+        ''' </param>
+        ''' <returns></returns>
+        Default Public Overridable ReadOnly Property Value(vector As Array) As Double()
+            Get
+                If TypeOf vector Is String() Then
+                    Return DirectCast(vector, String()) _
+                        .Select(Function(t) Me(term:=t)) _
+                        .ToArray
+                Else
+                    Return DirectCast(vector, Double()) _
+                        .Select(Function(xi) Me(x:=xi)) _
+                        .ToArray
+                End If
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 返回用户作图数据为零的时候的绘图位置映射结果数据
         ''' </summary>
         ''' <returns></returns>
@@ -92,6 +127,7 @@ Namespace d3js.scale
         Public MustOverride ReadOnly Property domainSize As Double
 
         Public MustOverride ReadOnly Property rangeMax As Double
+        Public MustOverride ReadOnly Property rangeMin As Double
 
     End Class
 
@@ -118,16 +154,24 @@ Namespace d3js.scale
             End Get
         End Property
 
+        Public Overrides ReadOnly Property rangeMin As Double
+            Get
+                Return _range.Min
+            End Get
+        End Property
+
         ''' <summary>
         ''' If range is specified, sets the range of the ordinal scale to the specified array of values. 
         ''' The first element in the domain will be mapped to the first element in range, the second 
         ''' domain value to the second range value, and so on. If there are fewer elements in the range 
         ''' than in the domain, the scale will reuse values from the start of the range. If range is 
         ''' not specified, this method returns the current range.
-        ''' (设置绘图的实际的像素区间)
         ''' </summary>
         ''' <param name="values"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (设置绘图的实际的像素区间)
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function range(Optional values As IEnumerable(Of Double) = Nothing) As T
             _range = (values Or defaultRange).Range

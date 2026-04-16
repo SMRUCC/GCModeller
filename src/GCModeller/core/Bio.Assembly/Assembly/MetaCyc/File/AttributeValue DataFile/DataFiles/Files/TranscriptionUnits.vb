@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 19 (50.00%)
+    ' Comment Lines: 16 (42.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (7.89%)
+    '     File Size: 2.19 KB
+
+
     '     Class TransUnits
     ' 
     '         Properties: AttributeList

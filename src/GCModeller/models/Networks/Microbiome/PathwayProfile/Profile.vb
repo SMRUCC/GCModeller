@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::65350523ba9e89ba9d3d6ea5fd9d9b19, models\Networks\Microbiome\PathwayProfile\Profile.vb"
+﻿#Region "Microsoft.VisualBasic::8070f4663ff704201423bd7795ffefd6, models\Networks\Microbiome\PathwayProfile\Profile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 28 (51.85%)
+    ' Comment Lines: 18 (33.33%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 1.74 KB
+
+
     '     Class Profile
     ' 
     '         Properties: pct, Profile, RankGroup, Taxonomy
@@ -44,7 +56,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Metagenomics
 

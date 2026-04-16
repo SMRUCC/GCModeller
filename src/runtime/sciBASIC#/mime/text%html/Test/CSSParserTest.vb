@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::861980b0e9f4047efcaa283d8ea56c0d, mime\text%html\test\CSSParserTest.vb"
+﻿#Region "Microsoft.VisualBasic::861980b0e9f4047efcaa283d8ea56c0d, mime\text%html\Test\CSSParserTest.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 8 (57.14%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (42.86%)
+    '     File Size: 279 B
+
 
     ' Module CSSParserTest
     ' 

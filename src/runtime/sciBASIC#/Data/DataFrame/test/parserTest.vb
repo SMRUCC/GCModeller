@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bc74cec4af48946b59f951b892fd409d, Data\DataFrame\test\parserTest.vb"
+﻿#Region "Microsoft.VisualBasic::b85fef79f00102148c7eacf40766df15, Data\DataFrame\test\parserTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 27 (54.00%)
+    ' Comment Lines: 3 (6.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (40.00%)
+    '     File Size: 3.93 KB
+
+
     ' Module parserTest
     ' 
     '     Sub: fileLoaderTest, Main
@@ -39,13 +51,22 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile.Tokenizer
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Data.csv.IO.Tokenizer
 
 Module parserTest
 
     Sub Main()
+
+        Dim tokens1 As String() = Tokenizer.CharsParser("1,2,3,""4,5,6,7,8""").ToArray
+        Dim tokens2 As String() = Tokenizer.CharsParser("1,2,3,""Hello, world!""").ToArray
+
+        Call Console.WriteLine(tokens1.GetJson)
+        Call Console.WriteLine(tokens2.GetJson)
+
+        Pause()
 
         Call CharsParser(<string>"A,""c""",123</string>).JoinBy(vbCrLf).__DEBUG_ECHO
 

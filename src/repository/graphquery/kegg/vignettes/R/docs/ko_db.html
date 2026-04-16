@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create Local KEGG Orthology (KO) Sequence Database</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="../../_assets/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>ko_db {kegg_api}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Create Local KEGG Orthology (KO) Sequence Database</h2>
+
+        <h3>Description</h3>
+
+        <p>This is the main entry function for creating a local KO sequence database repository.
+It downloads KEGG Orthology data and associated gene sequences from the KEGG database
+via the KEGG REST API and caches them locally.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>ko_db</strong>(
+    <i>db</i> = <span style='color: brown;'><strong>'./'</strong></span>,
+    <i>species</i> = <span style='color: blue !important;'>NULL</span>,
+    <i>seqtype</i> = 'c'('ntseq', 'aaseq'),
+    <i>download.seqs</i> = <span style='color: blue !important;'>TRUE</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>db</dt>
+<dd><p><p>A local repository connection to the target KEGG genes database for saving
+and caching data downloaded from the KEGG website. This parameter can be a local
+directory path or a file connection to an archive file with internal filesystem
+tree management (e.g., a ZIP archive, HDF5 archive, or R# HDS pack file).
+Default is \code{"./"} (current working directory).</p></p></dd>
+
+
+<dt>species</dt>
+<dd><p><p>A character vector of KEGG organism species codes for taxonomy-based
+filtering of genes to download. Default is \code{NULL}, which means no filtering
+is applied. For example, setting \code{species = c("eco", "hsa", "mmu")} will
+download only KO gene sequences for \emph{Escherichia coli}, \emph{Homo sapiens},
+and \emph{Mus musculus}, ignoring all other organisms.</p></p></dd>
+
+
+<dt>seqtype</dt>
+<dd><p><p>The type of FASTA sequence data to download from the KEGG database.
+Must be one of:
+\itemize{
+\item \code{"ntseq"} - gene nucleotide sequence (default)
+\item \code{"aaseq"} - protein amino acid sequence
+}</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The function operates in several stages:
+\enumerate{
+\item Sets up HTTP caching via global options
+\item Loads or retrieves the KO master index from KEGG
+\item For each KO entry in the index:
+\itemize{
+\item Downloads gene associations via \code{rest.kegg.jp/link/genes/}
+\item Parses and stores gene IDs with species codes
+\item Optionally filters by specified \code{species}
+\item Downloads nucleotide sequences for filtered genes
+}
+}
+HTTP requests are rate-limited with a 3-second interval to respect KEGG API
+usage policies. Progress is displayed using \code{tqdm} for tracking
+download progress.
+The function creates a hierarchical file structure within \code{db}:
+\preformatted{
+db/
+├── ko.csv              # Master KO index
+├── ko/
+│   ├── K00001.txt     # Gene IDs for KO:K00001
+│   ├── K00002.txt     # Gene IDs for KO:K00002
+│   └── ...
+└── fasta/
+├── K00001.txt     # Nucleotide sequences for K00001 genes
+├── K00002.txt     # Nucleotide sequences for K00002 genes
+└── ...
+}</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        xieguigang
+
+        <h3>Value</h3>
+
+        <p>This function returns \code{NULL} invisibly. The primary output is the
+creation of a local database repository containing KO index files and
+sequence FASTA files.</p>
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r">#\dontrun{
+
+# Create KO database with all organisms in current directory
+ko_db()
+# Create KO database for specific species only
+ko_db(db = "./kegg_db", species = c("eco", "hsa", "mmu"))
+# Create KO database with protein sequences
+ko_db(seqtype = "aaseq")
+
+#}</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>kegg_api</em> version 0.1.0 <a
+                href="../kegg_api.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../_assets/R_syntax.js"></script>
+<script type="text/javascript" src="../../_assets/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

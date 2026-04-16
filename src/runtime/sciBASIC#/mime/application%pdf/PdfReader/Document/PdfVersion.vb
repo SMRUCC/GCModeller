@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c4c24445cef1beb565c6f91e1fc367, mime\application%pdf\PdfReader\Document\PdfVersion.vb"
+﻿#Region "Microsoft.VisualBasic::bcd193bb79d141a2df1f96a14b816055, mime\application%pdf\PdfReader\Document\PdfVersion.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 33 (84.62%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (15.38%)
+    '     File Size: 1.05 KB
+
+
     '     Class PdfVersion
     ' 
     '         Properties: Major, Minor
@@ -52,7 +64,7 @@ Namespace PdfReader
 
         Private _Major As Integer, _Minor As Integer
 
-        Public Sub New(ByVal parent As PdfObject, ByVal major As Integer, ByVal minor As Integer)
+        Public Sub New(parent As PdfObject, major As Integer, minor As Integer)
             MyBase.New(parent)
             Me.Major = major
             Me.Minor = minor
@@ -62,7 +74,7 @@ Namespace PdfReader
             Return $"{Major}.{Minor}"
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -70,7 +82,7 @@ Namespace PdfReader
             Get
                 Return _Major
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Major = value
             End Set
         End Property
@@ -79,7 +91,7 @@ Namespace PdfReader
             Get
                 Return _Minor
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Minor = value
             End Set
         End Property

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b31479faf1ec8a76c6b386e8571f536, modules\ExperimentDesigner\Templates\SampleInfo.vb"
+﻿#Region "Microsoft.VisualBasic::90ca818ac2e3c7cf370dca20935614ab, modules\ExperimentDesigner\Templates\SampleInfo.vb"
 
     ' Author:
     ' 
@@ -31,27 +31,36 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 38 (60.32%)
+    ' Comment Lines: 17 (26.98%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.70%)
+    '     File Size: 2.17 KB
+
+
     ' Class SampleInfo
     ' 
-    '     Properties: batch, color, ID, injectionOrder, shape
+    '     Properties: batch, ID, injectionOrder
     ' 
-    ' Class SampleGroup
-    ' 
-    '     Properties: sample_info, sample_name
-    ' 
-    '     Function: ToString
+    '     Constructor: (+2 Overloads) Sub New
+    '     Function: FromTagGroup, ToString
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 ''' <summary>
-''' 一般而言，对于实验数据的分析而言，在进行数据存储的时候使用的是<see cref="ID"/>属性，而在进行数据可视化或者数据报告输出的时候，则是使用的<see cref="sample_name"/>属性作为显示的label
+''' 一般而言，对于实验数据的分析而言，在进行数据存储的时候使用的是<see cref="ID"/>属性，
+''' 而在进行数据可视化或者数据报告输出的时候，则是使用的<see cref="sample_name"/>属性
+''' 作为显示的label
 ''' </summary>
 <Template(ExperimentDesigner)>
 Public Class SampleInfo : Inherits SampleGroup
@@ -68,44 +77,43 @@ Public Class SampleInfo : Inherits SampleGroup
     ''' </summary>
     ''' <returns></returns>
     Public Property injectionOrder As Integer
+    ''' <summary>
+    ''' the experiment batch id
+    ''' </summary>
+    ''' <returns></returns>
     Public Property batch As Integer
 
-    ''' <summary>
-    ''' 绘图可视化的时候的颜色
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property color As String
+    Sub New()
+    End Sub
 
-    ''' <summary>
-    ''' legend的形状
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property shape As String
-
-End Class
-
-''' <summary>
-''' 样品的分组信息
-''' </summary>
-<Template(ExperimentDesigner)> Public Class SampleGroup
-    Implements INamedValue
-    Implements Value(Of String).IValueOf
-
-    ''' <summary>
-    ''' 在报告之中的显示名称，可能会含有一些奇怪的符号
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property sample_name As String Implements IKeyedEntity(Of String).Key
-
-    ''' <summary>
-    ''' the sample info.
-    ''' 
-    ''' (样品的实验设计分组信息)
-    ''' </summary>
-    ''' <returns></returns>
-    Public Property sample_info As String Implements Value(Of String).IValueOf.Value
+    Sub New(copy As SampleInfo)
+        Me.ID = copy.ID
+        Me.injectionOrder = copy.injectionOrder
+        Me.batch = copy.batch
+        Me.color = copy.color
+        Me.sample_info = copy.sample_info
+        Me.sample_name = copy.sample_name
+        Me.shape = copy.shape
+    End Sub
 
     Public Overrides Function ToString() As String
-        Return $"[{sample_info}] {sample_name}"
+        Return $"[{ID} - {sample_info}({color})] {sample_name}"
     End Function
+
+    Public Shared Iterator Function FromTagGroup(tags As NamedCollection(Of String),
+                                                 Optional color As String = "#FF0000",
+                                                 Optional shape As String = "21") As IEnumerable(Of SampleInfo)
+        For Each tag As String In tags
+            Yield New SampleInfo With {
+                .batch = 1,
+                .ID = tag,
+                .injectionOrder = 1,
+                .sample_info = tags.name,
+                .sample_name = tag,
+                .color = color,
+                .shape = shape
+            }
+        Next
+    End Function
+
 End Class

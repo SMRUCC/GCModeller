@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 51 (62.96%)
+    ' Comment Lines: 18 (22.22%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 12 (14.81%)
+    '     File Size: 2.49 KB
+
+
     '     Class AxisProvider
     ' 
     '         Properties: n, Range, Tick

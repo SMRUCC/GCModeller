@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 87 (51.18%)
+    ' Comment Lines: 61 (35.88%)
+    '    - Xml Docs: 95.08%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 10.58 KB
+
+
     ' Class conformation
     ' 
     '     Properties: apo_holo_conformation, conformation_id, conformation_internal_comment, conformation_note, conformation_type

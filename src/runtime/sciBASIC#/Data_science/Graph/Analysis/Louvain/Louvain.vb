@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b612b77007b0a025507e3671b6cfde48, Data_science\Graph\Analysis\Louvain\Louvain.vb"
+﻿#Region "Microsoft.VisualBasic::9ffcc282f13fae69f3103fbb70d8a166, Data_science\Graph\Analysis\Louvain\Louvain.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 386
+    '    Code Lines: 227 (58.81%)
+    ' Comment Lines: 89 (23.06%)
+    '    - Xml Docs: 79.78%
+    ' 
+    '   Blank Lines: 70 (18.13%)
+    '     File Size: 12.38 KB
+
+
     '     Class LouvainCommunity
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: GetCommunity, SolveClusters, TryMoveNode
+    '         Function: GetClusterCount, GetCommunity, SolveClusters, TryMoveNode
     ' 
     '         Sub: addNewEdge, rebuildGraph, setCluster0
     ' 
@@ -44,8 +56,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
 
 Namespace Analysis.Louvain
 
@@ -53,7 +65,9 @@ Namespace Analysis.Louvain
     ''' A fast algorithm To find communities In large network
     ''' </summary>
     ''' <remarks>
-    ''' Blondel V D, Guillaume J L, Lambiotte R, et al. Fast unfolding of communities in large networks[J]. Journal of Statistical Mechanics, 2008, 2008(10)155-168.
+    ''' Blondel V D, Guillaume J L, Lambiotte R, et al. Fast 
+    ''' unfolding of communities in large networks[J]. Journal 
+    ''' of Statistical Mechanics, 2008, 2008(10)155-168.
     ''' </remarks>
     Public Class LouvainCommunity
 
@@ -119,14 +133,24 @@ Namespace Analysis.Louvain
         ''' <summary>
         ''' 最大迭代次数
         ''' </summary>
-        ReadOnly maxIterations As Integer = 3
+        Protected ReadOnly maxIterations As Integer = 3
 
-        Sub New(Optional maxIterations As Integer = 3)
+        Sub New(Optional maxIterations As Integer = 3, Optional eps As Double = 0.00000000000001)
+            Me.eps = eps
             Me.maxIterations = maxIterations
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetCommunity() As String()
             Return global_cluster.Select(Function(cl) cl.ToString).ToArray
+        End Function
+
+        ''' <summary>
+        ''' get the number of the cluster class the graph it has currently.
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function GetClusterCount() As Integer
+            Return global_cluster.Distinct.Count
         End Function
 
         Friend Overridable Sub addNewEdge(u As Integer, v As Integer, weight As Double)
@@ -137,7 +161,8 @@ Namespace Analysis.Louvain
             new_edge(new_top).v = v
             new_edge(new_top).weight = weight
             new_edge(new_top).next = new_head(u)
-            new_head(u) = stdNum.Min(Threading.Interlocked.Increment(new_top), new_top - 1)
+            new_head(u) = new_top
+            new_top += 1
         End Sub
 
         Friend Overridable Sub setCluster0()
@@ -227,7 +252,8 @@ Namespace Analysis.Louvain
                 End If
 
                 vis(cluster(i)) = True
-                change(stdNum.Min(Threading.Interlocked.Increment(change_size), change_size - 1)) = cluster(i)
+                change(change_size) = cluster(i)
+                change_size += 1
             Next
 
             ' index[i]代表 i号簇在新图中的结点编号
@@ -322,7 +348,14 @@ Namespace Analysis.Louvain
             n = new_n
         End Sub
 
-        Public Function SolveClusters() As LouvainCommunity
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="max_clusters">
+        ''' set the limits of the max number of the node class we finally have.
+        ''' </param>
+        ''' <returns></returns>
+        Public Function SolveClusters(Optional max_clusters As Integer = Integer.MaxValue) As LouvainCommunity
             Dim count As Integer = 0   ' 迭代次数
             Dim update_flag As Boolean ' 标记是否发生过更新
             Dim enum_time As Integer
@@ -335,7 +368,7 @@ Namespace Analysis.Louvain
                 count += 1
                 cluster_weight = New Double(n - 1) {}
 
-                For j = 0 To n - 1
+                For j As Integer = 0 To n - 1
                     ' 生成簇的权值
                     cluster_weight(cluster(j)) += node_weight(j)
                 Next
@@ -360,6 +393,13 @@ Namespace Analysis.Louvain
                 update_flag = False ' 是否发生过更新的标记
                 maxLoop = node_weight.Length * 50
 
+                Dim max As Integer = maxLoop
+                Dim deltaP As Integer = maxLoop / 25
+                Dim p As Integer = Scan0
+
+                Call VBDebugger.EchoLine("")
+                Call VBDebugger.Echo($" [loop_{count}] Progress: ")
+
                 Do
                     Dim i As Integer = order(point)
 
@@ -375,16 +415,28 @@ Namespace Analysis.Louvain
 
                     If maxLoop < 0 Then
                         Exit Do
+                    Else
+                        p += 1
+
+                        If p = deltaP Then
+                            p = 0
+
+                            VBDebugger.Echo(vbTab & $"{CInt(100 * (max - maxLoop) / max)}%")
+                        End If
                     End If
                 Loop While enum_time < n
 
                 If count > maxIterations OrElse Not update_flag Then
+                    Exit Do
+                ElseIf GetClusterCount >= max_clusters Then
                     Exit Do
                 End If
 
                 rebuildGraph()
                 setCluster0()
             Loop While True
+
+            Call VBDebugger.EchoLine("")
 
             Return Me
         End Function

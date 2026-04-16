@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 48 (40.34%)
+    ' Comment Lines: 59 (49.58%)
+    '    - Xml Docs: 69.49%
+    ' 
+    '   Blank Lines: 12 (10.08%)
+    '     File Size: 4.58 KB
+
+
     ' Module LICENSE
     ' 
     '     Properties: GPL3, WebRequestUserAgent

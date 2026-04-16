@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 9 (52.94%)
+    ' Comment Lines: 5 (29.41%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 3 (17.65%)
+    '     File Size: 489 B
+
+
     '     Class Compartment
     ' 
     '         Function: ToString

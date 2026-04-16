@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 83 (62.41%)
+    ' Comment Lines: 31 (23.31%)
+    '    - Xml Docs: 70.97%
+    ' 
+    '   Blank Lines: 19 (14.29%)
+    '     File Size: 5.03 KB
+
+
     '     Class Conversion
     ' 
     '         Properties: BaseDegenerateEntries, DegenerateBases, NucleotideAsChar, NucleotideConvert

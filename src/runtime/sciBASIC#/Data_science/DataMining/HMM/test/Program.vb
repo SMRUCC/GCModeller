@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efa83513f1ec16969f85eca7f1b7e70d, Data_science\DataMining\HMM\test\Program.vb"
+﻿#Region "Microsoft.VisualBasic::ce1b66246f9107efec6265ec158a3227, Data_science\DataMining\HMM\test\Program.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 47 (63.51%)
+    ' Comment Lines: 9 (12.16%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 18 (24.32%)
+    '     File Size: 3.12 KB
+
+
     ' Module Program
     ' 
     '     Sub: HMMTest, Main, MarkovChainTest
@@ -45,6 +57,7 @@ Imports Microsoft.VisualBasic.DataMining.HiddenMarkovChain.Models
 Module Program
 
     Sub Main()
+        ' Call MarkovChainTest()
         Call HMMTest()
     End Sub
 
@@ -103,6 +116,10 @@ Module Program
         Dim seqProbability = markovChain.SequenceProb(stateSeq)
 
         ' Call Console.WriteLine(markovChain.GetTransMatrix)
+
+        Dim test2 As New Chain(Function(a, b) a = b) With {.obSequence = {"sunny", "sunny", "cloudy", "rainy"}}
+
+        Dim prob2 = markovChain.SequenceProb(test2)
 
         Pause()
     End Sub

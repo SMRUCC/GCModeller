@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff803b94c61b017a0a84762a55e69bc8, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
+﻿#Region "Microsoft.VisualBasic::2b7249cb86a11e2dea23f45ff30c344d, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Glycan.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 61 (80.26%)
+    ' Comment Lines: 4 (5.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.47%)
+    '     File Size: 2.55 KB
+
+
     '     Class Glycan
     ' 
     '         Properties: Composition, CompoundId, Mass, Orthology
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Download, DownloadFrom, GetCompoundId, GetLinkDbRDF, ToCompound
+    '         Function: GetCompoundId, ToCompound
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,8 +59,6 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery.Compounds
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.KEGG.DBGET.bGetObject
@@ -102,31 +112,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         End Function
 
         Const URL = "http://www.kegg.jp/dbget-bin/www_bget?gl:{0}"
-
-        ''' <summary>
-        ''' 使用glycan编号来下载数据模型
-        ''' </summary>
-        ''' <param name="ID$"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Function Download(ID As String) As Glycan
-            Return DownloadFrom(url:=String.Format(URL, ID))
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Function GetLinkDbRDF(glycan As Glycan) As IEnumerable(Of LinkDB.Relationship)
-            If InStr(glycan.entry, ":") > 0 Then
-                Return LinkDB.Relationship.GetLinkDb(glycan.entry)
-            Else
-                Return LinkDB.Relationship.GetLinkDb($"gl:{glycan.entry}")
-            End If
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Shared Function DownloadFrom(url As String) As Glycan
-            Return GlycanParser.ParseGlycan(New WebForm(url))
-        End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ToCompound() As Compound

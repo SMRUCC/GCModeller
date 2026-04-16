@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 44 (62.86%)
+    ' Comment Lines: 17 (24.29%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 9 (12.86%)
+    '     File Size: 2.86 KB
+
+
     ' Module MotifCluster
     ' 
     '     Function: Mappings

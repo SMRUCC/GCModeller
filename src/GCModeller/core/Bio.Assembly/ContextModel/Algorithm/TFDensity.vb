@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dd51d0299df9c006a61ecc6f30e29ee, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
+﻿#Region "Microsoft.VisualBasic::d2410e093b3ddb8ca3b44ca502640576, core\Bio.Assembly\ContextModel\Algorithm\TFDensity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 227
+    '    Code Lines: 152 (66.96%)
+    ' Comment Lines: 46 (20.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 29 (12.78%)
+    '     File Size: 9.37 KB
+
+
     '     Module TFDensity
     ' 
     '         Function: __getCisGenes, __getGenes, __worker, Density, DensityCis
@@ -54,12 +66,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
@@ -68,7 +74,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.ComponentModel
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -108,9 +114,9 @@ Namespace ContextModel
                 Dim TGA As Integer = g.Location.right
 
                 For Each loci In TFs
-                    If stdNum.Abs(ATG - loci.Location.right) <= ranges Then
+                    If std.Abs(ATG - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.left - TGA) <= ranges Then
+                    ElseIf std.Abs(loci.Location.left - TGA) <= ranges Then
                         result += loci
                     End If
                 Next
@@ -119,9 +125,9 @@ Namespace ContextModel
                 Dim TGA As Integer = g.Location.left
 
                 For Each loci In TFs
-                    If stdNum.Abs(TGA - loci.Location.right) <= ranges Then
+                    If std.Abs(TGA - loci.Location.right) <= ranges Then
                         result += loci
-                    ElseIf stdNum.Abs(loci.Location.left - ATG) <= ranges Then
+                    ElseIf std.Abs(loci.Location.left - ATG) <= ranges Then
                         result += loci
                     End If
                 Next
@@ -270,7 +276,9 @@ Namespace ContextModel
         ''' </summary>
         ''' <returns></returns>
         Public Property product As String
-        <ScriptIgnore> <XmlIgnore> Public Property location As String
+
+        <XmlIgnore>
+        Public Property location As String
             Get
                 Return loci.ToString
             End Get

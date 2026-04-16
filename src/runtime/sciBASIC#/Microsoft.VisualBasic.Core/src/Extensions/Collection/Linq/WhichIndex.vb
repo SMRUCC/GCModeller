@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ab3789f69e69fe36ac6250c128265d, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\WhichIndex.vb"
+﻿#Region "Microsoft.VisualBasic::5f30d331c66abddc1a2d45dc76a836c0, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\WhichIndex.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 229
+    '    Code Lines: 109 (47.60%)
+    ' Comment Lines: 94 (41.05%)
+    '    - Xml Docs: 91.49%
+    ' 
+    '   Blank Lines: 26 (11.35%)
+    '     File Size: 9.22 KB
+
 
     '     Module WhichSymbol
     ' 
@@ -145,7 +157,9 @@ Namespace Linq
         ''' numeric (logical, integer or double) vector or an R object for which the internal coercion to 
         ''' double works whose min or max is searched for.
         ''' </param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A zero-based index offset for the item with max value, returns -1 means empty collection
+        ''' </returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Max(Of T As IComparable)(x As IEnumerable(Of T)) As Integer
@@ -176,7 +190,9 @@ Namespace Linq
         ''' Return all of the indices which is True
         ''' </summary>
         ''' <param name="v"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' the result index is zero-based by default
+        ''' </returns>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function IsTrue(v As IEnumerable(Of Boolean), Optional offset% = 0) As Integer()

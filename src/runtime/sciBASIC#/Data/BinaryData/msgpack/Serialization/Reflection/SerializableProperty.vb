@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f66596d63c86e8d98e241defd8c657a6, Data\BinaryData\msgpack\Serialization\Reflection\SerializableProperty.vb"
+﻿#Region "Microsoft.VisualBasic::2664e780b6929a0c81c85c7d4b011d32, Data\BinaryData\msgpack\Serialization\Reflection\SerializableProperty.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 39 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (25.00%)
+    '     File Size: 2.01 KB
+
+
     '     Class SerializableProperty
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -46,6 +58,7 @@
 
 Imports System.IO
 Imports System.Reflection
+Imports System.Runtime.CompilerServices
 
 Namespace Serialization.Reflection
 
@@ -78,6 +91,7 @@ Namespace Serialization.Reflection
             End If
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Friend Sub Serialize(o As Object, writer As BinaryWriter, serializationMethod As SerializationMethod)
             Call SerializeValue(propInfo.GetValue(o, EmptyObjArgs), writer, serializationMethod)
         End Sub
@@ -90,7 +104,7 @@ Namespace Serialization.Reflection
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("[SerializableProperty: Name:{0} ValueType:{1}]", name, valueType)
+            Return String.Format("[SerializableProperty: [{0}] as {1}]", name, valueType)
         End Function
     End Class
 End Namespace

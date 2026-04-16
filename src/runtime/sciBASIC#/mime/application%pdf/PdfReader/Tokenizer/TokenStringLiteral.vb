@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::061b3ee093fbc9e7589605b692dbcd45, mime\application%pdf\PdfReader\Tokenizer\TokenStringLiteral.vb"
+﻿#Region "Microsoft.VisualBasic::99fc674cdee403b48fc7cc46fb6ea0ae, mime\application%pdf\PdfReader\Tokenizer\TokenStringLiteral.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 73 (79.35%)
+    ' Comment Lines: 5 (5.43%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (15.22%)
+    '     File Size: 3.80 KB
+
+
     '     Class TokenStringLiteral
     ' 
     '         Properties: Resolved, ResolvedAsBytes
@@ -49,7 +61,7 @@ Namespace PdfReader
     Public Class TokenStringLiteral
         Inherits TokenString
 
-        Public Sub New(ByVal raw As String)
+        Public Sub New(raw As String)
             MyBase.New(raw)
         End Sub
 
@@ -65,11 +77,11 @@ Namespace PdfReader
             End Get
         End Property
 
-        Public Overrides Function BytesToString(ByVal bytes As Byte()) As String
+        Public Overrides Function BytesToString(bytes As Byte()) As String
             Return RawStringToResolved(Encoding.ASCII.GetString(bytes))
         End Function
 
-        Private Function RawStringToResolved(ByVal raw As String) As String
+        Private Function RawStringToResolved(raw As String) As String
             Dim sb As StringBuilder = New StringBuilder()
             Dim last = raw.Length
             Dim first = 0

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Analysis.KEGG</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Analysis.KEGG</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
@@ -37,6 +37,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\repository\Bio.Repository\repository.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Visualization\Plots-statistics\plots_extensions-netcore5.vbproj" />
@@ -46,9 +47,12 @@
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\mime\text%html\html_netcore5.vbproj" />
     <ProjectReference Include="..\..\..\workbench\modules\keggReport\keggReport.NET5.vbproj" />
+    <ProjectReference Include="..\..\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\analysis\Microarray\Microarray.NET5.vbproj" />
+    <ProjectReference Include="..\..\analysis\RNA-Seq\WGCNA\WGCNA.vbproj" />
     <ProjectReference Include="..\..\core\Bio.Assembly\biocore-netcore5.vbproj" />
     <ProjectReference Include="..\..\models\Networks\KEGG\KEGGNetwork.NET5.vbproj" />
+    <ProjectReference Include="..\..\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
     <ProjectReference Include="..\GSEA\GSEA\gsea-netcore5.vbproj" />
   </ItemGroup>
 

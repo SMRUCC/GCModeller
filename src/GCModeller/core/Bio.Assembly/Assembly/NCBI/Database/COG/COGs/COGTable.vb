@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 59 (44.03%)
+    ' Comment Lines: 63 (47.01%)
+    '    - Xml Docs: 92.06%
+    ' 
+    '   Blank Lines: 12 (8.96%)
+    '     File Size: 5.29 KB
+
+
     '     Class COGTable
     ' 
     '         Properties: Catalog, COGId, DomainID, Ends, GenomeName

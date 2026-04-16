@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0147a84941eec89de8d6d8d191564663, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::21ef12b6036a7aea6883f653d4607d47, analysis\SequenceToolkit\SequenceTools\CLI\SNP\SNP.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 88 (86.27%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (13.73%)
+    '     File Size: 4.41 KB
+
+
     ' Module Utilities
     ' 
     '     Function: Genotype, GenotypeStatics, SNP, TimeDiffs
@@ -42,8 +54,8 @@
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -62,8 +74,8 @@ Partial Module Utilities
     <Group(CLIGrouping.SNPTools)>
     Public Function SNP(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim pure As Boolean = args.GetBoolean("/pure")
-        Dim monomorphic As Boolean = args.GetBoolean("/monomorphic")
+        Dim pure As Boolean = args("/pure")
+        Dim monomorphic As Boolean = args("/monomorphic")
         Dim nt As New FastaFile([in])
         Dim ref$ = args.GetValue("/ref", "0")
         Dim high# = args.GetValue("/high", 0.65)
@@ -86,7 +98,7 @@ Partial Module Utilities
     Public Function TimeDiffs(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".time_variation.csv")
-        Dim isCumulative As Boolean = args.GetBoolean("/cumulative")
+        Dim isCumulative As Boolean = args("/cumulative")
 
         If isCumulative Then
             out = out.TrimSuffix & "-cumulative.csv"

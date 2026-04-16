@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76fb0f2c1c3e9c85c93adb167666aac6, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3cac76ad3e2e736f6b9ee5661d4d2d2d, Microsoft.VisualBasic.Core\src\Extensions\IO\Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 64 (64.00%)
+    ' Comment Lines: 23 (23.00%)
+    '    - Xml Docs: 86.96%
+    ' 
+    '   Blank Lines: 13 (13.00%)
+    '     File Size: 3.76 KB
+
 
     '     Module Extensions
     ' 
@@ -66,7 +78,8 @@ Namespace FileIO
         ''' <param name="saveTo"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        <Extension> Public Function FlushAllLines(Of T)(data As IEnumerable(Of T), saveTo$, Optional encoding As Encoding = Nothing) As Boolean
+        <Extension>
+        Public Function FlushAllLines(Of T)(data As IEnumerable(Of T), saveTo$, Optional encoding As Encoding = Nothing) As Boolean
             Dim strings As IEnumerable(Of String) =
                 data.Select(AddressOf Scripting.ToString)
             Dim parent$ = FileSystem.GetParentPath(saveTo)
@@ -127,7 +140,11 @@ Namespace FileIO
                 file = writeNew()
             End If
 
-            Dim writer As New StreamWriter(file, encoding Or UTF8, bufferSize:=If(bufferSize <= 0, App.BufferSize, bufferSize)) With {
+            Dim writer As New StreamWriter(
+                stream:=file,
+                encoding:=encoding Or UTF8,
+                bufferSize:=If(bufferSize <= 0, App.BufferSize, bufferSize)
+            ) With {
                 .NewLine = newLine Or vbLf.AsDefault
             }
 

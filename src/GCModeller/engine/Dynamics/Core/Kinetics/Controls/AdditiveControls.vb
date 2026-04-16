@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dffd7f7b089ab88617e474d6281dd643, engine\Dynamics\Core\Kinetics\Controls\AdditiveControls.vb"
+﻿#Region "Microsoft.VisualBasic::5768936c4153ec8739f851bd885674e8, engine\Dynamics\Core\Kinetics\Controls\AdditiveControls.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 32 (56.14%)
+    ' Comment Lines: 17 (29.82%)
+    '    - Xml Docs: 76.47%
+    ' 
+    '   Blank Lines: 8 (14.04%)
+    '     File Size: 2.17 KB
+
+
     '     Class AdditiveControls
     ' 
     '         Properties: activation, coefficient
@@ -42,6 +54,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core
@@ -75,10 +88,12 @@ Namespace Core
         End Property
 
         Public Overrides Function ToString() As String
-            If coefficient > 0 Then
-                Return $"active by {activation.Select(Function(a) a.mass.ID).GetJson}"
+            If coefficient > 0 AndAlso Not activation.IsNullOrEmpty Then
+                Return $"[additive] active by {activation.Select(Function(a) a.mass.ID).GetJson}"
+            ElseIf coefficient > 0 AndAlso activation.IsNullOrEmpty Then
+                Return "[additive] baseline"
             Else
-                Return "No activity!"
+                Return "[additive] but no activity!"
             End If
         End Function
 
@@ -87,6 +102,8 @@ Namespace Core
         ''' </summary>
         ''' <param name="base"></param>
         ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Shared Widening Operator CType(base As Double) As AdditiveControls
             Return New AdditiveControls With {
                 .baseline = base

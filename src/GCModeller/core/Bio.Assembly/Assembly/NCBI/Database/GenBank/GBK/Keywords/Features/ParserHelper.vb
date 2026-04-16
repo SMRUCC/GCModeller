@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9be7577ce77c348ebcad7c7048d0f5fd, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
+﻿#Region "Microsoft.VisualBasic::0a985ce8ecdaf7830ff625c31d31b16f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\ParserHelper.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 90 (72.58%)
+    ' Comment Lines: 15 (12.10%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 19 (15.32%)
+    '     File Size: 4.38 KB
+
+
     '     Module ParserHelper
     ' 
     '         Function: __formatString, __nullFeature, FeaturesListParser, readBlock
@@ -44,21 +56,19 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
-Imports SMRUCC.genomics.ComponentModel.Loci
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
     Module ParserHelper
 
-        <Extension> Public Function FeaturesListParser(data As IEnumerable(Of String)) As FEATURES
+        <Extension>
+        Public Function FeaturesListParser(data As IEnumerable(Of String), context As String) As FEATURES
             Dim index&
             Dim tmp As String()
             Dim list As New List(Of Feature)
-            Dim strData$() = data.__formatString()
+            Dim strData$() = data.__formatString(context)
             Dim source As Feature
 
             Do While index < strData.Length - 1
@@ -88,13 +98,13 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         End Function
 
         <Extension>
-        Private Sub __append(str As String, ByRef new_strData As List(Of String), ByRef sBuilder As StringBuilder)
-            Call new_strData.Add(sBuilder.ToString)
-            Call sBuilder.Clear()
-            Call sBuilder.Append(str.Trim)
+        Private Sub __append(str As String, ByRef new_strData As List(Of String), ByRef sb As StringBuilder)
+            Call new_strData.Add(sb.ToString)
+            Call sb.Clear()
+            Call sb.Append(str.Trim)
         End Sub
 
-        Const NotEnoughData$ = """{0}"" is not enough data! Check your genbank file's format!"
+        Const NotEnoughData$ = "string line data ""{0}"" is not enough data! check your genbank file's format! Source reference traceback: {1}"
 
         ''' <summary>
         ''' 去除数据中的断行
@@ -104,7 +114,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Private Function __formatString(s As IEnumerable(Of String)) As String()
+        Private Function __formatString(s As IEnumerable(Of String), context$) As String()
             Dim sb As New StringBuilder(4096)
             Dim out As New List(Of String)
 
@@ -113,9 +123,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                     Continue For  '  忽略掉空白行
                 End If
                 If line.Length < 21 Then
-                    Throw New Exception(String.Format(NotEnoughData, line))
+                    Throw New InvalidProgramException(String.Format(NotEnoughData, line, context))
                 End If
-                If line(21) = "/"c OrElse line(6) <> " "c Then ' this means read a new qualifier or a new feature
+                ' this means read a new qualifier or a new feature
+                If line(21) = "/"c OrElse line(6) <> " "c Then
                     Call __append(line, out, sb)
                 Else
                     Call sb.Append(" " & line.Trim)
@@ -156,6 +167,7 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 .Left = 0,
                 .Right = 0
             }
+
             Return New Feature With {
                 .KeyName = "source",
                 .Location = New Location With {

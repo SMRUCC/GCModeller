@@ -1,18 +1,20 @@
-﻿.TH KEGG_PATHWAY 1 2021-08-18 "" "Query of kegg pathway"
+﻿.TH KEGG_PATHWAY 1 2026-2月 "" "get kegg pathway"
 .SH NAME
-kegg_pathway \- kegg_pathway(url, debug = FALSE)
+kegg_pathway \- kegg_pathway(id,
+    <i>cache</i> = <span style='color: blue !important;'>NULL</span>)
 .SH SYNOPSIS
-\fIkegg_pathway(url, debug = FALSE)\fR
+\fIkegg_pathway(id,
+    <i>cache</i> = <span style='color: blue !important;'>NULL</span>)\fR
 .SH OPTIONS
 .PP
-\fBurl\fB \fR\- 
+\fBid\fB \fR\- . the pathway entry id in kegg database
 .PP
 .PP
-\fBdebug\fB \fR\- FALSE
+\fBcache\fB \fR\- NULL. 
 .PP
 .SH FILES
 .PP
-SMRUCC/R#.declare_function.kegg_pathway at pathway.R:line 7
+SMRUCC/R#.declare_function.kegg_pathway at get.R:line 7
 .PP
 .SH COPYRIGHT
-Copyright © xieguigang, MIT Licensed 2021
+Copyright © xieguigang, MIT Licensed 2026

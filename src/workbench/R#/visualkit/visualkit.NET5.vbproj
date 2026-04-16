@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>visualkit</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>visualkit</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
     <Configurations>Debug;Release;Rsharp_app_release</Configurations>
@@ -10,6 +10,8 @@
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://gcmodeller.org</PackageProjectUrl>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <UseApplicationFramework>True</UseApplicationFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -34,12 +36,87 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
     <DocumentationFile>visualkit.xml</DocumentationFile>
-    <DefineConstants>netcore5=1</DefineConstants>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
     <OutputPath>../../pkg/assembly/</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <Optimize>False</Optimize>
+    <DebugType>full</DebugType>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|AnyCPU'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+    <DefineConstants>MATH_DATASET=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0-windows|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Rsharp_app_release|net8.0|x64'">
+    <RemoveIntegerChecks>True</RemoveIntegerChecks>
+    <DebugType>full</DebugType>
+    <DefineTrace>True</DefineTrace>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\GCModeller\analysis\HTS_matrix\HTS_matrix-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Microarray\Microarray.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\GSEA\GSEA\gsea-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\annotations\Proteomics\Proteomics.NET5.vbproj" />
@@ -47,7 +124,9 @@
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\GeneOntology\go_owl-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\data\GO_gene-ontology\obographs\obographs\obographs.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\foundation\OBO_Foundry\obo_foundry-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\visualize\ChromosomeMap\ChromosomeMap.NET5.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\visualize\DataVisualizationExtensions\datavisual-netcore5.vbproj" />
+    <ProjectReference Include="..\..\..\R-sharp\Library\shares\graphics.common_runtime\R_graphics.common_runtime.vbproj" />
     <ProjectReference Include="..\..\..\R-sharp\R#\Rsharp-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Graph\graph-netcore5.vbproj" />
     <ProjectReference Include="..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
@@ -68,6 +147,12 @@
     </None>
   </ItemGroup>
 
-  <Import Project="..\..\..\R-sharp\Library\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+
+
+  <Import Project="..\..\..\R-sharp\Library\shares\R_graphic.interop\R_graphic.interop.projitems" Label="Shared" />
+
+
+
+  <Import Project="..\..\..\R-sharp\Library\shares\dataframeHelper\dataframeHelper.projitems" Label="Shared" />
 
 </Project>

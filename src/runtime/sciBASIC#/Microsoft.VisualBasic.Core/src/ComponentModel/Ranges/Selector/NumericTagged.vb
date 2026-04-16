@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9972dfc3f040568740d2c80ffbaff018, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\Selector\NumericTagged.vb"
+﻿#Region "Microsoft.VisualBasic::ce93ed6b33a78042e7a57c54412ccffd, Microsoft.VisualBasic.Core\src\ComponentModel\Ranges\Selector\NumericTagged.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 52 (70.27%)
+    ' Comment Lines: 10 (13.51%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (16.22%)
+    '     File Size: 2.74 KB
+
+
     '     Structure NumericTagged
     ' 
-    '         Properties: IValueOf_Value
+    '         Properties: Value
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Function: (+3 Overloads) CompareTo, ToString
@@ -43,10 +55,11 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Ranges
 
@@ -59,17 +72,19 @@ Namespace ComponentModel.Ranges
         Implements Value(Of T).IValueOf
 
         Dim tag#
-        Dim value As T
+        Dim description As String
 
-        Private Property IValueOf_Value As T Implements Value(Of T).IValueOf.Value
+        Public Property Value As T Implements Value(Of T).IValueOf.Value
 
-        Sub New(tag#, value As T)
+        Sub New(tag#, value As T, Optional desc As String = Nothing)
+            Me.description = desc
             Me.tag = tag
-            Me.value = value
+            Me.Value = value
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return $"#{tag} {value.GetJson}"
+            Return $"#{tag} {Value.GetJson}"
         End Function
 
         ''' <summary>
@@ -83,7 +98,7 @@ Namespace ComponentModel.Ranges
             If d = 0R Then
                 Return 0
             Else
-                Return stdNum.Sign(d)
+                Return std.Sign(d)
             End If
         End Function
 
@@ -103,8 +118,14 @@ Namespace ComponentModel.Ranges
             End If
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CompareTo(other As NumericTagged(Of T)) As Integer Implements IComparable(Of NumericTagged(Of T)).CompareTo
             Return CompareTo(other.tag)
         End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(t As NumericTagged(Of T)) As T
+            Return t.Value
+        End Operator
     End Structure
 End Namespace

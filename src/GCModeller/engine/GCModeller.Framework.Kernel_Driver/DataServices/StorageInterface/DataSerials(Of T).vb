@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b07156651511cb6f4d7c16f948e1206e, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::c90d8d17b2dc97ef1a066fe64bfbfc19, engine\GCModeller.Framework.Kernel_Driver\DataServices\StorageInterface\DataSerials(Of T).vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 53 (62.35%)
+    ' Comment Lines: 19 (22.35%)
+    '    - Xml Docs: 89.47%
+    ' 
+    '   Blank Lines: 13 (15.29%)
+    '     File Size: 3.98 KB
+
+
     '     Class DataSerials
     ' 
     '         Properties: Handle, Samples, UniqueId
@@ -44,15 +56,11 @@
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
-Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports File = Microsoft.VisualBasic.Data.csv.IO.File
 
 Namespace DataStorage.FileModel
 

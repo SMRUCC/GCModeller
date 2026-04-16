@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ef5e07986e9065218497a65eeada9e2, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Enumerator.vb"
+﻿#Region "Microsoft.VisualBasic::385ffbe1f63302a18d4e8c9f44f6d998, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Enumerator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 14 (73.68%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (26.32%)
+    '     File Size: 679 B
+
+
     '     Class Enumerator
     ' 
     '         Function: GetEnumerator, IEnumerable_GetEnumerator
@@ -54,8 +66,8 @@ Namespace Linq
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
-            Return Enumeration.GetEnumerator
+        Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+            Yield GetEnumerator()
         End Function
     End Class
 End Namespace

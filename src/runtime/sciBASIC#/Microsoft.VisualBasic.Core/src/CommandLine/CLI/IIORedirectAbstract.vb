@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 10 (25.64%)
+    ' Comment Lines: 24 (61.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (12.82%)
+    '     File Size: 1.96 KB
+
+
     '     Interface IIORedirectAbstract
     ' 
     '         Properties: Bin, CLIArguments, StandardOutput

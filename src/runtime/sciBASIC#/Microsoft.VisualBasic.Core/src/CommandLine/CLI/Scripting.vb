@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 63 (73.26%)
+    ' Comment Lines: 8 (9.30%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (17.44%)
+    '     File Size: 3.49 KB
+
+
     '     Module ScriptingExtensions
     ' 
     '         Function: Bash, Cmd

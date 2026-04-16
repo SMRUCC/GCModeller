@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ab7fe717e41fa5a5c2d7b39965df098d, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
+﻿#Region "Microsoft.VisualBasic::f9c0381fe473fa80966f32224c4e4488, analysis\SequenceToolkit\SequencePatterns\Motif\PWM.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 114 (74.03%)
+    ' Comment Lines: 20 (12.99%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (12.99%)
+    '     File Size: 5.87 KB
+
+
     '     Class MotifPWM
     ' 
-    '         Properties: Alphabets, PWM
+    '         Properties: alphabets, name, note, pwm, site_pattern
     ' 
-    '         Function: AA_PWM, NT_PWM
+    '         Function: AA_PWM, GenericEnumerator, MakeData, NT_PWM, PatternChars
+    '                   ToString
     ' 
     '     Module PWM
     ' 
-    '         Function: __hi, __residue, FromMla
+    '         Function: FromMla, makeResidue
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -54,24 +67,91 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace Motif
 
-    Public Class MotifPWM
+    Public Class MotifPWM : Implements Enumeration(Of ResidueSite)
 
-        Public Property PWM As ResidueSite()
-        Public Property Alphabets As Char()
+        <XmlElement> Public Property pwm As ResidueSite()
+        <XmlAttribute> Public Property alphabets As Char()
+        <XmlAttribute> Public Property name As String
+        Public Property note As String
+
+        Public ReadOnly Property site_pattern As String
+            Get
+                Return PatternChars.CharString
+            End Get
+        End Property
+
+        Public Iterator Function PatternChars() As IEnumerable(Of Char)
+            For Each p As ResidueSite In pwm
+                Dim max As Integer = which.Max(p.PWM)
+                Dim c As Char = alphabets(max)
+
+                Yield ResidueSite.ToChar(c, p.PWM.Max)
+            Next
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return name & " - " & site_pattern
+        End Function
 
         Public Shared Function NT_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = SequenceModel.NT.ToArray,
-                .PWM = sites.ToArray
+                .alphabets = SequenceModel.NT.ToArray,
+                .pwm = sites.ToArray
             }
         End Function
 
         Public Shared Function AA_PWM(sites As IEnumerable(Of ResidueSite)) As MotifPWM
             Return New MotifPWM With {
-                .Alphabets = SequenceModel.AA,
-                .PWM = sites.ToArray
+                .alphabets = SequenceModel.AA,
+                .pwm = sites.ToArray
             }
         End Function
+
+        Public Shared Narrowing Operator CType(pwm As MotifPWM) As Double()()
+            If pwm Is Nothing Then
+                Return Nothing
+            Else
+                Return pwm.AsEnumerable.Select(Function(c) c.PWM).ToArray
+            End If
+        End Operator
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of ResidueSite) Implements Enumeration(Of ResidueSite).GenericEnumerator
+            If pwm Is Nothing Then
+                Return
+            End If
+
+            For Each col As ResidueSite In pwm
+                Yield col
+            Next
+        End Function
+
+        Public Function MakeData() As Probability
+            Return New Probability With {
+                .name = name,
+                .pvalue = 0,
+                .score = 0,
+                .region = Me.AsEnumerable _
+                    .Select(Function(site, offset)
+                                Return New Residue With {
+                                    .index = offset,
+                                    .frequency = site(alphabets) _
+                                        .ToDictionary(Function(a) a.Key.ToString,
+                                                      Function(a)
+                                                          Return a.Value
+                                                      End Function)
+                                }
+                            End Function) _
+                    .ToArray
+            }
+        End Function
+
+        Public Shared Narrowing Operator CType(pwm As MotifPWM) As Probability
+            If pwm Is Nothing Then
+                Return Nothing
+            Else
+                Return pwm.MakeData
+            End If
+        End Operator
     End Class
 
     ''' <summary>
@@ -82,19 +162,23 @@ Namespace Motif
         ''' <summary>
         ''' Build probability matrix from clustal multiple sequence alignment, this matrix model can be 
         ''' used for the downstream sequence logo drawing visualization.
-        ''' (从Clustal比对结果之中生成PWM用于SequenceLogo的绘制)
         ''' </summary>
         ''' <param name="fa">A fasta sequence file from the clustal multiple sequence alignment.</param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (从Clustal比对结果之中生成PWM用于SequenceLogo的绘制)
+        ''' </remarks>
         Public Function FromMla(fa As FastaFile) As MotifPWM
             Dim f As PatternModel = PatternsAPI.Frequency(fa)
             Dim n As Integer = fa.Count
             Dim base As Integer = If(fa.First.IsProtSource, 20, 4)
             Dim E As Double = (1 / Math.Log(2)) * ((base - 1) / (2 * n))
-            Dim H As Double() = f.Residues.Select(Function(x) x.Alphabets.__hi).ToArray
-            Dim PWM As ResidueSite() =
-                LinqAPI.Exec(Of SimpleSite, ResidueSite) _
-               (f.Residues) <= Function(x, i) __residue(x.Alphabets, H(i), E, base, i)
+            Dim H As Double() = f.AsEnumerable.Select(Function(x) Probability.HI(x.Alphabets)).ToArray
+            Dim PWM As ResidueSite() = f.AsEnumerable _
+                .Select(Function(x, i)
+                            Return makeResidue(x.Alphabets, H(i), E, base, i)
+                        End Function) _
+                .ToArray
 
             If base = 20 Then
                 Return MotifPWM.AA_PWM(PWM)
@@ -111,7 +195,7 @@ Namespace Motif
         ''' <param name="en"></param>
         ''' <param name="n"></param>
         ''' <returns></returns>
-        Private Function __residue(f As Dictionary(Of Char, Double), h As Double, en As Double, n As Integer, i As Integer) As ResidueSite
+        Private Function makeResidue(f As Dictionary(Of Char, Double), h As Double, en As Double, n As Integer, i As Integer) As ResidueSite
             Dim R As Double = Math.Log(n, 2) - (h + en)
             Dim alphabets As Double()
 
@@ -122,28 +206,10 @@ Namespace Motif
             End If
 
             Return New ResidueSite With {
-                .Bits = R,
+                .bits = R,
                 .PWM = alphabets,
-                .Site = i
+                .site = i
             }
-        End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="f"></param>
-        ''' <returns></returns>
-        ''' <remarks>
-        ''' If n equals ZERO, then log2(0) is NaN, n * Math.Log(n, 2) could not be measure,
-        ''' due to the reason of ZERO multiple any number is ZERO, so that if n is ZERO, 
-        ''' then set n * Math.Log(n, 2) its value to Zero directly.
-        ''' </remarks>
-        <Extension>
-        Private Function __hi(f As Dictionary(Of Char, Double)) As Double
-            ' 零乘以任何数都是得结果零
-            Dim h As Double = f.Values.Sum(Function(n) If(n = 0R, 0, n * Math.Log(n, 2)))
-            h = 0 - h
-            Return h
         End Function
     End Module
 End Namespace

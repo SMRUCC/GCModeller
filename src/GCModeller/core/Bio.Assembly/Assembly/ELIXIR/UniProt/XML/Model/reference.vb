@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 41 (67.21%)
+    ' Comment Lines: 8 (13.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (19.67%)
+    '     File Size: 1.81 KB
+
+
     '     Class reference
     ' 
     '         Properties: citation, key, scope, source

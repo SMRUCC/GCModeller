@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5d50e64f5fde0aa14f7aa325517150af, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
+﻿#Region "Microsoft.VisualBasic::9f5b039361dcebb5eb2f5cd1ca387e19, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\htext.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 127 (59.07%)
+    ' Comment Lines: 61 (28.37%)
+    '    - Xml Docs: 77.05%
+    ' 
+    '   Blank Lines: 27 (12.56%)
+    '     File Size: 8.62 KB
+
 
     '     Class htext
     ' 
@@ -119,7 +131,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
             Dim header$() = lines(Scan0).Split(ASCII.TAB)
             Dim title As String = lines(1)
             Dim defs As New List(Of String)
-            Dim i As i32 = 2
+            Dim i As i32 = 0
 
             Do While lines(i) <> "!"
                 Call defs.Add(lines(++i))
@@ -164,7 +176,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function ko00001() As htext
-            Return StreamParser(My.Resources.ko00001)
+            Return StreamParser(My.Resources.KEGG.ko00001)
         End Function
 
         ''' <summary>
@@ -174,7 +186,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08201() As htext
-            Return StreamParser(My.Resources.br08201)
+            Return StreamParser(My.Resources.KEGGReactions.br08201)
         End Function
 
         ''' <summary>
@@ -183,18 +195,21 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function br08204() As htext
-            Return StreamParser(My.Resources.br08204)
+            Return StreamParser(My.Resources.KEGGReactions.br08204)
         End Function
 
         ''' <summary>
-        ''' KEGG pathway maps
+        ''' KEGG pathway maps category
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' https://rest.kegg.jp/get/br:br08901
+        ''' </remarks>
         Public Shared Function br08901() As htext
-            Return StreamParser(My.Resources.br08901)
+            Return StreamParser(My.Resources.KEGG.br08901)
         End Function
 
-#If netcore5 = 0 Then
+#If NET48 Then
         Private Shared Function getResourceCache() As ResourcesSatellite
             Static satellite As New ResourcesSatellite(GetType(LICENSE))
             Return satellite
@@ -202,27 +217,43 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 #End If
 
         Private Shared Function GetInternalResourceText(resourceName As String) As String
-            Return My.Resources.ResourceManager.GetString(resourceName)
+            Dim str = My.Resources.KEGG.ResourceManager.GetString(resourceName)
+
+            If Not str Is Nothing Then
+                Return str
+            Else
+                str = My.Resources.KEGGCompounds.ResourceManager.GetString(resourceName)
+            End If
+
+            If Not str Is Nothing Then
+                Return str
+            Else
+                str = My.Resources.KEGGReactions.ResourceManager.GetString(resourceName)
+            End If
+
+            Return str
         End Function
+
+        ' kegg enzyme
+        ' https://www.kegg.jp/brite/ko01000
 
         Public Shared Function GetInternalResource(resourceName As String) As htext
             Dim resource$ = Nothing
 
             If resourceName.IsPattern(Patterns.Identifer, RegexICSng) Then
-#If netcore5 = 0 Then
-                resource = getResourceCache.GetString(resourceName)
-#Else
+                '#If NET48 Then
+                '                resource = getResourceCache.GetString(resourceName)
+                '#Else
                 resource = GetInternalResourceText(resourceName)
-#End If
-
+                '#End If
             ElseIf resourceName.IsURLPattern Then
                 With resourceName.Split("?"c).Last.Match("[0-9a-zA-Z_]+\.keg")
                     If Not .StringEmpty Then
-#If netcore5 = 0 Then
-                        resource = getResourceCache.GetString(.Replace(".keg", ""))
-#Else
+                        '#If NET48 Then
+                        '                        resource = getResourceCache.GetString(.Replace(".keg", ""))
+                        '#Else
                         Throw New NotImplementedException
-#End If
+                        '#End If
                     End If
                 End With
 

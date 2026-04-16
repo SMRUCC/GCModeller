@@ -2,11 +2,16 @@
 
   <PropertyGroup>
     <RootNamespace>SMRUCC.genomics.Data</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>SMRUCC.genomics.Data.Repository</AssemblyName>
     <Platforms>AnyCPU;ARM32;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;gcmodeller_desktop;nuget_release</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <Company>SMRUCC genomics institute</Company>
+    <Product>GCModeller</Product>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageOutputPath>..\..\..\.nuget</PackageOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -21,6 +26,18 @@
     <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <OutputPath>../../../../.nuget</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM32'">
     <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
   </PropertyGroup>
@@ -30,6 +47,18 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|ARM32'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|ARM32'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|ARM32'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|ARM32'">
     <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -50,7 +79,42 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <DefineConstants>netcore5=1</DefineConstants>
-    <OutputPath>D:\GCModeller\src\workbench\pkg\assembly\</OutputPath>
+    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='gcmodeller_desktop|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1</DefineConstants>
+    
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+    <DocumentationFile>SMRUCC.genomics.Data.Repository.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>netcore5=1</DefineConstants>
+    
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,12 +124,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\..\images\logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Composition" Version="10.0.5" />
+    <PackageReference Include="System.Resources.Extensions" Version="10.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\GCModeller\core\Bio.Annotation\annotation.NET5.vbproj" />
     <ProjectReference Include="..\..\GCModeller\core\Bio.Assembly\biocore-netcore5.vbproj" />
+    <ProjectReference Include="..\..\GCModeller\data\Rhea\Rhea.vbproj" />
+    <ProjectReference Include="..\..\GCModeller\data\SABIO-RK\SABIO-RK.NET.vbproj" />
+    <ProjectReference Include="..\..\runtime\Darwinism\src\data\BucketDb\BucketDb.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\HDSPack\HDSPack.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\BinaryData\msgpack\msgpack-netcore5.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\application%json\JSON-netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

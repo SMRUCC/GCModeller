@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da06393bffe69bbe757e33a122958bdb, Microsoft.VisualBasic.Core\src\Language\Value\Clones.vb"
+﻿#Region "Microsoft.VisualBasic::fc106b6f9bc5f63e7fdcacf5be2fbe25, Microsoft.VisualBasic.Core\src\Language\Value\Clones.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 24 (57.14%)
+    ' Comment Lines: 10 (23.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (19.05%)
+    '     File Size: 1.35 KB
+
 
     '     Module Clones
     ' 
@@ -64,7 +76,8 @@ Namespace Language.Values
             Return New List(Of T)(list)
         End Function
 
-        <Extension> Public Function CloneCopy(Of T)(array As T()) As T()
+        <Extension>
+        Public Function CloneCopy(Of T)(array As T()) As T()
             Return DirectCast(array.Clone, T())
         End Function
 

@@ -1,0 +1,268 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>kmers</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; kmers; metagenomics_kit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {kmers}">
+      <tbody>
+        <tr>
+          <td>{kmers}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>kmers</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "kmers"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                           </code>
+    </p>
+    <p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="kmer">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/KmerSeed.html">kmer: KmerSeed</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="kmer_bloom">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/KmerBloomFilter.html">kmer_bloom: KmerBloomFilter</a>
+  </td>
+  <td><p>kmer bloom filter of a specific genome</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.bracken">
+    <a href="./kmers/as.data.frame.bracken.html">as.data.frame.bracken</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/Bracken.html">Bracken</a>: <p>the bracken abundance table</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.sequencesource">
+    <a href="./kmers/as.data.frame.sequencesource.html">as.data.frame.sequencesource</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceSource.html">SequenceSource</a>: <p>source information of the target genome source sequence</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.krakenoutputrecord">
+    <a href="./kmers/as.data.frame.krakenoutputrecord.html">as.data.frame.krakenoutputrecord</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/Kraken2/KrakenOutputRecord.html">KrakenOutputRecord</a>: <p>用于存储 --output 文件中每一行的数据，这个文件详细列出了每一条序列（read）的分类结果。每一行对应一条 read。</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.sequencehit">
+    <a href="./kmers/as.data.frame.sequencehit.html">as.data.frame.sequencehit</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/Kmers/SequenceHit.html">SequenceHit</a>: </td>
+</tr>
+<tr>
+  <td id="write.kmers_background">
+    <a href="./kmers/write.kmers_background.html">write.kmers_background</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.kmers_background">
+    <a href="./kmers/read.kmers_background.html">read.kmers_background</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="bayes_background">
+    <a href="./kmers/bayes_background.html">bayes_background</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read_seqid">
+    <a href="./kmers/read_seqid.html">read_seqid</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="bloom_filters">
+    <a href="./kmers/bloom_filters.html">bloom_filters</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="bloom_vector">
+    <a href="./kmers/bloom_vector.html">bloom_vector</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="make_vector">
+    <a href="./kmers/make_vector.html">make_vector</a>
+  </td>
+  <td><p>make vector embedding</p></td>
+</tr>
+<tr>
+  <td id="make_classify">
+    <a href="./kmers/make_classify.html">make_classify</a>
+  </td>
+  <td><p>just make reads classify of the fastq reads based on the k-mer distribution</p></td>
+</tr>
+<tr>
+  <td id="bayes_estimate">
+    <a href="./kmers/bayes_estimate.html">bayes_estimate</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="bayes_abundance">
+    <a href="./kmers/bayes_abundance.html">bayes_abundance</a>
+  </td>
+  <td><p>quantify of the metagenome community via kmers and bayes method</p></td>
+</tr>
+<tr>
+  <td id="as.bloom_filter">
+    <a href="./kmers/as.bloom_filter.html">as.bloom_filter</a>
+  </td>
+  <td><p>cast the genomics sequence as kmer based bloom filter model</p></td>
+</tr>
+<tr>
+  <td id="parse_kraken_output">
+    <a href="./kmers/parse_kraken_output.html">parse_kraken_output</a>
+  </td>
+  <td><p>Parse the reads annotation result generated from the kraken2</p></td>
+</tr>
+<tr>
+  <td id="parse_kraken_report">
+    <a href="./kmers/parse_kraken_report.html">parse_kraken_report</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.kraken2">
+    <a href="./kmers/read.kraken2.html">read.kraken2</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read_brackens">
+    <a href="./kmers/read_brackens.html">read_brackens</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.kraken2_reads">
+    <a href="./kmers/read.kraken2_reads.html">read.kraken2_reads</a>
+  </td>
+  <td><p>read reads annotation result generated from the kraken2</p></td>
+</tr>
+<tr>
+  <td id="hits_matrix">
+    <a href="./kmers/hits_matrix.html">hits_matrix</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="filter_classification">
+    <a href="./kmers/filter_classification.html">filter_classification</a>
+  </td>
+  <td><p>filter the reads data that has the specific taxonomy id assignment.</p></td>
+</tr>
+<tr>
+  <td id="filter_hostId">
+    <a href="./kmers/filter_hostId.html">filter_hostId</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="kraken_data">
+    <a href="./kmers/kraken_data.html">kraken_data</a>
+  </td>
+  <td><p>extract the kraken2 quantify result data</p></td>
+</tr>
+<tr>
+  <td id="filter_reads">
+    <a href="./kmers/filter_reads.html">filter_reads</a>
+  </td>
+  <td><p>usually be apply for host removal</p></td>
+</tr>
+<tr>
+  <td id="seq_info">
+    <a href="./kmers/seq_info.html">seq_info</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="taxonomy_expression">
+    <a href="./kmers/taxonomy_expression.html">taxonomy_expression</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="kraken_seqs">
+    <a href="./kmers/kraken_seqs.html">kraken_seqs</a>
+  </td>
+  <td><p>extract gene/genomics sequences from genbank file for kraken2 sequence classification</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

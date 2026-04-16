@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 56 (61.54%)
+    ' Comment Lines: 21 (23.08%)
+    '    - Xml Docs: 76.19%
+    ' 
+    '   Blank Lines: 14 (15.38%)
+    '     File Size: 2.91 KB
+
+
     '     Class Kicks
     ' 
     '         Constructor: (+2 Overloads) Sub New

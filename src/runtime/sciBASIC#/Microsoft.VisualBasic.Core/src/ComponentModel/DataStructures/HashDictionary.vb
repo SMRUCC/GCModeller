@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abb1f44460101a4c04d6f44e10d206a9, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\HashDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::aae64cbfb9cb8aef2d1ae683c7fa4ba7, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\HashDictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 233
+    '    Code Lines: 162 (69.53%)
+    ' Comment Lines: 38 (16.31%)
+    '    - Xml Docs: 60.53%
+    ' 
+    '   Blank Lines: 33 (14.16%)
+    '     File Size: 9.28 KB
+
+
     '     Class HashDictionary
     ' 
     '         Properties: __keys, __values, (+2 Overloads) Count, IsReadOnly, Keys
@@ -47,9 +59,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-Imports System.Collections.ObjectModel
-Imports Microsoft.VisualBasic.Language
 
 Namespace ComponentModel.Collection.Generic
 

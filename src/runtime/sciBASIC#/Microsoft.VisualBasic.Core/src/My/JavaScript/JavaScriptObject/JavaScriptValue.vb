@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fa07892c8942301ebe716b3fd4798de, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\JavaScriptValue.vb"
+﻿#Region "Microsoft.VisualBasic::e934640cfc46550930d179a687d219b5, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\JavaScriptValue.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 51 (56.04%)
+    ' Comment Lines: 25 (27.47%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 15 (16.48%)
+    '     File Size: 2.86 KB
+
+
     '     Class JavaScriptValue
     ' 
     '         Properties: Accessor, IsConstant, Literal
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: GetValue, ToString
+    '         Function: CheckLiteral, GetValue, ToString
     ' 
     '         Sub: SetValue
     ' 
@@ -46,6 +58,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports any = Microsoft.VisualBasic.Scripting
@@ -54,13 +68,30 @@ Namespace My.JavaScript
 
     Public Class JavaScriptValue
 
+        ''' <summary>
+        ''' A symbol reference to the parent object
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Accessor As BindProperty(Of DataFrameColumnAttribute)
+
+        ''' <summary>
+        ''' The constant literal value
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Literal As Object
 
         Dim target As JavaScriptObject
 
+        ''' <summary>
+        ''' is scalar constant literal value?
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property IsConstant As Boolean
             Get
+                If Accessor Is Nothing Then
+                    Return True
+                End If
+
                 Return Accessor.member Is Nothing
             End Get
         End Property
@@ -73,6 +104,7 @@ Namespace My.JavaScript
         Sub New()
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetValue() As Object
             If IsConstant Then
                 Return Literal
@@ -81,13 +113,35 @@ Namespace My.JavaScript
             End If
         End Function
 
+        ''' <summary>
+        ''' proxy of set value to slot or clr object member
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <remarks>
+        ''' if current value proxy is literal value, then this method just update the 
+        ''' slot value, or set member value via the reflection operation.
+        ''' </remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub SetValue(value As Object)
             If IsConstant Then
                 Literal = value
             Else
-                Accessor.SetValue(target, value)
+                Call Accessor.SetValue(target, value)
             End If
         End Sub
+
+        ''' <summary>
+        ''' Check of the literal value is primitive value?
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function CheckLiteral() As Boolean
+            If IsConstant Then
+                Return Literal Is Nothing OrElse DataFramework.IsPrimitive(Literal.GetType, autoCastEnum:=True)
+            End If
+
+            Return False
+        End Function
 
         Public Overrides Function ToString() As String
             Return any.ToString(GetValue)

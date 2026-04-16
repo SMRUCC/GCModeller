@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 83 (50.61%)
+    ' Comment Lines: 59 (35.98%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 8.42 KB
+
+
     ' Class method
     ' 
     '     Properties: key_id_org, method_description, method_id, method_internal_comment, method_name

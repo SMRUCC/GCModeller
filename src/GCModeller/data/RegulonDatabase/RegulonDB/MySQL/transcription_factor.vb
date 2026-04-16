@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91 (51.70%)
+    ' Comment Lines: 63 (35.80%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 12.20 KB
+
+
     ' Class transcription_factor
     ' 
     '     Properties: connectivity_class, consensus_sequence, key_id_org, sensing_class, site_length

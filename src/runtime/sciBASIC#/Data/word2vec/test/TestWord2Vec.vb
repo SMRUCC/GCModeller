@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f83cca3a924284d2a4e8f8458f9780e2, Data\word2vec\test\TestWord2Vec.vb"
+﻿#Region "Microsoft.VisualBasic::cdded4fc2e4567a7432a554eea2f35d3, Data\word2vec\test\TestWord2Vec.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 29 (70.73%)
+    ' Comment Lines: 3 (7.32%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (21.95%)
+    '     File Size: 1.46 KB
+
+
     '     Class TestWord2Vec
     ' 
-    '         Sub: Main, readByJava, testVector
+    '         Function: readByJava
+    ' 
+    '         Sub: Main, testVector
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.IO
-Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.NlpVec
-Imports Microsoft.VisualBasic.Data.NLP.Word2Vec.utils
+Imports Microsoft.VisualBasic.Data.NLP.Model
+Imports Microsoft.VisualBasic.Data.NLP.Word2Vec
 
 Namespace test
 
@@ -51,35 +64,22 @@ Namespace test
     ''' @author siegfang
     ''' </summary>
     Public Class TestWord2Vec
-        Public Shared Sub readByJava(ByVal textFilePath As String, ByVal modelFilePath As String)
-            Dim wv As Word2Vec = (New Word2VecFactory()).setMethod(TrainMethod.Skip_Gram).setNumOfThread(1).build()
+        Public Shared Function readByJava(ByVal textFilePath As String, ByVal modelFilePath As String) As VectorModel
+            Dim wv As Word2Vec = (New Word2VecFactory()).setMethod(TrainMethod.Skip_Gram).setNumOfThread(1).setFreqThresold(1).build()
+            Dim data As Paragraph() = Paragraph.Segmentation(textFilePath.ReadAllText).ToArray
 
-            Try
-
-                Using br As StreamReader = New StreamReader(textFilePath)
-                    Dim lineCount = 0
-                    Dim line As String = br.ReadLine()
-
-                    While Not line Is Nothing
-                        wv.readTokens(New Tokenizer(line, vbTab))
-                        '                System.out.println(line);
-                        lineCount += 1
-                        line = br.ReadLine()
-                    End While
-                End Using
-
-            Catch ioe As IOException
-                Console.WriteLine(ioe.ToString())
-                Console.Write(ioe.StackTrace)
-            End Try
+            For Each p As Paragraph In data
+                For Each line In p.sentences
+                    Call wv.readTokens(line)
+                Next
+            Next
 
             wv.training()
-            wv.saveModel(New FileStream(modelFilePath, FileMode.OpenOrCreate))
-        End Sub
+            Return wv.outputVector
+        End Function
 
-        Public Shared Sub testVector(ByVal modelFilePath As String)
-            Dim vm = VectorModel.loadFromFile(modelFilePath)
-            Dim result1 As New SortedSet(Of WordScore)(vm.similar("亲"))
+        Public Shared Sub testVector(vm As VectorModel)
+            Dim result1 As New SortedSet(Of WordScore)(vm.similar("house"))
 
             For Each we In result1
                 Console.WriteLine(we.name & " :" & vbTab & we.score)
@@ -87,10 +87,11 @@ Namespace test
         End Sub
 
         Public Shared Sub Main(ByVal args As String())
-            Dim textFilePath = "C:\Users\Administrator\Downloads\swresult_withoutnature.txt"
-            Dim modelFilePath = "C:\Users\Administrator\Downloads\swresult_withoutnature.vec"
-            readByJava(textFilePath, modelFilePath)
-            testVector(modelFilePath)
+            Dim textFilePath = "E:\GCModeller\src\runtime\sciBASIC#\Data\TextRank\Rapunzel.txt"
+            Dim modelFilePath = "./swresult_withoutnature.vec"
+
+            testVector(readByJava(textFilePath, modelFilePath))
+            Pause()
         End Sub
     End Class
 End Namespace

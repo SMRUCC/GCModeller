@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1b6405d1db6978c951801af46f93b40, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\Distance.vb"
+﻿#Region "Microsoft.VisualBasic::ed74b308439d5451e278facf00da0ef4, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\HierarchyBuilder\Distance.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 30 (50.00%)
+    ' Comment Lines: 20 (33.33%)
+    '    - Xml Docs: 15.00%
+    ' 
+    '   Blank Lines: 10 (16.67%)
+    '     File Size: 2.12 KB
+
 
     '     Class Distance
     ' 
@@ -63,6 +75,9 @@
 
 Namespace Hierarchy
 
+    ''' <summary>
+    ''' distance value union the corresponding weight value(default weight is ``1.0``).
+    ''' </summary>
     Public Class Distance : Implements IComparable(Of Distance), ICloneable
 
         Public Property Distance As Double

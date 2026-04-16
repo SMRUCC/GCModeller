@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e5ac27cb267e9a2f4ba12fa38287ae3, gr\network-visualization\Visualizer\DrawKDTree.vb"
+﻿#Region "Microsoft.VisualBasic::f3f6c2a5ae970e0d1af09f5e71914d71, gr\network-visualization\Visualizer\DrawKDTree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 111 (79.86%)
+    ' Comment Lines: 4 (2.88%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 24 (17.27%)
+    '     File Size: 5.62 KB
+
+
     ' Class DrawKDTree
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -56,13 +68,14 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.LayoutModel
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Public Class DrawKDTree : Inherits Plot
 
     ReadOnly tree As KdTree(Of Point2D)
     ReadOnly query As NamedValue(Of PointF)()
     ReadOnly k As Integer
-    ReadOnly linePen As Pen
+    ReadOnly linePenCss As Stroke
 
     Public Sub New(tree As KdTree(Of Point2D), query As NamedValue(Of PointF)(), k As Integer, theme As Theme)
         MyBase.New(theme)
@@ -70,16 +83,17 @@ Public Class DrawKDTree : Inherits Plot
         Me.tree = tree
         Me.query = query
         Me.k = k
-        Me.linePen = Stroke.TryParse(theme.lineStroke).GDIObject
+        Me.linePenCss = Stroke.TryParse(theme.lineStroke)
     End Sub
 
     Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
         Dim allPoints As Point2D() = tree.GetPoints.ToArray
         Dim xTicks As Double() = allPoints.Select(Function(p) p.X).CreateAxisTicks
         Dim yTicks As Double() = allPoints.Select(Function(p) p.Y).CreateAxisTicks
-        Dim rect As Rectangle = canvas.PlotRegion
-        Dim xscale = d3js.scale.linear.domain(xTicks).range(New Double() {rect.Left, rect.Right})
-        Dim yscale = d3js.scale.linear.domain(yTicks).range(New Double() {rect.Top, rect.Bottom})
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim rect As Rectangle = canvas.PlotRegion(css)
+        Dim xscale = d3js.scale.linear.domain(values:=xTicks).range(values:=New Double() {rect.Left, rect.Right})
+        Dim yscale = d3js.scale.linear.domain(values:=yTicks).range(values:=New Double() {rect.Top, rect.Bottom})
         Dim scaler As New DataScaler() With {
             .AxisTicks = (xTicks.AsVector, yTicks.AsVector),
             .region = rect,
@@ -92,7 +106,7 @@ Public Class DrawKDTree : Inherits Plot
         If Not query.IsNullOrEmpty Then
             For Each q As NamedValue(Of PointF) In query
                 Dim pos As PointF = scaler.Translate(q.Value.X, q.Value.Y)
-                Dim color As Pen = New Pen(q.Description.TranslateColor, 4)
+                Dim color As Pen = New Pen(q.Description.TranslateColor, 6)
                 Dim point2 As PointF() = tree _
                     .nearest(New Point2D(q.Value), k) _
                     .Select(Function(knn)
@@ -104,7 +118,7 @@ Public Class DrawKDTree : Inherits Plot
                 Dim poly = point2.JarvisMatch.Enlarge(1.125)
 
                 Call g.FillPolygon(New SolidBrush(color.Color.Alpha(120)), poly)
-                Call g.DrawCircle(pos, theme.pointSize, color, fill:=True)
+                Call g.DrawCircle(pos, theme.pointSize * 5, color, fill:=True)
 
                 For Each knn In point2
                     Call g.DrawCircle(knn, theme.pointSize, color, fill:=False)
@@ -116,6 +130,7 @@ Public Class DrawKDTree : Inherits Plot
     Private Sub render(g As IGraphics, scaler As DataScaler, root As KdTreeNode(Of Point2D))
         Dim pos As PointF, pos2 As PointF
         Dim c As PointF
+        Dim linePen As Pen = g.LoadEnvironment.GetPen(linePenCss)
 
         pos = root.data.PointF
         pos = scaler.Translate(pos.X, pos.Y)

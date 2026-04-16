@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74e9bf23cf56fa66f63e888efdf4d1d1, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
+﻿#Region "Microsoft.VisualBasic::15a9d034829f293ab22c1d5a1424571a, core\Bio.Assembly\Assembly\NCBI\WebServiceHandler\Entrez\Protein.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 84 (76.36%)
+    ' Comment Lines: 4 (3.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (20.00%)
+    '     File Size: 5.01 KB
+
+
     '     Class Protein
     ' 
     '         Function: CreateQuery, GetEntry
     ' 
-    '     Class Entry
+    '     Class EntrezEntry
     ' 
     '         Properties: FASTAUrl, GetBacterial, LocusTag
     ' 
@@ -47,6 +59,8 @@
 #End Region
 
 Imports System.Text.RegularExpressions
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports std = System.Math
 
 Namespace Assembly.NCBI.Entrez
 
@@ -60,19 +74,19 @@ Namespace Assembly.NCBI.Entrez
 
         Const REPORT As String = "<div><div class=""rprt"">.+?"
 
-        Public Function GetEntry(Keyword As String, Organism As String, Optional MaxLimited As UInteger = 5) As Entry()
+        Public Function GetEntry(Keyword As String, Organism As String, Optional MaxLimited As UInteger = 5) As EntrezEntry()
             Dim url As String = CreateQuery(Keyword, Organism)
             Dim pageContent As String = url.GET
 
-            Call Debug.WriteLine(url)
+            Call url.debug
 
             pageContent = Mid(pageContent, InStr(pageContent, "<div class=""title_and_pager"">", CompareMethod.Text) + 20)
             pageContent = Mid(pageContent, 1, InStr(pageContent, "<div class=""title_and_pager bottom"">", CompareMethod.Text))
 
             Dim Tokens As String() = Strings.Split(pageContent, "<div class=""rprt"">").Skip(1).ToArray
-            Dim EntryList As Entry() = New Entry(System.Math.Min(Tokens.Count, MaxLimited) - 1) {}
+            Dim EntryList As EntrezEntry() = New EntrezEntry(std.Min(Tokens.Count, MaxLimited) - 1) {}
             For i As Integer = 0 To EntryList.Count - 1
-                EntryList(i) = Entry.Parse(Tokens(i))
+                EntryList(i) = EntrezEntry.Parse(Tokens(i))
             Next
 
             Return EntryList
@@ -83,7 +97,7 @@ Namespace Assembly.NCBI.Entrez
     ''' 查询某一个蛋白质或者基因对象所返回的结果数据下载入口点
     ''' </summary>
     ''' <remarks></remarks>
-    Public Class Entry : Inherits Entrez.ComponentModels.I_QueryEntry
+    Public Class EntrezEntry : Inherits Entrez.ComponentModels.I_QueryEntry
 
         Public Property FASTAUrl As String
         Public Property LocusTag As String
@@ -103,23 +117,23 @@ Namespace Assembly.NCBI.Entrez
         Const REGX_TITLE As String = "<p class=""title"">.+?</p>"
         Const REGX_FASTA As String = "<a ref=""[^<]+?"" href=""[^<]+?"">FASTA</a>"
 
-        Public Shared Function Parse(strText As String) As Entry
-            Dim Entry As Entry = New Entry
+        Public Shared Function Parse(strText As String) As EntrezEntry
+            Dim Entry As New EntrezEntry
             Entry.Title = Regex.Match(strText, REGX_TITLE, RegexOptions.Singleline).Value
             Entry.FASTAUrl = Regex.Match(strText, REGX_FASTA, RegexOptions.Singleline).Value
-            Entry.Url = Regex.Match(Entry.Title, "href="".+?""", RegexOptions.Singleline).Value
+            Entry.URL = Regex.Match(Entry.Title, "href="".+?""", RegexOptions.Singleline).Value
             Entry.Title = Mid(Entry.Title, InStr(Entry.Title, "ref="))
             Entry.Title = Mid(Entry.Title, InStr(Entry.Title, ">") + 1)
             Entry.Title = Mid(Entry.Title, 1, Len(Entry.Title) - 8)
             Entry.FASTAUrl = Regex.Match(Entry.FASTAUrl, "href="".+?""", RegexOptions.Singleline).Value
             Entry.FASTAUrl = "http://www.ncbi.nlm.nih.gov" & Mid(Entry.FASTAUrl, 7, Len(Entry.FASTAUrl) - 7)
-            Entry.Url = "http://www.ncbi.nlm.nih.gov" & Mid(Entry.Url, 7, Len(Entry.Url) - 7)
-            Entry.LocusTag = GetLocusTag(Entry.Url)
+            Entry.URL = "http://www.ncbi.nlm.nih.gov" & Mid(Entry.URL, 7, Len(Entry.URL) - 7)
+            Entry.LocusTag = GetLocusTag(Entry.URL)
 
             Return Entry
         End Function
 
-        Public Shared Function FetchSeq(entry As Entry) As SequenceModel.FASTA.FastaSeq
+        Public Shared Function FetchSeq(entry As EntrezEntry) As FastaSeq
             If entry.LocusTag = "" Then
                 Return Nothing
             Else
@@ -128,14 +142,15 @@ Namespace Assembly.NCBI.Entrez
             End If
         End Function
 
-        Public Shared Function FetchSeq(entries As Entry()) As SequenceModel.FASTA.FastaFile
-            Dim LQuery = (From entry As NCBI.Entrez.Entry
-                          In entries
-                          Where Not String.IsNullOrEmpty(entry.LocusTag)
-                          Let KEGG_Entry As KEGG.WebServices.QueryEntry() = KEGG.WebServices.WebRequest.HandleQuery(entry.LocusTag)
-                          Where Not KEGG_Entry.IsNullOrEmpty
-                          Select KEGG.WebServices.WebRequest.FetchSeq(KEGG_Entry.First)).ToArray
-            Return CType(LQuery, SequenceModel.FASTA.FastaFile)
+        Public Shared Function FetchSeq(entries As EntrezEntry()) As FastaFile
+            Dim LQuery = From entry As EntrezEntry
+                         In entries
+                         Where Not String.IsNullOrEmpty(entry.LocusTag)
+                         Let KEGG_Entry As KEGG.WebServices.QueryEntry() = KEGG.WebServices.WebRequest.HandleQuery(entry.LocusTag)
+                         Where Not KEGG_Entry.IsNullOrEmpty
+                         Select KEGG.WebServices.WebRequest.FetchSeq(KEGG_Entry.First)
+
+            Return New FastaFile(LQuery)
         End Function
 
         Private Shared Function GetLocusTag(url As String) As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::176299307ed61e7486fdda81b252dd31, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::f3fb7d06617c9e48e8d9d15e8a05e755, analysis\Microarray\Enrichment\KEGGPathwayMap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 226
+    '    Code Lines: 159 (70.35%)
+    ' Comment Lines: 41 (18.14%)
+    '    - Xml Docs: 85.37%
+    ' 
+    '   Blank Lines: 26 (11.50%)
+    '     File Size: 8.99 KB
+
+
     ' Module KEGGPathwayMap
     ' 
     '     Function: KOBAS_DEPs, KOBAS_visualize, LocalRendering, MapImageInvalid, PSum
@@ -50,6 +62,38 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports System.IO
+
+#If NET48 Then
+Imports Microsoft.VisualBasic.Drawing
+
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
+
 
 Public Module KEGGPathwayMap
 
@@ -71,8 +115,8 @@ Public Module KEGGPathwayMap
         '' <summary>
         '' The default color brush is blue 
         '' </summary>
-        Static blue As New [Default](Of  Func(Of String, String))(Function() "blue")
-        Static noTranslate As New [Default](Of  Func(Of String, String))(Function(id) id)
+        Static blue As New [Default](Of Func(Of String, String))(Function() "blue")
+        Static noTranslate As New [Default](Of Func(Of String, String))(Function(id) id)
 
         Dim all As IKEGGTerm()
         Dim failures As New List(Of String)
@@ -88,36 +132,30 @@ Public Module KEGGPathwayMap
         color = color Or blue
         translateKO = translateKO Or noTranslate
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(progress, all.Length)
-            Dim ETA$
+        Call "KEGG pathway map visualization....".info
 
-            For Each term As IKEGGTerm In all
-                Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-                Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
-                Dim query = URLEncoder.URLParser(term.Link)
-                Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
-                    .Name = query.Name.Match("\d+"),
-                    .Value = query.Value _
-                         .Select(Function(gene)
-                                     Return New NamedValue(Of String) With {
-                                          .Name = translateKO(gene.Name),
-                                          .Value = color(gene.Name)
-                                     }
-                                 End Function) _
-                         .ToArray
-                }.KEGGURLEncode()
+        For Each term As IKEGGTerm In Tqdm.Wrap(all)
+            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+            Dim path$ = export & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+            Dim query = URLEncoder.URLParser(term.Link)
+            Dim url As String = New NamedCollection(Of NamedValue(Of String)) With {
+                .name = query.name.Match("\d+"),
+                .value = query.value _
+                        .Select(Function(gene)
+                                    Return New NamedValue(Of String) With {
+                                        .Name = translateKO(gene.Name),
+                                        .Value = color(gene.Name)
+                                    }
+                                End Function) _
+                        .ToArray
+            }.KEGGURLEncode()
 
-                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
-                    Call render.Rendering(url).SaveAs(path)
-                Else
-                    failures += term.ID
-                End If
-
-                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
-                progress.SetProgress(tick.StepProgress, details:=ETA)
-            Next
-        End Using
+            If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
+                Call render.Rendering(url).SaveAs(path)
+            Else
+                failures += term.ID
+            End If
+        Next
 
         Return failures
     End Function
@@ -129,7 +167,8 @@ Public Module KEGGPathwayMap
     ''' <param name="EXPORT">代谢途径的绘图结果的保存文件夹</param>
     ''' <param name="pvalue">-1表示不筛选</param>
     ''' <returns></returns>
-    <Extension> Public Function KOBAS_visualize(kobas As IEnumerable(Of IKEGGTerm), EXPORT$, Optional pvalue# = 0.05) As String()
+    <Extension>
+    Public Function KOBAS_visualize(kobas As IEnumerable(Of IKEGGTerm), EXPORT$, Optional pvalue# = 0.05) As String()
         Dim all As IKEGGTerm() = kobas.ToArray
         Dim failures As New List(Of String)
 
@@ -141,25 +180,19 @@ Public Module KEGGPathwayMap
                 .ToArray
         End If
 
-        Using progress As New ProgressBar("KEGG pathway map visualization....", 1, CLS:=True)
-            Dim tick As New ProgressProvider(progress, all.Length)
-            Dim ETA$
+        Call "KEGG pathway map visualization....".info
 
-            For Each term As IKEGGTerm In all
-                Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
-                Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}.png"
+        For Each term As IKEGGTerm In Tqdm.Wrap(all)
+            Dim pngName$ = term.ID & "-" & term.Term.NormalizePathString
+            Dim path$ = EXPORT & "/" & pngName & $"-pvalue={term.Pvalue}.png"
 
-                If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
-                    Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
-                    Call Thread.Sleep(2000)
-                Else
-                    failures += term.ID
-                End If
-
-                ETA = $"{term.ID}  ETA={tick.ETA().FormatTime}"
-                progress.SetProgress(tick.StepProgress, details:=ETA)
-            Next
-        End Using
+            If Not (path.FileLength > 0) OrElse path.MapImageInvalid Then
+                Call PathwayMapping.ShowEnrichmentPathway(term.Link, save:=path)
+                Call Thread.Sleep(2000)
+            Else
+                failures += term.ID
+            End If
+        Next
 
         Return failures
     End Function
@@ -172,8 +205,10 @@ Public Module KEGGPathwayMap
     <Extension>
     Private Function MapImageInvalid(path$) As Boolean
         Try
-            Using Image.FromFile(path)
-                Return False
+            Using s As Stream = path.OpenReadonly
+                Using Image.FromStream(s)
+                    Return False
+                End Using
             End Using
         Catch ex As Exception
             Return True

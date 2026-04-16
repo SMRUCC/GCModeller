@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7a3156fb0868cd0be2c2da152b5023fc, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\base\SlideWindow\SlideWindow.vb"
+﻿#Region "Microsoft.VisualBasic::5099e3079efec16919b33212601347b6, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\base\SlideWindow\SlideWindow.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 60 (59.41%)
+    ' Comment Lines: 28 (27.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (12.87%)
+    '     File Size: 3.61 KB
+
+
     '     Structure SlideWindow
     ' 
     '         Properties: Index, Items, left, Length, right
@@ -57,7 +69,7 @@ Namespace ComponentModel.Algorithm.base
     ''' <typeparam name="T"></typeparam>
     ''' <remarks></remarks>
     Public Structure SlideWindow(Of T)
-        Implements IEnumerable(Of T), IAddressOf
+        Implements IEnumerable(Of T), IAddress(Of Integer)
         Implements IGrouping(Of Integer, T)
         Implements Value(Of T()).IValueOf
         Implements IRange(Of Integer)
@@ -68,7 +80,7 @@ Namespace ComponentModel.Algorithm.base
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property Index As Integer Implements IAddressOf.Address, IGrouping(Of Integer, T).Key
+        Public Property Index As Integer Implements IAddress(Of Integer).Address, IGrouping(Of Integer, T).Key
         ''' <summary>
         ''' The elements in this slide window.(这个划窗之中的元素的列表)
         ''' </summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::585a921da556c33339111320e7585cc5, models\SBML\SBML\Components\ModelBase.vb"
+﻿#Region "Microsoft.VisualBasic::67344733743e528d2956322c6d27285a, models\SBML\SBML\Components\ModelBase.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 17 (62.96%)
+    ' Comment Lines: 4 (14.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (22.22%)
+    '     File Size: 813 B
+
+
     '     Class ModelBase
     ' 
     '         Function: ToString
@@ -38,6 +50,8 @@
     '     Class IPartsBase
     ' 
     '         Properties: id, name
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -65,5 +79,9 @@ Namespace Components
         <Escaped>
         <XmlAttribute> Public Overridable Property id As String
         <XmlAttribute> Public Overridable Property name As String
+
+        Public Overrides Function ToString() As String
+            Return id
+        End Function
     End Class
 End Namespace

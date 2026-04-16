@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af9d000731263b3105b09e656f1fdcd5, engine\Compiler\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::e572cf54a67563ed43652efd618ae726, engine\Compiler\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 10 (76.92%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 378 B
+
+
     ' Module Extensions
     ' 
     '     Function: ToTabular
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
-Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.File
+Imports Excel = Microsoft.VisualBasic.MIME.Office.Excel.XLSX.File
 
 <HideModuleName>
 Public Module Extensions

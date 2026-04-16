@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e572be0c55313d97fc210110e46283c8, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::28971d7aa9349962777af0eb7fc9b047, data\Xfam\Pfam\Pipeline\DomainAnalysis.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 355
+    '    Code Lines: 269 (75.77%)
+    ' Comment Lines: 47 (13.24%)
+    '    - Xml Docs: 87.23%
+    ' 
+    '   Blank Lines: 39 (10.99%)
+    '     File Size: 18.80 KB
+
+
     ' Module DomainAnalysis
     ' 
     '     Function: __createResult, __createResultPLinq, __createStructureRegion, __getFasta, CreatePfamString
@@ -46,7 +58,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting
@@ -165,17 +177,17 @@ Public Module DomainAnalysis
                                      Optional offset As Double = 0.1) As PfamString.PfamString()
 
         ' Show parameters for debug
-        Call MethodBase.GetCurrentMethod().GetFullName.__DEBUG_ECHO
-        Call $"{NameOf(timeOut)}            => {timeOut}".__DEBUG_ECHO
-        Call $"{NameOf(num_threads)}        => {num_threads}".__DEBUG_ECHO
-        Call $"{NameOf(disableUltralarge)}  => {disableUltralarge}".__DEBUG_ECHO
-        Call $"{NameOf(evalue)}             => {evalue}".__DEBUG_ECHO
-        Call $"{NameOf(coverage)}           => {coverage}".__DEBUG_ECHO
-        Call $"{NameOf(identities)}         => {identities}".__DEBUG_ECHO
-        Call $"{NameOf(offset)}             => {offset}".__DEBUG_ECHO
+        Call MethodBase.GetCurrentMethod().GetFullName.debug
+        Call $"{NameOf(timeOut)}            => {timeOut}".debug
+        Call $"{NameOf(num_threads)}        => {num_threads}".debug
+        Call $"{NameOf(disableUltralarge)}  => {disableUltralarge}".debug
+        Call $"{NameOf(evalue)}             => {evalue}".debug
+        Call $"{NameOf(coverage)}           => {coverage}".debug
+        Call $"{NameOf(identities)}         => {identities}".debug
+        Call $"{NameOf(offset)}             => {offset}".debug
 
         Using busy As CBusyIndicator = New CBusyIndicator()
-            Call "Start to create basic pfam-string information....".__DEBUG_ECHO
+            Call "Start to create basic pfam-string information....".debug
             Call busy.Start()
 
             If blastOutput.Queries.Length > 5000 AndAlso Not disableUltralarge Then _
@@ -212,7 +224,7 @@ Public Module DomainAnalysis
         If query.IsNullOrEmpty Then
             Return result
         Else
-            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".__DEBUG_ECHO
+            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".debug
         End If
 
         Dim Cache = (From prot As PfamString.PfamString
@@ -233,7 +245,7 @@ Public Module DomainAnalysis
         If query.IsNullOrEmpty Then
             Return data
         Else
-            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".__DEBUG_ECHO
+            Call "End of create basic pfam-string, start Chou-Fasman calculation threads....".debug
         End If
 
         Dim Cache = (From item In data Let fasta = __getFasta(item.ProteinId, query) Select fasta, pfam_string = item).ToArray
@@ -283,7 +295,7 @@ Public Module DomainAnalysis
     ''' <remarks></remarks>
     Public Function FillChouFasmanData(pfString As PfamString.PfamString, Fasta As FASTA.FastaSeq) As PfamString.PfamString
         If Fasta Is Nothing Then '没有找到
-            Call $"{pfString.ProteinId} sequence fasta not found!".__DEBUG_ECHO
+            Call $"{pfString.ProteinId} sequence fasta not found!".debug
             Return pfString
         End If
 
@@ -385,8 +397,8 @@ Public Module DomainAnalysis
             .ProteinId = locusId,
             .Description = Description,
             .Length = query.QueryLength,
-            .Domains = (From d As DomainModel In Domains Select $"{d.DomainId}:{d.DomainId}" Distinct).ToArray,
-            .PfamString = Domains.Select(Function(x) $"{x.DomainId}({x.start}|{x.ends})").Distinct.ToArray
+            .Domains = (From d As DomainModel In Domains Select $"{d.ID}:{d.name}" Distinct).ToArray,
+            .PfamString = Domains.Select(Function(x) $"{x.ID}:{x.name}({x.start}|{x.ends})").Distinct.ToArray
         }
         Return Protein
     End Function

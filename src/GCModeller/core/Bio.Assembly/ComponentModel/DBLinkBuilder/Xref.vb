@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46eb5cee02005dedd6b5318273722cae, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
+﻿#Region "Microsoft.VisualBasic::3024ca76ea977bc51ca42978ab1f9612, core\Bio.Assembly\ComponentModel\DBLinkBuilder\Xref.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 48 (82.76%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (17.24%)
+    '     File Size: 2.39 KB
+
+
     '     Class XrefAttribute
     ' 
     '         Properties: Name
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: CreateDictionary, GetProperties, ToString
     ' 
     ' 
@@ -50,14 +63,21 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace ComponentModel.DBLinkBuilder
 
-    <AttributeUsage(AttributeTargets.Property)>
+    <AttributeUsage(AttributeTargets.Property Or AttributeTargets.Class)>
     Public Class XrefAttribute : Inherits Attribute
         Implements INamedValue
 
         Public Property Name As String Implements IKeyedEntity(Of String).Key
 
+        Sub New()
+        End Sub
+
+        Sub New(name As String)
+            Me.Name = name
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return "Xref Link"
+            Return If(Name, "Xref Link")
         End Function
 
         Public Shared Function GetProperties(type As Type) As PropertyInfo()

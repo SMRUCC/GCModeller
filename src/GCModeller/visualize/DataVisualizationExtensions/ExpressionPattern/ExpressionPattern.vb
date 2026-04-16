@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b91d5f4d76b461a88418c6c6205210db, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
+﻿#Region "Microsoft.VisualBasic::461d2e157e4d3be62af1e5a5efd1a617, visualize\DataVisualizationExtensions\ExpressionPattern\ExpressionPattern.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 250
+    '    Code Lines: 188 (75.20%)
+    ' Comment Lines: 35 (14.00%)
+    '    - Xml Docs: 94.29%
+    ' 
+    '   Blank Lines: 27 (10.80%)
+    '     File Size: 10.39 KB
+
+
     '     Class ExpressionPattern
     ' 
     '         Properties: [dim], centers, Patterns, sampleNames
     ' 
-    '         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, GetPartitionMatrix, populatePartitions, ToSummaryText
+    '         Function: (+2 Overloads) CMeansCluster, CMeansCluster3D, extractPatternBlock, GetPartitionMatrix, populatePartitions
+    '                   ToSummaryText
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,7 +57,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.FuzzyCMeans
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Language
@@ -54,36 +68,90 @@ Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Namespace ExpressionPattern
 
     ''' <summary>
-    ''' 表达模式聚类
+    ''' The cmeans expression cluster result
     ''' </summary>
     Public Class ExpressionPattern
 
+        ''' <summary>
+        ''' The fuzzy cmeans cluster result matrix
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Patterns As FuzzyCMeansEntity()
+        ''' <summary>
+        ''' the sample id for the cmeans cluster dataset vector
+        ''' </summary>
+        ''' <returns></returns>
         Public Property sampleNames As String()
+        ''' <summary>
+        ''' plot dimension layout information
+        ''' </summary>
+        ''' <returns></returns>
         Public Property [dim] As Integer()
+        ''' <summary>
+        ''' center feature points
+        ''' </summary>
+        ''' <returns></returns>
         Public Property centers As Classify()
 
-        Public Function ToSummaryText() As String
+        Public Function ToSummaryText(Optional membershipCutoff As Double = 0.8) As String
             Dim sb As New StringBuilder
+            Dim allPatterns As Integer() = Patterns _
+                .Select(Function(v) v.memberships.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .OrderBy(Function(i) i) _
+                .ToArray
+            Dim nsize As Integer
+            Dim max = allPatterns _
+                .ToDictionary(Function(a) a,
+                              Function(a)
+                                  Return Patterns _
+                                      .Select(Function(v) v.memberships(key:=a)) _
+                                      .Max
+                              End Function)
 
             Call sb.AppendLine($"fuzzy cmeans partitions: [{[dim](0)}, {[dim](1)}]")
-            Call sb.AppendLine("base on samples(or groups):")
+            Call sb.AppendLine($"base on {sampleNames.Length} samples(or groups):")
             Call sb.AppendLine(sampleNames.JoinBy(", "))
             Call sb.AppendLine($"clusters (should be #0 ~ #{[dim](0) * [dim](1) - 1}):")
+            Call sb.AppendLine($"n members under membership cutoff {membershipCutoff}:")
 
-            For Each cluster In Patterns.GroupBy(Function(a) a.cluster).OrderBy(Function(a) a.Key)
-                Call sb.AppendLine($" # {cluster.Key}: {cluster.Count}")
+            For Each clusterId As Integer In allPatterns
+                nsize = Aggregate v As FuzzyCMeansEntity
+                        In Patterns
+                        Where v.memberships(key:=clusterId) / max(key:=clusterId) > membershipCutoff
+                        Into Count
+
+                Call sb.AppendLine($" # {clusterId}: {nsize}")
             Next
 
             Return sb.ToString
         End Function
 
+        ''' <summary>
+        ''' function for split current expression pattern matrix as the membership blocks
+        ''' </summary>
+        ''' <param name="membershipCutoff"></param>
+        ''' <param name="topMembers"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the tag value in the generated expression matrix object is the pattern id
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetPartitionMatrix() As IEnumerable(Of Matrix())
-            Return populatePartitions(Patterns, [dim], sampleNames)
+        Public Function GetPartitionMatrix(membershipCutoff As Double, topMembers As Integer) As IEnumerable(Of Matrix())
+            Return populatePartitions(
+                clusters:=Patterns,
+                [dim]:=[dim],
+                sampleNames:=sampleNames,
+                membershipCutoff:=membershipCutoff,
+                topMembers:=topMembers
+            )
         End Function
 
-        Public Shared Function CMeansCluster(matrix As Matrix, nsize%, Optional fuzzification# = 2, Optional threshold# = 0.001) As Classify()
+        Public Shared Function CMeansCluster(matrix As Matrix, nsize%,
+                                             Optional fuzzification# = 2,
+                                             Optional threshold# = 0.001) As Classify()
+
             Dim sampleNames As String() = matrix.sampleID
             Dim geneNodes As ClusterEntity() = matrix.expression _
                 .AsParallel _
@@ -155,25 +223,31 @@ Namespace ExpressionPattern
             }
         End Function
 
-        Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity), dim%(), sampleNames As String()) As IEnumerable(Of Matrix())
+        Private Shared Iterator Function populatePartitions(clusters As IEnumerable(Of FuzzyCMeansEntity),
+                                                            dim%(),
+                                                            sampleNames As String(),
+                                                            membershipCutoff As Double,
+                                                            topMembers As Integer) As IEnumerable(Of Matrix())
             Dim row As New List(Of Matrix)
-            Dim clusterGroups = clusters.GroupBy(Function(c) c.cluster).ToArray
+            Dim cmeans As FuzzyCMeansEntity() = clusters.ToArray
+            Dim allPatterns As Integer() = cmeans _
+                .Select(Function(c) c.memberships.Keys) _
+                .IteratesALL _
+                .Distinct _
+                .ToArray
 
-            For Each cluster As IGrouping(Of Integer, FuzzyCMeansEntity) In clusterGroups
-                Dim matrix = New Matrix With {
-                    .sampleID = sampleNames,
-                    .expression = cluster _
-                        .Select(Function(a)
-                                    Return New DataFrameRow With {
-                                        .geneID = a.uid,
-                                        .experiments = a.entityVector
-                                    }
-                                End Function) _
-                        .ToArray,
-                    .tag = cluster.Key
-                }
+            If [dim].IsNullOrEmpty Then
+                [dim] = {1, 1}
+            End If
 
-                row += matrix
+            For Each patternId As Integer In allPatterns
+                row += extractPatternBlock(
+                    cmeans:=cmeans,
+                    patternId:=patternId,
+                    membershipCutoff:=membershipCutoff,
+                    topMembers:=topMembers,
+                    sampleNames:=sampleNames
+                )
 
                 If row = [dim](1) Then
                     Yield row.PopAll
@@ -183,6 +257,51 @@ Namespace ExpressionPattern
             If row > 0 Then
                 Yield row.PopAll
             End If
+        End Function
+
+        Private Shared Function extractPatternBlock(cmeans As FuzzyCMeansEntity(),
+                                                    patternId As Integer,
+                                                    membershipCutoff As Double,
+                                                    topMembers As Integer,
+                                                    sampleNames As String()) As Matrix
+            Dim membership = cmeans _
+                .Select(Function(v) New NamedValue(Of Double)(v.uid, v.memberships(key:=patternId))) _
+                .ToArray
+            Dim max As Double = membership.Select(Function(v) v.Value).Max
+            Dim filter As Index(Of String) = membership _
+                .Where(Function(v) v.Value / max > membershipCutoff) _
+                .Select(Function(v) v.Name) _
+                .Indexing
+            Dim features As DataFrameRow()
+
+            If filter.Count < topMembers Then
+                features = cmeans _
+                    .OrderByDescending(Function(v) v.memberships(key:=patternId)) _
+                    .Take(topMembers) _
+                    .Select(Function(a)
+                                Return New DataFrameRow With {
+                                    .geneID = a.uid,
+                                    .experiments = a.entityVector
+                                }
+                            End Function) _
+                    .ToArray
+            Else
+                features = cmeans _
+                    .Where(Function(v) v.uid Like filter) _
+                    .Select(Function(a)
+                                Return New DataFrameRow With {
+                                    .geneID = a.uid,
+                                    .experiments = a.entityVector
+                                }
+                            End Function) _
+                    .ToArray
+            End If
+
+            Return New Matrix With {
+                .sampleID = sampleNames,
+                .expression = features,
+                .tag = patternId
+            }
         End Function
     End Class
 End Namespace

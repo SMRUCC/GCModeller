@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4a4d7a4b922bfb87ed9d0291d9f01bff, gr\network-visualization\Visualizer\Styling\NodeStyles.vb"
+﻿#Region "Microsoft.VisualBasic::b954c98073ba5c7221d9ec2597c94b3c, gr\network-visualization\Visualizer\Styling\NodeStyles.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 47 (70.15%)
+    ' Comment Lines: 7 (10.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (19.40%)
+    '     File Size: 2.67 KB
+
+
     '     Module NodeStyles
     ' 
-    '         Function: (+2 Overloads) DegreeAsSize, NodeDegreeSize
+    '         Function: (+2 Overloads) DegreeAsSize, NodeDegreeSize, SetNodeFill
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,13 +58,17 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Styling.FillBrushes
 Imports Microsoft.VisualBasic.Language.Default
 
 Namespace Styling
 
     Public Module NodeStyles
 
-        Public Function NodeDegreeSize(nodes As IEnumerable(Of Node), sizeRange As DoubleRange, Optional degree$ = NamesOf.REFLECTION_ID_MAPPING_DEGREE) As Func(Of Node, Single)
+        Public Function NodeDegreeSize(nodes As IEnumerable(Of Node),
+                                       sizeRange As DoubleRange,
+                                       Optional degree$ = NamesOf.REFLECTION_ID_MAPPING_DEGREE) As Func(Of Node, Single)
+
             Dim maps = nodes.DegreeAsSize(sizeRange, degree)
             Dim defaultSize As [Default](Of Double) = sizeRange.Min
 
@@ -72,18 +88,34 @@ Namespace Styling
         Public Function DegreeAsSize(nodes As IEnumerable(Of Node),
                                      getDegree As Func(Of Node, Double),
                                      sizeRange As DoubleRange) As Map(Of Node, Double)()
+
             Return nodes.RangeTransform(getDegree, sizeRange)
         End Function
 
         <Extension>
-        Public Function DegreeAsSize(nodes As IEnumerable(Of Node), sizeRange As DoubleRange, Optional degree$ = NamesOf.REFLECTION_ID_MAPPING_DEGREE) As Map(Of Node, Double)()
+        Public Function DegreeAsSize(nodes As IEnumerable(Of Node),
+                                     sizeRange As DoubleRange,
+                                     Optional degree$ = NamesOf.REFLECTION_ID_MAPPING_DEGREE) As Map(Of Node, Double)()
+
             Dim valDegree = Function(node As Node)
                                 Return node.data(degree).ParseDouble
                             End Function
+
             Return nodes.DegreeAsSize(
                 getDegree:=valDegree,
                 sizeRange:=sizeRange
             )
+        End Function
+
+        <Extension>
+        Public Function SetNodeFill(g As NetworkGraph, fill As IGetBrush) As NetworkGraph
+            Dim fills = fill.GetBrush(g.vertex).ToArray
+
+            For Each mapStyle In fills
+                mapStyle.Key.data.color = mapStyle.Maps
+            Next
+
+            Return g
         End Function
     End Module
 End Namespace

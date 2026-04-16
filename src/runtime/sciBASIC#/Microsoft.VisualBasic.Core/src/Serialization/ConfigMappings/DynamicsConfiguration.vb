@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 52 (62.65%)
+    ' Comment Lines: 15 (18.07%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (19.28%)
+    '     File Size: 3.33 KB
+
+
     '     Class DynamicsConfiguration
     ' 
     '         Function: GetDynamicMemberNames, GetProperties, LoadDocument, ToDictionary, TryConvert

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc58ec87bf71221dcd6afe624e304dd, Microsoft.VisualBasic.Core\src\Extensions\Math\Random\PreciseRandom.vb"
+﻿#Region "Microsoft.VisualBasic::ccad36780681f41eafaab177d6e947fd, Microsoft.VisualBasic.Core\src\Extensions\Math\Random\PreciseRandom.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 41 (50.62%)
+    ' Comment Lines: 29 (35.80%)
+    '    - Xml Docs: 82.76%
+    ' 
+    '   Blank Lines: 11 (13.58%)
+    '     File Size: 3.06 KB
+
 
     '     Class PreciseRandom
     ' 
@@ -94,7 +106,8 @@ Namespace Math
         End Function
 
         Private Function rand() As Double
-            SyncLock __rnd  ' 线程不安全，所以需要加锁，不然无法得到随机数
+            SyncLock __rnd
+                ' 线程不安全，所以需要加锁，不然无法得到随机数
                 ' 因为多线程的时候不加锁在不同的线程之间同时调用会得到相同的数
                 Return __rnd.NextDouble
             End SyncLock

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 59 (71.95%)
+    ' Comment Lines: 10 (12.20%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 13 (15.85%)
+    '     File Size: 2.51 KB
+
+
     '     Class LongestCommonSubsequence
     ' 
     '         Properties: length, reversed, Sequence, si, ti

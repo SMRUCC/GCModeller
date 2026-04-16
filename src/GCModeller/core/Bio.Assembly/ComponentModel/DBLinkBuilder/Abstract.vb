@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 14 (63.64%)
+    ' Comment Lines: 5 (22.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (13.64%)
+    '     File Size: 685 B
+
+
     '     Interface IMetabolite
     ' 
     '         Properties: ChEBI, KEGGCompound

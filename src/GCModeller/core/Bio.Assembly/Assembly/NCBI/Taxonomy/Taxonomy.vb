@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5dd26f999aff82b2f04756cc3e03dc5c, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::a3b2679432b6f04a61aaf79d7f90c49b, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Taxonomy.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 98 (59.76%)
+    ' Comment Lines: 43 (26.22%)
+    '    - Xml Docs: 95.35%
+    ' 
+    '   Blank Lines: 23 (14.02%)
+    '     File Size: 6.28 KB
+
 
     '     Class TaxiValue
     ' 
@@ -195,9 +207,9 @@ Namespace Assembly.NCBI.Taxonomy
             Using reader As New BinaryReader(New FileStream(bin, FileMode.Open))
                 Dim hash As BucketDictionary(Of Integer, Integer)
 
-                Call "Start to load gi2taxi database into memory....".__DEBUG_ECHO
+                Call "Start to load gi2taxi database into memory....".debug
                 hash = reader.__loadArchive.CreateBuckets(Function(x) x(Scan0), Function(x) x(1))
-                Call "JOB DONE!".__DEBUG_ECHO
+                Call "JOB DONE!".debug
                 Return hash
             End Using
         End Function

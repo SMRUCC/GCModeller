@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f5050f29a65cb58413b86c5df418f7c, annotations\GSEA\FisherCore\Enrichment.vb"
+﻿#Region "Microsoft.VisualBasic::838042a6d6b66c9eca3f0c52e5119644, annotations\GSEA\FisherCore\Enrichment.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 111 (68.94%)
+    ' Comment Lines: 33 (20.50%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 17 (10.56%)
+    '     File Size: 6.63 KB
+
+
     ' Module Enrichment
     ' 
-    '     Function: calcResult, Enrichment, FDRCorrection
+    '     Function: BackgroundSize, calcResult, CutBackgroundBySize, Enrichment
     ' 
     ' /********************************************************************************/
 
@@ -54,6 +66,35 @@ Imports F = Microsoft.VisualBasic.Math.Statistics.Hypothesis.FishersExact.Fisher
 ''' </summary>
 Public Module Enrichment
 
+    <Extension>
+    Public Function CutBackgroundBySize(genome As Background, cutSize As Integer) As Background
+        Return New Background With {
+            .build = genome.build,
+            .comments = genome.comments,
+            .id = genome.id,
+            .name = genome.name,
+            .clusters = genome.clusters _
+                .Where(Function(cl) cl.members.Length > cutSize) _
+                .ToArray,
+            .size = .clusters.BackgroundSize
+        }
+    End Function
+
+    ''' <summary>
+    ''' evaluate the unique idset size in the given cluster background model
+    ''' </summary>
+    ''' <param name="clusters"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function BackgroundSize(clusters As IEnumerable(Of Cluster)) As Integer
+        Return clusters _
+            .Select(Function(c) c.members) _
+            .IteratesALL _
+            .Select(Function(c) c.accessionID) _
+            .Distinct _
+            .Count
+    End Function
+
     ''' <summary>
     ''' 基于Fisher精确检验的基因列表富集计算分析
     ''' </summary>
@@ -67,56 +108,63 @@ Public Module Enrichment
     <Extension>
     Public Iterator Function Enrichment(genome As Background,
                                         list As IEnumerable(Of String),
+                                        Optional resize As Integer = -1,
+                                        Optional cutSize As Integer = 3,
                                         Optional outputAll As Boolean = False,
                                         Optional isLocustag As Boolean = False,
-                                        Optional showProgress As Boolean = True) As IEnumerable(Of EnrichmentResult)
-
-        Dim doProgress As Action(Of String)
-        Dim progress As ProgressBar = Nothing
-        Dim ETA$
-        Dim termResult As New Value(Of EnrichmentResult)
+                                        Optional showProgress As Boolean = True,
+                                        Optional doProgress As Action(Of String) = Nothing) As IEnumerable(Of EnrichmentResult)
         Dim genes As Integer
+        Dim termResult As New Value(Of EnrichmentResult)
 
-        If showProgress Then
-            Dim tick As ProgressProvider
+        If list Is Nothing Then
+            Return
+        End If
 
-            progress = New ProgressBar("Do enrichment...")
-            tick = New ProgressProvider(progress, genome.clusters.Length)
-            doProgress = Sub(id)
-                             ETA = $"{id}.... ETA: {tick.ETA().FormatTime}"
-                             progress.SetProgress(tick.StepProgress, ETA)
-                         End Sub
-        Else
-            doProgress = Sub()
-                             ' Do Nothing
-                         End Sub
+        If cutSize > 0 Then
+            genome = genome.CutBackgroundBySize(cutSize)
         End If
 
         If genome.size <= 0 Then
-            genes = genome.clusters _
-                .Select(Function(c) c.members) _
-                .IteratesALL _
-                .Distinct _
-                .Count
+            genes = genome.clusters.BackgroundSize
         Else
             genes = genome.size
         End If
 
-        With list.ToArray
+        With list.Where(Function(id) Not id.StringEmpty(, True)).ToArray
+            Dim input_size As Integer = If(resize > 0, resize, .Length)
+            Dim background As IEnumerable(Of Cluster) = genome.clusters
+            Dim bar As Tqdm.ProgressBar = Nothing
+
+            If showProgress Then
+                background = Tqdm.Wrap(genome.clusters, bar:=bar)
+            End If
+            If doProgress Is Nothing Then
+                If showProgress Then
+                    doProgress =
+                        Sub(name)
+                            Call bar.SetLabel(name)
+                        End Sub
+                Else
+                    doProgress =
+                        Sub()
+                            ' do nothing
+                        End Sub
+                End If
+            End If
+
             For Each cluster As Cluster In genome.clusters
                 Dim enriched$() = cluster.Intersect(.ByRef, isLocustag).ToArray
 
-                Call doProgress(cluster.ID)
+                Call doProgress(cluster.names)
 
-                If Not (termResult = cluster.calcResult(enriched, .Length, genes, outputAll)) Is Nothing Then
-                    Yield termResult
+                If enriched.Length > 0 Then
+                    If Not (termResult = cluster.calcResult(enriched, input_size, genes, outputAll)) Is Nothing Then
+                        Yield termResult
+                    End If
                 End If
             Next
         End With
-
-        If Not progress Is Nothing Then
-            progress.Dispose()
-        End If
     End Function
 
     ''' <summary>
@@ -129,11 +177,11 @@ Public Module Enrichment
     ''' <param name="outputAll"></param>
     ''' <returns></returns>
     <Extension>
-    Friend Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
+    Public Function calcResult(cluster As Cluster, enriched$(), inputSize%, genes%, outputAll As Boolean) As EnrichmentResult
         ' 我们的差异基因列表中，属于目标代谢途径的基因的数量
         Dim a% = enriched.Length
         ' 在目标基因组中，属于当前的代谢途径中的基因的数量
-        Dim b% = cluster.members.Length
+        Dim b% = cluster.size
         ' 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
         Dim c% = inputSize - a
         ' 在目标基因组中，不属于当前的代谢途径中的基因的数量
@@ -154,24 +202,13 @@ Public Module Enrichment
             .term = cluster.ID,
             .name = cluster.names.TrimNewLine,
             .description = cluster.description.TrimNewLine,
-            .geneIDs = enriched,
+            .IDs = enriched,
             .pvalue = pvalue,
             .score = score,
             .cluster = b,
-            .enriched = $"{a}/{c}"
+            .enriched = a,
+            .category = cluster.category,
+            .[class] = cluster.class
         }
-    End Function
-
-    ''' <summary>
-    ''' 进行计算结果的假阳性FDR控制计算
-    ''' </summary>
-    ''' <param name="enrichments">根据我们所提供的基因列表，对每一个代谢途径的富集计算结果的集合</param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function FDRCorrection(enrichments As IEnumerable(Of EnrichmentResult)) As EnrichmentResult()
-        With enrichments.Shadows
-            !FDR = !Pvalue.FDR
-            Return .ToArray
-        End With
     End Function
 End Module

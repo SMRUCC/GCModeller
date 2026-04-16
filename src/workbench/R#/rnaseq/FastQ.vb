@@ -1,0 +1,308 @@
+﻿#Region "Microsoft.VisualBasic::8658755f8d14401da1eb834ae3931718, R#\rnaseq\FastQ.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 253
+    '    Code Lines: 180 (71.15%)
+    ' Comment Lines: 40 (15.81%)
+    '    - Xml Docs: 97.50%
+    ' 
+    '   Blank Lines: 33 (13.04%)
+    '     File Size: 10.16 KB
+
+
+    ' Module FastQTools
+    ' 
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: GetQualityScore, IlluminaFastQID, merge_raw, random_sampling, read_fastq
+    '               read_genedata, sample_indexstats, SequenceAssembler, simulate, write_fastq
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+
+''' <summary>
+''' FastQ toolkit
+''' </summary>
+''' <remarks>
+''' FASTQ format Is a text-based format For storing both a biological sequence 
+''' (usually nucleotide sequence) And its corresponding quality scores. Both 
+''' the sequence letter And quality score are Each encoded With a Single ASCII 
+''' character For brevity. It was originally developed at the Wellcome Trust 
+''' Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
+''' but has recently become the de facto standard For storing the output Of 
+''' high-throughput sequencing instruments such As the Illumina Genome 
+''' Analyzer.
+''' </remarks>
+<Package("FastQ")>
+Public Module FastQTools
+
+    Sub New()
+        Call printer.AttachConsoleFormatter(Of AssembleResult)(AddressOf AssembleResult.viewAssembles)
+    End Sub
+
+    <ExportAPI("illumina_fastQ_id")>
+    Public Function IlluminaFastQID(fq As FQ.FastQ) As IlluminaFastQID
+        Return IlluminaFastQID.IDParser(fq.SEQ_ID)
+    End Function
+
+    ''' <summary>
+    ''' read the fastq file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.fastq")>
+    Public Function read_fastq(<RRawVectorArgument(TypeCodes.string)> file As Object) As FastQFile
+        Dim fileList As String() = CLRVector.asCharacter(file)
+
+        If fileList.IsNullOrEmpty Then
+            Return Nothing
+        ElseIf fileList.Length = 1 Then
+            Return FastQFile.Load(fileList(0))
+        Else
+            Dim reads As New List(Of FastQ)
+
+            For Each path As String In fileList
+                Call reads.AddRange(FastQFile.LoadStream(path))
+            Next
+
+            Return New FastQFile(reads)
+        End If
+    End Function
+
+    <ExportAPI("merge_raw")>
+    Public Function merge_raw(<RRawVectorArgument> file As Object, merge As Object,
+                              Optional make_unique As Boolean = True,
+                              Optional env As Environment = Nothing) As Object
+
+        Dim is_file As Boolean = False
+        Dim out = SMRUCC.Rsharp.GetFileStream(merge, System.IO.FileAccess.Write, env, is_filepath:=is_file)
+
+        If out Like GetType(Message) Then
+            Return out.TryCast(Of Message)
+        End If
+
+        Using s As New System.IO.StreamWriter(out.TryCast(Of System.IO.Stream))
+            Dim nameUniques As New Dictionary(Of String, Counter)
+            Dim duplicates As New List(Of String)
+
+            For Each filepath As String In CLRVector.asCharacter(file).SafeQuery
+                Dim base As String = filepath.BaseName
+
+                Call VBDebugger.EchoLine(base)
+
+                For Each reads As FastQ In FastQFile.LoadStream(filepath)
+                    ' 20260308 ERROR: Fasta/q sequence header has ‘@’ symbol in file: /mnt/assembly/rawdata.fq, entry 0
+                    Dim name As String = base & "_" & reads.SEQ_ID.Replace("@", "-")
+RE0:
+                    If nameUniques.ContainsKey(name) Then
+                        nameUniques(name).Hit()
+                        duplicates.Add(name)
+                        name = name & "_" & nameUniques(name).Value
+                        GoTo RE0
+                    Else
+                        nameUniques.Add(name, Scan0)
+                    End If
+
+                    reads.SEQ_ID = name
+                    s.WriteLine(reads.AsReadsNode)
+                Next
+            Next
+
+            Call s.Flush()
+        End Using
+
+        Return True
+    End Function
+
+    <ExportAPI("write.fastq")>
+    <RApiReturn(TypeCodes.boolean)>
+    Public Function write_fastq(<RRawVectorArgument> reads As Object, file As String, Optional env As Environment = Nothing) As Object
+        Dim fq As FastQFile = Nothing
+
+        If TypeOf reads Is FastQFile Then
+            fq = DirectCast(reads, FastQFile)
+        Else
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            fq = New FastQFile(pull.populates(Of FastQ)(env))
+        End If
+
+        Return fq.WriteFastQ(file)
+    End Function
+
+    ''' <summary>
+    ''' make reads data random sampling
+    ''' </summary>
+    ''' <param name="fq"></param>
+    ''' <param name="n"></param>
+    ''' <returns></returns>
+    <ExportAPI("random_sampling")>
+    <RApiReturn(GetType(FastQ))>
+    Public Function random_sampling(fq As FastQFile, n As Integer, Optional lazy As Boolean = False) As Object
+        Dim shuffle = fq.Shuffles.Take(n)
+
+        If lazy Then
+            Return pipeline.CreateFromPopulator(shuffle)
+        Else
+            Return shuffle.ToArray
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Do short reads assembling
+    ''' </summary>
+    ''' <param name="reads">should be a set of the sequence data, example as a collection of <see cref="FastaSeq"/> data.</param>
+    ''' <param name="env"></param>
+    ''' <returns>the short reads assembling result</returns>
+    <ExportAPI("assemble")>
+    <RApiReturn(GetType(AssembleResult))>
+    Public Function SequenceAssembler(<RRawVectorArgument> reads As Object, Optional env As Environment = Nothing) As Object
+        Dim readSeqs As FastaSeq() = GetFastaSeq(reads, env).ToArray
+        Dim data As String() = readSeqs _
+            .Select(Function(fa) fa.SequenceData) _
+            .ToArray
+        Dim result = data.ShortestCommonSuperString
+
+        Return New AssembleResult(result, data)
+    End Function
+
+    ''' <summary>
+    ''' In FASTQ files, quality scores are encoded into a compact form, 
+    ''' which uses only 1 byte per quality value. In this encoding, the 
+    ''' quality score is represented as the character with an ASCII 
+    ''' code equal to its value + 33.
+    ''' </summary>
+    ''' <param name="q">should be one or more <see cref="FQ.FastQ"/> sequence data</param>
+    ''' <param name="env"></param>
+    ''' <returns>the quality score data of each <see cref="FQ.FastQ"/> sequence data.</returns>
+    <ExportAPI("quality_score")>
+    <RApiReturn(GetType(Double))>
+    Public Function GetQualityScore(q As Object, Optional env As Environment = Nothing) As Object
+        If q Is Nothing Then
+            Return Nothing
+        End If
+
+        If TypeOf q Is String Then
+            Return FQ.FastQ _
+                .GetQualityOrder(CStr(q)) _
+                .Select(Function(d) CDbl(d)) _
+                .ToArray
+        ElseIf TypeOf q Is FastQFile Then
+            Return New list With {
+                .slots = DirectCast(q, FastQFile) _
+                    .ToDictionary(Function(i) i.SEQ_ID,
+                                  Function(i)
+                                      Dim scores = FQ.FastQ _
+                                         .GetQualityOrder(i.Quality) _
+                                         .Select(Function(d) CDbl(d)) _
+                                         .ToArray
+
+                                      Return CObj(scores)
+                                  End Function)
+            }
+        ElseIf TypeOf q Is FQ.FastQ Then
+            Return FQ.FastQ _
+                .GetQualityOrder(DirectCast(q, FQ.FastQ).Quality) _
+                .Select(Function(d) CDbl(d)) _
+                .ToArray
+        Else
+            Return Message.InCompatibleType(GetType(FQ.FastQ), q.GetType, env)
+        End If
+    End Function
+
+    <ExportAPI("simulate_reads")>
+    <RApiReturn(GetType(FastQFile))>
+    Public Function simulate(<RRawVectorArgument> genomes As Object,
+                             Optional n As Integer = 100000,
+                             <RRawVectorArgument(TypeCodes.integer)>
+                             Optional len As Object = "350,550",
+                             <RRawVectorArgument>
+                             Optional genome_weights As list = Nothing,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim readSeqs As FastaSeq() = GetFastaSeq(genomes, env).ToArray
+        Dim lenMinMax As Integer() = CLRVector.asInteger(len)
+        Dim config As New ReadSimulationConfig With {
+            .Genomes = readSeqs _
+                .Select(Function(f) New SimpleSegment(f.Title, f)) _
+                .ToArray,
+            .NumberOfReads = n,
+            .ReadLengthRange = New IntRange(lenMinMax),
+            .GenomeAbundanceWeights = If(
+                genome_weights IsNot Nothing,
+                genome_weights.AsGeneric(Of Double)(env),
+                New Dictionary(Of String, Double)
+            )
+        }
+        Dim reads As New FastQFile(ReadsFakeSource.FakeReads(config))
+        Return reads
+    End Function
+
+    <ExportAPI("gene_indexstats")>
+    <RApiReturn(GetType(GeneData))>
+    Public Function sample_indexstats(file As String) As Object
+        Return IndexStats.ConvertCountsToTPM(IndexStats.Parse(file.OpenReadonly)).ToArray
+    End Function
+
+    <ExportAPI("read_genedata")>
+    <RApiReturn(GetType(GeneData))>
+    Public Function read_genedata(file As String) As GeneData()
+        Return file.LoadCsv(Of GeneData)(mute:=True)
+    End Function
+End Module

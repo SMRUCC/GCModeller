@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 11 (28.95%)
+    ' Comment Lines: 24 (63.16%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (7.89%)
+    '     File Size: 1.16 KB
+
+
     '     Class Operon
     ' 
     '         Properties: Direction, DoorId, Genes, NumOfGenes

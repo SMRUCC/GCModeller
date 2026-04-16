@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6372815f274fe567ed10459de6094bd1, Data_science\Visualization\Plots\Contour\HeatMap\ContourHeatMapPlot.vb"
+﻿#Region "Microsoft.VisualBasic::5a48717259fa1c2d97a35299ef576082, Data_science\Visualization\Plots\Contour\HeatMap\ContourHeatMapPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 171 (79.53%)
+    ' Comment Lines: 22 (10.23%)
+    '    - Xml Docs: 68.18%
+    ' 
+    '   Blank Lines: 22 (10.23%)
+    '     File Size: 8.82 KB
+
+
     '     Class ContourHeatMapPlot
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -55,7 +67,32 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Contour.HeatMap
 
@@ -109,7 +146,7 @@ Namespace Contour.HeatMap
                     .Where(Function(x) Not (+x).IsNaNImaginary AndAlso (+x) <> 0R) _
                     .ToArray
                 indexLevels = reals _
-                    .Select(Function(x) stdNum.Abs(+x)) _
+                    .Select(Function(x) std.Abs(+x)) _
                     .Log2Ranks(mapLevels)
             Else
                 reals = data _
@@ -150,26 +187,27 @@ Namespace Contour.HeatMap
         End Function
 
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
-            Dim data = GetData(canvas.PlotRegion.Size)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim rect As Rectangle = canvas.PlotRegion(css)
+            Dim data = GetData(rect.Size)
             Dim xTicks = data.Select(Function(d) d.x).Range.CreateAxisTicks
             Dim yTicks = data.Select(Function(d) d.y).Range.CreateAxisTicks
-            Dim rect As Rectangle = canvas.PlotRegion
             Dim x = d3js.scale.linear() _
-                .domain(xTicks) _
+                .domain(values:=xTicks) _
                 .range(integers:={rect.Left, rect.Right})
             Dim y = d3js.scale.linear() _
-                .domain(yTicks) _
+                .domain(values:=yTicks) _
                 .range(integers:={rect.Top, rect.Bottom})
             Dim colorDatas As SolidBrush() = Nothing
             Dim getColors = GetColor(data.Select(Function(o) o.z).ToArray, colorDatas)
             Dim scaler As New DataScaler() With {
                 .AxisTicks = (xTicks.AsVector, yTicks.AsVector),
-                .region = canvas.PlotRegion,
+                .region = rect,
                 .X = x,
                 .Y = y
             }
             Dim size As Size = canvas.Size
-            Dim margin = canvas.Padding
+            Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, canvas.Padding)
             Dim plotWidth! = rect.Width
             Dim plotHeight! = rect.Height
             ' 图例位于右边，占1/5的绘图区域的宽度，高度为绘图区域的高度的2/3
@@ -216,8 +254,8 @@ Namespace Contour.HeatMap
                        End Function) _
                 .ToArray
             Dim rangeTicks#() = realData.Range.CreateAxisTicks
-            Dim legendFont As Font = CSSFont.TryParse(theme.legendLabelCSS).GDIObject(g.Dpi)
-            Dim tickFont As Font = CSSFont.TryParse(theme.legendTickCSS).GDIObject(g.Dpi)
+            Dim legendFont As Font = css.GetFont(CSSFont.TryParse(theme.legendLabelCSS))
+            Dim tickFont As Font = css.GetFont(CSSFont.TryParse(theme.legendTickCSS))
 
             Call g.ColorMapLegend(
                 layout:=legendLayout,

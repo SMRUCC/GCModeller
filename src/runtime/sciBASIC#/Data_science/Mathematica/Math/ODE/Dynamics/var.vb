@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16ecd3475bb1f299d07889ea955be53a, Data_science\Mathematica\Math\ODE\Dynamics\var.vb"
+﻿#Region "Microsoft.VisualBasic::bd4e8adf0148a334a36a5ee77e82d2f0, Data_science\Mathematica\Math\ODE\Dynamics\var.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 85 (70.25%)
+    ' Comment Lines: 11 (9.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 25 (20.66%)
+    '     File Size: 3.69 KB
+
 
     '     Class var
     ' 
@@ -77,6 +89,10 @@ Namespace Dynamics
         Implements ICloneable
         Implements IAddress(Of Integer)
 
+        ''' <summary>
+        ''' index reference of this variable inside the ODEs system
+        ''' </summary>
+        ''' <returns></returns>
         Public Overloads Property Index As Integer Implements IAddress(Of Integer).Address
         Public Overridable Property Name As String Implements IReadOnlyId.Identity
         Public Overrides Property Value As Double Implements Ivar.value

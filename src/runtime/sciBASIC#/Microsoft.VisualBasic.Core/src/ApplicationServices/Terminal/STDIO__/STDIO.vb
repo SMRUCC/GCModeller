@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::842ede966f066ef8c19a778a952cc508, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\STDIO__\STDIO.vb"
+﻿#Region "Microsoft.VisualBasic::501281b52c4836dcf5e90b34cae81cdd, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\STDIO__\STDIO.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 309
+    '    Code Lines: 195 (63.11%)
+    ' Comment Lines: 80 (25.89%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 34 (11.00%)
+    '     File Size: 12.39 KB
+
 
     '     Module STDIO
     ' 
@@ -100,9 +112,9 @@ Namespace ApplicationServices.Terminal
         Public Sub printf(s As String, ParamArray args As Object())
             s = sprintf(s, args)
 
-            Console.Write(s)
+            Call VBDebugger.Echo(s)
             Call Trace.Write(s)
-            Call Debug.Write(s)
+            Call System.Diagnostics.Debug.Write(s)
         End Sub
 #End Region
 
@@ -280,7 +292,7 @@ Namespace ApplicationServices.Terminal
             If String.IsNullOrEmpty(input) Then
                 Return False
             Else
-                Return Asc(input.First) = Asc(compare)
+                Return AscW(input.First) = AscW(compare)
             End If
         End Function
 

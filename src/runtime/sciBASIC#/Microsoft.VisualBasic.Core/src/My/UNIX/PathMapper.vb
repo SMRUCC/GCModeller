@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 50 (44.64%)
+    ' Comment Lines: 47 (41.96%)
+    '    - Xml Docs: 48.94%
+    ' 
+    '   Blank Lines: 15 (13.39%)
+    '     File Size: 5.46 KB
+
+
     '     Module PathMapper
     ' 
     '         Properties: platform

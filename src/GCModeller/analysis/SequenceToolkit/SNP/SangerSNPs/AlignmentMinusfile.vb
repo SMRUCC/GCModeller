@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 89 (67.42%)
+    ' Comment Lines: 14 (10.61%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 29 (21.97%)
+    '     File Size: 5.75 KB
+
+
     '     Module SNPsAlignment
     ' 
     '         Sub: (+2 Overloads) DetectSNPs, (+2 Overloads) GetBasesForEachSNP

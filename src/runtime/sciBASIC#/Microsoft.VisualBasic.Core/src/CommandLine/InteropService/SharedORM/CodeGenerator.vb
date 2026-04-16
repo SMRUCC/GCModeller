@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 80 (78.43%)
+    ' Comment Lines: 5 (4.90%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 17 (16.67%)
+    '     File Size: 3.54 KB
+
+
     '     Class CodeGenerator
     ' 
     '         Constructor: (+2 Overloads) Sub New

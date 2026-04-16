@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5067c442a879027111035d5e2b926733, core\Bio.Assembly\SequenceModel\Patterns\Variation.vb"
+﻿#Region "Microsoft.VisualBasic::2572fb26eea7ecaec5e3e04749b86a0a, core\Bio.Assembly\SequenceModel\Patterns\Variation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 181 (88.73%)
+    ' Comment Lines: 3 (1.47%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (9.80%)
+    '     File Size: 8.13 KB
+
 
     '     Class Variation
     ' 
@@ -133,7 +145,7 @@ Namespace SequenceModel.Patterns
             Dim refFa As FastaSeq = source(ref)
 
             Call source.RemoveAt(ref)
-            Call $"Using {refFa.Title} as references...".__DEBUG_ECHO
+            Call $"Using {refFa.Title} as references...".debug
 
             Dim refSeq$ = refFa.SequenceData.ToUpper.Replace("N", "-")
             Dim out As SeqValue(Of Dictionary(Of String, Variations))() =

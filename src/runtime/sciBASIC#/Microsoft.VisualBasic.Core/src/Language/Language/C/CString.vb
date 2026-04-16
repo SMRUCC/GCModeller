@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2d00cc02e9a1f4843b3a1949b0ed4eee, Microsoft.VisualBasic.Core\src\Language\Language\C\CString.vb"
+﻿#Region "Microsoft.VisualBasic::130b2e4f9f4ba120711f40f83bbcccb0, Microsoft.VisualBasic.Core\src\Language\Language\C\CString.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 231
+    '    Code Lines: 122 (52.81%)
+    ' Comment Lines: 76 (32.90%)
+    '    - Xml Docs: 72.37%
+    ' 
+    '   Blank Lines: 33 (14.29%)
+    '     File Size: 8.79 KB
+
+
     '     Module CString
     ' 
-    '         Function: ChangeCharacter, Decode, IsXDigit, StrChr, StrRChr
-    '                   StrStr, StrTok
+    '         Function: ChangeCharacter, Decode, DecodeDecimalAscii, DecodeHexUnicode, IsXDigit
+    '                   StrChr, StrRChr, StrStr, StrTok
     '         Structure __tokensHelper
     ' 
     '             Function: StrTok
@@ -64,7 +76,13 @@ Namespace Language.C
     ''' </summary>
     Public Module CString
 
-        <Extension> Public Function Decode(s As String) As String
+        ''' <summary>
+        ''' decode of the meta char inside the given format string
+        ''' </summary>
+        ''' <param name="s"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Decode(s As String, Optional strict As Boolean = True) As String
             If s.StringEmpty Then
                 Return s
             Else
@@ -72,37 +90,53 @@ Namespace Language.C
             End If
 
             Try
-                ' Hex Unicode \u0000
-                Do
-                    Dim i = s.IndexOf("\u")
-
-                    If i = -1 Then
-                        Exit Do
-                    End If
-
-                    Dim u = s.Substring(i, 6)
-                    Dim n = Convert.ToInt16(u.Replace("\u", ""), 16)
-
-                    s = s.Replace(u, ChrW(n))
-                Loop
-
-                ' Decimal ASCII \a000
-                Do
-                    Dim i = s.IndexOf("\a")
-
-                    If i = -1 Then
-                        Exit Do
-                    End If
-
-                    Dim a = s.Substring(i, 5)
-                    Dim n = CByte(a.Replace("\a", ""))
-
-                    s = s.Replace(a, Strings.Chr(n))
-                Loop
-
+                s = DecodeHexUnicode(s)
+                s = DecodeDecimalAscii(s)
             Catch ex As Exception
-                Throw New Exception("bad format")
+                ex = New Exception("bad meta char escape format!", ex)
+
+                If strict Then
+                    Throw ex
+                Else
+                    Call App.LogException(ex)
+                End If
             End Try
+
+            Return s
+        End Function
+
+        Private Function DecodeDecimalAscii(ByRef s As String) As String
+            ' Decimal ASCII \a000
+            Do
+                Dim i = s.IndexOf("\a")
+
+                If i = -1 Then
+                    Exit Do
+                End If
+
+                Dim a = s.Substring(i, 5)
+                Dim n = CByte(a.Replace("\a", ""))
+
+                s = s.Replace(a, Strings.ChrW(n))
+            Loop
+
+            Return s
+        End Function
+
+        Private Function DecodeHexUnicode(ByRef s As String) As String
+            ' Hex Unicode \u0000
+            Do
+                Dim i = s.IndexOf("\u")
+
+                If i = -1 Then
+                    Exit Do
+                End If
+
+                Dim u = s.Substring(i, 6)
+                Dim n = Convert.ToInt16(u.Replace("\u", ""), 16)
+
+                s = s.Replace(u, ChrW(n))
+            Loop
 
             Return s
         End Function
@@ -190,6 +224,7 @@ Namespace Language.C
         End Function
 
         Private Structure __tokensHelper
+
             Private activestring As String
             Private activeposition As Integer
 

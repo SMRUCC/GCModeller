@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7ca658f2deacc8b73bdd16209377b528, Data_science\MachineLearning\XGBoostDataSet\Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::437fdd296f49d14ae7d3c678dd574fdf, Data_science\MachineLearning\XGBoostDataSet\Tabular.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 208
+    '    Code Lines: 154 (74.04%)
+    ' Comment Lines: 10 (4.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 44 (21.15%)
+    '     File Size: 7.11 KB
+
 
     ' Module Tabular
     ' 
@@ -78,13 +90,13 @@ Public Module Tabular
 
     <Extension>
     Private Sub second_scan(data As TestData, file As String)
-        data.origin_feature = MAT(Of Single)(data.dataset_size, data.feature_dim)
+        data.origin_feature = RectangularArray.Matrix(Of Single)(data.dataset_size, data.feature_dim)
 
         Using br As New StreamReader(file)
             br.ReadLine()
 
             For row = 0 To data.dataset_size - 1
-                Dim strs As String() = br.ReadLine().Split(",")
+                Dim strs As String() = br.ReadLine().Split(","c)
 
                 For col = 0 To data.feature_dim - 1
 
@@ -127,13 +139,13 @@ Public Module Tabular
     <Extension>
     Private Sub second_scan(data As ValidationData, file As String)
         data.label = New Double(data.dataset_size - 1) {}
-        data.origin_feature = MAT(Of Single)(data.dataset_size, data.feature_dim)
+        data.origin_feature = RectangularArray.Matrix(Of Single)(data.dataset_size, data.feature_dim)
 
         Using br As New StreamReader(file)
             br.ReadLine()
 
             For row = 0 To data.dataset_size - 1
-                Dim strs As String() = br.ReadLine().Split(",")
+                Dim strs As String() = br.ReadLine().Split(","c)
                 data.label(row) = Single.Parse(strs(strs.Length - 1))
 
                 For col = 0 To data.feature_dim - 1
@@ -214,10 +226,10 @@ Public Module Tabular
         For i = 0 To data.feature_dim - 1
             Dim cnt = data.missing_count(i)
             data.missing_index(i) = New Integer(cnt - 1) {}
-            data.feature_value_index(i) = MAT(Of Single)(data.dataset_size - cnt, 2)
+            data.feature_value_index(i) = RectangularArray.Matrix(Of Single)(data.dataset_size - cnt, 2)
         Next
 
-        data.origin_feature = MAT(Of Single)(data.dataset_size, data.feature_dim)
+        data.origin_feature = RectangularArray.Matrix(Of Single)(data.dataset_size, data.feature_dim)
 
 
         Dim br As StreamReader = New StreamReader(file)
@@ -228,7 +240,7 @@ Public Module Tabular
         Arrays.fill(cur_missing_index, 0)
 
         For row = 0 To data.dataset_size - 1
-            Dim strs As String() = br.ReadLine().Split(",")
+            Dim strs As String() = br.ReadLine().Split(","c)
             data.label(row) = Single.Parse(strs(strs.Length - 1))
 
             For col = 0 To data.feature_dim - 1

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3c373ef6009b274f7d60929853c0ff7f, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
+﻿#Region "Microsoft.VisualBasic::d4f90f0167a15ddabb6fcfd67898d922, analysis\SequenceToolkit\SequenceTools\CLI\DNA_Comparative.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 131 (80.86%)
+    ' Comment Lines: 12 (7.41%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 19 (11.73%)
+    '     File Size: 7.84 KB
+
+
     ' Module Utilities
     ' 
     '     Function: CAI, dnaA_gyrB_rule, gwANIEvaluate, RuleMatrix, RulerSlideWindowMatrix
@@ -44,8 +56,8 @@ Imports System.ComponentModel
 Imports System.IO
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Text
@@ -105,7 +117,7 @@ Partial Module Utilities
                 Dim nt As FastaSeq = replicon.Origin.ToFasta
                 Dim ntModel As New DeltaSimilarity1998.NucleicAcid(nt)
 
-                Using writer As StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
+                Using writer As System.IO.StreamWriter = $"{out}/{genome.BaseName}/{replicon.Accession.AccessionId}.csv".OpenWriter()
                     writer.WriteLine("title=," & nt.Title)
 
                     For Each segment As DeltaSimilarity1998.NucleicAcid In ntModel.CreateFragments(winSize, [step]:=steps)
@@ -114,7 +126,7 @@ Partial Module Utilities
                     Next
                 End Using
 
-                Call nt.Title.__INFO_ECHO
+                Call nt.Title.info
             Next
         Next
 
@@ -127,7 +139,7 @@ Partial Module Utilities
     Public Function gwANIEvaluate(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".gwANI.Csv")
-        Dim fast As Boolean = args.GetBoolean("/fast")
+        Dim fast As Boolean = args("/fast")
         Call gwANI.Evaluate([in], out, fast)
         Return 0
     End Function
@@ -146,7 +158,7 @@ Partial Module Utilities
         Dim [in] As String = args("/in")
         Dim out As String = args("/out") Or ([in].TrimSuffix & ".Sigma.Csv")
         Dim fasta As New FastaFile([in])
-        Dim simple As Boolean = args.GetBoolean("/simple")
+        Dim simple As Boolean = args("/simple")
         Dim round As Integer = args("/round") Or -1
         Dim keys As String()
 

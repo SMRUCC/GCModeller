@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da0fb94164e12ada8d21bfcbf950d1f3, core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2d422031a337268fda7c34ad348e5ee3, core\Bio.Assembly\ContextModel\Promoter\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 53 (62.35%)
+    ' Comment Lines: 23 (27.06%)
+    '    - Xml Docs: 91.30%
+    ' 
+    '   Blank Lines: 9 (10.59%)
+    '     File Size: 3.57 KB
+
+
     '     Module Extensions
     ' 
     '         Function: GetPrefixLengths, GetUpstreamSeq, headers, ParseUpstreamByLength
@@ -43,6 +55,7 @@
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -82,24 +95,25 @@ Namespace ContextModel.Promoter
 
         ''' <summary>
         ''' Get upstream nt sequence in a specific length for target gene.
-        ''' (在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中)
         ''' </summary>
         ''' <param name="gene"></param>
         ''' <param name="nt"></param>
         ''' <param name="len%"></param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' (在这个函数之中，位点的计算的时候会有一个碱基的偏移量是因为为了不将起始密码子ATG之中的A包含在结果序列之中)
+        ''' </remarks>
         <Extension>
-        Public Function GetUpstreamSeq(gene As GeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
+        Public Function GetUpstreamSeq(gene As IGeneBrief, nt As IPolymerSequenceModel, len%) As FastaSeq
             Dim loci As NucleotideLocation = gene.Location
 
             With loci.Normalization()
                 If .Strand = Strands.Forward Then
                     ' 正向序列是上游，无需额外处理
-                    loci = New NucleotideLocation(.Left - len, .Left - 1)
+                    loci = New NucleotideLocation(.left - len, .left - 1)
                 Else
                     ' 反向序列是下游，需要额外小心
-                    loci = New NucleotideLocation(.Right + 1, .Right + len, ComplementStrand:=True)
+                    loci = New NucleotideLocation(.right + 1, .right + len, ComplementStrand:=True)
                 End If
             End With
 
@@ -114,11 +128,11 @@ Namespace ContextModel.Promoter
         End Function
 
         <Extension>
-        Private Function headers(gene As GeneBrief, site As SimpleSegment) As String()
+        Private Function headers(gene As IGeneBrief, site As SimpleSegment) As String()
             If gene.Product.StringEmpty Then
-                Return {gene.Synonym & " " & site.ID}
+                Return {gene.Feature & " " & site.ID}
             Else
-                Return {gene.Synonym & " " & site.ID, gene.Product}
+                Return {gene.Feature & " " & site.ID, gene.Product}
             End If
         End Function
     End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fd3d9ff7f99ed4146d03523b018a6f5, Data_science\Mathematica\Math\Math\Scripting\Factors\NamedVector.vb"
+﻿#Region "Microsoft.VisualBasic::b34604dfc640e3628db7ae169af0b103, Data_science\Mathematica\Math\Math\Scripting\Factors\NamedVector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 48 (72.73%)
+    ' Comment Lines: 8 (12.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (15.15%)
+    '     File Size: 2.38 KB
+
+
     '     Class NamedVector
     ' 
     '         Function: GetJson
@@ -46,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -68,7 +81,7 @@ Namespace Scripting
             End If
 
             Call index.Add(factor, buffer.Length)
-            Call buffer.Add(value)
+            Call buffer.Append(value)
         End Sub
 
         Public Overloads Function GetJson(format As String) As String

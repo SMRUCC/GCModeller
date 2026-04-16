@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 60 (61.22%)
+    ' Comment Lines: 18 (18.37%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 20 (20.41%)
+    '     File Size: 3.32 KB
+
+
     '     Class RungeKutta4
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 9 (23.68%)
+    ' Comment Lines: 25 (65.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (10.53%)
+    '     File Size: 1.50 KB
+
+
     '     Module Abstract
     ' 
     ' 

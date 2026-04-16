@@ -788,33 +788,30 @@ Public Function NodeInformationTable(model As String, compounds As String, KO As
     Return proc.Run()
 End Function
 
-''' <summary>
-''' ```bash
-''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/top.priority &lt;map.name.list&gt; /category.level2 /reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /delete.tupleEdges /split /ignores &lt;compoind idlist&gt; /out &lt;result_network.directory&gt;]
-''' ```
-''' Create network model of KEGG reference pathway map for cytoscape data visualization.
-''' </summary>
-'''
-''' <param name="repository"> This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.
-''' </param>
-''' <param name="top_priority"> The map names in the argument value will be forced populate in top priority and ignores of their map coverage value is top or not. 
-'''               Use comma symbol as the map id terms&apos; delimiter.
-''' </param>
-''' <param name="reactions"> The KEGG reference reaction data models.
-''' </param>
-''' <param name="organism"> The organism name or code, if this argument presents in the cli command input, then it means 
-'''               the ``/repository`` parameter data model is the organism specific pathway map data.
-''' </param>
-''' <param name="out"> The network file data output directory that used for cytoscape network visualization.
-''' </param>
-''' <param name="reaction_class"> Apply reaction class filter for reduce network size.
-''' </param>
-''' <param name="coverage_cutoff"> The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.
-''' </param>
-''' <param name="ignores"> A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
-'''               value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.
-''' </param>
-Public Function KEGGReferenceMapModel(repository As String, 
+        ''' <summary>
+        ''' ```bash
+        ''' /KEGG.referenceMap.Model /repository &lt;[reference/organism]kegg_maps.directory&gt; /reactions &lt;kegg_reactions.directory&gt; [/top.priority &lt;map.name.list&gt; /category.level2 /reaction_class &lt;repository&gt; /organism &lt;name&gt; /coverage.cutoff &lt;[0,1], default=0&gt; /delete.unmapped /delete.tupleEdges /split /ignores &lt;compoind idlist&gt; /out &lt;result_network.directory&gt;]
+        ''' ```
+        ''' Create network model of KEGG reference pathway map for cytoscape data visualization.
+        ''' </summary>
+        '''
+        ''' <param name="repository"> This parameter accept two kind of parameters: The kegg reference map data or organism specific pathway map model data.
+        ''' </param>
+        ''' <param name="reactions"> The KEGG reference reaction data models.
+        ''' </param>
+        ''' <param name="organism"> The organism name or code, if this argument presents in the cli command input, then it means 
+        '''               the ``/repository`` parameter data model is the organism specific pathway map data.
+        ''' </param>
+        ''' <param name="out"> The network file data output directory that used for cytoscape network visualization.
+        ''' </param>
+        ''' <param name="reaction_class"> Apply reaction class filter for reduce network size.
+        ''' </param>
+        ''' <param name="coverage_cutoff"> The coverage cutoff of the pathway map, cutoff value in range [0,1]. Default value is zero means no cutoff.
+        ''' </param>
+        ''' <param name="ignores"> A list of kegg compound id list that will be ignores in the generated pathway map model, this optional
+        '''               value could be a id list which use the comma symbol as delimiter or an id list file with format of one id per line.
+        ''' </param>
+        Public Function KEGGReferenceMapModel(repository As String, 
                                          Optional reactions As String = "", 
                                          Optional __top_priority As String = "", 
                                          Optional reaction_class As String = "", 

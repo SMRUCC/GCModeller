@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1ddff95eb64e37e432b078b011527db6, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\ReverseQueue.vb"
+﻿#Region "Microsoft.VisualBasic::98d07e752439d323aa65cd2e9b726810, Microsoft.VisualBasic.Core\src\ComponentModel\DataStructures\Deque\ReverseQueue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 169
+    '    Code Lines: 87 (51.48%)
+    ' Comment Lines: 59 (34.91%)
+    '    - Xml Docs: 96.61%
+    ' 
+    '   Blank Lines: 23 (13.61%)
+    '     File Size: 6.37 KB
+
 
     '     Class ReverseQueue
     ' 
@@ -155,7 +167,7 @@ Namespace ComponentModel.Collection.Deque
         ''' </summary>
         ''' <returns>e zero-based index of the first occurrence of item within the entire Deque(Of T), if found; otherwise, -1.</returns>
         Public Function IndexOf(item As T) As Integer Implements IList(Of T).IndexOf
-            For index = 0 To Count - 1
+            For index As Integer = 0 To Count - 1
                 If Equals(Me(index), item) Then
                     Return index
                 End If

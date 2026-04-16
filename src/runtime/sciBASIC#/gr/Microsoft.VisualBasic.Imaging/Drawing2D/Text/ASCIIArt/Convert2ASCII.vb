@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6dde5788128f23c2af66d7dbe257e68b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\Convert2ASCII.vb"
+﻿#Region "Microsoft.VisualBasic::5e5c7064c102212329b74bcdbd0d190f, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\ASCIIArt\Convert2ASCII.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 144
+    '    Code Lines: 79 (54.86%)
+    ' Comment Lines: 46 (31.94%)
+    '    - Xml Docs: 41.30%
+    ' 
+    '   Blank Lines: 19 (13.19%)
+    '     File Size: 6.67 KB
+
+
     '     Module HelperMethods
     ' 
     '         Function: ASCIIImage, Convert2ASCII, DrawText
@@ -47,9 +59,10 @@ Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Drawing2D.Text.ASCIIArt
 
@@ -62,9 +75,11 @@ Namespace Drawing2D.Text.ASCIIArt
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function ASCIIImage(text$, Optional font$ = CSSFont.Win7Normal, Optional characters As WeightedChar() = Nothing) As String
+        Public Function ASCIIImage(text$,
+                                   Optional font$ = CSSFont.Win7Normal,
+                                   Optional characters As WeightedChar() = Nothing) As String
             Return text _
-                .DrawText(Color.Black, Color.White, , CSSFont.TryParse(font).GDIObject(100)) _
+                .DrawText(Color.Black, Color.White, , CSSEnvirnment.Empty.GetFont(CSSFont.TryParse(font))) _
                 .Convert2ASCII(characters)
         End Function
 
@@ -74,7 +89,8 @@ Namespace Drawing2D.Text.ASCIIArt
         ''' <param name="monoImage"></param>
         ''' <param name="characters"></param>
         ''' <returns></returns>
-        <Extension> Public Function Convert2ASCII(monoImage As Image, Optional characters As WeightedChar() = Nothing) As String
+        <Extension>
+        Public Function Convert2ASCII(monoImage As Image, Optional characters As WeightedChar() = Nothing) As String
             '
             '             * ALGORITHM:
             '             * 
@@ -94,14 +110,14 @@ Namespace Drawing2D.Text.ASCIIArt
             '             *          9- Add (string)character to row text string
             '             *       10- Add row text string to text holding string
             '             *  11 - return resulting Image & Text
-            '             
-            Dim out As New MemoryStream
+            '            
+            Using out As New MemoryStream
+                Using writer As New StreamWriter(out, Encoding.ASCII)
+                    Call monoImage.WriteASCIIStream(writer, characters)
+                End Using
 
-            Using writer As New StreamWriter(out, Encoding.ASCII)
-                Call monoImage.WriteASCIIStream(writer, characters)
+                Return Encoding.ASCII.GetString(out.ToArray)
             End Using
-
-            Return Encoding.ASCII.GetString(out.ToArray)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -123,7 +139,7 @@ Namespace Drawing2D.Text.ASCIIArt
                         Dim closestchar As WeightedChar =
                             characters _
                             .Where(Function(t)
-                                       Return stdNum.Abs(t.Weight - targetvalue) = characters.Min(Function(e) stdNum.Abs(e.Weight - targetvalue))
+                                       Return std.Abs(t.Weight - targetvalue) = characters.Min(Function(e) std.Abs(e.Weight - targetvalue))
                                    End Function) _
                             .FirstOrDefault()
 
@@ -135,7 +151,7 @@ Namespace Drawing2D.Text.ASCIIArt
             End Using
         End Sub
 
-        ReadOnly defaultFont As [Default](Of Font) = SystemFonts.DefaultFont
+        ReadOnly defaultFont As [Default](Of Font) = CharSet.DefaultFont
 
         ''' <summary>
         ''' 将字符转换为图像
@@ -146,11 +162,12 @@ Namespace Drawing2D.Text.ASCIIArt
         ''' <param name="WidthAndHeight"></param>
         ''' <param name="fontStyle"></param>
         ''' <returns></returns>
-        <Extension> Public Function DrawText(text$,
-                                             textColor As Color,
-                                             backColor As Color,
-                                             Optional WidthAndHeight As SizeF = Nothing,
-                                             Optional fontStyle As Font = Nothing) As Image
+        <Extension>
+        Public Function DrawText(text$,
+                                 textColor As Color,
+                                 backColor As Color,
+                                 Optional WidthAndHeight As SizeF = Nothing,
+                                 Optional fontStyle As Font = Nothing) As Image
 
             ' Get char width for insertion point calculation purposes
             Dim font As Font = fontStyle Or defaultFont
@@ -161,12 +178,12 @@ Namespace Drawing2D.Text.ASCIIArt
             End If
 
             ' Create a new image of the right size
-            Dim w% = CInt(stdNum.Truncate(WidthAndHeight.Width))
-            Dim h% = CInt(stdNum.Truncate(WidthAndHeight.Height))
+            Dim w% = CInt(std.Truncate(WidthAndHeight.Width))
+            Dim h% = CInt(std.Truncate(WidthAndHeight.Height))
             Dim img As New Bitmap(w, h)
 
             ' Get a graphics object
-            Using drawing = Graphics.FromImage(img)
+            Using drawing = DriverLoad.CreateGraphicsDevice(img, driver:=Drivers.GDI)
 
                 ' Create a brush for the text
                 Dim textBrush As New SolidBrush(textColor)

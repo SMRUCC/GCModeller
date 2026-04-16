@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dbae4711a9e602a3a9daf2f1771469d, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\LogFile\LogEntry.vb"
+﻿#Region "Microsoft.VisualBasic::53ec90ea6d81b403637d2c5419bb4c9e, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\LogFile\LogEntry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 28 (63.64%)
+    ' Comment Lines: 9 (20.45%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 7 (15.91%)
+    '     File Size: 1.47 KB
+
 
     '     Structure LogEntry
     ' 
@@ -81,7 +93,7 @@ Namespace ApplicationServices.Debugging.Logging
                 .message = message,
                 .[object] = header,
                 .level = level,
-                .time = Now
+                .time = DateTime.UtcNow
             }.ToString
         End Function
     End Structure

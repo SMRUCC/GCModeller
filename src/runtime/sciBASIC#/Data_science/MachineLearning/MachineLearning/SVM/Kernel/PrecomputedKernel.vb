@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 37 (31.09%)
+    ' Comment Lines: 62 (52.10%)
+    '    - Xml Docs: 29.03%
+    ' 
+    '   Blank Lines: 20 (16.81%)
+    '     File Size: 4.64 KB
+
+
     '     Class PrecomputedKernel
     ' 
     '         Constructor: (+3 Overloads) Sub New

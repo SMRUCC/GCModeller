@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a3ac8962a0d043a63bec6dbfd019ff23, mime\application%pdf\PdfReader\Document\PdfBoolean.vb"
+﻿#Region "Microsoft.VisualBasic::e8994f39b0f00eb9a200a3f9524fb01e, mime\application%pdf\PdfReader\Document\PdfBoolean.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 27 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 941 B
+
+
     '     Class PdfBoolean
     ' 
     '         Properties: ParseBoolean, Value
@@ -50,7 +62,7 @@ Namespace PdfReader
     Public Class PdfBoolean
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject, ByVal [boolean] As ParseBoolean)
+        Public Sub New(parent As PdfObject, [boolean] As ParseBoolean)
             MyBase.New(parent, [boolean])
         End Sub
 
@@ -58,7 +70,7 @@ Namespace PdfReader
             Return Value.ToString()
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3350b1b6018db36fe8feab844a68e582, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GlobalAlign.vb"
+﻿#Region "Microsoft.VisualBasic::c9bbad5eb163605d003d738d3f7148ab, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GlobalAlign.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 60 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (20.00%)
+    '     File Size: 2.34 KB
+
+
     '     Class GlobalAlign
     ' 
     '         Properties: Length, query, score, subject
@@ -43,10 +55,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Text
@@ -64,7 +73,7 @@ Namespace NeedlemanWunsch
         Public ReadOnly Property Length As Integer
             Get
                 If query.Length <> subject.Length Then
-                    Throw New InvalidExpressionException("")
+                    Throw New InvalidConstraintException($"the size of query sequence({query.Length}) should be equals to the subject sequence({subject.Length})!")
                 Else
                     Return query.Length
                 End If

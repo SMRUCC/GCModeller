@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99f15150b711a670fb40da36ceb27881, analysis\RNA-Seq\WGCNA\WGCNAModules.vb"
+﻿#Region "Microsoft.VisualBasic::28a7b8e21fb25331ff70a76a6726a9f8, analysis\RNA-Seq\WGCNA\WGCNAModules.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 41 (64.06%)
+    ' Comment Lines: 18 (28.12%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 5 (7.81%)
+    '     File Size: 2.84 KB
+
+
     ' Module WGCNAModules
     ' 
     '     Function: LoadModules, ModsView
@@ -41,20 +53,51 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.RNA_Seq.RTools.WGCNA.Network
 
 <Package("WGCNA.Modules", Publisher:="xie.guigang@gcmodeller.org", Category:=APICategories.ResearchTools)>
 Public Module WGCNAModules
 
+    ''' <summary>
+    ''' load TOM module network nodes
+    ''' </summary>
+    ''' <param name="path">
+    ''' the TOM network nodes text file, should be a tsv file of the cytoscape network export result
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("Load.Modules")>
     Public Function LoadModules(path As String) As CExprMods()
-        Dim tokens As String() = IO.File.ReadAllLines(path).Skip(1).ToArray
-        Dim resultSet As CExprMods() = tokens.Select(Function(line) CExprMods.CreateObject(line)).ToArray
+        Dim tbl As DataFrameResolver = DataFrameResolver.Load(path, tsv:=True)
+        Dim nodeName As Integer = tbl.GetOrdinal("nodeName")
+        Dim altName As Integer = tbl.GetOrdinal("altName")
+        Dim nodesPresent As Integer = tbl.GetOrdinal("nodeAttr[nodesPresent, ]")
+        Dim resultSet As New List(Of CExprMods)
 
-        Return resultSet
+        Do While tbl.Read
+            Call resultSet.Add(New CExprMods With {
+                .altName = tbl.GetString(altName),
+                .nodeName = tbl.GetString(nodeName),
+                .nodesPresent = tbl.GetString(nodesPresent)
+            })
+        Loop
+
+        Return resultSet.ToArray
     End Function
 
+    ''' <summary>
+    ''' group feature nodes by their modules
+    ''' 
+    ''' This function will group the feature nodes by their modules, and return a dictionary that contains the module names
+    ''' as keys and an array of node names that belong to each module as values.
+    ''' 
+    ''' The input is expected to be an enumerable collection of `CExprMods` objects, which represent the feature nodes
+    ''' with their associated module information.
+    ''' </summary>
+    ''' <param name="mods"></param>
+    ''' <returns></returns>
     <ExportAPI("Mods.View")>
     <Extension>
     Public Function ModsView(mods As IEnumerable(Of CExprMods)) As Dictionary(Of String, String())

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 28 (47.46%)
+    ' Comment Lines: 17 (28.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (23.73%)
+    '     File Size: 1.85 KB
+
+
     ' Class ReactorMachine
     ' 
     '     Properties: IterationLoops

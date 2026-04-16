@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac07d5066ef75a456fdbfaf550500a59, localblast\LocalBLAST\Pipeline\COG\Whog\TextParser.vb"
+﻿#Region "Microsoft.VisualBasic::8308e9ae3665dfefd56a92b21e766a03, localblast\LocalBLAST\Pipeline\COG\Whog\TextParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 42 (84.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (16.00%)
+    '     File Size: 1.88 KB
+
 
     '     Module TextParser
     ' 
@@ -81,7 +93,7 @@ Namespace Pipeline.COG.Whog
                 Else
                     list.Last = New NamedValue With {
                         .name = list.Last.name,
-                        .Text = list.Last.text & " " & Trim(nid.Value)
+                        .text = list.Last.text & " " & Strings.Trim(nid.Value)
                     }
                 End If
             Next

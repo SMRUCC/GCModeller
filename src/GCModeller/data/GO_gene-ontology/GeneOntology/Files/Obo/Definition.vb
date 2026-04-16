@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 34 (70.83%)
+    ' Comment Lines: 4 (8.33%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 10 (20.83%)
+    '     File Size: 1.53 KB
+
+
     '     Class Definition
     ' 
     '         Properties: definition, evidences, isOBSOLETE

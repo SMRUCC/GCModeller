@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 79 (50.00%)
+    ' Comment Lines: 57 (36.08%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (13.92%)
+    '     File Size: 7.37 KB
+
+
     ' Class cond_effect_link
     ' 
     '     Properties: cond_effect_link_id, cond_effect_link_notes, condition_id, effect, medium_id

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f19222889e6aaa064788b6b124e0fc05, localblast\LocalBLAST\LocalBLAST\BlastOutput\Views.vb"
+﻿#Region "Microsoft.VisualBasic::2513732b64337cbd2cec339d484dfcb2, localblast\LocalBLAST\LocalBLAST\BlastOutput\Views.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 85 (80.19%)
+    ' Comment Lines: 4 (3.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (16.04%)
+    '     File Size: 3.75 KB
+
+
     '     Class Overview
     ' 
     '         Properties: Queries
@@ -50,7 +62,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 20 (74.07%)
+    ' Comment Lines: 1 (3.70%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (22.22%)
+    '     File Size: 753 B
+
+
     '     Class Min
     ' 
     '         Properties: MinValue

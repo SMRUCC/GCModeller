@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 22 (68.75%)
+    ' Comment Lines: 4 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (18.75%)
+    '     File Size: 1.12 KB
+
+
     '     Structure DomainName
     ' 
     '         Properties: Domain, Invalid, TLD

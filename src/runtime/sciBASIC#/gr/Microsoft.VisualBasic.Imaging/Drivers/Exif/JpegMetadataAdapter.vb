@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a07d5bf90e33773db4dfd97fd079ffd8, gr\Microsoft.VisualBasic.Imaging\Drivers\Exif\JpegMetadataAdapter.vb"
+﻿#Region "Microsoft.VisualBasic::cb37be7a57753d64404175d0021b7fba, gr\Microsoft.VisualBasic.Imaging\Drivers\Exif\JpegMetadataAdapter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 113 (68.48%)
+    ' Comment Lines: 16 (9.70%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 36 (21.82%)
+    '     File Size: 6.33 KB
+
+
     '     Class JpegMetadataAdapter
     ' 
     '         Properties: Metadata
@@ -47,7 +59,7 @@
 
 #End Region
 
-#If netcore5=0
+#If NET48 Then
 
 Imports System.Collections.ObjectModel
 Imports System.IO
@@ -211,4 +223,4 @@ Namespace Driver
         End Sub
     End Class
 End Namespace
-#end if
+#End If

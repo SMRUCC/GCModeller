@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 54 (75.00%)
+    ' Comment Lines: 6 (8.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (16.67%)
+    '     File Size: 3.32 KB
+
+
     '     Class PropertyAttributes
     ' 
     '         Properties: PropertyValue

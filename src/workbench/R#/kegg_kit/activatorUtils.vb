@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::37387d0469715d11487b4c3e50479686, R#\kegg_kit\activatorUtils.vb"
+﻿#Region "Microsoft.VisualBasic::e104052ccb05d156f31554e52deb808f, R#\kegg_kit\activatorUtils.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 82 (80.39%)
+    ' Comment Lines: 8 (7.84%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (11.76%)
+    '     File Size: 3.43 KB
+
+
     ' Module activatorUtils
     ' 
-    '     Function: GetDbLinks, GetNameValues, GetPropertyValues, GetReference
+    '     Function: GetDbLinks, GetGeneName, GetNameValues, GetPropertyValues, GetReference
     ' 
     ' /********************************************************************************/
 
@@ -46,10 +58,17 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports any = Microsoft.VisualBasic.Scripting
 
+''' <summary>
+''' module code for construct the data objects
+''' </summary>
 Module activatorUtils
 
     <Extension>
     Public Function GetPropertyValues(data As dataframe) As [Property]()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"id", "name", "link"}) _
             .Select(Function(r)
                         Return New [Property] With {
@@ -64,6 +83,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetNameValues(data As dataframe) As NamedValue()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"id", "name"}) _
             .Select(Function(r)
                         Return New NamedValue With {
@@ -75,12 +98,37 @@ Module activatorUtils
     End Function
 
     <Extension>
+    Public Function GetGeneName(data As dataframe) As GeneName()
+        If data Is Nothing Then
+            Return {}
+        End If
+
+        Return data.forEachRow({"id", "name"}) _
+            .Select(Function(r)
+                        Return New GeneName With {
+                            .geneId = any.ToString(r(0)),
+                            .description = any.ToString(r(1))
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' "db", "id", "link"
+    ''' </summary>
+    ''' <param name="data"></param>
+    ''' <returns></returns>
+    <Extension>
     Public Function GetDbLinks(data As dataframe) As DBLink()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"db", "id", "link"}) _
             .Select(Function(r)
                         Return New DBLink With {
                             .DBName = any.ToString(r(0)),
-                            .Entry = any.ToString(r(1)),
+                            .entry = any.ToString(r(1)),
                             .link = any.ToString(r(2))
                         }
                     End Function) _
@@ -89,6 +137,10 @@ Module activatorUtils
 
     <Extension>
     Public Function GetReference(data As dataframe) As Reference()
+        If data Is Nothing Then
+            Return {}
+        End If
+
         Return data.forEachRow({"reference", "authors", "title", "journal"}) _
             .Select(Function(r)
                         Return New Reference With {

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a9d1c622d3793b1e51fe219b77fcfd47, Data_science\Visualization\Plots\Fractions\Pyramid.vb"
+﻿#Region "Microsoft.VisualBasic::dac92bcd5dfe9a378ea773983a19c1ec, Data_science\Visualization\Plots\Fractions\Pyramid.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 114 (77.55%)
+    ' Comment Lines: 13 (8.84%)
+    '    - Xml Docs: 76.92%
+    ' 
+    '   Blank Lines: 20 (13.61%)
+    '     File Size: 5.79 KB
+
+
     '     Module Pyramid
     ' 
     '         Function: Plot
+    ' 
+    '     Class PyramidPlot
+    ' 
+    '         Properties: wp
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: PlotInternal
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,14 +60,41 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.g
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Fractions
 
@@ -65,77 +111,98 @@ Namespace Fractions
         ''' <param name="wp#"></param>
         ''' <returns></returns>
         Public Function Plot(data As IEnumerable(Of FractionData),
-                         Optional size As Size = Nothing,
-                         Optional padding$ = g.DefaultPadding,
-                         Optional bg$ = "white",
-                         Optional legendBorder As Stroke = Nothing,
-                         Optional wp# = 0.8) As GraphicsData
+                             Optional size As Size = Nothing,
+                             Optional padding$ = g.DefaultPadding,
+                             Optional bg$ = "white",
+                             Optional legendBorder As Stroke = Nothing,
+                             Optional wp# = 0.8) As GraphicsData
 
-            Dim array As FractionData() =
-            data _
-            .OrderByDescending(Function(x) x.Percentage) _
-            .ToArray
+            Dim array As FractionData() = data.OrderByDescending(Function(x) x.Percentage).ToArray
             Dim margin As Padding = padding
 
             If size.IsEmpty Then
                 size = New Size(3000, 2000)
             End If
 
-            Dim plotInternal =
-            Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                Dim height% = region.PlotRegion.Height
-                Dim width% = region.PlotRegion.Width * wp
-                Dim left! = (region.PlotRegion.Width - width) / 2 + margin.Left
-                Dim tan_ab = height / (width / 2) ' tan(a)
-                Dim right! = (left + width)
-                Dim bottom! = region.PlotRegion.Bottom
+            Dim theme As New Theme With {
+                .padding = margin,
+                .legendBoxStroke = legendBorder?.CSSValue,
+                .background = bg
+            }
+            Dim app As New PyramidPlot(array, theme) With {
+                .wp = wp
+            }
 
-                For Each l As FractionData In array
-                    Dim dh! = height * l.Percentage
-                    Dim dw! = dh / tan_ab
-                    ' b/| dh |\c
-                    ' ---    ---
-                    ' a        d
-                    Dim a As New Point(left, bottom)
-                    Dim b As New Point(left + dw, a.Y - dh)
-                    Dim c As New Point(right - dw, b.Y)
-                    Dim d As New Point(right, a.Y)
-
-                    Dim path As New GraphicsPath
-                    path.AddLine(a, b)
-                    path.AddLine(b, c)
-                    path.AddLine(c, d)
-                    path.AddLine(d, a)
-                    path.CloseAllFigures()
-
-                    Call g.FillPath(New SolidBrush(l.Color), path)
-
-                    left += dw
-                    bottom -= dh
-                    width -= dw * 2
-                    right -= dw
-                Next
-
-                Dim font As New Font(FontFace.MicrosoftYaHei, 32)
-                Dim gr As IGraphics = g
-                Dim maxL = data.Select(Function(x) gr.MeasureString(x.Name, font).Width).Max
-                left = size.Width - (margin.Horizontal) - maxL
-                Dim top = margin.Top
-                Dim legends As New List(Of LegendObject)
-
-                For Each x As FractionData In data
-                    legends += New LegendObject With {
-                       .color = x.Color.RGBExpression,
-                       .style = LegendStyles.Rectangle,
-                       .title = x.Name,
-                       .fontstyle = CSSFont.GetFontStyle(font.Name, font.Style, font.Size)
-                    }
-                Next
-
-                Call g.DrawLegends(New Point(left, top), legends, ,, shapeBorder:=legendBorder)
-            End Sub
-
-            Return GraphicsPlots(size, margin, bg, plotInternal)
+            Return app.Plot(size)
         End Function
     End Module
+
+    Public Class PyramidPlot : Inherits Plot
+
+        ReadOnly array As FractionData()
+
+        Public Property wp As Double = 0.8
+
+        Public Sub New(array As FractionData(), theme As Theme)
+            MyBase.New(theme)
+            Me.array = array
+        End Sub
+
+        Protected Overrides Sub PlotInternal(ByRef g As IGraphics, region As GraphicsRegion)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim margin As Padding = region.Padding
+            Dim height% = region.PlotRegion(css).Height
+            Dim width% = region.PlotRegion(css).Width * wp
+            Dim left! = (region.PlotRegion(css).Width - width) / 2 + css.GetWidth(margin.Left)
+            Dim tan_ab = height / (width / 2) ' tan(a)
+            Dim right! = (left + width)
+            Dim bottom! = region.PlotRegion(css).Bottom
+
+            For Each l As FractionData In array
+                Dim dh! = height * l.Percentage
+                Dim dw! = dh / tan_ab
+                ' b/| dh |\c
+                ' ---    ---
+                ' a        d
+                Dim a As New Point(left, bottom)
+                Dim b As New Point(left + dw, a.Y - dh)
+                Dim c As New Point(right - dw, b.Y)
+                Dim d As New Point(right, a.Y)
+
+                Dim path As New GraphicsPath
+                path.AddLine(a, b)
+                path.AddLine(b, c)
+                path.AddLine(c, d)
+                path.AddLine(d, a)
+                path.CloseAllFigures()
+
+                Call g.FillPath(New SolidBrush(l.Color), path)
+
+                left += dw
+                bottom -= dh
+                width -= dw * 2
+                right -= dw
+            Next
+
+            Dim size As Size = g.Size
+            Dim font As New Font(FontFace.MicrosoftYaHei, 32)
+            Dim gr As IGraphics = g
+            Dim maxL = array.Select(Function(x) gr.MeasureString(x.Name, font).Width).Max
+            left = size.Width - (margin.Horizontal(css)) - maxL
+            Dim top = css.GetHeight(margin.Top)
+            Dim legends As New List(Of LegendObject)
+            Dim legendBorder As Stroke = Stroke.TryParse(theme.legendBoxStroke)
+
+            For Each x As FractionData In array
+                legends += New LegendObject With {
+                    .color = x.Color.RGBExpression,
+                    .style = LegendStyles.Rectangle,
+                    .title = x.Name,
+                    .fontstyle = CSSFont.GetFontStyle(font.Name, font.Style, font.Size)
+                }
+            Next
+
+            Call g.DrawLegends(New Point(left, top), legends, ,, shapeBorder:=legendBorder)
+        End Sub
+    End Class
 End Namespace

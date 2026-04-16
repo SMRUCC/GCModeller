@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::405b35b9f2e77446b6fa0cc3c5360033, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::b05bbfcdc9026671bc697308d229a5a6, data\RegulonDatabase\Regprecise\WebServices\WebParser\Operon\Operon.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 47 (74.60%)
+    ' Comment Lines: 4 (6.35%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 12 (19.05%)
+    '     File Size: 2.08 KB
+
+
     '     Class Operon
     ' 
-    '         Properties: ID, members
+    '         Properties: ID, members, note
     ' 
     '         Function: getCollection, getSize, PageParser, ToString
     ' 
@@ -61,6 +73,9 @@ Namespace Regprecise
 
         <XmlElement("member")>
         Public Property members As RegulatedGene()
+
+        <XmlText>
+        Public Property note As String
 
         Public Overrides Function ToString() As String
             With members _

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 5373
+    '    Code Lines: 4570 (85.05%)
+    ' Comment Lines: 60 (1.12%)
+    '    - Xml Docs: 40.00%
+    ' 
+    '   Blank Lines: 743 (13.83%)
+    '     File Size: 189.44 KB
+
+
     '     Class YamlParser
     ' 
     '         Function: ParseAliasNode, ParseAnchor, ParseAnchorName, ParseBlank, ParseBlockCollection

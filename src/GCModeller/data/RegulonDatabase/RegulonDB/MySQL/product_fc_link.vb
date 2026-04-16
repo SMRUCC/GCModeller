@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75 (49.34%)
+    ' Comment Lines: 55 (36.18%)
+    '    - Xml Docs: 94.55%
+    ' 
+    '   Blank Lines: 22 (14.47%)
+    '     File Size: 6.11 KB
+
+
     ' Class product_fc_link
     ' 
     '     Properties: functional_class_id, prod_fc_l_id, product_id

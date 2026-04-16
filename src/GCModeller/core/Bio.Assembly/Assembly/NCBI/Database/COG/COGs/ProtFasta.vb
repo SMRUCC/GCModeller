@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cd03dc56e0e1b747feda9958d55d62f, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
+﻿#Region "Microsoft.VisualBasic::a52e85bbd8fe42070007aa6504f1b965, core\Bio.Assembly\Assembly\NCBI\Database\COG\COGs\ProtFasta.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 35 (63.64%)
+    ' Comment Lines: 11 (20.00%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 9 (16.36%)
+    '     File Size: 2.11 KB
+
 
     '     Class ProtFasta
     ' 
@@ -92,7 +104,7 @@ Namespace Assembly.NCBI.COG.COGs
 
         Public Overloads Shared Function LoadDocument(File As String) As ProtFasta()
             Dim fasta = FastaFile.Read(File)
-            Call $"Load fasta stream job done! Start fasta parsing job".__DEBUG_ECHO
+            Call $"Load fasta stream job done! Start fasta parsing job".debug
             Return fasta.Select(Function(fa) ProtFasta.Parser(fa)).ToArray
         End Function
     End Class

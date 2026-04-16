@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d41f3d102bbeb53d6c18cd707cedc22, annotations\GO\EnrichBubbles.vb"
+﻿#Region "Microsoft.VisualBasic::603a637dd8a858bef78b9de852bf2347, annotations\GO\EnrichBubbles.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 94 (75.81%)
+    ' Comment Lines: 17 (13.71%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 13 (10.48%)
+    '     File Size: 5.78 KB
+
+
     ' Module EnrichBubbles
     ' 
     '     Function: BubbleModel, BubblePlot, EnrichResult
@@ -45,7 +57,6 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -54,7 +65,7 @@ Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
 Imports SMRUCC.genomics.Visualize.CatalogProfiling
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Module EnrichBubbles
 
@@ -86,6 +97,7 @@ Public Module EnrichBubbles
                                Optional geneIDFont$ = CSSFont.Win10Normal,
                                Optional radius$ = "10,50",
                                Optional displays% = 10,
+                               Optional serialTopn As Boolean = False,
                                Optional titleFontCSS$ = CSSFont.Win7Large,
                                Optional title$ = "GO enrichment",
                                Optional bubbleBorder As Boolean = True,
@@ -102,11 +114,11 @@ Public Module EnrichBubbles
                               Return cat.Value.BubbleModel(correlatedPvalue).ToArray
                           End Function)
 
-        With New Dictionary(Of String, Color())
+        With New Dictionary(Of String, Color)
 
-            !cellular_component = Designer.GetColors("OrRd:c9", alpha:=225)
-            !molecular_function = Designer.GetColors("Blues:c9", alpha:=225)
-            !biological_process = Designer.GetColors("Greens:c9", alpha:=225)
+            !cellular_component = Color.Red
+            !molecular_function = Color.Blue
+            !biological_process = Color.Green
 
             Dim theme As New Theme With {
                 .padding = padding,
@@ -116,8 +128,8 @@ Public Module EnrichBubbles
                 data:=termsData,
                 enrichColors:= .ByRef,
                 showBubbleBorder:=bubbleBorder,
-                displays:=displays,
-                pvalue:=-stdNum.Log10(pvalue),
+                displays:=New LabelDisplayStrategy With {.displays = displays, .serialTopn = serialTopn},
+                pvalue:=-std.Log10(pvalue),
                 unenrich:=unenrichColor.TranslateColor,
                 theme:=theme,
                 bubbleSize:=radius.Split(","c).Select(AddressOf Val).ToArray

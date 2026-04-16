@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b29d4a98f728cba6bfb1a056571876c2, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\TagData\FactorValue.vb"
+﻿#Region "Microsoft.VisualBasic::985cbd0322e8244f0c91e4fb9f8031dd, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\TagData\FactorValue.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 33 (60.00%)
+    ' Comment Lines: 13 (23.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.36%)
+    '     File Size: 2.04 KB
+
+
     '     Class FactorValue
     ' 
     '         Properties: factor, result
     ' 
-    '     Class FactorString
+    '         Function: Create
     ' 
-    '         Properties: factor, text
+    '     Class FactorString
     ' 
     '         Function: ToString
     ' 
@@ -46,17 +58,28 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ComponentModel.TagData
 
     Public Class FactorValue(Of T As {Structure, IComparable(Of T)}, V)
 
+        ''' <summary>
+        ''' should be a numeric factor value
+        ''' </summary>
+        ''' <returns></returns>
         Public Property factor As T
         Public Property result As V
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
 
+        ''' <summary>
+        ''' Make conversion from a tuple object
+        ''' </summary>
+        ''' <param name="value"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Widening Operator CType(value As (factor As T, result As V)) As FactorValue(Of T, V)
             Return New FactorValue(Of T, V) With {
                 .factor = value.factor,
@@ -64,15 +87,29 @@ Namespace ComponentModel.TagData
             }
         End Operator
 #End If
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(value As FactorValue(Of T, V)) As KeyValuePair(Of T, V)
+            Return New KeyValuePair(Of T, V)(value.factor, value.result)
+        End Operator
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function Create(factor As T, result As V) As FactorValue(Of T, V)
+            Return New FactorValue(Of T, V) With {
+                .factor = factor,
+                .result = result
+            }
+        End Function
     End Class
 
-    Public Class FactorString(Of T As {Structure, IComparable(Of T)})
-
-        Public Property factor As T
-        Public Property text As String
+    ''' <summary>
+    ''' target string label tagged with a numeric factor
+    ''' </summary>
+    ''' <typeparam name="T">should be a numeric factor type, example as double, single, etc</typeparam>
+    Public Class FactorString(Of T As {Structure, IComparable(Of T)}) : Inherits FactorValue(Of T, String)
 
         Public Overrides Function ToString() As String
-            Return $"Dim {text} As {GetType(T).FullName} = {factor.GetJson}"
+            Return $"Dim {result} As {GetType(T).FullName} = {factor.GetJson}"
         End Function
     End Class
 End Namespace

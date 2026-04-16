@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8c4619ba94e66d77e2b576ca2d27232d, annotations\KEGG\PathwayMap.vb"
+﻿#Region "Microsoft.VisualBasic::1ed34a19659bd74b2ce1f78eef062e87, annotations\KEGG\PathwayMap.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 58 (63.04%)
+    ' Comment Lines: 21 (22.83%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (14.13%)
+    '     File Size: 3.46 KB
+
+
     ' Module PathwayMapVisualize
     ' 
     '     Function: BuildModel, DEGsPathwayMap, LocalRenderMaps
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
-Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 ''' <summary>
 ''' 这个仅支持代谢反应过程，即<see cref="PathwayMap.KEGGReaction"/>集合不能够为空
@@ -109,7 +121,7 @@ Public Module PathwayMapVisualize
         For Each gene As gene In genes
             Dim logValue = gene(logFC).ParseNumeric
             Dim bgColor$
-            Dim KEGG As String = Trim(gene(KO))
+            Dim KEGG As String = Strings.Trim(gene(KO))
 
             If String.IsNullOrEmpty(KEGG) Then
                 Continue For
@@ -123,7 +135,7 @@ Public Module PathwayMapVisualize
                 bgColor = colorNormal
             End If
 
-            For Each tag As String In KEGG.Split(";"c).Select(AddressOf Trim)
+            For Each tag As String In KEGG.Split(";"c).Select(AddressOf Strings.Trim)
                 out += $"{tag} {bgColor},black"
             Next
         Next

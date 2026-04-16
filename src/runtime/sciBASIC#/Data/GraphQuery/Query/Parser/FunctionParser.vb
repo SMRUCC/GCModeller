@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 9 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 429 B
+
+
     ' Class FunctionParser
     ' 
     '     Constructor: (+1 Overloads) Sub New

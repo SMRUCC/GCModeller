@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d1a26c565fbb53add348a72b5fda1a2c, mime\application%pdf\PdfReader\Document\PdfDateTime.vb"
+﻿#Region "Microsoft.VisualBasic::d65f962460cf49ad69e21e53ca2bc8b7, mime\application%pdf\PdfReader\Document\PdfDateTime.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 26 (81.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (18.75%)
+    '     File Size: 939 B
+
+
     '     Class PdfDateTime
     ' 
     '         Properties: DateTime
@@ -55,7 +67,7 @@ Namespace PdfReader
 
         Private _DateTime As System.DateTime
 
-        Public Sub New(ByVal parent As PdfReader.PdfObject, ByVal str As PdfReader.PdfString)
+        Public Sub New(parent As PdfReader.PdfObject, str As PdfReader.PdfString)
             MyBase.New(parent, TryCast(str.ParseObject, PdfReader.ParseString))
             Me.DateTime = str.ValueAsDateTime
         End Sub
@@ -64,7 +76,7 @@ Namespace PdfReader
             Return Me.DateTime.ToString()
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As PdfReader.IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As PdfReader.IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -72,7 +84,7 @@ Namespace PdfReader
             Get
                 Return _DateTime
             End Get
-            Private Set(ByVal value As System.DateTime)
+            Private Set(value As System.DateTime)
                 _DateTime = value
             End Set
         End Property

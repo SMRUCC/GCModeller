@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 7 (31.82%)
+    ' Comment Lines: 11 (50.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (18.18%)
+    '     File Size: 598 B
+
+
     '     Interface IMotifDomain
     ' 
     '         Properties: Id, location

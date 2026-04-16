@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f21bf2c2f8c6e9d354a2690ffa20396f, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::c543cce05474849764f161409ae98dc0, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringHelpers.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1488
+    '    Code Lines: 806 (54.17%)
+    ' Comment Lines: 521 (35.01%)
+    '    - Xml Docs: 89.44%
+    ' 
+    '   Blank Lines: 161 (10.82%)
+    '     File Size: 56.30 KB
+
+
     ' Module StringHelpers
     ' 
     '     Properties: EmptyString, NonStrictCompares, StrictCompares
@@ -38,15 +50,15 @@
     '     Function: __json, AllEquals, AsciiBytes, (+4 Overloads) ByteString, CharAtOrDefault
     '               CharString, (+3 Overloads) Count, CreateBuilder, DistinctIgnoreCase, EqualsAny
     '               First, FormatString, FormatZero, GetBetween, GetEMails
-    '               GetStackValue, GetString, (+2 Overloads) GetTagValue, GetURLs, IgnoreCase
+    '               GetStackValue, GetString, (+3 Overloads) GetTagValue, GetURLs, IgnoreCase
     '               InStrAny, (+2 Overloads) Intersection, IsEmptyStringVector, JoinBy, LineTokens
-    '               Located, Lookup, (+2 Overloads) Match, Matches, MatchPattern
-    '               (+2 Overloads) MaxLengthString, MinLengthString, NotEmpty, PadEnd, Parts
-    '               RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull, SaveTo
-    '               (+2 Overloads) Split, SplitBy, StartsWith, StringEmpty, StringHashCode
-    '               StringReplace, (+2 Overloads) StringSplit, StripBlank, Strips, SubstringSpecial
-    '               TextEquals, TextLast, TokenCount, TokenCountIgnoreCase, TrimNewLine
-    '               TrimNull, WildcardsLocated
+    '               Located, Lookup, Lookups, (+3 Overloads) Match, Matches
+    '               MatchPattern, (+2 Overloads) MaxLengthString, MinLengthString, NotEmpty, PadEnd
+    '               Parts, RepeatString, ReplaceChars, (+2 Overloads) Reverse, RNull
+    '               SaveTo, (+2 Overloads) Split, SplitBy, StartsWith, StringEmpty
+    '               StringHashCode, StringReplace, (+2 Overloads) StringSplit, StripBlank, Strips
+    '               SubstringSpecial, TextEquals, TextLast, TokenCount, TokenCountIgnoreCase
+    '               TrimNewLine, TrimNull, WildcardsLocated
     ' 
     '     Sub: Parts, RemoveLast
     ' 
@@ -54,15 +66,14 @@
 
 #End Region
 
-Imports System.Drawing
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -72,6 +83,7 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Patterns
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports r = System.Text.RegularExpressions.Regex
 
 ''' <summary>
@@ -145,7 +157,8 @@ Public Module StringHelpers
     ''' <param name="src"></param>
     ''' <param name="replacement"></param>
     ''' <returns></returns>
-    <Extension> Public Function TrimNewLine(src$, <Parameter("vbCrLf.Replaced")> Optional replacement$ = " ") As String
+    <Extension>
+    Public Function TrimNewLine(src$, <Parameter("vbCrLf.Replaced")> Optional replacement$ = " ") As String
         If src Is Nothing Then
             Return ""
         End If
@@ -174,7 +187,8 @@ Public Module StringHelpers
     ''' </summary>
     ''' <param name="s$">字符串数组</param>
     ''' <returns></returns>
-    <Extension> Public Function IsEmptyStringVector(s$(), Optional RNull As Boolean = False) As Boolean
+    <Extension>
+    Public Function IsEmptyStringVector(s$(), Optional RNull As Boolean = False) As Boolean
         If RNull Then
             Return s _
                 .Where(AddressOf StringHelpers.RNull) _
@@ -203,6 +217,13 @@ Public Module StringHelpers
         Return Encoding.ASCII.GetBytes(str)
     End Function
 
+    ''' <summary>
+    ''' all of the string in <paramref name="s"/> collection equals 
+    ''' to the scalar string <paramref name="str"/>?
+    ''' </summary>
+    ''' <param name="s"></param>
+    ''' <param name="str"></param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function AllEquals(s As IEnumerable(Of String), str$) As Boolean
@@ -214,7 +235,8 @@ Public Module StringHelpers
     ''' </summary>
     ''' <param name="s$"></param>
     ''' <returns></returns>
-    <Extension> Public Function StringHashCode(s As String) As Long
+    <Extension>
+    Public Function StringHashCode(s As String) As Long
         Dim hash& = 5381
         Dim chars%() = s.Select(AddressOf Convert.ToInt32).ToArray
 
@@ -228,13 +250,39 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' 常用于gdi+绘图操作，和<see cref="Graphics.MeasureString"/>共同使用
+    ''' 常用于gdi+绘图操作，和<see cref="IGraphics.MeasureString"/>共同使用
     ''' </summary>
     ''' <param name="source"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' A string with max number of the chars counting result
+    ''' </returns>
+    ''' <param name="consolePrintWidth">
+    ''' set this parameter value to TRUE will treated the non-ascii char as two ascii char width.
+    ''' </param>
     <Extension>
-    Public Function MaxLengthString(source As IEnumerable(Of String)) As String
-        Return source.OrderByDescending(Function(s) Len(s)).First
+    Public Function MaxLengthString(source As IEnumerable(Of String), Optional consolePrintWidth As Boolean = False) As String
+        If consolePrintWidth Then
+            ' 20241104
+            ' ascii character for 1 and chinese character for 2
+            ' in console print when do layout
+            ' by default
+            Return source _
+                .OrderByDescending(Function(s)
+                                       If s Is Nothing Then
+                                           Return 0
+                                       Else
+                                           Return Aggregate c As Char
+                                                  In s
+                                                  Let w = If(GB2312.IsChineseCharacter(c), 2, 1)
+                                                  Into Sum(w)
+                                       End If
+                                   End Function) _
+                .First
+        Else
+            Return source _
+                .OrderByDescending(Function(s) Len(s)) _
+                .First
+        End If
     End Function
 
     <Extension>
@@ -250,8 +298,11 @@ Public Module StringHelpers
     ''' <param name="getString"></param>
     ''' <returns></returns>
     <Extension>
-    Public Function MaxLengthString(Of T)(source As IEnumerable(Of T), getString As Func(Of T, String)) As String
-        Return source.Select(getString).MaxLengthString
+    Public Function MaxLengthString(Of T)(source As IEnumerable(Of T),
+                                          getString As Func(Of T, String),
+                                          Optional consolePrintWidth As Boolean = False) As String
+
+        Return source.Select(getString).MaxLengthString(consolePrintWidth)
     End Function
 
     ''' <summary>
@@ -275,10 +326,16 @@ Public Module StringHelpers
     ''' 将一个任意的目标字符集合转换为字符串对象
     ''' </summary>
     ''' <param name="chs"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this function will returns empty string if the given <paramref name="chs"/> collection data is nothing.
+    ''' </returns>
     <Extension>
     Public Function CharString(chs As IEnumerable(Of Char)) As String
-        Return New String(chs.ToArray)
+        If chs Is Nothing Then
+            Return ""
+        Else
+            Return New String(chs.ToArray)
+        End If
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -364,10 +421,19 @@ Public Module StringHelpers
     ''' <param name="data"></param>
     ''' <param name="delimiter"></param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' Converts the object collection to string collection at first, 
+    ''' and then do <see cref="System.String.Join"/>
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function JoinBy(Of T)(data As IEnumerable(Of T), delimiter$, Optional toString As Func(Of T, String) = Nothing) As String
+        If GetType(T) Is GetType(String) Then
+            Return String.Join(delimiter, DirectCast(data, IEnumerable(Of String)).SafeQuery.ToArray)
+        ElseIf GetType(T) Is GetType(Char) Then
+            Return String.Join(delimiter, DirectCast(data, IEnumerable(Of Char)).SafeQuery.Select(Function(c) c.ToString).ToArray)
+        End If
+
         If toString Is Nothing Then
             toString = Function(o) Scripting.ToString(o)
         End If
@@ -380,18 +446,34 @@ Public Module StringHelpers
                     End Function)
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function GetTagValue(m As Match,
+                                Optional delimiter$ = " ",
+                                Optional trim As Boolean = False,
+                                Optional failureNoName As Boolean = True) As NamedValue(Of String)
+
+        Return GetTagValue(m.Value, delimiter, trim, failureNoName)
+    End Function
+
     ''' <summary>
     ''' Text parser for the format: ``tagName{<paramref name="delimiter"/>}value``
     ''' </summary>
     ''' <param name="s"></param>
     ''' <param name="delimiter"></param>
     ''' <param name="trim">Needs Removes all leading and trailing white-space characters from 
-    ''' the current <see cref="System.String"/> object.</param>
-    ''' <returns></returns>
+    ''' the current <see cref="String"/> object.</param>
+    ''' <returns>
+    ''' this function will returns empty data if the given string is nothing
+    ''' </returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function GetTagValue(s$, Optional delimiter$ = " ", Optional trim As Boolean = False, Optional failureNoName As Boolean = True) As NamedValue(Of String)
+    Public Function GetTagValue(s$,
+                                Optional delimiter$ = " ",
+                                Optional trim As Boolean = False,
+                                Optional failureNoName As Boolean = True) As NamedValue(Of String)
+
         Return s.GetTagValue(delimiter, trim:=If(trim, " ", Nothing), failureNoName:=failureNoName)
     End Function
 
@@ -442,19 +524,54 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' Shortcuts for method <see cref="System.String.Equals"/>(s1, s2, <see cref="StringComparison.OrdinalIgnoreCase"/>)
+    ''' NA, n/a, NULL, null, N/A, -
+    ''' </summary>
+    ReadOnly empty_factor As Index(Of String) = {"NA", "n/a", "NULL", "null", "N/A", "-", "/", "#n/a", "#N/A", "#NA", "--", "---", "----", "-----"}
+
+    ''' <summary>
+    ''' Shortcuts for method <see cref="String.Equals"/>
+    ''' (s1, s2, <see cref="StringComparison.OrdinalIgnoreCase"/>).
     ''' </summary>
     ''' <param name="s1"></param>
     ''' <param name="s2"></param>
+    ''' <param name="null_equals">
+    ''' does the two string value should be equals when both two string is nothing?
+    ''' </param>
+    ''' <param name="empty_equals">
+    ''' does the two string value should be equals when both of them is a 
+    ''' literal of empty, example like '', NULL, NA, etc
+    ''' </param>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>
+    ''' the parameters configuration of <paramref name="empty_equals"/> and
+    ''' <paramref name="null_equals"/> is usually apply for the database
+    ''' cross-reference id equals test in bioinformatics area.
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function TextEquals(s1$, s2$) As Boolean
-        'If {s1, s2}.All(Function(s) s Is Nothing) Then
-        '    Return True ' null = null ??
-        'End If
-        Return String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
+    Public Function TextEquals(s1$, s2$,
+                               Optional null_equals As Boolean = False,
+                               Optional empty_equals As Boolean = True) As Boolean
+
+        If s1 Is Nothing OrElse s2 Is Nothing Then
+            If s1 Is Nothing AndAlso s2 Is Nothing Then
+                Return null_equals
+            Else
+                Return False
+            End If
+        ElseIf (s1 = "" AndAlso s2 = "") OrElse (s1 Like empty_factor AndAlso s2 Like empty_factor) Then
+            If empty_equals Then
+                ' means:
+                ' NA equals to NA
+                ' n/a equals to n/a
+                '
+                Return String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
+            Else
+                Return empty_equals
+            End If
+        Else
+            Return String.Equals(s1, s2, StringComparison.OrdinalIgnoreCase)
+        End If
     End Function
 
     ''' <summary>
@@ -471,16 +588,33 @@ Public Module StringHelpers
     ''' <paramref name="s"/> Is Nothing, <see cref="System.String.IsNullOrEmpty"/>, <see cref="System.String.IsNullOrWhiteSpace"/>
     ''' </summary>
     ''' <param name="s">The input test string</param>
-    ''' <returns></returns>
-    ''' 
+    ''' <param name="whitespaceAsEmpty">
+    ''' and also treat the whitespace as empty?
+    ''' </param>
+    ''' <param name="testEmptyFactor">
+    ''' and also treat some NULL factor in R language as empty? 
+    ''' factor string will be tested, example like: 
+    ''' NA, n/a, NULL, null, N/A, -
+    ''' </param>
+    ''' <returns>
+    ''' this function returns TRUE if the string is empty,
+    ''' white space(if <paramref name="whitespaceAsEmpty"/>) 
+    ''' or factor of NULL literal(if
+    ''' <paramref name="testEmptyFactor"/>).
+    ''' </returns>
     <DebuggerStepThrough>
     <Extension>
-    Public Function StringEmpty(s$, Optional whitespaceAsEmpty As Boolean = True) As Boolean
+    Public Function StringEmpty(s$,
+                                Optional whitespaceAsEmpty As Boolean = True,
+                                Optional testEmptyFactor As Boolean = False) As Boolean
+
         If s Is Nothing OrElse String.IsNullOrEmpty(s) Then
             Return True
         Else
             If String.IsNullOrWhiteSpace(s) Then
                 Return whitespaceAsEmpty
+            ElseIf testEmptyFactor Then
+                Return s Like empty_factor
             Else
                 Return False
             End If
@@ -488,7 +622,7 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' Not <see cref="StringEmpty(String, Boolean)"/>
+    ''' Not <see cref="StringEmpty"/>
     ''' </summary>
     ''' <param name="s$"></param>
     ''' <param name="whitespaceAsEmpty"></param>
@@ -506,7 +640,8 @@ Public Module StringHelpers
     ''' <param name="s"></param>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Sub RemoveLast(s As StringBuilder)
+    <Extension>
+    Public Sub RemoveLast(s As StringBuilder)
         Call s.Remove(s.Length - 1, 1)
     End Sub
 
@@ -515,7 +650,8 @@ Public Module StringHelpers
     ''' </summary>
     ''' <param name="sb"></param>
     ''' <returns></returns>
-    <Extension> Public Function Reverse(ByRef sb As StringBuilder) As StringBuilder
+    <Extension>
+    Public Function Reverse(ByRef sb As StringBuilder) As StringBuilder
         Dim s As String = New String(sb.ToString.Reverse.ToArray)
         sb = New StringBuilder(s)
         Return sb
@@ -547,7 +683,8 @@ Public Module StringHelpers
     ''' <returns></returns>
     ''' <remarks>Using for the Fasta sequence writer.</remarks>
     <ExportAPI("s.Parts")>
-    <Extension> Public Function Parts(s$, len%) As String
+    <Extension>
+    Public Function Parts(s$, len%) As String
         Dim sbr As New StringBuilder
         Call Parts(s, len, sbr)
         Return sbr.ToString
@@ -600,13 +737,15 @@ Public Module StringHelpers
 
     ''' <summary>
     ''' Counts the specific char that appeared in the input string.
-    ''' (计数在字符串之中所出现的指定的字符的出现的次数)
     ''' </summary>
     ''' <param name="str"></param>
     ''' <param name="ch"></param>
-    ''' <returns></returns>
-    '''
-    <Extension> Public Function Count(str$, ch As Char) As Integer
+    ''' <returns>this functions returns zero if the given <paramref name="str"/> is null or empty.</returns>
+    ''' <remarks>
+    ''' (计数在字符串之中所出现的指定的字符的出现的次数)
+    ''' </remarks>
+    <Extension>
+    Public Function Count(str$, ch As Char) As Integer
         If String.IsNullOrEmpty(str) Then
             Return 0
         Else
@@ -633,7 +772,7 @@ Public Module StringHelpers
     ''' Count the phrase in <paramref name="text"/>
     ''' </summary>
     ''' <param name="text$"></param>
-    ''' <param name="phrase$"></param>
+    ''' <param name="phrase">the sub-string for count</param>
     ''' <param name="method"></param>
     ''' <returns></returns>
     <Extension>
@@ -650,15 +789,16 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' 获取""或者其他字符所包围的字符串的值，请注意，假若只有一个<paramref name="wrapper"/>的话，字符串将不会进行任何处理
+    ''' 获取""或者其他字符所包围的字符串的值，请注意，假若只有一个<paramref name="wrapper"/>的话，
+    ''' 字符串将不会进行任何处理
     ''' </summary>
     ''' <param name="s"></param>
     ''' <param name="wrapper"></param>
     ''' <returns></returns>
     ''' <remarks></remarks>
     '''
-    <ExportAPI("Wrapper.Trim")>
-    <Extension> Public Function GetString(s$, Optional wrapper As Char = ASCII.Quot) As String
+    <Extension>
+    Public Function GetString(s$, Optional wrapper As Char = ASCII.Quot) As String
         If String.IsNullOrEmpty(s) OrElse Len(s) = 1 Then
             Return s
         End If
@@ -671,12 +811,14 @@ Public Module StringHelpers
 
     ''' <summary>
     ''' Get sub string value from the region that between the <paramref name="left"/> and <paramref name="right"/>.
-    ''' (这个函数是直接分别查找左右两边的定位字符串来进行切割的) 
     ''' </summary>
-    ''' <param name="str$"></param>
-    ''' <param name="left$"></param>
-    ''' <param name="right$"></param>
+    ''' <param name="str"></param>
+    ''' <param name="left"></param>
+    ''' <param name="right"></param>
     ''' <returns></returns>
+    ''' <remarks>
+    ''' (这个函数是直接分别查找左右两边的定位字符串来进行切割的) 
+    ''' </remarks>
     <ExportAPI("Get.Stackvalue")>
     <Extension>
     Public Function GetStackValue(str$, left$, right$) As String
@@ -733,7 +875,8 @@ Public Module StringHelpers
     ''' <param name="fill"></param>
     ''' <returns></returns>
     <ExportAPI("FormatZero")>
-    <Extension> Public Function FormatZero(Of T As {IComparable(Of T)})(n As T, Optional fill$ = "00") As String
+    <Extension>
+    Public Function FormatZero(Of T As {IComparable(Of T)})(n As T, Optional fill$ = "00") As String
         Dim s As String = n.ToString
         Dim d As Integer = Len(fill) - Len(s)
 
@@ -811,14 +954,34 @@ Public Module StringHelpers
     ''' <param name="input">The string to search for a match.</param>
     ''' <param name="pattern">The regular expression pattern to match.</param>
     ''' <param name="options"></param>
-    ''' <returns></returns>
-    <Extension> Public Function Match(<Parameter("input", "The string to search for a match.")> input$,
-                                      <Parameter("Pattern", "The regular expression pattern to match.")> pattern$,
-                                      Optional options As RegexOptions = RegexOptions.Multiline) As String
+    ''' <returns>empty string will be returns if the given input string is null or empty.</returns>
+    <Extension>
+    Public Iterator Function Match(input As IEnumerable(Of String), pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As IEnumerable(Of String)
+        For Each str As String In input.SafeQuery
+            Yield str.Match(pattern, options)
+        Next
+    End Function
+
+    ''' <summary>
+    ''' Searches the specified input string for the first occurrence of the specified regular expression.
+    ''' </summary>
+    ''' <param name="input">The string to search for a match.</param>
+    ''' <param name="pattern">The regular expression pattern to match.</param>
+    ''' <param name="options"></param>
+    ''' <returns>empty string will be returns if the given input string is null or empty.</returns>
+    <Extension>
+    Public Function Match(input$, pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As String
         If input.StringEmpty Then
             Return ""
         Else
-            Return r.Match(input, pattern, options).Value
+            Static cache As New Dictionary(Of String, Regex)
+
+            SyncLock cache
+                Return cache _
+                    .ComputeIfAbsent(pattern, lazyValue:=Function() New Regex(pattern, options)) _
+                    .Match(input) _
+                    .Value
+            End SyncLock
         End If
     End Function
 
@@ -830,7 +993,8 @@ Public Module StringHelpers
     ''' <param name="options"></param>
     ''' <returns></returns>
     <ExportAPI("Match")>
-    <Extension> Public Function Match(input As Match, pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As String
+    <Extension>
+    Public Function Match(input As Match, pattern$, Optional options As RegexOptions = RegexOptions.Multiline) As String
         Return r.Match(input.Value, pattern, options).Value
     End Function
 
@@ -918,10 +1082,11 @@ Public Module StringHelpers
                          Select key = ustr.Group.First.data, count
                          Order By count Descending
 
-            Dim result = LQuery.ToDictionary(
-                Function(x) x.key,
-                Function(x) x.count)
-
+            Dim result As Dictionary(Of String, Integer) = LQuery _
+                .ToDictionary(Function(x) x.key,
+                              Function(x)
+                                  Return x.count
+                              End Function)
             Return result
         End With
     End Function
@@ -933,17 +1098,38 @@ Public Module StringHelpers
     ''' <param name="pattern"><see cref="Regex"/> patterns</param>
     ''' <param name="trimTrailingEmptyStrings"></param>
     ''' <returns></returns>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' this string parser function is a safe function: will returns an empty string 
+    ''' collection if the given <paramref name="source"/> string is empty or nothing.
+    ''' </remarks>
     <Extension>
     Public Function StringSplit(source$, pattern$,
-                                Optional TrimTrailingEmptyStrings As Boolean = False,
+                                Optional trimTrailingEmptyStrings As Boolean = False,
                                 Optional opt As RegexOptions = RegexICSng) As String()
+
+        Dim internalCache As Dictionary(Of String, Regex)
 
         If source.StringEmpty Then
             Return {}
         Else
-            Return source.StringSplit(New Regex(pattern, opt), TrimTrailingEmptyStrings)
+            Static patternCache As New Dictionary(Of RegexOptions, Dictionary(Of String, r))
+
+            SyncLock patternCache
+                If Not patternCache.ContainsKey(opt) Then
+                    Call patternCache.Add(opt, New Dictionary(Of String, r))
+                End If
+
+                internalCache = patternCache(opt)
+            End SyncLock
         End If
+
+        SyncLock internalCache
+            If Not internalCache.ContainsKey(pattern) Then
+                Call internalCache.Add(pattern, New Regex(pattern, opt))
+            End If
+        End SyncLock
+
+        Return source.StringSplit(internalCache(pattern), trimTrailingEmptyStrings)
     End Function
 
     ''' <summary>
@@ -955,14 +1141,14 @@ Public Module StringHelpers
     ''' <returns></returns>
     ''' <remarks></remarks>
     <Extension>
-    Public Function StringSplit(source$, pattern As Regex, Optional TrimTrailingEmptyStrings As Boolean = False) As String()
+    Public Function StringSplit(source$, pattern As Regex, Optional trimTrailingEmptyStrings As Boolean = False) As String()
         If source.StringEmpty Then
             Return {}
         End If
 
         Dim splitArray$() = pattern.Split(source)
 
-        If Not TrimTrailingEmptyStrings OrElse splitArray.Length <= 1 Then
+        If Not trimTrailingEmptyStrings OrElse splitArray.Length <= 1 Then
             Return splitArray
         Else
             Return splitArray _
@@ -996,7 +1182,7 @@ Public Module StringHelpers
     ''' <param name="opt"></param>
     ''' <returns></returns>
     ''' <remarks>
-    ''' 这个函数是一个安全的函数：对于空值字符串对象会直接返回一个空字符串
+    ''' 这个函数是一个安全的函数：对于空值字符串对象会直接返回一个长度为零的空字符串，不会返回空值。
     ''' </remarks>
     <Extension>
     Public Function StringReplace(s$, pattern$, replaceAs$, Optional opt As RegexOptions = RegexICSng) As String
@@ -1021,11 +1207,15 @@ Public Module StringHelpers
     ''' <param name="delimiter">
     ''' Using ``String.Equals`` or Regular expression function to determined this delimiter 
     ''' </param>
-    ''' <returns></returns>
-    <Extension> Public Function Split(source As IEnumerable(Of String),
-                                      delimiter$,
-                                      Optional regex As Boolean = False,
-                                      Optional opt As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of String())
+    ''' <returns>
+    ''' the <paramref name="delimiter"/> string will not be included in the
+    ''' result data set
+    ''' </returns>
+    <Extension>
+    Public Function Split(source As IEnumerable(Of String),
+                          delimiter$,
+                          Optional regex As Boolean = False,
+                          Optional opt As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of String())
 
         Dim delimiterTest As Predicate(Of String)
 
@@ -1134,10 +1324,42 @@ Public Module StringHelpers
         Return -1
     End Function
 
+    <Extension>
+    Public Iterator Function Lookups(source As IEnumerable(Of String), keyword As String,
+                                     Optional caseSensitive As Boolean = True,
+                                     Optional identical As Boolean = False) As IEnumerable(Of Integer)
+        Dim i As Integer
+
+        If identical Then
+            Dim method As StringComparison = If(caseSensitive, StringComparison.Ordinal, StringComparison.OrdinalIgnoreCase)
+
+            For Each line As String In source
+                If String.Equals(line, keyword, method) Then
+                    Yield i
+                Else
+                    i += 1
+                End If
+            Next
+        Else
+            Dim method As CompareMethod = If(caseSensitive, CompareMethod.Binary, CompareMethod.Text)
+
+            For Each line As String In source
+                If InStr(line, keyword, method) > 0 Then
+                    Yield i
+                Else
+                    i += 1
+                End If
+            Next
+        End If
+    End Function
+
     ''' <summary>
-    ''' Search the string by keyword in a string collection. Unlike search function <see cref="StringHelpers.Located(IEnumerable(Of String), String, Boolean, Boolean)"/>
-    ''' using function <see cref="String.Equals"/> function to search string, this function using <see cref="Strings.InStr(String, String, CompareMethod)"/>
+    ''' Search the string by keyword in a string collection. Unlike 
+    ''' search function <see cref="StringHelpers.Located(IEnumerable(Of String), String, Boolean, Boolean)"/>
+    ''' using function <see cref="String.Equals"/> function to search 
+    ''' string, this function using <see cref="Strings.InStr(String, String, CompareMethod)"/>
     ''' to search the keyword.
+    ''' (查找目标<paramref name="keyword"/>在输入的字符串序列之中的哪个下标元素中)
     ''' </summary>
     ''' <param name="source"></param>
     ''' <param name="keyword"></param>
@@ -1178,13 +1400,18 @@ Public Module StringHelpers
     End Function
 
     ''' <summary>
-    ''' 查找到任意一个既返回位置，大小写不敏感，假若查找不到，则返回-1值，判断是否查找成功，可以使用 &lt;0 来完成，
-    ''' 因为是通过InStr来完成的，所以查找成功的时候，最小的值是1，即字符串序列的第一个位置，也是元素0位置
+    ''' test if any <paramref name="find"/> tokens is 
+    ''' inside the given <paramref name="text"/> 
+    ''' string.
+    ''' (查找到任意一个既返回位置，大小写不敏感)
     ''' </summary>
     ''' <param name="text"></param>
     ''' <param name="find"></param>
-    ''' <returns></returns>
-    <ExportAPI("InStr.Any")>
+    ''' <returns>
+    ''' 假若查找不到，则返回-1值，判断是否查找成功，可以使用 &lt;0 来完成，
+    ''' 因为是通过InStr来完成的，所以查找成功的时候，最小的值是1，
+    ''' 即字符串序列的第一个位置，也是元素0位置
+    ''' </returns>
     <Extension>
     Public Function InStrAny(text$, ParamArray find$()) As Integer
         For Each token As String In find
@@ -1239,9 +1466,6 @@ Public Module StringHelpers
 
     ''' <summary>
     ''' Line tokens. **=> Parsing the text into lines by using <see cref="vbCr"/>, <see cref="vbLf"/>**.
-    ''' (函数对文本进行分行操作，由于在Windows(<see cref="VbCrLf"/>)和
-    ''' Linux(<see cref="vbCr"/>, <see cref="vbLf"/>)平台上面所生成的文本文件的换行符有差异，
-    ''' 所以可以使用这个函数来进行统一的分行操作)
     ''' </summary>
     ''' <param name="s"></param>
     ''' <returns></returns>
@@ -1251,8 +1475,13 @@ Public Module StringHelpers
     ''' <param name="escape">
     ''' 是否需要将字符串之中的``\n``转义为换行之后再进行分割？默认不进行转义
     ''' </param>
-    <ExportAPI("LineTokens")>
-    <Extension> Public Function LineTokens(s$, Optional trim As Boolean = True, Optional escape As Boolean = False) As String()
+    ''' <remarks>
+    ''' (函数对文本进行分行操作，由于在Windows(<see cref="VbCrLf"/>)和
+    ''' Linux(<see cref="vbCr"/>, <see cref="vbLf"/>)平台上面所生成的文本文件的换行符有差异，
+    ''' 所以可以使用这个函数来进行统一的分行操作)
+    ''' </remarks>
+    <Extension>
+    Public Function LineTokens(s$, Optional trim As Boolean = True, Optional escape As Boolean = False) As String()
         If String.IsNullOrEmpty(s) Then
             Return {}
         ElseIf escape Then
@@ -1267,7 +1496,9 @@ Public Module StringHelpers
         End If
 
         If lf AndAlso cr Then
-            If trim Then  ' 假若将这个换行替换掉，在Csv文件读取模块会出现bug。。。。。不清楚是怎么回事
+            If trim Then
+                ' 假若将这个换行替换掉，在Csv文件读取模块会出现bug。。。。。
+                ' 不清楚是怎么回事
                 s = s.Replace(vbCr, "")
             End If
 
@@ -1287,7 +1518,8 @@ Public Module StringHelpers
     ''' <param name="s$"></param>
     ''' <param name="token$"></param>
     ''' <returns></returns>
-    <Extension> Public Function TextLast(s$, token$) As Boolean
+    <Extension>
+    Public Function TextLast(s$, token$) As Boolean
         Dim lastIndex% = s.Length - token.Length
         ' 因为token子字符串可能会在s字符串之中出现多次，所以直接使用正向的InStr函数
         ' 可能会导致匹配到第一个字符串而无法正确的匹配上最后一个token，所以在这里使用

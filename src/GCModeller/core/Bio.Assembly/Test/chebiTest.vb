@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69081868ec4dfdb361f549f9f896b8c6, core\Bio.Assembly\Test\chebiTest.vb"
+﻿#Region "Microsoft.VisualBasic::f6c3412449759186df256186e22dd6c6, core\Bio.Assembly\Test\chebiTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 18 (66.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (33.33%)
+    '     File Size: 897 B
+
+
     ' Module chebiTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -46,7 +58,7 @@ Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.XML
 
 Module chebiTest
 
-    Sub Main()
+    Sub Main1()
 
         Dim tables As New TSVTables("D:\smartnucl_integrative\DATA\ChEBI\tsv")
 

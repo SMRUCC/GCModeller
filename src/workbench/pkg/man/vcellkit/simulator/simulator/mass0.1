@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH SIMULATOR 2 2000-1月 "mass0" "mass0"
+.SH NAME
+mass0 \- get the initial mass value
+.SH SYNOPSIS
+\fImass0(\fBvcell\fR as <generic> VirtualCell, 
+\fBrandom\fR as any = \fB<NULL>\fR, 
+\fBmap\fR as any = ["kegg","metacyc"], 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+get the initial mass value
+.PP
+.SH OPTIONS
+.PP
+\fBvcell\fB \fR\- 
+ the initialize mass value has been defined inside this virtual cell model
+. 
+.PP
+.PP
+\fBrandom\fB \fR\- 
+ set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+ both min and max should be positive value.
+. 
+.PP
+.SH VALUE
+.PP
+A mass environment for run vcell model in GCModeller
+.PP
+.SH SEE ALSO
+simulator
+.SH FILES
+.PP
+vcellkit.dll
+.PP

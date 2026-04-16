@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::038f9f53a04d77f610598964d102acbc, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::ad60ed42416abdb7ee7bc7d25633a7ac, Data\DataFrame\StorageProvider\Reflection\StorageProviders\Reflection.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 348
+    '    Code Lines: 226 (64.94%)
+    ' Comment Lines: 83 (23.85%)
+    '    - Xml Docs: 86.75%
+    ' 
+    '   Blank Lines: 39 (11.21%)
+    '     File Size: 16.71 KB
+
+
     '     Module Reflector
     ' 
     '         Function: Convert, CreateRowBuilder, doSave, ExportAsPropertyAttributes, GetDataFrameworkTypeSchema
@@ -44,14 +56,15 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.PipeStream
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports TableSchema = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.SchemaProvider
+Imports TableSchema = Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels.SchemaProvider
 
 Namespace StorageProvider.Reflection
 
@@ -117,7 +130,7 @@ Namespace StorageProvider.Reflection
         ''' <remarks></remarks>
         ''' 
         <Extension>
-        Public Function LoadDataToObject(csv As DataFrame, type As Type,
+        Public Function LoadDataToObject(csv As DataFrameResolver, type As Type,
                                          Optional strict As Boolean = False,
                                          Optional metaBlank As String = "",
                                          Optional parallel As Boolean = True,
@@ -130,7 +143,7 @@ Namespace StorageProvider.Reflection
             parallel = False
 #End If
 
-            Dim sequence = csv._innerTable _
+            Dim sequence = csv.table _
                 .SeqIterator _
                 .Populate(parallel)
             Dim buf = From line As SeqValue(Of RowObject)
@@ -163,7 +176,7 @@ Namespace StorageProvider.Reflection
         ''' <remarks>在这里查找所有具有写属性的属性对象即可</remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function Convert(Of TClass As Class)(df As DataFrame,
+        Public Function Convert(Of TClass As Class)(df As DataFrameResolver,
                                                     Optional strict As Boolean = True,
                                                     Optional metaBlank$ = "",
                                                     Optional silent As Boolean = False) As IEnumerable(Of TClass)
@@ -177,7 +190,7 @@ Namespace StorageProvider.Reflection
         ''' <typeparam name="T"></typeparam>
         ''' <param name="Explicit">
         ''' 当本参数值为False的时候，所有的简单属性值都将被解析出来，而忽略掉其是否带有
-        ''' <see cref="Csv.StorageProvider.Reflection.ColumnAttribute"></see>自定义属性
+        ''' <see cref="StorageProvider.Reflection.ColumnAttribute"></see>自定义属性
         ''' </param>
         ''' <param name="path"></param>
         ''' <returns></returns>
@@ -189,27 +202,31 @@ Namespace StorageProvider.Reflection
                                             Optional maps As Dictionary(Of String, String) = Nothing,
                                             Optional mute As Boolean = False,
                                             Optional metaBlank As String = "",
-                                            Optional skipWhile As NamedValue(Of Func(Of String, Boolean)) = Nothing) As IEnumerable(Of T)
+                                            Optional skipWhile As NamedValue(Of Func(Of String, Boolean)) = Nothing,
+                                            Optional simpleRowIterators As Boolean = True,
+                                            Optional tsv As Boolean = False) As IEnumerable(Of T)
             If Not path.FileExists Then
                 ' 空文件
                 Call $"Csv file ""{path.ToFileURL}"" is empty!".Warning
                 Return {}
             Else
-                Call "Load data from filestream....".__DEBUG_ECHO(mute:=mute)
+                Call "Load data from filestream....".debug(mute:=mute)
             End If
 
-            ' read csv data
-            Dim reader As DataFrame = IO.DataFrame.Load(path, encoding, fast, skipWhile)
             Dim buffer As IEnumerable(Of T)
+            ' read csv data
+            Dim reader As DataFrameResolver = DataFrameResolver.Load(path, encoding, fast, skipWhile,
+                                                        simpleRowIterators:=simpleRowIterators,
+                                                        tsv:=tsv)
 
             If Not maps Is Nothing Then
                 ' 改变列的名称映射以方便进行反序列化数据加载
                 Call reader.ChangeMapping(maps)
             End If
 
-            Call $"Reflector load data into type {GetType(T).FullName}".__DEBUG_ECHO(mute:=mute)
+            Call $"Reflector load data into type {GetType(T).FullName}".debug(mute:=mute)
             buffer = Reflector.Convert(Of T)(reader, Explicit, metaBlank, silent:=mute)
-            Call "[Job Done!]".__DEBUG_ECHO(mute:=mute)
+            Call "[Job Done!]".debug(mute:=mute)
 
             Return buffer
         End Function
@@ -246,7 +263,9 @@ Namespace StorageProvider.Reflection
         ''' <param name="objSource"></param>
         ''' <param name="strict"></param>
         ''' <param name="schemaOut">请注意，Key是Csv文件之中的标题，不是属性名称了</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function populate out the title row and other data rows
+        ''' </returns>
         ''' <remarks>查找所有具备读属性的属性值</remarks>
         Public Iterator Function doSave(objSource As IEnumerable,
                                           typeDef As Type,
@@ -337,7 +356,7 @@ Namespace StorageProvider.Reflection
                                    Optional reorderKeys As Integer = 0,
                                    Optional numFormat$ = Nothing) As File
 
-            Return Reflector.doSave(
+            Dim table = Reflector.doSave(
                 source, GetType(T), strict,
                 schemaOut,
                 metaBlank,
@@ -346,6 +365,8 @@ Namespace StorageProvider.Reflection
                 reorderKeys:=reorderKeys,
                 numFormat:=numFormat
             ).DataFrame
+
+            Return table
         End Function
 
         ''' <summary>

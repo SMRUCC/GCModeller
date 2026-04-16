@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dbd96d1345fd2dcf11d051e2312b222, Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
+﻿#Region "Microsoft.VisualBasic::77cb0608e3b3bb87463b58fc12aca9ff, Data\DataFrame\StorageProvider\Reflection\StorageProviders\TypeSchemaProvider.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 321
+    '    Code Lines: 203 (63.24%)
+    ' Comment Lines: 62 (19.31%)
+    '    - Xml Docs: 53.23%
+    ' 
+    '   Blank Lines: 56 (17.45%)
+    '     File Size: 14.93 KB
+
 
     '     Module TypeSchemaProvider
     ' 
@@ -138,22 +150,45 @@ Namespace StorageProvider.Reflection
                 )
             End If
 
-#If netcore5 = 0 Then
-            ' 请注意，由于这个属性之间有继承关系，这一最基本的类型会放在最后以防止出现重复
-            attrs = [Property].GetCustomAttributes(attributeType:=GetType(System.Data.Linq.Mapping.ColumnAttribute), inherit:=True)
+            '#If NET48 Then
+            '            ' 请注意，由于这个属性之间有继承关系，这一最基本的类型会放在最后以防止出现重复
+            '            attrs = [Property].GetCustomAttributes(attributeType:=GetType(System.Data.Linq.Mapping.ColumnAttribute), inherit:=True)
 
-            If Not attrs.IsNullOrEmpty Then
-                ' 也可能是别名属性
-                Dim attr = DirectCast(attrs(Scan0), System.Data.Linq.Mapping.ColumnAttribute)
-                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
-            End If
-#Else
+            '            If Not attrs.IsNullOrEmpty Then
+            '                ' 也可能是别名属性
+            '                Dim attr = DirectCast(attrs(Scan0), System.Data.Linq.Mapping.ColumnAttribute)
+            '                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
+            '            End If
+            '#Else
             ' 请注意，由于这个属性之间有继承关系，这一最基本的类型会放在最后以防止出现重复
             attrs = [Property].GetCustomAttributes(attributeType:=GetType(SchemaMaps.ColumnAttribute), inherit:=True)
 
             If Not attrs.IsNullOrEmpty Then
                 ' 也可能是别名属性
                 Dim attr = DirectCast(attrs(Scan0), SchemaMaps.ColumnAttribute)
+                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
+            End If
+            ' #End If
+
+            attrs = [Property].GetCustomAttributes(attributeType:=GetType(SchemaMaps.DataFrameColumnAttribute), inherit:=True)
+
+            If Not attrs.IsNullOrEmpty Then
+                Dim attr = DirectCast(attrs(Scan0), SchemaMaps.DataFrameColumnAttribute)
+                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
+            End If
+
+            attrs = [Property].GetCustomAttributes(attributeType:=GetType(SchemaMaps.Field), inherit:=True)
+
+            If Not attrs.IsNullOrEmpty Then
+                Dim attr = DirectCast(attrs(Scan0), SchemaMaps.Field)
+                Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
+            End If
+
+#If NETCOREAPP Then
+            attrs = [Property].GetCustomAttributes(attributeType:=GetType(System.ComponentModel.DataAnnotations.Schema.ColumnAttribute), inherit:=True)
+
+            If Not attrs.IsNullOrEmpty Then
+                Dim attr = DirectCast(attrs(Scan0), System.ComponentModel.DataAnnotations.Schema.ColumnAttribute)
                 Return __generateMask([Property], [alias]:=attr.Name, forcePrimitive:=forcePrimitive)
             End If
 #End If
@@ -185,6 +220,8 @@ Namespace StorageProvider.Reflection
                 ' 属性值的类型是简单类型，则其标记的类型只能是普通列
                 Dim column As ColumnAttribute = If(ColumnMaps, New ColumnAttribute(_getName))
                 Return ComponentModels.Column.CreateObject(column, [Property])
+            ElseIf Scripting.IsNullablePrimitive([Property].PropertyType) Then
+                Return ComponentModels.Column.CreateObject(New ColumnAttribute(_getName), [Property])
             End If
 
             Dim valueType As New Value(Of Type)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29825c8b0f407da82b2cfc1484de2c2e, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
+﻿#Region "Microsoft.VisualBasic::081992eabd48dc9482b35aae99a707e2, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Reflection.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 572
+    '    Code Lines: 339 (59.27%)
+    ' Comment Lines: 163 (28.50%)
+    '    - Xml Docs: 83.44%
+    ' 
+    '   Blank Lines: 70 (12.24%)
+    '     File Size: 21.96 KB
+
+
     ' Module EmitReflection
     ' 
-    '     Function: AsLambda, Collection2GenericIEnumerable, (+2 Overloads) CreateObject, (+3 Overloads) Description, FullName
+    '     Function: AsLambda, Collection2GenericIEnumerable, (+2 Overloads) CreateObject, (+2 Overloads) Description, FullName
     '               (+3 Overloads) GetAssemblyDetails, (+2 Overloads) GetAttribute, GetDelegateInvokeEntryPoint, GetFullName, (+2 Overloads) GetReadWriteProperties
     '               GetTypeElement, GetTypesHelper, (+2 Overloads) GetVersion, IsInheritsFrom, IsModule
     '               IsNonParametric, IsNumericType, ModuleVersion, ResourcesSatellite, Source
@@ -227,9 +239,15 @@ Public Module EmitReflection
     ''' 得到集合类型的对象之中的元素类型
     ''' </summary>
     ''' <param name="type"></param>
-    ''' <param name="strict"></param>
+    ''' <param name="strict">
+    ''' if the given clr <paramref name="type"/> object is not a collection
+    ''' type, then this function will returns nothing if set this strict 
+    ''' parameter value to TRUE, otherwise returns the <paramref name="type"/>
+    ''' object itself is this strict parameter is set to value TRUE.
+    ''' </param>
     ''' <returns></returns>
-    <Extension> Public Function GetTypeElement(type As Type, strict As Boolean) As Type
+    <Extension>
+    Public Function GetTypeElement(type As Type, strict As Boolean) As Type
         If type.IsInheritsFrom(GetType(Array)) Then
             Return type.GetElementType
         End If
@@ -241,6 +259,7 @@ Public Module EmitReflection
             Return GetType(KeyValuePair(Of ,)).MakeGenericType(keyValue)
         End If
         If type.ImplementInterface(GetType(IEnumerable)) Then
+            ' convert to interface type
             type = type.GetInterfaces.Where(Function(i) InStr(i.Name, "IEnumerable") = 1).First
             Return type.GenericTypeArguments.First
         End If
@@ -248,7 +267,11 @@ Public Module EmitReflection
         If strict Then
             Return Nothing
         Else
-            Throw New NotImplementedException
+            ' 20240103
+            ' the given type is not a collection type
+            ' returns itself as the element type
+            ' this is usefull for check element type in R# language runtime
+            Return type
         End If
     End Function
 
@@ -262,22 +285,6 @@ Public Module EmitReflection
     Public Function GetVersion(Product As String) As Version
         Dim assm As Assembly = Assembly.LoadFile(Product)
         Return assm.GetVersion
-    End Function
-
-    ''' <summary>
-    ''' 如果不存在<see cref="DescriptionAttribute"/>定义则会返回空白字符串
-    ''' </summary>
-    ''' <param name="prop"></param>
-    ''' <returns></returns>
-    <ExportAPI("Get.Description")>
-    <Extension> Public Function Description(prop As PropertyInfo) As String
-        Dim attrs As Object() = prop.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=True)
-
-        If attrs.IsNullOrEmpty Then
-            Return ""
-        Else
-            Return DirectCast(attrs(Scan0), DescriptionAttribute).Description
-        End If
     End Function
 
     ''' <summary>
@@ -325,7 +332,8 @@ Public Module EmitReflection
     ''' <param name="type"></param>
     ''' <returns></returns>
     <ExportAPI("Is.Module")>
-    <Extension> Public Function IsModule(type As Type) As Boolean
+    <Extension>
+    Public Function IsModule(type As Type) As Boolean
         If type.Name.IndexOf("$") > -1 OrElse type.Name.IndexOf("`") > -1 Then
             ' 匿名类型
             Return False
@@ -348,8 +356,11 @@ Public Module EmitReflection
     ''' <param name="depth">类型继承的距离值，当这个值越大的时候，说明二者的继承越远，当进行函数重载判断的时候，选择这个距离值越小的越好</param>
     ''' <returns></returns>
     ''' <remarks>假若两个类型是来自于不同的assembly文件的话，即使这两个类型是相同的对象，也会无法判断出来</remarks>
-    <ExportAPI("Is.InheritsFrom")>
-    <Extension> Public Function IsInheritsFrom(a As Type, base As Type, Optional strict As Boolean = True, Optional ByRef depth% = -1) As Boolean
+    <Extension>
+    Public Function IsInheritsFrom(a As Type, base As Type,
+                                   Optional strict As Boolean = True,
+                                   Optional ByRef depth% = -1) As Boolean
+
         Dim baseType As Type = a.BaseType
 
         If Not strict Then
@@ -404,8 +415,8 @@ Public Module EmitReflection
     ''' </summary>
     ''' <returns></returns>
     '''
-    <ExportAPI("Get.Description")>
-    <Extension> Public Function Description(type As Type) As String
+    <Extension>
+    Public Function Description(type As Type) As String
         Dim customAttrs As Object() = type.GetCustomAttributes(GetType(DescriptionAttribute), inherit:=False)
 
         If Not customAttrs.IsNullOrEmpty Then
@@ -421,13 +432,14 @@ Public Module EmitReflection
     ''' <param name="type"></param>
     ''' <returns></returns>
 #If FRAMEWORD_CORE Then
-    <ExportAPI("Get.Properties")>
-    <Extension> Public Function GetReadWriteProperties(type As Type) As PropertyInfo()
+    <Extension> 
+    Public Function GetReadWriteProperties(type As Type) As PropertyInfo()
 #Else
-    <Extension> Public Function GetReadWriteProperties(type As System.Type) As System.Reflection.PropertyInfo()
+    <Extension>
+    Public Function GetReadWriteProperties(type As System.Type) As System.Reflection.PropertyInfo()
 #End If
         Dim LQuery = LinqAPI.Exec(Of PropertyInfo) <=
- _
+                                                     _
             From p As PropertyInfo
             In type.GetProperties
             Where p.CanRead AndAlso p.CanWrite
@@ -450,9 +462,10 @@ Public Module EmitReflection
     ''' <remarks></remarks>
     '''
     <ExportAPI("Collection2GenericIEnumerable")>
-    <Extension> Public Function Collection2GenericIEnumerable(type As Type, Optional showDebugMsg As Boolean = True) As Type
+    <Extension>
+    Public Function Collection2GenericIEnumerable(type As Type, Optional showDebugMsg As Boolean = True) As Type
         If Array.IndexOf(type.GetInterfaces, GetType(IEnumerable)) = -1 Then
-EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" is not a collection type!".__DEBUG_ECHO
+EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" is not a collection type!".debug
             Return type
         End If
 
@@ -505,10 +518,14 @@ EXIT_:      If showDebugMsg Then Call $"[WARN] Target type ""{type.FullName}"" i
     <ExportAPI("Get.FullName")>
     <Extension> Public Function GetFullName(method As MethodBase, Optional IncludeAssembly As Boolean = False) As String
         Dim Name As String = $"{method.DeclaringType.FullName}::{method.ToString}"
+        Dim libdll As String = method.DeclaringType.Module.Assembly.Location
+
         If Not IncludeAssembly Then
             Return Name
+        ElseIf libdll.FileExists Then
+            Return $"{libdll.ToFileURL}!{Name}"
         Else
-            Return $"{method.DeclaringType.Module.Assembly.Location.ToFileURL}!{Name}"
+            Return $"{libdll}!{Name}"
         End If
     End Function
 

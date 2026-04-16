@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d5c51bc0373ca613d4accf135673b25, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\WindowsLibraryLoader.vb"
+﻿#Region "Microsoft.VisualBasic::23c59d3ec87c022b996364f84daccc49, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\WindowsLibraryLoader.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 58 (65.91%)
+    ' Comment Lines: 13 (14.77%)
+    '    - Xml Docs: 69.23%
+    ' 
+    '   Blank Lines: 17 (19.32%)
+    '     File Size: 3.55 KB
+
+
     '     Class WindowsLibraryLoader
     ' 
     '         Function: FreeLibrary, GetFunctionAddress, GetLastError, GetShortPath, LoadLibrary
+    '                   ToString
     ' 
     '     Module Win32
     ' 
@@ -53,19 +66,25 @@ Imports System.Text
 Namespace ApplicationServices.DynamicInterop
 
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
-    Friend Class WindowsLibraryLoader
-        Implements IDynamicLibraryLoader
+    Public Class WindowsLibraryLoader : Implements IDynamicLibraryLoader
 
         Public Function LoadLibrary(filename As String) As IntPtr Implements IDynamicLibraryLoader.LoadLibrary
             'new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Demand();
             Dim handle = Win32.LoadLibrary(filename)
 
             If handle = IntPtr.Zero Then
-                Dim [error] = New Win32Exception(Marshal.GetLastWin32Error()).Message
-                Console.WriteLine([error])
+                Dim ex As New Win32Exception(Marshal.GetLastWin32Error())
+                Dim [error] = ex.Message
+
+                App.LogException(ex)
+                VBDebugger.EchoLine([error])
             End If
 
             Return handle
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return "WIN32<kernel32.dll>"
         End Function
 
         Public Function GetLastError() As String Implements IDynamicLibraryLoader.GetLastError
@@ -79,6 +98,12 @@ Namespace ApplicationServices.DynamicInterop
             Return Win32.FreeLibrary(handle)
         End Function
 
+        ''' <summary>
+        ''' GetProcAddress
+        ''' </summary>
+        ''' <param name="hModule"></param>
+        ''' <param name="lpProcName"></param>
+        ''' <returns></returns>
         Public Function GetFunctionAddress(hModule As IntPtr, lpProcName As String) As IntPtr Implements IDynamicLibraryLoader.GetFunctionAddress
             Return GetProcAddress(hModule, lpProcName)
         End Function

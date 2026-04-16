@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f4722ec0c50a06cbc6d41cdffb7b015, sub-system\PLAS.NET\SSystem\System\ODEs.vb"
+﻿#Region "Microsoft.VisualBasic::a80767f1413b47ccb045c92ac949e510, sub-system\PLAS.NET\SSystem\System\ODEs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 50 (76.92%)
+    ' Comment Lines: 8 (12.31%)
+    '    - Xml Docs: 62.50%
+    ' 
+    '   Blank Lines: 7 (10.77%)
+    '     File Size: 2.83 KB
+
+
     '     Module ODEs
     ' 
     '         Function: RunSystem
@@ -41,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
@@ -56,7 +69,7 @@ Namespace Kernel
         ''' <param name="model"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function RunSystem(model As Script.Model) As ODEsOut
+        Public Function RunSystem(model As Script.Model, bounds As Dictionary(Of String, DoubleRange)) As ODEsOut
             Dim vars = LinqAPI.Exec(Of var) <=
                 From x As ObjectModels.var
                 In model.Vars
@@ -67,7 +80,7 @@ Namespace Kernel
             Dim engine As New ExpressionEngine
             Dim dynamics = (From x As Script.SEquation
                             In model.sEquations
-                            Select y = New ObjectModels.Equation(x)
+                            Select y = New ObjectModels.Equation(x, bounds(x.x))
                             Group y By y.Id Into Group) _
                                  .ToDictionary(Function(x) x.Id,
                                                Function(x)

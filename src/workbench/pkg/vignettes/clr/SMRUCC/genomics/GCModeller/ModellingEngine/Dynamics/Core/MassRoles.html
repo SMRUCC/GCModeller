@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core.MassRoles</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>MassRoles {SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>MassRoles</h2>
+
+        <h3>Description</h3>
+
+        <p>物质的角色分类类型</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
+export class MassRoles extends <a href="/vignettes/clr/System/Enum.html">Enum</a> {
+   # gene template of the RNA molecules, usually be a constant 1, binding to unchanged.
+   gene: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 0;
+
+   # realtime gene instance molecule, could be translate to protein
+   mRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 1;
+
+   # realtime gene instance molecule
+   tRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 2;
+
+   # realtime gene instance molecule,
+   rRNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 3;
+
+   # realtime gene instance molecule, other RNA molecules
+   RNA: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 4;
+
+   # realtime gene instance molecule,
+   polypeptide: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 5;
+
+   # realtime gene instance molecule, 蛋白包括单体蛋白或者复合物蛋白
+   protein: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 6;
+
+   # metabolite instance molecule object. 小分子化合物
+   compound: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 7;
+
+   # mapping to the cell status view: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/StatusMapFactor.html">StatusMapFactor</a>
+   status: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a> = 8;
+
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/System/Enum.html">Enum</a> class: <a href="/vignettes/clr/System/Enum.html">Enum</a></li>
+<li>use by <i>field</i> member <code>gene</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>mRNA</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>tRNA</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>rRNA</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>RNA</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>polypeptide</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>protein</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>compound</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+<li>use by <i>field</i> member <code>status</code>: <a href="/vignettes/clr/SMRUCC/genomics/GCModeller/ModellingEngine/Dynamics/Core/MassRoles.html">MassRoles</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

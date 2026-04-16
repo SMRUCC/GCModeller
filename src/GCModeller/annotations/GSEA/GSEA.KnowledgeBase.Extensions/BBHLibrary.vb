@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b62a6ff609f27e8d40e21998348e45da, annotations\GSEA\GSEA.KnowledgeBase.Extensions\BBHLibrary.vb"
+﻿#Region "Microsoft.VisualBasic::9ad1bb5cc5ae1e01bc1b15172da0f175, annotations\GSEA\GSEA.KnowledgeBase.Extensions\BBHLibrary.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 53 (71.62%)
+    ' Comment Lines: 13 (17.57%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 8 (10.81%)
+    '     File Size: 3.05 KB
+
 
     ' Module BBHLibrary
     ' 
@@ -87,8 +99,8 @@ Public Module BBHLibrary
                     .locus_tag = New NamedValue With {
                         .name = gene.QueryName
                     },
-                    .term_id = {gene.HitName},
-                    .name = gene.Description
+                    .term_id = BackgroundGene.UnknownTerms(gene.HitName).ToArray,
+                    .name = gene.description
                 }
             Next
         Next

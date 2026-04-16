@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::afee566bfc9694b96c056128dc73f591, mime\application%pdf\PdfReader\Tokenizer\TokenIdentifier.vb"
+﻿#Region "Microsoft.VisualBasic::b210ca51ba20d26b804e256c354d88f0, mime\application%pdf\PdfReader\Tokenizer\TokenIdentifier.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 29 (80.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (19.44%)
+    '     File Size: 1.23 KB
+
+
     '     Class TokenIdentifier
     ' 
     '         Properties: Value
@@ -54,7 +66,7 @@ Namespace PdfReader
         Private Shared _lookup As ConcurrentDictionary(Of String, TokenIdentifier) = New ConcurrentDictionary(Of String, TokenIdentifier)()
         Private Shared _nullUpdate As Func(Of String, TokenIdentifier, TokenIdentifier) = Function(x, y) y
 
-        Public Sub New(ByVal identifier As String)
+        Public Sub New(identifier As String)
             Value = identifier
         End Sub
 
@@ -62,12 +74,12 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _Value = value
             End Set
         End Property
 
-        Public Shared Function GetToken(ByVal identifier As String) As TokenIdentifier
+        Public Shared Function GetToken(identifier As String) As TokenIdentifier
             Dim tokenIdentifier As TokenIdentifier = Nothing
 
             If Not _lookup.TryGetValue(identifier, tokenIdentifier) Then

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 18 (29.51%)
+    ' Comment Lines: 39 (63.93%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (6.56%)
+    '     File Size: 1.55 KB
+
+
     '     Enum WordClass
     ' 
     ' 

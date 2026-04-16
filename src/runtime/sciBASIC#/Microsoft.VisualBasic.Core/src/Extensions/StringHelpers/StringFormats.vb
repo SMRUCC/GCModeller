@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f9208f9e2392bc3c86a4d1bafe83a42, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringFormats.vb"
+﻿#Region "Microsoft.VisualBasic::55b1faa5c11c0ee6e407799cf5799640, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\StringFormats.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 102 (67.11%)
+    ' Comment Lines: 32 (21.05%)
+    '    - Xml Docs: 93.75%
+    ' 
+    '   Blank Lines: 18 (11.84%)
+    '     File Size: 5.40 KB
+
+
     ' Module StringFormats
     ' 
-    '     Function: FormatTime, (+2 Overloads) Lanudry, ReadableElapsedTime
+    '     Function: Format, FormatTime, (+2 Overloads) Lanudry, nsize, (+2 Overloads) ReadableElapsedTime
     ' 
     ' /********************************************************************************/
 
@@ -42,9 +54,36 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.Language.C
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Linq
+Imports std = System.Math
 
 Public Module StringFormats
+
+    ''' <summary>
+    ''' Format the given number collection with a given <paramref name="numberFormat"/> string.
+    ''' </summary>
+    ''' <param name="x"></param>
+    ''' <param name="numberFormat"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function Format(x As IEnumerable(Of Double), numberFormat As String) As IEnumerable(Of String)
+        Return From xi As Double
+               In x.SafeQuery
+               Let str As String = xi.ToString(numberFormat)
+               Select str
+    End Function
+
+    Public Function nsize(x As Double) As String
+        If x <= 0 Then
+            Return "0"
+        ElseIf x.IsNaNImaginary Then
+            Return "n/a"
+        ElseIf x < 500 Then
+            Return CInt(x).ToString
+        Else
+            Return CInt(x / 1000).ToString & "K"
+        End If
+    End Function
 
     ''' <summary>
     ''' 对bytes数值进行格式自动优化显示
@@ -56,12 +95,14 @@ Public Module StringFormats
             Return "0 B"
         ElseIf bytes.IsNaNImaginary Then
             Return "n/a KB"
+        ElseIf bytes < 1024 Then
+            Return $"{CInt(bytes)} B"
         End If
 
         Dim symbols = {"B", "KB", "MB", "GB", "TB"}
-        Dim exp = stdNum.Floor(stdNum.Log(bytes) / stdNum.Log(1000))
+        Dim exp = std.Floor(std.Log(bytes) / std.Log(1000))
         Dim symbol = symbols(exp)
-        Dim val = (bytes / (1000 ^ stdNum.Floor(exp)))
+        Dim val = (bytes / (1000 ^ std.Floor(exp)))
 
         Return sprintf($"%.2f %s", val, symbol)
     End Function
@@ -74,9 +115,17 @@ Public Module StringFormats
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
-    Public Function FormatTime(t As TimeSpan, Optional showMs As Boolean = True) As String
+    Public Function FormatTime(t As TimeSpan,
+                               Optional showMs As Boolean = True,
+                               Optional showDays As Boolean = False) As String
         With t
-            Dim dhms As String = $"{ZeroFill(.Days, 2)} days, {ZeroFill(.Hours, 2)}:{ZeroFill(.Minutes, 2)}:{ZeroFill(.Seconds, 2)}"
+            Dim dhms As String
+
+            If showDays Then
+                dhms = $"{ZeroFill(.Days, 2)} days, {ZeroFill(.Hours, 2)}:{ZeroFill(.Minutes, 2)}:{ZeroFill(.Seconds, 2)}"
+            Else
+                dhms = $"{ZeroFill(std.Ceiling(.TotalHours) - 1, 2)}:{ZeroFill(.Minutes, 2)}:{ZeroFill(.Seconds, 2)}"
+            End If
 
             If showMs Then
                 Return $"{dhms}.{ZeroFill(.Milliseconds, 3)}"
@@ -88,7 +137,9 @@ Public Module StringFormats
 
     <Extension>
     Public Function Lanudry(timespan As TimeSpan, Optional showMs As Boolean = True) As String
-        If timespan < TimeSpan.FromMinutes(1) Then
+        If timespan < TimeSpan.FromSeconds(1) Then
+            Return $"{timespan.TotalMilliseconds} ms"
+        ElseIf timespan < TimeSpan.FromMinutes(1) Then
             Return $"{timespan.TotalSeconds.ToString("F1")} seconds"
         ElseIf timespan < TimeSpan.FromHours(1) Then
             Return $"{timespan.TotalMinutes.ToString("F2")} min"
@@ -99,17 +150,47 @@ Public Module StringFormats
         End If
     End Function
 
+    ''' <summary>
+    ''' convert the ms value to human readable string
+    ''' </summary>
+    ''' <param name="span"><see cref="TimeSpan.TotalMilliseconds"/></param>
+    ''' <param name="format"></param>
+    ''' <param name="round"></param>
+    ''' <returns>human readable time string, example as: 3.6s, 45min or 1.99h</returns>
+    ''' 
+    <Extension>
+    Public Function ReadableElapsedTime(span As TimeSpan, Optional format$ = "%.3f%s", Optional round% = 3) As String
+        Return ReadableElapsedTime(span.TotalMilliseconds, format, round)
+    End Function
+
+    ''' <summary>
+    ''' convert the ms value to human readable string
+    ''' </summary>
+    ''' <param name="microtime"><see cref="TimeSpan.TotalMilliseconds"/></param>
+    ''' <param name="format"></param>
+    ''' <param name="round"></param>
+    ''' <returns>human readable time string, example as: 3.6s, 45min or 1.99h</returns>
     Public Function ReadableElapsedTime(microtime&, Optional format$ = "%.3f%s", Optional round% = 3) As String
         Dim unit$
         Dim time!
 
         If microtime >= 1000 Then
             unit = "s"
-            time = stdNum.Round(microtime / 1000, round)
+            time = std.Round(microtime / 1000, round)
 
             If time >= 60 Then
                 unit = "min"
-                time = stdNum.Round(time / 60, round)
+                time = std.Round(time / 60, round)
+
+                If time >= 60 Then
+                    unit = "h"
+                    time = std.Round(time / 60, round)
+
+                    If time >= 24 Then
+                        unit = "days"
+                        time = std.Round(time / 24, round)
+                    End If
+                End If
             End If
 
             format = sprintf(format, time, unit)

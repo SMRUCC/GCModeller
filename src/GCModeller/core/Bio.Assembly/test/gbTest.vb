@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d03bc7e6983900cfd3dcb85dad5c4a6b, core\Bio.Assembly\Test\gbTest.vb"
+﻿#Region "Microsoft.VisualBasic::520436457114201d207fa4da069ffdc5, core\Bio.Assembly\Test\gbTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 16 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (20.00%)
+    '     File Size: 760 B
+
+
     ' Module gbTest
     ' 
-    '     Sub: dbXref2LocationGuid, Main
+    '     Sub: dbXref2LocationGuid, Main1
     ' 
     ' /********************************************************************************/
 
@@ -43,7 +55,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 
 Module gbTest
-    Sub Main()
+    Sub Main1()
         Call dbXref2LocationGuid()
     End Sub
 

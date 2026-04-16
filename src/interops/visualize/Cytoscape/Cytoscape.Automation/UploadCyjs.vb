@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 38 (77.55%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (22.45%)
+    '     File Size: 1.58 KB
+
+
     '     Class CyjsUpload
     ' 
     '         Properties: data, elements

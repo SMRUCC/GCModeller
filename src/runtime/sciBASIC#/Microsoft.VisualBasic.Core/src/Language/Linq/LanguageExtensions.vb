@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 41 (63.08%)
+    ' Comment Lines: 17 (26.15%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 7 (10.77%)
+    '     File Size: 2.19 KB
+
+
     '     Module LanguageExtensions
     ' 
     '         Sub: (+5 Overloads) Add

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 35 (58.33%)
+    ' Comment Lines: 15 (25.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (16.67%)
+    '     File Size: 2.03 KB
+
+
     '     Class VectorEqualityComparer
     ' 
     '         Function: Equals, GetHashCode, (+2 Overloads) VectorEqualsToAnother

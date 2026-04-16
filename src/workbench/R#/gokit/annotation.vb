@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 51 (79.69%)
+    ' Comment Lines: 7 (10.94%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (9.38%)
+    '     File Size: 2.57 KB
+
+
     ' Module annotation
     ' 
     '     Function: CreateKO2GO, mapTop

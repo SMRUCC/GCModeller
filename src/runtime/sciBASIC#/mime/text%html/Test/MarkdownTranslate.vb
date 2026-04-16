@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::919e452450838cfe27a252cd8313eb23, mime\text%html\test\MarkdownTranslate.vb"
+﻿#Region "Microsoft.VisualBasic::919e452450838cfe27a252cd8313eb23, mime\text%html\Test\MarkdownTranslate.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 39 (58.21%)
+    ' Comment Lines: 1 (1.49%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 27 (40.30%)
+    '     File Size: 954 B
+
 
     ' Module MarkdownTranslate
     ' 

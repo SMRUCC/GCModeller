@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bb340459886a2e4c644a26e097a07098, models\Networks\Microbiome\PathwayProfile\ProfileMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::73e95a5bfcbb08cb611a1c2d030384ab, models\Networks\Microbiome\PathwayProfile\ProfileMatrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 80 (61.07%)
+    ' Comment Lines: 34 (25.95%)
+    '    - Xml Docs: 82.35%
+    ' 
+    '   Blank Lines: 17 (12.98%)
+    '     File Size: 5.73 KB
+
 
     '     Module ProfileMatrix
     ' 
@@ -77,11 +89,11 @@ Namespace PathwayProfile
                     .ToArray
 
                 For Each map As MapIndex In pathways
-                    If Not profile.ContainsKey(map.id) Then
-                        Call profile.Add(map.id, New Counter)
+                    If Not profile.ContainsKey(map.EntryId) Then
+                        Call profile.Add(map.EntryId, New Counter)
                     End If
 
-                    Call profile(map.id).Hit()
+                    Call profile(map.EntryId).Hit()
                 Next
             Next
 
@@ -121,7 +133,7 @@ Namespace PathwayProfile
                             Dim taxonomy As Taxonomy = tax.taxonomy
                             Dim profile = taxonomy.PathwayProfiles(uniprot, ref)
 
-                            Call taxonomy.ToString(BIOMstyle:=True).__DEBUG_ECHO
+                            Call taxonomy.ToString(BIOMstyle:=True).debug
 
                             ' 因为可能是gast.taxonomy，所以在这里需要使用new来进行复制
                             ' 否则后面的json/XML序列化会出错

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80a7474dcc33720a8dd2c34c82ec3227, gr\network-visualization\Datavisualization.Network\Graph\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9a12cbbe24fccf1879f1af468862181b, gr\network-visualization\Datavisualization.Network\Graph\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 48 (67.61%)
+    ' Comment Lines: 15 (21.13%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (11.27%)
+    '     File Size: 2.85 KB
+
+
     '     Module Extensions
     ' 
     '         Function: GetNeighbours, NodesID
@@ -43,10 +55,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Graph
@@ -71,13 +84,27 @@ Namespace Graph
         ''' <summary>
         ''' 生成诸如degree之类的信息
         ''' </summary>
-        ''' <param name="net"></param>
+        ''' <param name="g"></param>
         <Extension>
-        Public Sub ApplyAnalysis(ByRef net As NetworkGraph)
-            For Each node In net.vertex
-                node.data.neighbours = net.GetNeighbours(node.Label).ToArray
-                node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE) = node.data.neighborhoods
-            Next
+        Public Sub ApplyAnalysis(ByRef g As NetworkGraph, Optional parallel As Boolean = False)
+            Dim nodePool As Node() = g.vertex.ToArray
+            Dim graph As NetworkGraph = g
+
+            If parallel Then
+                Call System.Threading.Tasks.Parallel.ForEach(
+                    source:=nodePool,
+                    body:=Sub(node)
+                              node.data.neighbours = graph.GetNeighbours(node.label).ToArray
+                              node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE) = node.data.neighborhoods
+                          End Sub)
+            Else
+                For Each node As Node In nodePool
+                    node.data.neighbours = graph.GetNeighbours(node.label).ToArray
+                    node.data(NamesOf.REFLECTION_ID_MAPPING_DEGREE) = node.data.neighborhoods
+                Next
+            End If
+
+            Call g.ComputeNodeDegrees
         End Sub
 
         ''' <summary>

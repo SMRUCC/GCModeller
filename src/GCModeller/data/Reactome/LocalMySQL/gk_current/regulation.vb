@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 185
+    '    Code Lines: 95 (51.35%)
+    ' Comment Lines: 68 (36.76%)
+    '    - Xml Docs: 95.59%
+    ' 
+    '   Blank Lines: 22 (11.89%)
+    '     File Size: 11.02 KB
+
+
     ' Class regulation
     ' 
     '     Properties: authored, authored_class, DB_ID, regulatedEntity, regulatedEntity_class

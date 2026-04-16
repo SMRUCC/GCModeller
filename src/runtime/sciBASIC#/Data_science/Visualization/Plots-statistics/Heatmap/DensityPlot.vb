@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d5189bd647476c0308a2da211a52ff2, Data_science\Visualization\Plots-statistics\Heatmap\DensityPlot.vb"
+﻿#Region "Microsoft.VisualBasic::c9d20f23e63be00f7bac1813b2cfcda5, Data_science\Visualization\Plots-statistics\HeatMap\DensityPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 214
+    '    Code Lines: 177 (82.71%)
+    ' Comment Lines: 22 (10.28%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 15 (7.01%)
+    '     File Size: 9.94 KB
+
+
     '     Module DensityPlot
     ' 
     '         Function: DensityMatrix, Plot
@@ -45,6 +57,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.GridGraph
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -55,6 +69,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Scripting
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Heatmap
@@ -131,8 +146,9 @@ Namespace Heatmap
                     r:=ptSize
                 )
             Dim scatterPadding As Padding = padding
+            Dim scatterCss As New CSSEnvirnment(size.SizeParser)
 
-            scatterPadding.Right += legendWidth
+            scatterPadding.Right = PaddingLayout.EvaluateFromCSS(scatterCss, scatterPadding).Right + legendWidth
 
             Using g As IGraphics = Scatter.Plot(
                 c:={density},
@@ -143,8 +159,8 @@ Namespace Heatmap
                 ablines:=ablines,
                 Xlabel:=labX,
                 Ylabel:=labY,
-                xlim:=xrange.Max,
-                ylim:=yrange.Max,
+                xlim:=xrange.MinMax,
+                ylim:=yrange.MinMax,
                 htmlLabel:=htmlLabel,
                 labelFontStyle:=CSSFont.Win7VeryLarge,
                 tickFontStyle:=CSSFont.Win7Large).CreateGraphics
@@ -156,7 +172,9 @@ Namespace Heatmap
                     .Size = g.Size,
                     .Padding = scatterPadding
                 }
-                Dim scatterRegion As Rectangle = plotRegion.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim scatterRegion As Rectangle = plotRegion.PlotRegion(css)
+                Dim margin As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, scatterPadding)
                 Dim legendHeight! = scatterRegion.Height * 2 / 3
                 Dim legendLayout As New Rectangle With {
                     .Size = New Size With {
@@ -165,7 +183,7 @@ Namespace Heatmap
                     },
                     .Location = New Point With {
                         .X = scatterRegion.Right,
-                        .Y = (scatterRegion.Height - legendHeight) / 2 + scatterPadding.Top
+                        .Y = (scatterRegion.Height - legendHeight) / 2 + margin.Top
                     }
                 }
                 Dim designer As SolidBrush() = colors _
@@ -178,9 +196,10 @@ Namespace Heatmap
                     .IteratesALL _
                     .Range _
                     .CreateAxisTicks
-                Dim legendTitleFont As Font = CSSFont.TryParse(legendTitleFontCSS).GDIObject(g.Dpi)
-                Dim legendTickFont As Font = CSSFont.TryParse(legendTickFontCSS).GDIObject(g.Dpi)
-                Dim legendTickStroke As Pen = Stroke.TryParse(legendTickStrokeCSS).GDIObject
+
+                Dim legendTitleFont As Font = css.GetFont(CSSFont.TryParse(legendTitleFontCSS))
+                Dim legendTickFont As Font = css.GetFont(CSSFont.TryParse(legendTickFontCSS))
+                Dim legendTickStroke As Pen = css.GetPen(Stroke.TryParse(legendTickStrokeCSS))
 
                 Call Legends.ColorMapLegend(
                     g, legendLayout, designer, rangeTicks,
@@ -189,8 +208,8 @@ Namespace Heatmap
                     tickAxisStroke:=legendTickStroke,
                     unmapColor:=NameOf(Color.Gray))
 
-                If TypeOf g Is Graphics2D Then
-                    Return New ImageData(DirectCast(g, Graphics2D).ImageResource, g.Size, padding)
+                If g.GetType.ImplementInterface(Of GdiRasterGraphics) Then
+                    Return New ImageData(DirectCast(g, GdiRasterGraphics).ImageResource, g.Size, padding)
                 Else
                     Return New SVGData(g, g.Size, padding)
                 End If

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 260
+    '    Code Lines: 197 (75.77%)
+    ' Comment Lines: 28 (10.77%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 35 (13.46%)
+    '     File Size: 9.02 KB
+
+
     '     Class BinaryPriorityQueue
     ' 
     '         Properties: Count, IList_IsFixedSize, IList_IsReadOnly, IsSynchronized, SyncRoot

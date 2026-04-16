@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 7 (43.75%)
+    ' Comment Lines: 6 (37.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (18.75%)
+    '     File Size: 357 B
+
+
     '     Enum OptimizationType
     ' 
     ' 

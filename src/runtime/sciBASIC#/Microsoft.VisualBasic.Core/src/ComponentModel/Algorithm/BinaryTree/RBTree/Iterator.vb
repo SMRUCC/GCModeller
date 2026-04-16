@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5d416823ceb889f45ddda51bb3399da, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\RBTree\Iterator.vb"
+﻿#Region "Microsoft.VisualBasic::2e40096dd9087f9cd04516cb400ebbd0, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\RBTree\Iterator.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 93 (80.87%)
+    ' Comment Lines: 13 (11.30%)
+    '    - Xml Docs: 76.92%
+    ' 
+    '   Blank Lines: 9 (7.83%)
+    '     File Size: 4.12 KB
+
 
     '     Class Iterator
     ' 
@@ -96,14 +108,14 @@ Namespace ComponentModel.Algorithm.BinaryTree
                     ' if coming from a right child, continue up the stack
                     Dim save
                     Do
-                        save = Me._cursor
-                        If Me._ancestors.Count > 0 Then
-                            Me._cursor = Me._ancestors.Pop()
+                        save = _cursor
+                        If _ancestors.Count > 0 Then
+                            _cursor = _ancestors.Pop()
                         Else
-                            Me._cursor = Nothing
+                            _cursor = Nothing
                             Exit Do
                         End If
-                    Loop While Me._cursor.Right = save
+                    Loop While _cursor.Right = save
                 Else
                     ' get the next node from the subtree
                     Me._ancestors.Push(Me._cursor)

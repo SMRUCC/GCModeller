@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 136 (57.87%)
+    ' Comment Lines: 72 (30.64%)
+    '    - Xml Docs: 70.83%
+    ' 
+    '   Blank Lines: 27 (11.49%)
+    '     File Size: 10.70 KB
+
+
     ' Module Extensions
     ' 
     '     Function: [Select], AsIntegerArray, AsMetabolite, (+3 Overloads) AsMetabolites, (+3 Overloads) AsStringArray

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 13 (54.17%)
+    ' Comment Lines: 6 (25.00%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 5 (20.83%)
+    '     File Size: 678 B
+
+
     '     Class SolutionInfo
     ' 
     '         Properties: obj, r, rho, upper_bound_n, upper_bound_p

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aff01acc33b6fc81473de30392c35c46, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\GraphicsData.vb"
+﻿#Region "Microsoft.VisualBasic::9ab7a04b6531359f64a943aee60d23d6, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\GraphicsData.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 46 (54.76%)
+    ' Comment Lines: 26 (30.95%)
+    '    - Xml Docs: 46.15%
+    ' 
+    '   Blank Lines: 12 (14.29%)
+    '     File Size: 3.26 KB
+
+
     '     Class GraphicsData
     ' 
-    '         Properties: content_type, Height, Layout, Width
+    '         Properties: Height, Layout, Width
     ' 
     '         Constructor: (+1 Overloads) Sub New
     '         Sub: (+2 Overloads) Dispose
@@ -44,48 +56,18 @@
 #End Region
 
 Imports System.Drawing
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.SVG.XML
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports Microsoft.VisualBasic.Net.Http
 
 Namespace Driver
 
     ''' <summary>
-    ''' gdi+ images: <see cref="Drawing.Image"/>, <see cref="Bitmap"/> / SVG image: <see cref="SVGXml"/>
+    ''' gdi+ images: <see cref="Image"/>, <see cref="Bitmap"/> / SVG image: <see cref="SVGDocument"/>
     ''' </summary>
-    Public MustInherit Class GraphicsData
+    Public MustInherit Class GraphicsData : Inherits IGraphicsData
         Implements IDisposable
-
-        ''' <summary>
-        ''' The graphics engine driver type indicator, 
-        ''' 
-        ''' + for <see cref="Drivers.GDI"/> -> <see cref="ImageData"/>(<see cref="Drawing.Image"/>, <see cref="Bitmap"/>)
-        ''' + for <see cref="Drivers.SVG"/> -> <see cref="SVGData"/>(<see cref="SVGXml"/>)
-        ''' 
-        ''' (驱动程序的类型)
-        ''' </summary>
-        ''' <returns></returns>
-        Public MustOverride ReadOnly Property Driver As Drivers
-
-        Public ReadOnly Property content_type As String
-            Get
-                Select Case Driver
-                    Case Drivers.GDI
-                        Return "image/png"
-                    Case Drivers.PS
-                        Return "application/postscript"
-                    Case Drivers.SVG
-                        Return "text/xml"
-                    Case Drivers.WMF
-                        Return "application/x-wmf"
-                    Case Else
-                        Return "application/octet-stream"
-                End Select
-            End Get
-        End Property
 
         ''' <summary>
         ''' The image size
@@ -93,14 +75,14 @@ Namespace Driver
         ''' <returns></returns>
         Public ReadOnly Property Layout As GraphicsRegion
 
-        Public ReadOnly Property Width As Integer
+        Public Overrides ReadOnly Property Width As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _Layout.Size.Width
             End Get
         End Property
 
-        Public ReadOnly Property Height As Integer
+        Public Overrides ReadOnly Property Height As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return _Layout.Size.Height
@@ -118,22 +100,11 @@ Namespace Driver
                 .Size = size,
                 .Padding = padding
             }
+
+            If img Is Nothing Then
+                Throw New NullReferenceException("the given image data object should no be nothing!")
+            End If
         End Sub
-
-        Public MustOverride Function GetDataURI() As DataURI
-
-        ''' <summary>
-        ''' Save the image graphics to file
-        ''' </summary>
-        ''' <param name="path$"></param>
-        ''' <returns></returns>
-        Public MustOverride Function Save(path$) As Boolean
-        ''' <summary>
-        ''' Save the image graphics to a specific output stream
-        ''' </summary>
-        ''' <param name="out"></param>
-        ''' <returns></returns>
-        Public MustOverride Function Save(out As Stream) As Boolean
 
 #Region "IDisposable Support"
         Private disposedValue As Boolean ' 要检测冗余调用

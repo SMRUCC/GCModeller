@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31a487210a2fbd37a86b06f22c7f1bac, mime\application%pdf\PdfReader\Document\PdfContents.vb"
+﻿#Region "Microsoft.VisualBasic::ee0cfefb25723f10902ee6cee6b060a5, mime\application%pdf\PdfReader\Document\PdfContents.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 40 (81.63%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (18.37%)
+    '     File Size: 1.65 KB
+
+
     '     Class PdfContents
     ' 
     '         Properties: Streams
@@ -55,7 +67,7 @@ Namespace PdfReader
 
         Private _Streams As List(Of PdfStream)
 
-        Public Sub New(ByVal parent As PdfObject, ByVal obj As PdfObject)
+        Public Sub New(parent As PdfObject, obj As PdfObject)
             MyBase.New(parent)
             Streams = New List(Of PdfStream)()
             ResolveToStreams(obj)
@@ -65,12 +77,12 @@ Namespace PdfReader
             Get
                 Return _Streams
             End Get
-            Private Set(ByVal value As List(Of PdfStream))
+            Private Set(value As List(Of PdfStream))
                 _Streams = value
             End Set
         End Property
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
@@ -78,7 +90,7 @@ Namespace PdfReader
             Return New PdfContentsParser(Me)
         End Function
 
-        Private Sub ResolveToStreams(ByVal obj As PdfObject)
+        Private Sub ResolveToStreams(obj As PdfObject)
             Dim stream As New Value(Of PdfStream)
             Dim reference As New Value(Of PdfObjectReference)
             Dim array As New Value(Of PdfArray)

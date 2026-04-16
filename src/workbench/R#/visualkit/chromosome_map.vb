@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ad3e5f6c5443021e2d345f86741853a1, R#\visualkit\chromosome_map.vb"
+﻿#Region "Microsoft.VisualBasic::6405cf6d8a00e6112c04fac6b92f8982, R#\visualkit\chromosome_map.vb"
 
     ' Author:
     ' 
@@ -31,23 +31,34 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 33 (62.26%)
+    ' Comment Lines: 15 (28.30%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 5 (9.43%)
+    '     File Size: 2.00 KB
+
+
     ' Module chromosome_map
     ' 
     '     Function: config, draw
-    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.Visualize.ChromosomeMap
 Imports SMRUCC.genomics.Visualize.ChromosomeMap.Configuration
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' chromosome map visualize for bacterial genome 
@@ -63,7 +74,7 @@ Public Module chromosome_map
     <ExportAPI("config")>
     Public Function config(Optional conf As String = Nothing) As Config
         If conf.FileExists Then
-            Return ChromosomeMap.LoadConfig(conf)
+            Return ChromesomeMapAPI.LoadConfig(conf)
         Else
             Return ChromosomeMap.GetDefaultConfiguration(conf)
         End If
@@ -81,17 +92,15 @@ Public Module chromosome_map
         If config Is Nothing Then
             config = ChromosomeMap.GetDefaultConfiguration(App.GetTempFile)
         ElseIf TypeOf config Is String Then
-            config = ChromosomeMap.LoadConfig(config)
+            config = ChromesomeMapAPI.LoadConfig(config)
         ElseIf Not TypeOf config Is Config Then
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(Config), config.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(Config), config.GetType, env), env)
         End If
 
         If genome Is Nothing Then
-            Return Internal.debug.stop("the plot data for target genome can not be nothing!", env)
+            Return RInternal.debug.stop("the plot data for target genome can not be nothing!", env)
         End If
 
         Throw New NotImplementedException
     End Function
 End Module
-
-#End If

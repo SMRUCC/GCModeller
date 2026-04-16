@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 143 (81.25%)
+    ' Comment Lines: 6 (3.41%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 27 (15.34%)
+    '     File Size: 7.58 KB
+
+
     '     Class SequenceDump
     ' 
     '         Properties: CommonName, Description, LocusId, SpeciesId

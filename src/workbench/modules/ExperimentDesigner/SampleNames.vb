@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::634e4253bf0ce45df706a49fa567a530, modules\ExperimentDesigner\SampleNames.vb"
+﻿#Region "Microsoft.VisualBasic::85893210f0bf94d3d41f674be4e2b26b, modules\ExperimentDesigner\SampleNames.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 87 (65.41%)
+    ' Comment Lines: 28 (21.05%)
+    '    - Xml Docs: 60.71%
+    ' 
+    '   Blank Lines: 18 (13.53%)
+    '     File Size: 4.92 KB
+
+
     ' Module SampleNames
     ' 
-    '     Function: GuessPossibleGroups
+    '     Function: GroupIndexing, GuessPossibleGroups, ParseGroupInfo
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Text.Patterns
 
 ''' <summary>
 ''' Sample names helper
@@ -53,45 +68,10 @@ Public Module SampleNames
     ''' <param name="allSampleNames"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function GuessPossibleGroups(allSampleNames As IEnumerable(Of String), Optional maxDepth As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
-        Dim nameMatrix As Char()() = allSampleNames.Select(Function(name) name.ToArray).ToArray
-        Dim maxLen% = Aggregate name As Char() In nameMatrix Into Max(name.Length)
-        Dim col As Char()
-        Dim colIndex As Integer
+    Public Iterator Function GuessPossibleGroups(allSampleNames As IEnumerable(Of String),
+                                                 Optional maxDepth As Boolean = False) As IEnumerable(Of NamedCollection(Of String))
 
-        For i As Integer = 0 To maxLen - 1
-            colIndex = i
-            col = nameMatrix _
-                .Select(Function(name)
-                            Return name.ElementAtOrNull(colIndex)
-                        End Function) _
-                .ToArray
-
-            '      colIndex
-            '      |
-            ' iBAQ-AA-1
-            ' iBAQ-BB-2
-
-            If maxDepth Then
-                If Not nameMatrix _
-                    .GroupBy(Function(cs)
-                                 Return cs.Take(colIndex + 1).CharString
-                             End Function) _
-                    .All(Function(c)
-                             Return c.Count > 1
-                         End Function) Then
-
-                    colIndex -= 1
-                    Exit For
-                End If
-            Else
-                If col.Distinct.Count > 1 Then
-                    ' group label at here
-                    Exit For
-                End If
-            End If
-        Next
-
+        Dim commonTags As New CommonTagParser(allSampleNames, maxDepth)
         ' continute for extends group labels
         '          colIndex
         '          |
@@ -99,46 +79,108 @@ Public Module SampleNames
         ' iBAQ-AAA-2
         ' iBAQ-BBB-1
         ' iBAQ-BBB-25
-        Dim largeGroups As IGrouping(Of String, Char())() = nameMatrix _
+        Dim largeGroups As IGrouping(Of String, Char())() = commonTags.nameMatrix _
             .GroupBy(Function(cs)
-                         Return cs.Take(colIndex + 1).CharString
+                         Return cs.Take(commonTags.MaxColumnIndex + 1).CharString
                      End Function) _
             .ToArray
 
         For Each group As IGrouping(Of String, Char()) In largeGroups
-            Dim j As Integer
+            Yield commonTags.ParseGroupInfo(group)
+        Next
+    End Function
 
-            nameMatrix = group.ToArray
-            maxLen% = Aggregate name As Char()
+    <Extension>
+    Private Function ParseGroupInfo(commonTags As CommonTagParser, group As IGrouping(Of String, Char())) As NamedCollection(Of String)
+        Dim j As Integer
+        Dim nameMatrix = group.ToArray
+        Dim maxLen% = Aggregate name As Char()
                       In nameMatrix
                       Into Max(name.Length)
+        Dim col As Char()
 
-            For i As Integer = colIndex To maxLen - 1
-                j = i
-                col = nameMatrix _
-                    .Select(Function(name)
-                                Return name.ElementAtOrNull(j)
-                            End Function) _
-                    .ToArray
+        For i As Integer = commonTags.MaxColumnIndex To maxLen - 1
+            j = i
+            col = nameMatrix _
+                .Select(Function(name)
+                            Return name.ElementAtOrNull(j)
+                        End Function) _
+                .ToArray
 
-                If col.Distinct.Count > 1 Then
-                    Exit For
+            If col.Distinct.Count > 1 Then
+                Exit For
+            End If
+        Next
+
+        Dim groupName As String = nameMatrix _
+            .Select(Function(cs) cs.Take(j).CharString) _
+            .First _
+            .Trim(" "c, "-"c, "_"c, "~"c, "+"c, "."c)
+
+        'If groupName.EndsWith("[^a-zA-Z]+\d+$", RegexICSng) Then
+        '    Dim suffix As String = groupName.Match("[^a-zA-Z]+\d+$", RegexICSng)
+        '    groupName = groupName.Substring(0, groupName.Length - suffix.Length)
+        'End If
+
+        Return New NamedCollection(Of String) With {
+            .name = groupName,
+            .value = nameMatrix _
+                .Select(Function(name)
+                            Return name.CharString
+                        End Function) _
+                .ToArray
+        }
+    End Function
+
+    ''' <summary>
+    ''' apply for create vector index
+    ''' </summary>
+    ''' <param name="sampleId">the vector names, provides the vector element ordinal index</param>
+    ''' <param name="sampleinfo"></param>
+    ''' <param name="strict"></param>
+    ''' <returns>
+    ''' a set of the vector element ordinal index in groups for read vector data
+    ''' </returns>
+    <Extension>
+    Public Function GroupIndexing(sampleId As IEnumerable(Of String), sampleinfo As IEnumerable(Of SampleInfo), Optional strict As Boolean = True) As Dictionary(Of String, Integer())
+        Dim sampleIndex As Index(Of String) = sampleId.Indexing
+        Dim nameGroups = DataGroup.NameGroups(sampleinfo)
+        Dim missing As New List(Of NamedCollection(Of String))
+        Dim indexing As New Dictionary(Of String, Integer())
+
+        For Each group In nameGroups
+            Dim miss As New List(Of String)
+            Dim offsets As New List(Of Integer)
+
+            For Each id As String In group.Value
+                Dim i As Integer = sampleIndex(id)
+
+                If i < 0 Then
+                    Call miss.Add(id)
+                Else
+                    Call offsets.Add(i)
                 End If
             Next
 
-            Dim groupName As String = nameMatrix _
-                .Select(Function(cs) cs.Take(j).CharString) _
-                .First _
-                .Trim(" "c, "-"c, "_"c, "~"c, "+"c, "."c)
-
-            Yield New NamedCollection(Of String) With {
-                .name = groupName,
-                .value = nameMatrix _
-                    .Select(Function(name)
-                                Return name.CharString
-                            End Function) _
-                    .ToArray
-            }
+            If offsets.Any Then
+                Call indexing.Add(group.Key, offsets.ToArray)
+            End If
+            If miss.Any Then
+                Call missing.Add(New NamedCollection(Of String)(group.Key, miss))
+            End If
         Next
+
+        If missing.Any Then
+            Dim missing_groups = missing.Select(Function(s) s.JoinBy(", ") & $" from group '{s.name}'").JoinBy("; ")
+            Dim msg As String = $"missing sample id: {missing_groups}!"
+
+            If strict Then
+                Throw New InvalidDataException(msg)
+            Else
+                Call msg.Warning
+            End If
+        End If
+
+        Return indexing
     End Function
 End Module

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5158d1f9acebe55c8c4a98f0f904b7bc, Data\GraphQuery\Query\Parser\XPathSelector.vb"
+﻿#Region "Microsoft.VisualBasic::4a640e3c3c6edac4efa438368a486f88, Data\GraphQuery\Query\Parser\XPathSelector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 27 (84.38%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (15.62%)
+    '     File Size: 1.15 KB
+
+
     ' Class XPathSelector
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -62,7 +74,8 @@ Public Class XPathSelector : Inherits Parser
                     .Select(Function(n)
                                 Return DirectCast(DirectCast(n, HtmlElement), InnerPlantText)
                             End Function) _
-                    .ToArray
+                    .ToArray,
+                .Attributes = {AutoContext.Attribute}
             }
         Else
             query = engine.QuerySingle(document)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 7 (50.00%)
+    ' Comment Lines: 3 (21.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (28.57%)
+    '     File Size: 310 B
+
+
     '     Class ITextWriter
     ' 
     ' 

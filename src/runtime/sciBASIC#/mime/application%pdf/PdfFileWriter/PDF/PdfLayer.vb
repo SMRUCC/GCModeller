@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a4e97558f59151b8f8f3964b135c4263, mime\application%pdf\PdfFileWriter\PDF\PdfLayer.vb"
+﻿#Region "Microsoft.VisualBasic::3afa5ad35fa2c3df78c51b17a09902ea, mime\application%pdf\PdfFileWriter\PDF\PdfLayer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 40 (37.74%)
+    ' Comment Lines: 49 (46.23%)
+    '    - Xml Docs: 87.76%
+    ' 
+    '   Blank Lines: 17 (16.04%)
+    '     File Size: 2.86 KB
+
 
     '     Enum LockLayer
     ' 
@@ -106,7 +118,7 @@ Imports System
             Get
                 Return _Name
             End Get
-            Private Set(ByVal value As String)
+            Private Set(value As String)
                 _Name = value
             End Set
         End Property
@@ -132,7 +144,7 @@ Imports System
         ''' </summary>
         ''' <param name="LayersParent">Layers parent</param>
         ''' <param name="Name">Layer's name</param>
-        Public Sub New(ByVal LayersParent As PdfLayers, ByVal Name As String)
+        Public Sub New(LayersParent As PdfLayers, Name As String)
             MyBase.New(LayersParent.Document, ObjectType.Dictionary, "/OCG")
             ' save arguments
             Me.Name = Name
@@ -153,14 +165,14 @@ Imports System
             Return
         End Sub
 
-        ''' <summary>
-        ''' CompareTo for IComparabler
-        ''' </summary>
-        ''' <param name="Other">Other layer</param>
-        ''' <returns>Compare result</returns>
-        Public Function CompareTo(ByVal Other As PdfLayer) As Integer Implements IComparable(Of PdfLayer).CompareTo
-            Dim Cmp = String.Compare(RadioButton, Other.RadioButton)
-            If Cmp <> 0 Then Return Cmp
-            Return ObjectNumber - Other.ObjectNumber
-        End Function
-    End Class
+    ''' <summary>
+    ''' CompareTo for IComparabler
+    ''' </summary>
+    ''' <param name="Other">Other layer</param>
+    ''' <returns>Compare result</returns>
+    Public Overloads Function CompareTo(Other As PdfLayer) As Integer Implements IComparable(Of PdfLayer).CompareTo
+        Dim Cmp = String.Compare(RadioButton, Other.RadioButton)
+        If Cmp <> 0 Then Return Cmp
+        Return ObjectNumber - Other.ObjectNumber
+    End Function
+End Class

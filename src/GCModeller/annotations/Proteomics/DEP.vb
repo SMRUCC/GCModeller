@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::72b04d54da84619a13ba75b7e2adad09, annotations\Proteomics\DEP.vb"
+﻿#Region "Microsoft.VisualBasic::005de69947f1007a6d11931df05e0cff, annotations\Proteomics\DEP.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 18 (66.67%)
+    ' Comment Lines: 5 (18.52%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 1.10 KB
+
+
     ' Class DEP_iTraq
     ' 
-    '     Properties: FCavg, FDR, ID, isDEP, log2FC
+    '     Properties: FDR, foldchange, ID, isDEP, log2FC
     '                 pvalue
     ' 
     '     Function: ToString
@@ -42,10 +54,11 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Math.Statistics
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.Visualize
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 ''' <summary>
 ''' iTraq的DEP分析结果输出的文件数据读取对象
@@ -54,11 +67,12 @@ Imports SMRUCC.genomics.Visualize
 ''' </summary>
 Public Class DEP_iTraq : Inherits EntityObject
     Implements IDeg
+    Implements IStatPvalue
 
     Public Overrides Property ID As String Implements IDeg.label
 
-    <Column("FC.avg")> Public Property FCavg As Double
-    <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue
+    <Column("FC.avg")> Public Property foldchange As Double
+    <Column("p.value")> Public Property pvalue As Double Implements IDeg.pvalue, IStatPvalue.pValue
     <Column("is.DEP")> Public Property isDEP As Boolean
     <Column("log2FC")> Public Property log2FC As Double Implements IDeg.log2FC
     <Column("FDR")> Public Property FDR As Double

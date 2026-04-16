@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e1a8d24edce4e690e8a2687ebab65cc, engine\IO\Raw\vcXML\Reader.vb"
+﻿#Region "Microsoft.VisualBasic::639a0c45fde530e452e619d0fa2d03af, engine\IO\Raw\vcXML\Reader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 240
+    '    Code Lines: 182 (75.83%)
+    ' Comment Lines: 17 (7.08%)
+    '    - Xml Docs: 17.65%
+    ' 
+    '   Blank Lines: 41 (17.08%)
+    '     File Size: 9.05 KB
+
 
     '     Class Reader
     ' 
@@ -188,7 +200,7 @@ Namespace vcXML
                     Dim id As New List(Of String)
 
                     Do While Not reader.EndOfStream
-                        id.Add(reader.ReadString(BinaryStringFormat.ByteLengthPrefix))
+                        id.Add(reader.ReadString(BinaryStringFormat.ZeroTerminated))
                     Loop
 
                     entities([module]).Add(type, id.ToArray)

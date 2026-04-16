@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ddf2f9c4eacaf51fa9b7f26e5060f321, Data\DataFrame\IO\Generic\Table.vb"
+﻿#Region "Microsoft.VisualBasic::5bfda7e867546bc0ef6fa9c95e39b00f, Data\DataFrame\IO\Generic\Table.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 128
+    '    Code Lines: 81 (63.28%)
+    ' Comment Lines: 31 (24.22%)
+    '    - Xml Docs: 70.97%
+    ' 
+    '   Blank Lines: 16 (12.50%)
+    '     File Size: 5.11 KB
+
+
     '     Class Table
     ' 
     ' 
@@ -49,6 +61,7 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace IO
 

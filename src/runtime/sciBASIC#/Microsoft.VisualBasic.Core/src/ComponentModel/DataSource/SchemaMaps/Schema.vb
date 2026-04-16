@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b4b53501deba28ff4c7b49fc6245fe8, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::0aa04d236ac37ed5119f951b5f7be5c5, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\Schema.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 40 (70.18%)
+    ' Comment Lines: 4 (7.02%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (22.81%)
+    '     File Size: 2.09 KB
+
+
     '     Class Schema
     ' 
     '         Properties: [Namespace], Fields, SchemaName
@@ -62,7 +74,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         End Sub
 
         Sub New(type As Type, Optional getName As Func(Of T, String) = Nothing, Optional explict As Boolean = False)
-            Fields = type.GetFields(Of T)(getName Or Scripting.GetString(Of T), explict)
+            Fields = type.GetFields(getName Or Scripting.GetString(Of T), explict).ToArray
             SchemaName = type.Name
             [Namespace] = type.Namespace
         End Sub
@@ -74,7 +86,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         Public Function Write(name$, target As Object, value As Object) As Boolean
             Dim p As BindProperty(Of T) = FindField(name)
 
-            If p.member Is Nothing Then
+            If p Is Nothing OrElse p.member Is Nothing Then
                 Return False
             End If
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cdd59b6a0114f259ead31dc6a039afec, mime\application%json\Serializer\JSONSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::19d051adeefa70c9f879e43137b5590b, mime\application%json\Serializer\JSONSerializer.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 67 (66.34%)
+    ' Comment Lines: 22 (21.78%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 12 (11.88%)
+    '     File Size: 3.82 KB
+
+
     ' Module JSONSerializer
     ' 
-    '     Function: (+2 Overloads) BuildJsonString, GetJson, jsonArrayString, jsonObjectString, jsonValueString
+    '     Function: (+2 Overloads) BuildJsonString, CreateArray, CreateJSONElement, GetJson
+    ' 
+    '     Sub: WriteJSON
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MIME.application.json.BSON
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
-Imports Microsoft.VisualBasic.ValueTypes
-Imports any = Microsoft.VisualBasic.Scripting
 
 Public Module JSONSerializer
 
@@ -60,6 +69,10 @@ Public Module JSONSerializer
     ''' <param name="maskReadonly">
     ''' 如果这个参数为真，则不会序列化只读属性
     ''' </param>
+    ''' <param name="comment">
+    ''' add property xml comment summary as comment into the generated json text? 
+    ''' this option usually be apply to generates the config json file.
+    ''' </param>
     ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -67,15 +80,44 @@ Public Module JSONSerializer
                                   Optional maskReadonly As Boolean = False,
                                   Optional indent As Boolean = False,
                                   Optional enumToStr As Boolean = True,
-                                  Optional unixTimestamp As Boolean = True) As String
+                                  Optional unixTimestamp As Boolean = True,
+                                  Optional comment As Boolean = False) As String
+        If obj Is Nothing Then
+            Return "null"
+        End If
 
         Return New JSONSerializerOptions With {
             .indent = indent,
             .maskReadonly = maskReadonly,
             .enumToString = enumToStr,
-            .unixTimestamp = unixTimestamp
+            .unixTimestamp = unixTimestamp,
+            .comment = comment
         }.DoCall(Function(opts)
                      Return obj.GetType.GetJsonElement(obj, opts).BuildJsonString(opts)
+                 End Function)
+    End Function
+
+    ''' <summary>
+    ''' Convet any clr object into a <see cref="JsonElement"/> based instance.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="obj"></param>
+    ''' <param name="maskReadonly"></param>
+    ''' <param name="enumToStr"></param>
+    ''' <param name="unixTimestamp"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function CreateJSONElement(Of T)(obj As T,
+                                            Optional maskReadonly As Boolean = False,
+                                            Optional enumToStr As Boolean = True,
+                                            Optional unixTimestamp As Boolean = True) As JsonElement
+
+        Return New JSONSerializerOptions With {
+            .maskReadonly = maskReadonly,
+            .enumToString = enumToStr,
+            .unixTimestamp = unixTimestamp
+        }.DoCall(Function(opts)
+                     Return obj.GetType.GetJsonElement(obj, opts)
                  End Function)
     End Function
 
@@ -86,88 +128,29 @@ Public Module JSONSerializer
 
     <Extension>
     Public Function BuildJsonString(json As JsonElement, opts As JSONSerializerOptions) As String
-        If json Is Nothing Then
-            Return "null"
-        End If
-
-        Select Case json.GetType
-            Case GetType(JsonValue) : Return DirectCast(json, JsonValue).jsonValueString(opts)
-            Case GetType(JsonObject) : Return DirectCast(json, JsonObject).jsonObjectString(opts)
-            Case GetType(JsonArray) : Return DirectCast(json, JsonArray).jsonArrayString(opts)
-            Case Else
-                Throw New NotImplementedException(json.GetType.FullName)
-        End Select
+        Dim json_str As New StringBuilder
+        Dim writer As New JSONWriter(opts, json_str)
+        Call writer.BuildJSONString(json)
+        Call writer.Dispose()
+        Return json_str.ToString
     End Function
 
-    ''' <summary>
-    ''' "..."
-    ''' </summary>
-    ''' <param name="obj"></param>
-    ''' <param name="opt"></param>
-    ''' <returns></returns>
     <Extension>
-    Private Function jsonValueString(obj As JsonValue, opt As JSONSerializerOptions) As String
-        Dim value As Object = obj.value
+    Public Sub WriteJSON(json As JsonElement, file As Stream, opts As JSONSerializerOptions)
+        Dim writer As New JSONWriter(opts, file)
+        Call writer.BuildJSONString(json)
+        Call writer.Dispose()
+    End Sub
 
-        If value Is Nothing Then
-            Return "null"
-        ElseIf value.GetType Is obj.BSONValue Then
-            value = DirectCast(value, BSONValue).GetObjectValue
-        End If
-
-        If TypeOf value Is Date AndAlso opt.unixTimestamp Then
-            Return DirectCast(value, Date).UnixTimeStamp
-        ElseIf TypeOf value Is String Then
-            Return JsonContract.GetObjectJson(GetType(String), value)
-        ElseIf TypeOf value Is Boolean Then
-            Return value.ToString.ToLower
-        Else
-            Return any.ToString(value)
-        End If
-    End Function
-
-    ''' <summary>
-    ''' {...}
-    ''' </summary>
-    ''' <param name="obj"></param>
-    ''' <param name="opt"></param>
-    ''' <returns></returns>
     <Extension>
-    Private Function jsonObjectString(obj As JsonObject, opt As JSONSerializerOptions) As String
-        Dim members As New List(Of String)
+    Public Function CreateArray(objs As IEnumerable(Of JsonObject)) As JsonArray
+        Dim list As New JsonArray
 
-        For Each member As NamedValue(Of JsonElement) In obj
-            members.Add($"""{member.Name}"": {member.Value.BuildJsonString(opt)}")
+        For Each x As JsonObject In objs
+            Call list.Add(x)
         Next
 
-        If opt.indent Then
-            Return $"{{
-            {members.JoinBy("," & ASCII.LF)}
-        }}"
-        Else
-            Return $"{{{members.JoinBy(",")}}}"
-        End If
+        Return list
     End Function
 
-    ''' <summary>
-    ''' [...]
-    ''' </summary>
-    ''' <param name="arr"></param>
-    ''' <param name="opt"></param>
-    ''' <returns></returns>
-    <Extension>
-    Private Function jsonArrayString(arr As JsonArray, opt As JSONSerializerOptions) As String
-        Dim a As New StringBuilder
-        Dim array$() = arr _
-            .Select(Function(item) item.BuildJsonString(opt)) _
-            .ToArray
-
-        If opt.indent Then
-            Call a.AppendLine("[").AppendLine(array.JoinBy(", ")).AppendLine("]")
-        Else
-            Call a.Append("[").Append(array.JoinBy(", ")).Append("]")
-        End If
-
-        Return a.ToString
-    End Function
 End Module

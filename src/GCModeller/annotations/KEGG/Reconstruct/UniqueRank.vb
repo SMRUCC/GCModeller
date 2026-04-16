@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07435ca85cf5b1565d781715bcfc65e4, annotations\KEGG\Reconstruct\UniqueRank.vb"
+﻿#Region "Microsoft.VisualBasic::a5a4421a456c30e71cc50cfb2c8191f0, annotations\KEGG\Reconstruct\UniqueRank.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 80 (74.77%)
+    ' Comment Lines: 15 (14.02%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 12 (11.21%)
+    '     File Size: 4.65 KB
+
+
     ' Module UniqueRank
     ' 
     '     Function: EvaluateCompoundUniqueRank, EvaluateEnzymeUniqueRank, EvaluateUniqueRank, UniquePathwayCompounds
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -85,7 +97,9 @@ Public Module UniqueRank
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function EvaluateEnzymeUniqueRank(pathwayProfile As IEnumerable(Of Pathway), Optional cutoff As Double = 0.3, Optional quantile# = 0.8) As IEnumerable(Of DataSet)
-        Return pathwayProfile.EvaluateUniqueRank(Function(map) map.genes.Keys.ToArray, cutoff, quantile)
+        Return pathwayProfile.EvaluateUniqueRank(Function(map)
+                                                     Return map.genes.Select(Function(g) g.geneId).ToArray
+                                                 End Function, cutoff, quantile)
     End Function
 
     ''' <summary>

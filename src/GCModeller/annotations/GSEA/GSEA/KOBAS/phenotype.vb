@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 39 (73.58%)
+    ' Comment Lines: 4 (7.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (18.87%)
+    '     File Size: 1.78 KB
+
+
     '     Class phenotype
     ' 
     '         Properties: labels, phnameA, phnameB, sample_num, sample0

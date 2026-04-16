@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a702b3cdb037bc2cbeec1d13916a47e0, core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
+﻿#Region "Microsoft.VisualBasic::a69ba764c110831fd82f2c568f550444, core\Bio.Assembly\ComponentModel\Annotation\EC\ECNumber.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 112 (55.72%)
+    ' Comment Lines: 62 (30.85%)
+    '    - Xml Docs: 82.26%
+    ' 
+    '   Blank Lines: 27 (13.43%)
+    '     File Size: 7.31 KB
+
+
     '     Class ECNumber
     ' 
-    '         Properties: serialNumber, subCategory, subType, type
+    '         Properties: ECNumberString, serialNumber, subCategory, subType, type
     ' 
-    '         Function: (+2 Overloads) Contains, ToString, ValidateValue, ValueParser
+    '         Function: (+2 Overloads) Contains, HierarchicalECTerms, InternalHierarchicalECTerms, NumberParserInternal, ToString
+    '                   ValidateValue, ValueParser
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,30 +67,56 @@ Namespace ComponentModel.Annotation
     ''' Enzyme Commission Number
     ''' </summary>
     ''' <remarks>EC-6.1.1.10</remarks>
-    Public Class ECNumber
+    Public Class ECNumber : Implements IEnzymeObject
 
         ''' <summary>
-        ''' EC编号里面的第一个数字代表酶的分类号
+        ''' 1. EC编号里面的第一个数字代表酶的分类号
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property type As EnzymeClasses
 
         ''' <summary>
-        ''' 该大类之下的亚分类
+        ''' 2. 该大类之下的亚分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subType As Integer
         ''' <summary>
-        ''' 该亚类之下的小分类
+        ''' 3. 该亚类之下的小分类
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property subCategory As Integer
 
         ''' <summary>
-        ''' 该小分类之下的序号
+        ''' 4. 该小分类之下的序号
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>nothing means -</remarks>
         <XmlAttribute> Public Property serialNumber As Integer
+
+        ''' <summary>
+        ''' generates the EC number in format like: x.x.x.x
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property ECNumberString As String Implements IEnzymeObject.ECNumber
+            Get
+                Return New String() {
+                    CInt(type).ToString,
+                    If(subType <= 0, "-", subType.ToString),
+                    If(subCategory <= 0, "-", subCategory.ToString),
+                    If(serialNumber <= 0, "-", serialNumber.ToString)
+                }.JoinBy(".")
+            End Get
+        End Property
+
+        Public Function HierarchicalECTerms() As IEnumerable(Of String)
+            Return InternalHierarchicalECTerms.Distinct
+        End Function
+
+        Private Iterator Function InternalHierarchicalECTerms() As IEnumerable(Of String)
+            Yield $"{CInt(type)}.-.-.-"
+            Yield $"{CInt(type)}.{If(subType = 0, "-", subType)}.-.-"
+            Yield $"{CInt(type)}.{If(subType = 0, "-", subType)}.{If(subCategory = 0, "-", subCategory)}.-"
+            Yield $"{CInt(type)}.{If(subType = 0, "-", subType)}.{If(subCategory = 0, "-", subCategory)}.{If(serialNumber = 0, "-", serialNumber)}"
+        End Function
 
         Public Function Contains(ec As String) As Boolean
             Static parserCache As New Dictionary(Of String, ECNumber)
@@ -100,28 +139,36 @@ Namespace ComponentModel.Annotation
                 Return False
             End If
 
-            If Type <> ec.Type Then
+            ' 第一级比较
+            If type <> ec.type Then
                 Return False
             End If
 
-            If SubType = 0 Then
+            ' 第二级比较
+            ' 如果当前是0（通配符），则包含所有；如果不一致则False；一致则继续
+            If subType = 0 Then
                 Return True
-            ElseIf SubType <> ec.SubType Then
+            ElseIf subType <> ec.subType Then
                 Return False
             End If
 
-            If SubCategory = 0 Then
+            ' 第三级比较
+            If subCategory = 0 Then
                 Return True
-            ElseIf SubCategory <> ec.SubCategory Then
+            ElseIf subCategory <> ec.subCategory Then
                 Return False
             End If
 
-            If SerialNumber = 0 Then
+            ' 第四级比较
+            ' 如果当前是0（通配符），则包含所有
+            If serialNumber = 0 Then
                 Return True
-            ElseIf SerialNumber = ec.SerialNumber Then
+                ' 如果当前不为0，必须相等才算包含
+            ElseIf serialNumber <> ec.serialNumber Then
                 Return False
             End If
 
+            ' 全部匹配，返回 True
             Return True
         End Function
 
@@ -137,9 +184,9 @@ Namespace ComponentModel.Annotation
         ''' 1.2.-.-
         ''' ```
         ''' </summary>
-        Public Const PatternECNumber$ = "\d(\.((\d+)|[-]))+"
+        Public Const PatternECNumber$ = "\d(\.((\d+)|[-])){0,3}"
 
-        Shared ReadOnly r As New Regex(PatternECNumber)
+        Public Shared ReadOnly r As New Regex(PatternECNumber, RegexOptions.Compiled)
 
         ''' <summary>
         ''' 解析一个EC编号字符串，如果出现格式错误，则返回空值
@@ -147,20 +194,36 @@ Namespace ComponentModel.Annotation
         ''' <param name="expr"></param>
         ''' <returns></returns>
         Public Shared Function ValueParser(expr As String) As ECNumber
-            Dim m As Match = r.Match(expr)
+            If expr.StringEmpty(, True) Then
+                Return Nothing
+            Else
+                Dim m As Match = r.Match(expr)
 
-            ' 格式错误，没有找到相应的编号格式字符串
-            If Not m.Success Then Return Nothing
+                ' 格式错误，没有找到相应的编号格式字符串
+                If Not m.Success Then
+                    Call $"invalid EC_number to parse: {expr}".warning
+                    Return Nothing
+                Else
+                    Return NumberParserInternal(m.Value, expr)
+                End If
+            End If
+        End Function
 
-            Dim tokens As String() = m.Value.Split("."c)
+        Private Shared Function NumberParserInternal(ec_num As String, expr As String) As ECNumber
+            Dim tokens As String() = ec_num.Split("."c)
+
+            If tokens.Length < 3 AndAlso Not expr.IsPattern("EC[-]" & PatternECNumber) Then
+                Call $"probably none EC_number was parsed from expression: {expr}".warning
+            End If
+
             Dim ecNum As New ECNumber With {
-                .Type = CInt(Val(tokens(0))),
-                .SubType = CInt(Val(tokens.ElementAtOrDefault(1))),
-                .SubCategory = CInt(Val(tokens.ElementAtOrDefault(2))),
-                .SerialNumber = CInt(Val(tokens.ElementAtOrDefault(3)))
+                .type = CInt(Val(tokens(0))),
+                .subType = CInt(Val(tokens.ElementAtOrDefault(1))),
+                .subCategory = CInt(Val(tokens.ElementAtOrDefault(2))),
+                .serialNumber = CInt(Val(tokens.ElementAtOrDefault(3)))
             }
 
-            If ecNum.Type > 7 OrElse ecNum.Type < 0 Then
+            If ecNum.type > 7 OrElse ecNum.type < 0 Then
                 ' 格式错误
                 Return Nothing
             Else
@@ -174,7 +237,11 @@ Namespace ComponentModel.Annotation
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Overrides Function ToString() As String
-            Return String.Format("[EC: {0}.{1}.{2}.{3}]", CInt(Type), SubType, SubCategory, SerialNumber)
+            Return String.Format("[EC: {0}.{1}.{2}.{3}]",
+                                 CInt(type),
+                                 If(subType <= 0, "-", subType),
+                                 If(subCategory <= 0, "-", subCategory),
+                                 If(serialNumber <= 0, "-", serialNumber))
         End Function
 
         ''' <summary>

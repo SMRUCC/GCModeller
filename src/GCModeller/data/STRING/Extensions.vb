@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 114 (75.50%)
+    ' Comment Lines: 17 (11.26%)
+    '    - Xml Docs: 70.59%
+    ' 
+    '   Blank Lines: 20 (13.25%)
+    '     File Size: 5.67 KB
+
+
     ' Module Extensions
     ' 
     '     Function: (+3 Overloads) MatchNetwork

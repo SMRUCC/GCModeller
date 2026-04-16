@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe996a3ea4511b3dee6c53146869a4da, Data_science\Mathematica\Math\Math\Algebra\LP\LPPSolver.vb"
+﻿#Region "Microsoft.VisualBasic::d81dcc281e59aa7c52b446192319992f, Data_science\Mathematica\Math\Math\Algebra\LP\LPPSolver.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 400
+    '    Code Lines: 261 (65.25%)
+    ' Comment Lines: 63 (15.75%)
+    '    - Xml Docs: 19.05%
+    ' 
+    '   Blank Lines: 76 (19.00%)
+    '     File Size: 17.21 KB
+
+
     '     Class LPPSolver
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -46,9 +58,7 @@
 #End Region
 
 Imports System.Text
-Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
-Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.ConsoleProgressBar
 
 Namespace LinearAlgebra.LinearProgramming
 
@@ -68,31 +78,28 @@ Namespace LinearAlgebra.LinearProgramming
             ' Point badness if we are going to be incrementing this later?
             Dim solutionLog As New StringBuilder
             Dim varNum As Integer = lpp.variableNames.Count
+            Dim startTime As Long = App.ElapsedMilliseconds
+
+            If showProgress Then
+                Call VBDebugger.EchoLine("Make Standard Form...")
+            End If
 
             Call lpp.makeStandardForm()
 
             Dim artificialVariables As List(Of Integer) = lpp.ArtificialVariableAssignments
 
-            ' ArrayList<String> varNames = Input.VariableNames;
-            ' String LaTeXString = latex.LPPtoLaTeX.displayLPP(Input)+'\n';
-            If showProgress Then
-                Call Console.WriteLine("Make Standard Form...")
-            End If
-
             Call solutionLog.AppendLine("Make Standard Form")
             Call lpp.makeStandardForm(artificialVariables)
 
-            Dim startTime As Long = App.ElapsedMilliseconds
-
             If showProgress Then
-                Call Console.WriteLine("Add artificial variables to the LPP...")
+                Call VBDebugger.EchoLine("Add artificial variables to the LPP...")
             End If
 
             ' Add artificial variables to the LPP
             Call lpp.addArtificialVariables(artificialVariables)
 
             If showProgress Then
-                Call Console.WriteLine("Search for Basic Feasible Solution...")
+                Call VBDebugger.EchoLine("Search for Basic Feasible Solution...")
             End If
 
             ' Search for Basic Feasible Solution
@@ -158,7 +165,7 @@ Namespace LinearAlgebra.LinearProgramming
             For j As Integer = 0 To lpp.constraintTypes.Length - 1
                 If lpp.constraintTypes(j) = "=" Then
                     slack(j) = 0
-                    shadowPrice(j) = -1 * lpp.objectiveFunctionCoefficients(artificialVariables(j))
+                    shadowPrice(j) = -1 * lpp.objectiveFunctionCoefficients.ElementAtOrDefault(artificialVariables(j))
                     ' This had the double 0.0 or -0.0 check.
                 ElseIf lpp.objectiveFunctionCoefficients(varNum) = 0.0 Then
                     slack(j) = lpp.constraintRightHandSides(j)
@@ -195,67 +202,51 @@ Namespace LinearAlgebra.LinearProgramming
 
             ' Pivot until optimal solution
             Dim go As Boolean = True
-            Dim limiter As Integer = 1
-            Dim tick As Action
-            Dim progress As ProgressBar = Nothing
+            Dim limiter As Integer = 0
 
-            If showProgress Then
-                progress = New ProgressBar("Run LPP Solution Iterations...")
+            Call "Run LPP solution iterations...".info
 
-                With New ProgressProvider(progress, LPP.PIVOT_ITERATION_LIMIT)
-                    Dim ETA$, msg$
+            ' LaTeXString += latex.LPPtoLaTeX.beginTableaus(Input);
 
-                    tick = Sub()
-                               limiter += 1
-                               ETA = .ETA().FormatTime
-                               msg = $"Iteration {limiter}/{LPP.PIVOT_ITERATION_LIMIT}, ETA={ETA}"
-                               progress.SetProgress(.StepProgress, msg)
-                           End Sub
-                End With
-            Else
-                tick = Sub() limiter += 1
-            End If
+            ' Create the ProgressBar
+            ' Maximum: The Max value in ProgressBar (Default is 100)
+            Using progBar = New ProgressBar() With {.Maximum = Nothing}
+                Do While go
+                    ' Get next variable to pivot on
+                    Dim n As Integer = choosePivotVar(artificialVariables)
+                    Dim [next] As Integer = choosePivotConstraint(n)
 
-            'LaTeXString += latex.LPPtoLaTeX.beginTableaus(Input);
+                    ' If optimal solution reached, end 'while' statement
+                    'LaTeXString += latex.LPPtoLaTeX.makeTableau(Input, BasicVars, limiter);
+                    limiter += 1
 
-            Do While go
+                    If n = -1 Then
+                        ' Found a solution.  Stop pivoting.
+                        go = False
 
-                ' Get next variable to pivot on
-                Dim n As Integer = choosePivotVar(artificialVariables)
-                Dim [next] As Integer = choosePivotConstraint(n)
+                    ElseIf limiter = LPP.PIVOT_ITERATION_LIMIT Then
+                        Call "max iteration reached...".warning
+                        ' Check iteration limit not exceeded.
+                        Return New LPPSolution("The pivot max iteration cap was exceeded.", solutionLog.ToString, feasibleSolutionTime)
+                    ElseIf [next] = -1 Then
+                        Call "LPP is unbounded!".warning
+                        ' Check for unboundedness.
+                        Return New LPPSolution("The given LPP is unbounded.", solutionLog.ToString, feasibleSolutionTime)
+                    Else
+                        ' Get pivot constraint, continue.
+                        Call pivot(n, [next])
 
-                ' If optimal solution reached, end 'while' statement
-                'LaTeXString += latex.LPPtoLaTeX.makeTableau(Input, BasicVars, limiter);
+                        basicVariables([next]) = n
+                        solutionLog.AppendLine("Pivot at " & n & ", " & [next])
+                    End If
 
-                If n = -1 Then
-                    ' Found a solution.  Stop pivoting.
-                    go = False
+                    Call progBar.PerformStep()
+                Loop
+            End Using
 
-                ElseIf limiter = LPP.PIVOT_ITERATION_LIMIT Then
-                    Call progress?.SetProgress(100, "Max iteration reached...")
-                    Call progress?.Dispose()
-                    ' Check iteration limit not exceeded.
-                    Return New LPPSolution("The pivot max iteration cap was exceeded.", solutionLog.ToString, feasibleSolutionTime)
-
-                ElseIf [next] = -1 Then
-                    Call progress?.SetProgress(100, "LPP is unbounded!")
-                    Call progress?.Dispose()
-                    ' Check for unboundedness.
-                    Return New LPPSolution("The given LPP is unbounded.", solutionLog.ToString, feasibleSolutionTime)
-
-                Else
-                    ' Get pivot constraint, continue.
-                    Call pivot(n, [next])
-
-                    basicVariables([next]) = n
-                    solutionLog.AppendLine("Pivot at " & n & ", " & [next])
-                End If
-
-                Call tick()
-            Loop
-
-            Call progress?.SetProgress(100, "Complete!")
-            Call progress?.Dispose()
+            Call Console.WriteLine()
+            Call Console.WriteLine()
+            Call Console.WriteLine()
 
             Return Nothing
         End Function
@@ -322,10 +313,8 @@ Namespace LinearAlgebra.LinearProgramming
 
             ' eliminate the pivot variable from the other constraints
             For j As Integer = 0 To lpp.constraintCoefficients.Length - 1
-
                 ' check constraint j != pivot constraint
                 If j <> constIndex Then
-
                     ' make constraint local variables
                     Dim constraint As List(Of Double) = lpp.constraintCoefficients(j)
                     Dim constraintRHS As Double = lpp.constraintRightHandSides(j)

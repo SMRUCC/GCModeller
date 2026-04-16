@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 10
+    '    Code Lines: 1 (10.00%)
+    ' Comment Lines: 9 (90.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 0 (0.00%)
+    '     File Size: 525 B
+
+
     ' Delegate Function
     ' 
     ' 

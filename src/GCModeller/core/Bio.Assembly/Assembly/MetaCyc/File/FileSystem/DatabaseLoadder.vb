@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 343
+    '    Code Lines: 202 (58.89%)
+    ' Comment Lines: 98 (28.57%)
+    '    - Xml Docs: 87.76%
+    ' 
+    '   Blank Lines: 43 (12.54%)
+    '     File Size: 16.59 KB
+
+
     '     Class DatabaseLoadder
     ' 
     '         Properties: Database, SBMLMetabolismModel

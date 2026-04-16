@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::29053b400a3a14f972760567b564efce, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\StructSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::e70a1748a713ae51b7a3a3e7d0babe9a, Microsoft.VisualBasic.Core\src\Serialization\BinaryDumping\StructSerializer.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 33 (31.43%)
+    ' Comment Lines: 63 (60.00%)
+    '    - Xml Docs: 65.08%
+    ' 
+    '   Blank Lines: 9 (8.57%)
+    '     File Size: 5.82 KB
+
+
     '     Module StructSerializer
     ' 
-    '         Function: ByteToStructure, StructureToByte
+    '         Function: ByteToStructure, StructureToByte, Write
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 
@@ -98,21 +111,32 @@ Namespace Serialization.BinaryDumping
         ' These two function will not works, prefer to the extensions in StructFormatter Module
 
         ''' <summary>
+        ''' write any structure into file/stream
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="buffer"></param>
+        ''' <param name="obj"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function Write(Of T As Structure)(buffer As BinaryWriter, obj As T) As Integer
+            Dim bytes As Byte() = StructureToByte(obj)
+            Call buffer.Write(bytes, Scan0, bytes.Length)
+            Return bytes.Length
+        End Function
+
+        ''' <summary>
         ''' 由结构体转换为byte数组(字符串类型以及Class类型都将会被序列化为内存指针，所以这个函数只适合于值类型的)
         ''' </summary>
         ''' 
         <Extension>
-        Public Function StructureToByte(Of T As Structure)(struct As T) As Byte()
-            Dim size As Integer = Marshal.SizeOf(GetType(T))
-            Dim buffer As Byte() = New Byte(size - 1) {}
-            Dim bufferIntPtr As IntPtr = Marshal.AllocHGlobal(size)
-            Try
-                Marshal.StructureToPtr(struct, bufferIntPtr, True)
-                Marshal.Copy(bufferIntPtr, buffer, 0, size)
-            Finally
-                Marshal.FreeHGlobal(bufferIntPtr)
-            End Try
-            Return buffer
+        Public Function StructureToByte(Of T As Structure)(data As T) As Byte()
+            Dim size = Marshal.SizeOf(data)    ' how much bytes we need ?
+            Dim bufferArray = New Byte(size - 1) {}   ' init buffer
+            Dim pointer = Marshal.AllocHGlobal(size)    ' alocate memory for buffer and get pointer
+            Marshal.StructureToPtr(data, pointer, True)    ' copy data from struct to alocated memory
+            Marshal.Copy(pointer, bufferArray, 0, size)    ' copy data from alocated memory to buffer array
+            Marshal.FreeHGlobal(pointer)           ' free alocated memory
+            Return bufferArray                     ' return bufferArray
         End Function
 
         ''' <summary>
@@ -120,17 +144,16 @@ Namespace Serialization.BinaryDumping
         ''' </summary>
         ''' 
         <Extension>
-        Public Function ByteToStructure(Of T As Structure)(dataBuffer As Byte()) As T
-            Dim struct As Object = Nothing
-            Dim size As Integer = Marshal.SizeOf(GetType(T))
-            Dim allocIntPtr As IntPtr = Marshal.AllocHGlobal(size)
-            Try
-                Marshal.Copy(dataBuffer, 0, allocIntPtr, size)
-                struct = Marshal.PtrToStructure(allocIntPtr, GetType(T))
-            Finally
-                Marshal.FreeHGlobal(allocIntPtr)
-            End Try
-            Return DirectCast(struct, T)
+        Public Function ByteToStructure(Of T As Structure)(array As Byte()) As T
+            Dim [structure] = New T()
+            Dim size = Marshal.SizeOf([structure])   ' how much bytes we need ?
+            Dim pointer = Marshal.AllocHGlobal(size)    ' mem alloc.
+
+            Marshal.Copy(array, 0, pointer, size)      ' copy bytes to alloc. mem
+            [structure] = CType(Marshal.PtrToStructure(pointer, [structure].GetType()), T)    ' conver aloc. mem to structure
+            Marshal.FreeHGlobal(pointer)   ' free memory
+
+            Return [structure]   ' return new structure
         End Function
     End Module
 End Namespace

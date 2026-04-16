@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.Metagenome.OTUTable</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>OTUTable {SMRUCC.genomics.Analysis.Metagenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>OTUTable</h2>
+
+        <h3>Description</h3>
+
+        <h3>OTU table (sequence count table)</h3>
+
+<p>A OTU table contains the number of sequences that are observed for each taxonomic 
+ unit (OTUs) in each samples. Columns usually represent samples and rows represent
+ genera or species specific taxonomic units (OTUs). OTU tables are often saved as
+ BIOM formatted files.
+ 
+ ### Limited taxonomic resolution
+ 
+ OTU resolution depends On the 16S approach which has some limits In distinguishing at 
+ the species level, For example,
+ 
+ Escherichia coli And Shigella spp. share almost identical 16S rRNA gene sequences.
+ 
+ Alternative approaches are developed To achieve higher resolution up To strain level 
+ by considering larger Or complete sets Of genes.</p>
+
+<p>这个对象记录了当前的宏基因组实验之中的每一个OTU在样品之中的含量的多少
+ 
+ 这个对象的数据结构与<a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a>类似, 二者可以做等价替换</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.Metagenome
+export class OTUTable extends <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet</a> {
+   ID: string;
+   # sample data
+   Properties: list;
+   # OTU编号所对应的物种分类信息
+   taxonomy: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a>;
+   Vector: double;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet</a> class: <a href="/vignettes/clr/Microsoft/VisualBasic/Data/Framework/IO/DataSet.html">DataSet</a></li>
+<li>use by <i>property</i> member <code>Properties</code>: list</li>
+<li>use by <i>property</i> member <code>taxonomy</code>: <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">Taxonomy</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

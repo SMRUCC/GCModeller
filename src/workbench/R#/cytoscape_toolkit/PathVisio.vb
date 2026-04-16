@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b404397c9af137635051b34156e2f2e1, R#\cytoscape_toolkit\PathVisio.vb"
+﻿#Region "Microsoft.VisualBasic::be5710aa902870b6df042ce32e1e3688, R#\cytoscape_toolkit\PathVisio.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 43 (89.58%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (10.42%)
+    '     File Size: 2.00 KB
+
+
     ' Module PathVisio
     ' 
     '     Function: createGraph, NodesTable, readXmlModel
@@ -47,6 +59,7 @@ Imports SMRUCC.genomics.Model.PathVisio.GPML
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("PathVisio")>
 Module PathVisio
@@ -57,7 +70,7 @@ Module PathVisio
         If file.FileExists Then
             Return file.LoadXml(Of Pathway)
         Else
-            Return Internal.debug.stop({$"the given file for read is not exists on your file system!", $"file: {file.GetFullPath}"}, env)
+            Return RInternal.debug.stop({$"the given file for read is not exists on your file system!", $"file: {file.GetFullPath}"}, env)
         End If
     End Function
 

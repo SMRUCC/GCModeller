@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3421c764a16acb96c962b4dc12ce2d17, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
+﻿#Region "Microsoft.VisualBasic::1dab5e2f2831c0392437af035a23065d, models\Networks\KEGG\ReactionNetwork\CompoundNodeTable.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 97 (85.09%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 17 (14.91%)
+    '     File Size: 4.38 KB
+
+
     '     Class CompoundNodeTable
     ' 
     '         Properties: values
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: add, containsKey, createCompoundNode
+    '         Function: add, CompoundNode, containsKey
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,6 +61,32 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace ReactionNetwork
 
@@ -71,13 +109,21 @@ Namespace ReactionNetwork
             End Get
         End Property
 
-        Sub New(compounds As IEnumerable(Of NamedValue(Of String)), cpdGroups As Dictionary(Of String, String()), ignores As Index(Of String), g As NetworkGraph, color As Brush, randomLayout As Boolean)
+        Public Const KEGGCompoundNodeType As String = "KEGG Compound"
+
+        Sub New(compounds As IEnumerable(Of NamedValue(Of String)),
+                cpdGroups As Dictionary(Of String, String()),
+                ignores As Index(Of String),
+                g As NetworkGraph,
+                color As Brush,
+                randomLayout As Boolean)
+
             nodes = compounds _
                 .Where(Function(cpd) Not cpd.Name Like ignores) _
                 .GroupBy(Function(a) a.Name) _
                 .Select(Function(a) a.First) _
                 .Select(Function(cpd As NamedValue(Of String))
-                            Return createCompoundNode(cpd, cpdGroups, color, randomLayout)
+                            Return CompoundNode(cpd, cpdGroups, color, randomLayout)
                         End Function) _
                 .ToDictionary
             nodes.Values _
@@ -91,7 +137,7 @@ Namespace ReactionNetwork
             Return nodes.ContainsKey(nodeLabelId)
         End Function
 
-        Private Shared Function createCompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
+        Private Shared Function CompoundNode(cpd As NamedValue(Of String), cpdGroups As Dictionary(Of String, String()), color As Brush, randomLayout As Boolean) As Node
             Dim type$ = "n/a"
 
             If cpdGroups.ContainsKey(cpd.Name) Then
@@ -102,11 +148,11 @@ Namespace ReactionNetwork
                 .label = cpd.Name,
                 .data = New NodeData With {
                     .label = cpd.Name,
-                    .origID = cpd.Value,
+                    .origID = If(cpd.Value, .label),
                     .color = color,
                     .Properties = New Dictionary(Of String, String) From {
                         {"common_name", cpd.Value},
-                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, "KEGG Compound"},
+                        {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, KEGGCompoundNodeType},
                         {"related", type},
                         {"kegg", cpd.Name}
                     },

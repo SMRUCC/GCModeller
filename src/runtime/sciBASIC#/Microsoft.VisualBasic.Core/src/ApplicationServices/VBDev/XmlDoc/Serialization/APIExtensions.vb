@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fb72f54eaa8ba4e9e7131b990fac8694, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\Serialization\APIExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::83bd69d6cfd51024ea5c96353d5ba9fe, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\Serialization\APIExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 143
+    '    Code Lines: 93 (65.03%)
+    ' Comment Lines: 18 (12.59%)
+    '    - Xml Docs: 55.56%
+    ' 
+    '   Blank Lines: 32 (22.38%)
+    '     File Size: 5.24 KB
+
 
     '     Module APIExtensions
     ' 
@@ -154,11 +166,11 @@ Namespace ApplicationServices.Development.XmlDoc.Serialization
                 Call sb.Replace(m, "'" & m.GetValue & "'")
             Next
 
-            ms = Regex.Matches(sb.ToString, example, RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
+            'ms = Regex.Matches(sb.ToString, example, RegexOptions.IgnoreCase Or RegexOptions.Singleline).ToArray
 
-            For Each m As String In ms
-                Call sb.Replace(m, "==" & m.GetValue & "==")
-            Next
+            'For Each m As String In ms
+            '    Call sb.Replace(m, "==" & m.GetValue & "==")
+            'Next
 
             Return sb.ToString
         End Function

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 29 (46.77%)
+    ' Comment Lines: 28 (45.16%)
+    '    - Xml Docs: 78.57%
+    ' 
+    '   Blank Lines: 5 (8.06%)
+    '     File Size: 2.62 KB
+
+
     '     Class Metabolism
     ' 
     '         Properties: Compartments, ConstraintMetaboliteMaps, MetabolismNetwork, Metabolites, Pathways

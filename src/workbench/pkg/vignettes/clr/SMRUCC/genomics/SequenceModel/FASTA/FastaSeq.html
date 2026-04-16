@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.SequenceModel.FASTA.FastaSeq</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>FastaSeq {SMRUCC.genomics.SequenceModel.FASTA}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>FastaSeq</h2>
+
+        <h3>Description</h3>
+
+        <p>The FASTA format file of a bimolecular sequence.(Notice that this file is 
+ only contains on sequence.)</p>
+
+<p>FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，
+ 请复写<a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/FASTA/FastaSeq.html">FastaSeq</a>.<a href="#">ToString</a>方法)</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.SequenceModel.FASTA
+export class FastaSeq extends <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a> {
+   # Does this sequence contains some gaps?(这条序列之中是否包含有空格？)
+   HaveGaps: boolean;
+   # The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
+   #  specific loader and gets some well organized information about the sequence. The format of the header is 
+   #  usually different between each biological database.
+   Headers: string;
+   IsProtSource: boolean;
+   # Get the sequence length of this Fasta object.
+   Length: integer;
+   # split the first token of the headers inside title as the unique reference id of current sequence object.
+   locus_tag: string;
+   # The sequence data that contains in this FASTA file.
+   SequenceData: string;
+   # The first character ">" is not included in the title string data.
+   Title: string;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a> class: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/ISequenceModel.html">ISequenceModel</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

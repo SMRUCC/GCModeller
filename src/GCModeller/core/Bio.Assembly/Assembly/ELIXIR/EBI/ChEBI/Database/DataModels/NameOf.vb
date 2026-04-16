@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::267ebb2355baf2a4d793ccf644d9e3cb, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\NameOf.vb"
+﻿#Region "Microsoft.VisualBasic::2ffd5fbdb3f1def93bfce86e0d303536, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\Database\DataModels\NameOf.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 323
+    '    Code Lines: 241 (74.61%)
+    ' Comment Lines: 55 (17.03%)
+    '    - Xml Docs: 96.36%
+    ' 
+    '   Blank Lines: 27 (8.36%)
+    '     File Size: 13.85 KB
+
+
     '     Class [NameOf]
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Similarity
 Imports SMRUCC.genomics.Assembly.ELIXIR.EBI.ChEBI.Database.IO.StreamProviders.Tsv
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.ELIXIR.EBI.ChEBI
 
@@ -340,7 +352,7 @@ Namespace Assembly.ELIXIR.EBI.ChEBI
             Dim result As New List(Of Tables.ChemicalData)
 
             For Each massGroup As DoubleTagged(Of Tables.ChemicalData()) In masses
-                If stdNum.Abs(massGroup.Tag - mass) <= deltaPPM Then
+                If std.Abs(massGroup.Tag - mass) <= deltaPPM Then
                     enter = False
                     result += massGroup.Value
                 Else

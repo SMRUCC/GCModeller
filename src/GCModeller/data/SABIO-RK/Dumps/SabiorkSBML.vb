@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 20 (62.50%)
+    ' Comment Lines: 6 (18.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (18.75%)
+    '     File Size: 1.18 KB
+
+
     '     Class SabiorkSBML
     ' 
     '         Properties: Buffer, CompoundSpecies, Fast, Identifiers, kineticLawID

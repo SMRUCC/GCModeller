@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa4661983849eb435e0b12756bb4c1d6, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
+﻿#Region "Microsoft.VisualBasic::df2ad13b41edaa4c1c127a8ba0b78da0, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\GbkWriter.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 211
+    '    Code Lines: 138 (65.40%)
+    ' Comment Lines: 33 (15.64%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 40 (18.96%)
+    '     File Size: 8.47 KB
+
+
     '     Module GbkWriter
     ' 
-    '         Function: __qualifierFormats, CreateDoc, (+12 Overloads) ToString, (+2 Overloads) WriteGenbank
+    '         Function: __qualifierFormats, CreateDoc, (+12 Overloads) ToString, WriteGenbank
     ' 
     ' 
     ' /********************************************************************************/
@@ -246,15 +258,8 @@ Namespace Assembly.NCBI.GenBank.GBFF
         ''' <returns></returns>
         <ExportAPI("Write.GBK")>
         <Extension>
-        Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encoding = Nothing) As Boolean
-            Dim doc As String = gb.CreateDoc()
-            Return doc.SaveTo(path, encoding)
-        End Function
-
-        <ExportAPI("Write.GBK")>
-        <Extension>
         Public Function WriteGenbank(gb As GenBank.GBFF.File, path$, Optional encoding As Encodings = Encodings.ASCII) As Boolean
-            Return gb.WriteGenbank(path, encoding.CodePage)
+            Return gb.Save(path, encoding.CodePage)
         End Function
     End Module
 End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 152
+    '    Code Lines: 75 (49.34%)
+    ' Comment Lines: 55 (36.18%)
+    '    - Xml Docs: 94.55%
+    ' 
+    '   Blank Lines: 22 (14.47%)
+    '     File Size: 6.19 KB
+
+
     ' Class reg_phrase_ri_link
     ' 
     '     Properties: reg_phrase_id, regulatory_interaction_id, type

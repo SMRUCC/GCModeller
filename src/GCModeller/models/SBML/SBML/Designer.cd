@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.Compartment">
+    <Position X="1" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\Compartment.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.ModelBase">
+    <Position X="4.25" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\ModelBase.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.IPartsBase">
+    <Position X="4.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAEAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Components\ModelBase.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.Specie">
+    <Position X="7.5" Y="3" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABEAgAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Components\Specie.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Level2.Elements.Model">
+    <Position X="3.5" Y="5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAEAAAAAAAAAAAAAAAQAAAAAAAIAAAEAAAAAAAA=</HashCode>
+      <FileName>Level2\Elements\Model.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Level2.Elements.Specie">
+    <Position X="7.75" Y="5.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAQAgABEAAAAIAAAAAAAAAAAAAAIAAAAAAA=</HashCode>
+      <FileName>Level2\Elements\Specie.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Level2.Elements.speciesReference" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAEgAAAAAAAQAAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Level2\Elements\speciesReference.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Level2.Elements.unitDefinition" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAQAAAAAAAAAAgA=</HashCode>
+      <FileName>Level2\Elements\UnitDefinition.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Level3.compartment">
+    <Position X="1" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Level3\XmlFile.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.Notes" Collapsed="true">
+    <Position X="11" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAAACAACAAA=</HashCode>
+      <FileName>Components\Notes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.Body" Collapsed="true">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAUAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Components\Notes.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Components.[Property]" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="11" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAEAAAAAAQAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Components\Notes.vb</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SMRUCC.genomics.Model.SBML.Specifics.MetaCyc.EscapedAttribute" Collapsed="true">
+    <Position X="14.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Specifics\MetaCyc\Escaping.vb</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="SMRUCC.genomics.Model.SBML.Level2.Elements.MathInfo" Collapsed="true">
+    <Position X="11" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAEAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Level2\FluxModel\kineticLaw\Parameter.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="SMRUCC.genomics.Model.SBML.Level2.Elements.Unit" Collapsed="true">
+    <Position X="12.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEQEAAAAACAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Level2\Elements\UnitDefinition.vb</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="SMRUCC.genomics.Model.SBML.FLuxBalanceModel.I_FBAC2(Of T_Ref)" Collapsed="true">
+    <Position X="11" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>IFBAC2.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.Model.SBML.FLuxBalanceModel.IMetabolite" Collapsed="true">
+    <Position X="14.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>IFBAC2.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SMRUCC.genomics.Model.SBML.FLuxBalanceModel.I_ReactionModel(Of T_Ref)" Collapsed="true">
+    <Position X="12.75" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAiAAAQAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IFBAC2.vb</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Module Name="SMRUCC.genomics.Model.SBML.Level2.API" Collapsed="true">
+    <Position X="11" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAEAAAgQAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Level2\API.vb</FileName>
+    </TypeIdentifier>
+  </Module>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

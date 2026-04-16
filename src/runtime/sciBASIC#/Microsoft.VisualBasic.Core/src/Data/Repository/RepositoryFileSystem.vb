@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::414b2776d52e8143899df9e18c2b1c62, Microsoft.VisualBasic.Core\src\Data\Repository\RepositoryFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::dbe46e1abcd8cc8c8e9d174c6df14239, Microsoft.VisualBasic.Core\src\Data\Repository\RepositoryFileSystem.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 217
+    '    Code Lines: 134 (61.75%)
+    ' Comment Lines: 59 (27.19%)
+    '    - Xml Docs: 93.22%
+    ' 
+    '   Blank Lines: 24 (11.06%)
+    '     File Size: 9.84 KB
+
+
     '     Module RepositoryFileSystem
     ' 
     '         Function: GetFile, GetMostAppreancePath, LoadEntryList, (+3 Overloads) LoadSourceEntryList, SourceCopy
@@ -41,9 +53,9 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
@@ -63,15 +75,11 @@ Namespace Data.Repository
         ''' <param name="DIR"></param>
         ''' <param name="keyword"></param>
         ''' <param name="ext">元素的排布是有顺序的</param>
-        ''' <returns></returns>
+        ''' <returns>A list of file path which match with the keyword and the file extension name.</returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Get.File.Path")>
-        <Extension> Public Function GetFile(DIR As String,
-                                           <Parameter("Using.Keyword")> keyword As String,
-                                           <Parameter("List.Ext")> ParamArray ext As String()) _
-                                        As <FunctionReturns("A list of file path which match with the keyword and the file extension name.")> String()
-
+        <Extension>
+        Public Function GetFile(DIR As String, keyword As String, ParamArray ext As String()) As String()
             Dim Files As IEnumerable(Of String) = ls - l - wildcards(ext) <= DIR
             Dim matches = (From Path As String
                            In Files.AsParallel
@@ -98,16 +106,15 @@ Namespace Data.Repository
         ''' 请注意，本方法是不能够产生具有相同的主文件名的数据的。假若目标GBK是使用本模块之中的方法保存或者导出来的，
         ''' 则可以使用本方法生成Entry列表；（在返回的结果之中，KEY为文件名，没有拓展名，VALUE为文件的路径）
         ''' </summary>
-        ''' <param name="source"></param>
+        ''' <param name="source">The source directory which will be searchs for file.</param>
+        ''' <param name="ext">
+        ''' The list of the file extension.
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Load.ResourceEntry")>
         <Extension>
-        Public Function LoadSourceEntryList(<Parameter("Dir.Source", "The source directory which will be searchs for file.")> source As String,
-                                            <Parameter("List.Ext", "The list of the file extension.")> ext As String(),
-                                            Optional topLevel As Boolean = True) As Dictionary(Of String, String)
-
+        Public Function LoadSourceEntryList(source As String, ext As String(), Optional topLevel As Boolean = True) As Dictionary(Of String, String)
             If ext.IsNullOrEmpty Then
                 ext = {"*.*"}
             End If
@@ -127,7 +134,7 @@ Namespace Data.Repository
                               Function(x)
 
                                   Return LinqAPI.DefaultFirst(Of String) _
- _
+                                                                         _
                                     () <= From path
                                           In x.Group
                                           Let pathValue = path.path
@@ -146,7 +153,7 @@ Namespace Data.Repository
                                     Function(x) x.Value)
             End With
 
-            Call $"{NameOf(ProgramPathSearchTool)} load {res.Count} source entry...".__DEBUG_ECHO
+            Call $"{NameOf(ProgramPathSearchTool)} load {res.Count} source entry...".debug
 
             Return res
         End Function
@@ -159,7 +166,8 @@ Namespace Data.Repository
         ''' <param name="ext">文件类型的拓展名称</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <Extension> Public Function LoadSourceEntryList(source$, ParamArray ext$()) As Dictionary(Of String, String)
+        <Extension>
+        Public Function LoadSourceEntryList(source$, ParamArray ext$()) As Dictionary(Of String, String)
             If Not FileIO.FileSystem.DirectoryExists(source) Then
                 Return New Dictionary(Of String, String)
             End If
@@ -186,7 +194,7 @@ Namespace Data.Repository
         <ExportAPI("Load.ResourceEntry")>
         <Extension> Public Function LoadEntryList(<Parameter("Dir.Source")> DIR$, ParamArray exts$()) As NamedValue(Of String)()
             Return LinqAPI.Exec(Of NamedValue(Of String)) _
- _
+                                                          _
                 () <= From path As String
                       In ls - l - ShellSyntax.r - wildcards(exts) <= DIR
                       Select New NamedValue(Of String) With {

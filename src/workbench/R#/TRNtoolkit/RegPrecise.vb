@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24145e259bc76c0b30638a545581413d, R#\TRNtoolkit\RegPrecise.vb"
+﻿#Region "Microsoft.VisualBasic::7e2adbaae9d5f79bddbae6d73780e33d, R#\TRNtoolkit\RegPrecise.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,38 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 236
+    '    Code Lines: 179 (75.85%)
+    ' Comment Lines: 26 (11.02%)
+    '    - Xml Docs: 61.54%
+    ' 
+    '   Blank Lines: 31 (13.14%)
+    '     File Size: 14.52 KB
+
+
     ' Module RegPrecise
     ' 
-    '     Function: exportRegPrecise, FromGenome, LoadScanner, readRegPrecise, readRegulators
-    '               readRegulome, regJoin
+    '     Function: exportRegPrecise, FromGenome, match_taxonomy, readMotifSites, readOperon
+    '               readRegPrecise, readRegulators, readRegulome, regJoin, writeRegprecise
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Data.Regprecise
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
-Imports SMRUCC.genomics.Model.Network.VirtualFootprint
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
@@ -108,6 +122,33 @@ Public Module RegPrecise
         Return file.LoadXml(Of TranscriptionFactors)
     End Function
 
+    <ExportAPI("write.regprecise")>
+    Public Function writeRegprecise(<RRawVectorArgument> db As Object, file As String, Optional env As Environment = Nothing) As Object
+        If TypeOf db Is TranscriptionFactors Then
+            Return DirectCast(db, TranscriptionFactors).GetXml.SaveTo(file)
+        End If
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(db, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim dbData As New TranscriptionFactors With {
+            .genomes = pull _
+                .populates(Of BacteriaRegulome)(env) _
+                .ToArray,
+            .update = Now.ToString
+        }
+
+        Return dbData.GetXml.SaveTo(file)
+    End Function
+
+    ''' <summary>
+    ''' export the raw motif site sequence in fasta file format
+    ''' </summary>
+    ''' <param name="regprecise"></param>
+    ''' <returns></returns>
     <ExportAPI("motif.raw")>
     Public Function exportRegPrecise(regprecise As TranscriptionFactors) As list
         Return regprecise _
@@ -126,17 +167,17 @@ Public Module RegPrecise
         Return xml.LoadXml(Of BacteriaRegulome)
     End Function
 
-    <ExportAPI("loadScanner")>
-    <RApiReturn(GetType(RegPreciseScan))>
-    Public Function LoadScanner(<RRawVectorArgument> regDb As Object, Optional env As Environment = Nothing) As Object
-        Dim genomes As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(regDb, env)
+    '<ExportAPI("loadScanner")>
+    '<RApiReturn(GetType(RegPreciseScan))>
+    'Public Function LoadScanner(<RRawVectorArgument> regDb As Object, Optional env As Environment = Nothing) As Object
+    '    Dim genomes As pipeline = pipeline.TryCreatePipeline(Of BacteriaRegulome)(regDb, env)
 
-        If genomes.isError Then
-            Return genomes.getError
-        End If
+    '    If genomes.isError Then
+    '        Return genomes.getError
+    '    End If
 
-        Return RegPreciseScan.CreateFromRegPrecise(genomes.populates(Of BacteriaRegulome)(env))
-    End Function
+    '    Return RegPreciseScan.CreateFromRegPrecise(genomes.populates(Of BacteriaRegulome)(env))
+    'End Function
 
     <ExportAPI("regulators")>
     Public Function FromGenome(regulome As BacteriaRegulome, info As list, Optional env As Environment = Nothing) As RegulatorTable()
@@ -179,5 +220,71 @@ Public Module RegPrecise
     <ExportAPI("read.regulators")>
     Public Function readRegulators(file As String) As RegpreciseBBH()
         Return file.LoadCsv(Of RegpreciseBBH)
+    End Function
+
+    <ExportAPI("read.operon")>
+    Public Function readOperon(file As String) As Operon()
+        Return RegulateGraph.ParseStream(file.LineIterators).ToArray
+    End Function
+
+    <ExportAPI("read.motifs")>
+    Public Function readMotifSites(file As String) As Regulator()
+        Return RegulateGraph.ParseMotifSites(file.LineIterators).ToArray
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="ncbi"></param>
+    ''' <param name="regprecise"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("match_taxonomy")>
+    <RApiReturn(GetType(TranscriptionFactors), GetType(BacteriaRegulome))>
+    Public Function match_taxonomy(ncbi As AssemblySummaryGenbank, regprecise As Object, Optional env As Environment = Nothing) As Object
+        If regprecise Is Nothing Then
+            Call "the given database for make matches with ncbi genbank database is nothing!".warning
+            Return Nothing
+        End If
+
+        If TypeOf regprecise Is BacteriaRegulome Then
+            Dim target As BacteriaRegulome = DirectCast(regprecise, BacteriaRegulome)
+            Dim match As GenomeEntry = ncbi.GetBestMatch(target.genome.name, 0.85)
+
+            If Not match Is Nothing Then
+                With ncbi.GetByAccessionId(match.accession_id)
+                    target.genome.genomeId = $"{ .assembly_accession}_{ .asm_name} - { .organism_name}"
+                    target.genome.taxonomyId = .taxid
+                End With
+            Else
+                Call $"the bacterial genome '{target.genome.name}' is not existsed inside ncbi genbank database!".warning
+            End If
+
+            Return target
+        ElseIf TypeOf regprecise Is TranscriptionFactors Then
+            Dim db As TranscriptionFactors = DirectCast(regprecise, TranscriptionFactors)
+            Dim missing As New List(Of String)
+
+            For Each target As BacteriaRegulome In TqdmWrapper.Wrap(db.AsEnumerable.ToArray)
+                Dim match = ncbi.GetBestMatch(target.genome.name, 0.85)
+
+                If Not match Is Nothing Then
+                    With ncbi.GetByAccessionId(match.accession_id)
+                        target.genome.genomeId = $"{ .assembly_accession}_{ .asm_name} - { .organism_name}"
+                        target.genome.taxonomyId = .taxid
+                    End With
+                Else
+                    Call missing.Add(target.genome.name)
+                End If
+            Next
+
+            If missing.Any Then
+                Call $"found {missing.Count} bacterial genomes is missing from the ncbi genbank database: {missing.JoinBy("; ")}".warning
+            End If
+
+            Return db
+        Else
+            Return Message.InCompatibleType(GetType(TranscriptionFactors), regprecise.GetType, env)
+        End If
     End Function
 End Module

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 54 (79.41%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (20.59%)
+    '     File Size: 2.11 KB
+
+
     '     Class HtmlHead
     ' 
     '         Properties: CSS, Title

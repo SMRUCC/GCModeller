@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2937fb5a9f802ac484f61dd5b8c32b46, Data_science\DataMining\DynamicProgramming\SmithWaterman\LocalHSPMatch.vb"
+﻿#Region "Microsoft.VisualBasic::7501d5585c6e190fb7ddaf2f4e364615, Data_science\DataMining\DynamicProgramming\SmithWaterman\LocalHSPMatch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 85
+    '    Code Lines: 46 (54.12%)
+    ' Comment Lines: 24 (28.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (17.65%)
+    '     File Size: 2.79 KB
+
+
     '     Class LocalHSPMatch
     ' 
     '         Properties: LengthHit, LengthQuery, QueryLength, seq1, seq2
@@ -46,7 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SmithWaterman
 
@@ -82,7 +94,7 @@ Namespace SmithWaterman
         ''' <returns></returns>
         Public ReadOnly Property LengthQuery As Integer
             Get
-                Return stdNum.Abs(toA - fromA)
+                Return std.Abs(toA - fromA)
             End Get
         End Property
 
@@ -92,7 +104,7 @@ Namespace SmithWaterman
         ''' <returns></returns>
         Public ReadOnly Property LengthHit As Integer
             Get
-                Return stdNum.Abs(toB - fromB)
+                Return std.Abs(toB - fromB)
             End Get
         End Property
 

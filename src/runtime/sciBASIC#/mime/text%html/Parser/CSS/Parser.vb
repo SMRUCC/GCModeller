@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0dfe5bbe55c03ee1e518c404549c0255, mime\text%html\Parser\CSS\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::0ce49e1fe4202af26f1b5718ca4a56b9, mime\text%html\Parser\CSS\Parser.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 206
+    '    Code Lines: 131 (63.59%)
+    ' Comment Lines: 50 (24.27%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 25 (12.14%)
+    '     File Size: 7.72 KB
+
+
     '     Module CssParser
     ' 
-    '         Function: BuildSelector, GetProperty, GetTagWithCSS, IndivisualTags, ParseStyle
-    '                   RemoveWhitespace, RemoveWitespaceFormStartAndEnd
+    '         Function: BuildSelector, GetProperty, GetTagWithCSS, IndivisualTags, IsNullOrEmpty
+    '                   ParseStyle, RemoveWhitespace, RemoveWitespaceFormStartAndEnd
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,6 +73,15 @@ Namespace Language.CSS
     ''' > Complete Css Parser Writen in C#
     ''' </remarks>
     Public Module CssParser
+
+        <Extension>
+        Public Function IsNullOrEmpty(css As CSSFile) As Boolean
+            If css Is Nothing Then
+                Return True
+            Else
+                Return css.Selectors.IsNullOrEmpty
+            End If
+        End Function
 
         ''' <summary>
         ''' 创建元素选择器表达式
@@ -140,6 +161,14 @@ Namespace Language.CSS
             }
         End Function
 
+        ''' <summary>
+        ''' Parse the css style string for a given selector, example as: ``background-color: lightblue;``
+        ''' </summary>
+        ''' <param name="style">the style text inside an element node selector</param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' all of the css property name is in lower case.
+        ''' </remarks>
         Public Function ParseStyle(style As String) As Selector
             Dim properties = Strings.Trim(style) _
                 .GetProperty() _
@@ -207,7 +236,7 @@ Namespace Language.CSS
                     Dim propertyName$ = Nothing, propertyValue$ = Nothing
 
                     If t(0) <> "" Then
-                        propertyName = RemoveWhitespace(t(0))
+                        propertyName = RemoveWhitespace(t(0)).ToLower
                     End If
                     If t(1) <> "" Then
                         propertyValue = RemoveWitespaceFormStartAndEnd(t(1))
@@ -220,7 +249,7 @@ Namespace Language.CSS
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function RemoveWhitespace(input As String) As String
-            Return New String(input.ToCharArray().Where(Function(c) Not [Char].IsWhiteSpace(c)).ToArray())
+            Return New String(input.ToCharArray().Where(Function(c) Not Char.IsWhiteSpace(c)).ToArray())
         End Function
 
         Private Function RemoveWitespaceFormStartAndEnd(input As String) As String

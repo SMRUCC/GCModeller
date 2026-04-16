@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 8 (23.53%)
+    ' Comment Lines: 24 (70.59%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (5.88%)
+    '     File Size: 1.37 KB
+
+
     '     Interface IExportAPI
     ' 
     '         Properties: Example, Info, Name, Usage

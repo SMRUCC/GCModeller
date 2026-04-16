@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d70c87eadd8ba46f2cfaf84ae00f53d6, Microsoft.VisualBasic.Core\src\Extensions\IO\Path\CopyDirectory.vb"
+﻿#Region "Microsoft.VisualBasic::eb71b7c4346dcee42ec26ae033511a9a, Microsoft.VisualBasic.Core\src\Extensions\IO\Path\CopyDirectory.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 46 (69.70%)
+    ' Comment Lines: 7 (10.61%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 13 (19.70%)
+    '     File Size: 2.73 KB
+
+
     '     Class CopyDirectoryAction
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -53,7 +65,7 @@ Namespace FileIO
 
         ReadOnly progress As IProgress(Of String)
 
-        Sub New(progress As Progress(Of String))
+        Sub New(progress As IProgress(Of String))
             Me.progress = progress
         End Sub
 

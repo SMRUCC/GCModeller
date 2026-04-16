@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::708662ae342ebb27208a8e66aa4233f7, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\LQuerySchedule\LQuerySchedule.vb"
+﻿#Region "Microsoft.VisualBasic::87c8494dd66858184dd6bc368840fb44, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\LQuerySchedule\LQuerySchedule.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 177
+    '    Code Lines: 95 (53.67%)
+    ' Comment Lines: 57 (32.20%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 25 (14.12%)
+    '     File Size: 8.36 KB
+
+
     '     Module LQuerySchedule
     ' 
-    '         Properties: CPU_NUMBER, Recommended_NUM_THREADS
+    '         Properties: CPU_NUMBER
     ' 
     '         Function: [Where], AutoConfig, DefaultConfig, (+3 Overloads) LQuery
     ' 
@@ -68,11 +80,13 @@ Namespace Parallel.Linq
     Public Module LQuerySchedule
 
         ''' <summary>
-        ''' Get the number of processors on the current machine.(获取当前的系统主机的CPU核心数)
+        ''' Get the number of processors on the current machine.
         ''' </summary>
         ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <returns>
+        ''' A reference to the <see cref="Environment.ProcessorCount"/>
+        ''' </returns>
+        ''' <remarks>(获取当前的系统主机的CPU核心数)</remarks>
         Public ReadOnly Property CPU_NUMBER As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -100,18 +114,6 @@ Namespace Parallel.Linq
         End Function
 
         ''' <summary>
-        ''' The possible recommended threads of the linq based on you machine processors number, i'm not sure...
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public ReadOnly Property Recommended_NUM_THREADS As Integer
-            Get
-                Return Environment.ProcessorCount * 10
-            End Get
-        End Property
-
-        ''' <summary>
         ''' 将大量的短时间的任务进行分区，合并，然后再执行并行化，请注意，<paramref name="task"/>参数不能够使lambda表达式，否则会出现EntryNotFound的错误
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
@@ -124,7 +126,7 @@ Namespace Parallel.Linq
                                                     task As Func(Of T, TOut),
                                                     Optional parTokens As Integer = 20000) As IEnumerable(Of TOut)
 
-            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".__DEBUG_ECHO
+            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".debug
 
             Dim buf = TaskPartitions.Partitioning(inputs, parTokens, task)
             Dim LQueryInvoke = From part As Func(Of TOut())
@@ -142,7 +144,7 @@ Namespace Parallel.Linq
                 Next
             Next
 
-            Call $"Task job done!".__DEBUG_ECHO
+            Call $"Task job done!".debug
         End Function
 
         ''' <summary>
@@ -159,7 +161,7 @@ Namespace Parallel.Linq
                                                     Optional where As Func(Of T, Boolean) = Nothing,
                                                     Optional partitionSize As Integer = 20000) As IEnumerable(Of TOut)
 
-            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".__DEBUG_ECHO
+            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".debug
 
             Dim buf As IEnumerable(Of Func(Of TOut())) =
                 If(where Is Nothing,
@@ -175,7 +177,7 @@ Namespace Parallel.Linq
                 Next
             Next
 
-            Call $"Task job done!".__DEBUG_ECHO
+            Call $"Task job done!".debug
         End Function
 
         ''' <summary>
@@ -192,7 +194,7 @@ Namespace Parallel.Linq
                                                     outWhere As Func(Of TOut, Boolean),
                                                     Optional partitionSize As Integer = 20000) As IEnumerable(Of TOut)
 
-            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".__DEBUG_ECHO
+            Call $"Start schedule task pool for {GetType(T).FullName}  -->  {GetType(TOut).FullName}".debug
 
             Dim buf As IEnumerable(Of Func(Of TOut())) = TaskPartitions.Partitioning(inputs, partitionSize, task)
             Dim LQueryInvoke = From part As Func(Of TOut())
@@ -208,13 +210,13 @@ Namespace Parallel.Linq
                 Next
             Next
 
-            Call $"Task job done!".__DEBUG_ECHO
+            Call $"Task job done!".debug
         End Function
 
         Public Iterator Function [Where](Of T)(source As IEnumerable(Of T),
                                                test As Func(Of T, Boolean),
                                                Optional parTokens As Integer = 20000) As IEnumerable(Of T())
-            Call $"Start schedule task pool for {GetType(T).FullName}".__DEBUG_ECHO
+            Call $"Start schedule task pool for {GetType(T).FullName}".debug
 
             Dim buf As IEnumerable(Of Func(Of T())) = TaskPartitions.Partitions(source, parTokens, test)
             Dim LQueryInvoke = From part As Func(Of T())
@@ -225,7 +227,7 @@ Namespace Parallel.Linq
                 Yield part
             Next
 
-            Call $"Task job done!".__DEBUG_ECHO
+            Call $"Task job done!".debug
         End Function
     End Module
 End Namespace

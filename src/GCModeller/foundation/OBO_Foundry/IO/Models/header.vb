@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e3b2629723e04fae06225dc1d0a2573a, foundation\OBO_Foundry\IO\Models\header.vb"
+﻿#Region "Microsoft.VisualBasic::6d36a5826b329c76a3a0c2616cee5e22, foundation\OBO_Foundry\IO\Models\header.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 20 (74.07%)
+    ' Comment Lines: 3 (11.11%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 1.21 KB
+
 
     '     Class header
     ' 
@@ -64,7 +76,7 @@ Namespace IO.Models
         <Field("default-namespace")> Public Property DefaultNamespace As String
         <Field("remark")> Public Property Remark As String()
         <Field("ontology")> Public Property Ontology As String
-        <Field("property_value")> Public Property property_value As String
+        <Field("property_value")> Public Property property_value As String()
 
         Public Overrides Function ToString() As String
             Return $"[ontology] {Ontology}, version={DataVersion}"

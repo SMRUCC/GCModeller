@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f907f2072d9c4db9369402874903414, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\Entity.vb"
+﻿#Region "Microsoft.VisualBasic::cec26b669ddc399d210a7f6bc78ba0a1, Microsoft.VisualBasic.Core\src\Text\Xml\Linq\Entity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15 (78.95%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (21.05%)
+    '     File Size: 613 B
+
+
     '     Class Entity
     ' 
     '         Properties: ID, Properties
@@ -45,7 +57,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Text.Xml.Models
 
 Namespace Text.Xml.Linq
 

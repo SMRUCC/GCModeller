@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf2bb932044d5c67ae3b901c54e04f8f, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\Binding.vb"
+﻿#Region "Microsoft.VisualBasic::6dd3d9c1d86b985cfdc833b54f7e819c, Microsoft.VisualBasic.Core\src\ComponentModel\ValuePair\Binding.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 47 (54.65%)
+    ' Comment Lines: 25 (29.07%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 14 (16.28%)
+    '     File Size: 2.95 KB
+
+
     '     Structure Binding
     ' 
     '         Properties: IsEmpty
@@ -62,6 +74,11 @@ Namespace ComponentModel
         Dim Target As K
 
         ''' <summary>
+        ''' the name of current binding, can be optional
+        ''' </summary>
+        Dim name As String
+
+        ''' <summary>
         ''' If the field <see cref="Bind"/> and <see cref="Target"/> are both nothing, then this binding is empty.
         ''' (当<see cref="Bind"/>以及<see cref="Target"/>都同时为空值的时候这个参数才会为真)
         ''' </summary>
@@ -79,10 +96,18 @@ Namespace ComponentModel
         End Sub
 
         Public Overrides Function ToString() As String
+            Dim bindStr As String
+
             If IsEmpty Then
-                Return "No binding"
+                bindStr = "No binding"
             Else
-                Return Bind.ToString & " --> " & Target.ToString
+                bindStr = Bind.ToString & " --> " & Target.ToString
+            End If
+
+            If name.StringEmpty Then
+                Return bindStr
+            Else
+                Return $"[{name}] {bindStr}"
             End If
         End Function
 
@@ -95,7 +120,7 @@ Namespace ComponentModel
             Return Me
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET48_OR_GREATER Or NET8_0_OR_GREATER Then
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function ValueTuple() As (bind As T, target As K)

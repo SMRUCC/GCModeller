@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8853f9fa41986a52908d1f70fbe921c8, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::60115308df5625633b239ff8ae767d90, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Residue.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 37 (40.66%)
+    ' Comment Lines: 44 (48.35%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 10 (10.99%)
+    '     File Size: 3.15 KB
+
+
     '     Class Residue
     ' 
     '         Properties: Alphabets, AsChar, Bits, Position
     ' 
-    '         Function: CalculatesBits, Hi, ToString
+    '         Function: Hi, ToString
     ' 
     '         Sub: Assign
     ' 
@@ -52,8 +64,11 @@ Imports Microsoft.VisualBasic.Math.Information
 Namespace SequenceLogo
 
     ''' <summary>
-    ''' A drawing site in the sequence logo drawing.(所绘制的序列logo图之中的一个位点)
+    ''' A drawing site in the sequence logo drawing.
     ''' </summary>
+    ''' <remarks>
+    ''' (所绘制的序列logo图之中的一个位点)
+    ''' </remarks>
     Public Class Residue : Implements IAddressOf
 
         ''' <summary>
@@ -64,15 +79,20 @@ Namespace SequenceLogo
         ''' <summary>
         ''' The total height of the letters depicts the information content Of the position, 
         ''' In bits.
-        ''' (Bits的值是和比对的序列的数量是有关系的)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (Bits的值是和比对的序列的数量是有关系的)
+        ''' </remarks>
         Public Property Bits As Double
 
         ''' <summary>
-        ''' Position value of this residue in the motif sequence.(这个残基的位点编号)
+        ''' Position value of this residue in the motif sequence.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个残基的位点编号)
+        ''' </remarks>
         Public Property Position As Integer Implements IAddressOf.Address
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
@@ -124,28 +144,6 @@ Namespace SequenceLogo
             Return Alphabets _
                 .Select(Function(a) a.RelativeFrequency) _
                 .ShannonEntropy()
-        End Function
-
-        ''' <summary>
-        ''' The information content (y-axis) of position i is given by:
-        ''' 
-        ''' ```
-        ''' Ri = log2(4) - (Hi + en)   //nt
-        ''' Ri = log2(20) - (Hi + en)  //prot 
-        ''' ```
-        ''' 
-        ''' 4 for DNA/RNA or 20 for protein. Consequently, the maximum sequence conservation 
-        ''' per site Is log2 4 = 2 bits for DNA/RNA And log2 20 ≈ 4.32 bits for proteins.
-        ''' 
-        ''' </summary>
-        ''' <param name="rsd"></param>
-        ''' <param name="En"></param>
-        ''' <returns></returns>
-        Public Shared Function CalculatesBits(rsd As Residue, En As Double, NtMol As Boolean) As Residue
-            Dim n As Double = If(NtMol, 2, Math.Log(20, newBase:=2))
-            Dim bits = n - (rsd.Hi + En)
-            rsd.Bits = bits
-            Return rsd
         End Function
     End Class
 End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 36 (72.00%)
+    ' Comment Lines: 4 (8.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (20.00%)
+    '     File Size: 1.55 KB
+
+
     '     Class Factor
     ' 
     '         Properties: FactorValue

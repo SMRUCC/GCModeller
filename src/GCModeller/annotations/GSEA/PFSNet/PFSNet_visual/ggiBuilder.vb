@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c10c12f4da1f0b840457b806b3f72b20, annotations\GSEA\PFSNet\PFSNet_visual\ggiBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::1ea5cf109f8a22445c741a9c7b142743, annotations\GSEA\PFSNet\PFSNet_visual\ggiBuilder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 40 (76.92%)
+    ' Comment Lines: 6 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (11.54%)
+    '     File Size: 2.08 KB
+
+
     ' Module ggiBuilder
     ' 
     '     Function: ReferenceCompoundNetwork
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports SMRUCC.genomics.Analysis.PFSNet.DataStructure
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 
 Public Module ggiBuilder
@@ -68,7 +80,7 @@ Public Module ggiBuilder
         For Each map As Map In maps
             allId = map.GetMembers
             fluxEntries = allId.Where(Function(id) id.IsPattern("R\d+")).ToArray
-            mapName = $"{map.id}: {map.Name.Replace(" - Reference pathway", "").Trim}"
+            mapName = $"{map.EntryId}: {map.name.Replace(" - Reference pathway", "").Trim}"
 
             For Each reaction As ReactionTable In fluxEntries _
                 .Where(AddressOf fluxIndex.ContainsKey) _

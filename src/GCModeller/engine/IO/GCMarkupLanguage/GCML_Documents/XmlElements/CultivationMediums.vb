@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 25 (58.14%)
+    ' Comment Lines: 10 (23.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (18.60%)
+    '     File Size: 1.68 KB
+
+
     ' Class I_SubstrateRefx
     ' 
     '     Properties: Identifier, InitialQuantity

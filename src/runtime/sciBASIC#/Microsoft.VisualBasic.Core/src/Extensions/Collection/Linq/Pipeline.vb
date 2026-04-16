@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 23 (54.76%)
+    ' Comment Lines: 14 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (11.90%)
+    '     File Size: 1.43 KB
+
+
     '     Module PipelineExtensions
     ' 
     '         Function: DoCall, PipeOf

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 25 (62.50%)
+    ' Comment Lines: 9 (22.50%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 6 (15.00%)
+    '     File Size: 1.26 KB
+
+
     '     Class SearchWorker
     ' 
     '         Constructor: (+1 Overloads) Sub New

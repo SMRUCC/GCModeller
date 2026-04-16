@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7aad64e5bc0f948b6bd738050ff874d, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\Interpreter.vb"
+﻿#Region "Microsoft.VisualBasic::ba5d294cab94ceed8e43bf546961c940, Microsoft.VisualBasic.Core\src\CommandLine\Interpreters\Interpreter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 738
+    '    Code Lines: 423 (57.32%)
+    ' Comment Lines: 221 (29.95%)
+    '    - Xml Docs: 82.81%
+    ' 
+    '   Blank Lines: 94 (12.74%)
+    '     File Size: 32.17 KB
+
+
     '     Class Interpreter
     ' 
     '         Properties: APIList, APINameList, Count, ExecuteEmptyCli, ExecuteFile
@@ -40,10 +52,11 @@
     '         Constructor: (+1 Overloads) Sub New
     ' 
     '         Function: __getsAllCommands, apiInvoke, apiInvokeEtc, Contains, CreateEmptyCLIObject
-    '                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, (+3 Overloads) Execute, ExistsCommand
-    '                   GetAllCommands, getAPI, GetEnumerator, GetEnumerator1, GetPossibleCommand
-    '                   Help, ListingRelated, (+2 Overloads) Remove, SDKdocs, ToDictionary
-    '                   ToString, TryGetValue
+    '                   (+3 Overloads) CreateInstance, doExecuteNonCLIInput, doLoadApiInternal, exec_shell_script_internal, (+3 Overloads) Execute
+    '                   ExistsCommand, GetAllCommands, getAPI, GetEnumerator, GetEnumerator1
+    '                   GetPossibleCommand, Help, invokeSpecial, IsPossibleRequestFile, ListingRelated
+    '                   (+2 Overloads) Remove, runShellScriptFile, SDKdocs, ToDictionary, ToString
+    '                   TryGetValue
     ' 
     '         Sub: (+2 Overloads) Add, AddCommand, Clear, CopyTo, (+2 Overloads) Dispose
     ' 
@@ -55,18 +68,20 @@
 Imports System.ComponentModel
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-#If DEBUG Then
-#Else
-Imports Microsoft.VisualBasic.ApplicationServices.Debugging
-#End If
+Imports System.Threading
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.CommandLine.Reflection.EntryPoints
+Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Serialization.JSON
+
+#If DEBUG Then
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
+#End If
 
 #Const NET_45 = 0
 
@@ -134,10 +149,8 @@ Namespace CommandLine
         ''' <remarks></remarks>
         Public Overridable Function Execute(args As CommandLine) As Integer
             If Not args.IsNullOrEmpty Then
-                Dim i As Integer = apiInvoke(args.Name, {args}, args.Parameters)
+                Dim i As Integer = apiInvoke(args, args.Parameters)
 #If DEBUG Then
-
-#Else
                 If Stack.TextEquals("Main") Then
                     If DebuggerArgs.AutoPaused Then
                         Call Pause()
@@ -179,74 +192,135 @@ Namespace CommandLine
         ''' <summary>
         ''' The interpreter runs all of the command from here.(所有的命令行都从这里开始执行)
         ''' </summary>
-        ''' <param name="commandName"></param>
         ''' <param name="args">就只有一个命令行对象</param>
         ''' <param name="help_argvs"></param>
         ''' <returns></returns>
-        Private Function apiInvoke(commandName$, args As Object(), help_argvs$()) As Integer
-            Dim cli As CommandLine = DirectCast(args(Scan0), CommandLine)
+        Private Function apiInvoke(args As CommandLine, help_argvs$()) As Integer
+            Dim command As String = args.Name.ToLower
 
-            If apiTable.ContainsKey(commandName.ToLower) Then
-                Return apiTable(commandName.ToLower).Execute(args)
+            If apiTable.ContainsKey(command) Then
+                Return apiTable(command).Execute(args)
+            Else
+                Return invokeSpecial(command, args, help_argvs)
             End If
+        End Function
 
-            Select Case commandName.ToLower
+        Private Function invokeSpecial(command As String, args As CommandLine, help_argvs As String()) As Integer
+            Select Case command
                 Case "??vars"
                     Call ExecuteImpl.PrintVariables()
                 Case "??history"
-                    Call ExecuteImpl.HandleShellHistory(args:=cli)
+                    Call ExecuteImpl.HandleShellHistory(args)
                 Case "?", "??", "--help"
                     If help_argvs.IsNullOrEmpty Then
                         Return Help("")
                     ElseIf (Not HasCommandName(help_argvs.First)) AndAlso Not ExecuteQuery Is Nothing Then
-                        Return ExecuteQuery(cli)
+                        Return ExecuteQuery(args)
                     Else
                         Return Help(help_argvs.First)
                     End If
                 Case "~"  ' 打印出应用程序的位置，linux里面的HOME
                     Call Console.WriteLine(App.ExecutablePath)
                 Case "man"
-                    Call ExecuteImpl.HandleProgramManual(Me, cli)
+                    Call ExecuteImpl.HandleProgramManual(Me, args)
                 Case "/linux-bash"
-                    Call My.UNIX.BashShell()
+                    Call My.UNIX.BashShell(install_root:=args("--install_root"))
                 Case "/cli.dev"
-                    Call Me.CreateCLIPipelineFile(args:=cli)
+                    Call Me.CreateCLIPipelineFile(args)
                 Case Else
-                    If InStr(commandName, "??") = 1 Then
+                    If InStr(args.Name, "??") = 1 Then
                         ' 支持类似于R语言里面的 ??帮助命令
                         ' 去除前面的两个??问号，得到查询的term
-                        Return Mid(commandName, 3).DoCall(AddressOf Help)
+                        Return Mid(args.Name, 3).DoCall(AddressOf Help)
                     Else
-                        Return apiInvokeEtc(commandName, cli)
+                        Return apiInvokeEtc(args.Name, args)
                     End If
             End Select
 
             Return 0
         End Function
 
-        Private Function apiInvokeEtc(commandName$, cli As CommandLine) As Integer
-            ' 命令行的名称和上面的都不符合，但是可以在文件系统之中找得到一个相应的文件，则执行文件句柄
-            If (commandName.FileExists OrElse commandName.DirectoryExists) AndAlso Not Me.ExecuteFile Is Nothing Then
-                App.InputFile = commandName
+        Private Function runShellScriptFile(filename As String, argv As CommandLine) As Integer
+            App.InputFile = filename
 
-                If cli.IsTrue("--debug") Then
-                    Return ExecuteFile()(path:=commandName, args:=cli)
+            If argv.IsTrue("--debug") Then
+                Return exec_shell_script_internal(filename, argv, debug:=True)
+            End If
+
+            Try
+                Return exec_shell_script_internal(filename, argv, debug:=False)
+            Catch ex As Exception
+                ex = New Exception("Execute file failure!", ex)
+                ex = New Exception(argv.ToString, ex)
+
+                Call App.LogException(ex)
+                Call ex.PrintException(enableRedirect:=False)
+                Call VBDebugger.WaitOutput()
+
+                Return 500
+            End Try
+        End Function
+
+        ''' <summary>
+        ''' Some magic tweaks will be made in this function call
+        ''' </summary>
+        ''' <param name="filename"></param>
+        ''' <param name="argv"></param>
+        ''' <returns></returns>
+        Private Function exec_shell_script_internal(filename As String, argv As CommandLine, debug As Boolean) As Integer
+            Dim exit_code As Integer = 0
+            Dim mutex As New ManualResetEvent(initialState:=False)
+            Dim exec As ThreadStart =
+                Sub()
+                    exit_code = ExecuteFile()(path:=filename, args:=argv)
+                    mutex.Set()
+                End Sub
+            ' /STACK:64MB
+            Dim max_stack_size_configuration As String = App.GetVariable("max_stack_size")
+
+            If debug Then
+                exit_code = ExecuteFile()(path:=filename, args:=argv)
+            Else
+                Call mutex.Reset()
+
+                If max_stack_size_configuration.StringEmpty Then
+                    Call New Thread(exec) With {.Name = MethodBase.GetCurrentMethod.Name}.Start()
                 Else
-                    Try
-                        Return ExecuteFile()(path:=commandName, args:=cli)
-                    Catch ex As Exception
-                        ex = New Exception("Execute file failure!", ex)
-                        ex = New Exception(cli.ToString, ex)
-
-                        Call App.LogException(ex)
-                        Call ex.PrintException(enableRedirect:=False)
-                        Call VBDebugger.WaitOutput()
-
-                        Return 500
-                    End Try
+                    ' run program with max stack size configuration from the
+                    ' framework environment variable
+                    Call New Thread(
+                        start:=exec,
+                        maxStackSize:=Unit.ParseByteSize(max_stack_size_configuration)
+                    ) With {
+                        .Name = MethodBase.GetCurrentMethod.Name
+                    }.Start()
                 End If
 
-                Return i
+                Call mutex.WaitOne()
+            End If
+
+            Return exit_code
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="target"></param>
+        ''' <returns>
+        ''' returns true if the given <paramref name="target"/> is local file path or http/https/ftp url
+        ''' </returns>
+        Private Shared Function IsPossibleRequestFile(target As String) As Boolean
+            If target.FileExists OrElse target.DirectoryExists Then
+                Return True
+            Else
+                Return target.isURL
+            End If
+        End Function
+
+        Private Function apiInvokeEtc(commandName$, cli As CommandLine) As Integer
+            ' 命令行的名称和上面的都不符合，但是可以在文件系统之中找得到一个相应的文件，则执行文件句柄
+            If ExecuteFile IsNot Nothing AndAlso IsPossibleRequestFile(commandName) Then
+                Return runShellScriptFile(commandName, cli)
             ElseIf Not ExecuteNotFound Is Nothing Then
                 Try
                     Return ExecuteNotFound()(cli)
@@ -300,13 +374,13 @@ Namespace CommandLine
         Public Function Execute(CommandLineArgs As String()) As Integer
             Dim CommandName As String = CommandLineArgs.First
             Dim argvs As String() = CommandLineArgs.Skip(1).ToArray
-            Dim i As Integer = apiInvoke(CommandName, argvs, help_argvs:=argvs)
+            Dim i As Integer = apiInvoke(CommandLine.BuildFromArguments(CommandLineArgs), help_argvs:=argvs)
 
             Return i
         End Function
 
         Public Function Execute(CommandName As String, args As String()) As Integer
-            Return apiInvoke(CommandName.ToLower, args, help_argvs:=args)
+            Return apiInvoke(CommandLine.BuildFromArguments(CommandName, args), help_argvs:=args)
         End Function
 
         ''' <summary>
@@ -371,11 +445,13 @@ Namespace CommandLine
         ''' 可以使用 Object.GetType/GetType 关键词操作来获取所需要的类型信息)</param>
         ''' <remarks></remarks>
         Sub New(type As Type, <CallerMemberName> Optional caller As String = Nothing)
-            For Each cInfo As APIEntryPoint In __getsAllCommands(type, False)
-                If apiTable.ContainsKey(cInfo.Name.ToLower) Then
-                    Throw New Exception(cInfo.Name & " is duplicated with other command!")
+            For Each cmd As APIEntryPoint In __getsAllCommands(type, False)
+                Dim name As String = cmd.Name.ToLower
+
+                If apiTable.ContainsKey(name) Then
+                    Throw New Exception($"program's commandline argument {cmd.Name} is duplicated!")
                 Else
-                    Call apiTable.Add(cInfo.Name.ToLower, cInfo)
+                    Call apiTable.Add(name, cmd)
                 End If
             Next
 
@@ -415,7 +491,7 @@ Namespace CommandLine
             Dim methods As MethodInfo() = type.GetMethods(BindingFlags.Public Or BindingFlags.Static)
             Dim commandAttribute As Type = GetType(ExportAPIAttribute)
             Dim commandsInfo = LinqAPI.MakeList(Of APIEntryPoint) <=
- _
+                                                                    _
                 From methodInfo As MethodInfo
                 In methods
                 Let commandInfo As APIEntryPoint =
@@ -470,10 +546,17 @@ Namespace CommandLine
 #Disable Warning
             If cmdAttr.Info.StringEmpty Then
                 ' 帮助信息的获取兼容系统的Description方法
-                cmdAttr.Info = methodInfo.Description
+                cmdAttr.Info = methodInfo.Description([default]:="")
             End If
             If cmdAttr.Usage.StringEmpty Then
-                cmdAttr.Usage = methodInfo.Usage
+                ' 20240417
+                '
+                ' trim multiple line of the commandline usage text
+                ' into one line. this is convient for copy to terminal 
+                ' and modify value to use.
+                cmdAttr.Usage = methodInfo.Usage _
+                    .TrimNewLine _
+                    .StringReplace("\s{2,}", " ")
             End If
             If cmdAttr.Example.StringEmpty Then
                 cmdAttr.Example = methodInfo.ExampleInfo
@@ -537,7 +620,7 @@ Namespace CommandLine
             Dim assembly As Assembly = Assembly.LoadFrom(assmPath)
             Dim dllMain As Type = GetType(RunDllEntryPoint)
             Dim main As Type = LinqAPI.DefaultFirst(Of Type) _
- _
+                                                             _
                 () <= From [mod] As Type
                       In assembly.DefinedTypes
                       Let attributes As Object() = [mod].GetCustomAttributes(dllMain, inherit:=False)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7cce882909080160e24a03f21516df67, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
+﻿#Region "Microsoft.VisualBasic::814525a3d02a6d43c646a88bceb01db7, mime\application%json\Serializer\ObjectSerializer\ObjectSerializer.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 91 (76.47%)
+    ' Comment Lines: 15 (12.61%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 13 (10.92%)
+    '     File Size: 4.54 KB
+
+
     ' Module ObjectSerializer
     ' 
-    '     Function: GetJsonElement, populateArrayJson, populateObjectJson, populateTableJson
+    '     Function: GetJsonElement, populateArrayJson, populateTableJson
     ' 
     ' /********************************************************************************/
 
@@ -41,15 +53,14 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
 Imports Microsoft.VisualBasic.ValueTypes
+Imports any = Microsoft.VisualBasic.Scripting
 
 Public Module ObjectSerializer
 
@@ -74,42 +85,6 @@ Public Module ObjectSerializer
         Return New JsonArray(populator)
     End Function
 
-    <Extension>
-    Private Function populateObjectJson(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
-        ' 会需要忽略掉有<ScriptIgnore>标记的属性
-        Dim memberReaders = schema _
-            .Schema(PropertyAccess.Readable, nonIndex:=True) _
-            .Where(Function(p)
-                       If opt.maskReadonly AndAlso Not p.Value.CanWrite Then
-                           Return False
-                       End If
-
-                       Return p.Value.GetAttribute(Of ScriptIgnoreAttribute) Is Nothing
-                   End Function)
-        Dim [property] As PropertyInfo
-        Dim valueType As Type
-        Dim json As New JsonObject
-        Dim valObj As Object
-        Dim graph As ObjectSchema = ObjectSchema.GetSchema(schema)
-
-        For Each reader As KeyValuePair(Of String, PropertyInfo) In memberReaders
-            [property] = reader.Value
-            valueType = [property].PropertyType
-            valObj = [property].GetValue(obj)
-
-            If valueType.IsInterface OrElse
-                valueType Is GetType(Object) OrElse
-                valueType.IsAbstract Then
-
-                valueType = valObj.GetType
-            End If
-
-            json.Add(reader.Key, valueType.GetJsonElement(valObj, opt))
-        Next
-
-        Return json
-    End Function
-
     ''' <summary>
     ''' 所有的字典键都会被强制转换为字符串类型
     ''' </summary>
@@ -123,7 +98,7 @@ Public Module ObjectSerializer
         Dim value As Object
 
         For Each memberKey As Object In obj.Keys
-            key = Scripting.ToString(memberKey)
+            key = any.ToString(memberKey)
             value = obj.Item(memberKey)
 
             If value Is Nothing Then
@@ -139,7 +114,7 @@ Public Module ObjectSerializer
     End Function
 
     ''' <summary>
-    ''' Convert any .NET object as json element model for build json string or bson data
+    ''' Convert any .NET CLR object as json element model for build json string or bson data
     ''' </summary>
     ''' <param name="schema"></param>
     ''' <param name="obj"></param>
@@ -149,7 +124,10 @@ Public Module ObjectSerializer
     Public Function GetJsonElement(schema As Type, obj As Object, opt As JSONSerializerOptions) As JsonElement
         If obj Is Nothing Then
             Return Nothing
-        ElseIf schema.IsAbstract OrElse schema Is GetType(Object) AndAlso Not obj Is Nothing Then
+        ElseIf schema.IsAbstract OrElse
+            schema Is GetType(Object) AndAlso
+            obj IsNot Nothing Then
+
             schema = obj.GetType
         End If
 
@@ -172,8 +150,7 @@ Public Module ObjectSerializer
                 Return New JsonValue(CLng(obj))
             End If
         ElseIf schema.IsInheritsFrom(GetType(Dictionary(Of, )), strict:=False) Then
-            Dim valueType As Type = schema _
-                .GenericTypeArguments _
+            Dim valueType As Type = schema.GenericTypeArguments _
                 .ElementAtOrDefault(
                     index:=1,
                     [default]:=schema.GenericTypeArguments(Scan0)

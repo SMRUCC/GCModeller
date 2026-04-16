@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01af36eaddee517ae264a9a38661b0b3, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
+﻿#Region "Microsoft.VisualBasic::981b00d56306cfc71aa14affc953009b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\Application\BBH\Abstract\BBHIndex.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 92 (73.60%)
+    ' Comment Lines: 19 (15.20%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (11.20%)
+    '     File Size: 5.10 KB
+
+
     '     Class BBHIndex
     ' 
     '         Properties: identities, Positive, Properties
@@ -44,10 +56,11 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models.KeyValuePair
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace LocalBLAST.Application.BBH.Abstract
 

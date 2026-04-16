@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d68c6535f36c61428cadd377b2c9c35d, Data_science\Mathematica\Math\Math\Distributions\BinBox\CutBins.vb"
+﻿#Region "Microsoft.VisualBasic::3de0a455cfc60021c67d22b660868a74, Data_science\Mathematica\Math\Math\Distributions\BinBox\CutBins.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 101 (51.01%)
+    ' Comment Lines: 74 (37.37%)
+    '    - Xml Docs: 82.43%
+    ' 
+    '   Blank Lines: 23 (11.62%)
+    '     File Size: 7.91 KB
+
+
     '     Module CutBins
     ' 
-    '         Function: EqualFrequencyBins, (+4 Overloads) FixedWidthBins
+    '         Function: EqualFrequencyBins, (+5 Overloads) FixedWidthBins
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
@@ -75,14 +88,73 @@ Namespace Distributions.BinBox
         ''' <remarks>
         ''' 宽度是自动计算的
         ''' </remarks>
-        Public Function FixedWidthBins(Of T)(data As IEnumerable(Of T), k%, eval As Evaluate(Of T)) As IEnumerable(Of DataBinBox(Of T))
+        Public Function FixedWidthBins(data As IEnumerable(Of Single), k%) As IEnumerable(Of SampleDistribution)
+            Return FixedWidthBins(data, k, Function(x) CDbl(x)).Select(Function(bin) New SampleDistribution(bin.Raw))
+        End Function
+
+        ''' <summary>
+        ''' ### 数据等宽分箱
+        ''' 
+        ''' 将变量的取值范围分为<paramref name="k"/>个等宽的区间，每个区间当作一个分箱。
+        ''' </summary>
+        ''' <param name="data"></param>
+        ''' <param name="allow_empty">
+        ''' this function will just returns an empty collection of the data bin box if the given 
+        ''' data collection is empty and also this parameter is set to TRUE.
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 宽度是自动计算的
+        ''' </remarks>
+        Public Function FixedWidthBins(Of T)(data As IEnumerable(Of T), k%, eval As Evaluate(Of T),
+                                             Optional eps As Double = 0.001,
+                                             Optional range As DoubleRange = Nothing,
+                                             Optional allow_empty As Boolean = False) As IEnumerable(Of DataBinBox(Of T))
             ' 升序排序方便进行快速计算
             Dim v = data.OrderBy(Function(d) eval(d)).ToArray
-            Dim min# = eval(v.First)
-            Dim max# = eval(v.Last)
+            Dim min#, max#
+
+            If v.Length = 0 Then
+                Dim err As String = "empty data collection for make evaluation of the data bin box!"
+
+                If allow_empty Then
+                    Call err.Warning
+                    Return {}
+                Else
+                    Throw New InvalidDataException(err)
+                End If
+            Else
+                If range IsNot Nothing AndAlso range.Length > 0 Then
+                    min = range.Min
+                    max = range.Max
+                Else
+                    min = eval(v.First)
+                    max = eval(v.Last)
+                End If
+            End If
+
             Dim width# = (max - min) / k
 
-            Return FixedWidthBins(v, width, eval, min, max)
+            If width = 0.0 Then
+                Return {}
+            ElseIf width < eps Then
+                ' 20221017
+                ' the width is too small, split into k parts directly!
+                ' or the entire process may takes a very long time to run
+                Dim bins = v.Split(partitionSize:=v.Length / k + 1)
+                Dim boxes = bins _
+                    .Select(Function(part)
+                                Dim lowerbound As Double = eval(part.First)
+                                Dim upbound As Double = eval(part.Last)
+
+                                Return New DataBinBox(Of T)(part, eval, lowerbound, upbound)
+                            End Function) _
+                    .ToArray
+
+                Return boxes
+            Else
+                Return FixedWidthBins(v, width, eval, min, max)
+            End If
         End Function
 
         ''' <summary>
@@ -144,6 +216,15 @@ Namespace Distributions.BinBox
                     lowerbound += slideWindowSteps
                 End If
             Loop
+
+            ' check boundary outside
+            If i < len Then
+                list.AddRange(v.Skip(i))
+
+                If list > 0 Then
+                    Yield New DataBinBox(Of T)(list, eval, lowerbound, upbound + slideWindowSteps)
+                End If
+            End If
         End Function
 
         ''' <summary>

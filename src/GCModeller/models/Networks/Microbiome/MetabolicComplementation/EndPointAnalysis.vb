@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c1d95fb462026038a8191e947cf61309, models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
+﻿#Region "Microsoft.VisualBasic::a31de1b1dcaffcf9778dfb6026790e00, models\Networks\Microbiome\MetabolicComplementation\EndPointAnalysis.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 70 (73.68%)
+    ' Comment Lines: 11 (11.58%)
+    '    - Xml Docs: 54.55%
+    ' 
+    '   Blank Lines: 14 (14.74%)
+    '     File Size: 4.08 KB
+
 
     ' Module EndPointAnalysis
     ' 
@@ -118,17 +130,17 @@ Public Module EndPointAnalysis
         Dim endPoints As (input As Node(), output As Node())
         Dim metabolicGraph As NetworkGraph
 
-        Call $"[{taxon.TaxonomyString.ToString(True)}] Assembling metabolic network.".__DEBUG_ECHO
+        Call $"[{taxon.TaxonomyString.ToString(True)}] Assembling metabolic network.".debug
         metabolicGraph = taxon.genome _
             .Terms _
             .Select(Function(t) t.name) _
             .ToArray _
             .BuildInternalNetwork(reactions, nonEnzymetic)
 
-        Call "Do endpoint analysis".__DEBUG_ECHO
+        Call "Do endpoint analysis".debug
         endPoints = metabolicGraph.EndPoints
 
-        Call $"[{taxon.TaxonomyString.ToString(True)}] {endPoints.input.Length} inputs / {endPoints.output.Length} outputs".__INFO_ECHO
+        Call $"[{taxon.TaxonomyString.ToString(True)}] {endPoints.input.Length} inputs / {endPoints.output.Length} outputs".info
         Return New MetabolicEndPoints With {
             .secrete = endPoints.output.Keys,
             .uptakes = endPoints.input.Keys,

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 12 (54.55%)
+    ' Comment Lines: 6 (27.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (18.18%)
+    '     File Size: 576 B
+
+
     '     Class Edge
     ' 
     '         Constructor: (+1 Overloads) Sub New

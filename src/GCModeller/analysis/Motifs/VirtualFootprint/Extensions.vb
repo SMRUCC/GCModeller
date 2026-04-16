@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b49a54f2e8f072388db5d628f83f4f1, analysis\Motifs\VirtualFootprint\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7f0b32d208a9b8beb1790c9034e1bea2, analysis\Motifs\VirtualFootprint\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 187
+    '    Code Lines: 139 (74.33%)
+    ' Comment Lines: 22 (11.76%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 26 (13.90%)
+    '     File Size: 8.66 KB
+
 
     ' Module Extensions
     ' 
@@ -84,12 +96,12 @@ Public Module Extensions
 
     <Extension>
     Public Function KEGGRegulon(footprints As RegulatesFootprints(), cats As ModuleClassAPI) As KEGGRegulon
-        Dim modId As String = footprints.First.MotifId.Split("."c).First
+        Dim modId As String = footprints.First.motif_id.Split("."c).First
         Dim A As String = "", B As String = "", C As String = ""
         Dim modX = cats.GetBriteInfo(modId, A, B, C)
 
         Return New KEGGRegulon With {
-            .Family = footprints.Select(Function(x) x.MotifFamily).Distinct.ToArray,
+            .Family = footprints.Select(Function(x) x.motif_family).Distinct.ToArray,
             .Members = footprints.Select(Function(x) x.ORF).Distinct.ToArray,
             .ModId = modId,
             .Regulator = footprints.Select(Function(x) x.Regulator).Distinct.ToArray,
@@ -101,7 +113,7 @@ Public Module Extensions
     End Function
 
     <Extension> Private Function __uid(x As RegulatesFootprints) As String
-        Return $"{x.MotifId.Split("."c).First}-{x.Sequence}"
+        Return $"{x.motif_id.Split("."c).First}-{x.Sequence}"
     End Function
 
     ''' <summary>

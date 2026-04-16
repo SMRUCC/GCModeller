@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a63aaddbec5c68960da3446bf30714c8, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
+﻿#Region "Microsoft.VisualBasic::f6bed8831278633b16f65f36788a741e, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaFile.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 658
+    '    Code Lines: 419 (63.68%)
+    ' Comment Lines: 136 (20.67%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 103 (15.65%)
+    '     File Size: 26.72 KB
+
+
     '     Class FastaFile
     ' 
     '         Properties: _innerList, Count, FilePath, IsReadOnly, MimeType
     ' 
     '         Constructor: (+8 Overloads) Sub New
     ' 
-    '         Function: [Select], AddRange, AsKSource, Clone, Contains
-    '                   Distinct, (+2 Overloads) DocParser, Find, Generate, GetEnumerator
-    '                   GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData, Match
-    '                   ParseDocument, (+2 Overloads) Query, QueryAny, Read, Remove
-    '                   (+4 Overloads) Save, SaveData, SingleSequence, Take, ToLower
-    '                   ToString, ToUpper
+    '         Function: [Select], (+2 Overloads) AddRange, AsKSource, Clone, Contains
+    '                   Distinct, (+2 Overloads) DocParser, filterNulls, Find, Generate
+    '                   GetEnumerator, GetEnumerator1, IndexOf, IsValidFastaFile, LoadNucleotideData
+    '                   Match, ParseDocument, (+2 Overloads) Query, QueryAny, Read
+    '                   Remove, (+5 Overloads) Save, SaveData, SingleSequence, Take
+    '                   ToLower, ToString, ToUpper
     ' 
     '         Sub: Add, AppendToFile, Clear, CopyTo, Insert
-    '              RemoveAt, Split
+    '              RemoveAt, Split, Write
     ' 
     '         Operators: (+3 Overloads) +, <, >
     ' 
@@ -55,10 +67,12 @@
 #End Region
 
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -108,14 +122,17 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <param name="data"></param>
         Sub New(data As IEnumerable(Of FastaSeq))
-            _innerList =
-                LinqAPI.MakeList(Of FastaSeq) <= From fa As FastaSeq
-                                                 In data
-                                                 Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
-                                                 Select fa
+            _innerList = LinqAPI.MakeList(Of FastaSeq) <= filterNulls(data)
         End Sub
 
-        Sub New(fa As FASTA.FastaSeq)
+        Private Shared Function filterNulls(data As IEnumerable(Of FastaSeq)) As IEnumerable(Of FastaSeq)
+            Return From fa As FastaSeq
+                   In data
+                   Where Not fa Is Nothing AndAlso Not fa.SequenceData.StringEmpty
+                   Select fa
+        End Function
+
+        Sub New(fa As FastaSeq)
             Call Me.New({fa})
         End Sub
 
@@ -156,6 +173,11 @@ Namespace SequenceModel.FASTA
         Public Function AddRange(FastaCol As IEnumerable(Of FastaSeq)) As Long
             Call __innerList.AddRange(FastaCol)
             Return __innerList.LongCount
+        End Function
+
+        Public Function AddRange(Of T As FastaSeq)(list As IEnumerable(Of T)) As Integer
+            Call _innerList.AddRange(list)
+            Return _innerList.Count
         End Function
 
         ''' <summary>
@@ -225,19 +247,19 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadNucleotideData(path As String, Optional strict As Boolean = False) As FastaFile
-            Dim Data As FastaFile = FastaFile.Read(path)
+            Dim seqs As FastaFile = FastaFile.Read(path)
 
-            If Data.IsNullOrEmpty Then
-NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG_ECHO
+            If seqs.IsNullOrEmpty Then
+NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
                 Return Nothing
             End If
 
-            For Each Sequence As FastaSeq In Data._innerList
-                Sequence.SequenceData = Sequence.SequenceData.ToUpper.Replace("N", "-")
+            For Each fa As FastaSeq In seqs._innerList
+                fa.SequenceData = fa.SequenceData.ToUpper.Replace("N", "-")
             Next
 
             Dim LQuery = (From fa As FastaSeq
-                          In Data._innerList
+                          In seqs._innerList
                           Where Not fa.IsProtSource
                           Select fa).ToArray
             If strict Then
@@ -251,9 +273,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 GoTo NULL_DATA
             End If
 
-            Data = New FastaFile(LQuery, path)
+            seqs = New FastaFile(LQuery, path)
 
-            Return Data
+            Return seqs
         End Function
 
         ''' <summary>
@@ -262,40 +284,38 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="lines"></param>
         ''' <param name="deli"></param>
         ''' <returns></returns>
-        Public Shared Function DocParser(lines As String(), Optional deli As Char() = Nothing) As List(Of FastaSeq)
-            Dim faToken As New List(Of String)
-            Dim FASTA As New List(Of FastaSeq)
+        Public Shared Iterator Function DocParser(lines As IEnumerable(Of String), Optional deli As String = "|") As IEnumerable(Of FastaSeq)
+            Dim faseq As New List(Of String)
 
-            If lines.IsNullOrEmpty Then
-                Return FASTA
-            End If
-            If deli.IsNullOrEmpty Then
-                deli = {"|"c}
+            If lines Is Nothing Then
+                Return
+            ElseIf deli.StringEmpty Then
+                deli = "|"
             End If
 
-            For Each Line As String In lines
-                If String.IsNullOrEmpty(Line) Then
+            For Each line As String In lines
+                If String.IsNullOrEmpty(line) Then
                     Continue For
-                ElseIf Line.Chars(Scan0) = ">"c Then  'New FASTA Object
-                    Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
-                    Call faToken.Clear()
+                ElseIf line.Chars(Scan0) = ">"c Then
+                    ' New FASTA Object
+                    If faseq > 0 Then
+                        Yield FastaSeq.ParseFromStream(faseq.PopAll, deli)
+                    End If
+
+                    faseq *= 0
                 End If
 
-                Call faToken.Add(Line)
+                Call faseq.Add(line)
             Next
 
-            If FASTA.Count > 0 Then
-                Call FASTA.RemoveAt(Scan0)
+            If faseq > 0 Then
+                Yield FastaSeq.ParseFromStream(faseq.PopAll, deli)
             End If
-
-            Call FASTA.Add(FastaSeq.ParseFromStream(faToken, deli))
-
-            Return FASTA
         End Function
 
-        Public Shared Function DocParser(doc As String, deli As Char()) As List(Of FastaSeq)
-            Dim TokenLines As String() = doc.LineTokens
-            Return DocParser(TokenLines, deli)
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function DocParser(doc As String, deli As Char()) As IEnumerable(Of FastaSeq)
+            Return DocParser(doc.LineTokens, deli)
         End Function
 
         ''' <summary>
@@ -310,8 +330,6 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         End Function
 
         Public Sub Split(saveDIR As Path)
-            Call FileIO.FileSystem.CreateDirectory(saveDIR)
-
             Dim Index As Integer
 
             For Each FASTA As FastaSeq In __innerList
@@ -361,7 +379,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
                 Where fsa.Headers.Length - 1 >= index
                 Select fsa
             Dim LQuery As FastaSeq() = LinqAPI.Exec(Of FastaSeq) <=
- _
+                                                                   _
                 From fa As FastaSeq
                 In list
                 Where InStr(fa.Headers(index), Keyword, CaseSensitive) > 0
@@ -416,12 +434,12 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <param name="encoding">
         ''' 不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式
         ''' </param>
-        ''' <remarks></remarks>
-        Public Overloads Function Save(Path As String, encoding As Encoding) As Boolean
+        ''' <remarks>this function will split sequence data by 60 chars per line</remarks>
+        Public Overloads Function Save(path As String, encoding As Encoding) As Boolean
             Try
-                Return Save(60, Path, encoding)
+                Return Save(lineBreak:=60, path, encoding:=encoding)
             Catch ex As Exception
-                Throw New Exception(Path, ex)
+                Throw New Exception(path, ex)
             End Try
         End Function
 
@@ -436,25 +454,38 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' + blast+则要求必须为ASCII编码格式的。
         ''' </param>
         ''' <remarks></remarks>
-        Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encodings = Encodings.ASCII) As Boolean
+        Public Overloads Function Save(lineBreak As Integer, Optional path As String = "", Optional deli As String = "|", Optional encoding As Encodings = Encodings.ASCII) As Boolean
             Try
-                Return Save(LineBreak, Path, encoding.CodePage)
+                Return Save(lineBreak, path, deli, encoding.CodePage)
             Catch ex As Exception
-                Throw New Exception(Path, ex)
+                Throw New Exception(path, ex)
             End Try
+        End Function
+
+        Public Overloads Function Save(lineBreak As Integer, s As Stream, encoding As Encoding) As Boolean
+            Using writer As New IO.StreamWriter(s, encoding)
+                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=lineBreak))
+                    Call writer.WriteLine(seq)
+                Next
+            End Using
+
+            Return True
         End Function
 
         ''' <summary>
         ''' Save the fasta file into the local filesystem.
         ''' </summary>
-        ''' <param name="Path"></param>
+        ''' <param name="path">the file path for save the fasta sequence data</param>
         ''' <param name="encoding">不同的程序会对这个由要求，例如meme程序在linux系统之中要求序列文件为unicode编码格式而windows版本的meme程序则要求ascii格式</param>
         ''' <remarks></remarks>
-        Public Overloads Function Save(LineBreak As Integer, Optional Path As String = "", Optional encoding As Encoding = Nothing) As Boolean
+        Public Overloads Function Save(lineBreak As Integer, Optional path As String = "", Optional deli As String = "|", Optional encoding As Encoding = Nothing) As Boolean
             Static ASCII As [Default](Of Encoding) = Encoding.ASCII
 
-            Using writer As StreamWriter = (Path Or FilePath.When(Path.StringEmpty)).OpenWriter(encoding Or ASCII)
-                For Each seq In _innerList.AsParallel.Select(Function(fa) fa.GenerateDocument(lineBreak:=LineBreak))
+            Using writer As IO.StreamWriter = (path Or FilePath.When(path.StringEmpty)).OpenWriter(encoding Or ASCII)
+                For Each seq As String In From fa As FastaSeq
+                                          In _innerList.AsParallel
+                                          Select fa.GenerateDocument(lineBreak:=lineBreak, delimiter:=deli)
+
                     Call writer.WriteLine(seq)
                 Next
             End Using
@@ -467,17 +498,21 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' </summary>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function Generate() As String
-            Dim sb As New StringBuilder(10 * 1024)
-            Dim s As String
+        Public Function Generate(Optional lineBreak As Integer = 60, Optional deli As String = "|") As String
+            Dim sb As New StringBuilder(capacity:=4 * ByteSize.KB)
+            Dim text As New StringWriter(sb)
 
-            For Each fa As FastaSeq In __innerList
-                s = fa.GenerateDocument(lineBreak:=60)
-                sb.AppendLine(s)
-            Next
+            Call Write(text, lineBreak, deli)
+            Call text.Flush()
 
             Return sb.ToString
         End Function
+
+        Public Sub Write(file As TextWriter, lineBreak As Integer, delimiter As String)
+            For Each fa As FastaSeq In __innerList
+                Call file.WriteLine(fa.GenerateDocument(lineBreak:=lineBreak, delimiter:=delimiter))
+            Next
+        End Sub
 
         ''' <summary>
         '''
@@ -486,30 +521,29 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' The target FASTA file that to append this FASTA sequences.(将要拓展这些FASTA序列的目标FASTA文件)
         ''' </param>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub AppendToFile(file As Path)
-            Call FileIO.FileSystem.WriteAllText(file, Generate, append:=True)
+            Call FileSystem.WriteAllText(file, Generate, append:=True)
         End Sub
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}; [{1} records]", FilePath, Count)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(source As FastaSeq()) As FastaFile
-            Return New FastaFile With {
-                .__innerList = source.AsList
-            }
+            Return New FastaFile(source)
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(source As List(Of FastaSeq)) As FastaFile
-            Return New FastaFile With {
-                .__innerList = source
-            }
+            Return New FastaFile(source)
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Shadows Widening Operator CType(fa As FastaSeq) As FastaFile
-            Return New FastaFile With {
-                .__innerList = New List(Of FastaSeq) From {fa}
-            }
+            Return New FastaFile(New FastaSeq() {fa})
         End Operator
 
         Public Shadows Iterator Function GetEnumerator() As IEnumerator(Of FastaSeq) Implements IEnumerable(Of FastaSeq).GetEnumerator
@@ -525,7 +559,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".__DEBUG
         ''' <summary>
         ''' 使用正则表达式来搜索在序列中含有特定模式的序列对象
         ''' </summary>
-        ''' <param name="regxText"></param>
+        ''' <param name="regxText">the regular expression pattern for matches of the fasta sequence data</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Iterator Function Match(regxText$, Optional options As RegexOptions = RegexOptions.Singleline) As IEnumerable(Of FastaSeq)

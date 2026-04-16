@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74e622be31c2ee848cd0309893520292, analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
+﻿#Region "Microsoft.VisualBasic::47ec604a5471e8b5785f54bec9be58a9, analysis\SequenceToolkit\SNP\SangerSNPs\DefineConstants.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 25 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 962 B
+
+
     '     Module DefineConstants
     ' 
     ' 
@@ -44,7 +56,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace SangerSNPs

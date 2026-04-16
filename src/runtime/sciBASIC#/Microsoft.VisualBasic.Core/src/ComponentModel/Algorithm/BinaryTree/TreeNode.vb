@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::941e12527cec9a68430f1b9449934c42, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\TreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::523e6160b6e3ad2429574d55f7ed2f04, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\TreeNode.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 76 (51.01%)
+    ' Comment Lines: 52 (34.90%)
+    '    - Xml Docs: 90.38%
+    ' 
+    '   Blank Lines: 21 (14.09%)
+    '     File Size: 5.25 KB
+
+
     '     Class BinaryTree
     ' 
-    '         Properties: Key, Left, Members, QualifiedName, Right
-    '                     Value
+    '         Properties: Key, Left, Members, MemberSize, QualifiedName
+    '                     Right, Value
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -127,10 +139,18 @@ Namespace ComponentModel.Algorithm.BinaryTree
             End Get
         End Property
 
+        Public ReadOnly Property MemberSize As Integer
+            Get
+                Return DirectCast(Me!values, IEnumerable(Of V)).Count
+            End Get
+        End Property
+
         ReadOnly defaultView As New [Default](Of Func(Of K, String))(Function(key) Scripting.ToString(key))
 
         ''' <summary>
-        ''' 
+        ''' the given <paramref name="value"/> will be added 
+        ''' into the member list by default in this constructor 
+        ''' function.
         ''' </summary>
         ''' <param name="key"></param>
         ''' <param name="value"></param>

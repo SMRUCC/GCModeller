@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::62d02f70a21058a17226c4f455e81bc6, gr\Microsoft.VisualBasic.Imaging\Drawing2D\PrinterDimension.vb"
+﻿#Region "Microsoft.VisualBasic::4d0ba36573a5a55c82503fe68ee208e9, gr\Microsoft.VisualBasic.Imaging\Drawing2D\PrinterDimension.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 108
+    '    Code Lines: 81 (75.00%)
+    ' Comment Lines: 13 (12.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (12.96%)
+    '     File Size: 3.84 KB
+
+
     '     Class PrinterDimension
     ' 
     ' 
@@ -55,6 +67,9 @@ Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace Drawing2D
 
+    ''' <summary>
+    ''' the size definition of the printer, usually apply for the PDF output
+    ''' </summary>
     Public Class PrinterDimension
 
         Public Const A0 As String = "1189,841"

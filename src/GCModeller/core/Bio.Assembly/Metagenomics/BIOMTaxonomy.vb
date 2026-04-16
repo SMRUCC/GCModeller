@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::09fad594833151b69a6cccce9436fe45, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
+﻿#Region "Microsoft.VisualBasic::abe27724aae4ec3c5f7e98286a636842, core\Bio.Assembly\Metagenomics\BIOMTaxonomy.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,18 @@
 
     ' Summaries:
 
-    '     Class BIOMTaxonomyParser
+
+    ' Code Statistics:
+
+    '   Total Lines: 240
+    '    Code Lines: 141 (58.75%)
+    ' Comment Lines: 67 (27.92%)
+    '    - Xml Docs: 92.54%
     ' 
-    '         Function: Parse, ToString, TryParse
-    ' 
+    '   Blank Lines: 32 (13.33%)
+    '     File Size: 10.77 KB
+
+
     '     Module BIOMTaxonomy
     ' 
     '         Properties: BIOMPrefix, BIOMPrefixAlt, BriefParser, CompleteParser
@@ -55,44 +63,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Namespace Metagenomics
-
-    ''' <summary>
-    ''' Parser and stringfier of <see cref="Taxonomy"/> object.
-    ''' </summary>
-    Public Class BIOMTaxonomyParser : Implements IParser
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="obj">
-        ''' Object value should be in data type <see cref="Taxonomy"/>
-        ''' </param>
-        ''' <returns></returns>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Overloads Function ToString(obj As Object) As String Implements IParser.ToString
-            Return DirectCast(obj, Taxonomy).ToString(BIOMstyle:=True)
-        End Function
-
-        ''' <summary>
-        ''' Create a <see cref="Taxonomy"/> object from parse taxonomy string
-        ''' </summary>
-        ''' <param name="content"></param>
-        ''' <returns></returns>
-        ''' 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function TryParse(content As String) As Object Implements IParser.TryParse
-            Return Parse(biomString:=content)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function Parse(biomString As String) As Taxonomy
-            Return BIOMTaxonomy.TaxonomyParser(biomString).AsTaxonomy
-        End Function
-    End Class
 
     Public Module BIOMTaxonomy
 
@@ -153,15 +126,15 @@ Namespace Metagenomics
         <Extension>
         Public Function TaxonomyString(lineage As String()) As String
             Return lineage _
-                .SeqIterator _
-                .Select(Function(level)
-                            Dim node As NamedValue(Of String) = level.value.GetTagValue("__")
+                .Take(BIOMPrefix.Length) _
+                .Select(Function(level, i)
+                            Dim node As NamedValue(Of String) = level.GetTagValue("__", failureNoName:=True)
                             Dim prefix As String = LCase(node.Name)
 
                             If Not prefix.StringEmpty Then
                                 prefix = biomPrefixTable(prefix)
                             Else
-                                prefix = BIOMPrefix(level).Trim("_"c)
+                                prefix = BIOMPrefix(i).Trim("_"c)
                             End If
 
                             Return $"{prefix}__{node.Value}"
@@ -191,7 +164,9 @@ Namespace Metagenomics
             Dim taxonomyRanks = tokens _
                 .SeqIterator _
                 .ToDictionary(Function(i) descRanks(i),
-                              Function(rank) rank.value)
+                              Function(rank)
+                                  Return rank.value
+                              End Function)
 
             Return New Taxonomy(taxonomyRanks)
         End Function
@@ -284,20 +259,35 @@ Namespace Metagenomics
             Dim catalogs As NamedValue(Of String)() = tokens _
                 .Select(Function(t) t.GetTagValue("__")) _
                 .ToArray
-            Dim out As New Dictionary(Of String, String)
+            Dim ranks As New Dictionary(Of String, String)
+            Dim rankName As String
 
-            For Each x As NamedValue(Of String) In catalogs
-                If _BIOMPrefixAlt.IndexOf(x.Name) > -1 Then
-                    Call out.Add(x.Name, x.Value)
+            For Each rank As NamedValue(Of String) In catalogs
+                rankName = LCase(rank.Name)
+
+                If _BIOMPrefixAlt.IndexOf(rankName) > -1 OrElse _BIOMPrefixAlt.IndexOf(rankName & "__") > -1 Then
+                    Call ranks.Add(rank.Name, rank.Value)
+                ElseIf rankName = "kingdom__" OrElse rankName = "kingdom" Then
+                    Call ranks.Add("superkingdom", rank.Value)
                 End If
             Next
 
-            Return out
+            Return ranks
         End Function
 #End Region
 
+        ''' <summary>
+        ''' fill <paramref name="empty"/> to the missing taxonomy rank level
+        ''' </summary>
+        ''' <param name="lineage"></param>
+        ''' <param name="empty">empty string for the missing taxonomy rank level</param>
+        ''' <returns></returns>
         <Extension>
         Public Function FillLineageEmpty(lineage As Dictionary(Of String, String), Optional empty$ = "NA") As Dictionary(Of String, String)
+            If lineage.ContainsKey("kingdom") Then
+                lineage(NcbiTaxonomyTree.superkingdom) = lineage!kingdom
+            End If
+
             For Each level As String In NcbiTaxonomyTree.stdranks
                 If Not lineage.ContainsKey(level) Then
                     Call lineage.Add(level, empty)

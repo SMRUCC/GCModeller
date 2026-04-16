@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2dfa38d2f6f8f4e125830a19ac2ca9fe, analysis\Metagenome\Metagenome\OTUTable\BIOM.vb"
+﻿#Region "Microsoft.VisualBasic::6589ea3a25ebd686ebbfed9ea044bd57, analysis\Metagenome\Metagenome\OTUTable\BIOM.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 242
+    '    Code Lines: 178 (73.55%)
+    ' Comment Lines: 33 (13.64%)
+    '    - Xml Docs: 84.85%
+    ' 
+    '   Blank Lines: 31 (12.81%)
+    '     File Size: 8.98 KB
+
+
     ' Module BIOM
     ' 
     '     Function: (+2 Overloads) [Imports], BIOMTaxonomyString, denseMatrix, EXPORT, sparseMatrix
@@ -46,7 +58,6 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Analysis.Metagenome.gast
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.foundation.BIOM.v10
@@ -242,8 +253,8 @@ Public Module BIOM
     ''' </param>
     ''' <returns></returns>
     <Extension>
-    Public Function EXPORT(table As IEnumerable(Of OTUData), Optional denseMatrix As Boolean = True) As IntegerMatrix
-        Dim matrix As OTUData() = table.ToArray
+    Public Function EXPORT(table As IEnumerable(Of OTUData(Of Double)), Optional denseMatrix As Boolean = True) As IntegerMatrix
+        Dim matrix As OTUData(Of Double)() = table.ToArray
         Dim allSamples = matrix _
             .Select(Function(otu) otu.data.Keys) _
             .IteratesALL _
@@ -268,14 +279,14 @@ Public Module BIOM
 
         Dim array() = LinqAPI.Exec(Of Names) _
  _
-            () <= From otu As OTUData
+            () <= From otu As OTUData(Of Double)
                   In table
                   Let taxonomy As String = otu.taxonomy _
                       .Split(";"c) _
                       .TaxonomyString
                   Select New Names With {
                       .numOfSeqs = 100,
-                      .composition = otu.data.AsNumeric,
+                      .composition = otu.data,
                       .taxonomy = taxonomy,
                       .unique = otu.OTU
                   }

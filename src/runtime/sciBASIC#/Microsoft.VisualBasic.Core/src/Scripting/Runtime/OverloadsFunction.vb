@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 46 (68.66%)
+    ' Comment Lines: 6 (8.96%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (22.39%)
+    '     File Size: 2.24 KB
+
+
     '     Class OverloadsFunction
     ' 
     '         Properties: Name

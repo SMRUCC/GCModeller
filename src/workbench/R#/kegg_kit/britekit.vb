@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8dc011910e98850da2ac968c5d7c6c1, R#\kegg_kit\britekit.vb"
+﻿#Region "Microsoft.VisualBasic::3f4374128f7595ef2efad4f0cfab82fb, R#\kegg_kit\britekit.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 279
+    '    Code Lines: 197 (70.61%)
+    ' Comment Lines: 50 (17.92%)
+    '    - Xml Docs: 88.00%
+    ' 
+    '   Blank Lines: 32 (11.47%)
+    '     File Size: 11.02 KB
+
+
     ' Module britekit
     ' 
     '     Constructor: (+1 Overloads) Sub New
     '     Function: briteMaps, BriteTable, getHtextTable, getIdPrefix, KOgeneNames
-    '               ParseBriteJson, ParseBriteTree
+    '               MapCategoryTerm, ParseBriteJson, ParseBriteTree, parseEnzymeInfo
     ' 
     ' /********************************************************************************/
 
@@ -44,17 +56,20 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Toolkit for process the kegg brite text file
@@ -63,7 +78,7 @@ Imports REnv = SMRUCC.Rsharp.Runtime.Internal
 Module britekit
 
     Sub New()
-        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(htext), AddressOf getHtextTable)
     End Sub
 
     Private Function getHtextTable(x As Object, args As list, env As Environment) As rdataframe
@@ -90,18 +105,24 @@ Module britekit
     ''' <param name="htext">a htex object</param>
     ''' <param name="entryId_pattern"></param>
     ''' <returns></returns>
+    ''' <example>
+    ''' let brite = brite::parse("ko00001");
+    ''' let df = brite.as.table(brite);
+    ''' 
+    ''' print(df, max.print = 6);
+    ''' </example>
     <ExportAPI("brite.as.table")>
     Public Function BriteTable(htext As Object, Optional entryId_pattern$ = "[a-z]+\d+", Optional env As Environment = Nothing) As Object
         Dim terms As IEnumerable(Of BriteTerm)
 
         If htext Is Nothing Then
-            Return REnv.debug.stop("htext object is nothing!", env)
+            Return RInternal.debug.stop("htext object is nothing!", env)
         ElseIf htext.GetType Is GetType(htext) Then
             terms = DirectCast(htext, htext).Deflate(entryId_pattern)
         ElseIf htext.GetType Is GetType(htextJSON) Then
             terms = DirectCast(htext, htextJSON).DeflateTerms
         Else
-            Return REnv.debug.stop(New NotSupportedException(htext.GetType.FullName), env)
+            Return RInternal.debug.stop(New NotSupportedException(htext.GetType.FullName), env)
         End If
 
         Return terms _
@@ -129,7 +150,13 @@ Module britekit
     ''' Do parse of the kegg brite text file.
     ''' </summary>
     ''' <param name="file">
-    ''' The file text content, brite id or its file path
+    ''' The file text content, brite id or its file path, example as:
+    ''' 
+    ''' 1. ``br08901`` could be used at here as the kegg pathway map 
+    '''    brite id, which is parsed from the internal resource data
+    ''' 2. this parameter value could also be a text file its file path 
+    '''    of the kegg brite database file.  
+    ''' 
     ''' </param>
     ''' <returns></returns>
     <ExportAPI("parse")>
@@ -157,7 +184,7 @@ Module britekit
                 ' kegg pathway maps
                 Case NameOf(htext.br08901) : Return htext.br08901
                 Case Else
-                    Return REnv.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
+                    Return RInternal.debug.stop({$"Invalid brite id: {file}", $"brite id: {file}"}, env)
             End Select
         ElseIf file.StartsWith("KO:") Then
             Dim Tcode As String = file.GetTagValue(":").Value
@@ -182,6 +209,7 @@ Module britekit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("brite.parseJSON")>
+    <RApiReturn(GetType(htextJSON))>
     Public Function ParseBriteJson(file$, Optional env As Environment = Nothing) As Object
         Return htextJSON.parseJSON(file)
     End Function
@@ -191,9 +219,9 @@ Module britekit
     ''' </summary>
     ''' <returns></returns>
     <ExportAPI("KO.geneNames")>
-    Public Function KOgeneNames() As Dictionary(Of String, String)
+    Public Function KOgeneNames() As Object
         Dim brites = PathwayMapping.DefaultKOTable
-        Dim names As New Dictionary(Of String, String)
+        Dim names As New Dictionary(Of String, Object)
         Dim name As String
 
         For Each term In brites
@@ -207,11 +235,30 @@ Module britekit
             End If
         Next
 
-        Return names
+        Return New list(TypeCodes.string) With {.slots = names}
+    End Function
+
+    <ExportAPI("parse_kegg_enzyme")>
+    Public Function parseEnzymeInfo(ko00001 As rdataframe, Optional env As Environment = Nothing) As Object
+        Dim name As String() = CLRVector.asCharacter(ko00001!name)
+
+        If name Is Nothing Then
+            Return RInternal.debug.stop($"the required enzyme information data field 'name' is not existed in the given dataframe, dataframe fields that we have: {ko00001.colnames.GetJson}", env)
+        End If
+
+        ko00001 = New rdataframe(ko00001)
+
+        Dim symbol As String() = name.Select(Function(str) str.Split(";"c).FirstOrDefault).ToArray
+        Dim ec_number As String() = name.Select(Function(str) str.Match("\[EC[:].+\]").GetStackValue("[", "]").GetTagValue(":").Value).ToArray
+
+        Call ko00001.add("symbol", symbol)
+        Call ko00001.add("ec_number", ec_number)
+
+        Return ko00001
     End Function
 
     ''' <summary>
-    ''' 
+    ''' get class labels
     ''' </summary>
     ''' <param name="htext"></param>
     ''' <param name="geneId"></param>
@@ -224,25 +271,31 @@ Module britekit
         Dim prefix As String = geneId.getIdPrefix
         Dim table = htext.Deflate($"{prefix}\d+") _
             .GroupBy(Function(gene) gene.entry.Key) _
-            .ToDictionary(Function(gene) gene.Key,
-                          Function(gene)
-                              Select Case level
-                                  Case "class"
-                                      Return gene.First.class
-                                  Case "category"
-                                      Return gene.First.category
-                                  Case "subcategory"
-                                      Return gene.First.subcategory
-                                  Case Else
-                                      Return "n/a"
-                              End Select
-                          End Function)
+            .ToDictionary(Function(gene)
+                              Return gene.Key
+                          End Function,
+                          elementSelector:=MapCategoryTerm(level))
 
         Return geneId _
             .Select(Function(id)
                         Return table.TryGetValue(HeaderFormats.TrimAccessionVersion(id), [default]:="n/a")
                     End Function) _
             .ToArray
+    End Function
+
+    Private Function MapCategoryTerm(level As String) As Func(Of IGrouping(Of String, BriteTerm), String)
+        Return Function(gene)
+                   Select Case level
+                       Case "class"
+                           Return gene.First.class
+                       Case "category"
+                           Return gene.First.category
+                       Case "subcategory"
+                           Return gene.First.subcategory
+                       Case Else
+                           Return "n/a"
+                   End Select
+               End Function
     End Function
 
     <Extension>

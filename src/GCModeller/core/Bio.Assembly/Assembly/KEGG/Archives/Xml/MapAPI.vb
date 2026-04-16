@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 42 (63.64%)
+    ' Comment Lines: 17 (25.76%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 7 (10.61%)
+    '     File Size: 3.01 KB
+
+
     '     Module MapAPI
     ' 
     '         Function: EcParser, (+2 Overloads) GetReactions, IsThisReaction

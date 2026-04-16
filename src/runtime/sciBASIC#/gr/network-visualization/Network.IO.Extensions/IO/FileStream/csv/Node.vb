@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a59f7cff3f138c0ce372ef833dab3dd, gr\network-visualization\Network.IO.Extensions\IO\FileStream\csv\Node.vb"
+﻿#Region "Microsoft.VisualBasic::566a1a576568641b87a6b26a6d1c57b2, gr\network-visualization\Network.IO.Extensions\IO\FileStream\csv\Node.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 30 (58.82%)
+    ' Comment Lines: 12 (23.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (17.65%)
+    '     File Size: 1.70 KB
+
+
     '     Class Node
     ' 
     '         Properties: ID, NodeType
@@ -44,8 +56,8 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 
 Namespace FileStream
 

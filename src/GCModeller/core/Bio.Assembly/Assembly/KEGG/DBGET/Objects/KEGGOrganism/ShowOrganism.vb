@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe0a6a41f5d7385ffe7743d2df1b023b, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb"
+﻿#Region "Microsoft.VisualBasic::8f170ad1948d698b8cc73974fe8d61d9, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\KEGGOrganism\ShowOrganism.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 130 (81.76%)
+    ' Comment Lines: 7 (4.40%)
+    '    - Xml Docs: 42.86%
+    ' 
+    '   Blank Lines: 22 (13.84%)
+    '     File Size: 6.33 KB
+
+
     '     Class ShowOrganism
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -52,6 +64,9 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Namespace Assembly.KEGG.DBGET.bGetObject.Organism
 
+    ''' <summary>
+    ''' http web handler for the kegg organism info page
+    ''' </summary>
     Friend Class ShowOrganism : Inherits WebQuery(Of String)
 
         Public Sub New(<CallerMemberName>
@@ -60,7 +75,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                        Optional offline As Boolean = False
                    )
 
-            MyBase.New(url:=AddressOf ShowOrganism.url,
+            Call MyBase.New(url:=AddressOf ShowOrganism.url,
                        contextGuid:=Function(code) code,
                        parser:=AddressOf ParseShowOrganism,
                        prefix:=Nothing,
@@ -71,7 +86,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
         End Sub
 
         Private Shared Function url(code As String) As String
-            Return $"http://www.kegg.jp/kegg-bin/show_organism?org={code}"
+            Return $"https://www.kegg.jp/kegg-bin/show_organism?org={code}"
         End Function
 
         Public Shared Function ParseShowOrganism(html$, schema As Type) As OrganismInfo
@@ -117,12 +132,12 @@ Namespace Assembly.KEGG.DBGET.bGetObject.Organism
                ?.Split(","c)
 
             Return New OrganismInfo With {
-                .Aliases = rows?!Aliases,
-                .code = rows("Org code"),
+                .Aliases = rows.TryGetValue("Aliases"),
+                .code = rows("Org_code"),
                 .Comment = comment,
                 .Created = rows!Created,
-                .FullName = rows("Full name"),
-                .Definition = rows!Definition,
+                .FullName = rows.TryGetValue("Full name"),
+                .Definition = rows.TryGetValue("Definition"),
                 .Keywords = keywords,
                 .Sequence = rows.TryGetValue("Sequence").href,
                 .Lineage = rows!Lineage,

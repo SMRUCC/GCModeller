@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 11
+    '    Code Lines: 9 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (18.18%)
+    '     File Size: 269 B
+
+
     '     Class ParseResolveEventArgs
     ' 
     '         Properties: [Object], Gen, Id

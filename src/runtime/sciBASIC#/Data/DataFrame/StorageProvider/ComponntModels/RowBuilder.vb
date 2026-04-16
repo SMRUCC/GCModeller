@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63af967c53085db088ff23da5f9f8c58, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::96dfaab9d9ad863eb1ec98819e17c38b, Data\DataFrame\StorageProvider\ComponntModels\RowBuilder.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,18 @@
 
     ' Summaries:
 
-    '     Interface ISchema
+
+    ' Code Statistics:
+
+    '   Total Lines: 254
+    '    Code Lines: 163 (64.17%)
+    ' Comment Lines: 47 (18.50%)
+    '    - Xml Docs: 91.49%
     ' 
-    '         Properties: SchemaOridinal
-    ' 
-    '         Function: GetOrdinal
-    ' 
+    '   Blank Lines: 44 (17.32%)
+    '     File Size: 10.26 KB
+
+
     '     Class RowBuilder
     ' 
     '         Properties: ColumnIndex, Columns, Defaults, HaveMetaAttribute, IndexedFields
@@ -55,22 +61,12 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 
 Namespace StorageProvider.ComponentModels
-
-    Public Interface ISchema
-
-        ''' <summary>
-        ''' 从数据源之中解析出来得到的域列表
-        ''' </summary>
-        ''' <returns></returns>
-        ReadOnly Property SchemaOridinal As Dictionary(Of String, Integer)
-        Function GetOrdinal(name As String) As Integer
-    End Interface
 
     ''' <summary>
     ''' 这个是用于将Csv文件之中的行数据转换为.NET对象的
@@ -192,14 +188,14 @@ Namespace StorageProvider.ComponentModels
                 ' why two reference that have the effects????
                 Dim schema As SchemaProvider = SchemaProvider.Raw.Raw
 
-                Call "Schema has meta dictionary property...".__DEBUG_ECHO(mute:=silent)
+                Call "Schema has meta dictionary property...".debug(mute:=silent)
 
                 For Each name In NonIndexed.Keys.ToArray
                     ' 在原始的数据之中可以找得到这个域，则说明是只读属性，移除他
                     If Not schema.GetField(name) Is Nothing Then
                         Call NonIndexed.Remove(name)
 #If DEBUG Then
-                        Call $"{name} was removed!".__DEBUG_ECHO
+                        Call $"{name} was removed!".debug
 #End If
                     End If
                 Next

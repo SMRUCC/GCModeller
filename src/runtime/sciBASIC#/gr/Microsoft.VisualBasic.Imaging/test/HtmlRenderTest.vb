@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::79c9503f4bf9c59c1e3c7e89a39076fd, gr\Microsoft.VisualBasic.Imaging\test\HtmlRenderTest.vb"
+﻿#Region "Microsoft.VisualBasic::4811d94f559cec8d55230c926c0f08be, gr\Microsoft.VisualBasic.Imaging\test\HtmlRenderTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 23 (71.88%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (28.12%)
+    '     File Size: 1.12 KB
+
+
     ' Module HtmlRenderTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -43,6 +55,7 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports Microsoft.VisualBasic.Drawing
 
 Public Module HtmlRenderTest
 
@@ -52,7 +65,7 @@ Public Module HtmlRenderTest
             2<sup>333333</sup> + X<sub>i</sub> = <span style="font-size: 36;">6666666</span>
          </div>).ToString
 
-    Sub Main()
+    Sub Main1()
 
         Dim content = TextAPI.TryParse(testHTML).ToArray
 

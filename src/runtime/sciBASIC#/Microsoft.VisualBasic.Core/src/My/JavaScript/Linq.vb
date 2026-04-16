@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8ece2066a485f1682bc5fcfd8369dd9d, Microsoft.VisualBasic.Core\src\My\JavaScript\Linq.vb"
+﻿#Region "Microsoft.VisualBasic::7d60664d81650c4bffb3e3dd4ce33c50, Microsoft.VisualBasic.Core\src\My\JavaScript\Linq.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 196
+    '    Code Lines: 109 (55.61%)
+    ' Comment Lines: 55 (28.06%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 32 (16.33%)
+    '     File Size: 6.94 KB
+
+
+    '     Interface requestAnimationFrame
+    ' 
+    '         Sub: requestAnimationFrame
+    ' 
     '     Module Linq
     ' 
     '         Function: findIndex, (+2 Overloads) map, pop, (+5 Overloads) reduce, shift
@@ -44,9 +60,15 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 
 Namespace My.JavaScript
+
+    Public Interface requestAnimationFrame
+
+        Sub requestAnimationFrame(callback As IGraphics)
+    End Interface
 
     <HideModuleName> Public Module Linq
 

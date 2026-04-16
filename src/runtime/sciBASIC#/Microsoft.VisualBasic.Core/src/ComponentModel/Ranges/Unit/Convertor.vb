@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 9 (42.86%)
+    ' Comment Lines: 7 (33.33%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 5 (23.81%)
+    '     File Size: 634 B
+
+
     '     Class Convertor
     ' 
     '         Properties: UnitType

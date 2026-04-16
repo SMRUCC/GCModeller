@@ -1,0 +1,38 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "filter" "filter"
+.SH NAME
+filter \- Filter the geneID rows
+.SH SYNOPSIS
+\fIfilter(\fBHTS\fR as <generic> Matrix, 
+\fBgeneId\fR as string = \fB<NULL>\fR, 
+\fBinstr\fR as string = \fB<NULL>\fR, 
+\fBexclude\fR as boolean = FALSE, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+Filter the geneID rows
+.PP
+.SH OPTIONS
+.PP
+\fBHTS\fB \fR\- A gene expression matrix object. 
+.PP
+.PP
+\fBgeneId\fB \fR\- A character vector for run the matrix feature row filter. 
+.PP
+.PP
+\fBexclude\fB \fR\- matrix a subset of the data matrix excepts the 
+ input **`geneId`** features or just make a subset which 
+ just contains the input **`geneId`** features.
+. 
+.PP
+.SH VALUE
+.PP
+A new expression matrix object that consist with gene feature
+ rows subset from the original matrix input.
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

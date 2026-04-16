@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::efcacb7194ab60b0bd3712eaa5ee5f0d, data\GO_gene-ontology\GO_Annotation\ProteinAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::397c66ae394310cabb7e4d1763ca9eb3, data\GO_gene-ontology\GO_Annotation\ProteinAnnotation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 43 (84.31%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.85 KB
+
+
     ' Class ProteinAnnotation
     ' 
     '     Properties: description, GO_terms, proteinID
@@ -41,7 +53,7 @@
     ' 
     '     Properties: proteins, size
     ' 
-    '     Function: GenericEnumerator, GetEnumerator, ToAnnotationTable
+    '     Function: GenericEnumerator, ToAnnotationTable
     ' 
     ' /********************************************************************************/
 
@@ -50,7 +62,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
@@ -96,9 +108,5 @@ Public Class AnnotationClusters : Inherits XmlDataModel
         For Each protein In proteins
             Yield protein
         Next
-    End Function
-
-    Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of ProteinAnnotation).GetEnumerator
-        Yield GenericEnumerator()
     End Function
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f345bc2c98b1bc2eecf9fa4dfe31de6d, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Resources.vb"
+﻿#Region "Microsoft.VisualBasic::5672b92c19baab81c59992e23fb4b882, Microsoft.VisualBasic.Core\src\ApplicationServices\Tools\Resources.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 345
+    '    Code Lines: 125 (36.23%)
+    ' Comment Lines: 189 (54.78%)
+    '    - Xml Docs: 41.80%
+    ' 
+    '   Blank Lines: 31 (8.99%)
+    '     File Size: 16.95 KB
+
+
     '     Class ResourcesSatellite
     ' 
     '         Properties: FileName, MyResource, Resources
@@ -47,11 +59,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Composition
-#Else
-Imports System.ComponentModel.Composition
-#End If
 Imports System.Globalization
 Imports System.IO
 Imports System.Reflection

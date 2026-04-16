@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 24 (70.59%)
+    ' Comment Lines: 4 (11.76%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 6 (17.65%)
+    '     File Size: 1.24 KB
+
+
     ' Module ODESolver
     ' 
     '     Function: Gill

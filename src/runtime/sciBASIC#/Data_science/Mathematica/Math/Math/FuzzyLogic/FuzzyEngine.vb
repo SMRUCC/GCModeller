@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c84e53207506bf084cf9d0566a105f87, Data_science\Mathematica\Math\Math\FuzzyLogic\FuzzyEngine.vb"
+﻿#Region "Microsoft.VisualBasic::391d730354e8f0e2da7bcc1b49d7f8a6, Data_science\Mathematica\Math\Math\FuzzyLogic\FuzzyEngine.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 223
+    '    Code Lines: 139 (62.33%)
+    ' Comment Lines: 36 (16.14%)
+    '    - Xml Docs: 52.78%
+    ' 
+    '   Blank Lines: 48 (21.52%)
+    '     File Size: 8.02 KB
+
+
     '     Class FuzzyEngine
     ' 
     '         Properties: Consequent, FuzzyRuleCollection, LinguisticVariableCollection
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: Defuzzify, Evaluate, GetConsequent, Parse, (+2 Overloads) Save
+    '         Function: Defuzzify, Evaluate, GetConsequent, Parse, (+3 Overloads) Save
     '                   ToModel
     ' 
     '         Sub: (+2 Overloads) Add
@@ -67,9 +79,8 @@
 
 #End Region
 
-Imports System.Collections.Generic
+Imports System.IO
 Imports System.Text
-Imports System.Xml
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
@@ -251,13 +262,23 @@ Namespace Logical.FuzzyLogic
         End Function
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return ToModel.GetXml.SaveTo(Path, encoding)
+            Using file As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, encoding)
+            End Using
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return Save(Path, encoding.CodePage)
         End Function
 
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(ToModel.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
+        End Function
 #End Region
     End Class
 End Namespace

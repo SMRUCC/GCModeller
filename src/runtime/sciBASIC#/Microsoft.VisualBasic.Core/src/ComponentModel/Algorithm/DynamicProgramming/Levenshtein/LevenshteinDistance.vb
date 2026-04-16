@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ba79766148957cdc9e1bd68420f7c4b2, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\LevenshteinDistance.vb"
+﻿#Region "Microsoft.VisualBasic::9f5f5427863826f5ff1b112477aab9df, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\Levenshtein\LevenshteinDistance.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 322
+    '    Code Lines: 205 (63.66%)
+    ' Comment Lines: 67 (20.81%)
+    '    - Xml Docs: 91.04%
+    ' 
+    '   Blank Lines: 50 (15.53%)
+    '     File Size: 14.71 KB
+
+
     '     Module LevenshteinDistance
     ' 
-    '         Function: (+2 Overloads) ComputeDistance, createMatrix, CreateTable, i32Equals, SaveMatch
+    '         Function: (+2 Overloads) ComputeDistance, CreateTable, i32Equals, SaveMatch
     '         Delegate Function
     ' 
     '             Function: (+2 Overloads) ComputeDistance, computeRouteImpl, Similarity
@@ -50,7 +62,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 
@@ -72,16 +84,7 @@ Vladimir I",
       Journal:="Soviet Physics Doklady", Year:=1966)>
     Public Module LevenshteinDistance
 
-        ''' <summary>
-        ''' Creates distance table for data visualization
-        ''' </summary>
-        ''' <param name="reference"></param>
-        ''' <param name="hypotheses"></param>
-        ''' <param name="cost"></param>
-        ''' <returns></returns>
-        Private Function createMatrix(reference As Integer(), hypotheses As Integer(), cost As Double) As Double(,)
-            Return CreateTable(Of Integer)(reference, hypotheses, DynamicProgramming.Cost(Of Integer).DefaultCost(cost), AddressOf i32Equals)
-        End Function
+        ReadOnly checkIntDefault As GenericLambda(Of Integer).IEquals = AddressOf i32Equals
 
         Private Function i32Equals(a As Integer, b As Integer) As Boolean
             Return a = b
@@ -121,10 +124,10 @@ Vladimir I",
                         '  if the letters are same
                         distTable(i, j) = distTable(i - 1, j - 1)
                     Else ' if not add 1 to its neighborhoods and assign minumun of its neighborhoods
-                        Dim n As Double = stdNum.Min(
+                        Dim n As Double = std.Min(
                             distTable(i - 1, j - 1) + cost.substitute(reference(i - 1), hypotheses(j - 1)),
                             distTable(i - 1, j) + cost.delete(reference(i - 1)))
-                        distTable(i, j) = stdNum.Min(n, distTable(i, j - 1) + cost.insert(hypotheses(j - 1)))
+                        distTable(i, j) = std.Min(n, distTable(i, j - 1) + cost.insert(hypotheses(j - 1)))
                     End If
                 Next
             Next
@@ -161,7 +164,11 @@ Vladimir I",
         ''' <param name="asChar">这个只是用于进行显示输出的</param>
         ''' <param name="cost"></param>
         ''' <returns></returns>
-        Public Function ComputeDistance(Of T)(reference As T(), hypotheses As T(), equals As GenericLambda(Of T).IEquals, asChar As ToChar(Of T), Optional cost As Double = 0.7) As DistResult
+        Public Function ComputeDistance(Of T)(reference As T(), hypotheses As T(),
+                                              equals As GenericLambda(Of T).IEquals,
+                                              asChar As ToChar(Of T),
+                                              Optional cost As Double = 0.7) As DistResult
+
             If hypotheses Is Nothing Then hypotheses = New T() {}
             If reference Is Nothing Then reference = New T() {}
 
@@ -171,9 +178,10 @@ Vladimir I",
             Dim sHyp As String = New String(hypotheses.Select(Function(x) asChar(x)).ToArray)
             Dim sRef As String = New String(reference.Select(Function(x) asChar(x)).ToArray)
             Dim result As New DistResult With {
-                .hypotheses = sHyp,
-                .reference = sRef
+                .Hypotheses = sHyp,
+                .Reference = sRef
             }
+
             Return computeRouteImpl(sHyp, result, i, j, distTable)
         End Function
 
@@ -192,23 +200,21 @@ Vladimir I",
         ''' <param name="cost"></param>
         ''' <returns></returns>
         <ExportAPI("ComputeDistance")>
-        Public Function ComputeDistance(reference As Integer(), hypotheses As String, Optional cost As Double = 0.7) As DistResult
+        Public Function ComputeDistance(reference As Integer(), hypotheses As String, Optional cost As Double = 0.7, Optional checkInt As GenericLambda(Of Integer).IEquals = Nothing) As DistResult
             If hypotheses Is Nothing Then hypotheses = ""
             If reference Is Nothing Then reference = New Integer() {}
 
-            Dim distTable#(,) = createMatrix(reference,
-                                              hypotheses.Select(Function(ch) Asc(ch)).ToArray,
-                                              cost)
+            Dim distTable#(,) = CreateTable(Of Integer)(reference, hypotheses.Select(Function(ch) AscW(ch)).ToArray, DynamicProgramming.Cost(Of Integer).DefaultCost(cost), If(checkInt, checkIntDefault))
             Dim i As Integer = reference.Length
             Dim j As Integer = hypotheses.Length
             Dim result As New DistResult With {
-                .hypotheses = hypotheses,
-                .reference = Nothing
+                .Hypotheses = hypotheses,
+                .Reference = Nothing
             }
             Return computeRouteImpl(hypotheses, result, i, j, distTable)
         End Function
 
-        Const a As Integer = Asc("a"c)
+        Const a As Integer = AscW("a"c)
 
         Public Function Similarity(Of T)(query As T(), subject As T(), Optional penalty As Double = 0.75) As Double
             If query.IsNullOrEmpty OrElse subject.IsNullOrEmpty Then
@@ -328,7 +334,7 @@ Vladimir I",
                 End If
 
                 If css.Count > 1024 AndAlso css.Count - evolve.Count > 128 Then
-                    ' Call $"{reference} ==> {hypotheses} stack could not be solve, operation abort!".__DEBUG_ECHO
+                    ' Call $"{reference} ==> {hypotheses} stack could not be solve, operation abort!".debug
                     Return Nothing
                 End If
             End While
@@ -339,26 +345,33 @@ Vladimir I",
         ''' <summary>
         ''' The edit distance between two strings is defined as the minimum number of
         ''' edit operations required to transform one string into another.
-        ''' (请注意，这函数是大小写敏感的。如果需要大小写不敏感，在使用前，请先将函数的两个字符串参数都转换为小写形式)
         ''' </summary>
         ''' <param name="reference"></param>
         ''' <param name="hypotheses"></param>
         ''' <param name="cost"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (请注意，这函数是大小写敏感的。如果需要大小写不敏感，在使用前，请先将函数的两个字符串参数都转换为小写形式)
+        ''' </remarks>
         <ExportAPI("ComputeDistance")>
-        Public Function ComputeDistance(reference$, hypotheses$, Optional cost# = 0.7) As DistResult
-
+        Public Function ComputeDistance(reference$, hypotheses$, Optional cost# = 0.7, Optional checkChar As GenericLambda(Of Char).IEquals = Nothing) As DistResult
             If hypotheses Is Nothing Then hypotheses = ""
             If reference Is Nothing Then reference = ""
 
             Dim vectorRef = reference.Select(Function(ch) AscW(ch)).ToArray
             Dim vectorHypo = hypotheses.Select(Function(ch) AscW(ch)).ToArray
-            Dim distTable As Double(,) = createMatrix(vectorRef, vectorHypo, cost)
+            Dim checkInt As GenericLambda(Of Integer).IEquals = Nothing
+
+            If checkChar IsNot Nothing Then
+                checkInt = Function(i1, i2) checkChar(ChrW(i1), ChrW(i2))
+            End If
+
+            Dim distTable As Double(,) = CreateTable(Of Integer)(vectorRef, vectorHypo, DynamicProgramming.Cost(Of Integer).DefaultCost(cost), If(checkInt, checkIntDefault))
             Dim i As Integer = reference.Length
             Dim j As Integer = hypotheses.Length
             Dim result As New DistResult With {
-                .hypotheses = hypotheses,
-                .reference = reference
+                .Hypotheses = hypotheses,
+                .Reference = reference
             }
 
             Return computeRouteImpl(hypotheses, result, i, j, distTable)

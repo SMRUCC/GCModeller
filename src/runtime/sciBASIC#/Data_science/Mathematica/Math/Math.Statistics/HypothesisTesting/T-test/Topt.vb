@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1452514d95e25c3ddbcbc4a929248bc, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Topt.vb"
+﻿#Region "Microsoft.VisualBasic::d7e1dcf39ae7973acc07b08b3a3b5d4f, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\Topt.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 21
+    '    Code Lines: 11 (52.38%)
+    ' Comment Lines: 4 (19.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (28.57%)
+    '     File Size: 495 B
+
+
     '     Class Topt
     ' 
     '         Properties: alpha, alternative, mu
+    ' 
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Hypothesis
 
@@ -52,6 +68,10 @@ Namespace Hypothesis
         ''' </summary>
         ''' <returns></returns>
         Public Property alternative As Hypothesis
+
+        Public Overrides Function ToString() As String
+            Return Me.GetJson
+        End Function
 
     End Class
 End Namespace

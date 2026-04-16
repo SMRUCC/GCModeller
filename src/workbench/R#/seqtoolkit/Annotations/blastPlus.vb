@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d61c2b1621510aa35d164a5f87acac4b, R#\seqtoolkit\Annotations\blastPlus.vb"
+﻿#Region "Microsoft.VisualBasic::ff2e0e9b31319610fcf5f6ce4513772e, R#\seqtoolkit\Annotations\blastPlus.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 42 (54.55%)
+    ' Comment Lines: 21 (27.27%)
+    '    - Xml Docs: 90.48%
+    ' 
+    '   Blank Lines: 14 (18.18%)
+    '     File Size: 2.57 KB
+
+
     ' Module blastPlusInterop
     ' 
     '     Function: blastn, blastp, blastx, makeblastdb
@@ -41,18 +53,68 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Programs
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
+''' <summary>
+''' Basic Local Alignment Search Tool
+''' 
+''' NCBI blast+ wrapper
+''' 
+''' BLAST finds regions Of similarity between biological 
+''' sequences. The program compares nucleotide Or protein 
+''' sequences To sequence databases And calculates the 
+''' statistical significance.
+''' </summary>
 <Package("blast+")>
 Module blastPlusInterop
 
+    ''' <summary>
+    ''' Application to create BLAST databases
+    ''' </summary>
+    ''' <param name="[in]">Input file/database name</param>
+    ''' <param name="dbtype">Molecule type of target db</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("makeblastdb")>
-    Public Function makeblastdb([in] As String, dbtype As String, Optional env As Environment = Nothing)
+    Public Function makeblastdb([in] As String,
+                                <RRawVectorArgument(GetType(String))>
+                                Optional dbtype As Object = "nucl|prot",
+                                Optional env As Environment = Nothing) As Object
 
+        Dim bin As String = env.globalEnvironment.options.getOption("ncbi_blast")
+        Dim seqtype As String = CLRVector.asCharacter(dbtype).First
+        Dim localblast = New BLASTPlus(bin).FormatDb(Db:=[in], dbType:=seqtype)
+        Dim stdout As String
+
+        localblast.Run()
+        stdout = localblast.StandardOutput
+
+        Return stdout
     End Function
 
+    ''' <summary>
+    ''' Protein-Protein BLAST
+    ''' </summary>
+    ''' <returns></returns>
     <ExportAPI("blastp")>
-    Public Function blastp()
+    Public Function blastp(query As String, subject As String, output As String,
+                           Optional evalue As Double = 0.001,
+                           Optional n_threads As Integer = 2,
+                           Optional env As Environment = Nothing) As Object
 
+        Dim bin As String = env.globalEnvironment.options.getOption("ncbi_blast")
+        Dim stdout As String
+        Dim localblast = New BLASTPlus(bin) With {
+            .NumThreads = n_threads
+        }.Blastp(query, subject, output, evalue)
+
+        localblast.Run()
+        stdout = localblast.StandardOutput
+
+        Return stdout
     End Function
 
     <ExportAPI("blastn")>

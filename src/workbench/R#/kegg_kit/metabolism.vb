@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e95842fef4983977aa071e217c1acc35, R#\kegg_kit\metabolism.vb"
+﻿#Region "Microsoft.VisualBasic::88c74ccbedf287d7a458bfbb4d448a95, R#\kegg_kit\metabolism.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 185
+    '    Code Lines: 114 (61.62%)
+    ' Comment Lines: 47 (25.41%)
+    '    - Xml Docs: 82.98%
+    ' 
+    '   Blank Lines: 24 (12.97%)
+    '     File Size: 7.70 KB
+
+
     ' Module metabolism
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: CreateCompoundOriginModel, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
+    '     Function: compoundSummaryTable, filterInvalidCompoundIds, GetAllCompounds, KEGGReconstruction, loadReactionCacheIndex
     '               PickNetwork
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -44,19 +57,18 @@
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-#If netcore5 = 0 Then
-Imports RDotNET.Extensions.GCModeller
-#End If
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.KEGG
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.KEGG
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Data
+Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Model.Network.KEGG.ReactionNetwork
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' The kegg metabolism model toolkit
@@ -64,9 +76,26 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 <Package("metabolism", Category:=APICategories.ResearchTools)>
 Module metabolism
 
-    Sub New()
-
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Compound()), AddressOf compoundSummaryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function compoundSummaryTable(compounds As Compound(), args As list, env As Environment) As dataframe
+        Dim summary As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = compounds _
+                .Select(Function(c) c.entry) _
+                .ToArray
+        }
+
+        Call summary.add("name", From c As Compound In compounds Let [short] = c.commonNames.SafeQuery.OrderBy(Function(name) Len(name)).FirstOrDefault Select If([short], c.entry))
+        Call summary.add("formula", From c As Compound In compounds Select c.formula)
+        Call summary.add("exact mass", From c As Compound In compounds Select c.exactMass)
+        Call summary.add("related enzyme", From c As Compound In compounds Select c.enzyme.JoinBy("; "))
+
+        Return summary
+    End Function
 
     <ExportAPI("load.reaction.cacheIndex")>
     Public Function loadReactionCacheIndex(file As String) As MapCache
@@ -89,16 +118,14 @@ Module metabolism
             .ToArray
     End Function
 
-#If netcore5 = 0 Then
-    <ExportAPI("compound.origins")>
-    Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
-        If compoundNames Is Nothing Then
-            Return OrganismCompounds.LoadData(repo)
-        Else
-            Return OrganismCompounds.LoadData(repo, compoundNames)
-        End If
-    End Function
-#End If
+    '<ExportAPI("compound.origins")>
+    'Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
+    '    If compoundNames Is Nothing Then
+    '        Return OrganismCompounds.LoadData(repo)
+    '    Else
+    '        Return OrganismCompounds.LoadData(repo, compoundNames)
+    '    End If
+    'End Function
 
     ''' <summary>
     ''' Removes invalid kegg compound id
@@ -117,23 +144,37 @@ Module metabolism
     ''' <summary>
     ''' do kegg pathway reconstruction by given protein annotation data
     ''' </summary>
-    ''' <param name="reference"></param>
-    ''' <param name="reactions"></param>
-    ''' <param name="annotations"></param>
-    ''' <param name="min_cov"></param>
+    ''' <param name="reference">
+    ''' the kegg reference maps
+    ''' </param>
+    ''' <param name="reactions">
+    ''' a list of the kegg reaction data models
+    ''' </param>
+    ''' <param name="annotations">the <see cref="ProteinAnnotation"/> data stream with kegg ontology('ko' attribute) id.</param>
+    ''' <param name="min_cov">coverage cutoff of the ratio of annotation protein hit against the all proteins on the pathway map</param>
     ''' <param name="env"></param>
-    ''' <returns></returns>
-    <ExportAPI("kegg.reconstruction")>
+    ''' <returns>
+    ''' A set of the kegg pathway object that contains with the KEGG id mapping(protein id mapping and assigned compound id list)
+    ''' </returns>
+    <ExportAPI("kegg_reconstruction")>
+    <RApiReturn(GetType(DBGET.bGetObject.Pathway))>
     Public Function KEGGReconstruction(<RRawVectorArgument> reference As Object,
                                        <RRawVectorArgument> reactions As Object,
                                        <RRawVectorArgument> annotations As Object,
                                        Optional min_cov As Double = 0.3,
+                                       Optional prefix As String = Nothing,
                                        Optional env As Environment = Nothing) As pipeline
 
-        Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env)
+        Dim rxnList As pipeline = pipeline.TryCreatePipeline(Of ReactionTable)(reactions, env, suppress:=True)
 
         If rxnList.isError Then
-            Return rxnList
+            rxnList = pipeline.TryCreatePipeline(Of DBGET.bGetObject.Reaction)(reactions, env)
+
+            If Not rxnList.isError Then
+                rxnList = pipeline.CreateFromPopulator(ReactionTable.Load(rxnList.populates(Of DBGET.bGetObject.Reaction)(env).ToArray))
+            Else
+                Return rxnList
+            End If
         End If
 
         Dim maps As pipeline = pipeline.TryCreatePipeline(Of Map)(reference, env)
@@ -153,15 +194,29 @@ Module metabolism
 
         Return maps _
             .populates(Of Map)(env) _
-            .KEGGReconstruction(genes, min_cov) _
+            .KEGGReconstruction(genes, min_cov, prefix:=prefix) _
             .Select(Function(pathway)
                         Return pathway.AssignCompounds(rxnIndex)
                     End Function) _
             .DoCall(AddressOf pipeline.CreateFromPopulator)
     End Function
 
+    ''' <summary>
+    ''' pick the reaction list from the kegg reaction
+    ''' network repository by KO id terms
+    ''' </summary>
+    ''' <param name="reactions"></param>
+    ''' <param name="terms">
+    ''' the KO id terms
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("pickNetwork")>
-    Public Function PickNetwork(reactions As ReactionRepository, <RRawVectorArgument> terms As Object, Optional env As Environment = Nothing) As Object
+    Public Function PickNetwork(reactions As ReactionRepository,
+                                <RRawVectorArgument>
+                                terms As Object,
+                                Optional env As Environment = Nothing) As Object
+
         Dim KoIdlist As String()
         Dim stream As pipeline = pipeline.TryCreatePipeline(Of String)(terms, env, suppress:=True)
 
@@ -171,7 +226,11 @@ Module metabolism
             If stream.isError Then
                 Return stream.getError
             Else
-                KoIdlist = stream.populates(Of BiDirectionalBesthit)(env).Select(Function(hit) hit.term).Distinct.ToArray
+                KoIdlist = stream _
+                    .populates(Of BiDirectionalBesthit)(env) _
+                    .Select(Function(hit) hit.term) _
+                    .Distinct _
+                    .ToArray
             End If
         Else
             KoIdlist = stream.populates(Of String)(env).ToArray

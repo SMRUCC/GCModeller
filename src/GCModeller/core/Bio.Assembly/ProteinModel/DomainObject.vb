@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 54 (69.23%)
+    ' Comment Lines: 13 (16.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.10%)
+    '     File Size: 2.69 KB
+
+
     '     Class DomainObject
     ' 
     '         Properties: BitScore, EValue, Location, Name, Position

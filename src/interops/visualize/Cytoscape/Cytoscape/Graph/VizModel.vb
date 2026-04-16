@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5330a8fced66f1c3c225d556996d6ddf, visualize\Cytoscape\Cytoscape\Graph\VizModel.vb"
+﻿#Region "Microsoft.VisualBasic::5f3cda48d328abad4a00e7aa35b4b588, visualize\Cytoscape\Cytoscape\Graph\VizModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 124
+    '    Code Lines: 99 (79.84%)
+    ' Comment Lines: 9 (7.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (12.90%)
+    '     File Size: 5.25 KB
+
+
     '     Module VizModel
     ' 
     '         Function: createProperties, getCommonOrSharedName, ToNetworkGraph
@@ -43,8 +55,8 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.EdgeBundling
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
 
@@ -120,7 +132,7 @@ Namespace CytoscapeGraphView
                 }
 
                 Call nodeIndex.Add(xgmmlNode.label, node)
-                Call g.AddNode(node)
+                Call g.AddNode(node, assignId:=False)
             Next
 
             Dim index As New GraphIndex(graph)
@@ -148,7 +160,7 @@ Namespace CytoscapeGraphView
                             .edgeBendHandles _
                             .Select(Function(a)
                                         Dim raw As PointF = a.pointAuto(sx, sy, tx, ty)
-                                        Dim xy As XYMetaHandle = XYMetaHandle.CreateVector(ps, pt, raw)
+                                        Dim xy As WayPointVector = WayPointVector.CreateVector(ps, pt, raw)
 
                                         Return xy
                                     End Function) _

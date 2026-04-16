@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b238416517d55a92734965c6fa232a7, Data_science\MachineLearning\MachineLearning\QLearning\QLearning.vb"
+﻿#Region "Microsoft.VisualBasic::ec615370fabe2d6d3c29922c58c25ebd, Data_science\MachineLearning\MachineLearning\QLearning\QLearning.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 35 (41.67%)
+    ' Comment Lines: 34 (40.48%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 15 (17.86%)
+    '     File Size: 2.86 KB
+
 
     '     Class QLearning
     ' 
@@ -95,6 +107,10 @@ Namespace QLearning
         Protected MustOverride Sub reset(i As Integer)
 
         Public Sub RunLearningLoop(n As Integer)
+            If n <= 0 Then
+                n = Integer.MaxValue
+            End If
+
             For iteration As Integer = 0 To n
                 Call reset(iteration)
 

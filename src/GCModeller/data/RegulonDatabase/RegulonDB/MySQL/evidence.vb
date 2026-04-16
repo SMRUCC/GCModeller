@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91 (51.70%)
+    ' Comment Lines: 63 (35.80%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 10.63 KB
+
+
     ' Class evidence
     ' 
     '     Properties: evidence_category, evidence_code, evidence_id, evidence_internal_comment, evidence_name

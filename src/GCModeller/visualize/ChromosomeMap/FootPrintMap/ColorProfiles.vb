@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8aed57f1f49b1c75e77d5e3152ab80ce, visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
+﻿#Region "Microsoft.VisualBasic::b7ff5d1ef06185e8268f1f981fbaca6b, visualize\ChromosomeMap\FootPrintMap\ColorProfiles.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 40 (61.54%)
+    ' Comment Lines: 12 (18.46%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (20.00%)
+    '     File Size: 2.43 KB
+
+
     '     Class DrawingDevice
     ' 
-    '         Properties: Color, GraphicDevice, Image
+    '         Properties: Color, GraphicDevice
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -47,23 +59,19 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 
 Namespace ComponentModel
 
     Public Class DrawingDevice : Implements IDisposable
 
-        Dim _GraphicDevice As Graphics, _ImageData As Bitmap
+        Dim _GraphicDevice As IGraphics
         Dim _ColorProfiles As ColorProfiles
 
-        Public ReadOnly Property GraphicDevice As Graphics
+        Public ReadOnly Property GraphicDevice As IGraphics
             Get
                 Return _GraphicDevice
-            End Get
-        End Property
-
-        Public ReadOnly Property Image As Bitmap
-            Get
-                Return _ImageData
             End Get
         End Property
 
@@ -73,14 +81,13 @@ Namespace ComponentModel
             End Get
         End Property
 
-        Sub New(Width As Integer, Height As Integer, ColorProfiles As Generic.IEnumerable(Of String), Optional DefaultColor As Color = Nothing)
+        Sub New(Width As Integer, Height As Integer, ColorProfiles As IEnumerable(Of String), Optional DefaultColor As Color = Nothing)
             _ColorProfiles = New ColorProfiles(ColorProfiles, DefaultColor)
-            _ImageData = New Bitmap(Width, Height)
-            _GraphicDevice = Graphics.FromImage(_ImageData)
+            _GraphicDevice = DriverLoad.CreateGraphicsDevice(New Size(Width, Height))
         End Sub
 
         Public Overrides Function ToString() As String
-            Return String.Format("<{0}, {1}>", _ImageData.Width, _ImageData.Height)
+            Return String.Format("<{0}, {1}>", GraphicDevice.Width, GraphicDevice.Height)
         End Function
 
 #Region "IDisposable Support"

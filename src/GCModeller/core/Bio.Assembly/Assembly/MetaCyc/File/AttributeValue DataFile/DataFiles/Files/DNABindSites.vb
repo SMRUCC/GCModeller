@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 19 (70.37%)
+    ' Comment Lines: 4 (14.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 1.18 KB
+
+
     '     Class DNABindSites
     ' 
     '         Properties: AttributeList

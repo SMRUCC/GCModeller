@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::785de2126341df562b89a6b78bf9932f, Data_science\MachineLearning\MachineLearning.Data.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3e0e33f379dd0625b349fdcbeae52eb0, Data_science\MachineLearning\MachineLearning.Data.Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,25 +31,38 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 56 (78.87%)
+    ' Comment Lines: 5 (7.04%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (14.08%)
+    '     File Size: 3.27 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: GetInput
-    ' 
-    ' Class QTableDump
-    ' 
-    '     Sub: Dump, Save
+    '     Function: ExportQTable, GetInput
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.StoreProcedure
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Data
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
-Imports Microsoft.VisualBasic.Text
-Imports row = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports row = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 Public Module Extensions
 
@@ -67,25 +80,45 @@ Public Module Extensions
             .Select(Function(key) data(key)) _
             .ToArray
     End Function
-End Module
 
-Public Class QTableDump
+    <Extension>
+    Public Function ExportQTable(Q As IQTable, features As IQStateFeatureSet, file As Stream) As Boolean
+        Using cdf As New CDFWriter(file)
+            Dim attrs As New List(Of attribute)
 
-    ReadOnly __buffer As New Dictionary(Of IndexCurve)
+            attrs.Add(New attribute With {.name = NameOf(Q.ActionRange), .type = CDFDataTypes.NC_INT, .value = Q.ActionRange})
+            attrs.Add(New attribute With {.name = NameOf(Q.ExplorationChance), .type = CDFDataTypes.NC_FLOAT, .value = Q.ExplorationChance})
+            attrs.Add(New attribute With {.name = NameOf(Q.GammaValue), .type = CDFDataTypes.NC_FLOAT, .value = Q.GammaValue})
+            attrs.Add(New attribute With {.name = NameOf(Q.LearningRate), .type = CDFDataTypes.NC_FLOAT, .value = Q.LearningRate})
+            attrs.Add(New attribute With {.name = "QTable_size", .type = CDFDataTypes.NC_INT, .value = Q.Table.Count})
 
-    Public Sub Dump(table As IQTable, iteration As Integer)
-        For Each o In table.Table.Values
-            For i As Integer = 0 To table.ActionRange - 1
-                Dim uid As String = $"[{i}] {o.EnvirState}"
-                If Not __buffer.ContainsKey(uid) Then
-                    Call __buffer.Add(uid, New IndexCurve(uid))
-                End If
-                Call __buffer(uid).Properties.Add(iteration, o.Qvalues(i))
+            cdf.GlobalAttributes(attrs.ToArray)
+
+            Dim featureSet As NamedValue(Of List(Of Double))() = features.stateFeatures _
+                .JoinIterates(features.QValueNames) _
+                .Select(Function(name)
+                            Return New NamedValue(Of List(Of Double))(name, New List(Of Double))
+                        End Function) _
+                .ToArray
+
+            For Each stat As Object In features.AllQStates
+                Dim vStat As Double() = features.ExtractStateVector(stat)
+                Dim solve As Single() = Q.Table(stat.ToString).Qvalues
+                Dim i As Integer = 0
+
+                For i = 0 To vStat.Length - 1
+                    featureSet(i).Value.Add(vStat(i))
+                Next
+                For i = 0 To solve.Length - 1
+                    featureSet(i + vStat.Length).Value.Add(solve(i))
+                Next
             Next
-        Next
-    End Sub
 
-    Public Sub Save(path As String)
-        Call __buffer.Values.SaveTo(path, Encodings.ASCII)
-    End Sub
-End Class
+            For Each vec In featureSet
+                Call cdf.AddVector(vec.Name, vec.Value, New Dimension With {.name = $"sizeof_{vec.Name}", .size = vec.Value.Count})
+            Next
+        End Using
+
+        Return True
+    End Function
+End Module

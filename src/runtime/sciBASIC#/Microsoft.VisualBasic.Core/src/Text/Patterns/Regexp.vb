@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 44 (48.35%)
+    ' Comment Lines: 35 (38.46%)
+    '    - Xml Docs: 91.43%
+    ' 
+    '   Blank Lines: 12 (13.19%)
+    '     File Size: 3.62 KB
+
+
     '     Class Regexp
     ' 
     '         Properties: Regex

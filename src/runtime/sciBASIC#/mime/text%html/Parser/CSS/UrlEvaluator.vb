@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::817a462648dbc00f66e286d4222d0491, mime\text%html\Parser\CSS\UrlEvaluator.vb"
+﻿#Region "Microsoft.VisualBasic::15a5ac34ac3cb75826162e5411f73468, mime\text%html\Parser\CSS\UrlEvaluator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 33 (60.00%)
+    ' Comment Lines: 16 (29.09%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 6 (10.91%)
+    '     File Size: 1.89 KB
+
+
     '     Module UrlEvaluator
     ' 
     '         Function: EvaluateAsImage, IsURLPattern
@@ -45,7 +57,12 @@ Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Net.Http
-Imports gdiImage = System.Drawing.Image
+
+#If NET48 Then
+Imports Image = System.Drawing.Image
+#Else
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+#End If
 
 Namespace Language.CSS
 
@@ -69,7 +86,7 @@ Namespace Language.CSS
         ''' + url('data:xxx') base64编码的data uri图像数据
         ''' </param>
         ''' <returns></returns>
-        Public Function EvaluateAsImage(expression As String) As gdiImage
+        Public Function EvaluateAsImage(expression As String) As Image
             Dim uri As String = expression.GetStackValue("(", ")").Trim("'"c)
 
             If DataURI.IsWellFormedUriString(uri) Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::099cfa9941a77e2823de342b0c3915c8, core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
+﻿#Region "Microsoft.VisualBasic::6e6cb1bc7ec1669621c97c13e62c1463, core\Bio.Assembly\SequenceModel\Polypeptides\Polypeptides.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 279
+    '    Code Lines: 212 (75.99%)
+    ' Comment Lines: 48 (17.20%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 19 (6.81%)
+    '     File Size: 11.79 KB
+
+
     '     Module Polypeptide
     ' 
     '         Properties: Abbreviate, MEGASchema, ToChar, ToEnums
     ' 
-    '         Function: ConstructVector, GetCompositionVector, GetCount, ToString
+    '         Function: ConstructVector, Generate, GetCompositionVector, GetCount, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,13 +56,15 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Linq
 
 Namespace SequenceModel.Polypeptides
 
     ''' <summary>
-    ''' Protein polypeptide sequence.(蛋白质多肽链的一些相关操作)
+    ''' Protein polypeptide sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(蛋白质多肽链的一些相关操作)</remarks>
     Public Module Polypeptide
 
         ''' <summary>
@@ -79,11 +93,48 @@ Namespace SequenceModel.Polypeptides
         End Function
 
         ''' <summary>
+        ''' Generate all polypeptide sequence with given length
+        ''' </summary>
+        ''' <param name="len"></param>
+        ''' <returns></returns>
+        Public Iterator Function Generate(len As Integer) As IEnumerable(Of String)
+            If len <= 0 Then
+                Return
+            End If
+
+            Dim peptides As New List(Of List(Of Char))
+
+            ' 初始状态：所有单个氨基酸
+            For Each aa As Char In AminoAcidObjUtility.OneLetterFormula.Keys
+                Call peptides.Add(New List(Of Char) From {aa})
+            Next
+
+            ' 迭代构建更长的肽链
+            For currentLength As Integer = 2 To len
+                Dim newPeptides As New List(Of List(Of Char))
+
+                ' 为每个现有肽链添加所有可能的氨基酸
+                For Each peptide As List(Of Char) In peptides
+                    For Each aa As Char In AminoAcidObjUtility.OneLetterFormula.Keys
+                        Call newPeptides.Add(New List(Of Char)(peptide.JoinIterates(aa)))
+                    Next
+                Next
+
+                ' 更新肽链列表为当前长度的组合
+                peptides = newPeptides
+            Next
+
+            For Each combine As List(Of Char) In peptides
+                Yield New String(combine.ToArray)
+            Next
+        End Function
+
+        ''' <summary>
         ''' 值的氨基酸字符都是大写的
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ToChar As New Dictionary(Of AminoAcid, Char) From {
- _
+                                                                                    _
             {AminoAcid.Alanine, "A"c},
             {AminoAcid.Arginine, "R"c},
             {AminoAcid.Asparagine, "N"c},
@@ -111,7 +162,7 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ToEnums As New Dictionary(Of Char, AminoAcid) From {
- _
+                                                                                     _
              {"A"c, AminoAcid.Alanine},
              {"R"c, AminoAcid.Arginine},
              {"N"c, AminoAcid.Asparagine},
@@ -137,15 +188,20 @@ Namespace SequenceModel.Polypeptides
         }
 
         ''' <summary>
-        ''' Protein sequence display color schema from MEGA software.(MEGA软件的显示蛋白质序列的残基颜色)
+        ''' Protein sequence display color schema from MEGA software.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (MEGA软件的显示蛋白质序列的残基颜色)
+        ''' </remarks>
         Public ReadOnly Property MEGASchema As New Dictionary(Of Char, Color) From {
- _
+                                                                                    _
+            {"A"c, "#ccff00".TranslateColor},
             {"B"c, Color.FromArgb(192, 192, 192)},
             {"D"c, Color.FromArgb(255, 0, 0)},
             {"E"c, Color.FromArgb(255, 0, 0)},
             {"F"c, Color.FromArgb(255, 255, 0)},
+            {"G"c, "#ff9900".TranslateColor},
             {"H"c, Color.FromArgb(0, 128, 128)},
             {"I"c, Color.FromArgb(255, 255, 0)},
             {"J"c, Color.FromArgb(192, 192, 192)},
@@ -158,6 +214,7 @@ Namespace SequenceModel.Polypeptides
             {"Q"c, Color.FromArgb(0, 128, 0)},
             {"R"c, Color.FromArgb(0, 0, 255)},
             {"S"c, Color.FromArgb(0, 128, 0)},
+            {"T"c, "#ff6600".TranslateColor},
             {"V"c, Color.FromArgb(255, 255, 0)},
             {"W"c, Color.FromArgb(0, 128, 0)},
             {"X"c, Color.FromArgb(192, 192, 192)},
@@ -168,33 +225,33 @@ Namespace SequenceModel.Polypeptides
         ''' <summary>
         ''' Get the composition vector of this polypeptide sequence.
         ''' </summary>
-        ''' <param name="Seq">全部必须为大写字母</param>
+        ''' <param name="seq">全部必须为大写字母</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function GetCompositionVector(Seq As Char()) As Integer()
+        Public Function GetCompositionVector(seq As Char()) As Integer()
             Dim B, D, E, F, H, I, J, K, L, M, N, O, P, Q, R, S, V, W, X, Y, Z As Integer
 
-            B = Seq.GetCount(aa:="B"c)
-            D = Seq.GetCount(aa:="D"c)
-            E = Seq.GetCount(aa:="E"c)
-            F = Seq.GetCount(aa:="F"c)
-            H = Seq.GetCount(aa:="H"c)
-            I = Seq.GetCount(aa:="I"c)
-            J = Seq.GetCount(aa:="J"c)
-            K = Seq.GetCount(aa:="K"c)
-            L = Seq.GetCount(aa:="L"c)
-            M = Seq.GetCount(aa:="M"c)
-            N = Seq.GetCount(aa:="N"c)
-            O = Seq.GetCount(aa:="O"c)
-            P = Seq.GetCount(aa:="P"c)
-            Q = Seq.GetCount(aa:="Q"c)
-            R = Seq.GetCount(aa:="R"c)
-            S = Seq.GetCount(aa:="S"c)
-            V = Seq.GetCount(aa:="V"c)
-            W = Seq.GetCount(aa:="W"c)
-            X = Seq.GetCount(aa:="X"c)
-            Y = Seq.GetCount(aa:="Y"c)
-            Z = Seq.GetCount(aa:="Z"c)
+            B = seq.GetCount(aa:="B"c)
+            D = seq.GetCount(aa:="D"c)
+            E = seq.GetCount(aa:="E"c)
+            F = seq.GetCount(aa:="F"c)
+            H = seq.GetCount(aa:="H"c)
+            I = seq.GetCount(aa:="I"c)
+            J = seq.GetCount(aa:="J"c)
+            K = seq.GetCount(aa:="K"c)
+            L = seq.GetCount(aa:="L"c)
+            M = seq.GetCount(aa:="M"c)
+            N = seq.GetCount(aa:="N"c)
+            O = seq.GetCount(aa:="O"c)
+            P = seq.GetCount(aa:="P"c)
+            Q = seq.GetCount(aa:="Q"c)
+            R = seq.GetCount(aa:="R"c)
+            S = seq.GetCount(aa:="S"c)
+            V = seq.GetCount(aa:="V"c)
+            W = seq.GetCount(aa:="W"c)
+            X = seq.GetCount(aa:="X"c)
+            Y = seq.GetCount(aa:="Y"c)
+            Z = seq.GetCount(aa:="Z"c)
 
             Return New Integer() {B, D, E, F, H, I, J, K, L, M, N, O, P, Q, R, S, V, W, X, Y, Z}
         End Function
@@ -202,8 +259,10 @@ Namespace SequenceModel.Polypeptides
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Private Function GetCount(sequence As Char(), aa As Char) As Integer
-            Dim LQuery = (From ch In sequence Where ch = aa Select 1).Count
-            Return LQuery
+            Return Aggregate ch As Char
+                   In sequence
+                   Where ch = aa
+                   Into Count
         End Function
 
         ''' <summary>
@@ -211,10 +270,10 @@ Namespace SequenceModel.Polypeptides
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property Abbreviate As New Dictionary(Of String, String) From {
- _
+                                                                                       _
             {"Ala", "A"}, {"Arg", "R"}, {"Asp", "D"}, {"Asn", "N"},
             {"Cys", "C"},
-            {"Gln", "Q"}, {"Glu", "E"}, {"Gly", "G"},
+            {"Gln", "Q"}, {"Glu", "E"}, {"Glt", "E"}, {"Gly", "G"},
             {"His", "H"},
             {"Ile", "I"},
             {"Leu", "L"}, {"Lys", "K"},
@@ -224,10 +283,45 @@ Namespace SequenceModel.Polypeptides
             {"Thr", "T"}, {"Trp", "W"}, {"Tyr", "Y"},
             {"Val", "V"},
             {"Sec", "U"}, {"Pyl", "O"},
- _
+                                       _
+            {"alaT", "A"}, {"alaX", "A"}, {"alaW", "A"}, {"alaU", "A"}, {"alaV", "A"},
+            {"argU", "R"}, {"argQ", "R"}, {"argX", "R"}, {"argV", "R"}, {"argZ", "R"}, {"argY", "R"}, {"argW", "R"},
+            {"aspV", "D"}, {"aspT", "D"}, {"aspU", "D"},
+            {"asnU", "N"}, {"asnV", "N"}, {"asnT", "N"},
+            {"cysT", "C"},
+            {"glnX", "Q"}, {"glnV", "Q"}, {"glnW", "Q"}, {"glnU", "Q"}, ' {"glu", "E"},
+            {"gltT", "E"}, {"gltW", "E"}, {"gltU", "E"}, {"gltV", "E"},
+            {"glyU", "G"}, {"glyV", "G"}, {"glyX", "G"}, {"glyY", "G"}, {"glyT", "G"}, {"glyW", "G"},
+            {"hisR", "H"},
+            {"ileT", "I"}, {"ileU", "I"}, {"ileV", "I"}, {"ileX", "I"},
+            {"leuV", "L"}, {"leuP", "L"}, {"leuQ", "L"}, {"leuW", "L"}, {"leuX", "L"}, {"leuU", "L"}, {"leuZ", "L"}, {"leuT", "L"},
+            {"lysV", "K"}, {"lysT", "K"}, {"lysW", "K"},
+            {"metY", "M"}, {"metU", "M"}, {"metT", "M"}, {"metZ", "M"}, {"metW", "M"},
+            {"pheV", "F"}, {"pheU", "F"},
+            {"proK", "P"}, {"proM", "P"}, {"proL", "P"},
+            {"serW", "S"}, {"serU", "S"}, {"serT", "S"}, {"serX", "S"}, {"serV", "S"},
+            {"thrV", "T"}, {"thrU", "T"}, {"thrW", "T"}, {"thrT", "T"},
+            {"trpT", "W"},
+            {"tyrV", "Y"}, {"tyrU", "Y"}, {"tyrT", "Y"},
+            {"valU", "V"}, {"valX", "V"}, {"valY", "V"}, {"valT", "V"}, {"valV", "V"}, {"valW", "V"},
+            {"selC", "U"}, ' {"pyl", "O"},
+                           _
+            {"ala", "A"}, {"arg", "R"}, {"asp", "D"}, {"asn", "N"},
+            {"cys", "C"},
+            {"gln", "Q"}, {"glu", "E"}, {"glt", "E"}, {"gly", "G"},
+            {"his", "H"},
+            {"ile", "I"},
+            {"leu", "L"}, {"lys", "K"},
+            {"met", "M"},
+            {"phe", "F"}, {"pro", "P"},
+            {"ser", "S"},
+            {"thr", "T"}, {"trp", "W"}, {"tyr", "Y"},
+            {"val", "V"},
+            {"sec", "U"}, {"pyl", "O"},
+                                       _
             {"ALA", "A"}, {"ARG", "R"}, {"ASP", "D"}, {"ASN", "N"},
             {"CYS", "C"},
-            {"GLN", "Q"}, {"GLU", "E"}, {"GLY", "G"},
+            {"GLN", "Q"}, {"GLU", "E"}, {"GLT", "E"}, {"GLY", "G"},
             {"HIS", "H"},
             {"ILE", "I"},
             {"LEU", "L"}, {"LYS", "K"},

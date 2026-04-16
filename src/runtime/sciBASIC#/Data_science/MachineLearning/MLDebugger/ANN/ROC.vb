@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74bdfd24383e3f832e06a8aa5f3f51a6, Data_science\MachineLearning\MLDebugger\ANN\ROC.vb"
+﻿#Region "Microsoft.VisualBasic::ed282dcae4dd55571c496b2e613e4d84, Data_science\MachineLearning\MLDebugger\ANN\ROC.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 47 (85.45%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (14.55%)
+    '     File Size: 2.28 KB
+
+
     ' Module ROC
     ' 
     '     Function: AUC, CreateValidateResult, ROC
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.DataMining.ComponentModel.Evaluation
+Imports Microsoft.VisualBasic.DataMining.Evaluation
 Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork
 Imports Microsoft.VisualBasic.Text.Xml.Models
 
@@ -82,7 +94,7 @@ Public Module ROC
         Dim result As Validate() = network.CreateValidateResult(training.TrainingSet).ToArray
         Dim attributes As Double() = result(Scan0).actuals
         Dim evalAUC = Function(null As Double, i As Integer) As Double
-                          Dim validations = result.ROC({0, 1}, attribute:=i)
+                          Dim validations = result.ROC(New Double() {0, 1}, attribute:=i)
                           Dim AUCValue = Validation.AUC(validations)
 
                           Return AUCValue

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::720723439615de530b752cb92bdd4b07, data\GO_gene-ontology\GO_Annotation\Annotations.vb"
+﻿#Region "Microsoft.VisualBasic::416ba17e7c9eb8cf76a5457612ef9fe0, data\GO_gene-ontology\GO_Annotation\Annotations.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 49 (83.05%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 10 (16.95%)
+    '     File Size: 2.27 KB
+
+
     ' Module Annotations
     ' 
     '     Function: createGoTerms, (+2 Overloads) PfamAssign
@@ -57,7 +69,7 @@ Public Module Annotations
             If Not mapstoGO.ContainsKey(hit.QueryName) Then
                 mapstoGO(hit.QueryName) = (hit.description, New List(Of toGO))
 
-                Call $"{hit.QueryName}: {hit.description}".__DEBUG_ECHO
+                Call $"{hit.QueryName}: {hit.description}".debug
             End If
 
             go = pfam2GO.TryGetValue(hit.pfamID)

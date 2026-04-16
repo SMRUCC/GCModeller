@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 37 (41.57%)
+    ' Comment Lines: 40 (44.94%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.48%)
+    '     File Size: 2.65 KB
+
+
     ' Class MassPoint
     ' 
     '     Properties: Acceleration, Charge, ID, Mass, Point

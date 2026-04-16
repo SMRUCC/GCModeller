@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 15 (78.95%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (21.05%)
+    '     File Size: 635 B
+
+
     '     Class SensorInducers
     ' 
     '         Properties: Inducers, SensorId

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e900dfb0754013fd1c2e45d960279d1f, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
+﻿#Region "Microsoft.VisualBasic::8d0a45fb1c8793135624aef88508b7f1, gr\network-visualization\Datavisualization.Network\Graph\Model\Node.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 276
+    '    Code Lines: 156 (56.52%)
+    ' Comment Lines: 94 (34.06%)
+    '    - Xml Docs: 51.06%
+    ' 
+    '   Blank Lines: 26 (9.42%)
+    '     File Size: 9.70 KB
+
+
     '     Class Node
     ' 
-    '         Properties: adjacencies, data, directedVertex, pinned, visited
+    '         Properties: adjacencies, data, directedVertex, pinned, text
+    '                     visited
     ' 
     '         Constructor: (+2 Overloads) Sub New
+    ' 
     '         Function: adjacentTo, Clone, EnumerateAdjacencies, (+2 Overloads) Equals, GetHashCode
     '                   ToString
+    ' 
+    '         Sub: SetMetadata
+    ' 
     '         Operators: <>, =
     ' 
     ' 
@@ -84,10 +101,19 @@
 '
 
 Imports System.Runtime.CompilerServices
+Imports System.Runtime.Serialization
+Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Analysis.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
+
+#If NET48 Then
+Imports Microsoft.VisualBasic.Serialization.JSON
+#Else
+Imports System.Text.Json.Serialization
+#End If
 
 Namespace Graph
 
@@ -105,15 +131,61 @@ Namespace Graph
         ''' Get all of the edge collection that connect to current node object
         ''' </summary>
         ''' <returns></returns>
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property adjacencies As AdjacencySet(Of Edge)
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property directedVertex As DirectedVertex
 
         ''' <summary>
         ''' 这个节点是被钉住的？在进行布局计算的时候，钉住的节点将不会更新位置
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property pinned As Boolean
+
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property visited As Boolean
+
+        Public ReadOnly Property text As String
+            Get
+                Return data.label
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <returns>
+        ''' returns nothing if the node meta <see cref="data"/> is nothing orelse 
+        ''' node data contains no such given key name.
+        ''' </returns>
+        Default Public ReadOnly Property Metadata(name As String) As String
+            Get
+                If data Is Nothing Then
+                    Return Nothing
+                Else
+                    Return data.ItemValue(name)
+                End If
+            End Get
+        End Property
 
         ''' <summary>
         ''' 在这里是用的是unique id进行初始化，对于Display title则可以在<see cref="NodeData.label"/>属性上面设置
@@ -127,6 +199,10 @@ Namespace Graph
 
             label = iId
             pinned = False
+
+            If iId IsNot Nothing Then
+                adjacencies = New AdjacencySet(Of Edge)(iId)
+            End If
         End Sub
 
         Sub New()
@@ -136,6 +212,16 @@ Namespace Graph
         Public Overrides Function GetHashCode() As Integer
             Return label.GetHashCode()
         End Function
+
+        Public Sub SetMetadata(name As String, value As String)
+            If data Is Nothing Then
+                data = New NodeData With {
+                    .Properties = New Dictionary(Of String, String)
+                }
+            End If
+
+            data(name) = value
+        End Sub
 
         ''' <summary>
         ''' 枚举出所有的与当前节点直接相邻接的节点列表
@@ -189,6 +275,12 @@ Namespace Graph
             End If
         End Function
 
+        ''' <summary>
+        ''' check vertex node equivalent via the <see cref="Node.label"/> equivalent.
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Shared Operator =(a As Node, b As Node) As Boolean
             ' If one is null, but not both, return false.
             If a Is Nothing OrElse b Is Nothing Then
@@ -196,18 +288,30 @@ Namespace Graph
             End If
 
             ' If both are null, or both are same instance, return true.
-            If Object.ReferenceEquals(a, b) Then
+            If a Is b Then
                 Return True
             Else
                 Return a.Equals(p:=b)
             End If
         End Operator
 
+        ''' <summary>
+        ''' check vertex node un-equivalent via the <see cref="Node.label"/> un-equivalent
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Operator <>(a As Node, b As Node) As Boolean
             Return Not (a = b)
         End Operator
 
+        ''' <summary>
+        ''' make data clone of current graph vertex node
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Clone() As Node Implements ICloneable(Of Node).Clone
             Return New Node With {
                 .ID = ID,
@@ -227,7 +331,8 @@ Namespace Graph
                     .origID = data.origID,
                     .size = data.size.SafeQuery.ToArray,
                     .weights = data.weights.SafeQuery.ToArray,
-                    .Properties = New Dictionary(Of String, String)(data.Properties)
+                    .Properties = New Dictionary(Of String, String)(data.Properties),
+                    .betweennessCentrality = data.betweennessCentrality
                 }
             }
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf2f6d65c0c1fa96c78f3a53edc033b4, mime\application%pdf\PdfReader\Parser\ParseArray.vb"
+﻿#Region "Microsoft.VisualBasic::ad67dcca5367dee62dd4c9077588597e, mime\application%pdf\PdfReader\Parser\ParseArray.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 10 (76.92%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 327 B
+
+
     '     Class ParseArray
     ' 
     '         Properties: Objects
@@ -48,7 +60,7 @@ Namespace PdfReader
     Public Class ParseArray
         Inherits ParseObjectBase
 
-        Public Sub New(ByVal objects As List(Of ParseObjectBase))
+        Public Sub New(objects As List(Of ParseObjectBase))
             Me.Objects = objects
         End Sub
 

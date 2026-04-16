@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::752ae9d468b4f47e24dc93f5ed189067, Data_science\DataMining\DataMining\Clustering\KMeans\Kmedoids.vb"
+﻿#Region "Microsoft.VisualBasic::2e1efe12f95ba70ebedda707c3b695ab, Data_science\DataMining\DataMining\Clustering\KMeans\Kmedoids.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 89 (55.97%)
+    ' Comment Lines: 42 (26.42%)
+    '    - Xml Docs: 64.29%
+    ' 
+    '   Blank Lines: 28 (17.61%)
+    '     File Size: 6.16 KB
+
+
     '     Module Kmedoids
     ' 
-    '         Function: doKMedoids, DoKMedoids
+    '         Function: CalculateClusterMean, doKMedoids, DoKMedoids
     ' 
     ' 
     ' /********************************************************************************/
@@ -41,6 +53,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
@@ -50,6 +63,44 @@ Namespace KMeans
     ''' Partitioning around medoids(PAM)
     ''' </summary>
     Public Module Kmedoids
+
+        ''' <summary>
+        ''' Calculates The Mean Of A Cluster OR The Cluster Center
+        ''' 
+        ''' ```vbnet
+        ''' Dim cluster#(,) = {
+        '''     {15, 32, 35.6},
+        '''     {19, 54, 65.1}
+        ''' }
+        ''' Dim centroid#() = Kmeans.ClusterMean(cluster)
+        '''
+        ''' Call $"<br/>Cluster mean Calc: {centroid}".debug
+        ''' ```
+        ''' </summary>
+        ''' <param name="cluster">
+        ''' A two-dimensional array containing a dataset of numeric values
+        ''' </param>
+        ''' <returns>
+        ''' Returns an Array Defining A Data Point Representing The Cluster Mean or Centroid
+        ''' </returns>
+        ''' 
+        <Extension>
+        Public Function CalculateClusterMean(Of T As IVector)(cluster As IEnumerable(Of T)) As Double()
+            Dim sum As Double() = Nothing
+            Dim n As Integer = 0
+
+            For Each xi As T In cluster
+                If sum Is Nothing Then
+                    sum = xi.Data
+                Else
+                    sum = SIMD.Add.f64_op_add_f64(sum, xi.Data)
+                End If
+
+                n += 1
+            Next
+
+            Return SIMD.Divide.f64_op_divide_f64_scalar(sum, n)
+        End Function
 
         ''' <summary>
         ''' Partitioning around medoids(PAM)

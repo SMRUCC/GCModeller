@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 44 (68.75%)
+    ' Comment Lines: 8 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (18.75%)
+    '     File Size: 2.50 KB
+
+
     '     Module Base
     ' 
     '         Function: (+2 Overloads) [Select], cbind, rep, (+2 Overloads) Sample

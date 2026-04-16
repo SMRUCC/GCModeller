@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 44 (86.27%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (13.73%)
+    '     File Size: 3.00 KB
+
+
     ' Module MisT2API
     ' 
     '     Function: (+2 Overloads) AssemblySignalTransductionNetwork, LoadRegpreciseRegulators, LoadStringNetwork, ReadEffectorMap, SaveNetwork

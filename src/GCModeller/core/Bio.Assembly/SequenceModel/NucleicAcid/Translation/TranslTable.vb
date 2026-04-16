@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dcbb34987edf92868513ea00ee29830f, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
+﻿#Region "Microsoft.VisualBasic::49582cfdb83d83199109338a16f7f47b, core\Bio.Assembly\SequenceModel\NucleicAcid\Translation\TranslTable.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 297
+    '    Code Lines: 164 (55.22%)
+    ' Comment Lines: 98 (33.00%)
+    '    - Xml Docs: 86.73%
+    ' 
+    '   Blank Lines: 35 (11.78%)
+    '     File Size: 13.24 KB
+
 
     '     Class TranslTable
     ' 
@@ -147,6 +159,8 @@ Namespace SequenceModel.NucleotideModels.Translation
             Dim sb As New StringBuilder(1024)
             Dim buffer As Char()()
             Dim coden = CodenTable
+            Dim ch As Char
+            Dim aa As AminoAcid
 
             If checkNt Then
                 nucleicAcid = NtHelper.DoCheckNtDirection(Me, nucleicAcid.ToUpper, operations)
@@ -167,8 +181,13 @@ Namespace SequenceModel.NucleotideModels.Translation
                             Exit For
                         End If
                     Else
-                        Dim aa As AminoAcid = coden(hash)
-                        Dim ch As Char = Polypeptide.ToChar(aa)
+                        If coden.ContainsKey(hash) Then
+                            aa = coden(hash)
+                            ch = Polypeptide.ToChar(aa)
+                        Else
+                            aa = AminoAcid.NULL
+                            ch = "-"
+                        End If
 
                         Call sb.Append(ch)
                     End If
@@ -274,25 +293,25 @@ Namespace SequenceModel.NucleotideModels.Translation
         End Function
 
         Protected Friend Shared ReadOnly _tables As New Dictionary(Of Integer, TranslTable) From {
- _
-            {1, ParseTable(My.Resources.transl_table_1)},
-            {2, ParseTable(My.Resources.transl_table_2)},
-            {3, ParseTable(My.Resources.transl_table_3)},
-            {4, ParseTable(My.Resources.transl_table_4)},
-            {5, ParseTable(My.Resources.transl_table_5)},
-            {6, ParseTable(My.Resources.transl_table_6)},
-            {9, ParseTable(My.Resources.transl_table_9)},
-            {10, ParseTable(My.Resources.transl_table_10)},
-            {11, ParseTable(My.Resources.transl_table_11)},
-            {12, ParseTable(My.Resources.transl_table_12)},
-            {13, ParseTable(My.Resources.transl_table_13)},
-            {14, ParseTable(My.Resources.transl_table_14)},
-            {16, ParseTable(My.Resources.transl_table_16)},
-            {21, ParseTable(My.Resources.transl_table_21)},
-            {22, ParseTable(My.Resources.transl_table_22)},
-            {23, ParseTable(My.Resources.transl_table_23)},
-            {24, ParseTable(My.Resources.transl_table_24)},
-            {25, ParseTable(My.Resources.transl_table_25)}
+                                                                                                  _
+            {1, ParseTable(My.Resources.TranslTables.transl_table_1)},
+            {2, ParseTable(My.Resources.TranslTables.transl_table_2)},
+            {3, ParseTable(My.Resources.TranslTables.transl_table_3)},
+            {4, ParseTable(My.Resources.TranslTables.transl_table_4)},
+            {5, ParseTable(My.Resources.TranslTables.transl_table_5)},
+            {6, ParseTable(My.Resources.TranslTables.transl_table_6)},
+            {9, ParseTable(My.Resources.TranslTables.transl_table_9)},
+            {10, ParseTable(My.Resources.TranslTables.transl_table_10)},
+            {11, ParseTable(My.Resources.TranslTables.transl_table_11)},
+            {12, ParseTable(My.Resources.TranslTables.transl_table_12)},
+            {13, ParseTable(My.Resources.TranslTables.transl_table_13)},
+            {14, ParseTable(My.Resources.TranslTables.transl_table_14)},
+            {16, ParseTable(My.Resources.TranslTables.transl_table_16)},
+            {21, ParseTable(My.Resources.TranslTables.transl_table_21)},
+            {22, ParseTable(My.Resources.TranslTables.transl_table_22)},
+            {23, ParseTable(My.Resources.TranslTables.transl_table_23)},
+            {24, ParseTable(My.Resources.TranslTables.transl_table_24)},
+            {25, ParseTable(My.Resources.TranslTables.transl_table_25)}
         }
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

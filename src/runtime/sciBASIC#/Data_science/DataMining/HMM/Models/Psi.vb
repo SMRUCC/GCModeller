@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8918d546f07ca6a346dcd9f61c2fb19a, Data_science\DataMining\HMM\Models\Psi.vb"
+﻿#Region "Microsoft.VisualBasic::37382b9c3650d96fa94abd63c1be71ee, Data_science\DataMining\HMM\Models\Psi.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 43 (71.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 17 (28.33%)
+    '     File Size: 1.57 KB
+
+
     '     Class Psi
     ' 
     '         Properties: index, psi
@@ -43,10 +55,21 @@
     ' 
     '         Properties: maximizedProbability, psiArrays
     ' 
+    '     Class viterbiSequence
+    ' 
+    '         Properties: stateSequence, terminationProbability, trellisSequence
+    ' 
+    '     Class PsiArray
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: (+2 Overloads) Add, forEach
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports Microsoft.VisualBasic.Language
 
 Namespace Models
 
@@ -67,5 +90,42 @@ Namespace Models
     Public Class termViterbi
         Public Property maximizedProbability As Double
         Public Property psiArrays As PsiArray
+    End Class
+
+    Public Class viterbiSequence
+        Public Property trellisSequence As Double()()
+        Public Property terminationProbability As Double
+        Public Property stateSequence As String()
+    End Class
+
+    Public Class PsiArray
+
+        Friend ReadOnly matrix As New List(Of List(Of Integer))
+
+        Default Public ReadOnly Property Item(i As Integer) As List(Of Integer)
+            Get
+                Return matrix(i)
+            End Get
+        End Property
+
+        Sub New(matrix As List(Of Integer)())
+            Me.matrix = matrix.AsList
+        End Sub
+
+        Public Sub Add(i As Integer, data As Integer)
+            matrix(i).Add(data)
+        End Sub
+
+        Public Sub Add(data As IEnumerable(Of Integer))
+            matrix.Add(data.AsList)
+        End Sub
+
+        Public Sub forEach(apply As Action(Of List(Of Integer), Integer))
+            Dim i As i32 = Scan0
+
+            For Each item As List(Of Integer) In matrix
+                Call apply(item, ++i)
+            Next
+        End Sub
     End Class
 End Namespace

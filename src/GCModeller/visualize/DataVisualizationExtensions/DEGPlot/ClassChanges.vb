@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a4b516a91aa793983872ce8428d9a97, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
+﻿#Region "Microsoft.VisualBasic::9aa95ad49be33060aa13eb97c24bf8ca, visualize\DataVisualizationExtensions\DEGPlot\ClassChanges.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 144 (83.72%)
+    ' Comment Lines: 2 (1.16%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 26 (15.12%)
+    '     File Size: 7.09 KB
+
+
     ' Class ClassChanges
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -52,7 +64,35 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Class ClassChanges : Inherits Plot
 
@@ -85,18 +125,19 @@ Public Class ClassChanges : Inherits Plot
             .IteratesALL _
             .Range _
             .CreateAxisTicks
-        Dim dpi As Integer = stdNum.Max(g.DpiX, g.DpiY)
-        Dim plotregion As Rectangle = canvas.PlotRegion
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim dpi As Integer = g.Dpi
+        Dim plotregion As Rectangle = canvas.PlotRegion(css)
         Dim y As Double = degClass.Length
         Dim x As Double
-        Dim axisStroke As Pen = Stroke.TryParse(theme.axisStroke)
-        Dim tickStroke As Pen = Stroke.TryParse(theme.axisTickStroke)
+        Dim axisStroke As Pen = css.GetPen(Stroke.TryParse(theme.axisStroke))
+        Dim tickStroke As Pen = css.GetPen(Stroke.TryParse(theme.axisTickStroke))
         Dim a As PointF
         Dim b As PointF
-        Dim xscale = d3js.scale.linear.domain(xTicks).range(integers:={plotregion.Left, plotregion.Right})
+        Dim xscale = d3js.scale.linear.domain(values:=xTicks).range(integers:={plotregion.Left, plotregion.Right})
         Dim labelText As String
         Dim labelSize As SizeF
-        Dim labelFont As Font = CSSFont.TryParse(theme.axisTickCSS).GDIObject(dpi)
+        Dim labelFont As Font = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
         Dim tickPadding As Double = g.MeasureString("0", labelFont).Height / 2
         Dim dh As Double = plotregion.Height / degClass.Length
         Dim colors As Color() = Designer _
@@ -122,7 +163,7 @@ Public Class ClassChanges : Inherits Plot
             Call g.DrawString(labelText, labelFont, Brushes.Black, x, y)
         Next
 
-        labelFont = CSSFont.TryParse(theme.axisLabelCSS).GDIObject(dpi)
+        labelFont = css.GetFont(CSSFont.TryParse(theme.axisLabelCSS))
         labelSize = g.MeasureString(Me.xlabel, labelFont)
         x = plotregion.Left + (plotregion.Width - labelSize.Width) / 2
         y = plotregion.Bottom + tickPadding * 3
@@ -147,7 +188,7 @@ Public Class ClassChanges : Inherits Plot
         Dim i As Integer = 1
         Dim radius As Double
         Dim color As Color
-        Dim tagFont As Font = CSSFont.TryParse(theme.tagCSS).GDIObject(dpi)
+        Dim tagFont As Font = css.GetFont(CSSFont.TryParse(theme.tagCSS))
         Dim radiusScales As DoubleRange = degClass _
             .Select(Function(cls)
                         Return cls.Select(Function(d) -Math.Log10(d.pvalue))
@@ -155,7 +196,7 @@ Public Class ClassChanges : Inherits Plot
             .IteratesALL _
             .Range
 
-        labelFont = CSSFont.TryParse(theme.axisTickCSS).GDIObject(dpi)
+        labelFont = css.GetFont(CSSFont.TryParse(theme.axisTickCSS))
 
         For Each [class] As NamedCollection(Of DEGModel) In degClass
             labelText = [class].name

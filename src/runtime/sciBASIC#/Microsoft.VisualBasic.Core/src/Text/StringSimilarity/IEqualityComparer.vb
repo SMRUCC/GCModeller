@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e55be13f3c8d0809bcc427b49cb1e3ca, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\IEqualityComparer.vb"
+﻿#Region "Microsoft.VisualBasic::c6b8182203d82ab1df8dfe8b846771b2, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\IEqualityComparer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 63 (63.64%)
+    ' Comment Lines: 22 (22.22%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 14 (14.14%)
+    '     File Size: 3.65 KB
+
+
     '     Class StringEqualityHelper
     ' 
     '         Properties: BinaryEquals, TextEquals
@@ -38,13 +50,20 @@
     '         Constructor: (+1 Overloads) Sub New
     '         Function: Equals, GetHashCode, ToString
     ' 
+    '     Class DirectTextComparer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: Equals, GetHashCode
+    ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Diagnostics.CodeAnalysis
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 
 Namespace Text.Similarity
 
@@ -104,6 +123,32 @@ Namespace Text.Similarity
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Equals(x As String, y As String) As Boolean Implements IEqualityComparer(Of String).Equals
             Return compare(x, y)
+        End Function
+
+        Public Overloads Function GetHashCode(obj As String) As Integer Implements IEqualityComparer(Of String).GetHashCode
+            If obj Is Nothing Then
+                Return 0
+            End If
+            Return obj.GetHashCode
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' A wrapper of the <see cref="TextEquals"/> function
+    ''' </summary>
+    Public Class DirectTextComparer : Implements IEqualityComparer(Of String)
+
+        ReadOnly null_equals As Boolean = False
+        ReadOnly empty_equals As Boolean = True
+
+        Sub New(Optional null_equals As Boolean = False, Optional empty_equals As Boolean = True)
+            Me.null_equals = null_equals
+            Me.empty_equals = empty_equals
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Function Equals(x As String, y As String) As Boolean Implements IEqualityComparer(Of String).Equals
+            Return x.TextEquals(y, null_equals, empty_equals)
         End Function
 
         Public Overloads Function GetHashCode(obj As String) As Integer Implements IEqualityComparer(Of String).GetHashCode

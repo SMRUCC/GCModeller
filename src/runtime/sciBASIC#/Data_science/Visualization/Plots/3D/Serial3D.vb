@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 18 (60.00%)
+    ' Comment Lines: 7 (23.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 1.03 KB
+
+
     '     Class Serial3D
     ' 
     '         Properties: Color, Points, PointSize, Shape, Title

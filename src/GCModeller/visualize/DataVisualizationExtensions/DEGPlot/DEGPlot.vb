@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2ecc6b18e5c33feb7a540dca5f6d9092, visualize\DataVisualizationExtensions\DEGPlot\DEGPlot.vb"
+﻿#Region "Microsoft.VisualBasic::959d91e1bf7f1570adf06cb94c9a9462, visualize\DataVisualizationExtensions\DEGPlot\DEGPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 41 (64.06%)
+    ' Comment Lines: 19 (29.69%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (6.25%)
+    '     File Size: 2.83 KB
+
+
     ' Module DEGPlot
     ' 
     '     Function: ClassChangePlot
@@ -45,6 +57,7 @@ Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports SMRUCC.genomics.GCModeller.Workbench.ExperimentDesigner
 
 Public Module DEGPlot
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 22 (64.71%)
+    ' Comment Lines: 6 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (17.65%)
+    '     File Size: 1.08 KB
+
+
     '     Class Filter
     ' 
     '         Properties: Composites, Floods, GaussianBlurs, height, Merges

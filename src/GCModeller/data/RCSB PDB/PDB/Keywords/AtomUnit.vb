@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b28a425f7f194e6795f4e63f828c5423, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
+﻿#Region "Microsoft.VisualBasic::0cfe43b185837ecd6cf350535c0ee400, data\RCSB PDB\PDB\Keywords\AtomUnit.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 63 (63.00%)
+    ' Comment Lines: 25 (25.00%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 12 (12.00%)
+    '     File Size: 3.37 KB
+
+
     '     Structure Point3D
     ' 
-    '         Function: ToString
+    '         Properties: X, Y, Z
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: DistanceTo, ToString
     ' 
     '     Class AtomUnit
     ' 
-    '         Properties: AA_ID, AA_IDX, Atom, Index, Location
+    '         Properties: AA_ID, AA_IDX, Atom, ChianID, Index
+    '                     Location
     ' 
     '         Function: InternalParser, ToString
     ' 
@@ -46,19 +62,40 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.Math.Correlations
 
 Namespace Keywords
 
-    Public Structure Point3D
-        Dim X, Y, Z As Double
+    Public Structure Point3D : Implements PointF3D
+
+        Public Property Z As Double Implements PointF3D.Z
+        Public Property X As Double Implements Layout2D.X
+        Public Property Y As Double Implements Layout2D.Y
+
+        Sub New(x As Double, y As Double, z As Double)
+            _X = x
+            _Y = y
+            _Z = z
+        End Sub
+
+        Sub New(pt As PointF3D)
+            Call Me.New(pt.X, pt.Y, pt.Z)
+        End Sub
+
+        Public Function DistanceTo(x As Double, y As Double, z As Double) As Double
+            Return New Double() {Me.X, Me.Y, Me.Z}.EuclideanDistance({x, y, z})
+        End Function
 
         Public Overrides Function ToString() As String
-            Return Me.GetJson
+            Return $"[x:{X}. y:{Y}, z:{Z}]"
         End Function
     End Structure
 
+    ''' <summary>
+    ''' the amino acid residue/atom model
+    ''' </summary>
     Public Class AtomUnit
 
         ''' <summary>
@@ -77,6 +114,7 @@ Namespace Keywords
         Public Property AA_IDX As Integer
         Public Property Index As Integer
         Public Property Atom As String
+        Public Property ChianID As String
         Public Property Location As Point3D
 
         Public Overrides Function ToString() As String
@@ -93,23 +131,33 @@ Namespace Keywords
         ''' <returns></returns>
         ''' <remarks></remarks>
         Friend Shared Function InternalParser(s As String, InternalIndex As Integer) As AtomUnit
-            Dim Tokens As String() =
+            Dim xyz As Point3D
+            Dim t As String() =
                 LinqAPI.Exec(Of String) <= From strToken As String
                                            In s.Split
                                            Where Not String.IsNullOrEmpty(strToken)
                                            Select strToken
+            If t.Length = 2 Then
+                ' TER
+                Return Nothing
+            End If
+            If t.Length = 3 Then
+                t = {""}.Join(t).ToArray
+            Else
+                xyz = New Point3D With {
+                    .X = Val(t(4)),
+                    .Y = Val(t(5)),
+                    .Z = Val(t(6))
+                }
+            End If
 
-            Dim Location As New Point3D With {
-                .X = Val(Tokens(3)),
-                .Y = Val(Tokens(4)),
-                .Z = Val(Tokens(5))
-            }
             Return New AtomUnit With {
                 .Index = InternalIndex,
-                .Location = Location,
-                .Atom = Tokens(0),
-                .AA_ID = Tokens(1),
-                .AA_IDX = Val(Tokens(2))
+                .Location = xyz,
+                .Atom = t(0),
+                .AA_ID = t(1),
+                .AA_IDX = Val(t(3)),
+                .ChianID = t(2)
             }
         End Function
     End Class

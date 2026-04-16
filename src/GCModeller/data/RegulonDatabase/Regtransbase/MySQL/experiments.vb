@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 84 (50.00%)
+    ' Comment Lines: 62 (36.90%)
+    '    - Xml Docs: 95.16%
+    ' 
+    '   Blank Lines: 22 (13.10%)
+    '     File Size: 7.65 KB
+
+
     ' Class experiments
     ' 
     '     Properties: art_guid, descript, exp_guid, last_update, pkg_guid

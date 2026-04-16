@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 284
+    '    Code Lines: 163 (57.39%)
+    ' Comment Lines: 89 (31.34%)
+    '    - Xml Docs: 85.39%
+    ' 
+    '   Blank Lines: 32 (11.27%)
+    '     File Size: 11.87 KB
+
+
     '     Module CLIBuildMethod
     ' 
     '         Function: GetCLI, (+2 Overloads) GetPrefix, SimpleBuilder

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff12c433a4da43a5deb6338e381a4ef2, gr\physics\Force.vb"
+﻿#Region "Microsoft.VisualBasic::2557f80e8b3002ce71963b0de95f9d72, gr\physics\Force.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 68 (62.39%)
+    ' Comment Lines: 22 (20.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (17.43%)
+    '     File Size: 3.08 KB
+
+
     ' Class Force
     ' 
     '     Properties: angle, source, strength
@@ -51,6 +63,7 @@
 Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' 力
@@ -104,8 +117,9 @@ Public Class Force
         Return f.strength = strength
     End Operator
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Operator =(f As Force, strength%) As Boolean
-        Return Abs(f.strength - strength) <= 0.0001
+        Return std.Abs(f.strength - strength) <= 0.0001
     End Operator
 
     Public Shared Operator <>(f As Force, strength#) As Boolean

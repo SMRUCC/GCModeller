@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18306ef85d6f239e582ca9040019088d, core\Bio.Assembly\Test\TaxonomyTreeTest.vb"
+﻿#Region "Microsoft.VisualBasic::cfc78d4a0f0128e76eea71c00315235d, core\Bio.Assembly\Test\TaxonomyTreeTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 9 (75.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (25.00%)
+    '     File Size: 391 B
+
+
     ' Module TaxonomyTreeTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -42,7 +54,7 @@
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 
 Module TaxonomyTreeTest
-    Sub Main()
+    Sub Main1()
         Dim tree As New NcbiTaxonomyTree("T:\Resources\NCBI_taxonomy")
 
         Dim nodes = tree.GetAscendantsWithRanksAndNames(526962, only_std_ranks:=True).BuildBIOM

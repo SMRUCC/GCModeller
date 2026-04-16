@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 359
+    '    Code Lines: 178 (49.58%)
+    ' Comment Lines: 140 (39.00%)
+    '    - Xml Docs: 55.71%
+    ' 
+    '   Blank Lines: 41 (11.42%)
+    '     File Size: 15.12 KB
+
+
     '     Class NaiveBinaryTree
     ' 
     '         Properties: Length

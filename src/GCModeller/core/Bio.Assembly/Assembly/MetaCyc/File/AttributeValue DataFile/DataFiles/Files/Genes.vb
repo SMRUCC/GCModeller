@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 44 (66.67%)
+    ' Comment Lines: 16 (24.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (9.09%)
+    '     File Size: 3.26 KB
+
+
     '     Class Genes
     ' 
     '         Properties: AttributeList

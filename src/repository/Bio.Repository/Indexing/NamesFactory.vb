@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 4 (26.67%)
+    ' Comment Lines: 9 (60.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (13.33%)
+    '     File Size: 418 B
+
+
     ' Interface NamesFactory
     ' 
     '     Function: GetNames, PopulateObjects

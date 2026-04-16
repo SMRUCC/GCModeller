@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4ae207281fa3fb4e0208111d9c26bab6, Microsoft.VisualBasic.Core\src\Text\Xml\XmlDoc.vb"
+﻿#Region "Microsoft.VisualBasic::a4753efeac0d1feb787b4669385b714a, Microsoft.VisualBasic.Core\src\Text\Xml\XmlDoc.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 72 (58.54%)
+    ' Comment Lines: 32 (26.02%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (15.45%)
+    '     File Size: 4.67 KB
+
+
     '     Class XmlDoc
     ' 
     '         Properties: encoding, rootNode, standalone, version, xmlns
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __rootString, CreateObject, FromObject, FromXmlFile, Save
+    '         Function: __rootString, CreateObject, FromObject, FromXmlFile, (+2 Overloads) Save
     '                   SaveTo, (+2 Overloads) ToString
     ' 
     ' 
@@ -44,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel
@@ -147,11 +160,22 @@ Namespace Text.Xml
         ''' <param name="encoding"></param>
         ''' <returns></returns>
         Public Function SaveTo(Path$, encoding As Encoding) As Boolean Implements ISaveHandle.Save
-            Return Me.ToString.SaveTo(Path, encoding)
+            Using file As Stream = Path.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Return Save(file, encoding)
+            End Using
         End Function
 
         Public Function Save(Path$, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save
             Return SaveTo(Path, encoding.CodePage)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.ToString)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
     End Class
 End Namespace

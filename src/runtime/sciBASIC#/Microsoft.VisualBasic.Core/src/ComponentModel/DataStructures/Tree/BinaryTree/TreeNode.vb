@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 126 (76.83%)
+    ' Comment Lines: 17 (10.37%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (12.80%)
+    '     File Size: 5.32 KB
+
+
     '     Class TreeNode
     ' 
     '         Properties: AllChilds, ChainPosition, Count, DisplayQualifiedName, IsLeaf

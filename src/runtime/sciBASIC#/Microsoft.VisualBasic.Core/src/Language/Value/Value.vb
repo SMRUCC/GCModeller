@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4a9c220d62541c3a561a0ffc99dcc23, Microsoft.VisualBasic.Core\src\Language\Value\Value.vb"
+﻿#Region "Microsoft.VisualBasic::f827c09b0f3b003a0adb8f1f317f5e7c, Microsoft.VisualBasic.Core\src\Language\Value\Value.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 310
+    '    Code Lines: 162 (52.26%)
+    ' Comment Lines: 110 (35.48%)
+    '    - Xml Docs: 99.09%
+    ' 
+    '   Blank Lines: 38 (12.26%)
+    '     File Size: 12.38 KB
+
+
     '     Class Value
     ' 
     '         Properties: HasValue, Value
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: [Default], (+2 Overloads) Equals, GetJson, GetUnderlyingType, (+2 Overloads) GetValueOrDefault
     '                   IsNothing, ToString
     '         Operators: -, (+3 Overloads) +, <=, (+2 Overloads) <>, (+2 Overloads) =
@@ -51,6 +63,7 @@
 
 #End Region
 
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Scripting
@@ -89,6 +102,8 @@ Namespace Language
             End Get
         End Property
 
+        Shared ReadOnly defaultItem As PropertyInfo
+
         ''' <summary>
         ''' Get data from <see cref="Value"/> through its index method
         ''' </summary>
@@ -96,10 +111,18 @@ Namespace Language
         ''' <returns></returns>
         Default Public Overridable Property Index(key As Object) As Object
             Get
-                Return CObj(Value)(key)
+                If defaultItem Is Nothing Then
+                    Throw New MissingMemberException($"target clr type '{GetType(T)}' has no default property, could not get data through its index method!")
+                End If
+
+                Return defaultItem.GetValue(Value, index:={key})
             End Get
             Set(value As Object)
-                CObj(Me.Value)(key) = value
+                If defaultItem Is Nothing Then
+                    Throw New MissingMemberException($"target clr type '{GetType(T)}' has no default property, could not set data through its index method!")
+                End If
+
+                Call defaultItem.SetValue(Me.Value, value, index:={key})
             End Set
         End Property
 
@@ -189,6 +212,16 @@ Namespace Language
             Value = Nothing
         End Sub
 
+        Shared Sub New()
+            Dim type As Type = GetType(T)
+            Dim properties = type.GetProperties
+
+            defaultItem = properties _
+                .Where(Function(pi) pi.GetIndexParameters.Length = 1) _
+                .Where(Function(pi) pi.Attributes.HasFlag(PropertyAttributes.HasDefault)) _
+                .FirstOrDefault
+        End Sub
+
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Function GetUnderlyingType() As Type
             If _Value Is Nothing Then
@@ -199,7 +232,7 @@ Namespace Language
         End Function
 
         ''' <summary>
-        ''' Is the value is nothing.
+        ''' Is the <see cref="Value"/> is nothing.
         ''' </summary>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

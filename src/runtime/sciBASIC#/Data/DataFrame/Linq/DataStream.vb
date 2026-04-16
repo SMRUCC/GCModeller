@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d637421d8c78737dcc3fba085da76056, Data\DataFrame\Linq\DataStream.vb"
+﻿#Region "Microsoft.VisualBasic::61c36f7c7237fe3637a583ce1ee62cb6, Data\DataFrame\Linq\DataStream.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 399
+    '    Code Lines: 244 (61.15%)
+    ' Comment Lines: 92 (23.06%)
+    '    - Xml Docs: 82.61%
+    ' 
+    '   Blank Lines: 63 (15.79%)
+    '     File Size: 15.93 KB
+
 
     '     Delegate Function
     ' 
@@ -70,8 +82,8 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices
-Imports Microsoft.VisualBasic.ComponentModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
@@ -119,11 +131,12 @@ Namespace IO.Linq
         Public Function OpenHandle(fileName$,
                                    Optional encoding As Encoding = Nothing,
                                    Optional tsv As Boolean = False,
-                                   Optional maps As Dictionary(Of String, String) = Nothing) As (schema As SchemaReader, table As IEnumerable(Of RowObject))
+                                   Optional maps As Dictionary(Of String, String) = Nothing,
+                                   Optional tqdm_wrap As Boolean = True) As (schema As SchemaReader, table As IEnumerable(Of RowObject))
 
             Dim schema As New SchemaReader(fileName, encoding, tsv)
             Dim source As IEnumerable(Of RowObject) = fileName _
-                .IterateAllLines _
+                .IterateAllLines(tqdm_wrap:=tqdm_wrap) _
                 .Skip(1) _
                 .Select(Function(line)
                             Return New RowObject(line, tsv)
@@ -193,6 +206,8 @@ Namespace IO.Linq
         ReadOnly _title As RowObject
         ReadOnly _file As StreamReader
         ReadOnly _schema As Dictionary(Of String, Integer)
+        ReadOnly _skip As Integer = -1
+        ReadOnly _tsv As Boolean = False
 
         ''' <summary>
         ''' The columns and their index order
@@ -210,10 +225,33 @@ Namespace IO.Linq
             _title = New RowObject
         End Sub
 
-        Sub New(file$, Optional encoding As Encoding = Nothing, Optional bufSize% = 64 * 1024 * 1024)
-            Dim first As String = file.ReadFirstLine
+        Sub New(file$,
+                Optional encoding As Encoding = Nothing,
+                Optional bufSize% = 64 * 1024 * 1024,
+                Optional trim As Boolean = False,
+                Optional skip As Integer = -1,
+                Optional tsv As Boolean = False)
 
-            _title = RowObject.TryParse(first)
+            Dim first As String
+
+            Me._FileName = file
+            Me._file = file.OpenReader(encoding)
+            Me._skip = skip
+            Me._tsv = tsv
+
+            If skip > 0 Then
+                For i As Integer = 1 To skip
+                    Call _file.ReadLine()
+                Next
+            End If
+
+            first = _file.ReadLine
+
+            If trim Then
+                first = Strings.Trim(first)
+            End If
+
+            _title = RowObject.TryParse(first, tsv)
             _schema = _title _
                 .Select(Function(colName, idx)
                             Return New With {
@@ -226,23 +264,18 @@ Namespace IO.Linq
                                   Return x.ordinal
                               End Function)
 
-            Me._FileName = file
-            Me._file = file.OpenReader(encoding)
-
-            Call $"{file.ToFileURL} handle opened...".__DEBUG_ECHO
+            Call $"{file.ToFileURL} handle opened...".debug
         End Sub
 
-        Public Function GetOrdinal(Name As String) As Integer Implements ISchema.GetOrdinal
-            Name = Name.ToLower
+        Public Function GetOrdinal(name As String) As Integer Implements ISchema.GetOrdinal
+            name = name.ToLower
 
-            If _schema.ContainsKey(Name) Then
-                Return _schema(Name)
+            If _schema.ContainsKey(name) Then
+                Return _schema(name)
             Else
                 Return -1
             End If
         End Function
-
-        Dim __firstBlock As Boolean = True
 
         ''' <summary>
         ''' Providers the data buffer for the <see cref="RowObject"/>
@@ -254,33 +287,45 @@ Namespace IO.Linq
         ''' </remarks>
         Private Iterator Function BufferProvider() As IEnumerable(Of String)
             Call _file.BaseStream.Seek(Scan0, SeekOrigin.Begin)
-            Call _file.ReadLine()
 
-            Do While Not Me._file.EndOfStream
-                Yield Me._file.ReadLine
-            Loop
+            If _skip > 0 Then
+                For i As Integer = 0 To _skip
+                    Call _file.ReadLine()
+                Next
+            Else
+                Call _file.ReadLine()
+            End If
+
+            If App.EnableTqdm Then
+                For Each line As String In _file.ReadLines
+                    Yield line
+                Next
+            Else
+                Do While Not _file.EndOfStream
+                    Yield _file.ReadLine
+                Loop
+            End If
         End Function
 
         ''' <summary>
         ''' For each item in the source data fram, invoke a specific task
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
-        ''' <param name="invoke"></param>
-        Public Sub ForEach(Of T As Class)(invoke As Action(Of T), Optional silent As Boolean = False)
+        ''' <param name="callback"></param>
+        Public Sub ForEach(Of T As {New, Class})(callback As Action(Of T), Optional silent As Boolean = False)
             Dim schema As SchemaProvider = SchemaProvider.CreateObject(Of T)(False).CopyWriteDataToObject
-            Dim RowBuilder As New RowBuilder(schema)
-            Dim type As Type = GetType(T)
+            Dim rowBuilder As New RowBuilder(schema)
 
-            Call RowBuilder.IndexOf(Me)
-            Call RowBuilder.SolveReadOnlyMetaConflicts(silent)
+            Call rowBuilder.IndexOf(Me)
+            Call rowBuilder.SolveReadOnlyMetaConflicts(silent)
 
             For Each line As String In BufferProvider()
-                Dim row As RowObject = RowObject.TryParse(line)
-                Dim obj As Object = Activator.CreateInstance(type)
+                Dim row As RowObject = RowObject.TryParse(line, _tsv)
+                Dim obj As T = New T
 
-                obj = RowBuilder.FillData(row, obj, "")
+                obj = rowBuilder.FillData(row, obj, "")
 
-                Call invoke(DirectCast(obj, T))
+                Call callback(obj)
             Next
         End Sub
 
@@ -293,30 +338,29 @@ Namespace IO.Linq
         ''' <remarks>
         ''' 2016.06.19  代码已经经过测试，没有数据遗漏的bug，请放心使用
         ''' </remarks>
-        Public Sub ForEachBlock(Of T As Class)(invoke As Action(Of T()), Optional blockSize As Integer = 10240 * 5, Optional silent As Boolean = False)
+        Public Sub ForEachBlock(Of T As {New, Class})(invoke As Action(Of T()), Optional blockSize As Integer = 10240 * 5, Optional silent As Boolean = False)
             ' 生成schema映射模型
             Dim schema As SchemaProvider = SchemaProvider.CreateObject(Of T)(False).CopyWriteDataToObject
-            Dim RowBuilder As New RowBuilder(schema)
-            Dim type As Type = GetType(T)
+            Dim rowBuilder As New RowBuilder(schema)
 
-            Call RowBuilder.IndexOf(Me)
-            Call RowBuilder.SolveReadOnlyMetaConflicts(silent)
+            Call rowBuilder.IndexOf(Me)
+            Call rowBuilder.SolveReadOnlyMetaConflicts(silent)
 
             Dim chunks As IEnumerable(Of String()) = TaskPartitions.SplitIterator(BufferProvider(), blockSize)
 
             For Each block As String() In chunks
                 Dim LQuery As RowObject() = LinqAPI.Exec(Of RowObject) _
- _
+                                                                       _
                     () <= From line As String
                           In block.AsParallel
-                          Select RowObject.TryParse(line)
+                          Select RowObject.TryParse(line, _tsv)
 
                 Dim values As T() = LinqAPI.Exec(Of T) <=
- _
+                                                         _
                     From row As RowObject
                     In LQuery.AsParallel
-                    Let obj As Object = Activator.CreateInstance(type)
-                    Let data = RowBuilder.FillData(row, obj, "")
+                    Let obj As Object = New T
+                    Let data = rowBuilder.FillData(row, obj, "")
                     Select DirectCast(data, T)
 
                 Call Time(AddressOf New __taskHelper(Of T)(values, invoke).RunTask)
@@ -356,23 +400,24 @@ Namespace IO.Linq
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <returns></returns>
-        Public Iterator Function AsLinq(Of T As Class)(Optional parallel As Boolean = False, Optional silent As Boolean = False) As IEnumerable(Of T)
-            Dim schema As SchemaProvider = SchemaProvider _
-                .CreateObject(Of T)(False) _
-                .CopyWriteDataToObject
-            Dim RowBuilder As New RowBuilder(schema)
-            Dim type As Type = GetType(T)
+        Public Iterator Function AsLinq(Of T As {New, Class})(Optional parallel As Boolean = False, Optional silent As Boolean = False) As IEnumerable(Of T)
+            Dim schema As SchemaProvider = SchemaProvider.CreateObject(Of T)(False).CopyWriteDataToObject
+            Dim rowBuilder As New RowBuilder(schema)
+            Dim source As IEnumerable(Of String) = If(
+                parallel,
+                DirectCast(BufferProvider.AsParallel, IEnumerable(Of String)),
+                DirectCast(BufferProvider(), IEnumerable(Of String))
+            )
 
-            Call RowBuilder.IndexOf(Me)
-            Call RowBuilder.SolveReadOnlyMetaConflicts(silent)
+            Call rowBuilder.IndexOf(Me)
+            Call rowBuilder.SolveReadOnlyMetaConflicts(silent)
 
             Dim LQuery As IEnumerable(Of T) =
- _
                 From line As String
-                In If(parallel, DirectCast(BufferProvider.AsParallel, IEnumerable(Of String)), DirectCast(BufferProvider(), IEnumerable(Of String)))
-                Let row As RowObject = RowObject.TryParse(line)
-                Let obj As Object = Activator.CreateInstance(type)
-                Let data As Object = RowBuilder.FillData(row, obj, "")
+                In source
+                Let row As RowObject = RowObject.TryParse(line, _tsv)
+                Let obj As T = New T
+                Let data As Object = rowBuilder.FillData(row, obj, "")
                 Select DirectCast(data, T)
 
             For Each obj As T In LQuery
@@ -388,12 +433,13 @@ Namespace IO.Linq
         ''' <param name="file">*.csv data file.</param>
         ''' <param name="encoding">The text encoding. default is using <see cref="Encodings.Default"/></param>
         ''' <returns></returns>
-        Public Shared Function OpenHandle(
-                               file As String,
-                      Optional encoding As Encoding = Nothing,
-                      Optional bufSize As Integer = 64 * 1024 * 1024) As DataStream
+        Public Shared Function OpenHandle(file As String,
+                                          Optional encoding As Encoding = Nothing,
+                                          Optional bufSize As Integer = 64 * 1024 * 1024,
+                                          Optional trim As Boolean = False) As DataStream
 
-            Return New DataStream(file, encoding, bufSize)
+            Return New DataStream(file, encoding, bufSize,
+                                  trim:=trim)
         End Function
 
 #Region "IDisposable Support"

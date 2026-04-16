@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::935b66dd1d50e706581d3843e832486f, analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
+﻿#Region "Microsoft.VisualBasic::3a0766e451c0e5f1009732208c5ff8f5, analysis\SequenceToolkit\SequencePatterns\Pattern\PatternSearch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 48 (71.64%)
+    ' Comment Lines: 11 (16.42%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (11.94%)
+    '     File Size: 2.97 KB
+
+
     '     Module PatternSearch
     ' 
     '         Function: GenerateSegment, (+2 Overloads) Match
@@ -42,7 +54,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.SequenceModel.FASTA

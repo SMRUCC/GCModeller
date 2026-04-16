@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 77 (82.80%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (17.20%)
+    '     File Size: 3.76 KB
+
+
     '     Module APIExtensions
     ' 
     '         Function: (+2 Overloads) Add, mergeAnnotations, (+2 Overloads) Sum

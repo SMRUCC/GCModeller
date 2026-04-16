@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 31 (73.81%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (26.19%)
+    '     File Size: 1.16 KB
+
+
     '     Enum DataNodeTypes
     ' 
     '         GeneProduct, Metabolite, Pathway, Protein

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 27 (62.79%)
+    ' Comment Lines: 7 (16.28%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (20.93%)
+    '     File Size: 1.28 KB
+
+
     '     Module Iterator
     ' 
     '         Sub: Run

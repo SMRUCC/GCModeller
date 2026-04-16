@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 47 (63.51%)
+    ' Comment Lines: 14 (18.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (17.57%)
+    '     File Size: 3.04 KB
+
+
     ' Module Program
     ' 
     '     Function: loadData

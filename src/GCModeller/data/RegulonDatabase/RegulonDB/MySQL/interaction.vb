@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 93 (51.96%)
+    ' Comment Lines: 64 (35.75%)
+    '    - Xml Docs: 95.31%
+    ' 
+    '   Blank Lines: 22 (12.29%)
+    '     File Size: 12.21 KB
+
+
     ' Class interaction
     ' 
     '     Properties: affinity_exp, center_position, interaction_first_gene_id, interaction_function, interaction_id

@@ -44,7 +44,7 @@
 #End Region
 
 #If Not DisableCsvTemplate Then
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Text
 #End If
 Namespace Settings

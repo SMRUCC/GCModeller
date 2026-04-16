@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::86c3798794d16153fed93a164beffd05, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
+﻿#Region "Microsoft.VisualBasic::60e05387ea669e6016df50b35e4263db, Data_science\Visualization\Plots\Fractions\RadarChart.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 426
+    '    Code Lines: 281 (65.96%)
+    ' Comment Lines: 93 (21.83%)
+    '    - Xml Docs: 45.16%
+    ' 
+    '   Blank Lines: 52 (12.21%)
+    '     File Size: 21.39 KB
+
+
     '     Module RadarChart
     ' 
     '         Function: Plot, PlotSingleLayer
@@ -59,8 +71,35 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.Interpolation
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Fractions
 
@@ -173,8 +212,6 @@ Namespace Fractions
                                        .Distinct _
                                        .ToArray
             Dim dDegree# = 360 / directions.Length
-            Dim axisPen As Pen = Stroke.TryParse(axisStrokeStyle).GDIObject
-            Dim labelFont As Font = CSSFont.TryParse(labelFontCSS).GDIObject(ppi)
             Dim regionFillColor As New SolidBrush(regionFill.TranslateColor)
 
             If axisRange Is Nothing Then
@@ -187,9 +224,12 @@ Namespace Fractions
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim plotRect = region.PlotRegion
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim plotRect = region.PlotRegion(css)
                     Dim center As PointF = plotRect.Centre
-                    Dim radius As DoubleRange = {0, stdNum.Min(plotRect.Width, plotRect.Height) / 2}
+                    Dim axisPen As Pen = CSS.GetPen(Stroke.TryParse(axisStrokeStyle))
+                    Dim labelFont As Font = css.GetFont(CSSFont.TryParse(labelFontCSS))
+                    Dim radius As DoubleRange = {0, std.Min(plotRect.Width, plotRect.Height) / 2}
                     Dim serial As NamedValue(Of FractionData())
                     Dim r#
                     Dim alpha! = -90

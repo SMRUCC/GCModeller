@@ -131,7 +131,7 @@
 '            If (ping = (mysqli <= .ByRef)) = -1.0R Then
 '                Throw New NullReferenceException("No mysql connection!")
 '            Else
-'                Call $"Ping to mysql server in {ping}ms...".__DEBUG_ECHO
+'                Call $"Ping to mysql server in {ping}ms...".debug
 '            End If
 
 '            Return mysqli

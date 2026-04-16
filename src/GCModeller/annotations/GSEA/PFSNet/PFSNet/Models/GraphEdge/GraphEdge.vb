@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 30 (56.60%)
+    ' Comment Lines: 16 (30.19%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (13.21%)
+    '     File Size: 1.97 KB
+
+
     '     Class GraphEdge
     ' 
     '         Properties: g1, g2, isSelfLoop, pathwayID

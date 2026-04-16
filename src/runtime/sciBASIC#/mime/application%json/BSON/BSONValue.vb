@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97d8b66bbc12725c95aa03dc2175d6d8, mime\application%json\BSON\BSONValue.vb"
+﻿#Region "Microsoft.VisualBasic::de04640d54f96532f2dc7274cee9ef02, mime\application%json\BSON\BSONValue.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 310
+    '    Code Lines: 261 (84.19%)
+    ' Comment Lines: 1 (0.32%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 48 (15.48%)
+    '     File Size: 11.15 KB
+
+
     '     Class BSONValue
     ' 
     '         Properties: binaryValue, boolValue, dateTimeValue, doubleValue, int32Value
@@ -47,7 +59,8 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.Net.Http
-Imports stdNum = System.Math
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports std = System.Math
 
 Namespace BSON
 
@@ -79,6 +92,7 @@ Namespace BSON
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to double", valueType))
             End Get
         End Property
+
         Public ReadOnly Property int32Value() As Int32
             Get
                 Select Case valueType
@@ -87,12 +101,13 @@ Namespace BSON
                     Case ValueType.Int64
                         Return CType(_int64, Int32)
                     Case ValueType.[Double]
-                        Return CType(stdNum.Truncate(_double), Int32)
+                        Return CType(std.Truncate(_double), Int32)
                 End Select
 
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to Int32", valueType))
             End Get
         End Property
+
         Public ReadOnly Property int64Value() As Int64
             Get
                 Select Case valueType
@@ -101,12 +116,13 @@ Namespace BSON
                     Case ValueType.Int64
                         Return CType(_int64, Int64)
                     Case ValueType.[Double]
-                        Return CType(stdNum.Truncate(_double), Int64)
+                        Return CType(std.Truncate(_double), Int64)
                 End Select
 
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to Int64", valueType))
             End Get
         End Property
+
         Public ReadOnly Property binaryValue() As Byte()
             Get
                 Select Case valueType
@@ -117,6 +133,7 @@ Namespace BSON
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to binary", valueType))
             End Get
         End Property
+
         Public ReadOnly Property dateTimeValue() As DateTime
             Get
                 Select Case valueType
@@ -127,6 +144,7 @@ Namespace BSON
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to DateTime", valueType))
             End Get
         End Property
+
         Public ReadOnly Property stringValue() As [String]
             Get
                 Select Case valueType
@@ -147,6 +165,7 @@ Namespace BSON
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to string", valueType))
             End Get
         End Property
+
         Public ReadOnly Property boolValue() As Boolean
             Get
                 Select Case valueType
@@ -157,6 +176,7 @@ Namespace BSON
                 Throw New Exception(String.Format("Original type is {0}. Cannot convert from {0} to bool", valueType))
             End Get
         End Property
+
         Public ReadOnly Property isNone() As Boolean
             Get
                 Return valueType = ValueType.None
@@ -233,9 +253,9 @@ Namespace BSON
             _double = v
         End Sub
 
-        Public Sub New(v As [String])
-            valueType = ValueType.[String]
-            _string = v
+        Public Sub New(v As String)
+            valueType = ValueType.String
+            _string = Strings.Trim(v).Trim(ASCII.NUL)
         End Sub
 
         Public Sub New(v As Byte())
@@ -315,22 +335,24 @@ Namespace BSON
             End If
 
             Select Case obj.GetType
-                Case GetType(Int32)
-                    Return New BSONValue(CType(obj, Int32))
-                Case GetType(Int64)
+                Case GetType(Int32), GetType(Byte), GetType(Short), GetType(UShort)
+                    Return New BSONValue(CInt(obj))
+                Case GetType(Int64), GetType(UInt32)
                     Return New BSONValue(CType(obj, Int64))
                 Case GetType(Byte())
                     Return New BSONValue(DirectCast(obj, Byte()))
                 Case GetType(DateTime)
                     Return New BSONValue(CType(obj, DateTime))
-                Case GetType(String)
-                    Return New BSONValue(CType(obj, String))
+                Case GetType(String), GetType(Char)
+                    Return New BSONValue(CStr(obj))
                 Case GetType(Boolean)
                     Return New BSONValue(CType(obj, Boolean))
-                Case GetType(Double)
+                Case GetType(Double), GetType(Single), GetType(Decimal)
                     Return New BSONValue(CType(obj, Double))
                 Case GetType(BSONValue)
                     Return obj
+                Case GetType(ObjectId)
+                    Return New BSONValue(DirectCast(obj, ObjectId).value)
                 Case Else
                     Throw New InvalidCastException(obj.GetType.FullName)
             End Select

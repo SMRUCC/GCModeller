@@ -1,0 +1,114 @@
+{
+  "pvalue": 0,
+  "region": [{
+      "frequency": {
+        "A": 1,
+        "T": 0,
+        "G": 0,
+        "C": 0
+      },
+      "index": 0
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0,
+        "C": 1
+      },
+      "index": 1
+    },{
+      "frequency": {
+        "A": 0.375,
+        "T": 0,
+        "G": 0.625,
+        "C": 0
+      },
+      "index": 2
+    },{
+      "frequency": {
+        "A": 0.625,
+        "T": 0,
+        "G": 0,
+        "C": 0.375
+      },
+      "index": 3
+    },{
+      "frequency": {
+        "A": 0.25,
+        "T": 0.625,
+        "G": 0.125,
+        "C": 0
+      },
+      "index": 4
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 5
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 1,
+        "C": 0
+      },
+      "index": 6
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 7
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 1,
+        "G": 0,
+        "C": 0
+      },
+      "index": 8
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 0,
+        "C": 1
+      },
+      "index": 9
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0,
+        "G": 1,
+        "C": 0
+      },
+      "index": 10
+    },{
+      "frequency": {
+        "A": 0,
+        "T": 0.375,
+        "G": 0,
+        "C": 0
+      },
+      "index": 11
+    },{
+      "frequency": {
+        "A": 0.375,
+        "T": 0,
+        "G": 0,
+        "C": 0.625
+      },
+      "index": 12
+    }],
+  "score": 70.40384895391183,
+  "seeds": {
+    "MSA": ["ACACGTGTTCGTA","ACACATGTTCGTA","ACACATGTTCGTA","ACGATTGTTCG-C","ACGATTGTTCG-C","ACGATTGTTCG-C","ACGATTGTTCG-C","ACGATTGTTCG-C"],
+    "cost": 1092,
+    "names": ["","","","","","","",""]
+  }
+}

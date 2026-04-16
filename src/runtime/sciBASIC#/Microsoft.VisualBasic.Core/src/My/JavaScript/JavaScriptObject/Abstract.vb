@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::69208aca7368006f7640b7ed4621afe0, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::5f4d3515f0fcf271e7e086e1b3283446, Microsoft.VisualBasic.Core\src\My\JavaScript\JavaScriptObject\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 10 (27.78%)
+    ' Comment Lines: 21 (58.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (13.89%)
+    '     File Size: 1013 B
+
+
     '     Interface IJavaScriptObjectAccessor
     ' 
     '         Properties: Accessor
@@ -50,8 +62,22 @@
 
 Namespace My.JavaScript
 
+    ''' <summary>
+    ''' Interface helper for get value by name
+    ''' </summary>
     Public Interface IJavaScriptObjectAccessor
+
+        ''' <summary>
+        ''' get member value by name
+        ''' </summary>
+        ''' <param name="name">
+        ''' the member name, could be property name or field name
+        ''' </param>
+        ''' <returns>
+        ''' the object member value
+        ''' </returns>
         Default Property Accessor(name As String) As Object
+
     End Interface
 
     Public Enum MemberAccessorResult

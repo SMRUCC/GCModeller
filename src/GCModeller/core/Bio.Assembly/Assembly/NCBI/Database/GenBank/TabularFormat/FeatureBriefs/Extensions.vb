@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d1bacdba12cad5d73ae96467339b104, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::b4987cd65b7ff57273c52ba7d2655a9a, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 12 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (20.00%)
+    '     File Size: 502 B
+
+
     '     Module Extensions
     ' 
     '         Function: COGs
@@ -41,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 
 Namespace Assembly.NCBI.GenBank.TabularFormat

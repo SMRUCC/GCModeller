@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df2b637060af1ce7e3753911c8b07482, mime\application%pdf\PdfFileWriter\PDF\PdfTableStyle.vb"
+﻿#Region "Microsoft.VisualBasic::76f5245e484f082df09c49df5b589b1d, mime\application%pdf\PdfFileWriter\PDF\PdfTableStyle.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 304
+    '    Code Lines: 86 (28.29%)
+    ' Comment Lines: 187 (61.51%)
+    '    - Xml Docs: 87.17%
+    ' 
+    '   Blank Lines: 31 (10.20%)
+    '     File Size: 10.80 KB
+
+
     '     Class PdfTableStyle
     ' 
     '         Properties: Alignment, BackgroundColor, BarcodeBarWidth, BarcodeHeight, Font
@@ -46,7 +58,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -69,7 +81,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Drawing
@@ -289,7 +301,7 @@ Imports System.Globalization
         ''' PDF table style default constructor.
         ''' </summary>
         ''' <param name="Font">Font</param>
-        Public Sub New(ByVal Optional Font As PdfFont = Nothing)
+        Public Sub New(Optional Font As PdfFont = Nothing)
             Alignment = ContentAlignment.TopLeft
             BackgroundColor = Color.Empty
             TextBoxLineBreakFactor = 0.5
@@ -306,7 +318,7 @@ Imports System.Globalization
         ''' PDF table style constructor based on table's default cell style.
         ''' </summary>
         ''' <param name="Table">Table</param>
-        Public Sub New(ByVal Table As PdfTable)
+        Public Sub New(Table As PdfTable)
             Copy(Table.DefaultCellStyle)
             Return
         End Sub
@@ -315,18 +327,18 @@ Imports System.Globalization
         ''' PDF table style constructor as a copy of another style.
         ''' </summary>
         ''' <param name="Other">Copy constructor.</param>
-        Public Sub New(ByVal Other As PdfTableStyle)
+        Public Sub New(Other As PdfTableStyle)
             Copy(Other)
             Return
         End Sub
 
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+        
         ''' <summary>
         ''' Copy one style to another 
         ''' </summary>
         ''' <param name="SourceStyle">Source style</param>
-        '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-        Public Sub Copy(ByVal SourceStyle As PdfTableStyle)
+        
+        Public Sub Copy(SourceStyle As PdfTableStyle)
             Alignment = SourceStyle.Alignment
             BackgroundColor = SourceStyle.BackgroundColor
             BarcodeBarWidth = SourceStyle.BarcodeBarWidth

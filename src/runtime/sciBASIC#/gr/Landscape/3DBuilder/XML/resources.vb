@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4c389cbeacac3e434f030ff8032624e5, gr\Landscape\3DBuilder\XML\resources.vb"
+﻿#Region "Microsoft.VisualBasic::fd8f660e1491d5bb44fc0a9fc1c75801, gr\Landscape\3DBuilder\XML\resources.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 57
+    '    Code Lines: 38 (66.67%)
+    ' Comment Lines: 4 (7.02%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (26.32%)
+    '     File Size: 1.57 KB
+
+
     '     Class base
     ' 
     '         Properties: displaycolor, name
@@ -62,7 +74,6 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Landscape
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Vendor_3mf.XML

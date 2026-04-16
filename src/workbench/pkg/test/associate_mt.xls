@@ -1,0 +1,2 @@
+KEGG	pathway_Description	Compounds_KO	Genes_ko	pathway_links
+ko04974	Protein digestion and absorption	['C00197', 'C18319', 'C00078']	dict_keys(['K06238', 'K14211'])	http://www.genome.jp/kegg-bin/show_pathway?ko04974/C00197%09blue/C18319%09red/C00078%09blue/K06238%09yellow/K14211%09yellow/

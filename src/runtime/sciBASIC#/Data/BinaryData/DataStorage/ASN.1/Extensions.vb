@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 18 (69.23%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (30.77%)
+    '     File Size: 1.06 KB
+
+
     '     Module Extensions
     ' 
     '         Function: hexByte, stringCut

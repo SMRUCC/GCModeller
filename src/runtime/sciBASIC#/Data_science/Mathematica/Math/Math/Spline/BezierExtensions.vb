@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c397db5dec68966b92f48a7d91620b01, Data_science\Mathematica\Math\Math\Spline\BezierExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::dd97b6445ca85f019845d8c669b3d5df, Data_science\Mathematica\Math\Math\Spline\BezierExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 69 (70.41%)
+    ' Comment Lines: 15 (15.31%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 14 (14.29%)
+    '     File Size: 3.65 KB
+
+
     '     Module BezierExtensions
     ' 
-    '         Function: BezierSmoothInterpolation, doInterpolation
+    '         Function: BezierSmoothInterpolation, Interpolation
     ' 
     ' 
     ' /********************************************************************************/
@@ -77,10 +89,10 @@ Namespace Interpolation
 
             If parallel Then
                 LQuery = LinqAPI.Exec(Of SeqValue(Of Double())) <=
- _
+                                                                  _
                     From win
                     In slideWindows.AsParallel
-                    Let value = doInterpolation(
+                    Let value = Interpolation(
                         win.Items, iteration)
                     Select x = New SeqValue(Of Double()) With {
                         .i = win.Index,
@@ -89,10 +101,10 @@ Namespace Interpolation
                     Order By x.i Ascending
             Else
                 LQuery = LinqAPI.Exec(Of SeqValue(Of Double())) <=
- _
+                                                                  _
                     From win As SlideWindow(Of Double)
                     In slideWindows
-                    Let value = doInterpolation(
+                    Let value = Interpolation(
                         win.Items, iteration)
                     Select x = New SeqValue(Of Double()) With {
                         .i = win.Index,
@@ -116,7 +128,7 @@ Namespace Interpolation
         ''' <param name="iteration"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function doInterpolation(X#(), iteration%) As Double()
+        Private Function Interpolation(X#(), iteration%) As Double()
             Dim data As Double() = New Double(2) {}
 
             data(0) = X(Scan0)

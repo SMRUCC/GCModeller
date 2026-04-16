@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 82 (50.00%)
+    ' Comment Lines: 60 (36.59%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 8.17 KB
+
+
     ' Class functionalstatus
     ' 
     '     Properties: DB_ID, functionalStatusType, functionalStatusType_class, structuralVariant, structuralVariant_class

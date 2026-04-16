@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a47f4f7002876fe97b350252f7ca9fda, visualize\SyntenyVisual\DeviceModel.vb"
+﻿#Region "Microsoft.VisualBasic::2592ede85928664a7480d9adf981dead, visualize\SyntenyVisual\DeviceModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 67 (69.79%)
+    ' Comment Lines: 15 (15.62%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (14.58%)
+    '     File Size: 3.05 KB
+
+
     ' Class DeviceModel
     ' 
     '     Properties: Colors, DefaultColor, Margin, Meta, Orders
@@ -50,7 +62,7 @@
 
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.FileIO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Serialization.JSON

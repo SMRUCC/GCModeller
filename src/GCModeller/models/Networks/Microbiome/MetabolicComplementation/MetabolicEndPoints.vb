@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 56
+    '    Code Lines: 40 (71.43%)
+    ' Comment Lines: 6 (10.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (17.86%)
+    '     File Size: 2.06 KB
+
+
     ' Class MetabolicEndPoints
     ' 
     '     Properties: secrete, taxonomy, uptakes

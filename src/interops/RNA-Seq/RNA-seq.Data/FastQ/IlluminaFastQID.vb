@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 60 (34.48%)
+    ' Comment Lines: 96 (55.17%)
+    '    - Xml Docs: 72.92%
+    ' 
+    '   Blank Lines: 18 (10.34%)
+    '     File Size: 6.47 KB
+
+
     '     Class IlluminaFastQID
     ' 
     '         Properties: ControlBits, Filtered, FlowCellID, FlowCellLane, IndexSequence

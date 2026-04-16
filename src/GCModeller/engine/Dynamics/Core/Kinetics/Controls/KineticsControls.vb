@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b84d328e67ae76fd1212892c70327b1, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
+﻿#Region "Microsoft.VisualBasic::de26dbccc2a58da15d8406c995ba9bb3, engine\Dynamics\Core\Kinetics\Controls\KineticsControls.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 80 (66.12%)
+    ' Comment Lines: 23 (19.01%)
+    '    - Xml Docs: 91.30%
+    ' 
+    '   Blank Lines: 18 (14.88%)
+    '     File Size: 4.38 KB
+
+
     '     Class KineticsControls
+    ' 
+    '         Properties: coefficient, parameters
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: getMass, ToString
+    ' 
+    '     Class KineticsOverlapsControls
     ' 
     '         Properties: coefficient
     ' 
@@ -43,8 +62,11 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
 Imports Microsoft.VisualBasic.Math.Scripting.MathExpression.Impl
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Core
 
@@ -64,7 +86,7 @@ Namespace Core
                 End If
 
                 Dim i = inhibition.Sum(Function(v) v.coefficient * v.mass.Value)
-                Dim a = lambda(getMass)
+                Dim a = lambda(fp_getMass)
 
                 ' 抑制的总量已经大于等于激活的总量的时候，返回零值，
                 ' 则反应过程可能不会发生
@@ -72,20 +94,92 @@ Namespace Core
             End Get
         End Property
 
+        ''' <summary>
+        ''' lambda function
+        ''' </summary>
         ReadOnly lambda As DynamicInvoke
-        ReadOnly getMass As Func(Of String, Double)
+        ReadOnly env As MassTable
         ReadOnly raw As Expression
+        ReadOnly fp_getMass As Func(Of String, Double) = AddressOf getMass
+        ''' <summary>
+        ''' debug view of the kinetics function parameters
+        ''' </summary>
+        ReadOnly pars As Dictionary(Of String, String)
 
-        Sub New(env As Vessel, lambda As DynamicInvoke, raw As Expression)
+        ''' <summary>
+        ''' get kinetics parameter mass reference names
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property parameters As IEnumerable(Of String)
+            Get
+                Return pars.Values
+            End Get
+        End Property
+
+        Sub New(env As MassTable, lambda As DynamicInvoke, raw As Expression, cellular_id As String, Optional pars As String() = Nothing)
             Me.lambda = lambda
             Me.raw = raw
-            Me.getMass = Function(id)
-                             Return env.m_massIndex(id).Value
-                         End Function
+            Me.env = env
+            Me.pars = pars.SafeQuery _
+                .Distinct _
+                .ToDictionary(Function(s) s,
+                              Function(s)
+                                  If s.IsNumeric(, True) Then
+                                      Return s
+                                  Else
+                                      Return s & "@" & cellular_id
+                                  End If
+                              End Function)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function getMass(id As String) As Double
+            Dim parId As String = pars(id)
+            Dim factor As Factor = Me.env(parId)
+
+            Return factor.Value
+        End Function
+
+        Public Overrides Function ToString() As String
+            Return "[kinetics] " & raw.ToString & If(pars.IsNullOrEmpty, "", pars.GetJson)
+        End Function
+    End Class
+
+    Public Class KineticsOverlapsControls : Inherits Controls
+
+        Public Overrides ReadOnly Property coefficient As Double
+            Get
+                Dim i = inhibition.Sum(Function(v) v.coefficient * v.mass.Value)
+                Dim a = Aggregate k As KineticsControls
+                        In kinetics
+                        Into Sum(k.coefficient)
+
+                Return Math.Max((a + baseline) - i, 0)
+            End Get
+        End Property
+
+        Friend ReadOnly kinetics As KineticsControls()
+
+        ''' <summary>
+        ''' get kinetics parameter mass reference names
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Iterator Property parameters As IEnumerable(Of String)
+            Get
+                For Each overlap As KineticsControls In kinetics
+                    For Each name As String In overlap.parameters
+                        Yield name
+                    Next
+                Next
+            End Get
+        End Property
+
+        Sub New(overlaps As IEnumerable(Of KineticsControls))
+            kinetics = overlaps.ToArray
         End Sub
 
         Public Overrides Function ToString() As String
-            Return raw.ToString
+            Return $"[overlaps] {kinetics.Length} kinetics"
         End Function
     End Class
 End Namespace

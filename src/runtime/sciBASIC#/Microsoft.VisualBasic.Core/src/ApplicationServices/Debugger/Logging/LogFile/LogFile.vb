@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::497315c756a0f8b0308e302819717da3, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\LogFile\LogFile.vb"
+﻿#Region "Microsoft.VisualBasic::000b0c03751a065618cb26309dcec310, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\LogFile\LogFile.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 283
+    '    Code Lines: 178 (62.90%)
+    ' Comment Lines: 60 (21.20%)
+    '    - Xml Docs: 71.67%
+    ' 
+    '   Blank Lines: 45 (15.90%)
+    '     File Size: 11.68 KB
+
+
     '     Class LogFile
     ' 
     '         Properties: fileName, filePath, MimeType, NowTimeNormalizedString
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: SaveLog, SystemInfo, ToString
+    '         Function: openFile, SaveLog, SystemInfo, ToString
     ' 
-    '         Sub: (+2 Overloads) Dispose, info, log, (+2 Overloads) LogException, Save
-    '              (+4 Overloads) WriteLine
+    '         Sub: Debug, (+2 Overloads) Dispose, info, (+2 Overloads) log, (+2 Overloads) LogException
+    '              Save, (+2 Overloads) Trace, (+4 Overloads) WriteLine
     ' 
     ' 
     ' /********************************************************************************/
@@ -77,6 +89,7 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public ReadOnly Property fileName As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return filePath.BaseName
             End Get
@@ -90,7 +103,13 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <remarks></remarks>
         Public Shared ReadOnly Property NowTimeNormalizedString As String
             Get
-                Return $"{Format(Now.Month, "00")}{ Format(Now.Day, "00")}{Format(Now.Hour, "00")}{Format(Now.Minute, "00")}{Format(Now.Second, "00")}"
+                With DateTime.UtcNow
+                    Return New Integer() { .Month, .Day, .Hour, .Minute, .Second} _
+                        .Select(Function(i32)
+                                    Return i32.ToString.PadLeft(2, "0"c)
+                                End Function) _
+                        .JoinBy("")
+                End With
             End Get
         End Property
 
@@ -112,16 +131,45 @@ Namespace ApplicationServices.Debugging.Logging
                        Optional autoFlush As Boolean = True,
                        Optional bufferSize As Integer = 1024,
                        Optional append As Boolean = True,
+                       Optional appendHeader As Boolean = True,
                        Optional split As LoggingDriver = Nothing)
 
-            Dim file As New FileStream(path, If(append, FileMode.Append, FileMode.Truncate))
-
-            Me.buffer = New StreamWriter(file, Encoding.UTF8, bufferSize) With {
+            Me.buffer = New StreamWriter(openFile(path, append), Encoding.UTF8, bufferSize) With {
                 .AutoFlush = autoFlush
             }
-            Me.buffer.WriteLine($"//{vbTab}[{Now.ToString}]{vbTab}{New String("=", 25)}  START WRITE LOGGING SECTION  {New String("=", 25)}" & vbCrLf)
-            Me.filePath = FileIO.FileSystem.GetFileInfo(path).FullName
+
+            If appendHeader Then
+                Me.buffer.WriteLine(value:=$"//{vbTab}[{DateTime.UtcNow.ToString}]{vbTab}{New String("=", 25)}  START WRITE LOGGING SECTION  {New String("=", 25)}")
+                Me.buffer.WriteLine()
+            End If
+
+            Me.filePath = path.GetFullPath
             Me.split = split
+        End Sub
+
+        Private Shared Function openFile(path As String, append As Boolean) As FileStream
+            If Not append Then
+                Call "".SaveTo(path)
+            ElseIf Not path.FileExists Then
+                Call "".SaveTo(path)
+            End If
+
+            Return New FileStream(path, If(append, FileMode.Append, FileMode.Truncate), access:=FileAccess.Write, share:=FileShare.ReadWrite)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Trace(toString As Func(Of String, Byte(), String), format As String, ParamArray bytes As Byte())
+            Call Trace(toString(format, bytes))
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Trace(format As String, ParamArray args As Object())
+            Call Me.log(MSG_TYPES.INF, String.Format(format, args))
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub Debug(format As String, ParamArray args As Object())
+            Call Me.log(MSG_TYPES.DEBUG, String.Format(format, args))
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -131,6 +179,11 @@ Namespace ApplicationServices.Debugging.Logging
             If Not split Is Nothing Then
                 Call split(obj, msg, MSG_TYPES.INF)
             End If
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub log(level As MSG_TYPES, msg As StringBuilder, <CallerMemberName> Optional obj$ = Nothing)
+            Call log(level, msg.ToString, obj)
         End Sub
 
         Public Sub log(level As MSG_TYPES, msg As String, <CallerMemberName> Optional obj$ = Nothing)
@@ -165,16 +218,21 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="msg"></param>
         ''' <param name="obj"></param>
         ''' <param name="type"></param>
-        Public Sub WriteLine(msg As String, <CallerMemberName> Optional obj As String = Nothing, Optional type As MSG_TYPES = MSG_TYPES.INF)
+        Public Sub WriteLine(msg As String,
+                             <CallerMemberName>
+                             Optional obj As String = Nothing,
+                             Optional type As MSG_TYPES = MSG_TYPES.INF)
+
             Dim log As New LogEntry With {
                 .message = msg,
                 .[object] = obj,
-                .time = Now,
+                .time = DateTime.UtcNow,
                 .level = type
             }
 
             buffer.WriteLine(log.ToString)
             counts += 1
+            saved = False
         End Sub
 
         Public Overrides Function ToString() As String
@@ -188,8 +246,7 @@ Namespace ApplicationServices.Debugging.Logging
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteLine(s As String())
-            Dim str As String = String.Join(vbCrLf, s)
-            Call WriteLine(str, type:=MSG_TYPES.INF, obj:="")
+            Call WriteLine(String.Join(vbCrLf, s), type:=MSG_TYPES.INF, obj:="")
         End Sub
 
         ''' <summary>
@@ -198,6 +255,8 @@ Namespace ApplicationServices.Debugging.Logging
         ''' <param name="s"></param>
         ''' <param name="args">{[Object] As String, Optional Type As MsgType = MsgType.INF, Optional WriteToScreen As Boolean = True}</param>
         ''' <remarks></remarks>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub WriteLine(s As String, ParamArray args() As String)
             Call WriteLine(s, type:=MSG_TYPES.INF, obj:=If(String.IsNullOrEmpty(args(0)), "", args(0)))
         End Sub
@@ -207,26 +266,33 @@ Namespace ApplicationServices.Debugging.Logging
         ''' </summary>
         ''' <returns></returns>
         Public Shared Function SystemInfo() As String
-            Dim sBuilder As New StringBuilder(1024)
+            Dim sb As New StringBuilder(1024)
 
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.BuildVersion)}:={OSVersionInfo.BuildVersion}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.Edition)}:={OSVersionInfo.Edition}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.MajorVersion)}:={OSVersionInfo.MajorVersion}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.MinorVersion)}:={OSVersionInfo.MinorVersion}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.WindowsName)}:={OSVersionInfo.WindowsName}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.OSBits)}:={OSVersionInfo.OSBits}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.ProcessorBits)}:={OSVersionInfo.ProcessorBits}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.ProgramBits)}:={OSVersionInfo.ProgramBits}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.RevisionVersion)}:={OSVersionInfo.RevisionVersion}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.ServicePack)}:={OSVersionInfo.ServicePack}")
-            Call sBuilder.AppendLine($"{NameOf(OSVersionInfo.Version)}:={OSVersionInfo.Version.ToString}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.BuildVersion)}:={OSVersionInfo.BuildVersion}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.Edition)}:={OSVersionInfo.Edition}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.MajorVersion)}:={OSVersionInfo.MajorVersion}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.MinorVersion)}:={OSVersionInfo.MinorVersion}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.WindowsName)}:={OSVersionInfo.WindowsName}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.OSBits)}:={OSVersionInfo.OSBits}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.ProcessorBits)}:={OSVersionInfo.ProcessorBits}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.ProgramBits)}:={OSVersionInfo.ProgramBits}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.RevisionVersion)}:={OSVersionInfo.RevisionVersion}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.ServicePack)}:={OSVersionInfo.ServicePack}")
+            Call sb.AppendLine($"{NameOf(OSVersionInfo.Version)}:={OSVersionInfo.Version.ToString}")
 
-            Return sBuilder.ToString
+            Return sb.ToString
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Sub Save()
-            Call SaveLog()
+            If saved Then
+                Call buffer.Flush()
+            Else
+                Call SaveLog()
+            End If
         End Sub
+
+        Dim saved As Boolean = False
 
         ''' <summary>
         ''' 会自动拓展已经存在的日志数据
@@ -236,6 +302,8 @@ Namespace ApplicationServices.Debugging.Logging
             Call buffer.WriteLine(vbCrLf & $"//{vbTab}{New String("=", 25)}  END OF LOG FILE  {New String("=", 25)}")
             Call buffer.WriteLine(vbCrLf)
             Call buffer.Flush()
+
+            saved = True
 
             Return True
         End Function

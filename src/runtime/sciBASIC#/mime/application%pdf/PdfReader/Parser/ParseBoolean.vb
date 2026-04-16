@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7f5c10956c8c208fd7676eee91a1ac8, mime\application%pdf\PdfReader\Parser\ParseBoolean.vb"
+﻿#Region "Microsoft.VisualBasic::6b81b01bc823a77fadee0ed3c4611974, mime\application%pdf\PdfReader\Parser\ParseBoolean.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 17 (85.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 473 B
+
+
     '     Class ParseBoolean
     ' 
     '         Properties: Value
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Value As Boolean
 
-        Public Sub New(ByVal value As Boolean)
+        Public Sub New(value As Boolean)
             Me.Value = value
         End Sub
 
@@ -56,7 +68,7 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As Boolean)
+            Private Set(value As Boolean)
                 _Value = value
             End Set
         End Property

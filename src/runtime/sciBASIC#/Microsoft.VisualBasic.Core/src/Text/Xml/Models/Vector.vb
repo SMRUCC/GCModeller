@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66246ecfcb788370cee68475bb8589c9, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::c3d4bd573259f24cbf8340b36d432070, Microsoft.VisualBasic.Core\src\Text\Xml\Models\Vector.vb"
 
     ' Author:
     ' 
@@ -31,17 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 126
+    '    Code Lines: 84 (66.67%)
+    ' Comment Lines: 23 (18.25%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (15.08%)
+    '     File Size: 4.44 KB
+
+
     '     Class NumericVector
     ' 
     '         Properties: Length, name, vector
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, SequenceEqual, ToString
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: GenericEnumerator, SequenceEqual, ToString
     ' 
     '     Class TermsVector
     ' 
     '         Properties: terms
     ' 
-    '         Function: GenericEnumerator, GetEnumerator, ToString
+    '         Function: GenericEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,6 +63,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -60,13 +74,13 @@ Namespace Text.Xml.Models
     ''' A <see cref="Double"/> type numeric sequence container
     ''' </summary>
     <XmlType("numerics")>
-    Public Class NumericVector : Implements Enumeration(Of Double)
+    Public Class NumericVector : Implements Enumeration(Of Double), INamedValue, IReadOnlyId
 
         ''' <summary>
         ''' 可以用这个属性来简单的标记这个向量所属的对象名称
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property name As String
+        <XmlAttribute> Public Property name As String Implements INamedValue.Key, IReadOnlyId.Identity
         ''' <summary>
         ''' 存储于XML文档之中的数据向量
         ''' </summary>
@@ -95,9 +109,25 @@ Namespace Text.Xml.Models
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return CInt(vector?.Length)
+                If vector Is Nothing Then
+                    Return 0
+                Else
+                    Return vector.Length
+                End If
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        Sub New(ParamArray v As Double())
+            vector = v
+        End Sub
+
+        Sub New(id As String, ParamArray v As Double())
+            name = id
+            vector = v
+        End Sub
 
         Public Overrides Function ToString() As String
             If name.StringEmpty Then
@@ -138,13 +168,12 @@ Namespace Text.Xml.Models
         Public Function GenericEnumerator() As IEnumerator(Of Double) Implements Enumeration(Of Double).GenericEnumerator
             Return vector.AsEnumerable.GetEnumerator
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Double).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 
-    Public Class TermsVector : Implements Enumeration(Of Double)
+    ''' <summary>
+    ''' a collection of the string terms 
+    ''' </summary>
+    Public Class TermsVector : Implements Enumeration(Of String)
 
         <XmlAttribute>
         Public Property terms As String()
@@ -153,12 +182,8 @@ Namespace Text.Xml.Models
             Return terms.GetJson
         End Function
 
-        Public Function GenericEnumerator() As IEnumerator(Of Double) Implements Enumeration(Of Double).GenericEnumerator
+        Public Function GenericEnumerator() As IEnumerator(Of String) Implements Enumeration(Of String).GenericEnumerator
             Return terms.AsEnumerable.GetEnumerator
-        End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of Double).GetEnumerator
-            Yield GenericEnumerator()
         End Function
     End Class
 End Namespace

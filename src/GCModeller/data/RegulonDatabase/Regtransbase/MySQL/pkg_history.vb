@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 95 (52.20%)
+    ' Comment Lines: 65 (35.71%)
+    '    - Xml Docs: 95.38%
+    ' 
+    '   Blank Lines: 22 (12.09%)
+    '     File Size: 11.77 KB
+
+
     ' Class pkg_history
     ' 
     '     Properties: event_date, event_operation, pkg_guid, user_by_email, user_by_id

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 62 (67.39%)
+    ' Comment Lines: 9 (9.78%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 21 (22.83%)
+    '     File Size: 2.59 KB
+
+
     '     Class RegLossObjLogistic
     ' 
     '         Function: (+2 Overloads) predTransform, sigmoid

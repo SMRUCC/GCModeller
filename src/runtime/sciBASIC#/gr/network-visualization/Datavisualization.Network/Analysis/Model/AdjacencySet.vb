@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46fae650107202e800050df3d9ad88f3, gr\network-visualization\Datavisualization.Network\Analysis\Model\AdjacencySet.vb"
+﻿#Region "Microsoft.VisualBasic::4eea0d51dadad7dcc266f18652226df3, gr\network-visualization\Datavisualization.Network\Analysis\Model\AdjacencySet.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 64 (60.95%)
+    ' Comment Lines: 22 (20.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (18.10%)
+    '     File Size: 3.80 KB
+
+
     '     Class AdjacencySet
     ' 
     '         Properties: Count, U
+    ' 
+    '         Constructor: (+2 Overloads) Sub New
     ' 
     '         Function: Clone, (+2 Overloads) EnumerateAllEdges, hasNeighbor, ToString
     ' 
@@ -48,17 +62,17 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Analysis.Model
 
     ''' <summary>
-    ''' 在这个集合中，所有的<see cref="IInteraction.source"/>都是一样的
+    ''' 在这个集合中，所有的<see cref=" SparseGraph.IInteraction.source"/>都是一样的
     ''' </summary>
-    Public Class AdjacencySet(Of Edge As IInteraction) : Implements ICloneable(Of AdjacencySet(Of Edge))
+    Public Class AdjacencySet(Of Edge As SparseGraph.IInteraction) : Implements ICloneable(Of AdjacencySet(Of Edge))
 
         ''' <summary>
         ''' ``{V => edges}``
@@ -78,6 +92,20 @@ Namespace Analysis.Model
             End Get
         End Property
 
+        Public Sub New()
+
+        End Sub
+
+        Sub New(label As String)
+            U = label
+        End Sub
+
+        ''' <summary>
+        ''' check the input node <paramref name="i"/> is a 
+        ''' connected adjacent node to current node vertex.
+        ''' </summary>
+        ''' <param name="i"></param>
+        ''' <returns></returns>
         Public Function hasNeighbor(i As Node) As Boolean
             Return EnumerateAllEdges.Any(Function(link) link.source = i.label OrElse link.target = i.label)
         End Function

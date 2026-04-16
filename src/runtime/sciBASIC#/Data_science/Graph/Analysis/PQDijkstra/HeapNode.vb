@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 12 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (20.00%)
+    '     File Size: 338 B
+
+
     '     Structure HeapNode
     ' 
     '         Constructor: (+1 Overloads) Sub New

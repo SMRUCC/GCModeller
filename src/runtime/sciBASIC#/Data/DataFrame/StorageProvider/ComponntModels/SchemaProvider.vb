@@ -1,63 +1,76 @@
-﻿#Region "Microsoft.VisualBasic::3db59065890de08eae250e48a3b71b40, Data\DataFrame\StorageProvider\ComponntModels\SchemaProvider.vb"
+﻿#Region "Microsoft.VisualBasic::8964bc91dacf8a9025672864128f198b, Data\DataFrame\StorageProvider\ComponntModels\SchemaProvider.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class SchemaProvider
-' 
-'         Properties: CollectionColumns, Columns, DeclaringType, EnumColumns, HasMetaAttributes
-'                     KeyValuePairColumns, MetaAttributes, Raw
-' 
-'         Constructor: (+1 Overloads) Sub New
-' 
-'         Function: __columnType, (+2 Overloads) CacheOrdinal, CheckFieldConsistent, ContainsField, ContainsProperty
-'                   CopyReadDataFromObject, CopyWriteDataToObject, (+2 Overloads) CreateObject, CreateObjectInternal, GetCollectionColumns
-'                   GetColumns, GetEnumColumns, GetEnumerator, GetField, GetKeyValuePairColumn
-'                   getMeta, GetMetaAttributeColumn, gets, getWriteProvider, IEnumerable_GetEnumerator
-'                   ToString
-' 
-'         Sub: Remove
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 539
+    '    Code Lines: 384 (71.24%)
+    ' Comment Lines: 86 (15.96%)
+    '    - Xml Docs: 97.67%
+    ' 
+    '   Blank Lines: 69 (12.80%)
+    '     File Size: 22.85 KB
+
+
+    '     Class SchemaProvider
+    ' 
+    '         Properties: CollectionColumns, Columns, DeclaringType, EnumColumns, HasMetaAttributes
+    '                     KeyValuePairColumns, MetaAttributes, Raw
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: __columnType, (+2 Overloads) CacheOrdinal, CheckFieldConsistent, CheckFieldMissing, ContainsField
+    '                   ContainsProperty, CopyReadDataFromObject, CopyWriteDataToObject, (+2 Overloads) CreateObject, CreateObjectInternal
+    '                   GetCollectionColumns, GetColumns, GetEnumColumns, GetEnumerator, GetField
+    '                   GetKeyValuePairColumn, getMeta, GetMetaAttributeColumn, gets, getWriteProvider
+    '                   IEnumerable_GetEnumerator, ToString
+    ' 
+    '         Sub: Remove
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.My
@@ -335,7 +348,7 @@ Namespace StorageProvider.ComponentModels
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function CacheOrdinal(df As DataFrame) As SchemaProvider
+        Public Function CacheOrdinal(df As DataFrameResolver) As SchemaProvider
             Return CacheOrdinal(AddressOf df.GetOrdinal)
         End Function
 
@@ -364,7 +377,7 @@ Namespace StorageProvider.ComponentModels
         Public Function ContainsField(name As String) As Boolean
             Dim LQuery As StorageProvider =
                 LinqAPI.DefaultFirst(Of Column) <=
- _
+                                                  _
                 From p As Column
                 In Columns
                 Where String.Equals(name, p.Name)
@@ -375,7 +388,7 @@ Namespace StorageProvider.ComponentModels
             End If
 
             LQuery = LinqAPI.DefaultFirst(Of CollectionColumn) <=
- _
+                                                                 _
                 From p As CollectionColumn
                 In Me.CollectionColumns
                 Where String.Equals(name, p.Name)
@@ -385,7 +398,7 @@ Namespace StorageProvider.ComponentModels
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Check of all the csv fields that could be mapped to the current clr object schema?
         ''' </summary>
         ''' <param name="headers">The csv header row.</param>
         ''' <returns>
@@ -405,6 +418,39 @@ Namespace StorageProvider.ComponentModels
             Next
 
             Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' Check of does any field is missing from the input csv table headers?
+        ''' </summary>
+        ''' <param name="headers"></param>
+        ''' <returns></returns>
+        Public Iterator Function CheckFieldMissing(headers As RowObject) As IEnumerable(Of String)
+            Dim checkIndex As Index(Of String) = headers.Indexing
+
+            For Each field As Column In Columns
+                If Not field.Name Like checkIndex Then
+                    Dim desc As String = field.GetDescription
+
+                    If desc.StringEmpty(, True) Then
+                        Yield $"Field: `{field.Name}` is missing!"
+                    Else
+                        Yield $"Field: `{field.Name}` is missing({desc})!"
+                    End If
+                End If
+            Next
+
+            For Each field As CollectionColumn In Me.CollectionColumns
+                If Not field.Name Like checkIndex Then
+                    Dim desc As String = field.GetDescription
+
+                    If desc.StringEmpty(, True) Then
+                        Yield $"Field: `{field.Name}` is missing!"
+                    Else
+                        Yield $"Field: `{field.Name}` is missing({desc})!"
+                    End If
+                End If
+            Next
         End Function
 
         ''' <summary>
@@ -442,7 +488,7 @@ Namespace StorageProvider.ComponentModels
         ''' <remarks>
         ''' 因为在这里使用了缓存,所以为了防止外部使用的时候意外修改缓存,在这里将这个函数的访问权限修改为仅内部使用
         ''' </remarks>
-        Friend Shared Function CreateObjectInternal(type As Type, Optional strict As Boolean = False) As SchemaProvider
+        Public Shared Function CreateObjectInternal(type As Type, Optional strict As Boolean = False) As SchemaProvider
             Dim staticCache = SingletonHolder(Of Dictionary(Of Type, SchemaProvider)).Instance
 
             If Not staticCache.ContainsKey(type) Then

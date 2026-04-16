@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67d97a05a6fb44748d7d2d3703871dc7, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
+﻿#Region "Microsoft.VisualBasic::58c72b9288e98df3004de34718afc8e2, core\Bio.Assembly\SequenceModel\FASTA\Reflection\FastaTools.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 275
+    '    Code Lines: 187 (68.00%)
+    ' Comment Lines: 53 (19.27%)
+    '    - Xml Docs: 90.57%
+    ' 
+    '   Blank Lines: 35 (12.73%)
+    '     File Size: 11.95 KB
+
+
     '     Module FastaExportMethods
     ' 
     '         Function: __seqCorrupted, Complement, (+3 Overloads) Export, FastaCorrupted, FastaTrimCorrupt
-    '                   Load, LoadFastaToken, (+3 Overloads) Merge, Reverse
+    '                   (+3 Overloads) Merge, Reverse
     '         Class SchemaCache
     ' 
     '             Properties: attributes, TitleFormat
@@ -175,6 +187,9 @@ Namespace SequenceModel.FASTA.Reflection
             Return files.Merge(trim, rawTitle)
         End Function
 
+        ''' <summary>
+        ''' invalid chars for check in sequence
+        ''' </summary>
         Const HTML_CHARS As String = "</>!\[].+:()0123456789"
 
         ''' <summary>
@@ -216,7 +231,7 @@ REDO:           seq = Mid(seq, i)
                 isCorrupted = True
 
                 If i = 0 OrElse n > fa.Length Then
-                    Call $"ERROR__{fa.SequenceData}  =>  {seq}".__DEBUG_ECHO
+                    Call $"ERROR__{fa.SequenceData}  =>  {seq}".debug
                     ' seq = ""
                     Exit Do
                 Else
@@ -238,7 +253,7 @@ REDO:           seq = Mid(seq, i)
             End If
 
             If isCorrupted Then
-                Call $"{fa.ToString} was corrupted, automatically corrected as {locus}!".__DEBUG_ECHO
+                Call $"{fa.ToString} was corrupted, automatically corrected as {locus}!".debug
             End If
 
             Return New FastaSeq With {
@@ -247,15 +262,6 @@ REDO:           seq = Mid(seq, i)
             }
         End Function
 
-        <ExportAPI("Read.Fasta")>
-        Public Function Load(path As String) As FastaFile
-            Return FastaFile.Read(path)
-        End Function
-
-        <ExportAPI("Read.FastaToken")>
-        Public Function LoadFastaToken(path As String) As FastaSeq
-            Return FastaSeq.Load(path)
-        End Function
 
         Public Function Export(Of T As ISequenceProvider)(source As IEnumerable(Of T)) As FastaFile
             Dim SchemaCache As SchemaCache = New SchemaCache(GetType(T))

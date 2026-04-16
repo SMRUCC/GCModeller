@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 81 (50.31%)
+    ' Comment Lines: 58 (36.02%)
+    '    - Xml Docs: 94.83%
+    ' 
+    '   Blank Lines: 22 (13.66%)
+    '     File Size: 6.91 KB
+
+
     ' Class matrix
     ' 
     '     Properties: freq_a, freq_c, freq_g, freq_t, num_col

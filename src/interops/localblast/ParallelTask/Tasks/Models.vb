@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 32
+    '    Code Lines: 23 (71.88%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (28.12%)
+    '     File Size: 977 B
+
+
     '     Class LogsPair
     ' 
     '         Function: GetFileName, GetXmlFileName, ToString

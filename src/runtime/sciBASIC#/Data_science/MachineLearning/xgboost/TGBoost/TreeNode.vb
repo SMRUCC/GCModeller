@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::26e484aa14744d4499745d7296e3a9a4, Data_science\MachineLearning\xgboost\TGBoost\TreeNode.vb"
+﻿#Region "Microsoft.VisualBasic::c05213e2e579f274491f78d88e79b431, Data_science\MachineLearning\xgboost\TGBoost\TreeNode.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 150 (75.38%)
+    ' Comment Lines: 24 (12.06%)
+    '    - Xml Docs: 12.50%
+    ' 
+    '   Blank Lines: 25 (12.56%)
+    '     File Size: 7.91 KB
+
 
     '     Class TreeNode
     ' 
@@ -165,7 +177,10 @@ Namespace train
         Public Overridable Sub set_categorical_feature_best_split(col As Integer, left_child_catvalue As List(Of Integer), gain As Double, nan_go_to As Double)
             best_gains(col) = gain
             best_nan_go_to(col) = nan_go_to
-            cat_feature_col_leftcatvalue(col.ToString) = left_child_catvalue
+
+            SyncLock cat_feature_col_leftcatvalue
+                cat_feature_col_leftcatvalue(col.ToString) = left_child_catvalue
+            End SyncLock
         End Sub
 
         Public Overridable Function get_best_feature_threshold_gain() As List(Of Double)

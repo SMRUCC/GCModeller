@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 80 (47.62%)
+    ' Comment Lines: 71 (42.26%)
+    '    - Xml Docs: 80.28%
+    ' 
+    '   Blank Lines: 17 (10.12%)
+    '     File Size: 4.28 KB
+
+
     ' Module NumericFormatHelper
     ' 
     '     Function: [Decimal], Float, SafeToString, SafeToStrings, (+9 Overloads) ToHexString

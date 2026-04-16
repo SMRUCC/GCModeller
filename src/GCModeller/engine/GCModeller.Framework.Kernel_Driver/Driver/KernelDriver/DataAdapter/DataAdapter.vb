@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 48 (64.86%)
+    ' Comment Lines: 18 (24.32%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (10.81%)
+    '     File Size: 3.36 KB
+
+
     ' Class DataAdapter
     ' 
     '     Function: __filterData, FetchData, ToString

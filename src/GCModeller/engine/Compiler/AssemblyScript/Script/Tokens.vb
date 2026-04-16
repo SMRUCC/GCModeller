@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 18 (36.73%)
+    ' Comment Lines: 27 (55.10%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 4 (8.16%)
+    '     File Size: 1014 B
+
+
     '     Enum Tokens
     ' 
     '         assign, comma, comment, keyword, number

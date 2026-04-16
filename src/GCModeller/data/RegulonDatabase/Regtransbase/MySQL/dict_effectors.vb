@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 78 (49.68%)
+    ' Comment Lines: 57 (36.31%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (14.01%)
+    '     File Size: 6.70 KB
+
+
     ' Class dict_effectors
     ' 
     '     Properties: description, effector_guid, effector_superclass_guid, name

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3cb5d222c6c842d3398418a300c319cf, R#\cytoscape_toolkit\xgmml.vb"
+﻿#Region "Microsoft.VisualBasic::34a8ddf1a3bcc3bbd0654b1d5e4a5339, R#\cytoscape_toolkit\xgmml.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 107 (75.35%)
+    ' Comment Lines: 19 (13.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (11.27%)
+    '     File Size: 6.01 KB
+
+
     ' Module xgmmlToolkit
     ' 
-    '     Function: loadXgmml, XgmmlRender
+    '     Function: loadXgmml, SetImages, write_xgmml, XgmmlRender
     ' 
     ' /********************************************************************************/
 
@@ -41,15 +53,22 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps
-Imports SMRUCC.genomics.Model.Network.KEGG.PathwayMaps.RenderStyles
+Imports SMRUCC.genomics.GCModeller.Workbench.KEGGReport
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps
+Imports SMRUCC.genomics.Model.Network.KEGG.GraphVisualizer.PathwayMaps.RenderStyles
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView.XGMML.File
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 
 <Package("xgmml")>
+<RTypeExport("xgmml", GetType(XGMMLgraph))>
 Module xgmmlToolkit
 
     ''' <summary>
@@ -60,6 +79,26 @@ Module xgmmlToolkit
     <ExportAPI("read.xgmml")>
     Public Function loadXgmml(file As String) As XGMMLgraph
         Return XGMML.RDFXml.Load(path:=file)
+    End Function
+
+    <ExportAPI("write.xgmml")>
+    Public Function write_xgmml(model As XGMMLgraph, file As String) As Boolean
+        Return model.GetXml.SaveTo(file)
+    End Function
+
+    <ExportAPI("set_images")>
+    Public Function SetImages(model As XGMMLgraph, dir As String, attr As String) As XGMMLgraph
+        Dim nodes As NodeRepresentation = NodeRepresentation.LoadFromFolder(dir)
+
+        For Each node As XGMMLnode In model.nodes
+            Dim attrKey As String = node(attr)
+            Dim filepath As String = nodes.imagefiles(attrKey)
+            Dim uri As String = $"org.cytoscape.ding.customgraphics.bitmap.URLImageCustomGraphics,2,file:/{filepath},bitmap image"
+
+            node.graphics.SetAttribute("NODE_CUSTOMGRAPHICS_1", uri)
+        Next
+
+        Return model
     End Function
 
     ''' <summary>
@@ -83,10 +122,15 @@ Module xgmmlToolkit
                                 Optional edgeBends As Boolean = False,
                                 Optional altStyle As Boolean = False,
                                 Optional rewriteGroupCategoryColors$ = "TSF",
-                                Optional enzymeColorSchema$ = "Set1:c8",
+                                Optional enzymeColorSchema$ = "Set1",
                                 Optional compoundColorSchema$ = "Clusters",
                                 Optional reactionKOMapping As Dictionary(Of String, String()) = Nothing,
-                                Optional compoundNames As Dictionary(Of String, String) = Nothing) As GraphicsData
+                                Optional renderStyle As Boolean = False,
+                                Optional nodes As NodeRepresentation = Nothing,
+                                Optional compoundNames As Dictionary(Of String, String) = Nothing,
+                                <RRawVectorArgument(TypeCodes.string)>
+                                Optional attrs As Object = "label|class",
+                                Optional env As Environment = Nothing) As GraphicsData
 
         Dim style As RenderStyle = Nothing
         Dim graph As NetworkGraph
@@ -96,7 +140,7 @@ Module xgmmlToolkit
         ElseIf model.GetType Is GetType(NetworkGraph) Then
             graph = model
         ElseIf model.GetType Is GetType(XGMMLgraph) Then
-            graph = DirectCast(model, XGMMLgraph).ToNetworkGraph("label", "class", "group.category", "group.category.color")
+            graph = DirectCast(model, XGMMLgraph).ToNetworkGraph(CLRVector.asCharacter(attrs))
         Else
             Return Nothing
         End If
@@ -114,14 +158,38 @@ Module xgmmlToolkit
             )
         End If
 
-        Return ReferenceMapRender.Render(
-            graph:=graph,
-            canvasSize:=size,
-            convexHull:=convexHull.Indexing,
-            compoundNames:=compoundNames,
-            edgeBends:=edgeBends,
-            renderStyle:=style,
-            reactionKOMapping:=reactionKOMapping
-        )
+        Dim driver As Drivers = env.getDriver
+
+        If renderStyle Then
+            Return ReferenceMapRender.Render(
+                graph:=graph,
+                canvasSize:=size,
+                convexHull:=convexHull.Indexing,
+                compoundNames:=compoundNames,
+                edgeBends:=edgeBends,
+                renderStyle:=style,
+                reactionKOMapping:=reactionKOMapping,
+                edgeColorByNodeMixed:=False,
+                driver:=driver
+            )
+        Else
+            Dim drawNode As DrawNodeShape = Nothing
+
+            If nodes IsNot Nothing Then
+                drawNode = AddressOf nodes.SetGraph(graph, "kegg").DrawNodeShape
+            End If
+
+            Return NetworkVisualizer.DrawImage(
+                net:=graph,
+                padding:="padding: 500px 500px 500px 500px;",
+                canvasSize:=size,
+                drawEdgeBends:=edgeBends,
+                labelerIterations:=-1,
+                minLinkWidth:=5,
+                drawNodeShape:=drawNode,
+                driver:=driver,
+                displayId:=False
+            )
+        End If
     End Function
 End Module

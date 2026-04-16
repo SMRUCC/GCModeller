@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::adf99b789e18b78119a04b1b038a2966, foundation\OBO_Foundry\Tree\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::866fa917787ac9b70455c4e4f369add7, foundation\OBO_Foundry\Tree\Builder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 98 (74.81%)
+    ' Comment Lines: 18 (13.74%)
+    '    - Xml Docs: 77.78%
+    ' 
+    '   Blank Lines: 15 (11.45%)
+    '     File Size: 5.40 KB
+
+
     '     Module Builder
     ' 
     '         Function: BuildTree, GetTermsByLevel, GetTermsLineage, TermLineages, vertexTable
@@ -59,9 +71,10 @@ Namespace Tree
             Dim vertex As Dictionary(Of String, GenericTree) = terms.vertexTable
 
             For Each v As GenericTree In vertex.Values
-                If Not v.data.ContainsKey("is_a") Then
+                If Not v.data.ContainsKey(RawTerm.Key_is_a) Then
                     v.is_a = {}
                 Else
+                    ' get all parent id of current node v
                     Dim is_a = v.data!is_a _
                         .Select(Function(value)
                                     Return value.StringSplit("\s*!\s*").First.Trim
@@ -71,6 +84,17 @@ Namespace Tree
                     v.is_a = is_a _
                         .Select(Function(id) vertex(id)) _
                         .ToArray
+
+                    ' add childs links
+                    For Each parent_id As String In is_a
+                        Dim parent = vertex(parent_id)
+
+                        If parent.direct_childrens Is Nothing Then
+                            parent.direct_childrens = New Dictionary(Of String, GenericTree)
+                        End If
+
+                        parent.direct_childrens(v.ID) = v
+                    Next
                 End If
             Next
 

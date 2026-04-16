@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7275a658e86c33c28d37a0fcb6f4c2c2, mime\application%pdf\PdfFileWriter\PDF\PdfExtGState.vb"
+﻿#Region "Microsoft.VisualBasic::cee8aabef390313427e2c811e2b681a4, mime\application%pdf\PdfFileWriter\PDF\PdfExtGState.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 34 (37.36%)
+    ' Comment Lines: 41 (45.05%)
+    '    - Xml Docs: 12.20%
+    ' 
+    '   Blank Lines: 16 (17.58%)
+    '     File Size: 2.93 KB
+
+
     '     Class PdfExtGState
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -40,7 +52,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -63,7 +75,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic
@@ -77,7 +89,7 @@ Imports System.Collections.Generic
         Friend Value As String
 
         ' search constructor
-        Friend Sub New(ByVal Key As String, ByVal Value As String)
+        Friend Sub New(Key As String, Value As String)
             ' save value
             Me.Key = Key
             Me.Value = Value
@@ -87,7 +99,7 @@ Imports System.Collections.Generic
         End Sub
 
         ' object constructor
-        Friend Sub New(ByVal Document As PdfDocument, ByVal Key As String, ByVal Value As String)
+        Friend Sub New(Document As PdfDocument, Key As String, Value As String)
             MyBase.New(Document, ObjectType.Dictionary, "/ExtGState")
             ' save value
             Me.Key = Key
@@ -98,7 +110,7 @@ Imports System.Collections.Generic
             Return
         End Sub
 
-        Friend Shared Function CreateExtGState(ByVal Document As PdfDocument, ByVal Key As String, ByVal Value As String) As PdfExtGState
+        Friend Shared Function CreateExtGState(Document As PdfDocument, Key As String, Value As String) As PdfExtGState
             If Document.ExtGStateArray Is Nothing Then Document.ExtGStateArray = New List(Of PdfExtGState)()
 
             ' search list for a duplicate
@@ -120,14 +132,14 @@ Imports System.Collections.Generic
             Return ExtGState
         End Function
 
-        ''' <summary>
-        ''' Compare two PdfExtGState objects.
-        ''' </summary>
-        ''' <param name="Other">Other object.</param>
-        ''' <returns>Compare result.</returns>
-        Public Function CompareTo(ByVal Other As PdfExtGState) As Integer Implements IComparable(Of PdfExtGState).CompareTo
-            Dim Cmp = String.Compare(Key, Other.Key)
-            If Cmp <> 0 Then Return Cmp
-            Return String.Compare(Value, Other.Value)
-        End Function
-    End Class
+    ''' <summary>
+    ''' Compare two PdfExtGState objects.
+    ''' </summary>
+    ''' <param name="Other">Other object.</param>
+    ''' <returns>Compare result.</returns>
+    Public Overloads Function CompareTo(Other As PdfExtGState) As Integer Implements IComparable(Of PdfExtGState).CompareTo
+        Dim Cmp = String.Compare(Key, Other.Key)
+        If Cmp <> 0 Then Return Cmp
+        Return String.Compare(Value, Other.Value)
+    End Function
+End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::435c4846ec9bb16b16fb18eb2e5ab5d4, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
+﻿#Region "Microsoft.VisualBasic::b66e3708c78132288a8d76ff74a348fd, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ChromosomePartitioningEntry.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 9
+    '    Code Lines: 7 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (22.22%)
+    '     File Size: 261 B
+
+
     ' Class ChromosomePartitioningEntry
     ' 
     '     Properties: ORF, PartitioningTag
@@ -39,8 +51,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 
 Public Class ChromosomePartitioningEntry
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 13 (21.67%)
+    ' Comment Lines: 44 (73.33%)
+    '    - Xml Docs: 88.64%
+    ' 
+    '   Blank Lines: 3 (5.00%)
+    '     File Size: 2.59 KB
+
+
     '     Class SignalTransductionNetwork
     ' 
     '         Properties: CheBMethylesterase, CheBPhosphate, ChemotaxisSensing, CheRMethyltransferase, CrossTalk

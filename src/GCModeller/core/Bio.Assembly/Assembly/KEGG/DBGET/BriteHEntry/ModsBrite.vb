@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 64 (64.65%)
+    ' Comment Lines: 21 (21.21%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (14.14%)
+    '     File Size: 3.48 KB
+
+
     '     Class ModsBrite
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: [GetType], __modsBrite, __pathwaysBrite, (+2 Overloads) __toValue, GetCategory
+    '         Function: __modsBrite, __pathwaysBrite, (+2 Overloads) __toValue, [GetType], GetCategory
     '                   GetClass
     ' 
     ' 

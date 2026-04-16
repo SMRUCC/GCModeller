@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 28 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (22.22%)
+    '     File Size: 953 B
+
+
     ' Module Module2
     ' 
     '     Constructor: (+1 Overloads) Sub New

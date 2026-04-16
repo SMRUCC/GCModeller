@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::071d38529de5bfe387b720c3bd06d155, mime\text%html\Parser\CSS\File.vb"
+﻿#Region "Microsoft.VisualBasic::ae0102c311bd2a91b517518b33cbe3f5, mime\text%html\Parser\CSS\File.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 60 (57.14%)
+    ' Comment Lines: 34 (32.38%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 11 (10.48%)
+    '     File Size: 4.00 KB
+
+
     '     Class CSSFile
     ' 
     '         Properties: ByClass, ByExpression, ByID, ByTag, Selectors
@@ -53,6 +65,10 @@ Namespace Language.CSS
     ''' </summary>
     Public Class CSSFile
 
+        ''' <summary>
+        ''' a collection of the html element node selector expression
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Selectors As Dictionary(Of Selector)
 
         ''' <summary>

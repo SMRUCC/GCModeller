@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70fbf99bdc4044e68253c5ff0d105655, mime\text%html\Render\HtmlTag.vb"
+﻿#Region "Microsoft.VisualBasic::e38a4aceb5269e421a1dbd6d2074ac1f, mime\text%html\Render\HtmlTag.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 250
+    '    Code Lines: 159 (63.60%)
+    ' Comment Lines: 37 (14.80%)
+    '    - Xml Docs: 89.19%
+    ' 
+    '   Blank Lines: 54 (21.60%)
+    '     File Size: 8.46 KB
+
+
     '     Class HtmlTag
     ' 
     '         Properties: Attributes, IsClosing, IsSingle, TagName
@@ -50,7 +62,7 @@ Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 
 Namespace Render
-
+#If NET48 Then
     Public Class HtmlTag
 #Region "Fields"
 
@@ -294,4 +306,5 @@ Namespace Render
         End Function
 #End Region
     End Class
+#End If
 End Namespace

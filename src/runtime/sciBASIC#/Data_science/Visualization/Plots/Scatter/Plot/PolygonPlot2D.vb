@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::36f06d9b6e08019befc2aba35979d364, Data_science\Visualization\Plots\Scatter\Plot\PolygonPlot2D.vb"
+﻿#Region "Microsoft.VisualBasic::d31253972c479b77683e89c4c6f68412, Data_science\Visualization\Plots\Scatter\Plot\PolygonPlot2D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 124 (88.57%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (11.43%)
+    '     File Size: 6.07 KB
+
+
     '     Class PolygonPlot2D
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -57,6 +69,34 @@ Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D.MarchingSquares
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Plots
 
@@ -114,9 +154,10 @@ Namespace Plots
         Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
             Dim xTicks As Double() = polygons.Select(Function(p) p.pts.Select(Function(pi) CDbl(pi.pt.X))).IteratesALL.CreateAxisTicks
             Dim yTicks As Double() = polygons.Select(Function(p) p.pts.Select(Function(pi) CDbl(pi.pt.Y))).IteratesALL.CreateAxisTicks
-            Dim rect = canvas.PlotRegion
-            Dim xscale = d3js.scale.linear.domain(xTicks).range(New Double() {rect.Left, rect.Right})
-            Dim yscale = d3js.scale.linear.domain(yTicks).range(New Double() {rect.Top, rect.Bottom})
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim rect = canvas.PlotRegion(css)
+            Dim xscale = d3js.scale.linear.domain(values:=xTicks).range(values:=New Double() {rect.Left, rect.Right})
+            Dim yscale = d3js.scale.linear.domain(values:=yTicks).range(values:=New Double() {rect.Top, rect.Bottom})
             Dim shape As PointF()
             Dim scale As New DataScaler() With {
                 .AxisTicks = (xTicks.AsVector, yTicks.AsVector),
@@ -124,6 +165,8 @@ Namespace Plots
                 .X = xscale,
                 .Y = yscale
             }
+            Dim stroke As Stroke = Stroke.TryParse(theme.lineStroke)
+            Dim pen As Pen = css.GetPen(stroke)
 
             Call Axis.DrawAxis(
                 g, canvas, scale,
@@ -148,6 +191,7 @@ Namespace Plots
                     .ToArray
 
                 Call g.FillPolygon(New SolidBrush(polygon.color), shape)
+                Call g.DrawPolygon(pen, shape)
             Next
         End Sub
     End Class

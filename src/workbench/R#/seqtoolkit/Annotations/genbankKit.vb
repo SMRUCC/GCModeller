@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0fc8cf48b53f28d8fc7e56cc60cfab0d, R#\seqtoolkit\Annotations\genbankKit.vb"
+﻿#Region "Microsoft.VisualBasic::56a986a65ca2900327f5912714397994, R#\seqtoolkit\Annotations\genbankKit.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 721
+    '    Code Lines: 473 (65.60%)
+    ' Comment Lines: 169 (23.44%)
+    '    - Xml Docs: 93.49%
+    ' 
+    '   Blank Lines: 79 (10.96%)
+    '     File Size: 29.15 KB
+
+
     ' Module genbankKit
     ' 
-    '     Function: addFeature, addMeta, addproteinSeq, addRNAGene, asGenbank
-    '               createFeature, enumerateFeatures, featureMeta, getOrAddNtOrigin, getRNASeq
-    '               isPlasmidSource, keyNames, populateGenbanks, readGenbank, writeGenbank
+    '     Function: accession_id, addFeature, addMeta, addproteinSeq, addRNAGene
+    '               asGenbank, create_tabular, createFeature, enumerateFeatures, exportGeneNtFasta
+    '               featureMeta, getOrAddNtOrigin, getRNASeq, isPlasmidSource, keyNames
+    '               populateGenbanks, Populates, read_genetable, readGenbank, Taxon_Id
+    '               taxonomy, writeGenbank
     ' 
+    '     Sub: SetProteinSeqs
     ' 
     ' /********************************************************************************/
 
@@ -45,22 +60,32 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Net.Http
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
+Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports featureLocation = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Location
 Imports gbffFeature = SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES.Feature
-Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' NCBI genbank assembly file I/O toolkit
@@ -76,12 +101,13 @@ Module genbankKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("read.genbank")>
+    <RApiReturn(GetType(GBFF.File))>
     Public Function readGenbank(file As String,
                                 Optional repliconTable As Boolean = False,
                                 Optional env As Environment = Nothing) As Object
 
         If Not file.FileExists(True) Then
-            Return Internal.debug.stop($"invalid file resource: '{file}'!", env)
+            Return RInternal.debug.stop($"invalid file resource: '{file}'!", env)
         End If
 
         If repliconTable Then
@@ -91,6 +117,76 @@ Module genbankKit
         End If
     End Function
 
+    ''' <summary>
+    ''' get ncbi taxonomy id from the given genbank assembly file.
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxon_id")>
+    Public Function Taxon_Id(gb As GBFF.File) As Object
+        Return gb.Taxon
+    End Function
+
+    ''' <summary>
+    ''' extract the taxonomy lineage information from the genbank file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_lineage")>
+    Public Function taxonomy(gb As GBFF.File) As Taxonomy
+        Return gb.Source.GetTaxonomy
+    End Function
+
+    ''' <summary>
+    ''' extract all gene features from genbank and cast to tabular data
+    ''' </summary>
+    ''' <param name="gbff"></param>
+    ''' <returns></returns>
+    <ExportAPI("as_tabular")>
+    <RApiReturn(GetType(GeneTable))>
+    Public Function create_tabular(gbff As GBFF.File, Optional ORF As Boolean = True) As Object
+        If ORF Then
+            Return gbff.ExportGeneFeatures
+        Else
+            Return gbff _
+                .EnumerateGeneFeatures(ORF:=False) _
+                .AsParallel _
+                .Select(Function(gene) gene.DumpExportFeature) _
+                .ToArray
+        End If
+    End Function
+
+    <ExportAPI("read_genetable")>
+    Public Function read_genetable(file As String) As GeneTable()
+        Return file.LoadCsv(Of GeneTable)(mute:=True).ToArray
+    End Function
+
+    ''' <summary>
+    ''' get current genbank assembly accession id 
+    ''' </summary>
+    ''' <param name="genbank"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("accession_id")>
+    <RApiReturn(TypeCodes.string)>
+    Public Function accession_id(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
+        Dim pull = pipeline.TryCreatePipeline(Of GBFF.File)(genbank, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of GBFF.File)(env) _
+            .Select(Function(gb) gb.Accession.AccessionId) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' check of the given genbank assembly is the data source of a plasmid or not?
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("is.plasmid")>
     <RApiReturn(GetType(Boolean))>
     Public Function isPlasmidSource(<RRawVectorArgument> gb As Object, Optional env As Environment = Nothing) As Object
@@ -131,44 +227,71 @@ Module genbankKit
     ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("populate.genbank")>
+    ''' <remarks>
+    ''' this function supports of read assembly data directly from *.gz genbank archive file.
+    ''' </remarks>
+    <ExportAPI("load_genbanks")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function populateGenbanks(<RRawVectorArgument>
                                      files As Object,
                                      Optional autoClose As Boolean = True,
                                      Optional env As Environment = Nothing) As Object
         If files Is Nothing Then
-            Return Internal.debug.stop("the required file list can not be nothing!", env)
+            Return RInternal.debug.stop("the required file list can not be nothing!", env)
         End If
 
-        Dim populator =
-            Iterator Function() As IEnumerable(Of GBFF.File)
-                For Each file As SeqValue(Of Object) In REnv.asVector(Of Object)(files).AsObjectEnumerator.SeqIterator
-                    If file.value Is Nothing Then
-                        env.AddMessage({$"file object in position {file.i} is nothing!", "index: " & file.i}, MSG_TYPES.WRN)
-                    ElseIf TypeOf file.value Is String Then
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(file, suppressError:=True)
-                            Yield gb
-                        Next
-                    ElseIf TypeOf file.value Is Stream Then
-                        For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
-                            Yield gb
-                        Next
+        ' CLRIterator
+        Return pipeline.CreateFromPopulator(Populates(files, autoClose, env))
+    End Function
 
-                        If autoClose Then
-                            Try
-                                Call DirectCast(file.value, Stream).Dispose()
-                            Catch ex As Exception
+    Private Iterator Function Populates(files As Object, autoClose As Boolean, env As Environment) As IEnumerable(Of GBFF.File)
+        For Each file As SeqValue(Of Object) In CLRVector.asObject(files) _
+            .AsObjectEnumerator _
+            .SeqIterator
 
-                            End Try
-                        End If
-                    Else
-                        env.AddMessage({$"file object in position {file.i} is not a file...", "index: " & file.i}, MSG_TYPES.WRN)
-                    End If
+            If file.value Is Nothing Then
+                Call env.AddMessage({
+                    $"file object in position {file.i} is nothing!",
+                    "index: " & file.i
+                }, MSG_TYPES.WRN)
+            ElseIf TypeOf file.value Is String Then
+                Dim filepath As String = CStr(file.value)
+
+                If filepath.ExtensionSuffix("gz") Then
+                    Try
+                        Using s As Stream = filepath.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
+                            For Each gb As GBFF.File In GBFF.File.LoadDatabase(s.UnGzipStream, suppressError:=True)
+                                Yield gb
+                            Next
+                        End Using
+                    Catch ex As Exception
+                        Call App.LogException(ex, filepath)
+                        Call $"gzip decompress error: {filepath}".warning
+                    End Try
+                Else
+                    For Each gb As GBFF.File In GBFF.File.LoadDatabase(filepath, suppressError:=True)
+                        Yield gb
+                    Next
+                End If
+            ElseIf TypeOf file.value Is Stream Then
+                For Each gb As GBFF.File In GBFF.File.LoadDatabase(DirectCast(file.value, Stream), suppressError:=True)
+                    Yield gb
                 Next
-            End Function
 
-        Return pipeline.CreateFromPopulator(populator())
+                If autoClose Then
+                    Try
+                        Call DirectCast(file.value, Stream).Dispose()
+                    Catch ex As Exception
+                        ' just ignores of this file close error
+                    End Try
+                End If
+            Else
+                Call env.AddMessage({
+                    $"file object in position {file.i} is not a file...",
+                    "index: " & file.i
+                }, MSG_TYPES.WRN)
+            End If
+        Next
     End Function
 
     ''' <summary>
@@ -179,9 +302,10 @@ Module genbankKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("write.genbank")>
+    <RApiReturn(TypeCodes.boolean)>
     Public Function writeGenbank(gb As GBFF.File, file$, Optional env As Environment = Nothing) As Object
         If gb Is Nothing Then
-            Return Internal.debug.stop("write data is nothing!", env)
+            Return RInternal.debug.stop("write data is nothing!", env)
         Else
             Return gb.Save(file)
         End If
@@ -204,20 +328,24 @@ Module genbankKit
         If TypeOf x Is PTT Then
             Return DirectCast(x, PTT).CreateGenbankObject
         Else
-            Return Internal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
+            Return RInternal.debug.stop(New NotImplementedException(x.GetType.FullName), env)
         End If
     End Function
 
     ''' <summary>
     ''' create new feature site
     ''' </summary>
-    ''' <param name="keyName$"></param>
+    ''' <param name="keyName"></param>
     ''' <param name="location"></param>
     ''' <param name="data"></param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("feature")>
-    Public Function createFeature(keyName$, location As NucleotideLocation, data As list, Optional env As Environment = Nothing) As Feature
+    Public Function createFeature(keyName$, location As NucleotideLocation,
+                                  <RListObjectArgument>
+                                  Optional data As list = Nothing,
+                                  Optional env As Environment = Nothing) As Feature
+
         Dim loci As New Feature With {
             .KeyName = keyName,
             .Location = New featureLocation With {
@@ -240,7 +368,23 @@ Module genbankKit
         Return loci
     End Function
 
-    <ExportAPI("add.feature")>
+    ''' <summary>
+    ''' add feature into a given genbank object
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="feature"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' let gb_asm = read.genbank("./xxx.gbff");
+    ''' let mics_site = GenBank::feature("micsRNA", nucl_location(5656,33,"+"));
+    ''' 
+    ''' # use the operator
+    ''' gb_asm = gb_asm + mics_site;
+    ''' # or use the function
+    ''' gb_asm = gb_asm |> add_feature(mics_site);
+    ''' </example>
+    <ExportAPI("add_feature")>
+    <ROperator("+")>
     Public Function addFeature(gb As GBFF.File, feature As Feature) As GBFF.File
         gb.Features.Add(feature)
         Return gb
@@ -252,14 +396,38 @@ Module genbankKit
     ''' <param name="gb">a NCBI genbank database object</param>
     ''' <returns></returns>
     <ExportAPI("enumerateFeatures")>
-    Public Function enumerateFeatures(gb As GBFF.File) As Feature()
-        Return gb.Features.ToArray
+    Public Function enumerateFeatures(gb As GBFF.File, Optional keys As String() = Nothing) As Feature()
+        If keys.IsNullOrEmpty Then
+            Return gb.Features.ToArray
+        Else
+            With keys.Indexing
+                Return gb.Features _
+                    .Where(Function(f) .IndexOf(f.KeyName) > -1) _
+                    .ToArray
+            End With
+        End If
     End Function
 
+    ''' <summary>
+    ''' get all feature key names 
+    ''' </summary>
+    ''' <param name="features">a collection of the genbank feature object or a genbank clr object.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("featureKeys")>
     <RApiReturn(GetType(String))>
     Public Function keyNames(<RRawVectorArgument> features As Object, Optional env As Environment = Nothing) As Object
-        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+        Dim featureArray As pipeline
+
+        If TypeOf features Is GBFF.File Then
+            Dim featureSet = DirectCast(features, GBFF.File).Features _
+                .AsEnumerable _
+                .ToArray
+
+            featureArray = pipeline.CreateFromPopulator(featureSet)
+        Else
+            featureArray = pipeline.TryCreatePipeline(Of gbffFeature)(features, env)
+        End If
 
         If featureArray.isError Then
             Return featureArray.getError
@@ -271,21 +439,69 @@ Module genbankKit
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' extract the feature metadata from a genbank clr feature object
+    ''' </summary>
+    ''' <param name="features"></param>
+    ''' <param name="attrName$"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("featureMeta")>
     <RApiReturn(GetType(String))>
-    Public Function featureMeta(<RRawVectorArgument> features As Object, attrName$, Optional env As Environment = Nothing) As Object
-        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of Feature)(features, env)
+    Public Function featureMeta(<RRawVectorArgument> features As Object,
+                                Optional attrName$ = Nothing,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim featureArray As pipeline = pipeline.TryCreatePipeline(Of gbffFeature)(features, env)
 
         If featureArray.isError Then
             Return featureArray.getError
         End If
 
-        Return featureArray _
-            .populates(Of Feature)(env) _
-            .Select(Function(feature) feature.Query(attrName)) _
+        Dim all As gbffFeature() = featureArray _
+            .populates(Of gbffFeature)(env) _
             .ToArray
+
+        If attrName.StringEmpty(, True) Then
+            ' populate all features
+            If all.Length = 1 Then
+                Return New list With {
+                    .slots = all(0).PairedValues _
+                        .GroupBy(Function(f) f.Name) _
+                        .ToDictionary(Function(f) f.Key,
+                                      Function(f)
+                                          Return CObj(f.Values)
+                                      End Function)
+                }
+            Else
+                Dim list As list = list.empty
+
+                For Each feature As gbffFeature In all
+                    list.add(feature.ToString, feature.PairedValues _
+                        .GroupBy(Function(f) f.Name) _
+                        .ToDictionary(Function(f) f.Key,
+                                      Function(f)
+                                          Return CObj(f.Values)
+                                      End Function))
+                Next
+
+                Return list
+            End If
+        Else
+            ' populate a specific feature metadata vector
+            Return all _
+                .Select(Function(feature) feature.Query(attrName)) _
+                .ToArray
+        End If
     End Function
 
+    ''' <summary>
+    ''' add metadata into a given feature object
+    ''' </summary>
+    ''' <param name="feature"></param>
+    ''' <param name="meta"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("addMeta")>
     Public Function addMeta(feature As Feature, <RListObjectArgument> meta As list, Optional env As Environment = Nothing) As Feature
         Dim metadata As Dictionary(Of String, String) = meta.AsGeneric(Of String)(env)
@@ -310,7 +526,7 @@ Module genbankKit
     ''' the api will change from the getted fasta sequence to 
     ''' the modified genbank assembly object.
     ''' </returns>
-    <ExportAPI("origin.fasta")>
+    <ExportAPI("origin_fasta")>
     <RApiReturn(GetType(GBFF.File), GetType(FastaSeq))>
     Public Function getOrAddNtOrigin(gb As GBFF.File, Optional nt As FastaSeq = Nothing, Optional mol_type$ = "genomic DNA") As Object
         If nt Is Nothing Then
@@ -363,41 +579,139 @@ Module genbankKit
     End Function
 
     ''' <summary>
+    ''' export gene fasta from the given genbank assembly file
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="title"></param>
+    ''' <param name="unique_names">
+    ''' processing the possible duplicated header as unique id, this option is usually when you use this function for build a sequence database for salmon tool.
+    ''' </param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' fasta title is build with a string template, there are some reserved template keyword for this function:
+    ''' 
+    ''' 1. ncbi_taxid - is the ncbi taxonomy id that extract from the genbank assembly
+    ''' 2. lineage - taxonomy lineage in biom style string, which is extract from the genbank assembly its source information
+    ''' 3. gb_asm_id - the ncbi accession id of the genbank assembly
+    ''' 4. nucl_loc - the nucleotide sequence location on the genomics sequence
+    ''' 
+    ''' ##### about the salmon duplicated id error
+    ''' 
+    ''' if you encounter this error while build sequence index by using salmon tool, please set the ``unique.names`` parameter to TRUE
+    ''' 
+    ''' ```
+    ''' counted k-mers for 110000 transcripts[2026-01-06 15:08:42.160] [puff::index::jointLog] [error] In FixFasta, two references with the same name but different sequences: AM295250.SCA_1840. We require that all input records have a unique name up to the first whitespace (or user-provided separator) character.
+    ''' ```
+    ''' </remarks>
+    <ExportAPI("export_geneNt_fasta")>
+    Public Function exportGeneNtFasta(gb As GBFF.File,
+                                      Optional title As String = "<gb_asm_id>.<locus_tag> <nucl_loc> <product>|<lineage>",
+                                      <RRawVectorArgument(TypeCodes.string)>
+                                      Optional key As Object = "gene|CDS",
+                                      Optional required As String() = Nothing,
+                                      Optional unique_names As Boolean = False) As FastaFile
+
+        Dim keyStr As String = If(CLRVector.asScalarCharacter(key), "gene")
+        Dim geneList As gbffFeature() = gb.Features _
+            .Where(Function(g) g.KeyName = keyStr) _
+            .ToArray
+        Dim fastaFile As New FastaFile
+        Dim accessionId As String = gb.Accession.AccessionId
+        Dim lineage As String = gb.Source.BiomString
+        Dim template As New StringTemplate(title, defaults:=New Dictionary(Of String, String) From {
+            {"ncbi_taxid", gb.Taxon},
+            {"lineage", lineage},
+            {"gb_asm_id", accessionId}
+        })
+        Dim i As i32 = 1
+
+        For Each gene As Feature In geneList
+            Call template.SetDefaultKey("nucl_loc", gene.Location.ContiguousRegion.ToString)
+            Call template.SetDefaultKey("locus_tag", $"locus_{++i}")
+
+            Dim fa As FastaSeq = gene.ToGeneFasta(template)
+
+            If required.IsNullOrEmpty Then
+                Call fastaFile.Add(fa)
+            ElseIf Not template.GetLastMissingKeys.Intersect(required).Any Then
+                Call fastaFile.Add(fa)
+            End If
+        Next
+
+        If unique_names Then
+            Dim check As String() = Nothing
+            Dim id As String() = fastaFile _
+                .Select(Function(s) s.Headers(0).Split.First) _
+                .UniqueNames(duplicated:=check)
+
+            If Not check.IsNullOrEmpty Then
+                Dim parsed As NamedValue(Of String)
+
+                For k As Integer = 0 To id.Length - 1
+                    parsed = fastaFile(k).Headers(0).GetTagValue
+                    fastaFile(k).Headers = {id(k) & " " & parsed.Value}
+                Next
+            End If
+        End If
+
+        Return fastaFile
+    End Function
+
+    ''' <summary>
     ''' get or set fasta sequence of all CDS feature in the given genbank assembly file. 
     ''' </summary>
     ''' <param name="gb"></param>
-    ''' <param name="proteins"></param>
+    ''' <param name="proteins">set the genbank feature CDS protein sequence if this value is existsed.</param>
+    ''' <param name="filter_empty">
+    ''' Filter out the empty protein sequence when do export of the protein sequence data.
+    ''' </param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("protein.fasta")>
+    <ExportAPI("protein_seqs")>
     <RApiReturn(GetType(GBFF.File))>
     Public Function addproteinSeq(gb As GBFF.File,
                                   <RRawVectorArgument>
+                                  <RByRefValueAssign>
                                   Optional proteins As Object = Nothing,
+                                  Optional title As String = Nothing,
+                                  Optional filter_empty As Boolean = True,
                                   Optional env As Environment = Nothing) As Object
 
         Dim seqs As IEnumerable(Of FastaSeq)
 
         If proteins Is Nothing Then
-            Return gb.ExportProteins_Short
+            If title.StringEmpty(, True) Then
+                Return gb.ExportProteins_Short
+            Else
+                Return pipeline.CreateFromPopulator(gb.ExportProteins(New StringTemplate(title), filterEmpty:=filter_empty))
+            End If
         Else
             seqs = GetFastaSeq(proteins, env)
         End If
 
         If seqs Is Nothing Then
-            Return Internal.debug.stop("no protein sequence data provided!", env)
+            Return RInternal.debug.stop("no protein sequence data provided!", env)
+        Else
+            Call SetProteinSeqs(gb, seqs)
         End If
 
+        Return gb
+    End Function
+
+    Private Sub SetProteinSeqs(gb As GBFF.File, seqs As IEnumerable(Of FastaSeq))
+        ' make input sequence fasta index
         Dim seqTable = seqs.ToDictionary(Function(fa) fa.Title.Split.First)
         Dim geneId As String
         Dim prot As FastaSeq
+        Dim missing As New List(Of String)
 
+        ' set protein fasta sequence
         For Each feature In gb.Features.Where(Function(a) a.KeyName = "CDS")
             geneId = feature.Query(FeatureQualifiers.locus_tag)
             prot = seqTable.TryGetValue(geneId)
 
             If prot Is Nothing Then
-                env.AddMessage($"missing protein sequence for '{geneId}'...", MSG_TYPES.WRN)
+                Call missing.Add(geneId)
                 Continue For
             End If
 
@@ -405,10 +719,13 @@ Module genbankKit
             feature.SetValue(FeatureQualifiers.product, prot.Title)
         Next
 
-        Return gb
-    End Function
+        If missing.Any Then
+            Call $"found {missing.Count} missing protein sequence of {missing.JoinBy(", ")} while make updates of the genbank CDS feature translation data...".warning
+        End If
+    End Sub
 
     <ExportAPI("add.RNA.gene")>
+    <RApiReturn(GetType(GBFF.File))>
     Public Function addRNAGene(gb As GBFF.File, <RRawVectorArgument> RNA As Object, Optional env As Environment = Nothing) As Object
         If RNA Is Nothing Then
             Return gb
@@ -436,7 +753,7 @@ Module genbankKit
                                   Return map.First
                               End Function)
         Else
-            Return Internal.debug.stop($"invalid data source type: '{RNA.GetType.FullName}'!", env)
+            Return RInternal.debug.stop($"invalid data source type: '{RNA.GetType.FullName}'!", env)
         End If
 
         For Each feature In gb.Features.Where(Function(a) a.KeyName = "gene")

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 41 (77.36%)
+    ' Comment Lines: 1 (1.89%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (20.75%)
+    '     File Size: 1.97 KB
+
+
     ' Module OutlineTest
     ' 
     '     Sub: Main, plot

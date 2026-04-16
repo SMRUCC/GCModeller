@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::77f05793e5e1adebe116fcdfc48fde0b, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
+﻿#Region "Microsoft.VisualBasic::d2197a2c220fb692b21309d4d1dd125b, Bio.Repository\KEGG\KEGGOrthology\KEGGOrthology.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 158
+    '    Code Lines: 128 (81.01%)
+    ' Comment Lines: 3 (1.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 27 (17.09%)
+    '     File Size: 5.56 KB
+
+
     ' Class KEGGOrthology
     ' 
     '     Properties: Repository
@@ -48,8 +60,8 @@
 
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 #If DEBUG Then
@@ -193,14 +205,14 @@ Public Class KEGGOrthology
                 If maps($"{gene.sp_code}:{gene.gene}".ToLower) > -1 Then
                     Yield gene
 #If DEBUG Then
-                    Call gene.GetJson.__DEBUG_ECHO
+                    Call gene.GetJson.debug
 #End If
                 End If
 
                 i += 1
             Next
 
-            Call $"Index file iterates {i} gene lines...".__DEBUG_ECHO
+            Call $"Index file iterates {i} gene lines...".debug
         End Using
     End Function
 End Class

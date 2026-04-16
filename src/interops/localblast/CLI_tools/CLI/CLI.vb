@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7819844f7257d1aaba72c2554ec66455, localblast\CLI_tools\CLI\CLI.vb"
+﻿#Region "Microsoft.VisualBasic::5854893b823d49ab0dc61ccadb59a35d, localblast\CLI_tools\CLI\CLI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 333
+    '    Code Lines: 269 (80.78%)
+    ' Comment Lines: 16 (4.80%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 48 (14.41%)
+    '     File Size: 16.08 KB
+
+
     ' Module CLI
     ' 
     '     Function: __exportBBH, __orderEntry, BashShellRun, ExportBBH, XmlToExcel
@@ -38,7 +50,8 @@
     '     Delegate Function
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: __assignAddition, Copys, ParseAllbbhhits, ParsebbhBesthit, SelfBlast
+    '         Function: __assignAddition, Copys, ExportSubjectHitCollection, ParseAllbbhhits, ParsebbhBesthit
+    '                   SelfBlast
     ' 
     ' 
     ' 
@@ -47,18 +60,20 @@
 #End Region
 
 Imports System.ComponentModel
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.InteropService.SharedORM
 Imports Microsoft.VisualBasic.CommandLine.ManView
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
@@ -66,6 +81,9 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask
 Imports SMRUCC.genomics.Interops.NCBI.ParallelTask.Tasks
 Imports SMRUCC.genomics.SequenceModel
@@ -104,7 +122,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     Public Function XmlToExcelBatch(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
         Dim out As String = args.GetValue("/out", inDIR & ".Exports/")
-        Dim Merge As Boolean = args.GetBoolean("/merge")
+        Dim Merge As Boolean = args("/merge")
         Dim MergeList As New List(Of BestHit)
 
         For Each inXml As String In FileIO.FileSystem.GetFiles(inDIR, FileIO.SearchOption.SearchTopLevelOnly, "*.xml")
@@ -181,7 +199,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     <Argument("/all", True, Description:="If this all Boolean value is specific, then the program will export all hits for the bbh not the top 1 best.")>
     Public Function ExportBBH(args As CommandLine) As Integer
         Dim inDIR As String = args("/in")
-        Dim isAll As Boolean = args.GetBoolean("/all")
+        Dim isAll As Boolean = args("/all")
         Dim coverage As Double = args.GetValue("/coverage", 0.5)
         Dim identities As Double = args.GetValue("/identities", 0.15)
         Dim Entries = BBHLogs.BuildBBHEntry(inDIR)  ' 得到bbh对
@@ -218,13 +236,13 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
 
         Dim query As BlastPlus.v228 = BlastPlus.Parser.TryParse(queryFile)
         If query Is Nothing Then
-            Call $"Query file {queryFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Query file {queryFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
         Dim subject As BlastPlus.v228 = BlastPlus.Parser.TryParse(subjectFile)
         If subject Is Nothing Then
-            Call $"Subject file {subjectFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Subject file {subjectFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
@@ -237,13 +255,13 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
     Private Function ParseAllbbhhits(queryFile As String, subjectFile As String, coverage As Double, identities As Double) As BiDirectionalBesthit()
         Dim query = BlastPlus.Parser.TryParse(queryFile)
         If query Is Nothing Then
-            Call $"Query file {queryFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Query file {queryFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
         Dim subject = BlastPlus.Parser.TryParse(subjectFile)
         If subject Is Nothing Then
-            Call $"Subject file {subjectFile.ToFileURL} is not valid!".__DEBUG_ECHO
+            Call $"Subject file {subjectFile.ToFileURL} is not valid!".debug
             Return Nothing
         End If
 
@@ -322,7 +340,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
                                  Where Not String.IsNullOrEmpty(x.SequenceData)
                                  Select x)
             For Each x As FastaSeq In nulls
-                Call VBDebugger.Warning(x.Title & "  have not sequence data!")
+                Call VBDebugger.warning(x.Title & "  have not sequence data!")
             Next
             Call prot.Save(path)
         Next
@@ -337,7 +355,7 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
             Dim nulls = (From x In fa Where String.IsNullOrEmpty(x.SequenceData) Select x).ToArray
             fa = New FastaFile((From x In fa.AsParallel Where Not String.IsNullOrEmpty(x.SequenceData) Select x).ToArray)
             For Each x In nulls
-                Call VBDebugger.Warning(x.Title & "  have not sequence data!")
+                Call VBDebugger.warning(x.Title & "  have not sequence data!")
             Next
             Try
                 Call fa.Save(out & "/" & fasta.BaseName.Replace(" ", "_") & ".fasta", Encodings.ASCII)
@@ -347,6 +365,29 @@ Imports Entry = System.Collections.Generic.KeyValuePair(Of SMRUCC.genomics.Inter
                 Call ex.PrintException
             End Try
         Next
+
+        Return 0
+    End Function
+
+    <ExportAPI("/export_hits")>
+    <Usage("/export_hits /in <blastp.txt> [/out <default=output.json>]")>
+    Public Function ExportSubjectHitCollection(args As CommandLine) As Integer
+        Dim [in] As String = args("/in")
+        Dim out As String = args("/out") Or ([in].TrimSuffix & "_output.json")
+        Dim hits = BlastpOutputReader _
+            .RunParser([in]) _
+            .ExportHitsResult _
+            .ToArray
+
+        Using s As Stream = out.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False),
+            jsonl As New System.IO.StreamWriter(s)
+
+            For Each result As HitCollection In hits
+                Call jsonl.WriteLine(result.GetJson)
+            Next
+
+            Call jsonl.Flush()
+        End Using
 
         Return 0
     End Function

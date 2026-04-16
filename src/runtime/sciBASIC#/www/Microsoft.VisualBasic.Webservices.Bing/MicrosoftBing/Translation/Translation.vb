@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::162654c1fbddd9dccee8e16ceb95edf0, www\Microsoft.VisualBasic.Webservices.Bing\MicrosoftBing\Translation\Translation.vb"
+﻿#Region "Microsoft.VisualBasic::e28f7d81aaac18c4f4c25ad43257dd7d, www\Microsoft.VisualBasic.Webservices.Bing\MicrosoftBing\Translation\Translation.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 88 (82.24%)
+    ' Comment Lines: 5 (4.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (13.08%)
+    '     File Size: 3.92 KB
+
 
     '     Module Translation
     ' 
@@ -112,7 +124,7 @@ Namespace Bing.Translation
                 .Select(Function(s) s.Trim.GetWords) _
                 .IteratesALL _
                 .Where(Function(s)
-                           Return Not s Is Nothing AndAlso Not s.Text.StringEmpty
+                           Return Not s Is Nothing AndAlso Not s.str.StringEmpty
                        End Function) _
                 .ToArray
 
@@ -139,9 +151,8 @@ Namespace Bing.Translation
 
             Return words _
                 .Select(Function(w)
-                            Return New Word With {
-                                .Class = [class],
-                                .Text = w.Trim
+                            Return New Word(w.Trim) With {
+                                .class = [class]
                             }
                         End Function) _
                 .ToArray

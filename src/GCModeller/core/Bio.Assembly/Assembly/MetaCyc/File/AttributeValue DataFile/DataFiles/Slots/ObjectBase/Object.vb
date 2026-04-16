@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 223
+    '    Code Lines: 120 (53.81%)
+    ' Comment Lines: 83 (37.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (8.97%)
+    '     File Size: 8.78 KB
+
+
     '     Class [Object]
     ' 
     '         Properties: AbbrevName, Citations, Comment, CommonName, DBLinks

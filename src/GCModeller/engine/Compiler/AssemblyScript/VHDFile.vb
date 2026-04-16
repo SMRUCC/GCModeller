@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95b530c7de04cd9f9ab8cce71590de68, engine\Compiler\AssemblyScript\VHDFile.vb"
+﻿#Region "Microsoft.VisualBasic::6f3187030024ea820c2973027d15f4e8, engine\Compiler\AssemblyScript\VHDFile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 68 (76.40%)
+    ' Comment Lines: 10 (11.24%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 11 (12.36%)
+    '     File Size: 3.38 KB
+
 
     '     Class VHDFile
     ' 
@@ -91,7 +103,7 @@ Namespace AssemblyScript
             End If
 
             If Not directive.ContainsKey("MAINTAINER") Then
-                vhd.maintainers = {New Maintainer With {.authorName = My.User.Name}}
+                vhd.maintainers = {New Maintainer With {.authorName = App.UserHOME.BaseName}}
             Else
                 vhd.maintainers = directive("MAINTAINER") _
                     .Select(Function(a) New Maintainer(a)) _

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 23 (52.27%)
+    ' Comment Lines: 14 (31.82%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (15.91%)
+    '     File Size: 1.92 KB
+
+
     '     Class MetaAttribute
     ' 
     '         Properties: ProviderId, TypeId

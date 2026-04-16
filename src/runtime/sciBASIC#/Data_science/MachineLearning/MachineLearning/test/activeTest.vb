@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3d5dc9e8a56fa024b3a69205464e6c95, Data_science\MachineLearning\MachineLearning\test\activeTest.vb"
+﻿#Region "Microsoft.VisualBasic::b725190fb9af50c3834f0ee40a938bb4, Data_science\MachineLearning\MachineLearning\test\activeTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 36 (90.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (10.00%)
+    '     File Size: 1.72 KB
+
+
     ' Module activeTest
     ' 
     '     Function: runTest
@@ -43,7 +55,7 @@
 
 Imports Microsoft.VisualBasic.Data.csv
 Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.MachineLearning.NeuralNetwork.Activations
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
 
 Module activeTest
 

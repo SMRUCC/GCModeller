@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff28d3e4d44aac06bdfc2d8d7e1a3ec0, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\SampleObservation.vb"
+﻿#Region "Microsoft.VisualBasic::69a64af8ae329c47611a015b08987e94, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\SampleObservation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 20 (66.67%)
+    ' Comment Lines: 3 (10.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (23.33%)
+    '     File Size: 944 B
+
+
     '     Class SampleObservation
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -62,10 +74,11 @@ Namespace Math.Statistics
         Protected MustOverride Sub addObservation(observation As Double)
         Protected MustOverride Function getEigenvalue() As Double
 
-        Protected Iterator Function getRaw() As IEnumerable(Of Double)
-            For Each obs As Double In samples
-                Yield obs
-            Next
+        Public Function getRaw() As IEnumerable(Of Double)
+            'For Each obs As Double In samples
+            '    Yield obs
+            'Next
+            Return samples
         End Function
 
         Public Shared Narrowing Operator CType(observation As SampleObservation) As Double

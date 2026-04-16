@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cd69f62ba89d286383c885c265c36579, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\NamedValue.vb"
+﻿#Region "Microsoft.VisualBasic::37bcb8a836552833f134f1313dc8b9b8, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\NamedValue.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 220
+    '    Code Lines: 140 (63.64%)
+    ' Comment Lines: 53 (24.09%)
+    '    - Xml Docs: 88.68%
+    ' 
+    '   Blank Lines: 27 (12.27%)
+    '     File Size: 8.46 KB
+
+
     '     Structure NamedValue
     ' 
     '         Properties: Description, IsEmpty, Name, Value, ValueType
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: FixValue, ToString
+    '         Function: FixValue, getValueStr, ToString
     '         Operators: (+2 Overloads) +, <>, =
     ' 
     ' 
@@ -47,18 +59,24 @@
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.Linq
+Imports any = Microsoft.VisualBasic.Scripting
+
+#If NET48 And Not NETCOREAPP Then
+Imports System.Web.Script.Serialization
+#End If
 
 Namespace ComponentModel.DataSourceModel
 
     ''' <summary>
-    ''' The value object have a name string.(一个具有自己的名称的变量值)
+    ''' The value object have a name string.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
+    ''' <remarks>
+    ''' (一个具有自己的名称的变量值)
+    ''' </remarks>
     Public Structure NamedValue(Of T) : Implements INamedValue
         Implements IKeyValuePairObject(Of String, T)
         Implements IsEmpty
@@ -87,7 +105,7 @@ Namespace ComponentModel.DataSourceModel
         ''' Does this object have value?
         ''' </summary>
         ''' <returns></returns>
-        <XmlIgnore, ScriptIgnore, DataIgnored>
+        <XmlIgnore, DataIgnored>
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -146,6 +164,7 @@ Namespace ComponentModel.DataSourceModel
             Me.Description = describ
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(item As KeyValuePair(Of String, T))
             Call Me.New(item.Key, item.Value)
         End Sub
@@ -160,13 +179,28 @@ Namespace ComponentModel.DataSourceModel
                 ' 用户来通过重写ToString方法来自定义显示，而非强制使用GetJson方法
                 ' 将全部的对象都显示出来，对于属性很多的对象GetJson方法显示的效果不是太好
                 If Description.StringEmpty Then
-                    Return $"{Name} --> {Value.ToString}"
+                    Return $"{Name} -> {getValueStr()}"
                 Else
-                    Return $"{Name} --> {Value.ToString} ({Description})"
+                    Return $"{Name} -> {getValueStr()} ({Description.TrimNewLine})"
                 End If
             Catch ex As Exception
                 Return Name
             End Try
+        End Function
+
+        Private Function getValueStr() As String
+            If Value Is Nothing Then
+                Return "null"
+            End If
+
+            If DataFramework.IsPrimitive(ValueType) OrElse Not ValueType.IsArray Then
+                Return Value.ToString
+            Else
+                Return DirectCast(CObj(Value), Array) _
+                    .AsObjectEnumerator _
+                    .Select(Function(o) any.ToString(o)) _
+                    .JoinBy("; ")
+            End If
         End Function
 
         Public Function FixValue(h As Func(Of T, T)) As NamedValue(Of T)
@@ -212,7 +246,7 @@ Namespace ComponentModel.DataSourceModel
             End If
         End Operator
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
 
         ''' <summary>
         ''' Convert from tuple
@@ -229,7 +263,6 @@ Namespace ComponentModel.DataSourceModel
         Public Shared Widening Operator CType(tuple As (name$, value As T, describ$)) As NamedValue(Of T)
             Return New NamedValue(Of T)(tuple.name, tuple.value, tuple.describ)
         End Operator
-
 #End If
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

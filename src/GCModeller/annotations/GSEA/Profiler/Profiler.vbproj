@@ -289,6 +289,10 @@
       <Project>{a5b7aeb8-1a10-4b69-abae-051b5023e2f3}</Project>
       <Name>GO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FisherCore\FisherCore.vbproj">
+      <Project>{62cc1cc2-7e2b-47ba-a745-37c36bd84955}</Project>
+      <Name>FisherCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GSEA.KnowledgeBase.Extensions\GSEA.KnowledgeBase.Extensions.vbproj">
       <Project>{77da02ce-97fc-44e2-9df7-a36cf3f1e741}</Project>
       <Name>GSEA.KnowledgeBase.Extensions</Name>

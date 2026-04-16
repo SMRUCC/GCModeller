@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3350a4c5a4d9cbbdbe5ed02e0cac093, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ThreadPool.vb"
+﻿#Region "Microsoft.VisualBasic::0b701a164ac6b3b86f1ad53840336084, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ThreadPool.vb"
 
     ' Author:
     ' 
@@ -31,15 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 353
+    '    Code Lines: 200 (56.66%)
+    ' Comment Lines: 97 (27.48%)
+    '    - Xml Docs: 69.07%
+    ' 
+    '   Blank Lines: 56 (15.86%)
+    '     File Size: 13.15 KB
+
+
     '     Class ThreadPool
     ' 
     '         Properties: FullCapacity, NumOfThreads, WorkingThreads
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: GetAvaliableThread, GetStatus, Start, ToString
+    '         Function: GetAvaliableThread, GetStatus, OperationTimeOut, Start, ToString
     ' 
-    '         Sub: [Exit], allocate, (+2 Overloads) Dispose, OperationTimeOut, RunTask
+    '         Sub: [Exit], allocate, (+2 Overloads) Dispose, (+2 Overloads) RunTask, WaitAll
     '         Structure __taskInvoke
     ' 
     '             Function: Run
@@ -52,12 +64,17 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Threading
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Parallel.Tasks
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports TaskBinding = Microsoft.VisualBasic.ComponentModel.Binding(Of System.Action, System.Action(Of Long))
+Imports Microsoft.VisualBasic.Parallel.Tasks.TaskQueue(Of Long)
+Imports TaskBinding = Microsoft.VisualBasic.ComponentModel.Binding(Of
+    System.Action(Of Microsoft.VisualBasic.Parallel.Tasks.TaskQueue(Of Long).TaskWorker),
+    System.Action(Of Long)
+)
 
 Namespace Parallel.Threads
 
@@ -93,7 +110,7 @@ Namespace Parallel.Threads
                 Dim n As Integer
 
                 For Each t In threads
-                    If t.Tasks > 0 Then
+                    If t.Tasks > 0 OrElse t.RunningTask Then
                         n += 1
                     End If
                 Next
@@ -127,18 +144,31 @@ Namespace Parallel.Threads
             End Get
         End Property
 
-        Sub New(maxThread As Integer)
+        Dim totalTask As Integer
+        Dim popoutTask As Integer
+
+        Sub New(maxThread As Integer,
+                Optional maxQueueSize As Integer = 2,
+                Optional exceptionCallback As Action(Of String, Exception) = Nothing)
+
             threads = New TaskQueue(Of Long)(maxThread) {}
 
             For i As Integer = 0 To threads.Length - 1
-                threads(i) = New TaskQueue(Of Long)
+                threads(i) = New TaskQueue(Of Long)(
+                    queueSize:=maxQueueSize,
+                    exceptionCallback:=exceptionCallback
+                )
             Next
         End Sub
 
-        Sub New()
-            Me.New(LQuerySchedule.Recommended_NUM_THREADS)
+        Sub New(Optional exceptionCallback As Action(Of String, Exception) = Nothing)
+            Me.New(LQuerySchedule.CPU_NUMBER, exceptionCallback:=exceptionCallback)
         End Sub
 
+        ''' <summary>
+        ''' Start the background task, and stop until the <see cref="Dispose()"/> method has been called
+        ''' </summary>
+        ''' <returns></returns>
         Public Function Start() As ThreadPool
             Call ParallelExtension.RunTask(AddressOf allocate)
             Return Me
@@ -166,60 +196,125 @@ Namespace Parallel.Threads
         End Function
 
         ''' <summary>
-        ''' 使用线程池里面的空闲线程来执行任务
+        ''' Push a new task into the parallel task queue.
+        ''' (使用线程池里面的空闲线程来执行任务)
         ''' </summary>
         ''' <param name="task"></param>
         ''' <param name="callback">回调函数里面的参数是任务的执行的时间长度</param>
-        Public Sub RunTask(task As Action, Optional callback As Action(Of Long) = Nothing)
+        ''' <param name="name">the name of current task</param>
+        Public Sub RunTask(task As Action(Of TaskWorker),
+                           Optional callback As Action(Of Long) = Nothing,
+                           Optional name As String = Nothing)
+
             Dim pends As New TaskBinding With {
                 .Bind = task,
-                .Target = callback
+                .Target = callback,
+                .name = name
             }
+
+            totalTask += 1
 
             SyncLock pendings
                 Call pendings.Enqueue(pends)
             End SyncLock
         End Sub
 
-        Public Sub OperationTimeOut(task As Action, timeout As Integer)
+        ''' <summary>
+        ''' Push a new task into the parallel task queue.
+        ''' (使用线程池里面的空闲线程来执行任务)
+        ''' </summary>
+        ''' <param name="task"></param>
+        ''' <param name="callback">回调函数里面的参数是任务的执行的时间长度</param>
+        ''' <param name="name">the name of current task</param>
+        Public Sub RunTask(task As Action,
+                           Optional callback As Action(Of Long) = Nothing,
+                           Optional name As String = Nothing)
+
+            Dim pends As New TaskBinding With {
+                .Bind = Sub(worker) task(),
+                .Target = callback,
+                .name = name
+            }
+
+            totalTask += 1
+
+            SyncLock pendings
+                Call pendings.Enqueue(pends)
+            End SyncLock
+        End Sub
+
+        ''' <summary>
+        ''' Run a speicifc task with assert of operation 
+        ''' is time out or not.
+        ''' </summary>
+        ''' <param name="task">
+        ''' A specific task to run
+        ''' </param>
+        ''' <param name="timeout">
+        ''' wait timeout in unit milliseconds
+        ''' </param>
+        ''' <returns>
+        ''' + true means timeout, the task has not been finished;
+        ''' + false means the task has been execute success without timeout
+        ''' </returns>
+        Public Function OperationTimeOut(task As Action, timeout As Integer) As Boolean
             Dim done As Boolean = False
 
-            Call RunTask(task, Sub() done = True)
+            Call RunTask(task, callback:=Sub() done = True)
 
             For i As Integer = 0 To timeout
                 If done Then
-                    Exit For
+                    Return False
                 Else
-                    Thread.Sleep(1)
+                    Call Thread.Sleep(1)
                 End If
             Next
-        End Sub
 
+            Return True
+        End Function
+
+        ''' <summary>
+        ''' allocate the task into the task thread pool
+        ''' </summary>
         Private Sub allocate()
             Do While Not Me.disposedValue
-                SyncLock pendings
-                    If pendings.Count > 0 Then
-                        Dim task As TaskBinding = pendings.Dequeue
-                        Dim h As Func(Of Long) = AddressOf New __taskInvoke With {.task = task.Bind}.Run
+                Dim task As TaskBinding = Nothing
+                Dim taskThread As TaskQueue(Of Long) = GetAvaliableThread()
+
+                If Not taskThread.MaximumQueue Then
+                    SyncLock pendings
+                        If pendings.Count > 0 Then
+                            task = pendings.Dequeue
+                            popoutTask += 1
+                        End If
+                    End SyncLock
+
+                    If Not task.IsEmpty Then
+                        Dim h As Func(Of TaskWorker, Long) = AddressOf New __taskInvoke With {.task = task.Bind}.Run
                         Dim callback As Action(Of Long) = task.Target
-                        Call GetAvaliableThread.Enqueue(h, callback)  ' 当线程池里面的线程数量非常多的时候，这个事件会变长，所以讲分配的代码单独放在线程里面执行，以提神web服务器的响应效率
-                    Else
-                        Call Thread.Sleep(1)
+
+                        ' 当线程池里面的线程数量非常多的时候，这个事件会变长，
+                        ' 所以讲分配的代码单独放在线程里面执行，以提神web
+                        ' 服务器的响应效率
+                        Call taskThread.Enqueue(h, callback, name:=task.name)
                     End If
-                End SyncLock
+                End If
+
+                Call Thread.Sleep(1)
             Loop
         End Sub
 
         Private Structure __taskInvoke
-            Dim task As Action
+
+            Dim task As Action(Of TaskWorker)
 
             ''' <summary>
             ''' 不清楚是不是因为lambda有问题，所以导致计时器没有正常的工作，所以在这里使用内部类来工作
             ''' </summary>
             ''' <returns></returns>
-            Public Function Run() As Long
+            Public Function Run(worker As TaskWorker) As Long
                 Dim time& = App.NanoTime
-                Call task()
+                Call task(worker)
                 Return App.NanoTime - time
             End Function
         End Structure
@@ -234,9 +329,17 @@ Namespace Parallel.Threads
         Private Function GetAvaliableThread() As TaskQueue(Of Long)
             Dim [short] As TaskQueue(Of Long) = threads.First
 
-            For Each t In threads
+            If Not [short].RunningTask Then
+                Return [short]
+            End If
+
+            For Each t As TaskQueue(Of Long) In threads
                 If Not t.RunningTask Then
                     Return t
+                ElseIf t.Tasks = 0 Then
+                    Return t
+                ElseIf t.MaximumQueue Then
+                    Continue For
                 Else
                     If [short].Tasks > t.Tasks Then
                         [short] = t
@@ -247,8 +350,30 @@ Namespace Parallel.Threads
             Return [short]
         End Function
 
+        Public Sub WaitAll(Optional verbose As Boolean = False)
+            Call Thread.Sleep(1000)
+
+            Do While threads.Any(Function(t) t.RunningTask)
+                Call Thread.Sleep(5000)
+                Call Console.WriteLine()
+                Call Console.WriteLine(ToString)
+            Loop
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return threads.GetJson
+            Dim sb As New StringBuilder
+
+            Call sb.AppendLine($"   ------========== {DateTime.UtcNow.ToString} ==========------")
+            Call sb.AppendLine($"{NameOf(Me.FullCapacity)}: {FullCapacity}")
+            Call sb.AppendLine($"{NameOf(Me.NumOfThreads)}: {NumOfThreads}")
+            Call sb.AppendLine($"{NameOf(Me.WorkingThreads)}: {WorkingThreads}")
+            Call sb.AppendLine($"{NameOf(Me.pendings)}: {pendings.Count}")
+            Call sb.AppendLine($"{NameOf(Me.totalTask)}: {totalTask}")
+            Call sb.AppendLine($"Progress: [{Program.ProgressText(popoutTask / totalTask, 32)}] {(100 * popoutTask / totalTask).ToString("F2")}%")
+            Call sb.AppendLine()
+            Call sb.AppendLine(threads.JoinBy(vbCrLf))
+
+            Return sb.ToString
         End Function
 
         Public Sub [Exit]()

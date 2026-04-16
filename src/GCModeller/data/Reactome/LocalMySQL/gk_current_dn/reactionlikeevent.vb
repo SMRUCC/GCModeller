@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 162
+    '    Code Lines: 81 (50.00%)
+    ' Comment Lines: 59 (36.42%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 22 (13.58%)
+    '     File Size: 6.65 KB
+
+
     ' Class reactionlikeevent
     ' 
     '     Properties: [class], displayName, id, species, stableId

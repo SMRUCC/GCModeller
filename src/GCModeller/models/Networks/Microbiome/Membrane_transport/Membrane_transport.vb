@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::07a7b583c6060365d50edd37db8a119d, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
+﻿#Region "Microsoft.VisualBasic::f5c0db151098c2b99297909e175eedcb, models\Networks\Microbiome\Membrane_transport\Membrane_transport.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 326
+    '    Code Lines: 253 (77.61%)
+    ' Comment Lines: 32 (9.82%)
+    '    - Xml Docs: 40.62%
+    ' 
+    '   Blank Lines: 41 (12.58%)
+    '     File Size: 14.81 KB
+
+
     ' Module Membrane_transport
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -44,16 +56,15 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.GraphTheory
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Quantile
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
-Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.KEGG
 
 Public Module Membrane_transport
@@ -247,7 +258,7 @@ Public Module Membrane_transport
                 If supports = 0R Then
                     Continue For
                 Else
-                    Call $"  {reaction.ToString} [supports={supports}]".__DEBUG_ECHO
+                    Call $"  {reaction.ToString} [supports={supports}]".debug
                 End If
 
                 With reaction.ReactionModel
@@ -313,13 +324,13 @@ Public Module Membrane_transport
                 End With
             Next
 
-            Call genome.ToString.__INFO_ECHO
+            Call genome.ToString.info
         Next
 
         ' 计算每一种代谢物节点的degree数量
         ' 将top10删除
         ' 因为这些边链接非常高的代谢物可能是细胞内的通用代谢物,而非分泌到外部的代谢物
-        Call "Do graph node connectivity analysis...".__INFO_ECHO
+        Call "Do graph node connectivity analysis...".info
         Call g.ApplyAnalysis
 
         Dim metabolites = g.vertex _
@@ -332,13 +343,13 @@ Public Module Membrane_transport
         Dim quartile As DataQuartile = degrees.Quartile
         Dim threshold = quartile.Q3
 
-        Call $"There is {metabolites.Length} metabolites in graph".__DEBUG_ECHO
-        Call $"Node degree distribution: {quartile.ToString}".__DEBUG_ECHO
+        Call $"There is {metabolites.Length} metabolites in graph".debug
+        Call $"Node degree distribution: {quartile.ToString}".debug
 
         metabolites = metabolites.Where(Function(m) m.data.neighborhoods > threshold).ToArray
 
         Dim edgeIndexByNodeLabel As Dictionary(Of String, Edge()) = g.graphEdges _
-            .Select(Function(e) {(DirectCast(e, IInteraction).source, e), (DirectCast(e, IInteraction).target, e)}) _
+            .Select(Function(e) {(DirectCast(e, SparseGraph.IInteraction).source, e), (DirectCast(e, SparseGraph.IInteraction).target, e)}) _
             .IteratesALL _
             .GroupBy(Function(t) t.Item1) _
             .ToDictionary(Function(gr) gr.Key,
@@ -350,7 +361,7 @@ Public Module Membrane_transport
         For Each node As Node In metabolites
             deleteEdges += edgeIndexByNodeLabel(node.label)
 
-            Call $"Delete high connected metabolite: [{node}] {node.data!title}".__DEBUG_ECHO
+            Call $"Delete high connected metabolite: [{node}] {node.data!title}".debug
         Next
 
         ' 重新生成graph对象

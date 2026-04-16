@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::123c1c7ba31a329499509ba7b974ed16, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsVariance.vb"
+﻿#Region "Microsoft.VisualBasic::e343eccc7cce6e1b3aad66cd68a046b6, Microsoft.VisualBasic.Core\src\Extensions\Math\StatisticsMathExtensions\Linq\EnumerableStatsVariance.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 554
+    '    Code Lines: 111 (20.04%)
+    ' Comment Lines: 435 (78.52%)
+    '    - Xml Docs: 0.69%
+    ' 
+    '   Blank Lines: 8 (1.44%)
+    '     File Size: 21.81 KB
+
+
     '     Module EnumerableStatsVariance
     ' 
     '         Function: (+20 Overloads) Variance
@@ -41,10 +53,12 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
 
 Namespace Math.Statistics.Linq
 
+    ''' <summary>
+    ''' make sqrt of the variance result will be the standard deviation
+    ''' </summary>
     Public Module EnumerableStatsVariance
 
         '
@@ -66,10 +80,10 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Decimal?)) As Decimal
+        Public Function Variance(source As IEnumerable(Of Decimal?), Optional isSample As Boolean = True) As Decimal
             Dim values As IEnumerable(Of Decimal) = source.Coalesce()
             If values.Any() Then
-                Return values.Variance()
+                Return values.Variance(isSample)
             End If
 
             Return Nothing
@@ -95,8 +109,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Decimal)) As Decimal
-            Return CDec(source.[Select](Function(x) CDbl(x)).Variance())
+        Public Function Variance(source As IEnumerable(Of Decimal), Optional isSample As Boolean = True) As Decimal
+            Return CDec(source.[Select](Function(x) CDbl(x)).Variance(isSample))
         End Function
         '
         ' Summary:
@@ -114,10 +128,10 @@ Namespace Math.Statistics.Linq
         '   System.ArgumentNullException:
         '     source is null.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Double?)) As Double
+        Public Function Variance(source As IEnumerable(Of Double?), Optional isSample As Boolean = True) As Double
             Dim values As IEnumerable(Of Double) = source.Coalesce()
             If values.Any() Then
-                Return values.Variance()
+                Return values.Variance(isSample)
             End If
 
             Return Nothing
@@ -140,13 +154,14 @@ Namespace Math.Statistics.Linq
         '   System.InvalidOperationException:
         '     source contains no elements.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Double)) As Double
-            Dim avg As Double = source.Average()
-            Dim d As Double = source.Aggregate(0.0, Function(total, [next]) As Double
-                                                        total += ([next] - avg) ^ 2
-                                                        Return total
-                                                    End Function)
-            Return d / (source.Count() - 1)
+        Public Function Variance(source As IEnumerable(Of Double), Optional isSample As Boolean = True) As Double
+            Dim pull = source.ToArray
+            Dim avg As Double = pull.Average()
+            Dim d As Double = pull.Aggregate(0.0, Function(total, [next]) As Double
+                                                      total += ([next] - avg) ^ 2
+                                                      Return total
+                                                  End Function)
+            Return d / If(isSample, pull.Length - 1, pull.Length)
         End Function
         '
         ' Summary:
@@ -164,10 +179,10 @@ Namespace Math.Statistics.Linq
         '   System.ArgumentNullException:
         '     source is null.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Single?)) As Single
+        Public Function Variance(source As IEnumerable(Of Single?), Optional isSample As Boolean = True) As Single
             Dim values As IEnumerable(Of Single) = source.Coalesce()
             If values.Any() Then
-                Return values.Variance()
+                Return values.Variance(isSample)
             End If
 
             Return Nothing
@@ -190,8 +205,8 @@ Namespace Math.Statistics.Linq
         '   System.InvalidOperationException:
         '     source contains no elements.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Single)) As Single
-            Return CSng(source.[Select](Function(x) CDbl(x)).Variance())
+        Public Function Variance(source As IEnumerable(Of Single), Optional isSample As Boolean = True) As Single
+            Return CSng(source.[Select](Function(x) CDbl(x)).Variance(isSample))
         End Function
         '
         ' Summary:
@@ -212,10 +227,10 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Integer?)) As Double
+        Public Function Variance(source As IEnumerable(Of Integer?), Optional isSample As Boolean = True) As Double
             Dim values As IEnumerable(Of Integer) = source.Coalesce()
             If values.Any() Then
-                Return values.Variance()
+                Return values.Variance(isSample)
             End If
 
             Return Nothing
@@ -241,8 +256,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Integer)) As Double
-            Return source.[Select](Function(x) CDbl(x)).Variance()
+        Public Function Variance(source As IEnumerable(Of Integer), Optional isSample As Boolean = True) As Double
+            Return source.[Select](Function(x) CDbl(x)).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -263,10 +278,10 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Long?)) As Double
+        Public Function Variance(source As IEnumerable(Of Long?), Optional isSample As Boolean = True) As Double
             Dim values As IEnumerable(Of Long) = source.Coalesce()
             If values.Any() Then
-                Return values.Variance()
+                Return values.Variance(isSample)
             End If
 
             Return Nothing
@@ -292,8 +307,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(source As IEnumerable(Of Long)) As Double
-            Return source.[Select](Function(x) CDbl(x)).Variance()
+        Public Function Variance(source As IEnumerable(Of Long), Optional isSample As Boolean = True) As Double
+            Return source.Select(Function(x) CDbl(x)).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -323,8 +338,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Decimal?)) As Decimal
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Decimal?), Optional isSample As Boolean = True) As Decimal
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -355,8 +370,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Decimal)) As Decimal
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Decimal), Optional isSample As Boolean = True) As Decimal
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -383,8 +398,8 @@ Namespace Math.Statistics.Linq
         '   System.ArgumentNullException:
         '     source or selector is null.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Double?)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Double?), Optional isSample As Boolean = True) As Double
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -412,8 +427,8 @@ Namespace Math.Statistics.Linq
         '   System.InvalidOperationException:
         '     source contains no elements.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Double)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Double), Optional isSample As Boolean = True) As Double
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -440,8 +455,8 @@ Namespace Math.Statistics.Linq
         '   System.ArgumentNullException:
         '     source or selector is null.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Single?)) As Single
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Single?), Optional isSample As Boolean = True) As Single
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -469,8 +484,8 @@ Namespace Math.Statistics.Linq
         '   System.InvalidOperationException:
         '     source contains no elements.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Single)) As Single
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Single), Optional isSample As Boolean = True) As Single
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -499,8 +514,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Integer?)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Integer?), Optional isSample As Boolean = True) As Double
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -531,8 +546,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Integer)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Integer), Optional isSample As Boolean = True) As Double
+            Return source.[Select](selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -554,8 +569,8 @@ Namespace Math.Statistics.Linq
         '     The Variance of the sequence of values, or null if the source sequence is
         '     empty or contains only values that are null.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Long?)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Long?), Optional isSample As Boolean = True) As Double
+            Return source.Select(selector).Variance(isSample)
         End Function
         '
         ' Summary:
@@ -586,8 +601,8 @@ Namespace Math.Statistics.Linq
         '   System.OverflowException:
         '     The sum of the elements in the sequence is larger than System.Int64.MaxValue.
         <Extension>
-        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Long)) As Double
-            Return source.[Select](selector).Variance()
+        Public Function Variance(Of TSource)(source As IEnumerable(Of TSource), selector As Func(Of TSource, Long), Optional isSample As Boolean = True) As Double
+            Return source.Select(selector).Variance(isSample)
         End Function
     End Module
 End Namespace

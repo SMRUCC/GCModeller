@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbfe07f260983f8adaa5f9a675d8dd49, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::646cf97e0ca0e79e1cdebcb80059d6ab, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\ReferenceMap\Reaction.vb"
 
     ' Author:
     ' 
@@ -31,25 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 9 (47.37%)
+    ' Comment Lines: 6 (31.58%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (21.05%)
+    '     File Size: 667 B
+
+
     '     Class ReferenceReaction
     ' 
     '         Properties: SSDBs
-    ' 
-    '         Function: Download
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Assembly.KEGG.DBGET.WebQuery
 Imports SMRUCC.genomics.Assembly.KEGG.WebServices
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices.InternalWebFormParsers
 
 Namespace Assembly.KEGG.DBGET.ReferenceMap
 
@@ -64,35 +69,5 @@ Namespace Assembly.KEGG.DBGET.ReferenceMap
         ''' <remarks></remarks>
         Public Property SSDBs As NamedCollection(Of QueryEntry)()
 
-        Const ENTRY_PATTERN As String = "<a href=""/dbget-bin/www_bget\?ko:K\d+"
-
-        Public Overloads Shared Function Download(entry As ListEntry) As ReferenceReaction
-            Dim html As New WebForm(resource:=entry.url)
-
-            If html.Count = 0 Then
-                Return Nothing
-            End If
-
-            Dim r As ReferenceReaction = ReactionQuery.webFormParser(Of ReferenceReaction)(html)
-            Dim sValue As String = html("Orthology").FirstOrDefault
-
-            If Not String.IsNullOrEmpty(sValue) Then
-                Dim IDs As String() = Regex _
-                    .Matches(sValue, ENTRY_PATTERN, RegexOptions.IgnoreCase) _
-                    .ToArray(Function(m) m.Split(CChar(":")).Last)
-                Dim genes = LinqAPI.Exec(Of NamedCollection(Of QueryEntry)) <=
- _
-                    From EntryID As String
-                    In IDs
-                    Select New NamedCollection(Of QueryEntry) With {
-                        .Name = EntryID,
-                        .Value = SSDB.API.HandleDownload(KO_ID:=EntryID)
-                    }
-
-                r.SSDBs = genes
-            End If
-
-            Return r
-        End Function
     End Class
 End Namespace

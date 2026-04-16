@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::edea355844db79b04b77580c397699aa, core\Bio.Annotation\PTF\KOSelector.vb"
+﻿#Region "Microsoft.VisualBasic::38b0c64d79ffac3be86377d63a26278d, core\Bio.Annotation\PTF\KOSelector.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 18 (62.07%)
+    ' Comment Lines: 5 (17.24%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 6 (20.69%)
+    '     File Size: 911 B
+
+
     '     Module KOSelector
     ' 
-    '         Function: SelectMaps
+    '         Function: LoadCrossReference, SelectMaps
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
+
+Imports System.Runtime.CompilerServices
 
 Namespace Ptf
 
@@ -50,7 +64,20 @@ Namespace Ptf
         ''' <param name="selector">the selector expression string</param>
         ''' <returns></returns>
         Public Function SelectMaps(selector As String) As String()
+            Throw New NotImplementedException
+        End Function
 
+        <Extension>
+        Public Function LoadCrossReference(proteins As IEnumerable(Of ProteinAnnotation), key As String) As Dictionary(Of String, String())
+            Dim db_xrefs As New Dictionary(Of String, String())
+
+            For Each prot As ProteinAnnotation In proteins
+                If prot.has(key) Then
+                    db_xrefs(prot.geneId) = prot.get(key)
+                End If
+            Next
+
+            Return db_xrefs
         End Function
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::689ad9517329f136e1073ed1557eca98, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Fitness.vb"
+﻿#Region "Microsoft.VisualBasic::6c05dd4022cf3a90a6bdd4db51a101a2, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\Fitness.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 7 (10.00%)
+    ' Comment Lines: 58 (82.86%)
+    '    - Xml Docs: 62.07%
+    ' 
+    '   Blank Lines: 5 (7.14%)
+    '     File Size: 2.86 KB
+
 
     '     Interface Fitness
     ' 
@@ -77,6 +89,9 @@ Namespace Darwinism.GAF
         ''' 这个计算模块是否会缓存计算结果?
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' the result is cached by the unique id of the target chr
+        ''' </remarks>
         ReadOnly Property Cacheable As Boolean
 
         ''' <summary>
@@ -103,6 +118,9 @@ Namespace Darwinism.GAF
         ''' 1. 如果外部调用这个计算函数是并行的,那么这个parallel参数应该设置为false
         ''' 2. 如果是单线程的外部代码调用这个计算函数,那么这个parallel参数可以是true,即在函数的内部实现并行化
         ''' </param>
+        ''' <remarks>
+        ''' smaller value is better
+        ''' </remarks>
         Function Calculate(chromosome As Chr, parallel As Boolean) As Double
     End Interface
 End Namespace

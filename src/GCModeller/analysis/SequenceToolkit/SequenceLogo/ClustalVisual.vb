@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b396bed968cbc8622dbdce07860ecc6, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
+﻿#Region "Microsoft.VisualBasic::7e8ef62eae6b3858725f4b6aa459d2cc, analysis\SequenceToolkit\SequenceLogo\ClustalVisual.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,72 @@
 
     ' Summaries:
 
-    ' Module ClustalVisual
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 128 (73.56%)
+    ' Comment Lines: 20 (11.49%)
+    '    - Xml Docs: 90.00%
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '   Blank Lines: 26 (14.94%)
+    '     File Size: 7.20 KB
+
+
+    ' Class ClustalVisual
     ' 
-    '     Function: (+2 Overloads) InvokeDrawing
+    '     Constructor: (+2 Overloads) Sub New
     ' 
-    '     Sub: SetDotSize
+    '     Function: InvokeDrawing
+    ' 
+    '     Sub: PlotInternal
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
-Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.Patterns
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 ''' <summary>
 ''' Visualization for the result of Clustal multiple sequence alignment.
@@ -66,27 +109,22 @@ Imports SMRUCC.genomics.SequenceModel.Patterns
                     Description:="Data visualization for the Clustal multiple alignment output fasta file.",
                     Publisher:="amethyst.asuka@gcmodeller.org",
                     Url:="http://gcmodeller.org")>
-Public Module ClustalVisual
+Public Class ClustalVisual : Inherits Plot
 
     <DataFrameColumn("MLA.Margin")> Dim Margin As Integer = 20
     ''' <summary>
     ''' 一个点默认占据10个像素
     ''' </summary>
     ''' <remarks></remarks>
-    <DataFrameColumn("MLA.DotSize")> Dim DotSize As Integer = 10
+    <DataFrameColumn("MLA.DotSize")> Public DotSize As Integer = 10
     <DataFrameColumn("MLA.FontSize")> Dim FontSize As Integer = 12
 
     ''' <summary>
     ''' Colors profile for the residues.
     ''' </summary>
-    ReadOnly __colours As Dictionary(Of String, Color)
+    Shared ReadOnly __colours As Dictionary(Of String, Color)
 
-    <ExportAPI("DotSize.Set", Info:="Setups of the dot size for the residue plot.")>
-    Public Sub SetDotSize(n As Integer)
-        ClustalVisual.DotSize = n
-    End Sub
-
-    Sub New()
+    Shared Sub New()
         ClustalVisual.__colours = Polypeptides.MEGASchema.ToDictionary(Function(x) x.Key.ToString, Function(x) x.Value)
 
         Call ClustalVisual.__colours.Add("-", Color.FromArgb(0, 0, 0, 0))
@@ -99,19 +137,15 @@ Public Module ClustalVisual
         Call ClustalVisual.__colours.Add("U", Color.CadetBlue)
     End Sub
 
-    ''' <summary>
-    ''' Drawing.Clustal
-    ''' </summary>
-    ''' <param name="aln">The file path of the clustal alignment result fasta file.</param>
-    ''' <returns></returns>
-    <ExportAPI("Drawing.Clustal")>
-    Public Function InvokeDrawing(<Parameter("aln.File",
-                                             "The file path of the clustal alignment result fasta file.")>
-                                  aln As String) As Image
-        Dim fa As FASTA.FastaFile = FASTA.FastaFile.Read(aln)
-        Dim res As Image = fa.InvokeDrawing
-        Return res
-    End Function
+    ReadOnly aln As FastaFile
+    ReadOnly stringSize As SizeF
+
+    Private Sub New(aln As FastaFile, stringSize As SizeF, theme As Theme)
+        Call MyBase.New(theme)
+
+        Me.aln = aln
+        Me.stringSize = stringSize
+    End Sub
 
     ''' <summary>
     ''' 蛋白质序列和核酸序列都可以使用本函数
@@ -121,25 +155,34 @@ Public Module ClustalVisual
     ''' <remarks></remarks>
     ''' 
     <ExportAPI("Drawing.Clustal")>
-    <Extension> Public Function InvokeDrawing(aln As FASTA.FastaFile) As Image
+    Public Shared Function InvokeDrawing(aln As FASTA.FastaFile,
+                                         Optional margin As Integer = 50,
+                                         Optional dotSize As Integer = 10,
+                                         Optional fontSize As Integer = 12) As GraphicsData
+
         Dim titleMaxLen = (From fa As FASTA.FastaSeq
                            In aln
                            Select l = Len(fa.Title),
                                fa.Title
                            Order By l Descending).First
 
-        Dim titleFont As New Font(FontFace.Ubuntu, FontSize)
-        Dim StringSize As SizeF = titleMaxLen.Title.MeasureSize(New Size(1, 1).CreateGDIDevice, titleFont)
-        Dim DotSize As Integer = ClustalVisual.DotSize
+        Dim titleFont As New Font(FontFace.Ubuntu, fontSize)
+        Dim StringSize As SizeF = FontFace.MeasureString(titleMaxLen.Title, titleFont)
 
-        DotSize = Math.Max(DotSize, StringSize.Height) + 5
+        dotSize = Math.Max(dotSize, StringSize.Height) + 5
 
         Dim grSize As New Size(
-            aln.Max(Function(fa) fa.Length) * DotSize + StringSize.Width + 2 * Margin,
-            (aln.Count + 1) * DotSize + 2.5 * Margin)
+            aln.Max(Function(fa) fa.Length) * dotSize + StringSize.Width + 2 * margin,
+            (aln.Count + 1) * dotSize + 2.5 * margin)
+        Dim app As New ClustalVisual(aln, StringSize, New Theme With {.padding = New Padding(margin), .mainCSS = New CSSFont(titleFont, Brushes.Black).CSSValue})
 
-        Dim gdi As Graphics2D = grSize.CreateGDIDevice
-        Dim X As Integer = 0.5 * Margin + StringSize.Width + 10
+        Return app.Plot($"{grSize.Width},{grSize.Height}")
+    End Function
+
+    Protected Overrides Sub PlotInternal(ByRef g As IGraphics, canvas As GraphicsRegion)
+        Dim css As CSSEnvirnment = g.LoadEnvironment
+        Dim titleFont As Font = css.GetFont(theme.mainCSS)
+        Dim X As Integer = 0.5 * Margin + stringSize.Width + 10
         Dim Y As Integer = Margin
         Dim DotFont As New Font(FontFace.Ubuntu, FontSize + 1, FontStyle.Bold)
         Dim ConservedSites As Integer() =
@@ -149,7 +192,7 @@ Public Module ClustalVisual
                                         Select site.i
         Dim idx As Integer = 0
 
-        Call gdi.ImageAddFrame(offset:=1)
+        Call g.ImageAddFrame(offset:=1)
 
         For Each ch As Char In aln.First.SequenceData
             If Array.IndexOf(ConservedSites, idx) = -1 Then
@@ -158,33 +201,31 @@ Public Module ClustalVisual
                 Continue For
             End If
 
-            Call gdi.Graphics.DrawString("*", DotFont, Brushes.Black, New Point(X, Y))
+            Call g.DrawString("*", DotFont, Brushes.Black, New Point(X, Y))
 
             idx += 1
             X += DotSize
         Next
 
-        X = 0.5 * Margin + StringSize.Width + 10
+        X = 0.5 * Margin + stringSize.Width + 10
         Y += DotSize
 
         For Each fa As FASTA.FastaSeq In aln
-            Call gdi.Graphics.DrawString(fa.Title, titleFont, Brushes.Black, New Point(Margin * 0.75, Y))
+            Call g.DrawString(fa.Title, titleFont, Brushes.Black, New Point(Margin * 0.75, Y))
 
             For Each ch As Char In fa.SequenceData
                 Dim s As String = ch.ToString
                 Dim br As New SolidBrush(ClustalVisual.__colours(s))
                 Dim rect As New Rectangle(New Point(X, Y), New Size(DotSize, DotSize))
 
-                Call gdi.Graphics.FillRectangle(br, rect)
-                Call gdi.Graphics.DrawString(s, DotFont, Brushes.Black, New Point(X, Y))
+                Call g.FillRectangle(br, rect)
+                Call g.DrawString(s, DotFont, Brushes.Black, New Point(X, Y))
 
                 X += DotSize
             Next
 
-            X = 0.5 * Margin + StringSize.Width + 10
+            X = 0.5 * Margin + stringSize.Width + 10
             Y += DotSize
         Next
-
-        Return gdi.ImageResource
-    End Function
-End Module
+    End Sub
+End Class

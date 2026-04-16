@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::764bb4b55498d061560b2d276415672d, Data_science\MachineLearning\MachineLearning\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::6151b35ff43a48a945b448be85569e47, Data_science\MachineLearning\MachineLearning\test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 14 (70.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (30.00%)
+    '     File Size: 458 B
+
+
     ' Module Module1
     ' 
     '     Sub: functionParserTest, Main
@@ -40,6 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.MachineLearning
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.Activations
 
 Module Module1
 
@@ -49,10 +62,10 @@ Module Module1
 
     Sub functionParserTest()
 
-        Dim func As New NeuralNetwork.Activations.BipolarSigmoid(alpha:=3)
+        Dim func As New BipolarSigmoid(alpha:=3)
         Dim str = func.ToString
-        Dim model = NeuralNetwork.StoreProcedure.ActiveFunction.Parse(str)
-        Dim func2 As NeuralNetwork.Activations.BipolarSigmoid = model
+        Dim model = ActiveFunction.Parse(str)
+        Dim func2 As BipolarSigmoid = model
 
         Pause()
     End Sub

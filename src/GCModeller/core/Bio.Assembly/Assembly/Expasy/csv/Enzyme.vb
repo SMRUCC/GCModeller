@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f405a9c382c769419e761de81ad6af60, core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::ac3864dad1ac9d0174d3fad541777370, core\Bio.Assembly\Assembly\Expasy\csv\Enzyme.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 25 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.67%)
+    '     File Size: 1.12 KB
+
+
     '     Class Enzyme
     ' 
     '         Properties: AlternateName, Cofactor, Comments, Description, Identification
@@ -43,11 +55,7 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 
 Namespace Assembly.Expasy.Database.csv
 

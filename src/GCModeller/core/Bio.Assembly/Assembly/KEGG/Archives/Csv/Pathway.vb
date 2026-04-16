@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe52dd5e267056937334bdf6e2615f2, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::938f12a7382aa4df8bdc039ce9c4045a, core\Bio.Assembly\Assembly\KEGG\Archives\Csv\Pathway.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,33 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 68 (56.67%)
+    ' Comment Lines: 34 (28.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (15.00%)
+    '     File Size: 4.82 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: [Class], briteID, Category, EntryId, PathwayGenes
     ' 
-    '         Function: (+2 Overloads) CreateObjects, GenerateObject, GetPathwayGenes, LoadData
+    '         Function: (+2 Overloads) CreateObjects, GenerateObject, GetCompoundSet, GetPathwayGenes, LoadData
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -63,10 +72,6 @@ Namespace Assembly.KEGG.Archives.Csv
     ''' <remarks></remarks>
     Public Class Pathway : Inherits PathwayBrief
         Implements IKeyValuePairObject(Of String, String())
-
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
 
         ''' <summary>
         ''' Pathway object KEGG database entry id.
@@ -159,6 +164,13 @@ Namespace Assembly.KEGG.Archives.Csv
         Public Shared Function CreateObjects(Model As KEGG.Archives.Xml.XmlModel) As Pathway()
             Dim Pathways = Model.GetAllPathways
             Return CreateObjects(Pathways, Model.spCode)
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
         End Function
     End Class
 End Namespace

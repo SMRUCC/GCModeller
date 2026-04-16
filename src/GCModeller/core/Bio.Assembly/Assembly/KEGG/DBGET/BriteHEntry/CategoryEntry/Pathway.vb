@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa289d3c8d0c247e88381e8a5e0ec07c, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
+﻿#Region "Microsoft.VisualBasic::aa42a95d9830e665bdb92f3a900d003f, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Pathway.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 102 (59.65%)
+    ' Comment Lines: 44 (25.73%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 25 (14.62%)
+    '     File Size: 6.21 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: [class], category, entry, EntryId
@@ -56,9 +68,8 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
     ''' <summary>
     ''' The brief entry information for the pathway objects in the KEGG database.
-    ''' (KEGG数据库之中的代谢途径对象的分类以及入口点信息) 
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(KEGG数据库之中的代谢途径对象的分类以及入口点信息) </remarks>
     Public Class Pathway : Implements IReadOnlyId
 
         ''' <summary>
@@ -120,7 +131,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function LoadFromResource() As Pathway()
-            Return LoadStream(My.Resources.br08901)
+            Return LoadStream(My.Resources.KEGG.br08901)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

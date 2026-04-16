@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 268
+    '    Code Lines: 199 (74.25%)
+    ' Comment Lines: 33 (12.31%)
+    '    - Xml Docs: 96.97%
+    ' 
+    '   Blank Lines: 36 (13.43%)
+    '     File Size: 11.24 KB
+
+
     '     Module PrintAsTable
     ' 
     '         Function: (+3 Overloads) Print

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3503e92f460f1908613cfaa634dba434, core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
+﻿#Region "Microsoft.VisualBasic::17547859fa68a942c227b4022fb56459, core\Bio.Assembly\ComponentModel\Locus\LociSites\TagSite.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 52 (60.47%)
+    ' Comment Lines: 19 (22.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (17.44%)
+    '     File Size: 3.34 KB
+
+
     '     Interface ITagSite
     ' 
     '         Properties: Distance, tag
@@ -55,7 +67,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci.Abstract
 
@@ -124,7 +136,7 @@ Namespace ComponentModel.Loci.Abstract
             Dim last As Integer = locis.First.Distance
 
             For Each x In locis.Skip(1)
-                If stdNum.Abs(x.Distance - last) <= offset Then
+                If std.Abs(x.Distance - last) <= offset Then
                     result.Last.Add(x.Group)
                 Else
                     last = x.Distance

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc2c734eff5951797675000b8de032d6, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
+﻿#Region "Microsoft.VisualBasic::27e0634d585724a7df59f05c4e39e9dc, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Model\entry.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 159
+    '    Code Lines: 101 (63.52%)
+    ' Comment Lines: 40 (25.16%)
+    '    - Xml Docs: 97.50%
+    ' 
+    '   Blank Lines: 18 (11.32%)
+    '     File Size: 5.96 KB
+
+
     '     Class entry
     ' 
     '         Properties: accession, accessions, CommentList, comments, created
     '                     dataset, dbReferences, features, gene, keywords
     '                     modified, name, organism, protein, proteinExistence
-    '                     references, sequence, version, xrefs
+    '                     references, sequence, SequenceData, version, xrefs
     ' 
-    '         Function: ShadowCopy, ToString
+    '         Function: GetCommentText, ShadowCopy, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,6 +62,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.SequenceModel
 
 Namespace Assembly.Uniprot.XML
 
@@ -59,7 +72,8 @@ Namespace Assembly.Uniprot.XML
     ''' <see cref="entry.ShadowCopy()"/>函数来解决实体多态的问题。
     ''' 经过shadow copy之后可以使用主键<see cref="accession"/>来创建字典)
     ''' </summary>
-    Public Class entry : Implements INamedValue
+    ''' 
+    Public Class entry : Implements INamedValue, IPolymerSequenceModel
 
         <XmlAttribute> Public Property dataset As String
         <XmlAttribute> Public Property created As String
@@ -140,14 +154,38 @@ Namespace Assembly.Uniprot.XML
         End Property
 
         <XmlElement("reference")> Public Property references As reference()
+
+        ''' <summary>
+        ''' indexed by <see cref="comment.type"/>
+        ''' </summary>
+        ''' <returns></returns>
         <XmlIgnore>
         Public ReadOnly Property CommentList As Dictionary(Of String, comment())
+
         ''' <summary>
         ''' <see cref="dbReferences"/> table
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' indexed by the <see cref=" dbReference.type"/>
+        ''' </remarks>
         <XmlIgnore>
         Public ReadOnly Property xrefs As Dictionary(Of String, dbReference())
+
+        Private Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+            Get
+                If Not sequence Is Nothing Then
+                    Return sequence.sequence
+                Else
+                    Return Nothing
+                End If
+            End Get
+            Set(value As String)
+                If Not sequence Is Nothing Then
+                    sequence.sequence = value
+                End If
+            End Set
+        End Property
 
         Public Overrides Function ToString() As String
             Return accessions.GetJson
@@ -167,6 +205,14 @@ Namespace Assembly.Uniprot.XML
             Next
 
             Return list
+        End Function
+
+        Public Function GetCommentText(type As String) As String
+            If CommentList.ContainsKey(type) Then
+                Return CommentList(type).Select(Function(c) c.GetText).JoinBy(" ")
+            Else
+                Return Nothing
+            End If
         End Function
     End Class
 End Namespace

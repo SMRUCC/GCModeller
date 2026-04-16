@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 187
+    '    Code Lines: 82 (43.85%)
+    ' Comment Lines: 81 (43.32%)
+    '    - Xml Docs: 65.43%
+    ' 
+    '   Blank Lines: 24 (12.83%)
+    '     File Size: 6.22 KB
+
+
     ' Module WaveletTransformExtensions
     ' 
     '     Sub: (+2 Overloads) FWT, (+2 Overloads) IWT

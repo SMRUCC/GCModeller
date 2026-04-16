@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 75 (68.18%)
+    ' Comment Lines: 14 (12.73%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (19.09%)
+    '     File Size: 3.32 KB
+
+
     ' Class UInt8Array
     ' 
     '     Properties: buf, length

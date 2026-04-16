@@ -1,0 +1,897 @@
+﻿#Region "Microsoft.VisualBasic::66d7fa39709ff8551e59b7fb5fae2a17, R#\metagenomics_kit\Kmers.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 835
+    '    Code Lines: 593 (71.02%)
+    ' Comment Lines: 116 (13.89%)
+    '    - Xml Docs: 83.62%
+    ' 
+    '   Blank Lines: 126 (15.09%)
+    '     File Size: 36.41 KB
+
+
+    ' Module KmersTool
+    ' 
+    '     Function: bayes_background, bayes_estimate, bloom_filter, bloom_vector, bracken_table
+    '               filter_classification, filter_hostId, filter_reads, format_kraken_seqs, gene_seqs
+    '               genomics_nt, get_kraken_data, hitTable, kraken2Table, load_background
+    '               make_classify, make_vector, parse_kraken_output, parse_kraken_report, quantify
+    '               read_bracken, read_kraken_reads, read_kraken_report, readKmerBloomFilter, reads_hits_matrix
+    '               readSequenceDb, scanBloomDatabase, seqTable, sequenceInfo, taxonomy_expression
+    '               write_background, writeKmerBloomFilter
+    ' 
+    '     Sub: Main
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Unit
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.IO
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Matrix
+Imports Microsoft.VisualBasic.MIME.application.json.BSON
+Imports Microsoft.VisualBasic.MIME.application.json.Javascript
+Imports Microsoft.VisualBasic.MIME.application.xml
+Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
+Imports SMRUCC.genomics.Analysis.Metagenome
+Imports SMRUCC.genomics.Analysis.Metagenome.Kmers
+Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports HTSMatrix = SMRUCC.genomics.Analysis.HTS.DataFrame.Matrix
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+
+<Package("kmers")>
+<RTypeExport("kmer", GetType(KmerSeed))>
+<RTypeExport("kmer_bloom", GetType(KmerBloomFilter))>
+Module KmersTool
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceHit()), AddressOf hitTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(KrakenOutputRecord()), AddressOf kraken2Table)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(SequenceSource()), AddressOf seqTable)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(Bracken()), AddressOf bracken_table)
+
+        Call RInternal.generic.add("readBin.kmer_bloom", GetType(System.IO.Stream), AddressOf readKmerBloomFilter)
+        Call RInternal.generic.add("writeBin", GetType(KmerBloomFilter), AddressOf writeKmerBloomFilter)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function bracken_table(expr As Bracken(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call df.add("name", From r As Bracken In expr Select r.name)
+        Call df.add("taxonomy_id", From r As Bracken In expr Select r.taxonomy_id)
+        Call df.add("taxonomy_lvl", From r As Bracken In expr Select r.taxonomy_lvl)
+        Call df.add("kraken_assigned_reads", From r As Bracken In expr Select r.kraken_assigned_reads)
+        Call df.add("added_reads", From r As Bracken In expr Select r.added_reads)
+        Call df.add("new_est_reads", From r As Bracken In expr Select r.new_est_reads)
+        Call df.add("fraction_total_reads", From r As Bracken In expr Select r.fraction_total_reads)
+
+        Return df
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function seqTable(source As SequenceSource(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
+            .rownames = source.Select(Function(s) CStr(s.id)).ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call t.add("accession_id", From s As SequenceSource In source Select s.accession_id)
+        Call t.add("ncbi_taxid", From s As SequenceSource In source Select s.ncbi_taxid)
+        Call t.add("name", From s As SequenceSource In source Select s.name)
+
+        Return t
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function kraken2Table(kraken2_result As KrakenOutputRecord(), args As list, env As Environment) As dataframe
+        Dim t As New dataframe With {
+            .rownames = kraken2_result _
+                .Select(Function(a) a.ReadName) _
+                .ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call t.add("status_code", From a As KrakenOutputRecord In kraken2_result Select a.StatusCode)
+        Call t.add("read_length", From a As KrakenOutputRecord In kraken2_result Select a.ReadLength)
+        Call t.add("taxid", From a As KrakenOutputRecord In kraken2_result Select a.TaxID)
+        Call t.add("tax_name", From a As KrakenOutputRecord In kraken2_result Select a.Taxonomy)
+        Call t.add("lca_support", From a As KrakenOutputRecord In kraken2_result Select a.LCASupport)
+        Call t.add("lca_taxids", From a As KrakenOutputRecord In kraken2_result Select a.LCATaxids.JoinBy(", "))
+        Call t.add("lca_mapping", From a As KrakenOutputRecord
+                                  In kraken2_result
+                                  Select a.LcaMappings _
+                                      .OrderByDescending(Function(i) i.Value) _
+                                      .Select(Function(l) $"{l.Key}:{l.Value}") _
+                                      .JoinBy(" "))
+        Return t
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function hitTable(hits As SequenceHit(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        Call df.add(NameOf(SequenceHit.reads_title), From h As SequenceHit In hits Select h.reads_title)
+        Call df.add(NameOf(SequenceHit.id), From h As SequenceHit In hits Select h.id)
+        Call df.add(NameOf(SequenceHit.ncbi_taxid), From h As SequenceHit In hits Select h.ncbi_taxid)
+        Call df.add(NameOf(SequenceHit.accession_id), From h As SequenceHit In hits Select h.accession_id)
+        Call df.add(NameOf(SequenceHit.name), From h As SequenceHit In hits Select h.name)
+        Call df.add(NameOf(SequenceHit.identities), From h As SequenceHit In hits Select h.identities)
+        Call df.add(NameOf(SequenceHit.ratio), From h As SequenceHit In hits Select h.ratio)
+        Call df.add(NameOf(SequenceHit.total), From h As SequenceHit In hits Select h.total)
+        Call df.add(NameOf(SequenceHit.score), From h As SequenceHit In hits Select h.score)
+
+        Return df
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="args"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' <see cref="KmerBloomFilter"/>
+    ''' </returns>
+    Public Function readKmerBloomFilter(file As System.IO.Stream, args As list, env As Environment) As Object
+        Return KmerBloomFilter.LoadFromFile(file)
+    End Function
+
+    Public Function writeKmerBloomFilter(filter As KmerBloomFilter, args As list, env As Environment) As Object
+        Dim s As System.IO.Stream = args!con
+        Call filter.Save(s)
+        Call s.Flush()
+        Return True
+    End Function
+
+    <ExportAPI("write.kmers_background")>
+    Public Function write_background(bayes As KmerBackground, dirpath As String) As Object
+        Call bayes.Save(dirpath)
+        Return True
+    End Function
+
+    <ExportAPI("read.kmers_background")>
+    Public Function load_background(dirpath As String) As KmerBackground
+        Return KmerBackground.Load(dirpath)
+    End Function
+
+    <ExportAPI("bayes_background")>
+    <RApiReturn(GetType(KmerBackground))>
+    Public Function bayes_background(<RRawVectorArgument> kmers_db As Object,
+                                     ncbi_taxonomy As NcbiTaxonomyTree,
+                                     seq_id As SequenceCollection,
+                                     <RRawVectorArgument(TypeCodes.string)>
+                                     Optional rank As Object = "species|genus|family|order|class|phylum|superkingdom",
+                                     Optional env As Environment = Nothing) As Object
+
+        Dim estimate As New PriorProbabilityBuilder(ncbi_taxonomy)
+        Dim pullKmers As pipeline = pipeline.TryCreatePipeline(Of KmerSeed)(kmers_db, env)
+        Dim targetRank As String = CLRVector.safeCharacters(rank).ElementAtOrDefault(0, "genus")
+
+        If pullKmers.isError Then
+            Return pullKmers.getError
+        End If
+
+        Dim kmers As IEnumerable(Of KmerSeed) = pullKmers.populates(Of KmerSeed)(env)
+        Dim prior = estimate.BuildDatabase(kmers, seq_id, targetRank)
+
+        Return prior
+    End Function
+
+    <ExportAPI("read_seqid")>
+    Public Function readSequenceDb(file As String) As SequenceCollection
+        Return SequenceCollection.Load(file)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="repo"></param>
+    ''' <param name="ncbi_taxonomy"></param>
+    ''' <param name="min_supports">min supports for LCA, recommended 0.35 as threshold</param>
+    ''' <param name="coverage"></param>
+    ''' <returns></returns>
+    <ExportAPI("bloom_filters")>
+    Public Function scanBloomDatabase(<RRawVectorArgument> repo As Object, ncbi_taxonomy As NcbiTaxonomyTree,
+                                      Optional min_supports As Double = 0.35,
+                                      Optional coverage As Double = 0.5,
+                                      Optional env As Environment = Nothing) As BloomDatabase
+
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of KmerBloomFilter)(repo, env)
+        Dim genomes As IEnumerable(Of KmerBloomFilter)
+
+        If pull.isError Then
+            Dim bloomfiles As String() = (From dir As String
+                                          In CLRVector.asCharacter(repo)
+                                          Select dir.EnumerateFiles("*.ksbloom")) _
+                      .IteratesALL _
+                      .ToArray
+
+            genomes = From file As String
+                      In TqdmWrapper.Wrap(bloomfiles)
+                      Select KmerBloomFilter.LoadFromFile(file)
+        Else
+            genomes = pull.populates(Of KmerBloomFilter)(env)
+        End If
+
+        Dim lca As New LCA(ncbi_taxonomy)
+        Dim kdb As New BloomDatabase(genomes, lca, min_supports, coverage)
+        Return kdb
+    End Function
+
+    <ExportAPI("bloom_vector")>
+    Public Function bloom_vector(<RRawVectorArgument> x As Object,
+                                 Optional k As Integer = 35,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim seqs As FastaSeq() = pipHelper.GetFastaSeq(x, env).ToArray
+        Dim blooms As New List(Of KmerBloomFilter)
+
+        For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs)
+            Call blooms.Add(KmerBloomFilter.Create(seq, 0, k))
+        Next
+
+        Return New BloomVectorizer(blooms)
+    End Function
+
+    ''' <summary>
+    ''' make vector embedding
+    ''' </summary>
+    ''' <param name="bloom"></param>
+    ''' <param name="x"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("make_vector")>
+    Public Function make_vector(bloom As BloomVectorizer, <RRawVectorArgument> x As Object,
+                                Optional file As Object = Nothing,
+                                Optional as_matrix As Boolean = False,
+                                Optional test As Integer = -1,
+                                Optional parallel As Boolean = True,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(x, env)
+
+        If Not file Is Nothing Then
+            Dim is_file As Boolean = False
+            Dim save = SMRUCC.Rsharp.GetFileStream(file, System.IO.FileAccess.Write, env, is_filepath:=is_file)
+
+            If save Like GetType(Message) Then
+                Return save.TryCast(Of Message)
+            End If
+
+            Dim s As New BinaryDataWriter(save.TryCast(Of System.IO.Stream))
+
+            For Each seq As FastaSeq In seqs
+                Dim vec As New ClusterEntity With {
+                    .uid = seq.Title,
+                    .entityVector = bloom.MakeVector(seq)
+                }
+                Dim bin = BSONFormat.GetBuffer(JsonObject.Create(vec))
+
+                Call s.Write(bin.ToArray)
+            Next
+
+            Call s.Flush()
+            Call s.Dispose()
+
+            Try
+                If is_file Then
+                    Call save.TryCast(Of System.IO.Stream).Dispose()
+                End If
+            Catch ex As Exception
+
+            End Try
+
+            Return True
+        Else
+            Dim vecs As New List(Of ClusterEntity)
+
+            If test > 0 Then
+                seqs = seqs.ToArray.Take(test)
+            End If
+
+            If parallel Then
+                Call vecs.AddRange(From seq As FastaSeq
+                                   In seqs _
+                                       .ToArray _
+                                       .AsParallel
+                                   Select New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
+            Else
+                For Each seq As FastaSeq In TqdmWrapper.Wrap(seqs.ToArray)
+                    Call vecs.Add(New ClusterEntity(seq.Title, bloom.MakeVector(seq)))
+                Next
+            End If
+
+            If as_matrix Then
+                Return New DataMatrix(vecs.Keys, From v As ClusterEntity In vecs Select v.entityVector)
+            Else
+                Return vecs.ToArray
+            End If
+        End If
+    End Function
+
+    ''' <summary>
+    ''' just make reads classify of the fastq reads based on the k-mer distribution
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="reads"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' apply this method for do host sequence filter
+    ''' </remarks>
+    <ExportAPI("make_classify")>
+    <RApiReturn(GetType(SequenceHit), GetType(KrakenOutputRecord))>
+    Public Function make_classify(db As Object, <RRawVectorArgument> reads As Object,
+                                  Optional n_threads As Integer = 16,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim readsData As IEnumerable(Of FastQ)
+
+        If readsFile.isError OrElse TypeOf reads Is FastQFile Then
+            If TypeOf reads Is FastQFile Then
+                readsData = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsFile.getError
+            End If
+        Else
+            readsData = readsFile.populates(Of FastQ)(env)
+        End If
+
+        Dim rawdata As FastQ() = readsData.ToArray
+        Dim opt As New ParallelOptions With {.MaxDegreeOfParallelism = n_threads}
+
+        If TypeOf db Is DatabaseReader Then
+            Dim classifier As New Classifier(DirectCast(db, DatabaseReader))
+            Dim labels As SequenceHit() = New SequenceHit(rawdata.Length - 1) {}
+
+            Call Parallel.For(0, labels.Length, opt,
+                body:=Sub(i)
+                          Dim read As FastQ = rawdata(i)
+                          Dim hit = classifier.MakeClassify(read.SequenceData)
+
+                          hit.reads_title = read.SEQ_ID
+                          labels(i) = hit
+                      End Sub)
+
+            'For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+            '    Dim hit = classifier.MakeClassify(read.SequenceData)
+
+            '    hit.reads_title = read.SEQ_ID
+            '    labels.Add(hit)
+            'Next
+
+            Return labels
+        ElseIf TypeOf db Is BloomDatabase Then
+            Dim classifier As BloomDatabase = DirectCast(db, BloomDatabase)
+            Dim labels As KrakenOutputRecord() = New KrakenOutputRecord(rawdata.Length - 1) {}
+
+            Call Parallel.For(0, labels.Length, opt,
+                body:=Sub(i)
+                          Dim read As FastQ = rawdata(i)
+                          Dim label As KrakenOutputRecord = classifier.MakeClassify(read)
+
+                          labels(i) = label
+                      End Sub)
+
+            ' For Each read As FastQ In TqdmWrapper.Wrap(readsData.ToArray)
+            '     Call labels.Add(classifier.MakeClassify(read))
+            ' Next
+
+            Return labels
+        Else
+            Return Message.InCompatibleType(GetType(DatabaseReader), db.GetType, env)
+        End If
+    End Function
+
+    <ExportAPI("bayes_estimate")>
+    Public Function bayes_estimate(background As KmerBackground, taxonomyDB As NcbiTaxonomyTree, seq_ids As SequenceCollection) As AbundanceEstimate
+        Return New AbundanceEstimate(taxonomyDB).SetBackground(background).SetSequenceDb(seq_ids)
+    End Function
+
+    ''' <summary>
+    ''' quantify of the metagenome community via kmers and bayes method
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="bayes"></param>
+    ''' <param name="reads">all reads data in one sample</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("bayes_abundance")>
+    <RApiReturn(TypeCodes.double)>
+    Public Function quantify(db As DatabaseReader, bayes As AbundanceEstimate, <RRawVectorArgument> reads As Object,
+                             <RRawVectorArgument(TypeCodes.string)>
+                             Optional rank As Object = "genus|family|order|class|phylum|species",
+                             Optional env As Environment = Nothing) As Object
+
+        Dim readsFile As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim readsData As IEnumerable(Of FastQ)
+        Dim rank_str As String = CLRVector.asScalarCharacter(rank)
+
+        If readsFile.isError OrElse TypeOf reads Is FastQFile Then
+            If TypeOf reads Is FastQFile Then
+                readsData = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsFile.getError
+            End If
+        Else
+            readsData = readsFile.populates(Of FastQ)(env)
+        End If
+
+        Dim all_kmers As KmerSeed() = db.QueryKmers(readsData).ToArray
+        Dim all_speciesId = all_kmers.Select(Function(a) a.source) _
+            .IteratesALL _
+            .Select(Function(a) bayes.LookupTaxonomyId(a.seqid)) _
+            .Distinct _
+            .Where(Function(taxid) taxid > 0) _
+            .Select(Function(taxid) bayes.GetParentTaxIdAtRank(taxid, rank_str)) _
+            .Where(Function(taxid) taxid > 0) _
+            .Distinct _
+            .ToArray
+
+        Dim abundance As New Dictionary(Of Integer, Double)
+
+        ' 4. 循环处理每一个你关心的属
+        For Each ncbi_taxid As UInteger In all_speciesId
+            ' 5. 调用贝叶斯估算函数，传入完整的k-mer数据和目标属的ID
+            ' 函数内部会自己筛选出相关的k-mer并进行计算
+            Dim abundanceForThisGenus As Dictionary(Of Integer, Double) = bayes.EstimateAbundanceForGenus(all_kmers, ncbi_taxid)
+
+            ' 6. 将计算出的属内物种丰度合并到该样本的总丰度字典中
+            For Each kvp In abundanceForThisGenus
+                abundance(kvp.Key) = abundance.TryGetValue(kvp.Key, [default]:=0.0) + kvp.Value
+            Next
+        Next
+
+        Return abundance
+    End Function
+
+    ''' <summary>
+    ''' cast the genomics sequence as kmer based bloom filter model
+    ''' </summary>
+    ''' <param name="genomics">the genomics sequence</param>
+    ''' <param name="ncbi_taxid">ncbi tax id of this sequence data</param>
+    ''' <param name="k"></param>
+    ''' <param name="fpr"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("as.bloom_filter")>
+    <RApiReturn(GetType(KmerBloomFilter))>
+    Public Function bloom_filter(<RRawVectorArgument> genomics As Object,
+                                 Optional ncbi_taxid As Integer = 0,
+                                 Optional k As Integer = 35,
+                                 Optional fpr As Double = 0.001,
+                                 Optional spanSize As Integer = 500 * ByteSize.MB,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim seqs As IEnumerable(Of FastaSeq) = pipHelper.GetFastaSeq(genomics, env)
+        Dim kmers As KmerBloomFilter = KmerBloomFilter.Create(seqs, ncbi_taxid, k, fpr, spanSize:=spanSize)
+        Return kmers
+    End Function
+
+    ''' <summary>
+    ''' Parse the reads annotation result generated from the kraken2
+    ''' </summary>
+    ''' <param name="filepath">
+    ''' a character vector of the file path of the reads annotation files.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("parse_kraken_output")>
+    <RApiReturn(GetType(KrakenOutputRecord))>
+    Public Function parse_kraken_output(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenOutputRecord()
+        Return CLRVector.asCharacter(filepath) _
+            .SafeQuery _
+            .Select(Function(path) KrakenOutputRecord.ParseDocument(path)) _
+            .IteratesALL _
+            .ToArray
+    End Function
+
+    <ExportAPI("parse_kraken_report")>
+    Public Function parse_kraken_report(<RRawVectorArgument(TypeCodes.string)> filepath As Object) As KrakenReportRecord()
+        Return CLRVector.asCharacter(filepath) _
+            .SafeQuery _
+            .Select(Function(path) KrakenReportRecord.ParseDocument(path)) _
+            .IteratesALL _
+            .ToArray
+    End Function
+
+    <ExportAPI("read.kraken2")>
+    Public Function read_kraken_report(file As String) As KrakenReportRecord()
+        Return file.LoadCsv(Of KrakenReportRecord)(mute:=True).ToArray
+    End Function
+
+    <ExportAPI("read_brackens")>
+    <RApiReturn(GetType(Bracken))>
+    Public Function read_bracken(<RRawVectorArgument> files As Object) As Object
+        Return CLRVector.asCharacter(files) _
+            .Select(Function(path) Bracken.LoadTable(path)) _
+            .IteratesALL _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' read reads annotation result generated from the kraken2
+    ''' </summary>
+    ''' <param name="file">the csv table file path</param>
+    ''' <returns></returns>
+    <ExportAPI("read.kraken2_reads")>
+    Public Function read_kraken_reads(file As String) As KrakenOutputRecord()
+        Return file.LoadCsv(Of KrakenOutputRecord)(mute:=True).ToArray
+    End Function
+
+    <ExportAPI("hits_matrix")>
+    <RApiReturn(GetType(HTSMatrix))>
+    Public Function reads_hits_matrix(<RRawVectorArgument> samples As list, Optional env As Environment = Nothing) As Object
+        Dim readsData As New Dictionary(Of String, KrakenOutputRecord())
+
+        For Each name As String In samples.getNames
+            Dim pull As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(samples(name), env)
+
+            If pull.isError Then
+                Return pull.getError
+            End If
+
+            readsData.Add(name, pull.populates(Of KrakenOutputRecord)(env).ToArray)
+        Next
+
+        Dim taxonomy As New List(Of DataFrameRow)
+        Dim sample_ids As String() = readsData.Keys.ToArray
+
+        For Each taxon In readsData.Select(Function(s) s.Value.Select(Function(r) (s.Key, r))).IteratesALL.GroupBy(Function(r) r.r.TaxID)
+            Dim sampleGroups As Dictionary(Of String, Double) = taxon _
+                .GroupBy(Function(r) r.Key) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(r)
+                                  Return CDbl(r.Count)
+                              End Function)
+            Dim hits As Double() = sample_ids _
+                .Select(Function(id) sampleGroups.TryGetValue(id)) _
+                .ToArray
+
+            Call taxonomy.Add(New DataFrameRow With {
+                .geneID = taxon.First.r.Taxonomy,
+                .experiments = hits
+            })
+        Next
+
+        Return New HTSMatrix With {
+            .expression = taxonomy.ToArray,
+            .sampleID = sample_ids,
+            .tag = "reads_hits_matrix"
+        }
+    End Function
+
+    ''' <summary>
+    ''' filter the reads data that has the specific taxonomy id assignment.
+    ''' </summary>
+    ''' <param name="kraken_output">the kraken2 reads taxonomy assignment result</param>
+    ''' <param name="taxids">a set of the target taxonomy id to make filter</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filter_classification")>
+    <RApiReturn(GetType(KrakenOutputRecord))>
+    Public Function filter_classification(<RRawVectorArgument> kraken_output As Object,
+                                          <RRawVectorArgument(TypeCodes.integer)>
+                                          taxids As Object,
+                                          Optional ncbi_taxonomy As NcbiTaxonomyTree = Nothing,
+                                          Optional strict As Boolean = True,
+                                          Optional env As Environment = Nothing) As Object
+
+        Dim taxIndex As Index(Of Long) = CLRVector.asLong(taxids)
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        ElseIf (Not strict) AndAlso ncbi_taxonomy IsNot Nothing Then
+            ' add upper range
+            Dim alltaxlist As New List(Of Long)(taxIndex.Objects)
+
+            For Each id As Long In taxIndex.Objects
+                Dim parent = ncbi_taxonomy.GetParent(id)
+
+                If parent IsNot Nothing Then
+                    Call alltaxlist.Add(parent.taxid)
+                End If
+            Next
+
+            taxIndex = alltaxlist.Indexing
+        End If
+
+        Dim filtered = From c As KrakenOutputRecord
+                       In kraken2.populates(Of KrakenOutputRecord)(env)
+                       Where c.TaxID Like taxIndex
+
+        If Not ncbi_taxonomy Is Nothing Then
+            filtered = filtered.TaxonomyAssignment(ncbi_taxonomy).ToArray
+        End If
+
+        Return pipeline.CreateFromPopulator(filtered)
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="kraken_output">
+    ''' quantification table which could be read from file via the function: ``parse_kraken_report``.
+    ''' </param>
+    ''' <param name="host_id"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filter_hostId")>
+    <RApiReturn(GetType(KrakenReportRecord))>
+    Public Function filter_hostId(<RRawVectorArgument> kraken_output As Object,
+                                  <RRawVectorArgument> host_id As Object,
+                                  Optional coverage As Double = 0.999,
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenReportRecord)(kraken_output, env)
+        Dim idlist As Long() = CLRVector.asLong(host_id)
+
+        If kraken2.isError Then
+            kraken2 = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+
+            If Not kraken2.isError Then
+                Dim reads As IEnumerable(Of KrakenOutputRecord) = kraken2.populates(Of KrakenOutputRecord)(env)
+                Dim host_idset = idlist.Indexing
+                Dim host_reads = reads.ToArray _
+                    .AsParallel _
+                    .Where(Function(r)
+                               If CLng(r.TaxID) Like host_idset Then
+                                   Return r.LcaMappings(r.TaxID.ToString) / r.ReadLength >= coverage
+                               Else
+                                   Return False
+                               End If
+                           End Function) _
+                    .ToArray
+
+                Return host_reads
+            End If
+
+            Return kraken2.getError
+        Else
+            Dim taxon As IEnumerable(Of KrakenReportRecord) = kraken2.populates(Of KrakenReportRecord)(env)
+            Dim clean = KrakenReportRecord.FilterHost(taxon, idlist)
+
+            Return clean
+        End If
+    End Function
+
+    ''' <summary>
+    ''' extract the kraken2 quantify result data
+    ''' </summary>
+    ''' <param name="kraken_output"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kraken_data")>
+    <RApiReturn(GetType(KrakenReportRecord))>
+    Public Function get_kraken_data(<RRawVectorArgument> kraken_output As Object, Optional env As Environment = Nothing) As Object
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenReportRecord)(kraken_output, env)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        End If
+
+        Return KrakenReportTree.BuildTree(kraken2.populates(Of KrakenReportRecord)(env)) _
+            .GetQuantifyData _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' usually be apply for host removal
+    ''' </summary>
+    ''' <param name="kraken_output">host reads information data</param>
+    ''' <param name="reads">the raw reads fastq data</param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' read result with host reads removals
+    ''' </returns>
+    <ExportAPI("filter_reads")>
+    <RApiReturn(GetType(FastQ))>
+    Public Function filter_reads(<RRawVectorArgument> kraken_output As Object,
+                                 <RRawVectorArgument> reads As Object,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim kraken2 As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(kraken_output, env)
+        Dim readsData As pipeline = pipeline.TryCreatePipeline(Of FastQ)(reads, env)
+        Dim reads_data As IEnumerable(Of FastQ)
+
+        If kraken2.isError Then
+            Return kraken2.getError
+        ElseIf readsData.isError Then
+            If TypeOf reads Is FastQFile Then
+                reads_data = DirectCast(reads, FastQFile).AsEnumerable
+            Else
+                Return readsData.getError
+            End If
+        Else
+            reads_data = readsData.populates(Of FastQ)(env)
+        End If
+
+        ' 20260308
+        ' create a filter index by the host reads title id
+        Dim filterIndex As Index(Of String) = kraken2 _
+            .populates(Of KrakenOutputRecord)(env) _
+            .Select(Iterator Function(k) As IEnumerable(Of String)
+                        Yield k.ReadName
+                        Yield "@" & k.ReadName
+                    End Function) _
+            .IteratesALL _
+            .Indexing
+        ' read result with host reads removals
+        Dim result As pipeline = pipeline.CreateFromPopulator(From fq As FastQ
+                                                              In reads_data
+                                                              Where Not fq.SEQ_ID Like filterIndex)
+        Return result
+    End Function
+
+    <ExportAPI("seq_info")>
+    <RApiReturn(GetType(SequenceSource))>
+    Public Function sequenceInfo(<RRawVectorArgument> genbank As Object, Optional env As Environment = Nothing) As Object
+        Dim pull_asm As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(genbank, env)
+
+        If pull_asm.isError Then
+            Return pull_asm.getError
+        End If
+
+        Return pull_asm.populates(Of GBFF.File)(env) _
+            .Select(Function(gb)
+                        Return New SequenceSource With {
+                            .accession_id = gb.Accession.AccessionId,
+                            .id = gb.GetHashCode,
+                            .name = gb.Definition,
+                            .ncbi_taxid = gb.Taxon,
+                            .taxname = gb.Source.SpeciesName,
+                            .taxonomy = gb.Source.BiomString
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("taxonomy_expression")>
+    <RApiReturn(GetType(ContigResult))>
+    Public Function taxonomy_expression(<RRawVectorArgument(TypeCodes.string)> id As Object,
+                                        <RRawVectorArgument(TypeCodes.double)> expr As Object,
+                                        <RRawVectorArgument>
+                                        taxdata As Object,
+                                        Optional env As Environment = Nothing) As Object
+
+        Dim pullReads As pipeline = pipeline.TryCreatePipeline(Of KrakenOutputRecord)(taxdata, env)
+        Dim ncbi_taxid As Integer()
+        Dim contig_idset As String() = CLRVector.asCharacter(id)
+        Dim expr_vals As Double() = CLRVector.asNumeric(expr)
+
+        If pullReads.isError Then
+            ncbi_taxid = CLRVector.asInteger(taxdata)
+        Else
+            Dim tax_index = KrakenOutputRecord.MakeAnnotationResult(pullReads.populates(Of KrakenOutputRecord)(env))
+
+            ncbi_taxid = contig_idset _
+                .Select(Function(strid)
+                            If tax_index.ContainsKey(strid) Then
+                                Return tax_index(strid)
+                            Else
+                                Return 0
+                            End If
+                        End Function) _
+                .ToArray
+        End If
+
+        Return contig_idset _
+            .Select(Function(strid, i)
+                        Return New ContigResult With {
+                            .contig_id = strid,
+                            .expression_value = expr_vals(i),
+                            .ncbi_taxid = ncbi_taxid(i)
+                        }
+                    End Function) _
+            .ToArray
+    End Function
+
+    ''' <summary>
+    ''' extract gene/genomics sequences from genbank file for kraken2 sequence classification
+    ''' </summary>
+    ''' <param name="gb"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("kraken_seqs")>
+    Public Function format_kraken_seqs(<RRawVectorArgument> gb As Object,
+                                       Optional geneset As Boolean = False,
+                                       Optional env As Environment = Nothing) As Object
+
+        Dim pullGenbank As pipeline = pipeline.TryCreatePipeline(Of GBFF.File)(gb, env)
+
+        If pullGenbank.isError Then
+            Return pullGenbank.getError
+        End If
+
+        Dim seq As IEnumerable(Of FastaSeq)
+
+        If geneset Then
+            seq = pullGenbank.populates(Of GBFF.File)(env).gene_seqs()
+        Else
+            seq = pullGenbank.populates(Of GBFF.File)(env).genomics_nt()
+        End If
+
+        Return pipeline.CreateFromPopulator(seq)
+    End Function
+
+    <Extension>
+    Private Iterator Function genomics_nt(genbank As IEnumerable(Of GBFF.File)) As IEnumerable(Of FastaSeq)
+        For Each gb As GBFF.File In genbank
+            Dim origin As FastaSeq = gb.Origin.ToFasta
+            origin.Headers = {gb.Accession.AccessionId, "kraken:taxid", gb.Taxon}
+            Yield origin
+        Next
+    End Function
+
+    <Extension>
+    Private Iterator Function gene_seqs(genbank As IEnumerable(Of GBFF.File)) As IEnumerable(Of FastaSeq)
+        For Each gb As GBFF.File In genbank
+            Dim taxid As String = gb.Taxon
+
+            For Each gene As Feature In gb.EnumerateGeneFeatures(ORF:=False)
+                Dim seq As String = gene.SequenceData
+                Dim headers As String() = {gene(FeatureQualifiers.locus_tag), "kraken:taxid", taxid}
+
+                Yield New FastaSeq(headers, seq)
+            Next
+        Next
+    End Function
+End Module
+

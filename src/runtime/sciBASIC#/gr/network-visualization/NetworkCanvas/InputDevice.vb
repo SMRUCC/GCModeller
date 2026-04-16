@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ea751a82dfc794fe9cad8fff6de817d0, gr\network-visualization\NetworkCanvas\InputDevice.vb"
+﻿#Region "Microsoft.VisualBasic::1f7f70edce49dbaf0313b7a9183dccb3, gr\network-visualization\NetworkCanvas\InputDevice.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 133
+    '    Code Lines: 79 (59.40%)
+    ' Comment Lines: 31 (23.31%)
+    '    - Xml Docs: 45.16%
+    ' 
+    '   Blank Lines: 23 (17.29%)
+    '     File Size: 4.61 KB
+
+
     ' Class InputDevice
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: __getNode
+    '     Function: getNode, GetPointedNode
     ' 
     '     Sub: Canvas_MouseDown, Canvas_MouseMove, Canvas_MouseUp, Canvas_MouseWheel, (+2 Overloads) Dispose
     ' 
@@ -45,7 +57,11 @@
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 
+''' <summary>
+''' 使用鼠标左键进行拖拽
+''' </summary>
 Public Class InputDevice : Implements IDisposable
 
     Protected WithEvents Canvas As Canvas
@@ -55,7 +71,8 @@ Public Class InputDevice : Implements IDisposable
     End Sub
 
     Protected Overridable Sub Canvas_MouseMove(sender As Object, e As MouseEventArgs) Handles Canvas.MouseMove
-        If Not drag Then   ' 设置tooltip
+        If Not drag Then
+            ' 设置tooltip
             Return
         End If
 
@@ -67,16 +84,37 @@ Public Class InputDevice : Implements IDisposable
             dragNode.pinned = True
             Canvas.fdgPhysics.GetPoint(dragNode).position = vec
         Else
-            dragNode = __getNode(e.Location)
+            dragNode = getNode(e.Location)
         End If
     End Sub
 
     Protected dragNode As Node
 
-    Protected Overridable Function __getNode(p As Point) As Node
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="p">
+    ''' a location which is screen to control
+    ''' </param>
+    ''' <returns></returns>
+    Public Function GetPointedNode(p As Point) As Node
+        Return getNode(p)
+    End Function
+
+    ''' <summary>
+    ''' get target node which is pointed by the mouse
+    ''' </summary>
+    ''' <param name="p"></param>
+    ''' <returns></returns>
+    Protected Overridable Function getNode(p As Point) As Node
         For Each node As Node In Canvas.Graph.vertex
             Dim r As Single = node.data.size(0)
-            Dim v As FDGVector2 = TryCast(Canvas.fdgPhysics.GetPoint(node).position, FDGVector2)
+            Dim v As AbstractVector = Canvas.fdgPhysics.GetPoint(node).position
+
+            If TypeOf v Is FDGVector3 Then
+                Return Nothing
+            End If
+
             Dim npt As Point = Renderer.GraphToScreen(v, Canvas.fdgRenderer.ClientRegion)
             Dim pt As New Point(CInt(npt.X - r / 2), CInt(npt.Y - r / 2))
             Dim rect As New Rectangle(pt, New Size(CInt(r), CInt(r)))
@@ -92,12 +130,15 @@ Public Class InputDevice : Implements IDisposable
     Protected drag As Boolean
 
     Protected Overridable Sub Canvas_MouseDown(sender As Object, e As MouseEventArgs) Handles Canvas.MouseDown
-        drag = True
-        dragNode = __getNode(e.Location)
+        If e.Button = MouseButtons.Left Then
+            drag = True
+            dragNode = getNode(e.Location)
+        End If
     End Sub
 
     Protected Overridable Sub Canvas_MouseUp(sender As Object, e As MouseEventArgs) Handles Canvas.MouseUp
         drag = False
+
         If dragNode IsNot Nothing Then
             dragNode.pinned = False
             dragNode = Nothing
@@ -105,7 +146,13 @@ Public Class InputDevice : Implements IDisposable
     End Sub
 
     Protected Overridable Sub Canvas_MouseWheel(sender As Object, e As MouseEventArgs) Handles Canvas.MouseWheel
-
+        If Canvas.space3D Then
+            ' adjust view distance
+            Canvas.ViewDistance += e.Delta / 10
+        Else
+            Dim oldArgument = Canvas.FdgArgs
+            Canvas.SetFDGParams(New ForceDirectedArgs With {.Damping = oldArgument.Damping, .Iterations = 0, .Repulsion = oldArgument.Repulsion, .Stiffness = oldArgument.Stiffness + e.Delta / 10})
+        End If
     End Sub
 
 #Region "IDisposable Support"

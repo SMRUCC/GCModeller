@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9681b0176aeaf675bcc991d3601dda5d, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\ImplictCType.vb"
+﻿#Region "Microsoft.VisualBasic::6ad2da4694cc993ddd4a623f382b42f4, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\ImplictCType.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 62 (57.94%)
+    ' Comment Lines: 28 (26.17%)
+    '    - Xml Docs: 89.29%
+    ' 
+    '   Blank Lines: 17 (15.89%)
+    '     File Size: 4.40 KB
+
+
     '     Module ImplictCType
     ' 
     ' 
     '         Delegate Function
     ' 
-    '             Function: (+2 Overloads) GetNarrowingOperator, GetOperatorMethod, (+2 Overloads) GetWideningOperator
+    '             Function: GetCTypeOperator, (+2 Overloads) GetNarrowingOperator, GetOperatorMethod, (+2 Overloads) GetWideningOperator
     ' 
     ' 
     ' 
@@ -117,6 +129,24 @@ Namespace Scripting.Runtime
                 Dim op_Explicit As IImplictCTypeOperator(Of Object, T) = Function(obj) DirectCast(op.Invoke(Nothing, {obj}), T)
                 Return op_Explicit
             End If
+        End Function
+
+        ''' <summary>
+        ''' get ctype operator function for cast <paramref name="fromType"/> to <paramref name="ctypeTo"/>.
+        ''' </summary>
+        ''' <param name="fromType"></param>
+        ''' <param name="ctypeTo"></param>
+        ''' <returns>
+        ''' this function returns nothing if the ctype operator is not found
+        ''' </returns>
+        Public Function GetCTypeOperator(fromType As Type, ctypeTo As Type) As MethodInfo
+            Dim op = CType(fromType, TypeInfo).GetOperatorMethod(ctypeTo, op_Explicit)
+
+            If op Is Nothing Then
+                op = CType(ctypeTo, TypeInfo).GetOperatorMethod(fromType, op_Implicit)
+            End If
+
+            Return op
         End Function
 
         <Extension>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 12 (63.16%)
+    ' Comment Lines: 3 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (21.05%)
+    '     File Size: 521 B
+
+
     '     Class GraphObject
     ' 
     '         Properties: constraints, groups, links, nodes

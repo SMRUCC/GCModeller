@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14c18efdb0ab6d76190f02f060bec265, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
+﻿#Region "Microsoft.VisualBasic::29b9b2ee918b72de7ff544ae24dd07c9, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\BriteHText\BriteHText.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 249
+    '    Code Lines: 157 (63.05%)
+    ' Comment Lines: 54 (21.69%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 38 (15.26%)
+    '     File Size: 8.57 KB
+
 
     '     Class BriteHText
     ' 
@@ -256,7 +268,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00002() As BriteHText
-            Return BriteHTextParser.Load(text:=My.Resources.ko00002_keg)
+            Return BriteHTextParser.Load(text:=My.Resources.KEGG.ko00002)
         End Function
 
         ''' <summary>
@@ -266,7 +278,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function Load_ko00001() As BriteHText
-            Return BriteHTextParser.Load(text:=My.Resources.ko00001)
+            Return BriteHTextParser.Load(text:=My.Resources.KEGG.ko00001)
         End Function
 
         ''' <summary>

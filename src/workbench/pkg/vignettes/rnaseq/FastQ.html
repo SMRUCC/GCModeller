@@ -1,0 +1,159 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>FastQ</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; FastQ; rnaseq" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="FastQ toolkit..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {FastQ}">
+      <tbody>
+        <tr>
+          <td>{FastQ}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>FastQ</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' FastQ toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FastQ"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
+                           </code>
+    </p>
+    <p><p>FastQ toolkit</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>FASTQ format Is a text-based format For storing both a biological sequence 
+ (usually nucleotide sequence) And its corresponding quality scores. Both 
+ the sequence letter And quality score are Each encoded With a Single ASCII 
+ character For brevity. It was originally developed at the Wellcome Trust 
+ Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
+ but has recently become the de facto standard For storing the output Of 
+ high-throughput sequencing instruments such As the Illumina Genome 
+ Analyzer.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: none">
+        <caption>.NET clr type export</caption>
+        <tbody></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="illumina_fastQ_id">
+    <a href="./FastQ/illumina_fastQ_id.html">illumina_fastQ_id</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.fastq">
+    <a href="./FastQ/read.fastq.html">read.fastq</a>
+  </td>
+  <td><p>read the fastq file</p></td>
+</tr>
+<tr>
+  <td id="merge_raw">
+    <a href="./FastQ/merge_raw.html">merge_raw</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="write.fastq">
+    <a href="./FastQ/write.fastq.html">write.fastq</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="random_sampling">
+    <a href="./FastQ/random_sampling.html">random_sampling</a>
+  </td>
+  <td><p>make reads data random sampling</p></td>
+</tr>
+<tr>
+  <td id="assemble">
+    <a href="./FastQ/assemble.html">assemble</a>
+  </td>
+  <td><p>Do short reads assembling</p></td>
+</tr>
+<tr>
+  <td id="quality_score">
+    <a href="./FastQ/quality_score.html">quality_score</a>
+  </td>
+  <td><p>In FASTQ files, quality scores are encoded into a compact form, 
+ which uses only 1 byte per quality value. In this encoding, the 
+ quality score is represented as the character with an ASCII 
+ code equal to its value + 33.</p></td>
+</tr>
+<tr>
+  <td id="simulate_reads">
+    <a href="./FastQ/simulate_reads.html">simulate_reads</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="gene_indexstats">
+    <a href="./FastQ/gene_indexstats.html">gene_indexstats</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read_genedata">
+    <a href="./FastQ/read_genedata.html">read_genedata</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

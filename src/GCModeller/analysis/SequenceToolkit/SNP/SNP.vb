@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4390af87de7fa23466762ebeab219102, analysis\SequenceToolkit\SNP\SNP.vb"
+﻿#Region "Microsoft.VisualBasic::6e10bb0d5871dfb09211f9afe92efc7f, analysis\SequenceToolkit\SNP\SNP.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 63 (57.27%)
+    ' Comment Lines: 38 (34.55%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 9 (8.18%)
+    '     File Size: 3.45 KB
+
+
     ' Class SNP
     ' 
     '     Properties: AminoAcidChange, CDS, CDSInterval, CDSPosition, Change
@@ -44,8 +56,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.ComponentModel.Loci
 
 ''' <summary>
@@ -118,7 +129,7 @@ Public Class SNP
     Public Property product As String
     <Column("Protein Effect")>
     Public Property ProteinEffect As String
-    Public Property protein_id As String Implements IMotifSite.Name
+    Public Property protein_id As String Implements IMotifSite.name
 
     ''' <summary>
     ''' 这个SNP位点可能引起的氨基酸序列上面的残基的变化
@@ -143,14 +154,14 @@ Public Class SNP
     <Column("Codon Change")>
     Public Property CodonChange As String
 
-    Private Property Site As Location Implements IMotifSite.Site
+    Private Property Site As Location Implements IMotifSite.site
         Get
             Return New Location(Left, Right)
         End Get
         Set(value As Location)
             With value
-                Left = .Left
-                Right = .Right
+                Left = .left
+                Right = .right
             End With
         End Set
     End Property

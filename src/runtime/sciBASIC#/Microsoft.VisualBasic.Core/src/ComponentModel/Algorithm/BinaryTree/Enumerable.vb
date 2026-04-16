@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2490319bb8bde8baa5c8bf29ec93e755, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\Enumerable.vb"
+﻿#Region "Microsoft.VisualBasic::63efba3466a045cf8176d20d774ac203, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\Enumerable.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 45 (52.33%)
+    ' Comment Lines: 31 (36.05%)
+    '    - Xml Docs: 96.77%
+    ' 
+    '   Blank Lines: 10 (11.63%)
+    '     File Size: 3.15 KB
+
+
     '     Module Enumerable
     ' 
-    '         Function: PopulateNodes, PopulateSequence, (+2 Overloads) Values
+    '         Function: GetNodeCounts, PopulateNodes, PopulateSequence, (+2 Overloads) Values
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,20 @@ Imports System.Runtime.CompilerServices
 Namespace ComponentModel.Algorithm.BinaryTree
 
     Public Module Enumerable
+
+        <Extension>
+        Public Function GetNodeCounts(Of K, V)(tree As BinaryTree(Of K, V)) As Integer
+            Dim n As Integer = 1
+
+            If tree.Left IsNot Nothing Then
+                n += tree.Left.GetNodeCounts
+            End If
+            If tree.Right IsNot Nothing Then
+                n += tree.Right.GetNodeCounts
+            End If
+
+            Return n
+        End Function
 
         ''' <summary>
         ''' Populate an ASC sortted sequence from this binary tree 
@@ -73,19 +99,20 @@ Namespace ComponentModel.Algorithm.BinaryTree
         ''' <typeparam name="K"></typeparam>
         ''' <typeparam name="V"></typeparam>
         ''' <param name="tree"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' current -> right -> left
+        ''' </returns>
         <Extension>
         Public Iterator Function PopulateNodes(Of K, V)(tree As BinaryTree(Of K, V)) As IEnumerable(Of BinaryTree(Of K, V))
-            If Not tree.Left Is Nothing Then
-                For Each node In tree.Left.PopulateNodes
-                    Yield node
-                Next
-            End If
-
             Yield tree
 
             If Not tree.Right Is Nothing Then
                 For Each node In tree.Right.PopulateNodes
+                    Yield node
+                Next
+            End If
+            If Not tree.Left Is Nothing Then
+                For Each node In tree.Left.PopulateNodes
                     Yield node
                 Next
             End If

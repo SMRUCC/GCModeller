@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::727db2dae867793c3c7500cd85bb4f44, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
+﻿#Region "Microsoft.VisualBasic::c2addc1c5bb9440bc46acea5ebe5635f, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\Casting.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 415
+    '    Code Lines: 246 (59.28%)
+    ' Comment Lines: 126 (30.36%)
+    '    - Xml Docs: 86.51%
+    ' 
+    '   Blank Lines: 43 (10.36%)
+    '     File Size: 15.92 KB
+
+
     '     Module Casting
     ' 
     '         Function: (+3 Overloads) [As], AsBaseType, CastChar, CastCharArray, CastCommandLine
-    '                   CastDate, CastFileInfo, CastFont, CastGDIPlusDeviceHandle, CastImage
-    '                   CastInteger, CastIPEndPoint, CastLogFile, CastLong, CastProcess
-    '                   CastRegexOptions, CastSingle, CastStringBuilder, (+2 Overloads) Expression, FloatPointParser
-    '                   FloatSizeParser, NumericRangeParser, ParseNumeric, PointParser, RegexParseDouble
-    '                   ScriptValue, SizeParser, TryParse
+    '                   CastDate, CastFileInfo, CastFont, CastImage, CastInteger
+    '                   CastIPEndPoint, CastLogFile, CastLong, CastProcess, CastRegexOptions
+    '                   CastSingle, CastStringBuilder, (+2 Overloads) Expression, FloatPointParser, FloatSizeParser
+    '                   NumericRangeParser, ParseNumeric, PointParser, RegexParseDouble, ScriptValue
+    '                   SizeParser, TryParse
     ' 
     ' 
     ' /********************************************************************************/
@@ -56,8 +68,8 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.ValueTypes
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Scripting.Runtime
 
@@ -99,7 +111,7 @@ Namespace Scripting.Runtime
         Public Iterator Function [As](Of T)(source As IEnumerable) As IEnumerable(Of T)
             Dim l As New List(Of Object)
 
-            For Each x In source
+            For Each x As Object In source
                 l.Add(x)
 
                 If l.Count > 1 Then
@@ -141,6 +153,11 @@ Namespace Scripting.Runtime
             Return CType(CObj(x), T)
         End Function
 
+        ''' <summary>
+        ''' width,height
+        ''' </summary>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Expression(size As Size) As String
@@ -149,6 +166,11 @@ Namespace Scripting.Runtime
             End With
         End Function
 
+        ''' <summary>
+        ''' width,height
+        ''' </summary>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function Expression(size As SizeF) As String
@@ -186,7 +208,8 @@ Namespace Scripting.Runtime
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <DebuggerStepThrough>
-        <Extension> Public Function SizeParser(pt$) As Size
+        <Extension>
+        Public Function SizeParser(pt$) As Size
             Return pt.FloatSizeParser.ToSize
         End Function
 
@@ -233,7 +256,8 @@ Namespace Scripting.Runtime
         ''' <typeparam name="TOut"></typeparam>
         ''' <param name="list">在这里使用向量而非使用通用接口是因为和单个元素的As转换有冲突</param>
         ''' <returns></returns>
-        <Extension> Public Function [As](Of T, TOut)(list As IEnumerable(Of T)) As IEnumerable(Of TOut)
+        <Extension>
+        Public Function [As](Of T, TOut)(list As IEnumerable(Of T)) As IEnumerable(Of TOut)
             If list Is Nothing Then
                 Return {}
             Else
@@ -258,7 +282,8 @@ Namespace Scripting.Runtime
         ''' <remarks></remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("Double.Match")>
-        <Extension> Public Function RegexParseDouble(s As String) As Double
+        <Extension>
+        Public Function RegexParseDouble(s As String) As Double
             Return Val(s.Match(RegexpFloat))
         End Function
 
@@ -279,13 +304,15 @@ Namespace Scripting.Runtime
         Public Function ParseNumeric(s As String) As Double
             s = Strings.Trim(s)
 
-            If String.IsNullOrEmpty(s) Then
+            If s.StringEmpty(, True) Then
                 Return 0R
-            ElseIf String.Equals(s, "NaN", StringComparison.Ordinal) OrElse
-                String.Equals(s, "NA", StringComparison.Ordinal) Then
+            ElseIf String.Equals(s, "NaN", StringComparison.OrdinalIgnoreCase) OrElse
+                String.Equals(s, "NA", StringComparison.OrdinalIgnoreCase) Then
 
                 ' R 语言之中是使用NA，.NET语言是使用NaN
                 Return Double.NaN
+            ElseIf String.Equals(s, "NULL", StringComparison.OrdinalIgnoreCase) Then
+                Return 0.0
             Else
                 ' ,表示1000，需要删掉这个间隔符
                 ' 才可以被正常的val出来
@@ -348,7 +375,7 @@ Namespace Scripting.Runtime
             If obj.StringEmpty OrElse obj = "0000-00-00 00:00:00" OrElse obj.ToUpper = "NULL" OrElse obj.ToUpper = "NA" Then
                 Return New Date
             ElseIf obj.IsPattern("\d+") Then
-#If NET_48 = 1 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
                 ' unix timestamp
                 Return CLng(Val(obj)).FromUnixTimeStamp
 #Else
@@ -393,11 +420,6 @@ Namespace Scripting.Runtime
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function CastFileInfo(path As String) As FileInfo
             Return FileIO.FileSystem.GetFileInfo(path)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function CastGDIPlusDeviceHandle(path As String) As Graphics2D
-            Return CanvasCreateFromImageFile(path)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

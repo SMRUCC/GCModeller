@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::587f9b9f54d37f97bae2d8ebfe6abdc6, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\Theme.vb"
+﻿#Region "Microsoft.VisualBasic::681a2d753f25c84d641c2616f2cd24e7, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\MarkdownRender\Theme.vb"
 
     ' Author:
     ' 
@@ -31,130 +31,50 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 18 (78.26%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (21.74%)
+    '     File Size: 851 B
+
+
     '     Class MarkdownTheme
     ' 
     '         Properties: [Global], BlockQuote, Bold, CodeBlock, HeaderSpan
-    '                     InlineCodeSpan, Italy, Url
-    ' 
-    '     Class ConsoleFontStyle
-    ' 
-    '         Properties: BackgroundColor, ForeColor
-    ' 
-    '         Function: Clone, CreateSpan, Equals, HtmlColorCode
-    ' 
-    '         Sub: Apply, SetConfig
-    ' 
-    '     Class Span
-    ' 
-    '         Properties: IsEndByNewLine, style, text
+    '                     InlineCodeSpan, Italy, Table, Url
     ' 
     '         Function: ToString
-    ' 
-    '         Sub: Print
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.TablePrinter.Flags
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace ApplicationServices.Terminal
 
     Public Class MarkdownTheme
 
-        Public Property Url As ConsoleFontStyle
-        Public Property InlineCodeSpan As ConsoleFontStyle
-        Public Property CodeBlock As ConsoleFontStyle
-        Public Property BlockQuote As ConsoleFontStyle
-        Public Property [Global] As ConsoleFontStyle
-        Public Property Bold As ConsoleFontStyle
-        Public Property Italy As ConsoleFontStyle
-        Public Property HeaderSpan As ConsoleFontStyle
-
-    End Class
-
-    Public Class ConsoleFontStyle
-        Implements IEquatable(Of ConsoleFontStyle)
-        Implements ICloneable(Of ConsoleFontStyle)
-
-        Public Property ForeColor As ConsoleColor = ConsoleColor.White
-        Public Property BackgroundColor As ConsoleColor = ConsoleColor.Black
-
-        Public Sub SetConfig(render As MarkdownRender)
-            Call Apply()
-
-            render.currentStyle = Me
-            render.styleStack.Push(Me)
-        End Sub
-
-        Public Sub Apply()
-            Console.ForegroundColor = ForeColor
-            Console.BackgroundColor = BackgroundColor
-        End Sub
-
-        Public Function CreateSpan(text As String) As Span
-            Return New Span With {
-                .style = Me,
-                .text = text
-            }
-        End Function
-
-        Public Function Clone() As ConsoleFontStyle Implements ICloneable(Of ConsoleFontStyle).Clone
-            Return New ConsoleFontStyle With {
-                .BackgroundColor = BackgroundColor,
-                .ForeColor = ForeColor
-            }
-        End Function
-
-        Public Overloads Function Equals(other As ConsoleFontStyle) As Boolean Implements IEquatable(Of ConsoleFontStyle).Equals
-            If other Is Nothing Then
-                Return False
-            Else
-                Return BackgroundColor = other.BackgroundColor AndAlso ForeColor = other.ForeColor
-            End If
-        End Function
-
-#If NET_48 Or netcore5 = 1 Then
-
-        Public Shared Widening Operator CType(colors As (fore As ConsoleColor, back As ConsoleColor)) As ConsoleFontStyle
-            Return New ConsoleFontStyle With {
-                .ForeColor = colors.fore,
-                .BackgroundColor = colors.back
-            }
-        End Operator
-
-#End If
-
-        Public Shared Function HtmlColorCode(color As ConsoleColor) As String
-            Return Drawing.Color.FromName(color.ToString).ToHtmlColor
-        End Function
-    End Class
-
-    Public Class Span
-
-        Public Property text As String
-        Public Property style As ConsoleFontStyle
-        Public Property IsEndByNewLine As Boolean
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub Print()
-            Call My.Log4VB.Print(Me)
-        End Sub
+        Public Property Url As ConsoleFormat
+        Public Property InlineCodeSpan As ConsoleFormat
+        Public Property CodeBlock As ConsoleFormat
+        Public Property BlockQuote As ConsoleFormat
+        Public Property [Global] As ConsoleFormat
+        Public Property Bold As ConsoleFormat
+        Public Property Italy As ConsoleFormat
+        Public Property HeaderSpan As ConsoleFormat
+        Public Property Table As ConsoleTableBuilderFormat = ConsoleTableBuilderFormat.Minimal
 
         Public Overrides Function ToString() As String
-            Dim text$ = Me.text
-
-            If text.StringEmpty Then
-                text = "<whitespace>"
-            Else
-                text = $"""{text}"""
-            End If
-
-            Return style.ForeColor.DoCall(AddressOf ConsoleFontStyle.HtmlColorCode) & " " & text
+            Return Me.GetJson
         End Function
+
     End Class
 End Namespace

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 34 (72.34%)
+    ' Comment Lines: 1 (2.13%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (25.53%)
+    '     File Size: 1.64 KB
+
+
     ' Module Module1
     ' 
     '     Sub: complexExpressionTest, Main, mathLambdaTest, simpleExpressionTest

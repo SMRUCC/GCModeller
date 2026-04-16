@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 23 (85.19%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 1.14 KB
+
+
     '     Module Extensions
     ' 
     '         Function: RunDbscanCluster

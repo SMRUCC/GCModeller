@@ -1,0 +1,37 @@
+.\" man page create by R# package system.
+.TH ANNOTATION.TERMS 2 2000-1月 "assign_terms" "assign_terms"
+.SH NAME
+assign_terms \- assign the top term by score ranking
+.SH SYNOPSIS
+\fIassign_terms(\fBalignment\fR as any, 
+\fBterm_maps\fR as list = \fB<NULL>\fR, 
+\fBtop_best\fR as boolean = TRUE, 
+\fBdirect_term_maps\fR as boolean = FALSE, 
+\fBfilter_unknown\fR as boolean = FALSE, 
+\fBidentities_cut\fR as double = 0, 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+assign the top term by score ranking
+.PP
+.SH OPTIONS
+.PP
+\fBalignment\fB \fR\- 
+ the ncbi localblast alignment result, it can be the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.BestHit\fR array or 
+ the @\fBT:SMRUCC.genomics.Interops.NCBI.Extensions.DiamondAnnotation\fR array.
+. 
+.PP
+.PP
+\fBterm_maps\fB \fR\- -. 
+.PP
+.PP
+\fBenv\fB \fR\- -. 
+.PP
+.SH SEE ALSO
+annotation.terms
+.SH FILES
+.PP
+seqtoolkit.dll
+.PP
+.SH AUTHOR
+Written by \fBxie.guigang@gcmodeller.org\fR

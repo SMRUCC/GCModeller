@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d07ccc056b91ae4dbc47911b7af40b7, core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
+﻿#Region "Microsoft.VisualBasic::c0e14588aac661b094beff326a6d7c7f, core\Bio.Assembly\ComponentModel\Equations\Reaction.vb"
 
     ' Author:
     ' 
@@ -31,28 +31,102 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 47 (62.67%)
+    ' Comment Lines: 15 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (17.33%)
+    '     File Size: 2.85 KB
+
+
     '     Class Reaction
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: __equals
+    '         Properties: comment, compounds, db_xrefs, definition, entry
+    '                     enzyme, equation, isTransport
+    ' 
+    '         Function: EquationParser, FromKeggReaction, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG
+Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
+
 Namespace ComponentModel.EquaionModel
 
-    Public Class Reaction(Of T As ICompoundSpecies) : Inherits Equation(Of T)
+    ''' <summary>
+    ''' A general reaction model
+    ''' </summary>
+    Public Class Reaction : Implements INamedValue
 
-        ReadOnly _equals As Func(Of T, T, Boolean, Boolean)
+        <XmlAttribute> Public Property entry As String Implements INamedValue.Key
 
-        Sub New(equals As Func(Of T, T, Boolean, Boolean))
-            _equals = equals
-        End Sub
+        ''' <summary>
+        ''' the reaction equation in character string type
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property definition As String
+        ''' <summary>
+        ''' the parsed reaction equaltion object based on the definition property
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property equation As Equation
 
-        Protected Overrides Function __equals(a As T, b As T, strict As Boolean) As Object
-            Return _equals(a, b, strict)
+        ''' <summary>
+        ''' should be the EC number
+        ''' </summary>
+        ''' <returns></returns>
+        <XmlElement>
+        Public Property enzyme As String()
+        Public Property compounds As SideCompound()
+        <XmlAttribute>
+        Public Property isTransport As Boolean
+        Public Property db_xrefs As NamedValue()
+        Public Property comment As String
+
+        Public Shared Function EquationParser(text As String) As Equation
+            Dim eq As Equation = Equation.TryParse(text)
+
+            For Each cpd As CompoundSpecieReference In eq.Reactants
+                If cpd.ID.IndexOf(","c) > -1 Then
+                    Dim t = cpd.ID.Split(","c)
+
+                    cpd.Stoichiometry = t.Length
+                    cpd.ID = t(Scan0)
+                End If
+            Next
+
+            Return eq
         End Function
+
+        Public Overrides Function ToString() As String
+            Return definition
+        End Function
+
+        Public Shared Function FromKeggReaction(r As DBGET.bGetObject.Reaction) As Reaction
+            Dim model As Equation = r.ReactionModel
+            Dim left As SideCompound() = model.Reactants.Select(Function(a) New SideCompound With {.side = "left", .compound = New CompoundSpecies(a.ID)}).ToArray
+            Dim right As SideCompound() = model.Products.Select(Function(a) New SideCompound With {.side = "right", .compound = New CompoundSpecies(a.ID)}).ToArray
+
+            Return New Reaction With {
+                .comment = If(r.Comments.StringEmpty, r.Definition, r.Comments),
+                .entry = r.ID,
+                .definition = If(r.CommonNames.DefaultFirst, r.Definition),
+                .enzyme = r.Enzyme,
+                .equation = model,
+                .compounds = left.JoinIterates(right).ToArray
+            }
+        End Function
+
     End Class
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::514efbde58b7f1691ee49f5c09746d6f, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\HTMLRender.vb"
+﻿#Region "Microsoft.VisualBasic::7c02bf10c0a3590d07d96e8db9bdfaff, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Text\HTMLRender.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 134 (74.86%)
+    ' Comment Lines: 21 (11.73%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 24 (13.41%)
+    '     File Size: 6.79 KB
+
+
     '     Module HTMLRender
     ' 
     '         Function: drawNormal, drawSub, drawSup, MeasureSize
     ' 
-    '         Sub: RenderHTML
+    '         Sub: (+2 Overloads) DrawHtmlString, RenderHTML
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,6 +56,7 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+'Imports Microsoft.VisualBasic.Drawing.Drawing2D.Text
 Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Namespace Drawing2D.Text
@@ -52,6 +65,24 @@ Namespace Drawing2D.Text
     ''' 进行简单的HTML片段的渲染
     ''' </summary>
     Public Module HTMLRender
+
+        <Extension>
+        Public Sub DrawHtmlString(g As IGraphics, text$, baseFontStyle As Font, defaultColor As Color, location As Point)
+            Dim tokens As TextString() = TextAPI _
+                .TryParse(text, baseFontStyle, defaultColor) _
+                .ToArray
+
+            Call g.RenderHTML(tokens, New PointF(location.X, location.Y))
+        End Sub
+
+        <Extension>
+        Public Sub DrawHtmlString(g As IGraphics, text$, baseFontStyle As Font, defaultColor As Color, location As PointF)
+            Dim tokens As TextString() = TextAPI _
+                .TryParse(text, baseFontStyle, defaultColor) _
+                .ToArray
+
+            Call g.RenderHTML(tokens, location)
+        End Sub
 
         ''' <summary>
         ''' 估算出文本的绘制区域大小

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b5c8ee2c95754e2bb35ba2a87305c84, Data_science\MachineLearning\MachineLearning\SVM\Solver\SVR_Q.vb"
+﻿#Region "Microsoft.VisualBasic::2b35028f536129cdaf5d5c52643c696d, Data_science\MachineLearning\MachineLearning\SVM\Solver\SVR_Q.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 65 (80.25%)
+    ' Comment Lines: 1 (1.23%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (18.52%)
+    '     File Size: 2.44 KB
+
+
     '     Class SVR_Q
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -57,7 +69,8 @@ Namespace SVM
         Private ReadOnly QD As Double()
 
         Public Sub New(prob As Problem, param As Parameter)
-            MyBase.New(prob.count, prob.X, param)
+            Call MyBase.New(prob.count, prob.X, param)
+
             l = prob.count
             cache = New Cache(l, CLng(param.cacheSize) * (1 << 20))
             QD = New Double(2 * l - 1) {}

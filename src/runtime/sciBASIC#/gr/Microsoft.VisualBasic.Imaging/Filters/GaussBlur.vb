@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c20be08e3c9f589e5f53fa5268e9af39, gr\Microsoft.VisualBasic.Imaging\Filters\GaussBlur.vb"
+﻿#Region "Microsoft.VisualBasic::87acbd20c86bfdc36191c3b938d24178, gr\Microsoft.VisualBasic.Imaging\Filters\GaussBlur.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 184
+    '    Code Lines: 143 (77.72%)
+    ' Comment Lines: 22 (11.96%)
+    '    - Xml Docs: 54.55%
+    ' 
+    '   Blank Lines: 19 (10.33%)
+    '     File Size: 11.58 KB
+
+
     '     Class GaussBlur
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -42,11 +54,17 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
-Imports System.Runtime.InteropServices.Marshal
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 
 Namespace Filters
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' 20220621, warning: not working as expected on LINUX platform 
+    ''' due to the reason of call un-managed code.
+    ''' </remarks>
     Public NotInheritable Class GaussBlur
 
         Private Sub New()
@@ -65,13 +83,12 @@ Namespace Filters
             Dim img2 As Bitmap = imgValue.Clone
             Dim h As Integer = img2.Height
             Dim w As Integer = img2.Width - 1
-            Dim bd As BitmapData = img2.LockBits(New Rectangle(0, 0, oriWidth, oriHeight), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb)
+            Dim bd As BitmapBuffer = BitmapBuffer.FromBitmap(img2)
             Dim s As Integer = bd.Stride
             Dim ptr As IntPtr = bd.Scan0
-            Dim rgb(s * h - 1) As Byte
-            Dim rgb2(s * h - 1) As Byte
 
-            Call Copy(bd.Scan0, rgb, 0, s * h - 1)
+            Dim rgb2(s * h - 1) As Byte
+            Dim rgb() As Byte = bd.RawBuffer
 
             ' 处理第一行第一个像素
             rgb2(0) = (CInt(0) + rgb(0) + rgb(3) + rgb(s) + rgb(s + 3)) / 4
@@ -213,8 +230,8 @@ Namespace Filters
             rgb2((h - 1) * s + w * 3 + 2) = (CInt(0) + rgb((h - 1) * s + w * 3 - 3 + 2) + rgb((h - 1) * s + w * 3 + 2) +
                                 rgb((h - 2) * s + w * 3 - 3 + 2) + rgb((h - 2) * s + w * 3 + 2)) / 4
 
-            Call Copy(rgb2, 0, ptr, s * h - 1)
-            Call img2.UnlockBits(bd)
+            Call Array.ConstrainedCopy(rgb2, Scan0, bd.RawBuffer, Scan0, rgb2.Length)
+            Call bd.Dispose()
 
             Return img2
         End Function

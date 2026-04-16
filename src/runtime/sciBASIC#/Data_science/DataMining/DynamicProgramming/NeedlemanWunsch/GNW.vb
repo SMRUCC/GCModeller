@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3fe5a2ec4d4e77ef97a6a5a09b63dba0, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
+﻿#Region "Microsoft.VisualBasic::f9a2dac2c06ac9bd3cdefc00815698e3, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\GNW.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 105 (52.76%)
+    ' Comment Lines: 66 (33.17%)
+    '    - Xml Docs: 56.06%
+    ' 
+    '   Blank Lines: 28 (14.07%)
+    '     File Size: 8.43 KB
+
+
     '     Class NeedlemanWunsch
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: Compute, fillTracebackMatrix
+    '         Function: Compute, MaximizingCell
     ' 
     '         Sub: traceback
     ' 
@@ -56,7 +68,7 @@ Namespace NeedlemanWunsch
     ''' </summary>
     Public Class NeedlemanWunsch(Of T) : Inherits Workspace(Of T)
 
-        Dim matrix%()() = Nothing
+        Dim matrix!()() = Nothing
         Dim tracebackMatrix%()() = Nothing
 
         ReadOnly symbol As GenericSymbol(Of T)
@@ -166,8 +178,8 @@ Namespace NeedlemanWunsch
             Dim seq2 As T() = Me.Sequence2
 
             ' Set up the score- and the traceback-matrix
-            matrix = MAT(Of Integer)(rows, columns)
-            tracebackMatrix = MAT(Of Integer)(rows, columns)
+            matrix = RectangularArray.Matrix(Of Single)(rows, columns)
+            tracebackMatrix = RectangularArray.Matrix(Of Integer)(rows, columns)
 
             ' fill the first row and first column of matrix and tracebackMatrix
             For i As Integer = 0 To rows - 1
@@ -182,19 +194,21 @@ Namespace NeedlemanWunsch
 
             tracebackMatrix(0)(0) = 0
 
+            Dim a, b, c As Double
+            Dim max As Double
+
             ' Fill matrix and traceback matrix
             For i As Integer = 1 To rows - 1
                 For j As Integer = 1 To columns - 1
-                    Dim a As Integer = matrix(i - 1)(j - 1) + scoreMatrix.getMatchScore(seq1(j - 1), seq2(i - 1))
-                    Dim b As Integer = matrix(i)(j - 1) - scoreMatrix.GapPenalty
-                    Dim c As Integer = matrix(i - 1)(j) - scoreMatrix.GapPenalty
-                    Dim max As Integer = Math.Max(a, b, c)
+                    a = matrix(i - 1)(j - 1) + scoreMatrix.getMatchScore(seq1(j - 1), seq2(i - 1))
+                    b = matrix(i)(j - 1) - scoreMatrix.GapPenalty
+                    c = matrix(i - 1)(j) - scoreMatrix.GapPenalty
+                    max = Math.Max(a, b, c)
 
                     ' fill cell of the scoring matrix
                     matrix(i)(j) = max
-
                     ' fill cell of the traceback matrix
-                    tracebackMatrix(i)(j) = Me.fillTracebackMatrix(a, b, c)
+                    tracebackMatrix(i)(j) = MaximizingCell(a, b, c)
                 Next
             Next
 
@@ -220,7 +234,7 @@ Namespace NeedlemanWunsch
         ''' <param name="left"> </param>
         ''' <param name="upper"> </param>
         ''' <returns> code for the maximizing cell(s) </returns>
-        Private Function fillTracebackMatrix(upperLeft As Integer, left As Integer, upper As Integer) As Integer
+        Private Function MaximizingCell(upperLeft As Integer, left As Integer, upper As Integer) As Integer
             Dim max As Integer = Math.Max(upperLeft, left, upper)
 
             If upperLeft = left AndAlso left = upper Then

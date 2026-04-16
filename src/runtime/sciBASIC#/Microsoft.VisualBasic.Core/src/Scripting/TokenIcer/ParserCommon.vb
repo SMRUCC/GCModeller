@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::143f9bcf1f88b605c1c3a5e20145a857, Microsoft.VisualBasic.Core\src\Scripting\TokenIcer\ParserCommon.vb"
+﻿#Region "Microsoft.VisualBasic::fe5c5f094686e1d923ee2249b6412599, Microsoft.VisualBasic.Core\src\Scripting\TokenIcer\ParserCommon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 50 (48.08%)
+    ' Comment Lines: 43 (41.35%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (10.58%)
+    '     File Size: 4.09 KB
+
 
     '     Module ParserCommon
     ' 
@@ -67,11 +79,13 @@ Namespace Scripting.TokenIcer
         End Function
 
         ''' <summary>
-        ''' 当前的token对象之中是否是转义的起始，即当前的token之中的最后一个符号是否是转移符<paramref name="escape"/>?
+        ''' 当前的token对象之中是否是转义的起始，即当前的token之中的最后一个符号是否是转义符<paramref name="escape"/>?
         ''' </summary>
         ''' <param name="buffer"></param>
         ''' <param name="escape"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' this function deal with the empty collection: returns false if the given buffer is empty
+        ''' </returns>
         <Extension>
         Public Function StartEscaping(buffer As CharBuffer, Optional escape As Char = "\"c) As Boolean
             If buffer.Size = 0 Then

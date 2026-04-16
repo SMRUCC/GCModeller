@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dae89f686d7e481105d44408dc3ba7fc, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\UncheckHelpers.vb"
+﻿#Region "Microsoft.VisualBasic::d7aee119c62904e9c7c6105ba85e09d3, Microsoft.VisualBasic.Core\src\Extensions\Math\Information\UncheckHelpers.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 37 (86.05%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (13.95%)
+    '     File Size: 1.49 KB
+
+
     '     Module UncheckHelpers
     ' 
-    '         Function: ToTruncateInt32, ToTruncateInt64
+    '         Function: SingleToInt32Bits, ToTruncateInt32, ToTruncateInt64, UnsafeTruncateInteger
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,21 +54,18 @@
 
 Imports System.Numerics
 Imports System.Runtime.CompilerServices
-Imports System.Runtime.InteropServices
+Imports Microsoft.VisualBasic.ApplicationServices.Debugging
 Imports Microsoft.VisualBasic.Language
 
 Namespace Math.Information
 
     Public Module UncheckHelpers
 
-        ReadOnly sizeOfInt64% = Marshal.SizeOf(Long.MaxValue)
-        ReadOnly sizeOfInt32% = Marshal.SizeOf(Integer.MaxValue)
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ToTruncateInt64(bi As BigInteger) As Long
             With bi.ToByteArray
-                If .Length < sizeOfInt64 Then
+                If .Length < HeapSizeOf.long Then
                     Return CType(bi, Long)
                 Else
                     Return BitConverter.ToInt64(.ByRef, Scan0)
@@ -68,12 +77,21 @@ Namespace Math.Information
         <Extension>
         Public Function ToTruncateInt32(bi As BigInteger) As Integer
             With bi.ToByteArray
-                If .Length < sizeOfInt32 Then
+                If .Length < HeapSizeOf.int Then
                     Return CType(bi, Long)
                 Else
                     Return BitConverter.ToInt32(.ByRef, Scan0)
                 End If
             End With
+        End Function
+
+        Public Function SingleToInt32Bits(value As Single) As Integer
+            Return BitConverter.ToInt32(BitConverter.GetBytes(value), Scan0)
+        End Function
+
+        <Extension>
+        Public Function UnsafeTruncateInteger(val As ULong) As Integer
+            Return BitConverter.ToInt32(BitConverter.GetBytes(val), Scan0)
         End Function
     End Module
 End Namespace

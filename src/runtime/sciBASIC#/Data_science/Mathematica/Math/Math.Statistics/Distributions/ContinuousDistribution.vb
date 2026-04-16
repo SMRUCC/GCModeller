@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3bb77958f11d187e82360ee4631b5d1d, Data_science\Mathematica\Math\Math.Statistics\Distributions\ContinuousDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::f067c28b1bd09e7c23ddc4c4771dcae3, Data_science\Mathematica\Math\Math.Statistics\Distributions\ContinuousDistribution.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 202
+    '    Code Lines: 125 (61.88%)
+    ' Comment Lines: 48 (23.76%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 29 (14.36%)
+    '     File Size: 9.78 KB
+
+
     '     Class ContinuousDistribution
     ' 
     '         Properties: PeriodOfRecord
@@ -47,6 +59,7 @@
 Imports System.Reflection
 Imports Microsoft.VisualBasic.Language.Java
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
 
 '
 ' * To change this license header, choose License Headers in Project Properties.
@@ -228,9 +241,8 @@ Namespace Distributions
 
         Public Overridable Function BootStrap() As Double()
             Dim result As Double() = New Double(_PeriodOfRecord - 1) {}
-            Dim Random As New Random
             For i As Integer = 0 To _PeriodOfRecord - 1
-                result(i) = GetInvCDF(Random.NextDouble())
+                result(i) = GetInvCDF(randf2.NextDouble())
             Next
             Return result
         End Function

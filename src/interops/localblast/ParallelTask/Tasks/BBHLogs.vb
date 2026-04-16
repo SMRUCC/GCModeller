@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c12b7be193f7eb22cdca254c24fb91c6, localblast\ParallelTask\Tasks\BBHLogs.vb"
+﻿#Region "Microsoft.VisualBasic::657c24b6f978b7242303edc4e6acbe91, localblast\ParallelTask\Tasks\BBHLogs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 396
+    '    Code Lines: 267 (67.42%)
+    ' Comment Lines: 79 (19.95%)
+    '    - Xml Docs: 88.61%
+    ' 
+    '   Blank Lines: 50 (12.63%)
+    '     File Size: 20.44 KB
+
+
     '     Module BBHLogs
     ' 
     '         Function: (+3 Overloads) __export, __getDirectionary, __operation, (+2 Overloads) BuildBBHEntry, (+2 Overloads) ExportBidirectionalBesthit
@@ -43,7 +55,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -100,7 +112,7 @@ Namespace Tasks
             Loop
 
             If lstPairs.Count = 0 Then
-                Call $"null bbh paires was found, please check you file name rule is in format like <query>_vs__<subject>!".__DEBUG_ECHO
+                Call $"null bbh paires was found, please check you file name rule is in format like <query>_vs__<subject>!".debug
             End If
 
             Return lstPairs.ToArray
@@ -128,7 +140,7 @@ Namespace Tasks
         Public Function LoadSBHEntry(DIR As String, query As String) As String()
             Dim LQuery As AlignEntry() = (ls - l - wildcards("*.*") <= DIR).Select(AddressOf LogNameParser).ToArray
             Dim Paths$() = LinqAPI.Exec(Of String) _
- _
+                                                   _
                 () <= From entry As AlignEntry
                       In LQuery.AsParallel
                       Where String.Equals(query, entry.QueryName, StringComparison.OrdinalIgnoreCase)
@@ -198,7 +210,7 @@ Namespace Tasks
                                                Where Not reuslt Is Nothing
                                                Select reuslt
 
-            Call "All of the available besthit data was exported!".__DEBUG_ECHO
+            Call "All of the available besthit data was exported!".debug
 
             Return LQuery
         End Function
@@ -252,9 +264,9 @@ RETURN_VALUE:
                           Let OutputLog = BlastPlus.Parser.TryParse(path.FilePath)
                           Where OutputLog IsNot Nothing
                           Select path, OutputLog)
-            Call "Load blast output log data internal operation job done!".__DEBUG_ECHO
+            Call "Load blast output log data internal operation job done!".debug
             Dim LogDataChunk = (From OutputLog In LQuery.AsParallel Select logData = GrepOperation.Grep(OutputLog.OutputLog), OutputLog.path)  ' 进行蛋白质序列对象的标题的剪裁操作
-            Call "Internal data trimming operation job done! start to writing data....".__DEBUG_ECHO
+            Call "Internal data trimming operation job done! start to writing data....".debug
 
             For Each File In LogDataChunk
                 Dim besthitsData As BBH.BestHit() = File.logData.ExportBestHit
@@ -267,7 +279,7 @@ RETURN_VALUE:
                 Call Console.Write(".")
             Next
 
-            Call "All of the available besthit data was exported!".__DEBUG_ECHO
+            Call "All of the available besthit data was exported!".debug
 
             Return (From PathEntry In LogDataChunk.AsParallel Select PathEntry.path).ToArray
         End Function
@@ -325,7 +337,7 @@ RETURN_VALUE:
             If CDSInfo Is Nothing Then
                 getDescrib = Function(null) ""
             Else
-                getDescrib = Function(Id As String) If(CDSInfo.ContainsKey(Id), CDSInfo(Id).CommonName, "")
+                getDescrib = Function(Id As String) If(CDSInfo.ContainsKey(Id), CDSInfo(Id).commonName, "")
             End If
 
             Dim GetDescriptionResult = (From item
@@ -408,18 +420,17 @@ RETURN_VALUE:
                                 __export(sp.Value, query)
                             Let hhh As Hit = New Hit With {
                                 .tag = sp.Key,
-                                .HitName = hitttt.HitName,
-                                .Identities = hitttt.Identities,
-                                .Positive = hitttt.Positive
+                                .hitName = hitttt.HitName,
+                                .identities = hitttt.identities,
+                                .positive = hitttt.positive
                             }
-                            Select desc = hitttt.Description,
+                            Select desc = hitttt.description,
                                 hhh).ToArray
-                Let hitCol As HitCollection =
-                    New HitCollection With {
-                        .QueryName = query,
-                        .Description = hits.First.desc,
-                        .Hits = hits.Select(Function(x) x.hhh).ToArray
-                    }
+                Let hitCol As HitCollection = New HitCollection With {
+                    .QueryName = query,
+                    .description = hits.First.desc,
+                    .hits = hits.Select(Function(x) x.hhh).ToArray
+                }
                 Select hitCol
 
             Return New SpeciesBesthit With {
@@ -432,7 +443,7 @@ RETURN_VALUE:
             If hitSpecies.ContainsKey(queryProt) Then
                 Return hitSpecies(queryProt)
             Else
-                Call $"QueryProtein {queryProt} not found!".__DEBUG_ECHO
+                Call $"QueryProtein {queryProt} not found!".debug
                 Return BiDirectionalBesthit.NullValue
             End If
         End Function

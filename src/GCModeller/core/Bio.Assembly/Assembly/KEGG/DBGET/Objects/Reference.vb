@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::abb11247e27df24c529e6842ce72b157, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
+﻿#Region "Microsoft.VisualBasic::bee731e8b55c138718d4b7ad944a6d3c, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Reference.vb"
 
     ' Author:
     ' 
@@ -31,24 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 26 (50.00%)
+    ' Comment Lines: 17 (32.69%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 9 (17.31%)
+    '     File Size: 1.68 KB
+
+
     '     Class Reference
     ' 
     '         Properties: Authors, DOI, Journal, PMID, Reference
     '                     Title
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: ReferenceParserHTML, References, ToString
+    '         Function: ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Assembly.KEGG.DBGET.bGetObject
 
@@ -65,11 +73,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         <XmlAttribute> Public Property Reference As String
         <XmlAttribute> Public Property DOI As String
 
-        Public ReadOnly Property PMID As Long
-            Get
-                Return CLng(Val(Regex.Match(Reference, "PMID[:]\s*\d+", RegexICSng).Value))
-            End Get
-        End Property
+        Public Property PMID As String
 
         Sub New()
         End Sub
@@ -98,49 +102,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
             Journal = data.TryGetValue("JOURNAL")
             Reference = data.TryGetValue("REFERENCE")
         End Sub
-
-        ''' <summary>
-        ''' HTML parser
-        ''' </summary>
-        ''' <param name="data"></param>
-        ''' <returns></returns>
-        Public Shared Function References(data As String()) As Reference()
-            Return data.Select(AddressOf ReferenceParserHTML).ToArray
-        End Function
-
-        Const REF_ITEM As String = "<td .+?</div></td></tr>"
-        Const DIVInternal$ = "<div .+?>.+?</div>"
-
-        Public Shared Function ReferenceParserHTML(html$) As Reference
-            Dim tokens As String() = Regex.Matches(html, REF_ITEM).ToArray
-            tokens = tokens _
-                .Select(Function(s) Regex.Match(s, DIVInternal).Value) _
-                .ToArray
-
-            Dim i As i32 = Scan0
-            Dim PMID As String = tokens.ElementAtOrDefault(++i).GetValue
-            Dim Authors As String = tokens.ElementAtOrDefault(++i).GetValue
-            Dim Title As String = tokens.ElementAtOrDefault(++i).GetValue
-            Dim Journal As String = tokens.ElementAtOrDefault(++i).GetValue
-            Dim DOI$
-
-            If Regex.Match(PMID, "PMID[:]<a").Success Then
-                PMID = PMID.GetValue
-            End If
-
-            Dim ref = Journal.GetTagValue("DOI:")
-
-            Journal = ref.Name.StripHTMLTags(stripBlank:=True)
-            DOI = ref.Value.href
-
-            Return New Reference With {
-                .Authors = Strings.Split(Authors, ", "),
-                .Title = Title,
-                .Journal = Journal,
-                .Reference = PMID,
-                .DOI = DOI
-            }
-        End Function
 
         Public Overrides Function ToString() As String
             Return $"{ String.Join(", ", Authors) }. {Title}. {Journal}.  PMID:{Reference}"

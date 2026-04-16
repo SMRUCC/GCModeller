@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e42b09b4627d054b75ba6e7b4da14f00, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::072f1ed60e79bf9eba44da5086a086a6, Data_science\DataMining\DataMining\Clustering\DBSCAN\DbscanAlgorithm.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 139
+    '    Code Lines: 91 (65.47%)
+    ' Comment Lines: 29 (20.86%)
+    '    - Xml Docs: 89.66%
+    ' 
+    '   Blank Lines: 19 (13.67%)
+    '     File Size: 5.85 KB
+
+
     '     Class DbscanAlgorithm
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -41,6 +53,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 
@@ -55,10 +69,11 @@ Namespace DBSCAN
     ''' 
     ''' > https://github.com/yusufuzun/dbscan
     ''' </remarks>
-    Public Class DbscanAlgorithm(Of T)
+    Public Class DbscanAlgorithm(Of T As IReadOnlyId)
 
         Friend ReadOnly _metricFunc As Func(Of T, T, Double)
         Friend ReadOnly _full As Boolean
+        Friend ReadOnly println As Action(Of Object)
 
         ''' <summary>
         ''' Takes metric function to compute distances between dataset items T
@@ -68,9 +83,18 @@ Namespace DBSCAN
         ''' A logical option for indicates that evaluate all neighbor points 
         ''' or not for test and create cluster members
         ''' </param>
-        Public Sub New(metricFunc As Func(Of T, T, Double), Optional full As Boolean = True)
+        Public Sub New(metricFunc As Func(Of T, T, Double),
+                       Optional full As Boolean = True,
+                       Optional println As Action(Of Object) = Nothing)
+
             _metricFunc = metricFunc
             _full = full
+
+            If println Is Nothing Then
+                Me.println = Sub(any) VBDebugger.EchoLine(any.ToString)
+            Else
+                Me.println = println
+            End If
         End Sub
 
         ''' <summary>
@@ -94,7 +118,7 @@ Namespace DBSCAN
             Dim allPointsDbscan As DbscanPoint(Of T)() = allPoints _
                 .Select(Function(x, i)
                             Return New DbscanPoint(Of T)(x) With {
-                                .ID = (i + 1).ToHexString
+                                .ID = x.Identity
                             }
                         End Function) _
                 .ToArray()
@@ -134,17 +158,10 @@ Namespace DBSCAN
         Private Function IteratesAllPoints(session As DbscanSession(Of T)) As Integer()
             Dim clusterId As Integer = 0
             Dim seeds As New List(Of Integer)
-            Dim j As i32 = 0
             Dim size As Integer = session.allPoints.Length
-            Dim d As Integer = size / 20
 
-            For i As Integer = 0 To size - 1
+            For Each i As Integer In Tqdm.Wrap(Enumerable.Range(0, size).ToArray, wrap_console:=App.EnableTqdm)
                 Dim p As DbscanPoint(Of T) = session.allPoints(i)
-
-                If ++j = d Then
-                    j = 0
-                    Call Console.WriteLine($" [{i}/{size}] query {p.ID}...{CInt(100 * i / size)}%")
-                End If
 
                 If p.IsVisited AndAlso Not (p.ClusterId = ClusterIDs.Unclassified OrElse p.ClusterId = ClusterIDs.Noise) Then
                     Continue For
@@ -157,7 +174,7 @@ Namespace DBSCAN
                     Continue For
                 End If
 
-                Dim neighborPts As DbscanPoint(Of T)() = session.RegionQuery(p.ClusterPoint)
+                Dim neighborPts As DbscanPoint(Of T)() = session.RegionQuery(p.ClusterPoint, parallel:=True)
 
                 If neighborPts.Length < session.minPts Then
                     p.ClusterId = ClusterIDs.Noise

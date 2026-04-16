@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 222
+    '    Code Lines: 127 (57.21%)
+    ' Comment Lines: 63 (28.38%)
+    '    - Xml Docs: 93.65%
+    ' 
+    '   Blank Lines: 32 (14.41%)
+    '     File Size: 8.19 KB
+
+
     '     Class Scaling
     ' 
     '         Properties: xrange, yrange

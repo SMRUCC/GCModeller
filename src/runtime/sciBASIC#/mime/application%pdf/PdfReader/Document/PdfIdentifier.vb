@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c61128f17b33c389b7d021d2121b69d2, mime\application%pdf\PdfReader\Document\PdfIdentifier.vb"
+﻿#Region "Microsoft.VisualBasic::ad7a919c3018cf750f038e7f0b7e0e25, mime\application%pdf\PdfReader\Document\PdfIdentifier.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 24 (82.76%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (17.24%)
+    '     File Size: 820 B
+
+
     '     Class PdfIdentifier
     ' 
     '         Properties: ParseIdentifier, Value
@@ -50,7 +62,7 @@ Namespace PdfReader
     Public Class PdfIdentifier
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject, ByVal name As ParseIdentifier)
+        Public Sub New(parent As PdfObject, name As ParseIdentifier)
             MyBase.New(parent, name)
         End Sub
 
@@ -58,7 +70,7 @@ Namespace PdfReader
             Return Value.ToString()
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

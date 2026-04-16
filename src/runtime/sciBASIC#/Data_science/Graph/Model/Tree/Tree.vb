@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::533cfb64eccbe479f112aaee5fba2a55, Data_science\Graph\Model\Tree\Tree.vb"
+﻿#Region "Microsoft.VisualBasic::7e91f3bdbda6859ade65fa9b896d2da4, Data_science\Graph\Model\Tree\Tree.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 45 (49.45%)
+    ' Comment Lines: 30 (32.97%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 16 (17.58%)
+    '     File Size: 2.55 KB
+
+
     ' Class Tree
     ' 
     '     Properties: Data
@@ -42,6 +54,7 @@
     '     Properties: Data
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    '     Function: Add, FindNode, hasNode, PopulateAllNodes
     ' 
     ' /********************************************************************************/
 
@@ -50,10 +63,12 @@
 Imports System.Runtime.Serialization
 
 ''' <summary>
-''' Tree node with data..(可以直接被使用的树对象类型)
+''' Tree node with data.
 ''' </summary>
 ''' <typeparam name="T"></typeparam>
-''' 
+''' <remarks>
+''' (可以直接被使用的树对象类型)
+''' </remarks>
 <DataContract>
 Public Class Tree(Of T, K) : Inherits AbstractTree(Of Tree(Of T, K), K)
 
@@ -71,7 +86,7 @@ End Class
 ''' <summary>
 ''' 使用字符串<see cref="String"/>作为键名的树节点
 ''' </summary>
-''' <typeparam name="T"></typeparam>
+''' <typeparam name="T">the value type of the ``Data`` property</typeparam>
 ''' <remarks>
 ''' 在这里如果直接继承<see cref="Tree(Of T, K)"/>类型的话，会导致child的类型错误
 ''' </remarks>
@@ -82,4 +97,57 @@ Public Class Tree(Of T) : Inherits AbstractTree(Of Tree(Of T), String)
     Sub New(Optional qualDeli$ = ".")
         MyBase.New(qualDeli)
     End Sub
+
+    Public Function hasNode(name As String) As Boolean
+        Return Childs.ContainsKey(name)
+    End Function
+
+    Public Function FindNode(links As String(), Optional i As Integer = Scan0) As Tree(Of T)
+        Dim key As String = links(i)
+
+        If Childs.ContainsKey(key) Then
+            If i = links.Length - 1 Then
+                ' is end of the link
+                Return Childs(key)
+            Else
+                ' continute to next layer
+                Return Childs(key).FindNode(links, i + 1)
+            End If
+        Else
+            Return Nothing
+        End If
+    End Function
+
+    ''' <summary>
+    ''' add target <paramref name="child"/> node into current childs 
+    ''' collection and the assign the target <paramref name="child"/> 
+    ''' parent to current node.
+    ''' </summary>
+    ''' <param name="child"></param>
+    ''' <returns></returns>
+    Public Overridable Function Add(child As Tree(Of T)) As Tree(Of T)
+        Childs.Add(child.label, child)
+        child.Parent = Me
+
+        Return Me
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <returns>
+    ''' the first element is the tree root node
+    ''' </returns>
+    Public Function PopulateAllNodes() As IEnumerable(Of Tree(Of T))
+        Dim list As New List(Of Tree(Of T))
+
+        ' add tree root node
+        Call list.Add(Me)
+
+        For Each node In Childs.Values
+            Call list.AddRange(node.PopulateAllNodes)
+        Next
+
+        Return list
+    End Function
 End Class

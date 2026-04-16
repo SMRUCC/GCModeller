@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 68 (77.27%)
+    ' Comment Lines: 8 (9.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.64%)
+    '     File Size: 3.48 KB
+
+
     '     Class BlastpSubjectHit
     ' 
     '         Properties: FragmentHits, Hsp, LengthHit, LengthQuery

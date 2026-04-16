@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4861b2c75d15ddd4bdf9bceeb1e31c97, Data_science\DataMining\UMAP\Components\Heaps\Heaps.vb"
+﻿#Region "Microsoft.VisualBasic::5b6b23e120619c48dd5e9f83689e168d, Data_science\DataMining\UMAP\Components\Heaps\Heaps.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 251
+    '    Code Lines: 172 (68.53%)
+    ' Comment Lines: 33 (13.15%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 46 (18.33%)
+    '     File Size: 9.54 KB
+
+
     ' Module Heaps
     ' 
     '     Function: BuildCandidates, DeHeapSort, HeapPush, MakeArrays, MakeHeap
@@ -42,10 +54,10 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports Microsoft.VisualBasic.DataMining.UMAP.KNN
-Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Friend Module Heaps
 
@@ -164,7 +176,7 @@ Friend Module Heaps
     Public Function BuildCandidates(currentGraph As Heap, nVertices As Integer, nNeighbors As Integer, maxCandidates As Integer, random As IProvideRandomValues) As Heap
         Dim candidateNeighbors = Heaps.MakeHeap(nVertices, maxCandidates)
 
-        Call Console.WriteLine("Build candidates...")
+        Call VBDebugger.EchoLine("Build candidates...")
 
         For i As Integer = 0 To nVertices - 1
             For j As Integer = 0 To nNeighbors - 1
@@ -190,14 +202,21 @@ Friend Module Heaps
     ''' Given an array of heaps (of indices and weights), unpack the heap out to give and array of sorted lists of indices and weights by increasing weight. This is effectively just the second half of heap sort
     ''' (the first half not being required since we already have the data in a heap).
     ''' </summary>
-    Public Function DeHeapSort(heap As Heap, startingIteration As Action(Of Integer, Integer, String)) As KNNState
+    Public Function DeHeapSort(heap As Heap) As KNNState
         ' Note: The comment on this method doesn't seem to quite fit with the method signature (where a single Heap is provided, not an array of Heaps)
         Dim indices = heap(0)
         Dim weights = heap(1)
-        Dim dd As Integer = indices.Length / 10
-        Dim jj As i32 = 0
+        Dim indicesGroup As IEnumerable(Of Integer)
 
-        For i As Integer = 0 To indices.Length - 1
+        If App.EnableTqdm Then
+            indicesGroup = Tqdm.Range(0, indices.Length)
+        Else
+            indicesGroup = Enumerable.Range(0, indices.Length)
+        End If
+
+        Call VBDebugger.EchoLine("DeHeapSort...")
+
+        For Each i As Integer In indicesGroup
             Dim indHeap = indices(i)
             Dim distHeap = weights(i)
 
@@ -215,11 +234,6 @@ Friend Module Heaps
 
                 Call Heaps.SiftDown(distHeap, indHeap, distHeapIndex, 0)
             Next
-
-            If startingIteration IsNot Nothing AndAlso ++jj = dd Then
-                jj = 0
-                startingIteration.Invoke(i, indices.Length, $"DeHeapSort {CInt(100 * i / indices.Length)}% [{i}/{indices.Length}]")
-            End If
         Next
 
         Dim indicesAsInts = indices _
@@ -242,8 +256,11 @@ Friend Module Heaps
             Dim leftChild = elt * 2 + 1
             Dim rightChild = leftChild + 1
             Dim swap = elt
+
             If heap1(swap) < heap1(leftChild) Then swap = leftChild
-            If rightChild < ceiling AndAlso heap1(swap) < heap1(rightChild) Then swap = rightChild
+            If rightChild < ceiling AndAlso heap1(swap) < heap1(rightChild) Then
+                swap = rightChild
+            End If
 
             If swap = elt Then
                 Exit While
@@ -282,7 +299,7 @@ Friend Module Heaps
 
         If resultIndex >= 0 Then
             flag(resultIndex) = 0
-            Return CInt(stdNum.Floor(ind(resultIndex)))
+            Return CInt(std.Floor(ind(resultIndex)))
         Else
             Return -1
         End If

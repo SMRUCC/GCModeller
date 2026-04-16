@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2948e76735855011ef3ad8e5fd0812e, gr\network-visualization\NetworkCanvas\Canvas3D\Renderer3D.vb"
+﻿#Region "Microsoft.VisualBasic::1a55ef29c303e54162c4055de50c5657, gr\network-visualization\NetworkCanvas\Canvas3D\Renderer3D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 82 (75.23%)
+    ' Comment Lines: 9 (8.26%)
+    '    - Xml Docs: 55.56%
+    ' 
+    '   Blank Lines: 18 (16.51%)
+    '     File Size: 4.04 KB
+
+
     ' Class Renderer3D
     ' 
     '     Properties: rotate, ViewDistance
@@ -46,10 +58,11 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.SpringForce.Interfaces
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Imaging.Math2D
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Class Renderer3D : Inherits Renderer
     Implements IGraphicsEngine
@@ -64,7 +77,7 @@ Public Class Renderer3D : Inherits Renderer
     ''' <param name="canvas"></param>
     ''' <param name="regionProvider"></param>
     ''' <param name="iForceDirected"><see cref="ForceDirected3D"/></param>
-    Public Sub New(canvas As Func(Of Graphics),
+    Public Sub New(canvas As Func(Of IGraphics),
                    regionProvider As Func(Of Rectangle),
                    iForceDirected As IForceDirected,
                    Optional dynamicsRadius As Boolean = False)
@@ -73,7 +86,7 @@ Public Class Renderer3D : Inherits Renderer
         Me.dynamicsRadius = dynamicsRadius
     End Sub
 
-    Public Property rotate As Double = stdNum.PI / 3
+    Public Property rotate As Double = std.PI / 3
 
     Protected Overrides Sub drawEdge(iEdge As Edge, iPosition1 As AbstractVector, iPosition2 As AbstractVector)
         Dim rect As Rectangle = regionProvider()
@@ -91,19 +104,20 @@ Public Class Renderer3D : Inherits Renderer
             .Project(rect.Width, rect.Height, 256, ViewDistance) _
             .PointXY
         '   pos2 = GraphToScreen(pos2, rect)
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         SyncLock canvas
-            Dim w As Single = widthHash(iEdge)
-            Dim LineColor As New Pen(Color.Gray, w)
+            Try
+                Call canvas.DrawLine(
+                    edgeStyles(iEdge),
+                    pos1.X,
+                    pos1.Y,
+                    pos2.X,
+                    pos2.Y
+                )
+            Catch ex As Exception
 
-            Call canvas.DrawLine(
-                LineColor,
-                pos1.X,
-                pos1.Y,
-                pos2.X,
-                pos2.Y
-            )
+            End Try
         End SyncLock
     End Sub
 
@@ -121,7 +135,7 @@ Public Class Renderer3D : Inherits Renderer
             .RotateZ(rotate) _
             .Project(client.Width, client.Height, 256, ViewDistance) _
             .PointXY ' 调整FOV参数的效果不太好
-        Dim canvas As Graphics = graphicsProvider()
+        Dim canvas As IGraphics = graphicsProvider()
 
         '   pos = GraphToScreen(pos, __regionProvider())
 
@@ -136,11 +150,15 @@ Public Class Renderer3D : Inherits Renderer
 
             If ShowLabels Then
                 Dim center As PointF = rect.Centre
-                Dim sz As SizeF = canvas.MeasureString(n.ID, Font)
+                Dim labeltext As String = n.data.label
+                Dim sz As SizeF = canvas.MeasureString(labeltext, Font)
+
                 center = New PointF(
                     center.X - sz.Width / 2,
-                    center.Y - sz.Height / 2)
-                Call canvas.DrawString(n.ID, Font, Brushes.Gray, center)
+                    center.Y - sz.Height / 2
+                )
+
+                Call canvas.DrawString(labeltext, Font, Brushes.Gray, center)
             End If
         End SyncLock
     End Sub

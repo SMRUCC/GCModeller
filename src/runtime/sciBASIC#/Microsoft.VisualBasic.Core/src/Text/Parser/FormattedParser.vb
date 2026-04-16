@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b444ddca74dd29280e23f69fbfa34375, Microsoft.VisualBasic.Core\src\Text\Parser\FormattedParser.vb"
+﻿#Region "Microsoft.VisualBasic::927501c059b9158407219108dae9e984, Microsoft.VisualBasic.Core\src\Text\Parser\FormattedParser.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 63 (44.37%)
+    ' Comment Lines: 60 (42.25%)
+    '    - Xml Docs: 71.67%
+    ' 
+    '   Blank Lines: 19 (13.38%)
+    '     File Size: 5.30 KB
+
+
     '     Module FormattedParser
     ' 
-    '         Function: CrossFields, FieldParser, FlagSplit
+    '         Function: CrossFields, FieldParser, (+2 Overloads) FlagSplit
     '         Delegate Function
     ' 
     '             Function: ReadHead, UntilBlank
@@ -44,6 +56,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
@@ -59,12 +72,24 @@ Namespace Text.Parser
         ''' <summary>
         ''' String collection tokens by a certain delimiter string element.
         ''' </summary>
+        ''' <param name="s"></param>
+        ''' <param name="isFlag"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function FlagSplit(s As StreamReader, isFlag As Func(Of String, Boolean)) As IEnumerable(Of String())
+            Return LargeTextFile.IteratesStream(s).FlagSplit(isFlag)
+        End Function
+
+        ''' <summary>
+        ''' String collection tokens by a certain delimiter string element.
+        ''' </summary>
         ''' <param name="source"></param>
         ''' <param name="isFlag">
         ''' 
         ''' </param>
         ''' <returns></returns>
-        <Extension> Public Iterator Function FlagSplit(source As IEnumerable(Of String), isFlag As Func(Of String, Boolean)) As IEnumerable(Of String())
+        <Extension>
+        Public Iterator Function FlagSplit(source As IEnumerable(Of String), isFlag As Func(Of String, Boolean)) As IEnumerable(Of String())
             Dim list As New List(Of String)
 
             ' >> .........
@@ -104,7 +129,8 @@ Namespace Text.Parser
         ''' </summary>
         ''' <param name="s"></param>
         ''' <returns></returns>
-        <Extension> Public Function CrossFields(s As String) As Integer()
+        <Extension>
+        Public Function CrossFields(s As String) As Integer()
             Dim sps As String() = Regex.Matches(s, "\s+").ToArray
             Dim lens As String() = Regex.Matches(s, "-+").ToArray
             Dim fieldLens As New List(Of Integer)
@@ -125,7 +151,8 @@ Namespace Text.Parser
         ''' <param name="s">The input text line.</param>
         ''' <param name="fieldLength">The text length of each field property value.</param>
         ''' <returns></returns>
-        <Extension> Public Iterator Function FieldParser(s As String, fieldLength As Integer()) As IEnumerable(Of String)
+        <Extension>
+        Public Iterator Function FieldParser(s As String, fieldLength As Integer()) As IEnumerable(Of String)
             Dim offset As Integer = Scan0
 
             For Each len As Integer In fieldLength.Take(fieldLength.Length - 1)

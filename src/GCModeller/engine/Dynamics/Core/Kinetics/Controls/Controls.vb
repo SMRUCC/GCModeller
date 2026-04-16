@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e990cc9d123db3a92362edd1a0abad2a, engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
+﻿#Region "Microsoft.VisualBasic::3d8d867884a2029bfa5ba02e9c1e2516, engine\Dynamics\Core\Kinetics\Controls\Controls.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 44 (58.67%)
+    ' Comment Lines: 20 (26.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.67%)
+    '     File Size: 2.67 KB
+
+
     '     Class Controls
     ' 
     '         Properties: baseline, inhibition
@@ -43,6 +55,8 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+
 Namespace Core
 
     ''' <summary>
@@ -50,6 +64,10 @@ Namespace Core
     ''' </summary>
     Public MustInherit Class Controls
 
+        ''' <summary>
+        ''' the regulation coefficient factor based on various related regulation factors
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property coefficient As Double
 
         ''' <summary>
@@ -64,6 +82,7 @@ Namespace Core
         ''' <returns></returns>
         Public Property inhibition As Variable() = {}
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function StaticControl(baseline As Double) As Controls
             Return New AdditiveControls With {
                 .baseline = baseline,
@@ -71,6 +90,16 @@ Namespace Core
                 .inhibition = {}
             }
         End Function
+
+        ''' <summary>
+        ''' Convert the control model as coefficient factor number
+        ''' </summary>
+        ''' <param name="ctl"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Narrowing Operator CType(ctl As Controls) As Double
+            Return ctl.coefficient
+        End Operator
 
         Public Shared Operator >(a As Controls, b As Controls) As Boolean
             If a Is Nothing Then

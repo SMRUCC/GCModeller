@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c79e8481c39c61cc9c4d3ae1fc9b7f9, Data_science\Visualization\Plots-statistics\Heatmap\Heatmap.vb"
+﻿#Region "Microsoft.VisualBasic::8b529d79ce99d1743d701ddabf81fd2e, Data_science\Visualization\Plots-statistics\HeatMap\HeatMap.vb"
 
     ' Author:
     ' 
@@ -31,7 +31,19 @@
 
     ' Summaries:
 
-    '     Module Heatmap
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 77 (60.63%)
+    ' Comment Lines: 43 (33.86%)
+    '    - Xml Docs: 76.74%
+    ' 
+    '   Blank Lines: 7 (5.51%)
+    '     File Size: 7.11 KB
+
+
+    '     Module HeatMap
     ' 
     '         Function: Plot
     ' 
@@ -42,15 +54,12 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
-Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
@@ -63,7 +72,7 @@ Namespace Heatmap
     ''' depicting financial market information,[1] though similar plots such as shading matrices 
     ''' have existed for over a century.
     ''' </summary>
-    Public Module Heatmap
+    Public Module HeatMap
 
         ' dendrogramLayout$ = A,B
         '                                         |
@@ -100,20 +109,18 @@ Namespace Heatmap
         '''   enhancing it.
         ''' </param>
         ''' <param name="size"></param>
-        ''' <param name="bg$"></param>
-        ''' <param name="logTransform">0或者小于零的数表示不会进行log变换</param>
+        ''' <param name="bg"></param>
         ''' <returns></returns>
         <Extension>
         Public Function Plot(data As IEnumerable(Of DataSet),
                              Optional customColors As Color() = Nothing,
                              Optional reverseClrSeq As Boolean = False,
-                             Optional mapLevels% = 100,
+                             Optional mapLevels% = 30,
                              Optional mapName$ = ColorBrewer.DivergingSchemes.RdYlBu11,
                              Optional size$ = "3000,2700",
                              Optional padding$ = g.DefaultPadding,
                              Optional bg$ = "white",
-                             Optional logTransform# = 0,
-                             Optional drawScaleMethod As DrawElements = DrawElements.Cols,
+                             Optional drawScaleMethod As DrawElements = DrawElements.Rows,
                              Optional drawLabels As DrawElements = DrawElements.Both,
                              Optional drawDendrograms As DrawElements = DrawElements.Rows,
                              Optional drawClass As (rowClass As Dictionary(Of String, String), colClass As Dictionary(Of String, String)) = Nothing,
@@ -134,98 +141,41 @@ Namespace Heatmap
                              Optional legendSize$ = "600,100",
                              Optional tick# = -1,
                              Optional legendLayout As Layouts = Layouts.Horizon,
-                             Optional ppi As Integer = 100) As GraphicsData
+                             Optional rowLabelsMaxChars As Integer = 48,
+                             Optional ppi As Integer = 100,
+                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
-            Dim valuelabelFont As Font = CSSFont.TryParse(valuelabelFontCSS).GDIObject(ppi)
-            Dim array As DataSet() = data.ToArray
-            Dim dlayout As (A%, B%)
-            Dim dataTable As Dictionary(Of DataSet) = array.ToDictionary
+            Dim theme As New Theme With {
+                .padding = padding,
+                .background = bg,
+                .colorSet = mapName,
+                .drawGrid = drawGrid,
+                .axisTickCSS = rowLabelfontStyle,
+                .axisLabelCSS = colLabelFontStyle,
+                .legendTitleCSS = legendFontStyle,
+                .drawLabels = drawValueLabel,
+                .tagCSS = valuelabelFontCSS,
+                .legendCustomTicks = If(tick <= 0, Nothing, New Nullable(Of Double)(tick)),
+                .mainCSS = titleFontCSS
+            }
+            Dim app As New HeatMapPlot(data, rowLabelsMaxChars, dlayout:=dendrogramLayout.SizeParser, theme) With {
+                .legendTitle = legendTitle,
+                .main = mainTitle,
+                .mapLevels = mapLevels,
+                .LegendLayout = legendLayout,
+                .legendSize = legendSize.SizeParser,
+                .reverseColors = reverseClrSeq,
+                .drawClass = drawClass,
+                .drawDendrograms = drawDendrograms,
+                .drawLabels = drawLabels,
+                .scaleMethod = drawScaleMethod
+            }
 
-            With dendrogramLayout.SizeParser
-                dlayout = (.Width, .Height)
-            End With
+            If Not customColors.IsNullOrEmpty Then
+                app.colors = customColors
+            End If
 
-            Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(ppi)
-            Dim margin As Padding = padding
-            Dim rowLabelFont As Font = CSSFont.TryParse(rowLabelfontStyle).GDIObject(ppi)
-            Dim plotInternal =
-                Sub(g As IGraphics, region As GraphicsRegion, args As PlotArguments)
-
-                    Dim dw! = args.dStep.Width, dh! = args.dStep.Height
-                    Dim blockSize As New SizeF(dw, dh)
-                    Dim colors As SolidBrush() = args.colors
-
-                    ' 按行绘制heatmap之中的矩阵
-                    For Each x As DataSet In args.RowOrders.Select(Function(key) dataTable(key))     ' 在这里绘制具体的矩阵
-                        Dim levelRow As DataSet = args.levels(x.ID)
-
-                        For Each key As String In args.ColOrders
-                            Dim c# = x(key)
-                            Dim level% = levelRow(key)  '  得到等级
-                            Dim b = colors(
-                                If(level% > colors.Length - 1,
-                                    colors.Length - 1,
-                                    level))
-                            Dim rect As New RectangleF With {
-                                .Location = New PointF(args.left, args.top),
-                                .Size = blockSize
-                            }
-#If DEBUG Then
-                            ' Call $"{level} -> {b.Color.ToString}".__DEBUG_ECHO
-#End If
-                            Call g.FillRectangle(b, rect)
-
-                            If drawGrid Then
-                                Call g.DrawRectangles(Pens.WhiteSmoke, {rect})
-                            End If
-                            If drawValueLabel Then
-
-                                With c.ToString("F2")
-                                    Dim ksz As SizeF = g.MeasureString(.ByRef, valuelabelFont)
-                                    Dim kpos As New PointF With {
-                                        .X = rect.Left + (rect.Width - ksz.Width) / 2,
-                                        .Y = rect.Top + (rect.Height - ksz.Height) / 2
-                                    }
-                                    Call g.DrawString(.ByRef, valuelabelFont, Brushes.White, kpos)
-                                End With
-                            End If
-
-                            args.left += dw!
-                        Next
-
-                        args.left = args.matrixPlotRegion.Left
-                        args.top += dh!
-
-                        ' debug
-                        ' Call g.DrawLine(Pens.Blue, New Point(args.left, args.top), New Point(args.matrixPlotRegion.Right, args.top))
-
-                        If drawLabels = DrawElements.Both OrElse drawLabels = DrawElements.Rows Then
-                            Dim sz As SizeF = g.MeasureString(x.ID, rowLabelFont)
-                            Dim y As Single = args.top - dh - (sz.Height - dh) / 2
-                            Dim lx As Single = args.matrixPlotRegion.Right + 10
-
-                            ' 绘制行标签
-                            Call g.DrawString(x.ID, rowLabelFont, Brushes.Black, New PointF(lx, y))
-                        End If
-                    Next
-
-                    ' debug
-                    ' Call g.DrawRectangle(Pens.LawnGreen, args.matrixPlotRegion)
-                End Sub
-
-            Return doPlot(
-                plotInternal, array,
-                rowLabelFont, CSSFont.TryParse(colLabelFontStyle).GDIObject(ppi), logTransform, drawScaleMethod, drawLabels, drawDendrograms, drawClass, dlayout,
-                reverseClrSeq, customColors.GetBrushes, mapLevels, mapName,
-                size.SizeParser, margin, bg,
-                legendTitle, legendFont, Nothing,
-                min, max,
-                mainTitle, titleFont,
-                legendWidth, legendHasUnmapped, legendSize.SizeParser,
-                tick:=tick,
-                legendLayout:=legendLayout
-            )
+            Return app.Plot(size.SizeParser, dpi:=ppi, driver:=driver)
         End Function
     End Module
 End Namespace

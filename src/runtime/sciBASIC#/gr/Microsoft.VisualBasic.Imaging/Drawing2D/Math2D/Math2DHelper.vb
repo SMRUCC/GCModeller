@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f2df978fd4e2aa146b89d988d33225a, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\Math2DHelper.vb"
+﻿#Region "Microsoft.VisualBasic::576db843f4b21b9cfc316d847dae8812, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\Math2DHelper.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 32 (80.00%)
+    ' Comment Lines: 1 (2.50%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.38 KB
+
+
     '     Module Math2DHelper
     ' 
-    '         Function: FillPolygon, Rotate
+    '         Function: FillPolygon
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,22 +54,13 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports stdnum = System.Math
+Imports Microsoft.VisualBasic.Imaging.Math2D
+Imports Microsoft.VisualBasic.Linq
+Imports stdNum = System.Math
 
 Namespace Drawing2D.Math2D
 
     Public Module Math2DHelper
-
-        ''' <summary>
-        ''' 将目标多边型旋转指定的角度
-        ''' </summary>
-        ''' <param name="polygon"></param>
-        ''' <param name="angle#">角度的单位在这里单位为度，不是弧度单位</param>
-        ''' <returns></returns>
-        <Extension>
-        Public Function Rotate(polygon As IEnumerable(Of PointF), angle#) As PointF()
-            Throw New NotImplementedException
-        End Function
 
         <Extension>
         Public Iterator Function FillPolygon(polygon As IEnumerable(Of PointF)) As IEnumerable(Of PointF)
@@ -79,7 +82,7 @@ Namespace Drawing2D.Math2D
                 For xi As Integer = orderX.Min + 1 To endX
                     Dim xiii As Integer = xi
 
-                    If orderX.Any(Function(xii) stdnum.Abs(xiii - xii) <= 0.05) Then
+                    If orderX.Any(Function(xii) stdNum.Abs(xiii - xii) <= 0.05) Then
                         background = Not background
                     ElseIf Not background Then
                         Yield New PointF(xi, line.Key)

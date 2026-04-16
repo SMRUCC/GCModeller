@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 64 (80.00%)
+    ' Comment Lines: 7 (8.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (11.25%)
+    '     File Size: 3.08 KB
+
+
     '     Module Constructor
     ' 
     '         Function: FromDistributes, SimpleSerials

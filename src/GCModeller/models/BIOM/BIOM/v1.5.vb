@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aa53df9370aed3690d06e6c6ce7e484, models\BIOM\BIOM\v1.5.vb"
+﻿#Region "Microsoft.VisualBasic::e3f1a272afaf5de81c56bc0ca5cf56b5, models\BIOM\BIOM\v1.5.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 17 (70.83%)
+    ' Comment Lines: 3 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (16.67%)
+    '     File Size: 793 B
+
+
     '     Module CDF
     ' 
     '         Function: ReadFile
@@ -40,8 +52,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Components
 Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Namespace v15
@@ -55,7 +67,7 @@ Namespace v15
             Using cdf As New netCDFReader(biom)
                 Dim attributes = cdf.globalAttributes _
                     .ToDictionary(Function(a) a.name,
-                                  Function(a As attribute)
+                                  Function(a As Attribute)
                                       Return a.getObjectValue
                                   End Function) _
                     .AsCharacter

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 10 (37.04%)
+    ' Comment Lines: 11 (40.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (22.22%)
+    '     File Size: 822 B
+
+
     '     Interface IMatched
     ' 
     '         Properties: IsMatched

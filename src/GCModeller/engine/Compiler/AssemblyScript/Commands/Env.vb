@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17 (65.38%)
+    ' Comment Lines: 3 (11.54%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (23.08%)
+    '     File Size: 792 B
+
+
     '     Class Env
     ' 
     '         Properties: name, value

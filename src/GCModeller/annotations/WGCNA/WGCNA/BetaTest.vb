@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0c69c6b604b2385e2026aea879c452b9, annotations\WGCNA\WGCNA\BetaTest.vb"
+﻿#Region "Microsoft.VisualBasic::0f5746867da6d2c9eec9c3cff00fb56f, annotations\WGCNA\WGCNA\BetaTest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 60 (66.67%)
+    ' Comment Lines: 20 (22.22%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 10 (11.11%)
+    '     File Size: 3.94 KB
+
+
     ' Class BetaTest
     ' 
     '     Properties: maxK, meanK, medianK, Power, score
@@ -42,11 +54,10 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.Bootstrapping
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Matrix
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 
 ''' <summary>
@@ -108,12 +119,19 @@ Public Class BetaTest
                             .medianK = K.Median,
                             .Power = beta,
                             .sftRsq = If(linear.R_square.IsNaNImaginary, 0, linear.R_square),
-                            .slope = If(linear.Slope.IsNaNImaginary, 0, linear.R_square),
+                            .slope = If(linear.Slope.IsNaNImaginary, 0, linear.Slope),
                             .truncatedRsq = If(linear.AdjustR_square.IsNaNImaginary, 0, linear.AdjustR_square)
                         }
                     End Function)
     End Function
 
+    ''' <summary>
+    ''' get the index of the max beta score from the candidates
+    ''' </summary>
+    ''' <param name="beta">
+    ''' a set of the beta candidates on the correlation matrix
+    ''' </param>
+    ''' <returns></returns>
     Public Shared Function Best(beta As BetaTest()) As Integer
         Dim sftRsq As Vector = beta.Select(Function(b) If(b.sftRsq <= 0.8, 0, 1 - b.sftRsq)).AsVector
         Dim slope As Vector = (beta.Select(Function(b) b.slope).AsVector + 1).Abs
@@ -123,6 +141,6 @@ Public Class BetaTest
         Dim meanKMax = meanK.Max
         Dim score As Vector = sftRsq / sftRsqMax + slope / slopeMax + meanK / meanKMax
 
-        Return Which.Max(score)
+        Return which.Max(score)
     End Function
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa1489803c057e61320f75220a94387f, mime\text%yaml\1.2\Serialization\Serialization.vb"
+﻿#Region "Microsoft.VisualBasic::2b7fc8e0758b0b8fa650d591a237ee1f, mime\text%yaml\1.2\Serialization\Serialization.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 77 (85.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (14.44%)
+    '     File Size: 3.23 KB
+
+
     ' Module Serialization
     ' 
     '     Function: __setMaps, Load, LoadYAML, WriteYAML
@@ -59,7 +71,7 @@ Public Module Serialization
         If success Then
             Return yamlStream.Load(Of T)
         Else
-            Dim ex As New Exception(parser.GetEorrorMessages())
+            Dim ex As New Exception(parser.GetErrorMessageText())
             Throw New Exception(path.ToFileURL, ex)
         End If
     End Function

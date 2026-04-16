@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 68 (75.56%)
+    ' Comment Lines: 6 (6.67%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 16 (17.78%)
+    '     File Size: 3.33 KB
+
+
     '     Class TripleDES
     ' 
     '         Constructor: (+2 Overloads) Sub New

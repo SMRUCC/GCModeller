@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7228d86f39e4e0448215c6993245c75c, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
+﻿#Region "Microsoft.VisualBasic::4ce75b9d73566aa112f213ac2ec78ea1, core\Bio.Assembly\Assembly\ELIXIR\EBI\ChEBI\EntityModel\XML\EntityList.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 76 (75.25%)
+    ' Comment Lines: 6 (5.94%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 19 (18.81%)
+    '     File Size: 3.55 KB
+
+
     '     Class EntityList
     ' 
     '         Properties: DataSet, TypeComment
@@ -49,11 +61,6 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports System.Xml
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -77,7 +84,6 @@ Namespace Assembly.ELIXIR.EBI.ChEBI.XML
 
         <DataMember>
         <IgnoreDataMember>
-        <ScriptIgnore>
         <SoapIgnore>
         <XmlAnyElement>
         Public Property TypeComment As XmlComment Implements XmlDataModel.IXmlType.TypeComment

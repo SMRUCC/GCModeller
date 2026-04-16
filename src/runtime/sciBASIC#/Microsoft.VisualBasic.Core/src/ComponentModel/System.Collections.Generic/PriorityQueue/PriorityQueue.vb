@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cebe2b568d1eae0cf3b03702280aa9c, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\PriorityQueue\PriorityQueue.vb"
+﻿#Region "Microsoft.VisualBasic::8495bc221db380fbe4f7690501b8a1ed, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\PriorityQueue\PriorityQueue.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 145
+    '    Code Lines: 79 (54.48%)
+    ' Comment Lines: 46 (31.72%)
+    '    - Xml Docs: 97.83%
+    ' 
+    '   Blank Lines: 20 (13.79%)
+    '     File Size: 4.61 KB
+
+
     '     Class PriorityQueue
+    ' 
+    '         Properties: count, empty, isHeap, top
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: count, empty, isHeap, pop, push
-    '                   top, ToString
+    '         Function: pop, push, ToString
     ' 
     '         Sub: forEach, reduceKey
     ' 
@@ -47,7 +60,6 @@
 
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
-Imports any = System.Object
 
 Namespace ComponentModel.Collection
 
@@ -59,6 +71,55 @@ Namespace ComponentModel.Collection
 
         Dim root As PairingHeap(Of T)
         Dim lessThan As Func(Of T, T, Boolean)
+
+        ''' <summary>
+        ''' number of elements in queue
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property count() As Integer
+            Get
+                If root Is Nothing Then
+                    Return 0
+                End If
+                Return Me.root.count()
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' the top element (the min element as defined by lessThan)
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property top() As T
+            Get
+                If Me.empty() Then
+                    Return Nothing
+                End If
+                Return Me.root.elem
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' true if no more elements in queue
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property empty() As Boolean
+            Get
+                Return Me.root Is Nothing OrElse Me.root.elem Is Nothing
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' check heap condition (for testing)
+        ''' </summary>
+        ''' <returns>true if queue is in valid state</returns>
+        Public ReadOnly Property isHeap() As Boolean
+            Get
+                If root Is Nothing Then
+                    Return False
+                End If
+                Return Me.root.isHeap(Me.lessThan)
+            End Get
+        End Property
 
         ''' <summary>
         ''' ```
@@ -79,27 +140,17 @@ Namespace ComponentModel.Collection
         End Sub
 
         ''' <summary>
-        ''' the top element (the min element as defined by lessThan)
+        ''' put things on the heap
         ''' </summary>
+        ''' <param name="args"></param>
         ''' <returns></returns>
-        Public Function top() As T
-            If Me.empty() Then
-                Return Nothing
-            End If
-            Return Me.root.elem
-        End Function
-        '*
-        '     * @method push
-        '     * put things on the heap
-        '     
-
         Public Function push(ParamArray args As T()) As PairingHeap(Of T)
-            Dim pairingNode As any = Nothing
-            Dim i As Integer = 0
+            Dim pairingNode As PairingHeap(Of T) = Nothing
             Dim arg As T
+            Dim lastNode As PairingHeap(Of T) = Nothing
 
-            While i > -1
-                arg = args(i - 1)
+            For i As Integer = 0 To args.Length - 1
+                arg = args(i)
                 pairingNode = New PairingHeap(Of T)(arg)
 
                 If Me.empty Then
@@ -108,39 +159,25 @@ Namespace ComponentModel.Collection
                     root = root.merge(pairingNode, Me.lessThan)
                 End If
 
-                i += 1
-            End While
+                lastNode = pairingNode
+            Next
 
-            Return pairingNode
+            ' 返回最后插入的节点句柄
+            Return lastNode
         End Function
-        '*
-        '     * @method empty
-        '     * @return true if no more elements in queue
-        '     
 
-        Public Function empty() As Boolean
-            Return Me.root Is Nothing OrElse Me.root.elem Is Nothing
-        End Function
-        '*
-        '     * @method isHeap check heap condition (for testing)
-        '     * @return true if queue is in valid state
-        '     
-
-        Public Function isHeap() As Boolean
-            Return Me.root.isHeap(Me.lessThan)
-        End Function
-        '*
-        '     * @method forEach apply f to each element of the queue
-        '     * @param f function to apply
-        '     
-
-        Public Sub forEach(f As any)
+        ''' <summary>
+        ''' apply f to each element of the queue
+        ''' </summary>
+        ''' <param name="f">function to apply</param>
+        Public Sub forEach(f As Action(Of T, PairingHeap(Of T)))
             Me.root.forEach(f)
         End Sub
-        '*
-        '     * @method pop remove and return the min element from the queue
-        '     
 
+        ''' <summary>
+        ''' remove and return the min element from the queue
+        ''' </summary>
+        ''' <returns></returns>
         Public Function pop() As T
             If Me.empty() Then
                 Return Nothing
@@ -149,10 +186,13 @@ Namespace ComponentModel.Collection
             Me.root = Me.root.removeMin(Me.lessThan)
             Return obj
         End Function
-        '*
-        '     * @method reduceKey reduce the key value of the specified heap node
-        '     
 
+        ''' <summary>
+        ''' reduce the key value of the specified heap node
+        ''' </summary>
+        ''' <param name="heapNode"></param>
+        ''' <param name="newKey"></param>
+        ''' <param name="setHeapNode"></param>
         Public Sub reduceKey(heapNode As PairingHeap(Of T), newKey As T, setHeapNode As Action(Of T, PairingHeap(Of T)))
             Me.root = Me.root.decreaseKey(heapNode, newKey, setHeapNode, Me.lessThan)
         End Sub
@@ -160,13 +200,6 @@ Namespace ComponentModel.Collection
         Public Overloads Function ToString(selector As IToString(Of T)) As String
             Return Me.root.ToString(selector)
         End Function
-        '*
-        '     * @method count
-        '     * @return number of elements in queue
-        '     
 
-        Public Function count() As Double
-            Return Me.root.count()
-        End Function
     End Class
 End Namespace

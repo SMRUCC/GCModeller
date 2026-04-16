@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::95ba3336503c80dbbd213758cdaafd75, core\Bio.Assembly\SequenceModel\Bits.vb"
+﻿#Region "Microsoft.VisualBasic::e3af3d0608926c996f4c312e64303af5, core\Bio.Assembly\SequenceModel\Bits.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 79 (65.29%)
+    ' Comment Lines: 22 (18.18%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 20 (16.53%)
+    '     File Size: 4.43 KB
+
+
     '     Class Bits
     ' 
     '         Properties: length, seqType, title
@@ -47,7 +59,7 @@
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Polypeptides
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SequenceModel
 
@@ -59,8 +71,10 @@ Namespace SequenceModel
         ReadOnly bytes As Byte()
 
         Public ReadOnly Property seqType As SeqTypes
+
         Public ReadOnly Property title As String Implements IFastaProvider.title
-        Public ReadOnly Property length As Integer
+
+        Public ReadOnly Property length As Integer Implements IFastaProvider.length
             Get
                 Return bytes.Length
             End Get
@@ -81,7 +95,7 @@ Namespace SequenceModel
         ''' 主要是一个用于序列装配的帮助函数
         ''' </remarks>
         Public Function OverlapSize(another As Bits) As Integer
-            Dim minW As Integer = stdNum.Min(another.length, Me.length) * 0.5
+            Dim minW As Integer = std.Min(another.length, Me.length) * 0.5
             Dim size1, size2 As Integer
 
             size1 = overlapSize(bytes, another.bytes)
@@ -92,7 +106,7 @@ Namespace SequenceModel
 
             size2 = overlapSize(another.bytes, bytes)
 
-            Return stdNum.Max(size1, size2)
+            Return std.Max(size1, size2)
         End Function
 
         Private Shared Function overlapSize(a As Byte(), b As Byte()) As Integer

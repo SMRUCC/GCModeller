@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 34 (50.75%)
+    ' Comment Lines: 22 (32.84%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (16.42%)
+    '     File Size: 2.12 KB
+
+
     '     Class YScaler
     ' 
     '         Properties: region, Y

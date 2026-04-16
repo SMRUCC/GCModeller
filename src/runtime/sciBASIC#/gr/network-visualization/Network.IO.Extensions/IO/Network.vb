@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9e0c4afd6bcc94795c3de87747396540, gr\network-visualization\Network.IO.Extensions\IO\Network.vb"
+﻿#Region "Microsoft.VisualBasic::d9e4ad19de992e4b9e16362111f41274, gr\network-visualization\Network.IO.Extensions\IO\Network.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 227
+    '    Code Lines: 142 (62.56%)
+    ' Comment Lines: 54 (23.79%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 31 (13.66%)
+    '     File Size: 8.23 KB
+
+
     '     Class Network
     ' 
     '         Properties: edges, IsEmpty, meta, nodes
@@ -51,7 +63,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -79,7 +91,7 @@ Namespace FileStream.Generic
                 If value Is Nothing Then
                     __nodes = New Dictionary(Of T_Node)
                 Else
-                    __nodes = value.ToDictionary
+                    __nodes = value.ToDictionary(replaceOnDuplicate:=True)
                 End If
             End Set
         End Property
@@ -146,7 +158,7 @@ Namespace FileStream.Generic
         ''' <remarks></remarks>
         Public Sub RemoveSelfLoop()
             Dim LQuery = LinqAPI.Exec(Of T_Edge) _
- _
+                                                 _
                 () <= From x As T_Edge
                       In edges
                       Where Not x.selfLoop

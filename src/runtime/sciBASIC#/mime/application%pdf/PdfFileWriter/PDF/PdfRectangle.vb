@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dcceff5b6e53d42e4e8eb1c8cc6b5ad3, mime\application%pdf\PdfFileWriter\PDF\PdfRectangle.vb"
+﻿#Region "Microsoft.VisualBasic::940caf473459a49e8bbb72906e8a90cd, mime\application%pdf\PdfFileWriter\PDF\PdfRectangle.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 46 (34.33%)
+    ' Comment Lines: 73 (54.48%)
+    '    - Xml Docs: 67.12%
+    ' 
+    '   Blank Lines: 15 (11.19%)
+    '     File Size: 3.79 KB
+
+
     '     Class PdfRectangle
     ' 
     '         Properties: Bottom, Height, Left, Right, Top
@@ -42,7 +54,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -65,11 +77,11 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 
 
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     ''' <summary>
     ''' PDF rectangle in double precision class
     ''' </summary>
@@ -78,7 +90,7 @@
     ''' PDF rectangle is left, bottom, right and top.
     ''' PDF numeric precision is double and Microsoft is Single.
     ''' </remarks>
-    '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+    
     Public Class PdfRectangle
         ''' <summary>
         ''' Gets or sets Left side.
@@ -113,7 +125,7 @@
         ''' <param name="Bottom">Bottom side</param>
         ''' <param name="Right">Right side</param>
         ''' <param name="Top">Top side</param>
-        Public Sub New(ByVal Left As Double, ByVal Bottom As Double, ByVal Right As Double, ByVal Top As Double)
+        Public Sub New(Left As Double, Bottom As Double, Right As Double, Top As Double)
             Me.Left = Left
             Me.Bottom = Bottom
             Me.Right = Right
@@ -125,7 +137,7 @@
         ''' Copy constructor
         ''' </summary>
         ''' <param name="Rect">Source rectangle</param>
-        Public Sub New(ByVal Rect As PdfRectangle)
+        Public Sub New(Rect As PdfRectangle)
             Left = Rect.Left
             Bottom = Rect.Bottom
             Right = Rect.Right
@@ -137,7 +149,7 @@
         ''' Constructor for margin
         ''' </summary>
         ''' <param name="AllTheSame">Single value for all sides</param>
-        Public Sub New(ByVal AllTheSame As Double)
+        Public Sub New(AllTheSame As Double)
             Left = AllTheSame
             Bottom = AllTheSame
             Right = AllTheSame
@@ -150,7 +162,7 @@
         ''' </summary>
         ''' <param name="Hor">Left and right value</param>
         ''' <param name="Vert">Top and bottom value</param>
-        Public Sub New(ByVal Hor As Double, ByVal Vert As Double)
+        Public Sub New(Hor As Double, Vert As Double)
             Left = Hor
             Bottom = Vert
             Right = Hor

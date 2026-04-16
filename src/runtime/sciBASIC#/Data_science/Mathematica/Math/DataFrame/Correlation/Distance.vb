@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::082178c76b74da8d7fd6c81c49ac2e28, Data_science\Mathematica\Math\DataFrame\Correlation\Distance.vb"
+﻿#Region "Microsoft.VisualBasic::c90b5fdb9f93e2d678a9ab25cc2b6777, Data_science\Mathematica\Math\DataFrame\Correlation\Distance.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 30 (61.22%)
+    ' Comment Lines: 13 (26.53%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 6 (12.24%)
+    '     File Size: 2.02 KB
+
+
     ' Module Distance
     ' 
     '     Function: Correlation, Euclidean, Similarity
@@ -44,6 +56,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 
 Public Module Distance
 
@@ -69,7 +82,7 @@ Public Module Distance
                       Return (Correlations.Spearman(x, y), 0)
                   End Function
         Else
-            cor = AddressOf Builder.corTuple
+            cor = AddressOf Mantel.Pearson
         End If
 
         Return data.MatrixBuilder(cor, type:=DataType.Correlation)

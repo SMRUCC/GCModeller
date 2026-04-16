@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 85 (62.96%)
+    ' Comment Lines: 25 (18.52%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 25 (18.52%)
+    '     File Size: 5.50 KB
+
+
     '     Module DesignerTerms
     ' 
     ' 

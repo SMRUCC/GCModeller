@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::92273ad417f769fbb8235127562b3c7f, annotations\Proteomics\Plots.vb"
+﻿#Region "Microsoft.VisualBasic::60e2ccf533f9f76379293fc6ec82f630, annotations\Proteomics\Plots.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 81 (73.64%)
+    ' Comment Lines: 16 (14.55%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 13 (11.82%)
+    '     File Size: 4.35 KB
+
+
     ' Module Plots
     ' 
     '     Function: GOEnrichmentPlot, logFCHistogram, VennData
@@ -50,7 +62,7 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Analysis.GO
 Imports SMRUCC.genomics.Analysis.Microarray.KOBAS
 Imports SMRUCC.genomics.Data.GeneOntology.OBO
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Public Module Plots
 

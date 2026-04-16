@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 32 (86.49%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (13.51%)
+    '     File Size: 1.69 KB
+
+
     '     Class SpeciesPropReader
     ' 
     '         Properties: BIOCYC, CAS, CHARGE, CHEBI, CHEMSPIDER

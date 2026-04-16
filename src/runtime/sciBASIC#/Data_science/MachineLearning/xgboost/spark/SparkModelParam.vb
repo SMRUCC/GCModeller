@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 30 (73.17%)
+    ' Comment Lines: 4 (9.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.63 KB
+
+
     '     Class SparkModelParam
     ' 
     '         Properties: featureCol, labelCol, modelType, predictionCol, rawPredictionCol

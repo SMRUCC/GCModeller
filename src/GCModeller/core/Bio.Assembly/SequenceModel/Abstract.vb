@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::03840b5020b9328053bf401db771debf, core\Bio.Assembly\SequenceModel\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::1fd44e188ea42b9471a2da52b8096990, core\Bio.Assembly\SequenceModel\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 25 (32.89%)
+    ' Comment Lines: 43 (56.58%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (10.53%)
+    '     File Size: 2.32 KB
+
+
     '     Enum SeqTypes
     ' 
-    '         DNA, Protein, RNA
+    '         DNA, RNA
     ' 
     '  
     ' 
@@ -52,16 +64,29 @@
 
 #End Region
 
+Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 
 Namespace SequenceModel
 
     Public Enum SeqTypes As Integer
+        ''' <summary>
+        ''' the unknow sequence type
+        ''' </summary>
         Generic = 0
+        ''' <summary>
+        ''' Deoxyribonucleotide - DNA(ATGC)
+        ''' </summary>
         DNA
+        ''' <summary>
+        ''' Ribonucleotide - RNA(AUGC)
+        ''' </summary>
         RNA
-        Protein
+        ''' <summary>
+        ''' Polypeptide
+        ''' </summary>
+        <Description("prot")> Protein
     End Enum
 
     ''' <summary>
@@ -85,9 +110,12 @@ Namespace SequenceModel
     Public MustInherit Class ISequenceBuilder
 
         ''' <summary>
-        ''' <see cref="GetSequenceData()"/> length.(序列的长度)
+        ''' <see cref="GetSequenceData()"/> length.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (序列的长度)
+        ''' </remarks>
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -96,9 +124,12 @@ Namespace SequenceModel
         End Property
 
         ''' <summary>
-        ''' This property is using for generates the fasta sequence title.(用于进行序列标识的标题摘要)
+        ''' This property is using for generates the fasta sequence title.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (用于进行序列标识的标题摘要)
+        ''' </remarks>
         <XmlAttribute>
         Public Overridable Property Name As String
 

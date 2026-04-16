@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0a03ed1f2498dcdf0be5178912b024c4, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BElements\BInteger.vb"
+﻿#Region "Microsoft.VisualBasic::5c06126fb2cc8024b9299a07964a3374, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BElements\BInteger.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 66 (58.93%)
+    ' Comment Lines: 29 (25.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (15.18%)
+    '     File Size: 3.57 KB
+
+
     '     Class BInteger
     ' 
     '         Properties: Value
     ' 
-    '         Constructor: (+1 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: CompareTo, Equals, GetHashCode, (+2 Overloads) ToBencodedString, ToString
     ' 
     ' 
@@ -50,8 +62,7 @@ Namespace Serialization.Bencoding
     ''' <summary>
     ''' A bencode integer.
     ''' </summary>
-    Public Class BInteger
-        Implements BElement, IComparable(Of BInteger)
+    Public Class BInteger : Implements BElement, IComparable(Of BInteger)
 
         ''' <summary>
         ''' The value of the bencoded integer.
@@ -63,6 +74,14 @@ Namespace Serialization.Bencoding
         ''' </summary>
         ''' <param name="value">The value of the bencoded integer.</param>
         Public Sub New(value As Long)
+            Me.Value = value
+        End Sub
+
+        Sub New(value As Integer)
+            Me.Value = value
+        End Sub
+
+        Sub New(value As UInteger)
             Me.Value = value
         End Sub
 
@@ -121,6 +140,30 @@ Namespace Serialization.Bencoding
         ''' <returns></returns>
         Public Shared Widening Operator CType(n As Integer) As BInteger
             Return New BInteger(n)
+        End Operator
+
+        Public Shared Narrowing Operator CType(n As BInteger) As Integer
+            If n Is Nothing Then
+                Return 0
+            Else
+                Return n.Value
+            End If
+        End Operator
+
+        Public Shared Narrowing Operator CType(n As BInteger) As UInteger
+            If n Is Nothing Then
+                Return 0
+            Else
+                Return n.Value
+            End If
+        End Operator
+
+        Public Shared Narrowing Operator CType(n As BInteger) As Long
+            If n Is Nothing Then
+                Return 0
+            Else
+                Return n.Value
+            End If
         End Operator
     End Class
 End Namespace

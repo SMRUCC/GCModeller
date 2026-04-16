@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7e2de526ec7dba6a5f0da7f720ae76c3, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::8cbead629a764b189cb06792754dc812, Data_science\Mathematica\Math\ODESolver.Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 114 (69.94%)
+    ' Comment Lines: 25 (15.34%)
+    '    - Xml Docs: 84.00%
+    ' 
+    '   Blank Lines: 24 (14.72%)
+    '     File Size: 6.19 KB
+
+
     ' Module Extensions
     ' 
     '     Function: __getArgs, correlationImpl, (+2 Overloads) DataFrame, LoadFromDataFrame, Pcc
@@ -43,14 +55,14 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
-Imports stdNum = System.Math
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
+Imports std = System.Math
 
 <HideModuleName> Public Module Extensions
 
@@ -72,7 +84,7 @@ Imports stdNum = System.Math
     ''' Generates datafram and then can makes the result save data into a csv file.
     ''' </summary>
     ''' <param name="xDisp"></param>
-    ''' <param name="fix%">Formats output by using <see cref="stdNum.Round"/></param>
+    ''' <param name="fix%">Formats output by using <see cref="std.Round"/></param>
     ''' <returns></returns>
     ''' 
     <Extension>
@@ -85,17 +97,17 @@ Imports stdNum = System.Math
         If fix <= 0 Then
             round = Function(n) CStr(n)
         Else
-            round = Function(n) CStr(stdNum.Round(n, fix))
+            round = Function(n) CStr(std.Round(n, fix))
         End If
 
         file += head
 
 #If DEBUG Then
-        Call $"len(x) = {df.x.Length}".__DEBUG_ECHO
+        Call $"len(x) = {df.x.Length}".debug
         Call Console.WriteLine()
 
         For Each y As NamedCollection(Of Double) In df.y.Values
-            Call $"len(y={y.Name}) = {y.Value.Length}".__DEBUG_ECHO
+            Call $"len(y={y.Name}) = {y.Value.Length}".debug
         Next
 #End If
 

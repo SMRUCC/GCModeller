@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 44 (74.58%)
+    ' Comment Lines: 3 (5.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (20.34%)
+    '     File Size: 1.74 KB
+
+
     '     Class SVC_Q
     ' 
     '         Constructor: (+1 Overloads) Sub New

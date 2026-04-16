@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7397222dd74162558d71c602f4602d17, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
+﻿#Region "Microsoft.VisualBasic::b01443e6ffdf25b514936c32edaacfb0, core\Bio.Assembly\Assembly\KEGG\Web\Map\LocalRender.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 384
+    '    Code Lines: 269 (70.05%)
+    ' Comment Lines: 68 (17.71%)
+    '    - Xml Docs: 92.65%
+    ' 
+    '   Blank Lines: 47 (12.24%)
+    '     File Size: 17.04 KB
+
+
     '     Class LocalRender
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -38,7 +50,7 @@
     '         Function: FromRepository, getAreas, GetEnumerator, GetTitle, IEnumerable_GetEnumerator
     '                   IteratesMapNames, (+3 Overloads) Rendering
     ' 
-    '         Sub: renderCompound, renderGenes
+    '         Sub: CompoundShapeDrawing, renderCompound, renderGenes
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,12 +61,41 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Assembly.KEGG.WebServices
 
@@ -101,8 +142,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function GetTitle(mapName$) As String
             Dim map As Map = mapTable(mapName)
-            Dim rect As Area = map _
-                .shapes _
+            Dim rect As Area = map.shapes.mapdata _
                 .Where(Function(ar)
                            Return ar.shape.TextEquals("rect") AndAlso ar.IDVector.IndexOf(mapName) > -1
                        End Function) _
@@ -140,8 +180,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Iterator Function IteratesMapNames(list$(), Optional threshold% = 1) As IEnumerable(Of NamedValue(Of String()))
             For Each map As String In Me.mapTable.Keys
-                Dim id$() = mapTable(map) _
-                    .shapes _
+                Dim id$() = mapTable(map).shapes.mapdata _
                     .Select(Function(ar) ar.IDVector) _
                     .IteratesALL _
                     .ToArray
@@ -168,7 +207,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <returns></returns>
         Public Function Rendering(url$, Optional font As Font = Nothing, Optional textColor$ = "white", Optional scale$ = "1,1") As Image
             With URLEncoder.URLParser(url)
-                Return Rendering(.name, .value, font, textColor, scale)
+                Return Rendering(.name, MapHighlights.CreateAuto(.value), font, textColor, scale)
             End With
         End Function
 
@@ -182,7 +221,7 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="scale$"></param>
         ''' <returns></returns>
         Public Function Rendering(mapName$,
-                                  nodes As IEnumerable(Of NamedValue(Of String)),
+                                  nodes As MapHighlights,
                                   Optional font As Font = Nothing,
                                   Optional textColor$ = "white",
                                   Optional scale$ = "1,1") As Image
@@ -190,24 +229,35 @@ Namespace Assembly.KEGG.WebServices
             Return Rendering(mapTable(mapName), nodes, font, textColor, scale)
         End Function
 
-        Public Shared Function Rendering(pathway As Map, nodes As IEnumerable(Of NamedValue(Of String)),
+        Public Shared Function Rendering(pathway As Map, nodes As MapHighlights,
                                          Optional font As Font = Nothing,
                                          Optional textColor$ = "white",
                                          Optional scale$ = "1,1") As Image
 
-            Dim pen As Brush = textColor.GetBrush
+            Dim text_rgbcolor As Color = textColor.TranslateColor
+            Dim pen As Brush = New SolidBrush(text_rgbcolor)
             Dim scaleFactor As SizeF = scale.FloatSizeParser
+            Dim warn_genes = MapHighlights.CheckTextColorWarning(nodes.genes, text_rgbcolor).ToArray
+            Dim warn_prots = MapHighlights.CheckTextColorWarning(nodes.proteins, text_rgbcolor).ToArray
+            Dim warn_compound = MapHighlights.CheckTextColorWarning(nodes.compounds, text_rgbcolor).ToArray
+
+            If Not (warn_genes.IsNullOrEmpty AndAlso warn_compound.IsNullOrEmpty AndAlso warn_prots.IsNullOrEmpty) Then
+                Dim warns As New Dictionary(Of String, String())
+
+                If Not warn_prots.IsNullOrEmpty Then Call warns.Add("proteins", warn_prots)
+                If Not warn_genes.IsNullOrEmpty Then Call warns.Add("genes", warn_genes)
+                If Not warn_compound.IsNullOrEmpty Then Call warns.Add("metabolites", warn_compound)
+
+                Call $"there are some plot elements({warns.GetJson}) theirs highlight color is the same as the text color({textColor}), consider changes to other color values!".Warning
+            End If
 
             Static SimSum As [Default](Of Font) = New Font(FontFace.SimSun, 10, FontStyle.Regular)
 
-            Using g As Graphics2D = pathway _
-                .GetImage _
-                .CreateCanvas2D(directAccess:=True)
-
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(pathway.GetImage, direct_access:=True, driver:=Drivers.GDI)
                 Call renderGenes(g, font Or SimSum, pen, pathway, scaleFactor, nodes)
-                Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes)
+                Call renderCompound(g, font Or SimSum, pathway, scaleFactor, nodes.compounds)
 
-                Return g
+                Return DirectCast(g, GdiRasterGraphics).ImageResource
             End Using
         End Function
 
@@ -217,10 +267,18 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderGenes(ByRef g As Graphics2D, font As Font, pen As Brush, map As Map, scale As SizeF, list As NamedValue(Of String)())
+        Private Shared Sub renderGenes(ByRef g As IGraphics, font As Font, pen As Brush, map As Map, scale As SizeF, list As MapHighlights)
             Dim shapes = getAreas(map, "Gene")
+            ' rendering the shape of gene/protein tuple
+            Dim cooccurs = list.GetGeneProteinTuples.ToArray
+            Dim tupleSet = cooccurs.Select(Function(a) a.Name).Indexing
+            ' then rendering the shape of gene or protein nodes
+            Dim singles = list.genes _
+                .JoinIterates(list.proteins) _
+                .Where(Function(a) Not a.Name Like tupleSet) _
+                .ToArray
 
-            For Each id As NamedValue(Of String) In list
+            For Each id As NamedValue(Of String) In singles
                 If Not shapes.ContainsKey(id.Name) Then
                     Continue For
                 End If
@@ -240,10 +298,37 @@ Namespace Assembly.KEGG.WebServices
                     Next
                 End With
             Next
+
+            For Each tuple As NamedValue(Of (gene_color$, protein_color$)) In cooccurs
+                If Not shapes.ContainsKey(tuple.Name) Then
+                    Continue For
+                End If
+
+                Dim geneBrush = tuple.Value.gene_color.GetBrush
+                Dim protBrush = tuple.Value.protein_color.GetBrush
+
+                With shapes(tuple.Name)
+                    Dim name As String = .Name
+                    Dim strSize = g.MeasureString(name, font)
+
+                    For Each shape As Area In .Value
+                        Dim rect As RectangleF = shape.Rectangle.Scale(scale)
+                        Dim w As Double = rect.Width / 2
+                        Dim rect_left As New RectangleF(rect.Left, rect.Top, w, rect.Height)
+                        Dim rect_right As New RectangleF(rect.Left + w, rect.Top, w, rect.Height)
+
+                        g.FillRectangle(geneBrush, rect_left)
+                        g.DrawRectangle(Pens.Black, rect_left)
+                        g.FillRectangle(protBrush, rect_right)
+                        g.DrawRectangle(Pens.Black, rect_right)
+                        g.DrawString(name, font, pen, rect.CenterAlign(strSize))
+                    Next
+                End With
+            Next
         End Sub
 
         Private Shared Function getAreas(map As Map, type$) As Dictionary(Of String, NamedValue(Of Area()))
-            Dim shapes = map.shapes _
+            Dim shapes = map.shapes.mapdata _
                 .Where(Function(x) x.Type = type) _
                 .Select(Function(x)
                             Dim titles = x.Names
@@ -279,43 +364,70 @@ Namespace Assembly.KEGG.WebServices
         ''' <param name="g"></param>
         ''' <param name="map"></param>
         ''' <param name="list"></param>
-        Private Shared Sub renderCompound(ByRef g As Graphics2D, font As Font, map As Map, scale As SizeF, list As NamedValue(Of String)())
+        Private Shared Sub renderCompound(ByRef g As IGraphics, font As Font, map As Map, scale As SizeF, list As NamedValue(Of String)())
             Dim shapes = getAreas(map, "Compound")
-            Dim scaleCircle As New SizeF(2, 2)  ' 通用的缩放
+            Dim scaleCircle As New SizeF(2, 2)
 
             For Each id As NamedValue(Of String) In list
                 If Not shapes.ContainsKey(id.Name) Then
                     Continue For
                 End If
 
-                Dim rectBrush As Brush = id.Value _
-                    .TranslateColor _
-                    .Alpha(100) _
-                    .DoCall(Function(c)
-                                Return New SolidBrush(c)
-                            End Function)
-                Dim brush As Brush = id.Value.GetBrush
-
-                With shapes(id.Name)
-                    Dim name As String = .Name
-                    Dim strSize = g.MeasureString(name, font)
-
-                    For Each shape As Area In .Value
-                        If shape.shape = "rect" Then
-                            Dim rect As RectangleF = shape.Rectangle
-
-                            Call g.FillRectangle(rectBrush, rect)
-                        Else
-                            Dim rect As RectangleF = shape.Rectangle _
-                                .Scale(scale) _
-                                .Scale(scaleCircle)
-
-                            Call g.FillPie(brush, rect, 0, 360)
-                            ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
-                        End If
-                    Next
-                End With
+                Call CompoundShapeDrawing(id, shapes, font, g, scale, scaleCircle)
             Next
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="id"></param>
+        ''' <param name="shapes"></param>
+        ''' <param name="font"></param>
+        ''' <param name="g"></param>
+        ''' <param name="scale"></param>
+        ''' <param name="scaleCircle">通用的缩放</param>
+        Private Shared Sub CompoundShapeDrawing(id As NamedValue(Of String),
+                                                shapes As Dictionary(Of String, NamedValue(Of Area())),
+                                                font As Font,
+                                                g As IGraphics,
+                                                scale As SizeF,
+                                                scaleCircle As SizeF)
+            Dim rectBrush As Brush = id.Value _
+                .TranslateColor _
+                .Alpha(100) _
+                .DoCall(Function(c)
+                            Return New SolidBrush(c)
+                        End Function)
+            Dim brush As Brush = id.Value.GetBrush
+
+            With shapes(id.Name)
+                Dim name As String = .Name
+                Dim strSize = g.MeasureString(name, font)
+
+                For Each shape As Area In .Value
+                    If shape.shape = "rect" Then
+                        Dim rect As RectangleF = shape.Rectangle
+
+                        Try
+                            Call g.FillRectangle(rectBrush, rect)
+                        Catch ex As Exception
+                            Call ex.Message.Warning
+                        End Try
+                    Else
+                        Dim rect As RectangleF = shape.Rectangle _
+                            .Scale(scale) _
+                            .Scale(scaleCircle)
+
+                        Try
+                            Call g.FillPie(brush, rect, 0, 360)
+                        Catch ex As Exception
+                            Call ex.Message.Warning
+                        End Try
+
+                        ' Call g.DrawCircle(rect.Centre, rect.Width, Pens.Black, fill:=False)
+                    End If
+                Next
+            End With
         End Sub
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Map) Implements IEnumerable(Of Map).GetEnumerator

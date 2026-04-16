@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 136 (71.58%)
+    ' Comment Lines: 18 (9.47%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 36 (18.95%)
+    '     File Size: 6.08 KB
+
+
     '     Class StreamReader
     ' 
     '         Properties: [get]

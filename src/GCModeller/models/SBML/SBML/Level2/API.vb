@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 52 (68.42%)
+    ' Comment Lines: 12 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (15.79%)
+    '     File Size: 3.05 KB
+
+
     '     Module API
     ' 
     '         Function: GetAllConsume, GetAllProduce, IsEntry, RevertEscapes

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 77 (85.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (14.44%)
+    '     File Size: 3.39 KB
+
+
     ' Module ReportParser
     ' 
     '     Function: component, ParseReport, ParseSectionData, tfbs

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cbcc3d86a5b94a74b9cdf43f027d49bc, annotations\Proteomics\iTraq\iTraqTtest.vb"
+﻿#Region "Microsoft.VisualBasic::055caf7e68f0165110158644e73b1a4c, annotations\Proteomics\iTraq\iTraqTtest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 110 (71.90%)
+    ' Comment Lines: 22 (14.38%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 21 (13.73%)
+    '     File Size: 5.82 KB
+
+
     ' Module iTraqTtest
     ' 
     '     Function: createResult, log2Test, (+2 Overloads) logFCtest
@@ -41,7 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
@@ -64,10 +76,10 @@ Public Module iTraqTtest
 
         For Each protein As DataFrameRow In proteins
             result += New DEP_iTraq With {
-                .FCavg = protein.experiments.Average,
+                .foldchange = protein.experiments.Average,
                 .ID = protein.geneID,
                 .pvalue = t.Test(protein.experiments.Select(Function(x) Math.Log(x, 2)).ToArray, zero).Pvalue,
-                .log2FC = Math.Log(.FCavg, 2)
+                .log2FC = Math.Log(.foldchange, 2)
             }
         Next
 
@@ -132,10 +144,10 @@ Public Module iTraqTtest
                 ' 但是这种情况可能是实验A之中没有表达量，但是在实验B之中被检测到了表达
 
                 If includesZERO Then
-                    value.FCavg = 0
+                    value.foldchange = 0
                     value.pvalue = 0 ' 所有的实验重复都是这种情况，则重复性很好，pvalue非常非常小？？
                 Else
-                    value.FCavg = Double.NaN
+                    value.foldchange = Double.NaN
                     value.pvalue = Double.NaN
                 End If
 
@@ -147,8 +159,8 @@ Public Module iTraqTtest
                     .Select(Function(x) x Or NA) _
                     .AsVector
 
-                value.FCavg = v.Average
-                value.log2FC = Math.Log(value.FCavg, 2)
+                value.foldchange = v.Average
+                value.log2FC = Math.Log(value.foldchange, 2)
                 value.pvalue = t.Test(a:=Vector.Log(v, 2), b:=ZERO, varEqual:=True).Pvalue
             End If
 
@@ -182,7 +194,7 @@ Public Module iTraqTtest
         Return New DEP_iTraq With {
             .ID = protein.ID,
             .log2FC = log2FC,
-            .FCavg = FC,
+            .foldchange = FC,
             .FDR = 0,
             .pvalue = 0,
             .Properties = protein _

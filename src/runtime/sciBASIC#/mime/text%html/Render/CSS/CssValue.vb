@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f885d41d3b69ae752774cd15eebbb83, mime\text%html\Render\CSS\CssValue.vb"
+﻿#Region "Microsoft.VisualBasic::8cef507a1b1b20f927b73e2ad789b0ef, mime\text%html\Render\CSS\CssValue.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 495
+    '    Code Lines: 312 (63.03%)
+    ' Comment Lines: 89 (17.98%)
+    '    - Xml Docs: 74.16%
+    ' 
+    '   Blank Lines: 94 (18.99%)
+    '     File Size: 18.66 KB
+
 
     '     Class CssValue
     ' 
@@ -84,6 +96,7 @@ Namespace Render.CSS
             Return result
         End Function
 
+#If NET48 Then
         ''' <summary>
         ''' Parses a length. Lengths are followed by an unit identifier (e.g. 10px, 3.1em)
         ''' </summary>
@@ -172,7 +185,7 @@ Namespace Render.CSS
 
             Return factor * ParseNumber(number, hundredPercent)
         End Function
-
+#End If
         ''' <summary>
         ''' Parses a color value in CSS style; e.g. #ff0000, red, rgb(255,0,0), rgb(100%, 0, 0)
         ''' </summary>
@@ -297,7 +310,7 @@ Namespace Render.CSS
 
             Return Color.FromArgb(r, g, b)
         End Function
-
+#If NET48 Then
         ''' <summary>
         ''' Parses a border value in CSS style; e.g. 1px, 1, thin, thick, medium
         ''' </summary>
@@ -319,7 +332,7 @@ Namespace Render.CSS
                     Return Abs(ParseLength(borderValue, 1, b))
             End Select
         End Function
-
+#End If
         ''' <summary>
         ''' Split the value by spaces; e.g. Useful in values like 'padding:5 4 3 inherit'
         ''' </summary>
@@ -420,6 +433,8 @@ Namespace Render.CSS
             End If
         End Function
 
+#If NET48 Then
+
         ''' <summary>
         ''' Gets the image of the specified path
         ''' </summary>
@@ -437,7 +452,6 @@ Namespace Render.CSS
                     If Not finfo.Exists Then
                         Return Nothing
                     End If
-
 
                     Return finfo.FullName.LoadImage
                 ElseIf prop IsNot Nothing Then
@@ -460,6 +474,7 @@ Namespace Render.CSS
                 Return New Bitmap(50, 50)
             End Try
         End Function
+#End If
 
         ''' <summary>
         ''' Gets the content of the stylesheet specified in the path
@@ -533,4 +548,5 @@ Namespace Render.CSS
             End Try
         End Sub
     End Class
+
 End Namespace

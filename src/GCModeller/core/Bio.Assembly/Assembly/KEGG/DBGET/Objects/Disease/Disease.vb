@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 23 (65.71%)
+    ' Comment Lines: 5 (14.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (20.00%)
+    '     File Size: 1.30 KB
+
+
     '     Class Disease
     ' 
     '         Properties: Carcinogen, Category, Comment, Description, Drug

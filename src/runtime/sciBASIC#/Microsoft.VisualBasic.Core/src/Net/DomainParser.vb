@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 58 (63.74%)
+    ' Comment Lines: 16 (17.58%)
+    '    - Xml Docs: 68.75%
+    ' 
+    '   Blank Lines: 17 (18.68%)
+    '     File Size: 3.29 KB
+
+
     '     Module DomainParser
     ' 
     '         Function: IsFullURL, Trim, TrimPathAndQuery, (+2 Overloads) TryParse

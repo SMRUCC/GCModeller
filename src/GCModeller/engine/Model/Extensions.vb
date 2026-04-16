@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e10129c96ea9277419d9b841cbb2575, engine\Model\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::451ac49aeaff1e63a1bc19fa31c8cc38, engine\Model\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 56 (80.00%)
+    ' Comment Lines: 5 (7.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (12.86%)
+    '     File Size: 2.16 KB
+
+
     ' Module Extensions
     ' 
     '     Function: (+2 Overloads) CreateVector, EvalEffects, ProteinFromVector, RNAFromVector
@@ -48,7 +60,8 @@ Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular.Vector
 <HideModuleName>
 Public Module Extensions
 
-    <Extension> Public Function EvalEffects(regMode As String) As Double
+    <Extension>
+    Public Function EvalEffects(regMode As String) As Double
         If regMode.StringEmpty Then
             Return 0.25
         End If
@@ -72,6 +85,11 @@ Public Module Extensions
         }
     End Function
 
+    ''' <summary>
+    ''' cast the protein amino acid composition vector from a given numeric vector
+    ''' </summary>
+    ''' <param name="vector"></param>
+    ''' <returns></returns>
     Public Function ProteinFromVector(vector As NumericVector) As ProteinComposition
         Dim protein As New ProteinComposition With {
             .proteinID = vector.name

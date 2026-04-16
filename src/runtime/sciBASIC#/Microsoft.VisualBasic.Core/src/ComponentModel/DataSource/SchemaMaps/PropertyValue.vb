@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8c88f2814f68448a420af814bbfb1f9, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\PropertyValue.vb"
+﻿#Region "Microsoft.VisualBasic::a8704cdc6b29ea0fa670bc017c8064fc, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\PropertyValue.vb"
 
     ' Author:
     ' 
@@ -31,28 +31,40 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 66 (60.55%)
+    ' Comment Lines: 25 (22.94%)
+    '    - Xml Docs: 92.00%
+    ' 
+    '   Blank Lines: 18 (16.51%)
+    '     File Size: 3.95 KB
+
+
     '     Interface IPropertyValue
     ' 
     '         Properties: [Property]
     ' 
-    '     Class PropertyValue
+    '     Class Bind
     ' 
-    '         Properties: [Property], Key, Value
+    '         Properties: IsPrimitive, memberName, Type
     ' 
-    '         Function: ImportsLines, ImportsTsv, ToString
+    '         Constructor: (+4 Overloads) Sub New
+    '         Function: Parse
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.Scripting
+Imports Microsoft.VisualBasic.Scripting.Abstract
 
 Namespace ComponentModel.DataSourceModel.SchemaMaps
 
@@ -60,62 +72,99 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         Property [Property] As String
     End Interface
 
-    ''' <summary>
-    ''' 用于读写tsv/XML文件格式的键值对数据
-    ''' </summary>
-    Public Class PropertyValue
-        Implements INamedValue, IPropertyValue
+    Public Class Bind
+
+        Protected Friend ReadOnly handleSetValue As Action(Of Object, Object)
+        Protected Friend ReadOnly handleGetValue As Func(Of Object, Object)
 
         ''' <summary>
-        ''' ID
+        ''' The property/field object that bind with its custom attribute <see cref="field"/> of type 
         ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property Key As String Implements IKeyedEntity(Of String).Key
-        ''' <summary>
-        ''' Property Name
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlAttribute> Public Property [Property] As String Implements IPropertyValue.Property
-        ''' <summary>
-        ''' Value text
-        ''' </summary>
-        ''' <returns></returns>
-        <XmlText> Public Property Value As String Implements IPropertyValue.Value
-
-        Public Overrides Function ToString() As String
-            Return Me.GetJson
-        End Function
+        Public ReadOnly member As MemberInfo
+        Protected caster As LoadObject
 
         ''' <summary>
-        ''' Imports the tsv file like:
-        ''' 
-        ''' ```
-        ''' &lt;ID>&lt;tab>&lt;PropertyName>&lt;tab>&lt;Value>
-        ''' ```
+        ''' Gets the type of this <see cref="member"/>.
         ''' </summary>
-        ''' <param name="path$"></param>
         ''' <returns></returns>
-        Public Shared Function ImportsTsv(path$, Optional header As Boolean = True) As PropertyValue()
-            Dim lines$() = path.ReadAllLines
+        Public ReadOnly Property Type As Type
 
-            If header Then
-                lines = lines.Skip(1).ToArray
+        ''' <summary>
+        ''' get member name directly
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property memberName As String
+            Get
+                Return member.Name
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Gets a value indicating whether the <see cref="System.Type"/> is one of the primitive types.
+        ''' </summary>
+        ''' <returns>
+        ''' true if the <see cref="System.Type"/> is one of the primitive types; otherwise, false.
+        ''' </returns>
+        Public ReadOnly Property IsPrimitive As Boolean
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Scripting.IsPrimitive(Type)
+            End Get
+        End Property
+
+        Private Sub New(type As Type, member As MemberInfo)
+            If InputHandler.CasterString.ContainsKey(type) Then
+                caster = InputHandler.CasterString(type)
             End If
 
-            Return ImportsLines(
-                data:=lines,
-                delimiter:=ASCII.TAB)
-        End Function
+            Me.Type = type
+            Me.member = member
+        End Sub
 
+        Sub New(prop As PropertyInfo)
+            Call Me.New(prop.PropertyType, prop)
+
+            ' Compile the property get/set as the delegate
+            With prop
+                handleSetValue = AddressOf prop.SetValue  ' .DeclaringType.PropertySet(.Name)
+                handleGetValue = AddressOf prop.GetValue  ' .DeclaringType.PropertyGet(.Name)
+            End With
+        End Sub
+
+        Sub New(field As FieldInfo)
+            Call Me.New(field.FieldType, field)
+
+            With field
+                handleSetValue = AddressOf field.SetValue  ' .DeclaringType.FieldSet(.Name)
+                handleGetValue = AddressOf field.GetValue  ' .DeclaringType.FieldGet(.Name)
+            End With
+        End Sub
+
+        Sub New(method As MethodInfo)
+            Call Me.New(method.ReturnType, method)
+
+            If method.IsNonParametric(optionalAsNone:=True) Then
+                Throw New InvalidConstraintException("Only allows parameterless method or all of the parameter should be optional!")
+            End If
+
+            With method
+                handleSetValue = Sub(a, b)
+                                     Throw New ReadOnlyException
+                                 End Sub
+                handleGetValue = Function(obj) method.Invoke(obj, {})
+            End With
+        End Sub
+
+        ''' <summary>
+        ''' parse string as the target type value by 
+        ''' using the specific caster method.
+        ''' </summary>
+        ''' <param name="val"></param>
+        ''' <returns></returns>
+        ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function ImportsLines(data As IEnumerable(Of String), Optional delimiter As Char = ASCII.TAB) As PropertyValue()
-            Return data _
-                .Select(Function(t) t.Split(delimiter)) _
-                .Select(Function(row) New PropertyValue With {
-                    .Key = row(0),
-                    .Property = row(1),
-                    .Value = row(2)
-                }).ToArray
+        Public Function Parse(val As String) As Object
+            Return caster(val)
         End Function
     End Class
 End Namespace

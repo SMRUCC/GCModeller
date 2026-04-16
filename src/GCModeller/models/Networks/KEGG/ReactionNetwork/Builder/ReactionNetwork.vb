@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f21c2d84cdeb944570a9d40b0997bf0a, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::13dd8f74763cd8179f3caaeb92ba4724, models\Networks\KEGG\ReactionNetwork\Builder\ReactionNetwork.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 403
+    '    Code Lines: 259 (64.27%)
+    ' Comment Lines: 102 (25.31%)
+    '    - Xml Docs: 85.29%
+    ' 
+    '   Blank Lines: 42 (10.42%)
+    '     File Size: 17.42 KB
+
+
     '     Class ReactionNetworkBuilder
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,7 @@
     ' 
     '     Module Extensions
     ' 
-    '         Function: BuildModel, GetReactions
+    '         Function: BuildModel, GetEnzymatic, (+2 Overloads) GetReactions, GetReactionsIgnoreEnzymes, MatchesNonEnzymatics
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,6 +61,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
@@ -58,6 +71,8 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
+Imports SMRUCC.genomics.ComponentModel.Annotation
 
 Namespace ReactionNetwork
 
@@ -74,6 +89,12 @@ Namespace ReactionNetwork
         ''' </summary>
         ''' <param name="br08901">代谢反应数据</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
+        ''' <param name="enzymeBridged">
+        ''' This option will affects the network connected style:
+        ''' 
+        ''' + true:   compound -- enzyme -- compound
+        ''' + false:  compound -- compound
+        ''' </param>
         Sub New(br08901 As IEnumerable(Of ReactionTable),
                 compounds As IEnumerable(Of NamedValue(Of String)),
                 Optional ignoresCommonList As Boolean = True,
@@ -102,6 +123,13 @@ Namespace ReactionNetwork
             End If
         End Sub
 
+        ''' <summary>
+        ''' two compound is connected via a reaction link, the link id is the reaction id
+        ''' </summary>
+        ''' <param name="commons"></param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Private Function compoundEdge(commons As String(), a As Node, b As Node) As Edge
             Return New Edge With {
                 .U = a,
@@ -115,6 +143,13 @@ Namespace ReactionNetwork
             }
         End Function
 
+        ''' <summary>
+        ''' tow compound is connected via a enzyme gene node
+        ''' </summary>
+        ''' <param name="commons"></param>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Private Iterator Function enzymeBridgedEdges(commons As String(), a As Node, b As Node) As IEnumerable(Of Edge)
             ' each enzyme is an edge
             ' For Each rid As String In commons
@@ -173,7 +208,10 @@ Namespace ReactionNetwork
         ''' <summary>
         ''' 利用代谢反应的摘要数据构建出代谢物的互作网络
         ''' </summary>
-        ''' <param name="br08901">代谢反应数据</param>
+        ''' <param name="br08901">Metabolic links which is represented via the kegg 
+        ''' reaction model data. A metabolic network will be build based on this 
+        ''' reaction data.
+        ''' (代谢反应数据)</param>
         ''' <param name="compounds">KEGG化合物编号，``{kegg_id => compound name}``</param>
         ''' <param name="extended">是否对结果进行进一步的拓展，以获取得到一个连通性更加多的大网络？默认不进行拓展</param>
         ''' <param name="enzymes">
@@ -183,7 +221,18 @@ Namespace ReactionNetwork
         ''' 是否只使用酶促反应进行网络的构建
         ''' </param>
         ''' <param name="filterByEnzymes">
-        ''' 是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络
+        ''' Just re-construct a kegg metabolic network which its all reaction 
+        ''' is related with the input <paramref name="enzymes"/> list?
+        ''' (是否只使用<paramref name="enzymes"/>的KO编号相关的反应来构建代谢网络)
+        ''' </param>
+        ''' <param name="enzymeBridged">
+        ''' This option will affects the network connected style:
+        ''' 
+        ''' + true:   compound -- enzyme -- compound
+        ''' + false:  compound -- compound
+        ''' 
+        ''' set this parameter value to TRUE could create a metabolic network 
+        ''' that used for run multiple omics data analysis.
         ''' </param>
         ''' <returns></returns>
         <Extension>
@@ -200,6 +249,9 @@ Namespace ReactionNetwork
             Dim source As ReactionTable()
 
             If filterByEnzymes Then
+                ' required of filter by enzymes
+                ' but the given enzyme set is empty
+                ' so no network could be re-constructed!
                 If enzymes.Count = 0 Then
                     Return Nothing
                 Else
@@ -212,6 +264,12 @@ Namespace ReactionNetwork
             Else
                 source = br08901.ToArray
             End If
+
+            ' do reaction links uniques
+            source = source _
+                .GroupBy(Function(r) r.entry) _
+                .Select(Function(r) r.First) _
+                .ToArray
 
             Dim builderSession As New ReactionNetworkBuilder(
                 br08901:=source,
@@ -231,10 +289,12 @@ Namespace ReactionNetwork
         End Function
 
         ''' <summary>
-        ''' 
+        ''' Pull out all of the pathway related reactions data
         ''' </summary>
         ''' <param name="pathway"></param>
-        ''' <param name="reactions"></param>
+        ''' <param name="reactions">
+        ''' A repository for the kegg reaction data models
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' we are not going to add the non-enzymics reaction into each pathway map
@@ -242,34 +302,164 @@ Namespace ReactionNetwork
         ''' similar compound profile which is bring by all of the non-enzymics reactions.
         ''' </remarks>
         <Extension>
-        Public Iterator Function GetReactions(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
-            For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
-                If reactions.ContainsKey(ko.name) Then
-                    For Each item In reactions(ko.name)
+        Public Iterator Function GetReactions(pathway As Map,
+                                              reactions As Dictionary(Of String, ReactionTable()),
+                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
+
+            For Each id As String In pathway.GetMembers.Where(Function(si) si.IsPattern("K\d+"))
+                If reactions.ContainsKey(id) Then
+                    For Each item As ReactionTable In reactions(id)
                         Yield item
                     Next
                 End If
             Next
 
-            For Each gene As NamedValue In pathway.genes.SafeQuery
-                Dim ko As String = Strings.Trim(gene.text).Split.FirstOrDefault
+            For Each gene As NamedValue(Of String) In pathway.GetPathwayGenes
+                Dim ko As String = gene.Value
 
                 If Not ko.StringEmpty AndAlso reactions.ContainsKey(ko) Then
-                    For Each item In reactions(ko)
+                    For Each item As ReactionTable In reactions(ko)
+                        Yield item
+                    Next
+                End If
+
+                If reactions.ContainsKey(gene.Name) Then
+                    For Each item As ReactionTable In reactions(gene.Name)
+                        Yield item
+                    Next
+                End If
+
+                If Not gene.Description.StringEmpty Then
+                    If reactions.ContainsKey(gene.Description) Then
+                        For Each item As ReactionTable In reactions(gene.Description)
+                            Yield item
+                        Next
+                    End If
+                End If
+            Next
+
+            If non_enzymatic Then
+                For Each rxn As ReactionTable In pathway.MatchesNonEnzymatics(reactions)
+                    Yield rxn
+                Next
+            End If
+        End Function
+
+        <Extension>
+        Public Iterator Function MatchesNonEnzymatics(pathway As PathwayBrief, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            Dim compounds As Index(Of String) = pathway.GetCompoundSet _
+                .Select(Function(c) c.Name) _
+                .Indexing
+
+            If compounds.Count > 0 Then
+                ' populate out all current pathway related
+                ' non-enzymatic reactions
+                For Each item As ReactionTable In reactions.Values _
+                    .IteratesALL _
+                    .GroupBy(Function(a) a.entry) _
+                    .Select(Function(a) a.First)
+
+                    If item.geneNames.IsNullOrEmpty AndAlso
+                        item.EC.IsNullOrEmpty AndAlso
+                        item.KO.IsNullOrEmpty Then
+
+                        If item.MatchAllCompoundsId(compounds) Then
+                            Yield item
+                        End If
+                    End If
+                Next
+            End If
+        End Function
+
+        Private Iterator Function GetEnzymatic(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            For Each ko As NamedValue In pathway.KOpathway.JoinIterates(pathway.modules)
+                If reactions.ContainsKey(ko.name) Then
+                    For Each item As ReactionTable In reactions(ko.name)
                         Yield item
                     Next
                 End If
             Next
 
-            'For Each item As ReactionTable In reactions.Values _
-            '    .IteratesALL _
-            '    .GroupBy(Function(a) a.entry) _
-            '    .Select(Function(a) a.First)
+            For Each gene As GeneName In pathway.genes.SafeQuery
+                Dim ko As String = gene.KO
 
-            '    If item.EC.IsNullOrEmpty AndAlso item.KO.IsNullOrEmpty Then
-            '        Yield item
-            '    End If
-            'Next
+                If ko IsNot Nothing AndAlso reactions.ContainsKey(ko) Then
+                    For Each item As ReactionTable In reactions(ko)
+                        Yield item
+                    Next
+                End If
+
+                If gene.geneId IsNot Nothing AndAlso reactions.ContainsKey(gene.geneId) Then
+                    For Each item As ReactionTable In reactions(gene.geneId)
+                        Yield item
+                    Next
+                End If
+                If gene.geneName IsNot Nothing AndAlso reactions.ContainsKey(gene.geneName) Then
+                    For Each item As ReactionTable In reactions(gene.geneName)
+                        Yield item
+                    Next
+                End If
+
+                If Not gene.EC Is Nothing Then
+                    For Each id As String In gene.EC
+                        If id IsNot Nothing AndAlso reactions.ContainsKey(id) Then
+                            For Each rxn As ReactionTable In reactions(id)
+                                Yield rxn
+                            Next
+                        End If
+                    Next
+                End If
+            Next
+        End Function
+
+        ''' <summary>
+        ''' Pull out all of the pathway related reactions data
+        ''' </summary>
+        ''' <param name="pathway"></param>
+        ''' <param name="reactions">
+        ''' A repository for the kegg reaction data models
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' we are not going to add the non-enzymics reaction into each pathway map
+        ''' because this operation will caused all of the pathway map contains the 
+        ''' similar compound profile which is bring by all of the non-enzymics reactions.
+        ''' </remarks>
+        <Extension>
+        Public Iterator Function GetReactions(pathway As Pathway,
+                                              reactions As Dictionary(Of String, ReactionTable()),
+                                              Optional non_enzymatic As Boolean = False) As IEnumerable(Of ReactionTable)
+
+            For Each link As ReactionTable In GetEnzymatic(pathway, reactions)
+                Yield link
+            Next
+
+            If non_enzymatic AndAlso Not pathway.compound Is Nothing Then
+                For Each rxn As ReactionTable In pathway.MatchesNonEnzymatics(reactions)
+                    Yield rxn
+                Next
+            End If
+        End Function
+
+        <Extension>
+        Public Iterator Function GetReactionsIgnoreEnzymes(pathway As Pathway, reactions As Dictionary(Of String, ReactionTable())) As IEnumerable(Of ReactionTable)
+            Dim compounds As Index(Of String) = pathway.GetCompoundSet _
+                .Select(Function(c) c.Name) _
+                .Indexing
+
+            If compounds.Count > 0 Then
+                ' populate out all current pathway related
+                ' non-enzymatic reactions
+                For Each item As ReactionTable In reactions.Values _
+                    .IteratesALL _
+                    .GroupBy(Function(a) a.entry) _
+                    .Select(Function(a) a.First)
+
+                    If item.MatchAllCompoundsId(compounds) Then
+                        Yield item
+                    End If
+                Next
+            End If
         End Function
     End Module
 End Namespace

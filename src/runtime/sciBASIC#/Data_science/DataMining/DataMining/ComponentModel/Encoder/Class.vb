@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::81d3e31948fed8afeb02990e42fd1ab3, Data_science\DataMining\DataMining\ComponentModel\Encoder\Class.vb"
+﻿#Region "Microsoft.VisualBasic::d229944fe1f0cace0e11f284f9baa895, Data_science\DataMining\DataMining\ComponentModel\Encoder\Class.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 170
+    '    Code Lines: 74 (43.53%)
+    ' Comment Lines: 74 (43.53%)
+    '    - Xml Docs: 98.65%
+    ' 
+    '   Blank Lines: 22 (12.94%)
+    '     File Size: 5.80 KB
+
+
     '     Class ColorClass
     ' 
-    '         Properties: color, enumInt, name
+    '         Properties: color, factor, name
     ' 
     '         Function: FromEnums, ToString
     '         Operators: (+3 Overloads) -, *, +, <, (+3 Overloads) <>
@@ -44,7 +56,6 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Linq
 Imports stdNum = System.Math
 
@@ -61,10 +72,17 @@ Namespace ComponentModel.Encoder
         ''' <returns></returns>
         Public Property color As String
         ''' <summary>
-        ''' <see cref="Integer"/> encoding for this class.(即枚举类型)
+        ''' the factor value, or label data, usually the <see cref="Integer"/> 
+        ''' encoding for this class.
+        ''' (即枚举类型)
         ''' </summary>
         ''' <returns></returns>
-        Public Property enumInt As Integer
+        ''' <remarks>
+        ''' usually be an integer value, but set this property in 
+        ''' double float data type for make compatibality to the 
+        ''' regression problem
+        ''' </remarks>
+        Public Property factor As Double
         ''' <summary>
         ''' Class Name
         ''' </summary>
@@ -72,7 +90,7 @@ Namespace ComponentModel.Encoder
         Public Property name As String
 
         Public Overrides Function ToString() As String
-            Return $"{{{enumInt}}} {name} = {color}"
+            Return $"{{{factor}}} {name} = {color}"
         End Function
 
         ''' <summary>
@@ -95,7 +113,7 @@ Namespace ComponentModel.Encoder
                 .SeqIterator _
                 .Select(Function(v)
                             Return New ColorClass With {
-                                .enumInt = CInt(DirectCast(+v, Object)),
+                                .factor = CInt(DirectCast(+v, Object)),
                                 .color = colors(v),
                                 .name = DirectCast(CObj((+v)), [Enum]).Description
                             }
@@ -105,12 +123,17 @@ Namespace ComponentModel.Encoder
             Return out
         End Function
 
+        ''' <summary>
+        ''' get <see cref="factor"/> value
+        ''' </summary>
+        ''' <param name="factor"></param>
+        ''' <returns></returns>
         Public Shared Narrowing Operator CType(factor As ColorClass) As Integer
-            Return factor.enumInt
+            Return factor.factor
         End Operator
 
         Public Shared Operator =(a As Double, b As ColorClass) As Boolean
-            Return stdNum.Abs(a - b.enumInt) <= 0.000001
+            Return stdNum.Abs(a - b.factor) <= 0.000001
         End Operator
 
         Public Shared Operator <>(a As Double, b As ColorClass) As Boolean
@@ -118,7 +141,7 @@ Namespace ComponentModel.Encoder
         End Operator
 
         Public Shared Operator =(a As Integer, b As ColorClass) As Boolean
-            Return a = b.enumInt
+            Return a = b.factor
         End Operator
 
         Public Shared Operator <>(a As Integer, b As ColorClass) As Boolean
@@ -126,39 +149,80 @@ Namespace ComponentModel.Encoder
         End Operator
 
         Public Shared Operator =(a As ColorClass, b As ColorClass) As Boolean
-            Return a.color = b.color AndAlso a.enumInt = b.enumInt AndAlso a.name = b.name
+            Return a.color = b.color AndAlso a.factor = b.factor AndAlso a.name = b.name
         End Operator
 
         Public Shared Operator <>(a As ColorClass, b As ColorClass) As Boolean
             Return Not a = b
         End Operator
 
+        ''' <summary>
+        ''' <see cref="factor"/> > b
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Shared Operator >(a As ColorClass, b As Integer) As Boolean
-            Return a.enumInt > b
+            Return a.factor > b
         End Operator
 
+        ''' <summary>
+        ''' <see cref="factor"/> &lt; b
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public Shared Operator <(a As ColorClass, b As Integer) As Boolean
-            Return a.enumInt < b
+            Return a.factor < b
         End Operator
 
+        ''' <summary>
+        ''' <see cref="factor"/> - x
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
         Public Shared Operator -(a As ColorClass, x As Double) As Double
-            Return a.enumInt - x
+            Return a.factor - x
         End Operator
 
+        ''' <summary>
+        ''' x - <see cref="factor"/>
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="a"></param>
+        ''' <returns></returns>
         Public Shared Operator -(x As Double, a As ColorClass) As Double
-            Return x - a.enumInt
+            Return x - a.factor
         End Operator
 
+        ''' <summary>
+        ''' x + <see cref="factor"/>
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="a"></param>
+        ''' <returns></returns>
         Public Shared Operator +(x As Double, a As ColorClass) As Double
-            Return x + a.enumInt
+            Return x + a.factor
         End Operator
 
+        ''' <summary>
+        ''' x * <see cref="factor"/>
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="a"></param>
+        ''' <returns></returns>
         Public Shared Operator *(x As Double, a As ColorClass) As Double
-            Return x * a.enumInt
+            Return x * a.factor
         End Operator
 
+        ''' <summary>
+        ''' 0 - <see cref="factor"/>
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <returns></returns>
         Public Shared Operator -(a As ColorClass) As Integer
-            Return -a.enumInt
+            Return -a.factor
         End Operator
     End Class
 End Namespace

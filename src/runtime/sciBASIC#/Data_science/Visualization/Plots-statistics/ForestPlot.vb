@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 36
+    '    Code Lines: 2 (5.56%)
+    ' Comment Lines: 33 (91.67%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 1 (2.78%)
+    '     File Size: 3.01 KB
+
+
     ' Module ForestPlot
     ' 
     ' 

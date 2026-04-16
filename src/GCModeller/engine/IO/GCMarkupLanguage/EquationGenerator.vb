@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 90 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 20 (18.18%)
+    '     File Size: 4.31 KB
+
+
     ' Class EquationGenerator
     ' 
     '     Function: Balance, Generate

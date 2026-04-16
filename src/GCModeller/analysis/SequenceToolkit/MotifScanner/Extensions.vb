@@ -1,0 +1,317 @@
+﻿#Region "Microsoft.VisualBasic::46675e3085645677dd21ba4d54ed2207, analysis\SequenceToolkit\MotifScanner\Extensions.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 205 (80.08%)
+    ' Comment Lines: 15 (5.86%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 36 (14.06%)
+    '     File Size: 11.79 KB
+
+
+    ' Module Extensions
+    ' 
+    '     Function: CreateModel, ScanRegion, ScanSequential, ScanSites, ScanSiteUIMode
+    '               ScanSiteWorkflowMode
+    '     Class ScanWorkflow
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Sub: Solve
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Parallel
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
+Imports SMRUCC.genomics.SequenceModel.FASTA
+
+Public Module Extensions
+
+    <Extension>
+    Public Function CreateModel(pwm As Probability) As MotifPWM
+        Dim alphabets As Char() = New Char() {"A"c, "C"c, "G"c, "T"c}
+        Dim n As Integer = 100  ' normalized as 100 sequence input
+        Dim E As Double = Probability.E(nsize:=100)
+
+        Return New MotifPWM With {
+            .name = pwm.name,
+            .note = pwm.ToString,
+            .pwm = pwm.region _
+                .Select(Function(r)
+                            Dim hi As Double = Probability.HI(r)
+
+                            Return New ResidueSite(r, alphabets) With {
+                                .bits = Probability.CalculatesBits(hi, E, NtMol:=alphabets.Length = 4)
+                            }
+                        End Function) _
+                .ToArray,
+            .alphabets = alphabets
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="db"></param>
+    ''' <param name="regions"></param>
+    ''' <param name="n_threads"></param>
+    ''' <param name="identities_cutoff"></param>
+    ''' <param name="minW"></param>
+    ''' <param name="top"></param>
+    ''' <param name="permutation"></param>
+    ''' <param name="workflowMode">
+    ''' parallel will works in different mode
+    ''' </param>
+    ''' <param name="progress"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Function ScanSites(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
+                              Optional n_threads As Integer = 8,
+                              Optional identities_cutoff As Double = 0.8,
+                              Optional minW As Double = 0.85,
+                              Optional top As Integer = 3,
+                              Optional permutation As Integer = 2500,
+                              Optional workflowMode As Boolean = False,
+                              Optional progress As Action(Of String) = Nothing) As Dictionary(Of String, MotifMatch())
+
+        Dim parallelOptions As New ParallelOptions With {
+            .MaxDegreeOfParallelism = n_threads
+        }
+
+        If workflowMode Then
+            Return db.ScanSiteWorkflowMode(regions, parallelOptions,
+                                           progress:=If(progress, New Action(Of String)(AddressOf VBDebugger.debug)),
+                                           identities_cutoff:=identities_cutoff,
+                                           minW:=minW,
+                                           top:=top,
+                                           permutation:=permutation)
+        Else
+            Return db.ScanSiteUIMode(regions, parallelOptions, progress,
+                                     identities_cutoff:=identities_cutoff,
+                                     minW:=minW,
+                                     top:=top,
+                                     permutation:=permutation)
+        End If
+    End Function
+
+    <Extension>
+    Private Function ScanSiteWorkflowMode(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
+                                          parallelOptions As ParallelOptions,
+                                          progress As Action(Of String),
+                                          Optional identities_cutoff As Double = 0.8,
+                                          Optional minW As Double = 0.85,
+                                          Optional top As Integer = 3,
+                                          Optional permutation As Integer = 2500) As Dictionary(Of String, MotifMatch())
+
+        Dim pwm As Dictionary(Of String, Probability()) = db.LoadMotifs()
+        Dim allFamily As String() = pwm.Keys.ToArray
+        Dim tss As FastaSeq() = regions.SafeQuery.ToArray
+        Dim task As New ScanWorkflow(tss, parallelOptions.MaxDegreeOfParallelism) With {
+            .allFamily = allFamily,
+            .identities_cutoff = identities_cutoff,
+            .minW = minW,
+            .permutation = permutation,
+            .progress = progress,
+            .pwm = pwm,
+            .top = top
+        }
+
+        Call task.Run()
+
+        Return task.tfbsList
+    End Function
+
+    Private Class ScanWorkflow : Inherits VectorTask
+
+        Friend pwm As Dictionary(Of String, Probability())
+        Friend tfbsList As New Dictionary(Of String, MotifMatch())
+        Friend allFamily As String()
+        Friend progress As Action(Of String)
+        Friend identities_cutoff As Double
+        Friend minW As Double
+        Friend top As Integer
+        Friend permutation As Integer
+
+        Dim tss As FastaSeq()
+        Dim i As i32 = 1
+
+        Public Sub New(tss As FastaSeq(), n_threads As Integer)
+            MyBase.New(tss.Length, , workers:=n_threads)
+
+            Me.tss = tss
+        End Sub
+
+        Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+            For j As Integer = start To ends
+                Dim region As FastaSeq = tss(j)
+                Dim list As New List(Of MotifMatch)
+
+                For Each family As String In allFamily
+                    Call list.AddRange(region.ScanRegion(family, pwm(family),
+                                                         identities_cutoff:=identities_cutoff,
+                                                         minW:=minW,
+                                                         top:=top,
+                                                         permutation:=permutation))
+                Next
+
+                SyncLock tfbsList
+                    Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                                     In list
+                                                     Where Not site Is Nothing).ToArray)
+                End SyncLock
+            Next
+
+            SyncLock i
+                Call progress($"search TFBS for cpu thread {cpu_id} ... {++i}/{cpu_count}")
+            End SyncLock
+        End Sub
+    End Class
+
+    <Extension>
+    Public Iterator Function ScanRegion(region As FastaSeq, family As String, pwm As Probability(),
+                                        identities_cutoff As Double,
+                                        minW As Double,
+                                        top As Integer,
+                                        permutation As Integer) As IEnumerable(Of MotifMatch)
+
+        For Each model As Probability In pwm
+            For Each site As MotifMatch In model.ScanSites(region, 0.8,
+                                                           minW:=minW,
+                                                           identities:=identities_cutoff,
+                                                           top:=top,
+                                                           permutation:=permutation)
+                If Not site Is Nothing Then
+                    site.seeds = {family, model.name}
+                    Yield site
+                End If
+            Next
+        Next
+    End Function
+
+    <Extension>
+    Public Function ScanSequential(pwm As Dictionary(Of String, Probability()), regions As IEnumerable(Of FastaSeq),
+                                   Optional identities_cutoff As Double = 0.8,
+                                   Optional minW As Double = 0.85,
+                                   Optional top As Integer = 3,
+                                   Optional permutation As Integer = 2500,
+                                   Optional tqdm_bar As Boolean = True) As Dictionary(Of String, MotifMatch())
+
+        Dim bar As Tqdm.ProgressBar = Nothing
+        Dim tfbsList As New Dictionary(Of String, MotifMatch())
+
+        For Each region As FastaSeq In Tqdm.Wrap(regions.ToArray, bar:=bar, wrap_console:=tqdm_bar)
+            Dim list As New List(Of MotifMatch)
+
+            For Each family In pwm
+                Dim result As MotifMatch() = region.ScanRegion(family.Key, family.Value,
+                                                               identities_cutoff:=identities_cutoff,
+                                                               minW:=minW,
+                                                               top:=top,
+                                                               permutation:=permutation).ToArray
+                Call list.AddRange(result)
+            Next
+
+            Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                             In list
+                                             Where Not site Is Nothing).ToArray)
+            If bar IsNot Nothing Then
+                Call bar.SetLabel(region.Title)
+            End If
+        Next
+
+        Return tfbsList
+    End Function
+
+    <Extension>
+    Private Function ScanSiteUIMode(db As PWMDatabase, regions As IEnumerable(Of FastaSeq),
+                                    parallelOptions As ParallelOptions,
+                                    progress As Action(Of String),
+                                    Optional identities_cutoff As Double = 0.8,
+                                    Optional minW As Double = 0.85,
+                                    Optional top As Integer = 3,
+                                    Optional permutation As Integer = 2500) As Dictionary(Of String, MotifMatch())
+
+        Dim pwm As Dictionary(Of String, Probability()) = db.LoadMotifs()
+        Dim tfbsList As New Dictionary(Of String, MotifMatch())
+        Dim i As i32 = 1
+        Dim allFamily As String() = pwm.Keys.ToArray
+        Dim tss As FastaSeq() = regions.SafeQuery.ToArray
+        Dim bar As Tqdm.ProgressBar = Nothing
+
+        If App.EnableTqdm AndAlso progress Is Nothing Then
+            progress = Sub(label) bar.SetLabel(label)
+        Else
+            progress = If(progress, New Action(Of String)(AddressOf VBDebugger.EchoLine))
+        End If
+
+        For Each region As FastaSeq In Tqdm.Wrap(tss, bar:=bar, wrap_console:=App.EnableTqdm)
+            Dim list As New List(Of MotifMatch)
+
+            Call progress($"search TFBS for {region.Title} ... {++i}/{tss.Length}")
+            Call System.Threading.Tasks.Parallel.For(
+                fromInclusive:=0,
+                toExclusive:=allFamily.Length,
+                parallelOptions,
+                body:=Sub(j)
+                          Dim result As MotifMatch() = region.ScanRegion(allFamily(j), pwm(allFamily(j)),
+                                                                         identities_cutoff:=identities_cutoff,
+                                                                         minW:=minW,
+                                                                         top:=top,
+                                                                         permutation:=permutation).ToArray
+                          SyncLock list
+                              Call list.AddRange(result)
+                          End SyncLock
+                      End Sub)
+
+            Call tfbsList.Add(region.Title, (From site As MotifMatch
+                                             In list
+                                             Where Not site Is Nothing).ToArray)
+        Next
+
+        Return tfbsList
+    End Function
+
+End Module
+

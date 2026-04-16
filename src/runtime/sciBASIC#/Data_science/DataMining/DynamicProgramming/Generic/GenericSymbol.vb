@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::61c1e954ab5b1b2692e6084b6ac0215e, Data_science\DataMining\DynamicProgramming\Generic\GenericSymbol.vb"
+﻿#Region "Microsoft.VisualBasic::f06449f6b9154804dae421d013f7ba88, Data_science\DataMining\DynamicProgramming\Generic\GenericSymbol.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 32 (78.05%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (21.95%)
+    '     File Size: 1.29 KB
+
+
     ' Class GenericSymbol
     ' 
     '     Constructor: (+1 Overloads) Sub New
-    '     Function: getEmpty, getEquals, ToChar
+    '     Function: equalsTo, getEmpty, getEquals, ToChar
     ' 
     ' /********************************************************************************/
 
@@ -65,6 +77,10 @@ Public Class GenericSymbol(Of T)
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function ToChar(t As T) As Char
         Return m_viewChar(t)
+    End Function
+
+    Public Function equalsTo(x As T, y As T) As Boolean
+        Return m_equals(x, y)
     End Function
 
     Public Function getEquals() As IEquals(Of T)

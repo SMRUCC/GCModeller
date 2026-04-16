@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 77 (49.68%)
+    ' Comment Lines: 56 (36.13%)
+    '    - Xml Docs: 94.64%
+    ' 
+    '   Blank Lines: 22 (14.19%)
+    '     File Size: 6.58 KB
+
+
     ' Class attenuator
     ' 
     '     Properties: attenuator_id, attenuator_strand, attenuator_type, gene_id

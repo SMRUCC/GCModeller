@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 23 (65.71%)
+    ' Comment Lines: 6 (17.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (17.14%)
+    '     File Size: 1.18 KB
+
+
     '     Class XGMMLnode
     ' 
     '         Properties: graphics, id, label, location

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::12dceae22395ab67aee13024e6919438, mime\application%pdf\PdfReader\Document\PdfObjectReference.vb"
+﻿#Region "Microsoft.VisualBasic::2ef534f6c0add3b4bcbd5d3322ac7c59, mime\application%pdf\PdfReader\Document\PdfObjectReference.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 26 (83.87%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (16.13%)
+    '     File Size: 898 B
+
+
     '     Class PdfObjectReference
     ' 
     '         Properties: Gen, Id, ParseObjectReference
@@ -47,11 +59,11 @@ Namespace PdfReader
     Public Class PdfObjectReference
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject, ByVal reference As ParseObjectReference)
+        Public Sub New(parent As PdfObject, reference As ParseObjectReference)
             MyBase.New(parent, reference)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

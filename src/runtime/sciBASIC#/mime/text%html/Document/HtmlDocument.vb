@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e34b418056dcd05e9b81bca7cae585ad, mime\text%html\Document\HtmlDocument.vb"
+﻿#Region "Microsoft.VisualBasic::f74b5fd18bed40123585d64443dfb57d, mime\text%html\Document\HtmlDocument.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 21 (52.50%)
+    ' Comment Lines: 12 (30.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.50%)
+    '     File Size: 1.45 KB
+
+
     '     Class HtmlDocument
     ' 
     '         Function: LoadDocument
@@ -46,12 +58,19 @@ Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 
 Namespace Document
 
+    ''' <summary>
+    ''' A root document that is a kind of subclass of <see cref="HtmlElement"/>
+    ''' </summary>
     Public Class HtmlDocument : Inherits HtmlElement
 
         ''' <summary>
         ''' 假设所加载的html文档是完好的格式的，即没有不匹配的标签的
         ''' </summary>
         ''' <param name="handle">document text or url or file path</param>
+        ''' <param name="strip">
+        ''' do html document text cleanup at first? includes removes javascript block, 
+        ''' css block and html comments. 
+        ''' </param>
         ''' <returns></returns>
         Public Shared Function LoadDocument(handle As String, Optional strip As Boolean = False) As HtmlDocument
             Dim text As String = handle.SolveStream

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80f9a855841a0a0c0276f883114497d4, Data\GraphQuery\Language\TokenIcer.vb"
+﻿#Region "Microsoft.VisualBasic::d6e139e5cc910968c2a57fa04718d35c, Data\GraphQuery\Language\TokenIcer.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 78 (86.67%)
+    ' Comment Lines: 1 (1.11%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (12.22%)
+    '     File Size: 3.32 KB
+
 
     '     Class TokenIcer
     ' 
@@ -83,7 +95,7 @@ Namespace Language
                         Return t
                     Case " "c, ASCII.TAB
                         Return popOutToken()
-                    Case ASCII.CR, ASCII.LF
+                    Case ASCII.CR, ASCII.LF, ";"c
                         Dim t = popOutToken()
                         buffer += ASCII.LF
                         Return t

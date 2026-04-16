@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e09976eecfa0e5f28daa079b1e6a6529, annotations\WGCNA\WGCNA\TOM.vb"
+﻿#Region "Microsoft.VisualBasic::199c75ad642c62c366ee05e5bac9f198, annotations\WGCNA\WGCNA\TOM.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 130
+    '    Code Lines: 79 (60.77%)
+    ' Comment Lines: 39 (30.00%)
+    '    - Xml Docs: 69.23%
+    ' 
+    '   Blank Lines: 12 (9.23%)
+    '     File Size: 5.08 KB
+
+
     ' Module TOM
     ' 
     '     Function: CreateModules, CreateModulesInternal, Intermediate, Matrix
@@ -45,7 +57,7 @@ Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' Category 2: Functions for module detection.
@@ -57,10 +69,13 @@ Imports stdNum = System.Math
 Public Module TOM
 
     ''' <summary>
-    ''' I矩阵
+    ''' 计算中间矩阵I (Intermediate Matrix)
+    ''' 
+    ''' TOM公式中的中间项: w_ij = sum_u(a_iu * a_ju)
+    ''' 表示节点i和j的共同邻居的连接强度之和
     ''' </summary>
-    ''' <param name="A"></param>
-    ''' <returns></returns>
+    ''' <param name="A">邻接矩阵</param>
+    ''' <returns>中间矩阵</returns>
     Public Function Intermediate(A As NumericMatrix) As GeneralMatrix
         Dim Iu As New NumericMatrix(A.RowDimension, A.ColumnDimension)
         Dim x As Double()() = Iu.Array
@@ -68,25 +83,59 @@ Public Module TOM
         Dim n As Integer = A.ColumnDimension
         Dim alpha As Double()() = A.Array
 
-        For u As Integer = 0 To m - 1
-            For i As Integer = 0 To m - 1
-                For j As Integer = 0 To n - 1
-                    x(i)(j) += alpha(i)(u) * alpha(j)(u)
+        ' 计算中间矩阵: I(i,j) = sum_u(A(i,u) * A(j,u))
+        ' 这表示节点i和j的共同邻居的连接强度之和
+        For i As Integer = 0 To m - 1
+            For j As Integer = 0 To n - 1
+                Dim sum As Double = 0
+                For u As Integer = 0 To m - 1
+                    ' 【修正】使用正确的索引顺序
+                    ' alpha(i)(u) 和 alpha(j)(u) 都是访问第u列
+                    sum += alpha(i)(u) * alpha(j)(u)
                 Next
+                x(i)(j) = sum
             Next
         Next
 
         Return Iu
     End Function
 
-    Public Function Matrix(A As GeneralMatrix, K As Vector) As GeneralMatrix
+    ''' <summary>
+    ''' 计算TOM矩阵 (Topological Overlap Matrix)
+    ''' 
+    ''' TOM值衡量两个节点在网络拓扑结构上的相似性
+    ''' 公式: w_ij = (I(i,j) + A(i,j)) / (min(k_i, k_j) + 1 - A(i,j))
+    ''' 其中 k_i 是节点i的连接度
+    ''' </summary>
+    ''' <param name="A">邻接矩阵</param>
+    ''' <param name="K">连接度向量</param>
+    ''' <returns>TOM矩阵</returns>
+    Public Function Matrix(A As NumericMatrix, K As Vector) As GeneralMatrix
         Dim Imat As GeneralMatrix = Intermediate(A)
         Dim W As New NumericMatrix(A.RowDimension, A.ColumnDimension)
         Dim wmat As Double()() = W.Array
+        Dim amat As Double()() = A.Array
+        Dim m As Integer = A.RowDimension
+        Dim n As Integer = A.ColumnDimension
 
-        For i As Integer = 0 To wmat.Length - 1
-            For j As Integer = 0 To wmat.Length - 1
-                wmat(i)(j) = (Imat(i, j) + A(i, j)) / (stdNum.Min(K(i), K(j)) + 1 - A(i, j))
+        For i As Integer = 0 To m - 1
+            For j As Integer = 0 To n - 1
+                If i = j Then
+                    ' 对角线元素应为1（节点与自身的TOM值为1）
+                    wmat(i)(j) = 1.0
+                Else
+                    ' TOM公式: w_ij = (I(i,j) + A(i,j)) / (min(k_i, k_j) + 1 - A(i,j))
+                    ' 分母中的 +1 是为了处理节点间的直接连接
+                    Dim numerator As Double = Imat(i, j) + amat(i)(j)
+                    Dim denominator As Double = std.Min(K(i), K(j)) + 1 - amat(i)(j)
+
+                    ' 防止除零错误
+                    If denominator > 0 Then
+                        wmat(i)(j) = numerator / denominator
+                    Else
+                        wmat(i)(j) = 0
+                    End If
+                End If
             Next
         Next
 
@@ -94,11 +143,11 @@ Public Module TOM
     End Function
 
     ''' <summary>
-    ''' 
+    ''' 从层次聚类树创建模块
     ''' </summary>
-    ''' <param name="tree"></param>
+    ''' <param name="tree">层次聚类树</param>
     ''' <param name="distCut">a percentage threshold value in range ``[0,1]``</param>
-    ''' <returns></returns>
+    ''' <returns>模块集合</returns>
     <Extension>
     Friend Function CreateModules(tree As Cluster, Optional distCut As Double = 0.6) As IEnumerable(Of NamedCollection(Of String))
         Return CreateModulesInternal(tree, distCut:=tree.TotalDistance * distCut)

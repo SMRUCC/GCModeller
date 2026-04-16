@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 194
+    '    Code Lines: 69 (35.57%)
+    ' Comment Lines: 109 (56.19%)
+    '    - Xml Docs: 37.61%
+    ' 
+    '   Blank Lines: 16 (8.25%)
+    '     File Size: 11.04 KB
+
+
     ' Module MetacycObjectFindingMethods
     ' 
     '     Function: [Select], GetHandles, GetRegulatedObject, (+2 Overloads) IndexOf, Take

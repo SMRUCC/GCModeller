@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 80 (70.80%)
+    ' Comment Lines: 14 (12.39%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 19 (16.81%)
+    '     File Size: 4.17 KB
+
+
     '     Module TaxonomyWebAPI
     ' 
     '         Constructor: (+1 Overloads) Sub New

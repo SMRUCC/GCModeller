@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93974714e2265da5681b38c933f18e82, Microsoft.VisualBasic.Core\src\CommandLine\CLI\ProcessEx.vb"
+﻿#Region "Microsoft.VisualBasic::4901d2d6f1ba00e01e5a7aa99ddb5dd0, Microsoft.VisualBasic.Core\src\CommandLine\CLI\ProcessEx.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 42 (79.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (20.75%)
+    '     File Size: 1.85 KB
+
 
     '     Structure ProcessEx
     ' 
@@ -93,7 +105,7 @@ Namespace CommandLine
 
         Private Sub wait(proc As Process)
             Call proc.WaitForExit()
-            RaiseEvent ProcessExit(proc.ExitCode, Now.ToString)
+            RaiseEvent ProcessExit(proc.ExitCode, DateTime.UtcNow.ToString)
         End Sub
     End Structure
 End Namespace

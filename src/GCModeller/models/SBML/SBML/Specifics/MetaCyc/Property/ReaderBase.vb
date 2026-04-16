@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 28 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (20.00%)
+    '     File Size: 1.28 KB
+
+
     '     Class ReaderBase
     ' 
     '         Constructor: (+1 Overloads) Sub New

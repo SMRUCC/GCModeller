@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 71 (71.72%)
+    ' Comment Lines: 6 (6.06%)
+    '    - Xml Docs: 66.67%
+    ' 
+    '   Blank Lines: 22 (22.22%)
+    '     File Size: 3.05 KB
+
+
     ' Class Encoder
     ' 
     '     Properties: main, settings, streams

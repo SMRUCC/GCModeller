@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::388e912ceafa0f2016e7ce85e0ba4e07, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\NodeGraphics.vb"
+﻿#Region "Microsoft.VisualBasic::36a87433f90375d17eee5eb908435ce8, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\NodeGraphics.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 83 (87.37%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 12 (12.63%)
+    '     File Size: 3.69 KB
+
+
     '     Class NodeGraphics
     ' 
     '         Properties: Fill, FillColor, h, LabelColor, NODE_LABEL_FONT_SIZE
@@ -47,6 +59,32 @@
 Imports System.Drawing
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Imaging
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace CytoscapeGraphView.XGMML.File
 

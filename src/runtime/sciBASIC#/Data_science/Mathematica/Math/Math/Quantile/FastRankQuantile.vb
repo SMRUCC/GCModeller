@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d253b318236c26601c4ad384bf1b6914, Data_science\Mathematica\Math\Math\Quantile\FastRankQuantile.vb"
+﻿#Region "Microsoft.VisualBasic::e84c85dea4dbf01f8365effc80bd10b0, Data_science\Mathematica\Math\Math\Quantile\FastRankQuantile.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 34 (70.83%)
+    ' Comment Lines: 5 (10.42%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 9 (18.75%)
+    '     File Size: 1.40 KB
+
 
     '     Class FastRankQuantile
     ' 
@@ -79,6 +91,8 @@ Namespace Quantile
 
             If i >= data.Length Then
                 Return max
+            ElseIf i < 0 Then
+                Return min
             Else
                 Return data(i)
             End If

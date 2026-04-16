@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ccaf427df832fba69d3b7a1edb74305, Data_science\Mathematica\Math\DataFittings\LMA.vb"
+﻿#Region "Microsoft.VisualBasic::069b6312a79e771279d3290e6c090929, Data_science\Mathematica\Math\DataFittings\LMA.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 16 (40.00%)
+    ' Comment Lines: 19 (47.50%)
+    '    - Xml Docs: 89.47%
+    ' 
+    '   Blank Lines: 5 (12.50%)
+    '     File Size: 1.28 KB
+
+
     ' Module LMA
     ' 
     '     Function: NonLinearFit
@@ -45,6 +57,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.Bootstrapping.LevenbergMarquardt
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
@@ -57,6 +70,9 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 ''' These minimization problems arise especially in least squares 
 ''' curve fitting.
 ''' </summary>
+''' <remarks>
+''' solver implements at <see cref="LmSolver"/>
+''' </remarks>
 Public Module LMA
 
     Public Structure FitInput

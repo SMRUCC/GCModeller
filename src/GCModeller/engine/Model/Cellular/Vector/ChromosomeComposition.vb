@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f6ccd8065ced863e6e8346d6d0f4246, engine\Model\Cellular\Vector\ChromosomeComposition.vb"
+﻿#Region "Microsoft.VisualBasic::65a54bcadbf38b5b81b0ed4ec7809ef0, engine\Model\Cellular\Vector\ChromosomeComposition.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 22 (45.83%)
+    ' Comment Lines: 19 (39.58%)
+    '    - Xml Docs: 78.95%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 1.55 KB
+
+
     '     Class ChromosomeComposition
     ' 
     '         Properties: A, C, G, repliconId, T
@@ -46,6 +58,9 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 Namespace Cellular.Vector
 
+    ''' <summary>
+    ''' the composition data of the genome DNA
+    ''' </summary>
     Public Class ChromosomeComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
         Public Property repliconId As String

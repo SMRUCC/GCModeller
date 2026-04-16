@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1401ec0746ce6cba53208bb0549ea513, core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
+﻿#Region "Microsoft.VisualBasic::9c3c04a5eaaed4d9a696a0786fab33af, core\Bio.Assembly\SequenceModel\ISequenceModel.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 42 (43.75%)
+    ' Comment Lines: 44 (45.83%)
+    '    - Xml Docs: 95.45%
+    ' 
+    '   Blank Lines: 10 (10.42%)
+    '     File Size: 3.89 KB
+
+
     '     Class ISequenceModel
     ' 
     '         Properties: IsProtSource, Length, SequenceData
     ' 
-    '         Function: GetCompositionVector
+    '         Function: (+2 Overloads) GetCompositionVector
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,16 +55,17 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 
 Namespace SequenceModel
 
     ''' <summary>
-    ''' The biological sequence molecular model.(蛋白质序列，核酸序列都可以使用本对象来表示)
+    ''' The biological sequence molecular model.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(蛋白质序列，核酸序列都可以使用本对象来表示)</remarks>
     Public MustInherit Class ISequenceModel
         Implements IPolymerSequenceModel
+        Implements ISequenceData(Of Char, String)
 
 #Region "Object properties"
 
@@ -62,7 +75,8 @@ Namespace SequenceModel
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData
+        Public Overridable Property SequenceData As String Implements IPolymerSequenceModel.SequenceData,
+            ISequenceData(Of Char, String).SequenceData
 
         ''' <summary>
         ''' This sequence is a protein type sequence?(判断这条序列是否为蛋白质序列)
@@ -97,14 +111,40 @@ Namespace SequenceModel
         ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As Char()) As Integer()
-            Dim composition%() = New Integer(compositions.Length - 1) {}
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function GetCompositionVector(seq As IPolymerSequenceModel, compositions As IReadOnlyCollection(Of Char)) As Integer()
+            Return GetCompositionVector(seq.SequenceData, compositions)
+        End Function
 
-            With seq.SequenceData.ToUpper()
-                For i As Integer = 0 To compositions.Length - 1
-                    composition(i) = .Count(compositions(i))
-                Next
-            End With
+        ''' <summary>
+        ''' Get the composition vector for a sequence model using a specific composition description.
+        ''' </summary>
+        ''' <param name="seq"></param>
+        ''' <param name="compositions">
+        ''' This always should be the constant string of <see cref="TypeExtensions.AA_CHARS_ALL">amino acid
+        ''' </see>
+        ''' or <see cref="TypeExtensions.NA_CHARS_ALL">nucleotide</see>.</param>
+        ''' <returns>
+        ''' the generated vector size is always equals to the char set in the <paramref name="compositions"/>
+        ''' missing value from the input char set will be set to ZERO.
+        ''' </returns>
+        ''' <remarks></remarks>
+        Public Shared Function GetCompositionVector(seq As String, compositions As IReadOnlyCollection(Of Char)) As Integer()
+            Dim nsize As Integer = compositions.Count
+            Dim composition%() = New Integer(nsize - 1) {}
+            Dim i As Integer = Scan0
+
+            If Not (seq Is Nothing OrElse seq = "") Then
+                With seq.ToUpper()
+                    For Each c As Char In compositions
+                        composition(i) = .Count(c)
+                        i += 1
+                    Next
+                End With
+            Else
+                ' sequence is empty
+            End If
 
             Return composition
         End Function

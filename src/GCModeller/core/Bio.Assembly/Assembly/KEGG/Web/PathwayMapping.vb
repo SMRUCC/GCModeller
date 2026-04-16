@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c9e5445959912833e8143c51686db137, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
+﻿#Region "Microsoft.VisualBasic::2a451871a6446d3187901acee8df9bee, core\Bio.Assembly\Assembly\KEGG\Web\PathwayMapping.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 338
+    '    Code Lines: 211 (62.43%)
+    ' Comment Lines: 86 (25.44%)
+    '    - Xml Docs: 90.70%
+    ' 
+    '   Blank Lines: 41 (12.13%)
+    '     File Size: 17.25 KB
+
 
     '     Module PathwayMapping
     ' 
@@ -101,7 +113,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".debug
             Call args.Add(NameOf(globalmap), If(globalmap, yes, no))
             Call args.Add("submit", "Exec")
             Call args.Add("unclassified", list)
@@ -158,7 +170,7 @@ Namespace Assembly.KEGG.WebServices
 
             Dim args As New NameValueCollection
 
-            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".__DEBUG_ECHO
+            Call $"Reconstruct Pathway for {list.LineTokens.Length} genes...".debug
             Call args.Add("org", "ko")
             Call args.Add("other_dbs", "")
             Call args.Add("unclassified", list)
@@ -228,7 +240,7 @@ Namespace Assembly.KEGG.WebServices
                             .Name = id,
                             .Value = hit.KO.Value
                         }
-                        Call $"[{hit.KO.Value}] {id}".__DEBUG_ECHO
+                        Call $"[{hit.KO.Value}] {id}".debug
                         Exit For
                     End If
                 Next

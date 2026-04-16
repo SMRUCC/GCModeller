@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 13
+    '    Code Lines: 10 (76.92%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (23.08%)
+    '     File Size: 323 B
+
+
     '     Interface IMapping
     ' 
     '         Properties: Qname, Qstart, Qstop, Sname, Sstart

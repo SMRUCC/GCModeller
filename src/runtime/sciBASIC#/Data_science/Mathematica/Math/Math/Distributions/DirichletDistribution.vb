@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 21 (46.67%)
+    ' Comment Lines: 17 (37.78%)
+    '    - Xml Docs: 94.12%
+    ' 
+    '   Blank Lines: 7 (15.56%)
+    '     File Size: 2.08 KB
+
+
     '     Class DirichletDistribution
     ' 
     '         Function: lgamma, Probability

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 41 (56.16%)
+    ' Comment Lines: 22 (30.14%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 10 (13.70%)
+    '     File Size: 2.82 KB
+
+
     '     Module CLIMapper
     ' 
     '         Function: GetName, Maps

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1a6c0bcd9fcda91e60779de861630c48, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FisherTest.vb"
+﻿#Region "Microsoft.VisualBasic::e60efe161b4017286c952fe0fb227425, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\FisherTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 64 (48.85%)
+    ' Comment Lines: 52 (39.69%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 15 (11.45%)
+    '     File Size: 4.79 KB
+
+
     ' Module FisherTest
     ' 
-    '     Function: FactorialDivide, FisherPvalue, product, ProductALL
+    '     Function: fact, FactorialDivide, FisherPvalue, product, ProductALL
     ' 
     ' /********************************************************************************/
 
@@ -43,7 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math.Numerics
-Imports stdNum = System.Math
+Imports std = System.Math
 
 ''' <summary>
 ''' ### Fisher's exact test
@@ -118,7 +130,7 @@ Public Module FisherTest
         For Each factor In gx
             If gy.ContainsKey(factor.Key) Then
                 ' 取最少的
-                min = stdNum.Min(factor.Value, gy(factor.Key))
+                min = std.Min(factor.Value, gy(factor.Key))
                 dx.Add(factor.Key, factor.Value - min)
                 gy(factor.Key) -= min
             Else
@@ -152,5 +164,21 @@ Public Module FisherTest
         Next
 
         Return product
+    End Function
+
+    ''' <summary>
+    ''' compute factorial 
+    ''' </summary>
+    ''' <param name="n">integer n</param>
+    ''' <returns>n! as long</returns>
+    Friend Function fact(n As Integer) As Integer
+        Dim i As Integer
+        Dim ret = 1
+
+        For i = 1 To n
+            ret *= i
+        Next
+
+        Return ret
     End Function
 End Module

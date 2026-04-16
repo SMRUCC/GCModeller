@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 47 (58.02%)
+    ' Comment Lines: 23 (28.40%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (13.58%)
+    '     File Size: 3.20 KB
+
+
     '     Module FileReader
     ' 
     '         Function: GetData, GetDbProperty, TabularParser, TryParse

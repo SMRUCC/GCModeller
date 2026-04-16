@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::43867c5deb714515e3ef89b5ecc006ba, Data\Trinity\NLP.vb"
+﻿#Region "Microsoft.VisualBasic::6c12260d369e6276a65179747984dc93, Data\Trinity\NLP.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 68 (66.02%)
+    ' Comment Lines: 22 (21.36%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 13 (12.62%)
+    '     File Size: 3.81 KB
+
+
     ' Module NLPExtensions
     ' 
     '     Function: Abstract, AbstractFilter, KeyPhrases, KeyWords
@@ -43,7 +55,10 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Data.GraphTheory.Analysis.PageRank
 Imports Microsoft.VisualBasic.Language
+
+#If DEBUG Then
 Imports Microsoft.VisualBasic.Serialization.JSON
+#End If
 
 ''' <summary>
 ''' 从现有的理论和技术现状看，通用的、高质量的自然语言处理系统，仍然是较长期的努力目标，
@@ -104,7 +119,8 @@ Public Module NLPExtensions
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function KeyWords(text As GraphMatrix) As Dictionary(Of String, Double)
+    <Extension>
+    Public Function KeyWords(text As GraphMatrix) As Dictionary(Of String, Double)
         Dim result = text.TranslateVector(New PageRank(text).ComputePageRank, True)
         Return result
     End Function
@@ -116,7 +132,8 @@ Public Module NLPExtensions
     ''' <returns></returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    <Extension> Public Function Abstract(text As WeightedPRGraph, Optional minWords% = 6, Optional minWeight# = 0.05) As Dictionary(Of String, Double)
+    <Extension>
+    Public Function Abstract(text As WeightedPRGraph, Optional minWords% = 6, Optional minWeight# = 0.05) As Dictionary(Of String, Double)
         Return text.Rank.AbstractFilter(minWords, minWeight)
     End Function
 
@@ -128,7 +145,7 @@ Public Module NLPExtensions
             .OrderByDescending(Function(v) v.Value) _
             .ToDictionary _
             .GetJson(indent:=True) _
-            .__DEBUG_ECHO
+            .debug
 #End If
 
         Return textRank _

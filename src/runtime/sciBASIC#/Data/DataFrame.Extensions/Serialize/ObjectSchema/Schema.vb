@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0608a57a4031a51be02b2312409fb656, Data\DataFrame.Extensions\Serialize\ObjectSchema\Schema.vb"
+﻿#Region "Microsoft.VisualBasic::77be300e0e125fe1d0f06356b464d004, Data\DataFrame.Extensions\Serialize\ObjectSchema\Schema.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 73 (66.97%)
+    ' Comment Lines: 19 (17.43%)
+    '    - Xml Docs: 78.95%
+    ' 
+    '   Blank Lines: 17 (15.60%)
+    '     File Size: 4.31 KB
+
+
     '     Class Schema
     ' 
     '         Properties: Members, Tables, Type
@@ -48,7 +60,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection.TypeSchemaProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection.TypeSchemaProvider
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -119,7 +131,7 @@ Namespace Serialize.ObjectSchema
             Dim elType As Type
 
 #If DEBUG Then
-            Call {type.FullName, parent, path}.GetJson.__DEBUG_ECHO
+            Call {type.FullName, parent, path}.GetJson.debug
 #End If
 
             For Each prop As PropertyInfo In props

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 11 (45.83%)
+    ' Comment Lines: 10 (41.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (12.50%)
+    '     File Size: 850 B
+
+
     '     Class ProteinAssembly
     ' 
     '         Properties: ComplexComponents

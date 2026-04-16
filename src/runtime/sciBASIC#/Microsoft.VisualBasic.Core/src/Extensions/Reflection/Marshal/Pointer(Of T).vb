@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::59bb251d4d5fe61aa37da49576a3ca5e, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Pointer(Of T).vb"
+﻿#Region "Microsoft.VisualBasic::64331a4588138063059c0c3b07ba8ef8, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Marshal\Pointer(Of T).vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 384
+    '    Code Lines: 195 (50.78%)
+    ' Comment Lines: 138 (35.94%)
+    '    - Xml Docs: 81.16%
+    ' 
+    '   Blank Lines: 51 (13.28%)
+    '     File Size: 13.67 KB
+
+
     '     Class Pointer
     ' 
     '         Properties: Current, EndRead, Length, NullEnd, Position
@@ -58,11 +70,17 @@ Imports Microsoft.VisualBasic.Linq
 Namespace Emit.Marshal
 
     ''' <summary>
-    ''' <see cref="Array"/> index helper.(在数组的索引基础上封装了数组本身)
+    ''' <see cref="Array"/> index helper.
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
+    ''' <remarks>
+    ''' (在数组的索引基础上封装了数组本身)
+    ''' </remarks>
     Public Class Pointer(Of T) : Inherits DataStructures.Pointer(Of T)
 
+        ''' <summary>
+        ''' the in-memory dataset
+        ''' </summary>
         Protected buffer As T()
 
         ''' <summary>
@@ -86,7 +104,7 @@ Namespace Emit.Marshal
         ''' <summary>
         ''' Memory block size
         ''' </summary>
-        ''' <returns></returns>
+        ''' <returns>buffer.Length</returns>
         Public ReadOnly Property Length As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -197,6 +215,9 @@ Namespace Emit.Marshal
         ''' Create a collection wrapper from a <paramref name="source"/> buffer.
         ''' </summary>
         ''' <param name="source">The collection source buffer</param>
+        ''' <remarks>
+        ''' construct an in-memory dataset
+        ''' </remarks>
         Sub New(source As IEnumerable(Of T))
             buffer = source.ToArray
         End Sub
@@ -220,6 +241,10 @@ Namespace Emit.Marshal
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function PeekNext() As T
+            If buffer.Length - 1 <= index Then
+                Return Nothing
+            End If
+
             Return buffer(index + 1)
         End Function
 

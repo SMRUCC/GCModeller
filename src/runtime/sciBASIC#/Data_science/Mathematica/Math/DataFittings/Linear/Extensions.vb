@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6bd5f75a96a0f005c8c188ad10f01441, Data_science\Mathematica\Math\DataFittings\Linear\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::29597023eca2a3d5d5e2b0ed06f10a59, Data_science\Mathematica\Math\DataFittings\Linear\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 44 (48.89%)
+    ' Comment Lines: 34 (37.78%)
+    '    - Xml Docs: 79.41%
+    ' 
+    '   Blank Lines: 12 (13.33%)
+    '     File Size: 2.99 KB
+
+
     ' Module Extensions
     ' 
     '     Function: CorrelationCoefficient, DefaultWeights, (+2 Overloads) LinearRegression, X, Y
@@ -46,7 +58,7 @@ Imports Microsoft.VisualBasic.Data.Bootstrapping
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 <HideModuleName>
 Public Module Extensions
@@ -119,9 +131,14 @@ Public Module Extensions
         Return fit
     End Function
 
+    ''' <summary>
+    ''' Sqrt of R<sup>2</sup>
+    ''' </summary>
+    ''' <param name="lm"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CorrelationCoefficient(lm As IFitted) As Double
-        Return stdNum.Sqrt(lm.R2)
+        Return std.Sqrt(lm.R2)
     End Function
 
 End Module

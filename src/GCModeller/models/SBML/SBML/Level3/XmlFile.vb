@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1f7b356be7453fd600285db8043f08a, models\SBML\SBML\Level3\XmlFile.vb"
+﻿#Region "Microsoft.VisualBasic::b2958581a2b2bcfb766d6850d4fb87fa, models\SBML\SBML\Level3\XmlFile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 103 (63.98%)
+    ' Comment Lines: 27 (16.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 31 (19.25%)
+    '     File Size: 5.87 KB
+
+
     '     Class XmlFile
     ' 
     '         Properties: level, model, version
@@ -43,17 +55,26 @@
     '         Properties: listOfCompartments, listOfFunctionDefinitions, listOfReactions, listOfSpecies, listOfUnitDefinitions
     '                     notes
     ' 
+    '     Class reactionList
+    ' 
+    '         Properties: reactions
+    ' 
+    '         Function: GenericEnumerator
+    ' 
     '     Class functionDefinition
     ' 
-    '         Properties: math
+    '         Properties: expression, math, sboTerm
+    ' 
+    '         Function: ToString
     ' 
     '     Class compartment
     ' 
-    '         Properties: Constant, Size
+    '         Properties: annotation, Constant, sboTerm, Size
     ' 
     '     Class species
     ' 
-    '         Properties: annotation, constant, hasOnlySubstanceUnits, initialConcentration, metaid
+    '         Properties: annotation, constant, db_xrefs, hasOnlySubstanceUnits, initialConcentration
+    '                     metaid, notes
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,11 +82,18 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
+Imports Microsoft.VisualBasic.MIME.application.xml
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Imports SMRUCC.genomics.Model.SBML.Components
 
 Namespace Level3
 
+    ''' <summary>
+    ''' A generic sbml document file model
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     <XmlRoot("sbml", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class XmlFile(Of T As Reaction)
 
@@ -94,32 +122,123 @@ Namespace Level3
 
         <XmlElement("notes")> Public Property notes As Notes
 
+        ''' <summary>
+        ''' subcellular location list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfCompartments As compartment()
+        ''' <summary>
+        ''' compound and metabolite list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfSpecies As species()
-        Public Property listOfReactions As T()
+        ''' <summary>
+        ''' reaction list
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property listOfReactions As reactionList(Of T)
         Public Property listOfUnitDefinitions As unitDefinition()
+        ''' <summary>
+        ''' the enzyme kinetics list
+        ''' </summary>
+        ''' <returns></returns>
         Public Property listOfFunctionDefinitions As functionDefinition()
+
+    End Class
+
+    Public Class reactionList(Of T As Reaction) : Implements Enumeration(Of T)
+
+        <XmlElement("reaction")>
+        Public Property reactions As T()
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of T) Implements Enumeration(Of T).GenericEnumerator
+            For Each rxn As T In reactions.SafeQuery
+                Yield rxn
+            Next
+        End Function
     End Class
 
     Public Class functionDefinition : Inherits IPartsBase
 
         <XmlElement("math", [Namespace]:="http://www.w3.org/1998/Math/MathML")>
-        Public Property math As Math
+        Public Property math As MathML.Math
+        <XmlAttribute>
+        Public Property sboTerm As String
+
+        Public ReadOnly Property expression As String
+            Get
+                Dim args = math.lambda.bvar.JoinBy(", ")
+                Dim exp = MathML.Math.BuildExpressionString(math.lambda.apply)
+                Return $"{args} => {exp}"
+            End Get
+        End Property
+
+        Public Overrides Function ToString() As String
+            Return $"{id}: {math}"
+        End Function
+
     End Class
 
     <XmlType("compartment", Namespace:="http://www.sbml.org/sbml/level3/version1/core")>
     Public Class compartment : Inherits Components.Compartment
+
         <XmlAttribute("size")> Public Property Size As Integer
         <XmlAttribute("constant")> Public Property Constant As Boolean
+        <XmlAttribute> Public Property sboTerm As String
+
+        Public Property annotation As annotation
+
     End Class
 
+    ''' <summary>
+    ''' Compound molecule model
+    ''' </summary>
     <XmlType("species", Namespace:=sbmlXmlns)>
     Public Class species : Inherits Components.Specie
+
         <XmlAttribute> Public Property hasOnlySubstanceUnits As Boolean
         <XmlAttribute> Public Property constant As Boolean
         <XmlAttribute> Public Property metaid As String
         <XmlAttribute> Public Property initialConcentration As Double
-
+        Public Property notes As Notes
         Public Property annotation As annotation
+
+        ''' <summary>
+        ''' get external db_xrefs of current compound molecule
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property db_xrefs As DBLink()
+            Get
+                If annotation Is Nothing Then Return Nothing
+                If annotation.RDF Is Nothing OrElse annotation.RDF.description.IsNullOrEmpty Then Return Nothing
+
+                Return annotation.RDF.description _
+                    .Select(Function(d)
+                                If d Is Nothing OrElse d.is.IsNullOrEmpty Then
+                                    Return Nothing
+                                End If
+
+                                Return d.is _
+                                    .Select(Function(a) a.AsEnumerable) _
+                                    .IteratesALL
+                            End Function) _
+                    .IteratesALL _
+                    .Select(Function(url)
+                                Dim tokens = url.Split("/"c)
+                                Dim name = tokens(tokens.Length - 2)
+                                Dim id = tokens(tokens.Length - 1)
+
+                                Return New DBLink(dbnames.TryGetValue(name, [default]:=name), id)
+                            End Function) _
+                    .ToArray
+            End Get
+        End Property
+
+        Shared ReadOnly dbnames As New Dictionary(Of String, String) From {
+            {"kegg.compound", "kegg"},
+            {"chebi", "chebi"},
+            {"uniprot", "uniprot"}
+        }
+
     End Class
 End Namespace

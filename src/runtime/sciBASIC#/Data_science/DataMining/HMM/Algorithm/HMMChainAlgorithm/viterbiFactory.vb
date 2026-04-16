@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 72 (82.76%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (17.24%)
+    '     File Size: 3.94 KB
+
+
     '     Class viterbiFactory
     ' 
     '         Constructor: (+1 Overloads) Sub New

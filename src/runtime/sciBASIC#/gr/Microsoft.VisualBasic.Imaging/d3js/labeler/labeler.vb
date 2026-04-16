@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c3f1509309afc3991c92c021548504e0, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\labeler.vb"
+﻿#Region "Microsoft.VisualBasic::6ab842a570d3062f3ac5ff9032cf6a2d, gr\Microsoft.VisualBasic.Imaging\d3js\labeler\labeler.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 339
+    '    Code Lines: 197 (58.11%)
+    ' Comment Lines: 86 (25.37%)
+    '    - Xml Docs: 70.93%
+    ' 
+    '   Blank Lines: 56 (16.52%)
+    '     File Size: 12.79 KB
+
+
     '     Delegate Function
     ' 
     ' 
     '     Class Labeler
     ' 
     '         Function: coolingSchedule, CoolingSchedule, defaultEnergyGet, energy, EnergyFunction
-    '                   intersect, RotateChance, Start, Temperature
+    '                   intersect, MaxMoveDistance, RotateChance, Start, Temperature
     ' 
     '         Sub: mclMove, mclRotate, MonteCarlo
     ' 
@@ -50,7 +62,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace d3js.Layout
 
@@ -69,8 +81,16 @@ Namespace d3js.Layout
         Dim acc As Integer = 0
         Dim rej As Integer = 0
 
+        ''' <summary>
+        ''' the max move distance in each loop iteration
+        ''' </summary>
         Friend maxMove As Double = 5
         Friend maxAngle As Double = 0.5
+        ''' <summary>
+        ''' the max total move distance of the label with 
+        ''' the corresponding anchor point.
+        ''' </summary>
+        Friend maxDistance As Double = 30
 
 #Region "weights"
         Friend w_len As Double = 0.2      ' leader line length 
@@ -100,7 +120,7 @@ Namespace d3js.Layout
                 dy = m_anchors(index).y - m_labels(index).Y
 
             ' 标签与anchor锚点之间的距离
-            Dim dist = stdNum.Sqrt(dx * dx + dy * dy),
+            Dim dist = std.Sqrt(dx * dx + dy * dy),
                 overlap = True,
                 amount = 0
 
@@ -138,7 +158,7 @@ Namespace d3js.Layout
                         m_anchors(index).y, m_labels(index).Y, m_anchors(i).y, m_labels(i).Y
                     )
 
-                    If (overlap) Then
+                    If overlap Then
                         ener += w_inter
                     End If
 
@@ -147,8 +167,8 @@ Namespace d3js.Layout
                     y11 = m_labels(i).Y - m_labels(i).height + 2.0
                     x12 = m_labels(i).X + m_labels(i).width
                     y12 = m_labels(i).Y + 2.0
-                    x_overlap = stdNum.Max(0, stdNum.Min(x12, x22) - stdNum.Max(x11, x21))
-                    y_overlap = stdNum.Max(0, stdNum.Min(y12, y22) - stdNum.Max(y11, y21))
+                    x_overlap = std.Max(0, std.Min(x12, x22) - std.Max(x11, x21))
+                    y_overlap = std.Max(0, std.Min(y12, y22) - std.Max(y11, y21))
                     overlap_area = x_overlap * y_overlap
                     ener += (overlap_area * w_lab2)
                 End If
@@ -159,8 +179,8 @@ Namespace d3js.Layout
                 x12 = m_anchors(i).x + m_anchors(i).r
                 y12 = m_anchors(i).y + m_anchors(i).r
 
-                x_overlap = stdNum.Max(0, stdNum.Min(x12, x22) - stdNum.Max(x11, x21))
-                y_overlap = stdNum.Max(0, stdNum.Min(y12, y22) - stdNum.Max(y11, y21))
+                x_overlap = std.Max(0, std.Min(x12, x22) - std.Max(x11, x21))
+                y_overlap = std.Max(0, std.Min(y12, y22) - std.Max(y11, y21))
 
                 overlap_area = x_overlap * y_overlap
                 ener += (overlap_area * w_lab_anc)
@@ -173,14 +193,14 @@ Namespace d3js.Layout
         ''' returns true if two lines intersect, else false
         ''' from http:'paulbourke.net/geometry/lineline2d/
         ''' </summary>
-        ''' <param name="x1#"></param>
-        ''' <param name="x2#"></param>
-        ''' <param name="x3#"></param>
-        ''' <param name="x4#"></param>
-        ''' <param name="y1#"></param>
-        ''' <param name="y2#"></param>
-        ''' <param name="y3#"></param>
-        ''' <param name="y4#"></param>
+        ''' <param name="x1"></param>
+        ''' <param name="x2"></param>
+        ''' <param name="x3"></param>
+        ''' <param name="x4"></param>
+        ''' <param name="y1"></param>
+        ''' <param name="y2"></param>
+        ''' <param name="y3"></param>
+        ''' <param name="y4"></param>
         ''' <returns></returns>
         Private Shared Function intersect(x1#, x2#, x3#, x4#, y1#, y2#, y3#, y4#) As Boolean
             Dim mua, mub As Double
@@ -208,18 +228,20 @@ Namespace d3js.Layout
         ''' </summary>
         Private Sub mclMove(i%)
             ' random translation
-            m_labels(i).X += (Rnd() - 0.5) * maxMove
-            m_labels(i).Y += (Rnd() - 0.5) * maxMove
+            m_labels(i).X += (randf.NextDouble - 0.5) * maxMove
+            m_labels(i).Y += (randf.NextDouble - 0.5) * maxMove
         End Sub
 
         Private Sub MonteCarlo(currT#, action As Action(Of Integer))
             ' select a random label which is not pinned
-            Dim i As Integer = unpinnedLabels(stdNum.Floor(Rnd() * unpinnedLabels.Length))
+            Dim i As Integer = unpinnedLabels(std.Floor(randf.NextDouble * unpinnedLabels.Length))
             Dim label As Label = m_labels(i)
+            Dim anchor As Anchor = m_anchors(i)
 
             ' save old coordinates
             Dim x_old = label.X
             Dim y_old = label.Y
+            Dim distance_old = label.distanceTo(anchor)
 
             ' old energy
             Dim old_energy# = calcEnergy(i, m_labels, m_anchors)
@@ -234,10 +256,17 @@ Namespace d3js.Layout
 
             ' New energy
             Dim new_energy# = calcEnergy(i, m_labels, m_anchors)
+            Dim distance_new = label.distanceTo(anchor)
             ' delta E
-            Dim delta_energy = new_energy - old_energy
+            Dim delta_energy = (new_energy - old_energy) * If(distance_old = 0.0, 1, distance_new / distance_old)
 
-            If (Rnd() < stdNum.Exp(-delta_energy / currT)) Then
+            If distance_new > maxDistance Then
+                delta_energy = 1.0E+64
+            End If
+
+            ' the lower of the delta energy
+            ' the higher chance to accept current change
+            If (randf.NextDouble < std.Exp(-delta_energy / currT)) Then
                 acc += 1
             Else
                 ' move back to old coordinates
@@ -252,10 +281,10 @@ Namespace d3js.Layout
         ''' </summary>
         Private Sub mclRotate(i%)
             ' random angle
-            Dim angle = (Rnd() - 0.5) * maxAngle
+            Dim angle = (randf.NextDouble - 0.5) * maxAngle
 
-            Dim s = stdNum.Sin(angle)
-            Dim c = stdNum.Cos(angle)
+            Dim s = std.Sin(angle)
+            Dim c = std.Cos(angle)
 
             ' translate label (relative to anchor at origin):
             m_labels(i).X -= m_anchors(i).x
@@ -294,6 +323,11 @@ Namespace d3js.Layout
             Return Me
         End Function
 
+        Public Function MaxMoveDistance(Optional max As Double = 50) As Labeler
+            Me.maxDistance = max
+            Return Me
+        End Function
+
         Public Function RotateChance(Optional rotate# = 0.5) As Labeler
             Me.rotate = rotate
             Return Me
@@ -307,8 +341,6 @@ Namespace d3js.Layout
         Public Overrides Function Start(Optional nsweeps% = 2000, Optional showProgress As Boolean = True) As DataLabeler
             Dim moves As Action(Of Integer) = AddressOf mclMove
             Dim rotat As Action(Of Integer) = AddressOf mclRotate
-            Dim progress As ProgressBar = Nothing
-            Dim tick As Action(Of Double)
 
             ' 在计算之前需要将label的坐标赋值为anchor的值，否则会无法正常的生成label的最终位置
             For i As Integer = 0 To m_labels.Length - 1
@@ -319,27 +351,18 @@ Namespace d3js.Layout
             Next
 
             If unpinnedLabels.Length = 0 Then
-                Call "No unpinned label to be re-layout!".Warning
+                Call "no unpinned label to be re-layout!".warning
                 Return Me
-            End If
-
-            If showProgress Then
-                Dim tickProvider As ProgressProvider
-                Dim p#
-
-                progress = New ProgressBar("Labels layouting...")
-                tickProvider = New ProgressProvider(progress, nsweeps)
-                tick = Sub(currT#)
-                           p = tickProvider.StepProgress
-                           progress.SetProgress(p, "Current temperature: " & currT.ToString("F2"))
-                       End Sub
             Else
-                tick = Sub()
-                       End Sub
+                Call "labels layouting...".info
             End If
 
-            For i As Integer = 0 To nsweeps
+            Dim bar As Tqdm.ProgressBar = Nothing
+
+            For Each i As Integer In Tqdm.Range(0, nsweeps, bar:=bar, wrap_console:=showProgress)
                 For j As Integer = 0 To m_labels.Length
+                    ' choose rotate or move action based on the 
+                    ' random states
                     If (randf.seeds.NextDouble < rotate) Then
                         Call MonteCarlo(T, moves)
                     Else
@@ -348,10 +371,8 @@ Namespace d3js.Layout
                 Next
 
                 T = definedCoolingSchedule(T, initialT, nsweeps)
-                tick(T)
+                bar?.SetLabel($"temperature: {T:F2}")
             Next
-
-            Call progress?.Dispose()
 
             Return Me
         End Function

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90212940cdc7a80d9788d45d4c52751c, mime\application%pdf\PdfReader\Document\PdfReal.vb"
+﻿#Region "Microsoft.VisualBasic::8ccfe3041df98f857c71a2da286924bd, mime\application%pdf\PdfReader\Document\PdfReal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 27 (81.82%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 908 B
+
+
     '     Class PdfReal
     ' 
     '         Properties: ParseReal, Value
@@ -50,7 +62,7 @@ Namespace PdfReader
     Public Class PdfReal
         Inherits PdfObject
 
-        Public Sub New(ByVal parent As PdfObject, ByVal real As ParseReal)
+        Public Sub New(parent As PdfObject, real As ParseReal)
             MyBase.New(parent, real)
         End Sub
 
@@ -58,7 +70,7 @@ Namespace PdfReader
             Return Value.ToString()
         End Function
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

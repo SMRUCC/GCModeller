@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f58d9e7c0fbbf6f52650a83790463ed1, visualize\ChromosomeMap\Configuration\DataReader.vb"
+﻿#Region "Microsoft.VisualBasic::31cc2e28fe05b5bdd7543cbecbd26466, visualize\ChromosomeMap\Configuration\DataReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 61 (64.89%)
+    ' Comment Lines: 24 (25.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (9.57%)
+    '     File Size: 4.19 KB
+
+
     '     Class DataReader
     ' 
     ' 
@@ -55,6 +67,33 @@
 Imports System.Drawing
 Imports System.Drawing.Imaging
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Imaging
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace Configuration
 
@@ -116,6 +155,6 @@ Namespace Configuration
         Public Property NoneCogColor As Color
 #End Region
 
-        Public Property SavedFormat As ImageFormat
+        Public Property SavedFormat As ImageFormats
     End Class
 End Namespace

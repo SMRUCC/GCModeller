@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f609d494c4d2d319ef3053e5346af92, Data_science\Visualization\Plots\g\Legends\LegendObject.vb"
+﻿#Region "Microsoft.VisualBasic::30381003c0660f09315a386dcc728cfe, Data_science\Visualization\Plots\g\Legends\LegendObject.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 46 (56.10%)
+    ' Comment Lines: 29 (35.37%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 7 (8.54%)
+    '     File Size: 2.90 KB
+
+
     '     Class LegendObject
     ' 
     '         Properties: color, fontstyle, style, title
@@ -46,6 +58,31 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Graphic.Legend
 
@@ -79,8 +116,8 @@ Namespace Graphic.Legend
         ''' <see cref="fontstyle"/> to <see cref="Font"/>
         ''' </summary>
         ''' <returns></returns>
-        Public Function GetFont(ppi As Integer) As Font
-            Return CSSFont.TryParse(fontstyle).GDIObject(ppi)
+        Public Function GetFont(css As CSSEnvirnment) As Font
+            Return css.GetFont(CSSFont.TryParse(fontstyle))
         End Function
 
         ''' <summary>
@@ -91,7 +128,7 @@ Namespace Graphic.Legend
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function MeasureTitle(g As IGraphics) As SizeF
-            Return g.MeasureString(title, GetFont(g.Dpi))
+            Return g.MeasureString(title, GetFont(g.LoadEnvironment))
         End Function
 
         Public Overrides Function ToString() As String

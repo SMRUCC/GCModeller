@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 16 (59.26%)
+    ' Comment Lines: 6 (22.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (18.52%)
+    '     File Size: 696 B
+
+
     '     Class head_t
     ' 
     '         Properties: EnclosingInstance

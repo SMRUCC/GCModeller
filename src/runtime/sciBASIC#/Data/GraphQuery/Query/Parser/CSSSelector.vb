@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f9dbc94ef4d8686592fda2ca297a449, Data\GraphQuery\Query\Parser\CSSSelector.vb"
+﻿#Region "Microsoft.VisualBasic::4b1b372f53fb06a946c5cd5bf836a9b0, Data\GraphQuery\Query\Parser\CSSSelector.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 133 (68.21%)
+    ' Comment Lines: 37 (18.97%)
+    '    - Xml Docs: 72.97%
+    ' 
+    '   Blank Lines: 25 (12.82%)
+    '     File Size: 7.52 KB
+
+
     ' Class CSSSelector
     ' 
-    '     Constructor: (+1 Overloads) Sub New
+    '     Constructor: (+2 Overloads) Sub New
     '     Function: getElementQueryOutput, ParseImpl, selectByClass, selectByList, selectByTagName
     ' 
     ' Structure Selector
@@ -53,8 +65,17 @@ Imports Microsoft.VisualBasic.MIME.Html.Document
 
 Public Class CSSSelector : Inherits Parser
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="func">always css</param>
+    ''' <param name="parameters"></param>
     Sub New(func As String, parameters As String())
         Call MyBase.New(func, parameters)
+    End Sub
+
+    Sub New(selector As String)
+        Call MyBase.New("css", {selector, "*"})
     End Sub
 
     Protected Overrides Function ParseImpl(document As InnerPlantText, isArray As Boolean, env As Engine) As InnerPlantText
@@ -68,7 +89,8 @@ Public Class CSSSelector : Inherits Parser
                 document = DirectCast(document, HtmlDocument).HtmlElements(Scan0)
             End If
         End If
-        If document.GetType Is GetType(InnerPlantText) Then
+
+        If document Is Nothing OrElse document.GetType Is GetType(InnerPlantText) Then
             Return New InnerPlantText
         End If
 
@@ -139,12 +161,14 @@ Public Class CSSSelector : Inherits Parser
                 .TagName = selector.query,
                 .HtmlElements = DirectCast(document, HtmlElement) _
                     .GetDirectChilds(list) _
-                    .ToArray
+                    .ToArray,
+                .Attributes = {AutoContext.Attribute}
             }
         ElseIf selector.isArray AndAlso selector.n = "*" Then
             Return New HtmlElement With {
                 .TagName = selector.query,
-                .HtmlElements = list
+                .HtmlElements = list,
+                .Attributes = {AutoContext.Attribute}
             }
         Else
             Return GetElementByIndex(list, selector.ParseIndex)
@@ -165,12 +189,14 @@ Public Class CSSSelector : Inherits Parser
                 .TagName = selector.query,
                 .HtmlElements = DirectCast(document, HtmlElement) _
                     .GetDirectChilds(list) _
-                    .ToArray
+                    .ToArray,
+                .Attributes = {AutoContext.Attribute}
             }
         ElseIf selector.isArray AndAlso selector.n = "*" Then
             Return New HtmlElement With {
                 .TagName = selector.query,
-                .HtmlElements = list
+                .HtmlElements = list,
+                .Attributes = {AutoContext.Attribute}
             }
         Else
             Return GetElementByIndex(list, selector.ParseIndex)
@@ -178,7 +204,9 @@ Public Class CSSSelector : Inherits Parser
     End Function
 
     Private Function selectByClass(document As InnerPlantText, selector As Selector) As InnerPlantText
-        Dim list As HtmlElement() = DirectCast(document, HtmlElement).getElementsByClassName(selector.query.Substring(1))
+        Dim list As HtmlElement() = DirectCast(document, HtmlElement) _
+            .getElementsByClassName(selector.query.Substring(1)) _
+            .ToArray
         Dim query As InnerPlantText = getElementQueryOutput(document, list, selector)
 
         Return query

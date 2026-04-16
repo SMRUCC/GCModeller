@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 9 (60.00%)
+    ' Comment Lines: 3 (20.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (20.00%)
+    '     File Size: 395 B
+
+
     ' Structure TimePoint
     ' 
     '     Function: ToString

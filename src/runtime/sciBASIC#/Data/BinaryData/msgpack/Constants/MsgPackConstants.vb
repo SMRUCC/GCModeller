@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 5 (62.50%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (37.50%)
+    '     File Size: 149 B
+
+
     '     Module MsgPackConstants
     ' 
     ' 

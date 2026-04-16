@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7168b03f1c339969f46a006d5b7c72f0, Data_science\Visualization\Plots\BarPlot\StyledBarplot.vb"
+﻿#Region "Microsoft.VisualBasic::7aa13c62d481a17115cf2406f4006458, Data_science\Visualization\Plots\BarPlot\StyledBarplot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 122 (74.39%)
+    ' Comment Lines: 26 (15.85%)
+    '    - Xml Docs: 73.08%
+    ' 
+    '   Blank Lines: 16 (9.76%)
+    '     File Size: 6.96 KB
+
+
     '     Module StyledBarplot
     ' 
     '         Function: ColorRendering, Plot
@@ -51,10 +63,8 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
@@ -62,6 +72,34 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace BarPlot
 
@@ -104,7 +142,7 @@ Namespace BarPlot
                     Call data _
                         .ToArray _
                         .plotInternal(g, region,
-                                        interval:=interval * region.PlotRegion.Width,
+                                        interval:=interval * region.PlotRegion(g.LoadEnvironment).Width,
                                         labelFont:=labelFont,
                                         shadowOffset:=shadowOffset)
                 End Sub)
@@ -117,15 +155,16 @@ Namespace BarPlot
                                  labelFont$,
                                  shadowOffset%)
 
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
             Dim scaler As New Mapper(
                 range:=New Scaling(data.Select(Function(o) o.Value), horizontal:=False),
                 ignoreX:=True)
-            Dim bWidth% = (region.PlotRegion.Width - data.Length * interval) / data.Length
+            Dim rect As Rectangle = region.PlotRegion(css)
+            Dim bWidth% = (rect.Width - data.Length * interval) / data.Length
             Dim bTop%
-            Dim hScaler As Func(Of Single, Single) =
-                scaler _
-                .YScaler(region.Size, region.Padding)
-            Dim bLeft% = region.Padding.Left + interval / 2
+            Dim hScaler As Func(Of Single, Single) = scaler.YScaler(region.Size, region.Padding)
+            Dim bLeft% = padding.Left + interval / 2
             Dim bRECT As Rectangle   ' shadow rectangle
             Dim barRECT As Rectangle
             Dim label As Image
@@ -137,7 +176,7 @@ Namespace BarPlot
 
             For Each s As BarSerial In data
                 bTop = hScaler(s.Value)
-                bRECT = BarPlotAPI.Rectangle(bTop, bLeft, bLeft + bWidth, region.PlotRegion.Bottom)
+                bRECT = BarPlotAPI.Rectangle(bTop, bLeft, bLeft + bWidth, rect.Bottom)
                 barRECT = New Rectangle(bRECT.Location.OffSet2D(-2, -2), bRECT.Size)
 
                 ' Draw shadows
@@ -145,11 +184,12 @@ Namespace BarPlot
                 ' Draw bar
                 g.FillRectangle(s.Brush.GetBrush, barRECT)
                 ' Draw label
-                label = TextRender.DrawHtmlText(s.Label, cssFont:=labelFont)
+                ' label = TextRender.DrawHtmlText(s.Label, cssFont:=labelFont)
                 ' rotate -90
-                label = label.RotateImage(-90)
+                ' label = label.RotateImage(-90)
+                Throw New NotImplementedException
                 labelLeft = bLeft + (bWidth - label.Width) / 2
-                g.DrawImageUnscaled(label, New Point(labelLeft, region.Bottom + 20))
+                g.DrawImageUnscaled(label, New Point(labelLeft, region.Bottom(css) + 20))
 
                 bLeft += interval + bWidth
             Next

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15a14075c62b3a7bcfa84df211f7d7da, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\Similarity.vb"
+﻿#Region "Microsoft.VisualBasic::f3b92e09d1aee49901fd673d3432af11, Microsoft.VisualBasic.Core\src\Text\StringSimilarity\Similarity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 294
+    '    Code Lines: 178 (60.54%)
+    ' Comment Lines: 77 (26.19%)
+    '    - Xml Docs: 93.51%
+    ' 
+    '   Blank Lines: 39 (13.27%)
+    '     File Size: 13.07 KB
+
+
     '     Delegate Function
     ' 
     ' 
@@ -39,7 +51,7 @@
     '         Function: Evaluate, tokenEquals, tokenEqualsIgnoreCase
     '         Delegate Function
     ' 
-    '             Function: (+4 Overloads) IsOrdered, LevenshteinEvaluate, StringSelection, (+3 Overloads) TokenOrders
+    '             Function: (+4 Overloads) IsOrdered, LevenshteinEvaluate, LevenshteinOrder, StringSelection, (+3 Overloads) TokenOrders
     ' 
     ' 
     ' 
@@ -51,9 +63,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
-Imports Microsoft.VisualBasic.GenericLambda(Of String)
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures.GenericLambda(Of String)
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
+Imports std = System.Math
 
 Namespace Text.Similarity
 
@@ -63,6 +77,9 @@ Namespace Text.Similarity
     ''' 
     Public Delegate Function ISimilarity(s1 As String, s2 As String) As Double
 
+    ''' <summary>
+    ''' text string similarity evaluation module
+    ''' </summary>
     Public Module Evaluations
 
         ReadOnly ignoreCase As New [Default](Of IEquals)(AddressOf tokenEqualsIgnoreCase)
@@ -73,23 +90,31 @@ Namespace Text.Similarity
         ''' <param name="s1"></param>
         ''' <param name="s2"></param>
         ''' <param name="ignoreCase"></param>
-        ''' <param name="cost#"></param>
+        ''' <param name="cost"></param>
         ''' <param name="dist"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' A similarity score in value between [0,1]
+        ''' </returns>
         Public Function Evaluate(s1$, s2$,
                                  Optional ignoreCase As Boolean = True,
                                  Optional cost# = 0.7,
-                                 Optional ByRef dist As DistResult = Nothing) As Double
+                                 Optional ByRef dist As DistResult = Nothing,
+                                 Optional strlen_diff As Boolean = True) As Double
 
             If String.Equals(s1, s2, If(ignoreCase, StringComparison.OrdinalIgnoreCase, StringComparison.Ordinal)) Then
                 Return 1
             End If
 
             Dim tokenEquals As IEquals = New IEquals(AddressOf Evaluations.tokenEquals) Or Evaluations.ignoreCase.When(ignoreCase)
+            Dim len1 = s1.Length
+            Dim len2 = s2.Length
+            Dim diff As Double = If(strlen_diff, std.Min(len1, len2) / std.Max(len1, len2), 1)
+
+            Static deli As Char() = {" "c, ASCII.TAB, ","c, ";"c, "-"c, "_"c, "."c, ASCII.CR, ASCII.LF, "'"c, """"c}
 
             dist = LevenshteinDistance.ComputeDistance(
-                s1.Split,
-                s2.Split,
+                s1.Split(deli),
+                s2.Split(deli),
                 tokenEquals,
                 Function(s) s.FirstOrDefault,
                 cost)
@@ -97,7 +122,7 @@ Namespace Text.Similarity
             If dist Is Nothing Then
                 Return 0
             Else
-                Return dist.MatchSimilarity
+                Return dist.MatchSimilarity * diff
             End If
         End Function
 
@@ -119,28 +144,43 @@ Namespace Text.Similarity
         ''' <param name="s1$"></param>
         ''' <param name="s2$"></param>
         ''' <param name="ignoreCase"></param>
-        ''' <param name="cost#"></param>
+        ''' <param name="cost"></param>
         ''' <param name="dist"></param>
+        ''' <param name="checkChar">
+        ''' lambda function pointer for check two char is equals or not?
+        ''' </param>
         ''' <returns></returns>
         Public Function LevenshteinEvaluate(s1$, s2$,
                                             Optional ignoreCase As Boolean = True,
                                             Optional cost# = 0.7,
-                                            Optional ByRef dist As DistResult = Nothing) As Double
+                                            Optional ByRef dist As DistResult = Nothing,
+                                            Optional strlen_diff As Boolean = True,
+                                            Optional checkChar As GenericLambda(Of Char).IEquals = Nothing) As Double
+
+            If s1 Is Nothing OrElse s2 Is Nothing Then
+                Return 0
+            End If
             If ignoreCase Then
                 s1 = s1.ToLower
                 s2 = s2.ToLower
             End If
 
-            If s1 = s2 Then ' 假若是大小写不敏感的，由于前面已经被转换为小写了，所以这里直接进行比较
+            If s1 = s2 Then
+                ' 假若是大小写不敏感的，由于前面已经被转换为小写了，
+                ' 所以这里直接进行比较
                 Return 1
             End If
 
-            dist = LevenshteinDistance.ComputeDistance(s1, s2, cost)
+            dist = LevenshteinDistance.ComputeDistance(s1, s2, cost, checkChar)
 
             If dist Is Nothing Then
                 Return 0
             Else
-                Return dist.MatchSimilarity
+                Dim len1 = s1.Length
+                Dim len2 = s2.Length
+                Dim diff As Double = If(strlen_diff, std.Min(len1, len2) / std.Max(len1, len2), 1)
+
+                Return dist.MatchSimilarity * diff
             End If
         End Function
 
@@ -215,7 +255,81 @@ Namespace Text.Similarity
             Return s1.Split.IsOrdered(s2$, caseSensitive, fuzzy)
         End Function
 
-        Public Function StringSelection(query As String, collection As IEnumerable(Of String), Optional cutoff# = 0.6, Optional ignoreCase As Boolean = True, Optional tokenBased As Boolean = False) As String
+        ''' <summary>
+        ''' Make text similariy sort in desc order
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="collection"></param>
+        ''' <param name="query"></param>
+        ''' <param name="cutoff">
+        ''' this text similarity cutoff will filter out some content from the result.
+        ''' </param>
+        ''' <param name="strlen_diff"></param>
+        ''' <returns>
+        ''' a sort collection result by the text similarity measurement. this result
+        ''' collection may has elements number less than the input <paramref name="collection"/> 
+        ''' elements number.
+        ''' </returns>
+        ''' <remarks>
+        ''' this function will removes the item inside the collection
+        ''' which its text similarity is smaller than the cutoff of given 
+        ''' <paramref name="query"/> text.
+        ''' </remarks>
+        <Extension>
+        Public Function LevenshteinOrder(Of T)(collection As IEnumerable(Of T), query As String, getData As Func(Of T, IEnumerable(Of String)),
+                                               Optional ignoreCase As Boolean = True,
+                                               Optional cutoff As Double = 0.6,
+                                               Optional cost As Double = 0.7,
+                                               Optional strlen_diff As Boolean = True,
+                                               Optional checkChar As GenericLambda(Of Char).IEquals = Nothing) As IEnumerable(Of T)
+            Return collection.AsParallel _
+                .Select(Function(a)
+                            Dim top As Double = Double.MinValue
+
+                            For Each si As String In getData(a)
+                                If si Is Nothing Then
+                                    Continue For
+                                End If
+
+                                Dim score As Double = LevenshteinEvaluate(
+                                    query, si,
+                                    ignoreCase:=ignoreCase,
+                                    cost:=cost,
+                                    strlen_diff:=strlen_diff,
+                                    checkChar:=checkChar)
+
+                                If score > top Then
+                                    top = score
+                                End If
+                            Next
+
+                            If top > cutoff Then
+                                Return (top, a)
+                            Else
+                                Return (0, a)
+                            End If
+                        End Function) _
+                .Where(Function(a) a.Item1 > 0) _
+                .OrderByDescending(Function(a) a.Item1) _
+                .Select(Function(a)
+                            Return a.Item2
+                        End Function)
+        End Function
+
+        ''' <summary>
+        ''' Get most similar string from the given <paramref name="collection"/>
+        ''' </summary>
+        ''' <param name="query">the text for the similarity measurement</param>
+        ''' <param name="collection">a given string collection for compares with the 
+        ''' given <paramref name="query"/> text string.</param>
+        ''' <param name="cutoff">the similarity score cutoff for the string filter</param>
+        ''' <param name="ignoreCase"></param>
+        ''' <param name="tokenBased"></param>
+        ''' <returns></returns>
+        Public Function StringSelection(query As String, collection As IEnumerable(Of String),
+                                        Optional cutoff# = 0.6,
+                                        Optional ignoreCase As Boolean = True,
+                                        Optional tokenBased As Boolean = False) As String
             Dim compare As IEvaluate
 
             If tokenBased Then

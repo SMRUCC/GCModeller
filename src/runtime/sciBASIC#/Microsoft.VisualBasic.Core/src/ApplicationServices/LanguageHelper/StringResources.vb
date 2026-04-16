@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 63
+    '    Code Lines: 47 (74.60%)
+    ' Comment Lines: 4 (6.35%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (19.05%)
+    '     File Size: 2.40 KB
+
+
     '     Class StringResources
     ' 
     '         Properties: [Default], Name, Resources

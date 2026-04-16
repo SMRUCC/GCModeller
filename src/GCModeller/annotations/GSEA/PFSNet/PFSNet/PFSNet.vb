@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 93 (60.00%)
+    ' Comment Lines: 35 (22.58%)
+    '    - Xml Docs: 88.57%
+    ' 
+    '   Blank Lines: 27 (17.42%)
+    '     File Size: 6.44 KB
+
+
     ' Module PFSNetAlgorithm
     ' 
     '     Function: computegenelist, (+2 Overloads) pfsnet

@@ -1,0 +1,35 @@
+.\" man page create by R# package system.
+.TH GENEEXPRESSION 1 2000-1月 "matrix_info" "matrix_info"
+.SH NAME
+matrix_info \- get matrix summary information
+.SH SYNOPSIS
+\fImatrix_info(\fBfile\fR as any);\fR
+.SH DESCRIPTION
+.PP
+get matrix summary information
+.PP
+.SH OPTIONS
+.PP
+\fBfile\fB \fR\- 
+ could be a file path or the HTS matrix data object
+. 
+.PP
+.SH VALUE
+.PP
+A tuple list object that contains the data information
+ which is extract from the given file:
+ 
+ 1. sampleID: a character vector that contains the matrix sample information(column features name)
+ 2. geneID: a character vector that contains the matrix gene features information(row features name)
+ 3. tag: the matrix source tag label, could be the file basename if the given input file is a file path to the matrix.
+.PP
+.SH EXAMPLES
+.PP
+str(matrix_info(file = "/path/to/expr_mat.csv"));
+.PP
+.SH SEE ALSO
+geneExpression
+.SH FILES
+.PP
+phenotype_kit.dll
+.PP

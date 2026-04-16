@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 36 (61.02%)
+    ' Comment Lines: 12 (20.34%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 11 (18.64%)
+    '     File Size: 2.20 KB
+
+
     '     Module HDF5
     ' 
     '         Function: ReadFile

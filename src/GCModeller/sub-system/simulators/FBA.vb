@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6cb3f27e2f01f4ad1e5ce25acefea07b, sub-system\simulators\FBA.vb"
+﻿#Region "Microsoft.VisualBasic::006be56c782adedb82019f1eb95969a0, sub-system\simulators\FBA.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 129 (71.27%)
+    ' Comment Lines: 26 (14.36%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 26 (14.36%)
+    '     File Size: 6.70 KB
+
+
     ' Module FBA
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -46,15 +58,15 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.LinearProgramming
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics
 Imports SMRUCC.genomics.Analysis.FBA.Core
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports Matrix = SMRUCC.genomics.Analysis.FBA.Core.Matrix
-Imports REnv = SMRUCC.Rsharp.Runtime
 
 ''' <summary>
 ''' Flux Balance Analysis
@@ -107,7 +119,7 @@ Module FBA
     ''' <summary>
     ''' create FBA model matrix
     ''' </summary>
-    ''' <param name="model"></param>
+    ''' <param name="model">should be a GCModeller virtual cell <see cref="CellularModule"/> model object.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("matrix")>
@@ -115,6 +127,7 @@ Module FBA
     Public Function Matrix(<RRawVectorArgument> model As Object,
                            Optional terms As String() = Nothing,
                            Optional env As Environment = Nothing) As Object
+
         If TypeOf model Is CellularModule Then
             Return New LinearProgrammingEngine().CreateMatrix(DirectCast(model, CellularModule))
         ElseIf TypeOf model Is ReactionRepository Then
@@ -156,6 +169,7 @@ Module FBA
     End Function
 
     <ExportAPI("objective")>
+    <RApiReturn(GetType(Matrix))>
     Public Function SetObjective(matrix As Matrix, target As Object, Optional env As Environment = Nothing) As Matrix
         If TypeOf target Is list Then
             Dim upper As list = DirectCast(target, list)
@@ -164,7 +178,7 @@ Module FBA
             matrix.Targets = upper.slots.Keys.ToArray
 
             For Each rId As String In upper.slots.Keys.Where(Function(id) matrix.Flux.ContainsKey(id))
-                value = REnv.asVector(Of Double)(upper.slots(rId))
+                value = CLRVector.asNumeric(upper.slots(rId))
 
                 If value.Length = 1 Then
                     matrix.Flux(rId).Max = value(0)
@@ -173,13 +187,26 @@ Module FBA
                 End If
             Next
         Else
-            matrix.Targets = REnv.asVector(Of String)(target)
+            matrix.Targets = CLRVector.asCharacter(target)
         End If
 
         Return matrix
     End Function
 
+    ''' <summary>
+    ''' convert the flux matrix as the general Linear Programming model
+    ''' </summary>
+    ''' <param name="model"></param>
+    ''' <param name="name"></param>
+    ''' <returns>a general Linear Programming model</returns>
+    ''' <remarks>
+    ''' the flux matrix encoded as the general lpp model via:
+    ''' 
+    ''' 1. mapping the flux as the <see cref="LPPModel.variables"/>
+    ''' 2. mapping the compound and flux coefficient factor as the <see cref="LPPModel.constraintCoefficients"/> data.
+    ''' </remarks>
     <ExportAPI("lppModel")>
+    <RApiReturn(GetType(LPPModel))>
     Public Function GetLppModel(model As Matrix, Optional name As String = "Flux Balance Analysis LppModel") As LPPModel
         Return LinearProgrammingEngine.ToLppModel(model, name)
     End Function

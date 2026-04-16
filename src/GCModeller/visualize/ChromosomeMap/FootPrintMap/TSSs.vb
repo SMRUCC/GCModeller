@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4ced4b5b162429ddf33d23d8f5fc6fa, visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::639ea810e4d13465d7e663d7dbad0383, visualize\ChromosomeMap\FootPrintMap\TSSs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 42 (70.00%)
+    ' Comment Lines: 11 (18.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (11.67%)
+    '     File Size: 2.52 KB
+
+
     '     Class TSSs
     ' 
     '         Properties: Strand, Synonym
@@ -43,9 +55,37 @@
 #End Region
 
 Imports System.Drawing
-Imports SMRUCC.genomics.Visualize.ChromosomeMap.FootprintMap
-Imports SMRUCC.genomics.ComponentModel.Loci
 Imports Microsoft.VisualBasic.Imaging
+Imports SMRUCC.genomics.ComponentModel.Loci
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
+
 
 Namespace DrawingModels
 
@@ -67,7 +107,7 @@ Namespace DrawingModels
         ''' <param name="FLAG_HEIGHT"></param>
         Public Overrides Sub Draw(Device As IGraphics, Location As Point, FlagLength As Integer, FLAG_HEIGHT As Integer)
             Dim Arrow = New Pen(Color.Black, 3)
-            Arrow.EndCap = Drawing2D.LineCap.ArrowAnchor
+            Arrow.EndCap = LineCap.ArrowAnchor
 
             Call Device.DrawLine(Pens.Black, Location, New Point(Location.X, Location.Y - FLAG_HEIGHT))
             Call Device.DrawLine(Arrow, New Point(Location.X, Location.Y - FLAG_HEIGHT), New Point(Location.X + Strand * FlagLength, Location.Y - FLAG_HEIGHT))

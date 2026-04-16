@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc8dc4941ed37df4fc4e16ae4fdc0492, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Parameter.vb"
+﻿#Region "Microsoft.VisualBasic::0bb1c21a6d9758063eada29303611a09, localblast\LocalBLAST\LocalBLAST\BlastOutput\Common\Parameter.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 80 (76.92%)
+    ' Comment Lines: 6 (5.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (17.31%)
+    '     File Size: 3.96 KB
+
 
     '     Structure Parameter
     ' 
@@ -87,7 +99,7 @@ NULL:           ' 如果序列的长度是零的时候，会出现无参数的�
                     .Value = "0"
 
                 If Not zeroLen Then
-                    Call $"[{line}] ===> {NameOf(tokens)}:=null".__DEBUG_ECHO
+                    Call $"[{line}] ===> {NameOf(tokens)}:=null".debug
                 End If
 
                 Return {

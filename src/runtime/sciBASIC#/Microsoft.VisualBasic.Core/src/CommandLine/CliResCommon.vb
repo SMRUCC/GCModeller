@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 47 (64.38%)
+    ' Comment Lines: 14 (19.18%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 12 (16.44%)
+    '     File Size: 2.62 KB
+
+
     '     Class CliResCommon
     ' 
     '         Constructor: (+1 Overloads) Sub New

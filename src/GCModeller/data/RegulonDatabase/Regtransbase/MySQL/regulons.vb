@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 188
+    '    Code Lines: 96 (51.06%)
+    ' Comment Lines: 70 (37.23%)
+    '    - Xml Docs: 95.71%
+    ' 
+    '   Blank Lines: 22 (11.70%)
+    '     File Size: 10.54 KB
+
+
     ' Class regulons
     ' 
     '     Properties: art_guid, descript, fl_real_name, genome_guid, last_update

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2b78908f372006a0a22c9656e6e98638, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Correlations.vb"
+﻿#Region "Microsoft.VisualBasic::285776ec6ae851c8c6de66c0a5e3ec14, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Correlations.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 567
+    '    Code Lines: 309 (54.50%)
+    ' Comment Lines: 171 (30.16%)
+    '    - Xml Docs: 86.55%
+    ' 
+    '   Blank Lines: 87 (15.34%)
+    '     File Size: 21.86 KB
+
+
     '     Module Correlations
     ' 
     '         Properties: PearsonDefault
     ' 
-    '         Function: (+2 Overloads) GetPearson, JaccardIndex, JSD, kendallTauBeta, KLD
-    '                   KLDi, rankKendallTauBeta, SW
+    '         Function: (+2 Overloads) GetPearson, (+2 Overloads) JaccardIndex, JSD, kendallTauBeta, (+2 Overloads) KLD
+    '                   rankKendallTauBeta, SW
+    ' 
+    '         Sub: TestStats
     '         Structure Pearson
     ' 
     '             Properties: P
@@ -45,19 +59,9 @@
     ' 
     '         Delegate Function
     ' 
-    '             Function: __getOrder, CorrelationMatrix, Spearman
+    '             Function: CorrelationMatrix, sortRanking, Spearman
     ' 
-    '             Sub: throwNotAgree
-    '         Structure spcc
-    ' 
-    ' 
-    '             Structure __spccInner
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
-    ' 
+    '             Sub: throwDimensionSizeNotAgree
     ' 
     ' 
     ' 
@@ -73,7 +77,7 @@ Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports DataSet = Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedValue(Of System.Collections.Generic.Dictionary(Of String, Double))
-Imports stdNum = System.Math
+Imports std = System.Math
 Imports Vector = Microsoft.VisualBasic.ComponentModel.DataSourceModel.NamedValue(Of Double())
 
 Namespace Math.Correlations
@@ -100,7 +104,10 @@ Namespace Math.Correlations
         ''' <param name="b"></param>
         ''' <param name="equal"></param>
         ''' <returns></returns>
-        Public Function JaccardIndex(Of T)(a As IEnumerable(Of T), b As IEnumerable(Of T), Optional equal As Func(Of Object, Object, Boolean) = Nothing) As Double
+        Public Function JaccardIndex(Of T)(a As IEnumerable(Of T),
+                                           b As IEnumerable(Of T),
+                                           Optional equal As Func(Of Object, Object, Boolean) = Nothing) As Double
+
             Dim setA As New [Set](a, equal Or objectEquals)
             Dim setB As New [Set](b, equal Or objectEquals)
 
@@ -117,7 +124,37 @@ Namespace Math.Correlations
         End Function
 
         ''' <summary>
-        ''' Sandelin-Wasserman similarity function.(假若所有的元素都是0-1之间的话，结果除以2可以得到相似度)
+        ''' The Jaccard index, also known as Intersection over Union and the Jaccard similarity coefficient 
+        ''' (originally coined coefficient de communauté by Paul Jaccard), is a statistic used for comparing 
+        ''' the similarity and diversity of sample sets. The Jaccard coefficient measures similarity between 
+        ''' finite sample sets, and is defined as the size of the intersection divided by the size of the 
+        ''' union of the sample sets.
+        ''' 
+        ''' https://en.wikipedia.org/wiki/Jaccard_index
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function JaccardIndex(a As IReadOnlyCollection(Of String), b As IReadOnlyCollection(Of String)) As Double
+            ' 1. 计算交集的大小
+            Dim intersectionCount As Double = a.Intersect(b).Count()
+            ' 2. 计算并集的大小
+            ' 公式: |A| + |B| - |A ∩ B|
+            Dim unionCount As Double = a.Count + b.Count - intersectionCount
+
+            ' 3. 防止除以零（如果两个集合都为空）
+            If unionCount = 0 Then
+                Return 1.0 ' 两个空集合通常被认为完全相似
+            End If
+
+            ' 4. 计算比率
+            Return intersectionCount / unionCount
+        End Function
+
+        ''' <summary>
+        ''' Sandelin-Wasserman similarity function.
+        ''' (假若所有的元素都是0-1之间的话，结果除以2可以得到相似度)
         ''' </summary>
         ''' <param name="x"></param>
         ''' <param name="y"></param>
@@ -139,37 +176,47 @@ Namespace Math.Correlations
         ''' </summary>
         ''' <param name="P"></param>
         ''' <param name="Q"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' jsd value is not in range [0,1], value maybe in any real number.
+        ''' </returns>
         Public Function JSD(P As Double(), Q As Double()) As Double
-            Dim M As Double() = (From i As Integer
-                                 In P.Sequence
-                                 Select 0.5 * (P(i) + Q(i))).ToArray
+            ' 计算混合分布 M
+            Dim M As Double() = P.Select(Function(pi, i) 0.5 * (pi + Q(i))).ToArray
+            ' 计算 JSD = 0.5 * KLD(P, M) + 0.5 * KLD(Q, M)
+            ' 注意：KLD 现在是非对称的，顺序很重要
             Dim divergence = 0.5 * KLD(P, M) + 0.5 * KLD(Q, M)
 
             Return divergence
         End Function
 
         ''' <summary>
-        ''' Kullback-Leibler divergence, <paramref name="x"/>和<paramref name="y"/>必须是等长的
+        ''' Kullback-Leibler divergence, (KL散度/相对熵)
         ''' </summary>
-        ''' <param name="x"></param>
+        ''' <param name="x"><paramref name="x"/>和<paramref name="y"/>必须是等长的</param>
         ''' <param name="y"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 计算 D_KL(P || Q) = Σ P(i) * ln(P(i) / Q(i))
+        ''' </remarks>
         Public Function KLD(x As Double(), y As Double()) As Double
-            Dim index As Integer() = x.Sequence.ToArray
-            Dim a As Double = Aggregate i As Integer In index Into Sum(KLDi(x(i), y(i)))
-            Dim b As Double = Aggregate i As Integer In index Into Sum(KLDi(y(i), x(i)))
+            Dim a, b As Double
+
+            For i As Integer = 0 To x.Length - 1
+                a += KLD(x(i), y(i))
+                b += KLD(y(i), x(i))
+            Next
+
             Dim value As Double = (a + b) / 2
             Return value
         End Function
 
-        Private Function KLDi(Xa#, Ya#) As Double
-            If Xa = 0R Then
+        Private Function KLD(Pi As Double, Qi As Double) As Double
+            If Pi = 0R Then
                 ' 0 * n = 0
                 Return 0R
             Else
                 ' KLD(P||Q) = Σ[P(i)*ln(P(i)/Q(i))]
-                Dim value As Double = Xa * stdNum.Log(Xa / Ya)
+                Dim value As Double = Pi * std.Log(Pi / Qi)
                 Return value
             End If
         End Function
@@ -254,7 +301,7 @@ Namespace Math.Correlations
         ''' <remarks>
         ''' https://github.com/felipebravom/RankCorrelation
         ''' </remarks>
-        Public Function kendallTauBeta(x As Double(), y As Double()) As Double
+        Private Function kendallTauBeta(x As Double(), y As Double()) As Double
             Dim c As Integer = 0
             Dim d As Integer = 0
             Dim xTies As New Dictionary(Of Double?, HashSet(Of Integer?))()
@@ -307,7 +354,7 @@ Namespace Math.Correlations
                 n2 += (s * (s - 1)) / 2
             Next
 
-            denom = stdNum.Sqrt((n0 - n1) * (n0 - n2))
+            denom = std.Sqrt((n0 - n1) * (n0 - n2))
 
             If denom = 0 Then
                 denom += 0.000000001
@@ -323,7 +370,10 @@ Namespace Math.Correlations
         ''' <summary>
         ''' will regularize the unusual case of complete correlation
         ''' </summary>
-        Const TINY As Double = 1.0E-20
+        ''' <remarks>
+        ''' A this tiny value for avoid divid ZERO
+        ''' </remarks>
+        Public Const TINY As Double = 1.0E-20
 
         ''' <summary>
         '''
@@ -333,13 +383,23 @@ Namespace Math.Correlations
         ''' <param name="prob">p-value in R ``cor.test`` function.</param>
         ''' <param name="prob2"></param>
         ''' <param name="z">fisher's z trasnformation</param>
+        ''' <param name="df">degree of freedom</param>
+        ''' <param name="t">
+        ''' student's t probability
+        ''' </param>
         ''' <returns></returns>
         ''' <remarks>
         ''' checked by Excel
         ''' </remarks>
         <ExportAPI("Pearson")>
-        Public Function GetPearson(x#(), y#(), Optional ByRef prob# = 0, Optional ByRef prob2# = 0, Optional ByRef z# = 0, Optional throwMaxIterError As Boolean = True) As Double
-            Dim t#, df#
+        Public Function GetPearson(x#(), y#(),
+                                   Optional ByRef prob# = 0,
+                                   Optional ByRef prob2# = 0,
+                                   Optional ByRef z# = 0,
+                                   Optional ByRef t# = 0,
+                                   Optional ByRef df# = 0,
+                                   Optional throwMaxIterError As Boolean = True) As Double
+
             Dim pcc As Double = GetPearson(x, y)
             Dim n As Integer = x.Length
 
@@ -347,21 +407,51 @@ Namespace Math.Correlations
                 pcc = 1
             End If
 
-            ' fisher's z trasnformation
-            z = 0.5 * stdNum.Log((1.0 + pcc + TINY) / (1.0 - pcc + TINY))
-
-            ' student's t probability
-            df = n - 2
-            t = pcc * stdNum.Sqrt(df / ((1.0 - pcc + TINY) * (1.0 + pcc + TINY)))
-
-            prob = Beta.betai(0.5 * df, 0.5, df / (df + t * t), throwMaxIterError)
-            ' for a large n
-            prob2 = Beta.erfcc(stdNum.Abs(z * stdNum.Sqrt(n - 1.0)) / 1.4142136)
+            Call TestStats(pcc, n, z, prob, prob2, t, df, throwMaxIterError)
 
             Return pcc
         End Function
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="cor"></param>
+        ''' <param name="n">should be the length of x or y vector</param>
+        ''' <param name="z"></param>
+        ''' <param name="pvalue"></param>
+        ''' <param name="prob2"></param>
+        ''' <param name="t"></param>
+        ''' <param name="df"></param>
+        ''' <param name="throwMaxIterError"></param>
+        ''' <remarks>
+        ''' Fisher's z 变换，主要用于皮尔逊相关系数的非线性修正上面。因为普通皮尔逊相关系数
+        ''' 在0-1上并不服从正态分布，相关系数的绝对值越趋近1时，概率变得非常非常小。相关系数
+        ''' 的分布非常像断了两头的正态分布。所以需要通过Fisherz-transformation对皮尔逊相
+        ''' 关系数进行修正，使得满足正态分布。
+        ''' </remarks>
+        Public Sub TestStats(cor As Double, n As Integer,
+                             ByRef z#,
+                             ByRef pvalue#,
+                             ByRef prob2#,
+                             ByRef t#,
+                             ByRef df#,
+                             Optional throwMaxIterError As Boolean = True)
+
+            ' fisher's z trasnformation
+            ' 1/2 * ln((1+r)/(1-r))
+            z = 0.5 * std.Log((1.0 + cor + TINY) / (1.0 - cor + TINY))
+
+            ' student's t probability
+            df = n - 2
+            t = cor * std.Sqrt(df / ((1.0 - cor + TINY) * (1.0 + cor + TINY)))
+
+            pvalue = Beta.betai(0.5 * df, 0.5, df / (df + t ^ 2), throwMaxIterError)
+            ' for a large n
+            prob2 = Beta.erfcc(std.Abs(z * std.Sqrt(n - 1.0)) / 1.4142136)
+        End Sub
+
         Public Structure Pearson
+
             Dim pearson#
             Dim pvalue#
             Dim pvalue2#
@@ -370,7 +460,7 @@ Namespace Math.Correlations
             Public ReadOnly Property P As Double
                 <MethodImpl(MethodImplOptions.AggressiveInlining)>
                 Get
-                    Return -stdNum.Log10(pvalue)
+                    Return -std.Log10(pvalue)
                 End Get
             End Property
 
@@ -410,13 +500,14 @@ Namespace Math.Correlations
         ''' <param name="x#"></param>
         ''' <param name="y#"></param>
         ''' <returns></returns>
-        <ExportAPI("Pearson")> Public Function GetPearson(x#(), y#()) As Double
-            Dim j As Integer, n As Integer = x.Length
+        <ExportAPI("Pearson")>
+        Public Function GetPearson(x#(), y#()) As Double
+            Dim n As Integer = x.Length
             Dim yt As Double, xt As Double
             Dim syy As Double = 0.0, sxy As Double = 0.0, sxx As Double = 0.0
             Dim ay As Double = 0.0, ax As Double = 0.0
 
-            For j = 0 To n - 1
+            For j As Integer = 0 To n - 1
                 ' finds the mean
                 ax += x(j)
                 ay += y(j)
@@ -425,7 +516,7 @@ Namespace Math.Correlations
             ax /= n
             ay /= n
 
-            For j = 0 To n - 1
+            For j As Integer = 0 To n - 1
                 ' compute correlation coefficient
                 xt = x(j) - ax
                 yt = y(j) - ay
@@ -434,7 +525,7 @@ Namespace Math.Correlations
                 sxy += xt * yt
             Next
 
-            Return sxy / (stdNum.Sqrt(sxx * syy) + TINY)
+            Return sxy / (std.Sqrt(sxx * syy) + TINY)
         End Function
 
         ''' <summary>
@@ -448,9 +539,8 @@ Namespace Math.Correlations
         Const VectorSizeMustAgree$ = "[X:={0}, Y:={1}] The vector length betwen the two samples is not agreed!!!"
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Sub throwNotAgree(x#(), y#())
-            Dim message$ = String.Format(VectorSizeMustAgree, x.Length, y.Length)
-            Throw New DataException(message)
+        Private Sub throwDimensionSizeNotAgree(x#(), y#())
+            Throw New DataException(String.Format(VectorSizeMustAgree, x.Length, y.Length))
         End Sub
 
         ''' <summary>
@@ -465,93 +555,52 @@ Namespace Math.Correlations
         ''' <returns></returns>
         ''' <remarks>
         ''' https://en.wikipedia.org/wiki/Spearman%27s_rank_correlation_coefficient
-        ''' checked!
+        ''' spearman rho checked!
         ''' </remarks>
         '''
-        Public Function Spearman(X#(), Y#()) As Double
-            If X.Length <> Y.Length Then
-                Call throwNotAgree(X, Y)
-            ElseIf X.Length = 1 Then
-                Throw New DataException(UnableMeasures)
-            End If
+        Public Function Spearman(x As Double(), y As Double()) As Double
+            Dim x_rank As Double() = x.sortRanking
+            Dim y_rank As Double() = y.sortRanking
 
-            ' size n
-            Dim n As Integer = X.Length
-            Dim Xx As spcc() = __getOrder(X)
-            Dim Yy As spcc() = __getOrder(Y)
-
-            Dim deltaSum# = Aggregate i As Integer
-                            In n.Sequence
-                            Into Sum((Xx(i).rank - Yy(i).rank) ^ 2)
-            Dim spcc = 1 - 6 * deltaSum / (n ^ 3 - n)
-
-            Return spcc
+            Return GetPearson(x_rank, y_rank)
         End Function
 
-        Const UnableMeasures$ = "Samples number just equals 1, the function unable to measure the correlation!!!"
+        <Extension>
+        Private Function sortRanking(x As Double()) As Double()
+            Dim sorted As New Dictionary(Of Double, List(Of Integer))()
+            Dim size As Integer = x.Length
+            Dim ranks As Double() = New Double(size - 1) {}
+            Dim v As Double
+            Dim c As Double = 1
 
-        Private Function __getOrder(samples#()) As spcc()
-            Dim dat = (From i As Integer
-                       In samples.Sequence
-                       Select spcc = New spcc.__spccInner With {  ' 原有的顺序
-                           .i = i,
-                           .val = samples(i)
-                       }
-                       Order By spcc.val Ascending).ToArray  ' 从小到大排序
-            Dim buf = (From p As Integer  ' rank
-                       In dat.Sequence
-                       Select spcc = New spcc With {
-                           .rank = p,
-                           .data = dat(p)
-                       }
-                       Group spcc By spcc.data.val Into Group) _
-                        .ToDictionary(Function(x) x.val,
-                                      Function(x) x.Group.ToArray)
+            For i As Integer = 0 To size - 1
+                v = x(i)
 
-            Dim rankList As New List(Of spcc)
-
-            For Each item As spcc() In buf.Values
-                If item.Length = 1 Then
-                    Call rankList.Add(item(Scan0))
-                Else
-                    Dim rank As Double = item.Select(Function(x) x.rank).Average
-                    Dim array As spcc() = item.Select(
-                        Function(x) New spcc With {
-                            .rank = rank,
-                            .data = x.data
-                        }).ToArray
-                    Call rankList.AddRange(array)
+                If sorted.ContainsKey(v) = False Then
+                    sorted(v) = New List(Of Integer)
                 End If
+
+                Call sorted(v).Add(i)
             Next
 
-            ' 重新按照原有的顺序返回
-            Return (From x As spcc
-                    In rankList
-                    Select x
-                    Order By x.data.i Ascending).ToArray
+            For Each vi As Double In sorted.Keys.OrderByDescending(Function(xi) xi)
+                Dim r As Double = 0
+                Dim sortSet = sorted(vi)
+
+                For Each i As Integer In sortSet
+                    r += c
+                    c += 1
+                Next
+
+                r /= sortSet.Count
+
+                For Each i As Integer In sortSet
+                    ranks(i) = r
+                Next
+            Next
+
+            Return ranks
         End Function
-
-        ''' <summary>
-        ''' 计算所需要的临时变量类型
-        ''' </summary>
-        Private Structure spcc
-            ''' <summary>
-            ''' 排序之后得到的位置
-            ''' </summary>
-            Public rank As Double
-            ''' <summary>
-            ''' 原始数据
-            ''' </summary>
-            Public data As __spccInner
-
-            Public Structure __spccInner
-                ''' <summary>
-                ''' 在序列之中原有的位置
-                ''' </summary>
-                Public i As Integer
-                Public val As Double
-            End Structure
-        End Structure
 
         ''' <summary>
         ''' 输入的数据为一个对象属性的集合，默认的<paramref name="compute"/>计算方法为<see cref="GetPearson"/>

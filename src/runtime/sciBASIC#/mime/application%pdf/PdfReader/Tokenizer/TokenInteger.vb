@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::47d93f86dcffbafe410362b978638292, mime\application%pdf\PdfReader\Tokenizer\TokenInteger.vb"
+﻿#Region "Microsoft.VisualBasic::fb10e96ad6b546312bba7a738f3f1f40, mime\application%pdf\PdfReader\Tokenizer\TokenInteger.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 17 (85.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 3 (15.00%)
+    '     File Size: 474 B
+
+
     '     Class TokenInteger
     ' 
     '         Properties: Value
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Value As Integer
 
-        Public Sub New(ByVal [integer] As Integer)
+        Public Sub New([integer] As Integer)
             Value = [integer]
         End Sub
 
@@ -56,7 +68,7 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Value = value
             End Set
         End Property

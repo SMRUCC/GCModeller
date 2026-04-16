@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::416f160f6f8c2c3a4ba2e29b2db3be5c, localblast\CLI_tools\CLI\gbTools.vb"
+﻿#Region "Microsoft.VisualBasic::7387b554452f0d20632440453249131c, localblast\CLI_tools\CLI\gbTools.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 432
+    '    Code Lines: 364 (84.26%)
+    ' Comment Lines: 10 (2.31%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 58 (13.43%)
+    '     File Size: 20.09 KB
+
+
     ' Module CLI
     ' 
     '     Function: __EXPORTgpff, __trimName, AddLocusTag, AddNames, CopyFasta
@@ -58,8 +70,8 @@ Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.FileIO.Path
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
@@ -140,7 +152,7 @@ Partial Module CLI
         Dim gpffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gpff") <= inDIR
         Dim gffs As IEnumerable(Of String) = ls - l - r - wildcards("*.gff") <= inDIR
 
-        Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".__DEBUG_ECHO
+        Call $"Found {gpffs.Count} *.gpff and {gffs.Count} *.gff files....".debug
 
         For Each pair As PathMatch In PathMatch.Pairs(gpffs, gffs, AddressOf __trimName)
             Dim out As String = pair.Pair1.TrimSuffix & ".PTT"
@@ -238,10 +250,10 @@ Partial Module CLI
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & $"{If(top, "top", "")}.blastx.csv")
 
         If top Then
-            Call "The top one will be output...".__INFO_ECHO
+            Call "The top one will be output...".info
         End If
         If UncharacterizedExclude Then
-            Call "The Uncharacterized protein will be Excluded...".__INFO_ECHO
+            Call "The Uncharacterized protein will be Excluded...".info
         End If
 
         Dim blastxOut As v228_BlastX = BlastX.TryParseOutput([in], UncharacterizedExclude)
@@ -353,11 +365,11 @@ Partial Module CLI
                                 {"Type", feature.KeyName},
                                 {"Minimum", location.left},
                                 {"Maximum", location.right},
-                                {"Length", location.Length},
+                                {"Length", location.FragmentSize},
                                 {"Direction", "forward" Or "reverse".When(feature.Location.Complement)},
                                 {"# Intervals", 1},
                                 {"Document Name", gb.Source.SpeciesName},
-                                {"Length (with gaps)", location.Length},
+                                {"Length (with gaps)", location.FragmentSize},
                                 {"Max (original sequence)", location.right},
                                 {"Max (with gaps)", location.right},
                                 {"Min (original sequence)", location.left},
@@ -368,7 +380,7 @@ Partial Module CLI
                                 {"Track Name", ""},
                                 {"product", feature("product")},
                                 {"translation", feature("translation")},
-                                {"Length (with extension)", location.Length},
+                                {"Length (with extension)", location.FragmentSize},
                                 {"Sequence (with extension)", ""},
                                 {"EC_number", feature("EC_number")},
                                 {"db_xref", feature("db_xref")},
@@ -445,7 +457,7 @@ Partial Module CLI
             Call Console.Write(".")
         Next
 
-        If args.GetBoolean("/add.gene") Then
+        If args("/add.gene") Then
             Call gb.Features.AddGenes()
         End If
 

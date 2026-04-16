@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 20 (64.52%)
+    ' Comment Lines: 7 (22.58%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 4 (12.90%)
+    '     File Size: 1.06 KB
+
+
     ' Module SILVABuild
     ' 
     '     Function: SILVABacteria

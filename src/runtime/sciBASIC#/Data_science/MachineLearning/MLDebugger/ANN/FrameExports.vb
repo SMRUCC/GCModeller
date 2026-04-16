@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::56cb342680df6d60cf3cf1bd7dc91a42, Data_science\MachineLearning\MLDebugger\ANN\FrameExports.vb"
+﻿#Region "Microsoft.VisualBasic::466172b5d98cbaff665117b8cfce47e6, Data_science\MachineLearning\MLDebugger\ANN\FrameExports.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 75 (83.33%)
+    ' Comment Lines: 4 (4.44%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (12.22%)
+    '     File Size: 3.71 KB
+
+
     ' Module FrameExports
     ' 
     '     Function: ExportErrorCurve, ExportValueFrames, GetTimeIndex, NormalizeSample
@@ -40,14 +52,16 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.IO.netCDF
-Imports Microsoft.VisualBasic.Data.IO.netCDF.Components
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Normalizer
+Imports Microsoft.VisualBasic.DataStorage.netCDF
+Imports Microsoft.VisualBasic.DataStorage.netCDF.Components
+Imports Microsoft.VisualBasic.DataStorage.netCDF.DataVector
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
 Imports Basic = Microsoft.VisualBasic.Language.Runtime
-Imports DataFrame = Microsoft.VisualBasic.Data.csv.IO.DataFrame
-Imports Excel = Microsoft.VisualBasic.Data.csv.IO.DataSet
+Imports DataSet = Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure.DataSet
+Imports Excel = Microsoft.VisualBasic.Data.Framework.IO.DataSet
 
 Public Module FrameExports
 
@@ -77,12 +91,12 @@ Public Module FrameExports
     ''' 导出误差率曲线数据
     ''' </summary>
     ''' <returns></returns>
-    Public Function ExportErrorCurve(cdf As netCDFReader) As DataFrame
+    Public Function ExportErrorCurve(cdf As netCDFReader) As DataFrameResolver
         Dim errors As Double() = DirectCast(cdf.getDataVariable("fitness"), doubles).Array
         Dim index As Integer() = DirectCast(cdf.getDataVariable("iterations"), integers).Array
 
         With New Basic
-            Return New DataFrame(!iterations = index, !fitness = errors)
+            Return New DataFrameResolver(!iterations = index, !fitness = errors)
         End With
     End Function
 

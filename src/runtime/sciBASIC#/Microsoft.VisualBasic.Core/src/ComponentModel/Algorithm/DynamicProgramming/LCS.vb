@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::552ee95a1179b4dbfe7b774f034ebd00, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\LCS.vb"
+﻿#Region "Microsoft.VisualBasic::c2a3a9e19f456d476893db6513570097, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\DynamicProgramming\LCS.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 51 (68.00%)
+    ' Comment Lines: 9 (12.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (20.00%)
+    '     File Size: 2.60 KB
+
 
     '     Module LongestCommonSubsequenceExtension
     ' 
@@ -71,8 +83,8 @@ Namespace ComponentModel.Algorithm.DynamicProgramming
         Public Function MaxSet(Of T)(a As T(), b As T(), equals As IEquals(Of T)) As T()
             Dim m As Integer = a.Length
             Dim n As Integer = b.Length
-            Dim len()() As Integer = MAT(Of Integer)(m + 1, n + 1)
-            Dim p()() As Char = MAT(Of Char)(m + 1, n + 1)
+            Dim len()() As Integer = RectangularArray.Matrix(Of Integer)(m + 1, n + 1)
+            Dim p()() As Char = RectangularArray.Matrix(Of Char)(m + 1, n + 1)
 
             For i As Integer = 1 To m
                 For j As Integer = 1 To n

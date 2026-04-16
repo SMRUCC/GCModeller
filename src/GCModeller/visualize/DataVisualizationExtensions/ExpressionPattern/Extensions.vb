@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f32b5b102886ee2d34164fb73f7443da, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::2a51154287fe7676c19b51e8f4eafc90, visualize\DataVisualizationExtensions\ExpressionPattern\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 67 (90.54%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (9.46%)
+    '     File Size: 3.62 KB
+
+
     '     Module PatternPlotExtensions
     ' 
     '         Function: (+2 Overloads) DrawMatrix
@@ -40,6 +52,7 @@
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
@@ -78,12 +91,16 @@ Namespace ExpressionPattern
                                    Optional colorSet$ = "YlGnBu:c8",
                                    Optional prefix$ = "Pattern",
                                    Optional levels% = 50,
+                                   Optional membershipCutoff As Double = 0.8,
+                                   Optional topMembers As Double = 0.25,
                                    Optional clusterLabelStyle As String = CSSFont.PlotSubTitle,
                                    Optional legendTitleStyle As String = CSSFont.Win7Small,
                                    Optional legendTickStyle As String = CSSFont.Win7Small,
                                    Optional axisTickCSS$ = CSSFont.Win10Normal,
                                    Optional axisLabelCSS$ = CSSFont.Win7Small,
                                    Optional xAxisLabelRotate As Double = 0,
+                                   Optional gridFill As String = NameOf(Color.LightGray),
+                                   Optional gridDraw As Boolean = True,
                                    Optional driver As Drivers = Drivers.Default,
                                    Optional ppi As Integer = 300) As GraphicsData
 
@@ -92,10 +109,12 @@ Namespace ExpressionPattern
                 .padding = padding,
                 .axisTickCSS = axisTickCSS,
                 .axisLabelCSS = axisLabelCSS,
-                .xAxisRotate = xAxisLabelRotate
+                .xAxisRotate = xAxisLabelRotate,
+                .gridFill = gridFill,
+                .drawGrid = gridDraw
             }
 
-            Return New PatternPlot(matrix, theme, colorSet, levels) With {
+            Return New PatternPlot(matrix, membershipCutoff, topMembers, theme, colorSet, levels) With {
                 .main = title,
                 .xlabel = xlab,
                 .ylabel = ylab,

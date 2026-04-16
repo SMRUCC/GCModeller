@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::faa7cb819cd9f23daa856f9a1dc56148, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
+﻿#Region "Microsoft.VisualBasic::093f0b1065e454d0e9d2b7300326abcb, data\RegulonDatabase\Regtransbase\WebServices\TranscriptionFactorFamily.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 416
+    '    Code Lines: 307 (73.80%)
+    ' Comment Lines: 28 (6.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 81 (19.47%)
+    '     File Size: 19.72 KB
+
 
     '     Class RegPreciseTFFamily
     ' 
@@ -71,8 +83,8 @@
     ' 
     '     Class MotifFasta
     ' 
-    '         Properties: bacteria, Headers, locus_tag, name, position
-    '                     score, SequenceData, Title, UniqueId
+    '         Properties: bacteria, Headers, length, locus_tag, name
+    '                     position, score, SequenceData, Title, UniqueId
     ' 
     '         Function: [New], GetSequenceData, Parse, ToString
     ' 
@@ -140,7 +152,7 @@ Namespace Regtransbase.WebServices
         End Function
 
         Public Overrides Function ToString() As String
-            Return "http://regprecise.lbl.gov/RegPrecise/collections_tffam.jsp"
+            Return "https://regprecise.lbl.gov/collections_tffam.jsp"
         End Function
 
         Public Shared Widening Operator CType(FilePath As String) As RegPreciseTFFamily
@@ -149,7 +161,7 @@ Namespace Regtransbase.WebServices
     End Class
 
     ''' <summary>
-    ''' http://regprecise.lbl.gov/RegPrecise/collections_tffam.jsp
+    ''' https://regprecise.lbl.gov/collections_tffam.jsp
     ''' </summary>
     ''' <remarks></remarks>
     Public Class TranscriptionFactorFamily
@@ -180,7 +192,7 @@ Namespace Regtransbase.WebServices
             TFF.Family = Regex.Match(Mid(Head, InStr(Head, "href", CompareMethod.Text)), "[^>]+<a", RegexOptions.Singleline).Value
 
             TFF.Url = Mid(TFF.Url, 6)
-            TFF.Url = "http://regprecise.lbl.gov/RegPrecise/" & Mid(TFF.Url, 2, Len(TFF.Url) - 2)
+            TFF.Url = "https://regprecise.lbl.gov/" & Mid(TFF.Url, 2, Len(TFF.Url) - 2)
             TFF.Regulogs.Counts = Mid(TFF.Regulogs.Counts, 1, Len(TFF.Regulogs.Counts) - 2)
             TFF.TFRegulons = Mid(TFF.TFRegulons, 1, Len(TFF.TFRegulons) - 2)
             TFF.TFBindingSites = Mid(TFF.TFBindingSites, 1, Len(TFF.TFBindingSites) - 2)
@@ -241,7 +253,7 @@ Namespace Regtransbase.WebServices
 
                 Dim TFBSsUrl As String = Columns(++p)
                 TFBSsUrl = Mid(Regex.Match(TFBSsUrl, "href="".+?""").Value, 7)
-                TFBSsUrl = "http://regprecise.lbl.gov/RegPrecise/" & Mid(TFBSsUrl, 1, Len(TFBSsUrl) - 1)
+                TFBSsUrl = "https://regprecise.lbl.gov/" & Mid(TFBSsUrl, 1, Len(TFBSsUrl) - 1)
 
                 item.TFBSs = Regulator.Parse(TFBSsUrl)
 
@@ -253,7 +265,7 @@ Namespace Regtransbase.WebServices
                 Pair.Key = Regex.Match(strText, ">[^>]+?</a").Value
                 Pair.Value = Regex.Match(strText, "href="".+?""").Value
                 Pair.Key = Mid(Pair.Key, 2, Len(Pair.Key) - 4)
-                Pair.Value = "http://regprecise.lbl.gov/RegPrecise/" & Mid(Pair.Value, 7, Len(Pair.Value) - 7)
+                Pair.Value = "https://regprecise.lbl.gov/" & Mid(Pair.Value, 7, Len(Pair.Value) - 7)
 
                 Return Pair
             End Function
@@ -292,7 +304,7 @@ Namespace Regtransbase.WebServices
 
         Protected Friend Shared Function TrimText(strText As String) As String
             strText = strText.Replace(vbCrLf, " ").Replace(vbCr, " ").Replace(vbLf, " ")
-            strText = Trim(strText.Replace(vbTab, " "))
+            strText = Strings.Trim(strText.Replace(vbTab, " "))
             Return strText
         End Function
     End Class
@@ -342,7 +354,7 @@ Namespace Regtransbase.WebServices
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function SequenceTrimming(FastaObject As WebServices.MotifFasta) As String
-            Return SequenceTrimming(FastaObject.SequenceData.Replace("-", "N"))
+            Return SequenceTrimming(FastaObject.SequenceData.Replace("-"c, "N"c)).Replace("N"c, "-"c)
         End Function
 
         ''' <summary>
@@ -352,23 +364,23 @@ Namespace Regtransbase.WebServices
         ''' <returns></returns>
         Public Shared Function SequenceTrimming(sequence As String) As String
             Dim tokens$() = Regex.Matches(sequence, ".\(\d+\)", RegexOptions.Singleline).ToArray
-            Dim sBuilder As New StringBuilder(sequence)
+            Dim nt As New StringBuilder(sequence)
 
             For Each token As String In tokens
                 Dim extends As New String(token.First, Convert.ToInt32(Regex.Match(token, "\d+").Value))
 
-                Call $"  {token}  --> {extends}".Warning
-                Call sBuilder.Replace(token, extends)
+                Call $"  {token}  --> {extends}".warning
+                Call nt.Replace(token, extends)
             Next
 
-            Return sBuilder.ToString
+            Return nt.ToString
         End Function
 
         Public Shared Function Parse(url As String) As Regulator
             Dim pageContent As String = url.GET
             Dim ExportDownloadUrl As String = Regex.Match(pageContent, "<a href=""[^>]+?""><b>DOWNLOAD</b></a>", RegexOptions.Singleline).Value
             ExportDownloadUrl = Regex.Match(ExportDownloadUrl, "href="".+?""", RegexOptions.IgnoreCase).Value
-            ExportDownloadUrl = "http://regprecise.lbl.gov/RegPrecise/" & Mid(ExportDownloadUrl, 7, Len(ExportDownloadUrl) - 7)
+            ExportDownloadUrl = "https://regprecise.lbl.gov/" & Mid(ExportDownloadUrl, 7, Len(ExportDownloadUrl) - 7)
 
             Dim Regulator As Regulator = New Regulator
             Regulator.TFBSs = MotifFasta.Parse(ExportDownloadUrl)
@@ -400,7 +412,7 @@ Namespace Regtransbase.WebServices
             pair.Key = Regex.Match(str, ">[^>]+?</a>", RegexOptions.Singleline).Value
             pair.Value = Regex.Match(str, "href="".+?""", RegexOptions.Singleline).Value
             pair.Key = Regulogs.TrimText(Mid(pair.Key, 2, Len(pair.Key) - 5))
-            pair.Value = "http://regprecise.lbl.gov/RegPrecise/" & Mid(pair.Value, 7, Len(pair.Value) - 7)
+            pair.Value = "https://regprecise.lbl.gov/" & Mid(pair.Value, 7, Len(pair.Value) - 7)
 
             Return pair
         End Function
@@ -433,7 +445,7 @@ Namespace Regtransbase.WebServices
         End Property
 
         <XmlIgnore>
-        Public ReadOnly Property Title As String Implements IFastaProvider.Title
+        Public ReadOnly Property Title As String Implements IFastaProvider.title
             Get
                 Return $"{UniqueId} {bacteria}"
             End Get
@@ -443,6 +455,12 @@ Namespace Regtransbase.WebServices
         Protected ReadOnly Property Headers As String()
             Get
                 Return {UniqueId, bacteria}
+            End Get
+        End Property
+
+        Public ReadOnly Property length As Integer Implements IFastaProvider.length
+            Get
+                Return SequenceData.Length
             End Get
         End Property
 
@@ -457,30 +475,35 @@ Namespace Regtransbase.WebServices
             Return String.Format(">{0} : {1}", locus_tag, SequenceData)
         End Function
 
-        Const REAL As String = "-?\d+(\.\d+)?"
+        Protected Friend Shared Function [New](fa As FastaSeq) As MotifFasta
+            Dim title As String = fa.Title
+            Dim motif_site As New MotifFasta
+            Dim score As String = Regex.Match(title, "Score=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim position As String = Regex.Match(title, "Pos=" & SimpleNumberPattern, RegexOptions.IgnoreCase).Value
+            Dim bacateria As String = Regex.Match(title, "\[.+\]").Value
 
-        Protected Friend Shared Function [New](DownloadedFastaObject As FastaSeq) As MotifFasta
-            Dim Title As String = DownloadedFastaObject.Title
-            Dim FastaObject As MotifFasta = New MotifFasta
-            Dim Score As String = Regex.Match(Title, "Score=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Position As String = Regex.Match(Title, "Pos=" & REAL, RegexOptions.IgnoreCase).Value
-            Dim Bacateria As String = Regex.Match(Title, "\[.+\]").Value
+            motif_site.SequenceData = fa.SequenceData
+            motif_site.bacteria = bacateria
+            motif_site.bacteria = Mid(motif_site.bacteria, 2, Len(motif_site.bacteria) - 2).Replace("|"c, " "c).Trim(" "c)
+            motif_site.position = Val(position.Split(CChar("=")).Last)
+            motif_site.score = Val(score.Split(CChar("=")).Last)
 
-            FastaObject.SequenceData = DownloadedFastaObject.SequenceData
-            FastaObject.bacteria = Bacateria
-            FastaObject.bacteria = Mid(FastaObject.bacteria, 2, Len(FastaObject.bacteria) - 2)
-            FastaObject.position = Val(Position.Split(CChar("=")).Last)
-            FastaObject.score = Val(Score.Split(CChar("=")).Last)
+            Dim locus_tag As String = title.Replace(score, "").Replace(position, "").Replace(bacateria, "").Trim
+            motif_site.name = Regex.Match(locus_tag, "\(.+?\)").Value
+            motif_site.name = If(Not String.IsNullOrEmpty(motif_site.name), Mid(motif_site.name, 2, Len(motif_site.name) - 2).Trim, "")
 
-            Dim LocusTag As String = Title.Replace(Score, "").Replace(Position, "").Replace(Bacateria, "").Trim
-            FastaObject.name = Regex.Match(LocusTag, "\(.+?\)").Value
-            FastaObject.name = If(Not String.IsNullOrEmpty(FastaObject.name), Mid(FastaObject.name, 2, Len(FastaObject.name) - 2).Trim, "")
-            LocusTag = Regex.Replace(LocusTag, "\(.+?\)", "")
-            FastaObject.locus_tag = LocusTag.Replace(">", "").Trim
+            If InStr(motif_site.name, "(") > 0 Then
+                motif_site.name = motif_site.name & ")"
+            End If
 
-            Return FastaObject
+            locus_tag = Regex.Replace(locus_tag, "\(.+?\)", "")
+            locus_tag = locus_tag.Replace(")", "")
+            motif_site.locus_tag = locus_tag.Replace(">", "").Trim(" "c, "|"c)
+
+            Return motif_site
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return SequenceData
         End Function

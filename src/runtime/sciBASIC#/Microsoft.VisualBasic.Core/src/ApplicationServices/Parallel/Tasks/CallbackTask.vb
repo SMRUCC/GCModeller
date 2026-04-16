@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 79 (69.91%)
+    ' Comment Lines: 9 (7.96%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 25 (22.12%)
+    '     File Size: 2.97 KB
+
+
     '     Interface ICallbackTask
     ' 
     '         Properties: CallbackInvoke

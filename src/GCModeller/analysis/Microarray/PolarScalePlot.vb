@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 12 (42.86%)
+    ' Comment Lines: 11 (39.29%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 5 (17.86%)
+    '     File Size: 960 B
+
+
     ' Module PolarScalePlot
     ' 
     '     Function: Plot

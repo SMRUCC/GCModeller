@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 80 (65.04%)
+    ' Comment Lines: 25 (20.33%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 18 (14.63%)
+    '     File Size: 4.29 KB
+
+
     '     Class GraphTreeNode
     ' 
     '         Properties: Childs, Node, Parents

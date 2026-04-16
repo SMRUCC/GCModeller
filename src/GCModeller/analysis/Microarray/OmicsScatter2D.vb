@@ -1,45 +1,57 @@
-﻿#Region "Microsoft.VisualBasic::f19e936f2bea42c3378821abce623519, analysis\Microarray\OmicsScatter2D.vb"
+﻿#Region "Microsoft.VisualBasic::b3079544ecf51ad871afa8b03b0a875d, analysis\Microarray\OmicsScatter2D.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
+' Summaries:
 
-    ' Module OmicsScatter2D
-    ' 
-    '     Function: Correlation, CorrelationImpl, Plot
-    ' 
-    ' Class Connection
-    ' 
-    '     Properties: cor, gene1, gene2, is_directly
-    ' 
-    ' /********************************************************************************/
+
+' Code Statistics:
+
+'   Total Lines: 205
+'    Code Lines: 168 (81.95%)
+' Comment Lines: 19 (9.27%)
+'    - Xml Docs: 94.74%
+' 
+'   Blank Lines: 18 (8.78%)
+'     File Size: 8.53 KB
+
+
+' Module OmicsScatter2D
+' 
+'     Function: Correlation, CorrelationImpl, Plot
+' 
+' Class Connection
+' 
+'     Properties: cor, gene1, gene2, is_directly
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -51,12 +63,43 @@ Imports Microsoft.VisualBasic.Data
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
+Imports SMRUCC.genomics.Model.Network.Regulons
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
+
 
 ''' <summary>
 ''' Visualize of the multiple omics data association.
@@ -170,52 +213,6 @@ Public Module OmicsScatter2D
                     End Function) _
             .IteratesALL
     End Function
-
-    <Extension>
-    Public Function CorrelationImpl(gene As DataSet, matrix As DataSet(), sampleNames$(), isSelfComparison As Boolean, skipIndirect As Boolean, cutoff#) As Connection()
-        Dim fpkm As Double() = gene(sampleNames)
-        Dim links As Connection() = matrix _
-            .Where(Function(g)
-                       If isSelfComparison Then
-                           Return g.ID <> gene.ID
-                       Else
-                           Return True
-                       End If
-                   End Function) _
-            .AsParallel _
-            .Select(Function(g)
-                        Dim fpkm2 As Double() = g(sampleNames)
-                        Dim cor As Double = GetPearson(fpkm, fpkm2)
-
-                        If Math.Abs(cor) >= cutoff AndAlso skipIndirect Then
-                            Return New Connection With {
-                                .cor = cor,
-                                .gene1 = gene.ID,
-                                .gene2 = g.ID,
-                                .is_directly = True
-                            }
-                        Else
-                            Return New Connection With {
-                                .cor = Spearman(fpkm, fpkm2),
-                                .gene1 = gene.ID,
-                                .gene2 = g.ID,
-                                .is_directly = False
-                            }
-                        End If
-                    End Function) _
-            .ToArray
-
-        Call gene.ID.__INFO_ECHO
-
-        Return links
-    End Function
 End Module
 
-Public Class Connection
 
-    Public Property gene1 As String
-    Public Property gene2 As String
-    Public Property is_directly As Boolean
-    Public Property cor As Double
-
-End Class

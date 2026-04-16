@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4e89ff774a2a635bd6b85aef0fe9d578, core\Bio.Assembly\Assembly\DOOR\Models\Operon.vb"
+﻿#Region "Microsoft.VisualBasic::57640bb8e6e3cfa45135fd28e4829aaf, core\Bio.Assembly\Assembly\DOOR\Models\Operon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 149 (58.20%)
+    ' Comment Lines: 79 (30.86%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 28 (10.94%)
+    '     File Size: 10.87 KB
+
 
     '     Class Operon
     ' 
@@ -227,15 +239,15 @@ Namespace Assembly.DOOR
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function ConvertToCsvData() As Assembly.DOOR.CsvModel.Operon
-            Dim Direction As String = Value.First.Location.Strand.GetBriefCode
-            Dim structs As String() = (From GeneObject As OperonGene
+            Dim direction As String = Value.First.Location.Strand.Description
+            Dim structs As String() = (From gene As OperonGene
                                        In Me.Value
-                                       Select GeneObject.Synonym).ToArray
+                                       Select gene.Synonym).ToArray
             Return New Assembly.DOOR.CsvModel.Operon With {
                 .DoorId = Me.Key,
                 .NumOfGenes = Me.Value.Length,
                 .Genes = structs,
-                .Direction = Direction
+                .Direction = direction
             }
         End Function
 

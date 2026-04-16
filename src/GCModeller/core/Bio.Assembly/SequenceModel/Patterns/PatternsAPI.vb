@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 102 (56.98%)
+    ' Comment Lines: 60 (33.52%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 17 (9.50%)
+    '     File Size: 8.68 KB
+
+
     '     Module PatternsAPI
     ' 
     '         Function: __frequency, __variation, (+2 Overloads) Frequency, (+2 Overloads) NTVariations, Variation

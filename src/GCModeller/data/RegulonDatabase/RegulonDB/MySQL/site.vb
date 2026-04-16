@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 167
+    '    Code Lines: 85 (50.90%)
+    ' Comment Lines: 60 (35.93%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 22 (13.17%)
+    '     File Size: 8.67 KB
+
+
     ' Class site
     ' 
     '     Properties: key_id_org, site_id, site_internal_comment, site_length, site_note

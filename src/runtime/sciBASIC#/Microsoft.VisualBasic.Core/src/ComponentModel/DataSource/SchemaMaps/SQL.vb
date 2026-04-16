@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5b06e4396b4bda66d00a83bb75c598bd, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\SQL.vb"
+﻿#Region "Microsoft.VisualBasic::b7eb9572dabd47d4cb037e97dac355b4, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\SQL.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 20 (30.30%)
+    ' Comment Lines: 40 (60.61%)
+    '    - Xml Docs: 92.50%
+    ' 
+    '   Blank Lines: 6 (9.09%)
+    '     File Size: 2.49 KB
+
+
     '     Class SQLTable
     ' 
     '         Function: Clone, Copy, ToString
@@ -46,10 +58,11 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
 
     ''' <summary>
     ''' A generic abstract model of a SQL table.
-    ''' (SQL之中的一个数据表的抽象描述接口)
     ''' </summary>
-    Public MustInherit Class SQLTable
-        Implements ICloneable
+    ''' <remarks>
+    ''' (SQL之中的一个数据表的抽象描述接口)
+    ''' </remarks>
+    Public MustInherit Class SQLTable : Implements ICloneable
 
         ''' <summary>
         ''' INSERT INTO table_name (field1, field2,...) VALUES (value1, value2,....)
@@ -82,10 +95,12 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
 
         ''' <summary>
         ''' Clones the property values.
-        ''' (由于这个<see cref="SQLTable"/>对象的所有属性都是简单的基本类型，所以能够很容易
-        ''' 的复制这些属性，从而很容易的复制数据表之中的一个行对象)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (由于这个<see cref="SQLTable"/>对象的所有属性都是简单的基本类型，所以能够很容易
+        ''' 的复制这些属性，从而很容易的复制数据表之中的一个行对象)
+        ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Function Clone() As Object Implements ICloneable.Clone

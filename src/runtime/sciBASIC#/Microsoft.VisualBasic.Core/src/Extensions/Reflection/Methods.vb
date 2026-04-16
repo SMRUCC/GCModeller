@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 42 (55.26%)
+    ' Comment Lines: 26 (34.21%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (10.53%)
+    '     File Size: 2.83 KB
+
+
     ' Module MethodsExtension
     ' 
     '     Function: (+2 Overloads) AsLazy, (+2 Overloads) Invoke, IsMethodOverridesOf, (+2 Overloads) TryInvoke

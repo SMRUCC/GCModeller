@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e52ac046a95127330dd84c69af065b15, Data\DataFrame\Linq\WriteStream.vb"
+﻿#Region "Microsoft.VisualBasic::95635d4b3b8574fde2a343b8ed1ab1f8, Data\DataFrame\Linq\WriteStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 270
+    '    Code Lines: 160 (59.26%)
+    ' Comment Lines: 71 (26.30%)
+    '    - Xml Docs: 76.06%
+    ' 
+    '   Blank Lines: 39 (14.44%)
+    '     File Size: 10.12 KB
+
+
     '     Class WriteStream
     ' 
     '         Properties: BaseStream, IsMetaIndexed
@@ -40,7 +52,7 @@
     '         Function: [Ctype], (+2 Overloads) Flush, populateLine, ToArray, ToString
     '                   TryFlushObject
     ' 
-    '         Sub: (+2 Overloads) Dispose, Flush
+    '         Sub: CacheMetaIndex, (+2 Overloads) Dispose, Flush
     '         Class __ctypeTransform
     ' 
     '             Function: ToString
@@ -58,8 +70,9 @@ Option Strict Off
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace IO.Linq
@@ -162,6 +175,10 @@ Namespace IO.Linq
             Call _fileIO.Flush()
         End Sub
 
+        Public Sub CacheMetaIndex(meta As IEnumerable(Of String))
+            rowWriter.__cachedIndex = meta.SafeQuery.ToArray
+        End Sub
+
         Public Overrides Function ToString() As String
             Return handle.ToFileURL
         End Function
@@ -209,7 +226,12 @@ Namespace IO.Linq
         ''' Write a object into the table file.
         ''' </summary>
         ''' <param name="obj"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' false will be return if the given object is nothing, else true
+        ''' </returns>
+        ''' <remarks>
+        ''' this method just write data line, not invoke of the <see cref="Stream.Flush()"/>
+        ''' </remarks>
         Public Function Flush(obj As T) As Boolean
             If obj Is Nothing Then
                 Return False
@@ -287,8 +309,8 @@ Namespace IO.Linq
             If Not Me.disposedValue Then
                 If disposing Then
                     Call _fileIO.Flush()
-                    Call _fileIO.Close()
-                    Call _fileIO.Dispose()    ' TODO: dispose managed state (managed objects).
+                    ' Call _fileIO.Close()
+                    ' Call _fileIO.Dispose()    ' TODO: dispose managed state (managed objects).
                 End If
 
                 ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.

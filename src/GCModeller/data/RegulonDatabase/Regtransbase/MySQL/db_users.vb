@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 84 (50.60%)
+    ' Comment Lines: 60 (36.14%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 22 (13.25%)
+    '     File Size: 7.28 KB
+
+
     ' Class db_users
     ' 
     '     Properties: email, fl_active, full_name, id, name

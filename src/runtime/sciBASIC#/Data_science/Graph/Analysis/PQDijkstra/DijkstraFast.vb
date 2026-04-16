@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8e7b70fdcf526181404346c144c3473, Data_science\Graph\Analysis\PQDijkstra\DijkstraFast.vb"
+﻿#Region "Microsoft.VisualBasic::6348fc46c6eb133242e3ac29a5b16625, Data_science\Graph\Analysis\PQDijkstra\DijkstraFast.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 269
+    '    Code Lines: 132 (49.07%)
+    ' Comment Lines: 103 (38.29%)
+    '    - Xml Docs: 62.14%
+    ' 
+    '   Blank Lines: 34 (12.64%)
+    '     File Size: 11.55 KB
+
 
     '     Class DijkstraFast
     ' 
@@ -110,27 +122,28 @@ Namespace Dijkstra.PQDijkstra
         ''' <summary> 
         ''' Creates an instance of the <see cref="Dijkstra"/> class. 
         ''' </summary> 
-        ''' <param name="totalNodeCount__1"> 
+        ''' <param name="totalNodeCount"> 
         ''' The total number of nodes in the graph. 
         ''' </param> 
-        ''' <param name="traversalCost__2"> 
+        ''' <param name="traversalCost"> 
         ''' The delegate that can provide the cost of a transition between 
         ''' any two nodes. 
         ''' </param> 
-        ''' <param name="hint__3"> 
+        ''' <param name="hint"> 
         ''' An optional delegate that can provide a small subset of nodes 
         ''' that a given node may be connected to. 
         ''' </param> 
-        Public Sub New(totalNodeCount__1 As Integer, traversalCost__2 As InternodeTraversalCost, hint__3 As NearbyNodesHint)
-            If totalNodeCount__1 < 3 Then
-                Throw New ArgumentOutOfRangeException("totalNodeCount", totalNodeCount__1, "Expected a minimum of 3.")
+        Public Sub New(totalNodeCount As Integer, traversalCost As InternodeTraversalCost, hint As NearbyNodesHint)
+            If totalNodeCount < 3 Then
+                Throw New ArgumentOutOfRangeException("totalNodeCount", totalNodeCount, "Expected a minimum of 3.")
             End If
-            If traversalCost__2 Is Nothing Then
+            If traversalCost Is Nothing Then
                 Throw New ArgumentNullException("traversalCost")
             End If
-            Hint = hint__3
-            TraversalCost = traversalCost__2
-            TotalNodeCount = totalNodeCount__1
+
+            Me.Hint = hint
+            Me.TraversalCost = traversalCost
+            Me.TotalNodeCount = totalNodeCount
         End Sub
 
         Protected ReadOnly Hint As NearbyNodesHint

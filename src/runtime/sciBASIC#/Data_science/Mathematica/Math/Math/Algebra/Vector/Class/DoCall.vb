@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 199
+    '    Code Lines: 145 (72.86%)
+    ' Comment Lines: 20 (10.05%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 34 (17.09%)
+    '     File Size: 7.61 KB
+
+
     '     Class Vector
     ' 
     '         Function: (+6 Overloads) [Call]

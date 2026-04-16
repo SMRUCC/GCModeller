@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 88 (66.67%)
+    ' Comment Lines: 21 (15.91%)
+    '    - Xml Docs: 90.48%
+    ' 
+    '   Blank Lines: 23 (17.42%)
+    '     File Size: 4.38 KB
+
+
     ' Class World
     ' 
     ' 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::97ead1b23fdb5e0ea2a8b56b0a235557, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
+﻿#Region "Microsoft.VisualBasic::8de0ac0b2d95a0c9b0c04c62dea3c4b3, data\Xfam\Pfam\MPAlignment\MotifParallelAlignment.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 132 (63.77%)
+    ' Comment Lines: 53 (25.60%)
+    '    - Xml Docs: 92.45%
+    ' 
+    '   Blank Lines: 22 (10.63%)
+    '     File Size: 12.13 KB
+
+
     '     Module MotifParallelAlignment
     ' 
     '         Function: __idEquals, AlignmentOutput2Csv, (+2 Overloads) AlignProteins, (+2 Overloads) Convert, (+2 Overloads) SelectSource
@@ -42,7 +54,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract

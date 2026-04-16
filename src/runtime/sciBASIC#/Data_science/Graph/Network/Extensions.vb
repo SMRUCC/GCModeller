@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9378ca65aab6c76ab728b24a157149f3, Data_science\Graph\Network\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::3abf5cf05a99d8f49916027f3c7895f0, Data_science\Graph\Network\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 57 (60.00%)
+    ' Comment Lines: 23 (24.21%)
+    '    - Xml Docs: 73.91%
+    ' 
+    '   Blank Lines: 15 (15.79%)
+    '     File Size: 4.47 KB
+
+
     '     Module Extensions
     ' 
     '         Function: (+2 Overloads) ComputeDegreeData, EndPoints, IteratesSubNetworks
@@ -41,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 
 Namespace Network
@@ -57,7 +68,8 @@ Namespace Network
         ''' <param name="network"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function EndPoints(Of Node As {New, Network.Node}, Edge As {New, Network.Edge(Of Node)})(network As NetworkGraph(Of Node, Edge)) As (input As Node(), output As Node())
+        Public Function EndPoints(Of Node As {New, Network.Node},
+                                      Edge As {New, Network.Edge(Of Node)})(network As NetworkGraph(Of Node, Edge)) As (input As Node(), output As Node())
             Dim inputs As New List(Of Node)(network.vertex)
             Dim output As New List(Of Node)(inputs)
             Dim removes = Sub(ByRef list As List(Of Node), getNode As Func(Of Edge, Node))
@@ -87,24 +99,32 @@ Namespace Network
         ''' 枚举出所输入的网络数据模型之中的所有互不相连的子网络
         ''' </summary>
         ''' <param name="network"></param>
+        ''' <param name="edgeCut">
+        ''' all of the edge weight less than this 
+        ''' cutff value will be ignored.
+        ''' </param>
         ''' <returns></returns>
         <Extension>
         Public Function IteratesSubNetworks(Of Node As {New, Network.Node},
                                                U As {New, Edge(Of Node)},
-                                               Graph As {New, NetworkGraph(Of Node, U)}
-                                            )(network As NetworkGraph(Of Node, U), Optional singleNodeAsGraph As Boolean = False) As Graph()
+                                               Graph As {New, NetworkGraph(Of Node, U)})(
+                                               network As NetworkGraph(Of Node, U),
+                                               Optional singleNodeAsGraph As Boolean = False,
+                                               Optional edgeCut As Double = -1) As IEnumerable(Of Graph)
 
-            Return New SubNetworkComponents(Of Node, U, Graph)(network, singleNodeAsGraph).ToArray
+            Return New SubNetworkComponents(Of Node, U, Graph)(network, singleNodeAsGraph, edgeCut)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function ComputeDegreeData(Of T As {New, Network.Node}, Edge As {New, Network.Edge(Of T)})(edges As IEnumerable(Of Edge)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+        Public Function ComputeDegreeData(Of T As {New, Network.Node},
+                                              Edge As {New, Network.Edge(Of T)})(edges As IEnumerable(Of Edge)) As DegreeData
+
             Return ComputeDegreeData(edges, Function(l) l.U.label, Function(l) l.V.label)
         End Function
 
         Public Function ComputeDegreeData(Of Edge)(edges As IEnumerable(Of Edge),
                                                    U As Func(Of Edge, String),
-                                                   V As Func(Of Edge, String)) As ([in] As Dictionary(Of String, Integer), out As Dictionary(Of String, Integer))
+                                                   V As Func(Of Edge, String)) As DegreeData
 
             Dim [in] As New Dictionary(Of String, Integer)
             Dim out As New Dictionary(Of String, Integer)
@@ -123,7 +143,7 @@ Namespace Network
                 Call countOut(V(link))
             Next
 
-            Return ([in], out)
+            Return New DegreeData With {.[In] = [in], .Out = out}
         End Function
     End Module
 End Namespace

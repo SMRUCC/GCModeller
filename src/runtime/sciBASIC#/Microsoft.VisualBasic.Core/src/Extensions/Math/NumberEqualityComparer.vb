@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cad92d5eeb55ae5a2249713b36b9cfa5, Microsoft.VisualBasic.Core\src\Extensions\Math\NumberEqualityComparer.vb"
+﻿#Region "Microsoft.VisualBasic::c97571b7aaa413302d6a329612eddb7a, Microsoft.VisualBasic.Core\src\Extensions\Math\NumberEqualityComparer.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 30 (58.82%)
+    ' Comment Lines: 11 (21.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (19.61%)
+    '     File Size: 1.76 KB
+
+
     '     Class NumberEqualityComparer
     ' 
     '         Properties: DeltaTolerance
@@ -44,7 +56,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports std = System.Math
 
 Namespace Math
 
@@ -83,7 +96,7 @@ Namespace Math
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overridable Overloads Function Equals(x As Double, y As Double) As Boolean Implements IEqualityComparer(Of Double).Equals
-            Return stdNum.Abs(x - y) <= _DeltaTolerance
+            Return std.Abs(x - y) <= _DeltaTolerance
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

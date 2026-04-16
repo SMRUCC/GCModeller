@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ebf82726f6882e7b9b3a34573f4c9dd, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
+﻿#Region "Microsoft.VisualBasic::c2a6b963b61fd4c31614cd28f24c38cc, core\Bio.Assembly\Assembly\MetaCyc\Schemas\PathwayBrief\Models.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 65 (72.22%)
+    ' Comment Lines: 12 (13.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (14.44%)
+    '     File Size: 3.54 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: AssociatedGenes, ContiansSubPathway, Identifier, MetaCycBaseType, ReactionList
@@ -42,7 +54,7 @@
     ' 
     '         Properties: EntryId, Is_Super_Pathway, NumOfGenes, PathwayGenes
     ' 
-    '         Function: GetPathwayGenes, ToString
+    '         Function: GetCompoundSet, GetPathwayGenes, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -51,6 +63,7 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.MetaCyc.File.DataFiles
 Imports SMRUCC.genomics.ComponentModel
@@ -115,14 +128,6 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
             End Get
         End Property
 
-        Public Overrides Function ToString() As String
-            Return String.Format("{0}  [{1}]", Me.EntryId, String.Join("; ", PathwayGenes))
-        End Function
-
-        Public Overrides Function GetPathwayGenes() As String()
-            Return PathwayGenes
-        End Function
-
         Public Overrides Property EntryId As String Implements IKeyValuePairObject(Of String, String()).Key
             Get
                 Return MyBase.EntryId
@@ -133,5 +138,16 @@ Namespace Assembly.MetaCyc.Schema.PathwayBrief
         End Property
 
         Public Property PathwayGenes As String() Implements IKeyValuePairObject(Of String, String()).Value
+
+        Public Overrides Function ToString() As String
+            Return String.Format("{0}  [{1}]", Me.EntryId, String.Join("; ", PathwayGenes))
+        End Function
+
+        Public Overrides Function GetPathwayGenes() As IEnumerable(Of NamedValue(Of String))
+            Return PathwayGenes.Select(Function(id) New NamedValue(Of String)(id))
+        End Function
+
+        Public Overrides Iterator Function GetCompoundSet() As IEnumerable(Of NamedValue(Of String))
+        End Function
     End Class
 End Namespace

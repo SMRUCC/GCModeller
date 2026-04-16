@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 198
+    '    Code Lines: 98 (49.49%)
+    ' Comment Lines: 74 (37.37%)
+    '    - Xml Docs: 78.38%
+    ' 
+    '   Blank Lines: 26 (13.13%)
+    '     File Size: 6.87 KB
+
+
     '     Class Parameter
     ' 
     '         Properties: c, cacheSize, coefficient0, degree, EPS

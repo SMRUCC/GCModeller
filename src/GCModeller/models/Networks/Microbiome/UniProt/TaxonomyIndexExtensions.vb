@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 58 (89.23%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (10.77%)
+    '     File Size: 2.63 KB
+
+
     ' Module TaxonomyIndexExtensions
     ' 
     '     Function: IteratesModels, Summary

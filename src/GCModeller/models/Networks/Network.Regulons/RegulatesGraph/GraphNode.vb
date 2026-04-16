@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 12 (44.44%)
+    ' Comment Lines: 9 (33.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (22.22%)
+    '     File Size: 746 B
+
+
     '     Class Entity
     ' 
     '         Properties: Size

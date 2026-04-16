@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a0d09b248a54ac88aaad82bb7da069f2, visualize\ChromosomeMap\DrawingModels\LabelPadding.vb"
+﻿#Region "Microsoft.VisualBasic::a80195529d51bfa86ac4a438b39e0024, visualize\ChromosomeMap\DrawingModels\LabelPadding.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 34 (53.12%)
+    ' Comment Lines: 20 (31.25%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 10 (15.62%)
+    '     File Size: 2.71 KB
+
+
     '     Delegate Function
     ' 
     ' 
@@ -57,7 +69,7 @@ Namespace DrawingModels
     ''' <param name="p"></param>
     ''' <returns>返回字符串的位置信息</returns>
     ''' <remarks></remarks>
-    Public Delegate Function TextPadding(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
+    Public Delegate Function TextPadding(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As PointF) As PointF
 
     Module LabelPaddingExtensions
 
@@ -80,29 +92,29 @@ Namespace DrawingModels
         ''' <param name="p">基因对象额绘制坐标</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Private Function LeftAligned(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
+        Private Function LeftAligned(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As PointF) As PointF
             Return p
         End Function
 
-        Private Function RightAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
-            p = New Point(p.X + segnmentLength - textLength, p.Y)
+        Private Function RightAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As PointF) As PointF
+            p = New PointF(p.X + segnmentLength - textLength, p.Y)
             p = checkRightEndTrimmed(p, textLength, rightEnds)
             Return p
         End Function
 
-        Public Function checkRightEndTrimmed(p As Point, textLength As Integer, rightEnds As Integer) As Point
+        Public Function checkRightEndTrimmed(p As PointF, textLength As Integer, rightEnds As Integer) As PointF
             If p.X + textLength > rightEnds Then
                 Dim d = p.X + textLength - rightEnds
                 d = p.X - d
-                p = New Point(d, p.Y)
+                p = New PointF(d, p.Y)
             End If
 
             Return p
         End Function
 
-        Private Function MiddleAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As Point) As Point
+        Private Function MiddleAlignment(segnmentLength As Integer, headLength As Integer, textLength As Integer, rightEnds As Integer, p As PointF) As PointF
             Dim d As Integer = (segnmentLength - textLength) / 2
-            p = New Point(d + p.X - headLength, p.Y)
+            p = New PointF(d + p.X - headLength, p.Y)
             p = checkRightEndTrimmed(p, textLength, rightEnds)
             Return p
         End Function

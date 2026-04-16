@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::078f03853347ff16157411cc058840d7, gr\network-visualization\Datavisualization.Network\Graph\Selector.vb"
+﻿#Region "Microsoft.VisualBasic::bf2df1deb25f008e0c0400d292caef07, gr\network-visualization\Datavisualization.Network\Graph\Selector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 45 (62.50%)
+    ' Comment Lines: 20 (27.78%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (9.72%)
+    '     File Size: 3.02 KB
+
+
     '     Module Selector
     ' 
     '         Function: GenericSelector, SelectEdgeValue, SelectNodeValue
@@ -49,6 +61,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.DataFramework
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 
 Namespace Graph
 
@@ -72,7 +85,13 @@ Namespace Graph
         ''' <returns></returns>
         <Extension>
         Public Function SelectNodeValue(property$, Optional ByRef type As Type = Nothing) As Func(Of Node, Object)
-            Return [property].GenericSelector(Of NodeData, Node)(type)
+            If [property] = "group" Then
+                Return Function(model) model.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE)
+            ElseIf [property] = "degree" Then
+                Return Function(model) model.degree.In + model.degree.Out
+            Else
+                Return [property].GenericSelector(Of NodeData, Node)(type)
+            End If
         End Function
 
         ''' <summary>

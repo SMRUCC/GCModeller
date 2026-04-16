@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cb01831866ef1e20340c123d2350abb6, Data\DataFrame\StorageProvider\ComponntModels\DynamicObjectLoader.vb"
+﻿#Region "Microsoft.VisualBasic::6c664b426fae91feb5d4eaf01a715e71, Data\DataFrame\StorageProvider\ComponntModels\DynamicObjectLoader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 449
+    '    Code Lines: 252 (56.12%)
+    ' Comment Lines: 133 (29.62%)
+    '    - Xml Docs: 96.99%
+    ' 
+    '   Blank Lines: 64 (14.25%)
+    '     File Size: 18.70 KB
+
+
     '     Class DynamicObjectLoader
     ' 
     '         Properties: Attribute, Count, DataRecordItem, FieldCount, Item
@@ -54,7 +66,7 @@
 Imports System.Dynamic
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
@@ -88,7 +100,7 @@ Namespace StorageProvider.ComponentModels
         ''' <returns></returns>
         Public Property lineNumber As Long
 
-        Protected Friend dataFrame As DataFrame
+        Protected Friend dataFrame As DataFrameResolver
 
         Public Sub New()
         End Sub
@@ -97,7 +109,7 @@ Namespace StorageProvider.ComponentModels
         ''' Copy the ordinal schema from the source data frame.
         ''' </summary>
         ''' <param name="df">The source data frame</param>
-        Public Sub New(df As DataFrame)
+        Public Sub New(df As DataFrameResolver)
             Schema = df.SchemaOridinal
         End Sub
 

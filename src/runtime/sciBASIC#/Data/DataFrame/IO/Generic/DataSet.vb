@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4aa5177528dd39799f4a409120c29815, Data\DataFrame\IO\Generic\DataSet.vb"
+﻿#Region "Microsoft.VisualBasic::0e19b4c222529112d1a43c3a39e13a86, Data\DataFrame\IO\Generic\DataSet.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 239
+    '    Code Lines: 141 (59.00%)
+    ' Comment Lines: 71 (29.71%)
+    '    - Xml Docs: 94.37%
+    ' 
+    '   Blank Lines: 27 (11.30%)
+    '     File Size: 10.15 KB
+
+
     '     Class DataSet
     ' 
     '         Properties: ID, MyHashCode, Vector
     ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Append, Copy, (+2 Overloads) LoadDataSet, LoadMatrix, SubSet
-    '                   ToString
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: Append, Copy, JoinVector, (+2 Overloads) LoadDataSet, LoadMatrix
+    '                   SubSet, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,19 +61,23 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace IO
 
     ''' <summary>
     ''' The numeric dataset, <see cref="DynamicPropertyBase(Of Double)"/>, <see cref="Double"/>.
-    ''' (数值类型的数据集合，每一个数据实体对象都有自己的编号以及数据属性)
     ''' </summary>
+    ''' <remarks>
+    ''' (数值类型的数据集合，每一个数据实体对象都有自己的编号以及数据属性)
+    ''' </remarks>
     Public Class DataSet : Inherits DynamicPropertyBase(Of Double)
         Implements INamedValue
+        Implements IReadOnlyId
 
         ''' <summary>
         ''' 当前的这条数据记录在整个数据集之中的唯一标记符
@@ -71,7 +87,7 @@ Namespace IO
         ''' 20191031
         ''' 重写这个属性会造成<see cref="FileFormat.SolveDataSetIDMapping(String, String, Boolean?, Encoding)"/>失效
         ''' </remarks>
-        Public Overridable Property ID As String Implements INamedValue.Key
+        Public Overridable Property ID As String Implements INamedValue.Key, IReadOnlyId.Identity
 
         Protected Overrides ReadOnly Property MyHashCode As Integer
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -96,6 +112,11 @@ Namespace IO
         End Property
 
         Sub New()
+        End Sub
+
+        Sub New(id$, data As Dictionary(Of String, Double))
+            Me.ID = id
+            Me.propertyTable = data
         End Sub
 
         Sub New(id$)
@@ -205,20 +226,22 @@ Namespace IO
         ''' <param name="uidMap$"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        Public Shared Function LoadDataSet(Of T As DataSet)(path$,
+        Public Shared Function LoadDataSet(Of T As {New, INamedValue, DynamicPropertyBase(Of Double)})(path$,
                                                             Optional uidMap$ = Nothing,
                                                             Optional encoding As Encoding = Nothing,
-                                                            Optional isTsv As Boolean = False) As IEnumerable(Of T)
+                                                            Optional isTsv As Boolean = False,
+                                                            Optional mute As Boolean = False) As IEnumerable(Of T)
 
             Dim mapFrom$ = FileFormat.SolveDataSetIDMapping(path, uidMap, isTsv, encoding)
 
             If isTsv Then
-                Return path.LoadTsv(Of T)(encoding, {{mapFrom, NameOf(DataSet.ID)}})
+                Return path.LoadTsv(Of T)(encoding, {{mapFrom, NameOf(DataSet.ID)}}, mute:=mute)
             Else
                 Return path.LoadCsv(Of T)(
                     explicit:=False,
                     maps:={{mapFrom, NameOf(DataSet.ID)}},
-                    encoding:=encoding
+                    encoding:=encoding,
+                    mute:=mute
                 )
             End If
         End Function
@@ -256,6 +279,19 @@ Namespace IO
                     }
                 Loop
             End Using
+        End Function
+
+        Public Shared Function JoinVector(id As String, name As String(), val As Double()) As DataSet
+            Dim data As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To name.Length - 1
+                data(name(i)) = val(i)
+            Next
+
+            Return New DataSet With {
+                .ID = id,
+                .propertyTable = data
+            }
         End Function
     End Class
 End Namespace

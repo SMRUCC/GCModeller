@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5565e2dff0ccea6395a09a0db26056e9, mime\application%json\Serializer\ExtendedDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::6c76e05306941ee92263cec735060591, mime\application%json\Serializer\ExtendedDictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 72 (63.72%)
+    ' Comment Lines: 19 (16.81%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 22 (19.47%)
+    '     File Size: 3.83 KB
+
+
     ' Module ExtendedDictionary
     ' 
     '     Function: GetExtendedJson, getSpecificProperties, LoadExtendedJson
@@ -59,7 +71,7 @@ Public Module ExtendedDictionary
         End If
 
         For Each key$ In defines.Keys
-            If model.ContainsKey(key$) Then
+            If model.HasObjectKey(key$) Then
                 Dim o As JsonElement = model(key)
                 Dim j$ = o.BuildJsonString(opts)
                 Dim entry As PropertyInfo = defines(key$)

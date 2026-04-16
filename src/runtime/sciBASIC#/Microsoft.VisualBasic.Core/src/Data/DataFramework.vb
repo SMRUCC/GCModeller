@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::478b06ff41fecaa700288b78592c2d33, Microsoft.VisualBasic.Core\src\Data\DataFramework.vb"
+﻿#Region "Microsoft.VisualBasic::d5588100362f22627e8697403f40489b, Microsoft.VisualBasic.Core\src\Data\DataFramework.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 510
+    '    Code Lines: 310 (60.78%)
+    ' Comment Lines: 135 (26.47%)
+    '    - Xml Docs: 95.56%
+    ' 
+    '   Blank Lines: 65 (12.75%)
+    '     File Size: 22.55 KB
+
+
     '     Module DataFramework
     ' 
     '         Properties: Flags, StringBuilders, StringParsers
@@ -40,7 +52,8 @@
     '                   ParseSchemaInternal, (+2 Overloads) Schema, ValueTable
     '         Delegate Function
     ' 
-    '             Function: IsIntegerType, IsNumericType, IsPrimitive, valueToString
+    '             Function: GetPrimitiveTypes, IsCollection, IsIntegerType, IsNullable, IsNumericCollection
+    '                       IsNumericType, IsPrimitive, valueToString
     '         Enum EnumCastTo
     ' 
     '             [integer], [string], none
@@ -54,13 +67,11 @@
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
-
+Imports System.Numerics
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
+Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Scripting.Runtime.NumberConversionRoutines
@@ -82,7 +93,7 @@ Namespace ComponentModel.DataSourceModel
 
         Sub New()
             Flags = New Dictionary(Of PropertyAccess, Predicate(Of PropertyInfo)) From {
- _
+                                                                                        _
                 {PropertyAccess.Readable, Function(p) p.CanRead},
                 {PropertyAccess.ReadWrite, Function(p) p.CanRead AndAlso p.CanWrite},
                 {PropertyAccess.Writeable, Function(p) p.CanWrite},
@@ -242,7 +253,7 @@ Namespace ComponentModel.DataSourceModel
         ''' </summary>
         ''' <remarks></remarks>
         Public ReadOnly Property StringParsers As New Dictionary(Of Type, IStringParser) From {
- _
+                                                                                               _
             {GetType(String), Function(strValue As String) strValue},
             {GetType(Boolean), AddressOf ParseBoolean},
             {GetType(DateTime), Function(strValue As String) CType(strValue, DateTime)},
@@ -263,7 +274,7 @@ Namespace ComponentModel.DataSourceModel
         ''' 在Scripting命名空间下的基础类型,是规定为所有包含有类型和字符串值之间的隐式转换的类型
         ''' </remarks>
         Public ReadOnly Property StringBuilders As New Dictionary(Of Type, IStringBuilder) From {
- _
+                                                                                                 _
             {GetType(String), Function(s) If(s Is Nothing, "", CStr(s))},
             {GetType(Boolean), AddressOf DataFramework.valueToString},
             {GetType(DateTime), AddressOf DataFramework.valueToString},
@@ -300,29 +311,126 @@ Namespace ComponentModel.DataSourceModel
         ''' Is one of the primitive type in the hash <see cref="StringBuilders"/>?
         ''' </summary>
         ''' <param name="type"></param>
+        ''' <param name="autoCastEnum">
+        ''' and also treate the enum type as primitive value?(enum is integer)
+        ''' </param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function IsPrimitive(type As Type) As Boolean
-            Return StringBuilders.ContainsKey(type)
+        Public Function IsPrimitive(type As Type, Optional autoCastEnum As Boolean = False) As Boolean
+            Return StringBuilders.ContainsKey(type) OrElse (autoCastEnum AndAlso type.IsEnum)
         End Function
 
+        ''' <summary>
+        ''' Enumerates all pre-defined clr runtime primitive types.
+        ''' </summary>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetPrimitiveTypes() As IEnumerable(Of Type)
+            Return StringBuilders.Keys
+        End Function
+
+        Public Function IsNullable(type As Type) As Boolean
+            Return False
+        End Function
+
+        ReadOnly numerics As Type() = {
+            GetType(Integer), GetType(Long), GetType(Short), GetType(Double), GetType(Byte),
+            GetType(UInteger), GetType(ULong), GetType(UShort), GetType(Single), GetType(SByte), GetType(Decimal)
+        }
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <typeparam name="T">the data type of the element inside a data collection</typeparam>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        Public Function IsCollection(Of T)(type As Type) As Boolean
+            If type.IsArray Then
+                Return type.GetElementType Is GetType(T)
+            Else
+                If type _
+                    .ImplementInterface(GetType(IEnumerable(Of )) _
+                    .MakeGenericType(GetType(T))) Then
+
+                    Return True
+                End If
+            End If
+
+            Return False
+        End Function
+
+        ''' <summary>
+        ''' Does the given type is any kind of numeric collection type?
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function IsNumericCollection(type As Type) As Boolean
+            If type.IsArray Then
+                Return IsNumericType(type.GetElementType)
+            Else
+                Static numerics As Type() = DataFramework.numerics _
+                    .Select(Function(t) GetType(IEnumerable(Of )).MakeGenericType(t)) _
+                    .ToArray
+
+                For Each num As Type In numerics
+                    If type.ImplementInterface(num) Then
+                        Return True
+                    End If
+                Next
+            End If
+
+            Return False
+        End Function
+
+        ''' <summary>
+        ''' the given <paramref name="type"/> is any of the CLR numeric primitive type?
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="includeComplex">
+        ''' and also should treat the complex number as the primitive numeric type?
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' This function testing all of the possible numeric type at here
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function IsNumericType(type As Type) As Boolean
-            Static numerics As Type() = {
-                GetType(Integer), GetType(Long), GetType(Short), GetType(Double), GetType(Byte),
-                GetType(UInteger), GetType(ULong), GetType(UShort), GetType(Single), GetType(SByte), GetType(Decimal)
-            }
-            Return numerics.Any(Function(num) num Is type)
+        Public Function IsNumericType(type As Type, Optional includeComplex As Boolean = False) As Boolean
+            Static test As New Dictionary(Of String, Boolean)
+
+            Dim key As String = includeComplex.ToString & type.FullName
+
+            SyncLock test
+                If Not test.ContainsKey(key) Then
+                    test(key) = numerics.Any(Function(num) num Is type) OrElse (includeComplex AndAlso type Is GetType(Complex))
+                End If
+
+                Return test(key)
+            End SyncLock
         End Function
 
-        Public Function IsIntegerType(type As Type) As Boolean
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="type"></param>
+        ''' <param name="autoCastEnums">
+        ''' and also treated the enum value as integer type?
+        ''' </param>
+        ''' <returns></returns>
+        Public Function IsIntegerType(type As Type, Optional autoCastEnums As Boolean = False) As Boolean
             Static ints As Type() = {
                 GetType(Integer), GetType(Short), GetType(Byte), GetType(Long),
                 GetType(UInteger), GetType(UShort), GetType(SByte), GetType(ULong)
             }
 
-            Return ints.Any(Function(int) int Is type)
+            If ints.Any(Function(int) int Is type) Then
+                Return True
+            ElseIf autoCastEnums Then
+                Return type.IsEnum
+            End If
+
+            Return False
         End Function
 
         Public Enum EnumCastTo
@@ -335,7 +443,7 @@ Namespace ComponentModel.DataSourceModel
         ''' 如果目标类型的属性之中值包含有基础类型，则是一个非复杂类型，反之包含任意一个非基础类型，则是一个复杂类型
         ''' </summary>
         ''' <param name="type"></param>
-        ''' <param name="enumCast">by default we treat the enum type as non-primtive type.</param>
+        ''' <param name="enumCast">by default we treat the enum type as non-primitive type.</param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>

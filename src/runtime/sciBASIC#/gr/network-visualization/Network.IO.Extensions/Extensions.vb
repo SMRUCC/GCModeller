@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::decd68a23e8432690347a647562b1801, gr\network-visualization\Network.IO.Extensions\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c43fee621bcfc1786585c2ce1253e623, gr\network-visualization\Network.IO.Extensions\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 90 (68.70%)
+    ' Comment Lines: 29 (22.14%)
+    '    - Xml Docs: 96.55%
+    ' 
+    '   Blank Lines: 12 (9.16%)
+    '     File Size: 4.95 KB
+
+
     ' Module Extensions
     ' 
     '     Function: GetConnections, GetNextConnects, RemoveDuplicated, RemoveSelfLoop, SearchIndex
@@ -43,8 +55,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Language
 
 <HideModuleName>
@@ -108,7 +120,7 @@ Public Module Extensions
     <Extension>
     Public Function RemoveSelfLoop(Of T As NetworkEdge)(edges As IEnumerable(Of T)) As T()
         Dim LQuery = LinqAPI.Exec(Of T) <=
- _
+                                          _
                 From x As T
                 In edges
                 Where Not x.selfLoop
@@ -126,7 +138,7 @@ Public Module Extensions
     <Extension, ExportAPI("GetConnections")>
     Public Function GetConnections(source As IEnumerable(Of FileStream.NetworkEdge), node As String) As FileStream.NetworkEdge()
         Dim LQuery = LinqAPI.Exec(Of FileStream.NetworkEdge) <=
- _
+                                                               _
             From x As FileStream.NetworkEdge
             In source.AsParallel
             Where Not String.IsNullOrEmpty(x.GetConnectedNode(node))
@@ -146,7 +158,7 @@ Public Module Extensions
     <Extension>
     Public Function GetNextConnects(source As IEnumerable(Of FileStream.NetworkEdge), from As String) As FileStream.NetworkEdge()
         Dim LQuery = LinqAPI.Exec(Of FileStream.NetworkEdge) <=
- _
+                                                               _
             From x As FileStream.NetworkEdge
             In source.AsParallel
             Where from.TextEquals(x.fromNode)

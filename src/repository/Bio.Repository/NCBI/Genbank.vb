@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ef14f29742b6a8284bd799c3c7f8c579, Bio.Repository\NCBI\Genbank.vb"
+﻿#Region "Microsoft.VisualBasic::cb28ef22de22ac0c3d1c02ff28ff9c92, Bio.Repository\NCBI\Genbank.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 347
+    '    Code Lines: 225 (64.84%)
+    ' Comment Lines: 68 (19.60%)
+    '    - Xml Docs: 98.53%
+    ' 
+    '   Blank Lines: 54 (15.56%)
+    '     File Size: 13.36 KB
+
 
     ' Module Installer
     ' 
@@ -63,16 +75,13 @@
 
 #End Region
 
-#If netcore5 Then
-Imports System.Data
-#End If
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
@@ -82,6 +91,10 @@ Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.SequenceModel
+
+#If NETCOREAPP Then
+Imports System.Data
+#End If
 
 Public Module Installer
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d90f16bfd7a9769af471bac74f00dd6, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Camera.vb"
+﻿#Region "Microsoft.VisualBasic::f0ab42f8169e83657048a4f40eebf61a, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Camera.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 197
+    '    Code Lines: 141 (71.57%)
+    ' Comment Lines: 19 (9.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 37 (18.78%)
+    '     File Size: 6.81 KB
+
+
     '     Class Camera
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
     ' 
     '         Function: Lighting, (+2 Overloads) Project, (+4 Overloads) Rotate, (+2 Overloads) RotateX, (+2 Overloads) RotateY
     '                   (+2 Overloads) RotateZ, ToString
@@ -48,10 +60,10 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Device
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Drawing3D
 
@@ -85,9 +97,23 @@ Namespace Drawing3D
         Public Sub New()
             Dim lightPosition As New Point3D(2, -1, 3)
 
-            Me.lightAngle = lightPosition.Normalize()
+            Me.lightAngle = lightPosition.normalize()
             Me.colorDifference = 0.2
             Me.lightColor = Color.FromArgb(255, 255, 255)
+        End Sub
+
+        Sub New(gfx As IGraphics, viewAngle As Point3D, Optional viewDistance As Single = 100)
+            Call Me.New(viewAngle)
+
+            Me.viewDistance = viewDistance
+            Me.screen = gfx.Size
+        End Sub
+
+        Sub New(canvas As GraphicsRegion, viewAngle As Point3D, Optional viewDistance As Single = 100)
+            Call Me.New(viewAngle)
+
+            Me.viewDistance = viewDistance
+            Me.screen = canvas.Size
         End Sub
 
         Sub New(viewAngle As Point3D)
@@ -177,6 +203,7 @@ Namespace Drawing3D
             Next
         End Function
 
+#If NET48 Then
         Public Sub Draw(ByRef canvas As Graphics, surface As IEnumerable(Of Surface), Optional drawPath As Boolean = False)
             Dim faces As New List(Of Surface)
 
@@ -189,14 +216,15 @@ Namespace Drawing3D
                 Next
             End With
 
-            Call canvas.SurfacePainter(Me, faces, drawPath)
+            Call PainterAlgorithm.SurfacePainter(canvas, Me, faces, drawPath)
         End Sub
+#End If
 
         Public Function Lighting(surface As Surface) As Color
             Dim color As Color = DirectCast(surface.brush, SolidBrush).Color
+
             Try
-                color = surface _
-                    .vertices _
+                color = surface.vertices _
                     .Lighting(lightAngle,
                               color,
                               colorDifference,

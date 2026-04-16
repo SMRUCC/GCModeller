@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 39 (67.24%)
+    ' Comment Lines: 10 (17.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.52%)
+    '     File Size: 1.97 KB
+
+
     '     Class Pn
     ' 
     '         Function: GetEnumerator, GetEnumerator1, ToString

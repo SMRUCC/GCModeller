@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1aa90a3f7ebb623cb150eeccdb3112df, engine\Dynamics\Core\Mass\Factor.vb"
+﻿#Region "Microsoft.VisualBasic::04102aacf90c5724d432922dda29d731, engine\Dynamics\Core\Mass\Factor.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,30 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 122
+    '    Code Lines: 61 (50.00%)
+    ' Comment Lines: 41 (33.61%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (16.39%)
+    '     File Size: 3.91 KB
+
+
     '     Class Factor
     ' 
-    '         Properties: hashCode, ID, role
+    '         Properties: cellular_compartment, ID, name, role, template_id
+    '                     Value
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+4 Overloads) Sub New
+    ' 
     '         Function: ToString
+    ' 
+    '         Sub: add, reset
+    ' 
+    '         Operators: <, >
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,17 +63,31 @@
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
-Imports Microsoft.VisualBasic.Language
 
 Namespace Core
 
     ''' <summary>
-    ''' 一个变量因子，这个对象主要是用于存储值
+    ''' A mass factor(molecule entity) insdie the simulator runtime environment
     ''' </summary>
-    Public Class Factor : Inherits Value(Of Double)
-        Implements INamedValue
+    ''' <remarks>
+    ''' 一个变量因子，这个对象主要是用于存储值
+    ''' </remarks>
+    Public Class Factor : Implements INamedValue
 
+        ''' <summary>
+        ''' the unique reference id of current molecule
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' this unique instance id usually be in format like: ``id@compart_id``
+        ''' </remarks>
         Public Property ID As String Implements IKeyedEntity(Of String).Key
+
+        Public Overridable ReadOnly Property Value As Double
+            Get
+                Return m_mass
+            End Get
+        End Property
 
         ''' <summary>
         ''' 分子角色
@@ -64,26 +96,90 @@ Namespace Core
         Public ReadOnly Property role As MassRoles
 
         ''' <summary>
-        ''' debug view
+        ''' the molecule entity name, just used for debug view
         ''' </summary>
         ''' <returns></returns>
-        Private ReadOnly Property hashCode As Integer
-            Get
-                Return Me.GetHashCode
-            End Get
-        End Property
+        Public Property name As String
+        Public Property template_id As String
+
+        ''' <summary>
+        ''' the cellular compartment id reference of this molecule entity
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property cellular_compartment As String
+
+        ''' <summary>
+        ''' this mass factor value
+        ''' </summary>
+        Dim m_mass As Double
 
         Sub New()
             role = MassRoles.compound
         End Sub
 
-        Sub New(id$, role As MassRoles)
+        ''' <summary>
+        ''' make value copy of the mass factor model
+        ''' </summary>
+        ''' <param name="copy"></param>
+        Sub New(copy As Factor)
+            Call Me.New(copy.ID, copy.role, copy.cellular_compartment)
+
+            name = copy.name
+            template_id = copy.template_id
+        End Sub
+
+        ''' <summary>
+        ''' create a new mass factor inside the runtime environment with value assigned ZERO.
+        ''' </summary>
+        ''' <param name="id$"></param>
+        ''' <param name="role"></param>
+        Sub New(id$, role As MassRoles, compart_id As String)
+            Me.cellular_compartment = compart_id
             Me.ID = id
             Me.role = role
         End Sub
 
+        Sub New(id As String, value As Double)
+            Me.ID = id
+            Me.m_mass = value
+        End Sub
+
+        ''' <summary>
+        ''' reset the mass value to a given <paramref name="value"/> number.
+        ''' </summary>
+        ''' <param name="value"></param>
+        Public Sub reset(value As Double)
+            m_mass = value
+        End Sub
+
+        Public Sub add(delta As Double)
+            If Not Double.IsNaN(delta) Then
+                Dim mass As Double = m_mass
+
+                If Double.IsPositiveInfinity(delta) Then
+                    m_mass = m_mass * 100
+                ElseIf Double.IsNegativeInfinity(delta) Then
+                    m_mass = m_mass / 100
+                Else
+                    m_mass += delta
+                End If
+
+                If m_mass.IsNaNImaginary Then
+                    m_mass = mass
+                End If
+            End If
+        End Sub
+
         Public Overrides Function ToString() As String
-            Return $"{ID} ({Value} unit, {role.Description})"
+            Return $"{If(name, ID)} ({Value} unit@{cellular_compartment}, {role.Description})"
         End Function
+
+        Public Shared Operator >(factor As Factor, d As Double) As Boolean
+            Return factor.Value > d
+        End Operator
+
+        Public Shared Operator <(factor As Factor, d As Double) As Boolean
+            Return factor.Value < d
+        End Operator
     End Class
 End Namespace

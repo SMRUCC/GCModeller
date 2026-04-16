@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2f31b6ea8f28b5caae54474a0503a066, Microsoft.VisualBasic.Core\src\Extensions\Collection\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::58f4ab51943fb0027d75627444edaecb, Microsoft.VisualBasic.Core\src\Extensions\Collection\Matrix.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 252
+    '    Code Lines: 148 (58.73%)
+    ' Comment Lines: 64 (25.40%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 40 (15.87%)
+    '     File Size: 9.10 KB
+
+
     '     Module MatrixExtensions
     ' 
     '         Function: DATA, DimensionSizeOf, GetCol, GetRow, GetSize
-    '                   MAT, (+2 Overloads) Matrix, Rectangle, RowIterator, SetCol
-    '                   SetRow, ToFloatMatrix, ToMatrix, ToVectorList
+    '                   (+2 Overloads) Matrix, Rectangle, RowIterator, SetCol, SetRow
+    '                   ToFloatMatrix, ToMatrix, ToVectorList
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -92,7 +101,8 @@ Namespace ComponentModel.Collection
         ''' </summary>
         ''' <param name="table">A System.Data.DataTable containing data to cluster</param>
         ''' <returns>A 2-dimensional array containing data to cluster</returns>
-        <Extension> Public Function ToFloatMatrix(table As DataTable) As Double(,)
+        <Extension>
+        Public Function ToFloatMatrix(table As DataTable) As Double(,)
             Dim rowCount As Integer = table.Rows.Count
             Dim fieldCount As Integer = table.Columns.Count
             Dim dataPoints As Double(,)
@@ -137,32 +147,15 @@ Namespace ComponentModel.Collection
         End Function
 
         ''' <summary>
-        ''' Create an empty matrix with m row and n cols.
-        ''' (生成一个有m行n列的矩阵，但是是使用数组来表示的)
+        ''' An extension method shortcut to the function <see cref="RectangularArray.Matrix"/>.
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
-        ''' <param name="m">m Rows</param>
-        ''' <param name="n">n Cols</param>
+        ''' <param name="type"></param>
+        ''' <param name="m%"></param>
+        ''' <param name="n%"></param>
         ''' <returns></returns>
-        Public Function MAT(Of T)(m%, n%) As T()()
-            Dim newMAT As T()() = New T(m - 1)() {}
-
-            For i As Integer = 0 To m - 1
-                newMAT(i) = New T(n - 1) {}
-            Next
-
-            Return newMAT
-        End Function
-
         <Extension>
         Public Function Rectangle(type As Type, m%, n%) As Array
-            Dim newMatrix As Array = Array.CreateInstance(type.MakeArrayType, m)
-
-            For i As Integer = 0 To m - 1
-                Call newMatrix.SetValue(Array.CreateInstance(type, n), i)
-            Next
-
-            Return newMatrix
+            Return RectangularArray.Matrix(type, m, n)
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::30ccabd1b2233a27ec9a531e66bec680, localblast\ParallelTask\SBH_Tabular.vb"
+﻿#Region "Microsoft.VisualBasic::66c6944474d30ac7e35529211702294f, localblast\ParallelTask\SBH_Tabular.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 65 (84.42%)
+    ' Comment Lines: 8 (10.39%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 4 (5.19%)
+    '     File Size: 4.41 KB
+
+
     '     Module SBH_Tabular
     ' 
     '         Function: CreateFromBBHOrthologous
@@ -42,7 +54,7 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Data.Repository
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData

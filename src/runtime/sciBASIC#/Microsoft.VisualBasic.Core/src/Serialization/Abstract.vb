@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0d1b251284fda7fe774793bd92fae0ee, Microsoft.VisualBasic.Core\src\Serialization\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::ad72cf3e497acf943146a1af33e522c6, Microsoft.VisualBasic.Core\src\Serialization\Abstract.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 7 (24.14%)
+    ' Comment Lines: 17 (58.62%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (17.24%)
+    '     File Size: 1.17 KB
+
 
     '     Delegate Function
     ' 
@@ -77,6 +89,13 @@ Namespace Serialization
     ''' <param name="data"></param>
     ''' <returns></returns>
     Public Delegate Function IStringBuilder(data As Object) As String
+
+    ''' <summary>
+    ''' delegate for generic cast object to string
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="obj"></param>
+    ''' <returns></returns>
 
     Public Delegate Function IToString(Of T)(obj As T) As String
 

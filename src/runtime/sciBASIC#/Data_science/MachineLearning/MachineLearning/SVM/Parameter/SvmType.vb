@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 9 (33.33%)
+    ' Comment Lines: 18 (66.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 0 (0.00%)
+    '     File Size: 607 B
+
+
     '     Enum SvmType
     ' 
     '         C_SVC, EPSILON_SVR, NU_SVC, NU_SVR, ONE_CLASS

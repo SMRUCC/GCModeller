@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f233dcff4688aff425a9b224106dcfbe, Data_science\Mathematica\Math\Math\Quantile\Selector.vb"
+﻿#Region "Microsoft.VisualBasic::604788772d0da784fcfde3d2c088e63f, Data_science\Mathematica\Math\Math\Quantile\Selector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 91 (65.00%)
+    ' Comment Lines: 29 (20.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (14.29%)
+    '     File Size: 5.90 KB
+
 
     '     Module Selector
     ' 
@@ -145,7 +157,7 @@ Namespace Quantile
             Dim quantile = array.Select(Function(o) o.x).GKQuantile
             Dim threshold# = quantile.Query(q)
 
-            Call $"quantile {q * 100}% => {threshold}".__INFO_ECHO
+            Call $"quantile {q * 100}% => {threshold}".info
 
             Return array _
                 .Where(Function(o) o.x >= threshold) _
@@ -166,7 +178,7 @@ Namespace Quantile
                     Throw New NotSupportedException("???" & name.ToString)
             End Select
 
-            Call $"quartile {name.ToString} => {q}".__INFO_ECHO
+            Call $"quartile {name.ToString} => {q}".info
 
             Return array _
                 .Where(Function(o) o.x >= q#) _
@@ -175,7 +187,7 @@ Namespace Quantile
 
         <Extension>
         Public Function SelectByRankAsc(Of T)(source As Provider(Of T), n%, desc As Boolean) As IEnumerable(Of T)
-            Call $"{If(desc, "desc", "asc")} => {n}".__INFO_ECHO
+            Call $"{If(desc, "desc", "asc")} => {n}".info
 
             Return source _
                 .CreateArray _

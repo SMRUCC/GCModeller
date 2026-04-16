@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f39b88b16123d8fbbe6a9505c2d87a73, mime\application%xml\MathML\contentBuilder.vb"
+﻿#Region "Microsoft.VisualBasic::e35885b897a4f182a9be68ec3ba8b5d7, mime\application%xml\MathML\contentBuilder.vb"
 
     ' Author:
     ' 
@@ -31,27 +31,53 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 204
+    '    Code Lines: 163 (79.90%)
+    ' Comment Lines: 13 (6.37%)
+    '    - Xml Docs: 61.54%
+    ' 
+    '   Blank Lines: 28 (13.73%)
+    '     File Size: 8.09 KB
+
+
     '     Module ContentBuilder
     ' 
-    '         Function: ExpressionComponent, getTextSymbol, parseInternal, ParseXml, SimplyOperator
-    '                   ToString, TrimWhitespace
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: ExpressionComponent, getTextSymbol, parseInternal, ParseXml, safeGetOperator
+    '                   SimplyOperator, ToString, TrimWhitespace
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Data
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace MathML
 
     Public Module ContentBuilder
 
-        ReadOnly operators As Dictionary(Of String, mathOperators) = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
+        ReadOnly operators As Dictionary(Of String, mathOperators)
 
+        Sub New()
+            operators = Enums(Of mathOperators).ToDictionary(Function(t) t.ToString)
+
+            ' add simples
+            Call operators.Add("^", mathOperators.power)
+            Call operators.Add("+", mathOperators.plus)
+            Call operators.Add("-", mathOperators.minus)
+            Call operators.Add("*", mathOperators.times)
+            Call operators.Add("/", mathOperators.divide)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function SimplyOperator(text As String) As String
             Return operators(text).Description
         End Function
@@ -70,16 +96,26 @@ Namespace MathML
 
             If Not lambda.applyright Is Nothing Then
                 If TypeOf lambda.applyright Is SymbolExpression Then
-                    right = $"( {lambda.applyright} )"
+                    right = $"{lambda.applyright}"
                 Else
                     right = lambda.applyright.ToString
                 End If
             End If
 
             If lambda.applyright Is Nothing Then
-                Return $"{operators(lambda.[operator]).Description} {left}"
+                Return $"({safeGetOperator(lambda)} {left})"
             Else
-                Return $"{left} {operators(lambda.[operator]).Description} {right}"
+                Return $"({left} {safeGetOperator(lambda)} {right})"
+            End If
+        End Function
+
+        Private Function safeGetOperator(lambda As BinaryExpression) As String
+            If operators.ContainsKey(lambda.operator) Then
+                Return operators(lambda.operator).Description
+            ElseIf "+-/*".IndexOf(lambda.operator) > -1 Then
+                Return lambda.operator
+            Else
+                Throw New InvalidExpressionException(lambda.operator)
             End If
         End Function
 
@@ -108,8 +144,13 @@ Namespace MathML
                 lambdaElement = lambdaElement.getElementsByTagName("apply").FirstOrDefault
             End If
 
+            ' Call Console.WriteLine(lambdaElement.GetJson(indent:=True))
+
             If lambdaElement Is Nothing Then
-                Return Nothing
+                Return New LambdaExpression With {
+                    .parameters = parameters,
+                    .lambda = Nothing
+                }
             Else
                 Return New LambdaExpression With {
                     .parameters = parameters,
@@ -122,7 +163,7 @@ Namespace MathML
         ''' <summary>
         ''' a list of standard math function
         ''' </summary>
-        ReadOnly stdMathFunc As Index(Of String) = {"abs", "cos", "sin", "tan", "max", "min"}
+        ReadOnly stdMathFunc As Index(Of String) = {"abs", "cos", "sin", "tan", "max", "min", "exp", "log", "ln"}
 
         <Extension>
         Private Function parseInternal(apply As XmlElement) As MathExpression
@@ -131,8 +172,17 @@ Namespace MathML
             ' 如果第一个元素是变量，常数或者apply表达式
             ' 则默认操作符为乘法操作？
             If apply.elements(Scan0).name Like symbols Then
-                [operator] = New XmlElement With {.name = "times"}
-                apply.elements = {[operator]}.Join(apply.elements).ToArray
+                If apply.elements.Length < 3 Then
+                    [operator] = New XmlElement With {.name = "times"}
+                    apply.elements = {[operator]}.Join(apply.elements).ToArray
+                Else
+                    [operator] = apply.elements(1)
+                    apply.elements = {
+                        [operator],
+                        apply.elements(0),
+                        apply.elements(2)
+                    }
+                End If
             Else
                 [operator] = apply.elements(Scan0)
             End If

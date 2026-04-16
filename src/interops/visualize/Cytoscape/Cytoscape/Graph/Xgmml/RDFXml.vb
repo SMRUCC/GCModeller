@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::293181812f6aafc346c87c3e15af9040, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
+﻿#Region "Microsoft.VisualBasic::eb7b22e7a937ef1098ed9b8c5a97d01e, visualize\Cytoscape\Cytoscape\Graph\Xgmml\RDFXml.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 25 (65.79%)
+    ' Comment Lines: 6 (15.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (18.42%)
+    '     File Size: 1.53 KB
+
+
     '     Class RDFXml
     ' 
-    '         Function: Load, WriteXml
+    '         Function: Load, WriteXml, XmlDocumentText
     ' 
     ' 
     ' /********************************************************************************/
@@ -54,13 +66,17 @@ Namespace CytoscapeGraphView.XGMML
         Public Const cy As String = "http://www.cytoscape.org"
 
         Public Shared Function WriteXml(graph As XGMMLgraph, encoding As Encoding, path As String) As Boolean
+            Return XmlDocumentText(graph).SaveTo(path, encoding)
+        End Function
+
+        Public Shared Function XmlDocumentText(graph As XGMMLgraph) As String
             If graph.networkMetadata Is Nothing Then
-                graph.attributes.Add(NetworkMetadata.createAttribute)
+                graph.attributes.Append(NetworkMetadata.createAttribute)
             Else
                 graph.networkMetadata.about = "http://www.cytoscape.org/"
             End If
 
-            Return graph.GetXml.SaveTo(path, encoding)
+            Return graph.GetXml
         End Function
 
         ''' <summary>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5cfe13991f362d5ae5d8c071c90867ed, core\Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::2fc0972955c2de3f5bb03c242aa809bc, core\Bio.Assembly\Metagenomics\TaxonomyExtensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 84 (68.29%)
+    ' Comment Lines: 25 (20.33%)
+    '    - Xml Docs: 84.00%
+    ' 
+    '   Blank Lines: 14 (11.38%)
+    '     File Size: 4.93 KB
+
 
     '     Interface ITaxonomyLineage
     ' 
@@ -74,7 +86,8 @@ Namespace Metagenomics
         ''' </summary>
         ''' <param name="tax"></param>
         ''' <returns></returns>
-        <Extension> Public Function Trim(tax As Taxonomy) As String
+        <Extension>
+        Public Function Trim(tax As Taxonomy) As String
             Dim lineage$() = tax.Select
             Dim ranks As New List(Of String)
 

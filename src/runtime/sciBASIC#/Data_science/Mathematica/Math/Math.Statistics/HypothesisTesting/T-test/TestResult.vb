@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bda9c5aa85929f36dbf2635386dd758f, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\TestResult.vb"
+﻿#Region "Microsoft.VisualBasic::e3bbb67fa6b14c9ca5cb696049a3ccbb, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\TestResult.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 36 (43.37%)
+    ' Comment Lines: 34 (40.96%)
+    '    - Xml Docs: 61.76%
+    ' 
+    '   Blank Lines: 13 (15.66%)
+    '     File Size: 2.77 KB
+
+
     '     Class TtestResult
     ' 
     '         Properties: ci95, DegreeFreedom, Mean, opt, Pvalue
@@ -44,7 +56,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports stdNum = System.Math
 
 Namespace Hypothesis
 

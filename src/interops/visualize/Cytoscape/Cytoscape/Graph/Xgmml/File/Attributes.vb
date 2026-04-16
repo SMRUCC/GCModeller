@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5959b7718ea7206da59d6e3a7a19e845, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Attributes.vb"
+﻿#Region "Microsoft.VisualBasic::ce7fe439268913307c0ddb40ac3decfd, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\Attributes.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 102 (76.12%)
+    ' Comment Lines: 13 (9.70%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 19 (14.18%)
+    '     File Size: 4.93 KB
+
 
     '     Class Attribute
     ' 
@@ -97,6 +109,14 @@ Namespace CytoscapeGraphView.XGMML.File
                 .Type = ATTR_VALUE_TYPE_STRING
             }
         End Function
+
+        Public Shared Narrowing Operator CType(attr As Attribute) As String
+            If attr Is Nothing Then
+                Return Nothing
+            Else
+                Return attr.Value
+            End If
+        End Operator
     End Class
 
     Public MustInherit Class AttributeDictionary

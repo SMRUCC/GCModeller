@@ -2,27 +2,36 @@
 
   <PropertyGroup>
     <RootNamespace>Microsoft.VisualBasic.MIME.Html</RootNamespace>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFrameworks>net10.0-windows;net10.0</TargetFrameworks>
     <AssemblyName>Microsoft.VisualBasic.MIME.Html</AssemblyName>
     <Platforms>AnyCPU;x64</Platforms>
-    <Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;NPSearch</Configurations>
+    <Configurations>Debug;Release;Rsharp_app_release;LipidSearch;mzkit;NPSearch;mzkit_win32;gcmodeller_desktop;CFD_win32;nuget_release;MEMI-Desktop;CellaLAB-Desktop</Configurations>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <PackageProjectUrl>http://scibasic.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/xieguigang/sciBASIC</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <UseApplicationFramework>True</UseApplicationFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>netcore5=1</DefineConstants>
-    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='nuget_release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <OutputPath>../../.nuget/</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <DefineConstants>netcore5=1</DefineConstants>
+    
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|x64'">
-    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <DefineConstants>UNIX=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
@@ -31,11 +40,23 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <BaseAddress>4194304</BaseAddress>
-    <OutputPath>D:\GCModeller\src\R-sharp\App\</OutputPath>
+  
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CFD_win32|x64'">
+    <DefineConstants>UNIX=1</DefineConstants>
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <BaseAddress>4194304</BaseAddress>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='NPSearch|x64'">
-    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <DefineConstants>UNIX=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
@@ -44,11 +65,11 @@
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <BaseAddress>4194304</BaseAddress>
-    <OutputPath>D:\biodeep\biodeepdb_v3\metaCluster\NPSearch\assembly\</OutputPath>
+   
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit|x64'">
-    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <DefineConstants>UNIX=1</DefineConstants>
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
     <RemoveIntegerChecks>true</RemoveIntegerChecks>
     <Optimize>false</Optimize>
@@ -63,11 +84,23 @@
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|AnyCPU'">
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Rsharp_app_release|AnyCPU'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='CFD_win32|AnyCPU'">
     <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
   </PropertyGroup>
 
@@ -86,7 +119,17 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
-    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <DefineConstants>UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MEMI-Desktop|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='LipidSearch|x64'">
@@ -97,7 +140,18 @@
     <DebugType>full</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <DefineConstants>netcore5=1,UNIX=1</DefineConstants>
+    <DefineConstants>UNIX=1</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='mzkit_win32|x64'">
+    <DocumentationFile>Microsoft.VisualBasic.MIME.Html.xml</DocumentationFile>
+    <RemoveIntegerChecks>true</RemoveIntegerChecks>
+    <Optimize>false</Optimize>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DefineConstants>UNIX=1</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -119,7 +173,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.6.21352.12" />
+	  <PackageReference Include="System.Configuration.ConfigurationManager" Version="10.0.5" />
     <PackageReference Include="System.Drawing.Primitives" Version="4.3.0" />
   </ItemGroup>
 

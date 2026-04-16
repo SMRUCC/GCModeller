@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bef0f307ff02426c0c9249b7a4faa67f, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
+﻿#Region "Microsoft.VisualBasic::9ecfbc6f624444873b72156a2cb18d75, visualize\SyntenyVisual\ComparativeGenomics\GeneObject.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 220
+    '    Code Lines: 141 (64.09%)
+    ' Comment Lines: 46 (20.91%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 33 (15.00%)
+    '     File Size: 10.16 KB
+
+
     '     Class GeneObject
     ' 
     '         Properties: geneName, locus_tag, offsets
@@ -44,6 +56,7 @@
 
 Imports System.Drawing
 Imports System.Drawing.Drawing2D
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace ComparativeGenomics
 
@@ -73,7 +86,7 @@ Namespace ComparativeGenomics
         ''' <param name="arrowRect">当前的基因对象所绘制的区域从这个参数进行返回</param>
         ''' <returns>函数返回下一个基因对象的左端的坐标的<see cref="Point.X"></see></returns>
         ''' <remarks></remarks> 
-        Public Function InvokeDrawing(g As Graphics, RefPoint As Point, NextLeft As Integer,
+        Public Function InvokeDrawing(g As IGraphics, RefPoint As Point, NextLeft As Integer,
                                       scaleFactor As Double,
                                       ByRef arrowRect As Rectangle,
                                       IdDrawPositionDown As Boolean,

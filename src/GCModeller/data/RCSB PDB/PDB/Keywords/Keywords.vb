@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::680006ce0ccce9427eff0764c6953585, data\RCSB PDB\PDB\Keywords\Keywords.vb"
+﻿#Region "Microsoft.VisualBasic::79945f216634f9518c0d28352c8a8a9d, data\RCSB PDB\PDB\Keywords\Keywords.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 33 (71.74%)
+    ' Comment Lines: 7 (15.22%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (13.04%)
+    '     File Size: 1.88 KB
+
+
     '     Class Keyword
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetData, ToString
+    '         Function: ToString
+    ' 
+    '         Sub: Flush
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +56,9 @@
 
 Namespace Keywords
 
+    ''' <summary>
+    ''' A general base class of the keyword section inside the pdb file.
+    ''' </summary>
     Public MustInherit Class Keyword
 
         Public Const KEYWORD_HEADER As String = "HEADER"
@@ -69,26 +85,18 @@ Namespace Keywords
         Public Const KEYWORD_MASTER As String = "MASTER"
         Public Const KEYWORD_DBREF As String = "DBREF"
 
+        ''' <summary>
+        ''' the keyword of current pdb section data
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property Keyword As String
-
-        Protected Friend _originalData As KeyValuePair(Of Integer, String)()
-
-        Protected Friend Sub New(itemDatas As KeyValuePair(Of Integer, String)())
-            Me._originalData = itemDatas
-        End Sub
-
-        Protected Friend Shared Function GetData(Keyword As String, strData As KeyValuePair(Of String, String)()) As KeyValuePair(Of Integer, String)()
-            Dim LQuery = (From item As KeyValuePair(Of String, String) In strData.AsParallel
-                          Let Tokens As String() = (From s As String In item.Key.Split Where Not String.IsNullOrEmpty(s) Select s).ToArray
-                          Where String.Equals(Keyword, Tokens.First)
-                          Let itemData = New KeyValuePair(Of Integer, String)(Val(Tokens.Last), item.Value)
-                          Select itemData
-                          Order By itemData.Key Ascending).ToArray
-            Return LQuery
-        End Function
 
         Public Overrides Function ToString() As String
             Return Keyword
         End Function
+
+        Friend Overridable Sub Flush()
+
+        End Sub
     End Class
 End Namespace

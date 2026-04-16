@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 65 (80.25%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 16 (19.75%)
+    '     File Size: 2.74 KB
+
+
     '     Module EnumerableStatsMode
     ' 
     '         Function: (+4 Overloads) Mode, (+2 Overloads) Modes

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b69a1c7b5842ab05843c6bd56809be2, gr\Landscape\Surface.vb"
+﻿#Region "Microsoft.VisualBasic::5b04740f9e115f48cc1b36ad30215d4f, gr\Landscape\Surface.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 26 (41.94%)
+    ' Comment Lines: 28 (45.16%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 8 (12.90%)
+    '     File Size: 2.33 KB
+
+
     '     Class Surface
     ' 
     '         Properties: Brush, paint, vertices
@@ -44,9 +56,8 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Imaging.Drawing2D
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Data
 

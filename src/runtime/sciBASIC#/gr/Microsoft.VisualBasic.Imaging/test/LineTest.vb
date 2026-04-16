@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cac828278f38759bfa7f6182053a756a, gr\Microsoft.VisualBasic.Imaging\test\LineTest.vb"
+﻿#Region "Microsoft.VisualBasic::a2639ef95624bcf1838f65a8dd374f79, gr\Microsoft.VisualBasic.Imaging\test\LineTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 31 (68.89%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (31.11%)
+    '     File Size: 1.20 KB
+
+
     ' Module LineTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -42,19 +54,20 @@
 Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Shapes
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Drawing
 
 Module LineTest
 
-    Sub Main()
+    Sub Main1()
         Using g = New Size(1600, 900).CreateGDIDevice
-            Dim line As New Line(0, 0, 100, 0)
+            Dim line As New Drawing2D.Shapes.Line(0, 0, 100, 0)
             Dim down = line.ParallelShift(20)
 
 
             Call line.Draw(g)
             Call down.Draw(g)
 
-            line = New Line(0, 0, 0, 100)
+            line = New Drawing2D.Shapes.Line(0, 0, 0, 100)
             Dim left = line.ParallelShift(20)
 
             Call line.Draw(g)
@@ -62,13 +75,13 @@ Module LineTest
 
 
             For Each line In {
-                New Line(200, 200, 450, 450),
-                New Line(300, 532, 1026, 663),
-                New Line(1200, 635, 1999, 99)
+                New Drawing2D.Shapes.Line(200, 200, 450, 450),
+                New Drawing2D.Shapes.Line(300, 532, 1026, 663),
+                New Drawing2D.Shapes.Line(1200, 635, 1999, 99)
             }
 
                 Dim cor = line.ParallelShift(-150)
-                cor.Stroke.Color = Color.Red
+                cor.Stroke.fill = NameOf(Color.Red)
                 cor.Stroke.Width = 5
 
                 Call line.Draw(g)

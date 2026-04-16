@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60310c114e1492b4991556b4f243b4ff, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::6c0971ace4c665768352f57fe6410970, Data_science\Visualization\Visualization\CorrelationNetwork.vb"
 
     ' Author:
     ' 
@@ -31,21 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 150 (78.12%)
+    ' Comment Lines: 13 (6.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 29 (15.10%)
+    '     File Size: 7.15 KB
+
+
     ' Module CorrelationNetwork
     ' 
-    '     Function: (+2 Overloads) BuildNetwork, HowStrong
+    '     Function: (+4 Overloads) BuildNetwork, HowStrong
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Math.DataFrame
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Math.Matrix
+Imports df = Microsoft.VisualBasic.Data.Framework.DataFrame
+Imports std = System.Math
 
 ''' <summary>
 ''' 使用这个模块用来生成相关度的网络，相关度网络是``Kmeans``，``Cmeans``或者其他的一些聚类网络可视化的基础
@@ -57,6 +71,113 @@ Public Module CorrelationNetwork
         Return data.Correlation(False).BuildNetwork(cutoff, pvalue)
     End Function
 
+    <Extension>
+    Public Function BuildNetwork(matrix As DistanceMatrix, cutoff As Double) As NetworkGraph
+        If matrix.is_dist Then
+            Throw New InvalidConstraintException("the given input matrix should be a similarity matrix!")
+        End If
+
+        Dim g As New NetworkGraph
+        Dim cor As Double
+        Dim nodeData As NodeData
+        Dim linkdata As EdgeData
+
+        For Each id As String In matrix.keys
+            nodeData = New NodeData With {.origID = id, .label = id}
+            g.CreateNode(id, nodeData)
+        Next
+
+        Dim uid As String
+
+        For Each id As String In matrix.keys
+            For Each partner As String In matrix.keys.Where(Function(b) b <> id)
+                cor = matrix(id, partner)
+
+                If std.Abs(cor) > cutoff Then
+                    uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
+                    linkdata = New EdgeData With {
+                        .label = uid,
+                        .length = cor,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, HowStrong(cor)}
+                        }
+                    }
+
+                    g.CreateEdge(id, partner, cor, linkdata)
+                End If
+            Next
+        Next
+
+        Return g
+    End Function
+
+    <Extension>
+    Public Function BuildNetwork(corDf As df, cutoff As Double,
+                                 Optional sample_label As String = "Sample",
+                                 Optional feature_label As String = "Feature") As NetworkGraph
+        Dim g As New NetworkGraph
+        Dim nodeData As NodeData
+        Dim linkdata As EdgeData
+        Dim cor As Double
+        Dim colnames As String() = corDf.featureNames
+        Dim rownames As String() = corDf.rownames
+        Dim rowOffset As Index(Of String) = rownames.Indexing
+
+        For Each id As String In colnames
+            nodeData = New NodeData With {
+                .origID = id,
+                .label = id,
+                .Properties = New Dictionary(Of String, String) From {
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, feature_label}
+                }
+            }
+
+            Call g.CreateNode(id, nodeData)
+        Next
+
+        For Each id As String In rownames
+            nodeData = New NodeData With {
+                .origID = id,
+                .label = id,
+                .Properties = New Dictionary(Of String, String) From {
+                    {NamesOf.REFLECTION_ID_MAPPING_NODETYPE, sample_label}
+                }
+            }
+
+            Call g.CreateNode(id, nodeData)
+        Next
+
+        Dim uid As String
+        Dim prob As Double
+        Dim cols = corDf.features _
+            .ToDictionary(Function(a) a.Key,
+                          Function(a)
+                              Return a.Value.TryCast(Of Double)
+                          End Function)
+
+        For Each id As String In TqdmWrapper.Wrap(rownames, wrap_console:=App.EnableTqdm)
+            For Each partner As String In colnames
+                cor = cols(partner)(rowOffset(id))
+
+                If std.Abs(cor) > cutoff Then
+                    uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
+                    linkdata = New EdgeData With {
+                        .label = uid,
+                        .length = cor,
+                        .Properties = New Dictionary(Of String, String) From {
+                            {NamesOf.REFLECTION_ID_MAPPING_INTERACTION_TYPE, HowStrong(cor)},
+                            {"pvalue", prob}
+                        }
+                    }
+
+                    Call g.CreateEdge(id, partner, cor, linkdata)
+                End If
+            Next
+        Next
+
+        Return g
+    End Function
+
     ''' <summary>
     ''' 关联网络是没有方向的
     ''' </summary>
@@ -64,7 +185,9 @@ Public Module CorrelationNetwork
     ''' <param name="cutoff">
     ''' 相关度阈值的绝对值
     ''' </param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' the correlation value is assigned to the edge weight value.
+    ''' </returns>
     <Extension>
     Public Function BuildNetwork(matrix As CorrelationMatrix, cutoff#, Optional pvalue As Double = 1) As (net As NetworkGraph, matrix As CorrelationMatrix)
         Dim g As New NetworkGraph
@@ -80,12 +203,12 @@ Public Module CorrelationNetwork
         Dim uid As String
         Dim prob As Double
 
-        For Each id As String In matrix.keys
+        For Each id As String In TqdmWrapper.Wrap(matrix.keys, wrap_console:=App.EnableTqdm)
             For Each partner As String In matrix.keys.Where(Function(b) b <> id)
                 cor = matrix(id, partner)
                 prob = matrix.pvalue(id, partner)
 
-                If stdNum.Abs(cor) >= cutoff AndAlso prob <= pvalue Then
+                If std.Abs(cor) > cutoff AndAlso prob < pvalue Then
                     uid$ = {partner, id}.OrderBy(Function(s) s).JoinBy(" - ")
                     linkdata = New EdgeData With {
                         .label = uid,
@@ -105,7 +228,7 @@ Public Module CorrelationNetwork
     End Function
 
     Private Function HowStrong(c#) As String
-        Dim abs = stdNum.Abs(c)
+        Dim abs = std.Abs(c)
 
         If abs < 0.4 Then
             Return "Very Weak"

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 86
+    '    Code Lines: 47 (54.65%)
+    ' Comment Lines: 29 (33.72%)
+    '    - Xml Docs: 65.52%
+    ' 
+    '   Blank Lines: 10 (11.63%)
+    '     File Size: 3.62 KB
+
+
     '     Module GitBashEnvironment
     ' 
     '         Properties: isRunningOnGitBash

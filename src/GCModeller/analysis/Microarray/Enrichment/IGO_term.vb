@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 14 (53.85%)
+    ' Comment Lines: 4 (15.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (30.77%)
+    '     File Size: 502 B
+
+
     ' Interface IGoTerm
     ' 
     '     Properties: Go_ID

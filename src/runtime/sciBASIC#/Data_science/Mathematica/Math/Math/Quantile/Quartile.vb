@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a892fc0c925cb172abe78a800d56823, Data_science\Mathematica\Math\Math\Quantile\Quartile.vb"
+﻿#Region "Microsoft.VisualBasic::9c438f537410f2d3e7b29195731c6483, Data_science\Mathematica\Math\Math\Quantile\Quartile.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 33 (45.83%)
+    ' Comment Lines: 31 (43.06%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (11.11%)
+    '     File Size: 4.19 KB
+
+
     '     Module Quartile
     ' 
     '         Function: Outlier, Quartile
@@ -42,7 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Quantile
 
@@ -77,9 +89,9 @@ Namespace Quantile
                 q = (n + 1) * {0.25, 0.5, 0.75}.AsVector
             End If
 
-            Dim q1 = vector(stdNum.Truncate(q(0)))
-            Dim q2 = vector.ElementAtOrDefault(stdNum.Truncate(q(1)), vector.Last)
-            Dim q3 = vector.ElementAtOrDefault(stdNum.Truncate(q(2)), vector.Last)
+            Dim q1 = vector(std.Truncate(q(0)))
+            Dim q2 = vector.ElementAtOrDefault(std.Truncate(q(1)), vector.Last)
+            Dim q3 = vector.ElementAtOrDefault(std.Truncate(q(2)), vector.Last)
             Dim IQR = q3 - q1
 
             Return New DataQuartile(q1, q2, q3, IQR, vector)

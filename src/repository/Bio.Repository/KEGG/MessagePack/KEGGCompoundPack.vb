@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33be84876d7d68e7bfe34f5582ae7be1, Bio.Repository\KEGG\MessagePack\KEGGCompoundPack.vb"
+﻿#Region "Microsoft.VisualBasic::c19a6f6f7ff48179400a849b1f2438ff, Bio.Repository\KEGG\MessagePack\KEGGCompoundPack.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 63 (63.64%)
+    ' Comment Lines: 25 (25.25%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 11 (11.11%)
+    '     File Size: 4.32 KB
+
 
     '     Class KEGGCompoundPack
     ' 
@@ -96,7 +108,7 @@ Namespace KEGG.Metabolism
         Protected Friend Shared Function dblinkObj() As Dictionary(Of String, NilImplication)
             Return New Dictionary(Of String, NilImplication) From {
                 {NameOf(DBLink.DBName), NilImplication.MemberDefault},
-                {NameOf(DBLink.Entry), NilImplication.MemberDefault}
+                {NameOf(DBLink.entry), NilImplication.MemberDefault}
             }
         End Function
 
@@ -110,6 +122,11 @@ Namespace KEGG.Metabolism
             End Using
         End Function
 
+        ''' <summary>
+        ''' load kegg compounds collection from a messagepack file
+        ''' </summary>
+        ''' <param name="file">a file stream data in messagepack format.</param>
+        ''' <returns></returns>
         Public Shared Function ReadKeggDb(file As Stream) As Compound()
             Return MsgPackSerializer.Deserialize(Of Compound())(file)
         End Function
@@ -125,7 +142,7 @@ Namespace KEGG.Metabolism
         ''' </remarks>
         Public Shared Function WriteKeggDb(cpds As IEnumerable(Of Compound), file As Stream) As Boolean
             Try
-                Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)
+                Call MsgPackSerializer.SerializeObject(cpds.GroupBy(Function(c) c.entry).Select(Function(c) c.First).ToArray, file)
                 Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 84 (50.00%)
+    ' Comment Lines: 62 (36.90%)
+    '    - Xml Docs: 95.16%
+    ' 
+    '   Blank Lines: 22 (13.10%)
+    '     File Size: 7.01 KB
+
+
     ' Class entityset
     ' 
     '     Properties: DB_ID, inferredProt, isOrdered, maxHomologues, totalProt

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45d20c1b69781fa9e082eef269ba355c, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
+﻿#Region "Microsoft.VisualBasic::c0f49618dd907c6dadb89c7a1ba8ee5b, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\Operation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 65 (68.42%)
+    ' Comment Lines: 18 (18.95%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 12 (12.63%)
+    '     File Size: 4.43 KB
+
+
     '     Class Operation
     ' 
     '         Properties: MolTypeNucleotide, MolTypeProtein
@@ -60,7 +72,7 @@ Namespace LocalBLAST.InteropService
             Call MyBase.New(BlastBin)
         End Sub
 
-        Public Overrides Function Blastp(InputQuery As String, TargetSubjectDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overrides Function Blastp(InputQuery As String, TargetSubjectDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastp"), Executable.Executable_BLAST).CreateCommand(InputQuery, TargetSubjectDb, e, Output)
             MyBase._InternalLastBLASTOutputFile = Output
             Return Cmdl
@@ -115,13 +127,13 @@ Namespace LocalBLAST.InteropService
             }
         End Function
 
-        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirectFile
+        Public Overloads Overrides Function Blastn(Input As String, TargetDb As String, Output As String, Optional e As String = "10") As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("blastn"), Executable.Executable_BLAST).CreateCommand(Input, TargetDb, e, Output)
             MyBase._InternalLastBLASTOutputFile = Output
             Return Cmdl
         End Function
 
-        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirectFile
+        Public Overloads Overrides Function FormatDb(Db As String, dbType As String) As IORedirect
             Dim Cmdl = DirectCast(ProgramProfile.GetCommand("builddb"), Executable.Executable_BuildDB).CreateCommand(Db, dbType)
             Return Cmdl
         End Function

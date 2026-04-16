@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74 (49.01%)
+    ' Comment Lines: 55 (36.42%)
+    '    - Xml Docs: 94.55%
+    ' 
+    '   Blank Lines: 22 (14.57%)
+    '     File Size: 6.42 KB
+
+
     ' Class dict_exp_technique_types_superclasses
     ' 
     '     Properties: exp_technique_type_superclass_guid, name

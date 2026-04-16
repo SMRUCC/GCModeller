@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::60e9cc85d88a634488df990b70e6a31a, Microsoft.VisualBasic.Core\src\Serialization\JSON\Formatter\JsonFormatterStrategyContext.vb"
+﻿#Region "Microsoft.VisualBasic::4e307cc337f9b3767443c7372fd10fc8, Microsoft.VisualBasic.Core\src\Serialization\JSON\Formatter\JsonFormatterStrategyContext.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 90 (75.63%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 29 (24.37%)
+    '     File Size: 3.67 KB
+
+
     '     Class JsonFormatterStrategyContext
     ' 
     '         Properties: Indent, IsInArrayScope, IsProcessingDoubleQuoteInitiatedString, IsProcessingSingleQuoteInitiatedString, IsProcessingString
@@ -45,9 +57,7 @@
 
 #End Region
 
-Imports System.Collections.Generic
 Imports System.Text
-Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Serialization.JSON.Formatter.Internals.Strategies
 
 Namespace Serialization.JSON.Formatter.Internals

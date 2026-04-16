@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2e9d917bd76ead24c91e506eb526bdb8, Data\DataFrame\IO\Generic\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::d46fcd3c7cd13809909084e15923d663, Data\DataFrame\IO\Generic\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 312
+    '    Code Lines: 200 (64.10%)
+    ' Comment Lines: 85 (27.24%)
+    '    - Xml Docs: 98.82%
+    ' 
+    '   Blank Lines: 27 (8.65%)
+    '     File Size: 13.43 KB
+
+
     '     Module Extensions
     ' 
     '         Function: asCharacter, AsCharacter, AsDataSet, CreateObject, DataFrame
-    '                   EuclideanDistance, GroupBy, NamedMatrix, NamedValues, Project
-    '                   (+2 Overloads) PropertyNames, (+2 Overloads) Transpose, Values, (+2 Overloads) Vector
+    '                   EuclideanDistance, GroupBy, NamedMatrix, NamedValues, (+2 Overloads) PropertyNames
+    '                   (+2 Overloads) Transpose, Values, (+2 Overloads) Vector
+    ' 
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,14 +57,13 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Scripting.Expressions
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
 
 Namespace IO
 
@@ -68,15 +80,18 @@ Namespace IO
                 names = (a.Properties.Keys.AsList + b.Properties.Keys).Distinct.ToArray
             End If
 
-            Dim d# = Aggregate key As String
-                     In names
-                     Let x = a(key)
-                     Let y = b(key)
-                     Into Sum((x - y) ^ 2) '
+            Dim x As Double() = a(names)
+            Dim y As Double() = b(names)
 
-            Return stdNum.Sqrt(d)
+            Return x.EuclideanDistance(y)
         End Function
 
+        ''' <summary>
+        ''' take a column from the given matrix
+        ''' </summary>
+        ''' <param name="matrix">matrix object that consist with multiple rows</param>
+        ''' <param name="propertyName">the column name</param>
+        ''' <returns>column data with mapping of row id to value.</returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function NamedValues(matrix As IEnumerable(Of DataSet), propertyName$) As Dictionary(Of String, Double)
@@ -139,16 +154,17 @@ Namespace IO
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Project(data As IEnumerable(Of DataSet), keys$()) As IEnumerable(Of DataSet)
-            Return data _
-                .Select(Function(x)
-                            Return New DataSet With {
-                                .ID = x.ID,
-                                .Properties = keys.ToDictionary(
-                                    Function(k) k,
-                                    Function(k) x.ItemValue(k))
-                            }
+        Iterator Public Function Project(data As IEnumerable(Of DataSet), keys$()) As IEnumerable(Of DataSet)
+            For Each x As DataSet In data.SafeQuery
+                Yield New DataSet With {
+                    .ID = x.ID,
+                    .Properties = keys.ToDictionary(
+                        Function(k) k,
+                        Function(k)
+                            Return x.ItemValue(k)
                         End Function)
+                }
+            Next
         End Function
 
         ''' <summary>
@@ -183,11 +199,12 @@ Namespace IO
 
         ''' <summary>
         ''' Gets the union collection of the keys from <see cref="DataSet.Properties"/>.
-        ''' (包含所有的已经去除重复了的属性名称)
         ''' </summary>
         ''' <param name="list"></param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' (包含所有的已经去除重复了的属性名称)
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function PropertyNames(Of T)(list As IEnumerable(Of DynamicPropertyBase(Of T))) As String()
@@ -200,7 +217,9 @@ Namespace IO
         End Function
 
         ''' <summary>
-        ''' 取出某一个给定的属性的所有值。取出来的数据元素之间的顺序是和<paramref name="datasets"/>之中的元素的顺序是一致的。
+        ''' Get feature vector column value from the given dataset via a specific feature name.
+        ''' (取出某一个给定的属性的所有值。取出来的数据元素之间的顺序是
+        ''' 和<paramref name="datasets"/>之中的元素的顺序是一致的。)
         ''' </summary>
         ''' <param name="datasets"></param>
         ''' <param name="property">字典的键名称</param>

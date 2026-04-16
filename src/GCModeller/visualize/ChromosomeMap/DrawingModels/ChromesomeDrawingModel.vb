@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c7a984ef87110b4f5807312d18ac5c0a, visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::d7064a0da3834e915b4de21e78a256c8, visualize\ChromosomeMap\DrawingModels\ChromesomeDrawingModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 51 (52.58%)
+    ' Comment Lines: 38 (39.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (8.25%)
+    '     File Size: 3.77 KB
+
+
     '     Class ChromesomeDrawingModel
     ' 
     '         Properties: COGs, Configuration, GeneObjects, Loci, MotifSiteColors
@@ -46,8 +58,33 @@
 Imports System.Drawing
 Imports System.Text
 Imports Microsoft.VisualBasic.Extensions
-Imports Oracle.Java.IO.Properties.Reflector
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace DrawingModels
 

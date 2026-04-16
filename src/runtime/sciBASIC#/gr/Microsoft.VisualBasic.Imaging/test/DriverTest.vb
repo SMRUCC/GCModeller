@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46b5735c54a3b32f6c47376fe941a9c2, gr\Microsoft.VisualBasic.Imaging\test\DriverTest.vb"
+﻿#Region "Microsoft.VisualBasic::fd4808c8c16daef020fc32e5569ac257, gr\Microsoft.VisualBasic.Imaging\test\DriverTest.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 30 (50.00%)
+    ' Comment Lines: 13 (21.67%)
+    '    - Xml Docs: 46.15%
+    ' 
+    '   Blank Lines: 17 (28.33%)
+    '     File Size: 2.01 KB
+
+
     ' Module DriverTest
     ' 
     '     Function: testPlot
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -48,7 +60,7 @@ Imports Microsoft.VisualBasic.MIME.Html.Language.CSS
 Imports VB = Microsoft.VisualBasic.Language.Runtime
 
 Module DriverTest
-    Sub Main()
+    Sub Main1()
 
         Dim cssfile As CSSFile = CssParser.GetTagWithCSS("G:\GCModeller\src\runtime\sciBASIC#\gr\SVG\demo.css".ReadAllText)
 
@@ -92,7 +104,6 @@ Module DriverTest
     ''' <param name="A!"></param>
     ''' <param name="b!"></param>
     ''' <returns></returns>
-    <Driver.CSS.Driver("test.plot")>
     Public Function testPlot(A!, b!, Optional bg$ = "1234", Optional testFont$ = CSSFont.Win7LargerBold) As GraphicsData
         Call Console.WriteLine(A)
         Call Console.WriteLine(b)

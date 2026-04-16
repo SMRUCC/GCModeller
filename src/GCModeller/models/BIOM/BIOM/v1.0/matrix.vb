@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::106c1011fcdb09bf28d24c8cf23be112, models\BIOM\BIOM\v1.0\matrix.vb"
+﻿#Region "Microsoft.VisualBasic::813455a3ea24310bc1e4d851144b7753, models\BIOM\BIOM\v1.0\matrix.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 71 (55.91%)
+    ' Comment Lines: 39 (30.71%)
+    '    - Xml Docs: 87.18%
+    ' 
+    '   Blank Lines: 17 (13.39%)
+    '     File Size: 4.90 KB
+
 
     '     Class IntegerMatrix
     ' 
@@ -72,7 +84,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As IntegerMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix))
+            Dim biom As IntegerMatrix = jsonObj.CreateObject(GetType(IntegerMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
@@ -85,7 +97,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As FloatMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix))
+            Dim biom As FloatMatrix = jsonObj.CreateObject(GetType(FloatMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
@@ -98,7 +110,7 @@ Namespace v10
         Public Overloads Shared Function LoadFile(path$) As StringMatrix
             Dim jsonText$ = path.ReadAllText
             Dim jsonObj As JsonElement = json.ParseJson(jsonText)
-            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix))
+            Dim biom As StringMatrix = jsonObj.CreateObject(GetType(StringMatrix), decodeMetachar:=True)
             Return biom
         End Function
     End Class
@@ -142,7 +154,7 @@ Namespace v10
         Public Function ToDenseMatrix(Of T)(table As T()(), shape As Integer()) As T()()
             Dim rows = shape(Scan0)
             Dim columns = shape(1)
-            Dim matrix As T()() = MAT(Of T)(rows, columns)
+            Dim matrix As T()() = RectangularArray.Matrix(Of T)(rows, columns)
             Dim i, j As Integer
 
             For Each row As T() In table

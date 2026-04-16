@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::44e8eb229134ed89af21286977335729, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\ErrorLog.vb"
+﻿#Region "Microsoft.VisualBasic::aa5e96e89b51eab18d4218657cfe6ce9, Microsoft.VisualBasic.Core\src\ApplicationServices\Debugger\Logging\ErrorLog.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 70 (84.34%)
+    ' Comment Lines: 7 (8.43%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 6 (7.23%)
+    '     File Size: 3.46 KB
+
+
     '     Module ErrorLog
     ' 
-    '         Function: BugsFormatter, GetErrorLines
+    '         Function: BugsFormatter, EnvironmentInfo, GetErrorLines
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,11 +56,11 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Settings
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace ApplicationServices.Debugging.Logging
 
-    Module ErrorLog
+    Public Module ErrorLog
 
         <Extension>
         Private Function GetErrorLines(ex As Exception) As String()
@@ -57,6 +69,18 @@ Namespace ApplicationServices.Debugging.Logging
             Else
                 Return ex.ToString.LineTokens
             End If
+        End Function
+
+        Public Function EnvironmentInfo() As String
+            Return New StringBuilder() _
+                .AppendLine(New String("=", 120)) _
+                .Append(LogFile.SystemInfo) _
+                .AppendLine(New String("=", 120)) _
+                .AppendLine() _
+                .AppendLine($"Environment Variables from {GetType(App).FullName}:") _
+                .AppendLine(ConfigEngine.Prints(App.GetAppVariables)) _
+                .AppendLine(New String("=", 120)) _
+                .ToString
         End Function
 
         ''' <summary>
@@ -85,15 +109,9 @@ Namespace ApplicationServices.Debugging.Logging
                 .StringSplit("\s[-]{3}>\s")
 
             Return New StringBuilder() _
-                .AppendLine("TIME:  " & Now.ToString) _
+                .AppendLine("TIME:  " & DateTime.UtcNow.ToString) _
                 .AppendLine("TRACE: " & trace) _
-                .AppendLine(New String("=", 120)) _
-                .Append(LogFile.SystemInfo) _
-                .AppendLine(New String("=", 120)) _
-                .AppendLine() _
-                .AppendLine($"Environment Variables from {GetType(App).FullName}:") _
-                .AppendLine(ConfigEngine.Prints(App.GetAppVariables)) _
-                .AppendLine(New String("=", 120)) _
+                .AppendLine(EnvironmentInfo) _
                 .AppendLine() _
                 .AppendLine(errorName & ":") _
                 .AppendLine() _

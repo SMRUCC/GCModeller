@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 34 (65.38%)
+    ' Comment Lines: 12 (23.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (11.54%)
+    '     File Size: 1.72 KB
+
+
     ' Module DataTypes
     ' 
     '     Function: [GetType], (+2 Overloads) SchemaDataType

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 25
+    '    Code Lines: 19 (76.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (24.00%)
+    '     File Size: 1.10 KB
+
+
     '     Class TCS
     ' 
     '         Properties: Chemotaxis, ChemotaxisHKConfidence, HK, HKRRConfidence, RR

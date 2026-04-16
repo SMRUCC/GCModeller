@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34a9b88409ae852d6e16c4fbbbb1489f, Data_science\DataMining\DataMining\Kernel\BayesianBeliefNetwork\BeliefNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::f3df6a43cf342b488d517a40c6c4c813, Data_science\DataMining\DataMining\Kernel\BayesianBeliefNetwork\BeliefNetwork.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 297
+    '    Code Lines: 217 (73.06%)
+    ' Comment Lines: 32 (10.77%)
+    '    - Xml Docs: 78.12%
+    ' 
+    '   Blank Lines: 48 (16.16%)
+    '     File Size: 12.45 KB
+
 
     '     Class BeliefNode
     ' 
@@ -94,7 +106,6 @@
 
 Imports System.Text
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic
 
 Namespace Kernel.BayesianBeliefNetwork
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 8
+    '    Code Lines: 7 (87.50%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (12.50%)
+    '     File Size: 239 B
+
+
     '     Interface IQMatrix
     ' 
     '         Function: GetQ, GetQD

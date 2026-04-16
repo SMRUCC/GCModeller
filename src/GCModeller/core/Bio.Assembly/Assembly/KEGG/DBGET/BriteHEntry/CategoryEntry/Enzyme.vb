@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e83d1cbe367ad8feb17cc260dcec7ec, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb"
+﻿#Region "Microsoft.VisualBasic::02bba03c2851ce1e4146ebef530fcb46, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\Enzyme.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 46 (71.88%)
+    ' Comment Lines: 8 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (15.62%)
+    '     File Size: 2.05 KB
+
 
     '     Class EnzymeEntry
     ' 
@@ -101,10 +113,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' <returns></returns>
         ''' <remarks>Load resource using <see cref="ResourcesSatellite"/></remarks>
         Public Shared Function GetResource() As htext
-            Dim res$ = GetType(EnzymeEntry) _
-                .Assembly _
-                .ResourcesSatellite() _
-                .GetString("ko01000")
+            Dim res$ = My.Resources.KEGG.ko01000
             Dim htext As htext = htext.StreamParser(res)
             Return htext
         End Function

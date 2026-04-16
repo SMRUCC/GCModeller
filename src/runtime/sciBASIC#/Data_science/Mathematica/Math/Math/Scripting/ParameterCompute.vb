@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 172
+    '    Code Lines: 107 (62.21%)
+    ' Comment Lines: 43 (25.00%)
+    '    - Xml Docs: 53.49%
+    ' 
+    '   Blank Lines: 22 (12.79%)
+    '     File Size: 7.94 KB
+
+
     '     Module ParameterExpressionScript
     ' 
     '         Function: (+2 Overloads) Evaluate, GetValue

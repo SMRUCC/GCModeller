@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6461a11b2fc739651fe5a727c76dee24, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
+﻿#Region "Microsoft.VisualBasic::b0f5038eed9ec11a60419937958dfb36, core\Bio.Assembly\Assembly\NCBI\Database\CDD\DbFile.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 277
+    '    Code Lines: 214 (77.26%)
+    ' Comment Lines: 36 (13.00%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 27 (9.75%)
+    '     File Size: 11.63 KB
+
+
     '     Class DbFile
     ' 
     '         Properties: BuildTime, FastaUrl, FilePath, Id, MimeType
     '                     SmpData
     ' 
     '         Function: ContainsId, ContainsId_p, (+2 Overloads) ExportFASTA, FindByTabId, PreLoad
-    '                   (+2 Overloads) Save, Takes, ToString
+    '                   (+3 Overloads) Save, Takes, ToString
     ' 
     '         Sub: (+2 Overloads) __buildDb, BuildDb
     ' 
@@ -46,6 +58,7 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
@@ -136,7 +149,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                 If Not value.IsNullOrEmpty Then
                     _innerDict = value.ToDictionary(Function(o As CDD.SmpFile) o.Name)
                 Else
-                    Call $"Null database entries!".__DEBUG_ECHO
+                    Call $"Null database entries!".debug
                     _innerDict = New Dictionary(Of DIR, SmpFile)
                 End If
             End Set
@@ -215,7 +228,7 @@ Here, we report on the progress of the curation effort and associated improvemen
 
         Private Shared Sub __buildDb(DIR As String, EXPORT As String)
             For Each Pn As Pn In PreLoad(DIR)
-                Call $"> Build {Pn.FilePath.ToFileURL}".__DEBUG_ECHO
+                Call $"> Build {Pn.FilePath.ToFileURL}".debug
                 Call __buildDb(Pn, EXPORT)
             Next
         End Sub
@@ -236,7 +249,7 @@ Here, we report on the progress of the curation effort and associated improvemen
                 .BuildTime = Now.ToString
             }
 
-            Call $" EXPORT fasta sequence data {FASTA}".__DEBUG_ECHO
+            Call $" EXPORT fasta sequence data {FASTA}".debug
             Call CType((From Smp As SmpFile
                         In DbFile.SmpData.AsParallel
                         Let Fsa As FASTA.FastaSeq = Smp.EXPORT
@@ -306,6 +319,15 @@ Here, we report on the progress of the curation effort and associated improvemen
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return Me.GetXml.SaveTo(FilePath Or Me.FilePath.When(FilePath.StringEmpty), Encoding)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(Me.GetXml)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

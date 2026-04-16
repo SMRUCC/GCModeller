@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da7d37f5c2821e7d67cec90f93723e9e, Data_science\Mathematica\Math\Math\Algebra\Polynomial\Polynomial.vb"
+﻿#Region "Microsoft.VisualBasic::ebc6a34729e804b232153d63d0644505, Data_science\Mathematica\Math\Math\Algebra\Polynomial\Polynomial.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 87 (63.50%)
+    ' Comment Lines: 29 (21.17%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 21 (15.33%)
+    '     File Size: 4.39 KB
+
+
     '     Class Polynomial
     ' 
     '         Properties: IsLinear
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: Evaluate, Parse, (+3 Overloads) ToString
     ' 
     ' 
@@ -85,6 +98,18 @@ Namespace LinearAlgebra
                 Return Factors.Length <= 2
             End Get
         End Property
+
+        Sub New()
+        End Sub
+
+        ''' <summary>
+        ''' y = a + bx
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        Sub New(a As Double, b As Double)
+            Factors = {a, b}
+        End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function Evaluate(ParamArray x() As Double) As Double

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 53 (60.92%)
+    ' Comment Lines: 20 (22.99%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (16.09%)
+    '     File Size: 3.09 KB
+
+
     '     Module ModelParsers
     ' 
     '         Function: (+2 Overloads) ConstantParser, ExperimentParser, sEquationParser

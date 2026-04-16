@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 43 (59.72%)
+    ' Comment Lines: 20 (27.78%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 9 (12.50%)
+    '     File Size: 2.53 KB
+
+
     ' Module Axioms
     ' 
     '     Function: (+2 Overloads) Infer, InferRule

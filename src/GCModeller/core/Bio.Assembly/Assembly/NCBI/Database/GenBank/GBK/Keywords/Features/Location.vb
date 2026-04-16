@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ac704f723c422a00ca89c0422c6b0dfb, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
+﻿#Region "Microsoft.VisualBasic::792ed0850c149c417a5f22806758b059, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\Features\Location.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 110 (61.45%)
+    ' Comment Lines: 40 (22.35%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 29 (16.20%)
+    '     File Size: 6.55 KB
+
+
     '     Class Location
     ' 
     '         Properties: Complement, ContiguousRegion, HasJoinLocation, JoinLocation, Location
     '                     Locations, UniqueId
     ' 
-    '         Function: ToString
+    '         Function: JoinLocations, ToString
     ' 
     '     Class RegionSegment
     ' 
@@ -53,7 +65,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
 
@@ -72,6 +84,15 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         ''' </summary>
         ''' <remarks></remarks>
         <XmlAttribute> Public Property Complement As Boolean
+
+        ''' <summary>
+        ''' join mutliple location for the extron.
+        ''' join(...,...,...)
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' 这个主要是应用于记录真核生物的mRNA外显子区域的位置，基于这个列表进行相应的序列片段提取，构建出一段完整的mRNA序列数据
+        ''' </remarks>
         <XmlAttribute> Public Property Locations As RegionSegment()
             Get
                 Return _locis
@@ -90,7 +111,10 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
         Dim _left, _right As Long
 
         ''' <summary>
-        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在基因组序列之上的位置
+        ''' 假若目标对象是真核生物基因组的话，则可能会因为内含子的原因出现不连续的片段，
+        ''' 故而此时的<see cref="Locations"></see>属性会有多个值，这个属性会尝试将连续
+        ''' 的区域返回。对于原核生物而言，也可以直接使用这个属性来获取特性位点的在
+        ''' 基因组序列之上的位置
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
@@ -100,69 +124,6 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 Return New NucleotideLocation(_left, _right, Complement)
             End Get
         End Property
-
-        Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
-
-        Public Shared Widening Operator CType(strData As String) As Location
-            Dim LocationComplement As Boolean = InStr(strData, "complement(") > 0
-            Dim LQuery As List(Of RegionSegment) =
-                (From p As Match In Regex.Matches(strData, LOCATION_PAIRED)
-                 Let Tokens = Regex.Split(p.Value, "[.]{2}[>]?")
-                 Let Segment As RegionSegment = New RegionSegment With {
-                     .Left = Val(Tokens.First),
-                     .Right = Val(Tokens.Last)
-                 }
-                 Select Segment).AsList
-
-            If LQuery.IsNullOrEmpty Then
-                Call $"Location is empty!   ""{strData}""".__DEBUG_ECHO
-            End If
-
-            Dim JoinLocation As RegionSegment = Nothing
-
-            If InStr(strData, "join(") > 0 Then
-                If LocationComplement Then
-                    JoinLocation = LQuery.First
-                    Call LQuery.RemoveAt(0)
-                Else
-                    JoinLocation = LQuery.Last
-                    Call LQuery.Remove(JoinLocation)
-                End If
-
-                Call $"Join location at {JoinLocation.ToString}".__DEBUG_ECHO
-            End If
-
-            Dim Location As New Location With {
-                .Locations = LQuery.ToArray,
-                .Complement = LocationComplement,
-                .JoinLocation = JoinLocation
-            }
-
-            Return Location
-        End Operator
-
-        Public ReadOnly Property HasJoinLocation As Boolean
-            Get
-                Return Not JoinLocation Is Nothing
-            End Get
-        End Property
-
-        Public Overrides Function ToString() As String
-            Dim lst As String() = (From p As RegionSegment
-                                   In Locations
-                                   Select p.Left & ".." & p.Right).ToArray
-            Dim sBuilder = String.Join(", ", lst)
-
-            If Complement Then
-                sBuilder = String.Format("complement({0})", sBuilder)
-            End If
-
-            If HasJoinLocation Then
-                sBuilder &= "  Join with " & JoinLocation.ToString
-            End If
-
-            Return sBuilder
-        End Function
 
         Public ReadOnly Property Location As ComponentModel.Loci.Location Implements ILocationSegment.Location
             Get
@@ -175,19 +136,102 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
                 Return ToString()
             End Get
         End Property
+
+        Public ReadOnly Property HasJoinLocation As Boolean
+            Get
+                Return Not JoinLocation Is Nothing
+            End Get
+        End Property
+
+        Const LOCATION_PAIRED As String = "\d+[.]{2}[>]?\d+"
+
+        Public Iterator Function JoinLocations() As IEnumerable(Of NucleotideLocation)
+            For Each loc As RegionSegment In Locations
+                Yield New NucleotideLocation(loc.Left, loc.Right, Complement)
+            Next
+        End Function
+
+        ''' <summary>
+        ''' parse the location string
+        ''' </summary>
+        ''' <param name="strData"></param>
+        ''' <returns></returns>
+        Public Shared Widening Operator CType(strData As String) As Location
+            Dim LocationComplement As Boolean = InStr(strData, "complement(") > 0
+            Dim LQuery As List(Of RegionSegment) =
+                (From p As Match In Regex.Matches(strData, LOCATION_PAIRED)
+                 Let Tokens = Regex.Split(p.Value, "[.]{2}[>]?")
+                 Let Segment As RegionSegment = New RegionSegment With {
+                     .Left = Val(Tokens.First),
+                     .Right = Val(Tokens.Last)
+                 }
+                 Select Segment).AsList
+
+            'If LQuery.IsNullOrEmpty Then
+            '    Call $"Location is empty!   ""{strData}""".debug
+            'End If
+
+            Dim JoinLocation As RegionSegment = Nothing
+
+            If InStr(strData, "join(") > 0 Then
+                If LocationComplement Then
+                    JoinLocation = LQuery.First
+                    Call LQuery.RemoveAt(0)
+                Else
+                    JoinLocation = LQuery.Last
+                    Call LQuery.Remove(JoinLocation)
+                End If
+
+                ' Call $"Join location at {JoinLocation.ToString}".debug
+            End If
+
+            Dim Location As New Location With {
+                .Locations = LQuery.ToArray,
+                .Complement = LocationComplement,
+                .JoinLocation = JoinLocation
+            }
+
+            Return Location
+        End Operator
+
+        Public Overrides Function ToString() As String
+            Dim lst As String() = (From p As RegionSegment
+                                   In Locations
+                                   Select p.Left & ".." & p.Right).ToArray
+            Dim s = String.Join(", ", lst)
+
+            If Complement Then
+                s = String.Format("complement({0})", s)
+            End If
+
+            If HasJoinLocation Then
+                s &= "  Join with " & JoinLocation.ToString
+            End If
+
+            Return s
+        End Function
+
+        Public Shared Narrowing Operator CType(loc As Location) As NucleotideLocation
+            If loc Is Nothing Then
+                Return Nothing
+            Else
+                Return loc.ContiguousRegion
+            End If
+        End Operator
     End Class
 
     ''' <summary>
-    ''' A site region on the sequence.(序列上面的一个位点)
+    ''' A site region on the sequence.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(序列上面的一个位点)</remarks>
     Public Class RegionSegment
+
         <XmlAttribute> Public Property Left As Long
         <XmlAttribute> Public Property Right As Long
 
         Public ReadOnly Property RegionLength As Integer
             Get
-                Return stdNum.Abs(Left - Right)
+                Return std.Abs(Left - Right)
             End Get
         End Property
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 27
+    '    Code Lines: 12 (44.44%)
+    ' Comment Lines: 11 (40.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.81%)
+    '     File Size: 787 B
+
+
     '     Class WordTranslation
     ' 
     '         Properties: Pronunciation, Translations, Word

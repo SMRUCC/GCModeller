@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::297fe11797362ed81ea1456a04672557, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
+﻿#Region "Microsoft.VisualBasic::a718e0b1f9aa9ad619a4c62100a200c3, visualize\DataVisualizationExtensions\CatalogProfiling\CatalogBubblePlot.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
-    '     Class BubbleTerm
+
+    ' Code Statistics:
+
+    '   Total Lines: 286
+    '    Code Lines: 235 (82.17%)
+    ' Comment Lines: 20 (6.99%)
+    '    - Xml Docs: 85.00%
     ' 
-    '         Properties: data, Factor, PValue, termId
-    ' 
+    '   Blank Lines: 31 (10.84%)
+    '     File Size: 12.18 KB
+
+
     '     Class CatalogBubblePlot
+    ' 
+    '         Properties: radiusFormat, radiusTitle
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -63,45 +73,59 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.MIME.Html.CSS
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace CatalogProfiling
-
-    Public Class BubbleTerm
-
-        ''' <summary>
-        ''' [X]
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property Factor As Double
-        ''' <summary>
-        ''' [Y] -log10(p-value)
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property PValue As Double
-        ''' <summary>
-        ''' bubble radius
-        ''' </summary>
-        ''' <returns></returns>
-        Public Property data As Double
-        Public Property termId As String
-
-    End Class
 
     Public Class CatalogBubblePlot : Inherits Plot
 
         ReadOnly showBubbleBorder As Boolean
         ReadOnly data As Dictionary(Of String, BubbleTerm())
-        ReadOnly enrichColors As Dictionary(Of String, Color())
-        ReadOnly displays As Integer = 0
-        ReadOnly pvalue As Double
+        ReadOnly enrichColors As Dictionary(Of String, Color)
+        ReadOnly displays As LabelDisplayStrategy = LabelDisplayStrategy.Default
+        ''' <summary>
+        ''' the pvalue cutoff between the enriched terms 
+        ''' and the un-enriched terms. default value of 
+        ''' this cutoff is -log10(0.05)
+        ''' </summary>
+        ReadOnly pvalue As Double = -std.Log10(0.05)
         ReadOnly unenrich As Color
         ReadOnly bubbleResize As DoubleRange
 
+        Public Property radiusTitle As String = "Enrichment Hits"
+        Public Property radiusFormat As String = "F0"
+
         Public Sub New(data As Dictionary(Of String, BubbleTerm()),
-                       enrichColors As Dictionary(Of String, Color()),
+                       enrichColors As Dictionary(Of String, Color),
                        showBubbleBorder As Boolean,
-                       displays As Integer,
+                       displays As LabelDisplayStrategy,
                        pvalue As Double,
                        unenrich As Color,
                        bubbleSize As DoubleRange,
@@ -122,13 +146,13 @@ Namespace CatalogProfiling
         End Sub
 
         Private Function GetColorIndex(ByRef catalog As List(Of BubbleTerm), colors As Color()) As Integer()
-            Dim pv = catalog.Select(Function(gene) gene.PValue).AsVector
+            Dim pv As Vector = catalog.Select(Function(gene) gene.PValue).AsVector
             Dim enrichResults = catalog(which.IsTrue(pv > pvalue))
             Dim colorIndex%()
             Dim dataRange As DoubleRange = enrichResults _
                 .Select(Function(gene) gene.PValue) _
                 .Range
-            Dim indexRange As DoubleRange = {0, colors.Length - 1}
+            Dim indexRange As DoubleRange = New Double() {0, colors.Length - 1}
 
             If dataRange.Length = 0 Then
                 colorIndex = enrichResults _
@@ -152,19 +176,17 @@ Namespace CatalogProfiling
             For Each category As String In data.Keys
                 ' 这些都是经过筛选的，pvalue阈值符合条件的，
                 ' 剩下的pvalue阈值不符合条件的都被当作为同一个serials
-                Dim color As Color() = enrichColors(category).Alpha(250).ToArray
+                Dim color As Color = enrichColors(category).Alpha(250)
                 Dim terms = data(category).AsList
                 Dim pt As PointData = Nothing
-                Dim colorIndex As Integer() = GetColorIndex(terms, color)
                 Dim serial As New SerialData With {
-                    .color = color.Last,
+                    .color = color,
                     .title = category,
                     .pts = terms _
                         .SeqIterator _
                         .Select(Function(obj)
                                     Dim gene As BubbleTerm = obj
-                                    Dim i As Integer = colorIndex(obj)
-                                    Dim c As Color = color(i)
+                                    Dim c As Color = color
 
                                     Return New PointData With {
                                         .value = allValues.ScaleMapping(gene.data, bubbleResize),
@@ -173,6 +195,7 @@ Namespace CatalogProfiling
                                         .color = c.ARGBExpression
                                     }
                                 End Function) _
+                        .Where(Function(t) t.pt.Y >= pvalue) _
                         .OrderByDescending(Function(bubble)
                                                ' 按照y也就是pvalue倒序排序
                                                Return bubble.pt.Y
@@ -180,24 +203,22 @@ Namespace CatalogProfiling
                         .ToArray
                 }
 
-                ' 只显示前displays个term的标签字符串，
-                ' 其余的term的标签字符串都设置为空值， 就不会被显示出来了
-                For i As Integer = displays To serial.pts.Length - 1
-                    pt = serial.pts(i)
-                    serial.pts(i) = New PointData With {
-                        .pt = pt.pt,
-                        .tag = Nothing,
-                        .value = pt.value,
-                        .color = pt.color
-                    }
-                Next
-
-                Yield serial
+                If serial.pts.Length > 0 Then
+                    Yield serial
+                End If
             Next
 
             Yield unenrichSerial(catalog:=data.Values.IteratesALL, allValues)
         End Function
 
+        Friend Const unenrichTerm As String = "Unenrich terms"
+
+        ''' <summary>
+        ''' the title that created via this function is <see cref="unenrichTerm"/>
+        ''' </summary>
+        ''' <param name="catalog"></param>
+        ''' <param name="allValues"></param>
+        ''' <returns></returns>
         Private Function unenrichSerial(catalog As IEnumerable(Of BubbleTerm), allValues As DoubleRange) As SerialData
             Dim unenrichs As BubbleTerm() = catalog _
                 .Where(Function(term) term.PValue <= pvalue) _
@@ -213,7 +234,7 @@ Namespace CatalogProfiling
 
             Return New SerialData With {
                 .color = unenrich,
-                .title = "Unenrich terms",
+                .title = unenrichTerm,
                 .pts = points
             }
         End Function
@@ -225,44 +246,68 @@ Namespace CatalogProfiling
                 .Range
             Dim serials As SerialData() = GetCatalogSerialData(allValues).ToArray
             Dim bubbleBorder As Stroke = Nothing
+            Dim radiusData As DoubleRange = data.Values _
+                .IteratesALL _
+                .Select(Function(gene) gene.data) _
+                .Range
 
+            If Not displays Is Nothing Then
+                serials = displays.filterLabelDisplays(serials)
+            End If
             If showBubbleBorder Then
-                bubbleBorder = New Stroke With {
+                theme.shapeStroke = New Stroke With {
                     .dash = DashStyle.Solid,
                     .fill = "lightgray",
                     .width = 1.5
-                }
+                }.CSSValue
             End If
 
-            Dim plot As GraphicsData = Bubble.Plot(
-                serials,
-                padding:=theme.padding,
-                size:=$"{region.Size.Width},{region.Size.Height}",
-                legend:=False,
-                xlabel:=xlabel,
-                ylabel:=ylabel,
-                bubbleBorder:=bubbleBorder,
-                strokeColorAsMainColor:=True,
-                axisLabelFontCSS:=CSSFont.Win10NormalLarge,
-                positiveRangeY:=True
-            )
+            theme.drawLegend = False
 
-            Call g.DrawImageUnscaled(plot, New Point)
+            Dim bubbles As New Bubble(serials, False, True, theme) With {
+                .xlabel = xlabel,
+                .ylabel = ylabel,
+                .main = main
+            }
+
+            Call bubbles.Plot(g, region)
+
             Call DrawBubbleLegends(g, serials, region)
 
-            Dim titleFont As Font = CSSFont.TryParse(theme.mainCSS).GDIObject(g.Dpi)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim padding As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
+            Dim titleFont As Font = css.GetFont(CSSFont.TryParse(theme.mainCSS))
             Dim fsize As SizeF = g.MeasureString(main, titleFont)
             Dim tloc As New PointF With {
                 .X = (region.Size.Width - fsize.Width) / 2,
-                .Y = (region.Padding.Top - fsize.Height) / 2
+                .Y = (padding.Top - fsize.Height) / 2
             }
 
-            Call g.DrawString(main, titleFont, Brushes.Black, tloc)
+            If Not main.StringEmpty Then
+                Call g.DrawString(main, titleFont, Brushes.Black, tloc)
+            End If
+
+            Call MultipleBubble.drawRadiusLegend(
+                g:=g,
+                impacts:=radiusData,
+                radius:=bubbleResize,
+                canvas:=region,
+                theme:=theme,
+                title:=radiusTitle,
+                tickFormat:=radiusFormat
+            )
         End Sub
 
+        ''' <summary>
+        ''' show category legend
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="serials"></param>
+        ''' <param name="region"></param>
         Private Sub DrawBubbleLegends(g As IGraphics, serials As SerialData(), region As GraphicsRegion)
             Dim legendFontStyle As String = theme.legendLabelCSS
-            Dim plot As Rectangle = region.PlotRegion
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim plot As Rectangle = region.PlotRegion(css)
             Dim legends As LegendObject() = serials _
                 .Select(Function(s)
                             Return New LegendObject With {
@@ -273,9 +318,9 @@ Namespace CatalogProfiling
                             }
                         End Function) _
                 .ToArray
-            Dim legendFont As Font = CSSFont.TryParse(legendFontStyle).GDIObject(g.Dpi)
+            Dim legendFont As Font = CSS.GetFont(CSSFont.TryParse(legendFontStyle))
             Dim cSize As SizeF = g.MeasureString("0", legendFont)
-            Dim legendSize As New SizeF(stdNum.Max(cSize.Width, cSize.Height), stdNum.Max(cSize.Width, cSize.Height))
+            Dim legendSize As New SizeF(std.Max(cSize.Width, cSize.Height), std.Max(cSize.Width, cSize.Height))
             Dim maxWidth As Single = legends _
                 .Select(Function(l)
                             Return g.MeasureString(l.title, legendFont).Width
@@ -283,7 +328,7 @@ Namespace CatalogProfiling
                 .Max
             Dim ltopLeft As New Point With {
                 .X = plot.Right + legendSize.Width * 1.25,
-                .Y = region.PlotRegion.Top + (region.PlotRegion.Height - (cSize.Height + 10) * 3) / 2
+                .Y = plot.Top + (plot.Height - (cSize.Height + 10) * 3) / 2
             }
 
             Call g.DrawLegends(

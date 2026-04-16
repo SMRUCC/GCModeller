@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::714cd507474573aa321803ebf0d12732, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
+﻿#Region "Microsoft.VisualBasic::d0bab636e94990500dab9d7bbd00e106, data\RegulonDatabase\Regprecise\WebServices\WebParser\BacteriaGenome.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 56 (57.14%)
+    ' Comment Lines: 29 (29.59%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (13.27%)
+    '     File Size: 3.57 KB
+
+
     '     Class BacteriaRegulome
     ' 
     '         Properties: genome, numOfRegulons, regulome
@@ -45,6 +57,8 @@
 
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.Assembly
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
@@ -58,7 +72,7 @@ Namespace Regprecise
     <XmlType("bacterial_regulome", [Namespace]:=BacteriaRegulome.regulomeNamespace)>
     Public Class BacteriaRegulome : Inherits XmlDataModel
 
-        Public Const regulomeNamespace$ = "http://regprecise.lbl.gov/RegPrecise/genome.jsp?genome_id=taxonomy"
+        Public Const regulomeNamespace$ = "https://regprecise.lbl.gov/genome.jsp?genome_id=taxonomy"
 
         ''' <summary>
         ''' {GenomeName, Url}
@@ -109,8 +123,7 @@ Namespace Regprecise
         Public Function ListRegulators() As String()
             Dim list As String() = (From x As Regulator In regulome.regulators
                                     Where x.type = Types.TF
-                                    Select x.locus_tag.name
-                                    Distinct).ToArray
+                                    Select x.locus_tags).IteratesALL.Keys.Distinct.ToArray
             Return list
         End Function
 

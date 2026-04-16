@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b612bea5ab77372d66dde5ec825c93cf, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Cylinder.vb"
+﻿#Region "Microsoft.VisualBasic::e9acc00085be085460c5b284076da643, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Models\Shapes\Cylinder.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 21 (60.00%)
+    ' Comment Lines: 6 (17.14%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (22.86%)
+    '     File Size: 1.08 KB
+
 
     '     Class Cylinder
     ' 
@@ -63,9 +75,15 @@ Namespace Drawing3D.Models.Isometric.Shapes
         End Sub
     End Class
 
+    ''' <summary>
+    ''' a 3d pie piece
+    ''' </summary>
     Public Class Pie : Inherits Shape3D
 
-        Public Sub New(origin As Point3D, radius#, startAngle#, sweepAngle#, vertices#, height#)
+        Public Sub New(origin As Point3D, radius#, startAngle#, sweepAngle#,
+                       Optional vertices# = 1000,
+                       Optional height# = 100)
+
             Call MyBase.New
 
             Dim arc As New Paths.Arc(origin, radius, startAngle, sweepAngle, vertices)

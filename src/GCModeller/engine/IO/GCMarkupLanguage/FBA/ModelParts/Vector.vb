@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aed81d244a8b231cd0aee55939905491, engine\IO\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
+﻿#Region "Microsoft.VisualBasic::1d538060012d4d5c0a7fe51aef534d64, engine\IO\GCMarkupLanguage\FBA\ModelParts\Vector.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 17 (65.38%)
+    ' Comment Lines: 4 (15.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (19.23%)
+    '     File Size: 869 B
+
+
     '     Class Vector
     ' 
     '         Properties: Identifier, InitializeAmount
@@ -45,7 +57,7 @@
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Extensions
-Imports Microsoft.VisualBasic.Net.Protocols
+Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Model.SBML
 
 Namespace FBACompatibility
@@ -57,7 +69,8 @@ Namespace FBACompatibility
         ''' The Unique ID property for the metabolite.
         ''' </summary>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
+        <XmlAttribute>
+        Public Property Identifier As String Implements FLuxBalanceModel.IMetabolite.Key
 
         Public Overrides Function ToString() As String
             Return Identifier

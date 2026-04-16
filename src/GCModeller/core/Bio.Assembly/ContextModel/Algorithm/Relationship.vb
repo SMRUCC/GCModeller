@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::893a47261f91a9c1c20b8bd6d9fe7f2c, core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::39502e87b9c1e519e517e2361a7d03ec, core\Bio.Assembly\ContextModel\Algorithm\Relationship.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 47 (62.67%)
+    ' Comment Lines: 17 (22.67%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (14.67%)
+    '     File Size: 2.32 KB
+
+
     '     Class Relationship
     ' 
     '         Properties: Gene, locus_tag, Relation
@@ -46,7 +58,7 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ContextModel
 
@@ -91,17 +103,17 @@ Namespace ContextModel
             Dim s As Integer
 
             If Gene.Location.Strand = Strands.Forward Then
-                ATG = Gene.Location.Left
+                ATG = Gene.Location.left
                 s = 1
             Else
-                ATG = Gene.Location.Right
+                ATG = Gene.Location.right
                 s = -1
             End If
 
-            Dim d1 As Integer = loci.Left - ATG
-            Dim d2 As Integer = loci.Right - ATG
+            Dim d1 As Integer = loci.left - ATG
+            Dim d2 As Integer = loci.right - ATG
 
-            If stdNum.Abs(d1) < stdNum.Abs(d2) Then
+            If std.Abs(d1) < std.Abs(d2) Then
                 Return d1 * s
             Else
                 Return d2 * s

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c6c7daf82b5167ad0880e0bc13025457, Data_science\MachineLearning\MachineLearning\QLearning\Model.vb"
+﻿#Region "Microsoft.VisualBasic::c079a3366665f8e118f16ab3b051ea84, Data_science\MachineLearning\MachineLearning\QLearning\Model.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 38 (70.37%)
+    ' Comment Lines: 6 (11.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (18.52%)
+    '     File Size: 1.73 KB
+
+
     '     Interface IQTable
     ' 
     '         Properties: ActionRange, ExplorationChance, GammaValue, LearningRate, Table
@@ -55,7 +67,6 @@
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Language
 
 Namespace QLearning.DataModel
 

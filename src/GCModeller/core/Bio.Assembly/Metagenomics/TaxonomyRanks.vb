@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::08e91e3c0bb4941fddd9a85f5b4fa5ab, core\Bio.Assembly\Metagenomics\TaxonomyRanks.vb"
+﻿#Region "Microsoft.VisualBasic::1de4717f55dbea70112fa188ccfb28e5, core\Bio.Assembly\Metagenomics\TaxonomyRanks.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 15 (34.09%)
+    ' Comment Lines: 27 (61.36%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (4.55%)
+    '     File Size: 1.24 KB
+
+
     '     Enum TaxonomyRanks
     ' 
-    '         [Class], Family, Genus, NA, Order
-    '         Phylum, Species, Strain
+    '         NA, Strain
     ' 
     '  
     ' 
@@ -45,41 +56,47 @@
 
 #End Region
 
+Imports System.ComponentModel
+Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
+
 Namespace Metagenomics
 
     ''' <summary>
-    ''' 枚举值减去100即可得到index值
+    ''' the organism taxonomy rank levels
     ''' </summary>
+    ''' <remarks>
+    ''' 枚举值减去100即可得到index值
+    ''' </remarks>
     Public Enum TaxonomyRanks As Integer
         NA
         ''' <summary>
         ''' 1. 界
         ''' </summary>
-        Kingdom = 100
+        <Description(NcbiTaxonomyTree.superkingdom)> Kingdom = 100
         ''' <summary>
         ''' 2. 门
         ''' </summary>
-        Phylum
+        <Description(NcbiTaxonomyTree.phylum)> Phylum
         ''' <summary>
         ''' 3A. 纲
         ''' </summary>
-        [Class]
+        <Description(NcbiTaxonomyTree.class)> [Class]
         ''' <summary>
         ''' 4B. 目
         ''' </summary>
-        Order
+        <Description(NcbiTaxonomyTree.order)> Order
         ''' <summary>
         ''' 5C. 科
         ''' </summary>
-        Family
+        <Description(NcbiTaxonomyTree.family)> Family
         ''' <summary>
         ''' 6D. 属
         ''' </summary>
-        Genus
+        <Description(NcbiTaxonomyTree.genus)> Genus
         ''' <summary>
         ''' 7E. 种
         ''' </summary>
-        Species
+        <Description(NcbiTaxonomyTree.species)> Species
         Strain
     End Enum
 End Namespace

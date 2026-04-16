@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2189b00bc555b193f0464393a7ea948, Data_science\DataMining\DynamicProgramming\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::f1d4f5a6188d163ae6522b74ec309481, Data_science\DataMining\DynamicProgramming\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 24 (72.73%)
+    ' Comment Lines: 6 (18.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (9.09%)
+    '     File Size: 1.20 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: PopulateAlignments
+    '     Function: GetGeneralCharSymbol, PopulateAlignments
     ' 
     ' /********************************************************************************/
 
@@ -41,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.DynamicProgramming.NeedlemanWunsch
+Imports Microsoft.VisualBasic.Text
 
 <HideModuleName>
 Public Module Extensions
@@ -60,5 +73,14 @@ Public Module Extensions
                 .subject = nw.getAligned2(i)
             }
         Next
+    End Function
+
+    Public Function GetGeneralCharSymbol() As GenericSymbol(Of Char)
+        Return New GenericSymbol(Of Char)(
+            equals:=Function(a, b) a = b,
+            similarity:=Function(a, b) If(a = b, 1, 0),
+            toChar:=Function(c) c,
+            empty:=Function() ASCII.NUL
+        )
     End Function
 End Module

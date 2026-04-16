@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a072db6d70d3da02781d6e325da596dd, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::c04d5a52f0c2829e9e74218efb9c2fde, Data_science\Mathematica\Math\Math\Algebra\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,31 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 243
+    '    Code Lines: 129 (53.09%)
+    ' Comment Lines: 79 (32.51%)
+    '    - Xml Docs: 70.89%
+    ' 
+    '   Blank Lines: 35 (14.40%)
+    '     File Size: 9.72 KB
+
+
     '     Delegate Function
     ' 
     ' 
     '     Module HelperExtensions
     ' 
-    '         Function: jaccard_coeff, PrimitiveLinearEquation, Tangent
+    '         Function: AsMatrix, GetColumn, IsNaNImaginary, (+2 Overloads) jaccard_coeff, jaccard_coeff_parallel
+    '                   jaccard_row, JaccardIndex, NAremove, PrimitiveLinearEquation, Tangent
+    '         Class JaccardTask
+    ' 
+    '             Constructor: (+1 Overloads) Sub New
+    '             Sub: Solve
+    ' 
+    ' 
     ' 
     ' 
     ' 
@@ -47,14 +66,69 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.Language.Vectorization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Parallel
 
 Namespace LinearAlgebra
 
     Public Delegate Function fx(x#) As Double
 
+    <HideModuleName>
     Public Module HelperExtensions
+
+        ''' <summary>
+        ''' 从二维数组中提取指定的一列
+        ''' </summary>
+        ''' <param name="matrix">二维矩阵</param>
+        ''' <param name="columnIndex">要提取的列索引（0表示第一列）</param>
+        ''' <returns>包含该列数据的一维数组</returns>
+        ''' 
+        <Extension>
+        Public Function GetColumn(matrix As Double(,), columnIndex As Integer) As Double()
+            If matrix Is Nothing Then Return Nothing
+            Dim rows As Integer = matrix.GetLength(0)
+            Dim cols As Integer = matrix.GetLength(1)
+
+            ' 检查列索引是否越界
+            If columnIndex < 0 OrElse columnIndex >= cols Then
+                Throw New ArgumentOutOfRangeException(NameOf(columnIndex), "列索引超出范围")
+            End If
+
+            Dim result(rows - 1) As Double
+            For i As Integer = 0 To rows - 1
+                result(i) = matrix(i, columnIndex)
+            Next
+            Return result
+        End Function
+
+
+        <Extension>
+        Public Function AsMatrix(d As IEnumerable(Of Double())) As NumericMatrix
+            Return New NumericMatrix(d.ToArray)
+        End Function
+
+        ''' <summary>
+        ''' get a logical vector for indicates that which elements inside the given numeric vector is invalid number, like NaN, Inf
+        ''' </summary>
+        ''' <param name="v"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function IsNaNImaginary(v As IEnumerable(Of Double)) As BooleanVector
+            Return New BooleanVector(From xi As Double In v Let flag As Boolean = xi.IsNaNImaginary Select flag)
+        End Function
+
+        ''' <summary>
+        ''' removes all invalid number from the given numeric vector data
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function NAremove(x As IEnumerable(Of Double)) As IEnumerable(Of Double)
+            Return From xi As Double In x Where Not xi.IsNaNImaginary
+        End Function
 
         ''' <summary>
         ''' 返回一元一次方程
@@ -91,17 +165,26 @@ Namespace LinearAlgebra
         ''' w(i->j) should be equal to w(j->i). In some case i->j has weights while j&lt;-i has no
         ''' intersections, only w(i->j) Is recorded. This Is determinded in code `if(u>0)`. 
         ''' In this way, the undirected graph Is symmetrized by halfing the weight 
-        ''' in code `weights(r, 2) = u/(2.0*ncol - u)/2`.
+        ''' in code ``weights(r, 2) = u/(2.0*ncol - u)/2``.
         ''' </summary>
         ''' <param name="idx"></param>
-        ''' <returns></returns>
-        Public Function jaccard_coeff(idx As Integer()()) As GeneralMatrix
+        ''' <returns>
+        ''' the weight value of this function will affects by the 
+        ''' <paramref name="symmetrize"/> parameters, when 
+        ''' 
+        ''' + symmetrize = TRUE(default), weight in value range ``(0, 0.5]``,
+        ''' + FALSE, weight in value range ``(0, 1]``.
+        ''' </returns>
+        Public Function jaccard_coeff(idx As Integer()(), Optional symmetrize As Boolean = True) As GeneralMatrix
             Dim nrow As Integer = idx.Length
             Dim weights As New List(Of Double())
+            Dim div As Double = If(symmetrize, 2, 1)
 
             For i As Integer = 0 To nrow - 1
                 For Each k As Integer In idx(i)
-                    If k < 0 Then
+                    If k < 0 OrElse i = k Then
+                        ' removes no links
+                        ' or selfloop
                         Continue For
                     End If
 
@@ -111,12 +194,115 @@ Namespace LinearAlgebra
 
                     If u > 0 Then
                         ' symmetrize the graph
-                        weights.Add({i, k, u / (2.0 * nodei.Length - u) / 2})
+                        ' u is the intersect of the i and j
+                        ' so nodei size is greater than u always
+                        ' weight value no negative value
+                        Call weights.Add({i, k, u / (2.0 * nodei.Length - u) / div})
                     End If
                 Next
             Next
 
             Return New NumericMatrix(weights.ToArray)
+        End Function
+
+        Public Function jaccard_coeff_parallel(idx As Integer()(), Optional symmetrize As Boolean = True) As GeneralMatrix
+            ' Dim nrow As Integer = idx.Length
+            Dim div As Double = If(symmetrize, 2, 1)
+            'Dim weightMatrixFold = (From i As Integer
+            '                        In Enumerable.Range(0, nrow).AsParallel
+            '                        Let node = idx(i).ToArray
+            '                        Select node.jaccard_row(i, idx, div).ToArray).ToArray
+            Dim par As JaccardTask = New JaccardTask(idx, div).Run
+            Dim weightMatrixFold = par.weightMatrixFold
+
+            Return New NumericMatrix(weightMatrixFold.IteratesALL.ToArray)
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' use common non-zero index as intersect
+        ''' </remarks>
+        Public Function JaccardIndex(x As Double(), y As Double()) As Double
+            Dim ia As New List(Of Integer)
+            Dim ib As New List(Of Integer)
+
+            For i As Integer = 0 To x.Length - 1
+                If x(i) <> 0 Then Call ia.Add(i)
+                If y(i) <> 0 Then Call ib.Add(i)
+            Next
+
+            Dim ni As Integer = ia.Intersect(ib).Count
+            Dim nu As Integer = ia.Union(ib).Count
+
+            Return ni / nu
+        End Function
+
+        ''' <summary>
+        ''' Evaluate the jaccard coeff between two dataset
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <param name="symmetrize"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function jaccard_coeff(a As String(), b As String(), Optional symmetrize As Boolean = True) As Double
+            Dim u As Double = a.Intersect(b).Count
+            Dim size As Double = a.Length
+            Dim div As Double = If(symmetrize, 2, 1)
+            Dim j As Double = u / (2.0 * size - u) / div
+
+            Return j
+        End Function
+
+        Private Class JaccardTask : Inherits VectorTask
+
+            Friend ReadOnly idx As Integer()()
+            Friend ReadOnly weightMatrixFold As Double()()()
+            Friend ReadOnly div As Double
+
+            Sub New(idx As Integer()(), div As Double)
+                Call MyBase.New(idx.Length)
+
+                Me.idx = idx
+                Me.weightMatrixFold = New Double(idx.Length - 1)()() {}
+                Me.div = div
+            End Sub
+
+            Protected Overrides Sub Solve(start As Integer, ends As Integer, cpu_id As Integer)
+                For i As Integer = start To ends
+                    Dim node = idx(i).ToArray
+                    Dim weights = node.jaccard_row(i, idx, div).ToArray
+
+                    weightMatrixFold(i) = weights
+                Next
+            End Sub
+        End Class
+
+        <Extension>
+        Private Iterator Function jaccard_row(nodei As Integer(), i As Integer, idx As Integer()(), div As Double) As IEnumerable(Of Double())
+            For Each k As Integer In idx(i)
+                If k < 0 OrElse i = k Then
+                    ' removes no links
+                    ' or selfloop
+                    Continue For
+                End If
+
+                Dim nodej As Integer() = idx(k)
+                Dim u As Integer = nodei.Intersect(nodej).Count
+
+                If u > 0 Then
+                    ' symmetrize the graph
+                    ' u is the intersect of the i and j
+                    ' so nodei size is greater than u always
+                    ' weight value no negative value
+                    Yield {i, k, u / (2.0 * nodei.Length - u) / div}
+                End If
+            Next
         End Function
     End Module
 End Namespace

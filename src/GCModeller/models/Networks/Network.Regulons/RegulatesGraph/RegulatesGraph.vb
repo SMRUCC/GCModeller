@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 74 (89.16%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (10.84%)
+    '     File Size: 4.22 KB
+
+
     '     Module GraphAPI
     ' 
     '         Function: __family, (+2 Overloads) __node, __regulates, (+2 Overloads) Create, SaveGraph

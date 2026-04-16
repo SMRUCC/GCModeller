@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 48
+    '    Code Lines: 27 (56.25%)
+    ' Comment Lines: 14 (29.17%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 7 (14.58%)
+    '     File Size: 2.23 KB
+
+
     '     Module CodeSignHelpers
     ' 
     '         Function: ParseHeaderRegion, SignCode

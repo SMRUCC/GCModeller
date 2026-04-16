@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c2368b41d83cc9e285798beca0da0501, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Takes.vb"
+﻿#Region "Microsoft.VisualBasic::2f9417e431b8776653d0d119f663fdbe, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\Takes.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 69 (48.59%)
+    ' Comment Lines: 60 (42.25%)
+    '    - Xml Docs: 88.33%
+    ' 
+    '   Blank Lines: 13 (9.15%)
+    '     File Size: 6.11 KB
+
+
     '     Module TakesExtension
     ' 
     '         Function: doReversedTake, (+2 Overloads) TakeRandomly, (+3 Overloads) Takes
@@ -45,6 +57,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 Namespace Linq
 
@@ -166,25 +179,17 @@ Namespace Linq
         ''' <param name="array"></param>
         ''' <param name="counts">当目标数目大于或者等于目标集合的数目的时候，则返回目标集合</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' this function use the default <see cref="RandomExtensions.seeds"/>; this function is very slow on processing huge dataset
+        ''' </remarks>
         <Extension>
-        Public Function TakeRandomly(Of T)(array As T(), counts%) As IEnumerable(Of T)
-            If counts >= array.Length Then
-                Dim out As T() = New T(array.Length - 1) {}
-                Call System.Array.ConstrainedCopy(array, Scan0, out, Scan0, array.Length)
-                Return out
+        Public Function TakeRandomly(Of T)(array As T(), counts%, Optional unsafe As Boolean = True) As IEnumerable(Of T)
+            If counts <= 0 AndAlso Not unsafe Then
+                Return New T() {}
+            ElseIf counts >= array.Length Then
+                Return array.Shuffles
             Else
-                Dim out As T() = New T(counts - 1) {}
-                Dim input As New List(Of T)(array)
-                Dim ind As Integer
-
-                For i As Integer = 0 To counts - 1
-                    ind = seeds.Next(input.Count)
-                    out(i) = input(ind)
-                    input.RemoveAt(ind)
-                Next
-
-                Return out
+                Return array.Shuffles.Take(counts)
             End If
         End Function
     End Module

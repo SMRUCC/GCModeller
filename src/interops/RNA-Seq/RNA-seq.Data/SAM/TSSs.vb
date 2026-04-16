@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1db172116d3c2197abb92bf9a19cf506, RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
+﻿#Region "Microsoft.VisualBasic::7d0f11e55d7e7f1beb9e255fed48dace, RNA-Seq\RNA-seq.Data\SAM\TSSs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 84 (69.42%)
+    ' Comment Lines: 14 (11.57%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 23 (19.01%)
+    '     File Size: 7.07 KB
+
+
     ' Module SAM_TSSs
     ' 
     '     Function: SplitSaved, TrimForTSSs, TSS
@@ -40,7 +52,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Scripting.MetaData
@@ -142,8 +154,8 @@ Module SAM_TSSs
         Dim Unmapped As Integer = BitFlags.Bit0x4
         Dim LowQuality As Integer = BitFlags.Bit0x200
 
-        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file".__DEBUG_ECHO
-        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".__DEBUG_ECHO
+        Call $"There are {doc.AlignmentsReads.Count} reads in the sam mapping file".debug
+        Call $"Triming reads which has flag [{NameOf(LowQuality)}]{BitFlags.Bit0x200} or [{NameOf(Unmapped)}]{BitFlags.Bit0x4}".debug
         doc = New SAM.SAM With {
             .Head = doc.Head,
             .AlignmentsReads =
@@ -154,7 +166,7 @@ Module SAM_TSSs
                                                    reads.POS > 0
                                                Select reads
         }
-        Call $"Left {doc.AlignmentsReads.Length} alignment reads after triming data.".__DEBUG_ECHO
+        Call $"Left {doc.AlignmentsReads.Length} alignment reads after triming data.".debug
 
         Return doc
     End Function

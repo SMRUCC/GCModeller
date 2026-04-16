@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::68cd2215a0190dd396794899d2ff0a68, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\PriorityQueue\PairingHeap.vb"
+﻿#Region "Microsoft.VisualBasic::ea471c810a5cba8a33755fb2df814644, Microsoft.VisualBasic.Core\src\ComponentModel\System.Collections.Generic\PriorityQueue\PairingHeap.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 166
+    '    Code Lines: 127 (76.51%)
+    ' Comment Lines: 18 (10.84%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 21 (12.65%)
+    '     File Size: 6.00 KB
+
+
     '     Class PairingHeap
     ' 
     '         Properties: count, empty, min
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: contains, decreaseKey, Insert, isHeap, merge
+    '         Function: contains, decreaseKey, insert, isHeap, merge
     '                   mergePairs, removeMin, ToString
     ' 
     '         Sub: forEach
@@ -151,7 +163,7 @@ Namespace ComponentModel.Collection
             Return Me.subheaps.All(Function(h) lessThan(Me.elem, h.elem) AndAlso h.isHeap(lessThan))
         End Function
 
-        Public Function Insert(obj As T, lessThan As Func(Of T, T, Boolean)) As PairingHeap(Of T)
+        Public Function insert(obj As T, lessThan As Func(Of T, T, Boolean)) As PairingHeap(Of T)
             Return Me.merge(New PairingHeap(Of T)(obj), lessThan)
         End Function
 

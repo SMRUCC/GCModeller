@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11309b272e12f75ba0842d6f1c7cb4fe, engine\Compiler\KEGG\PathwayCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::e91f15ff19a4772581cedfef3369bc36, engine\Compiler\KEGG\PathwayCompiler.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 76 (84.44%)
+    ' Comment Lines: 4 (4.44%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 10 (11.11%)
+    '     File Size: 3.86 KB
+
 
     ' Module PathwayCompiler
     ' 
@@ -87,8 +99,9 @@ Public Module PathwayCompiler
                    End Function) _
             .ToDictionary(Function(term) term.geneID)
         Dim maps As FunctionalCategory() = kegg.CreateMaps.ToArray
-        Dim compiler As New v2MarkupCompiler(cell, genomes, Nothing, {}, locationAsLocustag)
-        Dim genomeCompiler As New CompileGenomeWorkflow(compiler)
+        Dim compiler As New v2KEGGCompiler(cell, genomes, Nothing, {}, locationAsLocustag)
+        ' Dim genomeCompiler As New CompileGenomeWorkflow(compiler)
+        Dim genomeCompiler As CompileGenomeWorkflow
 
         Return New VirtualCell With {
             .taxonomy = cell.Taxonomy,
@@ -116,16 +129,7 @@ Public Module PathwayCompiler
 
                             Return New Pathway With {
                                 .ID = map.EntryId,
-                                .name = map.name,
-                                .enzymes = map.genes _
-                                    .Select(Function(gene)
-                                                Return New [Property] With {
-                                                    .name = gene.name.GetTagValue(":", trim:=True).Value,
-                                                    .comment = gene.name,
-                                                    .value = gene.text.Split.First
-                                                }
-                                            End Function) _
-                                    .ToArray
+                                .name = map.name
                             }
                         End Function) _
                 .ToArray

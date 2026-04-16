@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f376fdb7146b54933db3a03dd333c87b, mime\application%pdf\PdfReader\Document\RC4.vb"
+﻿#Region "Microsoft.VisualBasic::dd05624e0396bcda2b15e690679d56b3, mime\application%pdf\PdfReader\Document\RC4.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 42
+    '    Code Lines: 34 (80.95%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (19.05%)
+    '     File Size: 1.14 KB
+
+
     '     Module RC4
     ' 
     '         Function: EncryptInitalize, Transform
@@ -44,7 +56,7 @@
 
 Namespace PdfReader
     Public Module RC4
-        Public Function Transform(ByVal key As Byte(), ByVal data As Byte()) As Byte()
+        Public Function Transform(key As Byte(), data As Byte()) As Byte()
             Dim s = EncryptInitalize(key)
             Dim ret = New Byte(data.Length - 1) {}
             Dim i = 0
@@ -60,7 +72,7 @@ Namespace PdfReader
             Return ret
         End Function
 
-        Private Function EncryptInitalize(ByVal key As Byte()) As Byte()
+        Private Function EncryptInitalize(key As Byte()) As Byte()
             Dim s = New Byte(255) {}
 
             For i = 0 To s.Length - 1
@@ -77,7 +89,7 @@ Namespace PdfReader
             Return s
         End Function
 
-        Private Sub Swap(ByVal s As Byte(), ByVal i As Integer, ByVal j As Integer)
+        Private Sub Swap(s As Byte(), i As Integer, j As Integer)
             Dim c = s(i)
             s(i) = s(j)
             s(j) = c

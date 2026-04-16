@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b5b0f1724d6c773888cc4358e91244da, Microsoft.VisualBasic.Core\src\CommandLine\CLITools.vb"
+﻿#Region "Microsoft.VisualBasic::db7c534a26609777108f4117eeec242a, Microsoft.VisualBasic.Core\src\CommandLine\CLITools.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 382
+    '    Code Lines: 228 (59.69%)
+    ' Comment Lines: 103 (26.96%)
+    '    - Xml Docs: 78.64%
+    ' 
+    '   Blank Lines: 51 (13.35%)
+    '     File Size: 14.94 KB
+
+
     '     Module CLITools
     ' 
     '         Function: Args, CreateObject, Equals, GetCommandsOverview, GetFileList
@@ -56,7 +68,7 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
-Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports ValueTuple = System.Collections.Generic.KeyValuePair(Of String, String)
 
 Namespace CommandLine
@@ -128,7 +140,6 @@ Namespace CommandLine
         ''' Gets the commandline object for the current program.
         ''' </summary>
         ''' <returns></returns>
-        <ExportAPI("args")>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function Args() As CommandLine
             Return App.CommandLine
@@ -369,7 +380,7 @@ Namespace CommandLine
             End If
 
             For Each bFlag As String In args1.BoolFlags
-                If Not args2.GetBoolean(bFlag) Then
+                If Not args2.IsTrue(bFlag) Then
                     Return False
                 End If
             Next

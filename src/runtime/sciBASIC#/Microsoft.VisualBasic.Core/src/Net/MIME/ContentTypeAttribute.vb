@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 14 (28.57%)
+    ' Comment Lines: 30 (61.22%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 5 (10.20%)
+    '     File Size: 2.33 KB
+
+
     '     Class ContentTypeAttribute
     ' 
     '         Properties: Description, Type

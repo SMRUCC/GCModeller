@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15de73801a024485c4f2a0e7c3ca1b3b, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
+﻿#Region "Microsoft.VisualBasic::e72b578a2a135e634c099cf956e61a33, analysis\SequenceToolkit\SequencePatterns\Topologically\Similarity\MirrorPalindrome.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 107
+    '    Code Lines: 63 (58.88%)
+    ' Comment Lines: 29 (27.10%)
+    '    - Xml Docs: 79.31%
+    ' 
+    '   Blank Lines: 15 (14.02%)
+    '     File Size: 4.53 KB
+
+
     '     Module MirrorPalindrome
     ' 
     '         Function: CreateMirrors, haveMirror
@@ -50,7 +62,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.DynamicProgramming.Levenshtein
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 

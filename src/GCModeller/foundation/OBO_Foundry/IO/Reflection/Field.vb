@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 27 (52.94%)
+    ' Comment Lines: 16 (31.37%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.69%)
+    '     File Size: 1.60 KB
+
+
     '     Class Field
     ' 
     '         Properties: index, name, toLower

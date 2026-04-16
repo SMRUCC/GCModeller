@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8b63df3d91354e905f18cd39363b4c74, R#\seqtoolkit\Annotations\genomics.vb"
+﻿#Region "Microsoft.VisualBasic::f49a007690fc609d91a662140fe3ecd7, R#\seqtoolkit\Annotations\genomics.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 247
+    '    Code Lines: 174 (70.45%)
+    ' Comment Lines: 43 (17.41%)
+    '    - Xml Docs: 95.35%
+    ' 
+    '   Blank Lines: 30 (12.15%)
+    '     File Size: 9.33 KB
+
+
     ' Module genomics
     ' 
-    '     Function: asPTT, asTable, genes, getUpstream, getUpStream
-    '               PTT2Dump, readGtf, writePPTTabular
+    '     Function: asPTT, asTable, extract_gff_seqs, genes, getUpstream
+    '               getUpStream, gff_features, operon_set, PTT2Dump, read_nucmer
+    '               readGff, readGtf, writePPTTabular
     ' 
     ' /********************************************************************************/
 
@@ -45,6 +58,8 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports SMRUCC.genomics.Annotation
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat
@@ -52,9 +67,14 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Model.OperonMapper
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.Visualize.SyntenyVisualize
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("annotation.genomics", Category:=APICategories.ResearchTools, Publisher:="xie.guigang@gcmodeller.org")>
 <RTypeExport("gene_info", GetType(GeneBrief))>
@@ -65,7 +85,37 @@ Module genomics
         Return Gtf.ParseFile(file)
     End Function
 
+    ''' <summary>
+    ''' read the gff3 file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.gff")>
+    Public Function readGff(file As String) As GFFTable
+        Return GFFTable.LoadDocument(file)
+    End Function
+
+    ''' <summary>
+    ''' get gff features by id reference
+    ''' </summary>
+    ''' <param name="gff"></param>
+    ''' <param name="id"></param>
+    ''' <returns></returns>
+    <ExportAPI("gff_features")>
+    Public Function gff_features(gff As GFFTable, <RRawVectorArgument> Optional id As Object = Nothing) As Object
+        If id Is Nothing Then
+            Return gff.features
+        Else
+            Dim index As Dictionary(Of String, Feature) = gff.CreateGeneObjectIndex
+            Dim idset As String() = CLRVector.asCharacter(id)
+            Dim subset As Feature() = idset.Select(Function(sid) index(sid)).ToArray
+
+            Return subset
+        End If
+    End Function
+
     <ExportAPI("as.tabular")>
+    <RApiReturn(GetType(PTT))>
     Public Function asTable(genes As GeneBrief(),
                             Optional title$ = "n/a",
                             Optional size% = 0,
@@ -76,11 +126,11 @@ Module genomics
             Case "PTT"
                 Return New PTT(genes, title, size)
             Case "GFF"
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             Case "GTF"
-                Return Internal.debug.stop(New NotImplementedException, env)
+                Return RInternal.debug.stop(New NotImplementedException, env)
             Case Else
-                Return Internal.debug.stop($"unsupported table format: '{format}'!", env)
+                Return RInternal.debug.stop($"unsupported table format: '{format}'!", env)
         End Select
     End Function
 
@@ -94,18 +144,38 @@ Module genomics
         Return gb.GbffToPTT
     End Function
 
+    ''' <summary>
+    ''' Create the upstream location
+    ''' </summary>
+    ''' <param name="context">th gene element location context data</param>
+    ''' <param name="length">bit length of the upstream location</param>
+    ''' <param name="is_relative_offset">
+    ''' Does the generates context upstream location is relative to the 
+    ''' given context start position or the enitre context region move
+    ''' by upstream offset bits?
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("upstream")>
     Public Function getUpstream(<RRawVectorArgument>
                                 context As GeneBrief(),
                                 Optional length% = 200,
-                                Optional isRelativeOffset As Boolean = False) As NucleotideLocation()
+                                Optional is_relative_offset As Boolean = True) As NucleotideLocation()
         Return context _
             .Select(Function(gene)
-                        Return gene.getUpStream(length, isRelativeOffset)
+                        Return gene.getUpStream(length, is_relative_offset)
                     End Function) _
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="gene"></param>
+    ''' <param name="length"></param>
+    ''' <param name="isRelativeOffset">
+    ''' the generated region location is relative to the given context its start position?
+    ''' </param>
+    ''' <returns></returns>
     <Extension>
     Private Function getUpStream(gene As GeneBrief, length As Integer, isRelativeOffset As Boolean) As NucleotideLocation
         Dim loci As NucleotideLocation = gene.Location
@@ -131,7 +201,13 @@ Module genomics
         Return loci
     End Function
 
-    <ExportAPI("genome.genes")>
+    ''' <summary>
+    ''' Extract all gene features from a given genomics context assembly data
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("genes_features")>
     <RApiReturn(GetType(GeneBrief))>
     Public Function genes(<RRawVectorArgument> genome As Object, Optional env As Environment = Nothing) As Object
         If genome Is Nothing Then
@@ -143,7 +219,7 @@ Module genomics
         ElseIf TypeOf genome Is GBFF.File Then
             Return DirectCast(genome, GBFF.File).EnumerateGeneFeatures(ORF:=False).FeatureGenes.ToArray
         Else
-            Return Internal.debug.stop($"Invalid genome context model: {genome.GetType.FullName}!", env)
+            Return RInternal.debug.stop($"Invalid genome context model: {genome.GetType.FullName}!", env)
         End If
     End Function
 
@@ -153,7 +229,7 @@ Module genomics
                                     Optional file$ = Nothing,
                                     Optional encoding As Encodings = Encodings.ASCII,
                                     Optional env As Environment = Nothing) As Object
-        Dim dev As StreamWriter
+        Dim dev As System.IO.StreamWriter
 
         If file.StringEmpty Then
             ' std_output
@@ -163,7 +239,9 @@ Module genomics
         End If
 
         If genomics Is Nothing Then
-            Return Internal.debug.stop("the required genomics context data can not be nothing!", env)
+            Return RInternal.debug.stop("the required genomics context data can not be nothing!", env)
+        ElseIf TypeOf genomics Is GBFF.File Then
+            genomics = DirectCast(genomics, GBFF.File).GbffToPTT(ORF:=False)
         End If
 
         If TypeOf genomics Is PTT Then
@@ -190,4 +268,35 @@ Module genomics
 
         Return 0
     End Function
+
+    ''' <summary>
+    ''' load operon set data from the ODB database
+    ''' </summary>
+    ''' <param name="file">dataset text file that download from https://operondb.jp/</param>
+    ''' <returns></returns>
+    <ExportAPI("operon_set")>
+    Public Function operon_set(Optional file As String = Nothing) As ODBOperon()
+        If file.StringEmpty(, True) Then
+            Return ODBOperon.LoadInternalResource.ToArray
+        Else
+            Return ODBOperon.Load(file).ToArray
+        End If
+    End Function
+
+    <ExportAPI("read.nucmer")>
+    Public Function read_nucmer(file As String) As DeltaFile
+        Return DeltaFile.LoadDocument(file)
+    End Function
+
+    <ExportAPI("extract_gff_seqs")>
+    Public Function extract_gff_seqs(gff3 As GFFTable, <RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As IEnumerable(Of FastaSeq) = GetFastaSeq(seqs, env)
+
+        If pull Is Nothing Then
+            Return Nothing
+        Else
+            Return gff3.ExtractSequence(pull).ToArray
+        End If
+    End Function
+
 End Module

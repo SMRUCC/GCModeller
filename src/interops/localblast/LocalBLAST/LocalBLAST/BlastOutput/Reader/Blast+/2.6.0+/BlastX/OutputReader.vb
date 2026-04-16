@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755faea7a2ac05b30e6dd2e73023fdaf, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
+﻿#Region "Microsoft.VisualBasic::1b7a6db106a6eabf7f6f6504beb012e8, localblast\LocalBLAST\LocalBLAST\BlastOutput\Reader\Blast+\2.6.0+\BlastX\OutputReader.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 253
+    '    Code Lines: 185 (73.12%)
+    ' Comment Lines: 27 (10.67%)
+    '    - Xml Docs: 62.96%
+    ' 
+    '   Blank Lines: 41 (16.21%)
+    '     File Size: 9.60 KB
+
+
     '     Module OutputReader
     ' 
     '         Function: __parser, (+2 Overloads) __queryParser, hspParser, parseFragment, parseHitFragments
@@ -50,6 +62,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.ComponentModel
 Imports r = System.Text.RegularExpressions.Regex
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
 
@@ -179,15 +192,20 @@ Namespace LocalBLAST.BLASTOutput.BlastPlus.BlastX
         ''' </remarks>
         Const queryInfoRegexp$ = "Query\s*[=]\s*(.+?)?Length\s*[=]\s*\d+"
 
-        <Extension> Friend Function queryInfo(block$) As NamedValue(Of Integer)
-            Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
-            Dim tuple = Strings.Split(info, "Length=")
-            Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
+        <Extension>
+        Friend Function queryInfo(block$) As NamedValue(Of Integer)
+            If block = "" Then
+                Return Nothing
+            Else
+                Dim info$ = r.Match(block, queryInfoRegexp, RegexICSng).Value.TrimNewLine
+                Dim tuple = Strings.Split(info, "Length=")
+                Dim name$ = tuple(0).GetTagValue("=", trim:=True).Value
 
-            Return New NamedValue(Of Integer) With {
-                .Name = name,
-                .Value = Val(tuple(1).Trim.Split.First)
-            }
+                Return New NamedValue(Of Integer) With {
+                    .Name = name,
+                    .Value = Val(tuple(1).Trim.Split.First)
+                }
+            End If
         End Function
 
         <Extension>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 20 (64.52%)
+    ' Comment Lines: 3 (9.68%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (25.81%)
+    '     File Size: 933 B
+
+
     '     Class Maintainer
     ' 
     '         Properties: authorName, email

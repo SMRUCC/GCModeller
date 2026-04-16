@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d7f166530dd93a89458d5450d0519b25, core\Bio.Assembly\ContextModel\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::28b8651e2ec057949ab59a4b9572de59, core\Bio.Assembly\ContextModel\Extensions.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 34 (75.56%)
+    ' Comment Lines: 6 (13.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (11.11%)
+    '     File Size: 1.93 KB
+
 
     '     Module Extensions
     ' 
@@ -63,7 +75,7 @@ Namespace ContextModel
                 .ToArray
             Dim title$ = genome.Title & " - region of " & region.ToString
             Dim data As GeneBrief() = If(offset, genes.Offsets(region.Left), genes)
-            Dim subset As New PTT(data, title, region.Length)
+            Dim subset As New PTT(data, title, region.Interval)
             Return subset
         End Function
 

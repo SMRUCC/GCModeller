@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 79 (45.14%)
+    ' Comment Lines: 74 (42.29%)
+    '    - Xml Docs: 91.89%
+    ' 
+    '   Blank Lines: 22 (12.57%)
+    '     File Size: 8.23 KB
+
+
     ' Class version
     ' 
     '     Properties: head_citation, version_date_time, version_ecocyc, version_internal_comment, version_regulon

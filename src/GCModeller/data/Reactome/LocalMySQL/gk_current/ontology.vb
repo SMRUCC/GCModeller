@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 71 (48.63%)
+    ' Comment Lines: 53 (36.30%)
+    '    - Xml Docs: 94.34%
+    ' 
+    '   Blank Lines: 22 (15.07%)
+    '     File Size: 4.59 KB
+
+
     ' Class ontology
     ' 
     '     Properties: ontology

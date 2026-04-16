@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 52 (62.65%)
+    ' Comment Lines: 21 (25.30%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 10 (12.05%)
+    '     File Size: 3.38 KB
+
+
     ' Module BashShell
     ' 
     '     Function: Batch, ScriptCallSave, VennBatch

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7032b992cc5b887e4da7a613ef7e7e93, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
+﻿#Region "Microsoft.VisualBasic::42c3c4df0335f43c73f0bafa1a960d35, data\GO_gene-ontology\GeneOntology\DAG\Graph.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 227
+    '    Code Lines: 137 (60.35%)
+    ' Comment Lines: 55 (24.23%)
+    '    - Xml Docs: 98.18%
+    ' 
+    '   Blank Lines: 35 (15.42%)
+    '     File Size: 9.36 KB
+
+
     '     Class Graph
     ' 
     '         Properties: header
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Family, GetClusterMembers, ToString
+    '         Function: (+2 Overloads) Family, GetClusterMembers, ToString
     '         Structure InheritsChain
     ' 
     '             Properties: [Namespace], Family, Top
@@ -87,18 +99,16 @@ Namespace DAG
         Sub New(terms As IEnumerable(Of Term), <CallerMemberName> Optional trace$ = Nothing)
             DAG = terms.BuildTree
             clusters = CreateClusterMembers _
+                .AsParallel _
+                .Select(Function(t) (t.Key, t.UniqueNodes)) _
                 .ToDictionary(Function(cluster) cluster.Key,
                               Function(cluster)
-                                  Return cluster.Value _
-                                      .GroupBy(Function(t) t.id) _
-                                      .Select(Function(c)
-                                                  Return c.First
-                                              End Function) _
-                                      .ToArray
+                                  Return cluster.Item2
                               End Function)
             file = trace
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
             Return file.ToFileURL
         End Function
@@ -128,6 +138,42 @@ Namespace DAG
         ''' With the word "activity".
         ''' </summary>
         Const molecular_function$ = NameOf(molecular_function)
+
+        Public Function Family(id As String, root As String) As IEnumerable(Of InheritsChain)
+            Dim term As TermNode = DAG(id)
+
+            If term Is Nothing OrElse term.GO_term.name = root Then
+                Return {}
+            ElseIf term.is_a.IsNullOrEmpty Then
+                Dim break As New InheritsChain With {
+                    .Route = New List(Of TermNode) From {term}
+                }
+
+                Return {break}
+            Else
+                Dim routes As New List(Of InheritsChain)
+
+                For Each parent As is_a In term.is_a
+                    Dim chain As New InheritsChain With {
+                        .Route = New List(Of TermNode)
+                    }
+
+                    If parent.term.GO_term.name = root Then
+                        chain.Route.Add(term)
+                        routes.Add(chain)
+                    Else
+                        Dim parentChains = Family(parent.term_id, root).ToArray
+
+                        For Each c As InheritsChain In parentChains
+                            c.Route.Insert(0, parent.term)
+                            routes.Add(c)
+                        Next
+                    End If
+                Next
+
+                Return routes
+            End If
+        End Function
 
         ''' <summary>
         ''' Create family tree of the GO terms based on the ``is_a`` relationship.
@@ -181,6 +227,9 @@ Namespace DAG
             End If
         End Function
 
+        ''' <summary>
+        ''' the lineage
+        ''' </summary>
         Public Structure InheritsChain
 
             Dim Route As List(Of TermNode)

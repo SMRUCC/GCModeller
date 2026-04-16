@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 57 (64.04%)
+    ' Comment Lines: 15 (16.85%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (19.10%)
+    '     File Size: 2.99 KB
+
+
     '     Class ProfileTable
     ' 
     '         Properties: Description, Name, Type, value

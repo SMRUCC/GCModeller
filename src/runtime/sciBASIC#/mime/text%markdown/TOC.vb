@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5416955ed7eaabf498305d2a93be5aba, mime\text%markdown\TOC.vb"
+﻿#Region "Microsoft.VisualBasic::a04620205deebab5edc82eb2b99947e0, mime\text%markdown\TOC.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 83 (69.75%)
+    ' Comment Lines: 15 (12.61%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 21 (17.65%)
+    '     File Size: 3.83 KB
+
+
     ' Module TOC
     ' 
     '     Function: AddToc, GetHeaders, ReplaceHeaders
@@ -41,6 +53,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 
@@ -97,6 +110,24 @@ Public Module TOC
         Throw New NotImplementedException
     End Function
 
+    Const regex_headerSetext$ = "
+              ^(.+?)
+              [ ]*
+              \n
+              (=+|-+)     # $1 = string of ='s or -'s
+              [ ]*
+              \n+"
+    Const regex_headerAtx$ = "
+              ^(\#{1,6})  # $1 = string of #'s
+              [ ]*
+              (.+?)       # $2 = Header text
+              [ ]*
+              \#*         # optional closing #'s (not counted)
+              \n+"
+
+    ReadOnly _headerSetext As New Regex(regex_headerSetext, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+    ReadOnly _headerAtx As New Regex(regex_headerAtx, RegexOptions.Multiline Or RegexOptions.IgnorePatternWhitespace Or RegexOptions.Compiled)
+
     ''' <summary>
     ''' 按header在markdown文档之中出现的顺序进行返回
     ''' </summary>
@@ -105,8 +136,8 @@ Public Module TOC
     Public Function GetHeaders(md$) As String()
         Dim headers As New List(Of String)
 
-        headers += MarkdownHTML._headerSetext.Matches(md).ToArray
-        headers += MarkdownHTML._headerAtx _
+        headers += _headerSetext.Matches(md).ToArray
+        headers += _headerAtx _
             .Matches(md) _
             .ToArray(Function(s) s.TrimNewLine.Trim)
 

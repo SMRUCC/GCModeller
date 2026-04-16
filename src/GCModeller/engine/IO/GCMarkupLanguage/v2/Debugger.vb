@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3b06a90518118b508627a780812962d9, engine\IO\GCMarkupLanguage\v2\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::c073ab3276085df7467644a6d9adf045, engine\IO\GCMarkupLanguage\v2\Debugger.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 32 (62.75%)
+    ' Comment Lines: 9 (17.65%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (19.61%)
+    '     File Size: 1.70 KB
+
+
     '     Module Debugger
     ' 
-    '         Function: checkModel
+    '         Function: checkModel, GetMetaboliteReferenceMaps, GetMetaboliteSymbolNames
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,6 +54,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
+Imports Microsoft.VisualBasic.Linq
 
 Namespace v2
 
@@ -58,7 +71,35 @@ Namespace v2
         ''' <returns></returns>
         <Extension>
         Public Function checkModel(vcell As VirtualCell, log As LogFile) As LogFile
+            Return log
+        End Function
 
+        <Extension>
+        Public Function GetMetaboliteSymbolNames(vcell As VirtualCell) As Dictionary(Of String, String)
+            Dim symbolNames As New Dictionary(Of String, String)
+
+            For Each cpd As Compound In vcell.metabolismStructure.compounds
+                symbolNames(cpd.ID) = cpd.name
+            Next
+
+            Return symbolNames
+        End Function
+
+        <Extension>
+        Public Function GetMetaboliteReferenceMaps(vcell As VirtualCell) As Dictionary(Of String, String)
+            Dim refs As New Dictionary(Of String, String)
+
+            For Each cpd As Compound In vcell.metabolismStructure.compounds
+                For Each ref_id As String In cpd.referenceIds.SafeQuery
+                    If ref_id.StringEmpty Then
+                        Continue For
+                    End If
+
+                    refs(ref_id) = cpd.ID
+                Next
+            Next
+
+            Return refs
         End Function
     End Module
 End Namespace

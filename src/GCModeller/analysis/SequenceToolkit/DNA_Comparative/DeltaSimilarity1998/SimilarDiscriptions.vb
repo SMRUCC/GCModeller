@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 17 (32.08%)
+    ' Comment Lines: 28 (52.83%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (15.09%)
+    '     File Size: 2.33 KB
+
+
     '     Enum SimilarDiscriptions
     ' 
     '         Close, Distant, DistantlySimilar, ModeratelySimilar, VeryDistant

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f1863c3a4945a290067b72a352abc02, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ParallelExtension.vb"
+﻿#Region "Microsoft.VisualBasic::702b7b2e9b71f55aaa4b1cc20e0a00c5, Microsoft.VisualBasic.Core\src\ApplicationServices\Parallel\Threads\ParallelExtension.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 28 (41.18%)
+    ' Comment Lines: 33 (48.53%)
+    '    - Xml Docs: 63.64%
+    ' 
+    '   Blank Lines: 7 (10.29%)
+    '     File Size: 2.35 KB
+
+
     '     Module ParallelExtension
     ' 
     '         Function: AsyncTask, DoEvents, RunTask
-    ' 
-    '         Sub: DoEvents
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,37 +65,6 @@ Namespace Parallel
     Public Module ParallelExtension
 
         ''' <summary>
-        ''' Application.DoEvents() proxy in winform
-        ''' </summary>
-        ''' <remarks>
-        ''' this function will fixed the errors on centos linux system:
-        ''' 
-        ''' ```
-        ''' Unhandled Exception:
-        ''' System.Reflection.TargetInvocationException: Exception has been thrown by the target Of an invocation. 
-        ''' ---> System.TypeInitializationException: The type initializer For 'System.Windows.Forms.XplatUI' threw an exception. 
-        ''' ---> System.ArgumentNullException: Could not open display (X-Server required. Check your DISPLAY environment variable)
-        ''' 
-        ''' Parameter name :  Display
-        '''   at System.Windows.Forms.XplatUIX11.SetDisplay (System.IntPtr display_handle) [0x00408] In &lt;01b7792664764a0a8aecd9a1e8220761>:0 
-        '''   at System.Windows.Forms.XplatUIX11..ctor () [0x00077] In &lt;01b7792664764a0a8aecd9a1e8220761>:0 
-        '''   at System.Windows.Forms.XplatUIX11.GetInstance () [0x00019] In &lt;01b7792664764a0a8aecd9a1e8220761>:0 
-        '''   at System.Windows.Forms.XplatUI..cctor () [0x000c0] In &lt;01b7792664764a0a8aecd9a1e8220761>:0 
-        '''    --- End of inner exception stack trace ---
-        '''   at System.Windows.Forms.Application.DoEvents () [0x00000] In &lt;01b7792664764a0a8aecd9a1e8220761>:0
-        ''' ```
-        ''' </remarks>
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <DebuggerStepThrough>
-        Public Sub DoEvents()
-#If netcore5 = 0 Then
-#If UNIX = False Then
-            Call Application.DoEvents()
-#End If
-#End If
-        End Sub
-
-        ''' <summary>
         ''' execute the given <paramref name="func"/>, and hen do events
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
@@ -95,11 +74,11 @@ Namespace Parallel
         <DebuggerStepThrough>
         Public Function DoEvents(Of T)(func As Func(Of T)) As T
             Dim result As T = func()
-#If netcore5 = 0 Then
-#If UNIX = False Then
-            Call DoEvents()
-#End If
-#End If
+            '#If netcore5 = 0 Then
+            '#If UNIX = False Then
+            '            Call DoEvents()
+            '#End If
+            '#End If
             Return result
         End Function
 
@@ -112,9 +91,15 @@ Namespace Parallel
         ''' </returns>
         <Extension>
         <DebuggerStepThrough>
-        Public Function RunTask(start As Threading.ThreadStart) As Thread
+        Public Function RunTask(start As ThreadStart,
+                                <CallerMemberName>
+                                Optional taskName As String = Nothing) As Thread
+
             Dim thread As New Thread(start)
-            thread.Start()
+            Call thread.Start()
+            If Not taskName.StringEmpty Then
+                thread.Name = taskName
+            End If
             Return thread
         End Function
 

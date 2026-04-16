@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a1d4340af6455740d001ec9405453845, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
+﻿#Region "Microsoft.VisualBasic::7ad661c1e61de696954442669910683c, visualize\DataVisualizationExtensions\MapLabelLayout.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 47 (63.51%)
+    ' Comment Lines: 15 (20.27%)
+    '    - Xml Docs: 86.67%
+    ' 
+    '   Blank Lines: 12 (16.22%)
+    '     File Size: 2.29 KB
+
+
     ' Structure MapLabelLayout
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -41,7 +53,12 @@
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Linq
+
+#If NET8_0_OR_GREATER Then
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+#End If
 
 Public Structure MapLabelLayout
 
@@ -52,7 +69,7 @@ Public Structure MapLabelLayout
     ''' </summary>
     Dim baseY!
 
-    Sub New(text$, font As Font, g As Graphics, location As Point, Optional baseY! = 0!)
+    Sub New(text$, font As Font, g As IGraphics, location As Point, Optional baseY! = 0!)
         With Me
             .baseY = baseY
             .OverlapRegion = New Rectangle With {

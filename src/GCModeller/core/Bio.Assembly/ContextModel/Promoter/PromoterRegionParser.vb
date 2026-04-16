@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b8f0a0cccf1cd82798ac03f93493d00, core\Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
+﻿#Region "Microsoft.VisualBasic::b06e13a267eece16e60ae8d4621211db, core\Bio.Assembly\ContextModel\Promoter\PromoterRegionParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 109
+    '    Code Lines: 70 (64.22%)
+    ' Comment Lines: 23 (21.10%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 16 (14.68%)
+    '     File Size: 4.58 KB
+
 
     '     Class PromoterRegionParser
     ' 
@@ -143,7 +155,7 @@ Namespace ContextModel.Promoter
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Private Shared Function ContainsLength(length As Integer) As Boolean
             If Array.IndexOf(PrefixLengths, length) = -1 Then
-                Call $"The promoter region length {length} is not valid, using default value is 150bp.".__DEBUG_ECHO
+                Call $"The promoter region length {length} is not valid, using default value is 150bp.".debug
             Else
                 Return True
             End If

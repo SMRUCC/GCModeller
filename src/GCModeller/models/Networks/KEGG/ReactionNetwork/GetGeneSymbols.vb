@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 73 (86.90%)
+    ' Comment Lines: 5 (5.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (7.14%)
+    '     File Size: 3.61 KB
+
+
     '     Module GetGeneSymbols
     ' 
     '         Function: GetGeneSymbols, IdDesc

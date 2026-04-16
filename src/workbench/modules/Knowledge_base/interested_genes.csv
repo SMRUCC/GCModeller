@@ -1,0 +1,70 @@
+﻿name,term,description,disease
+AADAT,D003866,aminoadipate aminotransferase,Depressive Disorder
+ABAT,D003866,4-aminobutyrate aminotransferase,Depressive Disorder
+ACACA,D003866,acetyl-CoA carboxylase alpha,Depressive Disorder
+ACHE,D003866,acetylcholinesterase (Yt blood group),Depressive Disorder
+AFMID,D003866,arylformamidase,Depressive Disorder
+ALAS2,D003866,5'-aminolevulinate synthase 2,Depressive Disorder
+AP5B1,D003866,adaptor related protein complex 5 subunit beta 1,Depressive Disorder
+APOE,D003866,apolipoprotein E,Depressive Disorder
+ATOH8,D003866,atonal bHLH transcription factor 8,Depressive Disorder
+ATP2B1,D003866,ATPase plasma membrane Ca2+ transporting 1,Depressive Disorder
+AVP,D003866,arginine vasopressin,Depressive Disorder
+BDH2,D003866,3-hydroxybutyrate dehydrogenase 2,Depressive Disorder
+BDNF,D003866,brain derived neurotrophic factor,Depressive Disorder
+CA1,D003866,carbonic anhydrase 1,Depressive Disorder
+CAT,D003866,catalase,Depressive Disorder
+CHAT,D003866,choline O-acetyltransferase,Depressive Disorder
+CPOX,D003866,coproporphyrinogen oxidase,Depressive Disorder
+CS,D003866,citrate synthase,Depressive Disorder
+DAO,D003866,D-amino acid oxidase,Depressive Disorder
+DLG3,D003866,discs large MAGUK scaffold protein 3,Depressive Disorder
+EBF1,D003866,EBF transcription factor 1,Depressive Disorder
+FABP4,D003866,fatty acid binding protein 4,Depressive Disorder
+FADS2,D003866,fatty acid desaturase 2,Depressive Disorder
+GCK,D003866,glucokinase,Depressive Disorder
+GDE1,D003866,glycerophosphodiester phosphodiesterase 1,Depressive Disorder
+GLUL,D003866,glutamate-ammonia ligase,Depressive Disorder
+GOT2,D003866,glutamic-oxaloacetic transaminase 2,Depressive Disorder
+GRIA4,D003866,glutamate ionotropic receptor AMPA type subunit 4,Depressive Disorder
+GRID1,D003866,glutamate ionotropic receptor delta type subunit 1,Depressive Disorder
+GRIN1,D003866,glutamate ionotropic receptor NMDA type subunit 1,Depressive Disorder
+GRIN2D,D003866,glutamate ionotropic receptor NMDA type subunit 2D,Depressive Disorder
+GRIN3B,D003866,glutamate ionotropic receptor NMDA type subunit 3B,Depressive Disorder
+GRM2,D003866,glutamate metabotropic receptor 2,Depressive Disorder
+GRM7,D003866,glutamate metabotropic receptor 7,Depressive Disorder
+GSR,D003866,glutathione-disulfide reductase,Depressive Disorder
+HAAO,D003866,"3-hydroxyanthranilate 3,4-dioxygenase",Depressive Disorder
+HDAC7,D003866,histone deacetylase 7,Depressive Disorder
+HTT,D003866,huntingtin,Depressive Disorder
+IDO1,D003866,"indoleamine 2,3-dioxygenase 1",Depressive Disorder
+IDO2,D003866,"indoleamine 2,3-dioxygenase 2",Depressive Disorder
+IL10,D003866,interleukin 10,Depressive Disorder
+IL6,D003866,interleukin 6,Depressive Disorder
+ITPR3,D003866,"inositol 1,4,5-trisphosphate receptor type 3",Depressive Disorder
+ITPRIP,D003866,"inositol 1,4,5-trisphosphate receptor interacting protein",Depressive Disorder
+KHK,D003866,ketohexokinase,Depressive Disorder
+KMO,D003866,kynurenine 3-monooxygenase,Depressive Disorder
+KYAT1,D003866,kynurenine aminotransferase 1,Depressive Disorder
+KYNU,D003866,kynureninase,Depressive Disorder
+MEG3,D003866,maternally expressed 3,Depressive Disorder
+NT5C2,D003866,"5'-nucleotidase, cytosolic II",Depressive Disorder
+ORM1,D003866,orosomucoid 1,Depressive Disorder
+PLAGL1,D003866,PLAG1 like zinc finger 1,Depressive Disorder
+PPARGC1A,D003866,PPARG coactivator 1 alpha,Depressive Disorder
+PRKCQ,D003866,protein kinase C theta,Depressive Disorder
+QPRT,D003866,quinolinate phosphoribosyltransferase,Depressive Disorder
+RBMXL1,D003866,RBMX like 1,Depressive Disorder
+REPIN1,D003866,replication initiator 1,Depressive Disorder
+SCD,D003866,stearoyl-CoA desaturase,Depressive Disorder
+SLC17A6,D003866,solute carrier family 17 member 6,Depressive Disorder
+SLC1A2,D003866,solute carrier family 1 member 2,Depressive Disorder
+SLC1A3,D003866,solute carrier family 1 member 3,Depressive Disorder
+SLC22A6,D003866,solute carrier family 22 member 6,Depressive Disorder
+SLC51B,D003866,SLC51 subunit beta,Depressive Disorder
+SLC9A1,D003866,solute carrier family 9 member A1,Depressive Disorder
+SP4,D003866,Sp4 transcription factor,Depressive Disorder
+TH,D003866,tyrosine hydroxylase,Depressive Disorder
+TPH2,D003866,tryptophan hydroxylase 2,Depressive Disorder
+WARS1,D003866,tryptophanyl-tRNA synthetase 1,Depressive Disorder
+XDH,D003866,xanthine dehydrogenase,Depressive Disorder

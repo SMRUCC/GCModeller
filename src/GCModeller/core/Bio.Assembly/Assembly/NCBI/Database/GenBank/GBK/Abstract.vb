@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8bf64d94bf34fa0e1ea7c45a97f690c1, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::e4dec3ee20c5f204d147648b2e6b977c, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 15
+    '    Code Lines: 5 (33.33%)
+    ' Comment Lines: 8 (53.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (13.33%)
+    '     File Size: 443 B
+
+
     '     Class IgbComponent
     ' 
     ' 
@@ -49,9 +61,9 @@ Namespace Assembly.NCBI.GenBank.GBFF
     Public MustInherit Class IgbComponent
 
         ''' <summary>
-        ''' Link to the genbank raw object.(这个构件对象所处在的``genbank``数据库对象.)
+        ''' Link to the genbank raw object.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>(这个构件对象所处在的``genbank``数据库对象.)</remarks>
         Protected Friend gb As File
     End Class
 End Namespace

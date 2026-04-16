@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b00492b428789cc93948e9162ba6b6ac, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\RegexExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::308006da9169176f4c9e491e3881fcfe, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\RegexExtensions.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 307
+    '    Code Lines: 132 (43.00%)
+    ' Comment Lines: 134 (43.65%)
+    '    - Xml Docs: 97.01%
+    ' 
+    '   Blank Lines: 41 (13.36%)
+    '     File Size: 12.23 KB
+
+
     ' Module RegexExtensions
     ' 
     '     Properties: RegexpTimeout
     ' 
     '     Constructor: (+1 Overloads) Sub New
+    ' 
     '     Function: (+2 Overloads) EachValue, EndsWith, (+2 Overloads) IsPattern, Locates, PythonRawRegexp
     '               StartsWith, (+2 Overloads) ToArray
+    ' 
+    '     Sub: Replace
     '     Structure [NameOf]
     ' 
     ' 
@@ -49,6 +64,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
@@ -56,6 +72,26 @@ Imports Microsoft.VisualBasic.Language
 
 <HideModuleName>
 Public Module RegexExtensions
+
+    ''' <summary>
+    ''' A helper function for make sub-string replacement
+    ''' </summary>
+    ''' <param name="r"></param>
+    ''' <param name="str"></param>
+    ''' <param name="replacement"></param>
+    ''' <param name="stringCopy"></param>
+    <Extension>
+    Public Sub Replace(r As Regex, ByRef str As StringBuilder, replacement As String, Optional stringCopy As String = Nothing)
+        If stringCopy Is Nothing Then
+            stringCopy = str.ToString
+        End If
+
+        Dim matches = r.Matches(stringCopy).ToArray
+
+        For Each m As String In matches
+            Call str.Replace(m, replacement)
+        Next
+    End Sub
 
     ''' <summary>
     ''' Determines whether the beginning of this string instance matches the specified

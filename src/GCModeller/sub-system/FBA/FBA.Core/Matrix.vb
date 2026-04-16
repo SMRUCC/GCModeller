@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05149978fb193b0c87103b8628cffc05, sub-system\FBA\FBA.Core\Matrix.vb"
+﻿#Region "Microsoft.VisualBasic::7189dfe533414b9e062d337969961337, sub-system\FBA\FBA.Core\Matrix.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 93
+    '    Code Lines: 50 (53.76%)
+    ' Comment Lines: 32 (34.41%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 11 (11.83%)
+    '     File Size: 3.07 KB
+
+
     ' Class Matrix
     ' 
-    '     Properties: Compounds, Flux, Gaps, Matrix, NumOfCompounds
-    '                 Targets
+    '     Properties: Compounds, Flux, FluxNames, Gaps, Matrix
+    '                 NumOfCompounds, Targets
     ' 
     '     Function: AdjustRange, GetMatrix, GetTargetCoefficients
     ' 
@@ -50,6 +62,9 @@ Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 ''' <summary>
 ''' 未知变量xyz为代谢过程，而在约束的目标函数之中则可以通过对代谢过程的约束计算出系数
 ''' </summary>
+''' <remarks>
+''' the flux data is constrain via a set of <see cref="DoubleRange"/>
+''' </remarks>
 Public Class Matrix
 
     ''' <summary>
@@ -74,8 +89,7 @@ Public Class Matrix
     ''' <summary>
     ''' 矩阵的结构为：
     ''' 
-    ''' + 行应该为Compound
-    ''' + 列应该为代谢过程
+    ''' 行应该为Compound, 列应该为代谢过程
     ''' </summary>
     ''' <returns></returns>
     Public Property Matrix As Double()()
@@ -91,14 +105,20 @@ Public Class Matrix
         End Get
     End Property
 
+    Public ReadOnly Property FluxNames As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return Flux.Keys.ToArray
+        End Get
+    End Property
+
     ''' <summary>
     ''' 生成目标函数对未知变量，即flux的系数向量
     ''' </summary>
     ''' <returns></returns>
     Public Function GetTargetCoefficients() As Double()
         With Targets.Indexing
-            Return Flux _
-                .Keys _
+            Return Flux.Keys _
                 .Select(Function(name)
                             If .IndexOf(name) > -1 Then
                                 Return 1.0

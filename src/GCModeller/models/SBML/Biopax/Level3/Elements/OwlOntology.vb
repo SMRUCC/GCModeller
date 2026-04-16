@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 16 (66.67%)
+    ' Comment Lines: 3 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (20.83%)
+    '     File Size: 736 B
+
+
     '     Class owlOntology
     ' 
     '         Properties: owlImports
@@ -50,7 +62,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.MIME.application.rdf_xml
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Namespace MetaCyc.Biopax.Level3.Elements
+Namespace Level3.Elements
 
     <XmlType("Ontology")> Public Class owlOntology : Inherits RDFEntity
         <XmlElement("imports")> Public Property owlImports As owlImports

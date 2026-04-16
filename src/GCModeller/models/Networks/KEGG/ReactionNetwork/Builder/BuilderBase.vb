@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1d31761be3f278303cf57d7a092ebb1e, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
+﻿#Region "Microsoft.VisualBasic::b349cedd45447a359cfb3be39ba4dd44, models\Networks\KEGG\ReactionNetwork\Builder\BuilderBase.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 274
+    '    Code Lines: 198 (72.26%)
+    ' Comment Lines: 41 (14.96%)
+    '    - Xml Docs: 70.73%
+    ' 
+    '   Blank Lines: 35 (12.77%)
+    '     File Size: 11.64 KB
+
+
     '     Class BuilderBase
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -44,19 +56,44 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.Drawing
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
+Imports Node = Microsoft.VisualBasic.Data.visualize.Network.Graph.Node
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace ReactionNetwork
 
@@ -157,10 +194,12 @@ Namespace ReactionNetwork
         ''' <param name="commons">a list of reaction id</param>
         ''' <param name="a"></param>
         ''' <param name="b"></param>
-        Protected MustOverride Sub createEdges(commons As String(), a As Node, b As Node)
+        Protected MustOverride Sub createEdges(commons As String(),
+                                               a As Microsoft.VisualBasic.Data.visualize.Network.Graph.Node,
+                                               b As Microsoft.VisualBasic.Data.visualize.Network.Graph.Node)
 
         Protected Sub addNewEdge(edge As Edge)
-            Dim ledge As IInteraction = edge
+            Dim ledge As SparseGraph.IInteraction = edge
 
             If (Not nodes.containsKey(ledge.source)) OrElse (Not nodes.containsKey(ledge.target)) Then
                 Throw New InvalidExpressionException(edge.ToString)
@@ -198,7 +237,7 @@ Namespace ReactionNetwork
             reactionIDlist = New List(Of String)
 
             If extended Then
-                Call "KEGG compound network will appends with extended compound reactions".__DEBUG_ECHO
+                Call "KEGG compound network will appends with extended compound reactions".debug
             End If
 
             Dim compoundNodesAll As Node() = nodes.values _
@@ -266,7 +305,7 @@ Namespace ReactionNetwork
                .Select(Function(x) x.First) _
                .AsList
 
-            For Each x In extends
+            For Each x As Node In extends
                 If Not nodes.containsKey(x.label) Then
                     nodes.add(x)
                 End If

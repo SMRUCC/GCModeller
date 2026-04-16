@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 135 (85.99%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 22 (14.01%)
+    '     File Size: 6.32 KB
+
+
     '     Class DelaunayMesh2d
     ' 
     '         Constructor: (+1 Overloads) Sub New

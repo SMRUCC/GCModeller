@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9b653cfb7bac24502966493abf293b11, data\RCSB PDB\CifDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::55b36d67d68157ed9cf34bd4b2fd4125, data\RCSB PDB\CifDictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 25 (75.76%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (24.24%)
+    '     File Size: 1.29 KB
+
+
     ' Class CifDictionary
     ' 
     '     Properties: Sections
@@ -48,9 +60,6 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
-Imports Microsoft.VisualBasic
-
 Public Class CifDictionary
 
     Public Property Sections As Section()
@@ -66,8 +75,7 @@ Public Class CifDictionary
                                       Let str As String = strLine.TrimNewLine
                                       Where Not String.IsNullOrEmpty(str)
                                       Select str).ToArray
-            Dim PairList As List(Of KeyValuePair(Of String, String)) =
-                New List(Of KeyValuePair(Of String, String))
+            Dim PairList As New List(Of KeyValuePair(Of String, String))
             For Each item As String In Tokens
 
             Next

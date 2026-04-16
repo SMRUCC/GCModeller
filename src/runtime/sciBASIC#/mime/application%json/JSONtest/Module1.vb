@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3df71a28b8cdee7d29d829209ce92fbb, mime\application%json\JSONtest\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::cc8f4283d0f6f33e4f303ad2a7e56c42, mime\application%json\JSONtest\Module1.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 49 (76.56%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (23.44%)
+    '     File Size: 2.37 KB
+
+
     ' Class TestDynamicsObject
     ' 
     '     Properties: str, Tarray, Tarray2
     ' 
     ' Module Module1
     ' 
-    '     Sub: Main
+    '     Sub: deserializeObjectTest, Main, test1
+    ' 
+    ' Class anyObject
+    ' 
+    '     Properties: data, name
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.MIME.application.json
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -56,6 +73,10 @@ End Class
 Module Module1
 
     Sub Main()
+        Call deserializeObjectTest()
+    End Sub
+
+    Sub test1()
         Dim aaa = ParseJson("[{a:[1,2,3,4,5,6,7,[{xxoo:[""233333""]}]], b: ""xxxxxooooo""}]")
 
         Dim t As New TestDynamicsObject With {
@@ -71,7 +92,7 @@ Module Module1
         Dim json$ = GetExtendedJson(Of NamedValue(Of Integer()), TestDynamicsObject)(t)
         Dim t2 = LoadExtendedJson(Of NamedValue(Of Integer()), TestDynamicsObject)(json)
 
-        Call t.GetJson(True).SaveTo("./test_out.json")
+        Call t.GetJson(maskReadonly:=True).SaveTo("./test_out.json")
         Call json.SaveTo("./test_out2.json")
         Call t2.Tarray.GetJson(maskReadonly:=True).__DEBUG_ECHO
         Call t2.Tarray2.GetJson(maskReadonly:=True).__DEBUG_ECHO
@@ -79,4 +100,26 @@ Module Module1
         Pause()
     End Sub
 
+    Sub deserializeObjectTest()
+        Dim test1 As String = "{name: 'string_value', data: 'string_value'}"
+        Dim test2 As String = "{name: 'string_array', data: ['value1', 'value2', 'value3']}"
+        Dim test3 As String = "{name: 'any', data: {name:'nest', data:false}}"
+        Dim test4 As String = "{name: 'any', data: {name:'nest', data:{name:'nest_true', data:true}}}"
+
+        Dim o1 = JsonParser.Parse(test1, False).CreateObject(Of anyObject)
+        Dim o2 = JsonParser.Parse(test2, False).CreateObject(Of anyObject)
+        Dim o3 = JsonParser.Parse(test3, False).CreateObject(Of anyObject)
+        Dim o4 = JsonParser.Parse(test4, False).CreateObject(Of anyObject)
+
+        Pause()
+    End Sub
+
 End Module
+
+<KnownType(GetType(anyObject))>
+Public Class anyObject
+
+    Public Property name As String
+    Public Property data As Object
+
+End Class

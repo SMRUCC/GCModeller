@@ -1,0 +1,63 @@
+.\" man page create by R# package system.
+.TH GSEA 2 2000-1月 "enrichment" "enrichment"
+.SH NAME
+enrichment \- do GSEA enrichment analysis
+.SH SYNOPSIS
+\fIenrichment(\fBbackground\fR as any, 
+\fBgeneSet\fR as any, 
+\fBexpression\fR as any = \fB<NULL>\fR, 
+\fBcut_size\fR as integer = 3, 
+\fBoutputAll\fR as boolean = TRUE, 
+\fBresize\fR as integer = -1, 
+\fBshowProgress\fR as boolean = FALSE, 
+..., 
+[\fB<Environment>\fR]);\fR
+.SH DESCRIPTION
+.PP
+do GSEA enrichment analysis
+ 
+ Gene set enrichment analysis (GSEA) (also called functional 
+ enrichment analysis or pathway enrichment analysis) is a 
+ method to identify classes of genes or proteins that are 
+ over-represented in a large set of genes or proteins, and 
+ may have an association with disease phenotypes. The method 
+ uses statistical approaches to identify significantly enriched 
+ or depleted groups of genes. Transcriptomics technologies 
+ and proteomics results often identify thousands of genes 
+ which are used for the analysis.
+.PP
+.SH OPTIONS
+.PP
+\fBbackground\fB \fR\- a @\fBT:SMRUCC.genomics.Analysis.HTS.GSEA.Background\fR model or @\fBT:SMRUCC.genomics.Analysis.HTS.GSEA.KnowledgeBase.Metabolism.Metpa.metpa\fR background model.. 
+.PP
+.PP
+\fBgeneSet\fB \fR\- a given geneset id list. 
+.PP
+.PP
+\fBexpression\fB \fR\- 
+ the expression value of the given gene set. this parameter could be missing. 
+ default use the fisher test enrichment method for the given gene set when 
+ the expression vector is missing. GSEA method will be applied for the enrichment 
+ analysis if this parameter is not missing.
+. 
+.PP
+.PP
+\fBargs\fB \fR\- 
+ the additional argument list that may be used, 
+ 
+ for metpa background model, \fBtopo\fR parameter will be used for 
+ specific the network topology impact score source, value of the
+ \fBtopo\fR parameter could be \fBdgr\fR or \fBrbc\fR.
+. 
+.PP
+.SH DETAILS
+.PP
+the expression value could be the raw expression mean value, different expression 
+ foldchange value for the group comparision, or other related gene set sort scores.
+.PP
+.SH SEE ALSO
+GSEA
+.SH FILES
+.PP
+gseakit.dll
+.PP

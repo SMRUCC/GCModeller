@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 8 (57.14%)
+    ' Comment Lines: 3 (21.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (21.43%)
+    '     File Size: 443 B
+
+
     '     Module HardLink
     ' 
     '         Function: CreateHardLink

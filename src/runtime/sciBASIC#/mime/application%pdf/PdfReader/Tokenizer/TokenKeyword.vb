@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3f69df8bef2ef0df37b0047e59613388, mime\application%pdf\PdfReader\Tokenizer\TokenKeyword.vb"
+﻿#Region "Microsoft.VisualBasic::8611412301a9433a9fc30ad1e86addf4, mime\application%pdf\PdfReader\Tokenizer\TokenKeyword.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 36 (83.72%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (16.28%)
+    '     File Size: 1.54 KB
+
 
     '     Class TokenKeyword
     ' 
@@ -66,7 +78,7 @@ Namespace PdfReader
             Next
         End Sub
 
-        Public Sub New(ByVal keyword As ParseKeyword)
+        Public Sub New(keyword As ParseKeyword)
             Value = keyword
         End Sub
 
@@ -74,12 +86,12 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As ParseKeyword)
+            Private Set(value As ParseKeyword)
                 _Value = value
             End Set
         End Property
 
-        Public Shared Function GetToken(ByVal keyword As String) As TokenKeyword
+        Public Shared Function GetToken(keyword As String) As TokenKeyword
             Dim tokenKeyword As TokenKeyword = Nothing
             _lookup.TryGetValue(keyword, tokenKeyword)
             Return tokenKeyword

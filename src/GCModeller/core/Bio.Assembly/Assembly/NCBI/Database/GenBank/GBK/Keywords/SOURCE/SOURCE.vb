@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::75f7e4e05ec98d219e9e30935269adf5, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
+﻿#Region "Microsoft.VisualBasic::3da52dbdb858373a98c2d3bfe7f683c5, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\GBK\Keywords\SOURCE\SOURCE.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 35 (56.45%)
+    ' Comment Lines: 15 (24.19%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (19.35%)
+    '     File Size: 1.94 KB
+
+
     '     Class SOURCE
     ' 
-    '         Properties: OrganismHierarchy, SpeciesName
+    '         Properties: BiomString, OrganismHierarchy, SpeciesName
     ' 
     '         Function: GetTaxonomy, ToString
     ' 
@@ -43,6 +55,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports SMRUCC.genomics.Metagenomics
 
 Namespace Assembly.NCBI.GenBank.GBFF.Keywords
 
@@ -58,9 +71,32 @@ Namespace Assembly.NCBI.GenBank.GBFF.Keywords
         ''' <returns></returns>
         Public Property OrganismHierarchy As ORGANISM
 
+        ''' <summary>
+        ''' taxonomy lineage string in BIOM format
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property BiomString As String
+            Get
+                Return BIOMTaxonomy.TaxonomyString(OrganismHierarchy.Lineage.Join(SpeciesName).ToArray)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' Get ncbi taxonomy information
+        ''' </summary>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function GetTaxonomy() As Metagenomics.Taxonomy
-            Return OrganismHierarchy.ToTaxonomy
+            Dim tax = OrganismHierarchy.ToTaxonomy
+            Dim strain = gb.SourceFeature.Query("strain")
+
+            If Not strain.StringEmpty Then
+                tax.scientificName = tax.scientificName & " " & strain
+            End If
+
+            tax.ncbi_taxid = gb.Taxon
+
+            Return tax
         End Function
 
         Public Overrides Function ToString() As String

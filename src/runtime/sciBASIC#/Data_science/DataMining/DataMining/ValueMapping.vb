@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15cfcf1029c042c0477ffb2ecc8cd008, Data_science\DataMining\DataMining\ValueMapping.vb"
+﻿#Region "Microsoft.VisualBasic::3c4f462dd3198974583933ba03d16a6c, Data_science\DataMining\DataMining\ValueMapping.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 47 (61.84%)
+    ' Comment Lines: 20 (26.32%)
+    '    - Xml Docs: 95.00%
+    ' 
+    '   Blank Lines: 9 (11.84%)
+    '     File Size: 2.74 KB
+
+
     ' Module ValueMapping
     ' 
-    '     Function: Discretization, ModalNumber
+    '     Function: Discretization, ModalNumber, Z
     ' 
     ' /********************************************************************************/
 
@@ -41,6 +53,11 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Discretion
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.Math
+Imports Microsoft.VisualBasic.Math.Distributions
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Public Module ValueMapping
 
@@ -78,5 +95,35 @@ Public Module ValueMapping
     <Extension>
     Public Function Discretization(data As IEnumerable(Of Double), levels As Integer) As Discretizer
         Return New Discretizer(data, levels)
+    End Function
+
+    ''' <summary>
+    ''' z-score transform of the data vector
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <returns></returns>
+    <Extension>
+    Public Iterator Function Z(a As IEnumerable(Of EntityClusterModel)) As IEnumerable(Of EntityClusterModel)
+        Dim matrix = a.ToArray
+        Dim names As String() = matrix _
+            .Select(Function(v) v.Properties.Keys) _
+            .IteratesALL _
+            .Distinct _
+            .ToArray
+
+        For Each v As EntityClusterModel In matrix
+            Dim xv As Vector = v(names).AsVector
+            Dim zscore As Double() = xv.Z.ToArray
+            Dim t As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To names.Length - 1
+                t(names(i)) = zscore(i)
+            Next
+
+            Yield New EntityClusterModel With {
+                .ID = v.ID,
+                .Properties = t
+            }
+        Next
     End Function
 End Module

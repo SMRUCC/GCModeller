@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::487610a238003989b78d1787a7d2d9c1, analysis\Motifs\VirtualFootprint\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::708b432d9af07e0850bf0d10b82e60eb, analysis\Motifs\VirtualFootprint\Regulon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 120
+    '    Code Lines: 106 (88.33%)
+    ' Comment Lines: 3 (2.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (9.17%)
+    '     File Size: 5.51 KB
+
 
     ' Class RegPreciseRegulon
     ' 
@@ -99,17 +111,17 @@ Public Class RegPreciseRegulon
             Dim toNodes As String() = xGroup.Group.Select(Function(x) x.Members).Unlist.Distinct.ToArray
             For Each member As String In toNodes
                 Dim edge As New NetworkEdge With {
-                    .FromNode = xGroup.Regulator,
-                    .ToNode = member,
-                    .Interaction = "Regulates"
+                    .fromNode = xGroup.Regulator,
+                    .toNode = member,
+                    .interaction = "Regulates"
                 }
                 Call edges.Add(edge)
             Next
         Next
 
         Return New FileStream.NetworkTables With {
-            .Edges = edges.ToArray,
-            .Nodes = Nodes.Values.ToArray
+            .edges = edges.ToArray,
+            .nodes = Nodes.Values.ToArray
         }
     End Function
 
@@ -123,7 +135,7 @@ Public Class RegPreciseRegulon
         Dim __1st = source.First
         Dim regulates = (From x In source Select x.Regulates.Select(Function(xx) xx.locusId)).Unlist
         Dim effectors = (From x In source Select x.effector Distinct).ToArray
-        Dim hits = (From x In source Select x.locus_tag.text Distinct Order By text Ascending).ToArray
+        Dim hits = (From x In source Select text = x.locus_tags.Values.JoinBy(";") Distinct Order By text Ascending).ToArray
         Dim sites = (From x In source Select x.regulatorySites.Select(Function(xx) xx.UniqueId)).Unlist
         Dim regulon As New RegPreciseRegulon With {
             .Family = __1st.family,

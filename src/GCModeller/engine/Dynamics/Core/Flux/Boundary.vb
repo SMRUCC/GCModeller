@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8814c4f37e5aeb1a5da7931fe4930c21, engine\Dynamics\Core\Flux\Boundary.vb"
+﻿#Region "Microsoft.VisualBasic::2a0e282bf6ea55f18985b09df2474759, engine\Dynamics\Core\Flux\Boundary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 21 (56.76%)
+    ' Comment Lines: 7 (18.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (24.32%)
+    '     File Size: 1.09 KB
+
+
     '     Class Boundary
     ' 
     '         Properties: forward, reverse
@@ -45,6 +57,9 @@
 
 Namespace Core
 
+    ''' <summary>
+    ''' the reaction flux dynamics bounds range
+    ''' </summary>
     Public Class Boundary
 
         Public Property forward As Double

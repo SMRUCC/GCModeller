@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8f586e09d058cac7401b0c075e534a77, Data\BinaryData\BinaryData\Bzip2\BZip2InputStream.vb"
+﻿#Region "Microsoft.VisualBasic::cf5492f7947e4785dc438afffdfab74c, Data\BinaryData\BinaryData\Bzip2\BZip2InputStream.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 236
+    '    Code Lines: 149 (63.14%)
+    ' Comment Lines: 43 (18.22%)
+    '    - Xml Docs: 32.56%
+    ' 
+    '   Blank Lines: 44 (18.64%)
+    '     File Size: 9.60 KB
+
+
     '     Class BZip2InputStream
     ' 
     '         Properties: CanRead, CanSeek, CanWrite, Length, Position
@@ -54,6 +66,7 @@
 Imports System.IO
 
 Namespace Bzip2
+
     ''' <summary>An InputStream wrapper that decompresses BZip2 data</summary>
     ''' <remarks>Instances of this class are not threadsafe</remarks>
     Public Class BZip2InputStream

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 38 (50.67%)
+    ' Comment Lines: 26 (34.67%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 11 (14.67%)
+    '     File Size: 3.02 KB
+
+
     '     Class ObjFunction
     ' 
     '         Constructor: (+1 Overloads) Sub New

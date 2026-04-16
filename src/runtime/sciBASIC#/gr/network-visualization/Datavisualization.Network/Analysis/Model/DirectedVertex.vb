@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::858cfa506ad7b1009dd88fdab472e8a0, gr\network-visualization\Datavisualization.Network\Analysis\Model\DirectedVertex.vb"
+﻿#Region "Microsoft.VisualBasic::55c409264bc7b5e3d4216cf3722b90c8, gr\network-visualization\Datavisualization.Network\Analysis\Model\DirectedVertex.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 140
+    '    Code Lines: 79 (56.43%)
+    ' Comment Lines: 42 (30.00%)
+    '    - Xml Docs: 90.48%
+    ' 
+    '   Blank Lines: 19 (13.57%)
+    '     File Size: 4.68 KB
+
+
     '     Class DirectedVertex
     ' 
-    '         Properties: label
+    '         Properties: connectivity, incomingEdges, inDegree, label, outDegree
+    '                     outgoingEdges
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
@@ -47,9 +60,13 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Analysis.Model
 
+    ''' <summary>
+    ''' an edge collection for indexing the in/out edge connection with current node.
+    ''' </summary>
     Public Class DirectedVertex : Implements IEnumerable(Of Edge)
 
         Public ReadOnly Property label As String
@@ -57,12 +74,56 @@ Namespace Analysis.Model
         ''' <summary>
         ''' me to target
         ''' </summary>
-        Friend ReadOnly outgoingEdges As New HashSet(Of Edge)
+        Friend ReadOnly m_outgoingEdges As New HashSet(Of Edge)
         ''' <summary>
         ''' source to me
         ''' </summary>
-        Friend ReadOnly incomingEdges As New HashSet(Of Edge)
+        Friend ReadOnly m_incomingEdges As New HashSet(Of Edge)
 
+        Public ReadOnly Property outDegree As Integer
+            Get
+                Return m_outgoingEdges.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property inDegree As Integer
+            Get
+                Return m_incomingEdges.Count
+            End Get
+        End Property
+
+        Public ReadOnly Property outgoingEdges As IEnumerable(Of Edge)
+            Get
+                Return m_outgoingEdges.AsEnumerable
+            End Get
+        End Property
+
+        Public ReadOnly Property incomingEdges As IEnumerable(Of Edge)
+            Get
+                Return m_incomingEdges.AsEnumerable
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' summ all connected edge weights as weighted degree connectivity
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the edge weight data should be not missing!
+        ''' </remarks>
+        Public ReadOnly Property connectivity As Double
+            Get
+                Return Aggregate link As Edge
+                       In m_outgoingEdges.JoinIterates(m_incomingEdges)
+                       Into Sum(link.weight)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' create a new node edge connection collection object
+        ''' </summary>
+        ''' <param name="label">the node unique id</param>
+        ''' <exception cref="ArgumentNullException"></exception>
         Sub New(label As String)
             Me.label = label
 
@@ -76,7 +137,7 @@ Namespace Analysis.Model
         ''' </summary>
         ''' <param name="edge"></param>
         Public Sub addOutgoingEdge(edge As Edge)
-            Call outgoingEdges.Add(edge)
+            Call m_outgoingEdges.Add(edge)
         End Sub
 
         ''' <summary>
@@ -84,7 +145,7 @@ Namespace Analysis.Model
         ''' </summary>
         ''' <param name="e"></param>
         Public Sub addIncomingEdge(e As Edge)
-            Call incomingEdges.Add(e)
+            Call m_incomingEdges.Add(e)
         End Sub
 
         ''' <summary>
@@ -111,7 +172,7 @@ Namespace Analysis.Model
         ''' <param name="v2">target to</param>
         ''' <returns></returns>
         Public Function getEdgeTo(v2 As DirectedVertex) As Edge
-            For Each edge As Edge In outgoingEdges
+            For Each edge As Edge In m_outgoingEdges
                 If edge.V.label = v2.label Then
                     Return edge
                 End If
@@ -125,7 +186,10 @@ Namespace Analysis.Model
         End Function
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of Edge) Implements IEnumerable(Of Edge).GetEnumerator
-            For Each edge As Edge In outgoingEdges
+            For Each edge As Edge In m_outgoingEdges
+                Yield edge
+            Next
+            For Each edge As Edge In m_incomingEdges
                 Yield edge
             Next
         End Function

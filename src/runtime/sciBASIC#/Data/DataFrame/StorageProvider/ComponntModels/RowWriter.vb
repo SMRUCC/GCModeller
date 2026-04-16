@@ -1,52 +1,64 @@
-﻿#Region "Microsoft.VisualBasic::29bddad057f601259afa0138d77bab9d, Data\DataFrame\StorageProvider\ComponntModels\RowWriter.vb"
+﻿#Region "Microsoft.VisualBasic::a639b7283b919ac561814e1d1abe0843, Data\DataFrame\StorageProvider\ComponntModels\RowWriter.vb"
 
-' Author:
-' 
-'       asuka (amethyst.asuka@gcmodeller.org)
-'       xie (genetics@smrucc.org)
-'       xieguigang (xie.guigang@live.com)
-' 
-' Copyright (c) 2018 GPL3 Licensed
-' 
-' 
-' GNU GENERAL PUBLIC LICENSE (GPL3)
-' 
-' 
-' This program is free software: you can redistribute it and/or modify
-' it under the terms of the GNU General Public License as published by
-' the Free Software Foundation, either version 3 of the License, or
-' (at your option) any later version.
-' 
-' This program is distributed in the hope that it will be useful,
-' but WITHOUT ANY WARRANTY; without even the implied warranty of
-' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-' GNU General Public License for more details.
-' 
-' You should have received a copy of the GNU General Public License
-' along with this program. If not, see <http://www.gnu.org/licenses/>.
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-' /********************************************************************************/
+    ' /********************************************************************************/
 
-' Summaries:
+    ' Summaries:
 
-'     Class RowWriter
-' 
-'         Properties: columns, metaRow, schemaProvider
-' 
-'         Constructor: (+1 Overloads) Sub New
-'         Function: GetRowNames, ToRow
-'         Delegate Function
-' 
-'             Properties: hasMeta, isMetaIndexed
-' 
-'             Function: __buildRowMeta, __buildRowNullMeta, __meta, CacheIndex, GetMetaTitles
-'                       ToString
-' 
-' 
-' 
-' /********************************************************************************/
+
+    ' Code Statistics:
+
+    '   Total Lines: 329
+    '    Code Lines: 232 (70.52%)
+    ' Comment Lines: 52 (15.81%)
+    '    - Xml Docs: 80.77%
+    ' 
+    '   Blank Lines: 45 (13.68%)
+    '     File Size: 13.43 KB
+
+
+    '     Class RowWriter
+    ' 
+    '         Properties: columns, metaRow, schemaProvider
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: GetColumnType, GetRowNames, ToRow
+    '         Delegate Function
+    ' 
+    '             Properties: hasMeta, isMetaIndexed
+    ' 
+    '             Function: __buildRowMeta, __buildRowNullMeta, __meta, CacheIndex, castStr
+    '                       extractAllKeys, getAllMetadata, GetMetaTitles, ToString
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
 
 #End Region
 
@@ -54,11 +66,12 @@ Option Strict Off
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Linq.JoinExtensions
+Imports any = Microsoft.VisualBasic.Scripting
 
 Namespace StorageProvider.ComponentModels
 
@@ -97,7 +110,7 @@ Namespace StorageProvider.ComponentModels
                                 Return DirectCast(field, StorageProvider)
                             End Function).ToArray
             Me.columns = LinqAPI.Exec(Of StorageProvider) _
- _
+                                                          _
                 () <= From field As StorageProvider
                       In Me.columns
                       Where Not field Is Nothing
@@ -155,6 +168,30 @@ Namespace StorageProvider.ComponentModels
             End If
         End Sub
 
+        Public Function GetColumnType(name As String, Optional maps As Dictionary(Of String, String) = Nothing) As Type
+            Dim field As StorageProvider
+
+            If Not maps Is Nothing Then
+                For Each tuple As KeyValuePair(Of String, String) In maps
+                    If tuple.Value = name Then
+                        name = tuple.Key
+                        Exit For
+                    End If
+                Next
+            End If
+
+            field = columns.Where(Function(c) c.Name = name).FirstOrDefault
+
+            If Not field Is Nothing Then
+                Return field.BindProperty.PropertyType
+            ElseIf Not metaRow Is Nothing Then
+                ' probabily is the metadata field
+                Return metaRow.Dictionary
+            Else
+                Return GetType(Object)
+            End If
+        End Function
+
         Public Function GetRowNames(Optional maps As Dictionary(Of String, String) = Nothing) As RowObject
             If maps Is Nothing Then
                 Return New RowObject(columns.Select(Function(field) field.Name))
@@ -195,7 +232,7 @@ Namespace StorageProvider.ComponentModels
         ''' <returns></returns>
         Private Function __buildRowNullMeta(obj As Object, numFormat As String) As RowObject
             Dim row = LinqAPI.MakeList(Of String) _
- _
+                                                  _
             () <= From colum As StorageProvider
                   In columns
                   Let value As Object = colum.BindProperty.GetValue(obj, Nothing)
@@ -235,36 +272,49 @@ Namespace StorageProvider.ComponentModels
             End Get
         End Property
 
+        Private Shared Function getAllMetadata(source As IEnumerable(Of Object), metaRow As MetaAttribute) As IEnumerable(Of IDictionary)
+            ' 获取每一个实体对象的字典属性的值
+            Return From obj As Object
+                   In source.AsParallel
+                   Where Not obj Is Nothing
+                   Let x As Object = metaRow.BindProperty.GetValue(obj, Nothing)
+                   Where Not x Is Nothing
+                   Let hash As IDictionary = DirectCast(x, IDictionary)
+                   Select hash
+        End Function
+
+        Private Shared Function extractAllKeys(metadatas As IDictionary()) As String()
+            Dim q_extract = From x As IDictionary
+                            In metadatas.AsParallel
+                            Select From o As Object
+                                   In x.Keys
+                                   Select any.ToString(o)
+
+            Return q_extract.ToArray.IteratesALL.ToArray
+        End Function
+
         ''' <summary>
         ''' 在这个函数之中生成字典动态属性的表头
         ''' </summary>
         ''' <param name="source"></param>
         ''' <param name="reorderKeys">
+        ''' options for sorts the metadata index keys?
+        ''' 
         ''' + 0: 不排序
         ''' + 1: 升序排序
         ''' +-1: 降序排序
         ''' </param>
         ''' <returns></returns>
-        Public Function CacheIndex(source As IEnumerable(Of Object), reorderKeys As Integer) As RowWriter
+        Public Function CacheIndex(source As IEnumerable(Of Object), Optional reorderKeys As Integer = 0) As RowWriter
             If metaRow Is Nothing Then
                 Return Me
             End If
 
-            Dim hashMetas = LinqAPI.Exec(Of IDictionary) _
- _
-                () <= From obj As Object
-                      In source.AsParallel
-                      Let x As Object = metaRow.BindProperty.GetValue(obj, Nothing)
-                      Where Not x Is Nothing
-                      Let hash As IDictionary = DirectCast(x, IDictionary)
-                      Select hash  ' 获取每一个实体对象的字典属性的值
-
+            ' 获取每一个实体对象的字典属性的值
+            Dim metadatas = getAllMetadata(source, metaRow).ToArray
             ' 得到所有的键名Keys
-            Dim indexs As IEnumerable(Of String) = (From x As IDictionary
-                                                    In hashMetas.AsParallel
-                                                    Select From o As Object
-                                                           In x.Keys
-                                                           Select Scripting.ToString(o)).IteratesALL
+            Dim indexs As String() = extractAllKeys(metadatas)
+
             If reorderKeys > 0 Then
                 __cachedIndex = indexs _
                     .Distinct _
@@ -311,21 +361,25 @@ Namespace StorageProvider.ComponentModels
             ' 得到实体之中的字典类型的属性值
             Dim source As Object = metaRow.BindProperty.GetValue(obj, Nothing)
 
+            If __cachedIndex Is Nothing Then
+                Throw New NullReferenceException($"the cache index is nothing, you should run the method '{NameOf(CacheIndex)}' for index cached at first, and then write the data!")
+            End If
             If source Is Nothing Then
                 Return _metaBlank.Repeats(__cachedIndex.Length)
             End If
 
-            Dim values As String() = New String(Me.__cachedIndex.Length - 1) {}
+            Dim metaSize As Integer = __cachedIndex.Length
+            Dim values As String() = New String(metaSize - 1) {}
             Dim hash As IDictionary = DirectCast(source, IDictionary)
 
             For i As Integer = 0 To __cachedIndex.Length - 1
                 Dim tag As String = __cachedIndex(i)
 
                 If hash.Contains(tag) Then
-                    Dim value As Object = hash(key:=tag)
-                    values(i) = Scripting.ToString(value)
+                    values(i) = any.ToString(hash(key:=tag))
                 Else
-                    values(i) = _metaBlank  ' 假若不存在，则使用默认字符串进行替换，默认是空白字符串
+                    ' 假若不存在，则使用默认字符串进行替换，默认是空白字符串
+                    values(i) = _metaBlank
                 End If
             Next
 

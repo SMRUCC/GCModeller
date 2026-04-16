@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 27 (62.79%)
+    ' Comment Lines: 9 (20.93%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (16.28%)
+    '     File Size: 1.57 KB
+
+
     '     Class rsbpml
     ' 
     '         Properties: part_list

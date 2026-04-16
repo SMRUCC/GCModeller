@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 13 (37.14%)
+    ' Comment Lines: 16 (45.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (17.14%)
+    '     File Size: 1.34 KB
+
+
     '     Interface IGenomicsContextProvider
     ' 
     '         Properties: AllFeatures, Feature

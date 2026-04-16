@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f64e58f8c379ac5d5e872027beeaadd4, Microsoft.VisualBasic.Core\src\Data\Tsv.vb"
+﻿#Region "Microsoft.VisualBasic::f987f671a10248c5a74f0d1e75521aba, Microsoft.VisualBasic.Core\src\Data\Tsv.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 197
+    '    Code Lines: 120 (60.91%)
+    ' Comment Lines: 56 (28.43%)
+    '    - Xml Docs: 89.29%
+    ' 
+    '   Blank Lines: 21 (10.66%)
+    '     File Size: 8.90 KB
+
+
     '     Module TsvFileIO
     ' 
-    '         Function: GetTsvHeader, Load, LoadByIndex, LoadFile
+    '         Function: GetTsvHeader, Load, LoadByIndex, LoadFile, ValidateSchemaNames
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,6 +62,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports FieldTuple = System.Collections.Generic.KeyValuePair(Of String, System.Reflection.PropertyInfo)
 Imports RowTokens = System.Collections.Generic.IEnumerable(Of String)
 
@@ -162,12 +175,12 @@ Namespace ComponentModel.DataSourceModel
         ReadOnly withoutProcess As New [Default](Of Func(Of String, String))(Function(str) str)
 
         ''' <summary>
-        ''' 
+        ''' Just read the first line and parse as the data headers
         ''' </summary>
-        ''' <param name="stream"></param>
+        ''' <param name="stream">A stream connection to the target text file</param>
         ''' <param name="lower"></param>
         ''' <param name="process"></param>
-        ''' <returns></returns>
+        ''' <returns>A data headers collection</returns>
         ''' <remarks>
         ''' Linux平台上面的mono这里有bug，为什么<see cref="StreamReader.ReadLine()"/>一直都输出空值？
         ''' </remarks>
@@ -176,6 +189,7 @@ Namespace ComponentModel.DataSourceModel
                                      Optional lower As Boolean = False,
                                      Optional process As Func(Of String, String) = Nothing) As Index(Of String)
 
+            ' just read the first line in the text file
             Dim line$ = stream.ReadLine
             Dim headers$() = line _
                 .Split(ASCII.TAB) _
@@ -184,7 +198,7 @@ Namespace ComponentModel.DataSourceModel
 
             If lower Then
                 Return headers _
-                    .Select(AddressOf Strings.LCase) _
+                    .Select(Function(si) If(si, "").ToLower) _
                     .Indexing
             Else
                 Return New Index(Of String)(headers)
@@ -200,7 +214,7 @@ Namespace ComponentModel.DataSourceModel
         Public Function LoadFile(path$, Optional encoding As Encoding = Nothing, Optional skipFirstLine As Boolean = False) As IEnumerable(Of RowTokens)
             Dim lines As String() = TextDoc.ReadAllLines(path, encoding Or UTF8)
             Dim LQuery = LinqAPI.Exec(Of RowTokens) _
- _
+                                                    _
                 () <= From strLine As String
                       In lines
                       Let t As String() = Strings.Split(strLine, vbTab)
@@ -212,6 +226,26 @@ Namespace ComponentModel.DataSourceModel
             Else
                 Return LQuery
             End If
+        End Function
+
+        ''' <summary>
+        ''' Check of does all <paramref name="required"/> field names is inside current data index?
+        ''' </summary>
+        ''' <param name="headers">the data header names that read from the data file</param>
+        ''' <param name="required">
+        ''' a name vector of the required data fields
+        ''' </param>
+        ''' <returns>
+        ''' true if all <paramref name="required"/> is presents inside the given <paramref name="headers"/>
+        ''' </returns>
+        ''' 
+        <Extension>
+        Public Function ValidateSchemaNames(headers As Index(Of String), ParamArray required As String()) As Boolean
+            If required.IsNullOrEmpty Then
+                Return True
+            End If
+
+            Return required.All(Function(name) name Like headers)
         End Function
     End Module
 End Namespace

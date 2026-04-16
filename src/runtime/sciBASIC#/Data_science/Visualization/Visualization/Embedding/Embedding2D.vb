@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::31bd01c239928e3434a7546a58d692ea, Data_science\Visualization\Visualization\Embedding\Embedding2D.vb"
+﻿#Region "Microsoft.VisualBasic::4a14173d6b0fd2796c68804c5bb93840, Data_science\Visualization\Visualization\Embedding\Embedding2D.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 79
+    '    Code Lines: 68 (86.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (13.92%)
+    '     File Size: 2.93 KB
+
+
     ' Class Embedding2D
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -45,7 +57,6 @@ Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
-Imports Microsoft.VisualBasic.DataMining.UMAP
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 
@@ -117,6 +128,6 @@ Public Class Embedding2D ： Inherits EmbeddingRender
             fillPie:=True,
             ablines:=Nothing,
             hullConvexList:=hullConvexList
-        ).Plot(g, canvas.PlotRegion)
+        ).Plot(g, canvas)
     End Sub
 End Class

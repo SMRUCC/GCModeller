@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 41 (77.36%)
+    ' Comment Lines: 3 (5.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.98%)
+    '     File Size: 1.95 KB
+
+
     ' Module PSI
     ' 
     '     Function: __extractEdge, __extractNetwork, (+2 Overloads) ExtractNetwork

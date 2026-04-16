@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::16d7fca837755ac48292e9697e84acd5, engine\Model\Cellular\Process\CentralDogma.vb"
+﻿#Region "Microsoft.VisualBasic::0099f8be81279e5ba41eb816787adc37, engine\Model\Cellular\Process\CentralDogma.vb"
 
     ' Author:
     ' 
@@ -31,18 +31,29 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 52 (45.22%)
+    ' Comment Lines: 51 (44.35%)
+    '    - Xml Docs: 90.20%
+    ' 
+    '   Blank Lines: 12 (10.43%)
+    '     File Size: 4.29 KB
+
+
     '     Structure CentralDogma
     ' 
     '         Properties: geneID, IsRNAGene, RNAName
     ' 
-    '         Function: ToString
+    '         Function: isChargedtRNA, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-Imports System.ComponentModel
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -53,13 +64,14 @@ Namespace Cellular.Process
 
     ''' <summary>
     ''' Transcription and Translation.
-    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
-    ''' 
     ''' ```
     ''' CDS -> RNA
     ''' ORF -> mRNA -> polypeptide
     ''' ```
     ''' </summary>
+    ''' <remarks>
+    ''' (一个中心法则对象就是一个基因表达的过程，这个基因表达过程的名称为<see cref="ToString"/>方法的返回值)
+    ''' </remarks>
     Public Structure CentralDogma : Implements INamedValue
 
         ''' <summary>
@@ -92,6 +104,17 @@ Namespace Cellular.Process
         Dim replicon As String
 
         ''' <summary>
+        ''' matrix vector reference of the RNA composition
+        ''' </summary>
+        Dim transcript As String
+        ''' <summary>
+        ''' matrix vector reference of the protein composition
+        ''' </summary>
+        Dim translation As String
+        Dim transcript_unit As String
+        Dim expression_level As Double
+
+        ''' <summary>
         ''' 如果这个属性返回false就说明不是编码蛋白序列的基因
         ''' </summary>
         ''' <returns></returns>
@@ -102,11 +125,16 @@ Namespace Cellular.Process
             End Get
         End Property
 
+        ''' <summary>
+        ''' get reference key 
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property RNAName As String
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Select Case RNA.Value
                     Case RNATypes.mRNA
-                        Return $"{geneID}::{RNA.Value.Description}"
+                        Return geneID
                     Case RNATypes.ribosomalRNA
                         ' 20200313 因为tRNA和rRNA具有通用性
                         ' 不像mRNA一样和基因蛋白石一一对应的
@@ -115,10 +143,18 @@ Namespace Cellular.Process
                     Case RNATypes.tRNA
                         Return $"tRNA-{RNA.Description}"
                     Case Else
-                        Return geneID & "::RNA"
+                        If geneID <> RNA.Name Then
+                            Return RNA.Name
+                        Else
+                            Return geneID & $"({RNA.Value.ToString})"
+                        End If
                 End Select
             End Get
         End Property
+
+        Public Function isChargedtRNA() As Boolean
+            Return RNA.Value = RNATypes.tRNA AndAlso (RNA.Description.StartsWith("charged") OrElse RNA.Description.StartsWith("*"))
+        End Function
 
         ''' <summary>
         ''' 获取得到这个表达过程的名称

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d6a6fde3105e3657661aac7c370b9657, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\JoinExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::72e9cf5d3f879cc5c9358db0649f902e, Microsoft.VisualBasic.Core\src\Extensions\Collection\Linq\JoinExtensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 49 (59.76%)
+    ' Comment Lines: 24 (29.27%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (10.98%)
+    '     File Size: 3.05 KB
+
+
     '     Module JoinExtensions
     ' 
-    '         Function: IteratesALL, (+2 Overloads) JoinIterates
+    '         Function: Concatenate, IteratesALL, (+2 Overloads) JoinIterates
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,17 +61,24 @@ Namespace Linq
 
         ''' <summary>
         ''' Iterates all of the elements in a two dimension collection as the data source 
-        ''' for the linq expression or ForEach statement.
+        ''' for the linq expression or ForEach statement.<br />
         ''' (适用于二维的集合做为linq的数据源，不像<see cref="Unlist"/>是进行转换，
         ''' 这个是返回迭代器的，推荐使用这个函数)
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
-        ''' 
+        ''' <remarks>
+        ''' this function is a safe function, the null collection value in the given
+        ''' <paramref name="source"/> will be ignored
+        ''' </remarks>
         <DebuggerStepThrough>
         <Extension>
         Public Iterator Function IteratesALL(Of T)(source As IEnumerable(Of IEnumerable(Of T))) As IEnumerable(Of T)
+            If source Is Nothing Then
+                Return
+            End If
+
             For Each line As IEnumerable(Of T) In source
                 If Not line Is Nothing Then
                     Using iterator = line.GetEnumerator
@@ -71,6 +90,10 @@ Namespace Linq
             Next
         End Function
 
+        Public Function Concatenate(Of T)(ParamArray source As IEnumerable(Of T)()) As IEnumerable(Of T)
+            Return source.IteratesALL
+        End Function
+
         ''' <summary>
         ''' First, iterate populates the elements in collection <paramref name="a"/>, 
         ''' and then populate out all of the elements on collection <paramref name="b"/>
@@ -78,7 +101,10 @@ Namespace Linq
         ''' <typeparam name="T"></typeparam>
         ''' <param name="a">Object collection</param>
         ''' <param name="b">Another object collection.</param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' <paramref name="a"/> or <paramref name="b"/> will be ignored if
+        ''' collection object is nothing
+        ''' </returns>
         <Extension>
         Public Iterator Function JoinIterates(Of T)(a As IEnumerable(Of T), b As IEnumerable(Of T)) As IEnumerable(Of T)
             If Not a Is Nothing Then

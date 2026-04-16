@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::218108c165c9e0fcd0f2ba888d7856f0, Data_science\MachineLearning\MachineLearning\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::9f3caf295bab8dfaf0b14a4b68b46a87, Data_science\MachineLearning\MachineLearning\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 42 (50.60%)
+    ' Comment Lines: 32 (38.55%)
+    '    - Xml Docs: 96.88%
+    ' 
+    '   Blank Lines: 9 (10.84%)
+    '     File Size: 3.18 KB
+
+
     ' Module Extensions
     ' 
-    '     Function: Delta, ToDataMatrix
+    '     Function: Delta, ToDataMatrix, ValueTruncate
     ' 
     ' /********************************************************************************/
 
@@ -43,10 +55,33 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MachineLearning.StoreProcedure
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.MachineLearning.ComponentModel.StoreProcedure
+Imports std = System.Math
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
 
 <HideModuleName> Public Module Extensions
+
+    ''' <summary>
+    ''' 对值进行约束剪裁
+    ''' </summary>
+    ''' <param name="value#"></param>
+    ''' <param name="truncate">
+    ''' the absolute value of the limitation.(修建的阈值应该是一个正实数来的)
+    ''' </param>
+    ''' <returns></returns>
+    Public Function ValueTruncate(value#, truncate#) As Double
+        If Double.IsNegativeInfinity(value) Then
+            value = -truncate * randf.seeds.NextDouble
+        ElseIf Double.IsPositiveInfinity(value) Then
+            value = truncate * randf.seeds.NextDouble
+        ElseIf Double.IsNaN(value) Then
+            value = 0
+        ElseIf value > truncate OrElse value < -truncate Then
+            value = std.Sign(value) * truncate * randf.seeds.NextDouble
+        End If
+
+        Return value
+    End Function
 
     ''' <summary>
     ''' Generate small delta for GA mutations
@@ -60,7 +95,7 @@ Imports stdNum = System.Math
     ''' </remarks>
     <Extension>
     Public Function Delta(x#, Optional d# = 1 / 10) As Double
-        Dim p10 = Fix(stdNum.Log10(x))
+        Dim p10 = Fix(std.Log10(x))
         Dim small = (10 ^ (p10 + 1)) * d
         Return small
     End Function

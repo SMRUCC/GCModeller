@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ae21776d47176226d37e64d7c6631723, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::a227366d9efe9de895f5b8fd5d46f8c4, visualize\SyntenyVisual\ComparativeGenomics\MultipleAlignment\DrawingModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 56 (59.57%)
+    ' Comment Lines: 21 (22.34%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (18.09%)
+    '     File Size: 3.13 KB
+
+
     '     Structure ColorLegend
     ' 
     '         Properties: color, type
@@ -61,6 +73,16 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel
+
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+#End If
 
 Namespace ComparativeAlignment
 

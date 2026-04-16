@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 215
+    '    Code Lines: 86 (40.00%)
+    ' Comment Lines: 113 (52.56%)
+    '    - Xml Docs: 85.84%
+    ' 
+    '   Blank Lines: 16 (7.44%)
+    '     File Size: 12.17 KB
+
+
     '     Module ParameterSelection
     ' 
     '         Function: GetList, (+5 Overloads) Grid

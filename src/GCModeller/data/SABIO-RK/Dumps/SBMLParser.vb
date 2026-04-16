@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 132 (84.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 25 (15.92%)
+    '     File Size: 8.29 KB
+
+
     '     Class CompoundSpecie
     ' 
     '         Properties: Id, Identifiers, modifierType, Name

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1292f43efeb4bc407e595fc921bedee8, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
+﻿#Region "Microsoft.VisualBasic::5d0fbdd35bd7d4423f73709822814862, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 277
+    '    Code Lines: 132 (47.65%)
+    ' Comment Lines: 112 (40.43%)
+    '    - Xml Docs: 82.14%
+    ' 
+    '   Blank Lines: 33 (11.91%)
+    '     File Size: 10.40 KB
+
+
     '     Class Location
     ' 
     '         Properties: Center, FragmentSize, IsNormalized, left, right
@@ -52,7 +64,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.My.JavaScript
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Loci
 
@@ -72,11 +84,11 @@ Namespace ComponentModel.Loci
         Implements IKeyValuePairObject(Of Integer, Integer)
 
         ''' <summary>
-        ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.(目标片段的左端起始区域，与链的方向无关)
+        ''' <see cref="Location"/>: Gets or set the left start value of the segment on the target sequence.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(目标片段的左端起始区域，与链的方向无关)</remarks>
         <XmlAttribute> Public Property left As Integer Implements ILocationComponent.left, IKeyValuePairObject(Of Integer, Integer).Key
             Get
                 Return MyBase.Min
@@ -87,11 +99,11 @@ Namespace ComponentModel.Loci
         End Property
 
         ''' <summary>
-        ''' <see cref="Location"/>: Gets or set the right ends value of the segment on the target sequence.(目标片段的右端结束区域，与链的方向无关)
+        ''' <see cref="Location"/>: Gets or set the right ends value of the segment on the target sequence.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(目标片段的右端结束区域，与链的方向无关)</remarks>
         <XmlAttribute> Public Property right As Integer Implements ILocationComponent.right, IKeyValuePairObject(Of Integer, Integer).Value
             Get
                 Return MyBase.Max
@@ -173,7 +185,7 @@ Namespace ComponentModel.Loci
             ' >>> overlap(0, 100, 0, 20)
             ' 20
 
-            Return stdNum.Max(0, stdNum.Min(Me.right, loci.right) - stdNum.Max(Me.left, loci.right))
+            Return std.Max(0, std.Min(Me.right, loci.right) - std.Max(Me.left, loci.right))
         End Function
 
         ''' <summary>
@@ -275,7 +287,7 @@ Namespace ComponentModel.Loci
         ''' <remarks></remarks>
         Public ReadOnly Property FragmentSize As Integer
             Get
-                Return stdNum.Abs(right - left) + 1
+                Return std.Abs(right - left) + 1
             End Get
         End Property
 

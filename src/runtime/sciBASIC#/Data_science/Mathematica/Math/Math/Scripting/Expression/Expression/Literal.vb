@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1f44734a1b70ce403f90032cf909642b, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Literal.vb"
+﻿#Region "Microsoft.VisualBasic::47214fda134d0aacb9a32856ea3ccd19, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\Literal.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 96
+    '    Code Lines: 66 (68.75%)
+    ' Comment Lines: 12 (12.50%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 18 (18.75%)
+    '     File Size: 2.95 KB
+
+
     '     Class Literal
     ' 
-    '         Properties: isInteger, number
+    '         Properties: isInteger, number, One, Zero
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: (+2 Overloads) Evaluate, GetNegative, GetReciprocal, ToString
+    '         Function: (+2 Overloads) Evaluate, GetNegative, GetReciprocal, GetVariableSymbols, ToString
+    '         Operators: <>, =
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +58,9 @@
 
 Namespace Scripting.MathExpression.Impl
 
+    ''' <summary>
+    ''' A number literal
+    ''' </summary>
     Public Class Literal : Inherits Expression
 
         Public ReadOnly Property number As Double
@@ -52,6 +68,26 @@ Namespace Scripting.MathExpression.Impl
         Public ReadOnly Property isInteger As Boolean
             Get
                 Return CDbl(CInt(number)) = number
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' the literal value of 1
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property One As Literal
+            Get
+                Return New Literal(1)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' the literal value of 0
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property Zero As Literal
+            Get
+                Return New Literal(0)
             End Get
         End Property
 
@@ -98,5 +134,21 @@ Namespace Scripting.MathExpression.Impl
         Public Overloads Shared Widening Operator CType(x As Double) As Literal
             Return New Literal(x)
         End Operator
+
+        Public Overloads Shared Operator =(literal As Literal, num As Double) As Boolean
+            If literal Is Nothing Then
+                Return num = 0.0
+            End If
+
+            Return literal.number = num
+        End Operator
+
+        Public Overloads Shared Operator <>(literal As Literal, num As Double) As Boolean
+            Return Not (literal = num)
+        End Operator
+
+        Public Overrides Iterator Function GetVariableSymbols() As IEnumerable(Of String)
+            ' no variable reference for literal constant value
+        End Function
     End Class
 End Namespace

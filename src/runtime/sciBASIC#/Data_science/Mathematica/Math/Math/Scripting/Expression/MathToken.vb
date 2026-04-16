@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::11a32cbf1fad335af1b0e7870f15cd60, Data_science\Mathematica\Math\Math\Scripting\Expression\MathToken.vb"
+﻿#Region "Microsoft.VisualBasic::94fffb6118695820a03f44339dc9c9a0, Data_science\Mathematica\Math\Math\Scripting\Expression\MathToken.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 25 (73.53%)
+    ' Comment Lines: 4 (11.76%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (14.71%)
+    '     File Size: 822 B
+
+
     '     Class MathToken
+    ' 
+    '         Properties: ZERO
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
     '     Enum MathTokens
     ' 
     '         [Operator], Close, Comma, Invalid, Literal
-    '         Open, Symbol, Terminator
+    '         LogicalLiteral, Open, Symbol, Terminator, UnaryNot
     ' 
     '  
     ' 
@@ -55,6 +69,16 @@ Namespace Scripting.MathExpression
 
     Public Class MathToken : Inherits CodeToken(Of MathTokens)
 
+        ''' <summary>
+        ''' get a new literal zero token
+        ''' </summary>
+        ''' <returns></returns>
+        Public Shared ReadOnly Property ZERO As MathToken
+            Get
+                Return New MathToken(MathTokens.Literal, "0")
+            End Get
+        End Property
+
         Sub New(name As MathTokens, text As String)
             Call MyBase.New(name, text)
         End Sub
@@ -63,7 +87,9 @@ Namespace Scripting.MathExpression
     Public Enum MathTokens
         Invalid
         Literal
+        LogicalLiteral
         [Operator]
+        UnaryNot
         Open
         Close
         Symbol

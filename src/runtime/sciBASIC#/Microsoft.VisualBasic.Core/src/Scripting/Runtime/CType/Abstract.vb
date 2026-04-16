@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 23
+    '    Code Lines: 6 (26.09%)
+    ' Comment Lines: 13 (56.52%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (17.39%)
+    '     File Size: 667 B
+
+
     '     Interface IParser
     ' 
     '         Function: ToString, TryParse

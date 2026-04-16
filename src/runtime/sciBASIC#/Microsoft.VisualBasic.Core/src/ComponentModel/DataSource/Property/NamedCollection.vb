@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::10f2dec9ca2a1b39d0e800ba8f229484, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\NamedCollection.vb"
+﻿#Region "Microsoft.VisualBasic::5fc655e2b13aca5e41dc691b079f3d34, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\Property\NamedCollection.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 132 (56.90%)
+    ' Comment Lines: 73 (31.47%)
+    '    - Xml Docs: 67.12%
+    ' 
+    '   Blank Lines: 27 (11.64%)
+    '     File Size: 10.80 KB
+
+
     '     Structure NamedCollection
     ' 
     '         Properties: description, IsEmpty, Length, name, value
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+6 Overloads) Sub New
     '         Function: GetEnumerator, GetValues, IEnumerable_GetEnumerator, ToString
     '         Operators: <>, =
     ' 
@@ -92,6 +104,7 @@ Namespace ComponentModel.DataSourceModel
         Implements IEnumerable(Of T)
         Implements IGrouping(Of String, T)
         Implements IsEmpty
+        Implements IReadOnlyCollection(Of T)
 
         ''' <summary>
         ''' 这个集合对象的标识符名称
@@ -118,6 +131,9 @@ Namespace ComponentModel.DataSourceModel
         ''' 当前的这个命名的目标集合对象是否是空对象？
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' has no <see cref="name"/> andalso no <see cref="value"/>
+        ''' </remarks>
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -125,6 +141,11 @@ Namespace ComponentModel.DataSourceModel
             End Get
         End Property
 
+        ''' <summary>
+        ''' get/set value in a gvien offset position of the data array.
+        ''' </summary>
+        ''' <param name="index"></param>
+        ''' <returns></returns>
         Default Public Property Item(index As Integer) As T
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -140,7 +161,10 @@ Namespace ComponentModel.DataSourceModel
         ''' <see cref="Value"/> array length
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Length As Integer
+        ''' <remarks>
+        ''' this is a safe property getter, null value will returns ZERO always
+        ''' </remarks>
+        Public ReadOnly Property Length As Integer Implements IReadOnlyCollection(Of T).Count
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If value Is Nothing Then
@@ -167,6 +191,14 @@ Namespace ComponentModel.DataSourceModel
                 .JoinBy("; ")
         End Sub
 
+        ''' <summary>
+        ''' Create from the linq group output
+        ''' </summary>
+        ''' <param name="group"></param>
+        Sub New(group As IGrouping(Of String, T))
+            Call Me.New(group.Key, group)
+        End Sub
+
         Sub New(xmlNode As NamedVector(Of T))
             With xmlNode
                 name = .name
@@ -174,6 +206,18 @@ Namespace ComponentModel.DataSourceModel
             End With
         End Sub
 
+        Sub New(val As NamedValue(Of T()))
+            Me.name = val.Name
+            Me.value = val.Value
+            Me.description = val.Description
+        End Sub
+
+        ''' <summary>
+        ''' make the given <paramref name="data"/> collection with a label <paramref name="name"/>.
+        ''' </summary>
+        ''' <param name="name"></param>
+        ''' <param name="data"></param>
+        ''' <param name="description"></param>
         Sub New(name$, data As IEnumerable(Of T), Optional description$ = Nothing)
             Call Me.New(name, data.SafeQuery.ToArray, description)
         End Sub
@@ -219,18 +263,23 @@ Namespace ComponentModel.DataSourceModel
             Yield GetEnumerator()
         End Function
 
-#If NET_48 Or netcore5 = 1 Then
+#If NET_48 Or NETCOREAPP Then
 
         <DebuggerStepThrough>
         Public Shared Widening Operator CType(tuple As (name$, value As T())) As NamedCollection(Of T)
             Return New NamedCollection(Of T)(tuple.name, tuple.value)
         End Operator
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <DebuggerStepThrough>
+        Public Shared Narrowing Operator CType(coll As NamedCollection(Of T)) As T()
+            Return coll.value
+        End Operator
 #End If
 
         <DebuggerStepThrough>
         Public Shared Operator =(list As NamedCollection(Of T), count As Integer) As Boolean
-            Return list.Count = count
+            Return list.Length = count
         End Operator
 
         <DebuggerStepThrough>

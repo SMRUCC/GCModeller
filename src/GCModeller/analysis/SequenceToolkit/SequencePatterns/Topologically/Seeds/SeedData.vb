@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c762cc69d4038c0ba056f1092e70e0b, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
+﻿#Region "Microsoft.VisualBasic::4f90d2ac8d5400bb58d09ae5ad05feb1, analysis\SequenceToolkit\SequencePatterns\Topologically\Seeds\SeedData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 30 (76.92%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (23.08%)
+    '     File Size: 1.22 KB
+
+
     '     Structure SeedData
     ' 
     '         Function: Initialize, Load, Save, ToString
@@ -41,7 +53,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Serialization.BinaryDumping
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Topologically.Seeding
@@ -55,11 +66,13 @@ Namespace Topologically.Seeding
         End Function
 
         Public Function Save(path As String) As Boolean
-            Return Serialize(path)
+            Return Seeds.SaveTo(path)
         End Function
 
         Public Shared Function Load(path As String) As SeedData
-            Return path.Load(Of SeedData)
+            Return New SeedData With {
+                .Seeds = path.ReadAllLines
+            }
         End Function
 
         Public Shared Function Initialize(chars As Char(), max As Integer) As SeedData
@@ -69,7 +82,7 @@ Namespace Topologically.Seeding
             For i As Integer = 2 To max
                 tmp = ExtendSequence(tmp, chars).Distinct.ToArray
                 seedsBuf += tmp
-                Call $"{New String("-"c, 20)}>  {i}bp".__DEBUG_ECHO
+                Call $"{New String("-"c, 20)}>  {i}bp".debug
             Next
 
             Return New SeedData With {

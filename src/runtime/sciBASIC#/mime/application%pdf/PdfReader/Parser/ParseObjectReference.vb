@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::05fe3e7ff88f140aa71445e977390715, mime\application%pdf\PdfReader\Parser\ParseObjectReference.vb"
+﻿#Region "Microsoft.VisualBasic::782f465cba6b0112d4ed3e2d49902120, mime\application%pdf\PdfReader\Parser\ParseObjectReference.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 30
+    '    Code Lines: 26 (86.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (13.33%)
+    '     File Size: 766 B
+
+
     '     Class ParseObjectReference
     ' 
     '         Properties: Gen, Id
@@ -48,7 +60,7 @@ Namespace PdfReader
 
         Private _Id As Integer, _Gen As Integer
 
-        Public Sub New(ByVal id As TokenInteger, ByVal gen As TokenInteger)
+        Public Sub New(id As TokenInteger, gen As TokenInteger)
             Me.Id = id.Value
             Me.Gen = gen.Value
         End Sub
@@ -57,7 +69,7 @@ Namespace PdfReader
             Get
                 Return _Id
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Id = value
             End Set
         End Property
@@ -66,7 +78,7 @@ Namespace PdfReader
             Get
                 Return _Gen
             End Get
-            Private Set(ByVal value As Integer)
+            Private Set(value As Integer)
                 _Gen = value
             End Set
         End Property

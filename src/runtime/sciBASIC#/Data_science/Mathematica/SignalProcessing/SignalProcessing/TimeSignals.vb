@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4b4948a3bb654fabcfbed9e27cf829d, Data_science\Mathematica\SignalProcessing\SignalProcessing\TimeSignals.vb"
+﻿#Region "Microsoft.VisualBasic::17b17800ff8690e16ea1f96e849489c2, Data_science\Mathematica\SignalProcessing\SignalProcessing\TimeSignals.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,37 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 42 (72.41%)
+    ' Comment Lines: 7 (12.07%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.52%)
+    '     File Size: 1.64 KB
+
+
     ' Structure TimeSignal
     ' 
     '     Properties: m_intensity, m_time
     ' 
+    '     Constructor: (+3 Overloads) Sub New
     '     Function: SignalSequence, ToString
-    ' 
-    ' Interface ITimeSignal
-    ' 
-    '     Properties: intensity, time
-    ' 
-    ' Class Signal
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Operators: +
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Drawing
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language.Vectorization
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Linq
 
+''' <summary>
+''' a single scatter point in a time signal
+''' </summary>
 Public Structure TimeSignal : Implements ITimeSignal
 
     Dim time As Double
@@ -71,6 +79,26 @@ Public Structure TimeSignal : Implements ITimeSignal
         End Get
     End Property
 
+    Sub New(t As Double, intensity As Double)
+        Me.time = t
+        Me.intensity = intensity
+    End Sub
+
+    Sub New(point As PointF)
+        Me.time = point.X
+        Me.intensity = point.Y
+    End Sub
+
+    ''' <summary>
+    ''' make signal tick data copy
+    ''' </summary>
+    ''' <param name="tick"></param>
+    Sub New(tick As ITimeSignal)
+        Me.time = tick.time
+        Me.intensity = tick.intensity
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Overrides Function ToString() As String
         Return $"[{time}, {intensity}]"
     End Function
@@ -84,22 +112,3 @@ Public Structure TimeSignal : Implements ITimeSignal
         Next
     End Function
 End Structure
-
-Public Interface ITimeSignal
-
-    ReadOnly Property time As Double
-    ReadOnly Property intensity As Double
-
-End Interface
-
-Public Class Signal : Inherits Vector(Of TimeSignal)
-
-    <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Friend Sub New(data As IEnumerable(Of TimeSignal))
-        Call MyBase.New(data)
-    End Sub
-
-    Public Shared Operator +(a As Signal, b As Signal) As Signal
-        Throw New NotImplementedException
-    End Operator
-End Class

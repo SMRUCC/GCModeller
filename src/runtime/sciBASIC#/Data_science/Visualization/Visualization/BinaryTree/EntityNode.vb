@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3dd1841a0382106fceb96b1dd0cddac6, Data_science\Visualization\Visualization\BinaryTree\EntityNode.vb"
+﻿#Region "Microsoft.VisualBasic::9c8d0a4a8380c9de0dd35a75d9a8b119, Data_science\Visualization\Visualization\BinaryTree\EntityNode.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 37
+    '    Code Lines: 29 (78.38%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (21.62%)
+    '     File Size: 1.11 KB
+
+
     '     Class EntityNode
     ' 
     '         Properties: EntityID, MySelf, Type
@@ -45,12 +57,10 @@
 
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures.Tree
-Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace KMeans
 
-    Public Class EntityNode
-        Inherits TreeNodeBase(Of EntityNode)
+    Public Class EntityNode : Inherits TreeNodeBase(Of EntityNode)
 
         Public ReadOnly Property EntityID As String
         Public ReadOnly Property Type As String

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::33d39955c45c07b29e34b41eb842dfbc, Data_science\DataMining\DensityQuery\Density2D.vb"
+﻿#Region "Microsoft.VisualBasic::0a6eae31f56e9b9e10a580dfa4841081, Data_science\DataMining\DensityQuery\Density2D.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 49 (67.12%)
+    ' Comment Lines: 13 (17.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (15.07%)
+    '     File Size: 2.90 KB
+
+
     ' Module Density2D
     ' 
-    '     Function: (+2 Overloads) Density
+    '     Function: (+2 Overloads) Density, WindowSize
     ' 
     ' /********************************************************************************/
 
@@ -43,9 +55,14 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.GraphTheory
+Imports Microsoft.VisualBasic.Data.GraphTheory.GridGraph
 
 Public Module Density2D
+
+    <Extension>
+    Public Function WindowSize(Of T)(grid As Grid(Of T), w As Integer, h As Integer) As GridBox(Of T)
+        Return New GridBox(Of T)(grid, w, h)
+    End Function
 
     <Extension>
     Public Function Density(Of T As INamedValue)(data As IEnumerable(Of T),

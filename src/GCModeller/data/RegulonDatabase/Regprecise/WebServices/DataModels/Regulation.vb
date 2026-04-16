@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 55 (23.40%)
+    ' Comment Lines: 169 (71.91%)
+    '    - Xml Docs: 99.41%
+    ' 
+    '   Blank Lines: 11 (4.68%)
+    '     File Size: 8.40 KB
+
+
     '     Class regulog
     ' 
     '         Properties: effector, pathway, regulationType, regulatorFamily, regulatorName

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 35 (60.34%)
+    ' Comment Lines: 11 (18.97%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 12 (20.69%)
+    '     File Size: 2.76 KB
+
+
     '     Class OrthologREST
     ' 
     '         Properties: Definition, KEGG_ID, Orthologs, Sequence

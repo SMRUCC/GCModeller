@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 92
+    '    Code Lines: 47 (51.09%)
+    ' Comment Lines: 32 (34.78%)
+    '    - Xml Docs: 75.00%
+    ' 
+    '   Blank Lines: 13 (14.13%)
+    '     File Size: 3.62 KB
+
+
     '     Module WildcardsExtension
     ' 
     '         Function: (+2 Overloads) WildcardMatch

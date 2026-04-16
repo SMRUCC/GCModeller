@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d72d88cbccfc137e36f10a52ac52b635, Data_science\MachineLearning\xgboost\util\exception\EOFException.vb"
+﻿#Region "Microsoft.VisualBasic::4893389a6bbf8414bf4e9d786c55b5fd, Data_science\MachineLearning\xgboost\util\exception\EOFException.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 14 (73.68%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (26.32%)
+    '     File Size: 438 B
+
+
     '     Class EOFException
     ' 
-    '         Constructor: (+4 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,9 +55,9 @@
 Imports System.Runtime.Serialization
 
 Namespace util
+
     <Serializable>
-    Friend Class EOFException
-        Inherits Exception
+    Friend Class EOFException : Inherits Exception
 
         Public Sub New()
         End Sub
@@ -56,10 +68,6 @@ Namespace util
 
         Public Sub New(message As String, innerException As Exception)
             MyBase.New(message, innerException)
-        End Sub
-
-        Protected Sub New(info As SerializationInfo, context As StreamingContext)
-            MyBase.New(info, context)
         End Sub
     End Class
 End Namespace

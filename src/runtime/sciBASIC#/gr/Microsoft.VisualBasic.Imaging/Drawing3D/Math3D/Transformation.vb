@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 155
+    '    Code Lines: 106 (68.39%)
+    ' Comment Lines: 30 (19.35%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 19 (12.26%)
+    '     File Size: 5.83 KB
+
+
     '     Module Transformation
     ' 
     '         Properties: ORIGIN

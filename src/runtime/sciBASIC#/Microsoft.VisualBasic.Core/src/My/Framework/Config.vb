@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b74aa6a7d2fafcd821ef5ab07425c46, Microsoft.VisualBasic.Core\src\My\Framework\Config.vb"
+﻿#Region "Microsoft.VisualBasic::0c5df641f44760a0e86a3e4c532bacd5, Microsoft.VisualBasic.Core\src\My\Framework\Config.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 98 (72.59%)
+    ' Comment Lines: 17 (12.59%)
+    '    - Xml Docs: 29.41%
+    ' 
+    '   Blank Lines: 20 (14.81%)
+    '     File Size: 4.93 KB
+
+
     '     Class Config
     ' 
     '         Properties: DefaultFile, environment, level, mute, updates
@@ -46,11 +58,12 @@
 
 Imports System.Reflection
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging
-#If netcore5 = 1 Then
-Imports Microsoft.VisualBasic.ApplicationServices.Development.NetCore5
-#End If
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
+
+#If NETCOREAPP Then
+Imports Microsoft.VisualBasic.ApplicationServices.Development.NetCoreApp
+#End If
 
 Namespace My.FrameworkInternal
 
@@ -68,7 +81,7 @@ Namespace My.FrameworkInternal
 
         Public Property updates As Date
             Get
-                Return Now
+                Return DateTime.UtcNow
             End Get
             Set(value As Date)
                 ' readonly do nothing
@@ -139,17 +152,27 @@ Namespace My.FrameworkInternal
 
         Private Shared Sub fetchConfig(config As Config, file$)
             Dim assembly As Assembly = Assembly.LoadFile(file)
+            Dim configNames As FrameworkConfigAttribute()
 
-#If netcore5 = 1 Then
-            Call deps.TryHandleNetCore5AssemblyBugs(package:=assembly)
+#If NETCOREAPP Then
+            Call deps.TryHandleNetCore5AssemblyBugs(
+                package:=assembly, external_libloc:=Nothing)
 #End If
 
-            Dim configNames As FrameworkConfigAttribute() = assembly.GetTypes _
-                .Select(Function(type)
-                            Return type.GetCustomAttributes(Of FrameworkConfigAttribute)
-                        End Function) _
-                .IteratesALL _
-                .ToArray
+            Try
+                ' 20221006
+                ' System.Reflection.ReflectionTypeLoadException:
+                ' Unable to load one or more of the requested types.
+                ' Retrieve the LoaderExceptions property for more information.
+                configNames = assembly.GetTypes _
+                    .Select(Function(type)
+                                Return type.GetCustomAttributes(Of FrameworkConfigAttribute)
+                            End Function) _
+                    .IteratesALL _
+                    .ToArray
+            Catch ex As Exception
+                configNames = {}
+            End Try
 
             For Each configName As FrameworkConfigAttribute In configNames
                 config.environment(configName.Name) = ""

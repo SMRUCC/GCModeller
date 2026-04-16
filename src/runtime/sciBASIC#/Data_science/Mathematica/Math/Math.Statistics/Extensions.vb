@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::17fa217c16bf3f6207485cae13e83349, Data_science\Mathematica\Math\Math.Statistics\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::32e6e27e568f3d7bdde1adf843e656d2, Data_science\Mathematica\Math\Math.Statistics\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 28 (52.83%)
+    ' Comment Lines: 17 (32.08%)
+    '    - Xml Docs: 41.18%
+    ' 
+    '   Blank Lines: 8 (15.09%)
+    '     File Size: 1.56 KB
+
+
     ' Module Extensions
     ' 
     '     Function: CI, CI68, CI95, CI99, SD
@@ -41,8 +53,9 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports stdNum = System.Math
+Imports std = System.Math
 
+<HideModuleName>
 Public Module Extensions
 
     ' 95％置信区间上限=均数+1.96×标准差
@@ -71,8 +84,8 @@ Public Module Extensions
     End Function
 
     Public Function CI(m#, factor#, sd#, n%) As DoubleRange
-        Dim lower = m - factor * sd / stdNum.Sqrt(n)
-        Dim upper = m + factor * sd / stdNum.Sqrt(n)
+        Dim lower = m - factor * sd / std.Sqrt(n)
+        Dim upper = m + factor * sd / std.Sqrt(n)
         Return New DoubleRange(lower, upper)
     End Function
 

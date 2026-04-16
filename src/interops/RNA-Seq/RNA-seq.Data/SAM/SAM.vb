@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::883989d92273ba99741808d0461c01d9, RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
+﻿#Region "Microsoft.VisualBasic::538b91d6646092ab2adf627700f7e0c4, RNA-Seq\RNA-seq.Data\SAM\SAM.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 245
+    '    Code Lines: 141 (57.55%)
+    ' Comment Lines: 57 (23.27%)
+    '    - Xml Docs: 87.72%
+    ' 
+    '   Blank Lines: 47 (19.18%)
+    '     File Size: 12.23 KB
+
 
     '     Class SAM
     ' 
@@ -85,8 +97,7 @@ Namespace SAM
     ''' SAM格式的文件是一种序列比对文件，使用TAB符号进行分隔，文件的格式为一个可选的标题头部区域，标题头部使用@符号起始而比对区域则不需要
     ''' 每一行序列比对的数据有11个域用于储存比对信息，诸如：mapping的位置之类
     ''' </remarks>
-    Public Class SAM
-        Implements IEnumerable(Of AlignmentReads)
+    Public Class SAM : Implements IEnumerable(Of AlignmentReads)
 
 #If DEBUG Then
         Public Const CHUNK_SIZE As Integer = 32 * 1024 * 1024
@@ -118,7 +129,7 @@ Namespace SAM
             Dim IO As New SAMStream(Path, encoding)
             Dim readsBuffer As AlignmentReads() = IO.IteratesAllReads.ToArray
 
-            Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".__DEBUG_ECHO
+            Call $"There are {readsBuffer.Length} alignment reads in the sam mapping file  {Path.ToFileURL}".debug
             Call FlushMemory()
 
             Return New SAM With {
@@ -163,7 +174,7 @@ Namespace SAM
         ''' <summary>
         ''' 对当前的这个Mapping之中的Reads进行装配
         ''' </summary>
-        Public Sub Assembling(ByRef Forwards As Contig()， ByRef Reversed As Contig(), Optional TrimError As Boolean = True)
+        Public Sub Assembling(ByRef Forwards As ContigSequence()， ByRef Reversed As ContigSequence(), Optional TrimError As Boolean = True)
             Dim AlignmentReads As AlignmentReads() = Me.AlignmentsReads.ToArray
 
             If TrimError Then
@@ -179,12 +190,12 @@ Namespace SAM
                                          Group Read By Read.POS Into Group).ToArray
             Dim FwStart = FwAyHandle.BeginInvoke(Nothing, Nothing)
 
-            Call $"Get reads on the reversed strand....".__DEBUG_ECHO
+            Call $"Get reads on the reversed strand....".debug
             Dim ReversedReads = (From Read In AlignmentReads.AsParallel
                                  Where Read.Strand = Strands.Reverse
                                  Select Read
                                  Group Read By Read.POS Into Group).ToArray
-            Call $"Get reads on the forwards strand....".__DEBUG_ECHO
+            Call $"Get reads on the forwards strand....".debug
             Dim ForwardReads = FwAyHandle.EndInvoke(FwStart)
 
 #If DEBUG Then
@@ -216,8 +227,8 @@ Namespace SAM
         ''' <param name="Alignment">请注意先按照方向排序</param>
         ''' <param name="Reversed"></param>
         ''' <returns></returns>
-        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As Contig()
-            Dim ChunkBuffer As New List(Of Contig)
+        Private Shared Function Assembling(Alignment As Dictionary(Of Integer, List(Of AlignmentReads)), Reversed As Boolean) As ContigSequence()
+            Dim ChunkBuffer As New List(Of ContigSequence)
             Dim p As New EventProc(Alignment.Count)
 
             Do While Alignment.Count > 0
@@ -277,12 +288,12 @@ Namespace SAM
             Return ChunkBuffer.ToArray
         End Function
 
-        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As Contig
+        Private Delegate Function InvokeAssembling(Reads As List(Of AlignmentReads)) As ContigSequence
 
 #Region "Implements IEnumerable(Of AlignmentReads).GetEnumerator"
 
         Public Iterator Function GetEnumerator() As IEnumerator(Of AlignmentReads) Implements IEnumerable(Of AlignmentReads).GetEnumerator
-            For i As Integer = 0 To Me.AlignmentsReads.Count - 1
+            For i As Integer = 0 To Me.AlignmentsReads.Length - 1
                 Yield AlignmentsReads(i)
             Next
         End Function

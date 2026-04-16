@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1dc90cb2f12c162a72a05f6fc744aa42, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\ProjectMember.vb"
+﻿#Region "Microsoft.VisualBasic::5d13a5279c6c65600946354c3842ac87, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\ProjectMember.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 110
+    '    Code Lines: 72 (65.45%)
+    ' Comment Lines: 17 (15.45%)
+    '    - Xml Docs: 88.24%
+    ' 
+    '   Blank Lines: 21 (19.09%)
+    '     File Size: 3.69 KB
+
+
     '     Class ProjectMember
     ' 
-    '         Properties: [Declare], Name, Params, Remarks, Returns
-    '                     Summary, Type
+    '         Properties: [Declare], author, example, Params, Returns
+    '                     Type, version
     ' 
     '         Constructor: (+2 Overloads) Sub New
     ' 
-    '         Function: ToString
+    '         Function: GetParameterDocument, ReadParameters, ToString
     ' 
     '         Sub: LoadFromNode
     ' 
@@ -55,6 +67,7 @@ Imports System.Xml
 Imports Microsoft.VisualBasic.ApplicationServices.Development.XmlDoc.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 
 Namespace ApplicationServices.Development.XmlDoc.Assembly
@@ -62,14 +75,16 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
     ''' <summary>
     ''' Base class for a method or property.
     ''' </summary>
-    Public Class ProjectMember
+    Public Class ProjectMember : Inherits XmlDocs
 
         Dim projectType As ProjectType
 
-        Public Property Name() As String
-        Public Property Summary() As String
         Public Property Returns() As String
-        Public Property Remarks As String
+
+        ''' <summary>
+        ''' the xml document text for the function/property parameters
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Params As param()
 
         ''' <summary>
@@ -77,6 +92,14 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
         ''' </summary>
         ''' <returns></returns>
         Public Property [Declare] As String
+
+        ''' <summary>
+        ''' example code for use this method
+        ''' </summary>
+        ''' <returns></returns>
+        Public Property example As String
+        Public Property author As String
+        Public Property version As String
 
         Public ReadOnly Property Type() As ProjectType
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -90,15 +113,25 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
         End Sub
 
         Sub New()
-
         End Sub
+
+        Public Function GetParameterDocument(name As String) As String
+            Dim docs As param = Params.SafeQuery _
+                .Where(Function(pi) pi.name.TextEquals(name)) _
+                .FirstOrDefault
+
+            If Not docs Is Nothing Then
+                Return Strings.Trim(docs.text).Trim(" "c, ASCII.TAB, ASCII.CR, ASCII.LF)
+            Else
+                Return ""
+            End If
+        End Function
 
         Public Overrides Function ToString() As String
             Return [Declare]
         End Function
 
-        Public Sub LoadFromNode(xn As XmlNode)
-            Dim summaryNode As XmlNode = xn.SelectSingleNode("summary")
+        Friend Overrides Sub LoadFromNode(xn As XmlNode)
             Dim [declare] As NamedValue(Of String) = xn _
                 .Attributes _
                 .GetNamedItem("name") _
@@ -107,46 +140,32 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
                 .GetTagValue(":", trim:=True)
 
             Me.Declare = [declare].Value
+            Me.Returns = readFieldText(xn, "returns")
+            Me.example = readFieldText(xn, "example")
+            Me.Params = ReadParameters(xn).ToArray
 
-            If summaryNode IsNot Nothing Then
-                Me.Summary = summaryNode.InnerText.Trim(ASCII.CR, ASCII.LF, " ")
-            End If
+            Call MyBase.LoadFromNode(xn)
+        End Sub
 
-            Dim returnsNode As XmlNode = xn.SelectSingleNode("returns")
-
-            If returnsNode IsNot Nothing Then
-                Me.Returns = returnsNode.InnerText.Trim(ASCII.CR, ASCII.LF, " ")
-            End If
-
-            Dim remarksNode As XmlNode = xn.SelectSingleNode("remarks")
-
-            If remarksNode IsNot Nothing Then
-                Me.Remarks = remarksNode.InnerText.Trim(ASCII.CR, ASCII.LF, " ")
-            End If
-
+        Private Shared Iterator Function ReadParameters(xn As XmlNode) As IEnumerable(Of param)
+            Dim name$, text$
             Dim ns = xn.SelectNodes("param")
 
-            If Not ns Is Nothing Then
-                Dim args As New List(Of param)
-                Dim text$
-                Dim name$
-
-                For Each x As XmlNode In ns
-                    text = x.InnerText Or "-".AsDefault(Function()
-                                                            Return Strings.Trim(x.InnerText).StringEmpty
-                                                        End Function)
-                    name = x.Attributes _
-                        .GetNamedItem("name") _
-                        .InnerText _
-                        .Trim(ASCII.CR, ASCII.LF, " ")
-                    args += New param With {
-                        .name = name,
-                        .text = (text)
-                    }
-                Next
-
-                Me.Params = args
+            If ns Is Nothing Then
+                Return
             End If
-        End Sub
+
+            For Each subNode As XmlNode In ns
+                text = subNode.InnerText Or "-".AsDefault(Function() Strings.Trim(subNode.InnerText).StringEmpty)
+                name = subNode.Attributes _
+                    .GetNamedItem("name").InnerText _
+                    .Trim(ASCII.CR, ASCII.LF, " ")
+
+                Yield New param With {
+                    .name = name,
+                    .text = (text)
+                }
+            Next
+        End Function
     End Class
 End Namespace

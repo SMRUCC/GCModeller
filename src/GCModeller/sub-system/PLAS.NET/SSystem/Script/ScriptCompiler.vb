@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6b13fe3afb8dd7432913a8f219c8b71c, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
+﻿#Region "Microsoft.VisualBasic::3c2db55ecb268d43a377265e3d205a0e, sub-system\PLAS.NET\SSystem\Script\ScriptCompiler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 115
+    '    Code Lines: 65 (56.52%)
+    ' Comment Lines: 33 (28.70%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 17 (14.78%)
+    '     File Size: 5.06 KB
+
+
     '     Class ScriptCompiler
     ' 
     '         Properties: AutoFixError
@@ -43,10 +55,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
 Imports System.Text
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
@@ -89,7 +98,7 @@ Namespace Script
             '检查每一个反应函数所指向的目标底物的变量是否被正确的初始化了
             For Each r As SEquation In Reactions
                 Dim LQuery As var() = LinqAPI.Exec(Of var) <=
- _
+                                                             _
                     From var As var
                     In Metabolites
                     Where String.Equals(var.Id, r.x)

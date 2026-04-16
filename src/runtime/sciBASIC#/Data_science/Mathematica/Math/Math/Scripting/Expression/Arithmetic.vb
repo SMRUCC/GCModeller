@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf2346c3b38a43659be692ec265f04df, Data_science\Mathematica\Math\Math\Scripting\Expression\Arithmetic.vb"
+﻿#Region "Microsoft.VisualBasic::e73a0bd7644a85f10922f3bcc25beb22, Data_science\Mathematica\Math\Math\Scripting\Expression\Arithmetic.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 97
+    '    Code Lines: 35 (36.08%)
+    ' Comment Lines: 54 (55.67%)
+    '    - Xml Docs: 98.15%
+    ' 
+    '   Blank Lines: 8 (8.25%)
+    '     File Size: 4.45 KB
+
+
     '     Module Arithmetic
     ' 
     '         Properties: Arithmetic
@@ -43,7 +55,8 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports rand = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace Scripting.MathExpression
 
@@ -59,14 +72,14 @@ Namespace Scripting.MathExpression
         ''' </summary>
         ''' <remarks></remarks>
         Public ReadOnly Property Arithmetic As Func(Of Double, Double, Double)() = {
- _
+                                                                                    _
             Function(a, b) a + b,
             Function(a, b) a - b,
-            Function(a, b) a * b,
-            Function(a, b) a / b,
-            Function(a, b) a \ b,
-            Function(a, b) a Mod b,
-            AddressOf stdNum.Pow,
+            Function(a, b) If(a = 0.0 OrElse b = 0.0, 0.0, a * b),
+            Function(a, b) If(a = 0.0, 0.0, a / b),
+            Function(a, b) If(a = 0.0, 0.0, a \ b),
+            Function(a, b) If(a = 0.0, 0.0, a Mod b),
+            AddressOf std.Pow,
             AddressOf Factorial
         }
 
@@ -130,7 +143,6 @@ Namespace Scripting.MathExpression
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Function RND(LowBound As Double, UpBound As Double) As Double
-            Dim rand As New Random(1000)
             If UpBound = 0R OrElse UpBound < LowBound Then
                 Return rand.NextDouble
             Else

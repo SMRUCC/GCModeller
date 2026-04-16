@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::df8b5d897caffaafa6d2ec25aedc6886, Microsoft.VisualBasic.Core\src\Net\PingUtility.vb"
+﻿#Region "Microsoft.VisualBasic::ffe7f62e8c3ac70f7bf03ef730c54013, Microsoft.VisualBasic.Core\src\Net\PingUtility.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 173
+    '    Code Lines: 124 (71.68%)
+    ' Comment Lines: 23 (13.29%)
+    '    - Xml Docs: 65.22%
+    ' 
+    '   Blank Lines: 26 (15.03%)
+    '     File Size: 6.59 KB
+
+
     '     Module PingUtility
     ' 
     ' 
@@ -49,8 +61,6 @@
     ' /********************************************************************************/
 
 #End Region
-
-#If NET_48 = 1 Or netcore5 = 1 Then
 
 Imports System.IO
 Imports System.Net
@@ -225,5 +235,3 @@ Namespace Net
         End Sub
     End Module
 End Namespace
-
-#End If

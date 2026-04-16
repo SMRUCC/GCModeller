@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa4e987334dc2f1e491aba2a8eadf94d, annotations\Proteomics\CloudPlot.vb"
+﻿#Region "Microsoft.VisualBasic::09870bf03ac0fdbdae39be95877c202d, annotations\Proteomics\CloudPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 147
+    '    Code Lines: 120 (81.63%)
+    ' Comment Lines: 15 (10.20%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 12 (8.16%)
+    '     File Size: 6.13 KB
+
+
     ' Module CloudPlot
     ' 
     '     Function: Plot
@@ -45,7 +57,7 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
@@ -53,6 +65,38 @@ Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports SMRUCC.genomics.Data.GeneOntology
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+
+
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+#End If
 
 ''' <summary>
 ''' X -> iBAQ表达量值
@@ -99,7 +143,7 @@ Public Module CloudPlot
                             Return P
                         End If
                     End Function) _
-            .RangeTransform({0, levels - 1}) _
+            .RangeTransform(New Double() {0, levels - 1}) _
             .Select(Function(x) CInt(x)) _
             .ToArray
         Dim radius#() = foldChanges _
@@ -132,14 +176,14 @@ Public Module CloudPlot
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, rect As GraphicsRegion)
-
+                Dim css As CSSEnvirnment = g.LoadEnvironment
                 Dim pointsX = expressions _
                     .Values _
-                    .RangeTransform(DoubleRange.TryParse(rect.XRange))
+                    .RangeTransform(DoubleRange.TryParse(rect.XRange(css)))
                 Dim pointsY = PseAA _
                     .Values _
                     .Select(Function(v) v.Mod) _
-                    .RangeTransform(DoubleRange.TryParse(rect.YRange))
+                    .RangeTransform(DoubleRange.TryParse(rect.YRange(css)))
 
                 For i As Integer = 0 To foldChanges.Length - 1
                     Dim X = pointsX(i), Y = pointsY(i)

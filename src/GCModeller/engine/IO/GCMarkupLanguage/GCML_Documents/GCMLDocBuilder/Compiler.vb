@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 135
+    '    Code Lines: 94 (69.63%)
+    ' Comment Lines: 16 (11.85%)
+    '    - Xml Docs: 81.25%
+    ' 
+    '   Blank Lines: 25 (18.52%)
+    '     File Size: 6.50 KB
+
+
     '     Class Compiler
     ' 
     '         Properties: [Return], LogFile, StringReplacements, Version

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ee652e746c508318b8be0cdda2b00660, data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
+﻿#Region "Microsoft.VisualBasic::39fab25670061db69d6ce3c212709c0f, data\GO_gene-ontology\GeneOntology\DAG\Builder.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 137
+    '    Code Lines: 111 (81.02%)
+    ' Comment Lines: 6 (4.38%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 20 (14.60%)
+    '     File Size: 5.18 KB
+
+
     '     Module Builder
     ' 
-    '         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, xrefParser
+    '         Function: (+2 Overloads) BuildTree, ConstructNode, CreateClusterMembers, GetTermXrefs, TermXrefParser
+    '                   UniqueNodes
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,13 +63,31 @@ Namespace DAG
 
     Public Module Builder
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Friend Function UniqueNodes(cluster As KeyValuePair(Of String, List(Of TermNode))) As TermNode()
+            Return cluster.Value _
+                .GroupBy(Function(t) t.id) _
+                .Select(Function(c)
+                            Return c.First
+                        End Function) _
+                .ToArray
+        End Function
+
         <Extension>
         Public Function CreateClusterMembers(tree As Graph) As Dictionary(Of String, List(Of TermNode))
             Dim clusters As New Dictionary(Of String, List(Of TermNode))
-            Dim family As Graph.InheritsChain()
+            Dim familyLineage As IEnumerable(Of (term As TermNode, family As Graph.InheritsChain())) =
+                From term As TermNode
+                In tree.DAG.Values.ToArray.AsParallel
+                Let family = tree.Family(term.id).ToArray
+                Select (term, family)
 
-            For Each term As TermNode In tree.DAG.Values
-                family = tree.Family(term.id).ToArray
+            Call VBDebugger.EchoLine("Extract the family lineage relationship data...")
+
+            For Each i In familyLineage.ToArray
+                Dim family As Graph.InheritsChain() = i.family
+                Dim term As TermNode = i.term
 
                 For Each node As Graph.InheritsChain In family
                     For Each parent In node.Route
@@ -76,8 +107,13 @@ Namespace DAG
         Public Function BuildTree(file As IEnumerable(Of Term)) As Dictionary(Of TermNode)
             Dim tree As New Dictionary(Of TermNode)
 
-            For Each x As Term In file
-                tree += x.ConstructNode
+            Call VBDebugger.EchoLine("Parse the ontology lineage information and build DAG tree...")
+
+            ' parse the vectex node data in parallel
+            For Each v As TermNode In (From ti As Term
+                                       In file.ToArray.AsParallel
+                                       Select ti.ConstructNode)
+                Call tree.Add(v)
             Next
 
             For Each node As TermNode In tree.Values
@@ -101,7 +137,8 @@ Namespace DAG
         ''' </summary>
         ''' <param name="term"></param>
         ''' <returns></returns>
-        <Extension> Public Function ConstructNode(term As Term) As TermNode
+        <Extension>
+        Public Function ConstructNode(term As Term) As TermNode
             Dim is_a = term.is_a _
                 .SafeQuery _
                 .Select(Function(s) New is_a(s$)) _
@@ -114,10 +151,7 @@ Namespace DAG
                 .SafeQuery _
                 .Select(Function(s) New synonym(s$)) _
                 .ToArray
-            Dim xrefValues = term.xref _
-                .SafeQuery _
-                .Select(AddressOf xrefParser) _
-                .ToArray
+            Dim xrefValues = term.GetTermXrefs
 
             Return New TermNode With {
                 .id = term.id,
@@ -130,7 +164,7 @@ Namespace DAG
             }
         End Function
 
-        Private Function xrefParser(s As String) As NamedValue(Of String)
+        Public Function TermXrefParser(s As String) As NamedValue(Of String)
             Dim tokens$() = CommandLine.GetTokens(s$)
             Dim id$() = tokens(Scan0).Split(":"c)
 
@@ -139,6 +173,15 @@ Namespace DAG
                 .Value = id(1%),
                 .Description = tokens.ElementAtOrDefault(1%)
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        <Extension>
+        Public Function GetTermXrefs(term As Term) As NamedValue(Of String)()
+            Return term.xref _
+                .SafeQuery _
+                .Select(AddressOf TermXrefParser) _
+                .ToArray
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>

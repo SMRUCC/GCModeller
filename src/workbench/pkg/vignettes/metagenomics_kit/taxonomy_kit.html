@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>taxonomy_kit</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; taxonomy_kit; metagenomics_kit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="toolkit for process ncbi taxonomy tree data..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {taxonomy_kit}">
+      <tbody>
+        <tr>
+          <td>{taxonomy_kit}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>taxonomy_kit</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' toolkit for process ncbi taxonomy tree data</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "taxonomy_kit"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                           </code>
+    </p>
+    <p><p>toolkit for process ncbi taxonomy tree data</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           <p>The Taxonomy Database is a curated classification and nomenclature for all of the 
+ organisms in the public sequence databases. This currently represents about 10% 
+ of the described species of life on the planet.</p>
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="taxonomy">
+    <a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/Taxonomy.html">taxonomy: Taxonomy</a>
+  </td>
+  <td><p>A simple organism taxonomy model.</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_node">
+    <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/TaxonomyNode.html">taxonomy_node: TaxonomyNode</a>
+  </td>
+  <td><p>The tree node calculation model for <a href="/vignettes/clr/SMRUCC/genomics/Assembly/NCBI/Taxonomy/NcbiTaxonomyTree.html">NcbiTaxonomyTree</a>, a labeled tree node for a specific ncbi taxid.</p></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="biom.string">
+    <a href="./taxonomy_kit/biom.string.html">biom.string</a>
+  </td>
+  <td><p>cast taxonomy object to biom style taxonomy string</p></td>
+</tr>
+<tr>
+  <td id="biom_string.parse">
+    <a href="./taxonomy_kit/biom_string.parse.html">biom_string.parse</a>
+  </td>
+  <td><p>parse the taxonomy string in BIOM style</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_name">
+    <a href="./taxonomy_kit/taxonomy_name.html">taxonomy_name</a>
+  </td>
+  <td><p>get taxonomy name</p></td>
+</tr>
+<tr>
+  <td id="unique_taxonomy">
+    <a href="./taxonomy_kit/unique_taxonomy.html">unique_taxonomy</a>
+  </td>
+  <td><p>make taxonomy object unique</p></td>
+</tr>
+<tr>
+  <td id="Ncbi.taxonomy_tree">
+    <a href="./taxonomy_kit/Ncbi.taxonomy_tree.html">Ncbi.taxonomy_tree</a>
+  </td>
+  <td><p>load ncbi taxonomy tree model from the given data files</p></td>
+</tr>
+<tr>
+  <td id="ranks">
+    <a href="./taxonomy_kit/ranks.html">ranks</a>
+  </td>
+  <td><p>cast the ncbi taxonomy tree model to taxonomy ranks data</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_ranks">
+    <a href="./taxonomy_kit/taxonomy_ranks.html">taxonomy_ranks</a>
+  </td>
+  <td><p>get all taxonomy tree nodes of the specific taxonomy ranks</p></td>
+</tr>
+<tr>
+  <td id="taxonomy.filter">
+    <a href="./taxonomy_kit/taxonomy.filter.html">taxonomy.filter</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="lineage">
+    <a href="./taxonomy_kit/lineage.html">lineage</a>
+  </td>
+  <td><p>get taxonomy lineage model from the ncbi taxonomy tree by given taxonomy id</p></td>
+</tr>
+<tr>
+  <td id="as.taxonomy.tree">
+    <a href="./taxonomy_kit/as.taxonomy.tree.html">as.taxonomy.tree</a>
+  </td>
+  <td><p>build taxonomy tree based on a given collection of taxonomy object.</p></td>
+</tr>
+<tr>
+  <td id="consensus">
+    <a href="./taxonomy_kit/consensus.html">consensus</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="read.mothurTree">
+    <a href="./taxonomy_kit/read.mothurTree.html">read.mothurTree</a>
+  </td>
+  <td><p>Parse the result output from mothur command <code>summary.tax</code>.</p></td>
+</tr>
+<tr>
+  <td id="taxonomy_range">
+    <a href="./taxonomy_kit/taxonomy_range.html">taxonomy_range</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="LCA">
+    <a href="./taxonomy_kit/LCA.html">LCA</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="accession2Taxid">
+    <a href="./taxonomy_kit/accession2Taxid.html">accession2Taxid</a>
+  </td>
+  <td><p>Create a stream read to the ncbi accession id mapping to ncbi taxonomy id</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

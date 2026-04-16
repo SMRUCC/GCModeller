@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::970b425dc9b20431bfbcf18481c1eb66, engine\vcellkit\Simulator.vb"
+﻿#Region "Microsoft.VisualBasic::7ec24332b43fdeac6a6b748d40b750eb, engine\vcellkit\Simulator.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 380
+    '    Code Lines: 250 (65.79%)
+    ' Comment Lines: 90 (23.68%)
+    '    - Xml Docs: 92.22%
+    ' 
+    '   Blank Lines: 40 (10.53%)
+    '     File Size: 16.68 KB
+
+
     ' Enum ModuleSystemLevels
     ' 
     '     Metabolome, Proteome, Transcriptome
@@ -43,8 +55,9 @@
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
-    '     Function: ApplyModuleProfile, CreateObjectModel, CreateUnifyDefinition, CreateVCellEngine, FluxIndex
-    '               GetDefaultDynamics, MassIndex
+    '     Function: ApplyModuleProfile, attach_memoryDataSet, castMemoryTable, CreateObjectModel, CreateVCellEngine
+    '               FluxIndex, GetDefaultDynamics, KEGGDefinition, mass0, MassIndex
+    '               MetaCycDefinition, run, setStatus
     ' 
     '     Sub: TakeStatusSnapshot
     ' 
@@ -60,15 +73,27 @@ Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Definitions
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Engine
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Model.Cellular
+Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Internal.Object
+Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
+''' <summary>
+''' data type enumeration of the omics data
+''' </summary>
 Public Enum ModuleSystemLevels
     Transcriptome
     Proteome
@@ -76,7 +101,7 @@ Public Enum ModuleSystemLevels
 End Enum
 
 ''' <summary>
-''' 
+''' the GCModeller bio-system simulator
 ''' </summary>
 <Package("simulator", Category:=APICategories.ResearchTools)>
 Public Module Simulator
@@ -90,22 +115,190 @@ Public Module Simulator
                     End Sub)
         Call Console.WriteLine()
         Call printer.AttachConsoleFormatter(Of VirtualCell)(AddressOf VirtualCell.Summary)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(MemoryDataSet), AddressOf castMemoryTable)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Public Function castMemoryTable(ds As MemoryDataSet, args As list, env As Environment) As dataframe
+        Dim mass_data As Boolean = args.getValue({"mass", "mass_data"}, env, [default]:=True)
+        Dim data As ICollection(Of Dictionary(Of String, Double)) = If(mass_data, ds.getMassDataSet, ds.getFluxDataSet)
+        Dim cols = data.Select(Function(r) r.Keys).IteratesALL.Distinct.ToArray
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = Enumerable _
+                .Range(1, data.Count) _
+                .AsCharacter _
+                .ToArray
+        }
+
+        For Each colname As String In cols
+            Call df.add(colname, data.Select(Function(r) r.TryGetValue(colname)))
+        Next
+
+        Return df
+    End Function
 
     ''' <summary>
     ''' Create a new status profile data object with unify mass contents.
     ''' </summary>
     ''' <param name="vcell"></param>
-    ''' <param name="mass#"></param>
+    ''' <param name="mass"></param>
     ''' <returns></returns>
-    <ExportAPI("vcell.mass.kegg")>
+    ''' <remarks>
+    ''' this function works for the data model which is based on the kegg database model
+    ''' </remarks>
+    <ExportAPI("kegg_mass")>
     <Extension>
-    Public Function CreateUnifyDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+    Public Function KEGGDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
         Return vcell.metabolismStructure.compounds _
             .Select(Function(c) c.ID) _
             .DoCall(Function(compounds)
                         Return Definition.KEGG(compounds, initMass:=mass)
                     End Function)
+    End Function
+
+    <ExportAPI("metacyc_mass")>
+    <Extension>
+    Public Function MetaCycDefinition(vcell As VirtualCell, Optional mass# = 5000) As Definition
+        Return vcell.metabolismStructure.compounds _
+            .Select(Function(c) c.ID) _
+            .DoCall(Function(compounds)
+                        Return Definition.MetaCyc(compounds, initMass:=mass)
+                    End Function)
+    End Function
+
+    ''' <summary>
+    ''' set the omics data from this function
+    ''' </summary>
+    ''' <param name="def"></param>
+    ''' <param name="env_set"></param>
+    ''' <returns></returns>
+    <ExportAPI("set_status")>
+    Public Function setStatus(def As Definition, <RListObjectArgument> Optional env_set As list = Nothing) As Definition
+        If def.status Is Nothing Then
+            def.status = New Dictionary(Of String, Dictionary(Of String, Double))
+        End If
+
+        For Each compart_id As String In env_set.getNames
+            Dim s0 As list = env_set.getByName(compart_id)
+            Dim status = If(def.status.TryGetValue(compart_id), New Dictionary(Of String, Double))
+
+            For Each cid As String In s0.getNames
+                status(cid) = CLRVector.asNumeric(s0.getByName(cid)).DefaultFirst
+            Next
+
+            def.status(compart_id) = status
+        Next
+
+        Return def
+    End Function
+
+    ''' <summary>
+    ''' get the initial mass value
+    ''' </summary>
+    ''' <param name="vcell">
+    ''' the initialize mass value has been defined inside this virtual cell model
+    ''' </param>
+    ''' <param name="random">
+    ''' set random to the molecules, should be a numeric vector that consist with two number as [min, max]. 
+    ''' both min and max should be positive value.
+    ''' </param>
+    ''' <returns>
+    ''' A mass environment for run vcell model in GCModeller
+    ''' </returns>
+    <ExportAPI("mass0")>
+    Public Function mass0(vcell As VirtualCell,
+                          <RRawVectorArgument>
+                          Optional random As Object = Nothing,
+                          <RRawVectorArgument(TypeCodes.string)>
+                          Optional map As Object = "kegg|metacyc",
+                          Optional env As Environment = Nothing) As Definition
+
+        Dim map_source As String = CLRVector.asScalarCharacter(map)
+        Dim referenceMaps As Definition = If(LCase(map_source) = "kegg", vcell.KEGGDefinition, vcell.MetaCycDefinition)
+        Dim pool = vcell.metabolismStructure
+        Dim dnaseq = referenceMaps.NucleicAcid
+        Dim prot = referenceMaps.AminoAcid
+        Dim generic = referenceMaps.GenericCompounds
+        Dim links = vcell.metabolismStructure.reactions.CompoundLinks
+        Dim randMinMax As Double() = CLRVector.asNumeric(random)
+        Dim s0 As Dictionary(Of String, Double)
+        Dim kegg_maps As New Definition With {
+            .ADP = pool.GetReferMapping(referenceMaps.ADP, NameOf(referenceMaps.ADP), links).ID,
+            .ATP = pool.GetReferMapping(referenceMaps.ATP, NameOf(referenceMaps.ATP), links).ID,
+            .Oxygen = pool.GetReferMapping(referenceMaps.Oxygen, NameOf(referenceMaps.Oxygen), links).ID,
+            .Water = pool.GetReferMapping(referenceMaps.Water, NameOf(referenceMaps.Water), links).ID,
+            .NucleicAcid = New NucleicAcid With {
+                .A = pool.GetReferMapping(dnaseq.A, "dnaseq->A", links).ID,
+                .C = pool.GetReferMapping(dnaseq.C, "dnaseq->C", links).ID,
+                .G = pool.GetReferMapping(dnaseq.G, "dnaseq->G", links).ID,
+                .U = pool.GetReferMapping(dnaseq.U, "dnaseq->U", links).ID
+            },
+            .AminoAcid = New AminoAcid With {
+                .A = pool.GetReferMapping(prot.A, "prot->A", links).ID,
+                .U = pool.GetReferMapping(prot.U, "prot->U", links).ID,
+                .G = pool.GetReferMapping(prot.G, "prot->G", links).ID,
+                .C = pool.GetReferMapping(prot.C, "prot->C", links).ID,
+                .D = pool.GetReferMapping(prot.D, "prot->D", links).ID,
+                .E = pool.GetReferMapping(prot.E, "prot->E", links).ID,
+                .F = pool.GetReferMapping(prot.F, "prot->F", links).ID,
+                .H = pool.GetReferMapping(prot.H, "prot->H", links).ID,
+                .I = pool.GetReferMapping(prot.I, "prot->I", links).ID,
+                .K = pool.GetReferMapping(prot.K, "prot->K", links).ID,
+                .L = pool.GetReferMapping(prot.L, "prot->L", links).ID,
+                .M = pool.GetReferMapping(prot.M, "prot->M", links).ID,
+                .N = pool.GetReferMapping(prot.N, "prot->N", links).ID,
+                .O = pool.GetReferMapping(prot.O, "prot->O", links).ID,
+                .P = pool.GetReferMapping(prot.P, "prot->P", links).ID,
+                .Q = pool.GetReferMapping(prot.Q, "prot->Q", links).ID,
+                .R = pool.GetReferMapping(prot.R, "prot->R", links).ID,
+                .S = pool.GetReferMapping(prot.S, "prot->S", links).ID,
+                .T = pool.GetReferMapping(prot.T, "prot->T", links).ID,
+                .V = pool.GetReferMapping(prot.V, "prot->V", links).ID,
+                .W = pool.GetReferMapping(prot.W, "prot->W", links).ID,
+                .Y = pool.GetReferMapping(prot.Y, "prot->Y", links).ID
+            },
+            .GenericCompounds = New Dictionary(Of String, GeneralCompound)
+        }
+
+        If randMinMax.IsNullOrEmpty Then
+            ' use value from the given model
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return 1000.0
+                              End Function)
+        Else
+            Dim min = randMinMax.Min
+            Dim max = randMinMax.Max
+
+            s0 = pool.compounds _
+                .ToDictionary(Function(c) c.ID,
+                              Function(c)
+                                  Return randf.NextDouble(min, max)
+                              End Function)
+
+            For Each id As String In kegg_maps.AsEnumerable
+                s0(id) = randf.NextDouble(min, max)
+            Next
+        End If
+
+        kegg_maps.status = New Dictionary(Of String, Dictionary(Of String, Double))
+        kegg_maps.status(vcell.cellular_id) = s0
+
+        Return kegg_maps
+    End Function
+
+    <ExportAPI("attach_memorydataset")>
+    Public Function attach_memoryDataSet(engine As Engine) As Object
+        engine.AttachBiologicalStorage(New MemoryDataSet)
+        Return engine
+    End Function
+
+    <ExportAPI("run")>
+    Public Function run(engine As Engine) As Object
+        Call engine.Run()
+        Return engine
     End Function
 
     ''' <summary>
@@ -114,15 +307,25 @@ Public Module Simulator
     ''' <param name="vcell">the file model data of the GCModeller vcell</param>
     ''' <returns></returns>
     <ExportAPI("vcell.model")>
-    Public Function CreateObjectModel(vcell As VirtualCell) As CellularModule
-        Return vcell.CreateModel
+    Public Function CreateObjectModel(vcell As VirtualCell, Optional unit_test As Boolean = False) As CellularModule
+        Return vcell.CreateModel(unitTest:=unit_test)
     End Function
 
+    ''' <summary>
+    ''' get mass key reference index collection
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.mass.index")>
     Public Function MassIndex(vcell As CellularModule) As OmicsTuple(Of String())
         Return vcell.DoCall(AddressOf OmicsDataAdapter.GetMassTuples)
     End Function
 
+    ''' <summary>
+    ''' get flux key reference index collection
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <returns></returns>
     <ExportAPI("vcell.flux.index")>
     Public Function FluxIndex(vcell As CellularModule) As OmicsTuple(Of String())
         Return vcell.DoCall(AddressOf OmicsDataAdapter.GetFluxTuples)
@@ -131,20 +334,28 @@ Public Module Simulator
     ''' <summary>
     ''' create a new virtual cell engine
     ''' </summary>
-    ''' <param name="inits"></param>
-    ''' <param name="vcell"></param>
-    ''' <param name="iterations%"></param>
-    ''' <param name="time_resolutions%"></param>
-    ''' <param name="deletions$"></param>
+    ''' <param name="inits">
+    ''' the initial mass environment definition
+    ''' </param>
+    ''' <param name="vcell">The virtual cell object model, contains the definition of the cellular network graph data</param>
+    ''' <param name="iterations">
+    ''' the number of the iteration loops for run the simulation
+    ''' </param>
+    ''' <param name="time_resolutions">
+    ''' the time steps
+    ''' </param>
     ''' <param name="dynamics"></param>
     ''' <returns></returns>
     <ExportAPI("engine.load")>
-    Public Function CreateVCellEngine(inits As Definition, vcell As CellularModule,
+    <RApiReturn(GetType(Engine))>
+    Public Function CreateVCellEngine(vcell As CellularModule,
+                                      Optional inits As Definition = Nothing,
                                       Optional iterations% = 100,
                                       Optional time_resolutions% = 10000,
-                                      Optional deletions$() = Nothing,
                                       Optional dynamics As FluxBaseline = Nothing,
-                                      Optional showProgress As Boolean = True) As Engine
+                                      Optional showProgress As Boolean = True,
+                                      Optional unit_test As Boolean = False,
+                                      Optional debug As Boolean = False) As Object
 
         Static defaultDynamics As [Default](Of FluxBaseline) = New FluxBaseline
         ' do initialize of the virtual cell engine
@@ -155,9 +366,11 @@ Public Module Simulator
             dynamics:=dynamics Or defaultDynamics,
             iterations:=iterations,
             showProgress:=showProgress,
-            timeResolution:=time_resolutions
+            timeResolution:=time_resolutions,
+            debug:=debug,
+            cellular_id:={vcell.CellularEnvironmentName}
         ) _
-        .LoadModel(vcell, deletions)
+        .LoadModel(vcell, unitTest:=unit_test)
     End Function
 
     ''' <summary>
@@ -169,8 +382,20 @@ Public Module Simulator
         Return New FluxBaseline
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="engine"></param>
+    ''' <param name="profile"></param>
+    ''' <param name="system">
+    ''' the omics data type
+    ''' </param>
+    ''' <returns></returns>
     <ExportAPI("apply.module_profile")>
-    Public Function ApplyModuleProfile(engine As Engine, profile As Dictionary(Of String, Double), Optional system As ModuleSystemLevels = ModuleSystemLevels.Transcriptome) As Engine
+    Public Function ApplyModuleProfile(engine As Engine,
+                                       profile As Dictionary(Of String, Double),
+                                       Optional system As ModuleSystemLevels = ModuleSystemLevels.Transcriptome) As Engine
+
         If engine Is Nothing OrElse profile.IsNullOrEmpty Then
             Return engine
         End If
@@ -183,8 +408,10 @@ Public Module Simulator
             Case ModuleSystemLevels.Proteome
 
             Case ModuleSystemLevels.Metabolome
+                Dim s0 = status.status("default")
+
                 For Each compound In profile
-                    status.status(compound.Key) = compound.Value
+                    s0(compound.Key) = compound.Value
                 Next
 
             Case Else
@@ -194,6 +421,13 @@ Public Module Simulator
         Return engine
     End Function
 
+    ''' <summary>
+    ''' make a snapshot of the mass and flux data
+    ''' </summary>
+    ''' <param name="engine"></param>
+    ''' <param name="massIndex"></param>
+    ''' <param name="fluxIndex"></param>
+    ''' <param name="save$"></param>
     <ExportAPI("vcell.snapshot")>
     <Extension>
     Public Sub TakeStatusSnapshot(engine As Engine, massIndex As OmicsTuple(Of String()), fluxIndex As OmicsTuple(Of String()), save$)

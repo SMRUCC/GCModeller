@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7b34a783130de145ba76fe129dc0385a, mime\application%xml\MathML\Expression\SymbolExpression.vb"
+﻿#Region "Microsoft.VisualBasic::f2e51564a50588022581eac8ea8521f6, mime\application%xml\MathML\Expression\SymbolExpression.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 20
+    '    Code Lines: 14 (70.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (30.00%)
+    '     File Size: 430 B
+
+
     '     Class SymbolExpression
     ' 
     '         Properties: isNumericLiteral, text
     ' 
+    '         Constructor: (+2 Overloads) Sub New
     '         Function: ToString
     ' 
     ' 
@@ -48,6 +61,13 @@ Namespace MathML
 
         Public Property text As String
         Public Property isNumericLiteral As Boolean
+
+        Sub New()
+        End Sub
+
+        Sub New(symbol As String)
+            text = symbol
+        End Sub
 
         Public Overrides Function ToString() As String
             Return text

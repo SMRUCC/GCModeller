@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 171
+    '    Code Lines: 85 (49.71%)
+    ' Comment Lines: 64 (37.43%)
+    '    - Xml Docs: 95.31%
+    ' 
+    '   Blank Lines: 22 (12.87%)
+    '     File Size: 8.38 KB
+
+
     ' Class exp2technique_types
     ' 
     '     Properties: art_guid, exp_guid, exp_technique_type_guid, pkg_guid

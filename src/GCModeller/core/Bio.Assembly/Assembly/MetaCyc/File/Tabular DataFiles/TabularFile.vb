@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 50 (64.94%)
+    ' Comment Lines: 14 (18.18%)
+    '    - Xml Docs: 78.57%
+    ' 
+    '   Blank Lines: 13 (16.88%)
+    '     File Size: 2.84 KB
+
+
     '     Class TabularFile
     ' 
     '         Properties: Columns, DbProperty, Objects, Size

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8777bf0e114a92962f4ba19c55212040, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\ScoreMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::cff75b3ac5971175cdc42b28f0757abe, Data_science\DataMining\DynamicProgramming\NeedlemanWunsch\ScoreMatrix.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 26 (50.98%)
+    ' Comment Lines: 14 (27.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (21.57%)
+    '     File Size: 1.57 KB
+
+
     '     Class ScoreMatrix
     ' 
     '         Properties: GapPenalty, MatchScore, MismatchScore
@@ -48,22 +60,22 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace NeedlemanWunsch
 
-    Public Class ScoreMatrix(Of T)
+    Public Class ScoreMatrix(Of T) : Implements IScore(Of T)
 
         ''' <summary>
         ''' get gap open penalty </summary>
         ''' <returns> gap open penalty </returns>
-        Public Property GapPenalty As Integer = 1
+        Public Property GapPenalty As Double = 1
 
         ''' <summary>
         ''' get match score </summary>
         ''' <returns> match score </returns>
-        Public Property MatchScore As Integer = 1
+        Public Property MatchScore As Double = 1
 
         ''' <summary>
         ''' get mismatch score </summary>
         ''' <returns> mismatch score </returns>
-        Public Property MismatchScore As Integer = -1
+        Public Property MismatchScore As Double = -1
 
         Friend ReadOnly m_equals As IEquals(Of T)
 
@@ -80,7 +92,7 @@ Namespace NeedlemanWunsch
         ''' return the match score
         ''' else return mismatch score
         ''' </summary>
-        Public Overridable Function getMatchScore(a As T, b As T) As Integer
+        Public Overridable Function getMatchScore(a As T, b As T) As Double Implements IScore(Of T).GetSimilarityScore
             If m_equals(a, b) Then
                 Return MatchScore
             Else

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::74c0e516a206d850d64284cd8f366e7f, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Algorithm.vb"
+﻿#Region "Microsoft.VisualBasic::ed63f0d987b9bd57becec84d5f9c0eac, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Algorithm.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 174
+    '    Code Lines: 128 (73.56%)
+    ' Comment Lines: 24 (13.79%)
+    '    - Xml Docs: 41.67%
+    ' 
+    '   Blank Lines: 22 (12.64%)
+    '     File Size: 7.41 KB
+
+
     '     Class ElevationAlgorithm
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -43,13 +55,14 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Correlations
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace PeakFinding
 
@@ -71,7 +84,7 @@ Namespace PeakFinding
         ''' <param name="angle">这个是一个角度值，取值区间为[0,90]</param>
         ''' <param name="baselineQuantile"></param>
         Sub New(angle As Double, baselineQuantile As Double)
-            Me.sin_angle = stdNum.Sin((angle / 90) * (1 / 2 * stdNum.PI))
+            Me.sin_angle = std.Sin((angle / 90) * (1 / 2 * std.PI))
             Me.baseline_quantile = baselineQuantile
         End Sub
 
@@ -80,8 +93,8 @@ Namespace PeakFinding
             Return FindAllSignalPeaks(signals.GetTimeSignals)
         End Function
 
-        Public Iterator Function FindAllSignalPeaks(signals As IEnumerable(Of ITimeSignal)) As IEnumerable(Of SignalPeak)
-            Dim data As ITimeSignal() = signals.OrderBy(Function(t) t.time).ToArray
+        Public Iterator Function FindAllSignalPeaks(Of T As ITimeSignal)(signals As IEnumerable(Of T)) As IEnumerable(Of SignalPeak)
+            Dim data As ITimeSignal() = signals.OrderBy(Function(ti) ti.time).ToArray
 
             If data.Length = 0 Then
                 Call "no signal data was input...".Warning
@@ -89,11 +102,11 @@ Namespace PeakFinding
             End If
 
             Dim dt As Double = data _
-                .Select(Function(t, i)
+                .Select(Function(ti, i)
                             If i = 0 Then
                                 Return 0
                             Else
-                                Return t.time - data(i - 1).time
+                                Return ti.time - data(i - 1).time
                             End If
                         End Function) _
                 .Average
@@ -106,13 +119,13 @@ Namespace PeakFinding
             Dim slopes As SeqValue(Of Vector2D())() = filterBySinAngles(angles).ToArray
             Dim rawSignals As IVector(Of ITimeSignal) = data.Shadows
             Dim rtmin, rtmax As Double
-            Dim time As Vector = rawSignals.Select(Function(t) t.time).AsVector
+            Dim time As Vector = rawSignals.Select(Function(ti) ti.time).AsVector
             Dim area As Vector2D()
 
             For Each region As SeqValue(Of Vector2D()) In slopes
                 If region.value.Length = 1 Then
-                    Dim t As Single = region.value(Scan0).x
-                    Dim i As Integer = which(angles.Select(Function(a) stdNum.Abs(a.x - t) <= dt)).First
+                    Dim ti As Single = region.value(Scan0).x
+                    Dim i As Integer = which(angles.Select(Function(a) std.Abs(a.x - ti) <= dt)).First
 
                     If i > 0 Then
                         If i < angles.Length - 1 Then
@@ -138,7 +151,7 @@ Namespace PeakFinding
                     ' Dim t1 As Single = region.value(Scan0).x
                     Dim t2 As Single = region.value(1).x
                     ' Dim i As Integer = which(angles.Select(Function(a) a.x = t1)).First
-                    Dim j As Integer = which(angles.Select(Function(a) stdNum.Abs(a.x - t2) <= dt)).First
+                    Dim j As Integer = which(angles.Select(Function(a) std.Abs(a.x - t2) <= dt)).First
 
                     If j < angles.Length - 1 Then
                         region = New SeqValue(Of Vector2D()) With {

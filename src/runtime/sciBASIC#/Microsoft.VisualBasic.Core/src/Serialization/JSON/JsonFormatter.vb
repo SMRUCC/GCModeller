@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18caaeaecae432ae59ba5c9891b0b90d, Microsoft.VisualBasic.Core\src\Serialization\JSON\JsonFormatter.vb"
+﻿#Region "Microsoft.VisualBasic::88f602ab45af69e54cca0f6b165f5eea, Microsoft.VisualBasic.Core\src\Serialization\JSON\JsonFormatter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 14 (41.18%)
+    ' Comment Lines: 15 (44.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (14.71%)
+    '     File Size: 1.43 KB
+
+
     '     Module JsonFormatter
     ' 
     '         Function: Format, Minify
@@ -40,7 +52,6 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.Serialization.JSON.Formatter.Internals
 Imports r = System.Text.RegularExpressions.Regex
 

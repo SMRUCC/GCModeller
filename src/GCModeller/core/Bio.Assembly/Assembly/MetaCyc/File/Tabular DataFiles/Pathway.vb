@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 42 (55.26%)
+    ' Comment Lines: 22 (28.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (15.79%)
+    '     File Size: 2.46 KB
+
+
     '     Class Pathway
     ' 
     '         Properties: DisplayingName, GeneCollection, UniqueId

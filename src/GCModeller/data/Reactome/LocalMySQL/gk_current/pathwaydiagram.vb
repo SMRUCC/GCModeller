@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 80 (49.69%)
+    ' Comment Lines: 59 (36.65%)
+    '    - Xml Docs: 94.92%
+    ' 
+    '   Blank Lines: 22 (13.66%)
+    '     File Size: 6.11 KB
+
+
     ' Class pathwaydiagram
     ' 
     '     Properties: DB_ID, height, storedATXML, width

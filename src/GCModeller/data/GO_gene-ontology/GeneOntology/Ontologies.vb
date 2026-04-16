@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 47
+    '    Code Lines: 6 (12.77%)
+    ' Comment Lines: 39 (82.98%)
+    '    - Xml Docs: 92.31%
+    ' 
+    '   Blank Lines: 2 (4.26%)
+    '     File Size: 3.61 KB
+
+
     ' Enum Ontologies
     ' 
     ' 

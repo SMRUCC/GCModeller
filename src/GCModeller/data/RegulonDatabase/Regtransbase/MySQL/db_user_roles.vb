@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 151
+    '    Code Lines: 74 (49.01%)
+    ' Comment Lines: 55 (36.42%)
+    '    - Xml Docs: 94.55%
+    ' 
+    '   Blank Lines: 22 (14.57%)
+    '     File Size: 5.02 KB
+
+
     ' Class db_user_roles
     ' 
     '     Properties: id, role_name

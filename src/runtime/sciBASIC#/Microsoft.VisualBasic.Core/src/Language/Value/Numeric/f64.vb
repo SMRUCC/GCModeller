@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 231
+    '    Code Lines: 163 (70.56%)
+    ' Comment Lines: 19 (8.23%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 49 (21.21%)
+    '     File Size: 8.10 KB
+
+
     '     Class f64
     ' 
     '         Properties: Hex

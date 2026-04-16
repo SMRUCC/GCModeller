@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 57 (73.08%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (26.92%)
+    '     File Size: 3.06 KB
+
+
     '     Class EM
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 235
+    '    Code Lines: 144 (61.28%)
+    ' Comment Lines: 53 (22.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 38 (16.17%)
+    '     File Size: 10.19 KB
+
+
     '     Class DataFile
     ' 
     '         Properties: __indexItem, DbProperty, First, Index, IsReadOnly

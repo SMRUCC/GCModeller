@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::798648205ca3a3474306bad9ebb8f2a5, vs_solutions\dev\VisualStudio\Ngen\Registry.vb"
+﻿#Region "Microsoft.VisualBasic::d8b8d4ba88784681a07247ce502565b1, vs_solutions\dev\VisualStudio\Ngen\Registry.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 57 (64.77%)
+    ' Comment Lines: 18 (20.45%)
+    '    - Xml Docs: 61.11%
+    ' 
+    '   Blank Lines: 13 (14.77%)
+    '     File Size: 3.23 KB
+
+
     ' Module RegistryUtils
     ' 
     '     Function: RegisterCOMDll, RegisterExtensions, WriteToRegistry
@@ -46,8 +58,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.Win32
 
-#If netcore5 = 0 Then
-
+#If NET48 Then
 
 Public Module RegistryUtils
 
@@ -128,5 +139,4 @@ Public Module RegistryUtils
         Return bAns
     End Function
 End Module
-
 #End If

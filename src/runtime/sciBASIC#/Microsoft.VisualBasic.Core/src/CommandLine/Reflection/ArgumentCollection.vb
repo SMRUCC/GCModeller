@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 108 (69.23%)
+    ' Comment Lines: 28 (17.95%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (12.82%)
+    '     File Size: 6.19 KB
+
+
     '     Class ArgumentCollection
     ' 
     '         Properties: Count, EmptyExample, EmptyUsage, GetExample, GetUsage

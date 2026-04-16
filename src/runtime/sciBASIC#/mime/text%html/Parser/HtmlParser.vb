@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::01208aa46597ee2016adc32233d5e27c, mime\text%html\Parser\HtmlParser.vb"
+﻿#Region "Microsoft.VisualBasic::2026465e4d85548b1e5f46bbc19b3e5f, mime\text%html\Parser\HtmlParser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 92 (77.97%)
+    ' Comment Lines: 4 (3.39%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 22 (18.64%)
+    '     File Size: 3.95 KB
+
+
     '     Class HtmlParser
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -50,8 +62,8 @@ Imports Microsoft.VisualBasic.Emit.Marshal
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.Document
-Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 
 Namespace Language
 

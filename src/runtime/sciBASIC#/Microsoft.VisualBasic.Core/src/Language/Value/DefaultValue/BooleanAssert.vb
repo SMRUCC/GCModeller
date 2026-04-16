@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 46 (77.97%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (22.03%)
+    '     File Size: 2.15 KB
+
+
     '     Structure BooleanAssert
     ' 
     '         Function: ToString

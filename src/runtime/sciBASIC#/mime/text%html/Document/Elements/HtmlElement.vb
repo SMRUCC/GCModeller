@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::942e7ba15f06d09bc8cd4a842dd32f00, mime\text%html\Document\Elements\HtmlElement.vb"
+﻿#Region "Microsoft.VisualBasic::a8e873335bea41b5b6e0482169acc63b, mime\text%html\Document\Elements\HtmlElement.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 414
+    '    Code Lines: 238 (57.49%)
+    ' Comment Lines: 122 (29.47%)
+    '    - Xml Docs: 96.72%
+    ' 
+    '   Blank Lines: 54 (13.04%)
+    '     File Size: 17.86 KB
+
+
     '     Class HtmlElement
     ' 
     '         Properties: [class], Attributes, HtmlElements, id, IsEmpty
@@ -61,6 +73,18 @@ Namespace Document
     ''' <summary>
     ''' 一个标签所标记的元素以及内部文本
     ''' </summary>
+    ''' <remarks>
+    ''' 在选择器里：
+    '''
+    ''' + ID 和 类 选择器 区分 大小写
+    ''' + 标签选择器、属性选择器不区分大小写
+    ''' 
+    ''' > 类选择器和 ID 选择器可能是区分大小写的。这取决于文档的语言。
+    ''' > HTML 和 XHTML 将类和 ID 值定义为区分大小写，所以类和 ID 
+    ''' > 值的大小写必须与文档中的相应值匹配。
+    ''' > 
+    ''' > —— W3C
+    ''' </remarks>
     Public Class HtmlElement : Inherits InnerPlantText
         Implements IXmlDocumentTree
         Implements IStyleSelector(Of HtmlElement)
@@ -103,7 +127,14 @@ Namespace Document
             End Set
         End Property
 
-        Default Public Property Attribute(name As String) As ValueAttribute
+        ''' <summary>
+        ''' get attribute value by attribute name
+        ''' </summary>
+        ''' <param name="name">case insensitive</param>
+        ''' <returns>
+        ''' this property returns nothing if the attribute is not found from the current element node
+        ''' </returns>
+        Default Public Property Element(name As String) As ValueAttribute
             Get
                 Return attrs.TryGetValue(LCase(name))
             End Get
@@ -118,6 +149,12 @@ Namespace Document
             End Set
         End Property
 
+        Default Public ReadOnly Property Element(i As Integer) As InnerPlantText
+            Get
+                Return HtmlElements.ElementAtOrDefault(i)
+            End Get
+        End Property
+
         Public Overrides ReadOnly Property IsPlantText As Boolean
             Get
                 Return False
@@ -130,6 +167,10 @@ Namespace Document
         ''' </summary>
         Dim elementNodes As New List(Of InnerPlantText)
 
+        ''' <summary>
+        ''' 唯一编号是区分大小写的
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property id As String
             Get
                 Return attrs.TryGetValue("id").Value
@@ -142,6 +183,13 @@ Namespace Document
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' multiple class could be assigned to a html node
+        ''' </remarks>
         Public ReadOnly Property [class] As String()
             Get
                 Dim names As String = Trim(attrs.TryGetValue("class").Value)
@@ -154,9 +202,22 @@ Namespace Document
             End Get
         End Property
 
+        ''' <summary>
+        ''' 大小写不敏感
+        ''' </summary>
         Dim tagIndex As New Dictionary(Of String, List(Of HtmlElement))
+
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim classIndex As New Dictionary(Of String, List(Of HtmlElement))
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim nameIndex As New Dictionary(Of String, List(Of HtmlElement))
+        ''' <summary>
+        ''' ** 大小写敏感
+        ''' </summary>
         Dim idIndex As New Dictionary(Of String, HtmlElement)
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -188,7 +249,7 @@ Namespace Document
             End If
 
             Dim element As HtmlElement = DirectCast(node, HtmlElement)
-            Dim id As String = LCase(element.id)
+            Dim id As String = Strings.Trim(element.id)
 
             If (Not id.StringEmpty) AndAlso (Not idIndex.ContainsKey(id)) Then
                 idIndex.Add(id, element)
@@ -227,6 +288,11 @@ Namespace Document
             End If
         End Sub
 
+        ''' <summary>
+        ''' add tagged attribute value.
+        ''' </summary>
+        ''' <param name="name">the attribute name</param>
+        ''' <param name="value">the attribute value string.</param>
         Public Sub Add(name As String, value As String)
             If attrs.ContainsKey(name) Then
                 Call attrs(name).Values.Add(value)
@@ -311,14 +377,13 @@ Namespace Document
         ''' The HTMLCollection Object represents a collection Of nodes. The nodes can be accessed by index numbers. The index starts at 0.
         ''' Tip: You can use the length Property Of the HTMLCollection Object To determine the number Of elements With a specified Class name, Then you can Loop through all elements And extract the info you want.
         ''' </remarks>
-        Public Function getElementsByClassName(classname As String) As HtmlElement() Implements IStyleSelector(Of HtmlElement).GetElementsByClassName
+        Public Function getElementsByClassName(classname As String) As IEnumerable(Of HtmlElement) Implements IStyleSelector(Of HtmlElement).GetElementsByClassName
             Static api As MethodInfo = GetType(HtmlElement).GetMethod(NameOf(getElementsByClassName))
 
             Return classIndex _
                 .TryGetValue(classname) _
                 .JoinIterates(Query(api, classname)) _
-                .Distinct _
-                .ToArray
+                .Distinct
         End Function
 
         ''' <summary>
@@ -350,7 +415,8 @@ Namespace Document
                                             Where TypeOf obj Is HtmlElement
                                             Select DirectCast(obj, HtmlElement)
 
-                Dim collection As HtmlElement() = calls.Invoke(node, {arg})
+                Dim pull As IEnumerable(Of HtmlElement) = calls.Invoke(node, {arg})
+                Dim collection As HtmlElement() = pull.SafeQuery.ToArray
 
                 If collection.Length > 0 Then
                     For Each item In collection

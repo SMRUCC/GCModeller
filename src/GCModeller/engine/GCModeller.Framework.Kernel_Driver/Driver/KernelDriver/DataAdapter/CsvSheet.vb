@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 37 (71.15%)
+    ' Comment Lines: 5 (9.62%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (19.23%)
+    '     File Size: 2.19 KB
+
+
     ' Class MsCsvChunkBuffer
     ' 
     '     Function: AttachKernel, Generate_CsvRow, (+2 Overloads) get_Result, (+2 Overloads) WriteData

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1ff0f0229bbb02f4c5bb2006949e174, Data_science\Mathematica\Math\Math\Algebra\LP\LPP.vb"
+﻿#Region "Microsoft.VisualBasic::f31fd3c470dde253c1583e30fe8a46c2, Data_science\Mathematica\Math\Math\Algebra\LP\LPP.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 237
+    '    Code Lines: 150 (63.29%)
+    ' Comment Lines: 60 (25.32%)
+    '    - Xml Docs: 85.00%
+    ' 
+    '   Blank Lines: 27 (11.39%)
+    '     File Size: 11.51 KB
+
+
     '     Class LPP
     ' 
     '         Properties: DecimalFormat, ObjectFunctionVariables, PIVOT_ITERATION_LIMIT, USE_SUBSCRIPT_UNICODE
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: ArtificialVariableAssignments, increaseArtificialVariableIndices, solve, ToString
+    '         Function: addArtificialVariable, ArtificialVariableAssignments, increaseArtificialVariableIndices, solve, ToString
     ' 
     '         Sub: addArtificialVariables, addVariableAt, (+2 Overloads) makeStandardForm
     ' 
@@ -58,7 +70,7 @@ Namespace LinearAlgebra.LinearProgramming
     ''' </remarks>
     Public Class LPP
 
-        Friend ReadOnly objectiveFunctionType As OptimizationType
+        Friend objectiveFunctionType As OptimizationType
         ''' <summary>
         ''' 这个变量名称列表之中会添加拓展的新的变量名称
         ''' 
@@ -69,12 +81,19 @@ Namespace LinearAlgebra.LinearProgramming
         Friend ReadOnly constraintCoefficients() As List(Of Double)
         Friend ReadOnly constraintTypes() As String
         Friend ReadOnly constraintRightHandSides() As Double
+        Friend ReadOnly originalVariableCount As Integer
 
         Friend objectiveFunctionValue As Double
+        ''' <summary>
+        ''' 添加字段保存原始约束类型
+        ''' </summary>
+        Friend originalConstraintTypes As String()
 
-        Public Shared Property PIVOT_ITERATION_LIMIT As Integer = 1000
+        Public Shared Property PIVOT_ITERATION_LIMIT As Integer = 3000
         Public Shared Property USE_SUBSCRIPT_UNICODE As Boolean = False
         Public Shared Property DecimalFormat As String = "G5"
+
+        Friend ReadOnly artificialVariable As New Index(Of String)
 
         Public ReadOnly Property ObjectFunctionVariables As String()
             Get
@@ -103,6 +122,10 @@ Namespace LinearAlgebra.LinearProgramming
             Call Me.New(opt.Description, variableNames, objectiveFunctionCoefficients, constraintCoefficients.ToVectorList, constraintTypes, constraintRightHandSides, objectiveFunctionValue)
         End Sub
 
+        ''' <summary>
+        ''' 从一个模型的xml反序列化结果对象中的数据创建当前的这个LPP算法
+        ''' </summary>
+        ''' <param name="lppModel"></param>
         Sub New(lppModel As LPPModel)
             Call Me.New(
                 objectiveFunctionType:=lppModel.objectiveFunctionType,
@@ -118,7 +141,7 @@ Namespace LinearAlgebra.LinearProgramming
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="objectiveFunctionType$">目标函数的类型，是求取极大值还是极小值</param>
+        ''' <param name="objectiveFunctionType">目标函数的类型，是求取极大值还是极小值</param>
         ''' <param name="variableNames">方程之中的未知变量的名称，可以省略这个函数，程序会默认会自动使用x1, x2, x3...等来自动命名</param>
         ''' <param name="objectiveFunctionCoefficients">目标函数之中每一个未知变量所对应的系数</param>
         ''' <param name="constraintCoefficients">方程组的左边：系数矩阵</param>
@@ -155,6 +178,9 @@ Namespace LinearAlgebra.LinearProgramming
                 End If
             Next
 
+            ' 保存原始约束类型
+            Me.originalConstraintTypes = constraintTypes.ToArray()
+            Me.originalVariableCount = objectiveFunctionCoefficients.Length  ' 记录原始变量数量
             Me.objectiveFunctionType = objectiveFunctionType.ParseType
             Me.variableNames = variableNames.ToList
             Me.objectiveFunctionCoefficients = objectiveFunctionCoefficients.ToList
@@ -206,20 +232,38 @@ Namespace LinearAlgebra.LinearProgramming
             Return artificialVariables
         End Function
 
+        ''' <summary>
+        ''' 根据约束类型和添加的变量系数判断是否需要人工变量
+        ''' </summary>
+        ''' <returns></returns>
         Friend Function ArtificialVariableAssignments() As List(Of Integer)
             Dim assignments As New List(Of Integer)()
             Dim k As Integer = 0
-
             For j As Integer = 0 To constraintTypes.Length - 1
-                If constraintTypes(j) = "=" Then
-                    assignments.Add(objectiveFunctionCoefficients.Count + k)
+                ' 检查是否添加了松弛/剩余变量
+                If constraintCoefficients(j).Count > originalVariableCount Then
+                    Dim lastCoeff As Double = constraintCoefficients(j).Last
+                    ' "≥"约束需要人工变量（系数为-1）
+                    If lastCoeff = -1 Then
+                        assignments.Add(originalVariableCount + k)
+                        k += 1
+                    Else ' "≤"约束不需要人工变量
+                        assignments.Add(-1)
+                    End If
+                Else ' 原始等式约束需要人工变量
+                    assignments.Add(originalVariableCount + k)
                     k += 1
-                Else
-                    assignments.Add(-1)
                 End If
             Next
-
             Return assignments
+        End Function
+
+        Friend Function addArtificialVariable(j As Integer) As Integer
+            If j <> -1 Then
+                Me.addVariableAt(j, 1)
+            End If
+
+            Return variableNames.Count - 1
         End Function
 
         Friend Sub addArtificialVariables(artificialVariables As List(Of Integer))
@@ -238,14 +282,16 @@ Namespace LinearAlgebra.LinearProgramming
         Private Sub addVariableAt(constraintIndex As Integer, value As Double)
             variableNames.Add("v" & subscriptN(variableNames.Count + 1))
             objectiveFunctionCoefficients.Add(0)
+            artificialVariable.Add(variableNames.Last)
 
             For j As Integer = 0 To constraintCoefficients.Length - 1
                 constraintCoefficients(j).Add(If(j <> constraintIndex, 0, value))
             Next
         End Sub
 
-        Public Function solve(Optional showProgress As Boolean = True) As LPPSolution
-            Return New LPPSolver(Me).Solve(showProgress)
+        Public Function solve(Optional showProgress As Boolean = True, Optional strict As Boolean = True) As LPPSolution
+            ' Return New LPPSolver(Me).Solve(showProgress)
+            Return New LPPSolverTwoPhased(Me, strict).Solve(showProgress)
         End Function
     End Class
 End Namespace

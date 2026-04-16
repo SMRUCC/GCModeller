@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 26
+    '    Code Lines: 21 (80.77%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (19.23%)
+    '     File Size: 965 B
+
+
     '     Class Bayes
     ' 
     '         Constructor: (+1 Overloads) Sub New

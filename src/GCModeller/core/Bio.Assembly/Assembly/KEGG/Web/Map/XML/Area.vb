@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc3d972c9f572ae835f8b45e7b9a541, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
+﻿#Region "Microsoft.VisualBasic::750f7469aa123f7563f1d173dac35c15, core\Bio.Assembly\Assembly\KEGG\Web\Map\XML\Area.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 157
+    '    Code Lines: 113 (71.97%)
+    ' Comment Lines: 28 (17.83%)
+    '    - Xml Docs: 67.86%
+    ' 
+    '   Blank Lines: 16 (10.19%)
+    '     File Size: 6.41 KB
+
+
     '     Class Area
     ' 
-    '         Properties: [class], coords, data_coords, data_id, entry
-    '                     href, IDVector, moduleId, Names, Rectangle
-    '                     refid, shape, title, Type
+    '         Properties: [class], coords, data_id, entry, href
+    '                     IDVector, moduleId, Names, Rectangle, refid
+    '                     shape, title, Type
     ' 
-    '         Function: Parse, ToString
+    '         Function: GetPolyLine, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -50,11 +62,10 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports Microsoft.VisualBasic.Text.Parser.HtmlParser
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
 
-Namespace Assembly.KEGG.WebServices
+Namespace Assembly.KEGG.WebServices.XML
 
     <XmlType("area")> Public Class Area
 
@@ -72,7 +83,6 @@ Namespace Assembly.KEGG.WebServices
         ''' </summary>
         ''' <returns></returns>
         <XmlAttribute> Public Property coords As String
-        <XmlAttribute> Public Property data_coords As String
         <XmlAttribute> Public Property [class] As String
         <XmlAttribute> Public Property href As String
         <XmlAttribute> Public Property entry As String
@@ -164,8 +174,13 @@ Namespace Assembly.KEGG.WebServices
                 If title.StringEmpty Then
                     Return {}
                 Else
+                    ' the delimiter between the tokens is seperated via
+                    ' a command,blankspace combination
+                    ' due to the reason of compound name may contains the
+                    ' comma symbol, so we use the string split function at
+                    ' here for avoid the name parser error
                     terms = title _
-                        .Split(","c) _
+                        .StringSplit(", ") _
                         .Select(AddressOf Trim) _
                         .Select(Function(s)
                                     Dim nameTerm = s.GetTagValue(" ")
@@ -183,24 +198,18 @@ Namespace Assembly.KEGG.WebServices
             End Get
         End Property
 
-        Public Overrides Function ToString() As String
-            Return $"[{shape}] {IDVector.GetJson}"
+        Public Iterator Function GetPolyLine() As IEnumerable(Of PointF)
+            Dim t As Single() = coords.Split(","c) _
+                .Select(AddressOf Single.Parse) _
+                .ToArray
+
+            For Each ti As Single() In t.Split(2)
+                Yield New PointF(ti(0), ti(1))
+            Next
         End Function
 
-        Public Shared Function Parse(line$) As Area
-            Dim attrs As Dictionary(Of NamedValue(Of String)) = line _
-                .TagAttributes _
-                .ToDictionary
-            Dim getValue = Function(key$)
-                               Return attrs.TryGetValue(key).Value
-                           End Function
-
-            Return New Area With {
-                .coords = getValue(NameOf(coords)),
-                .href = getValue(NameOf(href)),
-                .shape = getValue(NameOf(shape)),
-                .title = getValue(NameOf(title))
-            }
+        Public Overrides Function ToString() As String
+            Return $"[{shape}] {IDVector.GetJson}"
         End Function
     End Class
 End Namespace

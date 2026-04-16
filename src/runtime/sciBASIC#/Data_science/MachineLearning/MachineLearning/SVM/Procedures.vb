@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e6461d834bb64b26b9686fde4bb9c4f8, Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
+﻿#Region "Microsoft.VisualBasic::326cb29fe10c9b0c046c8d0018dbdbac, Data_science\MachineLearning\MachineLearning\SVM\Procedures.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1451
+    '    Code Lines: 1067 (73.54%)
+    ' Comment Lines: 100 (6.89%)
+    '    - Xml Docs: 65.00%
+    ' 
+    '   Blank Lines: 284 (19.57%)
+    '     File Size: 52.76 KB
+
+
     '     Module Procedures
     ' 
-    '         Function: sigmoid_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class, svm_get_nr_sv
-    '                   svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability, svm_predict_values
-    '                   svm_svr_probability, svm_train, svm_train_one
+    '         Function: sigmoid_predict, svc_predict, svm_check_parameter, svm_check_probability_model, svm_get_nr_class
+    '                   svm_get_nr_sv, svm_get_svm_type, svm_get_svr_probability, svm_predict, svm_predict_probability
+    '                   svm_predict_values, svm_svr_probability, svm_train, svm_train_one, svr_predict
     ' 
     '         Sub: multiclass_probability, multipleClassification, oneClassSvm, setRandomSeed, sigmoid_train
     '              solve_c_svc, solve_epsilon_svr, solve_nu_svc, solve_nu_svr, solve_one_class
@@ -53,7 +65,6 @@
 
 #End Region
 
-Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Runtime.InteropServices
 Imports Microsoft.VisualBasic.DataMining.ComponentModel.Encoder
@@ -61,7 +72,7 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace SVM
 
@@ -128,10 +139,10 @@ Namespace SVM
             For i = 0 To l - 1
 
                 If y(i) = +1 Then
-                    alpha(i) = stdNum.Min(1.0, sum_pos)
+                    alpha(i) = std.Min(1.0, sum_pos)
                     sum_pos -= alpha(i)
                 Else
-                    alpha(i) = stdNum.Min(1.0, sum_neg)
+                    alpha(i) = std.Min(1.0, sum_neg)
                     sum_neg -= alpha(i)
                 End If
             Next
@@ -169,7 +180,9 @@ Namespace SVM
                 alpha(i) = 1
             Next
 
-            If n < prob.count Then alpha(n) = param.nu * prob.count - n
+            If n < prob.count Then
+                alpha(n) = param.nu * prob.count - n
+            End If
 
             For i = n + 1 To l - 1
                 alpha(i) = 0
@@ -205,7 +218,7 @@ Namespace SVM
 
             For i = 0 To l - 1
                 alpha(i) = alpha2(i) - alpha2(i + l)
-                sum_alpha += stdNum.Abs(alpha(i))
+                sum_alpha += std.Abs(alpha(i))
             Next
 
             Logging.info("nu = " & sum_alpha / (param.c * l) & ASCII.LF)
@@ -221,7 +234,7 @@ Namespace SVM
             Dim sum = C * param.nu * l / 2
 
             For i = 0 To l - 1
-                alpha2(i + l) = stdNum.Min(sum, C)
+                alpha2(i + l) = std.Min(sum, C)
                 alpha2(i) = alpha2(i + l)
                 sum -= alpha2(i)
                 linear_term(i) = -prob.Y(i)
@@ -277,15 +290,15 @@ Namespace SVM
 
             For i = 0 To prob.count - 1
 
-                If stdNum.Abs(alpha(i)) > 0 Then
+                If std.Abs(alpha(i)) > 0 Then
                     nSV += 1
 
                     If prob.Y(i) > 0 Then
-                        If stdNum.Abs(alpha(i)) >= si.upper_bound_p Then
+                        If std.Abs(alpha(i)) >= si.upper_bound_p Then
                             nBSV += 1
                         End If
                     Else
-                        If stdNum.Abs(alpha(i)) >= si.upper_bound_n Then
+                        If std.Abs(alpha(i)) >= si.upper_bound_n Then
                             nBSV += 1
                         End If
                     End If
@@ -333,7 +346,7 @@ Namespace SVM
 
             ' Initial Point and Initial Fun Value
             A = 0.0
-            B = stdNum.Log((prior0 + 1.0) / (prior1 + 1.0))
+            B = std.Log((prior0 + 1.0) / (prior1 + 1.0))
             Dim fval = 0.0
 
             For i = 0 To l - 1
@@ -347,9 +360,9 @@ Namespace SVM
                 fApB = dec_values(i) * A + B
 
                 If fApB >= 0 Then
-                    fval += t(i) * fApB + stdNum.Log(1 + stdNum.Exp(-fApB))
+                    fval += t(i) * fApB + std.Log(1 + std.Exp(-fApB))
                 Else
-                    fval += (t(i) - 1) * fApB + stdNum.Log(1 + stdNum.Exp(fApB))
+                    fval += (t(i) - 1) * fApB + std.Log(1 + std.Exp(fApB))
                 End If
             Next
 
@@ -365,11 +378,11 @@ Namespace SVM
                     fApB = dec_values(i) * A + B
 
                     If fApB >= 0 Then
-                        p = stdNum.Exp(-fApB) / (1.0 + stdNum.Exp(-fApB))
-                        q = 1.0 / (1.0 + stdNum.Exp(-fApB))
+                        p = std.Exp(-fApB) / (1.0 + std.Exp(-fApB))
+                        q = 1.0 / (1.0 + std.Exp(-fApB))
                     Else
-                        p = 1.0 / (1.0 + stdNum.Exp(fApB))
-                        q = stdNum.Exp(fApB) / (1.0 + stdNum.Exp(fApB))
+                        p = 1.0 / (1.0 + std.Exp(fApB))
+                        q = std.Exp(fApB) / (1.0 + std.Exp(fApB))
                     End If
 
                     d2 = p * q
@@ -382,7 +395,9 @@ Namespace SVM
                 Next
 
                 ' Stopping Criteria
-                If stdNum.Abs(g1) < eps AndAlso stdNum.Abs(g2) < eps Then Exit For
+                If std.Abs(g1) < eps AndAlso std.Abs(g2) < eps Then
+                    Exit For
+                End If
 
                 ' Finding Newton direction: -inv(H') * g
                 det = h11 * h22 - h21 * h21
@@ -402,9 +417,9 @@ Namespace SVM
                         fApB = dec_values(i) * newA + newB
 
                         If fApB >= 0 Then
-                            newf += t(i) * fApB + stdNum.Log(1 + stdNum.Exp(-fApB))
+                            newf += t(i) * fApB + std.Log(1 + std.Exp(-fApB))
                         Else
-                            newf += (t(i) - 1) * fApB + stdNum.Log(1 + stdNum.Exp(fApB))
+                            newf += (t(i) - 1) * fApB + std.Log(1 + std.Exp(fApB))
                         End If
                     Next
                     ' Check sufficient decrease
@@ -436,9 +451,9 @@ Namespace SVM
             Dim fApB = decision_value * A + B
 
             If fApB >= 0 Then
-                Return stdNum.Exp(-fApB) / (1.0 + stdNum.Exp(-fApB))
+                Return std.Exp(-fApB) / (1.0 + std.Exp(-fApB))
             Else
-                Return 1.0 / (1 + stdNum.Exp(fApB))
+                Return 1.0 / (1 + std.Exp(fApB))
             End If
         End Function
 
@@ -450,7 +465,7 @@ Namespace SVM
         ''' <param name="p"></param>
         Private Sub multiclass_probability(k As Integer, r As Double(,), p As Double())
             Dim t, j As Integer
-            Dim iter = 0, max_iter = stdNum.Max(100, k)
+            Dim iter = 0, max_iter = std.Max(100, k)
             Dim Q = New Double(k - 1, k - 1) {}
             Dim Qp = New Double(k - 1) {}
             Dim pQp As Double, eps = 0.005 / k
@@ -487,7 +502,7 @@ Namespace SVM
                 Dim max_error As Double = 0
 
                 For t = 0 To k - 1
-                    Dim [error] = stdNum.Abs(Qp(t) - pQp)
+                    Dim [error] = std.Abs(Qp(t) - pQp)
                     If [error] > max_error Then max_error = [error]
                 Next
 
@@ -629,25 +644,26 @@ Namespace SVM
 
             For i = 0 To prob.count - 1
                 ymv(i) = New SVMPrediction With {.unifyValue = prob.Y(i) - ymv(i).unifyValue}
-                mae += stdNum.Abs(ymv(i).unifyValue)
+                mae += std.Abs(ymv(i).unifyValue)
             Next
 
             mae /= prob.count
-            Dim std = stdNum.Sqrt(2 * mae * mae)
+            Dim stde = std.Sqrt(2 * mae * mae)
             Dim count = 0
             mae = 0
 
             For i = 0 To prob.count - 1
 
-                If stdNum.Abs(ymv(i).unifyValue) > 5 * std Then
+                If std.Abs(ymv(i).unifyValue) > 5 * stde Then
                     count = count + 1
                 Else
-                    mae += stdNum.Abs(ymv(i).unifyValue)
+                    mae += std.Abs(ymv(i).unifyValue)
                 End If
             Next
 
             mae /= prob.count - count
-            Logging.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF & "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
+            Logging.info("Prob. model for test data: target value = predicted value + z," & ASCII.LF &
+                         "z: Laplace distribution e^(-|z|/sigma)/(2sigma),sigma=" & mae & ASCII.LF)
 
             Return mae
         End Function
@@ -761,6 +777,9 @@ Namespace SVM
         ''' <param name="param"></param>
         <Extension>
         Private Sub oneClassSvm(ByRef model As Model, prob As Problem, param As Parameter)
+            Dim nSV = 0
+            Dim i As Integer
+
             ' regression or one-class-svm
             model.numberOfClasses = 2
             model.classLabels = Nothing
@@ -775,13 +794,12 @@ Namespace SVM
             End If
 
             Dim f = svm_train_one(prob, param, 0, 0)
+
             model.rho = New Double(0) {}
             model.rho(0) = f.rho
-            Dim nSV = 0
-            Dim i As Integer
 
             For i = 0 To prob.count - 1
-                If stdNum.Abs(f.alpha(i)) > 0 Then
+                If std.Abs(f.alpha(i)) > 0 Then
                     nSV += 1
                 End If
             Next
@@ -794,7 +812,7 @@ Namespace SVM
 
             For i = 0 To prob.count - 1
 
-                If stdNum.Abs(f.alpha(i)) > 0 Then
+                If std.Abs(f.alpha(i)) > 0 Then
                     model.supportVectors(j) = prob.X(i)
                     model.supportVectorCoefficients(0)(j) = f.alpha(i)
                     model.supportVectorIndices(j) = i + 1
@@ -811,8 +829,7 @@ Namespace SVM
         ''' <param name="param"></param>
         <Extension>
         Private Sub multipleClassification(ByRef model As Model, prob As Problem, param As Parameter)
-            ' classification
-            Dim l = prob.count
+            Dim l As Integer = prob.count
             Dim nr_class As Integer
             Dim label As Integer() = Nothing
             Dim start As Integer() = Nothing
@@ -843,7 +860,7 @@ Namespace SVM
             For i = 0 To nr_class - 1
 
                 If Not param.weights.ContainsKey(label(i)) Then
-                    Call $"WARNING: class label {label(i)} specified in weight is not found".Warning
+                    Call $"WARNING: class label {label(i)} specified in weight is not found".warning
                 Else
                     weighted_C(i) *= param.weights(label(i))
                 End If
@@ -879,12 +896,12 @@ Namespace SVM
 
                     For k = 0 To ci - 1
                         sub_prob.X(k) = x(si + k)
-                        sub_prob.Y(k) = New ColorClass With {.enumInt = +1, .name = "temp", .color = "n/a"}
+                        sub_prob.Y(k) = New ColorClass With {.factor = +1, .name = "temp", .color = "n/a"}
                     Next
 
                     For k = 0 To cj - 1
                         sub_prob.X(ci + k) = x(sj + k)
-                        sub_prob.Y(ci + k) = New ColorClass With {.enumInt = -1, .name = "temp", .color = "n/a"}
+                        sub_prob.Y(ci + k) = New ColorClass With {.factor = -1, .name = "temp", .color = "n/a"}
                     Next
 
                     If param.probability Then
@@ -897,11 +914,11 @@ Namespace SVM
                     f(p) = svm_train_one(sub_prob, param, weighted_C(i), weighted_C(j))
 
                     For k = 0 To ci - 1
-                        If Not nonzero(si + k) AndAlso stdNum.Abs(f(p).alpha(k)) > 0 Then nonzero(si + k) = True
+                        If Not nonzero(si + k) AndAlso std.Abs(f(p).alpha(k)) > 0 Then nonzero(si + k) = True
                     Next
 
                     For k = 0 To cj - 1
-                        If Not nonzero(sj + k) AndAlso stdNum.Abs(f(p).alpha(ci + k)) > 0 Then nonzero(sj + k) = True
+                        If Not nonzero(sj + k) AndAlso std.Abs(f(p).alpha(ci + k)) > 0 Then nonzero(sj + k) = True
                     Next
 
                     p += 1
@@ -1221,93 +1238,116 @@ Namespace SVM
             End If
         End Function
 
-        Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
-            Dim i As Integer
+        Private Function svr_predict(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            Dim sv_coef = model.supportVectorCoefficients(0)
+            Dim sum As Double = 0
 
-            If model.parameter.svmType = SvmType.ONE_CLASS OrElse model.parameter.svmType = SvmType.EPSILON_SVR OrElse model.parameter.svmType = SvmType.NU_SVR Then
-                Dim sv_coef = model.supportVectorCoefficients(0)
-                Dim sum As Double = 0
+            For i As Integer = 0 To model.supportVectorCount - 1
+                sum += sv_coef(i) * Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
+            Next
 
-                For i = 0 To model.supportVectorCount - 1
-                    sum += sv_coef(i) * Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
-                Next
+            sum -= model.rho(0)
+            dec_values(0) = sum
 
-                sum -= model.rho(0)
-                dec_values(0) = sum
-
-                If model.parameter.svmType = SvmType.ONE_CLASS Then
-                    Return New SVMPrediction With {.[class] = If(sum > 0, 1, -1), .score = sum, .unifyValue = .class}
-                Else
-                    Return New SVMPrediction With {.[class] = Integer.MinValue, .score = sum, .unifyValue = sum}
-                End If
-            Else
-                Dim nr_class = model.numberOfClasses
-                Dim l = model.supportVectorCount
-                Dim kvalue = New Double(l - 1) {}
-
-                For i = 0 To l - 1
-                    kvalue(i) = Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
-                Next
-
-                Dim start = New Integer(nr_class - 1) {}
-                start(0) = 0
-
-                For i = 1 To nr_class - 1
-                    start(i) = start(i - 1) + model.numberOfSVPerClass(i - 1)
-                Next
-
-                Dim vote = New Integer(nr_class - 1) {}
-
-                For i = 0 To nr_class - 1
-                    vote(i) = 0
-                Next
-
-                Dim p = 0
-
-                For i = 0 To nr_class - 1
-
-                    For j = i + 1 To nr_class - 1
-                        Dim sum As Double = 0
-                        Dim si = start(i)
-                        Dim sj = start(j)
-                        Dim ci = model.numberOfSVPerClass(i)
-                        Dim cj = model.numberOfSVPerClass(j)
-                        Dim k As Integer
-                        Dim coef1 = model.supportVectorCoefficients(j - 1)
-                        Dim coef2 = model.supportVectorCoefficients(i)
-
-                        For k = 0 To ci - 1
-                            sum += coef1(si + k) * kvalue(si + k)
-                        Next
-
-                        For k = 0 To cj - 1
-                            sum += coef2(sj + k) * kvalue(sj + k)
-                        Next
-
-                        sum -= model.rho(p)
-                        dec_values(p) = sum
-
-                        If dec_values(p) > 0 Then
-                            vote(i) += 1
-                        Else
-                            vote(j) += 1
-                        End If
-
-                        p += 1
-                    Next
-                Next
-
-                Dim vote_max_idx = 0
-
-                For i = 1 To nr_class - 1
-                    If vote(i) > vote(vote_max_idx) Then vote_max_idx = i
-                Next
-
+            If model.parameter.svmType = SvmType.ONE_CLASS Then
                 Return New SVMPrediction With {
-                    .[class] = model.classLabels(vote_max_idx),
-                    .score = vote(vote_max_idx),
+                    .[class] = If(sum > 0, 1, -1),
+                    .score = sum,
                     .unifyValue = .class
                 }
+            Else
+                ' sum is the regression value
+                Return New SVMPrediction With {
+                    .[class] = Integer.MinValue,
+                    .score = sum,
+                    .unifyValue = sum
+                }
+            End If
+        End Function
+
+        Private Function svc_predict(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            Dim nr_class = model.numberOfClasses
+            Dim l = model.supportVectorCount
+            Dim kvalue = New Double(l - 1) {}
+
+            For i As Integer = 0 To l - 1
+                kvalue(i) = Kernel.KernelFunction(x, model.supportVectors(i), model.parameter)
+            Next
+
+            Dim start = New Integer(nr_class - 1) {}
+            start(0) = 0
+
+            For i As Integer = 1 To nr_class - 1
+                start(i) = start(i - 1) + model.numberOfSVPerClass(i - 1)
+            Next
+
+            Dim vote = New Integer(nr_class - 1) {}
+            Dim voteSum = New Double(nr_class - 1) {}
+
+            For i As Integer = 0 To nr_class - 1
+                vote(i) = 0
+            Next
+
+            Dim p = 0
+
+            For i As Integer = 0 To nr_class - 1
+                For j As Integer = i + 1 To nr_class - 1
+                    Dim sum As Double = 0
+                    Dim si = start(i)
+                    Dim sj = start(j)
+                    Dim ci = model.numberOfSVPerClass(i)
+                    Dim cj = model.numberOfSVPerClass(j)
+                    Dim k As Integer
+                    Dim coef1 = model.supportVectorCoefficients(j - 1)
+                    Dim coef2 = model.supportVectorCoefficients(i)
+
+                    For k = 0 To ci - 1
+                        sum += coef1(si + k) * kvalue(si + k)
+                    Next
+
+                    For k = 0 To cj - 1
+                        sum += coef2(sj + k) * kvalue(sj + k)
+                    Next
+
+                    sum -= model.rho(p)
+                    dec_values(p) = sum
+
+                    If dec_values(p) > 0 Then
+                        vote(i) += 1
+                        voteSum(i) += sum
+                    Else
+                        vote(j) += 1
+                        voteSum(j) -= sum
+                    End If
+
+                    p += 1
+                Next
+            Next
+
+            Dim vote_max_idx = 0
+
+            For i As Integer = 1 To nr_class - 1
+                If vote(i) > vote(vote_max_idx) Then
+                    vote_max_idx = i
+                End If
+            Next
+
+            Return New SVMPrediction With {
+                .[class] = model.classLabels(vote_max_idx),
+                .score = vote(vote_max_idx),
+                .unifyValue = .class,
+                .vote = voteSum
+            }
+        End Function
+
+        Public Function svm_predict_values(model As Model, x As Node(), dec_values As Double()) As SVMPrediction
+            If model.parameter.svmType = SvmType.ONE_CLASS OrElse
+                model.parameter.svmType = SvmType.EPSILON_SVR OrElse
+                model.parameter.svmType = SvmType.NU_SVR Then
+
+                Return svr_predict(model, x, dec_values)
+            Else
+                Return svc_predict(model, x, dec_values)
             End If
         End Function
 
@@ -1352,7 +1392,7 @@ Namespace SVM
                 For i = 0 To nr_class - 1
 
                     For j = i + 1 To nr_class - 1
-                        pairwise_prob(i, j) = stdNum.Min(stdNum.Max(sigmoid_predict(dec_values(k), model.pairwiseProbabilityA(k), model.pairwiseProbabilityB(k)), min_prob), 1 - min_prob)
+                        pairwise_prob(i, j) = std.Min(std.Max(sigmoid_predict(dec_values(k), model.pairwiseProbabilityA(k), model.pairwiseProbabilityB(k)), min_prob), 1 - min_prob)
                         pairwise_prob(j, i) = 1 - pairwise_prob(i, j)
                         k += 1
                     Next
@@ -1453,7 +1493,7 @@ Namespace SVM
                     For j = i + 1 To nr_class - 1
                         Dim n2 = count(j)
 
-                        If param.nu * (n1 + n2) / 2 > stdNum.Min(n1, n2) Then
+                        If param.nu * (n1 + n2) / 2 > std.Min(n1, n2) Then
                             Return "specified nu is infeasible"
                         End If
                     Next

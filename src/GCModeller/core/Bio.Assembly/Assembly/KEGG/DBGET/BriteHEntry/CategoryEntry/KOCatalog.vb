@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a619abf020f878102ea0ef7b973d641, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
+﻿#Region "Microsoft.VisualBasic::776ec537bec8177eedd9e30c0238da46, core\Bio.Assembly\Assembly\KEGG\DBGET\BriteHEntry\CategoryEntry\KOCatalog.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 46
+    '    Code Lines: 21 (45.65%)
+    ' Comment Lines: 20 (43.48%)
+    '    - Xml Docs: 85.00%
+    ' 
+    '   Blank Lines: 5 (10.87%)
+    '     File Size: 2.52 KB
+
 
     '     Class KOCatalog
     ' 
@@ -76,7 +88,7 @@ Namespace Assembly.KEGG.DBGET.BriteHEntry
         ''' 所以函数返回的字典为一个KO编号对应若干个KO term
         ''' </returns>
         Public Shared Function ko00000() As Dictionary(Of String, BriteHText())
-            Dim htext As htext = htext.StreamParser(My.Resources.ko00000)
+            Dim htext As htext = htext.StreamParser(My.Resources.KEGG.ko00000)
             Dim maps = htext.Hierarchical _
                 .EnumerateEntries _
                 .GroupBy(Function(x) x.entryID) _

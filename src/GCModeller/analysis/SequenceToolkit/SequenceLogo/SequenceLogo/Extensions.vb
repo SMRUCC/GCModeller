@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b88c45f25ff4ed11dabea6a33fdd805b, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::7d7ea2fc7c9c6d095f46b8af038dd5ce, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 33 (84.62%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (15.38%)
+    '     File Size: 1.45 KB
+
+
     '     Module Extensions
     ' 
     '         Function: CreateDrawingModel
@@ -41,8 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports ScannerMotif = SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif.SequenceMotif
 
 Namespace SequenceLogo
 
@@ -50,28 +60,32 @@ Namespace SequenceLogo
     Public Module Extensions
 
         <Extension>
-        Public Function CreateDrawingModel(motif As ScannerMotif) As DrawingModel
+        Public Function CreateDrawingModel(motif As SequenceMotif) As DrawingModel
             Dim n% = motif.seeds.MSA.Length
-            Dim E# = (1 / Math.Log(2)) * ((4 - 1) / (2 * n))
+            Dim E# = Probability.E(n)
+            Dim alphas As Residue() = motif _
+                .region _
+                .Select(Function(r)
+                            Dim nt As New Residue With {
+                                .Alphabets = r.frequency _
+                                    .Select(Function(b)
+                                                Return New Alphabet With {
+                                                    .Alphabet = b.Key,
+                                                    .RelativeFrequency = b.Value
+                                                }
+                                            End Function) _
+                                    .ToArray,
+                                .Position = r.index
+                            }
+
+                            nt.Bits = Probability.CalculatesBits(nt.Hi, En:=E, NtMol:=True)
+
+                            Return nt
+                        End Function) _
+                .ToArray
 
             Return New DrawingModel With {
-                .Residues = motif _
-                    .region _
-                    .Select(Function(r)
-                                Return New Residue With {
-                                    .Alphabets = r.frequency _
-                                        .Select(Function(b)
-                                                    Return New Alphabet With {
-                                                        .Alphabet = b.Key,
-                                                        .RelativeFrequency = b.Value
-                                                    }
-                                                End Function) _
-                                        .ToArray,
-                                    .Position = r.index,
-                                    .Bits = Residue.CalculatesBits(.ByRef, E, NtMol:=True).Bits
-                                }
-                            End Function) _
-                    .ToArray,
+                .Residues = alphas,
                 .En = E
             }
         End Function

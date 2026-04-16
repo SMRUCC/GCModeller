@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b4c672f7a224b41eafd26e0aff1db998, Data_science\Mathematica\Math\Math\Scripting\Expression\FunctionElement.vb"
+﻿#Region "Microsoft.VisualBasic::590161e2ef3b7a402a315c2257f5ef6d, Data_science\Mathematica\Math\Math\Scripting\Expression\FunctionElement.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 16 (66.67%)
+    ' Comment Lines: 3 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 5 (20.83%)
+    '     File Size: 635 B
+
+
     '     Class FunctionElement
     ' 
     '         Properties: lambda, name, parameters
@@ -42,6 +54,8 @@
 
 #End Region
 
+Imports System.Xml.Serialization
+
 Namespace Scripting.MathExpression
 
     ''' <summary>
@@ -49,8 +63,11 @@ Namespace Scripting.MathExpression
     ''' </summary>
     Public Class FunctionElement
 
+        <XmlAttribute>
         Public Property name As String
+        <XmlAttribute>
         Public Property parameters As String()
+        <XmlText>
         Public Property lambda As String
 
         Public Overrides Function ToString() As String

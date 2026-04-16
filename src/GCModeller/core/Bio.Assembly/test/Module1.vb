@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::28bf8ab0c3cf7ac590993f110bca7dc9, core\Bio.Assembly\Test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::43ad3325bc82434bb2dacb44a87b1868, core\Bio.Assembly\Test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 12
+    '    Code Lines: 8 (66.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (33.33%)
+    '     File Size: 245 B
+
+
     ' Module Module1
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -43,7 +55,7 @@ Imports r = System.Text.RegularExpressions.Regex
 
 Module Module1
 
-    Sub Main()
+    Sub Main1()
         Dim xml = "P:\.iGEM\BBa_K1188002.Xml".ReadAllText
 
         xml = r.Replace(xml, "<![-][-].*[-][-]>", "")

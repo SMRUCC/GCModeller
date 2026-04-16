@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::51d1131fcf7db456623a508973a605fb, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
+﻿#Region "Microsoft.VisualBasic::5b61d21629afa465316134f82ecba8af, core\Bio.Assembly\SequenceModel\Patterns\Clustal\Residue.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 98 (62.82%)
+    ' Comment Lines: 42 (26.92%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 16 (10.26%)
+    '     File Size: 6.43 KB
+
+
     '     Class SR
     ' 
     '         Properties: Block, Frq, Index, Residue
@@ -42,11 +54,8 @@
 
 #End Region
 
-Imports System.Text
-Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq.Extensions
-Imports Microsoft.VisualBasic
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Namespace SequenceModel.Patterns.Clustal

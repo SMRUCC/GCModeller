@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dee305340330adaf5a5f2cb4c32f8089, Data\DataFrame\StorageProvider\ComponntModels\ReflectionBridges\KeyValuePair.vb"
+﻿#Region "Microsoft.VisualBasic::8d3b610070df4bf6de0cd82b8c3cc496, Data\DataFrame\StorageProvider\ComponntModels\ReflectionBridges\KeyValuePair.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 72
+    '    Code Lines: 54 (75.00%)
+    ' Comment Lines: 5 (6.94%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 13 (18.06%)
+    '     File Size: 3.00 KB
+
+
     '     Class KeyValuePair
     ' 
     '         Properties: Name, ProviderId
@@ -51,7 +63,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 
 Namespace StorageProvider.ComponentModels
 

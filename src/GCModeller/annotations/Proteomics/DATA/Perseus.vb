@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aa5ff3dc7e6fb7591b4f4cc3a0c0ce85, annotations\Proteomics\DATA\Perseus.vb"
+﻿#Region "Microsoft.VisualBasic::ae6f586380f263fd7da1248f4ef5713b, annotations\Proteomics\DATA\Perseus.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 71
+    '    Code Lines: 49 (69.01%)
+    ' Comment Lines: 12 (16.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (14.08%)
+    '     File Size: 2.96 KB
+
+
     ' Class Perseus
     ' 
     '     Properties: Data, ExpressionValues, geneID, Intensity, Majority_proteinIDs
@@ -49,7 +61,7 @@ Imports System.Web.Script.Serialization
 #End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>

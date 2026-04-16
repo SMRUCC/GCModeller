@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e07c271d78ba202131573779d48f3c42, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
+﻿#Region "Microsoft.VisualBasic::8843fdc0e9cb3660c211fe9eba760d21, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\TabularFormat\FeatureBriefs\PTT\Rpt.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 87 (76.32%)
+    ' Comment Lines: 12 (10.53%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (13.16%)
+    '     File Size: 4.95 KB
+
+
     '     Class Rpt
     ' 
     '         Properties: Accession, CDSCount, GeneticCode, GI, NumberOfGenes
     '                     Others, ProteinCount, PseudoCDSCount, PseudoGeneCount, Publications
     '                     RNACount, Size, Taxid, Taxname, Total
     ' 
-    '         Function: CopyTo, GetValue, Load, (+2 Overloads) Save, ToString
+    '         Function: CopyTo, GetValue, Load, (+3 Overloads) Save, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.Language
@@ -136,11 +149,20 @@ Namespace Assembly.NCBI.GenBank.TabularFormat
                                                    Let strKey As String = Mid(sValue, 1, Len(Key))
                                                    Where String.Equals(strKey, Key, StringComparison.OrdinalIgnoreCase)
                                                    Select sValue.Replace(Key, "")
-            Return Trim(LQuery)
+            Return Strings.Trim(LQuery)
         End Function
 
         Public Function Save(FilePath As String, Encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Throw New NotImplementedException()
+        End Function
+
+        Public Function Save(file As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(file, encoding)
+                Throw New NotImplementedException
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(FilePath As String, Optional Encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

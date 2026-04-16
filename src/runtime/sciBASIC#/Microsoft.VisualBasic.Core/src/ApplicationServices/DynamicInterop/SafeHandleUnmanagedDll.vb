@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::24b50cb3dd4b1122cc2e8799aa3279e6, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb"
+﻿#Region "Microsoft.VisualBasic::ab073e36270b8618d0f79c6cc793c9ac, Microsoft.VisualBasic.Core\src\ApplicationServices\DynamicInterop\SafeHandleUnmanagedDll.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 94
+    '    Code Lines: 66 (70.21%)
+    ' Comment Lines: 12 (12.77%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 16 (17.02%)
+    '     File Size: 3.54 KB
+
+
     '     Class SafeHandleUnmanagedDll
+    ' 
+    '         Properties: LibraryHandle
     ' 
     '         Constructor: (+1 Overloads) Sub New
     ' 
-    '         Function: FreeLibrary, GetFunctionAddress, GetLastError, ReleaseHandle
+    '         Function: FreeLibrary, GetFunctionAddress, GetLastError, GetNativeLibraryLoader, ReleaseHandle
+    '                   ToString
     ' 
     '         Sub: Dispose
     ' 
@@ -44,32 +59,50 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports System.Security.Permissions
 Imports Microsoft.Win32.SafeHandles
 
 Namespace ApplicationServices.DynamicInterop
 
     <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
-    Friend NotInheritable Class SafeHandleUnmanagedDll
-        Inherits SafeHandleZeroOrMinusOneIsInvalid
+    Friend NotInheritable Class SafeHandleUnmanagedDll : Inherits SafeHandleZeroOrMinusOneIsInvalid
 
-        Public Sub New(dllName As String)
+        ReadOnly libraryLoader As IDynamicLibraryLoader
+        ReadOnly unix_dl_open_flag As Integer = UnixLibraryLoader.RTLD_LAZY
+
+        ''' <summary>
+        ''' get the library handle which is load via the ``LoadLibrary`` function.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property LibraryHandle As IntPtr
+            <MethodImpl(MethodImplOptions.AggressiveInlining)>
+            Get
+                Return Me.handle
+            End Get
+        End Property
+
+        Public Sub New(dllName As String, Optional unix_dl_open_flag As Integer = UnixLibraryLoader.RTLD_LAZY)
             MyBase.New(True)
-            Dim libraryLoader As IDynamicLibraryLoader = Nothing
 
+            Me.unix_dl_open_flag = unix_dl_open_flag
+            Me.libraryLoader = GetNativeLibraryLoader()
+            Me.handle = libraryLoader.LoadLibrary(dllName)
+        End Sub
+
+        Private Function GetNativeLibraryLoader() As IDynamicLibraryLoader
             If IsUnix Then
-                libraryLoader = New UnixLibraryLoader()
+                Return New UnixLibraryLoader() With {.dlopen_flag = unix_dl_open_flag}
             ElseIf Environment.OSVersion.Platform = PlatformID.Win32NT Then
-                libraryLoader = New WindowsLibraryLoader()
+                Return New WindowsLibraryLoader()
             Else
                 Throw New NotSupportedException(GetPlatformNotSupportedMsg())
             End If
+        End Function
 
-            Me.libraryLoader = libraryLoader
-            handle = libraryLoader.LoadLibrary(dllName)
-        End Sub
-
-        Private ReadOnly libraryLoader As IDynamicLibraryLoader
+        Public Overrides Function ToString() As String
+            Return $"[{handle.ToString}] native_library_loader={libraryLoader}"
+        End Function
 
         ''' <summary>
         ''' Frees the native library this objects represents

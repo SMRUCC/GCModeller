@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::46ce1927f2f56171f5a7f563a2060cca, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
+﻿#Region "Microsoft.VisualBasic::01acbf036a67da4c4cfe26aa7bb9401c, core\Bio.Assembly\SequenceModel\FASTA\IO\FastaToken.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 619
+    '    Code Lines: 332 (53.63%)
+    ' Comment Lines: 203 (32.79%)
+    '    - Xml Docs: 91.63%
+    ' 
+    '   Blank Lines: 84 (13.57%)
+    '     File Size: 25.69 KB
+
+
     '     Class FastaSeq
     ' 
     '         Properties: HaveGaps, Headers, Length, locus_tag, SequenceData
     '                     Title
     ' 
-    '         Constructor: (+7 Overloads) Sub New
+    '         Constructor: (+8 Overloads) Sub New
     ' 
     '         Function: Clone, Complement, Copy, Equals, GenerateDocument
     '                   GenerateDocumentText, GetSequenceData, GrepTitle, Load, LoadNucleotideData
@@ -70,9 +82,11 @@ Namespace SequenceModel.FASTA
     ''' <summary>
     ''' The FASTA format file of a bimolecular sequence.(Notice that this file is 
     ''' only contains on sequence.)
-    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，请复写<see cref="FastaSeq.ToString"></see>方法)
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>
+    ''' FASTA格式的生物分子序列文件。(但是请注意：文件中只包含一条序列的情况，假若需要自定义所生成的FASTA文件的标题的格式，
+    ''' 请复写<see cref="FastaSeq.ToString"></see>方法)
+    ''' </remarks>
     ''' 
     <Package("GCModeller.IO.FastaToken", Publisher:="amethyst.asuka@gcmodeller.org")>
     <ActiveViewsAttribute(FastaSeq.SampleView, type:="bash")>
@@ -105,29 +119,32 @@ AAGCGAACAAATGTTCTATA"
         ''' 方便通过<see cref="FASTA.FastaSeq.AddAttribute">Add接口</see>向<see cref="FASTA.FastaSeq.Headers">Attribute列表</see>中添加数据
         ''' </summary>
         ''' <remarks></remarks>
-        Dim innerList As List(Of String)
+        Dim metadata As List(Of String)
 
         ''' <summary>
         ''' The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
         ''' specific loader and gets some well organized information about the sequence. The format of the header is 
-        ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' usually different between each biological database.
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' </remarks>
         Public Overridable Property Headers As String() Implements IAbstractFastaToken.headers
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return innerList.ToArray
+                Return metadata.ToArray
             End Get
             Set(value As String())
-                innerList = value.AsList
+                metadata = value.AsList
             End Set
         End Property
 
         ''' <summary>
         ''' The sequence data that contains in this FASTA file.
-        ''' (包含在这个FASTA文件之中的序列数据)
         ''' </summary>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (包含在这个FASTA文件之中的序列数据)
+        ''' </remarks>
         Public Overrides Property SequenceData As String
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -139,12 +156,14 @@ AAGCGAACAAATGTTCTATA"
         End Property
 
         ''' <summary>
-        ''' Get the sequence length of this Fasta object.(获取序列的长度)
+        ''' Get the sequence length of this Fasta object.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Overrides ReadOnly Property Length As Integer
+        ''' <remarks>
+        ''' (获取序列的长度)
+        ''' </remarks>
+        Public Overrides ReadOnly Property Length As Integer Implements IFastaProvider.length
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return Len(Me.SequenceData)
@@ -152,11 +171,13 @@ AAGCGAACAAATGTTCTATA"
         End Property
 
         ''' <summary>
-        ''' The first character ">" is not included in the title string data.(标题之中是不包含有FASTA数据的第一个>字符的)
+        ''' The first character ">" is not included in the title string data.
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (标题之中是不包含有FASTA数据的第一个>字符的)
+        ''' </remarks>
         Public ReadOnly Property Title As String Implements IAbstractFastaToken.title, IFastaProvider.title
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
@@ -164,6 +185,10 @@ AAGCGAACAAATGTTCTATA"
             End Get
         End Property
 
+        ''' <summary>
+        ''' split the first token of the headers inside title as the unique reference id of current sequence object.
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property locus_tag As String
             Get
                 Return Headers(Scan0).Trim.Split.First
@@ -173,28 +198,28 @@ AAGCGAACAAATGTTCTATA"
 
 #Region "Header Attributes Operations"
         Public Sub AddAttribute(attrValue As String)
-            Call innerList.Add(attrValue)
+            Call metadata.Add(attrValue)
         End Sub
 
         Public Sub InsertAttribute(attrValue As String, Index As Integer)
-            If innerList.Count - 1 > Index Then
-                Call innerList.Insert(Index, attrValue)
+            If metadata.Count - 1 > Index Then
+                Call metadata.Insert(Index, attrValue)
             Else
-                Call innerList.Add(attrValue)
+                Call metadata.Add(attrValue)
             End If
         End Sub
 
         Public Sub RemoveAttribute(attrIndex As Integer)
-            If innerList.Count - 1 > attrIndex Then
-                Call innerList.RemoveAt(attrIndex)
+            If metadata.Count - 1 > attrIndex Then
+                Call metadata.RemoveAt(attrIndex)
             End If
         End Sub
 
         Public Sub SetAttribute(attrIndex As Integer, value As String)
-            If innerList.Count - 1 > attrIndex Then
-                innerList(attrIndex) = value
+            If metadata.Count - 1 > attrIndex Then
+                metadata(attrIndex) = value
             Else
-                Call innerList.Add(value)
+                Call metadata.Add(value)
             End If
         End Sub
 #End Region
@@ -219,9 +244,9 @@ AAGCGAACAAATGTTCTATA"
             SequenceData = fa.SequenceData
         End Sub
 
-        Sub New(seq As IAbstractFastaToken)
-            Me.SequenceData = seq.SequenceData
-            Me.Headers = seq.headers
+        Sub New(fa As IAbstractFastaToken)
+            Me.SequenceData = fa.SequenceData
+            Me.Headers = fa.headers
         End Sub
 
         Sub New(attrs As IEnumerable(Of String), seq As String)
@@ -232,6 +257,11 @@ AAGCGAACAAATGTTCTATA"
         Sub New(seq As IFastaProvider, Optional attributeParser As Func(Of String, String()) = Nothing)
             Me.SequenceData = seq.GetSequenceData
             Me.Headers = (attributeParser Or defaultTitleAttributes)(seq.title)
+        End Sub
+
+        Sub New(seq As SimpleSegment)
+            Me.SequenceData = seq.SequenceData
+            Me.Headers = {seq.ID}
         End Sub
 
         Sub New(attrs$(), seq As IPolymerSequenceModel)
@@ -306,7 +336,7 @@ AAGCGAACAAATGTTCTATA"
             End If
 
             If nt.IsProtSource Then   '判断是否为蛋白质序列
-                Call $" ""{path.ToFileURL}"" is a protein sequence!".__DEBUG_ECHO
+                Call $" ""{path.ToFileURL}"" is a protein sequence!".debug
 
                 If strict Then
                     Return Nothing
@@ -324,7 +354,7 @@ AAGCGAACAAATGTTCTATA"
             End If
 
             If nt.HaveGaps Then
-                Call $" ""{path.ToFileURL}"" has gaps in the sequence data!".__DEBUG_ECHO
+                Call $" ""{path.ToFileURL}"" has gaps in the sequence data!".debug
 
                 If strict Then
                     Return Nothing
@@ -348,7 +378,7 @@ AAGCGAACAAATGTTCTATA"
             Dim lines As String() = IO.File.ReadAllLines(file.FixPath)
 
             If lines.IsNullOrEmpty Then
-                Call $" {file.ToFileURL} is null or empty!".__DEBUG_ECHO
+                Call $" {file.ToFileURL} is null or empty!".debug
                 Return Nothing
             Else
                 Return ParseFromStream(lines, If(deli.IsNullOrEmpty, {"|"c}, deli))
@@ -384,11 +414,11 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Try parsing a fasta sequence object from a string chunk value.(尝试从一个字符串之中解析出一个fasta序列数据)
+        ''' Try parsing a fasta sequence object from a string chunk value.
         ''' </summary>
         ''' <param name="s">The string text value which is in the Fasta format.(FASTA格式的序列文本)</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(尝试从一个字符串之中解析出一个fasta序列数据)</remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <ExportAPI("FastaToken.Parser")>
         Public Shared Function TryParse(s As String, Optional deli As Char = DefaultHeaderDelimiter) As FastaSeq
@@ -396,12 +426,12 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Generate a FASTA file data text string.(将这个FASTA对象转换为文件格式以方便进行存储)
+        ''' Generate a FASTA file data text string.
         ''' </summary>
         ''' <param name="overrides">是否使用<see cref="ToString"></see>方法进行标题的复写，假若为假，则默认使用Attributes属性进行标题的生成，
         ''' 因为在继承类之中可能会复写ToString函数以生成不同的标题格式，则可以使用这个参数来决定是否使用复写的格式。</param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(将这个FASTA对象转换为文件格式以方便进行存储)</remarks>
         ''' <param name="lineBreak">大于0的数值会换行，小于或者等于0的数值不会换行</param>
         Public Function GenerateDocument(lineBreak As Integer,
                                          Optional [overrides] As Boolean = True,
@@ -436,7 +466,20 @@ AAGCGAACAAATGTTCTATA"
             End If
         End Sub
 
+        ''' <summary>
+        ''' break the input sequence string into multiple lines
+        ''' </summary>
+        ''' <param name="lineBreak"></param>
+        ''' <param name="sequence"></param>
+        ''' <returns>
+        ''' this function will returns empty string always if the given 
+        ''' input <paramref name="sequence"/> is empty or nothing.
+        ''' </returns>
         Public Shared Function SequenceLineBreak(lineBreak%, sequence$) As String
+            If sequence.StringEmpty Then
+                Return ""
+            End If
+
             With New StringBuilder
                 FastaSeq.SequenceLineBreak(.ByRef, lineBreak, sequence)
                 Return .ToString
@@ -550,15 +593,15 @@ AAGCGAACAAATGTTCTATA"
         ''' </summary>
         Const InvalidComplementSource As String = "Data type miss match: the sequence information is a protein sequence, can not get complement sequence."
 
-        ''' <summary>
-        ''' Generate the document text value for this fasta object.
-        ''' </summary>
-        ''' <param name="obj"></param>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Shared Shadows Narrowing Operator CType(obj As FastaSeq) As String
-            Return obj.GenerateDocument(lineBreak:=60)
-        End Operator
+        '''' <summary>
+        '''' Generate the document text value for this fasta object.
+        '''' </summary>
+        '''' <param name="obj"></param>
+        '''' <returns></returns>
+        '''' <remarks></remarks>
+        'Public Shared Shadows Narrowing Operator CType(obj As FastaSeq) As String
+        '    Return obj.GenerateDocument(lineBreak:=60)
+        'End Operator
 
         <ExportAPI("ToDoc")>
         Public Shared Function GenerateDocumentText(FastaObject As IAbstractFastaToken) As String
@@ -577,7 +620,8 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> smaller than 1 will means no line break in the saved fasta sequence.
+        ''' Save the current fasta sequence object into the file system. <param name="lineBreak"></param> 
+        ''' smaller than 1 will means no line break in the saved fasta sequence.
         ''' </summary>
         ''' <param name="Path"></param>
         ''' <param name="encoding"></param>

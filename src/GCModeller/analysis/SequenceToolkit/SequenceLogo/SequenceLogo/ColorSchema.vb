@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2569dfec63a7793c9142e4bac5632001, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
+﻿#Region "Microsoft.VisualBasic::b8d3edf5dde4f475c0f2f6004c5f1c62, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\ColorSchema.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
-    '     Module ColorSchema
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 95 (73.64%)
+    ' Comment Lines: 22 (17.05%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (9.30%)
+    '     File Size: 7.61 KB
+
+
+    '     Class ColorSchema
     ' 
     '         Properties: DNAcolors, NucleotideSchema, ProteinSchema
     ' 
-    '         Function: __getTexture
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: CreateAlphabetImageTexture
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,9 +56,35 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Driver
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace SequenceLogo
 
@@ -57,7 +96,7 @@ Namespace SequenceLogo
     ''' 多线程操作图片对象很可能会出现<see cref="System.InvalidOperationException"/>: Object is currently in use elsewhere.的错误
     ''' 所以在这里不再使用只读属性的简写形式
     ''' </remarks>
-    Public Module ColorSchema
+    Public Class ColorSchema
 
         ''' <summary>
         ''' Color schema for the nucleotide sequence.(核酸Motif的profiles)
@@ -67,10 +106,10 @@ Namespace SequenceLogo
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Dictionary(Of Char, Image) From {
-                    {"A"c, ColorSchema.__getTexture(Color.Green, "A")},
-                    {"T"c, ColorSchema.__getTexture(Color.Red, "T")},
-                    {"G"c, ColorSchema.__getTexture(Color.Yellow, "G")},
-                    {"C"c, ColorSchema.__getTexture(Color.Blue, "C")}
+                    {"A"c, CreateAlphabetImageTexture(DNAcolors("A"c).Color, "A")},
+                    {"T"c, CreateAlphabetImageTexture(DNAcolors("T"c).Color, "T")},
+                    {"G"c, CreateAlphabetImageTexture(DNAcolors("G"c).Color, "G")},
+                    {"C"c, CreateAlphabetImageTexture(DNAcolors("C"c).Color, "C")}
                 }
             End Get
         End Property
@@ -82,30 +121,34 @@ Namespace SequenceLogo
             {"C"c, Brushes.Blue}
         }
 
+        ReadOnly backColor As Color = Color.White
+
+        Sub New(backColor As Color)
+            Me.backColor = backColor
+        End Sub
+
         ''' <summary>
         ''' Creates the image cache for the alphabet.
         ''' </summary>
         ''' <param name="color"></param>
         ''' <param name="alphabet"></param>
         ''' <returns></returns>
-        Private Function __getTexture(color As Color, alphabet$) As Image
-            Dim bitmap As New Bitmap(680, 680)
+        Private Function CreateAlphabetImageTexture(color As Color, alphabet$) As Image
             Dim font As New Font(FontFace.Ubuntu, 650)
             Dim br As New SolidBrush(color:=color)
 
-            Using gdi As Graphics = Graphics.FromImage(bitmap)
-                Dim size As SizeF = gdi.MeasureString(alphabet, font:=font)
-                Dim w As Integer = (bitmap.Width - size.Width) / 2
-                Dim h As Integer = (bitmap.Height - size.Height) * 0.45
-                Dim pos As New Point(w, h)
+            Using g As IGraphics = DriverLoad.CreateGraphicsDevice(New Size(680, 680), backColor, driver:=Drivers.GDI)
+                Dim size As SizeF = g.MeasureString(alphabet, font:=font)
+                Dim w As Integer = (g.Width - size.Width) / 2
+                Dim h As Integer = (g.Height - size.Height) * 0.45
+                Dim pos As New PointF(w, h)
 
-                gdi.CompositingQuality = CompositingQuality.HighQuality
-                gdi.CompositingMode = CompositingMode.SourceOver
+                Call g.DrawString(alphabet, font, br, point:=pos)
 
-                Call gdi.DrawString(alphabet, font, br, point:=pos)
+                Dim img As Image = DirectCast(g, GdiRasterGraphics).ImageResource
+                img = img.CorpBlank(blankColor:=backColor)
+                Return img
             End Using
-
-            Return bitmap
         End Function
 
         ''' <summary>
@@ -116,28 +159,28 @@ Namespace SequenceLogo
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Dictionary(Of Char, Image) From {
-                    {"A"c, ColorSchema.__getTexture(Color.CadetBlue, "A")},      'Alanine	     Ala	A	nonpolar	    neutral	        1.8			89
-                    {"R"c, ColorSchema.__getTexture(Color.Black, "R")},          'Arginine	     Arg	R	Basic polar	    positive	   −4.5			174
-                    {"N"c, ColorSchema.__getTexture(Color.Chocolate, "N")},      'Asparagine 	 Asn	N	polar	        neutral        −3.5			132
-                    {"D"c, ColorSchema.__getTexture(Color.Coral, "D")},          'Aspartic acid	 Asp	D	acidic polar	negative	   −3.5			133
-                    {"C"c, ColorSchema.__getTexture(Color.Chartreuse, "C")},     'Cysteine	     Cys	C	nonpolar	    neutral	        2.5	250	0.3	121
-                    {"E"c, ColorSchema.__getTexture(Color.Cyan, "E")},           'Glutamic acid	 Glu	E	acidic polar	negative	   −3.5			147
-                    {"Q"c, ColorSchema.__getTexture(Color.LawnGreen, "Q")},      'Glutamine	     Gln	Q	polar	        neutral	       −3.5			146
-                    {"G"c, ColorSchema.__getTexture(Color.DarkMagenta, "G")},    'Glycine	     Gly	G	nonpolar	    neutral	       −0.4			75
-                    {"H"c, ColorSchema.__getTexture(Color.Gold, "H")},           'Histidine	     His	H	Basic polar	    neutral(90%)   −3.2	211	
-                    {"I"c, ColorSchema.__getTexture(Color.HotPink, "I")},        'Isoleucine     Ile	I	nonpolar	    neutral	        4.5			131
-                    {"L"c, ColorSchema.__getTexture(Color.LightSlateGray, "L")}, 'Leucine	     Leu	L	nonpolar	    neutral	        3.8			131
-                    {"K"c, ColorSchema.__getTexture(Color.Yellow, "K")},         'Lysine	     Lys	K	Basic polar	    positive       −3.9			146
-                    {"M"c, ColorSchema.__getTexture(Color.Teal, "M")},           'Methionine     Met	M	nonpolar	    neutral	        1.9			149
-                    {"F"c, ColorSchema.__getTexture(Color.SaddleBrown, "F")},    'Phenylalanine	 Phe	F	nonpolar	    neutral	        2.8	257, 206, 188	0.2, 9.3, 60.0	165
-                    {"P"c, ColorSchema.__getTexture(Color.Red, "P")},            'Proline	     Pro	P	nonpolar	    neutral	       −1.6			115
-                    {"S"c, ColorSchema.__getTexture(Color.RoyalBlue, "S")},      'Serine	     Ser	S	polar	        neutral	       −0.8			105
-                    {"T"c, ColorSchema.__getTexture(Color.Tomato, "T")},         'Threonine	     Thr	T	polar	        neutral	       −0.7			119
-                    {"W"c, ColorSchema.__getTexture(Color.MediumSeaGreen, "W")}, 'Tryptophan     Trp	W	nonpolar	    neutral	       −0.9	280, 219	5.6, 47.0	204
-                    {"Y"c, ColorSchema.__getTexture(Color.SkyBlue, "Y")},        'Tyrosine	     Tyr	Y	polar	        neutral	       −1.3	274, 222, 193	1.4, 8.0, 48.0	181
-                    {"V"c, ColorSchema.__getTexture(Color.Maroon, "V")}          'Valine	     Val	V	nonpolar	    neutral	        4.2			117
+                    {"A"c, CreateAlphabetImageTexture(Color.CadetBlue, "A")},      'Alanine	     Ala	A	nonpolar	    neutral	        1.8			89
+                    {"R"c, CreateAlphabetImageTexture(Color.Black, "R")},          'Arginine	     Arg	R	Basic polar	    positive	   −4.5			174
+                    {"N"c, CreateAlphabetImageTexture(Color.Chocolate, "N")},      'Asparagine 	 Asn	N	polar	        neutral        −3.5			132
+                    {"D"c, CreateAlphabetImageTexture(Color.Coral, "D")},          'Aspartic acid	 Asp	D	acidic polar	negative	   −3.5			133
+                    {"C"c, CreateAlphabetImageTexture(Color.Chartreuse, "C")},     'Cysteine	     Cys	C	nonpolar	    neutral	        2.5	250	0.3	121
+                    {"E"c, CreateAlphabetImageTexture(Color.Cyan, "E")},           'Glutamic acid	 Glu	E	acidic polar	negative	   −3.5			147
+                    {"Q"c, CreateAlphabetImageTexture(Color.LawnGreen, "Q")},      'Glutamine	     Gln	Q	polar	        neutral	       −3.5			146
+                    {"G"c, CreateAlphabetImageTexture(Color.DarkMagenta, "G")},    'Glycine	     Gly	G	nonpolar	    neutral	       −0.4			75
+                    {"H"c, CreateAlphabetImageTexture(Color.Gold, "H")},           'Histidine	     His	H	Basic polar	    neutral(90%)   −3.2	211	
+                    {"I"c, CreateAlphabetImageTexture(Color.HotPink, "I")},        'Isoleucine     Ile	I	nonpolar	    neutral	        4.5			131
+                    {"L"c, CreateAlphabetImageTexture(Color.LightSlateGray, "L")}, 'Leucine	     Leu	L	nonpolar	    neutral	        3.8			131
+                    {"K"c, CreateAlphabetImageTexture(Color.Yellow, "K")},         'Lysine	     Lys	K	Basic polar	    positive       −3.9			146
+                    {"M"c, CreateAlphabetImageTexture(Color.Teal, "M")},           'Methionine     Met	M	nonpolar	    neutral	        1.9			149
+                    {"F"c, CreateAlphabetImageTexture(Color.SaddleBrown, "F")},    'Phenylalanine	 Phe	F	nonpolar	    neutral	        2.8	257, 206, 188	0.2, 9.3, 60.0	165
+                    {"P"c, CreateAlphabetImageTexture(Color.Red, "P")},            'Proline	     Pro	P	nonpolar	    neutral	       −1.6			115
+                    {"S"c, CreateAlphabetImageTexture(Color.RoyalBlue, "S")},      'Serine	     Ser	S	polar	        neutral	       −0.8			105
+                    {"T"c, CreateAlphabetImageTexture(Color.Tomato, "T")},         'Threonine	     Thr	T	polar	        neutral	       −0.7			119
+                    {"W"c, CreateAlphabetImageTexture(Color.MediumSeaGreen, "W")}, 'Tryptophan     Trp	W	nonpolar	    neutral	       −0.9	280, 219	5.6, 47.0	204
+                    {"Y"c, CreateAlphabetImageTexture(Color.SkyBlue, "Y")},        'Tyrosine	     Tyr	Y	polar	        neutral	       −1.3	274, 222, 193	1.4, 8.0, 48.0	181
+                    {"V"c, CreateAlphabetImageTexture(Color.Maroon, "V")}          'Valine	     Val	V	nonpolar	    neutral	        4.2			117
                 }
             End Get
         End Property
-    End Module
+    End Class
 End Namespace

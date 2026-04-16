@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f2543dedb8f17af8f73721140a642b89, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
+﻿#Region "Microsoft.VisualBasic::18875fc2023a9376da3c9753affb1008, analysis\RNA-Seq\WGCNA\Network\WeightNode.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 50 (75.76%)
+    ' Comment Lines: 8 (12.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.12%)
+    '     File Size: 2.55 KB
+
+
     '     Class Weight
     ' 
-    '         Properties: direction, fromAltName, FromNode, toAltName, ToNode
-    '                     Weight
+    '         Properties: direction, fromAltName, fromNode, toAltName, toNode
+    '                     weight
     ' 
     '         Function: (+2 Overloads) Find, GetOpposite, ToString
     ' 
@@ -43,8 +55,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 
 Namespace Network
 
@@ -54,11 +66,11 @@ Namespace Network
     Public Class Weight : Implements IInteraction
 
         <Column("fromNode")>
-        Public Property FromNode As String Implements IInteraction.source
+        Public Property fromNode As String Implements IInteraction.source
         <Column("toNode")>
-        Public Property ToNode As String Implements IInteraction.target
+        Public Property toNode As String Implements IInteraction.target
         <Column("weight")>
-        Public Property Weight As Double
+        Public Property weight As Double
         Public Property direction As String
         Public Property fromAltName As String
         Public Property toAltName As String
@@ -99,5 +111,13 @@ Namespace Network
                           Select item).ToArray
             Return LQuery
         End Function
+
+        Public Shared Narrowing Operator CType(node As Weight) As Double
+            If node Is Nothing Then
+                Return 0
+            Else
+                Return node.weight
+            End If
+        End Operator
     End Class
 End Namespace

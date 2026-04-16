@@ -1,0 +1,62 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "G:\\GCModeller\\src\\GCModeller\\data\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\kinetics.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|g:\\gcmodeller\\src\\gcmodeller\\data\\sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{2C30B37B-3A5D-423B-B07A-CAB90B4BF256}|SABIO-RK\\SABIO-RK.NET.vbproj|solutionrelative:sabio-rk\\dumps\\enzyme.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Kinetics.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Kinetics.vb",
+              "RelativeToolTip": "SABIO-RK\\Dumps\\Kinetics.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFYAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T05:39:09.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Enzyme.vb",
+              "DocumentMoniker": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Enzyme.vb",
+              "RelativeDocumentMoniker": "SABIO-RK\\Dumps\\Enzyme.vb",
+              "ToolTip": "G:\\GCModeller\\src\\GCModeller\\data\\SABIO-RK\\Dumps\\Enzyme.vb",
+              "RelativeToolTip": "SABIO-RK\\Dumps\\Enzyme.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2024-08-25T05:39:07.358Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

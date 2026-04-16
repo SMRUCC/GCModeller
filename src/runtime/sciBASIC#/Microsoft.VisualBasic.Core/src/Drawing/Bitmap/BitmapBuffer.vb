@@ -1,0 +1,980 @@
+﻿#Region "Microsoft.VisualBasic::bd738ba1b6fa13988cc7df87040ecff2, Microsoft.VisualBasic.Core\src\Drawing\Bitmap\BitmapBuffer.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 912
+    '    Code Lines: 535 (58.66%)
+    ' Comment Lines: 231 (25.33%)
+    '    - Xml Docs: 77.49%
+    ' 
+    '   Blank Lines: 146 (16.01%)
+    '     File Size: 31.19 KB
+
+
+    '     Class BitmapBuffer
+    ' 
+    '         Properties: Height, Size, SortBins, Stride, UInt32Black1
+    '                     UInt32Black2, UInt32White, Width
+    ' 
+    '         Constructor: (+8 Overloads) Sub New
+    ' 
+    '         Function: A, B, (+2 Overloads) FromBitmap, FromImage, G
+    '                   GetAlpha, GetARGB, GetARGBStream, GetBlue, GetColor
+    '                   GetEnumerator, GetGreen, GetHandleObject, GetImage, (+2 Overloads) GetIndex
+    '                   (+3 Overloads) GetPixel, GetPixelChannels, GetPixelsAll, GetRed, OutOfRange
+    '                   R, ToPixel2D, ToString, (+2 Overloads) Unpack, White
+    ' 
+    '         Sub: Dispose, (+2 Overloads) Save, SetAlpha, SetBlue, SetGreen
+    '              (+4 Overloads) SetPixel, SetRed, WriteARGBStream
+    ' 
+    '         Operators: +
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Drawing
+Imports System.Drawing.Imaging
+Imports System.IO
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Language.Java
+Imports Microsoft.VisualBasic.Linq
+Imports BitsPerPixelEnum = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.BitsPerPixelEnum
+Imports MemoryBmp = Microsoft.VisualBasic.Imaging.BitmapImage.FileStream.Bitmap
+Imports std = System.Math
+
+Namespace Imaging.BitmapImage
+
+    ''' <summary>
+    ''' Unsafe memory pointer of the <see cref="Bitmap"/> data buffer. buffer image object in java
+    ''' </summary>
+    ''' <remarks>
+    ''' (线程不安全的图片数据对象)
+    ''' </remarks>
+    Public Class BitmapBuffer : Inherits Emit.Marshal.Byte
+        Implements IDisposable
+        Implements Enumeration(Of Color)
+
+#If NET48 Then
+        Protected raw As Bitmap
+#End If
+
+        ''' <summary>
+        ''' BitmapData
+        ''' </summary>
+        Protected handle As Object
+
+        ''' <summary>
+        ''' current bitmap data is construct from a pixel data array, not read from memory via pointer.
+        ''' </summary>
+        ReadOnly memoryBuffer As Boolean = False
+
+        ''' <summary>
+        ''' 图片可能是 BGRA 4通道
+        ''' 也可能是 BGR 3通道的
+        ''' </summary>
+        ReadOnly channels As Integer
+
+        Public ReadOnly Property SortBins As Dictionary(Of Byte, Integer)
+            Get
+                Return buffer _
+                    .GroupBy(Function(b) b) _
+                    .ToDictionary(Function(b) b.Key,
+                                  Function(b)
+                                      Return b.Count
+                                  End Function)
+            End Get
+        End Property
+
+#If NET48 Then
+
+        ''' <summary>
+        ''' constructor for gdi+ image data object
+        ''' </summary>
+        ''' <param name="ptr"></param>
+        ''' <param name="byts"></param>
+        ''' <param name="raw"></param>
+        ''' <param name="handle"></param>
+        ''' <param name="channel"></param>
+        Public Sub New(ptr As IntPtr,
+                       byts%,
+                       raw As Bitmap,
+                       handle As BitmapData,
+                       channel As Integer)
+
+            Call MyBase.New(ptr, byts)
+
+            Me.raw = raw
+            Me.handle = handle
+
+            Me.Stride = handle.Stride
+            Me.Width = raw.Width
+            Me.Height = raw.Height
+            Me.Size = New Size(Width, Height)
+            Me.channels = channel
+            Me.memoryBuffer = False
+        End Sub
+#End If
+
+        Sub New(ptr As IntPtr, byts%, size As Size, stride As Integer, channel As Integer, Optional handle As Object = Nothing)
+            Call MyBase.New(ptr, byts)
+
+            Me.Stride = stride
+            Me.Width = size.Width
+            Me.Height = size.Height
+            Me.Size = size
+            Me.channels = channel
+            Me.memoryBuffer = False
+            Me.handle = handle
+        End Sub
+
+        ''' <summary>
+        ''' Make the memory data copy
+        ''' </summary>
+        ''' <param name="ptr">the memory data will be copy via this pointer</param>
+        ''' <param name="byts"></param>
+        ''' <param name="channel"></param>
+        Sub New(ptr As IntPtr, byts%, channel As Integer)
+            Call MyBase.New(ptr, byts)
+
+            Me.memoryBuffer = False
+            Me.channels = channel
+
+            Throw New NotImplementedException
+        End Sub
+
+        Sub New(memory As Byte(), size As Size, channel As Integer)
+            Call MyBase.New(memory)
+
+            channels = channel
+            memoryBuffer = True
+
+            _Stride = size.Width * channel
+            _Size = size
+            _Width = size.Width
+            _Height = size.Height
+        End Sub
+
+        Sub New(width As Integer, height As Integer, Optional channels As Integer = TYPE_INT_ARGB)
+            Call Me.New(New Byte(width * height * channels - 1) {}, New Size(width, height), channels)
+        End Sub
+
+        ''' <summary>
+        ''' make in-memory data copy
+        ''' </summary>
+        ''' <param name="source"></param>
+        Sub New(source As BitmapBuffer)
+            Call Me.New(source.buffer.ToArray, source.Size, source.channels)
+        End Sub
+
+        Sub New(pixels As Color(,), size As Size)
+            Call MyBase.New(Unpack(pixels, size))
+
+            channels = TYPE_INT_ARGB  ' argb
+            memoryBuffer = True
+
+            _Stride = size.Width * channels
+            _Size = size
+            _Width = size.Width
+            _Height = size.Height
+        End Sub
+
+        Sub New(pixels As Color(), size As Size)
+            Call MyBase.New(Unpack(pixels, size))
+
+            channels = TYPE_INT_ARGB  ' argb
+            memoryBuffer = True
+
+            _Stride = size.Width * channels
+            _Size = size
+            _Width = size.Width
+            _Height = size.Height
+        End Sub
+
+        Public Const TYPE_INT_RGB As Integer = 3
+        Public Const TYPE_INT_ARGB As Integer = 4
+
+        ''' <summary>
+        ''' The dimension width of the current bitmap buffer object
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Width As Integer
+        ''' <summary>
+        ''' The dimension height of the current bitmap buffer object
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Height As Integer
+        ''' <summary>
+        ''' the dimension size of current bitmap buffer object, 
+        ''' it is constructed via the <see cref="Width"/> and 
+        ''' <see cref="Height"/> data.
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Size As Size
+
+        ''' <summary>
+        ''' Stride is the number of bytes your code must iterate past to reach the next vertical pixel.
+        ''' </summary>
+        ''' <returns>
+        ''' always be width * pixel_size on .NET 8.0 runtime;
+        ''' may be not matched with width * pixel_size on .net 4.8 runtime
+        ''' </returns>
+        Public ReadOnly Property Stride As Integer
+
+        ''' <summary>
+        ''' Create a new blank bitmap data with all pixel fill with color white
+        ''' </summary>
+        ''' <param name="width"></param>
+        ''' <param name="height"></param>
+        ''' <returns></returns>
+        Public Shared Function White(width As Integer, height As Integer) As BitmapBuffer
+            Dim bytes As Byte() = New Byte(width * height * 4 - 1) {}
+            Call bytes.fill(255)
+            Return New BitmapBuffer(bytes, New Size(width, height), 4)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetHandleObject() As Object
+            Return handle
+        End Function
+
+        ''' <summary>
+        ''' get the pixel channels in memory buffer
+        ''' </summary>
+        ''' <returns>
+        ''' 3 - for 24bit rgb pixel format
+        ''' 4 - for 32bit argb pixel format
+        ''' </returns>
+        Public Function GetPixelChannels() As Integer
+            Return channels
+        End Function
+
+        ''' <summary>
+        ''' Gets a copy of the original raw image value that which constructed 
+        ''' this bitmap object class
+        ''' </summary>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetImage(Optional flush As Boolean = False) As Bitmap
+            If flush Then
+                Call Write()
+            End If
+
+#If NET48 Then
+            Return DirectCast(raw.Clone, Bitmap)
+#Else
+            Return New Bitmap(Me)
+#End If
+        End Function
+
+        ' pixel:  (1,1)(2,1)(3,1)(4,1)(1,2)(2,2)(3,2)(4,2)
+        ' buffer: BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|BGRA|
+        ' bitmap pixels:
+        ' 
+        '    (1,1)(2,1)(3,1)(4,1)
+        '    (1,2)(2,2)(3,2)(4,2)
+        '
+        ' width  = 4 pixel
+        ' height = 2 pixel
+
+        ''' <summary>
+        ''' 返回第一个元素的位置
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns>B, G, R, [A]</returns>
+        ''' <remarks>
+        ''' ###### 2017-11-29 
+        ''' 经过测试，对第一行的数据的计算没有问题
+        ''' </remarks>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetIndex(x As Integer, y As Integer) As Integer
+            y = y * (Width * channels)
+            x = x * channels
+            Return x + y
+        End Function
+
+        Public Shared Function GetIndex(x As Integer, y As Integer, width As Integer, channels As Integer) As Integer
+            y = y * (width * channels)
+            x = x * channels
+            Return x + y
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function OutOfRange(x%, y%) As Boolean
+            Return x < 0 OrElse x >= Width OrElse y < 0 OrElse y >= Height
+        End Function
+
+        ''' <summary>
+        ''' Gets the color of the specified pixel in this <see cref="Bitmap"/>.
+        ''' (<paramref name="x"/>和<paramref name="y"/>都是以零为底的)
+        ''' </summary>
+        ''' <param name="x">The x-coordinate of the pixel to retrieve.</param>
+        ''' <param name="y">The y-coordinate of the pixel to retrieve.</param>
+        ''' <returns>
+        ''' A <see cref="Color"/> structure that represents the color of the specified pixel.
+        ''' </returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetPixel(x As Integer, y As Integer) As Color
+            Dim i As Integer = GetIndex(x, y)
+            Dim iA As Byte = 255
+
+            If channels = 4 Then
+                iA = buffer(i + 3)
+            End If
+
+            Dim iR As Byte = buffer(i + 2)
+            Dim iG As Byte = buffer(i + 1)
+            Dim iB As Byte = buffer(i + 0)
+
+            Return Color.FromArgb(CInt(iA), CInt(iR), CInt(iG), CInt(iB))
+        End Function
+
+        Public Function GetARGB() As Color(,)
+            Dim pixels As Color(,) = New Color(Height - 1, Width - 1) {}
+
+            For y As Integer = 0 To Height
+                For x As Integer = 0 To Width
+                    If Not OutOfRange(x, y) Then
+                        pixels(y, x) = GetPixel(x, y)
+                    End If
+                Next
+            Next
+
+            Return pixels
+        End Function
+
+        ''' <summary>
+        ''' get the alpha channel data from a given pixel
+        ''' </summary>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
+        Public Function GetAlpha(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+            Dim iA As Byte = 255
+
+            If channels = 4 Then
+                iA = buffer(i + 3)
+            End If
+
+            Return iA
+        End Function
+
+        Public Function GetRed(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 2)
+            End If
+        End Function
+
+        Public Function GetGreen(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 1)
+            End If
+        End Function
+
+        Public Function GetBlue(x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return 0
+            Else
+                Return buffer(i + 0)
+            End If
+        End Function
+
+        Public Function A() As Byte()
+            Dim alpha As Byte() = New Byte(Width * Height - 1) {}
+
+            If channels = TYPE_INT_ARGB Then
+                Dim offset As Integer = 0
+
+                'ARGB
+                For i As Integer = 0 To buffer.Length - 1 Step 4
+                    alpha(offset) = buffer(i)
+                    offset += 1
+                Next
+            Else
+                ' RGB
+                For i As Integer = 0 To alpha.Length - 1
+                    alpha(i) = 255
+                Next
+            End If
+
+            Return alpha
+        End Function
+
+        Public Function R() As Byte()
+            Dim red As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 1, 0)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                red(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return red
+        End Function
+
+        Public Function G() As Byte()
+            Dim green As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 2, 1)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                green(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return green
+        End Function
+
+        Public Function B() As Byte()
+            Dim blue As Byte() = New Byte(Width * Height - 1) {}
+            Dim pad As Integer = If(channels = TYPE_INT_ARGB, 3, 2)
+            Dim offset As Integer = 0
+
+            For i As Integer = 0 To buffer.Length - 1 Step channels
+                blue(offset) = buffer(i + pad)
+                offset += 1
+            Next
+
+            Return blue
+        End Function
+
+        Public Shared ReadOnly Property UInt32White As UInteger = BitConverter.ToUInt32({
+            255, ' A
+            255, ' R
+            255, ' G
+            255  ' B
+        }, 0)
+
+        Public Shared ReadOnly Property UInt32Black1 As UInteger = BitConverter.ToUInt32({
+            0, ' A
+            0, ' R
+            0, ' G
+            0  ' B
+        }, 0)
+
+        Public Shared ReadOnly Property UInt32Black2 As UInteger = BitConverter.ToUInt32({
+            255, ' A
+            0, ' R
+            0, ' G
+            0  ' B
+        }, 0)
+
+        ''' <summary>
+        ''' get image data array in ARGB format
+        ''' </summary>
+        ''' <returns>
+        ''' scan0.ToPointer
+        ''' </returns>
+        ''' <remarks>
+        ''' helper function for hqx algorithm module
+        ''' </remarks>
+        Public Function GetARGBStream() As UInteger()
+            Dim ints As UInteger() = New UInteger(buffer.Length / TYPE_INT_ARGB - 1) {}
+            Dim uint As Byte() = New Byte(TYPE_INT_ARGB - 1) {}
+            Dim p As i32 = 0
+
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
+                    'ints(i) = buffer(i + 3) ' A
+                    'ints(i + 1) = buffer(i + 2) ' R
+                    'ints(i + 2) = buffer(i + 1) ' G
+                    'ints(i + 3) = buffer(i + 0) ' B
+                    uint(0) = buffer(i) ' A
+                    uint(1) = buffer(i + 1) ' R
+                    uint(2) = buffer(i + 2) ' G
+                    uint(3) = buffer(i + 3) ' B
+
+                    ints(++p) = BitConverter.ToUInt32(uint, 0)
+                Next
+            Else
+                ' channels = 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
+                    'ints(i) = 255 ' A
+                    'ints(i + 1) = buffer(i + 2) ' R
+                    'ints(i + 2) = buffer(i + 1) ' G
+                    'ints(i + 3) = buffer(i + 0) ' B
+
+                    uint(0) = 255 ' A
+                    uint(1) = buffer(i) ' R
+                    uint(2) = buffer(i + 1) ' G
+                    uint(3) = buffer(i + 2) ' B
+
+                    ints(++p) = BitConverter.ToUInt32(uint, 0)
+                Next
+            End If
+
+            Return ints
+        End Function
+
+        Public Iterator Function GetPixelsAll() As IEnumerable(Of Color)
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
+                    ' 按照 BGRA 顺序从 buffer 读取
+                    Dim b As Byte = buffer(i)       ' B
+                    Dim g As Byte = buffer(i + 1)   ' G
+                    Dim r As Byte = buffer(i + 2)   ' R
+                    Dim a As Byte = buffer(i + 3)   ' A
+
+                    ' Color.FromArgb 的标准参数顺序是 A, R, G, B
+                    Yield Color.FromArgb(a, r, g, b)
+                Next
+            Else
+                ' channels = 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
+                    Dim r As Byte = buffer(i)       ' R
+                    Dim g As Byte = buffer(i + 1)   ' G
+                    Dim b As Byte = buffer(i + 2)   ' B
+                    Dim a As Byte = 255             ' A (不透明)
+
+                    Yield Color.FromArgb(a, r, g, b)
+                Next
+            End If
+        End Function
+
+        ''' <summary>
+        ''' argb channels=4
+        ''' </summary>
+        ''' <param name="pixels"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
+        Public Shared Function Unpack(pixels As Color(), size As Size) As Byte()
+            Dim totalBytes As Integer = TYPE_INT_ARGB * size.Width * size.Height
+            Dim bytes As Byte() = New Byte(totalBytes - 1) {}
+
+            ' If channels = TYPE_INT_ARGB Then
+            '    iA = buffer(i + 3)
+            ' End If
+
+            ' Dim iR As Byte = buffer(i + 2)
+            ' Dim iG As Byte = buffer(i + 1)
+            ' Dim iB As Byte = buffer(i + 0)
+
+            For i As Integer = 0 To pixels.Length - 1
+                Dim pixel As Color = pixels(i)
+                ' 计算当前像素在字节数组中的起始位置
+                Dim byteIndex As Integer = i * TYPE_INT_ARGB
+
+                ' 按照 BGRA 顺序写入字节
+                bytes(byteIndex + 0) = pixel.B ' B
+                bytes(byteIndex + 1) = pixel.G ' G
+                bytes(byteIndex + 2) = pixel.R ' R
+                bytes(byteIndex + 3) = pixel.A ' A
+            Next
+
+            Return bytes
+        End Function
+
+        Public Shared Function GetColor(uint As UInteger) As Color
+            Dim bytes As Byte() = BitConverter.GetBytes(uint)
+            Dim color As Color = Color.FromArgb(bytes(0), bytes(1), bytes(2), bytes(3))
+
+            Return color
+        End Function
+
+        ''' <summary>
+        ''' argb channels=4
+        ''' </summary>
+        ''' <param name="pixels"></param>
+        ''' <param name="size"></param>
+        ''' <returns></returns>
+        Public Shared Function Unpack(pixels As Color(,), size As Size) As Byte()
+            Dim bytes As Byte() = New Byte(TYPE_INT_ARGB * pixels.Length - 1) {}
+
+            ' If channels = TYPE_INT_ARGB Then
+            '    iA = buffer(i + 3)
+            ' End If
+
+            ' Dim iR As Byte = buffer(i + 2)
+            ' Dim iG As Byte = buffer(i + 1)
+            ' Dim iB As Byte = buffer(i + 0)
+
+            For y As Integer = 0 To size.Height - 1
+                For x As Integer = 0 To size.Width - 1
+                    Dim pixel As Color = pixels(y, x)
+                    Dim i As Integer = GetIndex(x, y, size.Width, TYPE_INT_ARGB)
+
+                    bytes(i + 3) = pixel.A
+
+                    bytes(i + 2) = pixel.R
+                    bytes(i + 1) = pixel.G
+                    bytes(i + 0) = pixel.B
+                Next
+            Next
+
+            Return bytes
+        End Function
+
+        ''' <summary>
+        ''' helper function for hqx algorithm module
+        ''' </summary>
+        ''' <param name="ints"></param>
+        Public Sub WriteARGBStream(ints As UInteger())
+            Dim p As i32 = 0
+
+            If channels = TYPE_INT_ARGB Then
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_ARGB
+                    Dim uint As Byte() = BitConverter.GetBytes(ints(++p))
+
+                    buffer(i) = uint(0)  ' A
+                    buffer(i + 1) = uint(1)  ' R
+                    buffer(i + 2) = uint(2)  ' G
+                    buffer(i + 3) = uint(3)  ' B
+                Next
+            Else
+                ' channels = 3
+                For i As Integer = 0 To buffer.Length - 1 Step TYPE_INT_RGB
+                    Dim uint As Byte() = BitConverter.GetBytes(ints(++p))
+
+                    buffer(i) = uint(1)  ' R
+                    buffer(i + 1) = uint(2)  ' G
+                    buffer(i + 2) = uint(3)  ' B
+                Next
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' row scans
+        ''' </summary>
+        ''' <param name="rect"></param>
+        ''' <returns></returns>
+        Public Iterator Function GetPixel(rect As Rectangle) As IEnumerable(Of Color())
+            Dim row As New List(Of Color)
+
+            For y As Integer = rect.Top To rect.Bottom
+                For x As Integer = rect.Left To rect.Right
+                    If Not OutOfRange(x, y) Then
+                        Call row.Add(GetPixel(x, y))
+                    End If
+                Next
+
+                Yield row.PopAll
+            Next
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="channel">0r 1g 2b 3a</param>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <returns></returns>
+        Public Function GetPixel(channel As Integer, x As Integer, y As Integer) As Byte
+            Dim i As Integer = GetIndex(x, y)
+
+            If channel = 3 Then
+                If channels = TYPE_INT_ARGB Then
+                    Return buffer(i + 3)
+                Else
+                    Return 255
+                End If
+            Else
+                Return buffer(i + (2 - channel))
+            End If
+        End Function
+
+        Public Shared Function ToPixel2D(i As Integer, width As Integer, Optional channels As Integer = 4) As Point
+            i = i / channels
+
+            Dim y As Integer = i / width
+            Dim x As Integer = i Mod width
+
+            Return New Point(x, y)
+        End Function
+
+        ''' <summary>
+        ''' Sets the color of the specified pixel in this <see cref="Bitmap"/>.(这个函数线程不安全)
+        ''' </summary>
+        ''' <param name="x">The x-coordinate of the pixel to set. [0, width-1]</param>
+        ''' <param name="y">The y-coordinate of the pixel to set. [0, height-1]</param>
+        ''' <param name="color">
+        ''' A <see cref="Color"/> structure that represents the color to assign to the specified
+        ''' pixel.</param>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub SetPixel(x As Integer, y As Integer, color As Color)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+            If channels = 4 Then
+                buffer(i + 3) = color.A
+            End If
+
+            buffer(i + 2) = color.R
+            buffer(i + 1) = color.G
+            buffer(i + 0) = color.B
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub SetPixel(x As Integer, y As Integer, R As Byte, G As Byte, B As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 2) = R
+            buffer(i + 1) = G
+            buffer(i + 0) = B
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Sub SetPixel(x As Integer, y As Integer, R As Byte, G As Byte, B As Byte, A As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+            If channels = 4 Then
+                buffer(i + 3) = A
+            End If
+
+            buffer(i + 2) = R
+            buffer(i + 1) = G
+            buffer(i + 0) = B
+        End Sub
+
+        Public Sub SetAlpha(x As Integer, y As Integer, A As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+            If channels = 4 Then
+                buffer(i + 3) = A
+            End If
+        End Sub
+
+        Public Sub SetRed(x As Integer, y As Integer, R As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 2) = R
+        End Sub
+
+        Public Sub SetGreen(x As Integer, y As Integer, G As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 1) = G
+        End Sub
+
+        Public Sub SetBlue(x As Integer, y As Integer, B As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If i < 0 Then
+                Return
+            End If
+
+            buffer(i + 0) = B
+        End Sub
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="channel">0r 1g 2b 3a</param>
+        ''' <param name="x"></param>
+        ''' <param name="y"></param>
+        ''' <param name="val"></param>
+        Public Sub SetPixel(channel As Integer, x As Integer, y As Integer, val As Byte)
+            Dim i As Integer = GetIndex(x, y)
+
+            If channel = 3 Then
+                If channels = 4 Then
+                    buffer(i + 3) = val
+                Else
+                    ' do nothing
+                End If
+            Else
+                buffer(i + (2 - channel)) = val
+            End If
+        End Sub
+
+        ''' <summary>
+        ''' save in-memory data as local bitmap file
+        ''' </summary>
+        ''' <param name="file"></param>
+        Public Sub Save(file As String)
+            Using s As Stream = file.Open(FileMode.OpenOrCreate, doClear:=True, [readOnly]:=False)
+                Call Save(s)
+            End Using
+        End Sub
+
+        ''' <summary>
+        ''' save in-memory data as bitmap file
+        ''' </summary>
+        ''' <param name="s"></param>
+        Public Sub Save(s As Stream)
+            Dim pixelFormat As BitsPerPixelEnum = If(GetPixelChannels() = 3, BitsPerPixelEnum.RGB24, BitsPerPixelEnum.RGBA32)
+            Dim writer As New MemoryBmp(Width, Height, RawBuffer, pixelFormat)
+
+            Call writer.Save(s, flipped:=True)
+            Call s.Flush()
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"memory_bitmap({Width}x{Height}); sizeof={StringFormats.Lanudry(bytes:=Width * Height * channels)}"
+        End Function
+
+        ''' <summary>
+        ''' 这个函数会自动复制原始图片数据里面的东西的
+        ''' </summary>
+        ''' <param name="res"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function FromImage(res As Image) As BitmapBuffer
+#If NET48 Then
+            Dim copy As New Bitmap(res.Width, res.Height, format:=PixelFormat.Format32bppArgb)
+            Dim g As Graphics = Graphics.FromImage(copy)
+
+            Call g.DrawImageUnscaled(res, New Point)
+            Call g.Flush()
+            Call g.Dispose()
+
+            Return BitmapBuffer.FromBitmap(copy)
+#Else
+            Return res.GetMemoryBitmap
+#End If
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="curBitmap"></param>
+        ''' <returns>
+        ''' get the reference of the <see cref="Bitmap.MemoryBuffer"/> data directly
+        ''' </returns>
+        Public Shared Function FromBitmap(curBitmap As Bitmap) As BitmapBuffer
+#If NET48 Then
+            Return FromBitmap(curBitmap, ImageLockMode.ReadWrite)
+#Else
+            Return curBitmap.MemoryBuffer
+#End If
+        End Function
+
+#If NET48 Then
+
+        ''' <summary>
+        ''' 使用这个函数进行写数据的话，会修改到原图
+        ''' </summary>
+        ''' <param name="curBitmap"></param>
+        ''' <param name="mode"></param>
+        ''' <returns></returns>
+        Public Shared Function FromBitmap(curBitmap As Bitmap, mode As ImageLockMode) As BitmapBuffer
+            ' Lock the bitmap's bits.  
+            Dim rect As New Rectangle(0, 0, curBitmap.Width, curBitmap.Height)
+            Dim bmpData As BitmapData = curBitmap.LockBits(
+                rect:=rect,
+                flags:=mode,
+                format:=curBitmap.PixelFormat
+            )
+
+            ' Get the address of the first line.
+            Dim ptr As IntPtr = bmpData.Scan0
+            ' Declare an array to hold the bytes of the bitmap.
+            Dim bytes As Integer = std.Abs(bmpData.Stride) * curBitmap.Height
+            Dim pixels As Integer = curBitmap.Width * curBitmap.Height
+            Dim channels As Integer
+
+            If bytes = pixels * 3 Then
+                channels = 3
+            ElseIf bytes = pixels * 4 Then
+                channels = 4
+            Else
+                Throw New NotImplementedException
+            End If
+
+            Return New BitmapBuffer(ptr, bytes, curBitmap, bmpData, channels)
+        End Function
+#End If
+
+        Protected Overrides Sub Dispose(disposing As Boolean)
+            If Not memoryBuffer Then
+                ' write data back to the memory via the 
+                ' managed memory pointer
+                Call Write()
+            End If
+#If NET48 Then
+            If TypeOf handle Is BitmapData Then
+                Call raw.UnlockBits(DirectCast(handle, BitmapData))
+            End If
+#End If
+        End Sub
+
+        Public Iterator Function GetEnumerator() As IEnumerator(Of Color) Implements Enumeration(Of Color).GenericEnumerator
+            For Each pixel As Color In buffer.Colors
+                Yield pixel
+            Next
+        End Function
+
+        ''' <summary>
+        ''' Current pointer location offset to next position
+        ''' </summary>
+        ''' <param name="bmp"></param>
+        ''' <param name="offset%"></param>
+        ''' <returns></returns>
+        ''' 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Shared Operator +(bmp As BitmapBuffer, offset%) As BitmapBuffer
+            bmp.index += offset
+            Return bmp
+        End Operator
+    End Class
+End Namespace

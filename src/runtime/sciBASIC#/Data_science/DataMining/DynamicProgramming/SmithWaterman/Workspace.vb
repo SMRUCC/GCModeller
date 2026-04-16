@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 29 (85.29%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (14.71%)
+    '     File Size: 1.27 KB
+
+
     '     Module Workspace
     ' 
     '         Function: CreateHSP, GetBestAlignment

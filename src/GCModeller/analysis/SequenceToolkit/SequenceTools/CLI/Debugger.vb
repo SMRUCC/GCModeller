@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6c41134e4af6fa352dc5c9b2f2aa30aa, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
+﻿#Region "Microsoft.VisualBasic::438dfa1a817f643c82cae9a3a3713708, analysis\SequenceToolkit\SequenceTools\CLI\Debugger.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 70 (86.42%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (13.58%)
+    '     File Size: 3.32 KB
+
 
     ' Module CLI
     ' 
@@ -70,11 +82,11 @@ Partial Module CLI
                               Dim i As i32 = 1
 
                               For Each part As String In segments
-                                  Yield (part, i = i + part.Length)
+                                  Yield (part, i = CInt(i + part.Length))
                               Next
                           End Function().ToArray
 
-        Using output As StreamWriter = out.OpenWriter
+        Using output As System.IO.StreamWriter = out.OpenWriter
             Dim padding = createLines _
                 .Select(Function(f) f.left.ToString) _
                 .MaxLengthString _
@@ -114,7 +126,7 @@ Partial Module CLI
         Dim list = PTT.GetRelatedGenes(loci, unstrand)
 
         For Each g As Relationship(Of GeneBrief) In list
-            Call g.__DEBUG_ECHO
+            Call g.debug
         Next
 
         Return 0

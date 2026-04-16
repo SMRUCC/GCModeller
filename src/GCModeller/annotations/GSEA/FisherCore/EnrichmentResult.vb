@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9fa7da6fdb0e5528bca2c039bd5031a0, annotations\GSEA\FisherCore\EnrichmentResult.vb"
+﻿#Region "Microsoft.VisualBasic::35a625cbab2832481646b38a0e5996e1, annotations\GSEA\FisherCore\EnrichmentResult.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 17 (48.57%)
+    ' Comment Lines: 11 (31.43%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (20.00%)
+    '     File Size: 1.19 KB
+
+
     ' Class EnrichmentResult
     ' 
-    '     Properties: cluster, description, enriched, FDR, geneIDs
-    '                 name, pvalue, score, term
+    '     Properties: [class], category, cluster, description, enriched
+    '                 FDR, IDs, name, pvalue, score
+    '                 term
     ' 
     '     Function: ToString
     ' 
@@ -42,20 +55,35 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.Math.Statistics
+
 ''' <summary>
 ''' The GCModeller enrichment analysis output table
 ''' </summary>
-Public Class EnrichmentResult
+Public Class EnrichmentResult : Implements IStatPvalue, IStatFDR
 
     Public Property term As String
     Public Property name As String
+
+    Public Property [class] As String
+    Public Property category As String
     Public Property description As String
-    Public Property geneIDs As String()
+
     Public Property score As Double
-    Public Property pvalue As Double
-    Public Property FDR As Double
+    Public Property pvalue As Double Implements IStatPvalue.pValue
+    Public Property FDR As Double Implements IStatFDR.adjPVal
     Public Property cluster As Integer
-    Public Property enriched As String
+    ''' <summary>
+    ''' 我们的差异基因列表中，属于目标代谢途径的基因的数量 / 在我们的差异基因列表中，不属于当前的代谢途径的基因的数量
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property enriched As Integer
+
+    ''' <summary>
+    ''' the enriched gene id set: input id set intersect with the background cluster id set.
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property IDs As String()
 
     Public Overrides Function ToString() As String
         Return term

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::492fb063c19575c675b8ca1a0a0dac43, Data\DataFrame.Extensions\Serialize\ObjectSchema\Class.vb"
+﻿#Region "Microsoft.VisualBasic::508f92c68d84cdc456e5ea85364b4ae7, Data\DataFrame.Extensions\Serialize\ObjectSchema\Class.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 100
+    '    Code Lines: 62 (62.00%)
+    ' Comment Lines: 22 (22.00%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 16 (16.00%)
+    '     File Size: 3.43 KB
+
+
     '     Class [Class]
     ' 
     '         Properties: Fields, Stack, Type
@@ -45,8 +57,8 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 
 Namespace Serialize.ObjectSchema

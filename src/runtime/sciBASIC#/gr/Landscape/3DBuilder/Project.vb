@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::342db05537f44878dd7cd0d8c3c904a3, gr\Landscape\3DBuilder\Project.vb"
+﻿#Region "Microsoft.VisualBasic::c62d482cdccddd8af53a7e42e791c69d, gr\Landscape\3DBuilder\Project.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 33 (61.11%)
+    ' Comment Lines: 13 (24.07%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (14.81%)
+    '     File Size: 1.80 KB
+
+
     '     Class Project
     ' 
     '         Properties: model, Thumbnail
@@ -43,8 +55,10 @@
 #End Region
 
 Imports System.Drawing
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Landscape.Vendor_3mf.XML
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Imaging.Drawing3D.Math3D
+Imports Microsoft.VisualBasic.Imaging.Landscape.Vendor_3mf.XML
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Vendor_3mf
 

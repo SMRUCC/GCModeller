@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b1bc75d7bd8d81ecdc01bf9c6342d8b8, Microsoft.VisualBasic.Core\src\Net\HTTP\Stream\GZStream.vb"
+﻿#Region "Microsoft.VisualBasic::4b6dd0fc32b9e2053bcb2a1d93cd849b, Microsoft.VisualBasic.Core\src\Net\HTTP\Stream\GZStream.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 76 (51.01%)
+    ' Comment Lines: 55 (36.91%)
+    '    - Xml Docs: 94.55%
+    ' 
+    '   Blank Lines: 18 (12.08%)
+    '     File Size: 5.73 KB
+
+
     '     Module GZipStreamHandler
     ' 
-    '         Function: AddGzipMagic, CheckGZipMagic, GZipAsBase64, GZipStream, UnGzipBase64
+    '         Function: AddGzipMagic, (+2 Overloads) CheckGZipMagic, (+2 Overloads) GZipAsBase64, GZipStream, UnGzipBase64
     '                   (+2 Overloads) UnGzipStream
     ' 
     ' 
@@ -69,13 +81,16 @@ Namespace Net.Http
         <Extension>
         Public Function CheckGZipMagic(data As Stream) As Boolean
             Dim magic As Byte() = New Byte(1) {}
-            Dim isGzipMagic As Boolean
 
-            data.Read(magic, Scan0, magic.Length)
-            data.Seek(-2, SeekOrigin.Current)
-            isGzipMagic = magic(0) = &H1F AndAlso magic(1) = &H8B
+            Call data.Read(magic, Scan0, magic.Length)
+            Call data.Seek(-2, SeekOrigin.Current)
 
-            Return isGzipMagic
+            Return CheckGZipMagic(magic)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function CheckGZipMagic(magic As Byte()) As Boolean
+            Return magic(0) = &H1F AndAlso magic(1) = &H8B
         End Function
 
         ''' <summary>
@@ -90,7 +105,6 @@ Namespace Net.Http
             Return Convert.FromBase64String(base64).UnGzipStream
         End Function
 
-
         ''' <summary>
         ''' 将输入的流数据进行gzip解压缩
         ''' </summary>
@@ -98,12 +112,13 @@ Namespace Net.Http
         ''' 使用这个函数得到的结果需要注意进行<see cref="IDisposable.Dispose()"/>,否则很容易造成内存泄漏
         ''' </remarks>
         ''' <param name="stream"></param>
-        ''' <returns></returns>
+        ''' <returns>a memory stream object that has file position reset to scan0</returns>
         <Extension>
         Public Function UnGzipStream(stream As Stream) As MemoryStream
             Using gz As New GZipStream(stream, CompressionMode.Decompress)
                 Dim ms As New MemoryStream
                 Call gz.CopyTo(ms)
+                Call ms.Seek(Scan0, SeekOrigin.Begin)
                 Return ms
             End Using
         End Function
@@ -118,8 +133,18 @@ Namespace Net.Http
         ''' <returns></returns>
         <Extension>
         Public Function UnGzipStream(stream As IEnumerable(Of Byte)) As MemoryStream
-            Using buffer As New MemoryStream(stream.ToArray)
-                Return buffer.UnGzipStream
+            Dim raw As Byte() = stream.ToArray
+            Dim deflate As MemoryStream
+
+            If Not CheckGZipMagic(raw) Then
+                raw = raw.AddGzipMagic.ToArray
+            End If
+
+            Using buffer As New MemoryStream(raw)
+                buffer.Seek(Scan0, SeekOrigin.Begin)
+                deflate = buffer.UnGzipStream
+                Erase raw
+                Return deflate
             End Using
         End Function
 
@@ -127,9 +152,12 @@ Namespace Net.Http
         ''' 对所输入的流进行gzip压缩
         ''' </summary>
         ''' <param name="stream"></param>
+        ''' <param name="noMagic">
+        ''' omit the gzip magic number?
+        ''' </param>
         ''' <returns></returns>
         <Extension>
-        Public Function GZipStream(stream As Stream) As MemoryStream
+        Public Function GZipStream(stream As Stream, Optional noMagic As Boolean = False) As MemoryStream
             Dim ms As New MemoryStream()
 
             Using gz As New GZipStream(ms, CompressionMode.Compress)
@@ -140,9 +168,25 @@ Namespace Net.Http
             ' we create the data array here once the GZIP stream has been disposed
             Dim data = ms.ToArray()
             ms.Dispose()
-            ms = New MemoryStream(data)
+            ms = New MemoryStream(If(noMagic, data.Skip(2).ToArray, data))
 
             Return ms
+        End Function
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="bytes"></param>
+        ''' <param name="noMagic">
+        ''' omit the gzip magic number?
+        ''' </param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function GZipAsBase64(bytes As IEnumerable(Of Byte), Optional noMagic As Boolean = False) As String
+            Using ms As New MemoryStream(bytes.ToArray)
+                Call ms.Seek(0, SeekOrigin.Begin)
+                Return ms.GZipAsBase64(noMagic)
+            End Using
         End Function
 
         ''' <summary>
@@ -150,8 +194,9 @@ Namespace Net.Http
         ''' </summary>
         ''' <param name="stream"></param>
         ''' <returns></returns>
-        <Extension> Public Function GZipAsBase64(stream As Stream) As String
-            Dim bytes As Byte() = stream.GZipStream.ToArray
+        <Extension>
+        Public Function GZipAsBase64(stream As Stream, Optional noMagic As Boolean = False) As String
+            Dim bytes As Byte() = stream.GZipStream(noMagic).ToArray
             Dim s$ = Convert.ToBase64String(bytes)
             Return s
         End Function

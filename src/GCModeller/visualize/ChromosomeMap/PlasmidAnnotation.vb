@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f8815816c5b61034578d50a76f0dc5c2, visualize\ChromosomeMap\PlasmidAnnotation.vb"
+﻿#Region "Microsoft.VisualBasic::0473556b1ab72ec381e197438f415bd7, visualize\ChromosomeMap\PlasmidAnnotation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 138
+    '    Code Lines: 95 (68.84%)
+    ' Comment Lines: 35 (25.36%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (5.80%)
+    '     File Size: 5.81 KB
+
+
     ' Class PlasmidAnnotation
     ' 
     '     Properties: COG_annotation, COG_cat, COG_NO, discription, Evalue
@@ -49,13 +61,11 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.Extensions
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Extensions
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
-Imports Oracle.Java.IO.Properties.Reflector
-Imports SMRUCC.genomics.Assembly.NCBI.GenBank.CsvExports
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -180,7 +190,7 @@ Public Class PlasmidAnnotation : Implements IGeneBrief
                       .commonName = item.product,
                       .geneName = item.Gene_name,
                       .locus_id = item.ORF_ID,
-                      .Translation = item.Protein,
+                      .translation = item.Protein,
                       .left = item.Location.left,
                       .right = item.Location.right
                   }

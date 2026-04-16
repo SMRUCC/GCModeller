@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99eb7c6dd6fe93331c62424eef0122b6, mime\text%html\CSS\ICSSValue.vb"
+﻿#Region "Microsoft.VisualBasic::47f3f8a920a4cbc15f64bbea7c49fb9c, mime\text%html\CSS\ICSSValue.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 19
+    '    Code Lines: 8 (42.11%)
+    ' Comment Lines: 8 (42.11%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (15.79%)
+    '     File Size: 552 B
+
+
     '     Class ICSSValue
     ' 
     '         Function: ToString
@@ -42,8 +54,16 @@
 
 Namespace CSS
 
+    ''' <summary>
+    ''' an abstract object model for get <see cref="CSSValue"/> 
+    ''' string from current object.
+    ''' </summary>
     Public MustInherit Class ICSSValue
 
+        ''' <summary>
+        ''' the css string generator based on current object model
+        ''' </summary>
+        ''' <returns></returns>
         Public MustOverride ReadOnly Property CSSValue As String
 
         Public Overrides Function ToString() As String

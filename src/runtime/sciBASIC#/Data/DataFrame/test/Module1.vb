@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::af789b0d6865e25776b370ed0206e358, Data\DataFrame\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::d5456572de2f3f7c531290618c1a3176, Data\DataFrame\test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 24 (77.42%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 7 (22.58%)
+    '     File Size: 1022 B
+
+
     ' Module Module1
     ' 
     '     Sub: mAIN
@@ -39,13 +51,13 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 
 Module Module1
 
     Sub mAIN()
-        Dim data = DataSet.LoadDataSet("P:\Resources\RABV_24h.csv").ToDictionary(replaceOnDuplicate:=True)
+        Dim data = DataSet.LoadDataSet("P:\Resources\RABV_24h.csv").ToDictionary(distinct:=True)
 
         For Each item In DataSet.LoadDataSet("P:\Resources\RABV_48h.csv")
             If Not data.ContainsKey(item.ID) Then

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e307b1d41b0a7d30c301ba3a5b731da1, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Light.vb"
+﻿#Region "Microsoft.VisualBasic::d4133a8c8b8f37a5867fbccc38ab6f39, gr\Microsoft.VisualBasic.Imaging\Drawing3D\Light.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 61 (59.22%)
+    ' Comment Lines: 27 (26.21%)
+    '    - Xml Docs: 92.59%
+    ' 
+    '   Blank Lines: 15 (14.56%)
+    '     File Size: 4.07 KB
+
 
     '     Module Light
     ' 
@@ -94,7 +106,8 @@ Namespace Drawing3D.Device
         ''' <param name="color"></param>
         ''' <param name="lightColor">光源的颜色，最常用的光源颜色为白色``<see cref="Color.White"/>``</param>
         ''' <returns></returns>
-        <Extension> Public Function Lighting(path As Path3D, lightAngle As Point3D, color As Color, colorDifference#, lightColor As Color) As Color
+        <Extension>
+        Public Function Lighting(path As Path3D, lightAngle As Point3D, color As Color, colorDifference#, lightColor As Color) As Color
             Return path.Points _
                 .ToArray _
                 .Lighting(lightAngle, color, colorDifference, lightColor)
@@ -109,7 +122,8 @@ Namespace Drawing3D.Device
         ''' <param name="colorDifference#"></param>
         ''' <param name="lightColor"></param>
         ''' <returns></returns>
-        <Extension> Public Function Lighting(vertices As Point3D(), lightAngle As Point3D, color As Color, colorDifference#, lightColor As Color) As Color
+        <Extension>
+        Public Function Lighting(vertices As Point3D(), lightAngle As Point3D, color As Color, colorDifference#, lightColor As Color) As Color
             Dim p1 As Point3D = vertices(1)
             Dim p2 As Point3D = vertices(0)
             Dim i As Double = p2.X - p1.X

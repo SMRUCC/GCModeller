@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d44ca4afa012c3dcf16055e59fcb4d3, visualize\Cytoscape\Cytoscape\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::4b22835f704a7ee6883e52de133b17bb, visualize\Cytoscape\Cytoscape\test\Module1.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 43 (45.26%)
+    ' Comment Lines: 16 (16.84%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 36 (37.89%)
+    '     File Size: 2.82 KB
+
 
     ' Class vTable
     ' 
@@ -74,19 +86,19 @@ Module Module1
         Dim damping = 0.5F
 
 
-        Dim m_fdgPhysics = New ForceDirected2D(net, '// instance of Graph
-        stiffness, '// stiffness of the spring
-                                                   repulsion, '// Node repulsion rate 
-                                                   damping    '// damping rate  
-                                                   )
+        ' Dim m_fdgPhysics = New ForceDirected2D(net, '// instance of Graph
+        '  stiffness, '// stiffness of the spring
+        'repulsion, '/'/ Node repulsion rate 
+        'damp'ing    '// damping rate  
+        '                              )
 
-        Call m_fdgPhysics.Updates(net)
+        '  Call m_fdgPhysics.Updates(net)
 
         Call net.ApplyAnalysis
 
-        Dim ress = net.DrawImage("1024,768", displayId:=False)
+        '  Dim ress = net.DrawImage("1024,768", displayId:=False)
 
-        Call ress.Save("x:\gggg.bmp")
+        '   Call ress.Save("x:\gggg.bmp")
 
 
         Pause()
@@ -110,7 +122,7 @@ Module Module1
         ddd.Add("123", "ffff")
         ddd.Add("6666", "fdasdasd")
 
-        Call ddd.GetJson.__DEBUG_ECHO
+        Call ddd.GetJson.debug
         Pause()
         '     Dim mm As New GraphAttribute With {.RDF = New InnerRDF With {.meta = New NetworkMetadata}, .Name = RandomDouble()}
         '  Dim gf As New Graph With {.Attributes = {mm, New GraphAttribute With {.Name = Now.ToString}}}

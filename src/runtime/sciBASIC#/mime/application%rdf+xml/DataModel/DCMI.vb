@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 17 (18.89%)
+    ' Comment Lines: 72 (80.00%)
+    '    - Xml Docs: 98.61%
+    ' 
+    '   Blank Lines: 1 (1.11%)
+    '     File Size: 3.02 KB
+
+
     ' Class DCMI
     ' 
     '     Properties: [Date], Contributor, Coverage, Creator, Description

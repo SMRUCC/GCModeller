@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::113639b48b44f16149979d0c2b4ad579, core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
+﻿#Region "Microsoft.VisualBasic::68c75030eda082120731f38a98fee987, core\Bio.Assembly\Assembly\NCBI\Database\CDD\CDDLoader.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 114 (74.51%)
+    ' Comment Lines: 12 (7.84%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 27 (17.65%)
+    '     File Size: 5.07 KB
+
 
     '     Class CDDLoader
     ' 
@@ -144,7 +156,7 @@ Namespace Assembly.NCBI.CDD
         End Function
 
         Public Function Load(DbName As String) As DbFile
-            Call $"> Loading database ""{DbName}""...".__DEBUG_ECHO
+            Call $"> Loading database ""{DbName}""...".debug
 
             Dim FilePath As String = $"{DIR}/{DbName}.xml"
             Dim DbFile As DbFile = FilePath.LoadTextDoc(Of DbFile)(ThrowEx:=False)

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::80929c28ebf6729f196e9dd259d8eacc, core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
+﻿#Region "Microsoft.VisualBasic::a16030c40e7db139ba762bd501c459fe, core\Bio.Assembly\Assembly\NCBI\SeqDump\nt.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 80 (78.43%)
+    ' Comment Lines: 8 (7.84%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 14 (13.73%)
+    '     File Size: 4.02 KB
+
 
     '     Class Nucleotide
     ' 
@@ -113,7 +125,7 @@ Namespace Assembly.NCBI.SequenceDump
                 Dim acc As String = accid(fa.Title).ToLower
 
                 If acc Like idlist Then
-                    Call fa.Title.__INFO_ECHO
+                    Call fa.Title.info
                     Call idlist.Delete(acc)
 
                     Yield fa
@@ -133,9 +145,9 @@ Namespace Assembly.NCBI.SequenceDump
                     .geneName = fa.CommonName,
                     .left = fa.Location.left,
                     .right = fa.Location.right,
-                    .Strand = fa.Location.Strand.GetBriefCode,
+                    .strand = fa.Location.Strand.Description,
                     .Location = fa.Location,
-                    .Length = fa.Length,
+                    .length = fa.Length,
                     .locus_id = fa.LocusTag,
                     .GI = fa.db_xref,
                     .GC_Content = fa.GCContent,

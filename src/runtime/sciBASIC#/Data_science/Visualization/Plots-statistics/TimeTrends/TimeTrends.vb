@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::492e67fc809447d63680984dd0d8a374, Data_science\Visualization\Plots-statistics\TimeTrends\TimeTrends.vb"
+﻿#Region "Microsoft.VisualBasic::0f3c7897eeca2e2d67b1e439a4057ad3, Data_science\Visualization\Plots-statistics\TimeTrends\TimeTrends.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 320
+    '    Code Lines: 242 (75.62%)
+    ' Comment Lines: 37 (11.56%)
+    '    - Xml Docs: 86.49%
+    ' 
+    '   Blank Lines: 41 (12.81%)
+    '     File Size: 14.03 KB
+
+
     ' Module TimeTrends
     ' 
     '     Function: Plot
@@ -44,21 +56,21 @@ Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Math2D
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Module TimeTrends
 
@@ -142,15 +154,7 @@ Public Module TimeTrends
             .CreateAxisTicks(5)
         Dim rangePoly As (min As List(Of PointF), max As List(Of PointF))
 
-        Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelFontCSS).GDIObject(ppi)
-        Dim tickLabelFont As Font = CSSFont.TryParse(tickLabelFontCSS).GDIObject(ppi)
-        Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-        Dim subTitleFont As Font = CSSFont.TryParse(subTitleFontCSS).GDIObject(ppi)
-
         Dim lineStyle As New Pen(lineColor.TranslateColor, lineWidth)
-        Dim axisPen As Pen = Stroke.TryParse(axisStrokeCSS).GDIObject
-        Dim yTickPen As Pen = Stroke.TryParse(yTickStrokeCSS).GDIObject
-        Dim rgPen As Pen = Stroke.TryParse(rangeStroke).GDIObject
         Dim rgColor As Color = rangeColor _
             .TranslateColor _
             .Alpha(255 * rangeOpacity)
@@ -159,15 +163,23 @@ Public Module TimeTrends
 
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                Dim yScaler = region.YScaler(yTicks)
-                Dim xScaler = timer.Scaler(DoubleRange.TryParse(region.XRange))
-                Dim rect As Rectangle = region.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim yScaler = region.YScaler(yTicks, css)
+                Dim xScaler = timer.Scaler(DoubleRange.TryParse(region.XRange(css)))
+                Dim rect As Rectangle = region.PlotRegion(css)
                 Dim x#, y#
                 Dim ty#() = {0, 0, 0}
                 Dim trends As New List(Of PointF)
                 Dim labelSize As SizeF
                 Dim labelText$
                 Dim maxLabelXWidth!
+                Dim valueLabelFont As Font = css.GetFont(CSSFont.TryParse(valueLabelFontCSS))
+                Dim tickLabelFont As Font = css.GetFont(CSSFont.TryParse(tickLabelFontCSS))
+                Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+                Dim subTitleFont As Font = css.GetFont(CSSFont.TryParse(subTitleFontCSS))
+                Dim axisPen As Pen = css.GetPen(Stroke.TryParse(axisStrokeCSS))
+                Dim yTickPen As Pen = css.GetPen(Stroke.TryParse(yTickStrokeCSS))
+                Dim rgPen As Pen = css.GetPen(Stroke.TryParse(rangeStroke))
 
                 ' 绘制Y坐标轴
                 For Each yVal As Double In yTicks
@@ -185,36 +197,36 @@ Public Module TimeTrends
                 ' 绘制X坐标轴
                 Call g.DrawLine(axisPen, rect.Left, rect.Bottom, rect.Right, rect.Bottom)
 
-                With New GraphicsText(DirectCast(g, GDICanvas).Graphics)
+                'With New GraphicsText(DirectCast(g, GDICanvas).Graphics)
 
-                    dateFormat = dateFormat Or shortDateString
+                dateFormat = dateFormat Or shortDateString
 
-                    ' 绘制X坐标轴日期标签
-                    For Each tickDate As Date In timer.Ticks
-                        labelText = dateFormat(tickDate)
-                        labelSize = g.MeasureString(labelText, tickLabelFont)
-                        x = xScaler(tickDate)
-                        x = x - labelSize.Width / 2
-                        y = rect.Bottom + labelSize.Width * (3 / 4)
+                ' 绘制X坐标轴日期标签
+                For Each tickDate As Date In timer.Ticks
+                    labelText = dateFormat(tickDate)
+                    labelSize = g.MeasureString(labelText, tickLabelFont)
+                    x = xScaler(tickDate)
+                    x = x - labelSize.Width / 2
+                    y = rect.Bottom + labelSize.Width * (3 / 4)
 
-                        maxLabelXWidth = stdNum.Max(
-                            labelSize.Width,
-                            maxLabelXWidth
-                        )
+                    maxLabelXWidth = std.Max(
+                        labelSize.Width,
+                        maxLabelXWidth
+                    )
 
-                        .DrawString(s:=labelText,
-                                    font:=tickLabelFont,
-                                    brush:=Brushes.Black,
-                                    point:=New PointF(x, y),
-                                    angle:=-35.0!
-                         )
+                    g.DrawString(s:=labelText,
+                        font:=tickLabelFont,
+                        brush:=Brushes.Black,
+                        x:=x, y:=y,
+                        angle:=-35.0!
+                    )
 
-                        x = xScaler(tickDate)
-                        y = rect.Bottom + labelSize.Height / 2
+                    x = xScaler(tickDate)
+                    y = rect.Bottom + labelSize.Height / 2
 
-                        g.DrawLine(axisPen, CInt(x), CInt(y), CInt(x), rect.Bottom)
-                    Next
-                End With
+                    g.DrawLine(axisPen, CInt(x), CInt(y), CInt(x), rect.Bottom)
+                Next
+                'End With
 
                 rangePoly = (New List(Of PointF), New List(Of PointF))
 

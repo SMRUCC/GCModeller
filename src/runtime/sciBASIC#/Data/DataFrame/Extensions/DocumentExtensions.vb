@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::712111467c00118ab7d611755a0cf7c4, Data\DataFrame\Extensions\DocumentExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::70649e8fa9f7847b0a129f47bf1638bb, Data\DataFrame\Extensions\DocumentExtensions.vb"
 
     ' Author:
     ' 
@@ -31,19 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 519
+    '    Code Lines: 311 (59.92%)
+    ' Comment Lines: 138 (26.59%)
+    '    - Xml Docs: 92.75%
+    ' 
+    '   Blank Lines: 70 (13.49%)
+    '     File Size: 19.48 KB
+
+
     ' Module DocumentExtensions
     ' 
     '     Function: Apply, CreateTable, DirectAppends, Distinct, GetColumnObjects
-    '               GetColumnValues, GetLastRow, JoinColumns, LoadCsv, LoadData
-    '               LoadDictionary, LoadMappings, LoadTable, (+2 Overloads) LoadTsv, Normalization
+    '               (+4 Overloads) GetColumnValues, GetLastRow, JoinColumns, LoadCsv, LoadData
+    '               LoadDictionary, LoadMappings, LoadTable, (+3 Overloads) LoadTsv, Normalization
     '               ParseDoc, (+2 Overloads) SaveAsDataFrame, SaveTsv, TsvLine
-    '     Class GenericTable
-    ' 
-    '         Properties: data
-    ' 
-    '         Function: ToString
-    ' 
-    ' 
     ' 
     ' /********************************************************************************/
 
@@ -54,14 +59,17 @@ Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
-Imports Table = Microsoft.VisualBasic.Data.csv.IO.File
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
+Imports Table = Microsoft.VisualBasic.Data.Framework.IO.File
 
 ''' <summary>
 ''' The csv document extensions API
@@ -131,21 +139,12 @@ Public Module DocumentExtensions
         Return row
     End Function
 
-    Private Class GenericTable
-
-        Public Property data As Dictionary(Of String, String)
-
-        Public Overrides Function ToString() As String
-            Return data.GetJson
-        End Function
-    End Class
-
     <Extension>
     Public Function SaveAsDataFrame(d As IEnumerable(Of Dictionary(Of String, String)), path$) As Boolean
-        Dim table As GenericTable() = d _
+        Dim table As IO.Table() = d _
             .Select(Function(x)
-                        Return New GenericTable With {
-                            .data = x
+                        Return New IO.Table With {
+                            .Properties = x
                         }
                     End Function) _
             .ToArray
@@ -175,17 +174,17 @@ Public Module DocumentExtensions
                                   Optional encoding As Encodings = Encodings.UTF8WithoutBOM,
                                   Optional orderBy As Func(Of Dictionary(Of String, String), Double) = Nothing) As Boolean
 
-        Dim data As New List(Of GenericTable)
-        Dim table As IEnumerable(Of GenericTable)
+        Dim data As New List(Of IO.Table)
+        Dim table As IEnumerable(Of IO.Table)
 
         For Each path$ In files
             ' List(Of T) 对象的 + 语法有冲突，所以在这里需要先进行转换
-            table = path.LoadCsv(Of GenericTable)
+            table = path.LoadCsv(Of IO.Table)
             data += table
         Next
 
         If Not orderBy Is Nothing Then
-            data = data.OrderBy(Function(r) orderBy(r.data)).AsList
+            data = data.OrderBy(Function(r) orderBy(r.Properties)).AsList
         End If
 
         Return data.SaveTo(EXPORT, encoding:=encoding.CodePage)
@@ -235,7 +234,7 @@ Public Module DocumentExtensions
         End If
 
         Dim out = LinqAPI.Exec(Of NamedValue(Of Double())) _
- _
+                                                           _
             () <= From column As String()
                   In source
                   Let name As String = column(Scan0)
@@ -263,12 +262,36 @@ Public Module DocumentExtensions
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function LoadTsv(Of T As Class)(path$,
+                                           Optional encoding As Encoding = Nothing,
+                                           Optional nameMaps As NameMapping = Nothing,
+                                           Optional mute As Boolean = False) As IEnumerable(Of T)
+        Return [Imports](Of T)(path,
+                               delimiter:=ASCII.TAB,
+                               encoding:=encoding,
+                               nameMaps:=nameMaps,
+                               mute:=mute)
+    End Function
+
+    ''' <summary>
+    ''' Load a .NET collection from a tsv file which is specific by <paramref name="path"/> value.
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="path$"></param>
+    ''' <param name="encoding"></param>
+    ''' <param name="nameMaps"></param>
+    ''' <returns></returns>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    <Extension>
+    Public Function LoadTsv(Of T As Class)(path$,
                                            Optional encoding As Encodings = Encodings.Default,
-                                           Optional nameMaps As NameMapping = Nothing) As IEnumerable(Of T)
+                                           Optional nameMaps As NameMapping = Nothing,
+                                           Optional mute As Boolean = False) As IEnumerable(Of T)
         Return [Imports](Of T)(path,
                                delimiter:=ASCII.TAB,
                                encoding:=encoding.CodePage,
-                               nameMaps:=nameMaps)
+                               nameMaps:=nameMaps,
+                               mute:=mute)
     End Function
 
     ''' <summary>
@@ -325,11 +348,80 @@ Public Module DocumentExtensions
     End Function
 
     <Extension>
+    Public Function GetColumnValues(csv As IO.File, synonyms As String()) As IEnumerable(Of String)
+        For Each name As String In synonyms.SafeQuery
+            Dim values As IEnumerable(Of String) = csv.GetColumnValues(name)
+
+            If Not values Is Nothing Then
+                Return values
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    <Extension>
+    Public Function GetColumnValues(csv As DataFrameResolver, synonyms As String()) As IEnumerable(Of String)
+        For Each name As String In synonyms.SafeQuery
+            Dim offset As Integer = csv.GetOrdinal(name)
+
+            If offset < 0 Then
+                Continue For
+            Else
+                Return csv.table.GetColumn(offset)
+            End If
+        Next
+
+        Return Nothing
+    End Function
+
+    ''' <summary>
+    ''' get a specific column value by name
+    ''' </summary>
+    ''' <param name="csv"></param>
+    ''' <param name="column">the column name that will be find in the table header row</param>
+    ''' <returns>
+    ''' this function will returns nothing if the speicifc <paramref name="column"/> 
+    ''' is not exists in the table headers
+    ''' </returns>
+    <Extension>
     Public Function GetColumnValues(csv As IO.File, column$) As IEnumerable(Of String)
         Dim index As Integer = csv.Headers.IndexOf(column)
         Dim out As New List(Of String)
+        Dim offset As Integer = 1
 
-        For Each r As RowObject In csv.Skip(1)
+        If index = -1 Then
+            Return Nothing
+        End If
+
+        For Each r As RowObject In csv.Skip(offset)
+            Call out.Add(r(index))
+        Next
+
+        Return out
+    End Function
+
+    ''' <summary>
+    ''' get a specific column value by name
+    ''' </summary>
+    ''' <param name="csv">
+    ''' 20221127 the dataframe object is already skip the title row
+    ''' </param>
+    ''' <param name="column">the column name that will be find in the table header row</param>
+    ''' <returns>
+    ''' this function will returns nothing if the speicifc <paramref name="column"/> 
+    ''' is not exists in the table headers
+    ''' </returns>
+    <Extension>
+    Public Function GetColumnValues(csv As DataFrameResolver, column$) As IEnumerable(Of String)
+        Dim index As Integer = csv.GetOrdinal(column)
+        Dim out As New List(Of String)
+
+        If index = -1 Then
+            Return Nothing
+        End If
+
+        For Each r As RowObject In csv.table
             Call out.Add(r(index))
         Next
 
@@ -343,6 +435,15 @@ Public Module DocumentExtensions
         Next
     End Function
 
+    ''' <summary>
+    ''' Load csv table from a given file path.
+    ''' </summary>
+    ''' <param name="path$"></param>
+    ''' <param name="encoding"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' A wrapper function of <see cref="IO.File.Load"/>.
+    ''' </remarks>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function LoadCsv(path$, Optional encoding As Encodings = Encodings.ASCII) As IO.File
@@ -436,6 +537,14 @@ Public Module DocumentExtensions
         End If
     End Function
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="csv">the csv document text</param>
+    ''' <param name="removesBlank">
+    ''' removes blank row which is all content is looks like ``,,,,,,``?
+    ''' </param>
+    ''' <returns></returns>
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ParseDoc(csv$, Optional removesBlank As Boolean = False) As IO.File
@@ -458,7 +567,7 @@ Public Module DocumentExtensions
         Dim textEncoding As Encoding = encoding.CodePage
         Dim header As RowObject = RowObject.TryParse(path.ReadFirstLine(textEncoding))
         Dim data As RowObject = RowObject.TryParse(path.GetLastLine(textEncoding))
-        Dim subFrame As DataFrame = IO.DataFrame.CreateObject({header, data})
+        Dim subFrame As DataFrameResolver = DataFrameResolver.CreateObject({header, data})
         Dim buffer = Reflector.Convert(Of T)(subFrame, strict, silent:=silent)
 
         Return buffer.First

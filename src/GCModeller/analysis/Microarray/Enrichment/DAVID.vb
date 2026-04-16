@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c069f4975941d87e4902b7f46897218e, analysis\Microarray\Enrichment\DAVID.vb"
+﻿#Region "Microsoft.VisualBasic::8ca9a7715dc0112451b3262394d06f4b, analysis\Microarray\Enrichment\DAVID.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 104
+    '    Code Lines: 84 (80.77%)
+    ' Comment Lines: 5 (4.81%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 15 (14.42%)
+    '     File Size: 4.54 KB
+
+
     '     Module DAVID
     ' 
     '         Function: Load, SelectGoTerms, SelectKEGGPathway
@@ -50,8 +62,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -111,9 +123,9 @@ Namespace DAVID
             If Not uniprot2KEGG.IsNullOrEmpty Then
                 For Each term As FunctionCluster In KEGG
                     Dim profile As New NamedCollection(Of NamedValue(Of String)) With {
-                        .Name = term.Term.GetTagValue(":").Name,
-                        .Value = term.ORFs _
-                            .Select(AddressOf Trim) _
+                        .name = term.Term.GetTagValue(":").Name,
+                        .value = term.ORFs _
+                            .Select(AddressOf Strings.Trim) _
                             .Where(Function(id) uniprot2KEGG.ContainsKey(id)) _
                             .Select(Function(ID)
                                         Return uniprot2KEGG(ID).Select(Function(kid) New NamedValue(Of String)(kid, "red"))

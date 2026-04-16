@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7de66b02dfcbf000d58f6429257d5262, Data_science\Mathematica\SignalProcessing\SignalProcessing\Alignment.vb"
+﻿#Region "Microsoft.VisualBasic::62ebc6d206c05d6177b2752132205109, Data_science\Mathematica\SignalProcessing\SignalProcessing\Alignment.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 64 (77.11%)
+    ' Comment Lines: 9 (10.84%)
+    '    - Xml Docs: 88.89%
+    ' 
+    '   Blank Lines: 10 (12.05%)
+    '     File Size: 3.36 KB
+
+
     ' Module Alignment
     ' 
     '     Function: Join, Normalize, Similarity
@@ -43,7 +55,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Distributions
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Module Alignment
 
@@ -79,7 +91,7 @@ Public Module Alignment
                          Optional steps# = 0.25,
                          Optional maxgenerality As Boolean = False) As GeneralSignal
 
-        Dim resampling As Resampler() = signals.Select(AddressOf Resampler.CreateSampler).ToArray
+        Dim resampling As Resampler() = signals.Select(Function(sig) Resampler.CreateSampler(sig, max_dx:=steps * 5)).ToArray
         Dim measures As Double() = resampling _
             .Select(Function(sample) sample.enumerateMeasures) _
             .IteratesALL _
@@ -111,7 +123,7 @@ Public Module Alignment
     <Extension>
     Public Function Normalize(signal As GeneralSignal) As GeneralSignal
         If signal.Strength.Any(Function(vi) vi < 0) Then
-            Dim minY As Double = stdNum.Abs(signal.Strength.Min)
+            Dim minY As Double = std.Abs(signal.Strength.Min)
             Dim norm As Double() = signal.Strength _
                 .Select(Function(v) v + minY) _
                 .ToArray

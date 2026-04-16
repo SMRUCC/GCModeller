@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a94046a469114fcc785ca497f2b32af8, Data_science\DataMining\BinaryTree\Partitioning.vb"
+﻿#Region "Microsoft.VisualBasic::7e38debca4027d5a5f53dbd81914ddba, Data_science\DataMining\BinaryTree\Partitioning.vb"
 
     ' Author:
     ' 
@@ -31,20 +31,136 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 84 (74.34%)
+    ' Comment Lines: 11 (9.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (15.93%)
+    '     File Size: 3.57 KB
+
+
     ' Module Partitioning
     ' 
-    '     Function: CreateClusterPartitions
+    '     Function: CreateClusterPartitions, getAnyData, GetClusterResult, GetClusterResultInternal
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.DataMining.KMeans
+Imports Microsoft.VisualBasic.Linq
 
 Public Module Partitioning
 
+    ''' <summary>
+    ''' do tree cut
+    ''' </summary>
+    ''' <param name="btree"></param>
+    ''' <param name="depth"></param>
+    ''' <returns></returns>
     <Extension>
-    Public Function CreateClusterPartitions(btree As BTreeCluster, Optional depth As Integer = 3)
+    Public Iterator Function CreateClusterPartitions(btree As BTreeCluster, Optional depth As Integer = 3) As IEnumerable(Of BTreeCluster)
+        Throw New NotImplementedException
+    End Function
 
+    <Extension>
+    Public Function GetClusterResult(btree As BTreeCluster, Optional vnames As String() = Nothing) As IEnumerable(Of EntityClusterModel)
+        If vnames Is Nothing Then
+            vnames = btree _
+                .getAnyData _
+                .Select(Function(d, i) $"x_{i + 1}") _
+                .ToArray
+        End If
+
+        Return btree.GetClusterResultInternal(vnames)
+    End Function
+
+    ''' <summary>
+    ''' Just get data vector for generates the names
+    ''' </summary>
+    ''' <param name="btree"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function getAnyData(btree As BTreeCluster) As Double()
+        If btree Is Nothing Then
+            Return Nothing
+        End If
+
+        If Not btree.data.IsNullOrEmpty Then
+            Return btree.data.Values.First
+        End If
+
+        Dim data As Object = getAnyData(btree.left)
+
+        If Not data Is Nothing Then
+            Return data
+        Else
+            data = getAnyData(btree.right)
+        End If
+
+        Return data
+    End Function
+
+    <Extension>
+    Private Iterator Function GetClusterResultInternal(btree As BTreeCluster, vnames As String()) As IEnumerable(Of EntityClusterModel)
+        Dim data = btree.data
+
+        If data.IsNullOrEmpty Then
+            Yield New EntityClusterModel With {
+                .ID = btree.uuid,
+                .Cluster = btree.uuid
+            }
+
+            For Each id As String In btree.members.SafeQuery
+                Yield New EntityClusterModel With {
+                    .ID = id,
+                    .Cluster = btree.uuid
+                }
+            Next
+        Else
+            Dim ds As Double() = data(btree.uuid)
+            Dim v As New Dictionary(Of String, Double)
+
+            For i As Integer = 0 To vnames.Length - 1
+                Call v.Add(vnames(i), ds(i))
+            Next
+
+            Yield New EntityClusterModel With {
+                .ID = btree.uuid,
+                .Cluster = btree.uuid,
+                .Properties = v
+            }
+
+            For Each id As String In btree.members.SafeQuery
+                ds = data(id)
+                v = New Dictionary(Of String, Double)
+
+                For i As Integer = 0 To vnames.Length - 1
+                    Call v.Add(vnames(i), ds(i))
+                Next
+
+                Yield New EntityClusterModel With {
+                    .ID = id,
+                    .Cluster = btree.uuid,
+                    .Properties = v
+                }
+            Next
+        End If
+
+        If Not btree.left Is Nothing Then
+            For Each obj As EntityClusterModel In btree.left.GetClusterResultInternal(vnames)
+                Yield obj
+            Next
+        End If
+        If Not btree.right Is Nothing Then
+            For Each obj As EntityClusterModel In btree.right.GetClusterResultInternal(vnames)
+                Yield obj
+            Next
+        End If
     End Function
 End Module

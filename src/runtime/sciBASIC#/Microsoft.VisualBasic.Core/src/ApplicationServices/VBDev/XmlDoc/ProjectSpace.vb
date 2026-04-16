@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9ebcd1e667a37b88ea0cd0cf52c620b0, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\ProjectSpace.vb"
+﻿#Region "Microsoft.VisualBasic::7ab08dc39c9433fd58725bf89c4212d5, Microsoft.VisualBasic.Core\src\ApplicationServices\VBDev\XmlDoc\ProjectSpace.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 154
+    '    Code Lines: 106 (68.83%)
+    ' Comment Lines: 18 (11.69%)
+    '    - Xml Docs: 61.11%
+    ' 
+    '   Blank Lines: 30 (19.48%)
+    '     File Size: 5.72 KB
+
 
     '     Class ProjectSpace
     ' 
@@ -114,7 +126,7 @@ Namespace ApplicationServices.Development.XmlDoc.Assembly
             For Each fi As FileInfo In files
                 Try
                     Call Me.LoadFile(fi)
-                    Call $"Loaded {fi}".__DEBUG_ECHO
+                    Call $"Loaded {fi}".debug
                 Catch ex As Exception
                     ' 可能有其他的不是CLR Assembly XML的文件在这里，忽略掉这个错误
                     ex = New Exception(fi.FullName, ex)

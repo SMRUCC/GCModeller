@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9f4cbae296c4e5594b9943a6e99ebda3, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
+﻿#Region "Microsoft.VisualBasic::feb344769761243e2278c510b9dcf259, core\Bio.Assembly\Assembly\ELIXIR\UniProt\XML\Extensions.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 364
+    '    Code Lines: 274 (75.27%)
+    ' Comment Lines: 44 (12.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 46 (12.64%)
+    '     File Size: 13.25 KB
+
+
     '     Module Extensions
     ' 
-    '         Function: ECNumberList, EnumerateAllIDs, GetDomainData, GO, KO
-    '                   NCBITaxonomyId, ORF, OrganismScientificName, proteinFullName, ProteinSequence
-    '                   SubCellularLocations, Summary, Term2Gene
+    '         Function: DbReferenceId, DbReferenceIds, ECNumberList, EnumerateAllIDs, geneName
+    '                   GetDomainData, GetProteinNames, GO, KO, NCBITaxonomyId
+    '                   ORF, OrganismScientificName, proteinFullName, ProteinSequence, SubCellularLocations
+    '                   Summary, Term2Gene
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,6 +57,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -61,12 +75,37 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function ProteinSequence(prot As entry) As String
-            Return prot _
-                .sequence _
-                .sequence _
+            Return prot.sequence.sequence _
                 .LineTokens _
                 .JoinBy("") _
                 .Replace(" ", "")
+        End Function
+
+        <Extension>
+        Public Function DbReferenceId(prot As entry, dbName As String) As String
+            Dim ref As dbReference = prot.xrefs _
+                .TryGetValue(dbName) _
+                .SafeQuery _
+                .FirstOrDefault
+
+            If ref Is Nothing Then
+                Return ""
+            Else
+                Return ref.id
+            End If
+        End Function
+
+        <Extension>
+        Public Iterator Function DbReferenceIds(prot As entry, dbName As String) As IEnumerable(Of String)
+            Dim refs As dbReference() = prot.xrefs.TryGetValue(dbName)
+
+            If Not refs Is Nothing Then
+                For Each item As dbReference In refs
+                    If Not item Is Nothing Then
+                        Yield item.id
+                    End If
+                Next
+            End If
         End Function
 
         ''' <summary>
@@ -88,8 +127,24 @@ Namespace Assembly.Uniprot.XML
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function GO(protein As entry) As IEnumerable(Of dbReference)
-            Return protein.xrefs.TryGetValue("GO", [default]:=Nothing)
+            Return protein.xrefs _
+                .TryGetValue("GO", [default]:=Nothing) _
+                .SafeQuery
         End Function
+
+        ReadOnly ignores As Index(Of String) = {
+            "Antibodypedia:antibodies",
+            "Bgee:expression_patterns",
+            "BioGRID:interactions",
+            "BioGRID-ORCS:hits",
+            "ChiTaRS:organism_name",
+            "eggNOG:taxonomic_scope",
+            "EMBL:molecule_type",
+            "EMBL:status",
+            "ExpressionAtlas:expression_patterns",
+            "HPA:expression_patterns",
+            "Pfam"
+        }
 
         ''' <summary>
         ''' includes uniprot accession id and db entry in other database
@@ -98,6 +153,8 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Iterator Function EnumerateAllIDs(entry As entry) As IEnumerable(Of (Database$, xrefID$))
+            Dim key As String
+
             For Each accession As String In entry.accessions.SafeQuery
                 Yield (entry.dataset, accession)
             Next
@@ -108,13 +165,23 @@ Namespace Assembly.Uniprot.XML
                 For Each id As String In entry.gene.ORF.SafeQuery
                     Yield ("gene", id)
                 Next
+
+                For Each name In entry.gene.names
+                    Yield ("geneName", name.value)
+                Next
             End If
 
             For Each reference As dbReference In entry.dbReferences.SafeQuery
-                Yield (reference.type, reference.id)
+                If Not reference.type Like ignores Then
+                    Yield (reference.type, reference.id)
+                End If
 
                 For Each prop As [property] In reference.properties.SafeQuery
-                    Yield (reference.type & ":" & prop.type.Replace(" ", "_"), prop.value)
+                    key = reference.type & ":" & prop.type.Replace(" ", "_")
+
+                    If Not key Like ignores Then
+                        Yield (key, prop.value)
+                    End If
                 Next
             Next
         End Function
@@ -126,6 +193,7 @@ Namespace Assembly.Uniprot.XML
                 ?.protein _
                 ?.recommendedName _
                 ?.ecNumber _
+                 .SafeQuery _
                  .Select(Function(ec) ec.value) _
                  .ToArray
         End Function
@@ -166,8 +234,68 @@ Namespace Assembly.Uniprot.XML
             End If
         End Function
 
-        <Extension> Public Function ORF(protein As entry) As String
-            If protein?.gene Is Nothing OrElse Not protein.gene.HaveKey("ORF") Then
+        <Extension>
+        Public Iterator Function GetProteinNames(protein As entry) As IEnumerable(Of String)
+            If protein Is Nothing Then
+                Return
+            End If
+
+            If Not protein.protein Is Nothing Then
+                Yield protein.protein.fullName
+
+                For Each name In protein.protein.alternativeNames.SafeQuery
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                Next
+
+                If Not protein.protein.recommendedName Is Nothing Then
+                    Dim name = protein.protein.recommendedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+
+                If Not protein.protein.submittedName Is Nothing Then
+                    Dim name = protein.protein.submittedName
+
+                    If name.fullName IsNot Nothing Then
+                        Yield name.fullName.value
+                    End If
+
+                    For Each name2 In name.shortNames.SafeQuery
+                        Yield name2.value
+                    Next
+                End If
+            End If
+        End Function
+
+        <Extension>
+        Public Function geneName(prot As entry) As String
+            If prot.gene Is Nothing OrElse prot.gene.Primary.IsNullOrEmpty Then
+                Return Nothing
+            Else
+                Return prot.gene.Primary.First
+            End If
+        End Function
+
+        ''' <summary>
+        ''' try get ORF locus_tag value
+        ''' </summary>
+        ''' <param name="protein"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ORF(protein As entry) As String
+            If protein.gene Is Nothing OrElse protein.gene.ORF.IsNullOrEmpty Then
                 Return Nothing
             Else
                 Return protein.gene.ORF.First
@@ -181,8 +309,7 @@ Namespace Assembly.Uniprot.XML
         ''' <returns></returns>
         <Extension>
         Public Function SubCellularLocations(protein As entry) As String()
-            Dim cellularComments = protein _
-                .CommentList _
+            Dim cellularComments = protein.CommentList _
                 .TryGetValue("subcellular location", [default]:={})
 
             Return cellularComments _
@@ -208,21 +335,49 @@ Namespace Assembly.Uniprot.XML
         ''' 获取蛋白质的功能结构信息
         ''' </summary>
         ''' <param name="prot"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' get domain type feature information
+        ''' </returns>
         <Extension>
-        Public Function GetDomainData(prot As entry) As DomainModel()
-            Dim features As feature() = prot.features.Takes("domain")
-            Dim out As DomainModel() = features _
-                .Select(Function(f)
-                            Return New DomainModel With {
-                                .DomainId = f.description,
-                                .start = f.location.begin.position,
-                                .ends = f.location.end.position
-                            }
-                        End Function) _
-                .ToArray
+        Public Iterator Function GetDomainData(prot As entry) As IEnumerable(Of DomainModel)
+            Dim features As feature() = prot.features.SafeQuery.Takes("domain").ToArray
+            Dim xref As Dictionary(Of String, String) = prot.dbReferences _
+                .Where(Function(ref)
+                           Return ref.hasDbReference("entry name")
+                       End Function) _
+                .GroupBy(Function(ref) ref("entry name")) _
+                .ToDictionary(Function(r) r.Key,
+                              Function(id)
+                                  Return id.First().id
+                              End Function)
 
-            Return out
+            For Each f As feature In features
+                Dim key As String = f.description
+                Dim loci = f.location
+                Dim id As String
+
+                If xref.ContainsKey(key) Then
+                    id = xref(key)
+                Else
+                    id = key
+                End If
+
+                If loci.IsRegion Then
+                    Yield New DomainModel With {
+                        .ID = id,
+                        .start = loci.begin.position,
+                        .ends = loci.end.position,
+                        .name = key
+                    }
+                Else
+                    Yield New DomainModel With {
+                       .ID = key,
+                       .ends = loci.position,
+                       .start = loci.position,
+                       .name = key
+                    }
+                End If
+            Next
         End Function
 
         ''' <summary>

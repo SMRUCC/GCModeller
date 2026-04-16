@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20de3aa47e082d8fb9f9500633cfe243, mime\application%pdf\PdfFileWriter\PDF\PdfWebLink.vb"
+﻿#Region "Microsoft.VisualBasic::3b6c0198649de705418974cc84587850, mime\application%pdf\PdfFileWriter\PDF\PdfWebLink.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 29 (25.44%)
+    ' Comment Lines: 68 (59.65%)
+    '    - Xml Docs: 44.12%
+    ' 
+    '   Blank Lines: 17 (14.91%)
+    '     File Size: 3.79 KB
+
+
     '     Class PdfWebLink
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -40,7 +52,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -63,7 +75,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Collections.Generic
@@ -87,7 +99,7 @@ Imports System.Collections.Generic
         Friend WebLinkStr As String
 
         ' for search only
-        Private Sub New(ByVal WebLinkStr As String)
+        Private Sub New(WebLinkStr As String)
             ' save string
             Me.WebLinkStr = WebLinkStr
 
@@ -96,7 +108,7 @@ Imports System.Collections.Generic
         End Sub
 
         ' create new web link
-        Private Sub New(ByVal Document As PdfDocument, ByVal WebLinkStr As String)
+        Private Sub New(Document As PdfDocument, WebLinkStr As String)
             MyBase.New(Document)
             ' save string
             Me.WebLinkStr = WebLinkStr
@@ -125,7 +137,7 @@ Imports System.Collections.Generic
         ''' existing object if it is a duplicate.
         ''' </para>
         ''' </remarks>
-        Public Shared Function AddWebLink(ByVal Document As PdfDocument, ByVal WebLinkStr As String) As PdfWebLink
+        Public Shared Function AddWebLink(Document As PdfDocument, WebLinkStr As String) As PdfWebLink
             ' first time
             If Document.WebLinkArray Is Nothing Then Document.WebLinkArray = New List(Of PdfWebLink)()
 
@@ -145,12 +157,12 @@ Imports System.Collections.Generic
             Return WebLink
         End Function
 
-        ''' <summary>
-        ''' Compare two WebLinkStr objects.
-        ''' </summary>
-        ''' <param name="Other">Other object.</param>
-        ''' <returns>Compare result.</returns>
-        Public Function CompareTo(ByVal Other As PdfWebLink) As Integer Implements IComparable(Of PdfWebLink).CompareTo
-            Return String.Compare(WebLinkStr, Other.WebLinkStr)
-        End Function
-    End Class
+    ''' <summary>
+    ''' Compare two WebLinkStr objects.
+    ''' </summary>
+    ''' <param name="Other">Other object.</param>
+    ''' <returns>Compare result.</returns>
+    Public Overloads Function CompareTo(Other As PdfWebLink) As Integer Implements IComparable(Of PdfWebLink).CompareTo
+        Return String.Compare(WebLinkStr, Other.WebLinkStr)
+    End Function
+End Class

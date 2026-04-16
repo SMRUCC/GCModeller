@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e461f3b74cc1f45ddf3a1bafca022285, R#\cytoscape_toolkit\models.vb"
+﻿#Region "Microsoft.VisualBasic::a973dcf0a43c775c704db263220f9413, R#\cytoscape_toolkit\models.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 98 (67.12%)
+    ' Comment Lines: 34 (23.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 6.14 KB
+
+
     ' Module models
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -43,7 +55,7 @@
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Visualize.Cytoscape.CytoscapeGraphView
@@ -55,8 +67,10 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' api for create network graph model for cytoscape
@@ -72,20 +86,34 @@ Module models
         Return table.ToCsvDoc.AsMatrix.Print
     End Function
 
+    ''' <summary>
+    ''' create sif network
+    ''' </summary>
+    ''' <param name="source">a character vector of the source id</param>
+    ''' <param name="interaction">a character vector of the iteraction type labels</param>
+    ''' <param name="target">a character vector of the target id</param>
+    ''' <returns>a simple network graph which consist with a set of the simple iteraction links.</returns>
     <ExportAPI("sif")>
-    Public Function sif(<RRawVectorArgument> source As Object, <RRawVectorArgument> interaction As Object, <RRawVectorArgument> target As Object) As SIF()
-        Dim U As String() = REnv.asVector(Of String)(source)
-        Dim type As String() = REnv.asVector(Of String)(interaction)
-        Dim V As String() = REnv.asVector(Of String)(target)
+    <RApiReturn(GetType(SIF))>
+    Public Function sif(<RRawVectorArgument> source As Object,
+                        <RRawVectorArgument> interaction As Object,
+                        <RRawVectorArgument> target As Object) As Object
+
+        Dim U As String() = CLRVector.asCharacter(source)
+        Dim type As String() = CLRVector.asCharacter(interaction)
+        Dim V As String() = CLRVector.asCharacter(target)
 
         Return Iterator Function() As IEnumerable(Of SIF)
-                   Dim n As Integer = stdNum.Max(U.Length, V.Length)
+                   Dim n As Integer = std.Max(U.Length, V.Length)
+                   Dim u_vec = GetVectorElement.Create(Of String)(U)
+                   Dim v_vec = GetVectorElement.Create(Of String)(V)
+                   Dim t_vec = GetVectorElement.Create(Of String)(type)
 
                    For i As Integer = 0 To n - 1
                        Yield New SIF With {
-                           .interaction = type.ElementAtOrDefault(i),
-                           .source = U.ElementAtOrDefault(i),
-                           .target = V.ElementAtOrDefault(i)
+                           .interaction = t_vec(i),
+                           .source = u_vec(i),
+                           .target = v_vec(i)
                        }
                    Next
                End Function().ToArray
@@ -97,7 +125,7 @@ Module models
         Select Case network.GetType
             Case GetType(SIF()) : Return New Cyjs(DirectCast(network, SIF()))
             Case Else
-                Return Internal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
+                Return RInternal.debug.stop(Message.InCompatibleType(GetType(SIF()), network.GetType, env), env)
         End Select
     End Function
 
@@ -121,7 +149,7 @@ Module models
         ElseIf TypeOf model Is Cyjs Then
             Return DirectCast(model, Cyjs).ToNetworkGraph
         Else
-            Return Internal.debug.stop(Message.InCompatibleType(GetType(XGMMLgraph), model.GetType, env), env)
+            Return RInternal.debug.stop(Message.InCompatibleType(GetType(XGMMLgraph), model.GetType, env), env)
         End If
     End Function
 
@@ -135,11 +163,25 @@ Module models
         Return CysSessionFile.Open(cys)
     End Function
 
+    ''' <summary>
+    ''' get session information about current session file
+    ''' </summary>
+    ''' <param name="cys"></param>
+    ''' <returns></returns>
+    ''' <remarks>
+    ''' get session information from <see cref="cyTables"/> xml file
+    ''' </remarks>
     <ExportAPI("get.sessionInfo")>
-    Public Function getSessionInfo(cys As CysSessionFile) As virtualColumn()
+    <RApiReturn(GetType(virtualColumn))>
+    Public Function getSessionInfo(cys As CysSessionFile) As Object
         Return cys.GetSessionInfo
     End Function
 
+    ''' <summary>
+    ''' list of the network id inside current cytoscape session file
+    ''' </summary>
+    ''' <param name="cys"></param>
+    ''' <returns></returns>
     <ExportAPI("list.networks")>
     Public Function getNetworks(cys As CysSessionFile) As list
         Return New list With {

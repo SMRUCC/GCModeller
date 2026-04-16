@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::652de20725056f88741a4a501b5fb26f, gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
+﻿#Region "Microsoft.VisualBasic::fbaa42fc3472a373e947b99a5a9db1bc, gr\Microsoft.VisualBasic.Imaging\Drawing2D\GraphicsRegion.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 118 (64.84%)
+    ' Comment Lines: 37 (20.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 27 (14.84%)
+    '     File Size: 6.47 KB
+
+
     '     Structure GraphicsRegion
     ' 
-    '         Properties: Bottom, EntireArea, Height, PlotRegion, Width
-    '                     XRange, YRange
+    '         Properties: EntireArea, Height, Width
     ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: Offset2D, scaler, TopCentra, ToString, XScaler
-    '                   YScaler
+    '         Constructor: (+3 Overloads) Sub New
+    '         Function: Bottom, GetAbsolutePadding, GetXLinearScaleRange, GetYLinearScaleRange, Offset2D
+    '                   PlotRegion, scaler, TopCentra, ToString, XRange
+    '                   XScaler, YRange, YScaler
     ' 
     ' 
     ' /********************************************************************************/
@@ -48,7 +60,9 @@
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Drawing2D
@@ -67,18 +81,9 @@ Namespace Drawing2D
         ''' </summary>
         Dim Padding As Padding
 
-#Region "property based on the two fields value"
+        Dim device As DeviceDescription
 
-        ''' <summary>
-        ''' 绘图区域的底部Y坐标值
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Bottom As Integer
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return Size.Height - Padding.Bottom
-            End Get
-        End Property
+#Region "property based on the two fields value"
 
         ''' <summary>
         ''' Get the width of the entire canvas <see cref="Size"/>
@@ -103,22 +108,6 @@ Namespace Drawing2D
         End Property
 
         ''' <summary>
-        ''' 整张画布出去margin部分剩余的可供绘图的区域
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property PlotRegion As Rectangle
-            Get
-                Dim topLeft As New Point(Padding.Left, Padding.Top)
-                Dim size As New Size With {
-                    .Width = Me.Size.Width - Padding.Horizontal,
-                    .Height = Me.Size.Height - Padding.Vertical
-                }
-
-                Return New Rectangle(topLeft, size)
-            End Get
-        End Property
-
-        ''' <summary>
         ''' 整张画布的大小区域
         ''' </summary>
         ''' <returns></returns>
@@ -126,30 +115,6 @@ Namespace Drawing2D
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return New Rectangle(New Point, Size)
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' ``[left, right]`` as <see cref="DoubleRange"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property XRange As String
-            Get
-                With Padding
-                    Return $"{ .Left},{Width - .Right}"
-                End With
-            End Get
-        End Property
-
-        ''' <summary>
-        ''' ``[top, bottom]`` as <see cref="DoubleRange"/>
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property YRange As String
-            Get
-                With Padding
-                    Return $"{ .Top},{Height - .Bottom}"
-                End With
             End Get
         End Property
 #End Region
@@ -166,21 +131,89 @@ Namespace Drawing2D
             Me.Padding = padding
         End Sub
 
-        Public Function TopCentra(size As Size) As Point
+        Sub New(size As Size, padding As Integer())
+            Me.Size = size
+            Me.Padding = New Padding(padding)
+        End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetAbsolutePadding() As PaddingLayout
+            Return PaddingLayout.EvaluateFromCSS(New CSSEnvirnment(Size), Padding)
+        End Function
+
+        ''' <summary>
+        ''' 绘图区域的底部Y坐标值
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function Bottom(css As CSSEnvirnment) As Integer
+            Return Size.Height - css.GetHeight(Padding.Bottom)
+        End Function
+
+        ''' <summary>
+        ''' ``[left, right]`` as <see cref="DoubleRange"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function XRange(css As CSSEnvirnment) As String
+            With Padding
+                Return $"{css.GetWidth(.Left)},{Width - css.GetWidth(.Right)}"
+            End With
+        End Function
+
+        ''' <summary>
+        ''' ``[top, bottom]`` as <see cref="DoubleRange"/>
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function YRange(css As CSSEnvirnment) As String
+            With Padding
+                Return $"{css.GetHeight(.Top)},{Height - css.GetHeight(.Bottom)}"
+            End With
+        End Function
+
+        ''' <summary>
+        ''' 整张画布出去margin部分剩余的可供绘图的区域
+        ''' </summary>
+        ''' <returns></returns>
+        Public Function PlotRegion(css As CSSEnvirnment) As Rectangle
+            Dim topLeft As New Point(css.GetWidth(Padding.Left), css.GetHeight(Padding.Top))
+            Dim size As New Size With {
+                .Width = Me.Size.Width - Padding.Horizontal(css),
+                .Height = Me.Size.Height - Padding.Vertical(css)
+            }
+
+            Return New Rectangle(topLeft, size)
+        End Function
+
+        Public Function GetXLinearScaleRange(css As CSSEnvirnment) As Double()
+            Return New Double() {
+                css.GetWidth(Padding.Left),
+                Size.Width - css.GetWidth(Padding.Right)
+            }
+        End Function
+
+        Public Function GetYLinearScaleRange(css As CSSEnvirnment) As Double()
+            Return New Double() {
+                css.GetHeight(Padding.Top),
+                Size.Height - css.GetHeight(Padding.Bottom)
+            }
+        End Function
+
+        Public Function TopCentra(size As Size, css As CSSEnvirnment) As Point
             Dim left = (Me.Size.Width - size.Width) / 2
-            Dim top = (Padding.Top - size.Height) / 2
+            Dim top = (css.GetHeight(Padding.Top) - size.Height) / 2
+
             Return New Point(left, top)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function XScaler(xrange As DoubleRange) As Func(Of Double, Double)
-            Return scaler(xrange, DoubleRange.TryParse(Me.XRange))
+        Public Function XScaler(xrange As DoubleRange, css As CSSEnvirnment) As Func(Of Double, Double)
+            Return scaler(xrange, DoubleRange.TryParse(Me.XRange(css)))
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function YScaler(yrange As DoubleRange) As Func(Of Double, Double)
-            Dim scaler = GraphicsRegion.scaler(yrange, {0, PlotRegion.Height})
-            Dim bottom = PlotRegion.Bottom
+        Public Function YScaler(yrange As DoubleRange, css As CSSEnvirnment) As Func(Of Double, Double)
+            Dim rect = PlotRegion(css)
+            Dim scaler = GraphicsRegion.scaler(yrange, New DoubleRange(0, rect.Height))
+            Dim bottom = rect.Bottom
 
             Return Function(y) bottom - scaler(y)
         End Function
@@ -196,7 +229,7 @@ Namespace Drawing2D
         Public Function Offset2D(dx As Double, dy As Double) As GraphicsRegion
             Return New GraphicsRegion With {
                 .Size = Size,
-                .Padding = Padding.Offset2D(dx, dy)
+                .Padding = Padding.Offset2D(dx, dy, New CSSEnvirnment(Size))
             }
         End Function
 

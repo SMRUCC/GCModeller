@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.KOAssignmentCandidate</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>KOAssignmentCandidate {SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>KOAssignmentCandidate</h2>
+
+        <h3>Description</h3>
+
+        <p>用于存储一个查询基因的KO分配候选</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
+export class KOAssignmentCandidate extends <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BHRHit.html">BHRHit</a> {
+   # 最终计算出的KO分配得分 S_KO
+   AssignmentScore: double;
+   BBH_ID: string;
+   BHRScore: double;
+   coverage: double;
+   description: string;
+   empiricalProbability: double;
+   evalue: double;
+   hit_length: integer;
+   HitName: string;
+   identities: double;
+   isMatched: boolean;
+   isSelfHit: boolean;
+   KO: string;
+   length_hit: integer;
+   length_hsp: integer;
+   length_query: integer;
+   # 满足BHR阈值的基因数
+   N: integer;
+   positive: double;
+   query_length: integer;
+   QueryName: string;
+   SBHScore: double;
+   score: double;
+   # 最高比特分数 S_h，来自与该KO中所有基因比对的最佳结果
+   Sh: double;
+   # KO中的总基因数
+   X: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BHRHit.html">BHRHit</a> class: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/BBH/BHRHit.html">BHRHit</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

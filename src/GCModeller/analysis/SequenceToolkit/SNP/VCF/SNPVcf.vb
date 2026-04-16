@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7bcabc931c0f852b63a847577bafd85a, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
+﻿#Region "Microsoft.VisualBasic::97114331fe89fd35f0dc7b9c1f5fcb91, analysis\SequenceToolkit\SNP\VCF\SNPVcf.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 49 (73.13%)
+    ' Comment Lines: 7 (10.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (16.42%)
+    '     File Size: 2.16 KB
+
+
     '     Class SNPVcf
     ' 
     '         Properties: ALT, CHROM, FILTER, FORMAT, ID
@@ -43,9 +55,8 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 

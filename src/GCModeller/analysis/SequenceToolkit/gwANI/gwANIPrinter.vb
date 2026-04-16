@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f4fafbf372cb0e788329d0f53bd55db, analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
+﻿#Region "Microsoft.VisualBasic::b78d3dc700512fdc85e036e3100a314a, analysis\SequenceToolkit\gwANI\gwANIPrinter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 49
+    '    Code Lines: 36 (73.47%)
+    ' Comment Lines: 3 (6.12%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (20.41%)
+    '     File Size: 1.55 KB
+
+
     ' Module gwANIPrinter
     ' 
     '     Sub: print, print_header, print_matrix
@@ -42,7 +54,7 @@
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 
 Public Module gwANIPrinter
 

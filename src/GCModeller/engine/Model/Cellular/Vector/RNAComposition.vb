@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15971589a19651f052e767859b018b17, engine\Model\Cellular\Vector\RNAComposition.vb"
+﻿#Region "Microsoft.VisualBasic::50957bfe603ec5f0517cc7f24a00ee5c, engine\Model\Cellular\Vector\RNAComposition.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 49 (56.32%)
+    ' Comment Lines: 28 (32.18%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 10 (11.49%)
+    '     File Size: 3.15 KB
+
+
     '     Class RNAComposition
     ' 
-    '         Properties: A, C, G, geneID, U
+    '         Properties: A, C, G, geneID, Length
+    '                     U
     ' 
-    '         Function: FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
+    '         Function: Blank, FromNtSequence, GetEnumerator, IEnumerable_GetEnumerator, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -47,6 +60,9 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace Cellular.Vector
 
+    ''' <summary>
+    ''' nucleotide base composition data of a RNA transcript object
+    ''' </summary>
     Public Class RNAComposition : Implements IEnumerable(Of NamedValue(Of Double))
 
         Public Property geneID As String
@@ -71,8 +87,22 @@ Namespace Cellular.Vector
         ''' <returns></returns>
         Public Property C As Integer
 
+        ''' <summary>
+        ''' length of the gene sequence
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property Length As Integer
+            Get
+                Return A + U + G + C
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return geneID
+        End Function
+
+        Public Shared Function Blank(geneId As String) As RNAComposition
+            Return New RNAComposition With {.geneID = geneId}
         End Function
 
         ''' <summary>

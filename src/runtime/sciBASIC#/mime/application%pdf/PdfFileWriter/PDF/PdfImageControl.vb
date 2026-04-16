@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::20ab3125d7ce1ceea0b99cf345bf190e, mime\application%pdf\PdfFileWriter\PDF\PdfImageControl.vb"
+﻿#Region "Microsoft.VisualBasic::125ecbec32618a3ee94bd43327504ff4, mime\application%pdf\PdfFileWriter\PDF\PdfImageControl.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 52 (59.09%)
+    ' Comment Lines: 28 (31.82%)
+    '    - Xml Docs: 10.71%
+    ' 
+    '   Blank Lines: 8 (9.09%)
+    '     File Size: 2.82 KB
+
+
     ' Class PdfImageControl
     ' 
     '     Properties: GrayToBWCutoff, ImageQuality
@@ -41,7 +53,7 @@
 
 #End Region
 
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 '
 '	PdfFileWriter
 '	PDF File Write C# Class Library.
@@ -64,7 +76,7 @@
 '
 '	For version history please refer to PdfDocument.cs
 '
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+'
 
 Imports System
 Imports System.Drawing
@@ -106,7 +118,7 @@ Public Class PdfImageControl
         Get
             Return _ImageQuality
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             ' set image quality
             If value <> DefaultQuality AndAlso (value < 0 OrElse value > 100) Then Throw New ApplicationException("PdfImageControl.ImageQuality must be DefaultQuality or 0 to 100")
             _ImageQuality = value
@@ -121,7 +133,7 @@ Public Class PdfImageControl
         Get
             Return _GrayToBWCutoff
         End Get
-        Set(ByVal value As Integer)
+        Set(value As Integer)
             If value < 1 OrElse value > 99 Then Throw New ApplicationException("PdfImageControl.GrayToBWCutoff must be 1 to 99")
             _GrayToBWCutoff = value
         End Set

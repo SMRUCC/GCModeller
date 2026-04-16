@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0b6e73a0a827aa2e4a847aaa5b6aae22, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
+﻿#Region "Microsoft.VisualBasic::ef7d680064859069cd03fcd34736cea9, annotations\GSEA\GSEA\KnowledgeBase\GenericBackground.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 47 (81.03%)
+    ' Comment Lines: 6 (10.34%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 5 (8.62%)
+    '     File Size: 2.03 KB
+
+
     ' Module GenericBackground
     ' 
     '     Function: CreateGOGeneric, CreateKOGeneric, createTermGenericGene
@@ -42,7 +54,7 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Public Module GenericBackground
 
@@ -54,11 +66,13 @@ Public Module GenericBackground
     ''' 
     <Extension>
     Public Function CreateKOGeneric(KO_terms As String(), kegg As IEnumerable(Of Map), nsize As Integer) As Background
+        Dim clusterInfo As New KOMapCluster(kegg)
+
         Return GSEA.CreateBackground(
             db:=KO_terms,
             createGene:=AddressOf createTermGenericGene,
             getTerms:=Function(term) {term},
-            define:=GSEA.KEGGClusters(kegg),
+            define:=AddressOf clusterInfo.KOIDMap,
             genomeName:="generic",
             taxonomy:="generic",
             outputAll:=False
@@ -76,7 +90,7 @@ Public Module GenericBackground
                 .text = term
             },
             .name = term,
-            .term_id = terms
+            .term_id = BackgroundGene.UnknownTerms(terms).ToArray
         }
     End Function
 

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::58f680e504c0786f468cb2924cea8ebd, analysis\Microarray\Enrichment\KOBAS\Measure.vb"
+﻿#Region "Microsoft.VisualBasic::31f8a32314d8f390473eef3ca99bbcce, analysis\Microarray\Enrichment\KOBAS\Measure.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 49 (76.56%)
+    ' Comment Lines: 7 (10.94%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 8 (12.50%)
+    '     File Size: 2.71 KB
+
+
     '     Module Measure
     ' 
     '         Function: AsVector, LoadTerms, Similarity
@@ -43,8 +55,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Math
 

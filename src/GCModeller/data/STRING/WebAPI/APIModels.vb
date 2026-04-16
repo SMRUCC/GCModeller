@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::14bc9a06d8415e9078c3c738d1a4ae65, data\STRING\WebAPI\APIModels.vb"
+﻿#Region "Microsoft.VisualBasic::d652d0cbe7ba006d439576b61f248ed6, data\STRING\WebAPI\APIModels.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 344
+    '    Code Lines: 184 (53.49%)
+    ' Comment Lines: 110 (31.98%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 50 (14.53%)
+    '     File Size: 12.31 KB
+
+
     '     Class APIToken
     ' 
     '         Function: ToString
     ' 
     '     Class Database
     ' 
+    '         Constructor: (+1 Overloads) Sub New
     '         Function: GetToken
     ' 
     '     Class Format
@@ -207,6 +220,10 @@ Namespace StringDB.WebAPI
                 Request.networkList
             }
         }
+
+        Sub New(strData As String)
+            MyBase.strData = strData
+        End Sub
 
         Public Overrides Function GetToken() As String
             Return MyBase.strData

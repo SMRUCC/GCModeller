@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::40a4b0db1c1bf6367d66c4cce99898f5, Data_science\Visualization\Plots\Fractions\PieChart.vb"
+﻿#Region "Microsoft.VisualBasic::2fadf555493ccefb38520991ae07f196, Data_science\Visualization\Plots\Fractions\PieChart.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 379
+    '    Code Lines: 268 (70.71%)
+    ' Comment Lines: 70 (18.47%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 41 (10.82%)
+    '     File Size: 16.69 KB
+
+
     '     Module PieChart
     ' 
     '         Function: Fractions, FromData, FromPercentages, Plot
+    ' 
+    '         Sub: PlotPie
     ' 
     ' 
     ' /********************************************************************************/
@@ -55,12 +69,139 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+#End If
 
 Namespace Fractions
 
     Public Module PieChart
+
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="data"></param>
+        ''' <param name="valueLabelFont"></param>
+        ''' <param name="font"></param>
+        ''' <param name="layoutRect"></param>
+        ''' <param name="r!"></param>
+        ''' <param name="shadowDistance#"></param>
+        ''' <param name="shadowAngle#"></param>
+        ''' <param name="valueLabel"></param>
+        ''' <param name="legendAlt">
+        ''' nothing means no legend drawing
+        ''' </param>
+        <Extension>
+        Public Sub PlotPie(ByRef g As IGraphics, topLeft As Point,
+                           data As FractionData(),
+                           valueLabelFont As Font,
+                           font As Font,
+                           ByRef layoutRect As Rectangle, r!,
+                           Optional shadowDistance# = 0,
+                           Optional shadowAngle# = 0,
+                           Optional valueLabel As ValueLabels = ValueLabels.Percentage,
+                           Optional legendAlt As Boolean? = False)
+
+            Dim start As New f64
+            Dim sweep As New f64
+            Dim alpha As Single, pt As PointF
+            Dim labelSize As SizeF
+            Dim label$
+            Dim br As SolidBrush
+            Dim centra As Point
+            Dim drawLegendLable As Boolean = Not legendAlt Is Nothing AndAlso Not legendAlt.Value
+            Dim sumAll = Aggregate pie As FractionData In data Into Sum(pie.Value)
+
+            layoutRect = New Rectangle(topLeft, New Size(r * 2, r * 2))
+            centra = layoutRect.Centre
+
+            If shadowDistance > 0 Then
+                ' 首先需要进行阴影的绘制
+                With topLeft.MovePoint(shadowDistance, shadowAngle)
+                    Dim circle As New GraphicsPath
+
+                    Call circle.AddEllipse(.X, .Y, CSng(r * 2), CSng(r * 2))
+                    Call circle.CloseAllFigures()
+                    Call Shadow.DropdownShadows(g, polygon:=circle)
+                End With
+
+                ' 填充浅灰色底层
+                Call g.FillPie(Brushes.LightGray, layoutRect, 0, 360)
+            End If
+
+            For Each x As FractionData In data
+                br = New SolidBrush(x.Color)
+                x.Percentage = x.Value / sumAll
+
+                Call g.FillPie(br, layoutRect,
+                               CSng(start = ((+start) + (sweep = CSng(360 * x.Percentage)))) - CSng(sweep.Value),
+                               CSng(sweep))
+
+                alpha = (+start) - (+sweep / 2)
+                ' 在这里r/1.5是因为这些百分比的值的标签需要显示在pie的内部
+                pt = (r / 1.5, alpha).ToCartesianPoint()
+                pt = New PointF(pt.X + centra.X, pt.Y + centra.Y)
+
+                If valueLabel <> ValueLabels.None Then
+                    label = x.GetValueLabel(valueLabel)
+                    labelSize = g.MeasureString(label, valueLabelFont)
+                    pt = New Point(pt.X - labelSize.Width / 2, pt.Y)
+
+                    Call g.DrawString(label, valueLabelFont, Brushes.White, pt)
+                End If
+
+                If drawLegendLable Then
+
+                    ' 标签文本信息跟随pie的值而变化的
+                    Dim layout As New PointF With {
+                        .X = (r * 1.15 * std.Cos((start / 360) * (2 * std.PI))) + centra.X,
+                        .Y = (r * 1.15 * std.Sin((start / 360) * (2 * std.PI))) + centra.Y
+                    }
+
+                    labelSize = g.MeasureString(x.Name, font)
+
+                    If layout.X < centra.X Then
+                        ' 在左边，则需要剪掉size的width
+                        layout = New PointF(layout.X - labelSize.Width, layout.Y)
+                    End If
+
+                    g.DrawString(x.Name, font, Brushes.Black, layout)
+
+                    ' 还需要绘制标签文本和pie的连接线
+                    With (CDbl(r), alpha).ToCartesianPoint()
+                        pt = New PointF(centra.X + .X, centra.Y + .Y)
+                    End With
+
+                    ' 绘制pt和layout之间的连接线
+                    g.DrawLine(Pens.Gray, pt, layout)
+                End If
+            Next
+        End Sub
 
         ''' <summary>
         ''' Plot pie chart
@@ -105,10 +246,10 @@ Namespace Fractions
                              Optional legendUnitSize$ = "60,50",
                              Optional shadowDistance# = 80,
                              Optional shadowAngle# = 35,
-                             Optional ppi As Integer = 100) As GraphicsData
+                             Optional ppi As Integer = 100,
+                             Optional driver As Drivers = Drivers.Default) As GraphicsData
 
             Dim margin As Padding = padding
-            Dim font As Font = CSSFont.TryParse(legendFont).GDIObject(ppi)
 
 #Const DEBUG = 0
             If reorder <> 0 Then
@@ -123,85 +264,36 @@ Namespace Fractions
 
             Dim plotInternal =
                 Sub(ByRef g As IGraphics, region As GraphicsRegion)
-                    Dim gSize = region.PlotRegion.Size
-                    Dim r# = stdNum.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
-                    Dim topLeft As New Point(margin.Left, margin.Top)
-                    Dim valueLabelFont As Font = CSSFont.TryParse(valueLabelStyle).GDIObject(g.Dpi)
+                    Dim css As CSSEnvirnment = g.LoadEnvironment
+                    Dim gSize = region.PlotRegion(css).Size
+                    Dim r# = std.Min(gSize.Width, gSize.Height - shadowDistance) / 2 ' 最大的半径值
+                    Dim font As Font = css.GetFont(CSSFont.TryParse(legendFont))
+                    Dim valueLabelFont As Font = css.GetFont(CSSFont.TryParse(valueLabelStyle))
                     Dim layoutRect As Rectangle
+                    Dim layout As PaddingLayout = PaddingLayout.EvaluateFromCSS(css, region.Padding)
+                    Dim topLeft As New Point(layout.Left, layout.Top)
 
                     If minRadius <= 0 OrElse CDbl(minRadius) >= r Then  ' 半径固定不变的样式
+                        Call g.PlotPie(
+                            topLeft:=topLeft,
+                            data:=data.ToArray,
+                            valueLabelFont:=valueLabelFont,
+                            font:=font,
+                            layoutRect:=layoutRect,
+                            r:=r,
+                            shadowDistance:=shadowDistance,
+                            shadowAngle:=shadowAngle,
+                            valueLabel:=valueLabel,
+                            legendAlt:=legendAlt
+                        )
 
-                        Dim start As New f64
-                        Dim sweep As New f64
-                        Dim alpha As Single, pt As PointF
-                        Dim labelSize As SizeF
-                        Dim label$
-                        Dim br As SolidBrush
-                        Dim centra As Point
-
-                        layoutRect = New Rectangle(topLeft, New Size(r * 2, r * 2))
-                        centra = layoutRect.Centre
-
-                        ' 首先需要进行阴影的绘制
-                        With topLeft.MovePoint(shadowDistance, shadowAngle)
-                            Dim circle As New GraphicsPath
-
-                            Call circle.AddEllipse(.X, .Y, CSng(r * 2), CSng(r * 2))
-                            Call circle.CloseAllFigures()
-                            Call Shadow.DropdownShadows(g, polygon:=circle)
-                        End With
-
-                        ' 填充浅灰色底层
-                        Call g.FillPie(Brushes.LightGray, layoutRect, 0, 360)
-
-                        For Each x As FractionData In data
-                            br = New SolidBrush(x.Color)
-                            Call g.FillPie(br, layoutRect,
-                                           CSng(start = ((+start) + (sweep = CSng(360 * x.Percentage)))) - CSng(sweep.Value),
-                                           CSng(sweep))
-
-                            alpha = (+start) - (+sweep / 2)
-                            ' 在这里r/1.5是因为这些百分比的值的标签需要显示在pie的内部
-                            pt = (r / 1.5, alpha).ToCartesianPoint()
-                            pt = New PointF(pt.X + centra.X, pt.Y + centra.Y)
-                            label = x.GetValueLabel(valueLabel)
-                            labelSize = g.MeasureString(label, valueLabelFont)
-                            pt = New Point(pt.X - labelSize.Width / 2, pt.Y)
-
-                            Call g.DrawString(label, valueLabelFont, Brushes.White, pt)
-
-                            If Not legendAlt Then
-
-                                ' 标签文本信息跟随pie的值而变化的
-                                Dim layout As New PointF With {
-                                    .X = (r * 1.15 * stdNum.Cos((start / 360) * (2 * stdNum.PI))) + centra.X,
-                                    .Y = (r * 1.15 * stdNum.Sin((start / 360) * (2 * stdNum.PI))) + centra.Y
-                                }
-
-                                labelSize = g.MeasureString(x.Name, font)
-
-                                If layout.X < centra.X Then
-                                    ' 在左边，则需要剪掉size的width
-                                    layout = New PointF(layout.X - labelSize.Width, layout.Y)
-                                End If
-
-                                g.DrawString(x.Name, font, Brushes.Black, layout)
-
-                                ' 还需要绘制标签文本和pie的连接线
-                                With (r, alpha).ToCartesianPoint()
-                                    pt = New PointF(centra.X + .X, centra.Y + .Y)
-                                End With
-
-                                ' 绘制pt和layout之间的连接线
-                                g.DrawLine(Pens.Gray, pt, layout)
-                            End If
-                        Next
-                    Else  ' 半径也会有变化
+                    Else
+                        ' 半径也会有变化
                         Dim a As New Value(Of Single)
                         Dim sweep! = 360 / data.Count
                         Dim maxp# = data.Max(Function(x) x.Percentage)
 #If DEBUG Then
-                             Dim list As New List(Of Rectangle)
+                        Dim list As New List(Of Rectangle)
 #End If
                         For Each x As FractionData In data
                             Dim r2# = minRadius + (r - minRadius) * (x.Percentage / maxp)
@@ -211,24 +303,24 @@ Namespace Fractions
 
                             Call g.FillPie(br, rect, (a = (a.Value + sweep)), sweep)
 #If DEBUG Then
-                                 list += rect
+                            list += rect
 #End If
                         Next
 #If DEBUG Then
-                             For Each rect In list
-                                 Call g.DrawRectangle(Pens.Red, rect)
-                             Next
+                        For Each rect In list
+                            Call g.DrawRectangle(Pens.Red, rect)
+                        Next
 #End If
                     End If
 
                     If legendAlt Then
                         Dim maxL = g.MeasureString(data.MaxLengthString(Function(x) x.Name), font).Width
-                        Dim left = layoutRect.Right + margin.Left
+                        Dim left = layoutRect.Right + layout.Left
                         Dim legends As New List(Of LegendObject)
                         Dim d = font.Size
                         Dim height! = (d + g.MeasureString("1", font).Height) * data.Count
                         ' Excel之中的饼图的示例样式位置为默认右居中的
-                        Dim top = (gSize.Height - height) / 2 - margin.Top
+                        Dim top = (gSize.Height - height) / 2 - layout.Top
 
                         For Each x As FractionData In data
                             legends += New LegendObject With {
@@ -249,7 +341,7 @@ Namespace Fractions
                     End If
                 End Sub
 
-            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal)
+            Return g.GraphicsPlots(size.SizeParser, margin, bg, plotInternal, driver:=driver)
         End Function
 
         ''' <summary>

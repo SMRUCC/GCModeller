@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d4467b57b649ce143495262712243e8c, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
+﻿#Region "Microsoft.VisualBasic::021fe745a8d18b80bc9f843f4901a3f2, core\Bio.Assembly\ComponentModel\Locus\Nucleotide\NucleotideLocation.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 352
+    '    Code Lines: 172 (48.86%)
+    ' Comment Lines: 143 (40.62%)
+    '    - Xml Docs: 93.71%
+    ' 
+    '   Blank Lines: 37 (10.51%)
+    '     File Size: 15.29 KB
+
+
     '     Class NucleotideLocation
     ' 
     '         Properties: Ends, IsValid, Start, Strand, tagStr
@@ -55,10 +67,11 @@ Namespace ComponentModel.Loci
 
     ''' <summary>
     ''' Loci segment location information on an nucleotide sequence, this object added an <see cref="NucleotideLocation.Strand"></see> 
-    ''' information on <see cref="Location"></see> data.(会自动根据LEFT和RIGHT的值来修正属性值)
+    ''' information on <see cref="Location"></see> data.
     ''' </summary>
-    ''' <remarks></remarks>
+    ''' <remarks>(会自动根据LEFT和RIGHT的值来修正属性值)</remarks>
     Public Class NucleotideLocation : Inherits Location
+        Implements INucleotideLocation
 
         ''' <summary>
         ''' 这个位点在哪一条DNA核酸链
@@ -72,7 +85,7 @@ Namespace ComponentModel.Loci
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        <XmlAttribute> Public Overridable Property Strand As Strands
+        <XmlAttribute> Public Overridable Property Strand As Strands Implements INucleotideLocation.Strand
         ''' <summary>
         ''' 用户对这个位点的自定义标注信息
         ''' </summary>
@@ -358,7 +371,7 @@ Namespace ComponentModel.Loci
         ''' </summary>
         ''' <returns></returns>
         Public Overrides Function ToString() As String
-            Return $"{left} ~ {right} #{Strings.LCase(Strand.ToString)}"
+            Return $"{left}~{right}#{Strings.LCase(Strand.ToString)}"
         End Function
 
         ''' <summary>

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 76 (73.79%)
+    ' Comment Lines: 11 (10.68%)
+    '    - Xml Docs: 81.82%
+    ' 
+    '   Blank Lines: 16 (15.53%)
+    '     File Size: 3.50 KB
+
+
     '     Class GraphMatrix
     ' 
     '         Constructor: (+1 Overloads) Sub New

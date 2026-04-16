@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a932304c2b841708e316761009cbedeb, data\STRING\tsv\InteractExports.vb"
+﻿#Region "Microsoft.VisualBasic::66357d1e0626a204e20d43465214dac5, data\STRING\tsv\InteractExports.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 54
+    '    Code Lines: 32 (59.26%)
+    ' Comment Lines: 16 (29.63%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (11.11%)
+    '     File Size: 2.36 KB
+
+
     ' Class InteractExports
     ' 
     '     Properties: automated_textmining, coexpression, combined_score, database_annotated, experimentally_determined_interaction
@@ -43,9 +55,9 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data.STRING.StringDB.Tsv

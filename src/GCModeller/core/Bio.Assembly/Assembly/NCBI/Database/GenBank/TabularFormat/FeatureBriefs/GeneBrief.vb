@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 188
+    '    Code Lines: 112 (59.57%)
+    ' Comment Lines: 56 (29.79%)
+    '    - Xml Docs: 96.43%
+    ' 
+    '   Blank Lines: 20 (10.64%)
+    '     File Size: 7.39 KB
+
+
     '     Class GeneBrief
     ' 
     '         Properties: ATG, Code, COG, Gene, IsBlankSegment

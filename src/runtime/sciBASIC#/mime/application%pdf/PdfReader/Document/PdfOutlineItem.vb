@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2debca7cd3efe83ccc0e320cc30e40a7, mime\application%pdf\PdfReader\Document\PdfOutlineItem.vb"
+﻿#Region "Microsoft.VisualBasic::56ff105b23674216f6ca7a1419ec8f88, mime\application%pdf\PdfReader\Document\PdfOutlineItem.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 43 (82.69%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (17.31%)
+    '     File Size: 1.59 KB
+
+
     '     Class PdfOutlineItem
     ' 
     '         Properties: A, C, Dest, F, SE
@@ -50,12 +62,12 @@ Namespace PdfReader
 
         Private _dictionary As PdfDictionary
 
-        Public Sub New(ByVal parent As PdfObject, ByVal dictionary As PdfDictionary)
+        Public Sub New(parent As PdfObject, dictionary As PdfDictionary)
             MyBase.New(parent, dictionary)
             _dictionary = dictionary
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 

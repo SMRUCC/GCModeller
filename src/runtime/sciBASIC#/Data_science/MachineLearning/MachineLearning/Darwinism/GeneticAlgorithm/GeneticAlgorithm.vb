@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d0ad71bbcb34a36f5c779fdbd62e8708, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::85bd8e350572383e6eab137c29ed7efd, Data_science\MachineLearning\MachineLearning\Darwinism\GeneticAlgorithm\GeneticAlgorithm.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 101 (46.76%)
+    ' Comment Lines: 87 (40.28%)
+    '    - Xml Docs: 65.52%
+    ' 
+    '   Blank Lines: 28 (12.96%)
+    '     File Size: 9.21 KB
+
 
     '     Class GeneticAlgorithm
     ' 
@@ -65,7 +77,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.ReplacementStrategy
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Population
+Imports Microsoft.VisualBasic.MachineLearning.Darwinism.GAF.Population.SubstitutionStrategy
 Imports Microsoft.VisualBasic.MachineLearning.Darwinism.Models
 Imports Microsoft.VisualBasic.Math
 Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
@@ -131,7 +144,9 @@ Namespace Darwinism.GAF
         ''' </param>
         ''' <param name="createPopulation">By default is create with <see cref="PopulationList(Of Chr)"/></param>
         ''' <remarks>
-        ''' 
+        ''' Just put the model that implements the <see cref="Fitness(Of Chr)"/>, the
+        ''' <see cref="FitnessPool(Of Chr)"/> will be created automatically in this 
+        ''' constructor function.
         ''' </remarks>
         Public Sub New(population As Population(Of Chr), fitnessFunc As Fitness(Of Chr),
                        Optional replacementStrategy As Strategies = Strategies.Naive,
@@ -141,7 +156,7 @@ Namespace Darwinism.GAF
 
             Me.population = population
             Me.seeds = seeds Or randfSeeds
-            Me.chromosomesComparator = New FitnessPool(Of Chr)(fitnessFunc, capacity:=cacheSize, toString:=Function(c) c.UniqueHashKey)
+            Me.chromosomesComparator = New FitnessPool(Of Chr)(fitnessFunc, capacity:=cacheSize)
             Me.popStrategy = replacementStrategy.GetStrategy(Of Chr)
             Me.populationCreator = createPopulation Or createList
 

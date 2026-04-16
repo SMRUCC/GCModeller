@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::074ec7c0a584f6c59d465b5432eefa8c, visualize\Cytoscape\Cytoscape\csv\LinkageNetwork.vb"
+﻿#Region "Microsoft.VisualBasic::a77cf4c810f056566b5cbabdabfec5dd, visualize\Cytoscape\Cytoscape\csv\LinkageNetwork.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 98 (78.40%)
+    ' Comment Lines: 11 (8.80%)
+    '    - Xml Docs: 72.73%
+    ' 
+    '   Blank Lines: 16 (12.80%)
+    '     File Size: 5.38 KB
+
+
     '     Module LinkageNetwork
     ' 
     '         Function: __addPrefix, BuildNetwork
@@ -44,7 +56,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network
 Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream
 Imports Microsoft.VisualBasic.Imaging

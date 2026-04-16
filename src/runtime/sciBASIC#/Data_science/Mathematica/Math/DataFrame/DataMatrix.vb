@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a013852a4c8a789526635da422a5ca37, Data_science\Mathematica\Math\DataFrame\DataMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::554d8bfaece9e6f661fa0f2c387fa013, Data_science\Mathematica\Math\DataFrame\DataMatrix.vb"
 
     ' Author:
     ' 
@@ -31,22 +31,35 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 207
+    '    Code Lines: 160 (77.29%)
+    ' Comment Lines: 14 (6.76%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 33 (15.94%)
+    '     File Size: 7.23 KB
+
+
     ' Class DataMatrix
     ' 
     '     Properties: keys, size
     ' 
-    '     Constructor: (+3 Overloads) Sub New
-    '     Function: GetVector, PopulateRowEntitys, PopulateRowObjects, PopulateRows, ToString
-    '               Visit
+    '     Constructor: (+4 Overloads) Sub New
+    ' 
+    '     Function: ArrayPack, GetLabels, (+2 Overloads) GetVector, PopulateRowEntitys, PopulateRowObjects
+    '               PopulateRows, ToString, Visit
+    ' 
+    '     Sub: CheckDimensionInternal
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports System.Data
-#End If
-
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
@@ -54,12 +67,20 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
 Imports Microsoft.VisualBasic.Serialization.JSON
 
-Public Class DataMatrix : Implements IBucketVector
+''' <summary>
+''' A NxN data matrix which can be convert to graph object
+''' under a certain cutoff value.
+''' </summary>
+''' <remarks>
+''' a matrix data wrapper for pairwise comparision analysis
+''' </remarks>
+Public Class DataMatrix : Implements IBucketVector, INumericMatrix, ILabeledMatrix
 
     Protected Friend ReadOnly names As Index(Of String)
     Protected Friend ReadOnly matrix As Double()()
 
     Default Public Overridable Property dist(a$, b$) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Me(names(a), names(b))
         End Get
@@ -69,6 +90,7 @@ Public Class DataMatrix : Implements IBucketVector
     End Property
 
     Default Public Overridable Property dist(i%, j%) As Double
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return matrix(j)(i)
         End Get
@@ -78,12 +100,14 @@ Public Class DataMatrix : Implements IBucketVector
     End Property
 
     Public ReadOnly Property keys As String()
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return names.Objects
         End Get
     End Property
 
     Public ReadOnly Property size As Integer
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return matrix.Length
         End Get
@@ -91,21 +115,32 @@ Public Class DataMatrix : Implements IBucketVector
 
     Sub New(names As IEnumerable(Of String))
         Me.names = names.Indexing
-        Me.matrix = MAT(Of Double)(Me.names.Count, Me.names.Count)
+        Me.matrix = RectangularArray.Matrix(Of Double)(Me.names.Count, Me.names.Count)
     End Sub
 
     Sub New(names As Index(Of String), matrix As Double()())
         Me.names = names
         Me.matrix = matrix
 
-        If Me.names.Count <> matrix.Length Then
-            Throw New InvalidConstraintException("the given member names is not equals to the matrix size!")
-        End If
+        Call CheckDimensionInternal()
+    End Sub
+
+    Sub New(names As IEnumerable(Of String), matrix As IEnumerable(Of Double()))
+        Me.names = names.ToArray
+        Me.matrix = matrix.ToArray
+
+        Call CheckDimensionInternal()
     End Sub
 
     Sub New(M%, N%)
-        Me.matrix = MAT(Of Double)(M, N)
+        Me.matrix = RectangularArray.Matrix(Of Double)(M, N)
         Me.names = New Index(Of String)
+    End Sub
+
+    Private Sub CheckDimensionInternal()
+        If Me.names.Count <> matrix.Length Then
+            Throw New InvalidConstraintException("the given member names is not equals to the matrix size!")
+        End If
     End Sub
 
     Public Function Visit(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(projectName As String, direction As MatrixVisit) As DataSet
@@ -138,17 +173,46 @@ Public Class DataMatrix : Implements IBucketVector
     ''' <returns></returns>
     Public Iterator Function PopulateRowObjects(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})() As IEnumerable(Of DataSet)
         Dim names As String() = Me.names.Objects
+        Dim width As Integer = matrix(0).Length
 
-        For Each item As SeqValue(Of String) In names.SeqIterator
-            Yield New DataSet With {
-                .Key = item,
-                .Properties = names _
-                    .ToDictionary(Function(a) a,
-                                  Function(a)
-                                      Return Me(a, item.value)
-                                  End Function)
-            }
-        Next
+        If names.Length = width Then
+            ' is NxN matrix
+            For Each dims As String In names
+                Yield New DataSet With {
+                    .Key = dims,
+                    .Properties = names _
+                        .ToDictionary(Function(a) a,
+                                      Function(a)
+                                          Return Me(a, dims)
+                                      End Function)
+                }
+            Next
+        Else
+            ' is MxN table
+            For Each dims As String In names
+                Dim vec As New Dictionary(Of String, Double)
+                Dim row = matrix(Me.names(dims))
+
+                For i As Integer = 0 To row.Length - 1
+                    vec($"dim{i + 1}") = row(i)
+                Next
+
+                Yield New DataSet With {
+                    .Key = dims,
+                    .Properties = vec
+                }
+            Next
+        End If
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function HasObject(name As String) As Boolean
+        Return name Like names
+    End Function
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function GetVector(name As String) As Double()
+        Return names.Objects.Select(Function(a) Me(a, name)).ToArray
     End Function
 
     Public Iterator Function PopulateRowEntitys(Of DataSet As {New, INamedValue, DynamicPropertyBase(Of Double)})(propertyNames As String()) As IEnumerable(Of DataSet)
@@ -177,11 +241,32 @@ Public Class DataMatrix : Implements IBucketVector
         End If
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Narrowing Operator CType(mat As DataMatrix) As NumericMatrix
         Return New NumericMatrix(mat.matrix)
     End Operator
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function GetVector() As IEnumerable Implements IBucketVector.GetVector
         Return PopulateRows.IteratesALL.ToArray
+    End Function
+
+    Public Function ArrayPack(Optional deepcopy As Boolean = False) As Double()() Implements INumericMatrix.ArrayPack
+        If deepcopy Then
+            Dim len As Integer = matrix(0).Length
+            Dim copy As Double()() = RectangularArray.Matrix(Of Double)(matrix.Length, len)
+
+            For i As Integer = 0 To matrix.Length - 1
+                Call Array.ConstrainedCopy(matrix(i), Scan0, copy(i), Scan0, len)
+            Next
+
+            Return copy
+        Else
+            Return matrix
+        End If
+    End Function
+
+    Public Function GetLabels() As IEnumerable(Of String) Implements ILabeledMatrix.GetLabels
+        Return names.Objects
     End Function
 End Class

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::707991f58e8ea0ae499bb630e93aec95, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
+﻿#Region "Microsoft.VisualBasic::c3235bef6afd4d50fdec22dc912e4fd5, core\Bio.Assembly\SequenceModel\NucleicAcid\Objects\NucleicAcid.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 410
+    '    Code Lines: 244 (59.51%)
+    ' Comment Lines: 106 (25.85%)
+    '    - Xml Docs: 92.45%
+    ' 
+    '   Blank Lines: 60 (14.63%)
+    '     File Size: 15.88 KB
+
+
     '     Class NucleicAcid
     ' 
     '         Properties: GC, Length, SequenceData, Tm, UserTag
     ' 
     '         Constructor: (+6 Overloads) Sub New
     ' 
-    '         Function: (+2 Overloads) Complement, CopyNT, (+2 Overloads) Counts, CreateObject, Enums
-    '                   GetSegment, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1, InvalidForNt, ReadSegment
-    '                   RemoveInvalids, Replace, Reverse, Split, ToArray
-    '                   (+3 Overloads) ToString
+    '         Function: Canonical, (+2 Overloads) Complement, CopyNT, (+2 Overloads) Counts, CreateObject
+    '                   Enums, GetReverseComplement, GetSegment, IEnumerable_GetEnumerator, IEnumerable_GetEnumerator1
+    '                   InvalidForNt, ReadSegment, RemoveInvalids, Replace, Reverse
+    '                   Split, ToArray, (+3 Overloads) ToString
     ' 
     '         Sub: convertSequence
     ' 
@@ -355,14 +367,13 @@ Namespace SequenceModel.NucleotideModels
 
         ''' <summary>
         ''' Gets the complement sequence of a nucleotide sequence.
-        ''' (获取某一条核酸序列的互补序列，但是新得到的序列并不会首尾反转，
-        ''' 请注意，这个函数所输入的DNA序列字符串必须是大写字母的)
         ''' </summary>
         ''' <param name="DNAseq">
         ''' The target dna nucleotide sequence to complement.(必须全部都是大写字母)
         ''' </param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(获取某一条核酸序列的互补序列，但是新得到的序列并不会首尾反转，
+        ''' 请注意，这个函数所输入的DNA序列字符串必须是大写字母的)</remarks>
         Public Shared Function Complement(DNAseq As String) As String
             Dim sb As New StringBuilder(DNAseq.ToUpper)
 
@@ -377,6 +388,38 @@ Namespace SequenceModel.NucleotideModels
             Call sb.Replace("4"c, "G"c)
 
             Return sb.ToString
+        End Function
+
+        ''' <summary>
+        ''' 获取DNA序列的反向互补序列。
+        ''' </summary>
+        Public Shared Function GetReverseComplement(sequence As String) As String
+            Dim sb As New StringBuilder(sequence.Length)
+            For i As Integer = sequence.Length - 1 To 0 Step -1
+                Dim c As Char = sequence(i)
+                Select Case Char.ToUpper(c)
+                    Case "A"c : sb.Append("T")
+                    Case "T"c : sb.Append("A")
+                    Case "C"c : sb.Append("G")
+                    Case "G"c : sb.Append("C")
+                    Case Else : sb.Append(c) ' 处理N或其他字符
+                End Select
+            Next
+            Return sb.ToString()
+        End Function
+
+        ''' <summary>
+        ''' 忽略反向互补（reverse complement）
+        ''' 
+        ''' DNA 序列一般需要在两个链上比较，否则来自同一分子的正反链会被判定为不相似。
+        ''' </summary>
+        ''' <param name="DNAseq"></param>
+        ''' <returns></returns>
+        Public Shared Function Canonical(DNAseq As String) As String
+            ' make reverse complement
+            ' 反向互补
+            Dim rc As String = GetReverseComplement(DNAseq)
+            Return If(String.Compare(DNAseq, rc) < 0, DNAseq, rc)
         End Function
 
         Public Overrides Function ToString() As String

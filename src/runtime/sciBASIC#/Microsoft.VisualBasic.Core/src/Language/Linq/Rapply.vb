@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 24 (72.73%)
+    ' Comment Lines: 3 (9.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (18.18%)
+    '     File Size: 1.19 KB
+
+
     '     Module Rapply
     ' 
     '         Function: lapply

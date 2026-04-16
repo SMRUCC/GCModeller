@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a3b06a98f83508d15b9e9dc5b68468f, gr\network-visualization\Datavisualization.Network\Analysis\Similarity\Similarity.vb"
+﻿#Region "Microsoft.VisualBasic::4d46b6290b7b235cde7f3ec13016f74e, gr\network-visualization\Datavisualization.Network\Analysis\Similarity\Similarity.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 75 (67.57%)
+    ' Comment Lines: 16 (14.41%)
+    '    - Xml Docs: 37.50%
+    ' 
+    '   Blank Lines: 20 (18.02%)
+    '     File Size: 4.36 KB
+
 
     '     Module Similarity
     ' 
@@ -104,7 +116,9 @@ Namespace Analysis
         ''' <param name="a"></param>
         ''' <param name="b"></param>
         ''' <returns></returns>
-        Public Function NodeSimilarity(a As Node, b As Node, classEquivalent As Func(Of String, String, Double), Optional topologyCos As Boolean = True) As Double
+        Public Function NodeSimilarity(a As Node, b As Node,
+                                       classEquivalent As Func(Of String, String, Double),
+                                       Optional topologyCos As Boolean = True) As Double
             ' consider the node itself
             ' if the two node is not in same datatype, then returns not similar
             Dim class1 As String = Scripting.ToString(a.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE))

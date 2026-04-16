@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ff4f46af58e39e2cc68ad03117c6d3bc, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\Parser.vb"
+﻿#Region "Microsoft.VisualBasic::271070fc9de012a130bd3c12e1275b9a, Microsoft.VisualBasic.Core\src\Extensions\StringHelpers\Parser.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 431
+    '    Code Lines: 244 (56.61%)
+    ' Comment Lines: 137 (31.79%)
+    '    - Xml Docs: 80.29%
+    ' 
+    '   Blank Lines: 50 (11.60%)
+    '     File Size: 14.13 KB
+
+
     ' Module PrimitiveParser
     ' 
     '     Function: Eval, IsBooleanFactor, IsInteger, isNaN, IsNumeric
@@ -46,6 +58,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Scripting.Runtime
 Imports Microsoft.VisualBasic.Text
+Imports Microsoft.VisualBasic.ValueTypes
 
 ''' <summary>
 ''' Simple type parser extension function for <see cref="String"/>
@@ -75,6 +88,10 @@ Public Module PrimitiveParser
     ''' 这个表达式并不用于<see cref="IsNumeric"/>, 但是其他的模块的代码可能会需要这个通用的表达式来做一些判断
     ''' </remarks>
     Public Const NumericPattern$ = SimpleNumberPattern & "([eE][+-]?\d*)?"
+
+    ''' <summary>
+    ''' just a pattern for the simple number, without the scientific notation pattern
+    ''' </summary>
     Public Const SimpleNumberPattern$ = "[-]?\d*(\.\d+)?"
 
 #Region "text token pattern assert"
@@ -96,10 +113,10 @@ Public Module PrimitiveParser
     End Function
 
     ''' <summary>
-    ''' 这个函数相较于<see cref="IsNumeric(String, Boolean)"/>，仅仅做简单的数值格式判断
+    ''' 这个函数相较于<see cref="PrimitiveParser.IsNumeric"/>，仅仅做简单的数值格式判断
     ''' </summary>
     ''' <returns></returns>
-    ''' 
+    ''' <remarks>is regex pattern of <see cref="SimpleNumberPattern"/></remarks>
     <Extension>
     Public Function IsSimpleNumber(num As String) As Boolean
         Return num.IsPattern(SimpleNumberPattern)
@@ -113,13 +130,18 @@ Public Module PrimitiveParser
     ''' 这个函数会判断科学计数法等格式
     ''' </remarks>
     <Extension>
-    Public Function IsNumeric(num As String, Optional includesNaNFactor As Boolean = False) As Boolean
+    Public Function IsNumeric(num As String,
+                              Optional includesNaNFactor As Boolean = False,
+                              Optional includesInteger As Boolean = False) As Boolean
+
         Dim dotCheck As Boolean = False
         Dim c As Char
         Dim offset As Integer = 0
 
         If String.IsNullOrEmpty(num) Then
             Return False
+        ElseIf includesInteger AndAlso num.IsInteger Then
+            Return True
         Else
             c = num(Scan0)
         End If
@@ -156,7 +178,7 @@ Public Module PrimitiveParser
                         dotCheck = True
                     End If
                 ElseIf c = "E"c OrElse c = "e"c Then
-                    Return IsInteger(num, i + 1)
+                    Return IsInteger(num, i + 1, checkLong:=False)
                 Else
                     Return False
                 End If
@@ -168,11 +190,27 @@ Public Module PrimitiveParser
 
     ReadOnly numbers As Index(Of Char) = {"0"c, "1"c, "2"c, "3"c, "4"c, "5"c, "6"c, "7"c, "8"c, "9"c}
 
+    ''' <summary>
+    ''' test the given string is in integer pattern?
+    ''' </summary>
+    ''' <param name="num"></param>
+    ''' <param name="offset"></param>
+    ''' <returns>
+    ''' this function will returns true if all of the char in 
+    ''' the <paramref name="num"/> string is number.
+    ''' </returns>
+    ''' <remarks>
+    ''' this function also checks for the negative integer/long value
+    ''' </remarks>
     <Extension>
-    Public Function IsInteger(num As String, Optional offset As Integer = 0) As Boolean
+    Public Function IsInteger(num As String, Optional offset As Integer = 0, Optional checkLong As Boolean = True) As Boolean
         Dim c As Char
 
         If num Is Nothing OrElse num = "" Then
+            Return False
+        ElseIf num.Last = "E" OrElse num.Last = "e" OrElse offset >= num.Length Then
+            ' 4E -> offset = 2
+            ' 3545e -> offset = 5
             Return False
         Else
             c = num(offset)
@@ -191,6 +229,21 @@ Public Module PrimitiveParser
             End If
         Next
 
+        ' 20220922 handling of 2147483647
+        If num.Length = 10 AndAlso Not num.Any(Function(cc) cc = "E"c OrElse cc = "e"c) Then
+            If Integer.Parse(num.First) > 2 Then
+                ' is long
+                Return False
+            Else
+                ' is possibably an integer
+                ' may be long
+                Return True
+            End If
+        ElseIf checkLong AndAlso num.Length > 10 Then
+            ' is long
+            Return False
+        End If
+
         Return True
     End Function
 #End Region
@@ -199,7 +252,11 @@ Public Module PrimitiveParser
     ''' <see cref="Integer"/> text parser
     ''' </summary>
     ''' <param name="s"></param>
-    ''' <returns></returns>
+    ''' <returns>
+    ''' this is a safe function: this function will never throw an exception
+    ''' when the given <paramref name="s"/> is not a valid integer string 
+    ''' value, the zero value will be return in such situation.
+    ''' </returns>
     ''' 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
@@ -228,7 +285,7 @@ Public Module PrimitiveParser
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ParseDouble(s As String) As Double
-        If s Is Nothing Then
+        If s Is Nothing OrElse s = "" Then
             Return 0
         Else
             Return ParseNumeric(s)
@@ -256,14 +313,30 @@ Public Module PrimitiveParser
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     <Extension>
     Public Function ParseDate(s As String) As Date
-        Return Date.Parse(Trim(s))
+        Dim d As Date = Nothing
+
+        Static empty_output As Index(Of String) = {"false", "na", "null", "n/a", "nan"}
+
+        If s Is Nothing OrElse s = "" OrElse s.ToLower Like empty_output Then
+            Return Nothing
+        End If
+        If s.IsSimpleNumber Then
+            ' unix timestamp
+            Return DateTimeHelper.FromUnixTimeStamp(s)
+        End If
+
+        If Date.TryParse(Trim(s), d) Then
+            Return d
+        Else
+            Return Nothing
+        End If
     End Function
 
     ''' <summary>
     ''' Convert the string value into the boolean value, this is useful to the text format configuration file into data model.
     ''' </summary>
     ReadOnly booleans As New SortedDictionary(Of String, Boolean) From {
- _
+                                                                        _
         {"t", True}, {"true", True},
         {"1", True},
         {"y", True}, {"yes", True}, {"ok", True},
@@ -284,23 +357,44 @@ Public Module PrimitiveParser
     ''' 目标字符串是否可以被解析为一个逻辑值
     ''' </summary>
     ''' <param name="token"></param>
-    ''' <returns></returns>
-    Public Function IsBooleanFactor(token As String) As Boolean
+    ''' <param name="extendedLiteral">
+    ''' something other string factor example like ``yes`` or ``no``
+    ''' will also be interpreted as a valid logical factor string 
+    ''' if this parameter value is set to TRUE. default value of 
+    ''' this parameter is TRUE. 
+    ''' </param>
+    ''' <returns>
+    ''' A boolean logical factor value indicates that the given 
+    ''' string <paramref name="token"/> could be parsed as a boolean
+    ''' value literal or not.
+    ''' </returns>
+    Public Function IsBooleanFactor(token As String, Optional extendedLiteral As Boolean = True) As Boolean
         If String.IsNullOrEmpty(token) Then
             Return False
         Else
-            Return booleans.ContainsKey(token.ToLower)
+            token = token.ToLower
+        End If
+
+        If extendedLiteral Then
+            Return booleans.ContainsKey(token)
+        Else
+            ' just test for true or false literal
+            Return token = "true" OrElse token = "false"
         End If
     End Function
 
     ''' <summary>
-    ''' Convert the string value into the boolean value, this is useful to the text format configuration file into data model.
+    ''' Convert the string value into the boolean value, this is useful 
+    ''' to the text format configuration file into data model.
     ''' (请注意，空值字符串为False，如果字符串不存在与单词表之中，则也是False)
     ''' </summary>
-    ''' <param name="str"></param>
-    ''' <returns></returns>
-    ''' <remarks></remarks>
-    <ExportAPI("ParseBoolean")>
+    ''' <param name="str">
+    ''' the string literal of the target boolean value to convert.
+    ''' </param>
+    ''' <returns>
+    ''' The boolean value which is parsed from the string literal
+    ''' </returns>
+    ''' <remarks>the empty string input will be treated as FALSE.</remarks>
     <Extension>
     Public Function ParseBoolean(str As String) As Boolean
         If String.IsNullOrEmpty(str) Then
@@ -313,12 +407,17 @@ Public Module PrimitiveParser
             Return booleans(str)
         Else
 #If DEBUG Then
-            Call $"""{str}"" {NameOf([Boolean])} (null_value_definition)  ==> False".__DEBUG_ECHO
+            Call $"""{str}"" {NameOf([Boolean])} (null_value_definition)  ==> False".debug
 #End If
             Return False
         End If
     End Function
 
+    ''' <summary>
+    ''' Convert the logical char literal to boolean value
+    ''' </summary>
+    ''' <param name="ch"></param>
+    ''' <returns></returns>
     <ExportAPI("ParseBoolean")>
     <Extension>
     Public Function ParseBoolean(ch As Char) As Boolean

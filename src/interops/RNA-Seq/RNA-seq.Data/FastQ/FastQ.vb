@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c19937e6cfdb5aa27267f5a35356c75a, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
+﻿#Region "Microsoft.VisualBasic::ee88d26c4ae45f1aa54c0236630ae0fd, RNA-Seq\RNA-seq.Data\FastQ\FastQ.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 43 (32.82%)
+    ' Comment Lines: 76 (58.02%)
+    '    - Xml Docs: 90.79%
+    ' 
+    '   Blank Lines: 12 (9.16%)
+    '     File Size: 6.14 KB
+
+
     '     Class FastQ
     ' 
-    '         Properties: Headers, Quality, SEQ_ID, SEQ_ID2, Title
+    '         Properties: Headers, Length, Quality, SEQ_ID, SEQ_Info
     ' 
-    '         Function: FastaqParser, GetQualityOrder, ToString
+    '         Function: FastQParser, (+2 Overloads) GetQualityOrder, GetSequenceData, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -78,6 +90,7 @@ Namespace FQ
     ''' </remarks>
     Public Class FastQ : Inherits ISequenceModel
         Implements IAbstractFastaToken
+        Implements IFastaProvider
 
         ''' <summary>
         ''' 第一行的摘要描述信息
@@ -85,31 +98,33 @@ Namespace FQ
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public ReadOnly Property Title As String Implements IAbstractFastaToken.Title
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return SEQ_ID.instrument_name
-            End Get
-        End Property
-
+        Public Property SEQ_ID As String Implements IAbstractFastaToken.title, IFastaProvider.title
         ''' <summary>
-        ''' 第一行的序列标识符
+        ''' the sequence description information text, but usually be string ``+``.
         ''' </summary>
-        ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property SEQ_ID As IlluminaFastQID
-        Public Property SEQ_ID2 As IlluminaFastQID
+        Public Property SEQ_Info As String
         ''' <summary>
         ''' <see cref="GetQualityOrder"/> for each char in this string.
         ''' </summary>
         ''' <returns></returns>
         Public Property Quality As String
 
-        Public Property Headers As String() Implements IAbstractFastaToken.Headers
+        Public Property Headers As String() Implements IAbstractFastaToken.headers
+
+        Public Overrides ReadOnly Property Length As Integer Implements IFastaProvider.length
+            Get
+                Return MyBase.Length
+            End Get
+        End Property
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
+            Return SequenceData
+        End Function
 
         Public Overrides Function ToString() As String
-            Return Title
+            Return SEQ_ID
         End Function
 
         ''' <summary>
@@ -134,6 +149,20 @@ Namespace FQ
         End Function
 
         ''' <summary>
+        ''' 测序质量，每个字符对应第2行每个碱基，第四行每个字符对应的ASCII值减去33，
+        ''' 即为该碱基的测序质量值，比如@对应的ASCII值为64，那么其对应的碱基质量值是31。
+        ''' 从Illumina GA Pipeline v1.8开始（目前为v1.9），碱基质量值范围为0到41。
+        ''' </summary>
+        ''' <param name="q"></param>
+        ''' <returns></returns>
+        ''' 
+        Public Shared Iterator Function GetQualityOrder(q As String) As IEnumerable(Of Integer)
+            For Each c As Char In q
+                Yield Asc(c) - 33
+            Next
+        End Function
+
+        ''' <summary>
         ''' 
         ''' </summary>
         ''' <param name="str"></param>
@@ -144,15 +173,15 @@ Namespace FQ
         ''' markers (these characters can also occur in the quality string).[2] An example of a tools that break the 4 line convention 
         ''' is vcfutils.pl from samtools.[3]
         ''' </remarks>
-        Public Shared Function FastaqParser(str As String()) As FastQ
-            Dim Fastaq As New FastQ With {
+        Public Shared Function FastQParser(str As String()) As FastQ
+            Dim FastQ As New FastQ With {
                 .SequenceData = str(1),
-                .SEQ_ID = IlluminaFastQID.IDParser(str(0)),
-                .SEQ_ID2 = IlluminaFastQID.IDParser(str(2)),
+                .SEQ_ID = str(0),
+                .SEQ_Info = str(2),
                 .Quality = str(3)
             }
 
-            Return Fastaq
+            Return FastQ
         End Function
     End Class
 End Namespace

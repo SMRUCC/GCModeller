@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1adb6881da7f3321ad4fd42a9b284469, visualize\Cytoscape\Cytoscape\Session\cyTables.vb"
+﻿#Region "Microsoft.VisualBasic::83526ae37f84846a13f15c4f807f324d, visualize\Cytoscape\Cytoscape\Session\cyTables.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 35
+    '    Code Lines: 24 (68.57%)
+    ' Comment Lines: 3 (8.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (22.86%)
+    '     File Size: 1.17 KB
+
+
     '     Class cyTables
     ' 
     '         Properties: virtualColumns
     ' 
-    '         Function: GenericEnumerator, GetEnumerator
+    '         Function: GenericEnumerator
     ' 
     '     Class virtualColumn
     ' 
@@ -63,12 +75,11 @@ Namespace Session
                 Yield item
             Next
         End Function
-
-        Public Iterator Function GetEnumerator() As IEnumerator Implements Enumeration(Of virtualColumn).GetEnumerator
-            Yield GenericEnumerator()
-        End Function
     End Class
 
+    ''' <summary>
+    ''' the column data
+    ''' </summary>
     Public Class virtualColumn
 
         <XmlAttribute> Public Property name As String

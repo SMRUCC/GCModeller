@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bbb02d80e95ae87e727150f71f9da47b, Microsoft.VisualBasic.Core\src\Text\Parser\HtmlParser\HtmlStrips.vb"
+﻿#Region "Microsoft.VisualBasic::f9395293d748376999a1e560db1ef0df, Microsoft.VisualBasic.Core\src\Text\Parser\HtmlParser\HtmlStrips.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 415
+    '    Code Lines: 273 (65.78%)
+    ' Comment Lines: 91 (21.93%)
+    '    - Xml Docs: 84.62%
+    ' 
+    '   Blank Lines: 51 (12.29%)
+    '     File Size: 15.66 KB
+
+
     '     Module HtmlStrips
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetHtmlComments, GetInput, GetInputGroup, GetLinks, GetSelectInputGroup
-    '                   GetSelectOptions, GetSelectValue, GetValue, HtmlLines, HtmlList
-    '                   HTMLTitle, paragraph, Regexp, RemovesCSSstyles, RemovesFooter
-    '                   RemovesHtmlComments, RemovesHtmlHead, RemovesHtmlStrong, RemovesImageLinks, RemovesJavaScript
-    '                   RemoveTags, StripHTMLTags, TrimResponseTail
+    '         Function: GetHtmlComments, GetHtmlFormatTags, GetInput, GetInputGroup, GetLinks
+    '                   GetSelectInputGroup, GetSelectOptions, GetSelectValue, GetValue, HtmlLines
+    '                   HtmlList, HTMLTitle, paragraph, Regexp, RemovesCSSstyles
+    '                   RemovesFooter, RemovesHtmlComments, RemovesHtmlHead, RemovesHtmlStrong, RemovesImageLinks
+    '                   RemovesJavaScript, RemoveTags, StripHTMLTags, TrimResponseTail
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,6 +73,44 @@ Namespace Text.Parser.HtmlParser
     ''' Html text document operations for a given html text
     ''' </summary>
     Public Module HtmlStrips
+
+        Public Iterator Function GetHtmlFormatTags() As IEnumerable(Of String)
+            Yield "b"      ' 加粗
+            Yield "strong" ' 强调（通常表现为加粗）
+            Yield "i"      ' 斜体
+            Yield "em"     ' 强调（通常表现为斜体）
+            Yield "u"      ' 下划线
+            Yield "ins"    ' 插入（通常表现为下划线）
+            Yield "s"      ' 删除线
+            Yield "strike" ' 删除线（不推荐使用）
+            Yield "del"    ' 删除
+            Yield "small"  ' 小号文本
+            Yield "big"    ' 大号文本（HTML5中已废弃）
+            Yield "sub"    ' 下标()
+            Yield "sup"    ' 上标
+            Yield "mark"   ' 标记（通常表现为背景高亮）
+            Yield "cite"   ' 引用
+            Yield "q"      ' 短引用
+            Yield "blockquote" ' 块级引用
+            Yield "code"   ' 代码
+            Yield "pre"    ' 预格式化文本
+            Yield "kbd"    ' 键盘输入
+            Yield "samp"   ' 计算机代码样本
+            Yield "var"    ' 变量
+            Yield "dfn"    ' 定义项目
+            Yield "abbr"   ' 缩写
+            Yield "ruby"   ' ruby注释
+            Yield "rt"     ' ruby注释的解释
+            Yield "rp"     ' ruby注释的括号
+            Yield "bdo"    ' 双向文本覆盖
+            Yield "span"   ' 通用行内容器（用于应用样式或脚本）
+
+            Yield "p"
+            Yield "br"
+            Yield "li"
+            Yield "ul"
+            Yield "ol"
+        End Function
 
         ''' <summary>
         ''' 将<paramref name="html"/>文本之中的注释部分的字符串拿出来
@@ -126,10 +176,15 @@ Namespace Text.Parser.HtmlParser
         End Function
 
         ''' <summary>
-        ''' Removes the html tags from the text string.(这个函数会移除所有的html标签)
+        ''' Removes the html tags from the text string.
         ''' </summary>
         ''' <param name="s"></param>
-        ''' <returns></returns>
+        ''' <returns>
+        ''' a plain text that removes all html format tags
+        ''' </returns>
+        ''' <remarks>
+        ''' (这个函数会移除所有的html标签)
+        ''' </remarks>
         <ExportAPI("Html.Tag.Trim"), Extension> Public Function StripHTMLTags(s$, Optional stripBlank As Boolean = False) As String
             If String.IsNullOrEmpty(s) Then
                 Return ""
@@ -209,10 +264,16 @@ Namespace Text.Parser.HtmlParser
         ''' </summary>
         ''' <param name="html"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' use this function for get the xml/html element tag value, example as:
+        ''' 
+        ''' ' get "title &lt;b>aaa&lt;/b>"
+        ''' &lt;h1>title &lt;b>aaa&lt;/b>&lt;/h1>
+        ''' </remarks>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function GetValue(html As String) As String
-            Return html.GetStackValue(">", "<")
+        <Extension>
+        Public Function GetValue(html As String) As String
+            Return If(html Is Nothing, "", html.GetStackValue(">", "<"))
         End Function
 
         <Extension>
@@ -286,7 +347,7 @@ Namespace Text.Parser.HtmlParser
         ''' <summary>
         ''' The line break html tag in the html document. 
         ''' </summary>
-        Const LineFeed$ = "(<br>)|(<br\s*/>)"
+        Const LineFeed$ = "(<br>)|(<br\s*/>)|(<br\s+>)"
 
         ''' <summary>
         ''' Split the html text into lines by tags: ``&lt;br>`` or ``&lt;br/>``

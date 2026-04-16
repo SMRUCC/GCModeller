@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2c700fc2f84936a956c26a48e5e87a8d, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\PDistClusteringAlgorithm.vb"
+﻿#Region "Microsoft.VisualBasic::94915dd5e0a7cd007f320757ae6b6134, Data_science\DataMining\hierarchical-clustering\hierarchical-clustering\ClusteringAlgorithm\PDistClusteringAlgorithm.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 106
+    '    Code Lines: 55 (51.89%)
+    ' Comment Lines: 31 (29.25%)
+    '    - Xml Docs: 25.81%
+    ' 
+    '   Blank Lines: 20 (18.87%)
+    '     File Size: 4.82 KB
+
+
     ' Class PDistClusteringAlgorithm
     ' 
     '     Function: accessFunction, createClusters, createLinkages, performClustering, performFlatClustering
@@ -40,7 +52,6 @@
 
 #End Region
 
-Imports System.Collections.Generic
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering.Hierarchy
 
 '
@@ -86,7 +97,6 @@ Public Class PDistClusteringAlgorithm
     End Function
 
     Public Function performFlatClustering(distances As Double()(), clusterNames As String(), linkageStrategy As LinkageStrategy, threshold As Double) As IList(Of Cluster) Implements ClusteringAlgorithm.performFlatClustering
-
         ' Argument checks 
         If distances Is Nothing OrElse distances.Length = 0 Then Throw New System.ArgumentException("Invalid distance matrix")
         If distances(0).Length <> clusterNames.Length * (clusterNames.Length - 1) \ 2 Then Throw New System.ArgumentException("Invalid cluster name array")
@@ -124,7 +134,7 @@ Public Class PDistClusteringAlgorithm
     End Function
 
     Private Function createClusters(clusterNames As String()) As IList(Of Cluster)
-        Dim clusters As IList(Of Cluster) = New List(Of Cluster)
+        Dim clusters As New List(Of Cluster)
 
         For Each clusterName As String In clusterNames
             Dim cluster As New Cluster(clusterName)

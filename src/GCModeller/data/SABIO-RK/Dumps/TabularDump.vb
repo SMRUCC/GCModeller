@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7168de394bfdb93999be662a365972de, data\SABIO-RK\Dumps\TabularDump.vb"
+﻿#Region "Microsoft.VisualBasic::3dae7f7695edba2c2d93caca78c1f83d, data\SABIO-RK\Dumps\TabularDump.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 90
+    '    Code Lines: 37 (41.11%)
+    ' Comment Lines: 36 (40.00%)
+    '    - Xml Docs: 36.11%
+    ' 
+    '   Blank Lines: 17 (18.89%)
+    '     File Size: 3.89 KB
+
+
     '     Class SabiorkEntity
     ' 
     '         Properties: SabiorkId
@@ -49,14 +61,21 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports SMRUCC.genomics.Assembly.MetaCyc.Schema
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 
 Namespace TabularDump
 
+    ''' <summary>
+    ''' sabio-rk object reference
+    ''' </summary>
     Public MustInherit Class SabiorkEntity : Implements INamedValue
 
+        ''' <summary>
+        ''' the unique reference id of the kinetics
+        ''' </summary>
+        ''' <returns></returns>
         Public Property SabiorkId As String Implements INamedValue.Key
 
         Public Overrides Function ToString() As String

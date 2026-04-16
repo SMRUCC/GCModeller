@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fa83d214381edf125e10e2958e3df58b, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
+﻿#Region "Microsoft.VisualBasic::9fd138737a8e1a41eea86ffcb97cbbe8, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\WmfData.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 64
+    '    Code Lines: 47 (73.44%)
+    ' Comment Lines: 4 (6.25%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (20.31%)
+    '     File Size: 2.06 KB
+
+
     '     Class WmfData
     ' 
-    '         Properties: Driver
+    '         Properties: Driver, Previews
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: GetDataURI, (+2 Overloads) Save, wmfTmp
+    '         Function: GetDataURI, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,7 +57,7 @@
 
 Imports System.Drawing
 Imports System.IO
-Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Net.Http
 
@@ -53,13 +65,21 @@ Namespace Driver
 
     Public Class WmfData : Inherits GraphicsData
 
+        Implements SaveGdiBitmap
+
         Public Overrides ReadOnly Property Driver As Drivers
             Get
                 Return Drivers.WMF
             End Get
         End Property
 
-        ReadOnly tempfile As String
+        Public Overrides ReadOnly Property Previews As String
+            Get
+                Return "Wmf"
+            End Get
+        End Property
+
+        ReadOnly buffer As MemoryStream
 
         Public Sub New(img As Object, size As Size, padding As Padding)
             MyBase.New(img, size, padding)
@@ -68,38 +88,34 @@ Namespace Driver
             ' which its file path is generated from function 
             ' wmfTmp
             ' in graphics plot helper api
-            If Not TypeOf img Is String Then
-                Throw New InvalidDataException("The input img data should be a temporary wmf meta file path!")
+            If Not TypeOf img Is Stream Then
+                Throw New InvalidDataException("The input img data should be a temporary wmf meta file stream!")
             Else
-                tempfile = img
-            End If
-
-            If tempfile.FileLength <= 0 Then
-                Throw New InvalidDataException("The input img data is nothing or file unavailable currently!")
+                buffer = img
+                buffer.Seek(Scan0, SeekOrigin.Begin)
             End If
         End Sub
 
         Public Overrides Function GetDataURI() As DataURI
-            Using file As Stream = tempfile.Open(FileMode.Open, doClear:=False, [readOnly]:=True)
-                Return New DataURI(file, content_type)
-            End Using
+            Dim uri As New DataURI(buffer, content_type)
+            Call buffer.Seek(Scan0, SeekOrigin.Begin)
+            Return uri
         End Function
 
         Public Overrides Function Save(path As String) As Boolean
-            Return tempfile.FileCopy(path)
+            Return buffer.FlushStream(path)
         End Function
 
         Public Overrides Function Save(out As Stream) As Boolean
-            Using reader As FileStream = tempfile.Open(FileMode.Open, doClear:=False)
-                Call out.Seek(Scan0, SeekOrigin.Begin)
-                Call reader.CopyTo(out)
-            End Using
+            Call out.Seek(Scan0, SeekOrigin.Begin)
+            Call buffer.CopyTo(out)
+            Call buffer.Seek(Scan0, SeekOrigin.Begin)
 
             Return True
         End Function
 
-        Friend Shared Function wmfTmp() As String
-            Return TempFileSystem.GetAppSysTempFile(".wmf", App.PID, RandomASCIIString(10, skipSymbols:=True))
+        Public Overloads Function Save(stream As Stream, format As ImageFormats) As Boolean Implements SaveGdiBitmap.Save
+            Return Save(stream)
         End Function
     End Class
 End Namespace

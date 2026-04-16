@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::555af1fc732675187301694f903887ed, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
+﻿#Region "Microsoft.VisualBasic::18cc97f04426d6511f1f99e524c4727e, data\Xfam\Pfam\Pipeline\Database\PfamEntry.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 111
+    '    Code Lines: 84 (75.68%)
+    ' Comment Lines: 3 (2.70%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (21.62%)
+    '     File Size: 3.77 KB
+
 
     '     Class PfamEntryHeader
     ' 
@@ -121,7 +133,7 @@ Namespace Pipeline.Database
                 tokens.TryCount = 0 OrElse
                 tokens.Length < 2 Then
 
-                Call $"NULL title tokens!!!  ----->   ""{str}""".__DEBUG_ECHO
+                Call $"NULL title tokens!!!  ----->   ""{str}""".debug
 
                 Return internalCreateNull(Of T)()
             Else

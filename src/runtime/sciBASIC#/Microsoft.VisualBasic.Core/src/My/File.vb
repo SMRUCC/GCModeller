@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::aaeb40c7587c7f93da1f1abbaf688210, Microsoft.VisualBasic.Core\src\My\File.vb"
+﻿#Region "Microsoft.VisualBasic::25b92c203a2378a7e45ae2b9c1ed6062, Microsoft.VisualBasic.Core\src\My\File.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 127
+    '    Code Lines: 82 (64.57%)
+    ' Comment Lines: 25 (19.69%)
+    '    - Xml Docs: 96.00%
+    ' 
+    '   Blank Lines: 20 (15.75%)
+    '     File Size: 4.15 KB
+
+
     '     Module File
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -47,9 +59,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Threading
 Imports Microsoft.VisualBasic.ApplicationServices
-#If netcore5 = 1 Then
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
-#End If
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash.FileSystem
 Imports Microsoft.VisualBasic.Text
@@ -99,27 +109,32 @@ Namespace My
         ''' <param name="file"></param>
         ''' <param name="encoding"></param>
         ''' <returns></returns>
-        <Extension> Public Function OpenHandle(file$, Optional encoding As Encodings = Encodings.UTF8) As Integer
+        <Extension>
+        Public Function OpenHandle(file$, Optional encoding As Encodings = Encodings.UTF8) As Integer
+            Dim n As Integer
+
             If String.IsNullOrEmpty(file) Then
                 Throw New NullReferenceException("File handle null pointer!")
+            Else
+                SyncLock My.File.handle
+                    My.File.handle.Value += 1
+                    n = My.File.handle
+                End SyncLock
             End If
 
+            Dim handle As New FileHandle With {
+                .encoding = encoding.CodePage,
+                .FileName = file,
+                .handle = n
+            }
+
             SyncLock opendHandles
-                SyncLock handle
-                    My.File.handle.Value += 1
-
-                    Dim handle As New FileHandle With {
-                        .encoding = encoding.CodePage,
-                        .FileName = file,
-                        .handle = My.File.handle.Value
-                    }
-
-                    Call opendHandles.Add(My.File.handle.Value, handle)
-                    Call FileIO.FileSystem.CreateDirectory(file.ParentPath)
-
-                    Return My.File.handle.Value
-                End SyncLock
+                Call opendHandles.Add(n, handle)
             End SyncLock
+
+            Call FileIO.FileSystem.CreateDirectory(file.ParentPath)
+
+            Return n
         End Function
 
         Public Function OpenTemp() As Integer

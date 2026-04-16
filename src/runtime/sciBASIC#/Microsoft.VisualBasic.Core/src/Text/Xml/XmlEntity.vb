@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::13e95dcd8ff633322bd4a0a923f9cbd1, Microsoft.VisualBasic.Core\src\Text\Xml\XmlEntity.vb"
+﻿#Region "Microsoft.VisualBasic::df2ac1bd84393dc997e8bee1d4255383, Microsoft.VisualBasic.Core\src\Text\Xml\XmlEntity.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 103 (70.55%)
+    ' Comment Lines: 25 (17.12%)
+    '    - Xml Docs: 88.00%
+    ' 
+    '   Blank Lines: 18 (12.33%)
+    '     File Size: 5.15 KB
+
+
     '     Module XmlEntity
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -43,9 +55,9 @@
 #End Region
 
 Imports System.IO
+Imports System.Net
 Imports System.Runtime.CompilerServices
 Imports System.Text
-Imports System.Web
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text.Parser
@@ -182,7 +194,7 @@ Namespace Text.Xml
 
             Using writer As New StringWriter()
                 ' Decode the encoded string.
-                HttpUtility.HtmlDecode(html.Replace("&nbsp;", " "), writer)
+                WebUtility.HtmlDecode(html.Replace("&nbsp;", " "), writer)
                 Return writer.ToString()
             End Using
         End Function

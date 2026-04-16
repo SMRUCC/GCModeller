@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 43
+    '    Code Lines: 24 (55.81%)
+    ' Comment Lines: 12 (27.91%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 7 (16.28%)
+    '     File Size: 1.38 KB
+
+
     '     Class MultivariatePolynomial
     ' 
     '         Function: Evaluate, (+2 Overloads) ToString

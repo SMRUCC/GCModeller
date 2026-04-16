@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 72 (48.65%)
+    ' Comment Lines: 54 (36.49%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 22 (14.86%)
+    '     File Size: 4.53 KB
+
+
     ' Class definedset
     ' 
     '     Properties: DB_ID

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 40
+    '    Code Lines: 17 (42.50%)
+    ' Comment Lines: 17 (42.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (15.00%)
+    '     File Size: 1.07 KB
+
+
     '     Enum SequenceStyle
     ' 
     '         Block, Flow, Raw

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7de3b38abe167002542f089ac0bcd767, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\DelegateFactory.vb"
+﻿#Region "Microsoft.VisualBasic::047e5f74abce46970280555d0ffccb98, Microsoft.VisualBasic.Core\src\Extensions\Reflection\Delegate\DelegateFactory.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 1014
+    '    Code Lines: 881 (86.88%)
+    ' Comment Lines: 11 (1.08%)
+    '    - Xml Docs: 63.64%
+    ' 
+    '   Blank Lines: 122 (12.03%)
+    '     File Size: 60.90 KB
+
+
     '     Module DelegateFactory
     ' 
     '         Function: (+3 Overloads) Contructor, (+2 Overloads) DefaultContructor, DelegateIndexerGet, DelegateIndexerSet, (+2 Overloads) EventAccessor
@@ -49,8 +61,6 @@
 
 #End Region
 
-Imports System.Collections.Generic
-Imports System.Linq
 Imports System.Linq.Expressions
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
@@ -911,8 +921,12 @@ Namespace Emit.Delegates
             Return EventAccessorImpl(Of TDelegate)(source, eventName, RemoveAccessor)
         End Function
 
-        Private Function GetConstructorInfo(source As Type, types As Type()) As ConstructorInfo
-            Return If((If(source.GetConstructor(BindingFlags.[Public], Nothing, types, Nothing), source.GetConstructor(BindingFlags.NonPublic, Nothing, types, Nothing))), source.GetConstructor(BindingFlags.NonPublic Or BindingFlags.[Public] Or BindingFlags.Instance, Nothing, types, Nothing))
+        <Extension>
+        Public Function GetConstructorInfo(source As Type, ParamArray types As Type()) As ConstructorInfo
+            Return If((
+                If(source.GetConstructor(BindingFlags.[Public], Nothing, types, Nothing),
+                source.GetConstructor(BindingFlags.NonPublic, Nothing, types, Nothing))),
+                source.GetConstructor(BindingFlags.NonPublic Or BindingFlags.[Public] Or BindingFlags.Instance, Nothing, types, Nothing))
         End Function
 
         Private Function GetEventInfo(eventName As String, sourceType As Type) As EventInfo

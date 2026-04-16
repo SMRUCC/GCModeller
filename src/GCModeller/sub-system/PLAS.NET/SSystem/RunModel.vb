@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::626856936355497b658e0e1898875c2a, sub-system\PLAS.NET\SSystem\RunModel.vb"
+﻿#Region "Microsoft.VisualBasic::f688da653c68692eae25514c358dd9a6, sub-system\PLAS.NET\SSystem\RunModel.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 53 (72.60%)
+    ' Comment Lines: 7 (9.59%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 13 (17.81%)
+    '     File Size: 2.56 KB
+
+
     ' Module RunModel
     ' 
     ' 
@@ -49,8 +61,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.Calculus
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics.Data
 Imports Microsoft.VisualBasic.Text
@@ -99,10 +111,10 @@ Public Module RunModel
         End If
 
         If args("/ODEs") Then
-            Call "PLAS using ODEs solver....".__DEBUG_ECHO
+            Call "PLAS using ODEs solver....".debug
 
             Dim p As Double = args.GetValue("/precise", 10000)
-            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model)
+            Dim output As ODEsOut = Kernel.ODEs.RunSystem(model, Nothing)
             Dim df As File = output.DataFrame(xDisp:="#Time")
 
             Return df.Save(out, Encodings.ASCII)

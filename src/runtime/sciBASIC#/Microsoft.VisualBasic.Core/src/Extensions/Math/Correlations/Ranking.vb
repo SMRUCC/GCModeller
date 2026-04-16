@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39f384cb84adce6a7997e14fa808618d, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Ranking.vb"
+﻿#Region "Microsoft.VisualBasic::4052711e7919bbcdcaabeeaefdb0dc39, Microsoft.VisualBasic.Core\src\Extensions\Math\Correlations\Ranking.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 337
+    '    Code Lines: 156 (46.29%)
+    ' Comment Lines: 152 (45.10%)
+    '    - Xml Docs: 84.21%
+    ' 
+    '   Blank Lines: 29 (8.61%)
+    '     File Size: 17.26 KB
+
 
     '     Module Ranking
     ' 
@@ -96,7 +108,14 @@ Namespace Math.Correlations
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
-        Public Function Ranking(Of C As IComparable)(list As IEnumerable(Of C), Optional strategy As Strategies = Strategies.OrdinalRanking, Optional desc As Boolean = False) As Double()
+        Public Function Ranking(Of C As IComparable)(list As IEnumerable(Of C),
+                                                     Optional strategy As Strategies = Strategies.OrdinalRanking,
+                                                     Optional desc As Boolean = False) As Double()
+
+            If list Is Nothing Then
+                Return Nothing
+            End If
+
             If strategy = Strategies.OrdinalRanking Then
                 Return list.OrdinalRanking(desc)
             ElseIf strategy = Strategies.DenseRanking Then
@@ -134,15 +153,15 @@ Namespace Math.Correlations
             Dim array = list _
                 .SeqIterator _
                 .ToDictionary(Function(x) x,
-                              Function(i) i.i)
-            Dim asc() = array _
-                .Keys _
+                              Function(i)
+                                  Return i.i
+                              End Function)
+            Dim asc() = array.Keys _
                 .Sort(Function(x) x.value, desc) _
                 .ToArray
             Dim ranks#() = New Double(asc.Length - 1) {}
             Dim rank% = 0
-            Dim gaps = array _
-                .Keys _
+            Dim gaps = array.Keys _
                 .GroupBy(Function(x) x.value) _
                 .ToDictionary(Function(x) x.First.value,
                               Function(g)
@@ -195,9 +214,10 @@ Namespace Math.Correlations
             Dim array = list _
                 .SeqIterator _
                 .ToDictionary(Function(x) x,
-                              Function(i) i.i)
-            Dim asc() = array _
-                .Keys _
+                              Function(i)
+                                  Return i.i
+                              End Function)
+            Dim asc() = array.Keys _
                 .Sort(Function(x) x.value, desc) _
                 .ToArray
             Dim ranks#() = New Double(asc.Length - 1) {}
@@ -241,9 +261,10 @@ Namespace Math.Correlations
             Dim array = list _
                 .SeqIterator _
                 .ToDictionary(Function(x) x,
-                              Function(i) i.i)
-            Dim asc() = array _
-                .Keys _
+                              Function(i)
+                                  Return i.i
+                              End Function)
+            Dim asc() = array.Keys _
                 .Sort(Function(x) x.value, desc) _
                 .ToArray
             Dim ranks#() = New Double(asc.Length - 1) {}

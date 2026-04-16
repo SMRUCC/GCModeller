@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3ec3ee5c3808a0b04fb701e1c4572a38, mime\text%html\Document\Elements\ValueAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::cf76c8ef9f3cc610cad91bf98b2578c8, mime\text%html\Document\Elements\ValueAttribute.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 74
+    '    Code Lines: 41 (55.41%)
+    ' Comment Lines: 21 (28.38%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (16.22%)
+    '     File Size: 2.56 KB
+
+
     '     Structure ValueAttribute
     ' 
     '         Properties: IsEmpty, Name, Value, Values
@@ -49,9 +61,16 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Document
 
+    ''' <summary>
+    ''' A key-value pair of the html attribute, includes the attribute name and attribute value
+    ''' </summary>
     Public Structure ValueAttribute : Implements INamedValue, IsEmpty
 
         Public Property Name As String Implements INamedValue.Key
+        ''' <summary>
+        ''' A collection of the attribute values, apply for the multiple value attribute data, example as class attribute
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Values As List(Of String)
 
         Public ReadOnly Property IsEmpty As Boolean Implements IsEmpty.IsEmpty
@@ -60,6 +79,10 @@ Namespace Document
             End Get
         End Property
 
+        ''' <summary>
+        ''' get the first attribute value string
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property Value As String
             Get
                 Return Values?.FirstOrDefault
@@ -94,6 +117,15 @@ Namespace Document
         Public Overrides Function ToString() As String
             Return $"{Name}={Values.Select(Function(v) $"""{v}""").JoinBy(", ")}"
         End Function
+
+        ''' <summary>
+        ''' get attribute value
+        ''' </summary>
+        ''' <param name="attr"></param>
+        ''' <returns></returns>
+        Public Shared Narrowing Operator CType(attr As ValueAttribute) As String
+            Return attr.Value
+        End Operator
     End Structure
 
 End Namespace

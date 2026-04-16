@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c39cd8e70c9e5f38d639369e04fdc0e, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
+﻿#Region "Microsoft.VisualBasic::f1b030deb0df1cba3cf194134e84a28f, annotations\Proteomics\LabelFree\LabelFreeTtest.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 114
+    '    Code Lines: 87 (76.32%)
+    ' Comment Lines: 18 (15.79%)
+    '    - Xml Docs: 83.33%
+    ' 
+    '   Blank Lines: 9 (7.89%)
+    '     File Size: 4.68 KB
+
+
     ' Module LabelFreeTtest
     ' 
     '     Function: logFCtest, significantA, ttest
@@ -40,7 +52,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
@@ -82,7 +94,8 @@ Public Module LabelFreeTtest
                        ' 当原始数据全部都是NaN的时候，R会出错，在这里直接忽略掉这些原始样本
                        Return Not d.Properties _
                            .Values _
-                           .All(AddressOf IsNaNImaginary)
+                           .IsNaNImaginary _
+                           .All
                    End Function) _
             .Where(Function(d)
                        ' 所有结果都是零的蛋白也都剔除掉
@@ -116,7 +129,7 @@ Public Module LabelFreeTtest
 
             Yield New DEP_iTraq With {
                 .ID = protein.ID,
-                .FCavg = foldChange,
+                .foldchange = foldChange,
                 .log2FC = log2FC,
                 .pvalue = tResult.Pvalue,
                 .Properties = protein _
@@ -141,7 +154,7 @@ Public Module LabelFreeTtest
         For i As Integer = 0 To proteins.Length - 1
             Yield New DEP_iTraq With {
                 .ID = proteins(i).ID,
-                .FCavg = foldChanges(i),
+                .foldchange = foldChanges(i),
                 .log2FC = log2FC(i),
                 .pvalue = pvalue(i),
                 .Properties = proteins(i) _

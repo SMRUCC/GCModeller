@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b0cc1091df879e9e45e2d892c87e5eb6, gr\Landscape\3DBuilder\XML\models.vb"
+﻿#Region "Microsoft.VisualBasic::c8b1b248179ce7ad84f4abd4712b5ec4, gr\Landscape\3DBuilder\XML\models.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 88
+    '    Code Lines: 55 (62.50%)
+    ' Comment Lines: 16 (18.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (19.32%)
+    '     File Size: 2.65 KB
+
+
     '     Class mesh
     ' 
     '         Properties: triangles, vertices
@@ -54,6 +66,7 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -108,6 +121,9 @@ Namespace Vendor_3mf.XML
         End Function
     End Class
 
+    ''' <summary>
+    ''' 3 vertex index to create a triangle of the surface model data
+    ''' </summary>
     Public Class triangle
 
         <XmlAttribute> Public Property v1 As Integer

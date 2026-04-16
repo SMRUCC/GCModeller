@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e6dce0a9cafbbdf3f87bb676b763a1f, annotations\GSEA\GSEA\KOBAS\Formats\Gct.vb"
+﻿#Region "Microsoft.VisualBasic::6555d5491914ecf46b030a35d3fb324d, annotations\GSEA\GSEA\KOBAS\Formats\Gct.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 83
+    '    Code Lines: 65 (78.31%)
+    ' Comment Lines: 5 (6.02%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 13 (15.66%)
+    '     File Size: 3.16 KB
+
+
     '     Class Gct
     ' 
     '         Properties: genes, numberOfgenes, numberOfsamples, version
@@ -51,10 +63,10 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
-Imports tsv = Microsoft.VisualBasic.Data.csv.IO.File
+Imports tsv = Microsoft.VisualBasic.Data.Framework.IO.File
 
 Namespace KOBAS
 

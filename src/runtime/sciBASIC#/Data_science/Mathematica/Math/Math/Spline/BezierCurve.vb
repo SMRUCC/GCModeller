@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 145
+    '    Code Lines: 66 (45.52%)
+    ' Comment Lines: 61 (42.07%)
+    '    - Xml Docs: 90.16%
+    ' 
+    '   Blank Lines: 18 (12.41%)
+    '     File Size: 6.14 KB
+
+
     '     Class BezierCurve
     ' 
     '         Properties: BezierPoints, InitPointsList, Iterations

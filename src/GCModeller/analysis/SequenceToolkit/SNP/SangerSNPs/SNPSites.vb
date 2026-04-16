@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 127 (69.78%)
+    ' Comment Lines: 33 (18.13%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (12.09%)
+    '     File Size: 9.01 KB
+
+
     '     Module SNPSites
     ' 
     '         Function: __snpSitesGeneric, OutputSNPSites, OutputSNPSitesWithRef, OutputSNPSitesWithRefPureMono, SNPSitesGeneric

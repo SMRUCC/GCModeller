@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d046b5d36db10264ebb628156bdc4c90, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\DumpsSignal.vb"
+﻿#Region "Microsoft.VisualBasic::ce7276345c4d8aeb56ca0a82a26a8461, Data_science\Mathematica\SignalProcessing\SignalProcessing\Source\DumpsSignal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 22 (53.66%)
+    ' Comment Lines: 12 (29.27%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.24 KB
+
+
     '     Module DumpsSignal
     ' 
     '         Function: bumps
@@ -42,7 +54,8 @@
 
 #End Region
 
-Imports stdNum = System.Math
+Imports randf2 = Microsoft.VisualBasic.Math.RandomExtensions
+Imports std = System.Math
 
 Namespace Source
 
@@ -62,10 +75,9 @@ Namespace Source
         ''' <returns></returns>
         Public Function bumps(length%, Optional m% = 25) As Double()
             Dim a#() = New Double(length - 1) {}
-            Dim seed As New Random
 
             For i As Integer = 0 To m - 1
-                Call bump(a, length, seed)
+                Call bump(a, length, randf2.seeds)
             Next
 
             Return a
@@ -78,7 +90,7 @@ Namespace Source
 
             For i As Integer = 0 To length - 1
                 Dim w = (i / length - y) * Z
-                a(i) += x * stdNum.Exp(-w * w)
+                a(i) += x * std.Exp(-w * w)
             Next
         End Sub
     End Module

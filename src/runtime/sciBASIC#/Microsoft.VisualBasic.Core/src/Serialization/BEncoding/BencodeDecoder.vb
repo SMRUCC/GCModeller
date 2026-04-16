@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e33e2583d697ec678ca0d8f8b3b5affa, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BencodeDecoder.vb"
+﻿#Region "Microsoft.VisualBasic::3c3fafb58c18003f3a50ef9407b792eb, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BencodeDecoder.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 179
+    '    Code Lines: 115 (64.25%)
+    ' Comment Lines: 26 (14.53%)
+    '    - Xml Docs: 30.77%
+    ' 
+    '   Blank Lines: 38 (21.23%)
+    '     File Size: 5.67 KB
+
+
     '     Module BencodeDecoder
     ' 
-    '         Function: (+2 Overloads) [Error], Decode, ReadDictionary, ReadElement, ReadInteger
-    '                   ReadList, ReadString
+    '         Function: (+2 Overloads) [Error], Decode, DecodeObject, ReadDictionary, ReadElement
+    '                   ReadInteger, ReadList, ReadString
     ' 
     ' 
     ' /********************************************************************************/
@@ -61,7 +73,7 @@
 '  
 
 Imports System.Runtime.CompilerServices
-Imports System.Text
+Imports Microsoft.VisualBasic.Text
 
 Namespace Serialization.Bencoding
 
@@ -69,6 +81,11 @@ Namespace Serialization.Bencoding
     ''' A class used for decoding Bencoding.
     ''' </summary>
     Public Module BencodeDecoder
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function DecodeObject(bencodedString As String) As BDictionary
+            Return DirectCast(Decode(bencodedString).First, BDictionary)
+        End Function
 
         ''' <summary>
         ''' Decodes the string.
@@ -78,11 +95,13 @@ Namespace Serialization.Bencoding
         Public Function Decode(bencodedString As String) As BElement()
             Dim index = 0
 
-            Try
-                If Equals(bencodedString, Nothing) Then
-                    Return Nothing
-                End If
+            If bencodedString.StringEmpty Then
+                Return Nothing
+            Else
+                bencodedString = bencodedString.Trim(" "c, ASCII.CR, ASCII.LF, ASCII.TAB)
+            End If
 
+            Try
                 Dim rootElements As New List(Of BElement)()
 
                 While bencodedString.Length > index

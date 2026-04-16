@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::683d09ba0f87044c9b5a9a2fc4668849, Data_science\MachineLearning\MachineLearning\SVM\SVMPrediction.vb"
+﻿#Region "Microsoft.VisualBasic::ac24885edf64e343051027db8519ca9a, Data_science\MachineLearning\MachineLearning\SVM\SVMPrediction.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 17
+    '    Code Lines: 12 (70.59%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (29.41%)
+    '     File Size: 425 B
+
+
     '     Structure SVMPrediction
     ' 
-    '         Properties: [class], score, unifyValue
+    '         Properties: [class], score, unifyValue, vote
     ' 
     '         Function: ToString
     ' 
@@ -51,6 +63,7 @@ Namespace SVM
         Public Property [class] As Integer
         Public Property score As Double
         Public Property unifyValue As Double
+        Public Property vote As Double()
 
         Public Overrides Function ToString() As String
             Return Me.GetJson

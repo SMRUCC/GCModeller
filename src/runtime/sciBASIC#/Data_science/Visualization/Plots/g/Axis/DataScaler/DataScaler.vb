@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::887ce05baca4d4bf5ee6cbe037ef216f, Data_science\Visualization\Plots\g\Axis\DataScaler\DataScaler.vb"
+﻿#Region "Microsoft.VisualBasic::2b8830411e0982be8ed87f175f9ad14e, Data_science\Visualization\Plots\g\Axis\DataScaler\DataScaler.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 163
+    '    Code Lines: 111 (68.10%)
+    ' Comment Lines: 26 (15.95%)
+    '    - Xml Docs: 96.15%
+    ' 
+    '   Blank Lines: 26 (15.95%)
+    '     File Size: 5.57 KB
+
+
     '     Class DataScaler
     ' 
-    '         Properties: AxisTicks, X, xmax, xmin, ymax
-    '                     ymin
+    '         Properties: AxisTicks, X, xmax, xmin, xscale
+    '                     ymax, ymin
     ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+3 Overloads) Translate, TranslateWidth, TranslateX
+    '         Constructor: (+2 Overloads) Sub New
+    '         Function: (+4 Overloads) Translate, (+2 Overloads) TranslateSize, TranslateWidth, (+2 Overloads) TranslateX
     ' 
     '     Module DataScalerExtensions
     ' 
@@ -53,7 +65,7 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js.scale
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Graphic.Axis
 
@@ -68,6 +80,12 @@ Namespace Graphic.Axis
         ''' <returns></returns>
         Public Property X As Scaler
         Public Property AxisTicks As (X As Vector, Y As Vector)
+
+        Public ReadOnly Property xscale As scalers
+            Get
+                Return X.type
+            End Get
+        End Property
 
         Public ReadOnly Property xmin As Double
             Get
@@ -101,6 +119,13 @@ Namespace Graphic.Axis
             Call MyBase.New(reversed:=rev)
         End Sub
 
+        Sub New(x As Scaler, y As Scaler, Optional rev As Boolean = False)
+            Call Me.New(rev)
+
+            Me.X = x
+            Me.Y = y
+        End Sub
+
         ''' <summary>
         ''' translate the realworld data into the view model world point 2D 
         ''' </summary>
@@ -113,6 +138,11 @@ Namespace Graphic.Axis
                 .X = TranslateX(x),
                 .Y = TranslateY(y)
             }
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function Translate(point As Layout2D) As PointF
+            Return Translate(point.X, point.Y)
         End Function
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -138,11 +168,30 @@ Namespace Graphic.Axis
             Return Me.X(x)
         End Function
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TranslateX(x As String) As Double
+            Return Me.X(x)
+        End Function
+
         Public Function TranslateWidth(x1 As Double, x2 As Double) As Double
             x1 = TranslateX(x1)
             x2 = TranslateX(x2)
 
-            Return stdNum.Max(x1, x2) - stdNum.Min(x1, x2)
+            Return std.Max(x1, x2) - std.Min(x1, x2)
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function TranslateSize(size As SizeF) As SizeF
+            Return TranslateSize(size.Width, size.Height)
+        End Function
+
+        Public Function TranslateSize(w As Double, h As Double) As SizeF
+            Dim x1 = TranslateX(0)
+            Dim x2 = TranslateX(w)
+            Dim y1 = TranslateY(0)
+            Dim y2 = TranslateY(h)
+
+            Return New SizeF(std.Abs(x1 - x2), std.Abs(y1 - y2))
         End Function
     End Class
 
@@ -155,7 +204,7 @@ Namespace Graphic.Axis
         ''' <param name="scaler"></param>
         ''' <param name="bottom">
         ''' 如果是正常的坐标系，那么这个值就必须是一个正数，值为绘图区域的<paramref name="bottom"/>的y值，
-        ''' 否则获取得到的y值将会是颠倒过来的，除非将<see cref="Graphics"/>的旋转矩阵给颠倒了
+        ''' 否则获取得到的y值将会是颠倒过来的，除非将<see cref="IGraphics"/>的旋转矩阵给颠倒了
         ''' </param>
         ''' <returns></returns>
         <Extension>

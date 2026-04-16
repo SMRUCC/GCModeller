@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::18b32edf9ac5d2bcf75c88f12194753b, Microsoft.VisualBasic.Core\src\Text\GreekAlphabets.vb"
+﻿#Region "Microsoft.VisualBasic::f1732915e5ef4de9c8215037e9a9b2b4, Microsoft.VisualBasic.Core\src\Text\GreekAlphabets.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 109 (73.65%)
+    ' Comment Lines: 23 (15.54%)
+    '    - Xml Docs: 82.61%
+    ' 
+    '   Blank Lines: 16 (10.81%)
+    '     File Size: 6.34 KB
+
+
     '     Module GreekAlphabets
     ' 
     '         Properties: alphabets, lower, upper
@@ -46,6 +58,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.Language
 
 Namespace Text
@@ -183,14 +196,10 @@ Namespace Text
             Return sb.ToString
         End Function
 
-#If NET_48 = 1 Or netcore5 = 1 Then
-
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function AlphabetUnescape(s$, contacts As (left As Char, right As Char), Optional upperCase As Boolean = False) As String
             Return s.unescapeInternal($"[{contacts.left}][a-z]{{2,10}}[{contacts.right}]", upperCase, True)
         End Function
-
-#End If
     End Module
 End Namespace

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ec07b95489cb2ef4d62dd0c12cc01b, Bio.Repository\NCBI\WebAPI.vb"
+﻿#Region "Microsoft.VisualBasic::bba6d96c36ce7d9cdf35ae2ff9e061b3, Bio.Repository\NCBI\WebAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 40 (67.80%)
+    ' Comment Lines: 7 (11.86%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 12 (20.34%)
+    '     File Size: 1.87 KB
+
+
     ' Module DownloaderWebAPI
     ' 
     '     Sub: DownloadGBK
@@ -50,8 +62,6 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.Utility
-Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Parallel
 Imports SMRUCC.genomics.Assembly.NCBI
 
 Public Module DownloaderWebAPI
@@ -93,7 +103,7 @@ Public Module DownloaderWebAPI
                 Dim gb As String = $"{EXPORT}/{id}.gb".GetFullPath
                 Dim St As Stopwatch = Stopwatch.StartNew
 
-                Call $"Threading start for ""{gb.ToFileURL}""".__DEBUG_ECHO
+                Call $"Threading start for ""{gb.ToFileURL}""".debug
 
                 If gb.FileExists Then
                     Return
@@ -102,7 +112,7 @@ Public Module DownloaderWebAPI
                 End If
 
                 If gb.FileExists Then
-                    Call $"{id} was download at ""{St.ElapsedMilliseconds}ms"".".__DEBUG_ECHO
+                    Call $"{id} was download at ""{St.ElapsedMilliseconds}ms"".".debug
                 Else
                     Call $"{id} was download not successfully!".Warning
                 End If

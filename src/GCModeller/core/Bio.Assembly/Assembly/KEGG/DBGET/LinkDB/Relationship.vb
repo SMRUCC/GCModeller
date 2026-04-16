@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5c749190ae968e5bcbd0b9b51ec457d2, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
+﻿#Region "Microsoft.VisualBasic::e677e3ea61e436ca9e69e2b7e4b78fe3, core\Bio.Assembly\Assembly\KEGG\DBGET\LinkDB\Relationship.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 41
+    '    Code Lines: 16 (39.02%)
+    ' Comment Lines: 18 (43.90%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (17.07%)
+    '     File Size: 1.31 KB
+
+
     '     Enum Relationships
     ' 
     '         equivalent, indirect, original, reverse
@@ -42,8 +54,6 @@
     '     Class Relationship
     ' 
     '         Properties: left, relationship, right
-    ' 
-    '         Function: GetLinkDb, LinkIterator, TryParseLine
     ' 
     ' 
     ' /********************************************************************************/
@@ -89,37 +99,5 @@ Namespace Assembly.KEGG.DBGET.LinkDB
         Public Property relationship As Relationships
         Public Property right As NamedValue(Of String)
 
-        Public Shared Function TryParseLine(line As String) As Relationship
-            Dim links$() = line.Matches("[<].+?[>]", RegexICSng) _
-                               .Select(Function(l)
-                                           Return l.GetStackValue("<", ">")
-                                       End Function) _
-                               .ToArray
-            Dim rel As Relationships = links.ElementAtOrDefault(1).GetRelationship
-            Dim entry$ = links(0).Split("/"c).Last
-            Dim right$ = links(2)
-            Dim name$ = Strings.Split(right, "//")(1).Split("/"c).First
-            Dim value$ = right.Split("/"c, "?"c, "="c).Last
-
-            Return New Relationship With {
-                .left = entry,
-                .relationship = rel,
-                .right = New NamedValue(Of String) With {
-                    .Name = name,
-                    .Value = value,
-                    .Description = right
-                }
-            }
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function LinkIterator(lines As IEnumerable(Of String)) As IEnumerable(Of Relationship)
-            Return lines.Select(AddressOf TryParseLine)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetLinkDb(entry As String) As IEnumerable(Of Relationship)
-            Return LinkIterator($"http://www.genome.jp/dbget-bin/get_linkdb?-N+{entry}".GET.LineTokens)
-        End Function
     End Class
 End Namespace

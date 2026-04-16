@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::166002e7e1b1f5a6d92a72828b9c4014, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
+﻿#Region "Microsoft.VisualBasic::01b85dab9045ffe8d1eeec9acee56bb5, gr\network-visualization\Datavisualization.Network\Graph\Model\data\NodeData.vb"
 
     ' Author:
     ' 
@@ -31,28 +31,71 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 175
+    '    Code Lines: 126 (72.00%)
+    ' Comment Lines: 28 (16.00%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 21 (12.00%)
+    '     File Size: 5.96 KB
+
+
     '     Class NodeData
     ' 
     '         Properties: betweennessCentrality, color, force, initialPostion, mass
     '                     neighborhoods, neighbours, origID, size, weights
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: Clone, ToString
+    '         Function: CheckInside, Clone, SafeGetRadius, ToString
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
-
 Imports System.Drawing
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Linq
+Imports System.Runtime.Serialization
+Imports System.Xml.Serialization
+
+#If NET48 Then
+Imports Microsoft.VisualBasic.Serialization.JSON
+#Else
+Imports System.Text.Json.Serialization
+#End If
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports LineCap = System.Drawing.Drawing2D.LineCap
+Imports TextureBrush = System.Drawing.TextureBrush
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports LineCap = Microsoft.VisualBasic.Imaging.LineCap
+Imports TextureBrush = Microsoft.VisualBasic.Imaging.TextureBrush
+#End If
 
 Namespace Graph
 
@@ -88,14 +131,31 @@ Namespace Graph
         ''' For 2d layout <see cref="FDGVector2"/> / 3d layout <see cref="FDGVector3"/>
         ''' </summary>
         ''' <returns></returns>
+        ''' 
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property initialPostion As AbstractVector
         Public Property origID As String
+
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         Public Property force As Point
 
         ''' <summary>
         ''' 颜色<see cref="SolidBrush"/>或者绘图<see cref="TextureBrush"/>
         ''' </summary>
         ''' <returns></returns>
+        <IgnoreDataMember>
+        <DataIgnored>
+        <JsonIgnore>
+        <SoapIgnore>
+        <XmlIgnore>
         <ScriptIgnore>
         Public Property color As Brush
 
@@ -147,6 +207,23 @@ Namespace Graph
                 .size = size.SafeQuery.ToArray,
                 .weights = weights.SafeQuery.ToArray
             }
+        End Function
+
+        Public Function SafeGetRadius() As Single
+            If size.IsNullOrEmpty Then
+                Return 0
+            Else
+                Return size(0)
+            End If
+        End Function
+
+        Public Function CheckInside(rect As Rectangle) As Boolean
+            If initialPostion Is Nothing Then
+                Return rect.X = 0 AndAlso rect.Y = 0
+            End If
+
+            Return rect.X < initialPostion.x AndAlso rect.Right > initialPostion.x AndAlso
+                rect.Top < initialPostion.y AndAlso rect.Bottom > initialPostion.y
         End Function
 
         Public Overrides Function ToString() As String

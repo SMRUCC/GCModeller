@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::421968ba5e15e6a3245e5b9a52a53015, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
+﻿#Region "Microsoft.VisualBasic::6eb46e9ee51d15295fa96c2a93334a85, core\Bio.Assembly\Assembly\KEGG\Web\Map\MapIndex.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 47 (75.81%)
+    ' Comment Lines: 7 (11.29%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.90%)
+    '     File Size: 2.21 KB
+
+
     '     Class MapIndex
     ' 
     '         Properties: compoundIndex, index, KeyVector, KOIndex
@@ -47,9 +59,13 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace Assembly.KEGG.WebServices
 
+    ''' <summary>
+    ''' a subclass of <see cref="Map"/>
+    ''' </summary>
     Public Class MapIndex : Inherits Map
         Implements INamedValue
 
@@ -95,7 +111,7 @@ Namespace Assembly.KEGG.WebServices
         End Function
 
         Public Overrides Function ToString() As String
-            Return ID
+            Return EntryId
         End Function
     End Class
 

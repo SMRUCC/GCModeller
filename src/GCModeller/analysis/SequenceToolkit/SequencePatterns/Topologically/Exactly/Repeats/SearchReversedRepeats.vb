@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::049905a4e9a93eab24ec5f57b26d4da5, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\SearchReversedRepeats.vb"
+﻿#Region "Microsoft.VisualBasic::33ff6b46a3ec0d75fcbbe1a0255551aa, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\SearchReversedRepeats.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 38 (71.70%)
+    ' Comment Lines: 5 (9.43%)
+    '    - Xml Docs: 80.00%
+    ' 
+    '   Blank Lines: 10 (18.87%)
+    '     File Size: 2.13 KB
+
+
     '     Class ReversedRepeatSeacher
     ' 
     '         Properties: MinAppeared, ResultSet
@@ -45,7 +57,7 @@
 
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Abstract.Motif
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels

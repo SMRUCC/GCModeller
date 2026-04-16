@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 82 (79.61%)
+    ' Comment Lines: 11 (10.68%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 10 (9.71%)
+    '     File Size: 4.49 KB
+
+
     ' Module Correlation
     ' 
     '     Function: CorrelatesNormalized, CorrelationMatrix, Pearson, Spearman

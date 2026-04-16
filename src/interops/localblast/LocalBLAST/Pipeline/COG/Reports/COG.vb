@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fbe0b2ac474e00591d540dd015c8641f, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
+﻿#Region "Microsoft.VisualBasic::3aacd67f538e6695d61e288bedce0c96, localblast\LocalBLAST\Pipeline\COG\Reports\COG.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 53 (80.30%)
+    ' Comment Lines: 3 (4.55%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (15.15%)
+    '     File Size: 2.74 KB
+
+
     '     Class MGACOG
     ' 
     '         Properties: [class], classDescrib, description, Evalue, Hit
@@ -46,8 +58,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
@@ -75,7 +87,8 @@ Namespace Pipeline.COG
         <Column("Identity")>
         Public Property identities As Double Implements IQueryHits.identities
 
-        Public Property description As String
+        Public Property description As String Implements IBlastHit.description
+
         Public Property [class] As String
         <Column("class description")>
         Public Property classDescrib As String

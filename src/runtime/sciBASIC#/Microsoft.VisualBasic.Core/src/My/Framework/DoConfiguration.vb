@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7406e5448a12504df6f55f859547282f, Microsoft.VisualBasic.Core\src\My\Framework\DoConfiguration.vb"
+﻿#Region "Microsoft.VisualBasic::4a06cb995af3a539213d55843793b02f, Microsoft.VisualBasic.Core\src\My\Framework\DoConfiguration.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 75 (60.98%)
+    ' Comment Lines: 31 (25.20%)
+    '    - Xml Docs: 38.71%
+    ' 
+    '   Blank Lines: 17 (13.82%)
+    '     File Size: 4.85 KB
+
+
     '     Module DoConfiguration
     ' 
-    '         Sub: ConfigFrameworkRuntime, ConfigMemory
+    '         Constructor: (+1 Overloads) Sub New
+    ' 
+    '         Function: ConfigMemory, InternalPlatformID
+    ' 
+    '         Sub: ConfigFrameworkRuntime
     ' 
     ' 
     ' /********************************************************************************/
@@ -52,11 +68,59 @@ Namespace My.FrameworkInternal
     ''' </summary>
     Public Module DoConfiguration
 
+        ''' <summary>
+        ''' --unix
+        ''' </summary>
+        Public ReadOnly unix_debug_flag As Boolean
+
+        ''' <summary>
+        ''' --verbose
+        ''' </summary>
+        Public ReadOnly verbose_flag As Boolean
+
+        ''' <summary>
+        ''' should be vanilla code
+        ''' </summary>
+        Sub New()
+            Dim args As String() = Environment.GetCommandLineArgs
+
+            If Not args Is Nothing Then
+                For Each s As String In args.Select(Function(si) si.ToLower)
+                    Select Case s
+                        Case "--unix" : unix_debug_flag = True
+                        Case "--verbose" : verbose_flag = True
+                    End Select
+                Next
+            End If
+        End Sub
+
+        Friend Function InternalPlatformID() As PlatformID
+            If unix_debug_flag Then
+                Return PlatformID.Unix
+            Else
+                Return Environment.OSVersion.Platform
+            End If
+        End Function
+
         <Extension>
         Friend Sub ConfigFrameworkRuntime(configuration As Config, args As CLI)
             Dim envir As Dictionary(Of String, String) = args.EnvironmentVariables
-            Dim disableLoadOptions As Boolean = args.GetBoolean("--load_options.disable")
+            Dim disableLoadOptions As Boolean = args.IsTrue("--load_options.disable")
+            Dim max_stack_size As String = args.Tokens _
+                .SafeQuery _
+                .Where(Function(t) Strings.LCase(t).StartsWith("/stack:")) _
+                .FirstOrDefault
             Dim name$
+
+            ' initial before call app module
+            'If args.GetBoolean("--unix") OrElse args.Name.TextEquals("--unix") Then
+            '    unix_debug_flag = True
+            'End If
+
+            ' call app module later
+            If Not max_stack_size.StringEmpty Then
+                Call App.JoinVariable("max_stack_size", max_stack_size.Split(":"c).Last)
+            End If
 
             ' load config from config file.
             For Each config In configuration.environment.SafeQuery
@@ -76,12 +140,13 @@ Namespace My.FrameworkInternal
             ' 但是环境变量任然会进行加载设置
             If Not disableLoadOptions AndAlso Not envir.IsNullOrEmpty Then
                 If envir.ContainsKey("proxy") Then
+                    ' /@set proxy=http://127.0.0.1:10809
                     WebServiceUtils.Proxy = envir("proxy")
-                    Call $"[Config] webUtils_proxy={WebServiceUtils.Proxy}".__INFO_ECHO
+                    Call $"[Config] webUtils_proxy={WebServiceUtils.Proxy}".info
                 End If
                 If envir.ContainsKey("setwd") Then
                     App.CurrentDirectory = envir("setwd")
-                    Call $"[Config] current_work_directory={App.CurrentDirectory}".__INFO_ECHO
+                    Call $"[Config] current_work_directory={App.CurrentDirectory}".info
                 End If
                 If envir.ContainsKey("buffer_size") Then
                     Call App.SetBufferSize(envir!buffer_size)
@@ -105,8 +170,12 @@ Namespace My.FrameworkInternal
             Next
         End Sub
 
-        Public Sub ConfigMemory(load As MemoryLoads)
-            App.m_memoryLoad = load
-        End Sub
+        Public Function ConfigMemory(Optional load As MemoryLoads? = Nothing) As MemoryLoads
+            If Not load Is Nothing Then
+                App.m_memoryLoad = load
+            End If
+
+            Return App.MemoryLoad
+        End Function
     End Module
 End Namespace

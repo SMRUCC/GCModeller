@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7f7cbd831057598253d0967c2c0d7bb3, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
+﻿#Region "Microsoft.VisualBasic::e848560502402aff82bdec9c3d72b112, data\Xfam\Pfam\MPAlignment\Output\CsvArchive.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 101
+    '    Code Lines: 64 (63.37%)
+    ' Comment Lines: 26 (25.74%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (10.89%)
+    '     File Size: 3.90 KB
+
+
     '     Class MPCsvArchive
     ' 
-    '         Properties: Description, Distance, FullScore, LengthDelta, LevMatch
-    '                     LevScore, MatchDomains, QueryLength, QueryPfamString, Score
-    '                     Similarity, StructMatched, SubjectPfamString
+    '         Properties: Distance, FullScore, LengthDelta, LevMatch, LevScore
+    '                     MatchDomains, QueryLength, QueryPfamString, Score, Similarity
+    '                     StructMatched, SubjectPfamString
     ' 
     '         Function: (+2 Overloads) CreateObject, ToString
     ' 
@@ -44,7 +56,7 @@
 
 #End Region
 
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 
@@ -63,13 +75,7 @@ Namespace ProteinDomainArchitecture.MPAlignment
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Property QueryLength As Integer
-        ''' <summary>
-        ''' Description for the <see cref="MPCsvArchive.QueryName"></see> protein.
-        ''' </summary>
-        ''' <value></value>
-        ''' <returns></returns>
-        ''' <remarks></remarks>
-        Public Property Description As String
+
         <Column("query.pfam-string")> Public Property QueryPfamString As String
         <Column("subject.pfam-string")> Public Property SubjectPfamString As String
 

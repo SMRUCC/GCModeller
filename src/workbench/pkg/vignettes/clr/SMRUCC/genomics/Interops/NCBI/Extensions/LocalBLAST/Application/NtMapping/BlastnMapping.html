@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping.BlastnMapping</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>BlastnMapping {SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>BlastnMapping</h2>
+
+        <h3>Description</h3>
+
+        <p>Blastn Mapping for fastaq</p>
+
+<h5>BLAST word-size</h5>
+
+<p>Length of an exact sequence match, as start region for the final alignment
+
+
+<pre><code class=""> blastn -query genes.ffn -subject genome.fna -word_size 11
+</code></pre>
+
+</p>
+
+<p>A BLAST search starts With finding a perfect sequence match Of length given by -word_size. 
+ This initial region Of an exact sequence match Is Then extended In both direction allowing 
+ gaps And substitutions based On the scoring thresholds.</p>
+
+<p>Changing the initial word-size can help To find more, but less accurate hits; Or To limit 
+ the results To almost perfect hits.</p>
+
+<p>+ Decreasing the word-size will increase the number Of detected homologous sequences, but hits 
+ can include alignments Of higher fragmentation due To gaps And substitutions (example: search 
+ for homologous genes between distant species, see also: -task blastn)
+ + Increasing the word-size will give less hits As it requires a longer continuous regions Of 
+ exact match. If the word-size Is chosen To be almost the size Of the query, BLAST will search 
+ For almost exact matches (example: search for location of gene sequences in the original genome 
+ of the gene)</p>
+
+<p>For Short sequences, word-size must be less than half the query length, otherwise reliable hits can be missed.</p>
+
+<p>Default word-sizes</p>
+
+<p>+ nucleotide sequence search blastn With Default megablast (bastn): <code>-word_size 28</code>   
+ + nucleotide sequence search blastn only (bastn -task blastn): <code>-word_size 11</code>  
+ + amino acid search (blastp): <code>-word_size 3</code></p>
+
+<p>Setting the word-size To a very low value (-word_size 5) makes a blastn search very slow. 
+ 
+ 如果做motif位点搜索，因为motif序列通常比较短，并且有些区域差异很大，所以word size可以设置的比较小</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+export class BlastnMapping extends <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Contig.html">Contig</a> {
+   AlignmentFullLength: boolean;
+   Evalue: double;
+   Extensions: list;
+   GapsFraction: string;
+   # Gaps(%)
+   gapsValue: string;
+   IdentitiesFraction: string;
+   # Identities(%)
+   identitiesValue: double;
+   # Perfect?
+   PerfectAlignment: boolean;
+   QueryLeft: integer;
+   # Length of <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/LocalBLAST/Application/NtMapping/BlastnMapping.html">BlastnMapping</a>.<a href="#">ReadQuery</a>
+   QueryLength: integer;
+   QueryRight: integer;
+   QueryStrand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
+   # Score(Raw)
+   RawScore: integer;
+   # The name of the reads query
+   ReadQuery: string;
+   # The name of the reference genome sequence.
+   Reference: string;
+   ReferenceLeft: integer;
+   ReferenceRight: integer;
+   # 在进行装配的时候是以基因组上面的链方向以及位置为基准的
+   ReferenceStrand: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a>;
+   # Score(bits)
+   Score: integer;
+   Strand: string;
+   # Unique?(这个属性值应该从blastn日志之中导出mapping数据的时候就执行了的)
+   Unique: boolean;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>this class extends from <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Contig.html">Contig</a> class: <a href="/vignettes/clr/SMRUCC/genomics/SequenceModel/NucleotideModels/Contig.html">Contig</a></li>
+<li>use by <i>property</i> member <code>Extensions</code>: list</li>
+<li>use by <i>property</i> member <code>QueryStrand</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
+<li>use by <i>property</i> member <code>ReferenceStrand</code>: <a href="/vignettes/clr/SMRUCC/genomics/ComponentModel/Loci/Strands.html">Strands</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::bf64092f3be5a477066e845bc5504004, annotations\WGCNA\WGCNA\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::d21003836646b1f8688b348641263604, annotations\WGCNA\WGCNA\Analysis.vb"
 
     ' Author:
     ' 
@@ -31,69 +31,289 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 270
+    '    Code Lines: 180 (66.67%)
+    ' Comment Lines: 49 (18.15%)
+    '    - Xml Docs: 77.55%
+    ' 
+    '   Blank Lines: 41 (15.19%)
+    '     File Size: 12.11 KB
+
+
     ' Module Analysis
     ' 
-    '     Function: createGraph, Run
+    '     Function: createGraph, Run, (+2 Overloads) RunWithPhenotype, setModules
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.Repository
+Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.visualize.Network.FileStream.Generic
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
+Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.DataMining.HierarchicalClustering
+Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math
-Imports Microsoft.VisualBasic.Math.DataFrame
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 Imports Microsoft.VisualBasic.Math.LinearAlgebra.Matrix
+Imports Microsoft.VisualBasic.Math.Matrix
+Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis.ANOVA
 Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 
+#If NET48 Then
+Imports System.Drawing
+#End If
+
+''' <summary>
+''' WGCNA分析主模块
+''' </summary>
 Public Module Analysis
 
-    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6) As Result
+    ''' <summary>
+    ''' run WGCNA analysis
+    ''' </summary>
+    ''' <param name="samples">
+    ''' an expression matrix object of gene features in rows and sample id in columns
+    ''' </param>
+    ''' <param name="adjacency"></param>
+    ''' <returns></returns>
+    Public Function Run(samples As Matrix, Optional adjacency As Double = 0.6, Optional pcaLayout As Boolean = True) As Result
+        Call VBDebugger.EchoLine("do pearson correlation matrix evaluation...")
         Dim cor As CorrelationMatrix = samples.Correlation(Function(gene) gene.experiments)
         Dim betaSeq As Double() = seq(1, 10, by:=1).JoinIterates(seq(11, 30, by:=2)).ToArray
+        Call VBDebugger.EchoLine("do beta test...")
         Dim betaList As BetaTest() = BetaTest.BetaTable(cor, betaSeq, adjacency).ToArray
         Dim beta As BetaTest = betaList(BetaTest.Best(betaList))
+        Call VBDebugger.EchoLine("build network graph!")
         Dim network As NumericMatrix = cor.WeightedCorrelation(beta.Power, pvalue:=False).Adjacency(adjacency)
         Dim K As New Vector(network.RowApply(AddressOf WeightedNetwork.sumK))
+        Call VBDebugger.EchoLine("create TOM matrix...")
         Dim tomMat As NumericMatrix = TOM.Matrix(network, K)
         Dim dist As New DistanceMatrix(samples.expression.Keys, 1 - tomMat)
+        Dim g As NetworkGraph = network.createGraph(samples, pcaLayout, cor, tomMat)
+        Call VBDebugger.EchoLine("make tree clustering!")
         Dim alg As ClusteringAlgorithm = New DefaultClusteringAlgorithm With {.debug = True}
         Dim matrix As Double()() = dist.PopulateRows _
             .Select(Function(a) a.ToArray) _
             .ToArray
+
+        Call VBDebugger.EchoLine("make metabolite cluster modules...")
+
         Dim cluster As Cluster = alg.performClustering(matrix, dist.keys, New AverageLinkageStrategy)
+        Dim modules = cluster _
+            .CreateModules _
+            .ToDictionary(Function(a) a.name,
+                            Function(a)
+                                Return a.ToArray
+                            End Function)
+
+        Call g.ApplyAnalysis
+        Call VBDebugger.EchoLine(" ~ done!")
 
         Return New Result With {
             .beta = beta,
             .hclust = cluster,
             .K = K,
-            .network = createGraph(network, samples),
+            .network = g.setModules(modules),
             .TOM = tomMat,
-            .modules = cluster _
-                .CreateModules _
-                .ToDictionary(Function(a) a.name,
-                              Function(a)
-                                  Return a.ToArray
-                              End Function),
+            .modules = modules,
             .softBeta = betaList
         }
     End Function
 
-    Private Function createGraph(mat As GeneralMatrix, samples As Matrix) As NetworkGraph
-        Dim geneId As String() = samples.expression.Keys.ToArray
-        Dim g As New NetworkGraph
+    ''' <summary>
+    ''' 运行完整的WGCNA分析（包含表型相关性分析）
+    ''' 
+    ''' 这是新增的主要分析函数，在基础WGCNA分析的基础上，
+    ''' 增加了模块与表型相关性的计算功能。
+    ''' </summary>
+    ''' <param name="samples">基因表达矩阵（基因×样本）</param>
+    ''' <param name="phenotypeData">表型数据字典（表型名→值数组），数组长度应与样本数相同</param>
+    ''' <param name="adjacency">邻接矩阵阈值，默认0.6</param>
+    ''' <param name="pcaLayout">是否使用PCA布局，默认True</param>
+    ''' <returns>完整的WGCNA分析结果，包含模块-表型相关性</returns>
+    Public Function RunWithPhenotype(samples As Matrix,
+                                      phenotypeData As Dictionary(Of String, Double()),
+                                      Optional adjacency As Double = 0.6,
+                                      Optional pcaLayout As Boolean = True) As Result
+        ' 首先运行基础WGCNA分析
+        Call VBDebugger.EchoLine("=== Starting WGCNA Analysis with Phenotype Correlation ===")
 
-        For Each id As String In geneId
-            Call g.CreateNode(id)
+        Dim result As Result = Run(samples, adjacency, pcaLayout)
+
+        ' 验证表型数据
+        If phenotypeData Is Nothing OrElse phenotypeData.Count = 0 Then
+            Call VBDebugger.EchoLine("Warning: No phenotype data provided, skipping phenotype correlation analysis.")
+            Return result
+        End If
+
+        ' 获取样本数量
+        Dim nSamples As Integer = samples.sampleID.Length
+
+        ' 验证表型数据长度
+        For Each kvp In phenotypeData
+            If kvp.Value.Length <> nSamples Then
+                Throw New ArgumentException($"表型 '{kvp.Key}' 的数据长度({kvp.Value.Length})与样本数量({nSamples})不匹配")
+            End If
         Next
 
-        For i As Integer = 0 To geneId.Length - 1
+        Call VBDebugger.EchoLine("=== Calculating Module Eigengenes ===")
+
+        ' 计算每个模块的特征基因
+        Dim eigengeneDict As New Dictionary(Of String, Double())
+        Dim eigengeneResults As New List(Of ModuleEigengeneResult)
+
+        For Each moduleKvp In result.modules
+            Dim meResult = ModulePhenotype.CalculateModuleEigengene(samples, moduleKvp.Value, moduleKvp.Key)
+            eigengeneDict(moduleKvp.Key) = meResult.Eigengene
+            eigengeneResults.Add(meResult)
+            Call VBDebugger.EchoLine($"  Module '{moduleKvp.Key}': {moduleKvp.Value.Length} genes, variance explained: {meResult.VarianceExplained:P}")
+        Next
+
+        result.moduleEigengenes = eigengeneDict
+        result.moduleEigengeneResults = eigengeneResults
+
+        Call VBDebugger.EchoLine("=== Calculating Module-Phenotype Correlations ===")
+
+        ' 计算模块与表型的相关性
+        Dim modulePhenotypeCorrs = ModulePhenotype.CalculateAllModulePhenotypeCorrelations(samples, result.modules, phenotypeData)
+        result.modulePhenotypeCorrelations = modulePhenotypeCorrs
+
+        ' 输出显著相关的模块
+        Dim significantCorrs = modulePhenotypeCorrs.Where(Function(c) c.PValue < 0.05).ToList()
+        Call VBDebugger.EchoLine($"  Found {significantCorrs.Count} significant module-phenotype correlations (p < 0.05)")
+        For Each corr In significantCorrs.OrderByDescending(Function(c) c.AbsoluteCorrelation).Take(10)
+            Call VBDebugger.EchoLine($"    {corr.ModuleName} vs {corr.PhenotypeName}: r={corr.Correlation:F3}, p={corr.PValue:F4}")
+        Next
+
+        Call VBDebugger.EchoLine("=== Calculating Gene Significance ===")
+
+        ' 计算基因显著性
+        Dim allGeneSignificance As New List(Of GeneSignificanceResult)
+        For Each phenotypeKvp In phenotypeData
+            Dim gsResults = ModulePhenotype.CalculateAllGeneSignificance(samples, phenotypeKvp.Value, phenotypeKvp.Key)
+            allGeneSignificance.AddRange(gsResults)
+        Next
+        result.geneSignificance = allGeneSignificance
+
+        Call VBDebugger.EchoLine("=== Calculating Module Membership ===")
+
+        ' 计算模块成员
+        Dim moduleMembershipResults = ModulePhenotype.CalculateAllModuleMembership(samples, result.modules)
+        result.moduleMembership = moduleMembershipResults
+
+        Call VBDebugger.EchoLine("=== WGCNA Analysis Complete ===")
+
+        Return result
+    End Function
+
+    ''' <summary>
+    ''' 运行WGCNA分析（使用单个表型）
+    ''' </summary>
+    ''' <param name="samples">基因表达矩阵</param>
+    ''' <param name="phenotypeName">表型名称</param>
+    ''' <param name="phenotypeValues">表型值数组</param>
+    ''' <param name="adjacency">邻接矩阵阈值</param>
+    ''' <param name="pcaLayout">是否使用PCA布局</param>
+    ''' <returns>WGCNA分析结果</returns>
+    Public Function RunWithPhenotype(samples As Matrix,
+                                      phenotypeName As String,
+                                      phenotypeValues As Double(),
+                                      Optional adjacency As Double = 0.6,
+                                      Optional pcaLayout As Boolean = True) As Result
+        Dim phenotypeData As New Dictionary(Of String, Double()) From {
+            {phenotypeName, phenotypeValues}
+        }
+        Return RunWithPhenotype(samples, phenotypeData, adjacency, pcaLayout)
+    End Function
+
+    <Extension>
+    Private Function setModules(g As NetworkGraph, modules As Dictionary(Of String, String())) As NetworkGraph
+        Dim colors As LoopArray(Of SolidBrush) = Designer _
+            .GetColors("paper", n:=modules.Count) _
+            .Select(Function(c) New SolidBrush(c)) _
+            .ToArray
+
+        For Each module_set In modules
+            Dim color As SolidBrush = ++colors
+
+            For Each id As String In module_set.Value
+                Dim v = g.GetElementByID(id)
+
+                If Not v Is Nothing Then
+                    v.data("module_set") = module_set.Key
+                    v.data(NamesOf.REFLECTION_ID_MAPPING_NODETYPE) = module_set.Key
+                    v.data.color = color
+                End If
+            Next
+        Next
+
+        Return g
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="mat">the network graph matrix</param>
+    ''' <param name="samples"></param>
+    ''' <param name="pcaLayout"></param>
+    ''' <param name="cor"></param>
+    ''' <param name="TOM"></param>
+    ''' <returns></returns>
+    <Extension>
+    Private Function createGraph(mat As NumericMatrix, samples As Matrix, pcaLayout As Boolean, cor As CorrelationMatrix, TOM As NumericMatrix) As NetworkGraph
+        Dim geneId As String() = samples.expression.Keys.UniqueNames.ToArray
+        Dim g As New NetworkGraph
+        Dim proj As MultivariateAnalysisResult = Nothing
+        Dim layout As Double()() = Nothing
+        Dim offset As i32 = 0
+
+        If pcaLayout Then
+            proj = mat.ArrayPack _
+                .Select(Function(r, i) New NamedCollection(Of Double)(geneId(i), r)) _
+                .CommonDataSet(geneId) _
+                .PrincipalComponentAnalysis(maxPC:=3)
+            layout = proj.GetPCAScore _
+                .NumericMatrix _
+                .Select(Function(r) r.value) _
+                .ToArray
+        End If
+
+        Call VBDebugger.EchoLine("assign the gene id nodes.")
+
+        For Each id As String In geneId
+            Dim node As Node = g.CreateNode(id)
+
+            If pcaLayout Then
+                node.data.initialPostion = New FDGVector3(layout(++offset))
+            End If
+        Next
+
+        Call VBDebugger.EchoLine("create links between the gene expression.")
+
+        Dim edge As Edge = Nothing
+
+        For Each i As Integer In TqdmWrapper.Range(0, geneId.Length)
             For j As Integer = 0 To geneId.Length - 1
                 If i <> j AndAlso mat(i, j) <> 0.0 Then
-                    Call g.AddEdge(geneId(i), geneId(j), weight:=mat(i, j))
+                    Call g.AddEdge(geneId(i), geneId(j), weight:=mat(i, j), getNewEdge:=edge)
+
+                    edge.data("TOM") = TOM(i, j)
+                    edge.data("pearson") = cor(i, j)
+                    edge.data("pvalue") = cor.pvalue(i, j)
                 End If
             Next
         Next

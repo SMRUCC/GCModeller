@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::353177286d4802108858fdc51907fc4f, gr\network-visualization\Datavisualization.Network\test\Module1.vb"
+﻿#Region "Microsoft.VisualBasic::c9497c89e47e47bea7f4052b3a2072fd, gr\network-visualization\Datavisualization.Network\test\Module1.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 60
+    '    Code Lines: 43 (71.67%)
+    ' Comment Lines: 3 (5.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (23.33%)
+    '     File Size: 1.64 KB
+
+
     ' Module Module1
     ' 
     '     Function: ExampleNetwork
@@ -57,8 +69,8 @@ Module Module1
 
         Dim treeModel As New GraphTree(graph)
 
-        Call graph.ToString.__DEBUG_ECHO
-        Call treeModel.ToString.__DEBUG_ECHO
+        Call graph.ToString.debug
+        Call treeModel.ToString.debug
 
         Pause()
 

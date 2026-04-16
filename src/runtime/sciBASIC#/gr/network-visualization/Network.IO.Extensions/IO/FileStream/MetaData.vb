@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::ed14054e733e8383d7695ad915c60726, gr\network-visualization\Network.IO.Extensions\IO\FileStream\MetaData.vb"
+﻿#Region "Microsoft.VisualBasic::cfda1035290d1fc9cfbc38672b9ae154, gr\network-visualization\Network.IO.Extensions\IO\FileStream\MetaData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 14 (77.78%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (22.22%)
+    '     File Size: 574 B
+
+
     '     Class MetaData
     ' 
     '         Properties: additionals, create_time, creators, description, keywords
@@ -57,7 +69,7 @@ Namespace FileStream
         Public Property additionals As Dictionary(Of String, String)
 
         Public Shared Function Union(a As MetaData, b As MetaData) As MetaData
-
+            Throw New NotImplementedException
         End Function
     End Class
 End Namespace

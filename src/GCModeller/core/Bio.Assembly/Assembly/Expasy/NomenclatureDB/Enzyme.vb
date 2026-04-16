@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 161
+    '    Code Lines: 92 (57.14%)
+    ' Comment Lines: 52 (32.30%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 17 (10.56%)
+    '     File Size: 6.68 KB
+
+
     '     Class Enzyme
     ' 
     '         Properties: AlternateName, CatalyticActivity, Cofactor, Comments, Description

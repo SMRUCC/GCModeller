@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 66
+    '    Code Lines: 49 (74.24%)
+    ' Comment Lines: 4 (6.06%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (19.70%)
+    '     File Size: 2.39 KB
+
+
     '     Class GeneLinks
     ' 
     '         Properties: Objects

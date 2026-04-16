@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 58
+    '    Code Lines: 43 (74.14%)
+    ' Comment Lines: 8 (13.79%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (12.07%)
+    '     File Size: 2.13 KB
+
+
     ' Module Extensions
     ' 
     '     Function: BIOMVersion, ReadAuto

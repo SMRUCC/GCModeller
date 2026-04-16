@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::15e9b78f9ae35c7a5d5438cf715ff019, Microsoft.VisualBasic.Core\src\Serialization\JSON\JsonSerialization.vb"
+﻿#Region "Microsoft.VisualBasic::3b5c44c7d5e52d8fb5c46f24c7b07bee, Microsoft.VisualBasic.Core\src\Serialization\JSON\JsonSerialization.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 350
+    '    Code Lines: 220 (62.86%)
+    ' Comment Lines: 90 (25.71%)
+    '    - Xml Docs: 96.67%
+    ' 
+    '   Blank Lines: 40 (11.43%)
+    '     File Size: 15.03 KB
+
+
     '     Module JsonContract
     ' 
     '         Function: EnsureDate, GetJson, (+2 Overloads) GetObjectJson, LoadJSON, LoadJsonFile
-    '                   LoadJSONObject, (+2 Overloads) LoadObject, MatrixJson, RemoveJsonNullItems, WriteLargeJson
+    '                   LoadJSONL, LoadJSONObject, (+2 Overloads) LoadObject, MatrixJson, RemoveJsonNullItems
+    '                   WriteLargeJson
     ' 
     '         Sub: writeJson
     ' 
@@ -48,18 +61,14 @@ Imports System.Runtime.CompilerServices
 Imports System.Runtime.Serialization.Json
 Imports System.Text
 Imports System.Text.RegularExpressions
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#End If
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-#If netcore5 = 1 Then
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.Default
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
+Imports ASCII = Microsoft.VisualBasic.Text.ASCII
 Imports Factory = System.Runtime.Serialization.Json.DataContractJsonSerializer
 Imports r = System.Text.RegularExpressions.Regex
 
@@ -184,22 +193,36 @@ Namespace Serialization.JSON
         ''' <summary>
         ''' Gets the json text value of the target object, the attribute <see cref="ScriptIgnoreAttribute"/> 
         ''' can be used for block the property which is will not serialize to the text.
-        ''' (使用<see cref="ScriptIgnoreAttribute"/>来屏蔽掉不想序列化的属性)
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
         ''' <param name="obj"></param>
         ''' <returns></returns>
         ''' <remarks>
+        ''' (使用<see cref="ScriptIgnoreAttribute"/>来屏蔽掉不想序列化的属性)
+        ''' 
         ''' 2016-11-9 对字典进行序列化的时候，假若对象类型是从字典类型继承而来的，则新的附加属性并不会被序列化，只会序列化字典本身
         ''' 2018-10-5 不可以序列化匿名类型
         ''' </remarks>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        <Extension> Public Function GetJson(Of T)(obj As T,
-                                                  Optional indent As Boolean = False,
-                                                  Optional simpleDict As Boolean = True,
-                                                  Optional knownTypes As IEnumerable(Of Type) = Nothing) As String
-            Return GetType(T).GetObjectJson(obj, indent, simpleDict, knownTypes)
+        <Extension>
+        Public Function GetJson(Of T)(obj As T,
+                                      Optional indent As Boolean = False,
+                                      Optional simpleDict As Boolean = True,
+                                      Optional knownTypes As IEnumerable(Of Type) = Nothing) As String
+            Dim schema As Type
+
+            If obj Is Nothing Then
+                Return "null"
+            End If
+
+            If GetType(T) Is GetType(Array) AndAlso Not obj Is Nothing Then
+                schema = obj.GetType
+            Else
+                schema = GetType(T)
+            End If
+
+            Return schema.GetObjectJson(obj, indent, simpleDict, knownTypes)
         End Function
 
         ''' <summary>
@@ -232,7 +255,7 @@ Namespace Serialization.JSON
                 Dim settings As New DataContractJsonSerializerSettings With {
                     .UseSimpleDictionaryFormat = simpleDict,
                     .SerializeReadOnlyTypes = True,
-                    .KnownTypes = knownTypes.SafeQuery.ToArray
+                    .KnownTypes = If(knownTypes, DirectCast(New Type() {}, IEnumerable(Of Type))).ToArray
                 }
                 Dim ser As New DataContractJsonSerializer(type, settings)
                 Dim de As Func(Of Object) = Function() ser.ReadObject(MS)
@@ -259,13 +282,29 @@ Namespace Serialization.JSON
         ''' 从文本文件或者文本内容之中进行JSON反序列化
         ''' </summary>
         ''' <param name="json">This string value can be json text or json file path.</param>
-        <Extension> Public Function LoadJSON(Of T)(json$,
-                                                   Optional simpleDict As Boolean = True,
-                                                   Optional throwEx As Boolean = True,
-                                                   Optional ByRef exception As Exception = Nothing,
-                                                   Optional knownTypes As IEnumerable(Of Type) = Nothing) As T
+        ''' <remarks>
+        ''' null or empty string will be parsed as nothing if the optional
+        ''' parameter <paramref name="throwEx"/> option value is set to false
+        ''' </remarks>
+        <Extension>
+        Public Function LoadJSON(Of T)(json$,
+                                       Optional simpleDict As Boolean = True,
+                                       Optional throwEx As Boolean = True,
+                                       Optional ByRef exception As Exception = Nothing,
+                                       Optional knownTypes As IEnumerable(Of Type) = Nothing) As T
 
             Dim text$ = json.SolveStream(Encodings.UTF8)
+
+            If text.StringEmpty Then
+                If throwEx Then
+                    Throw New NullReferenceException("empty json text!")
+                Else
+                    Return Nothing
+                End If
+            ElseIf text.TextEquals("null") Then
+                Return Nothing
+            End If
+
             Dim value As Object = text.LoadObject(GetType(T), simpleDict, throwEx, exception, knownTypes)
             Dim obj As T = DirectCast(value, T)
             Return obj
@@ -286,6 +325,32 @@ Namespace Serialization.JSON
         End Function
 
         ''' <summary>
+        ''' load json list file
+        ''' </summary>
+        ''' <typeparam name="T"></typeparam>
+        ''' <param name="file"></param>
+        ''' <param name="encoding"></param>
+        ''' <param name="simpleDict"></param>
+        ''' <param name="knownTypes"></param>
+        ''' <param name="throwEx"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function LoadJSONL(Of T)(file$,
+                                                 Optional encoding As Encoding = Nothing,
+                                                 Optional simpleDict As Boolean = True,
+                                                 Optional knownTypes As IEnumerable(Of Type) = Nothing,
+                                                 Optional throwEx As Boolean = True) As IEnumerable(Of T)
+
+            Using jsonl As New StreamReader(file.OpenReadonly(), encoding)
+                Dim json_str As Value(Of String) = ""
+
+                Do While (json_str = jsonl.ReadLine) IsNot Nothing
+                    Yield json_str.LoadJSON(Of T)(simpleDict:=simpleDict, throwEx:=throwEx, knownTypes:=knownTypes)
+                Loop
+            End Using
+        End Function
+
+        ''' <summary>
         ''' Create object instance from a json text of a given text file. 
         ''' </summary>
         ''' <typeparam name="T"></typeparam>
@@ -298,10 +363,11 @@ Namespace Serialization.JSON
         Public Function LoadJsonFile(Of T)(file$,
                                            Optional encoding As Encoding = Nothing,
                                            Optional simpleDict As Boolean = True,
-                                           Optional knownTypes As IEnumerable(Of Type) = Nothing) As T
+                                           Optional knownTypes As IEnumerable(Of Type) = Nothing,
+                                           Optional throwEx As Boolean = True) As T
 
-            Return (file.ReadAllText(encoding Or UTF8, throwEx:=False, suppress:=True) Or "null".AsDefault) _
-                .LoadJSON(Of T)(simpleDict, knownTypes:=knownTypes)
+            Return (file.ReadAllText(encoding Or UTF8, throwEx:=throwEx, suppress:=True) Or "null".AsDefault) _
+                .LoadJSON(Of T)(simpleDict, knownTypes:=knownTypes, throwEx:=throwEx)
         End Function
 
         Const JsonLongTime$ = "\d+-\d+-\d+T\d+:\d+:\d+\.\d+"

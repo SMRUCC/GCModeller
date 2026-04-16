@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::34346061ba8aab23046a4d9dfbeb7451, gr\Microsoft.VisualBasic.Imaging\d3js\scale\ordinal.vb"
+﻿#Region "Microsoft.VisualBasic::ce8e399d9b54a81948430e01e198f734, gr\Microsoft.VisualBasic.Imaging\d3js\scale\ordinal.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 178
+    '    Code Lines: 91 (51.12%)
+    ' Comment Lines: 64 (35.96%)
+    '    - Xml Docs: 90.62%
+    ' 
+    '   Blank Lines: 23 (12.92%)
+    '     File Size: 6.94 KB
+
+
     '     Class OrdinalScale
     ' 
-    '         Properties: domainSize, Zero
+    '         Properties: binWidth, domainSize, type, Zero
     ' 
-    '         Function: (+3 Overloads) domain, getTerms, range
+    '         Function: (+3 Overloads) domain, getTerms, lazyPositions, (+2 Overloads) range
     ' 
     ' 
     ' /********************************************************************************/
@@ -44,8 +56,8 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Linq
-Imports Microsoft.VisualBasic.Math.Scripting
 
 Namespace d3js.scale
 
@@ -72,6 +84,18 @@ Namespace d3js.scale
             End Get
         End Property
 
+        Public ReadOnly Property binWidth As Double
+            Get
+                Dim pos = lazyPositions()
+
+                If pos.Length > 1 Then
+                    Return pos(1) - pos(0)
+                Else
+                    Return _range.Length * 0.85
+                End If
+            End Get
+        End Property
+
         Default Public Overrides ReadOnly Property Value(x As Double) As Double
             Get
                 Return Me(x.ToString)
@@ -86,35 +110,58 @@ Namespace d3js.scale
 
         Default Public Overrides ReadOnly Property Value(term As String) As Double
             Get
-                If positions.IsNullOrEmpty Then
-                    positions = _range.Enumerate(index.Count + 1)
-                End If
-
                 If Not index.NotExists(term) Then
-                    Dim i As Integer = index(term) + 1
-                    Dim val As Double = positions(i)
+                    Dim i As Integer = index(term)
+                    Dim val As Double = lazyPositions(i)
 
                     Return val
                 Else
-                    'For Each factor In factors.SeqIterator
-                    '    With factor.value
-                    '        If term < .FactorValue Then
-                    '            If factor.i = 0 Then
-                    '                Return .Value
-                    '            End If
-                    '            Return (factors(factor.i - 1).Value + .Value) / 2
-                    '        End If
-                    '    End With
-                    'Next
-
-                    'Return factors.Last.Value
-                    Throw New NotImplementedException
+                    Throw New MissingMemberException($"missing ordinal mapping: {term}!")
                 End If
             End Get
         End Property
 
+        Public Overrides ReadOnly Property type As scalers
+            Get
+                Return scalers.ordinal
+            End Get
+        End Property
+
+        Private Function lazyPositions() As Double()
+            If positions.IsNullOrEmpty Then
+                Dim delta As Double = _range.Length / index.Count
+                Dim list As New List(Of Double)
+                Dim x As Double = _range.Min + delta / 2
+
+                For i As Integer = 0 To index.Count - 1
+                    list.Add(x)
+                    x += delta
+                Next
+
+                positions = list.ToArray
+            End If
+
+            Return positions
+        End Function
+
+        ''' <summary>
+        ''' set the plot canvas region boundary
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
         Public Overrides Function range(Optional values As IEnumerable(Of Double) = Nothing) As OrdinalScale
             _range = values.Range
+            Return Me
+        End Function
+
+        ''' <summary>
+        ''' set the plot canvas region boundary
+        ''' </summary>
+        ''' <param name="min"></param>
+        ''' <param name="max"></param>
+        ''' <returns></returns>
+        Public Overloads Function range(min As Double, max As Double) As OrdinalScale
+            _range = New DoubleRange(min, max)
             Return Me
         End Function
 
@@ -122,6 +169,14 @@ Namespace d3js.scale
             Return index
         End Function
 
+        ''' <summary>
+        ''' set the ordinal value range, the input numeric value will be transform as the string term factors in this function.
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the term ordinal value could be get from the <see cref="getTerms"/> function.
+        ''' </remarks>
         Public Overrides Function domain(values As IEnumerable(Of Double)) As OrdinalScale
             Return domain(values.ToStringArray)
         End Function
@@ -142,18 +197,29 @@ Namespace d3js.scale
         ''' that an explicit domain Is recommended To ensure deterministic behavior, As inferring 
         ''' the domain from usage will be dependent On ordering.
         ''' </summary>
-        ''' <param name="values"></param>
+        ''' <param name="tags"></param>
         ''' <returns></returns>
-        Public Overrides Function domain(values As IEnumerable(Of String)) As OrdinalScale
+        ''' <remarks>
+        ''' the term ordinal value could be get from the <see cref="getTerms"/> function.
+        ''' </remarks>
+        Public Overrides Function domain(tags As IEnumerable(Of String)) As OrdinalScale
             ' factors = values.factors
             'index = factors _
             '    .Select(Function(x) x.FactorValue) _
             '    .Indexing
-            index = values.Indexing
+            index = tags.Distinct.Indexing
 
             Return Me
         End Function
 
+        ''' <summary>
+        ''' set the ordinal value range, the input integer value will be transform as the string term factors in this function.
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' the term ordinal value could be get from the <see cref="getTerms"/> function.
+        ''' </remarks>
         Public Overrides Function domain(values As IEnumerable(Of Integer)) As OrdinalScale
             Return domain(values.ToStringArray)
         End Function

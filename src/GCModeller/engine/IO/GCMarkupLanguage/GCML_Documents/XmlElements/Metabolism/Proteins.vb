@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 98
+    '    Code Lines: 44 (44.90%)
+    ' Comment Lines: 39 (39.80%)
+    '    - Xml Docs: 15.38%
+    ' 
+    '   Blank Lines: 15 (15.31%)
+    '     File Size: 4.88 KB
+
+
     '     Class Polypeptide
     ' 
     ' 

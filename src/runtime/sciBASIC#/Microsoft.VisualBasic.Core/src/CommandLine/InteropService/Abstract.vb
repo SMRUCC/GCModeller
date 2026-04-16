@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e7ab0853d5c13c177cac4cf7c81a9ace, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::a7c126e75a02b479b7be6f1d0006e357, Microsoft.VisualBasic.Core\src\CommandLine\InteropService\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,28 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 183
+    '    Code Lines: 101 (55.19%)
+    ' Comment Lines: 55 (30.05%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 27 (14.75%)
+    '     File Size: 6.86 KB
+
+
     '     Class InteropService
     ' 
-    '         Properties: IORedirect, IsAvailable, Path
+    '         Properties: dotnetcoreApp, IORedirect, IsAvailable, Path
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetLastCLRException, GetLastError, RunDotNetApp, RunProgram, ToString
+    ' 
+    '         Function: CreateSlave, GetDotnetCoreCommandLine, GetLastCLRException, GetLastError, RunDotNetApp
+    '                   RunProgram, ToString
+    ' 
+    '         Sub: SetDotNetCoreDll
     ' 
     '     Interface AppDriver
     ' 
@@ -54,6 +70,7 @@
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
+Imports Microsoft.VisualBasic.CommandLine.InteropService.Pipeline
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Text
 Imports Microsoft.VisualBasic.Text.Parser
@@ -97,6 +114,7 @@ Namespace CommandLine.InteropService
         ''' </summary>
         ''' <returns></returns>
         Public Property IORedirect As Boolean = False
+        Public Property dotnetcoreApp As Boolean = False
 
         Sub New()
         End Sub
@@ -104,9 +122,13 @@ Namespace CommandLine.InteropService
         ''' <summary>
         ''' 通过应用程序的可执行文件路径来构建命令行的交互对象
         ''' </summary>
-        ''' <param name="app"></param>
+        ''' <param name="app">the target exe file path</param>
+        ''' <remarks>
+        ''' this module build dotnet call for clr on unix system automatically.
+        ''' </remarks>
         Sub New(app As String)
             _executableAssembly = app
+            _executableDll = app.ChangeSuffix("dll")
         End Sub
 
         ''' <summary>
@@ -114,11 +136,23 @@ Namespace CommandLine.InteropService
         ''' </summary>
         ''' <remarks></remarks>
         Protected Friend _executableAssembly As String
+        ''' <summary>
+        ''' .NET Core dll corresponding to run <see cref="_executableAssembly"/>.
+        ''' </summary>
+        Protected Friend _executableDll As String
 
         Dim lastProc As IIORedirectAbstract
 
+        Public Sub SetDotNetCoreDll()
+            _executableDll = _executableAssembly.ChangeSuffix("dll")
+        End Sub
+
         Public Function RunDotNetApp(args$) As IIORedirectAbstract
+#If NETCOREAPP Then
+            lastProc = App.Shell(_executableDll, args, CLR:=True)
+#Else
             lastProc = App.Shell(_executableAssembly, args, CLR:=True)
+#End If
             Return lastProc
         End Function
 
@@ -154,6 +188,18 @@ Namespace CommandLine.InteropService
             Return ExceptionData.CreateInstance(message, tracess, typeINF)
         End Function
 
+        Public Function CreateSlave(args As String, Optional workdir As String = Nothing) As RunSlavePipeline
+            If dotnetcoreApp Then
+                Return New RunSlavePipeline("dotnet", GetDotnetCoreCommandLine(args), workdir)
+            Else
+                Return New RunSlavePipeline(_executableAssembly, args, workdir)
+            End If
+        End Function
+
+        Public Function GetDotnetCoreCommandLine(args As String) As String
+            Return $"""{_executableDll}"" {args}"
+        End Function
+
         ''' <summary>
         ''' 运行非.NET应用程序
         ''' 请注意，这个函数只是生成了具体的进程调用对象，还需要手动调用
@@ -166,7 +212,11 @@ Namespace CommandLine.InteropService
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function RunProgram(args$, Optional stdin$ = Nothing) As IIORedirectAbstract
+#If NETCOREAPP Then
+            Return App.Shell(_executableDll, args, CLR:=False, stdin:=stdin)
+#Else
             Return App.Shell(_executableAssembly, args, CLR:=False, stdin:=stdin)
+#End If
         End Function
 
         Public Overrides Function ToString() As String

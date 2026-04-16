@@ -1,0 +1,119 @@
+﻿.TH UNIPROT_BACKGROUND 1 2026-4月 "" "Make a KEGG GSEA background from UniProt protein tables and KEGG KO links"
+.SH NAME
+uniprot_background \- uniprot_background(proteinTable, ko.maps,
+    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>,
+    <i>species.code</i> = <span style='color: brown;'><strong>'map'</strong></span>,
+    <i>cluster.idset</i> = <span style='color: blue !important;'>NULL</span>)
+.SH SYNOPSIS
+\fIuniprot_background(proteinTable, ko.maps,
+    <i>id.key</i> = <span style='color: brown;'><strong>'row.names'</strong></span>,
+    <i>species.code</i> = <span style='color: brown;'><strong>'map'</strong></span>,
+    <i>cluster.idset</i> = <span style='color: blue !important;'>NULL</span>)\fR
+.SH DESCRIPTION
+.PP
+
+
+`uniprot_background` builds a GSEA background model by integrating:
+\itemize{
+\item A protein table exported from UniProt (e.g. via the “proteinTable” tool).
+\item KEGG gene–KO mappings obtained from the KEGG REST API `link/ko` endpoint.
+}
+The function maps proteins (rows in `proteinTable`) to KEGG Orthology (KO) identifiers,
+then to KEGG reference pathways, and finally constructs a background object suitable
+for enrichment analysis with the `gseakit` framework.
+.PP
+.SH OPTIONS
+.PP
+\fBproteinTable\fB \fR\- . Data frame. A protein table exported from UniProt.
+It should contain at least the following columns (names may vary):
+\itemize{
+\item A gene/protein identifier column specified by `id_key`.
+\item `name`: protein name.
+\item `geneName`: gene symbol or primary gene name.
+\item `KEGG`: KEGG cross-reference identifiers (optional but recommended).
+}
+If `id_key = "row.names"` or `"0"`, the row names of `proteinTable` are used
+as the gene identifier for linking to KO mappings.
+.PP
+.PP
+\fBko.maps\fB \fR\- . 
+.PP
+.PP
+\fBid.key\fB \fR\- 'row.names'. 
+.PP
+.PP
+\fBspecies.code\fB \fR\- 'map'. 
+.PP
+.PP
+\fBcluster.idset\fB \fR\- NULL. 
+.PP
+.SH VALUE
+.PP
+An object of class `Background` from the `gseakit` framework, which
+represents a GSEA background model (see `as.background`). Conceptually, the
+returned object is a collection of clusters, where each cluster corresponds
+to a KEGG pathway or map, and each cluster entry contains protein-level
+annotations (identifier, name, alias, KEGG, UniProt) for the genes in that
+pathway.
+.PP
+.SH DETAILS
+.PP
+The function performs the following steps:
+\enumerate{
+\item If `ko_maps` is a directory, reads all `.txt` files inside it, expecting
+them to be KEGG `link/ko` results (tab-delimited: `kegg_id` \t `KO`), and
+combines them into a single data frame.
+\item Loads a standard reference KO set via `background::KO_reference()` and
+converts it to a gene set list using `as.geneSet`.
+\item Groups the `kegg_id`–`KO` mapping by KO and creates a lookup list from
+each KO to its associated KEGG gene IDs.
+\item Normalizes `proteinTable` into a data frame and ensures the identifier
+column specified by `id_key` exists (using row names if requested).
+\item For each KEGG reference pathway (cluster):
+\itemize{
+\item Parses the pathway ID and name from the cluster identifier
+(expected format `"pathway_id - pathway_name"`).
+\item Retrieves the set of KO identifiers associated with that pathway.
+\item Uses these KO identifiers to look up the corresponding KEGG gene IDs
+from the `ko_maps` lookup.
+\item Maps those KEGG gene IDs to rows in `proteinTable` and builds a
+data frame with columns:
+`xref` (gene identifier), `name`, `alias`, `KEGG`, `uniprot`.
+\item Wraps this data frame as a `gsea_cluster` object.
+}
+\item Collects all non-NULL clusters and converts them into a `Background`
+object via `as.background`.
+}
+.PP
+.SH EXAMPLES
+.PP
+#\dontrun{
+
+# Example: build background from a UniProt protein table and a directory of
+# KEGG link/ko results
+# 1) UniProt protein table (exported via the UniProt "proteinTable" tool)
+prot_tbl <- read.delim("uniprot_proteins.tsv")
+# 2) Directory containing files from link_ko or direct KEGG REST calls, e.g.
+# https://rest.kegg.jp/link/ko/taes:803091+taes:803092+taes:123456
+ko_dir <- "./kegg_ko_links"
+# 3) Build background model
+bg <- uniprot_background(
+proteinTable = prot_tbl,
+ko_maps      = ko_dir,
+id_key       = "row.names"   # use row names of prot_tbl as identifiers
+)
+# Inspect the background object
+str(bg)
+
+#}
+.PP
+.SH SEE ALSO
+\code{\link{link_ko}} for generating KEGG `link/ko` result files;
+\code{\link{as.background}} and the `gseakit` framework for the
+`Background` class.
+.SH FILES
+.PP
+SMRUCC/R#.declare_function.uniprot_background at uniprot.R:line 163
+.PP
+.SH COPYRIGHT
+Copyright © xieguigang, GPL3 Licensed 2026

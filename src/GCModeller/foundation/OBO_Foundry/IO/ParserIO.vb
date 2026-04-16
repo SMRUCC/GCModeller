@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6793358022ef69b5d1ef8acfce6551cb, foundation\OBO_Foundry\IO\ParserIO.vb"
+﻿#Region "Microsoft.VisualBasic::cea539a76d85fd0275694310f4aee4d7, foundation\OBO_Foundry\IO\ParserIO.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 134
+    '    Code Lines: 96 (71.64%)
+    ' Comment Lines: 21 (15.67%)
+    '    - Xml Docs: 80.95%
+    ' 
+    '   Blank Lines: 17 (12.69%)
+    '     File Size: 5.85 KB
+
 
     '     Module ParserIO
     ' 
@@ -119,12 +131,19 @@ Namespace IO
         Private Function asTable(data As String()) As Dictionary(Of String, String)
             Return data _
                 .Select(Function(s) s.GetTagValue(, trim:=True)) _
-                .ToDictionary(Function(a) a.Name,
-                              Function(a)
-                                  Return a.Value.GetStackValue("""", """")
+                .GroupBy(Function(a) a.Name) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(group)
+                                  Return group _
+                                      .Select(Function(a)
+                                                  Return a.Value.GetStackValue("""", """").Trim
+                                              End Function) _
+                                      .Where(Function(str) Not str.StringEmpty) _
+                                      .JoinBy(" ")
                               End Function)
         End Function
 
+#If DEVELOPMENT Then
         Private Sub checkField(schema As Dictionary(Of BindProperty(Of Field)), data As Dictionary(Of String, String()))
             Dim names As String() = schema.Values _
                 .Select(Function(p)
@@ -143,6 +162,7 @@ Namespace IO
                 End If
             Next
         End Sub
+#End If
 
         ''' <summary>
         ''' Parsing a term object as data model

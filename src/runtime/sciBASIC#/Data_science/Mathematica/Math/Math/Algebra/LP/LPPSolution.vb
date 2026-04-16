@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5ffae2fc81e0cebcad133a84e826310f, Data_science\Mathematica\Math\Math\Algebra\LP\LPPSolution.vb"
+﻿#Region "Microsoft.VisualBasic::3cf212acd161cf897eeb90dab5535cce, Data_science\Mathematica\Math\Math\Algebra\LP\LPPSolution.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 142
+    '    Code Lines: 113 (79.58%)
+    ' Comment Lines: 3 (2.11%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 26 (18.31%)
+    '     File Size: 5.77 KB
+
+
     '     Class LPPSolution
     ' 
     '         Properties: ConstraintTypes, DecimalFormat, failureMessage, FeasibleSolutionTime, ObjectiveFunctionValue
-    '                     SolutionLog, SolveTime
+    '                     SolutionLog, SolverError, SolveTime
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: coefficientSensitivityString, constraintSensitivityString, GetReducedCost, (+2 Overloads) GetSolution, ToString
+    '         Function: coefficientSensitivityString, constraintSensitivityString, GetReducedCost, (+3 Overloads) GetSolution, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +58,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
 <Assembly: InternalsVisibleTo("Rlapack")>
 
@@ -55,6 +68,7 @@ Namespace LinearAlgebra.LinearProgramming
 
         Dim solution() As Double
         Dim variableNames() As String
+
         Friend slack() As Double
         Friend shadowPrice() As Double
         Friend reducedCost() As Double
@@ -67,6 +81,12 @@ Namespace LinearAlgebra.LinearProgramming
         Public Property ConstraintTypes As String()
         Public Property ObjectiveFunctionValue As Double
         Public Property DecimalFormat As String = "G5"
+
+        Public ReadOnly Property SolverError As Boolean
+            Get
+                Return variableNames.IsNullOrEmpty AndAlso Not failureMessage.StringEmpty(, True)
+            End Get
+        End Property
 
         Public Sub New(failureMessage As String, solutionLog As String, feasibleSolutionTime As Long)
             Me.failureMessage = failureMessage
@@ -106,6 +126,12 @@ Namespace LinearAlgebra.LinearProgramming
         Public Iterator Function GetSolution(names As String()) As IEnumerable(Of Double)
             For Each name As String In names
                 Yield solution(variableNames.IndexOf(name))
+            Next
+        End Function
+
+        Public Iterator Function GetSolution() As IEnumerable(Of NamedValue(Of Double))
+            For i As Integer = 0 To variableNames.Length - 1
+                Yield New NamedValue(Of Double)(variableNames(i), solution(i))
             Next
         End Function
 

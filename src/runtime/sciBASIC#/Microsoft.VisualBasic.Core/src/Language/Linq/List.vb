@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::772de024f836ad890c4eb4db49dd50da, Microsoft.VisualBasic.Core\src\Language\Linq\List.vb"
+﻿#Region "Microsoft.VisualBasic::7259ea32fe5b455da300874f169c3e56, Microsoft.VisualBasic.Core\src\Language\Linq\List.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 685
+    '    Code Lines: 367 (53.58%)
+    ' Comment Lines: 254 (37.08%)
+    '    - Xml Docs: 89.37%
+    ' 
+    '   Blank Lines: 64 (9.34%)
+    '     File Size: 26.37 KB
+
 
     '     Class List
     ' 
@@ -219,7 +231,7 @@ Namespace Language
         Default Public Overloads Property Item(range As IntRange) As List(Of T)
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return New List(Of T)(Me.Skip(range.Min).Take(range.Length))
+                Return New List(Of T)(Me.Skip(range.Min).Take(range.Interval))
             End Get
             Set(value As List(Of T))
                 Dim indices As Integer() = range.ToArray
@@ -273,10 +285,11 @@ Namespace Language
         ''' Initializes a new instance of the <see cref="List(Of T)"/> class that
         ''' contains elements copied from the specified collection and has sufficient capacity
         ''' to accommodate the number of elements copied.
-        ''' (这是一个安全的构造函数，假若输入的参数为空值，则只会创建一个空的列表，而不会抛出错误)
         ''' </summary>
         ''' <param name="source">The collection whose elements are copied to the new list.</param>
-        ''' 
+        ''' <remarks>
+        ''' (这是一个安全的构造函数，假若输入的参数为空值，则只会创建一个空的列表，而不会抛出错误)
+        ''' </remarks>
         <DebuggerStepThrough>
         Sub New(source As IEnumerable(Of T))
             Call MyBase.New(If(source Is Nothing, {}, source.ToArray))
@@ -581,7 +594,7 @@ Namespace Language
         ''' <returns></returns>
         Public Shared Operator ^(list As List(Of T), find As Func(Of T, Boolean)) As T
             Dim LQuery = LinqAPI.DefaultFirst(Of T) _
- _
+                                                    _
                 () <= From x As T
                       In list.AsParallel
                       Where True = find(x)
@@ -711,11 +724,17 @@ Namespace Language
         ''' <summary>
         ''' Get the <see cref="Last"/> element value and then removes the last element.
         ''' </summary>
-        ''' <returns></returns>
-        Public Function Pop() As T
-            Dim out = Last
-            Call Me.RemoveLast
-            Return out
+        ''' <returns>
+        ''' 
+        ''' </returns>
+        Public Function Pop(Optional strict As Boolean = True) As T
+            If Count = 0 AndAlso Not strict Then
+                Return Nothing
+            Else
+                Dim out As T = Last
+                Call Me.RemoveLast
+                Return out
+            End If
         End Function
 
         Public Function Poll() As T

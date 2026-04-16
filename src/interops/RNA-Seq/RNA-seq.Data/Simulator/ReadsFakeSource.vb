@@ -1,0 +1,336 @@
+﻿#Region "Microsoft.VisualBasic::47f9e54bf319a6329485bc79b7fd6af4, RNA-Seq\RNA-seq.Data\Simulator\ReadsFakeSource.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 276
+    '    Code Lines: 179 (64.86%)
+    ' Comment Lines: 59 (21.38%)
+    '    - Xml Docs: 50.85%
+    ' 
+    '   Blank Lines: 38 (13.77%)
+    '     File Size: 13.17 KB
+
+
+    ' Module ReadsFakeSource
+    ' 
+    '     Function: (+2 Overloads) BuildWeightedSelector, FakeReads, GenerateQualityString, SelectStartIndexFromHotspots, SelectWeightedItemInternal
+    '               SimulateSequencingErrors
+    '     Class WeightedSelector
+    ' 
+    '         Properties: CumulativeWeights, Items, TotalWeight
+    ' 
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports System.Text
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+
+''' <summary>
+''' Module code for generates reads for run algorithm debug test
+''' </summary>
+Public Module ReadsFakeSource
+
+    ''' <summary>
+    ''' 基于FASTA序列集合和配置，模拟生成具有指定长度分布和丰度特征的随机测序reads。
+    ''' 此函数可以模拟不同微生物的丰度差异以及基因组内部特定区域的高表达水平。
+    ''' </summary>
+    ''' <param name="config">一个包含所有模拟参数的 <see cref="ReadSimulationConfig"/> 对象。</param>
+    ''' <returns>一个IEnumerable(Of String)，通过迭代器模式逐个返回模拟的read序列。</returns>
+    Public Iterator Function FakeReads(config As ReadSimulationConfig) As IEnumerable(Of FastQ)
+        ' --- 参数验证 ---
+        If config Is Nothing Then
+            Throw New ArgumentNullException(NameOf(config))
+        End If
+        If config.Genomes Is Nothing OrElse config.Genomes.Length = 0 Then
+            Throw New ArgumentException("配置中的基因组数组不能为空。", NameOf(config.Genomes))
+        End If
+        If config.NumberOfReads <= 0 Then
+            Return
+        End If
+        If config.ReadLengthRange Is Nothing OrElse config.ReadLengthRange.Min <= 0 OrElse config.ReadLengthRange.Max < config.ReadLengthRange.Min Then
+            Throw New ArgumentException("长度范围无效。min必须大于0，且max必须大于等于min。", NameOf(config.ReadLengthRange))
+        End If
+
+
+        ' 双端特有验证
+        If config.IsPairedEnd Then
+            If config.InsertSizeRange Is Nothing OrElse config.InsertSizeRange.Min < config.ReadLengthRange.Min Then
+                Throw New ArgumentException("双端模式下InsertSize Min必须大于等于ReadLength Max。", NameOf(config.InsertSizeRange))
+            End If
+        End If
+
+        ' 过滤掉长度为0的无效基因组
+        Dim validGenomes = config.Genomes.Where(Function(g) Not String.IsNullOrEmpty(g.SequenceData)).ToArray()
+        If validGenomes.Length = 0 Then
+            Throw New ArgumentException("所有提供的基因组序列都为空，无法生成reads。", NameOf(config.Genomes))
+        End If
+
+        ' --- 预计算：构建加权选择所需的数据结构 ---
+        ' 1. 构建基因组权重选择器
+        Dim genomeSelector = BuildWeightedSelector(validGenomes, config.GenomeAbundanceWeights)
+        ' 2. 为每个基因组构建其区域热点选择器
+        Dim hotspotSelectors As New Dictionary(Of String, WeightedSelector(Of RegionHotspot))()
+        For Each genome In validGenomes
+            If config.RegionHotspots.ContainsKey(genome.ID) Then
+                hotspotSelectors(genome.ID) = BuildWeightedSelector(config.RegionHotspots(genome.ID))
+            End If
+        Next
+
+        Dim lenMin As Integer = config.ReadLengthRange.Min
+        Dim lenMax As Integer = config.ReadLengthRange.Max
+
+        ' --- 循环生成指定数量的reads ---
+        For i As Integer = 1 To config.NumberOfReads
+            ' 1. 加权随机选择一个基因组
+            Dim randomValue As Double = randf.NextDouble() * genomeSelector.TotalWeight
+            Dim selectedGenome As SimpleSegment = SelectWeightedItemInternal(genomeSelector.Items, genomeSelector.CumulativeWeights, genomeSelector.TotalWeight, randomValue)
+            Dim sequence As String = selectedGenome.SequenceData
+
+            ' 2. 随机确定read的长度
+            Dim readLength As Integer = randf.NextInteger(lenMin, lenMax + 1)
+
+            ' 3. 确定Fragment信息 (单端模式下Fragment长度=Read长度)
+            Dim fragmentStart As Integer
+            Dim fragmentLength As Integer
+
+            If config.IsPairedEnd Then
+                fragmentLength = randf.NextInteger(config.InsertSizeRange.Min, config.InsertSizeRange.Max + 1)
+            Else
+                fragmentLength = readLength
+            End If
+
+            ' 3. 处理边界情况：如果选中的基因组比期望的read长度还短
+            If sequence.Length < readLength Then readLength = sequence.Length
+            If fragmentLength < readLength Then readLength = fragmentLength ' 保护逻辑
+            If readLength = 0 Then Continue For
+
+            ' 4. 加权随机选择起始位置
+            If hotspotSelectors.ContainsKey(selectedGenome.ID) AndAlso hotspotSelectors(selectedGenome.ID).Items.Any() Then
+                ' 如果存在热点，则进行偏向性选择
+                fragmentStart = SelectStartIndexFromHotspots(sequence, readLength, hotspotSelectors(selectedGenome.ID))
+            Else
+                ' 如果没有热点，则使用原始的均匀随机选择
+                fragmentStart = randf.NextInteger(0, sequence.Length - readLength + 1)
+            End If
+
+            ' 5. 生成 Reads
+            If config.IsPairedEnd Then
+                ' --- Read 1 (Forward) ---
+                Dim seq1 = sequence.Substring(fragmentStart, readLength)
+                Dim qual1 = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq1 = SimulateSequencingErrors(seq1, config.ErrorRate)
+
+                Yield New FastQ With {
+                    .SequenceData = seq1,
+                    .Quality = qual1,
+                    .SEQ_ID = $"{selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]",
+                    .SEQ_Info = $"{selectedGenome.ID}_FRAG{i}/2"
+                }
+
+                ' --- Read 2 (Reverse) ---
+                ' R2 起始位置：Fragment末尾向前推Read长度
+                Dim r2Start = fragmentStart + fragmentLength - readLength
+                Dim seq2Raw = sequence.Substring(r2Start, readLength)
+                Dim seq2 = NucleicAcid.GetReverseComplement(seq2Raw) ' 反向互补
+                Dim qual2 = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq2 = SimulateSequencingErrors(seq2, config.ErrorRate)
+
+                Yield New FastQ With {
+                    .SequenceData = seq2,
+                    .Quality = qual2,
+                    .SEQ_ID = $"{selectedGenome.ID}_FRAG{i}/2 [complement({r2Start + 1}..{r2Start + readLength})]",
+                    .SEQ_Info = $"{selectedGenome.ID}_FRAG{i}/1 [{fragmentStart + 1}..{fragmentStart + readLength}]"
+                }
+
+            Else
+                ' --- Single End ---
+                Dim seq = sequence.Substring(fragmentStart, readLength)
+                Dim qual = GenerateQualityString(readLength, config.QualityScoreRange)
+                If config.ErrorRate > 0 Then seq = SimulateSequencingErrors(seq, config.ErrorRate)
+
+                Yield New FastQ With {
+                    .SequenceData = seq,
+                    .Quality = qual,
+                    .SEQ_ID = $"{selectedGenome.ID}_READ{i}",
+                    .SEQ_Info = $"[{fragmentStart + 1}-{fragmentStart + readLength}, +]"
+                }
+            End If
+        Next
+    End Function
+
+    ''' <summary>
+    ''' 模拟测序错误：随机替换碱基。
+    ''' </summary>
+    Private Function SimulateSequencingErrors(sequence As String, errorRate As Double) As String
+        Dim chars As Char() = sequence.ToCharArray()
+        Dim bases As Char() = {"A"c, "T"c, "C"c, "G"c}
+
+        For i As Integer = 0 To chars.Length - 1
+            If randf.NextDouble() < errorRate Then
+                ' 发生错误，随机替换为其他碱基
+                Dim original As Char = chars(i)
+                Dim newBase As Char
+                Do
+                    newBase = bases(randf.NextInteger(0, 4))
+                Loop While newBase = original
+                chars(i) = newBase
+            End If
+        Next
+
+        Return New String(chars)
+    End Function
+
+    ''' <summary>
+    ''' 生成FastQ质量分数字符串。
+    ''' </summary>
+    Private Function GenerateQualityString(length As Integer, range As IntRange) As String
+        Dim sb As New StringBuilder(length)
+        For i As Integer = 1 To length
+            ' 在范围内随机生成一个Phred分数
+            Dim phred As Integer = randf.NextInteger(range.Min, range.Max + 1)
+            ' 转换为ASCII字符 (Phred+33)
+            sb.Append(Chr(phred + 33))
+        Next
+        Return sb.ToString()
+    End Function
+
+    ''' <summary>
+    ''' 加权随机选择器的辅助结构
+    ''' </summary>
+    Private Class WeightedSelector(Of T)
+        Public Property Items As List(Of T)
+        Public Property CumulativeWeights As List(Of Double)
+        Public Property TotalWeight As Double
+    End Class
+
+    ''' <summary>
+    ''' 根据项目列表和权重字典，构建一个加权选择器。
+    ''' </summary>
+    Private Function BuildWeightedSelector(Of T)(items As T(), weights As Dictionary(Of String, Double)) As WeightedSelector(Of T)
+        Dim selector As New WeightedSelector(Of T)()
+        selector.Items = items.ToList()
+        selector.CumulativeWeights = New List(Of Double)()
+        Dim cumulativeSum As Double = 0.0
+
+        For Each item In items
+            Dim weight As Double = 1.0 ' 默认权重
+            Dim fastaItem = TryCast(item, SimpleSegment)
+            If fastaItem IsNot Nothing AndAlso weights.ContainsKey(fastaItem.ID) Then
+                weight = weights(fastaItem.ID)
+            End If
+            cumulativeSum += weight
+            selector.CumulativeWeights.Add(cumulativeSum)
+        Next
+
+        selector.TotalWeight = cumulativeSum
+        Return selector
+    End Function
+
+    ''' <summary>
+    ''' 为特定类型的列表构建加权选择器（权重是对象自身的属性）。
+    ''' </summary>
+    Private Function BuildWeightedSelector(items As List(Of RegionHotspot)) As WeightedSelector(Of RegionHotspot)
+        Dim selector As New WeightedSelector(Of RegionHotspot)()
+        selector.Items = items
+        selector.CumulativeWeights = New List(Of Double)()
+        Dim cumulativeSum As Double = 0.0
+
+        For Each item In items
+            cumulativeSum += item.Weight
+            selector.CumulativeWeights.Add(cumulativeSum)
+        Next
+
+        selector.TotalWeight = cumulativeSum
+        Return selector
+    End Function
+
+    ''' <summary>
+    ''' 从带有热点的基因组中选择一个起始索引。
+    ''' </summary>
+    Private Function SelectStartIndexFromHotspots(sequence As String, readLength As Integer, hotspotSelector As WeightedSelector(Of RegionHotspot)) As Integer
+        ' 简单模型：有一定概率从热点选，有一定概率从背景选
+        ' 这里我们用热点总权重代表“热点”的吸引力，背景权重设为1
+        Dim totalHotspotWeight = hotspotSelector.TotalWeight
+        Dim backgroundWeight = 1.0 ' 背景区域的相对权重
+        Dim totalChoiceWeight = totalHotspotWeight + backgroundWeight
+
+        Dim choice = randf.NextDouble() * totalChoiceWeight
+
+        If choice < totalHotspotWeight Then
+            ' 从热点中选择
+            Dim selectedHotspot = SelectWeightedItemInternal(hotspotSelector.Items, hotspotSelector.CumulativeWeights, totalHotspotWeight, randf.NextDouble() * totalHotspotWeight)
+            Dim hotspotStart As Integer = Math.Max(0, selectedHotspot.Start)
+            Dim hotspotEnd As Integer = Math.Min(sequence.Length - 1, selectedHotspot.End)
+            Dim effectiveHotspotLength = hotspotEnd - hotspotStart + 1
+
+            If effectiveHotspotLength >= readLength Then
+                ' 热点足够长，在热点内随机选择
+                Return randf.NextInteger(hotspotStart, hotspotEnd - readLength + 2)
+            Else
+                ' 热点比read短，从热点起始位置开始（或调整）
+                Return hotspotStart
+            End If
+        Else
+            ' 从背景中选择（均匀分布在整个基因组）
+            Return randf.NextInteger(0, sequence.Length - readLength + 1)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' 从累积权重列表中进行加权随机选择。
+    ''' </summary>
+    Private Function SelectWeightedItemInternal(Of T)(items As List(Of T), cumulativeWeights As List(Of Double), totalWeight As Double, randomValue As Double) As T
+        If items Is Nothing OrElse items.Count = 0 OrElse totalWeight = 0 Then
+            Return Nothing
+        End If
+
+        For i As Integer = 0 To cumulativeWeights.Count - 1
+            If randomValue <= cumulativeWeights(i) Then
+                Return items(i)
+            End If
+        Next
+
+        ' 由于浮点数精度问题，可能不会精确等于，返回最后一个作为后备
+        Return items.Last()
+    End Function
+
+End Module
+

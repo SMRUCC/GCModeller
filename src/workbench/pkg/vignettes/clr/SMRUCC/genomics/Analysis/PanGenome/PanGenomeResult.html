@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PanGenome.PanGenomeResult</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>PanGenomeResult {SMRUCC.genomics.Analysis.PanGenome}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>PanGenomeResult</h2>
+
+        <h3>Description</h3>
+
+        <p>分析结果存储结构（修改为支持多基因组）</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PanGenome
+export class PanGenomeResult {
+   CloudGeneFamilies: string;
+   # 3. 共线性区块
+   CollinearBlocks: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/CollinearBlock.html">CollinearBlock[]</a>;
+   # 核心基因家族（所有品种都有）
+   CoreGeneFamilies: string;
+   # 附属基因家族（部分品种有，但不是全部）
+   DispensableGeneFamilies: string;
+   # Key为基因家族ID，Value为该家族包含的所有基因ID列表
+   GeneFamilies: list;
+   GeneticDistanceMatrix: list;
+   # 2. 泛基因组曲线数据
+   #  列表项为：加入的第N个基因组，总基因数，核心基因数
+   PangenomeCurveData: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PangenomeCurveData.html">PangenomeCurveData[]</a>;
+   # 1. PAV 矩阵
+   #  
+   #  Key为基因家族ID，Value为字典(Key为基因组名，Value为拷贝数/存在与否)
+   PAVMatrix: list;
+   ShellGeneFamilies: string;
+   # 单拷贝直系同源基因家族（每个品种仅1个拷贝）
+   SingleCopyOrthologFamilies: string;
+   SoftCoreGeneFamilies: string;
+   # 特异性基因家族（仅1个品种有）
+   SpecificGeneFamilies: string;
+   # 结构变异列表
+   StructuralVariations: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/StructuralVariation.html">StructuralVariation[]</a>;
+   # 统计数据（修改为字典，Key为基因组名称，Value为该基因组基因总数）
+   TotalGenesInGenomes: list;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>CollinearBlocks</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/CollinearBlock.html">CollinearBlock</a></li>
+<li>use by <i>property</i> member <code>GeneFamilies</code>: list</li>
+<li>use by <i>property</i> member <code>GeneticDistanceMatrix</code>: list</li>
+<li>use by <i>property</i> member <code>PangenomeCurveData</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/PangenomeCurveData.html">PangenomeCurveData</a></li>
+<li>use by <i>property</i> member <code>PAVMatrix</code>: list</li>
+<li>use by <i>property</i> member <code>StructuralVariations</code>: <a href="/vignettes/clr/SMRUCC/genomics/Analysis/PanGenome/StructuralVariation.html">StructuralVariation</a></li>
+<li>use by <i>property</i> member <code>TotalGenesInGenomes</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

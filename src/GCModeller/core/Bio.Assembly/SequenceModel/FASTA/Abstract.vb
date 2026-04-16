@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9a90a9991115df48f8aed7799699157a, core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
+﻿#Region "Microsoft.VisualBasic::2dd51f8c2d9c3f0bb9897f28a7df53c2, core\Bio.Assembly\SequenceModel\FASTA\Abstract.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 13 (24.53%)
+    ' Comment Lines: 31 (58.49%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (16.98%)
+    '     File Size: 2.00 KB
+
+
     '     Interface IFastaProvider
     ' 
-    '         Properties: title
+    '         Properties: length, title
     ' 
     '     Interface IAbstractFastaToken
     ' 
@@ -60,36 +72,44 @@ Namespace SequenceModel.FASTA
         ''' </summary>
         ''' <returns></returns>
         ReadOnly Property title As String
+        ReadOnly Property length As Integer
+
     End Interface
 
     ''' <summary>
-    ''' The fasta object is a sequence model object with a specific title to identify the sequence and a sequence data property to represents the specific molecule.
+    ''' The fasta object is a sequence model object with a specific title to identify 
+    ''' the sequence and a sequence data property to represents the specific molecule.
     ''' </summary>
     ''' <remarks></remarks>
     Public Interface IAbstractFastaToken : Inherits IPolymerSequenceModel
 
         ''' <summary>
         ''' The title value which contains some brief information about this sequence.
-        ''' (这条序列数据的标题摘要信息)
         ''' </summary>
         ''' <value></value>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(这条序列数据的标题摘要信息)</remarks>
         ReadOnly Property title As String
         ''' <summary>
         ''' The attribute header of this FASTA file. The fasta header usually have some format which can be parsed by some 
         ''' specific loader and gets some well organized information about the sequence. The format of the header is 
-        ''' usually different between each biological database.(这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' usually different between each biological database.
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' (这个FASTA文件的属性头，标题的格式通常在不同的数据库之间是具有很大差异的)
+        ''' </remarks>
         Property headers As String()
 
     End Interface
 
     ''' <summary>
-    ''' This object could provide a sequence data through <see cref="ISequenceProvider.GetSequenceData()"/> function.
+    ''' This object could provide a biological sequence data
+    ''' through <see cref="ISequenceProvider.GetSequenceData()"/> function.
     ''' </summary>
     Public Interface ISequenceProvider
+
         Function GetSequenceData() As String
+
     End Interface
 End Namespace

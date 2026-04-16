@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8063d3eecd07b711fabc8be8c0a2091e, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\BinaryExpression.vb"
+﻿#Region "Microsoft.VisualBasic::023ef54d1c648b94a1b70852033aeb3f, Data_science\Mathematica\Math\Math\Scripting\Expression\Expression\BinaryExpression.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 32 (58.18%)
+    ' Comment Lines: 15 (27.27%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 8 (14.55%)
+    '     File Size: 1.91 KB
+
+
     '     Class BinaryExpression
     ' 
     '         Properties: [operator], left, right
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: Evaluate, Power, ToString
+    '         Function: Evaluate, GetVariableSymbols, Power, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,13 +57,28 @@
 
 Namespace Scripting.MathExpression.Impl
 
+    ''' <summary>
+    ''' left op right
+    ''' </summary>
     Public Class BinaryExpression : Inherits Expression
 
         Public ReadOnly Property left As Expression
         Public ReadOnly Property right As Expression
-        Public ReadOnly Property [operator] As Char
+        Public ReadOnly Property [operator] As String
 
-        Sub New(left As Expression, right As Expression, op As Char)
+        ''' <summary>
+        ''' construct a new binary expression of:
+        ''' 
+        ''' ```
+        ''' <paramref name="left"/> <paramref name="op"/> <paramref name="right"/>
+        ''' ```
+        ''' </summary>
+        ''' <param name="left"></param>
+        ''' <param name="right"></param>
+        ''' <param name="op">
+        ''' the binary math operator
+        ''' </param>
+        Sub New(left As Expression, right As Expression, op As String)
             Me.left = left
             Me.right = right
             Me.operator = op
@@ -71,6 +98,15 @@ Namespace Scripting.MathExpression.Impl
 
         Public Shared Function Power(x As Expression, y As Integer) As Expression
             Return New BinaryExpression(x, New Literal(y), "^"c)
+        End Function
+
+        Public Overrides Iterator Function GetVariableSymbols() As IEnumerable(Of String)
+            For Each name As String In left.GetVariableSymbols
+                Yield name
+            Next
+            For Each name As String In right.GetVariableSymbols
+                Yield name
+            Next
         End Function
     End Class
 End Namespace

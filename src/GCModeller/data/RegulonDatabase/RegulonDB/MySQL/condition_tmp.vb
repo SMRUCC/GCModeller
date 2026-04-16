@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 176
+    '    Code Lines: 91 (51.70%)
+    ' Comment Lines: 63 (35.80%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 22 (12.50%)
+    '     File Size: 12.32 KB
+
+
     ' Class condition_tmp
     ' 
     '     Properties: cond_effect_link_id, condition_conformation_id, condition_effect, condition_evidence, condition_final_state

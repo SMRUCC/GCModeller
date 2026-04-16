@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d73c318f74131c3594d85d6dc1af2bb0, mime\application%pdf\PdfReader\Document\PdfPage.vb"
+﻿#Region "Microsoft.VisualBasic::3911dde88f511ae53cba65005100d7c2, mime\application%pdf\PdfReader\Document\PdfPage.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 195
+    '    Code Lines: 160 (82.05%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 35 (17.95%)
+    '     File Size: 6.01 KB
+
+
     '     Class PdfPage
     ' 
     '         Properties: AA, Annots, ArtBox, B, BleedBox
@@ -56,15 +68,15 @@ Namespace PdfReader
 
         Private _contents As PdfContents
 
-        Public Sub New(ByVal dictionary As PdfDictionary)
+        Public Sub New(dictionary As PdfDictionary)
             MyBase.New(dictionary.Parent, dictionary.ParseDictionary)
         End Sub
 
-        Public Overrides Sub Visit(ByVal visitor As IPdfObjectVisitor)
+        Public Overrides Sub Visit(visitor As IPdfObjectVisitor)
             visitor.Visit(Me)
         End Sub
 
-        Public Overrides Sub FindLeafPages(ByVal pages As List(Of PdfPage))
+        Public Overrides Sub FindLeafPages(pages As List(Of PdfPage))
             pages.Add(Me)
         End Sub
 

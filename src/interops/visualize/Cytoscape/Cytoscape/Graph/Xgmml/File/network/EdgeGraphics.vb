@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::91ce510def4653deaefff37917147ae5, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\EdgeGraphics.vb"
+﻿#Region "Microsoft.VisualBasic::6ae0ca98e4a43c5a149983c3550739b9, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\network\EdgeGraphics.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 105
+    '    Code Lines: 92 (87.62%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (12.38%)
+    '     File Size: 3.76 KB
+
+
     '     Class EdgeGraphics
     ' 
     '         Properties: edgeBendHandles, EdgeLabel, fill, FontColor, labelSize
@@ -45,8 +57,34 @@
 
 Imports System.Drawing
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts.EdgeBundling
+Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.EdgeBundling
 Imports Microsoft.VisualBasic.Imaging
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace CytoscapeGraphView.XGMML.File
 

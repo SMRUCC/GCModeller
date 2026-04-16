@@ -1,925 +1,318 @@
-{
-    "columns": [
-        {
-            "id": "EP034068",
-            "metadata": null
-        }
-    ],
-    "comment": "Imports from v2.1 BIOM hdf5 file.",
-    "data": [
-        [
-            524
-        ],
-        [
-            1
-        ],
-        [
-            2
-        ],
-        [
-            2
-        ],
-        [
-            1
-        ],
-        [
-            1
-        ],
-        [
-            88
-        ],
-        [
-            947
-        ],
-        [
-            3
-        ],
-        [
-            84
-        ],
-        [
-            8
-        ],
-        [
-            2
-        ],
-        [
-            6
-        ],
-        [
-            1
-        ],
-        [
-            1
-        ],
-        [
-            2
-        ],
-        [
-            4
-        ],
-        [
-            1
-        ],
-        [
-            29
-        ],
-        [
-            78
-        ],
-        [
-            121
-        ],
-        [
-            3
-        ],
-        [
-            1
-        ],
-        [
-            1
-        ],
-        [
-            23
-        ],
-        [
-            925
-        ],
-        [
-            134
-        ],
-        [
-            2
-        ],
-        [
-            30
-        ],
-        [
-            9
-        ],
-        [
-            40
-        ],
-        [
-            683
-        ],
-        [
-            76
-        ],
-        [
-            4818
-        ],
-        [
-            1
-        ],
-        [
-            1
-        ],
-        [
-            6
-        ],
-        [
-            51
-        ],
-        [
-            12
-        ],
-        [
-            183
-        ],
-        [
-            137
-        ],
-        [
-            1
-        ],
-        [
-            1
-        ],
-        [
-            2
-        ],
-        [
-            1
-        ],
-        [
-            706
-        ],
-        [
-            1
-        ],
-        [
-            4
-        ],
-        [
-            145
-        ],
-        [
-            2
-        ]
-    ],
-    "date": "\/Date(1472668498467+0800)\/",
-    "format": "1.0.0",
-    "format_url": "http:\/\/biom-format.org",
-    "generated_by": "QIIME 1.9.1",
-    "id": "No Table ID",
-    "matrix_element_type": "float",
-    "matrix_type": "dense",
-    "rows": [
-        {
-            "id": "1109247",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "4375000",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "846104",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "130468",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Lactobacillaceae",
-                    "g__Lactobacillus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "4320312",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Streptococcaceae",
-                    "g__Streptococcus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "843307",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "548468",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Sphingomonadaceae",
-                    "g__Sphingopyxis",
-                    "s__alaskensis"
-                ]
-            }
-        },
-        {
-            "id": "438487",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "569456",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__Pseudoxanthomonas",
-                    "s__mexicana"
-                ]
-            }
-        },
-        {
-            "id": "555495",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Actinomycetales",
-                    "f__Mycobacteriaceae",
-                    "g__Mycobacterium",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "586355",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Actinomycetales",
-                    "f__Propionibacteriaceae",
-                    "g__Propionibacterium",
-                    "s__acnes"
-                ]
-            }
-        },
-        {
-            "id": "548683",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1109362",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "348167",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__Pseudoxanthomonas",
-                    "s__mexicana"
-                ]
-            }
-        },
-        {
-            "id": "469663",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Coriobacteriia",
-                    "o__Coriobacteriales",
-                    "f__Coriobacteriaceae",
-                    "g__Atopobium",
-                    ""
-                ]
-            }
-        },
-        {
-            "id": "4425896",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Caulobacterales",
-                    "f__Caulobacteraceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "537279",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "137183",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Bifidobacteriales",
-                    "f__Bifidobacteriaceae",
-                    "g__Bifidobacterium",
-                    ""
-                ]
-            }
-        },
-        {
-            "id": "248395",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Caulobacterales",
-                    "f__Caulobacteraceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1111847",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__Pseudoxanthomonas",
-                    "s__mexicana"
-                ]
-            }
-        },
-        {
-            "id": "722895",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Sphingomonadaceae",
-                    "g__Sphingopyxis",
-                    ""
-                ]
-            }
-        },
-        {
-            "id": "134467",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Lactobacillaceae",
-                    "g__Lactobacillus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "299851",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "133372",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Clostridia",
-                    "o__Clostridiales",
-                    "f__[Tissierellaceae]",
-                    "g__Parvimonas",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1146183",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Actinomycetales",
-                    "f__Geodermatophilaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1108679",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "818605",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Sphingomonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "332835",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "312081",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Sphingomonadaceae",
-                    "",
-                    ""
-                ]
-            }
-        },
-        {
-            "id": "4479405",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "137580",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Lactobacillaceae",
-                    "g__Lactobacillus",
-                    "s__iners"
-                ]
-            }
-        },
-        {
-            "id": "303643",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Caulobacterales",
-                    "f__Caulobacteraceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "851668",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Bacteroidetes",
-                    "c__Bacteroidia",
-                    "o__Bacteroidales",
-                    "f__Prevotellaceae",
-                    "g__Prevotella",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "309900",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1139932",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Xanthomonadales",
-                    "f__Xanthomonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "572237",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Fusobacteria",
-                    "c__Fusobacteriia",
-                    "o__Fusobacteriales",
-                    "f__Fusobacteriaceae",
-                    "g__Fusobacterium",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "158034",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Sphingomonadaceae",
-                    "g__Sphingomonas",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "3926677",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "1106617",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "165421",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Actinomycetales",
-                    "f__Propionibacteriaceae",
-                    "g__Propionibacterium",
-                    "s__acnes"
-                ]
-            }
-        },
-        {
-            "id": "332718",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Lactobacillaceae",
-                    "g__Lactobacillus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "4456104",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Betaproteobacteria",
-                    "o__Burkholderiales",
-                    "f__Comamonadaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "296358",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "528357",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Streptococcaceae",
-                    "g__Streptococcus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "444857",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Fusobacteria",
-                    "c__Fusobacteriia",
-                    "o__Fusobacteriales",
-                    "f__Fusobacteriaceae",
-                    "g__Fusobacterium",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "581782",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Gammaproteobacteria",
-                    "o__Enterobacteriales",
-                    "f__Enterobacteriaceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "711803",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Actinobacteria",
-                    "c__Actinobacteria",
-                    "o__Actinomycetales",
-                    "f__Mycobacteriaceae",
-                    "g__Mycobacterium",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "529233",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Firmicutes",
-                    "c__Bacilli",
-                    "o__Lactobacillales",
-                    "f__Streptococcaceae",
-                    "g__Streptococcus",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "555283",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Sphingomonadales",
-                    "f__Erythrobacteraceae",
-                    "g__",
-                    "s__"
-                ]
-            }
-        },
-        {
-            "id": "681246",
-            "metadata": {
-                "KEGG_Pathways": null,
-                "taxonomy": [
-                    "k__Bacteria",
-                    "p__Proteobacteria",
-                    "c__Alphaproteobacteria",
-                    "o__Caulobacterales",
-                    "f__Caulobacteraceae",
-                    "",
-                    ""
-                ]
-            }
-        }
-    ],
-    "shape": [
-        50,
-        1
-    ],
-    "type": "OTU table"
+﻿{
+  "columns": [{
+      "id": "EP034068",
+      "metadata": null
+    }],
+  "comment": "Imports from v2.1 BIOM hdf5 file.",
+  "data": [[524],[1],[2],[2],[1],[1],[88],[947],[3],[84],[8],[2],[6],[1],[1],[2],[4],[1],[29],[78],[121],[3],[1],[1],[23],[925],[134],[2],[30],[9],[40],[683],[76],[4818],[1],[1],[6],[51],[12],[183],[137],[1],[1],[2],[1],[706],[1],[4],[145],[2]],
+  "date": "\/Date(1472668498467+0800)\/",
+  "format": "1.0.0",
+  "format_url": "http:\/\/biom-format.org",
+  "generated_by": "QIIME 1.9.1",
+  "id": "No Table ID",
+  "matrix_element_type": "float",
+  "matrix_type": "dense",
+  "rows": [{
+      "id": "1109247",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "4375000",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "846104",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "130468",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Lactobacillaceae","g__Lactobacillus","s__"]
+      }
+    },{
+      "id": "4320312",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Streptococcaceae","g__Streptococcus","s__"]
+      }
+    },{
+      "id": "843307",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "548468",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Sphingomonadaceae","g__Sphingopyxis","s__alaskensis"]
+      }
+    },{
+      "id": "438487",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__","s__"]
+      }
+    },{
+      "id": "569456",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__Pseudoxanthomonas","s__mexicana"]
+      }
+    },{
+      "id": "555495",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Actinomycetales","f__Mycobacteriaceae","g__Mycobacterium","s__"]
+      }
+    },{
+      "id": "586355",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Actinomycetales","f__Propionibacteriaceae","g__Propionibacterium","s__acnes"]
+      }
+    },{
+      "id": "548683",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__","g__","s__"]
+      }
+    },{
+      "id": "1109362",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "348167",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__Pseudoxanthomonas","s__mexicana"]
+      }
+    },{
+      "id": "469663",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Coriobacteriia","o__Coriobacteriales","f__Coriobacteriaceae","g__Atopobium",""]
+      }
+    },{
+      "id": "4425896",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Caulobacterales","f__Caulobacteraceae","g__","s__"]
+      }
+    },{
+      "id": "537279",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__","s__"]
+      }
+    },{
+      "id": "137183",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Bifidobacteriales","f__Bifidobacteriaceae","g__Bifidobacterium",""]
+      }
+    },{
+      "id": "248395",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Caulobacterales","f__Caulobacteraceae","g__","s__"]
+      }
+    },{
+      "id": "1111847",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__Pseudoxanthomonas","s__mexicana"]
+      }
+    },{
+      "id": "722895",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Sphingomonadaceae","g__Sphingopyxis",""]
+      }
+    },{
+      "id": "134467",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Lactobacillaceae","g__Lactobacillus","s__"]
+      }
+    },{
+      "id": "299851",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "133372",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Clostridia","o__Clostridiales","f__[Tissierellaceae]","g__Parvimonas","s__"]
+      }
+    },{
+      "id": "1146183",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Actinomycetales","f__Geodermatophilaceae","g__","s__"]
+      }
+    },{
+      "id": "1108679",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "818605",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Sphingomonadaceae","g__","s__"]
+      }
+    },{
+      "id": "332835",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "312081",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Sphingomonadaceae","",""]
+      }
+    },{
+      "id": "4479405",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "137580",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Lactobacillaceae","g__Lactobacillus","s__iners"]
+      }
+    },{
+      "id": "303643",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Caulobacterales","f__Caulobacteraceae","g__","s__"]
+      }
+    },{
+      "id": "851668",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Bacteroidetes","c__Bacteroidia","o__Bacteroidales","f__Prevotellaceae","g__Prevotella","s__"]
+      }
+    },{
+      "id": "309900",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "1139932",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Xanthomonadales","f__Xanthomonadaceae","g__","s__"]
+      }
+    },{
+      "id": "572237",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Fusobacteria","c__Fusobacteriia","o__Fusobacteriales","f__Fusobacteriaceae","g__Fusobacterium","s__"]
+      }
+    },{
+      "id": "158034",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Sphingomonadaceae","g__Sphingomonas","s__"]
+      }
+    },{
+      "id": "3926677",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "1106617",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "165421",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Actinomycetales","f__Propionibacteriaceae","g__Propionibacterium","s__acnes"]
+      }
+    },{
+      "id": "332718",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Lactobacillaceae","g__Lactobacillus","s__"]
+      }
+    },{
+      "id": "4456104",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Betaproteobacteria","o__Burkholderiales","f__Comamonadaceae","g__","s__"]
+      }
+    },{
+      "id": "296358",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "528357",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Streptococcaceae","g__Streptococcus","s__"]
+      }
+    },{
+      "id": "444857",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Fusobacteria","c__Fusobacteriia","o__Fusobacteriales","f__Fusobacteriaceae","g__Fusobacterium","s__"]
+      }
+    },{
+      "id": "581782",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Gammaproteobacteria","o__Enterobacteriales","f__Enterobacteriaceae","g__","s__"]
+      }
+    },{
+      "id": "711803",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Actinobacteria","c__Actinobacteria","o__Actinomycetales","f__Mycobacteriaceae","g__Mycobacterium","s__"]
+      }
+    },{
+      "id": "529233",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Firmicutes","c__Bacilli","o__Lactobacillales","f__Streptococcaceae","g__Streptococcus","s__"]
+      }
+    },{
+      "id": "555283",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Sphingomonadales","f__Erythrobacteraceae","g__","s__"]
+      }
+    },{
+      "id": "681246",
+      "metadata": {
+        "KEGG_Pathways": null,
+        "taxonomy": ["k__Bacteria","p__Proteobacteria","c__Alphaproteobacteria","o__Caulobacterales","f__Caulobacteraceae","",""]
+      }
+    }],
+  "shape": [50,1],
+  "type": "OTU table"
 }

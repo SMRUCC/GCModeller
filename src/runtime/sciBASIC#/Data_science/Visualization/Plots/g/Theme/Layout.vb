@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d16ad80ea4faeb4bcc2fd82bc8a0e12, Data_science\Visualization\Plots\g\Theme\Layout.vb"
+﻿#Region "Microsoft.VisualBasic::d4182d965d1a7d1ac0f179d1c4b212c8, Data_science\Visualization\Plots\g\Theme\Layout.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 117
+    '    Code Lines: 70 (59.83%)
+    ' Comment Lines: 23 (19.66%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 24 (20.51%)
+    '     File Size: 3.87 KB
+
+
     '     Class Layout
     ' 
     ' 
@@ -44,7 +56,7 @@
     ' 
     '         Properties: isEmpty, x, y
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     '         Function: GetLocation
     ' 
     '     Class PercentageRelative
@@ -62,16 +74,20 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Language.Default
+Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Namespace Graphic.Canvas
 
+    ''' <summary>
+    ''' an abstract object plot layout object model
+    ''' </summary>
     Public MustInherit Class Layout : Implements IsEmpty
 
         Friend MustOverride ReadOnly Property isEmpty As Boolean Implements IsEmpty.IsEmpty
 
         ''' <summary>
-        ''' 
+        ''' get object plot location
         ''' </summary>
         ''' <param name="canvas"></param>
         ''' <param name="dependency">
@@ -93,7 +109,7 @@ Namespace Graphic.Canvas
         ''' </summary>
         ''' <param name="canvas"></param>
         Sub New(canvas As GraphicsRegion)
-            Dim rect As Rectangle = canvas.PlotRegion
+            Dim rect As Rectangle = canvas.PlotRegion(New CSSEnvirnment(canvas.Size))
             Dim rectf As New RectangleF(rect.Location.PointF, rect.Size.SizeF)
 
             dependency = New Dictionary(Of String, RectangleF) From {

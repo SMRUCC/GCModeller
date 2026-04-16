@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b17df84d7f99ea3af10b259b41fdd3b4, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
+﻿#Region "Microsoft.VisualBasic::efaa3c5eb83cfdfe6b81484854717ab6, analysis\SequenceToolkit\SequencePatterns\Motif\ResidueSite.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 121
+    '    Code Lines: 75 (61.98%)
+    ' Comment Lines: 29 (23.97%)
+    '    - Xml Docs: 93.10%
+    ' 
+    '   Blank Lines: 17 (14.05%)
+    '     File Size: 4.25 KB
+
+
     '     Class ResidueSite
     ' 
-    '         Properties: AsChar, Bits, PWM, Site
+    '         Properties: AsChar, bits, PWM, site
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
     '         Function: Complement, ToChar, ToString
     ' 
@@ -57,7 +69,7 @@ Namespace Motif
     ''' </summary>
     <XmlType("Residue")> Public Class ResidueSite : Implements IAddressOf
 
-        <XmlAttribute> Public Property Site As Integer Implements IAddressOf.Address
+        <XmlAttribute> Public Property site As Integer Implements IAddressOf.Address
         ''' <summary>
         ''' ATGC/
         ''' </summary>
@@ -67,10 +79,38 @@ Namespace Motif
         ''' Information content
         ''' </summary>
         ''' <returns></returns>
-        <XmlAttribute> Public Property Bits As Double
+        <XmlAttribute> Public Property bits As Double
+
+        Default Public ReadOnly Property probability(alphabets As Char()) As Dictionary(Of Char, Double)
+            Get
+                Dim p As New Dictionary(Of Char, Double)
+
+                For i As Integer = 0 To alphabets.Length - 1
+                    p(alphabets(i)) = PWM(i)
+                Next
+
+                Return p
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 请注意，在这里显示的字符是按照内部默认的ATGC的顺序来显示的，可能会与实际的字符顺序不符合，这里仅做调试查看使用
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property AsChar As Char
+            Get
+                Dim mxInd As Integer = PWM.MaxIndex
+
+                If PWM.Length = 4 Then
+                    Return ToChar("ATGC"(mxInd), PWM(mxInd))
+                Else
+                    Return ToChar(SequenceModel.AA(mxInd), PWM(mxInd))
+                End If
+            End Get
+        End Property
 
         Private Sub Assign(address As Integer) Implements IAddress(Of Integer).Assign
-            Me.Site = address
+            Me.site = address
         End Sub
 
         ''' <summary>
@@ -82,8 +122,8 @@ Namespace Motif
             Dim cA As Double = T, cT As Double = A, cG As Double = C, cC As Double = G
             Dim rsd As New ResidueSite With {
                 .PWM = {cA, cT, cG, cC},
-                .Bits = Bits,
-                .Site = Site
+                .bits = bits,
+                .site = site
             }
             Return rsd
         End Function
@@ -108,25 +148,18 @@ Namespace Motif
                 PWM = New Double() {0.25, 0.25, 0.25, 0.25}
             End If
 
-            Bits = 1.5
+            bits = 1.5
+        End Sub
+
+        Sub New(residue As Residue, alphabets As Char())
+            site = residue.index
+            PWM = alphabets.Select(Function(c) residue(c)).ToArray
         End Sub
 
         Public Overrides Function ToString() As String
             Dim ATGC As String = New String({ToChar("A"c, PWM(0)), ToChar("T"c, PWM(1)), ToChar("G"c, PWM(2)), ToChar("C"c, PWM(3))})
-            Return $"{ATGC}   //({Math.Round(Bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
+            Return $"{ATGC}   //({Math.Round(bits, 2)} bits) [{Math.Round(PWM(0), 2)}, {Math.Round(PWM(1), 2)}, {Math.Round(PWM(2), 2)}, {Math.Round(PWM(3), 2)}];"
         End Function
-
-        Public ReadOnly Property AsChar As Char
-            Get
-                Dim mxInd As Integer = PWM.MaxIndex
-
-                If PWM.Length = 4 Then
-                    Return ToChar("ATGC"(mxInd), PWM(mxInd))
-                Else
-                    Return ToChar(SequenceModel.AA(mxInd), PWM(mxInd))
-                End If
-            End Get
-        End Property
 
         ''' <summary>
         '''

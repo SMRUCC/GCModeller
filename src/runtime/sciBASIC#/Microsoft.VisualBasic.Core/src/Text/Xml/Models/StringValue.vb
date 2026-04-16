@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 34
+    '    Code Lines: 20 (58.82%)
+    ' Comment Lines: 7 (20.59%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (20.59%)
+    '     File Size: 924 B
+
+
     '     Class StringValue
     ' 
     '         Properties: value

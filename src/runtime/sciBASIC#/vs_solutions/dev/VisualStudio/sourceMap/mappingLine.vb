@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 38 (55.07%)
+    ' Comment Lines: 24 (34.78%)
+    '    - Xml Docs: 91.67%
+    ' 
+    '   Blank Lines: 7 (10.14%)
+    '     File Size: 2.39 KB
+
+
     '     Class mappingLine
     ' 
     '         Properties: fileIndex, isEmpty, nameIndex, sourceCol, sourceLine

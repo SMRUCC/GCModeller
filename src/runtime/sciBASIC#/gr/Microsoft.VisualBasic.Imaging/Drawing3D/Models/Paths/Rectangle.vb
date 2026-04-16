@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 11 (68.75%)
+    ' Comment Lines: 3 (18.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (12.50%)
+    '     File Size: 575 B
+
+
     '     Class Rectangle
     ' 
     '         Constructor: (+1 Overloads) Sub New

@@ -1,0 +1,55 @@
+enzyme,pdb,organism,recognition,cut,isoschizomers
+TaaI,,Thermus aquaticus Vn 4-311,5' ACNGT 3' TGNCA,5' ---ACN GT--- 3' 3' ---TG NCA--- 5',
+TaiI,,Thermus aquaticus cs1-331,5' ACGT 3' TGCA,5' ---ACGT --- 3' 3' --- TGCA--- 5',
+TaqI,,Thermus aquaticus,5' TCGA 3' AGCT,5' ---T CGA--- 3' 3' ---AGC T--- 5',
+TaqII,,Thermus aquaticus YTI,5' GACCGA 3' CTGGCT,5' ---GACCGAN8NNN --- 3' 3' ---CTGGCTN8N NN--- 5',
+Taq52I,,Thermus aquaticus YS52,5' GCWGC 3' CGWCG,5' ---G CWGC--- 3' 3' ---CGWC G--- 5',"AceI, ApeKI, SuiI, TseI"
+TaqXI,,Thermus aquaticus,5' CCWGG 3' GGWCC,5' ---CC WGG--- 3' 3' ---GGW CC--- 5',"ApaORI, BseBI, BsiLI, BstNI, BstOI, Bst2UI, MvaI, SleI, SspAI"
+TasI,,Thermus aquaticus Vn 4-211,5' AATT 3' TTAA,5' --- AATT--- 3' 3' ---TTAA --- 5',
+TatI,,Thermus aquaticus CBA1-331,5' WGTACW 3' WCATGW,5' ---W GTACW--- 3' 3' ---WCATG W--- 5',
+TauI,,Thermus aquaticus,5' GCSGC 3' CGSCG,5' ---GCSG C--- 3' 3' ---C GSCG--- 5',
+TelI,,Tolypothrix elabens,5' GACNNNGTC 3' CTGNNNCAG,5' ---GACN NNGTC--- 3' 3' ---CTGNN NCAG--- 5',"AspI, AtsI, PflFI, PsyI, Tth111I"
+TfiI,,Thermus filiformis,5' GAWTC 3' CTWAG,5' ---G AWTC--- 3' 3' ---CTWA G--- 5',
+ThaI,,Thermoplasma acidophilum,5' CGCG 3' GCGC,5' ---CG CG--- 3' 3' ---GC GC--- 5',"Bpu95I, Bsh1236I, Bsp50I, BstFNI, BstUI, Csp68KVI, FalII, FnuDII"
+TliI,,Thermococcus litoralis,5' CTCGAG 3' GAGCTC,5' ---C TCGAG--- 3' 3' ---GAGCT C--- 5',"AbrI, BluI, BssHI, MavI, Sau3239I, Sfr274I, StrI, XhoI"
+Tru1I,,Thermus ruber RFL1,5' TTAA 3' AATT,5' ---T TAA--- 3' 3' ---AAT T--- 5',
+Tru9I,,Thermus ruber 9,5' TTAA 3' AATT,5' ---T TAA--- 3' 3' ---AAT T--- 5',
+Tru201I,,Thermus ruber 201,5' RGATCY 3' YCTAGR,5' ---R GATCY--- 3' 3' ---YCTAG R--- 5',
+TscI,,Thermus sp. 491A,5' ACGT 3' TGCA,5' ---ACGT --- 3' 3' --- TGCA--- 5',
+TseI,,Thermus sp. 93170,5' GCWGC 3' CGWCG,5' ---G CWGC--- 3' 3' ---CGWC G--- 5',"AceI, ApeKI, SuiI, Taq52I"
+Tsp1I,,Thermus sp. 1,5' ACTGG 3' TGACC,5' ---ACTGGN --- 3' 3' ---TGAC CN--- 5',
+Tsp32I,,Thermus sp. 32,5' TCGA 3' AGCT,5' ---T CGA--- 3' 3' ---AGC T--- 5',
+Tsp32II,,Thermus sp. 32,5' TCGA 3' AGCT,5' ---T CGA--- 3' 3' ---AGC T--- 5',
+Tsp45I,,Thermus sp. YS45,5' GTSAC 3' CASTG,5' --- GTSAC--- 3' 3' ---CASTG --- 5',
+Tsp49I,,Thermus sp.,5' ACGT 3' TGCA,5' ---ACGT --- 3' 3' --- TGCA--- 5',
+Tsp509I,,Thermus sp.,5' AATT 3' TTAA,5' --- AATT--- 3' 3' ---TTAA --- 5',
+TspBI,,Thermophilic sp.,5' CCRYGG 3' GGYRCC,5' ---C CRYGG--- 3' 3' ---GGYRC C--- 5',
+Tsp4CI,,Thermus sp. 4C,5' ACNGT 3' TGNCA,5' ---ACN GT--- 3' 3' ---TG NCA--- 5',
+TspDTI,,Thermus sp. DT,5' ATGAA 3' TACTT,5' ---ATGAAN8NNN --- 3' 3' ---TACTTN8N NN--- 5',— None on May 2010 —
+TspEI,,Thermus sp. 1E,5' AATT 3' TTAA,5' --- AATT--- 3' 3' ---TTAA --- 5',
+Tsp8EI,,Thermus sp. 8E,5' GCCN5GGC 3' CGGN5CCG,5' ---GCCNNNN NGGC--- 3' 3' ---CGGN NNNNCCG--- 5',
+TspGWI,,Thermus sp. GW,5' ACGGA 3' TGCCT,5' ---ACGGAN8NNN --- 3' 3' ---TGCCTN8N NN--- 5',
+TspMI = UthSI,,Unidentified thermophile,5' CCCGGG 3' GGGCCC,5' ---C CCGGG--- 3' 3' ---GGGCC C--- 5',"AhyI, Cfr9I, EaeAI, EclRI, PaeBI, PspAI, SmaI, XcyI, XmaI, XmaCI"
+TspRI,,Thermus sp. R,5' CASTGNN 3' GTSAC,5' ---CASTGNN --- 3' 3' --- GTSACNN--- 5',
+Tth111I,,Thermus thermophilus 111,5' GACNNNGTC 3' CTGNNNCAG,5' ---GACN NNGTC--- 3' 3' ---CTGNN NCAG--- 5',"AspI, AtsI, PflFI, PsyI, TelI"
+Tth111II,,Thermus thermophilus 111,5' CAARCA 3' GTTYGT,5' ---CAARCAN8NNN --- 3' 3' ---GTTYGTN8N NN--- 5',
+TthHB8I,,Thermus thermophilus HB8,5' TCGA 3' AGCT,5' ---T CGA--- 3' 3' ---AGC T--- 5',
+Uba4009I,,Unidentified bacterium A,5' GGATCC 3' CCTAGG,5' ---G GATCC--- 3' 3' ---CCTAG G--- 5',"AccEBI, AliI, ApaCI, AsiI, BamHI, BnaI, BspAAIII, RspLKII, SolI"
+Uba153AI,,Unidentified bacterium 153A,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+UbaM39I,,Unidentified bacterium M39,5' CAGCTG 3' GTCGAC,5' ---CAG CTG--- 3' 3' ---GTC GAC--- 5',
+UnbI,,Unidentified bacterium #8,5' GGNCC 3' CCNGG,5' --- GGNCC--- 3' 3' ---CCNGG --- 5',"AvcI, BavAII, Bce22I, Bsp1894I, Bsu54I, FmuI, NspIV, UnbI"
+Uur960I,,Ureaplasma urealyticum 960,5' GCNGC 3' CGNCG,5' ---GC NGC--- 3' 3' ---CGN CG--- 5',
+Van91I,,Vibrio anguillarum RFL91,5' CCAN5TGG 3' GGTN5ACC,5' ---CCANNNN NTGG--- 3' 3' ---GGTN NNNNACC--- 5',"AccB7I, AcpII, Asp10HII, BasI, Esp1396I, PflBI, PflMI"
+Vha464I,,Vibrio harveyi 464,5' CTTAAG 3' GAATTC,5' ---C TTAAG--- 3' 3' ---GAATT C--- 5',
+VneI,,Vibrio nereis 18,5' GTGCAC 3' CACGTG,5' ---G TGCAC--- 3' 3' ---CACGT G--- 5',"Alw44I, ApaLI, SnoI"
+VpaK32I,,Vibrio parahaemolyticus 4387-61,5' GCTCTTC 3' CGAGAAG,5' ---GCTCTTCN NNN--- 3' 3' ---CGAGAAGNNNN --- 5',
+VpaK11AI,,Vibrio parahaemolyticus 1743,5' GGWCC 3' CCWGG,5' --- GGWCC--- 3' 3' ---CCWGG --- 5',"Bme216I, CauI, EagMI, FdiI, HgiBI, HgiHIII, SinI, VpaK11BI"
+VpaK11BI,,Vibrio parahaemolyticus 1743-1,5' GGWCC 3' CCWGG,5' ---G GWCC--- 3' 3' ---CCWG G--- 5',"BsrAI, CauI, EagMI, FdiI, HgiBI, HgiJI, SinI, VpaK11AI"
+VspI,,Vibrio sp. 343,5' ATTAAT 3' TAATTA,5' ---AT TAAT--- 3' 3' ---TAAT TA--- 5',"AseI, AsnI, BpoAI, PshBI, Sru4DI"
+XagI,,Xanthobacter agilis Vs 18-132,5' CCTN5AGG 3' GGAN5TCC,5' ---CCTNN NNNAGG--- 3' 3' ---GGANNN NNTCC--- 5',
+XapI,,Xanthomonas ampelina Slo 51-021,5' RAATTY 3' YTTAAR,5' ---R AATTY--- 3' 3' ---YTTAA R--- 5',"AcsI, ApoI,"
+YenI,,Yersinia enterocolitica 08 A2635,5' CTGCAG 3' GACGTC,5' ---CTGCA G--- 3' 3' ---G ACGTC--- 5',"Asp713I, BsuBI, CfrA4I, Ecl37kI, Psp23I, PstI, SalPI, SflI, Sst12I"
+ZanI,,Zymomonas anaerobia,5' CCWGG 3' GGWCC,5' ---CC WGG--- 3' 3' ---GGW CC--- 5',"ApaORI, BseBI, BspNI, BstNI, Bst2UI, CthII, EcoRII, MvaI, SspAI"
+ZhoI,,Zymomonas holcicola,5' ATCGAT 3' TAGCTA,5' ---AT CGAT--- 3' 3' ---TAGC TA--- 5',"BanIII, BbvAII, BscI, BspJI, ClaI, LcaI, PgaI, SpmI, Ssp27144I"
+ZraI,,Zoogloea ramigera 11,5' GACGTC 3' CTGCAG,5' ---GAC GTC--- 3' 3' ---CTG CAG--- 5',"AatII, Ssp5230I"
+ZrmI,,Zoogloea ramigera SCA,5' AGTACT 3' TCATGA,5' ---AGT ACT--- 3' 3' ---TCA TGA--- 5',"Acc113I, AssI,"

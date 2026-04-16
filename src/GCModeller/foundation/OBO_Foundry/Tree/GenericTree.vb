@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f7cffee2ebf284e72cfdb3eb0c5c5d3f, foundation\OBO_Foundry\Tree\GenericTree.vb"
+﻿#Region "Microsoft.VisualBasic::2a8f1857148a54692aa6b5eb410ca77d, foundation\OBO_Foundry\Tree\GenericTree.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 24 (45.28%)
+    ' Comment Lines: 23 (43.40%)
+    '    - Xml Docs: 95.65%
+    ' 
+    '   Blank Lines: 6 (11.32%)
+    '     File Size: 1.67 KB
+
+
     '     Class GenericTree
     ' 
-    '         Properties: data, ID, is_a, name
+    '         Properties: data, direct_childrens, ID, is_a, name
     ' 
     '         Function: IsBaseType, ToString
     ' 
@@ -45,8 +57,11 @@
 Namespace Tree
 
     ''' <summary>
-    ''' A very simple orthology tree.(仅仅依靠``is_a``关系来构建出直系同源树)
+    ''' A very simple orthology tree.
     ''' </summary>
+    ''' <remarks>
+    ''' (仅仅依靠``is_a``关系来构建出直系同源树)
+    ''' </remarks>
     Public Class GenericTree
 
         Public Property ID As String
@@ -55,7 +70,11 @@ Namespace Tree
         ''' multiple inheritance? (basetype)
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' find the ancestors via this ontology lineage relationship
+        ''' </remarks>
         Public Property is_a As GenericTree()
+        Public Property direct_childrens As Dictionary(Of String, GenericTree)
 
         ''' <summary>
         ''' Additional data table

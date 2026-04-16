@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 149
+    '    Code Lines: 117 (78.52%)
+    ' Comment Lines: 15 (10.07%)
+    '    - Xml Docs: 93.33%
+    ' 
+    '   Blank Lines: 17 (11.41%)
+    '     File Size: 8.52 KB
+
+
     '     Class ReactionLink
     ' 
     '         Function: FromReactions, (+2 Overloads) FromRepository, PopulateAnyLinks, PopulateConversionLinks, populateLinks

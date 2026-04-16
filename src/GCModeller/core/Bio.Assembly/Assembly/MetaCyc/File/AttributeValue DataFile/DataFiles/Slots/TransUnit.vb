@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 68
+    '    Code Lines: 17 (25.00%)
+    ' Comment Lines: 42 (61.76%)
+    '    - Xml Docs: 80.95%
+    ' 
+    '   Blank Lines: 9 (13.24%)
+    '     File Size: 3.63 KB
+
+
     '     Class TransUnit
     ' 
     '         Properties: Components, ExtentUnknown, Table

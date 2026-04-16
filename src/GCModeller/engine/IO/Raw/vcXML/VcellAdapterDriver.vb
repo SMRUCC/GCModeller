@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::76153d208cf8ff680ba28787494ea526, engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
+﻿#Region "Microsoft.VisualBasic::1efb6576245728646679aa74315ff60f, engine\IO\Raw\vcXML\VcellAdapterDriver.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 48 (62.34%)
+    ' Comment Lines: 14 (18.18%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (19.48%)
+    '     File Size: 3.79 KB
+
+
     '     Class VcellAdapterDriver
     ' 
     '         Properties: flux, mass
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, MassSnapshot
+    '         Sub: (+2 Overloads) Dispose, FluxSnapshot, ForwardRegulation, MassSnapshot, ReverseRegulation
     ' 
     ' 
     ' /********************************************************************************/
@@ -60,7 +72,7 @@ Namespace vcXML
 
         Dim fs As Writer
 
-        Sub New(file As String, model As CellularModule, args As FluxBaseline)
+        Sub New(file As String, model As CellularModule(), args As FluxBaseline)
             mass = OmicsDataAdapter.GetMassTuples(model)
             flux = OmicsDataAdapter.GetFluxTuples(model)
 
@@ -78,6 +90,12 @@ Namespace vcXML
             Call fs.addFrame(iteration, NameOf(flux.transcriptome), "activity", data.Takes(flux.transcriptome))
             Call fs.addFrame(iteration, NameOf(flux.proteome), "activity", data.Takes(flux.proteome))
             Call fs.addFrame(iteration, NameOf(flux.metabolome), "flux_size", data.Takes(flux.metabolome))
+        End Sub
+
+        Public Sub ForwardRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ForwardRegulation
+        End Sub
+
+        Public Sub ReverseRegulation(iteration As Integer, data As Dictionary(Of String, Double)) Implements IOmicsDataAdapter.ReverseRegulation
         End Sub
 
 #Region "IDisposable Support"

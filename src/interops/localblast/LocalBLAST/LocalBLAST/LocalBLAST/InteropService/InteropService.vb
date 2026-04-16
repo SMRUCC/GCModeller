@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::da2bd9811b2777e90b096dc1f4a284dd, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
+﻿#Region "Microsoft.VisualBasic::c9e059866daed21e870e59c41c6e2e67, localblast\LocalBLAST\LocalBLAST\LocalBLAST\InteropService\InteropService.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 256
+    '    Code Lines: 83 (32.42%)
+    ' Comment Lines: 147 (57.42%)
+    '    - Xml Docs: 91.84%
+    ' 
+    '   Blank Lines: 26 (10.16%)
+    '     File Size: 10.64 KB
+
+
     '     Class LocalBlastProgramGroup
     ' 
     '         Properties: BlastBin, NumThreads, Version
@@ -62,10 +74,7 @@
 
 #End Region
 
-#If netcore5 = 1 Then
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Diagnostics
-#End If
-
 Imports Microsoft.VisualBasic.CommandLine
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports CLI = Microsoft.VisualBasic.CommandLine.InteropService.InteropService
@@ -93,7 +102,7 @@ Namespace LocalBLAST.InteropService
         ''' <value></value>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Property NumThreads As Integer
+        Public Property NumThreads As Integer = 8
 
         ''' <summary>
         ''' Gets the directory which contains the local blast program group.(本地blast程序组所在的文件夹)
@@ -269,7 +278,7 @@ Namespace LocalBLAST.InteropService
 
 #Region "LocalBLAST"
 
-        Public Delegate Function ILocalBLAST(InputQuery As File, TargetSubjectDb As String, Output As File, e As String) As IORedirectFile
+        Public Delegate Function ILocalBLAST(InputQuery As File, TargetSubjectDb As String, Output As File, e As String) As IORedirect
 
         ''' <summary>
         ''' Generate the command line arguments of the program blastp.(生成blastp程序的命令行参数)
@@ -280,7 +289,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="e">The E-value</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function Blastp(InputQuery As File, TargetSubjectDb As String, Output As File, Optional e As String = "10") As IORedirectFile
+        Public MustOverride Function Blastp(InputQuery As File, TargetSubjectDb As String, Output As File, Optional e As String = "10") As IORedirect
 
         ''' <summary>
         ''' Generate the command line arguments of the program blastn.(生成blastn程序的命令行参数)
@@ -291,7 +300,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="e">The E-value</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function Blastn(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As IORedirectFile
+        Public MustOverride Function Blastn(Input As File, TargetDb As String, Output As File, Optional e As String = "10") As IORedirect
 
         ''' <summary>
         ''' Format theta target fasta sequence database for the blast search.
@@ -300,7 +309,7 @@ Namespace LocalBLAST.InteropService
         ''' <param name="dbType">Database type for the target sequence database(目标序列数据库的分子类型)</param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public MustOverride Function FormatDb(Db As String, dbType As String) As IORedirectFile
+        Public MustOverride Function FormatDb(Db As String, dbType As String) As IORedirect
 #End Region
 
         ''' <summary>
@@ -313,11 +322,11 @@ Namespace LocalBLAST.InteropService
         ''' <param name="Output"></param>
         ''' <returns></returns>
         ''' <remarks></remarks>
-        Public Function TryInvoke(Program As String, Query As String, Subject As String, Evalue As String, Output As String) As IORedirectFile
+        Public Function TryInvoke(Program As String, Query As String, Subject As String, Evalue As String, Output As String) As IORedirect
             Dim argvs As String = String.Format("-query ""{0}"" -subject ""{1}"" -evalue {2} -out ""{3}""", Query, Subject, Evalue, Output)
             Program = _innerBLASTBinDIR & "/" & Program
 
-            Return New IORedirectFile(Program, argvs)
+            Return New IORedirect(Program, argvs, IOredirect:=False, hide:=False)
         End Function
     End Class
 End Namespace

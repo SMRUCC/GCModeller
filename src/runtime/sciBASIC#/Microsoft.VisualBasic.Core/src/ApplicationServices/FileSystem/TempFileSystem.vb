@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::8a8ba0ed0df30266239c43b858a92496, Microsoft.VisualBasic.Core\src\ApplicationServices\FileSystem\TempFileSystem.vb"
+﻿#Region "Microsoft.VisualBasic::691e08da6cafb964d79d372fe32f8058, Microsoft.VisualBasic.Core\src\ApplicationServices\FileSystem\TempFileSystem.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 55 (55.56%)
+    ' Comment Lines: 25 (25.25%)
+    '    - Xml Docs: 76.00%
+    ' 
+    '   Blank Lines: 19 (19.19%)
+    '     File Size: 3.85 KB
+
+
     '     Class TempFileSystem
     ' 
-    '         Function: __sysTEMP, CreateTempFilePath, GenerateTemp, GetAppSysTempFile, TempDir
+    '         Function: __sysTEMP, CreateTempFilePath, GenerateTemp, GenerateTempDir, GetAppSysTempFile
+    '                   TempDir
     ' 
     ' 
     ' /********************************************************************************/
@@ -62,18 +75,41 @@ Namespace ApplicationServices
         ''' <param name="sessionID">It is recommended that use <see cref="App.PID"/> for this parameter.</param>
         ''' <returns></returns>
         '''
-        Public Shared Function GetAppSysTempFile(Optional ext$ = ".tmp", Optional sessionID$ = "", Optional prefix$ = Nothing) As String
+        Public Shared Function GetAppSysTempFile(Optional ext$ = ".tmp",
+                                                 Optional sessionID$ = "",
+                                                 Optional prefix$ = Nothing) As String
+
             Return CreateTempFilePath(App.SysTemp, ext, sessionID, prefix)
         End Function
 
-        Public Shared Function CreateTempFilePath(tmpdir$, Optional ext$ = ".tmp", Optional sessionID$ = "", Optional prefix$ = Nothing) As String
+        Public Shared Function CreateTempFilePath(tmpdir$,
+                                                  Optional ext$ = ".tmp",
+                                                  Optional sessionID$ = "",
+                                                  Optional prefix$ = Nothing) As String
+
             Dim tmp As String = tmpdir & "/" & App.GetNextUniqueName(prefix) & ext
 
-            tmp = GenerateTemp(tmp, sessionID)
-            tmp.DoCall(AddressOf FS.GetParentPath).DoCall(AddressOf FS.CreateDirectory)
-            tmp = FS.GetFileInfo(tmp).FullName.Replace("\", "/")
+            If tmp.EndsWith("/"c) OrElse tmp.EndsWith("\"c) Then
+                ' is a directory
+                tmp = GenerateTempDir(tmp, sessionID)
+                tmp.DoCall(AddressOf FS.CreateDirectory)
+                tmp = FS.GetDirectoryInfo(tmp).FullName.Replace("\", "/")
+            Else
+                tmp = GenerateTemp(tmp, sessionID)
+                tmp.DoCall(AddressOf FS.GetParentPath).DoCall(AddressOf FS.CreateDirectory)
+                tmp = FS.GetFileInfo(tmp).FullName.Replace("\", "/")
+            End If
 
             Return tmp
+        End Function
+
+        Private Shared Function GenerateTempDir(sysTemp$, sessionID$) As String
+            Dim dirt As String = FS.GetParentPath(sysTemp)
+            Dim name As String = sysTemp.DirectoryName
+
+            sysTemp = $"{dirt}/{App.AssemblyName}/{sessionID}/{name}"
+
+            Return sysTemp
         End Function
 
         ''' <summary>
@@ -97,7 +133,8 @@ Namespace ApplicationServices
         ''' </summary>
         ''' <returns></returns>
         Friend Shared Function __sysTEMP() As String
-            Dim dir As String = Environment.GetEnvironmentVariable("TMP") ' Linux系统可能没有这个东西
+            ' Linux系统可能没有这个东西
+            Dim dir As String = Environment.GetEnvironmentVariable("TMP")
 
             If String.IsNullOrEmpty(dir) Then
                 dir = Path.GetTempPath
@@ -106,7 +143,8 @@ Namespace ApplicationServices
             Try
                 Call FS.CreateDirectory(dir)
             Catch ex As Exception
-                ' 不知道应该怎样处理，但是由于只是得到一个路径，所以在这里干脆忽略掉这个错误就可以了
+                ' 不知道应该怎样处理，但是由于只是得到一个路径，
+                ' 所以在这里干脆忽略掉这个错误就可以了
                 Call New Exception(dir, ex).PrintException
             End Try
 

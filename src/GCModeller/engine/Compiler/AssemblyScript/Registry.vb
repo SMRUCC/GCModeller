@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 19 (50.00%)
+    ' Comment Lines: 10 (26.32%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (23.68%)
+    '     File Size: 1.39 KB
+
+
     '     Class Registry
     ' 
     '         Function: Tag

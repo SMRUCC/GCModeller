@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6a88b0f5a83464b98f9155613a7c36f9, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
+﻿#Region "Microsoft.VisualBasic::81819480aac71e239df300d48f9748b0, analysis\SequenceToolkit\SequencePatterns\Topologically\Exactly\Repeats\Files\RepeatPlant.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 232
+    '    Code Lines: 170 (73.28%)
+    ' Comment Lines: 31 (13.36%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 31 (13.36%)
+    '     File Size: 9.03 KB
+
+
     '     Class RepeatsLoci
     ' 
     '         Properties: LociLeft, RepeatLoci
@@ -62,7 +74,7 @@
 #End Region
 
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq.Extensions
 Imports SMRUCC.genomics.ComponentModel.Loci.Abstract

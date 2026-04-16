@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cf4bd361d8dbec3f1d8dbc85164990a4, Data_science\Visualization\Plots-statistics\VariableWidthBarPlot\VariableWidthBarPlot.vb"
+﻿#Region "Microsoft.VisualBasic::b6eea68bd2db6206cfa9566f5125c14a, Data_science\Visualization\Plots-statistics\VariableWidthBarPlot\VariableWidthBarPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 95 (80.51%)
+    ' Comment Lines: 9 (7.63%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (11.86%)
+    '     File Size: 6.10 KB
+
+
     ' Module VariableWidthBarPlot
     ' 
     '     Function: Plot
@@ -41,17 +53,16 @@
 
 Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
 Imports Microsoft.VisualBasic.Imaging.Driver
-Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic
-Imports Microsoft.VisualBasic.MIME.HTML.CSS
 Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Axis
-Imports Microsoft.VisualBasic.Imaging.Drawing2D.Text
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
+Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
+Imports Microsoft.VisualBasic.Scripting.Runtime
 
 Public Module VariableWidthBarPlot
 
@@ -78,20 +89,20 @@ Public Module VariableWidthBarPlot
         Dim Y As Vector = list.Select(Function(b) b.Data.height).AsVector.CreateAxisTicks
         Dim sumX# = X.Sum
         Dim p As i32 = Scan0
-        Dim axisPen As Pen = Stroke.TryParse(axisPenCSS).GDIObject
-        Dim tickPen As Pen = Stroke.TryParse(ticksPenCSS).GDIObject
-        Dim XLabelFont As Font = CSSFont.TryParse(XLabelFontCSS).GDIObject(ppi)
-        Dim tickFont As Font = CSSFont.TryParse(tickFontCSS).GDIObject(ppi)
-        Dim titleFont As Font = CSSFont.TryParse(titleFontCSS).GDIObject(ppi)
-        Dim dataLabelFont As Font = CSSFont.TryParse(dataLabelFontCSS).GDIObject(ppi)
         Dim plotInternal =
             Sub(ByRef g As IGraphics, region As GraphicsRegion)
-
-                Dim plotRect As Rectangle = region.PlotRegion
+                Dim css As CSSEnvirnment = g.LoadEnvironment
+                Dim axisPen As Pen = css.GetPen(Stroke.TryParse(axisPenCSS))
+                Dim tickPen As Pen = css.GetPen(Stroke.TryParse(ticksPenCSS))
+                Dim XLabelFont As Font = css.GetFont(CSSFont.TryParse(XLabelFontCSS))
+                Dim tickFont As Font = css.GetFont(CSSFont.TryParse(tickFontCSS))
+                Dim titleFont As Font = css.GetFont(CSSFont.TryParse(titleFontCSS))
+                Dim dataLabelFont As Font = css.GetFont(CSSFont.TryParse(dataLabelFontCSS))
+                Dim plotRect As Rectangle = region.PlotRegion(css)
                 Dim scaler As New DataScaler With {
                     .region = plotRect,
-                    .X = d3js.scale.linear.domain(X).range(integers:={plotRect.Left, plotRect.Right}),
-                    .Y = d3js.scale.linear.domain(Y).range(integers:={plotRect.Top, plotRect.Bottom})
+                    .X = d3js.scale.linear.domain(values:=X).range(integers:={plotRect.Left, plotRect.Right}),
+                    .Y = d3js.scale.linear.domain(values:=Y).range(integers:={plotRect.Top, plotRect.Bottom})
                 }
 
                 ' 绘制出坐标轴
@@ -111,7 +122,7 @@ Public Module VariableWidthBarPlot
 
                 ' 绘制Y坐标轴ticks
                 Dim ty#
-                Dim textDrawer As New GraphicsText(DirectCast(g, GDICanvas).Graphics)
+                ' Dim textDrawer As New GraphicsText(DirectCast(g, GDICanvas).Graphics)
 
                 For Each tick As Double In Y
                     ty = scaler.TranslateY(tick)
@@ -137,7 +148,7 @@ Public Module VariableWidthBarPlot
                     Call g.FillRectangle(New SolidBrush(color), rect)
 
                     ' 绘制数据系列标签
-                    Call textDrawer.DrawString(bar.Name, XLabelFont, Brushes.Black, New PointF(left + (width - labelSize.Width) / 2, plotRect.Bottom + labelSize.Width), angle:=-45.0!)
+                    Call g.DrawString(bar.Name, XLabelFont, Brushes.Black, left + (width - labelSize.Width) / 2, plotRect.Bottom + labelSize.Width, angle:=-45.0!)
                     ' 绘制数据点标签
                     If showDataLabel Then
                         label = bar.Data.height.ToString("G2")

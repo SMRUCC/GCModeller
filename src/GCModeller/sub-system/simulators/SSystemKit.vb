@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70ec8c0c8a4de5001602aad6e4fcab9b, sub-system\simulators\SSystemKit.vb"
+﻿#Region "Microsoft.VisualBasic::f229a2132d277637455a77d86f7aee08, sub-system\simulators\SSystemKit.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 228
+    '    Code Lines: 157 (68.86%)
+    ' Comment Lines: 42 (18.42%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 29 (12.72%)
+    '     File Size: 8.60 KB
+
+
     ' Module SSystemKit
     ' 
-    '     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, RunKernel
-    '               script
+    '     Constructor: (+1 Overloads) Sub New
+    '     Function: ConfigEnvironment, ConfigSSystem, createKernel, GetSnapshotsDriver, getTable
+    '               RunKernel, script, setBounds
     ' 
     ' /********************************************************************************/
 
@@ -42,6 +55,8 @@
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.SSystem.Kernel
@@ -49,16 +64,43 @@ Imports SMRUCC.genomics.Analysis.SSystem.Kernel.ObjectModels
 Imports SMRUCC.genomics.Analysis.SSystem.Script
 Imports SMRUCC.Rsharp.Interpreter.ExecuteEngine.ExpressionSymbols.Closure
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Invokes
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports renv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' S-system toolkit
 ''' </summary>
 <Package("S.system")>
+<RTypeExport("s_script", GetType(Model))>
 Module SSystemKit
+
+    Sub New()
+        Call Internal.Object.Converts.makeDataframe.addHandler(GetType(MemoryCacheSnapshot), AddressOf getTable)
+    End Sub
+
+    Private Function getTable(cache As MemoryCacheSnapshot, args As list, env As Environment) As rdataframe
+        Dim all As DataSet() = cache.GetMatrix.ToArray
+        Dim time As String() = all.Select(Function(d) d.ID).ToArray
+        Dim symbols As String() = all(Scan0).Properties.Keys.ToArray
+        Dim matrix As New rdataframe With {
+            .rownames = time,
+            .columns = New Dictionary(Of String, Array)
+        }
+
+        For Each name As String In symbols
+            matrix.columns(name) = all _
+                .Select(Function(d) d(name)) _
+                .ToArray
+        Next
+
+        Return matrix
+    End Function
 
     ''' <summary>
     ''' create a new empty model for run S-system simulation
@@ -81,13 +123,15 @@ Module SSystemKit
     ''' <param name="model"></param>
     ''' <returns></returns>
     <ExportAPI("kernel")>
-    Public Function createKernel(snapshot As DataSnapshot, Optional model As Model = Nothing) As Kernel
+    Public Function createKernel(snapshot As DataSnapshot,
+                                 Optional model As Model = Nothing,
+                                 Optional strict As Boolean = True) As Kernel
         If model Is Nothing Then
             model = SSystemKit.script()
         End If
 
         Dim dataDriver As New DataAcquisition(AddressOf snapshot.Cache)
-        Dim kernel As New Kernel(model, dataDriver)
+        Dim kernel As New Kernel(model, dataDriver) With {.strict = strict}
         Dim kick As New Kicks(kernel, model)
 
         kick.loadKernel(kernel)
@@ -125,8 +169,21 @@ Module SSystemKit
         End If
 
         For Each symbolName As String In data.slots.Keys
-            value = REnv.asVector(Of Double)(data.getByName(symbolName)).GetValue(Scan0)
+            value = CLRVector.asNumeric(data.getByName(symbolName))(Scan0)
             kernel.SetMathSymbol(symbolName, value)
+        Next
+
+        Return kernel
+    End Function
+
+    <ExportAPI("bounds")>
+    Public Function setBounds(kernel As Kernel, <RListObjectArgument> bounds As list, Optional env As Environment = Nothing) As Kernel
+        If bounds.length = 1 AndAlso TypeOf bounds.slots.Values.First Is list Then
+            bounds = bounds.slots.Values.First
+        End If
+
+        For Each symbol As String In bounds.getNames
+            kernel.SetBounds(symbol, New DoubleRange(CLRVector.asNumeric(bounds.getByName(symbol))))
         Next
 
         Return kernel
@@ -140,19 +197,41 @@ Module SSystemKit
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("s.system")>
-    Public Function ConfigSSystem(kernel As Kernel, ssystem As DeclareLambdaFunction(), Optional env As Environment = Nothing) As Kernel
+    <RApiReturn(GetType(Kernel))>
+    Public Function ConfigSSystem(kernel As Kernel, <RRawVectorArgument> ssystem As Object, Optional env As Environment = Nothing) As Object
         Dim equations As New List(Of NamedValue(Of String))
         Dim name As String
         Dim expression As String
 
-        For Each formula In ssystem
-            name = formula.parameterNames(Scan0)
-            expression = formula.name.GetStackValue("[", "]").GetTagValue("->").Value
-            equations += New NamedValue(Of String) With {
-                .Name = name,
-                .Value = expression
-            }
-        Next
+        If ssystem Is Nothing Then
+            Return RInternal.debug.stop("the required s-system network model should not be nothing!", env)
+        End If
+        If TypeOf ssystem Is vector Then
+            ssystem = DirectCast(ssystem, vector).data
+            ssystem = renv.UnsafeTryCastGenericArray(ssystem)
+        End If
+
+        If TypeOf ssystem Is list Then
+            For Each flux In DirectCast(ssystem, list).AsGeneric(Of String)(env)
+                name = flux.Key
+                expression = flux.Value
+                equations += New NamedValue(Of String) With {
+                    .Name = name,
+                    .Value = expression
+                }
+            Next
+        ElseIf TypeOf ssystem Is DeclareLambdaFunction() Then
+            For Each formula As DeclareLambdaFunction In DirectCast(ssystem, DeclareLambdaFunction())
+                name = formula.parameterNames(Scan0)
+                expression = formula.name.GetStackValue("[", "]").GetTagValue("->").Value
+                equations += New NamedValue(Of String) With {
+                    .Name = name,
+                    .Value = expression
+                }
+            Next
+        Else
+            Return Message.InCompatibleType(GetType(DeclareLambdaFunction), ssystem.GetType, env)
+        End If
 
         kernel.Channels = equations _
             .Select(Function(a) New SEquation(a.Name, a.Value)) _
@@ -170,7 +249,10 @@ Module SSystemKit
     ''' <param name="resolution"></param>
     ''' <returns></returns>
     <ExportAPI("run")>
-    Public Function RunKernel(kernel As Kernel, Optional ticks As Integer = 100, Optional resolution As Double = 0.1) As Kernel
+    Public Function RunKernel(kernel As Kernel,
+                              Optional ticks As Integer = 100,
+                              Optional resolution As Double = 0.1) As Kernel
+
         kernel.finalTime = ticks
         kernel.precision = resolution
 
@@ -190,7 +272,8 @@ Module SSystemKit
     ''' <param name="symbols"></param>
     ''' <returns></returns>
     <ExportAPI("snapshot")>
-    Public Function GetSnapshotsDriver(Optional file As String = Nothing, Optional symbols As String() = Nothing) As DataSnapshot
+    <RApiReturn(GetType(DataSnapshot))>
+    Public Function GetSnapshotsDriver(Optional file As String = Nothing, Optional symbols As String() = Nothing) As Object
         If file.StringEmpty Then
             Return New MemoryCacheSnapshot
         Else

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b9439be994afbd361f930e0938efa094, Data_science\DataMining\UMAP\Components\SIMD\SIMD.vb"
+﻿#Region "Microsoft.VisualBasic::f35735eed3d7263cdad4da9ccc60769f, Data_science\DataMining\UMAP\Components\SIMD\SIMD.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 238
+    '    Code Lines: 189 (79.41%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 49 (20.59%)
+    '     File Size: 8.15 KB
+
+
     ' Module SIMD
     ' 
     '     Function: DotProduct, Euclidean, Magnitude
@@ -41,22 +53,21 @@
 
 #End Region
 
+Imports System.Numerics
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Math.LinearAlgebra
-Imports stdNum = System.Math
+Imports Microsoft.VisualBasic.Math.SIMD
+Imports std = System.Math
 
 Friend Module SIMD
 
-    Const Count As Integer = 8
-
-    Private ReadOnly _vs1 As Integer = Count    ' Vector(Of Double).Count
-    Private ReadOnly _vs2 As Integer = 2 * _vs1 ' Vector(Of Double).Count
-    Private ReadOnly _vs3 As Integer = 3 * _vs1 ' Vector(Of Double).Count
-    Private ReadOnly _vs4 As Integer = 4 * _vs1 ' Vector(Of Double).Count
+    Private ReadOnly _vs1 As Integer = SIMDEnvironment.countDouble
+    Private ReadOnly _vs2 As Integer = 2 * _vs1
+    Private ReadOnly _vs3 As Integer = 3 * _vs1
+    Private ReadOnly _vs4 As Integer = 4 * _vs1
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function Magnitude(ByRef vec As Double()) As Double
-        Return stdNum.Sqrt(SIMD.DotProduct(vec, vec))
+        Return std.Sqrt(SIMD.DotProduct(vec, vec))
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -64,18 +75,18 @@ Friend Module SIMD
         Dim result = 0F
         Dim count = lhs.Length
         Dim offset = 0
-        Dim diff As Vector
+        Dim diff As Vector(Of Double)
         Dim d As Double
 
         While count >= SIMD._vs4
-            diff = New Vector(lhs, offset) - New Vector(rhs, offset)
-            result += diff.DotProduct(diff)
-            diff = New Vector(lhs, offset + SIMD._vs1) - New Vector(rhs, offset + SIMD._vs1)
-            result += diff.DotProduct(diff)
-            diff = New Vector(lhs, offset + SIMD._vs2) - New Vector(rhs, offset + SIMD._vs2)
-            result += diff.DotProduct(diff)
-            diff = New Vector(lhs, offset + SIMD._vs3) - New Vector(rhs, offset + SIMD._vs3)
-            result += diff.DotProduct(diff)
+            diff = New Vector(Of Double)(lhs, offset) - New Vector(Of Double)(rhs, offset)
+            result += Vector.Dot(diff, diff)
+            diff = New Vector(Of Double)(lhs, offset + SIMD._vs1) - New Vector(Of Double)(rhs, offset + SIMD._vs1)
+            result += Vector.Dot(diff, diff)
+            diff = New Vector(Of Double)(lhs, offset + SIMD._vs2) - New Vector(Of Double)(rhs, offset + SIMD._vs2)
+            result += Vector.Dot(diff, diff)
+            diff = New Vector(Of Double)(lhs, offset + SIMD._vs3) - New Vector(Of Double)(rhs, offset + SIMD._vs3)
+            result += Vector.Dot(diff, diff)
 
             If count = SIMD._vs4 Then
                 Return result
@@ -86,10 +97,10 @@ Friend Module SIMD
         End While
 
         If count >= SIMD._vs2 Then
-            diff = New Vector(lhs, offset) - New Vector(rhs, offset)
-            result += diff.DotProduct(diff)
-            diff = New Vector(lhs, offset + SIMD._vs1) - New Vector(rhs, offset + SIMD._vs1)
-            result += diff.DotProduct(diff)
+            diff = New Vector(Of Double)(lhs, offset) - New Vector(Of Double)(rhs, offset)
+            result += Vector.Dot(diff, diff)
+            diff = New Vector(Of Double)(lhs, offset + SIMD._vs1) - New Vector(Of Double)(rhs, offset + SIMD._vs1)
+            result += Vector.Dot(diff, diff)
 
             If count = SIMD._vs2 Then
                 Return result
@@ -100,8 +111,8 @@ Friend Module SIMD
         End If
 
         If count >= SIMD._vs1 Then
-            diff = New Vector(lhs, offset) - New Vector(rhs, offset)
-            result += diff.DotProduct(diff)
+            diff = New Vector(Of Double)(lhs, offset) - New Vector(Of Double)(rhs, offset)
+            result += Vector.Dot(diff, diff)
 
             If count = SIMD._vs1 Then
                 Return result
@@ -127,13 +138,13 @@ Friend Module SIMD
     Public Sub Add(ByRef lhs As Double(), f As Double)
         Dim count = lhs.Length
         Dim offset = 0
-        Dim v = New Vector(f)
+        Dim v = New Vector(Of Double)(f)
 
         While count >= SIMD._vs4
-            Call (New Vector(lhs, offset) + v).CopyTo(lhs, offset)
-            Call (New Vector(lhs, offset + SIMD._vs1) + v).CopyTo(lhs, offset + SIMD._vs1)
-            Call (New Vector(lhs, offset + SIMD._vs2) + v).CopyTo(lhs, offset + SIMD._vs2)
-            Call (New Vector(lhs, offset + SIMD._vs3) + v).CopyTo(lhs, offset + SIMD._vs3)
+            Call (New Vector(Of Double)(lhs, offset) + v).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, offset + SIMD._vs1) + v).CopyTo(lhs, offset + SIMD._vs1)
+            Call (New Vector(Of Double)(lhs, offset + SIMD._vs2) + v).CopyTo(lhs, offset + SIMD._vs2)
+            Call (New Vector(Of Double)(lhs, offset + SIMD._vs3) + v).CopyTo(lhs, offset + SIMD._vs3)
 
             If count = SIMD._vs4 Then
                 Return
@@ -144,8 +155,8 @@ Friend Module SIMD
         End While
 
         If count >= SIMD._vs2 Then
-            Call (New Vector(lhs, offset) + v).CopyTo(lhs, offset)
-            Call (New Vector(lhs, CInt(offset + SIMD._vs1)) + v).CopyTo(lhs, offset + SIMD._vs1)
+            Call (New Vector(Of Double)(lhs, offset) + v).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, CInt(offset + SIMD._vs1)) + v).CopyTo(lhs, offset + SIMD._vs1)
 
             If count = SIMD._vs2 Then
                 Return
@@ -156,7 +167,7 @@ Friend Module SIMD
         End If
 
         If count >= SIMD._vs1 Then
-            Call (New Vector(lhs, offset) + v).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, offset) + v).CopyTo(lhs, offset)
 
             If count = SIMD._vs1 Then
                 Return
@@ -181,10 +192,10 @@ Friend Module SIMD
         Dim offset = 0
 
         While count >= SIMD._vs4
-            Call (New Vector(lhs, offset) * f).CopyTo(lhs, offset)
-            Call (New Vector(lhs, CInt(offset + SIMD._vs1)) * f).CopyTo(lhs, offset + SIMD._vs1)
-            Call (New Vector(lhs, CInt(offset + SIMD._vs2)) * f).CopyTo(lhs, offset + SIMD._vs2)
-            Call (New Vector(lhs, CInt(offset + SIMD._vs3)) * f).CopyTo(lhs, offset + SIMD._vs3)
+            Call (New Vector(Of Double)(lhs, offset) * f).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, CInt(offset + SIMD._vs1)) * f).CopyTo(lhs, offset + SIMD._vs1)
+            Call (New Vector(Of Double)(lhs, CInt(offset + SIMD._vs2)) * f).CopyTo(lhs, offset + SIMD._vs2)
+            Call (New Vector(Of Double)(lhs, CInt(offset + SIMD._vs3)) * f).CopyTo(lhs, offset + SIMD._vs3)
 
             If count = SIMD._vs4 Then
                 Return
@@ -195,8 +206,8 @@ Friend Module SIMD
         End While
 
         If count >= SIMD._vs2 Then
-            Call (New Vector(lhs, offset) * f).CopyTo(lhs, offset)
-            Call (New Vector(lhs, CInt(offset + SIMD._vs1)) * f).CopyTo(lhs, offset + SIMD._vs1)
+            Call (New Vector(Of Double)(lhs, offset) * f).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, CInt(offset + SIMD._vs1)) * f).CopyTo(lhs, offset + SIMD._vs1)
 
             If count = SIMD._vs2 Then
                 Return
@@ -207,7 +218,7 @@ Friend Module SIMD
         End If
 
         If count >= SIMD._vs1 Then
-            Call (New Vector(lhs, offset) * f).CopyTo(lhs, offset)
+            Call (New Vector(Of Double)(lhs, offset) * f).CopyTo(lhs, offset)
 
             If count = SIMD._vs1 Then
                 Return
@@ -233,10 +244,10 @@ Friend Module SIMD
         Dim offset = 0
 
         While count >= SIMD._vs4
-            result += New Vector(lhs, offset).DotProduct(New Vector(rhs, offset))
-            result += New Vector(lhs, offset + SIMD._vs1).DotProduct(New Vector(rhs, offset + SIMD._vs1))
-            result += New Vector(lhs, offset + SIMD._vs2).DotProduct(New Vector(rhs, offset + SIMD._vs2))
-            result += New Vector(lhs, offset + SIMD._vs3).DotProduct(New Vector(rhs, offset + SIMD._vs3))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset), New Vector(Of Double)(rhs, offset))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset + SIMD._vs1), New Vector(Of Double)(rhs, offset + SIMD._vs1))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset + SIMD._vs2), New Vector(Of Double)(rhs, offset + SIMD._vs2))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset + SIMD._vs3), New Vector(Of Double)(rhs, offset + SIMD._vs3))
 
             If count = SIMD._vs4 Then
                 Return result
@@ -247,8 +258,8 @@ Friend Module SIMD
         End While
 
         If count >= SIMD._vs2 Then
-            result += New Vector(lhs, offset).DotProduct(New Vector(rhs, offset))
-            result += New Vector(lhs, offset + SIMD._vs1).DotProduct(New Vector(rhs, offset + SIMD._vs1))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset), New Vector(Of Double)(rhs, offset))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset + SIMD._vs1), New Vector(Of Double)(rhs, offset + SIMD._vs1))
 
             If count = SIMD._vs2 Then
                 Return result
@@ -259,7 +270,7 @@ Friend Module SIMD
         End If
 
         If count >= SIMD._vs1 Then
-            result += New Vector(lhs, offset).DotProduct(New Vector(rhs, offset))
+            result += Vector.Dot(New Vector(Of Double)(lhs, offset), New Vector(Of Double)(rhs, offset))
 
             If count = SIMD._vs1 Then
                 Return result

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 77 (49.36%)
+    ' Comment Lines: 57 (36.54%)
+    '    - Xml Docs: 94.74%
+    ' 
+    '   Blank Lines: 22 (14.10%)
+    '     File Size: 6.09 KB
+
+
     ' Class go_molecularfunction_2_ecnumber
     ' 
     '     Properties: DB_ID, ecNumber, ecNumber_rank

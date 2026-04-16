@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::70f4c0919f05e3c0800416fc40688f81, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\StudenttDistribution.vb"
+﻿#Region "Microsoft.VisualBasic::ff83b688847d69fcb5731e3606e5b63a, Data_science\Mathematica\Math\Math.Statistics\HypothesisTesting\T-test\StudenttDistribution.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 62
+    '    Code Lines: 45 (72.58%)
+    ' Comment Lines: 3 (4.84%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (22.58%)
+    '     File Size: 2.35 KB
+
+
     '     Class StudenttDistribution
     ' 
     '         Properties: DegreeOfFreedom, pdf_const
@@ -43,8 +55,8 @@
 
 #End Region
 
-Imports stdNum = System.Math
 Imports cephes = Microsoft.VisualBasic.Math.Statistics.SpecialFunctions
+Imports std = System.Math
 
 Namespace Hypothesis
 
@@ -56,15 +68,30 @@ Namespace Hypothesis
         Sub New(df As Integer)
             DegreeOfFreedom = df
             ' Math.exp(cephes.lgam((df + 1) / 2) - cephes.lgam(df / 2)) / Math.sqrt(this._df * Math.PI)
-            pdf_const = stdNum.Exp(cephes.gammaln((df + 1) / 2) - cephes.gammaln(df / 2)) / stdNum.Sqrt(df * stdNum.PI)
+            pdf_const = std.Exp(cephes.gammaln((df + 1) / 2) - cephes.gammaln(df / 2)) / std.Sqrt(df * std.PI)
         End Sub
 
         Public Function pdf(x As Double) As Double
-            Return pdf_const / stdNum.Pow(1 + ((x * x) / DegreeOfFreedom), (DegreeOfFreedom + 1) / 2)
+            Return pdf_const / std.Pow(1 + ((x * x) / DegreeOfFreedom), (DegreeOfFreedom + 1) / 2)
         End Function
 
-        Public Function cdf(x As Double) As Double
-            Return t.Tcdf(x, DegreeOfFreedom)
+        Public Function cdf(x As Double, Optional resolution As Integer = 1000) As Double
+            Dim a As Double = -20
+            Dim b As Double = x
+            Dim h As Double = (b - a) / resolution
+            Dim integral As Double = 0
+
+            integral += pdf(a) / 2
+            integral += pdf(b) / 2
+
+            For i As Integer = 0 To resolution
+                x = a + i * h
+                integral += pdf(x)
+            Next
+
+            integral *= h
+
+            Return integral
         End Function
 
         Public Function inv(p As Double) As Double
@@ -74,16 +101,16 @@ Namespace Hypothesis
 
             If (p > 0.25 AndAlso p < 0.75) Then
                 Dim phat = 1 - 2 * p
-                Dim z = cephes.RegularizedIncompleteBetaFunction(0.5, 0.5 * DegreeOfFreedom, stdNum.Abs(phat))
+                Dim z = cephes.RegularizedIncompleteBetaFunction(0.5, 0.5 * DegreeOfFreedom, std.Abs(phat))
                 ' Dim z = cephes.incbi(0.5, 0.5 * DegreeOfFreedom, stdNum.Abs(phat))
-                Dim t = stdNum.Sqrt(DegreeOfFreedom * z / (1 - z))
+                Dim t = std.Sqrt(DegreeOfFreedom * z / (1 - z))
 
                 Return If(p < 0.5, -t, t)
             Else
                 Dim phat = If(p >= 0.5, 1 - p, p)
                 Dim z = cephes.RegularizedIncompleteBetaFunction(0.5 * DegreeOfFreedom, 0.5, 2 * phat)
                 ' Dim z = cephes.incbi(0.5 * DegreeOfFreedom, 0.5, 2 * phat)
-                Dim t = stdNum.Sqrt(DegreeOfFreedom / z - DegreeOfFreedom)
+                Dim t = std.Sqrt(DegreeOfFreedom / z - DegreeOfFreedom)
 
                 Return If(p < 0.5, -t, t)
             End If

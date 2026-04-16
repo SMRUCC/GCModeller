@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1cca0d5b099c4d57b717de5b2d58fc3b, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Polar\PolarGraphics2D.vb"
+﻿#Region "Microsoft.VisualBasic::a50ee4274ee22b469a6761a66bf1b801, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Polar\PolarGraphics2D.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 38 (40.00%)
+    ' Comment Lines: 46 (48.42%)
+    '    - Xml Docs: 91.30%
+    ' 
+    '   Blank Lines: 11 (11.58%)
+    '     File Size: 4.19 KB
+
 
     '     Class PolarGraphics2D
     ' 
@@ -80,7 +92,7 @@ Namespace Drawing2D
         End Sub
 
         ''' <summary>
-        ''' Measures the specified string when drawn with the specified <see cref="System.Drawing.Font"/>.
+        ''' Measures the specified string when drawn with the specified <see cref="Font"/>.
         ''' </summary>
         ''' <param name="text">String to measure.</param>
         ''' <param name="font">System.Drawing.Font that defines the text format of the string.</param>

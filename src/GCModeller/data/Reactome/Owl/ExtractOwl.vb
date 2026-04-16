@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 234
+    '    Code Lines: 171 (73.08%)
+    ' Comment Lines: 16 (6.84%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 47 (20.09%)
+    '     File Size: 12.73 KB
+
+
     ' Module ExtractOwl
     ' 
     '     Function: __fromTempId, __GenerateInputOutput, __getSTO, __process, __trim

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe3337ab665c978d17782eb8a9724099, localblast\LocalBLAST\Pipeline\Models\Hits.vb"
+﻿#Region "Microsoft.VisualBasic::1b0db1bc8f14ce206d966b5ab364c61b, localblast\LocalBLAST\Pipeline\Models\Hits.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 132
+    '    Code Lines: 80 (60.61%)
+    ' Comment Lines: 37 (28.03%)
+    '    - Xml Docs: 94.59%
+    ' 
+    '   Blank Lines: 15 (11.36%)
+    '     File Size: 4.95 KB
+
+
     '     Class HitCollection
     ' 
     '         Properties: description, hits, QueryName
     ' 
-    '         Function: getDictionary, GetHitByTagInfo, orderBySp, Take, ToString
+    '         Function: GenericEnumerator, getDictionary, GetHitByTagInfo, orderBySp, Take
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -46,6 +59,7 @@ Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.Language
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Tasks.Models
 
@@ -55,7 +69,7 @@ Namespace Tasks.Models
     ''' <remarks>
     ''' 其实这个就是相当于一个KEGG里面的SSDB BBH结果文件
     ''' </remarks>
-    Public Class HitCollection : Implements INamedValue
+    Public Class HitCollection : Implements INamedValue, Enumeration(Of Hit)
 
         ''' <summary>
         ''' The locus tag of the query protein.(主键蛋白质名称)
@@ -160,6 +174,16 @@ Namespace Tasks.Models
                 .description = description,
                 .QueryName = QueryName
             }
+        End Function
+
+        Public Iterator Function GenericEnumerator() As IEnumerator(Of Hit) Implements Enumeration(Of Hit).GenericEnumerator
+            If hitTable Is Nothing Then
+                Return
+            End If
+
+            For Each item As Hit In hitTable.Values
+                Yield item
+            Next
         End Function
     End Class
 End Namespace

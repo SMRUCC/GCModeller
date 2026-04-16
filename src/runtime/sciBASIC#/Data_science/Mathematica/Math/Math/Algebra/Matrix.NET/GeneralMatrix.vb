@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e2a5bac2a6675bfe428f3a36bc40697b, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\GeneralMatrix.vb"
+﻿#Region "Microsoft.VisualBasic::da646a1e6562e838358508fc249420ff, Data_science\Mathematica\Math\Math\Algebra\Matrix.NET\GeneralMatrix.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 65
+    '    Code Lines: 16 (24.62%)
+    ' Comment Lines: 41 (63.08%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (12.31%)
+    '     File Size: 2.28 KB
+
+
     '     Interface GeneralMatrix
     ' 
     '         Properties: ColumnDimension, RowDimension, (+4 Overloads) X
     ' 
-    '         Function: ArrayPack, GetMatrix, Resize, RowVectors, Transpose
+    '         Function: Dot, GetMatrix, Resize, RowVectors, Transpose
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,7 +61,7 @@ Namespace LinearAlgebra.Matrix
     ''' <summary>
     ''' [m,n]
     ''' </summary>
-    Public Interface GeneralMatrix
+    Public Interface GeneralMatrix : Inherits INumericMatrix
 
         ''' <summary>
         ''' get/set cell element value
@@ -83,7 +95,6 @@ Namespace LinearAlgebra.Matrix
         ReadOnly Property ColumnDimension As Integer
 
         Function Transpose() As GeneralMatrix
-        Function ArrayPack(Optional deepcopy As Boolean = False) As Double()()
         Function Resize(m As Integer, n As Integer) As GeneralMatrix
         Function RowVectors() As IEnumerable(Of Vector)
 
@@ -99,6 +110,12 @@ Namespace LinearAlgebra.Matrix
         ''' <exception cref="System.IndexOutOfRangeException">   Submatrix indices
         ''' </exception>
         Function GetMatrix(r As Integer(), j0 As Integer, j1 As Integer) As GeneralMatrix
+        ''' <summary>
+        ''' matrix dot product
+        ''' </summary>
+        ''' <param name="m2"></param>
+        ''' <returns></returns>
+        Function Dot(m2 As GeneralMatrix) As GeneralMatrix
 
     End Interface
 End Namespace

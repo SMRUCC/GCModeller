@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9389dd98d0995a4026f332c772a2141f, models\SBML\SBML\Export\KEGG.vb"
+﻿#Region "Microsoft.VisualBasic::ab35ad1ae0cd16bf7d7c45cec1f7c177, models\SBML\SBML\Export\KEGG.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 82
+    '    Code Lines: 67 (81.71%)
+    ' Comment Lines: 7 (8.54%)
+    '    - Xml Docs: 85.71%
+    ' 
+    '   Blank Lines: 8 (9.76%)
+    '     File Size: 3.77 KB
+
+
     '     Module KEGG
     ' 
     '         Function: __getModel, Exists, GetReactions
@@ -41,7 +53,6 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.ComponentModel.EquaionModel.DefaultTypes
@@ -52,7 +63,8 @@ Namespace ExportServices
 
     Public Module KEGG
 
-        <Extension> Public Function GetReactions(model As Level2.XmlFile, Optional nonEnzymes As Boolean = False) As bGetObject.Reaction()
+        <Extension>
+        Public Function GetReactions(model As Level2.XmlFile, Optional nonEnzymes As Boolean = False) As bGetObject.Reaction()
             Dim allCompounds = (From sp As Specie
                                 In model.Model.listOfSpecies.AsParallel
                                 Let cp As String = New SpeciesPropReader(sp.Notes).KEGG

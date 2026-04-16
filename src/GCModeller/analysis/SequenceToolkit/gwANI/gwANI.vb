@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::cc011e70e221d3b2d9fa2c37bc86f15b, analysis\SequenceToolkit\gwANI\gwANI.vb"
+﻿#Region "Microsoft.VisualBasic::ef170bbd0125d1a8b740f193311e4ae2, analysis\SequenceToolkit\gwANI\gwANI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 284
+    '    Code Lines: 140 (49.30%)
+    ' Comment Lines: 108 (38.03%)
+    '    - Xml Docs: 65.74%
+    ' 
+    '   Blank Lines: 36 (12.68%)
+    '     File Size: 11.25 KB
+
+
     ' Class gwANI
     ' 
     '     Function: __calculate_and_output_gwani, __fast_calculate_gwani
@@ -43,7 +55,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.STDIO
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language.C
 Imports SMRUCC.genomics.SequenceModel.FASTA
 

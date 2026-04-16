@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 45
+    '    Code Lines: 36 (80.00%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 9 (20.00%)
+    '     File Size: 1.53 KB
+
+
     '     Class TimeRange
     ' 
     '         Properties: [From], [To], Ticks

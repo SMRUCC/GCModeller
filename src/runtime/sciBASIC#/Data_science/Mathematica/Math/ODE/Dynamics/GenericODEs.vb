@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::22570f6c3b216ff908314d9752803f5f, Data_science\Mathematica\Math\ODE\Dynamics\GenericODEs.vb"
+﻿#Region "Microsoft.VisualBasic::9da349741016d1427ac19a2f500fb4fa, Data_science\Mathematica\Math\ODE\Dynamics\GenericODEs.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 39
+    '    Code Lines: 26 (66.67%)
+    ' Comment Lines: 4 (10.26%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (23.08%)
+    '     File Size: 1.12 KB
+
+
     '     Delegate Sub
     ' 
     ' 
@@ -50,6 +62,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
@@ -78,6 +91,7 @@ Namespace Dynamics
             Me.df = df
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Protected Overrides Sub func(dx As Double, ByRef dy As Vector)
             Call _df(dx, dy)
         End Sub

@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>microbiome</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; microbiome; metagenomics_kit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="tools for metagenomics and microbiome..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {microbiome}">
+      <tbody>
+        <tr>
+          <td>{microbiome}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>microbiome</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' tools for metagenomics and microbiome</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "microbiome"</span><span style="color: blue;"> from</span><span style="color: brown"> "metagenomics_kit"</span>;
+                           </code>
+    </p>
+    <p><p>tools for metagenomics and microbiome</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: block">
+        <caption>.NET clr type export</caption>
+        <tbody><tr>
+  <td id="PICRUSt">
+    <a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/MetaFunction/PICRUSt/MetaBinaryReader.html">PICRUSt: MetaBinaryReader</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.ranklevelview">
+    <a href="./microbiome/as.data.frame.ranklevelview.html">as.data.frame.ranklevelview</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/Metagenome/RankLevelView.html">RankLevelView</a>: <p>samples data aggregate in a specific taxonomy rank</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.otudata`1">
+    <a href="./microbiome/as.data.frame.otudata`1.html">as.data.frame.otudata`1</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Metagenomics/OTUData`1.html">OTUData`1</a>: </td>
+</tr>
+<tr>
+  <td id="parse.otu_taxonomy">
+    <a href="./microbiome/parse.otu_taxonomy.html">parse.otu_taxonomy</a>
+  </td>
+  <td><p>parse the otu taxonomy data file</p></td>
+</tr>
+<tr>
+  <td id="build.PICRUSt_db">
+    <a href="./microbiome/build.PICRUSt_db.html">build.PICRUSt_db</a>
+  </td>
+  <td><p>build PICRUSt binary database file</p></td>
+</tr>
+<tr>
+  <td id="read_PICRUSt">
+    <a href="./microbiome/read_PICRUSt.html">read_PICRUSt</a>
+  </td>
+  <td><p>read the compiled PICRUSt binary database file</p></td>
+</tr>
+<tr>
+  <td id="predict_metagenomes">
+    <a href="./microbiome/predict_metagenomes.html">predict_metagenomes</a>
+  </td>
+  <td><p>creates the final metagenome functional predictions. It 
+ multiplies each normalized OTU abundance by each predicted 
+ functional trait abundance to produce a table of functions 
+ (rows) by samples (columns).</p></td>
+</tr>
+<tr>
+  <td id="diff.entropy">
+    <a href="./microbiome/diff.entropy.html">diff.entropy</a>
+  </td>
+  <td><p>evaluate the similarity of two taxonomy data vector</p></td>
+</tr>
+<tr>
+  <td id="compounds.origin.profile">
+    <a href="./microbiome/compounds.origin.profile.html">compounds.origin.profile</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="compound_origins">
+    <a href="./microbiome/compound_origins.html">compound_origins</a>
+  </td>
+  <td><p>create compound origin profile dataset</p></td>
+</tr>
+<tr>
+  <td id="taxonomy.rank_table">
+    <a href="./microbiome/taxonomy.rank_table.html">taxonomy.rank_table</a>
+  </td>
+  <td><p>Generate a serials of the otu table in different rank level</p></td>
+</tr>
+<tr>
+  <td id="make_vfdb_model">
+    <a href="./microbiome/make_vfdb_model.html">make_vfdb_model</a>
+  </td>
+  <td><p>make vfdb gsea background model for run enrichment analysis</p></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

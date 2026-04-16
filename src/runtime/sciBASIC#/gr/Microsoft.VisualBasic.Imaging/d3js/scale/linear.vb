@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::755fd234f432bddbd39d40ef649b750a, gr\Microsoft.VisualBasic.Imaging\d3js\scale\linear.vb"
+﻿#Region "Microsoft.VisualBasic::91f28e736a1e3950fd4a1089ab7fe750, gr\Microsoft.VisualBasic.Imaging\d3js\scale\linear.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 98 (58.33%)
+    ' Comment Lines: 48 (28.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (13.10%)
+    '     File Size: 6.05 KB
+
+
     '     Class LinearScale
     ' 
-    '         Properties: domainSize, valueDomain, Zero
+    '         Properties: domainSize, type, valueDomain, Zero
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+4 Overloads) domain, ToString
+    '         Function: (+6 Overloads) domain, (+2 Overloads) range, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,7 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Math.LinearAlgebra
 
 Namespace d3js.scale
 
@@ -128,8 +141,28 @@ Namespace d3js.scale
             End Get
         End Property
 
+        Public Overrides ReadOnly Property type As scalers
+            Get
+                Return scalers.linear
+            End Get
+        End Property
+
         Public Overrides Function ToString() As String
             Return $"[{_domain.Min}, {_domain.Max}] --> [{_range.Min}, {_range.Max}]"
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Overloads Function range(min As Double, max As Double) As LinearScale
+            Return MyBase.range({min, max})
+        End Function
+
+        Public Overloads Function range(r As DoubleRange) As LinearScale
+            Return MyBase.range({r.Min, r.Max})
+        End Function
+
+        Public Overloads Function domain(v As Vector) As LinearScale
+            _domain = v.ToArray
+            Return Me
         End Function
 
         ''' <summary>
@@ -138,7 +171,19 @@ Namespace d3js.scale
         ''' <param name="values"></param>
         ''' <returns></returns>
         Public Overrides Function domain(values As IEnumerable(Of Double)) As LinearScale
-            _domain = values.ToArray
+            With values.ToArray
+                If .Length = 0 Then
+                    _domain = New DoubleRange
+                Else
+                    _domain = values.ToArray
+                End If
+            End With
+
+            Return Me
+        End Function
+
+        Public Overloads Function domain(range As DoubleRange) As LinearScale
+            _domain = {range.Min, range.Max}
             Return Me
         End Function
 

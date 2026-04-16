@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 18
+    '    Code Lines: 8 (44.44%)
+    ' Comment Lines: 7 (38.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 3 (16.67%)
+    '     File Size: 633 B
+
+
     '     Class maction
     ' 
     '         Properties: [class], actiontype, id, style

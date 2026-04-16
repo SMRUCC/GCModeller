@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 14
+    '    Code Lines: 8 (57.14%)
+    ' Comment Lines: 1 (7.14%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (35.71%)
+    '     File Size: 331 B
+
+
     '     Class Gradient
     ' 
     '         Properties: stops

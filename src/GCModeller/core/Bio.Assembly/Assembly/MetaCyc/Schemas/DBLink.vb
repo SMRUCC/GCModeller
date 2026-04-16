@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::67633229b7a2d575c4925d8acfdfe8ae, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
+﻿#Region "Microsoft.VisualBasic::3c7fb6724b709e0830af17e712eaa2f1, core\Bio.Assembly\Assembly\MetaCyc\Schemas\DBLink.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 121 (66.85%)
+    ' Comment Lines: 30 (16.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 30 (16.57%)
+    '     File Size: 8.48 KB
+
+
     '     Class DBLinkManager
     ' 
     '         Properties: CHEBI, IsEmpty, PUBCHEM
@@ -51,11 +63,11 @@
 
 #End Region
 
-Imports System.Text.RegularExpressions
 Imports System.Text
-Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
-Imports Microsoft.VisualBasic
+Imports System.Text.RegularExpressions
+Imports Microsoft.VisualBasic.Language.[Default]
 Imports Microsoft.VisualBasic.Linq
+Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 
 Namespace Assembly.MetaCyc.Schema
 
@@ -64,6 +76,7 @@ Namespace Assembly.MetaCyc.Schema
     ''' </summary>
     ''' <remarks></remarks>
     Public Class DBLinkManager : Inherits DBLinksManager(Of DBLink)
+        Implements IsEmpty
 
         ''' <summary>
         ''' 与其他的数据库之间的外键链接
@@ -224,7 +237,7 @@ Namespace Assembly.MetaCyc.Schema
             End Get
         End Property
 
-        Public Overrides ReadOnly Property IsEmpty As Boolean
+        Public Overrides ReadOnly Property IsEmpty As Boolean Implements Language.Default.IsEmpty.IsEmpty
             Get
                 Return _CheBI.IsNullOrEmpty AndAlso _PubChem Is Nothing
             End Get

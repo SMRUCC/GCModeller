@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b997c556ebb8aa08c61ab09e8b9abdee, Data_science\Graph\Model\Tree\KdTree\KdNodeAccessor.vb"
+﻿#Region "Microsoft.VisualBasic::49783c0bae02265413605700a8c86d63, Data_science\Graph\Model\Tree\KdTree\KdNodeAccessor.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 44
+    '    Code Lines: 18 (40.91%)
+    ' Comment Lines: 20 (45.45%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (13.64%)
+    '     File Size: 1.53 KB
+
+
     '     Class KdNodeAccessor
     ' 
     ' 
@@ -42,6 +54,10 @@
 
 Namespace KdTree
 
+    ''' <summary>
+    ''' Helper class for access the node data by different dimensions
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
     Public MustInherit Class KdNodeAccessor(Of T)
 
         Default Public Property DimensionAccess(x As T, dimName As String) As Double
@@ -49,7 +65,7 @@ Namespace KdTree
                 Return getByDimension(x, dimName)
             End Get
             Set(value As Double)
-                Call setByDimensin(x, dimName, value)
+                Call setByDimension(x, dimName, value)
             End Set
         End Property
 
@@ -62,7 +78,14 @@ Namespace KdTree
         ''' <returns></returns>
         Public MustOverride Function metric(a As T, b As T) As Double
         Public MustOverride Function getByDimension(x As T, dimName As String) As Double
-        Public MustOverride Sub setByDimensin(x As T, dimName As String, value As Double)
+        Public MustOverride Sub setByDimension(x As T, dimName As String, value As Double)
+
+        ''' <summary>
+        ''' test node equals?
+        ''' </summary>
+        ''' <param name="a"></param>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
         Public MustOverride Function nodeIs(a As T, b As T) As Boolean
 
         ''' <summary>

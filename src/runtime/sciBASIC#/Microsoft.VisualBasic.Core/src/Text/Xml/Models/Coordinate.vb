@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 50 (72.46%)
+    ' Comment Lines: 6 (8.70%)
+    '    - Xml Docs: 50.00%
+    ' 
+    '   Blank Lines: 13 (18.84%)
+    '     File Size: 2.45 KB
+
+
     '     Structure Coordinate
     ' 
     '         Properties: ID, X, Y

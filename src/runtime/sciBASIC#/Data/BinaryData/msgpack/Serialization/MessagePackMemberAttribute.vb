@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::b8c5420d1c157c3f9677ce953f9e2078, Data\BinaryData\msgpack\Serialization\MessagePackMemberAttribute.vb"
+﻿#Region "Microsoft.VisualBasic::262244559ec047469eb2645a199eb3b8, Data\BinaryData\msgpack\Serialization\MessagePackMemberAttribute.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 19 (67.86%)
+    ' Comment Lines: 3 (10.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (21.43%)
+    '     File Size: 859 B
+
+
     '     Class MessagePackMemberAttribute
     ' 
     '         Properties: Id, NilImplication
@@ -51,18 +63,18 @@ Namespace Serialization
     <AttributeUsage(AttributeTargets.Property, AllowMultiple:=False, Inherited:=True)>
     Public Class MessagePackMemberAttribute : Inherits Attribute
 
-        ReadOnly idField As Integer
+        ReadOnly m_id As Integer
 
         Public Property NilImplication As NilImplication
 
         Public ReadOnly Property Id As Integer
             Get
-                Return idField
+                Return m_id
             End Get
         End Property
 
         Public Sub New(id As Integer)
-            idField = id
+            m_id = id
             NilImplication = NilImplication.MemberDefault
         End Sub
 

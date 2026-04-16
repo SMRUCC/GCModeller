@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 186
+    '    Code Lines: 158 (84.95%)
+    ' Comment Lines: 1 (0.54%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 27 (14.52%)
+    '     File Size: 7.03 KB
+
+
     '     Module Extensions
     ' 
     '         Function: __parseComparer, __parseOperator, __parseUNDEFINE, (+2 Overloads) IsWhiteSpace, TryParse

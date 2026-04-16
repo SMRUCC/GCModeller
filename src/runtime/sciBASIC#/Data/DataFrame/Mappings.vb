@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4f3beff9b1935ec5c39357aaa0c1b439, Data\DataFrame\Mappings.vb"
+﻿#Region "Microsoft.VisualBasic::96f0d7a0028e1677377c32a6a8cb3429, Data\DataFrame\Mappings.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 131
+    '    Code Lines: 69 (52.67%)
+    ' Comment Lines: 47 (35.88%)
+    '    - Xml Docs: 87.23%
+    ' 
+    '   Blank Lines: 15 (11.45%)
+    '     File Size: 5.75 KB
+
+
     ' Class MappingsHelper
     ' 
-    '     Function: [Typeof], CheckFieldConsistent, ColumnName, NamedValueMapsWrite, PropertyNames
-    '               TagFieldName
+    '     Function: [Typeof], CheckFieldConsistent, CheckFieldMissing, ColumnName, NamedValueMapsWrite
+    '               PropertyNames, TagFieldName
     ' 
     ' /********************************************************************************/
 
@@ -42,21 +54,28 @@
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
-Imports Field = Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels.StorageProvider
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO.CSVFile
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
+Imports Field = Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels.StorageProvider
 
 ''' <summary>
-''' 在写csv的时候生成列域名的映射的一些快捷函数
+''' Handling the data fields mapping for make processing of
+''' the csv headers.
 ''' </summary>
+''' <remarks>
+''' (在写csv的时候生成列域名的映射的一些快捷函数)
+''' </remarks>
 Public Class MappingsHelper
 
     ''' <summary>
-    ''' 
+    ''' Measure the best model type based on the header title row in target csv file
     ''' </summary>
-    ''' <param name="file"></param>
-    ''' <param name="types"></param>
-    ''' <returns>这个匹配函数是安全的函数, 如果一个结果都没有被匹配上,则这个函数会返回<see cref="System.Void"/>类型</returns>
+    ''' <param name="file">the file path to the target csv file, this function only reads 
+    ''' the first line for parsed as the title for do the clr type model matches.</param>
+    ''' <param name="types">a collection of the clr types.</param>
+    ''' <returns>这个匹配函数是安全的函数, 如果一个结果都没有被匹配上,则这个函数会
+    ''' 返回<see cref="System.Void"/>类型</returns>
     Public Shared Function [Typeof](file$, ParamArray types As Type()) As Type
         Dim headers As New RowObject(Tokenizer.CharsParser(file.ReadFirstLine))
         Dim match As Type = StreamIO.TypeOf(headers, types)
@@ -69,7 +88,8 @@ Public Class MappingsHelper
     End Function
 
     ''' <summary>
-    ''' 这个函数只适用于只需要解析一个或者少数属性的列名称，假若需要解析的列数量很多，则出于性能方面的考虑不推荐使用这个函数来进行
+    ''' 这个函数只适用于只需要解析一个或者少数属性的列名称，假若需要解析的列数量很多，
+    ''' 则出于性能方面的考虑不推荐使用这个函数来进行
     ''' </summary>
     ''' <param name="schema"></param>
     ''' <param name="propertyName$">
@@ -120,6 +140,19 @@ Public Class MappingsHelper
             .CreateObject(Of T)(strict:=False) _
             .CopyWriteDataToObject
         Dim result$ = schema.CheckFieldConsistent(headers)
+
+        Return result
+    End Function
+
+    Public Shared Function CheckFieldMissing(Of T As Class)(filepath As String) As IEnumerable(Of String)
+        Dim headers As New RowObject(Tokenizer.CharsParser(filepath.ReadFirstLine))
+        ' 因为这里是判断读文件的时候是否能够把csv文件之中的
+        ' 所有的列数据都读取完全了， 所以在这里是获取所有的
+        ' 可写属性
+        Dim schema As SchemaProvider = SchemaProvider _
+            .CreateObject(Of T)(strict:=False) _
+            .CopyWriteDataToObject
+        Dim result = schema.CheckFieldMissing(headers)
 
         Return result
     End Function

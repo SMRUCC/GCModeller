@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e9ec99e8382633aa47f71f0e34ea779e, mime\application%pdf\PdfReader\Parser\ParseReal.vb"
+﻿#Region "Microsoft.VisualBasic::05d2436631665bb1548b24eced611b88, mime\application%pdf\PdfReader\Parser\ParseReal.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 20 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (16.67%)
+    '     File Size: 562 B
+
+
     '     Class ParseReal
     ' 
     '         Properties: Value
@@ -48,11 +60,11 @@ Namespace PdfReader
 
         Private _Value As Single
 
-        Public Sub New(ByVal token As TokenReal)
+        Public Sub New(token As TokenReal)
             Me.New(token.Value)
         End Sub
 
-        Public Sub New(ByVal value As Single)
+        Public Sub New(value As Single)
             Me.Value = value
         End Sub
 
@@ -60,7 +72,7 @@ Namespace PdfReader
             Get
                 Return _Value
             End Get
-            Private Set(ByVal value As Single)
+            Private Set(value As Single)
                 _Value = value
             End Set
         End Property

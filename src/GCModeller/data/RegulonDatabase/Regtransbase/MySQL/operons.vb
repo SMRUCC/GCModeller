@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 181
+    '    Code Lines: 92 (50.83%)
+    ' Comment Lines: 67 (37.02%)
+    '    - Xml Docs: 95.52%
+    ' 
+    '   Blank Lines: 22 (12.15%)
+    '     File Size: 9.51 KB
+
+
     ' Class operons
     ' 
     '     Properties: art_guid, descript, fl_real_name, genome_guid, last_update

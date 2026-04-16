@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5e7f50e9bea5713d08aaadcc6499f575, R#\metagenomics_kit\gast.vb"
+﻿#Region "Microsoft.VisualBasic::58b87238acb72125a943fc588903b81c, R#\metagenomics_kit\gast.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 99
+    '    Code Lines: 63 (63.64%)
+    ' Comment Lines: 28 (28.28%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (8.08%)
+    '     File Size: 3.94 KB
+
+
     ' Module gastTools
     ' 
-    '     Function: OTUgreengenesTaxonomy
+    '     Function: OTUgreengenesTaxonomy, ParseGreengenesTaxonomy, ParseMothurOTUs
     ' 
     ' /********************************************************************************/
 
@@ -43,25 +55,40 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.Metagenome
 Imports SMRUCC.genomics.Analysis.Metagenome.greengenes
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 
+''' <summary>
+''' gast 16s data analysis tools, combine with the mothur workflow
+''' </summary>
 <Package("gast")>
+<RTypeExport("gastOUT", GetType(gast.gastOUT))>
 Module gastTools
 
     ''' <summary>
     ''' assign OTU its taxonomy result
     ''' </summary>
+    ''' <param name="blastn">
+    ''' a collection of the alignment <see cref="Query"/> that parsed 
+    ''' from the ncbi blastn alignment result text file.
+    ''' </param>
+    ''' <param name="taxonomy">
+    ''' a collection of the <see cref="otu_taxonomy"/> data.
+    ''' </param>
     ''' <returns></returns>
     <ExportAPI("OTU.taxonomy")>
+    <RApiReturn(GetType(gast.gastOUT))>
     Public Function OTUgreengenesTaxonomy(<RRawVectorArgument>
                                           blastn As Object,
                                           OTUs As list,
                                           taxonomy As list,
                                           Optional min_pct# = 0.97,
+                                          Optional gast_consensus As Boolean = False,
                                           Optional env As Environment = Nothing) As pipeline
 
         Dim queries As pipeline = pipeline.TryCreatePipeline(Of Query)(blastn, env)
@@ -73,9 +100,53 @@ Module gastTools
         Dim OTUTable = OTUs.AsGeneric(Of NamedValue(Of Integer))(env)
         Dim taxonomyTable = taxonomy.AsGeneric(Of otu_taxonomy)(env)
 
-        Return queries _
-            .populates(Of Query)(env) _
-            .OTUgreengenesTaxonomy(OTUTable, taxonomyTable, min_pct) _
-            .DoCall(AddressOf pipeline.CreateFromPopulator)
+        If gast_consensus Then
+            Return queries _
+                .populates(Of Query)(env) _
+                .OTUgreengenesTaxonomy(OTUTable, taxonomyTable, min_pct) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        Else
+            Return queries _
+                .populates(Of Query)(env) _
+                .OTUgreengenesTaxonomyTreeAssign(OTUTable, taxonomyTable, min_pct) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Parse the greengenes taxonomy file
+    ''' </summary>
+    ''' <param name="tax">
+    ''' the file path of the greengenes taxonomy mapping file.
+    ''' </param>
+    ''' <returns>a tuple list of the otu taxonomy information</returns>
+    <ExportAPI("parse.greengenes_tax")>
+    <RApiReturn(GetType(otu_taxonomy))>
+    Public Function ParseGreengenesTaxonomy(tax As String) As list
+        Return otu_taxonomy _
+            .Load(path:=tax) _
+            .ToDictionary(Function(d) d.ID,
+                          Function(d)
+                              Return CObj(d)
+                          End Function)
+    End Function
+
+    ''' <summary>
+    ''' parse the OTU data file
+    ''' </summary>
+    ''' <param name="OTU_rep_fasta">
+    ''' ``OTU.rep.fasta`` query source comes from the mothur workflow.
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("parse.mothur_OTUs")>
+    Public Function ParseMothurOTUs(OTU_rep_fasta As String, Optional removes_lt As Double = 0.0001) As list
+        Return StreamIterator _
+            .SeqSource(OTU_rep_fasta) _
+            .ParseOTUrep() _
+            .RemovesOTUlt(cutoff:=removes_lt) _
+            .ToDictionary(Function(d) d.Key,
+                          Function(d)
+                              Return CObj(d.Value)
+                          End Function)
     End Function
 End Module

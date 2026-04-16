@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c4150e0e48aef467aa5c9b4f87259a86, engine\Compiler\KineticsModeller\Modeller.vb"
+﻿#Region "Microsoft.VisualBasic::9cdc50f353c576f06b37431cdfb381ec, engine\Compiler\KineticsModeller\Modeller.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 131 (79.39%)
+    ' Comment Lines: 5 (3.03%)
+    '    - Xml Docs: 60.00%
+    ' 
+    '   Blank Lines: 29 (17.58%)
+    '     File Size: 6.60 KB
+
+
     ' Class Modeller
     ' 
     '     Constructor: (+1 Overloads) Sub New
@@ -54,6 +66,7 @@ Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 Imports SMRUCC.genomics.Data.SABIORK
+Imports SMRUCC.genomics.Data.SABIORK.docuRESTfulWeb
 Imports SMRUCC.genomics.Data.SABIORK.SBML
 Imports SMRUCC.genomics.GCModeller.Assembly.GCMarkupLanguage.v2
 Imports SMRUCC.genomics.GCModeller.CompilerServices
@@ -138,7 +151,7 @@ Public Class Modeller : Inherits Compiler(Of VirtualCell)
             For Each target As SBMLReaction In reactions
                 ' 如何查找匹配最优的催化动力学过程？
                 Dim refId As String = "KL_" & target.kineticLaw.annotation.sabiork.kineticLawID
-                Dim formula As LambdaExpression = index.getFormula(refId)
+                Dim formula As LambdaExpression = index.getKineticLaw(refId)
                 Dim conditions As experimentalConditions
 
                 If formula Is Nothing OrElse target.kineticLaw.annotation.sabiork.experimentalConditions Is Nothing Then

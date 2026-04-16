@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 50
+    '    Code Lines: 28 (56.00%)
+    ' Comment Lines: 13 (26.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (18.00%)
+    '     File Size: 2.30 KB
+
+
     '     Module NodeIterator
     ' 
     '         Function: CreateBlockReader, GetArrayTemplate, (+2 Overloads) IterateArrayNodes

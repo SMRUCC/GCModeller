@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::63a07e24cad2e53ee749121a138298b1, localblast\CLI_tools\CLI\Blastn.vb"
+﻿#Region "Microsoft.VisualBasic::e4ed2071f46f10714ac807b85ba4c32f, localblast\CLI_tools\CLI\Blastn.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 517
+    '    Code Lines: 416 (80.46%)
+    ' Comment Lines: 31 (6.00%)
+    '    - Xml Docs: 51.61%
+    ' 
+    '   Blank Lines: 70 (13.54%)
+    '     File Size: 24.24 KB
+
+
     ' Module CLI
     ' 
     '     Function: __loads, __loadsMaps, BlastnMapsSummery, BlastnMapsTaxonomy, BlastnQuery
@@ -52,17 +64,17 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Darwinism.HPC.Parallel.ThreadTask
 Imports Microsoft.VisualBasic.ApplicationServices
 Imports Microsoft.VisualBasic.CommandLine
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO.Linq
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Text
-Imports Parallel.ThreadTask
 Imports SMRUCC.genomics.Assembly.NCBI.Taxonomy
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application
@@ -210,7 +222,7 @@ Partial Module CLI
                 .reward = reward
             }
         }
-        Dim isThread As Boolean = args.GetBoolean("/thread")
+        Dim isThread As Boolean = args("/thread")
 
         For Each subject As String In ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= DbDIR
             Dim out As String
@@ -246,7 +258,7 @@ Partial Module CLI
         Dim CLI As String() =
             (ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= [in]).Select(task).ToArray
 
-        If Not args.GetBoolean("/skip-format") Then
+        If Not args("/skip-format") Then
             Dim localblast As New Programs.BLASTPlus(GCModeller.FileSystem.GetLocalblast)
 
             For Each subject As String In ls - l - r - {"*.fna", "*.fa", "*.fsa", "*.fasta", "*.ffn"} <= db
@@ -254,7 +266,7 @@ Partial Module CLI
             Next
         End If
 
-        Dim parallel As Boolean = args.GetBoolean("/parallel")
+        Dim parallel As Boolean = args("/parallel")
         Dim n As Integer = If(parallel, LQuerySchedule.CPU_NUMBER, 0)
 
         Return BatchTasks.SelfFolks(CLI, parallel:=n)
@@ -268,7 +280,7 @@ Partial Module CLI
     <Group(CLIGrouping.BlastnTools)>
     Public Function ExportBlastnMaps(args As CommandLine) As Integer
         Dim [in] As String = args - "/in"
-        Dim best As Boolean = args.GetBoolean("/best")
+        Dim best As Boolean = args("/best")
         Dim out As String = args _
             .GetValue("/out", [in].TrimSuffix & $"{If(best, ".best", "")}.Csv")
 
@@ -276,7 +288,7 @@ Partial Module CLI
             ' 超大
             Using IO As New WriteStream(Of BlastnMapping)(out, metaKeys:={})
                 Dim handle As Action(Of Query) =
-                    IO.ToArray(Of Query)(AddressOf MapsAPI.CreateObject)
+                    IO.ToArray(Of Query)(Function(m) MapsAPI.CreateObject(m, best))
                 Call BlastPlus.Transform(in$, 1024 * 1024 * 256L, handle)
             End Using
         Else
@@ -295,7 +307,7 @@ Partial Module CLI
         Dim [in] As String = args - "/in"
         Dim out As String = args.GetValue("/out", [in].TrimDIR & "-blastnMaps/")
         Dim numThreads As Integer = args.GetValue("/num_threads", -1)
-        Dim best = If(args.GetBoolean("/best"), "/best", "")
+        Dim best = If(args("/best"), "/best", "")
         Dim task As Func(Of String, String) =
             Function(path)
                 Return $"{GetType(CLI).API(NameOf(ExportBlastnMaps))} /in {path.CLIPath} {best} /out {(out & "/" & path.BaseName & ".Csv").CLIPath}"
@@ -321,7 +333,7 @@ Partial Module CLI
               Description:="The directory path that contains the blastn output data.")>
     Public Function ExportBlastnMapsBatchWrite(args As CommandLine) As Integer
         Dim [in] As String = args("/in")
-        Dim best As Boolean = args.GetBoolean("/best")
+        Dim best As Boolean = args("/best")
         Dim out As String = args.GetValue("/out", [in].TrimDIR & $"-blastnMaps{If(best, "-top_best", "")}.csv")
         Dim LQuery = From path As String
                      In (ls - l - r - wildcards("*.txt") <= [in]).AsParallel
@@ -333,7 +345,7 @@ Partial Module CLI
         Using writer As New WriteStream(Of BlastnMapping)(out,,, {"track"})
             For Each block As BlastnMapping() In LQuery
                 Call writer.Flush(block)
-                Call block.First.Extensions("track").__DEBUG_ECHO
+                Call block.First.Extensions("track").debug
             Next
 
             Return 0
@@ -428,13 +440,13 @@ Partial Module CLI
         Dim [in] As String = args("/in")
         Dim x2taxid As String = args("/2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid.csv")
-        Dim is_gi2taxid As Boolean = args.GetBoolean("/gi2taxid")
+        Dim is_gi2taxid As Boolean = args("/gi2taxid")
         Dim maps As BlastnMapping() = [in].LoadCsv(Of BlastnMapping)
         Dim notFound As New List(Of String)
         Dim taxDIR$ = args("/tax")
         Dim tax As NcbiTaxonomyTree = Nothing
-        Dim trimLong As Boolean = args.GetBoolean("/trim")
-        Dim taxid As New Value(Of Integer)
+        Dim trimLong As Boolean = args("/trim")
+        Dim taxid As New Value(Of UInteger)
         Dim mapping As TaxidMaps.Mapping = If(
             is_gi2taxid,
             TaxidMaps.MapByGI(x2taxid),
@@ -444,7 +456,7 @@ Partial Module CLI
             tax = New NcbiTaxonomyTree(taxDIR)
         End If
 
-        Call "All data load done!".__DEBUG_ECHO
+        Call "All data load done!".debug
 
         Dim taxidFromRef As Mapping = Reference2Taxid(mapping, is_gi2taxid)
 
@@ -550,7 +562,7 @@ Partial Module CLI
         Dim acc2taxid As String = args("/acc2taxid")
         Dim out As String = args.GetValue("/out", [in].TrimSuffix & ".taxid_matched.tsv")
 
-        Using writer As StreamWriter = out.OpenWriter(Encodings.ASCII)
+        Using writer As System.IO.StreamWriter = out.OpenWriter(Encodings.ASCII)
             Dim data = [in].LoadCsv(Of BlastnMapping)
             Dim acc As IEnumerable(Of String) = data _
                 .Select(Function(x) x.Reference _

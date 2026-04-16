@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 64 (79.01%)
+    ' Comment Lines: 7 (8.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (12.35%)
+    '     File Size: 3.31 KB
+
+
     '     Class EntitySummary
     ' 
     '         Properties: biosamples, cas, charge, chebiAsciiName, chebiId

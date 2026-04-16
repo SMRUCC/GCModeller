@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 210
+    '    Code Lines: 63 (30.00%)
+    ' Comment Lines: 131 (62.38%)
+    '    - Xml Docs: 87.79%
+    ' 
+    '   Blank Lines: 16 (7.62%)
+    '     File Size: 10.19 KB
+
+
     '     Module Functions
     ' 
     '         Function: chomp, Pop, system

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::45a7a940bbb343253d7d4a4c7807635c, visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
+﻿#Region "Microsoft.VisualBasic::d83a45f7783f59b0efc2ab87e54ca612, visualize\DataVisualizationExtensions\CurvesChart\Histogram.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 118
+    '    Code Lines: 88 (74.58%)
+    ' Comment Lines: 9 (7.63%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 21 (17.80%)
+    '     File Size: 4.99 KB
+
+
     ' Class Histogram
     ' 
     '     Properties: Lines, TokenWidth
@@ -49,6 +61,32 @@ Imports System.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Math.Statistics
+
+#If NET48 Then
+Imports Pen = System.Drawing.Pen
+Imports Pens = System.Drawing.Pens
+Imports Brush = System.Drawing.Brush
+Imports Font = System.Drawing.Font
+Imports Brushes = System.Drawing.Brushes
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Image = System.Drawing.Image
+Imports Bitmap = System.Drawing.Bitmap
+Imports GraphicsPath = System.Drawing.Drawing2D.GraphicsPath
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Pen = Microsoft.VisualBasic.Imaging.Pen
+Imports Pens = Microsoft.VisualBasic.Imaging.Pens
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Font = Microsoft.VisualBasic.Imaging.Font
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports DashStyle = Microsoft.VisualBasic.Imaging.DashStyle
+Imports Image = Microsoft.VisualBasic.Imaging.Image
+Imports Bitmap = Microsoft.VisualBasic.Imaging.Bitmap
+Imports GraphicsPath = Microsoft.VisualBasic.Imaging.GraphicsPath
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Public Class Histogram : Inherits CurvesModel
 
@@ -105,7 +143,7 @@ Public Class Histogram : Inherits CurvesModel
         LinePen = New Pen(PlotBrush, 2)
 
         If ShowAverageLine Then  ' 绘制中间的平均线
-            Dim pos As New Point With {
+            Dim pos As New PointF With {
                 .X = location.X - YValueOffset,
                 .Y = Y_avg - "0".MeasureSize(g, tagFont).Height / 2
             }

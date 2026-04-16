@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::82a75782e7a7f208a82c61c767bfe25c, core\Bio.Annotation\GFF\Document\FeatureParser.vb"
+﻿#Region "Microsoft.VisualBasic::80b0f5d42436170ac3c18e780e6abbf5, core\Bio.Annotation\GFF\Document\FeatureParser.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 125
+    '    Code Lines: 79 (63.20%)
+    ' Comment Lines: 33 (26.40%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 13 (10.40%)
+    '     File Size: 5.11 KB
+
 
     '     Module FeatureParser
     ' 
@@ -65,7 +77,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 x.source,
                 x.feature,
                 CStr(x.start), CStr(x.ends),
-                x.score, x.strand.GetBriefCode, x.frame,
+                x.score, x.strand.Description, x.frame,
                 attrs.JoinBy(";")
             }
             Dim line As String = String.Join(vbTab, tokens)

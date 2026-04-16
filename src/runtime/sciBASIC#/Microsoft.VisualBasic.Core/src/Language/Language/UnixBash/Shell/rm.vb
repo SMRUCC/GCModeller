@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 15 (62.50%)
+    ' Comment Lines: 3 (12.50%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 6 (25.00%)
+    '     File Size: 585 B
+
+
     '     Class FileDelete
     ' 
     '         Operators: -, <=, >=

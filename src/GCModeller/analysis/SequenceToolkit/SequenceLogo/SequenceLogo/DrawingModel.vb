@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d166df1bea72da18013a30a1ba416acc, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
+﻿#Region "Microsoft.VisualBasic::37de76b887aa2e7ebd2eaa428358df5e, analysis\SequenceToolkit\SequenceLogo\SequenceLogo\DrawingModel.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,18 @@
 
     ' Summaries:
 
-    '     Interface ILogoResidue
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 63 (61.76%)
+    ' Comment Lines: 26 (25.49%)
+    '    - Xml Docs: 100.00%
     ' 
-    '         Properties: Bits
-    ' 
+    '   Blank Lines: 13 (12.75%)
+    '     File Size: 3.75 KB
+
+
     '     Class DrawingModel
     ' 
     '         Properties: Alphabets, En, ModelsId, Residues
@@ -47,24 +55,11 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Language
-Imports Microsoft.VisualBasic.Linq.Extensions
 Imports Microsoft.VisualBasic.Math
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.SequenceModel.Patterns
 
 Namespace SequenceLogo
-
-    ''' <summary>
-    ''' Abstract model for a residue site in a motif sequence fragment.
-    ''' </summary>
-    Public Interface ILogoResidue : Inherits IPatternSite
-        ''' <summary>
-        ''' The information of this site can give us.
-        ''' </summary>
-        ''' <returns></returns>
-        ReadOnly Property Bits As Double
-    End Interface
 
     ''' <summary>
     ''' Drawing model for the sequence logo visualization.
@@ -99,10 +94,9 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Shared Function AAResidue(x As ILogoResidue) As Residue
+        Public Shared Function AAResidue(x As IPatternSite) As Residue
             Dim Residue As New Residue With {
-                .Alphabets = SequenceModel _
-                    .AA _
+                .Alphabets = SequenceModel.AA _
                     .Select(Function(r)
                                 Return New Alphabet With {
                                     .Alphabet = r,
@@ -121,7 +115,7 @@ Namespace SequenceLogo
         ''' </summary>
         ''' <param name="x"></param>
         ''' <returns></returns>
-        Public Shared Function NTResidue(x As ILogoResidue) As Residue
+        Public Shared Function NTResidue(x As IPatternSite) As Residue
             Dim Residue As New Residue With {
                 .Alphabets = {
                     New Alphabet With {.Alphabet = "A"c, .RelativeFrequency = x("A"c)},
@@ -147,8 +141,7 @@ Namespace SequenceLogo
             For i As Integer = 0 To npos - 1
                 Dim idx As Integer = i
 
-                ic(i) = 2 + pwm _
-                    .Residues _
+                ic(i) = 2 + pwm.Residues _
                     .Select(Function(x)
                                 If (x.Alphabets(idx).RelativeFrequency > 0) Then
                                     Return x.Alphabets(idx).RelativeFrequency * Math.Log(x.Alphabets(idx).RelativeFrequency, 2)

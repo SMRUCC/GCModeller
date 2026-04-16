@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::227c0a8571cc6741b26b6a4117c59ea2, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\AVLTree\AVLSupports.vb"
+﻿#Region "Microsoft.VisualBasic::dff4faa6d2d9ce9352ce785356063899, Microsoft.VisualBasic.Core\src\ComponentModel\Algorithm\BinaryTree\AVLTree\AVLSupports.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 44 (72.13%)
+    ' Comment Lines: 3 (4.92%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (22.95%)
+    '     File Size: 1.85 KB
+
+
     '     Module AVLSupports
     ' 
     '         Function: height, RotateLL, RotateLR, RotateRL, RotateRR
@@ -43,7 +55,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace ComponentModel.Algorithm.BinaryTree
 
@@ -99,7 +111,7 @@ Namespace ComponentModel.Algorithm.BinaryTree
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Friend Sub PutHeight(Of K, V)(node As BinaryTree(Of K, V))
-            node.SetValue("height", stdNum.Max(node.Left.height, node.Right.height) + 1)
+            node.SetValue("height", std.Max(node.Left.height, node.Right.height) + 1)
         End Sub
     End Module
 End Namespace

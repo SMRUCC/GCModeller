@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="zh-CN">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
+    <title>geneExpression</title>
+    <meta name="author" content="xie.guigang@gcmodeller.org" />
+    <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
+    <meta name="keywords" content="R#; geneExpression; phenotype_kit" />
+    <meta name="generator" content="https://github.com/rsharp-lang" />
+    <meta name="theme-color" content="#333" />
+    <meta name="description" content="the gene expression matrix data toolkit..." />
+    <meta class="foundation-data-attribute-namespace" />
+    <meta class="foundation-mq-xxlarge" />
+    <meta class="foundation-mq-xlarge" />
+    <meta class="foundation-mq-large" />
+    <meta class="foundation-mq-medium" />
+    <meta class="foundation-mq-small" />
+    <meta class="foundation-mq-topbar" />
+    <style>
+
+.table-three-line {
+border-collapse:collapse; /* 关键属性：合并表格内外边框(其实表格边框有2px，外面1px，里面还有1px哦) */
+border:solid #000000; /* 设置边框属性；样式(solid=实线)、颜色(#999=灰) */
+border-width:2px 0 2px 0px; /* 设置边框状粗细：上 右 下 左 = 对应：1px 0 0 1px */
+}
+.left-1{
+    border:solid #000000;border-width:1px 1px 2px 0px;padding:2px;
+    font-weight:bolder;
+}
+.right-1{
+    border:solid #000000;border-width:1px 0px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.mid-1{
+    border:solid #000000;border-width:1px 1px 2px 1px;padding:2px;
+    font-weight:bolder;
+}
+.left{
+    border:solid #000000;border-width:1px 1px 1px 0px;padding:2px;
+}
+.right{
+    border:solid #000000;border-width:1px 0px 1px 1px;padding:2px;
+}
+.mid{
+    border:solid #000000;border-width:1px 1px 1px 1px;padding:2px;
+}
+table caption {font-size:14px;font-weight:bolder;}
+</style>
+  </head>
+  <body>
+    <table width="100%" summary="page for {geneExpression}">
+      <tbody>
+        <tr>
+          <td>{geneExpression}</td>
+          <td style="text-align: right;">R# Documentation</td>
+        </tr>
+      </tbody>
+    </table>
+    <h1>geneExpression</h1>
+    <hr />
+    <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
+      <code>
+        <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
+                               <br /><br /><span style="color: green;">#' the gene expression matrix data toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "geneExpression"</span><span style="color: blue;"> from</span><span style="color: brown"> "phenotype_kit"</span>;
+                           </code>
+    </p>
+    <p><p>the gene expression matrix data toolkit</p></p>
+    <blockquote>
+      <p style="font-style: italic; font-size: 0.9em;">
+                           
+                           </p>
+    </blockquote>
+    <div id="main-wrapper">
+      <table class="table-three-line" style="display: none">
+        <caption>.NET clr type export</caption>
+        <tbody></tbody>
+      </table>
+      <br />
+      <br />
+      <table class="table-three-line">
+        <caption>.NET clr function exports</caption>
+        <tbody><tr>
+  <td id="as.data.frame.impactresult">
+    <a href="./geneExpression/as.data.frame.impactresult.html">as.data.frame.impactresult</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/ImpactResult.html">ImpactResult</a>: </td>
+</tr>
+<tr>
+  <td id="as.data.frame.limmatable">
+    <a href="./geneExpression/as.data.frame.limmatable.html">as.data.frame.limmatable</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/Analysis/HTS/DataFrame/LimmaTable.html">LimmaTable</a>: <p>limma <code>topTable</code> output dataframe.</p></td>
+</tr>
+<tr>
+  <td id="as.data.frame.degmodel">
+    <a href="./geneExpression/as.data.frame.degmodel.html">as.data.frame.degmodel</a>
+  </td>
+  <td><a href="/vignettes/clr/SMRUCC/genomics/GCModeller/Workbench/ExperimentDesigner/DEGModel.html">DEGModel</a>: <p>A generic model for different expression molecule</p></td>
+</tr>
+<tr>
+  <td id="exp">
+    <a href="./geneExpression/exp.html">exp</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="tr">
+    <a href="./geneExpression/tr.html">tr</a>
+  </td>
+  <td><p>do matrix transpose</p></td>
+</tr>
+<tr>
+  <td id="dims">
+    <a href="./geneExpression/dims.html">dims</a>
+  </td>
+  <td><p>get summary information about the HTS matrix dimensions</p></td>
+</tr>
+<tr>
+  <td id="as.expr_list">
+    <a href="./geneExpression/as.expr_list.html">as.expr_list</a>
+  </td>
+  <td><p>convert the matrix into row gene list</p></td>
+</tr>
+<tr>
+  <td id="expression_vector">
+    <a href="./geneExpression/expression_vector.html">expression_vector</a>
+  </td>
+  <td><p>get gene expression vector data</p></td>
+</tr>
+<tr>
+  <td id="setTag">
+    <a href="./geneExpression/setTag.html">setTag</a>
+  </td>
+  <td><p>set a new tag string to the matrix</p></td>
+</tr>
+<tr>
+  <td id="setZero">
+    <a href="./geneExpression/setZero.html">setZero</a>
+  </td>
+  <td><p>set the expression value to zero 
+ 
+ if the expression value is less than a given threshold</p></td>
+</tr>
+<tr>
+  <td id="sample_id">
+    <a href="./geneExpression/sample_id.html">sample_id</a>
+  </td>
+  <td><p>get/set new sample id list to the matrix columns</p></td>
+</tr>
+<tr>
+  <td id="setFeatures">
+    <a href="./geneExpression/setFeatures.html">setFeatures</a>
+  </td>
+  <td><p>set new gene id list to the matrix rows</p></td>
+</tr>
+<tr>
+  <td id="filterZeroSamples">
+    <a href="./geneExpression/filterZeroSamples.html">filterZeroSamples</a>
+  </td>
+  <td><p>filter out all samples columns which its expression vector is ZERO!</p></td>
+</tr>
+<tr>
+  <td id="filterZeroGenes">
+    <a href="./geneExpression/filterZeroGenes.html">filterZeroGenes</a>
+  </td>
+  <td><p>removes the rows which all gene expression result is ZERO</p></td>
+</tr>
+<tr>
+  <td id="filterNaNMissing">
+    <a href="./geneExpression/filterNaNMissing.html">filterNaNMissing</a>
+  </td>
+  <td><p>set the NaN missing value to default value</p></td>
+</tr>
+<tr>
+  <td id="impute_missing">
+    <a href="./geneExpression/impute_missing.html">impute_missing</a>
+  </td>
+  <td><p>set the zero value to the half of the min positive value</p></td>
+</tr>
+<tr>
+  <td id="is_empty">
+    <a href="./geneExpression/is_empty.html">is_empty</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="load.expr">
+    <a href="./geneExpression/load.expr.html">load.expr</a>
+  </td>
+  <td><p>load an expressin matrix data</p></td>
+</tr>
+<tr>
+  <td id="load.expr0">
+    <a href="./geneExpression/load.expr0.html">load.expr0</a>
+  </td>
+  <td><p>read the binary matrix data file</p></td>
+</tr>
+<tr>
+  <td id="load.matrixView">
+    <a href="./geneExpression/load.matrixView.html">load.matrixView</a>
+  </td>
+  <td><p>Load the HTS matrix into a lazy matrix viewer</p></td>
+</tr>
+<tr>
+  <td id="matrix_info">
+    <a href="./geneExpression/matrix_info.html">matrix_info</a>
+  </td>
+  <td><p>get matrix summary information</p></td>
+</tr>
+<tr>
+  <td id="write.expr_matrix">
+    <a href="./geneExpression/write.expr_matrix.html">write.expr_matrix</a>
+  </td>
+  <td><p>write the gene expression data matrix file</p></td>
+</tr>
+<tr>
+  <td id="project">
+    <a href="./geneExpression/project.html">project</a>
+  </td>
+  <td><p>make matrix samples column projection</p></td>
+</tr>
+<tr>
+  <td id="filter">
+    <a href="./geneExpression/filter.html">filter</a>
+  </td>
+  <td><p>Filter the geneID rows</p></td>
+</tr>
+<tr>
+  <td id="as.generic">
+    <a href="./geneExpression/as.generic.html">as.generic</a>
+  </td>
+  <td><p>cast the HTS matrix object to the general dataset</p></td>
+</tr>
+<tr>
+  <td id="mad">
+    <a href="./geneExpression/mad.html">mad</a>
+  </td>
+  <td><p>evaluate the MAD value for each gene features</p></td>
+</tr>
+<tr>
+  <td id="sort_mad">
+    <a href="./geneExpression/sort_mad.html">sort_mad</a>
+  </td>
+  <td><p>take top n expression feature by rank expression MAD value desc</p></td>
+</tr>
+<tr>
+  <td id="aggregate_samples">
+    <a href="./geneExpression/aggregate_samples.html">aggregate_samples</a>
+  </td>
+  <td><p>function alias of the <code>geneExpression::average</code> function</p></td>
+</tr>
+<tr>
+  <td id="aggregate_genes">
+    <a href="./geneExpression/aggregate_genes.html">aggregate_genes</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="average">
+    <a href="./geneExpression/average.html">average</a>
+  </td>
+  <td><p>calculate average value of the gene expression for
+ each sample group.
+ 
+ this method can be apply for reduce data size when 
+ create some plot for visualize the gene expression
+ patterns across the sample groups.</p></td>
+</tr>
+<tr>
+  <td id="z_score">
+    <a href="./geneExpression/z_score.html">z_score</a>
+  </td>
+  <td><p>Z-score normalized of the expression data matrix
+ 
+ To avoid the influence of expression level to the 
+ clustering analysis, z-score transformation can 
+ be applied to covert the expression values to 
+ z-scores by performing the following formula:
+
+
+<pre><code class=""> z = (x - u) / sd
+</code></pre>
+
+</p>
+
+<p>x is value to be converted (e.g., a expression value 
+ of a genomic feature in one condition), µ is the 
+ population mean (e.g., average expression value Of 
+ a genomic feature In different conditions), σ Is the 
+ standard deviation (e.g., standard deviation of 
+ expression of a genomic feature in different conditions).</p></td>
+</tr>
+<tr>
+  <td id="pca">
+    <a href="./geneExpression/pca.html">pca</a>
+  </td>
+  <td><p>do PCA on a gene expressin matrix</p></td>
+</tr>
+<tr>
+  <td id="totalSumNorm">
+    <a href="./geneExpression/totalSumNorm.html">totalSumNorm</a>
+  </td>
+  <td><p>normalize data by sample column</p></td>
+</tr>
+<tr>
+  <td id="relative">
+    <a href="./geneExpression/relative.html">relative</a>
+  </td>
+  <td><p>normalize data by feature rows</p></td>
+</tr>
+<tr>
+  <td id="expression.cmeans_pattern">
+    <a href="./geneExpression/expression.cmeans_pattern.html">expression.cmeans_pattern</a>
+  </td>
+  <td><p>This function performs clustering analysis of time course data. 
+ Calculate gene expression pattern by cmeans algorithm.</p></td>
+</tr>
+<tr>
+  <td id="expression.cmeans3D">
+    <a href="./geneExpression/expression.cmeans3D.html">expression.cmeans3D</a>
+  </td>
+  <td><p>run cmeans clustering in 3 patterns</p></td>
+</tr>
+<tr>
+  <td id="savePattern">
+    <a href="./geneExpression/savePattern.html">savePattern</a>
+  </td>
+  <td><p>save the cmeans expression pattern result to local file</p></td>
+</tr>
+<tr>
+  <td id="readPattern">
+    <a href="./geneExpression/readPattern.html">readPattern</a>
+  </td>
+  <td><p>read the cmeans expression pattern result from file</p></td>
+</tr>
+<tr>
+  <td id="cmeans_matrix">
+    <a href="./geneExpression/cmeans_matrix.html">cmeans_matrix</a>
+  </td>
+  <td><p>get cluster membership matrix</p></td>
+</tr>
+<tr>
+  <td id="pattern_representatives">
+    <a href="./geneExpression/pattern_representatives.html">pattern_representatives</a>
+  </td>
+  <td><p>get the top n representatives genes in each expression pattern</p></td>
+</tr>
+<tr>
+  <td id="split.cmeans_clusters">
+    <a href="./geneExpression/split.cmeans_clusters.html">split.cmeans_clusters</a>
+  </td>
+  <td><h3>split the cmeans cluster output</h3>
+
+<p>split the cmeans cluster output into multiple parts based on the cluster tags</p></td>
+</tr>
+<tr>
+  <td id="peakCMeans">
+    <a href="./geneExpression/peakCMeans.html">peakCMeans</a>
+  </td>
+  <td><h3>clustering analysis of time course data</h3>
+
+<p>This function performs clustering analysis of time course data</p></td>
+</tr>
+<tr>
+  <td id="expr_ranking">
+    <a href="./geneExpression/expr_ranking.html">expr_ranking</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="deg.t.test">
+    <a href="./geneExpression/deg.t.test.html">deg.t.test</a>
+  </td>
+  <td><p>do t-test across specific analysis comparision</p></td>
+</tr>
+<tr>
+  <td id="limma">
+    <a href="./geneExpression/limma.html">limma</a>
+  </td>
+  <td><p>The limma algorithm (Linear Models for Microarray Data) is a widely used statistical framework in R/Bioconductor 
+ for differential expression (DE) analysis of RNA-seq data. Originally designed for microarray studies, its 
+ flexibility and robustness have extended its utility to RNA-seq through the voomtransformation.</p></td>
+</tr>
+<tr>
+  <td id="read_limma">
+    <a href="./geneExpression/read_limma.html">read_limma</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="limma_impactsort">
+    <a href="./geneExpression/limma_impactsort.html">limma_impactsort</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="limma_table">
+    <a href="./geneExpression/limma_table.html">limma_table</a>
+  </td>
+  <td><p>build limma table model from the dataframe columns</p></td>
+</tr>
+<tr>
+  <td id="log">
+    <a href="./geneExpression/log.html">log</a>
+  </td>
+  <td><p>log scale of the HTS raw matrix</p></td>
+</tr>
+<tr>
+  <td id="minmax01Norm">
+    <a href="./geneExpression/minmax01Norm.html">minmax01Norm</a>
+  </td>
+  <td><p>min max normalization
+ 
+ (row - min(row)) / (max(row) - min(row))
+ 
+ this normalization method is usually used for the metabolomics data</p></td>
+</tr>
+<tr>
+  <td id="take_shuffle">
+    <a href="./geneExpression/take_shuffle.html">take_shuffle</a>
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td id="geneId">
+    <a href="./geneExpression/geneId.html">geneId</a>
+  </td>
+  <td><p>get gene Id list or byref set of the gene id alias set.</p></td>
+</tr>
+<tr>
+  <td id="as.deg">
+    <a href="./geneExpression/as.deg.html">as.deg</a>
+  </td>
+  <td><p>create gene expression DEG model</p></td>
+</tr>
+<tr>
+  <td id="deg.class">
+    <a href="./geneExpression/deg.class.html">deg.class</a>
+  </td>
+  <td><p>set deg class label</p></td>
+</tr>
+<tr>
+  <td id="joinSample">
+    <a href="./geneExpression/joinSample.html">joinSample</a>
+  </td>
+  <td><p>do matrix join by samples</p></td>
+</tr>
+<tr>
+  <td id="joinFeatures">
+    <a href="./geneExpression/joinFeatures.html">joinFeatures</a>
+  </td>
+  <td><p>merge multiple gene expression matrix by gene features</p></td>
+</tr>
+<tr>
+  <td id="aggregate">
+    <a href="./geneExpression/aggregate.html">aggregate</a>
+  </td>
+  <td><p>merge row or column where the tag is identical</p></td>
+</tr>
+<tr>
+  <td id="add_gauss">
+    <a href="./geneExpression/add_gauss.html">add_gauss</a>
+  </td>
+  <td><p>add random gauss noise to the matrix</p></td>
+</tr>
+<tr>
+  <td id="as.abundance_matrix">
+    <a href="./geneExpression/as.abundance_matrix.html">as.abundance_matrix</a>
+  </td>
+  <td></td>
+</tr></tbody>
+      </table>
+    </div>
+    <hr />
+    <div style="text-align: center;">[<a href="../index.html">Document Index</a>]</div>
+  </body>
+</html>

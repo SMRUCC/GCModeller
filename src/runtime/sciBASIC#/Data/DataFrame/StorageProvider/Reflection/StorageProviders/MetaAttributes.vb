@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::2a4a949334b0df68c216c2dd7ee9c597, Data\DataFrame\StorageProvider\Reflection\StorageProviders\MetaAttributes.vb"
+﻿#Region "Microsoft.VisualBasic::070ae830566ae8dd763b2959b59f62e5, Data\DataFrame\StorageProvider\Reflection\StorageProviders\MetaAttributes.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 81
+    '    Code Lines: 53 (65.43%)
+    ' Comment Lines: 16 (19.75%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (14.81%)
+    '     File Size: 3.66 KB
+
+
     '     Module MetaAttributeParser
     ' 
     '         Function: GetEntry, LoadData, MakeDictionaryType
@@ -41,7 +53,7 @@
 #End Region
 
 Imports System.Reflection
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.ComponentModels
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.ComponentModels
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SequenceTools": {
+      "commandName": "Project",
+      "commandLineArgs": "/motif_scan /in \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\snp\\Lanmai_upstream_500bp.fasta\" /motif_db \"M:\\project\\20251010-wheat\\20251105\\LargePanicleDevelopment\\blastp\\TF\\PlantTFDB_TF_binding_motifs_from_experiments.xml\" /top 3"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4dc71124d97268512d567c00e0d55819, Data_science\MachineLearning\t-SNE\tSNE.vb"
+﻿#Region "Microsoft.VisualBasic::b1329e799026965a66e169fcaaa287f8, Data_science\MachineLearning\t-SNE\tSNE.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 165
+    '    Code Lines: 97 (58.79%)
+    ' Comment Lines: 41 (24.85%)
+    '    - Xml Docs: 51.22%
+    ' 
+    '   Blank Lines: 27 (16.36%)
+    '     File Size: 4.97 KB
+
+
     ' Class tSNE
     ' 
     '     Properties: dimension
@@ -47,7 +59,7 @@
 
 Imports Microsoft.VisualBasic.DataMining.ComponentModel
 Imports Microsoft.VisualBasic.Linq
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Class tSNE : Inherits IDataEmbedding
 
@@ -175,7 +187,7 @@ Public Class tSNE : Inherits IDataEmbedding
                 Dim gainid = mGains(i)(d)
 
                 ' compute gain update
-                Dim newgain = If(stdNum.Sign(gid) = stdNum.Sign(sid), gainid * 0.8, gainid + 0.2)
+                Dim newgain = If(std.Sign(gid) = std.Sign(sid), gainid * 0.8, gainid + 0.2)
 
                 If newgain < 0.01 Then
                     ' clamp

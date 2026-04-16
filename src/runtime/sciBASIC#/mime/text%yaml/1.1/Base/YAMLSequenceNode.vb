@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 182
+    '    Code Lines: 151 (82.97%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 31 (17.03%)
+    '     File Size: 5.63 KB
+
+
     '     Class YAMLSequenceNode
     ' 
     '         Properties: IsIndent, IsMultyline, NodeType, Style

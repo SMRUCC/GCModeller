@@ -55,27 +55,27 @@ Public Module SVDNetwork
                                  Select (From col As String
                                          In csvLine.Skip(1)
                                          Select Val(col)).ToArray).ToArray
-        Dim Matrix = New GeneralMatrix(MAT)
+        Dim Matrix = New NumericMatrix(MAT)
         Return Matrix
     End Function
 
     <ExportAPI("Reconstruct")>
     Public Function Reconstruct(MAT As GeneralMatrix) As GeneralMatrix
         Dim SVD = New SingularValueDecomposition(MAT)
-        Dim U = SVD.U
+        Dim U As NumericMatrix = SVD.U
         Dim V = SVD.V.Transpose
         Dim E = SVD.S
 
-        Dim Y = New GeneralMatrix((From Line As Double() In E.Array
+        Dim Y = New NumericMatrix((From Line As Double() In E.ArrayPack
                                    Select (From i As Double In Line
                                            Let GetValue As Double = If(i <> 0.0R, 0R, 1.0R)
                                            Select GetValue).ToArray).ToArray)
-        E = New GeneralMatrix((From Line As Double() In E.Array
+        E = New NumericMatrix((From Line As Double() In E.ArrayPack
                                Select (From i As Double In Line
                                        Let getValue As Double = If(i = 0.0R, 0R, 1 / i)
                                        Select getValue).ToArray).ToArray)
         Dim YV = Y.ArrayMultiply(V)
-        Dim UEV = U.Multiply(E)
+        Dim UEV As NumericMatrix = U.Multiply(E)
         UEV = UEV.Multiply(V)
 
         Dim W = UEV.Multiply(MAT.Transpose)
@@ -84,7 +84,7 @@ Public Module SVDNetwork
 
     <ExportAPI("Write.Matrix")>
     Public Function SaveMatrix(MAT As GeneralMatrix, saveto As String) As Boolean
-        Dim LQuery = (From line As Double() In MAT.Array
+        Dim LQuery = (From line As Double() In MAT.ArrayPack
                       Select CType((From col In line Select CStr(col)).ToArray, IO.RowObject)).ToArray
         Call CType(LQuery, IO.File).Save(saveto, False)
         Return True

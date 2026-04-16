@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 216
+    '    Code Lines: 114 (52.78%)
+    ' Comment Lines: 80 (37.04%)
+    '    - Xml Docs: 96.25%
+    ' 
+    '   Blank Lines: 22 (10.19%)
+    '     File Size: 15.43 KB
+
+
     ' Class regulators
     ' 
     '     Properties: art_guid, consensus, descript, family, fl_prot_rna

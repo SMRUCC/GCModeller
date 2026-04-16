@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 102
+    '    Code Lines: 71 (69.61%)
+    ' Comment Lines: 14 (13.73%)
+    '    - Xml Docs: 92.86%
+    ' 
+    '   Blank Lines: 17 (16.67%)
+    '     File Size: 3.96 KB
+
+
     '     Module AcademicSearch
     ' 
     '         Function: GetDetails, getInternal, Query, Search, StripListItem

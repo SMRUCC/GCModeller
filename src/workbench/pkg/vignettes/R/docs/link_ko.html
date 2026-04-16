@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Batch query KEGG KO annotations for given KEGG gene IDs</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>link_ko {GCModeller}</td>
+                <td style="text-align: right;">R Documentation</td>
+            </tr>
+        </table>
+
+        <h2>Batch query KEGG KO annotations for given KEGG gene IDs</h2>
+
+        <h3>Description</h3>
+
+        <p>`link_ko` takes a vector of KEGG gene identifiers (e.g. `"taes:803091"`)
+and retrieves their associated KEGG Orthology (KO) identifiers by calling
+the KEGG REST API `link/ko` endpoint. Results are cached locally in
+text files to avoid repeated downloads.</p>
+
+        <h3>Usage</h3>
+
+        <div style="width: 100%; padding-left: 3%; color: black;">
+            <pre><code class='language-R' style="color: black; font-weight:normal;"><strong>link_ko</strong>(<i>kegg.id</i>,
+    <i>cache</i> = <span style='color: brown;'><strong>'./tmp'</strong></span>,
+    <i>batch.size</i> = <span style='color: green;'>100</span>);</code></pre>
+        </div>
+
+        <h3>Arguments</h3>
+
+        <table>
+            
+<dt>kegg.id</dt>
+<dd><p><p>Character vector of KEGG gene identifiers.
+Each element should be in the form `<org>:<gene>`, e.g. `"hsa:10458"`
+or `"taes:803091"`.</p></p></dd>
+
+
+<dt>cache</dt>
+<dd><p><p>Character. Path to the directory where cached results are
+stored. Text files in this directory are assumed to be tab‑separated
+output from previous KEGG `link/ko` queries. Default is `"./tmp"`.</p></p></dd>
+
+
+<dt>batch.size</dt>
+<dd><p><p>Integer. Number of KEGG IDs to include in each API
+request. Larger values reduce the number of requests but increase the
+risk of timeouts or server‑side limits. Default is `100`.</p></p></dd>
+
+        </table>
+
+
+        <h3 style="display: block;">Details</h3>
+
+        <p>The function first scans `cache` for existing result files, reads them,
+and extracts already queried KEGG IDs. Those IDs are excluded from the
+current API requests to avoid redundant downloads.
+For each batch of remaining KEGG IDs, a URL of the form
+\preformatted<a href='{https://rest.kegg.jp/link/ko/<' title='{https://rest.kegg.jp/link/ko/<'>{https://rest.kegg.jp/link/ko/<</a>id1>+<id2>+...+<idn>}
+is constructed. The KEGG API returns a tab‑delimited text file, which is
+written to a file named `<md5(url)>.txt` under `cache`. A 1‑second pause
+is inserted between requests to reduce load on the KEGG server.
+This implementation assumes that the HTTP request returns plain text
+content; the exact syntax of `requests.get()`, `plain_text`, and `sleep()`
+depends on your runtime environment and is shown here as pseudo‑code.</p>
+
+        <h3 style="display: block">Authors</h3>
+
+        xieguigang
+
+        <h3>Value</h3>
+
+        This function has no value returns.
+
+        <h3 style="display: block;">Examples</h3>
+
+        <pre><code id="example_r">#\dontrun{
+
+# Basic usage with default cache directory
+link_ko(c("hsa:10458", "mmu:12345"))
+# Custom cache directory and batch size
+link_ko(
+kegg_id = c("taes:803091", "taes:803092"),
+cache = "./kegg_cache",
+batch_size = 50
+)
+# Read back the cached results
+cache_dir <- "./kegg_cache"
+files <- list.files(cache_dir, pattern = "\\.txt$", full.names = TRUE)
+ko_table <- do.call(rbind, lapply(files, read.table,
+header = FALSE, row.names = NULL, sep = "\t"
+))
+head(ko_table)
+
+#}</code></pre>
+
+        <hr />
+        <div style="text-align: center;">[Package <em>GCModeller</em> version 1.1.0-beta <a
+                href="../GCModeller.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("example_r");</script>
+
+</html>

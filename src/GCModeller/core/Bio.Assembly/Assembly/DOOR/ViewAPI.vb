@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 24
+    '    Code Lines: 19 (79.17%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 5 (20.83%)
+    '     File Size: 1007 B
+
+
     '     Module ViewAPI
     ' 
     '         Function: GenerateLstIdString, GetFirstGene

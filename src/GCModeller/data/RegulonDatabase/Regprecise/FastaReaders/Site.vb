@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f098f1b498c439c0c51b02292ae23ea2, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
+﻿#Region "Microsoft.VisualBasic::de9654b501366911987c1733df3aee09, data\RegulonDatabase\Regprecise\FastaReaders\Site.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 129
+    '    Code Lines: 79 (61.24%)
+    ' Comment Lines: 36 (27.91%)
+    '    - Xml Docs: 97.22%
+    ' 
+    '   Blank Lines: 14 (10.85%)
+    '     File Size: 5.34 KB
+
+
     '     Class Site
     ' 
     '         Properties: Bacteria, geneLocusTag, geneVIMSSId, Headers, position
@@ -45,7 +57,7 @@
 #End Region
 
 Imports System.Xml.Serialization
-Imports Microsoft.VisualBasic.Data.csv.StorageProvider.Reflection
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Data.Regprecise.WebServices
 Imports SMRUCC.genomics.SequenceModel

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 38
+    '    Code Lines: 30 (78.95%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 8 (21.05%)
+    '     File Size: 1.82 KB
+
+
     '     Class RpsBLAST
     ' 
     '         Properties: LastBLASTOutputFilePath

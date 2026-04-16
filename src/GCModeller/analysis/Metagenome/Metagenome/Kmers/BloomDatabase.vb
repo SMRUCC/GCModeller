@@ -1,0 +1,208 @@
+﻿#Region "Microsoft.VisualBasic::cfc86c1c552f89a78a72e72c70a20b0f, analysis\Metagenome\Metagenome\Kmers\BloomDatabase.vb"
+
+    ' Author:
+    ' 
+    '       asuka (amethyst.asuka@gcmodeller.org)
+    '       xie (genetics@smrucc.org)
+    '       xieguigang (xie.guigang@live.com)
+    ' 
+    ' Copyright (c) 2018 GPL3 Licensed
+    ' 
+    ' 
+    ' GNU GENERAL PUBLIC LICENSE (GPL3)
+    ' 
+    ' 
+    ' This program is free software: you can redistribute it and/or modify
+    ' it under the terms of the GNU General Public License as published by
+    ' the Free Software Foundation, either version 3 of the License, or
+    ' (at your option) any later version.
+    ' 
+    ' This program is distributed in the hope that it will be useful,
+    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
+    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    ' GNU General Public License for more details.
+    ' 
+    ' You should have received a copy of the GNU General Public License
+    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+
+
+    ' /********************************************************************************/
+
+    ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 148
+    '    Code Lines: 99 (66.89%)
+    ' Comment Lines: 24 (16.22%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 25 (16.89%)
+    '     File Size: 7.28 KB
+
+
+    '     Class BloomVectorizer
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: MakeVector
+    ' 
+    '     Class BloomDatabase
+    ' 
+    '         Constructor: (+1 Overloads) Sub New
+    '         Function: MakeClassify, ToString
+    ' 
+    ' 
+    ' /********************************************************************************/
+
+#End Region
+
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.MIME.application.json
+Imports SMRUCC.genomics.Analysis.Metagenome.Kmers.Kraken2
+Imports SMRUCC.genomics.Metagenomics
+Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+
+Namespace Kmers
+
+    Public Class BloomVectorizer
+
+        Protected ReadOnly genomes As KmerBloomFilter()
+        Protected ReadOnly k As Integer
+
+        Sub New(filters As IReadOnlyCollection(Of KmerBloomFilter))
+            Dim checkKmer = filters.GroupBy(Function(a) a.k).ToArray
+
+            If checkKmer.Length = 1 Then
+                genomes = filters.ToArray
+                k = checkKmer(0).Key
+            Else
+                Throw New InvalidProgramException($"there are multiple k-mer length(k={checkKmer.Keys.ToArray.GetJson}) bloom filter is mixed at here!")
+            End If
+        End Sub
+
+        Public Function MakeVector(seq As IFastaProvider) As Double()
+            ' split reads sequence as kmers
+            Dim kmers As String() = KSeq.KmerSpans(seq.GetSequenceData, k).ToArray
+            Dim vec As IEnumerable(Of Double) = From genome As KmerBloomFilter
+                                                In genomes
+                                                Select CDbl(genome.KmerHitNumber(kmers))
+            Return vec.ToArray
+        End Function
+
+    End Class
+
+    Public Class BloomDatabase : Inherits BloomVectorizer
+
+        ReadOnly NcbiTaxonomyTree As LCA
+        ReadOnly min_supports As Double = 0.35
+        ReadOnly coverage As Double = 0.5
+
+        ' 当前设置的 0.85​ 的覆盖率阈值，相当于要求一条测序reads有超过85%的部分都必须与某个物种的基因组高度相似，才认为它可能属于该物种。这在宏基因组实验中是非常苛刻的条件，因为
+        ' 序列多样性：微生物组中物种本身具有遗传多样性。
+        ' 测序错误：测序过程会引入错误。
+        ' 数据库不完整：参考数据库无法包含所有物种的全部基因组变异信息。
+        ' 布隆过滤器假阳性：布隆过滤器本身存在假阳性概率，这可能会增加所有物种的命中数，但通过设置高阈值可以一定程度上抑制假阳性带来的噪声，不过设置过高也会过滤掉真实信号。
+        ' 因此，大部分reads都无法满足如此苛刻的条件，导致最终能进入LCA计算的tax_id数量稀少。
+
+        Sub New(genomes As IEnumerable(Of KmerBloomFilter), lca As LCA,
+                Optional minSupports As Double = 0.35,
+                Optional coverage As Double = 0.5)
+
+            Call MyBase.New(genomes.ToArray)
+
+            Me.NcbiTaxonomyTree = lca
+            Me.min_supports = min_supports
+            Me.coverage = coverage
+        End Sub
+
+        Public Overrides Function ToString() As String
+            Return $"{genomes.Length} genomics k-mer(len={k}) bloom filters"
+        End Function
+
+        Public Function MakeClassify(read As IFastaProvider) As KrakenOutputRecord
+            Dim hits As New Dictionary(Of Integer, Integer)
+            ' split reads sequence as kmers
+            Dim kmers As String() = KSeq.KmerSpans(read.GetSequenceData, k).ToArray
+
+            ' scan bloom filter model for each background genome
+            ' get kmer hits number
+            For Each genome As KmerBloomFilter In genomes
+                Dim numHits As Integer = genome.KmerHitNumber(kmers)
+
+                If numHits = 0 Then
+                    ' current genome no hits
+                    ' do nothing
+                Else
+                    If hits.ContainsKey(genome.ncbi_taxid) Then
+                        hits(genome.ncbi_taxid) += numHits
+                    Else
+                        hits(genome.ncbi_taxid) = numHits
+                    End If
+                End If
+            Next
+
+            ' filter low hits genome, use high hits genome for LCA evaluation
+            Dim numCov As Integer = kmers.Length * coverage
+            Dim candidateTaxIds = From tax As KeyValuePair(Of Integer, Integer)
+                                  In hits
+                                  Where tax.Key > 0 AndAlso tax.Value >= numCov
+                                  Select tax.Key
+            Dim lcaNode As LcaResult = NcbiTaxonomyTree.GetLCAForMetagenomics(candidateTaxIds, min_supports)
+
+            ' lca node not found
+            If lcaNode.LCATaxid = 0 Then
+                ' filter out key(0) and then sort in desc 
+                Dim descSortedHits = hits.Where(Function(a) a.Key > 0).OrderByDescending(Function(a) a.Value).ToArray
+                Dim topHit = descSortedHits.FirstOrDefault
+
+                If topHit.Key > 0 AndAlso topHit.Value > 0 Then
+                    ' 1 top hits must be nearly identical to the target reads
+                    ' 2 top hits is unique hits
+                    ' or top hits is significant greater than other genome hits
+
+                    ' 检查是否存在一个明确、占主导地位的命中
+                    ' 条件1: Read中很大一部分k-mers (例如 >99%) 都命中了这一个基因组
+                    Dim isDominantHit As Boolean = (topHit.Value / kmers.Length) > 0.99
+                    ' 条件2: 这个最佳命中是唯一的，或者显著优于第二名
+                    Dim isUniqueOrSignificant As Boolean = False
+
+                    If descSortedHits.Length = 1 Then
+                        ' 只有一个分类单元被命中
+                        isUniqueOrSignificant = True
+                    ElseIf descSortedHits.Length > 1 Then
+                        ' 检查最佳命中的数量是否至少是第二名的两倍
+                        isUniqueOrSignificant = (topHit.Value / descSortedHits(1).Value) > 2
+                    End If
+
+                    ' 如果同时满足两个条件，则将该最佳命中作为分类结果
+                    If isDominantHit AndAlso isUniqueOrSignificant Then
+                        lcaNode = New LcaResult With {
+                            .lcaNode = NcbiTaxonomyTree.GetNode(topHit.Key),
+                            .supportRatio = 1,
+                            .supportedTaxids = {topHit.Key}
+                        }
+                    End If
+                End If
+            End If
+
+            Return New KrakenOutputRecord With {
+                .LcaMappings = hits _
+                    .ToDictionary(Function(a) a.Key.ToString,
+                                  Function(a)
+                                      Return a.Value
+                                  End Function),
+                .ReadLength = read.length,
+                .ReadName = read.title,
+                .StatusCode = If(lcaNode.LCATaxid > 0, "C", "U"), ' C - classfied, U - unmapped, no hits
+                .TaxID = lcaNode.LCATaxid,
+                .Taxonomy = If(lcaNode.LCATaxid = 0, "n/a", lcaNode.lcaNode.name & $"({lcaNode.lcaNode.rank})"),
+                .LCASupport = lcaNode.supportRatio,
+                .LCATaxids = lcaNode.supportedTaxids
+            }
+        End Function
+
+    End Class
+End Namespace

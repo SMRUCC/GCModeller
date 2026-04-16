@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::99da6a58e920530fd260cd71a432fac8, engine\Dynamics\Drivers\FluxAggregater.vb"
+﻿#Region "Microsoft.VisualBasic::9bc81c8ecdb2d1be7366b6ecc51e3cff, engine\Dynamics\Drivers\FluxAggregater.vb"
 
     ' Author:
     ' 
@@ -31,16 +31,32 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 75
+    '    Code Lines: 62 (82.67%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (17.33%)
+    '     File Size: 2.78 KB
+
+
     '     Class FluxAggregater
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: getFlux
+    ' 
+    '         Function: fluxDynamicsCache, getFlux, GetFluxNames, getRegulations
+    ' 
+    '         Sub: updateFluxRegulationCache
     ' 
     ' 
     ' /********************************************************************************/
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Calculus.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
@@ -49,21 +65,68 @@ Namespace Engine
 
     Public Class FluxAggregater
 
-        ReadOnly fluxDynamicsCache As IGrouping(Of String, var)()
+        ReadOnly core As Vessel
+        ReadOnly fluxes As Dictionary(Of String, var())
 
+        ReadOnly forward As New Dictionary(Of String, Double)
+        ReadOnly reverse As New Dictionary(Of String, Double)
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Sub New(core As Vessel)
-            fluxDynamicsCache = core.m_dynamics _
-                .Select(Function(m) m.getLastFluxVariants) _
+            Me.core = core
+            Me.fluxes = core.m_dynamics _
+                .Select(Function(m) m.AsEnumerable) _
                 .IteratesALL _
                 .GroupBy(Function(a) a.Name) _
-                .ToArray
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function)
         End Sub
 
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetFluxNames() As Dictionary(Of String, String)
+            Return core.Channels _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First.name
+                              End Function)
+        End Function
+
+        Private Sub updateFluxRegulationCache()
+            Call forward.Clear()
+            Call reverse.Clear()
+
+            For Each mass As MassDynamics In core.m_dynamics
+                Call mass.setForward(buffer:=forward)
+                Call mass.setReverse(buffer:=reverse)
+            Next
+        End Sub
+
+        Public Function getRegulations() As (forward As Dictionary(Of String, Double), reverse As Dictionary(Of String, Double))
+            Call updateFluxRegulationCache()
+            Return (forward, reverse)
+        End Function
+
+        Private Function fluxDynamicsCache() As Dictionary(Of String, var())
+            For Each flux As String In fluxes.Keys
+                fluxes(flux).First.Value = 0
+            Next
+
+            For Each mass As MassDynamics In core.m_dynamics
+                Call mass.getLastFluxVariants()
+            Next
+
+            Return fluxes
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function getFlux() As Dictionary(Of String, Double)
             Return fluxDynamicsCache _
                 .ToDictionary(Function(a) a.Key,
                                 Function(a)
-                                    Return Aggregate x In a Into Sum(x.Value)
+                                    Return a.Value.First.Value
                                 End Function)
         End Function
     End Class

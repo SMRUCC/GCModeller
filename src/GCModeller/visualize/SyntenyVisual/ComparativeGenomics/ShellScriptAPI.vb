@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::9d52e720ae019f239b7e287e85d894da, visualize\SyntenyVisual\ComparativeGenomics\ShellScriptAPI.vb"
+﻿#Region "Microsoft.VisualBasic::69f97dc3fc7cfe2653942a3ecf5483cb, visualize\SyntenyVisual\ComparativeGenomics\ShellScriptAPI.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 192
+    '    Code Lines: 160 (83.33%)
+    ' Comment Lines: 8 (4.17%)
+    '    - Xml Docs: 87.50%
+    ' 
+    '   Blank Lines: 24 (12.50%)
+    '     File Size: 8.77 KB
+
+
     '     Module ShellScriptAPI
     ' 
     '         Function: BatchDrawing, InvokeDrawing, LinkFromBesthit, LinkFromBlastnMaps, LogScore
@@ -45,8 +57,9 @@ Imports System.Drawing
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
-Imports Microsoft.VisualBasic.Data.csv.Extensions
+Imports Microsoft.VisualBasic.Data.Framework.Extensions
 Imports Microsoft.VisualBasic.Imaging.Drawing2D.Colors
+Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Math.LinearAlgebra
@@ -58,6 +71,18 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank.TabularFormat.ComponentModels
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
+
+#If NET48 Then
+Imports Brush = System.Drawing.Brush
+Imports SolidBrush = System.Drawing.SolidBrush
+Imports Brushes = System.Drawing.Brushes
+Imports FontStyle = System.Drawing.FontStyle
+#Else
+Imports Brush = Microsoft.VisualBasic.Imaging.Brush
+Imports Brushes = Microsoft.VisualBasic.Imaging.Brushes
+Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports FontStyle = Microsoft.VisualBasic.Imaging.FontStyle
+#End If
 
 Namespace ComparativeGenomics
 
@@ -90,7 +115,7 @@ Namespace ComparativeGenomics
                     Dim G2 = GBFF.File.Load(File2)
                     Dim Model = ModelFromGBK(G1, G2)
                     Call LinkFromBesthit(Besthits, Model)
-                    Dim res As Image = New DrawingDevice().Plot(Model)
+                    Dim res As GraphicsData = New DrawingDevice().Plot(Model)
                     Call res.Save(EXPORT & "/" & FileIO.FileSystem.GetFileInfo(df).Name & ".bmp")
                 Catch ex As Exception
                     ex = New Exception(df.ToFileURL, ex)
@@ -108,7 +133,7 @@ Namespace ComparativeGenomics
         End Function
 
         <ExportAPI("invoke.drawing")>
-        Public Function InvokeDrawing(Model As DrawingModel) As Image
+        Public Function InvokeDrawing(Model As DrawingModel) As GraphicsData
             Return New DrawingDevice().Plot(Model)
         End Function
 
@@ -199,7 +224,7 @@ Namespace ComparativeGenomics
             Dim mapsVector = maps.ToArray
             Dim scores As Vector = mapsVector.Select(Function(d) d.identitiesValue).AsVector  ' maps.LogScore(Function(m) m.Evalue)
             Dim colorIndex As New DoubleRange(scores)
-            Dim indexRange As DoubleRange = {0, colors.Length - 1}
+            Dim indexRange As New DoubleRange(0, colors.Length - 1)
 
             model.Links = mapsVector _
                 .Select(Function(m, i)

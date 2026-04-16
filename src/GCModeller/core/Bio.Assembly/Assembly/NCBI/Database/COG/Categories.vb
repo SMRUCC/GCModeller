@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 29
+    '    Code Lines: 10 (34.48%)
+    ' Comment Lines: 15 (51.72%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (13.79%)
+    '     File Size: 902 B
+
+
     '     Enum COGCategories
     ' 
     ' 

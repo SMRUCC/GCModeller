@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a37887ac502fcbdd0b14f79580030709, R#\gseakit\KOBAS.vb"
+﻿#Region "Microsoft.VisualBasic::16a726affb663b57ae539f8be4e06a58, R#\gseakit\KOBAS.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 22
+    '    Code Lines: 15 (68.18%)
+    ' Comment Lines: 5 (22.73%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 2 (9.09%)
+    '     File Size: 702 B
+
+
     ' Module KOBAS
     ' 
     '     Function: KEGGPathway
@@ -47,6 +59,11 @@ Imports Microsoft.VisualBasic.Linq
 <Package("KOBAS")>
 Module KOBAS
 
+    ''' <summary>
+    ''' Read KOBAS enrichment output result table file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
     <ExportAPI("read.KEGGpathway")>
     Public Function KEGGPathway(file As String) As EnrichmentTerm()
         Return file.SplitTable _

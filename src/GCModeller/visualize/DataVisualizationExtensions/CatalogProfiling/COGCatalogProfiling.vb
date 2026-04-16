@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 65 (85.53%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 11 (14.47%)
+    '     File Size: 3.15 KB
+
+
     '     Module COGCatalogProfiling
     ' 
     '         Function: COGCatalogProfilingPlot

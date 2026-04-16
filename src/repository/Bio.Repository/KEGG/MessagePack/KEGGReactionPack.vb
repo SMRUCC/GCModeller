@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4b19a6eebe4dd9cd592f0b8a110b2c66, Bio.Repository\KEGG\MessagePack\KEGGReactionPack.vb"
+﻿#Region "Microsoft.VisualBasic::a8ea2fc4184c7a22dc0c54a76e9abb1b, Bio.Repository\KEGG\MessagePack\KEGGReactionPack.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 66 (75.86%)
+    ' Comment Lines: 10 (11.49%)
+    '    - Xml Docs: 90.00%
+    ' 
+    '   Blank Lines: 11 (12.64%)
+    '     File Size: 4.08 KB
+
 
     '     Class KEGGReactionPack
     ' 
@@ -109,15 +121,16 @@ Namespace KEGG.Metabolism
         ''' <summary>
         ''' 
         ''' </summary>
-        ''' <param name="cpds"></param>
+        ''' <param name="rxns"></param>
         ''' <param name="file"></param>
         ''' <returns></returns>
         ''' <remarks>
-        ''' data will be auto flush to <paramref name="file"/>.
+        ''' data will be auto flush to <paramref name="file"/>. and the reaction data
+        ''' will be make unqiue automatically in this function.
         ''' </remarks>
-        Public Shared Function WriteKeggDb(cpds As IEnumerable(Of Reaction), file As Stream) As Boolean
+        Public Shared Function WriteKeggDb(rxns As IEnumerable(Of Reaction), file As Stream) As Boolean
             Try
-                Call MsgPackSerializer.SerializeObject(cpds.ToArray, file)
+                Call MsgPackSerializer.SerializeObject(rxns.GroupBy(Function(r) r.ID).Select(Function(r) r.First).ToArray, file)
                 Call file.Flush()
             Catch ex As Exception
                 Call App.LogException(ex)

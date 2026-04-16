@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::73e304381202fc509b63eb5cde26204b, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\BindProperty.vb"
+﻿#Region "Microsoft.VisualBasic::f1963edb592be7bac4a8c29533960201, Microsoft.VisualBasic.Core\src\ComponentModel\DataSource\SchemaMaps\BindProperty.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
-    '     Structure BindProperty
+
+    ' Code Statistics:
+
+    '   Total Lines: 201
+    '    Code Lines: 90 (44.78%)
+    ' Comment Lines: 85 (42.29%)
+    '    - Xml Docs: 42.35%
     ' 
-    '         Properties: Identity, IsNull, IsPrimitive, Type
+    '   Blank Lines: 26 (12.94%)
+    '     File Size: 8.44 KB
+
+
+    '     Class BindProperty
     ' 
-    '         Constructor: (+7 Overloads) Sub New
+    '         Properties: Identity, IsNull
+    ' 
+    '         Constructor: (+6 Overloads) Sub New
     ' 
     '         Function: FromSchemaTable, GetValue, ToString
     ' 
@@ -46,50 +58,32 @@
 
 #End Region
 
-#If netcore5 = 1 Then
-Imports System.Data
-#End If
-
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
-Imports Microsoft.VisualBasic.Scripting.Abstract
 Imports Microsoft.VisualBasic.Serialization
 
 Namespace ComponentModel.DataSourceModel.SchemaMaps
 
     ''' <summary>
     ''' Schema for <see cref="Attribute"/> and its bind <see cref="PropertyInfo"/>/<see cref="FieldInfo"/> object target.
-    ''' (使用这个对象将公共的域或者属性的读写统一起来)
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
-    Public Structure BindProperty(Of T As Attribute)
+    ''' <remarks>
+    ''' (使用这个对象将公共的域或者属性的读写统一起来)
+    ''' </remarks>
+    Public Class BindProperty(Of T As Attribute) : Inherits Bind
         Implements IReadOnlyId
         Implements INamedValue
         Implements IProperty
 
         ''' <summary>
-        ''' The property/field object that bind with its custom attribute <see cref="field"/> of type <typeparamref name="T"/>
-        ''' </summary>
-        Dim member As MemberInfo
-        ''' <summary>
         ''' The flag for this field binding.
         ''' </summary>
-        Dim field As T
-        Dim name As String
-
-        ReadOnly caster As LoadObject
-
-        Friend ReadOnly handleSetValue As Action(Of Object, Object)
-        Friend ReadOnly handleGetValue As Func(Of Object, Object)
+        Public field As T
+        Public name As String
 
 #Region "Property List"
-
-        ''' <summary>
-        ''' Gets the type of this <see cref="member"/>.
-        ''' </summary>
-        ''' <returns></returns>
-        Public ReadOnly Property Type As Type
 
         ''' <summary>
         ''' The map name or the <see cref="PropertyInfo.Name"/>.
@@ -100,7 +94,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 If name.StringEmpty Then
-                    name = member.Name
+                    name = memberName
                 End If
 
                 Return name
@@ -120,44 +114,16 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
                 Return member Is Nothing OrElse field Is Nothing
             End Get
         End Property
-
-        ''' <summary>
-        ''' Gets a value indicating whether the <see cref="System.Type"/> is one of the primitive types.
-        ''' </summary>
-        ''' <returns>
-        ''' true if the <see cref="System.Type"/> is one of the primitive types; otherwise, false.
-        ''' </returns>
-        Public ReadOnly Property IsPrimitive As Boolean
-            <MethodImpl(MethodImplOptions.AggressiveInlining)>
-            Get
-                Return Scripting.IsPrimitive(Type)
-            End Get
-        End Property
 #End Region
 
-        Private Sub New(type As Type)
-            Me.Type = type
-
-            If Scripting.CasterString.ContainsKey(type) Then
-                Me.caster = Scripting.CasterString(type)
-            End If
-        End Sub
-
         Sub New(attr As T, prop As PropertyInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(prop.PropertyType)
+            Call MyBase.New(prop)
 
             field = attr
-            member = prop
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            ' Compile the property get/set as the delegate
-            With prop
-                handleSetValue = AddressOf prop.SetValue  ' .DeclaringType.PropertySet(.Name)
-                handleGetValue = AddressOf prop.GetValue  ' .DeclaringType.PropertyGet(.Name)
-            End With
         End Sub
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -176,41 +142,23 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         End Sub
 
         Sub New(attr As T, field As FieldInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(field.FieldType)
+            Call MyBase.New(field)
 
             Me.field = attr
-            Me.member = field
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            With field
-                handleSetValue = AddressOf field.SetValue  ' .DeclaringType.FieldSet(.Name)
-                handleGetValue = AddressOf field.GetValue  ' .DeclaringType.FieldGet(.Name)
-            End With
         End Sub
 
         Sub New(attr As T, method As MethodInfo, Optional getName As IToString(Of T) = Nothing)
-            Call Me.New(method.ReturnType)
+            Call MyBase.New(method)
 
             Me.field = attr
-            Me.member = method
 
             If Not getName Is Nothing Then
                 name = getName(attr)
             End If
-
-            If method.IsNonParametric(optionalAsNone:=True) Then
-                Throw New InvalidConstraintException("Only allows parameterless method or all of the parameter should be optional!")
-            End If
-
-            With field
-                handleSetValue = Sub(a, b)
-                                     Throw New ReadOnlyException
-                                 End Sub
-                handleGetValue = Function(obj) method.Invoke(obj, {})
-            End With
         End Sub
 
         ' Exceptions:
@@ -246,7 +194,7 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
         ''' <param name="value">The new property value.</param>
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Sub SetValue(obj As Object, value As Object) Implements IProperty.SetValue
+        Public Sub SetValue(ByRef obj As Object, value As Object) Implements IProperty.SetValue
             ' 2017-6-26 目前value参数为空值的话，会报错，故而在这里添加了一个If分支判断
             If value IsNot Nothing Then
                 Call handleSetValue(obj, value)
@@ -305,10 +253,9 @@ Namespace ComponentModel.DataSourceModel.SchemaMaps
 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Shared Function FromSchemaTable(x As KeyValuePair(Of T, PropertyInfo)) As BindProperty(Of T)
-            Return New BindProperty(Of T) With {
-                .field = x.Key,
-                .member = x.Value
+            Return New BindProperty(Of T)(x.Value) With {
+                .field = x.Key
             }
         End Function
-    End Structure
+    End Class
 End Namespace

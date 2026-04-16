@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::90ebf5768b21e30ccf8c4c86d36ef286, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Doppler.vb"
+﻿#Region "Microsoft.VisualBasic::b24226da7721be1396717d384f02efcb, Data_science\Mathematica\SignalProcessing\SignalProcessing\PeakFinding\Doppler.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 31
+    '    Code Lines: 24 (77.42%)
+    ' Comment Lines: 3 (9.68%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 4 (12.90%)
+    '     File Size: 1.10 KB
+
+
     ' Module Doppler
     ' 
     '     Function: Calculate
@@ -39,9 +51,10 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ComponentModel.TagData
 Imports Microsoft.VisualBasic.Math.SignalProcessing.PeakFinding
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Public Module Doppler
 
@@ -51,7 +64,7 @@ Public Module Doppler
         Dim into = raw.Min(Function(x) x.intensity)
 
         If into < 0 Then
-            into = stdNum.Abs(into)
+            into = std.Abs(into)
             raw = raw _
                 .Select(Function(a)
                             Return New TimeSignal With {

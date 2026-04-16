@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 55
+    '    Code Lines: 21 (38.18%)
+    ' Comment Lines: 27 (49.09%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (12.73%)
+    '     File Size: 1.25 KB
+
+
     '     Enum XAxisLayoutStyles
     ' 
     '         Centra, None, Top, ZERO

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::6d991235491199aff4a2c5a1eeaecab9, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
+﻿#Region "Microsoft.VisualBasic::997ea37e5826d6f6b4d4ebf07f39dafd, data\RegulonDatabase\Regprecise\WebServices\WebParser\Regulon.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 78
+    '    Code Lines: 54 (69.23%)
+    ' Comment Lines: 10 (12.82%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 14 (17.95%)
+    '     File Size: 2.79 KB
+
 
     '     Class Regulome
     ' 
@@ -115,7 +127,7 @@ Namespace Regprecise
             Return __parser(tokens)
         End Function
 
-        Private Shared Function __parser(s As String) As RegulatedGene
+        Friend Shared Function __parser(s As String) As RegulatedGene
             Dim Tokens As String() = Strings.Split(s, vbTab)
             Dim gene As New RegulatedGene With {
                 .vimssId = Tokens.ElementAtOrDefault(Scan0),

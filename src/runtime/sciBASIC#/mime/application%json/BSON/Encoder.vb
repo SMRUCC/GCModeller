@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e095b2781c36f2bb7504e96e8921b727, mime\application%json\BSON\Encoder.vb"
+﻿#Region "Microsoft.VisualBasic::4f72e727f698c34aedec0d1014935e5f, mime\application%json\BSON\Encoder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 156
+    '    Code Lines: 126 (80.77%)
+    ' Comment Lines: 10 (6.41%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 20 (12.82%)
+    '     File Size: 6.08 KB
+
+
     '     Class Encoder
     ' 
     '         Sub: encodeArray, encodeBinary, encodeBool, encodeCString, encodeDocument
@@ -46,7 +58,7 @@ Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.MIME.application.json.Javascript
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace BSON
 
@@ -109,6 +121,11 @@ Namespace BSON
             End Select
         End Sub
 
+        ''' <summary>
+        ''' save json object
+        ''' </summary>
+        ''' <param name="ms"></param>
+        ''' <param name="obj"></param>
         Public Sub encodeDocument(ms As Stream, obj As JsonObject)
             Dim dms As New MemoryStream()
 
@@ -122,6 +139,11 @@ Namespace BSON
             bw.Write(CByte(0))
         End Sub
 
+        ''' <summary>
+        ''' save json array as json object
+        ''' </summary>
+        ''' <param name="ms"></param>
+        ''' <param name="lst"></param>
         Public Sub encodeArray(ms As Stream, lst As JsonArray)
             Dim obj As New JsonObject()
 
@@ -183,7 +205,7 @@ Namespace BSON
                 span = dt - New DateTime(1970, 1, 1, 0, 0, 0,
                 0, DateTimeKind.Utc)
             End If
-            Dim buf As Byte() = BitConverter.GetBytes(CType(stdNum.Truncate(span.TotalSeconds * 1000), Int64))
+            Dim buf As Byte() = BitConverter.GetBytes(CType(std.Truncate(span.TotalSeconds * 1000), Int64))
             ms.Write(buf, 0, buf.Length)
         End Sub
     End Class

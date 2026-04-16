@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 37 (52.86%)
+    ' Comment Lines: 22 (31.43%)
+    '    - Xml Docs: 90.91%
+    ' 
+    '   Blank Lines: 11 (15.71%)
+    '     File Size: 3.28 KB
+
+
     '     Module CentripetalCatmullRomSpline
     ' 
     '         Function: CatmulRom, GetT

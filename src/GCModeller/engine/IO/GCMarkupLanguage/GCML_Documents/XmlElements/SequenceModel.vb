@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 28
+    '    Code Lines: 14 (50.00%)
+    ' Comment Lines: 10 (35.71%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (14.29%)
+    '     File Size: 974 B
+
+
     '     Interface ISequenceModel
     ' 
     '         Properties: CompositionVector

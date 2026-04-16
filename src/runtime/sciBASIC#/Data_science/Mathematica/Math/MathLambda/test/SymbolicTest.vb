@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e498b2e5d8f26283d46709dbdc85a999, Data_science\Mathematica\Math\MathLambda\test\SymbolicTest.vb"
+﻿#Region "Microsoft.VisualBasic::5cab8d942e2473ae56fecef99ef0629a, Data_science\Mathematica\Math\MathLambda\test\SymbolicTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 73
+    '    Code Lines: 47 (64.38%)
+    ' Comment Lines: 3 (4.11%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 23 (31.51%)
+    '     File Size: 2.27 KB
+
+
     ' Module SymbolicTest
     ' 
-    '     Sub: expands, Main
+    '     Sub: expands, Main, test_Simplify, unit_test
     ' 
     ' /********************************************************************************/
 
@@ -41,16 +53,30 @@
 
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Lambda
+Imports Microsoft.VisualBasic.Math.Lambda.Symbolic
 Imports Microsoft.VisualBasic.Math.Scripting
-Imports Microsoft.VisualBasic.Math.Scripting.MathExpression
-Imports Microsoft.VisualBasic.MIME.application.xml.MathML
 
 Module SymbolicTest
 
     Sub Main()
 
-        Call expands()
+        ' Call expands()
+        '  Call unit_test()
+        Call test_Simplify()
 
+        Pause()
+    End Sub
+
+    Sub unit_test()
+
+        Call Console.WriteLine(Symbolic.Simplify("0+x"))
+        Call Console.WriteLine(Symbolic.Simplify("0+x + 0 * a"))
+
+        Pause()
+
+    End Sub
+
+    Sub test_Simplify()
         Dim symbols = ScriptEngine.ParseExpression("(5+5) * (2*x + x / 5 + x ^ 3)")
         Dim result = symbols.DoCall(AddressOf Symbolic.Simplify)
 
@@ -61,7 +87,17 @@ Module SymbolicTest
         Console.WriteLine($"{symbols} = {symbols.Evaluate(ScriptEngine.Expression)}")
         Console.WriteLine($"{result} = {result.Evaluate(ScriptEngine.Expression)}")
 
-        Pause()
+        ' (x ^ 2 * 2 + -1) ^ -2
+        symbols = ScriptEngine.ParseExpression("(2 * x ^ 2 - 1 + 0 * a) ^ -1 * (2 * x ^ 2  - 1 * 1) ^ -1")
+        result = symbols.DoCall(AddressOf Symbolic.Simplify)
+
+        Console.WriteLine($"{symbols} -> {result}")
+
+        ScriptEngine.SetVariable("a", Double.MaxValue)
+        ScriptEngine.SetVariable("x", 3)
+
+        Console.WriteLine($"{symbols} = {symbols.Evaluate(ScriptEngine.Expression)}")
+        Console.WriteLine($"{result} = {result.Evaluate(ScriptEngine.Expression)}")
     End Sub
 
     Sub expands()

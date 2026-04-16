@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::f5249ccca7e59737bdebe8961c04151d, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\ImageData.vb"
+﻿#Region "Microsoft.VisualBasic::65fc6a7c987796e90161399ec5de5d2f, gr\Microsoft.VisualBasic.Imaging\Drivers\Models\ImageData.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 101 (69.18%)
+    ' Comment Lines: 21 (14.38%)
+    '    - Xml Docs: 95.24%
+    ' 
+    '   Blank Lines: 24 (16.44%)
+    '     File Size: 4.72 KB
+
+
     '     Class ImageData
     ' 
-    '         Properties: DefaultFormat, Driver, Image
+    '         Properties: DefaultFormat, Driver, Image, Previews
     ' 
     '         Constructor: (+3 Overloads) Sub New
     ' 
@@ -47,12 +59,15 @@
 #End Region
 
 Imports System.Drawing
-Imports System.Drawing.Imaging
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Imaging.BitmapImage
 Imports Microsoft.VisualBasic.MIME.Html.CSS
 Imports Microsoft.VisualBasic.Net.Http
+
+#If NET48 Then
+Imports Microsoft.VisualBasic.Drawing
+#End If
 
 Namespace Driver
 
@@ -68,17 +83,30 @@ Namespace Driver
         ''' <returns></returns>
         Public ReadOnly Property Image As Image
 
+        Public Overrides ReadOnly Property Previews As String
+            Get
+                Dim uri As New DataURI(Image)
+                Dim html As XElement = <html>
+                                           <body>
+                                               <img src=<%= uri.ToString %> style="width:100%;"/>
+                                           </body>
+                                       </html>
+
+                Return html.ToString
+            End Get
+        End Property
+
         Public Sub New(img As Object, size As Size, padding As Padding)
             MyBase.New(img, size, padding)
 
             If img.GetType() Is GetType(Bitmap) Then
-                Image = CType(DirectCast(img, Bitmap), Drawing.Image)
+                Image = CType(DirectCast(img, Bitmap), Image)
             Else
-                Image = DirectCast(img, Drawing.Image)
+                Image = DirectCast(img, Image)
             End If
         End Sub
 
-        Sub New(image As Drawing.Image)
+        Sub New(image As Image)
             Call Me.New(image, image.Size, New Padding)
         End Sub
 
@@ -103,7 +131,7 @@ Namespace Driver
             Return New DataURI(Image)
         End Function
 
-        Const InvalidSuffix$ = "The gdi+ image file save path: {0} ending with *.svg file extension suffix!"
+        Const InvalidSuffix$ = "The gdi+ image file save path: {0} ending with non-raster gdi `*.{1}` file extension suffix!"
 
         ''' <summary>
         ''' Save the image as png
@@ -111,15 +139,35 @@ Namespace Driver
         ''' <param name="path"></param>
         ''' <returns></returns>
         Public Overrides Function Save(path As String) As Boolean
-            If path.ExtensionSuffix.TextEquals("svg") Then
-                Call String.Format(InvalidSuffix, path.ToFileURL).Warning
+            If path.ExtensionSuffix("svg", "pdf", "ps") Then
+                Call String.Format(InvalidSuffix, path.ToFileURL, path.ExtensionSuffix).Warning
             End If
-            Return Image.SaveAs(path, ImageData.DefaultFormat)
+
+            Dim format As ImageFormats = path.ExtensionSuffix.ParseImageFormat()
+
+            Select Case format
+                Case ImageFormats.Svg, ImageFormats.Pdf, ImageFormats.PS
+                    format = ImageFormats.Png
+                Case Else
+                    ' do nothing
+            End Select
+
+#If NET48 Then
+            Return Image.SaveAs(path, format)
+#Else
+            Using s As Stream = path.Open(FileMode.OpenOrCreate, doClear:=True)
+                Return Save(s, format)
+            End Using
+#End If
         End Function
 
-        Public Overloads Function Save(stream As Stream, format As ImageFormat) As Boolean Implements SaveGdiBitmap.Save
+        Public Overloads Function Save(stream As Stream, format As ImageFormats) As Boolean Implements SaveGdiBitmap.Save
             Try
+#If NET48 Then
+                Call Image.Save(stream, format.GetFormat)
+#Else
                 Call Image.Save(stream, format)
+#End If
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False
@@ -130,7 +178,11 @@ Namespace Driver
 
         Public Overrides Function Save(out As Stream) As Boolean
             Try
+#If NET48 Then
                 Call Image.Save(out, DefaultFormat.GetFormat)
+#Else
+                Call Image.Save(out, DefaultFormat)
+#End If
             Catch ex As Exception
                 Call App.LogException(ex)
                 Return False

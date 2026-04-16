@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1c7a03e1de04b0dcc6b190f3f7380b8c, engine\vcellkit\Analysis.vb"
+﻿#Region "Microsoft.VisualBasic::f048cf1e2ce14196c58c4cd2dbe952f4, engine\vcellkit\Analysis.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 113
+    '    Code Lines: 79 (69.91%)
+    ' Comment Lines: 24 (21.24%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (8.85%)
+    '     File Size: 4.33 KB
+
+
     ' Module Analysis
     ' 
     '     Function: CompoundNames, UnionSnapshot, vcellGraph
@@ -40,16 +52,18 @@
 #End Region
 
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.BootstrapLoader.Engine
+Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics
 Imports SMRUCC.genomics.GCModeller.ModellingEngine.Dynamics.Core
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' GCModeller virtual cell analysis toolkit.
@@ -130,7 +144,13 @@ Public Module Analysis
         Return metabolites
     End Function
 
-    <ExportAPI("vcell.mass.graph")>
+    ''' <summary>
+    ''' Export the cellular graph data from the virtual cell simulation engine
+    ''' </summary>
+    ''' <param name="vcell"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("vcell.graph")>
     <RApiReturn(GetType(NetworkGraph))>
     Public Function vcellGraph(vcell As Object, Optional env As Environment = Nothing) As Object
         If vcell Is Nothing Then
@@ -138,9 +158,9 @@ Public Module Analysis
         ElseIf TypeOf vcell Is Engine Then
             vcell = DirectCast(vcell, Engine).getCore
         ElseIf Not TypeOf vcell Is Vessel Then
-            Return Internal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
+            Return RInternal.debug.stop($"invalid model type: {vcell.GetType.FullName}!", env)
         End If
 
-        Return VCellNetwork.CreateGraph(DirectCast(vcell, Vessel))
+        Return DirectCast(vcell, Vessel).ToGraph
     End Function
 End Module

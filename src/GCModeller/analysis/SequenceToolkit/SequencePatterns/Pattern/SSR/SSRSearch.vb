@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::a2b50e8950af39ffe721ed636b327e19, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
+﻿#Region "Microsoft.VisualBasic::4ea1be4fa2ad2ffef8621ec0f1759c8e, analysis\SequenceToolkit\SequencePatterns\Pattern\SSR\SSRSearch.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 189
+    '    Code Lines: 126 (66.67%)
+    ' Comment Lines: 29 (15.34%)
+    '    - Xml Docs: 62.07%
+    ' 
+    '   Blank Lines: 34 (17.99%)
+    '     File Size: 7.80 KB
+
+
     ' Module SSRSearch
     ' 
     '     Properties: Parallel
@@ -53,6 +65,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal
 Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
@@ -129,18 +142,8 @@ Public Module SSRSearch
                                         ' Do Nothing
                                     End Sub)
                 Else
-                    Using progress As New ProgressBar($"Search for Pure SSR on {strand} strand...", 1, CLS:=True)
-                        Dim tick As New ProgressProvider(progress, repeatUnit.Count)
-                        Dim ETA$
-                        Dim msg$
-                        Dim work = Sub(unit$)
-                                       ETA = tick.ETA().FormatTime
-                                       msg = $"{unit}...  ETA: {ETA}"
-
-                                       Call progress.SetProgress(tick.StepProgress, msg)
-                                   End Sub
-
-                        Call searchWork(report:=work)
+                    Using progress As New ConsoleProgressBar.ProgressBar With {.Maximum = repeatUnit.Count}
+                        Call searchWork(report:=Sub(msg) progress.PerformStep(msg))
                     End Using
                 End If
 
@@ -198,24 +201,15 @@ Public Module SSRSearch
 
         Dim SearchInternal =
            Sub(strand$)
-               Using progress As New ProgressBar($"Search for Compound SSR on {strand} strand...", 1, CLS:=True)
-                   Dim tick As New ProgressProvider(progress, repeatUnit.Count)
-                   Dim ETA$
-                   Dim msg$
+               Call $"Search for Compound SSR on {strand} strand...".info
 
-                   For Each a$ In repeatUnit
-                       For Each b$ In repeatUnit.Where(Function(s) s <> a) ' 如果相等的话就是pureSSR了，在其他的函数中已经搜索过了，就不需要再搜索了
-                           Dim pattern$ = $"(({a}){{2,}}({b}){{2,}}){{{minRepeats},}}"
+               For Each a$ In TqdmWrapper.Wrap(repeatUnit)
+                   For Each b$ In repeatUnit.Where(Function(s) s <> a) ' 如果相等的话就是pureSSR了，在其他的函数中已经搜索过了，就不需要再搜索了
+                       Dim pattern$ = $"(({a}){{2,}}({b}){{2,}}){{{minRepeats},}}"
 
-                           seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
-                       Next
-
-                       ETA = tick.ETA().FormatTime
-                       msg = $"{a}...  ETA: {ETA}"
-
-                       Call progress.SetProgress(tick.StepProgress, msg)
+                       seq.MatchInternal(pattern, SSR, a & b, strand, NameOf(CompoundSSR))
                    Next
-               End Using
+               Next
            End Sub
 
         seq = nt.SequenceData.ToUpper

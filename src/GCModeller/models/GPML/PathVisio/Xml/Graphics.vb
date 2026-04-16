@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 61
+    '    Code Lines: 47 (77.05%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 14 (22.95%)
+    '     File Size: 2.13 KB
+
+
     '     Class Anchor
     ' 
     '         Properties: GraphId, Position, Shape

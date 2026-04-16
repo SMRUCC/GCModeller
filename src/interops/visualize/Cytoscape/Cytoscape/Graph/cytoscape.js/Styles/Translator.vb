@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 91
+    '    Code Lines: 78 (85.71%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 13 (14.29%)
+    '     File Size: 2.68 KB
+
+
     '     Class CSSTranslator
     ' 
     '         Properties: BackgroundColor, BackgroundOpacity, BorderOpacity, Color, FontSize

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::fe956a4d2860de7df73c46c19376caab, analysis\Microarray\DEGDesigner.vb"
+﻿#Region "Microsoft.VisualBasic::1653441a906adcf9289e4436d8d50893, analysis\Microarray\DEGDesigner.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 470
+    '    Code Lines: 348 (74.04%)
+    ' Comment Lines: 66 (14.04%)
+    '    - Xml Docs: 87.88%
+    ' 
+    '   Blank Lines: 56 (11.91%)
+    '     File Size: 18.98 KB
+
 
     ' Module DEGDesigner
     ' 
@@ -63,20 +75,20 @@ Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel.Algorithm.base
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Math.Statistics.Hypothesis
 Imports Microsoft.VisualBasic.Scripting.Runtime
-Imports csv = Microsoft.VisualBasic.Data.csv.IO.File
-Imports gene = Microsoft.VisualBasic.Data.csv.IO.EntityObject
+Imports csv = Microsoft.VisualBasic.Data.Framework.IO.File
+Imports gene = Microsoft.VisualBasic.Data.Framework.IO.EntityObject
 
 Public Module DEGDesigner
 
     Public Function ParseDEGTypes(str$) As Types
-        Select Case Trim(str).ToLower
+        Select Case Strings.Trim(str).ToLower
             Case "up" : Return Types.Up
             Case "down" : Return Types.Down
             Case Else
@@ -498,8 +510,7 @@ Public Module DEGDesigner
                     .ToArray
 
                 ' experiment/controls
-                Dim combos = Combination _
-                    .CreateCombos(experimentValues, controlValues) _
+                Dim combos = CreateCombos(experimentValues, controlValues) _
                     .ToArray
                 Dim foldChanges = combos _
                     .Select(Function(c)
@@ -516,8 +527,7 @@ Public Module DEGDesigner
             End Sub
         Dim doHeaders As doSymbol =
             Sub(gene, experiments, controls, fillRowData)
-                Dim list$() = Combination _
-                    .CreateCombos(experiments, controls) _
+                Dim list$() = CreateCombos(experiments, controls) _
                     .Select(Function(c) $"{c.Item1}/{c.Item2}") _
                     .ToArray
                 Call fillRowData(list)

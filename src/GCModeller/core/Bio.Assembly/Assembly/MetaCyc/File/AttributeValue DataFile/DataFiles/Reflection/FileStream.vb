@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 372
+    '    Code Lines: 237 (63.71%)
+    ' Comment Lines: 81 (21.77%)
+    '    - Xml Docs: 98.77%
+    ' 
+    '   Blank Lines: 54 (14.52%)
+    '     File Size: 17.71 KB
+
+
     '     Module FileStream
     ' 
     ' 

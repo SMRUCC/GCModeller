@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::78ce6888d0297aee881b7a06c43bd2d1, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\CastStringVector.vb"
+﻿#Region "Microsoft.VisualBasic::189fa22e1c5923813be6610921666f33, Microsoft.VisualBasic.Core\src\Scripting\Runtime\CType\CastStringVector.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 214
+    '    Code Lines: 100 (46.73%)
+    ' Comment Lines: 95 (44.39%)
+    '    - Xml Docs: 96.84%
+    ' 
+    '   Blank Lines: 19 (8.88%)
+    '     File Size: 8.69 KB
+
+
     '     Module CastStringVector
     ' 
-    '         Function: AsBoolean, (+4 Overloads) AsCharacter, AsColor, (+2 Overloads) AsDouble, AsGeneric
-    '                   AsInteger, (+2 Overloads) AsNumeric, AsSingle, AsType
+    '         Function: AsBoolean, (+4 Overloads) AsCharacter, AsColor, AsDateTime, (+3 Overloads) AsDouble
+    '                   AsGeneric, AsInteger, AsLong, (+2 Overloads) AsNumeric, AsSingle
+    '                   AsType
     ' 
     ' 
     ' /********************************************************************************/
@@ -71,6 +84,23 @@ Namespace Scripting.Runtime
             Return values.ToDictionary(Function(x) x.Key, Function(x) Scripting.ToString(x.Value, null))
         End Function
 
+        ''' <summary>
+        ''' Cats the given numeric vector as character string.
+        ''' </summary>
+        ''' <param name="values"></param>
+        ''' <param name="negPrefix">add prefix to the positive value for make align with the negative symbol, 
+        ''' example as if this parameter is set to true:
+        ''' 
+        ''' ```
+        '''  256.333
+        ''' -111.112  
+        ''' ```
+        ''' 
+        ''' the positive number ``256.333`` has a white space prefix for make aligned with the negative 
+        ''' value ``-111.112``.
+        ''' </param>
+        ''' <param name="format"></param>
+        ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         <Extension>
         Public Function AsCharacter(values As IEnumerable(Of Double), Optional negPrefix As Boolean = False, Optional format$ = "G4") As IEnumerable(Of String)
@@ -128,11 +158,14 @@ Namespace Scripting.Runtime
         End Function
 
         ''' <summary>
-        ''' 批量的将一个字符串集合解析转换为目标类型<typeparamref name="T"/>的对象的集合
+        ''' string array parser helper. 
         ''' </summary>
-        ''' <typeparam name="T"></typeparam>
+        ''' <typeparam name="T">get parser for current type from <see cref="InputHandler.CasterString"/>.</typeparam>
         ''' <param name="source"></param>
         ''' <returns></returns>
+        ''' <remarks>
+        ''' 批量的将一个字符串集合解析转换为目标类型<typeparamref name="T"/>的对象的集合
+        ''' </remarks>
         <Extension>
         Public Function AsType(Of T)(source As IEnumerable(Of String)) As IEnumerable(Of T)
             Dim type As Type = GetType(T)
@@ -153,8 +186,26 @@ Namespace Scripting.Runtime
             Return source.AsType(Of Double).ToArray
         End Function
 
+        ''' <summary>
+        ''' cast single float to double in batch
+        ''' </summary>
+        ''' <param name="singles"></param>
+        ''' <returns></returns>
         <Extension>
         Public Function AsDouble(singles As IEnumerable(Of Single)) As Double()
+            Return singles _
+                .SafeQuery _
+                .Select(Function(s) CDbl(s)) _
+                .ToArray
+        End Function
+
+        ''' <summary>
+        ''' cast integer to double in batch
+        ''' </summary>
+        ''' <param name="singles"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function AsDouble(singles As IEnumerable(Of Integer)) As Double()
             Return singles _
                 .SafeQuery _
                 .Select(Function(s) CDbl(s)) _
@@ -169,6 +220,16 @@ Namespace Scripting.Runtime
         <Extension>
         Public Function AsSingle(source As IEnumerable(Of String)) As Single()
             Return source.AsType(Of Single).ToArray
+        End Function
+
+        ''' <summary>
+        ''' parse string as long integer in batch mode
+        ''' </summary>
+        ''' <param name="source"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function AsLong(source As IEnumerable(Of String)) As Long()
+            Return source.AsType(Of Long).ToArray
         End Function
 
         ''' <summary>
@@ -199,6 +260,11 @@ Namespace Scripting.Runtime
         <Extension>
         Public Function AsColor(source As IEnumerable(Of String)) As Color()
             Return source.AsType(Of Color).ToArray
+        End Function
+
+        <Extension>
+        Public Function AsDateTime(source As IEnumerable(Of String)) As Date()
+            Return source.AsType(Of Date).ToArray
         End Function
     End Module
 End Namespace

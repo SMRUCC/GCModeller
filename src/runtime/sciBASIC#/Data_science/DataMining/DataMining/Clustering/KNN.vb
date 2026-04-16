@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::5060f9db75dd7c6da450342ec0a2b3d3, Data_science\DataMining\DataMining\Clustering\KNN.vb"
+﻿#Region "Microsoft.VisualBasic::4a155b88737a8a85d8e0b2b61a0996c3, Data_science\DataMining\DataMining\Clustering\KNN.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 123
+    '    Code Lines: 84 (68.29%)
+    ' Comment Lines: 23 (18.70%)
+    '    - Xml Docs: 73.91%
+    ' 
+    '   Blank Lines: 16 (13.01%)
+    '     File Size: 5.08 KB
+
+
     '     Class KNN
     ' 
     '         Constructor: (+2 Overloads) Sub New
@@ -41,6 +53,8 @@
 
 #End Region
 
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.DataMining.KMeans
 Imports Microsoft.VisualBasic.Linq
@@ -49,6 +63,9 @@ Imports Parallels = System.Threading.Tasks.Parallel
 
 Namespace Clustering
 
+    ''' <summary>
+    ''' KNN classifier
+    ''' </summary>
     Public Class KNN
 
         ''' <summary>
@@ -60,6 +77,15 @@ Namespace Clustering
         ''' </summary>
         ReadOnly clusterNames As Dictionary(Of Integer, String)
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="trainingSet">
+        ''' should contains the <see cref="ClusterEntity.cluster"/> index value
+        ''' </param>
+        ''' <param name="clusterNames">
+        ''' the class label that associated with the <see cref="ClusterEntity.cluster"/>
+        ''' </param>
         Sub New(trainingSet As IEnumerable(Of ClusterEntity), clusterNames As Dictionary(Of Integer, String))
             Me.trainingSet = trainingSet.ToArray
             Me.clusterNames = clusterNames
@@ -97,25 +123,30 @@ Namespace Clustering
             ' create an array where we store the distance from our test data and the training data -> [0]
             ' plus the index of the training data element -> [1]
             Dim distances = New Double(trainingSet.Length - 1)() {}
+            Dim bar As Tqdm.ProgressBar = Nothing
 
             For i As Integer = 0 To trainingSet.Length - 1
                 distances(i) = New Double(1) {}
             Next
 
             ' start computing
-            For test As Integer = 0 To testSet.Length - 1
+            For Each test As Integer In TqdmWrapper.Range(0, testSet.Length, bar:=bar, wrap_console:=App.EnableTqdm)
+                Dim test_vec As Double() = testSet(test).value
+
+                Call bar.SetLabel(testSet(test).name)
                 Call Parallels.For(
                     fromInclusive:=0,
                     toExclusive:=trainingSet.Length,
                     body:=Sub(index)
 #Disable Warning
+                              Dim tr = trainingSet(index)
                               Dim dist = DistanceMethods.EuclideanDistance(
-                                  X:=testSet(test).value,
-                                  Y:=trainingSet(index).entityVector
+                                  X:=test_vec,
+                                  Y:=tr.entityVector
                               )
 #Enable Warning
                               distances(index)(0) = dist
-                              distances(index)(1) = index
+                              distances(index)(1) = tr.cluster
                           End Sub)
 
                 ' sort and select first K of them
@@ -134,7 +165,7 @@ Namespace Clustering
                         .Description = predictedClass
                     }
 
-                    result.Add(output)
+                    Call result.Add(output)
                 Next
 
                 Yield New NamedCollection(Of NamedValue(Of Integer)) With {

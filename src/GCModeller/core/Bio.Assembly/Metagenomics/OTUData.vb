@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::d8e6989b21a654d5c90fb486f93bdfb1, core\Bio.Assembly\Metagenomics\OTUData.vb"
+﻿#Region "Microsoft.VisualBasic::6a8cf24c0106c52a160f81626570b5d3, core\Bio.Assembly\Metagenomics\OTUData.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 51
+    '    Code Lines: 25 (49.02%)
+    ' Comment Lines: 19 (37.25%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (13.73%)
+    '     File Size: 1.71 KB
+
+
     '     Class OTUData
     ' 
     '         Properties: data, OTU, taxonomy
@@ -43,12 +55,8 @@
 
 #End Region
 
-#If netcore5 = 0 Then
-Imports System.Data.Linq.Mapping
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
-#End If
 Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Serialization.JSON
 
@@ -57,14 +65,14 @@ Namespace Metagenomics
     ''' <summary>
     ''' <see cref="OTUData.Data"/> that associated with <see cref="OTUData.OTU"/> tag
     ''' </summary>
-    Public Class OTUData : Implements INamedValue
+    Public Class OTUData(Of T) : Implements INamedValue
         Implements ITaxonomyLineage
 
         ''' <summary>
         ''' ``#OTU_num``
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="#OTU_num")>
+        <Column(Name:="OTU_num")>
         Public Property OTU As String Implements INamedValue.Key
         ''' <summary>
         ''' Usually this property is the BIOM format taxonomy information
@@ -76,7 +84,7 @@ Namespace Metagenomics
         ''' 每一个样本的OTU含量或者其他的结果数据
         ''' </summary>
         ''' <returns></returns>
-        Public Property data As Dictionary(Of String, String)
+        Public Property data As Dictionary(Of String, T)
 
         Sub New()
         End Sub
@@ -85,11 +93,11 @@ Namespace Metagenomics
         ''' Copy data
         ''' </summary>
         ''' <param name="data"></param>
-        Sub New(data As OTUData)
+        Sub New(data As OTUData(Of T))
             With Me
                 .OTU = data.OTU
                 .taxonomy = data.taxonomy
-                .data = New Dictionary(Of String, String)(data.data)
+                .data = New Dictionary(Of String, T)(data.data)
             End With
         End Sub
 

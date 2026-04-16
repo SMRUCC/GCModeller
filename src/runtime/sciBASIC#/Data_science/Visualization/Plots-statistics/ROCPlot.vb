@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1018ac25662f429c7bfb6cc99176b95b, Data_science\Visualization\Plots-statistics\ROCPlot.vb"
+﻿#Region "Microsoft.VisualBasic::e8feeeca223b4dc4d3111d58d1941c39, Data_science\Visualization\Plots-statistics\ROCPlot.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 146
+    '    Code Lines: 108 (73.97%)
+    ' Comment Lines: 24 (16.44%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 14 (9.59%)
+    '     File Size: 5.72 KB
+
+
     ' Module ROCPlot
     ' 
     '     Function: (+2 Overloads) CreateSerial, Plot
@@ -43,8 +55,8 @@ Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports Microsoft.VisualBasic.Data.csv.IO
-Imports Microsoft.VisualBasic.DataMining.ComponentModel.Evaluation
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.DataMining.Evaluation
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Imaging.Driver
@@ -136,7 +148,9 @@ Public Module ROCPlot
                          Optional showReference As Boolean = False,
                          Optional labelFontStyle$ = CSSFont.PlotTitleNormal,
                          Optional titleFontCSS$ = CSSFont.Win7VeryLarge,
-                         Optional tickFontStyle$ = CSSFont.Win7LargerBold) As GraphicsData
+                         Optional tickFontStyle$ = CSSFont.Win7LargerBold,
+                         Optional dpi As Integer = 100,
+                         Optional driver As Drivers = Drivers.Default) As GraphicsData
 
         Dim reference As New SerialData With {
             .color = referenceLineColor.TranslateColor,
@@ -165,7 +179,7 @@ Public Module ROCPlot
             padding:=margin,
             bg:=bg,
             interplot:=Splines.B_Spline,
-            xlim:=1, ylim:=1,
+            xlim:={0, 1}, ylim:={0, 1},
             showLegend:=False,
             fill:=fillAUC,
             Xlabel:="1 - Specificity",
@@ -175,8 +189,9 @@ Public Module ROCPlot
             title:=$"ROC (AUC={roc.title})",
             labelFontStyle:=labelFontStyle,
             tickFontStyle:=tickFontStyle,
-            dpi:=300,
-            titleFontCSS:=titleFontCSS
+            dpi:=dpi,
+            titleFontCSS:=titleFontCSS,
+            driver:=driver
         )
 
         Return img

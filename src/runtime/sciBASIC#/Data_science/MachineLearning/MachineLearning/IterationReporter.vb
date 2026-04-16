@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::7d78e953e4129f7114cf9feaa4859cb4, Data_science\MachineLearning\MachineLearning\IterationReporter.vb"
+﻿#Region "Microsoft.VisualBasic::4890a8491d3712900aa0481e45b23f74, Data_science\MachineLearning\MachineLearning\IterationReporter.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 33
+    '    Code Lines: 12 (36.36%)
+    ' Comment Lines: 14 (42.42%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 7 (21.21%)
+    '     File Size: 987 B
+
+
     ' Class IterationReporter
     ' 
     ' 
@@ -60,6 +72,11 @@ Public MustInherit Class IterationReporter(Of T As Model)
 
     Public Delegate Sub DoReport(iteration%, error#, model As T)
 
+    ''' <summary>
+    ''' Attach the delegate function DoReport(iteration%, error#, model As <typeparamref name="T"/>)
+    ''' </summary>
+    ''' <param name="reporter"></param>
+    ''' <returns></returns>
     <DebuggerStepThrough>
     Public Function AttachReporter(reporter As DoReport) As IterationReporter(Of T)
         Me.reporter = reporter
@@ -70,6 +87,9 @@ Public MustInherit Class IterationReporter(Of T As Model)
 
 End Class
 
+''' <summary>
+''' the base type of the machine learning model
+''' </summary>
 Public MustInherit Class Model
 
 End Class

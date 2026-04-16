@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::face17ffe3b45c1e040f5610245677a4, Microsoft.VisualBasic.Core\src\Net\HTTP\URL.vb"
+﻿#Region "Microsoft.VisualBasic::d4e1818d09348cbc7777e4ed9fcec70b, Microsoft.VisualBasic.Core\src\Net\HTTP\URL.vb"
 
     ' Author:
     ' 
@@ -31,14 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 213
+    '    Code Lines: 161 (75.59%)
+    ' Comment Lines: 25 (11.74%)
+    '    - Xml Docs: 72.00%
+    ' 
+    '   Blank Lines: 27 (12.68%)
+    '     File Size: 7.79 KB
+
+
     '     Class URL
     ' 
-    '         Properties: hashcode, hostName, path, port, protocol
-    '                     query
+    '         Properties: hashcode, Host, hostName, path, port
+    '                     protocol, query
     ' 
-    '         Constructor: (+2 Overloads) Sub New
+    '         Constructor: (+3 Overloads) Sub New
     ' 
-    '         Function: BuildUrl, GetValues, Parse, ToString
+    '         Function: BuildUrl, GetValues, Parse, Refresh, (+2 Overloads) ToString
+    '                   UrlQueryString
     ' 
     '         Sub: Parser
     ' 
@@ -47,6 +60,7 @@
 
 #End Region
 
+Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
@@ -54,6 +68,9 @@ Imports Microsoft.VisualBasic.Linq
 
 Namespace Net.Http
 
+    ''' <summary>
+    ''' Parse the url components inside a given url string as clr object 
+    ''' </summary>
     Public Class URL
 
         ''' <summary>
@@ -71,6 +88,13 @@ Namespace Net.Http
         ''' <returns></returns>
         Public Property hashcode As String
 
+        ''' <summary>
+        ''' get url query parameter
+        ''' </summary>
+        ''' <param name="query">
+        ''' the parameter name inside the url query list
+        ''' </param>
+        ''' <returns></returns>
         Default Public ReadOnly Property getArgumentVal(query As String) As String
             Get
                 With GetValues(query)
@@ -83,12 +107,32 @@ Namespace Net.Http
             End Get
         End Property
 
+        Public ReadOnly Property Host As String
+            Get
+                Return $"{protocol}{hostName}:{port}"
+            End Get
+        End Property
+
+        Sub New(url As URL)
+            query = New Dictionary(Of String, String())(url.query)
+            path = url.path
+            hostName = url.hostName
+            port = url.port
+            protocol = url.protocol
+            hashcode = url.hashcode
+        End Sub
+
         Sub New(url As String)
             Call Parser(url, hashcode, query, protocol, port, hostName, path)
         End Sub
 
         Private Sub New()
         End Sub
+
+        Public Function Refresh(stamp As String) As URL
+            query("refresh") = New String() {stamp}
+            Return Me
+        End Function
 
         Public Function GetValues(query As String) As String()
             With LCase(query)
@@ -100,8 +144,31 @@ Namespace Net.Http
             End With
         End Function
 
+        Public Function UrlQueryString() As String
+            Return query.Select(Function(q) q.Value.Select(Function(val) $"{q.Key}={UrlEncode(val)}")).IteratesALL.JoinBy("&")
+        End Function
+
+        Public Overloads Function ToString(addHostName As Boolean) As String
+            Dim host_prefix As String = $"{protocol}{hostName}:{port}"
+            Dim url As String = $"/{path}?{UrlQueryString()}#{hashcode}".Trim("#"c, "?"c)
+            Dim is_file As Boolean = (Not path.StringEmpty) AndAlso
+                (path.Last <> "/"c) AndAlso
+                (Not path.ExtensionSuffix.StringEmpty)
+
+            If is_file Then
+                url = "/" & url.Trim("/"c)
+            End If
+
+            If addHostName Then
+                Return host_prefix & url
+            Else
+                Return url
+            End If
+        End Function
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overrides Function ToString() As String
-            Return $"{protocol}{hostName}:{port}/{path}?{query.Select(Function(q) q.Value.Select(Function(val) $"{q.Key}={UrlEncode(val)}")).IteratesALL.JoinBy("&")}#{hashcode}"
+            Return ToString(addHostName:=True)
         End Function
 
         Private Shared Sub Parser(url As String,
@@ -143,7 +210,14 @@ Namespace Net.Http
                 protocol = "http://"
                 port = 80
                 hostName = "localhost"
-                path = url.Trim("/"c)
+                ' 20221115
+                ' trim / symbol will removes the root directory information
+                ' and the directory identification, will make the filesystem
+                ' can not redirect to the index.html or readme.txt
+                '
+                ' so we must comment this code line
+                ' path = url.Trim("/"c)
+                path = url
             Else
                 url = url.Substring(protocol.Length)
 

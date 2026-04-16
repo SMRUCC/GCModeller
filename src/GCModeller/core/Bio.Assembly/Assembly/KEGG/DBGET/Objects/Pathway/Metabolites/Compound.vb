@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::4d44bab80239717dbfa3223d60c0499f, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
+﻿#Region "Microsoft.VisualBasic::15029536163a936315d3d8bc3dbb8d02, core\Bio.Assembly\Assembly\KEGG\DBGET\Objects\Pathway\Metabolites\Compound.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 119
+    '    Code Lines: 72 (60.50%)
+    ' Comment Lines: 29 (24.37%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 18 (15.13%)
+    '     File Size: 4.16 KB
+
+
     '     Class Compound
     ' 
     '         Properties: [Module], category, commonNames, DbLinks, entry
@@ -38,8 +50,7 @@
     '                     molWeight, pathway, reactionId, remarks
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: GetDBLinkManager, GetDBLinks, GetLinkDbRDF, GetModules, GetPathways
-    '                   ToString
+    '         Function: GetDBLinkManager, GetDBLinks, GetModules, GetPathways, ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -59,7 +70,7 @@ Imports SMRUCC.genomics.ComponentModel.DBLinkBuilder
 Namespace Assembly.KEGG.DBGET.bGetObject
 
     ''' <summary>
-    ''' KEGG的代谢物模型
+    ''' A data model for the KEGG compound.
     ''' </summary>
     Public Class Compound : Inherits XmlDataModel
         Implements INamedValue
@@ -74,7 +85,7 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         Public Overridable Property entry As String Implements INamedValue.Key
 
         ''' <summary>
-        ''' Name
+        ''' the metabolite common names
         ''' </summary>
         ''' <returns></returns>
         Public Property commonNames As String()
@@ -100,6 +111,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Protected Friend _DBLinks As DBLinks
 
+        ''' <summary>
+        ''' the database cross reference links
+        ''' </summary>
+        ''' <returns></returns>
         <XmlArray("DBlinks", [Namespace]:=xmlns_kegg)>
         Public Property DbLinks As DBLink()
             Get
@@ -119,6 +134,10 @@ Namespace Assembly.KEGG.DBGET.bGetObject
         ''' </summary>
         ''' <returns></returns>
         Public Property KCF As String
+        ''' <summary>
+        ''' A png image that encoded in base64 string format
+        ''' </summary>
+        ''' <returns></returns>
         Public Property Image As String
 
         <XmlNamespaceDeclarations()>
@@ -154,15 +173,6 @@ Namespace Assembly.KEGG.DBGET.bGetObject
 
         Public Overrides Function ToString() As String
             Return String.Format("{0}: {1}", entry, Me.formula)
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Shared Function GetLinkDbRDF(compound As Compound) As IEnumerable(Of LinkDB.Relationship)
-            If InStr(compound.entry, ":") > 0 Then
-                Return LinkDB.Relationship.GetLinkDb(compound.entry)
-            Else
-                Return LinkDB.Relationship.GetLinkDb($"cpd:{compound.entry}")
-            End If
         End Function
     End Class
 End Namespace

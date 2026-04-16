@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0f2df20fc8a584d7d787020aaf7debf1, R#\seqtoolkit\Annotations\context.vb"
+﻿#Region "Microsoft.VisualBasic::5ecb2eda0ff4df8905a817015b7a6e96, R#\seqtoolkit\Annotations\context.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 330
+    '    Code Lines: 228 (69.09%)
+    ' Comment Lines: 60 (18.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 42 (12.73%)
+    '     File Size: 13.43 KB
+
+
     ' Module context
     ' 
     '     Constructor: (+1 Overloads) Sub New
     ' 
     '     Function: context, contextSummary, getNtLocation, getStrand, isForward
-    '               location, offsetLocation, relationship, strandFilter
+    '               location, offsetLocation, relationship, set_context, strandFilter
+    '               TSS_upstream
     ' 
     '     Sub: Main
     ' 
@@ -48,19 +61,28 @@ Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
+Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
+Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
+Imports std = System.Math
+Imports vector = SMRUCC.Rsharp.Runtime.Internal.Object.vector
 
-<Package("annotation.genomics_context", Category:=APICategories.ResearchTools)>
+''' <summary>
+''' the tools for processing of the genomics context information
+''' </summary>
+<Package("genomics_context", Category:=APICategories.ResearchTools)>
 Module context
 
     Sub New()
@@ -99,13 +121,52 @@ Module context
     End Function
 
     ''' <summary>
-    ''' filter genes by given strand direction
+    ''' set genomics context of the matched motif site
     ''' </summary>
-    ''' <param name="genes"></param>
-    ''' <param name="strand"></param>
+    ''' <param name="sites">a collection of the motif sites</param>
+    ''' <param name="genomics">the genomics feature information as the context for make location assignment.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
-    <ExportAPI("strand.filter")>
+    <ExportAPI("set_context")>
+    Public Function set_context(<RRawVectorArgument> sites As Object, genomics As GFFTable, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of VirtualFootprint)(sites, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Dim all_sites As VirtualFootprint() = pull _
+            .populates(Of VirtualFootprint)(env) _
+            .ToArray
+        Dim index As Dictionary(Of String, Feature) = genomics.CreateGeneObjectIndex
+
+        For Each site As VirtualFootprint In all_sites
+            Dim feature As Feature = index(site.ORF)
+            Dim loc As NucleotideLocation = feature.Location
+            Dim locSize As Integer = site.sequence.Length
+
+            If loc.Strand = Strands.Forward Then
+                site.starts = loc.left + site.distance
+                site.ends = site.starts - locSize
+                site.strand = Strands.Forward
+            Else
+                site.starts = loc.right - site.distance
+                site.ends = site.starts + locSize
+                site.strand = Strands.Reverse
+            End If
+        Next
+
+        Return all_sites.TryCastGenericArray(env)
+    End Function
+
+    ''' <summary>
+    ''' filter genes by given strand direction
+    ''' </summary>
+    ''' <param name="genes">a collection of the gene model object which is subclass of <see cref="IGeneBrief"/></param>
+    ''' <param name="strand">the nucleotide sequence strand direction, value could be +, -, forward, reverse.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("filter_strand")>
     Public Function strandFilter(<RRawVectorArgument> genes As Object,
                                  Optional strand As Object = "+",
                                  Optional env As Environment = Nothing) As Object
@@ -115,6 +176,8 @@ Module context
 
         If geneObjects.isError Then
             Return geneObjects.getError
+        ElseIf strVal = Strands.Unknown Then
+            Call "the given strand value for make gene direction filter is missing!".warning
         End If
 
         Return geneObjects _
@@ -156,9 +219,9 @@ Module context
     End Function
 
     ''' <summary>
-    ''' the given nucleotide location is in forward direction
+    ''' assert that does the given nucleotide location is in forward direction?
     ''' </summary>
-    ''' <param name="loci"></param>
+    ''' <param name="loci">a target nucleotide location</param>
     ''' <returns></returns>
     <ExportAPI("is.forward")>
     Public Function isForward(loci As NucleotideLocation) As Boolean
@@ -246,4 +309,81 @@ Module context
         End If
     End Function
 
+    ''' <summary>
+    ''' get TSS upstream site sequence data
+    ''' </summary>
+    ''' <param name="genome"></param>
+    ''' <param name="genes">
+    ''' gene list could be omit if the input genome data is a ncbi genbank model object. 
+    ''' then all gene features inside the input genbank assembly will be used for export of 
+    ''' the TSS upstream site.</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("TSS_upstream")>
+    Public Function TSS_upstream(genome As Object,
+                                 <RRawVectorArgument>
+                                 Optional genes As Object = Nothing,
+                                 Optional upstream_len As Integer = 150,
+                                 Optional simple_title As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+        Dim nt As FastaSeq
+
+        If genome Is Nothing Then
+            Call "the required genome sequence source data should not be nothing!".warning
+            Return Nothing
+        End If
+
+        Dim pullFeatures As pipeline = Nothing
+
+        If TypeOf genome Is GBFF.File Then
+            nt = DirectCast(genome, GBFF.File).Origin.ToFasta
+
+            If genes Is Nothing Then
+                pullFeatures = pipeline.CreateFromPopulator(DirectCast(genome, GBFF.File).EnumerateGeneFeatures(False).ExportTable)
+            End If
+        ElseIf TypeOf genome Is FastaSeq Then
+            nt = DirectCast(genome, FastaSeq)
+        Else
+            Return Message.InCompatibleType(GetType(FastaSeq), genome.GetType, env)
+        End If
+
+        If pullFeatures Is Nothing Then
+            pullFeatures = pipeline.TryCreatePipeline(Of IGeneBrief)(genes, env)
+        End If
+
+        If pullFeatures.isError Then
+            Return pullFeatures.getError
+        End If
+
+        Dim nt_title As String = nt.Title
+
+        Return pullFeatures _
+            .populates(Of IGeneBrief)(env) _
+            .Select(Function(gene)
+                        Dim gene_loci As NucleotideLocation = gene.Location
+                        Dim left As Integer = If(gene_loci.Strand = Strands.Forward, gene_loci.left - 1, gene_loci.right + 1)
+                        Dim upstream As Integer = If(gene_loci.Strand = Strands.Forward, left - upstream_len, left + upstream_len)
+                        Dim from = std.Min(left, upstream)
+                        Dim [to] = std.Max(left, upstream)
+                        Dim seq As String = nt.CutSequenceLinear(from, [to])
+                        Dim title As String()
+
+                        If gene_loci.Strand = Strands.Reverse Then
+                            seq = NucleicAcid.Complement(seq).Reverse.CharString
+                        End If
+                        If simple_title Then
+                            title = {gene.Key, gene.Product}
+                        Else
+                            title = {gene.Key, gene.Product, $"{from}-{[to]}_{gene_loci.Strand.ToString.ToLower}", nt_title}
+                        End If
+
+                        Dim promoter_region As New FastaSeq With {
+                            .Headers = title,
+                            .SequenceData = seq
+                        }
+
+                        Return promoter_region
+                    End Function) _
+            .ToArray
+    End Function
 End Module

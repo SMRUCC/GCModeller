@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1eb15b47aab97d0de147c6d4f0c76c36, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\XGMMLgraph.vb"
+﻿#Region "Microsoft.VisualBasic::490337ad8f0846e1967e8b40ba38b669, visualize\Cytoscape\Cytoscape\Graph\Xgmml\File\XGMMLgraph.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,25 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 93 (56.71%)
+    ' Comment Lines: 49 (29.88%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 22 (13.41%)
+    '     File Size: 6.79 KB
+
+
     '     Class XGMMLgraph
     ' 
     '         Properties: attributes, directed, documentVersion, edges, graphics
     '                     id, label, networkMetadata, nodes, Size
     ' 
     '         Constructor: (+1 Overloads) Sub New
-    '         Function: (+2 Overloads) CreateObject, GetNodeIndex, GetSize, (+2 Overloads) Save
+    '         Function: (+2 Overloads) CreateObject, GetNodeIndex, GetSize, (+3 Overloads) Save
     ' 
     ' 
     ' /********************************************************************************/
@@ -45,6 +57,7 @@
 #End Region
 
 Imports System.Drawing
+Imports System.IO
 Imports System.Text
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.ComponentModel
@@ -191,6 +204,15 @@ Namespace CytoscapeGraphView.XGMML.File
         ''' <remarks></remarks>
         Public Function Save(FilePath As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return RDFXml.WriteXml(Me, Encodings.UTF8.CodePage, FilePath)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(RDFXml.XmlDocumentText(Me))
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::c76082b9a34f338e3c9eb3181636cc94, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2HuffmanStageEncoder.vb"
+﻿#Region "Microsoft.VisualBasic::e349a5841f7f4372b08ba09d5157a79b, Data\BinaryData\BinaryData\Bzip2\Algorithm\BZip2HuffmanStageEncoder.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 331
+    '    Code Lines: 181 (54.68%)
+    ' Comment Lines: 82 (24.77%)
+    '    - Xml Docs: 3.66%
+    ' 
+    '   Blank Lines: 68 (20.54%)
+    '     File Size: 14.70 KB
+
+
     '     Class BZip2HuffmanStageEncoder
     ' 
     '         Constructor: (+1 Overloads) Sub New
@@ -51,7 +63,7 @@
 ' Ported from the Java implementation by Matthew Francis: https://github.com/MateuszBartosiewicz/bzip2
 
 Imports Microsoft.VisualBasic.Data.IO.Bzip2.Math
-Imports stdNum = System.Math
+Imports std = System.Math
 
 Namespace Bzip2
     ''' <summary>
@@ -206,7 +218,7 @@ Namespace Bzip2
                 End While
 
                 If lowCostEnd > lowCostStart AndAlso i <> 0 AndAlso i <> totalTables - 1 AndAlso (totalTables - i And 1) = 0 Then
-                    actualCumulativeFrequency -= mtfSymbolFrequencies(stdNum.Max(Threading.Interlocked.Decrement(lowCostEnd), lowCostEnd + 1))
+                    actualCumulativeFrequency -= mtfSymbolFrequencies(std.Max(Threading.Interlocked.Decrement(lowCostEnd), lowCostEnd + 1))
                 End If
 
                 For j = 0 To mtfAlphabetSize - 1
@@ -234,7 +246,7 @@ Namespace Bzip2
             Dim groupStart = 0
 
             While groupStart < mtfLength
-                Dim groupEnd = stdNum.Min(groupStart + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
+                Dim groupEnd = std.Min(groupStart + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
 
                 ' Calculate the cost of this group when encoded by each table
                 Dim cost = New Integer(totalTables - 1) {}
@@ -267,7 +279,7 @@ Namespace Bzip2
 
                 ' Store a selector indicating the table chosen for this block
                 If storeSelectors Then
-                    selectors(stdNum.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1)) = bestTable
+                    selectors(std.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1)) = bestTable
                 End If
 
                 groupStart = groupEnd + 1
@@ -342,9 +354,9 @@ Namespace Bzip2
                 For j = 0 To mtfAlphabetSize - 1
                     Dim codeLength = huffmanCodeLengths(i, j)
                     Dim value = If(currentLength < codeLength, 2UI, 3UI)
-                    Dim delta = stdNum.Abs(codeLength - currentLength)
+                    Dim delta = std.Abs(codeLength - currentLength)
 
-                    While stdNum.Max(Threading.Interlocked.Decrement(delta), delta + 1) > 0
+                    While std.Max(Threading.Interlocked.Decrement(delta), delta + 1) > 0
                         bitOutputStream.WriteBits(2, value)
                     End While
 
@@ -364,11 +376,11 @@ Namespace Bzip2
             Dim mtfIndex = 0
 
             While mtfIndex < mtfLength
-                Dim groupEnd = stdNum.Min(mtfIndex + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
-                Dim index As Integer = selectors(stdNum.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1))
+                Dim groupEnd = std.Min(mtfIndex + HUFFMAN_GROUP_RUN_LENGTH, mtfLength) - 1
+                Dim index As Integer = selectors(std.Min(Threading.Interlocked.Increment(selectorIndex), selectorIndex - 1))
 
                 While mtfIndex <= groupEnd
-                    Dim mergedCodeSymbol = huffmanMergedCodeSymbols(index, mtfBlock(stdNum.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)))
+                    Dim mergedCodeSymbol = huffmanMergedCodeSymbols(index, mtfBlock(std.Min(Threading.Interlocked.Increment(mtfIndex), mtfIndex - 1)))
                     bitOutputStream.WriteBits(mergedCodeSymbol >> 24, mergedCodeSymbol)
                 End While
             End While

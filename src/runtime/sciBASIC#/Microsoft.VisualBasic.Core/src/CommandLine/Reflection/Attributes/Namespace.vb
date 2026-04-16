@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 89
+    '    Code Lines: 42 (47.19%)
+    ' Comment Lines: 35 (39.33%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 12 (13.48%)
+    '     File Size: 3.32 KB
+
+
     '     Class [Namespace]
     ' 
     '         Properties: [Namespace], AutoExtract, Description, TypeInfo

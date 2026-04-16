@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 112
+    '    Code Lines: 70 (62.50%)
+    ' Comment Lines: 24 (21.43%)
+    '    - Xml Docs: 79.17%
+    ' 
+    '   Blank Lines: 18 (16.07%)
+    '     File Size: 3.30 KB
+
+
     ' Class TaxonomyRef
     ' 
     '     Properties: coverage, genome, KOTerms, numberOfGenes, organism

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1b7e9408df81185286267090b856558, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
+﻿#Region "Microsoft.VisualBasic::1b0ea1708aeffab488b27bc7511ffd37, visualize\Cytoscape\Cytoscape\Graph\cytoscape.js\Cyjs.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 255
+    '    Code Lines: 210 (82.35%)
+    ' Comment Lines: 3 (1.18%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 42 (16.47%)
+    '     File Size: 9.68 KB
+
+
     '     Class Cyjs
     ' 
     '         Properties: data, elements, format_version, generated_by, target_cytoscapejs_version
     ' 
     '         Constructor: (+2 Overloads) Sub New
-    '         Function: __json, (+2 Overloads) Save, ToGraphModel, ToNetworkGraph, ToString
+    '         Function: __json, (+3 Overloads) Save, ToGraphModel, ToNetworkGraph, ToString
     ' 
     '     Class Data
     ' 
@@ -83,15 +95,13 @@
 
 #End Region
 
+Imports System.IO
 Imports System.Text
-#If netcore5 = 0 Then
-Imports System.Web.Script.Serialization
-#Else
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-#End If
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Data.GraphTheory.Network
+Imports Microsoft.VisualBasic.Data.GraphTheory.SparseGraph
 Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
-Imports Microsoft.VisualBasic.Data.visualize.Network.Graph.Abstract
 Imports Microsoft.VisualBasic.Data.visualize.Network.Layouts
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
@@ -219,6 +229,15 @@ Namespace CytoscapeGraphView.Cyjs
 
         Public Function Save(Path As String, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Return __json.SaveTo(Path, encoding)
+        End Function
+
+        Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
+            Using wr As New StreamWriter(s, encoding)
+                Call wr.WriteLine(__json)
+                Call wr.Flush()
+            End Using
+
+            Return True
         End Function
 
         Public Function Save(Path As String, Optional encoding As Encodings = Encodings.UTF8) As Boolean Implements ISaveHandle.Save

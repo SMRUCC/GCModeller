@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::1e198295c9d16c03622f8b2993eb4f71, gr\Microsoft.VisualBasic.Imaging\test\LabelingTest.vb"
+﻿#Region "Microsoft.VisualBasic::3d59f214cfa48d7dcc88b4e49f1f6502, gr\Microsoft.VisualBasic.Imaging\test\LabelingTest.vb"
 
     ' Author:
     ' 
@@ -31,29 +31,42 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 53
+    '    Code Lines: 45 (84.91%)
+    ' Comment Lines: 2 (3.77%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 6 (11.32%)
+    '     File Size: 2.21 KB
+
+
     ' Module LabelingTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
 #End Region
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Imaging.d3js
 Imports Microsoft.VisualBasic.Imaging.d3js.Layout
 Imports Microsoft.VisualBasic.Imaging.Drawing2D
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MIME.Html.CSS
+Imports Microsoft.VisualBasic.MIME.Html.Render
 
 Module LabelingTest
 
-    Sub Main()
+    Sub Main1()
         Using g As Graphics2D = New Size(1024, 1024).CreateGDIDevice(filled:=Color.White)
-            Dim labelFont As Font = CSSFont _
-                .TryParse(CSSFont.PlotLabelNormal) _
-                .GDIObject(300)
+            Dim css As CSSEnvirnment = g.LoadEnvironment
+            Dim labelFont As Font = css.GetFont(CSSFont.TryParse(CSSFont.PlotLabelNormal))
             Dim rand As New Random
             Dim labels As Label() = g.Label(130.SeqRandom.Select(Function(i) rand.NextDouble.ToString("F4"))).ToArray
             Dim anchors = labels _
@@ -82,8 +95,8 @@ Module LabelingTest
                     .Size = g.MeasureString(label.text, labelFont).ToSize
                 }
 
-                Call g.DrawCircle(anchor, anchor.r, Brushes.Red)
-                Call g.DrawString(label.text, labelFont, Brushes.Black, labelLayout.Location)
+                '  Call g.DrawCircle(anchor, anchor.r, Brushes.Red)
+                ' Call g.DrawString(label.text, labelFont, Brushes.Black, labelLayout.Location)
                 Call g.DrawLine(Pens.Green, anchor, labelLayout.GetTextAnchor(anchor))
             Next
 

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 95
+    '    Code Lines: 59 (62.11%)
+    ' Comment Lines: 18 (18.95%)
+    '    - Xml Docs: 94.44%
+    ' 
+    '   Blank Lines: 18 (18.95%)
+    '     File Size: 3.80 KB
+
+
     '     Class IndexedManual
     ' 
     '         Constructor: (+1 Overloads) Sub New

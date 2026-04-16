@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0e6b2953cfc1559fa0aa5848ed5fcf14, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BencodingExtensions.vb"
+﻿#Region "Microsoft.VisualBasic::58c5c8fca2e2830ae7d51266a5192f3b, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BencodingExtensions.vb"
 
     ' Author:
     ' 
@@ -31,10 +31,22 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 190
+    '    Code Lines: 88 (46.32%)
+    ' Comment Lines: 73 (38.42%)
+    '    - Xml Docs: 56.16%
+    ' 
+    '   Blank Lines: 29 (15.26%)
+    '     File Size: 7.81 KB
+
+
     '     Module BencodingExtensions
     ' 
-    '         Function: BDecode, encodeList, encodeObject, theSameObject, ToBEncode
-    '                   ToBEncodeString
+    '         Function: BDecode, encodeList, encodeObject, encodePrimitive, theSameObject
+    '                   ToBEncode, ToBEncodeString, ToList
     ' 
     ' 
     ' /********************************************************************************/
@@ -43,6 +55,7 @@
 
 Imports System.Reflection
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Emit.Delegates
 Imports Microsoft.VisualBasic.Language.Default
 
@@ -62,6 +75,16 @@ Namespace Serialization.Bencoding
         <Extension()>
         Public Function BDecode(s As String) As BElement()
             Return Decode(s)
+        End Function
+
+        ''' <summary>
+        ''' cast object to a object array
+        ''' </summary>
+        ''' <param name="b"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function ToList(b As BElement) As BElement()
+            Return DirectCast(b, BList).ToArray
         End Function
 
         ''' <summary>
@@ -111,9 +134,43 @@ Namespace Serialization.Bencoding
         ''' <param name="digest"></param>
         ''' <returns></returns>
         <Extension>
-        Public Function ToBEncode(obj As Object, digest As Func(Of Object, Object)) As BElement
+        Public Function ToBEncode(obj As Object, Optional digest As Func(Of Object, Object) = Nothing) As BElement
             Dim type As Type
 
+            ' 20241127
+            ' null is not supported inside bencode
+            '
+            ' Bencode is a data serialization format used by the BitTorrent peer-to-peer file sharing protocol.
+            ' It is designed to encode structured data, including dictionaries, lists, integers, and strings.
+            ' However, bencode does not have a concept of a "null" value like some other serialization formats
+            ' (e.g., JSON has `null`).
+
+            ' In bencode, if you need to represent the absence of a value, you typically use an empty string (`""`)
+            ' or simply omit the key from a dictionary. There is no standard representation of a null value in
+            ' bencode. If you attempt to encode a null value using a bencode library, it might result in an
+            ' error or an empty string, depending on how the library is implemented.
+
+            ' For example, in a bencoded dictionary, you might have:
+            ' ```
+            ' d3:foo4:bar4:spamede
+            ' ```
+
+            ' Here, "foo" and "spam" are keys with associated values "bar" and an empty string, respectively.
+            ' If you wanted to represent "null" for "spam", you could either omit it:
+
+            ' ```
+            ' d3:fooe
+            ' ```
+
+            ' Or use an empty string:
+
+            ' ```
+            ' d3:foo4:bar4:spam0:e
+            ' ```
+
+            ' In both cases, "spam" would effectively be "null" or absent.
+
+            digest = If(digest, theSampleObjectDigest.DefaultValue)
             obj = digest(obj)
             type = obj.GetType
 
@@ -135,15 +192,26 @@ Namespace Serialization.Bencoding
                 Next
 
                 Return table
-            ElseIf type Is GetType(String) OrElse type Is GetType(Double) OrElse type Is GetType(Boolean) OrElse type Is GetType(Date) Then
-                Return New BString(obj.ToString)
-            ElseIf type Is GetType(Integer) OrElse type Is GetType(Long) OrElse type Is GetType(Short) OrElse type Is GetType(Byte) Then
-                Return New BInteger(obj)
             ElseIf type.ImplementInterface(GetType(IList)) Then
                 Return DirectCast(obj, IList).encodeList(digest)
+            ElseIf DataFramework.IsPrimitive(type) Then
+                Return encodePrimitive(obj, type)
             Else
                 Return encodeObject(obj, digest)
             End If
+        End Function
+
+        Private Function encodePrimitive(value As Object, type As Type) As BElement
+            Select Case type
+                Case GetType(String), GetType(Double), GetType(Boolean), GetType(Date), GetType(Single)
+                    Return New BString(value.ToString)
+                Case GetType(Integer), GetType(Short), GetType(UShort), GetType(Byte), GetType(SByte)
+                    Return New BInteger(CInt(value))
+                Case GetType(Long), GetType(UInteger), GetType(ULong)
+                    Return New BInteger(CLng(value))
+                Case Else
+                    Throw New NotImplementedException(type.FullName & ": " & value.ToString)
+            End Select
         End Function
 
         Private Function encodeObject(obj As Object, digest As Func(Of Object, Object)) As BElement

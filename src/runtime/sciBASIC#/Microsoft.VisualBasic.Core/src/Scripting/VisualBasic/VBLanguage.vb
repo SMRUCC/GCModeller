@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 77
+    '    Code Lines: 59 (76.62%)
+    ' Comment Lines: 10 (12.99%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 8 (10.39%)
+    '     File Size: 3.38 KB
+
+
     '     Class Patterns
     ' 
     '         Properties: TypeChar

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 103
+    '    Code Lines: 14 (13.59%)
+    ' Comment Lines: 86 (83.50%)
+    '    - Xml Docs: 87.21%
+    ' 
+    '   Blank Lines: 3 (2.91%)
+    '     File Size: 5.37 KB
+
+
     ' Enum OntologyRelations
     ' 
     '     ends_during, happens_during, has_part, negatively_regulates, none

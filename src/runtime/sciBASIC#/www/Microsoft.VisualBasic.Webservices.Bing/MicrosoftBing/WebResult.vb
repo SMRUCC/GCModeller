@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 47 (68.12%)
+    ' Comment Lines: 11 (15.94%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 11 (15.94%)
+    '     File Size: 2.33 KB
+
+
     '     Class WebResult
     ' 
     '         Function: TryParse

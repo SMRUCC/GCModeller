@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 52
+    '    Code Lines: 15 (28.85%)
+    ' Comment Lines: 33 (63.46%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 4 (7.69%)
+    '     File Size: 1.38 KB
+
+
     '     Enum KEGGObjects
     ' 
     ' 

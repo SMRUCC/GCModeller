@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::eb06b1bf658d5ace1a5aa61b8d993b5f, annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
+﻿#Region "Microsoft.VisualBasic::0a5e11d5abdd90969cdee6a232940e98, annotations\GSEA\GSEA\KnowledgeBase\Imports\Imports.vb"
 
     ' Author:
     ' 
@@ -31,13 +31,24 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 164
+    '    Code Lines: 116 (70.73%)
+    ' Comment Lines: 27 (16.46%)
+    '    - Xml Docs: 96.30%
+    ' 
+    '   Blank Lines: 21 (12.80%)
+    '     File Size: 6.33 KB
+
+
     ' Module [Imports]
     ' 
     ' 
     '     Delegate Function
     ' 
-    '         Function: CreateBackground, CreateCluster, createGene, getTermInternal, GOClusters
-    '                   ImportsUniProt, KEGGMapRelation, missingGoTermWarnings, proteinLocusTag, UniProtGetGOTerms
+    '         Function: CreateBackground, CreateCluster, getTermInternal, ImportsUniProt, UniProtGetGOTerms
     '                   UniProtGetKOTerms
     ' 
     ' 
@@ -51,9 +62,8 @@ Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
-Imports SMRUCC.genomics.Data.GeneOntology.OBO
 
 ''' <summary>
 ''' 进行富集计算分析所需要的基因组背景模型的导入模块
@@ -66,69 +76,6 @@ Public Module [Imports]
     ''' <param name="geneID"></param>
     ''' <returns></returns>
     Public Delegate Function GetClusterTerms(geneID As String) As NamedValue(Of String)()
-
-    ''' <summary>
-    ''' ``KO ~ map id[]`` 
-    ''' </summary>
-    ''' <param name="maps"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function KEGGMapRelation(maps As IEnumerable(Of Map)) As Dictionary(Of String, String())
-        Return maps.Select(Function(m)
-                               Return m.shapes.Select(Function(a) a.IDVector) _
-                                   .IteratesALL _
-                                   .Where(Function(id) id.IsPattern("K\d+")) _
-                                   .Distinct _
-                                   .Select(Function(id)
-                                               Return (mapID:=m.ID, KO:=id)
-                                           End Function)
-                           End Function) _
-                   .IteratesALL _
-                   .GroupBy(Function(ko) ko.KO) _
-                   .ToDictionary(Function(g) g.Key,
-                                   Function(g)
-                                       Return g.Select(Function(t) t.mapID) _
-                                               .Distinct _
-                                               .ToArray
-                                   End Function)
-    End Function
-
-    ''' <summary>
-    ''' 一个Go term就是一个cluster
-    ''' </summary>
-    ''' <param name="GO_terms"></param>
-    ''' <returns></returns>
-    <Extension>
-    Public Function GOClusters(GO_terms As IEnumerable(Of Term)) As GetClusterTerms
-        Dim table As Dictionary(Of String, Term) = GO_terms.ToDictionary(Function(t) t.id)
-        Dim parentPopulator As Func(Of String, NamedValue(Of String)) =
-            Function(termID As String) As NamedValue(Of String)
-                Dim GO_term = table.TryGetValue(termID)
-
-                If GO_term Is Nothing Then
-                    Call missingGoTermWarnings(termID).Warning
-                Else
-                    Dim info As Definition = Definition.Parse(GO_term)
-
-                    ' 一个GO term类似于一个cluster
-                    ' 其所有基于is_a关系派生出来的子类型都是当前的这个term的cluster成员
-                    ' 在计算的时候会需要根据这个关系来展开计算
-                    Return New NamedValue(Of String) With {
-                        .Name = GO_term.id,
-                        .Value = GO_term.name,
-                        .Description = info.definition
-                    }
-                End If
-
-                Return Nothing
-            End Function
-
-        Return Function(termID) {parentPopulator(termID)}
-    End Function
-
-    Private Function missingGoTermWarnings(termId As String) As String
-        Return $"Missing GO term: {termId}, this go term may be obsolete or you needs update the GO obo database to the latest version."
-    End Function
 
     ''' <summary>
     ''' 
@@ -158,7 +105,7 @@ Public Module [Imports]
             Return .CreateBackground(
                 getTerms:=getTerm,
                 define:=define,
-                createGene:=AddressOf createGene,
+                createGene:=AddressOf uniprotGeneModel,
                 genomeName:=genomeName,
                 taxonomy:=taxonomy,
                 outputAll:=outputAll
@@ -166,30 +113,18 @@ Public Module [Imports]
         End With
     End Function
 
-    Private Function createGene(protein As entry, terms As String()) As BackgroundGene
-        Return New BackgroundGene With {
-            .accessionID = protein.accessions(Scan0),
-            .[alias] = protein.accessions,
-            .name = protein.name,
-            .locus_tag = protein.proteinLocusTag(.accessionID),
-            .term_id = terms
-        }
-    End Function
-
-    <Extension>
-    Private Function proteinLocusTag(protein As entry, accessionID$) As NamedValue
-        Dim tag$ = accessionID
-
-        If protein.xrefs.ContainsKey("KEGG") Then
-            tag = protein.xrefs("KEGG").First.id
-        End If
-
-        Return New NamedValue With {
-            .name = tag,
-            .text = protein.protein.fullName
-        }
-    End Function
-
+    ''' <summary>
+    ''' a generic method for create background model
+    ''' </summary>
+    ''' <typeparam name="T"></typeparam>
+    ''' <param name="db"></param>
+    ''' <param name="createGene"></param>
+    ''' <param name="getTerms"></param>
+    ''' <param name="define"></param>
+    ''' <param name="genomeName$"></param>
+    ''' <param name="taxonomy$"></param>
+    ''' <param name="outputAll"></param>
+    ''' <returns></returns>
     <Extension>
     Public Function CreateBackground(Of T)(db As IEnumerable(Of T),
                                            createGene As Func(Of T, String(), BackgroundGene),

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 87
+    '    Code Lines: 46 (52.87%)
+    ' Comment Lines: 29 (33.33%)
+    '    - Xml Docs: 89.66%
+    ' 
+    '   Blank Lines: 12 (13.79%)
+    '     File Size: 3.11 KB
+
+
     '     Module InitializeMethods
     ' 
     '         Function: (+2 Overloads) CreateInstance, GetProgram

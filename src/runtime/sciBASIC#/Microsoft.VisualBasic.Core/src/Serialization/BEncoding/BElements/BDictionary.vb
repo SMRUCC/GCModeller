@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::66206dbd7e3b2a34fb27ee5c4c73ea1d, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BElements\BDictionary.vb"
+﻿#Region "Microsoft.VisualBasic::8e609cc4628ddde42a5d217fd7e81775, Microsoft.VisualBasic.Core\src\Serialization\BEncoding\BElements\BDictionary.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 80
+    '    Code Lines: 38 (47.50%)
+    ' Comment Lines: 32 (40.00%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (12.50%)
+    '     File Size: 3.10 KB
+
+
     '     Class BDictionary
     ' 
     '         Function: (+2 Overloads) ToBencodedString
@@ -49,8 +61,7 @@ Namespace Serialization.Bencoding
     ''' <summary>
     ''' A bencode dictionary.
     ''' </summary>
-    Public Class BDictionary
-        Inherits SortedDictionary(Of BString, BElement)
+    Public Class BDictionary : Inherits SortedDictionary(Of BString, BElement)
         Implements BElement
 
         ''' <summary>

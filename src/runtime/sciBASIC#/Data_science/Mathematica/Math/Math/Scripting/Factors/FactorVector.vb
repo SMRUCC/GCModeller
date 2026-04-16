@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::688334d22467b2dd6e124c90a1b35626, Data_science\Mathematica\Math\Math\Scripting\Factors\FactorVector.vb"
+﻿#Region "Microsoft.VisualBasic::aa7909d084085b77a26fb766d494bb58, Data_science\Mathematica\Math\Math\Scripting\Factors\FactorVector.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 69
+    '    Code Lines: 56 (81.16%)
+    ' Comment Lines: 3 (4.35%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (14.49%)
+    '     File Size: 2.46 KB
+
 
     '     Interface IFactorVector
     ' 
@@ -75,7 +87,7 @@ Namespace Scripting
             End Get
             Set(value As T)
                 If Not index.ContainsKey(name) Then
-                    Call buffer.Add(value)
+                    Call buffer.Append(value)
                     Call index.Add(name, buffer.Length - 1)
                 Else
                     buffer(index(name)) = value

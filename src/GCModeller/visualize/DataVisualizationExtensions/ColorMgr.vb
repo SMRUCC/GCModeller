@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 41 (53.95%)
+    ' Comment Lines: 25 (32.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (13.16%)
+    '     File Size: 2.40 KB
+
+
     ' Class ColorMgr
     ' 
     '     Properties: [Default]

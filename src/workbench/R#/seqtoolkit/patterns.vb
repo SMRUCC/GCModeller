@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::212f2f5ae3522fd320b63faeedcf8ad8, R#\seqtoolkit\patterns.vb"
+﻿#Region "Microsoft.VisualBasic::f43c9feadba66a5fcc4b495414428b45, R#\seqtoolkit\patterns.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,27 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 726
+    '    Code Lines: 502 (69.15%)
+    ' Comment Lines: 131 (18.04%)
+    '    - Xml Docs: 89.31%
+    ' 
+    '   Blank Lines: 93 (12.81%)
+    '     File Size: 30.17 KB
+
+
     ' Module patterns
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds, matchSites
-    '               matchTableOutput, PalindromeToString, readMotifs, readSites, ScaffoldOrthogonality
-    '               viewSites
+    '     Function: createSeeds, DrawLogo, FindMirrorPalindromes, GetMotifs, GetSeeds
+    '               gibbs_scans, gibbs_table, matchSites, matchTableOutput, MotifString
+    '               openSeedFile, PalindromeToString, plotMotif, pullAllSeeds, read_memexml
+    '               readMotifs, readSites, ScaffoldOrthogonality, seqGraph, seqgraph_df
+    '               SplitMatchesSource, top_sites, toPWM, viewSites
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -45,35 +60,106 @@
 Imports System.IO
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.Data.csv
+Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Imaging.Driver
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports SMRUCC.genomics
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.BestLocalAlignment
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
+Imports SMRUCC.genomics.Analysis.SequenceTools
+Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.DNAOrigami
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Motif
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.SequenceLogo
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns.Topologically.Seeding
+Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.GCModeller.Workbench.SeqFeature
+Imports SMRUCC.genomics.Interops.NBCR.MEME_Suite.DocumentFormat.XmlOutput.MEME
+Imports SMRUCC.genomics.Model.MotifGraph
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.Rsharp
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports dataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
 Imports REnv = SMRUCC.Rsharp.Runtime
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' Tools for sequence patterns
 ''' </summary>
 <Package("bioseq.patterns", Category:=APICategories.ResearchTools)>
+<RTypeExport("motif_match", GetType(MotifMatch))>
 Module patterns
 
-    Sub New()
+    Friend Sub Main()
         Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of PalindromeLoci)(AddressOf PalindromeToString)
         Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MotifMatch()), AddressOf matchTableOutput)
+
+        Call REnv.Internal.generic.add("plot", GetType(SequenceMotif), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(MSAOutput), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(MSAMotif), AddressOf plotMotif)
+        Call REnv.Internal.generic.add("plot", GetType(Probability), AddressOf plotMotif)
+
+        Call REnv.Internal.ConsolePrinter.AttachConsoleFormatter(Of SequenceMotif)(Function(m) DirectCast(m, SequenceMotif).patternString)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(MSAMotif), AddressOf gibbs_table)
+        Call REnv.Internal.Object.Converts.makeDataframe.addHandler(GetType(SequenceGraph()), AddressOf seqgraph_df)
     End Sub
 
+    <RGenericOverloads("as.data.frame")>
+    Private Function seqgraph_df(graphs As SequenceGraph(), args As list, env As Environment) As dataframe
+        Dim type As String = args.getValue({"seq_type", "type", "mol_type"}, env, [default]:="DNA")
+        Dim norm As Boolean = args.getValue({"norm"}, env, [default]:=False)
+        Dim charset As Char() = SequenceModel.GetVector(SequenceModel.ParseSeqType(type)).ToArray
+        Dim matrix = graphs.Select(Function(si) si.GetVector(charset, norm)).ToArray
+        Dim df As New dataframe With {
+            .rownames = graphs.Keys.ToArray,
+            .columns = New Dictionary(Of String, Array)
+        }
+        Dim size As Integer = matrix(0).Length
+
+        For i As Integer = 0 To size - 1
+#Disable Warning
+            Call df.add($"v{i + 1}", matrix.Select(Function(a) a(i)))
+#Enable Warning
+        Next
+
+        Return df
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function gibbs_table(score As MSAMotif, args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = score.names
+        }
+
+        df.add("motif", score.MSA)
+        df.add("p", score.p)
+        df.add("q", score.q)
+        df.add("score", score.score)
+        df.add("site", score.start)
+
+        Return df
+    End Function
+
+    <RGenericOverloads("plot")>
+    Private Function plotMotif(motif As Object, args As list, env As Environment) As Object
+        Dim title As String = args.getValue("title", env, [default]:="")
+        Return DrawLogo(motif, title, env)
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
     Private Function matchTableOutput(scans As MotifMatch(), args As list, env As Environment) As dataframe
         Dim table As New dataframe With {
             .columns = New Dictionary(Of String, Array)
@@ -102,6 +188,72 @@ Module patterns
         Else
             Throw New NotImplementedException(obj.GetType.FullName)
         End If
+    End Function
+
+    <ExportAPI("open.seedFile")>
+    Public Function openSeedFile(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim filesave = SMRUCC.Rsharp.GetFileStream(file, FileAccess.ReadWrite, env)
+
+        If filesave Like GetType(Message) Then
+            Return filesave.TryCast(Of Message)
+        End If
+
+        Return New ScanFile(filesave.TryCast(Of Stream))
+    End Function
+
+    <ExportAPI("pull.all_seeds")>
+    Public Function pullAllSeeds(seed As ScanFile) As HSP()
+        Return seed.LoadAllSeeds.ToArray
+    End Function
+
+    ''' <summary>
+    ''' read the xml motif data model output from the meme program
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.meme_xml")>
+    Public Function read_memexml(file As String) As MEMEXml
+        Return MEMEXml.LoadDocument(file)
+    End Function
+
+    ''' <summary>
+    ''' convert the meme document to motif PWM model object
+    ''' </summary>
+    ''' <param name="meme"></param>
+    ''' <returns>a vector of the PWM clr object.</returns>
+    <ExportAPI("toPWM")>
+    <RApiReturn(GetType(Probability))>
+    Public Function toPWM(meme As MEMEXml) As Object
+        Return meme.GetMotifs.ToArray
+    End Function
+
+    ''' <summary>
+    ''' make a motif scan from the given sequence collection
+    ''' </summary>
+    ''' <param name="seqs"></param>
+    ''' <param name="width"></param>
+    ''' <param name="maxitr"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("gibbs_scan")>
+    <RApiReturn(GetType(MSAMotif))>
+    Public Function gibbs_scans(<RRawVectorArgument>
+                                seqs As Object,
+                                Optional width As Integer? = Nothing,
+                                Optional maxitr As Integer = 1000,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim fa As FastaSeq() = GetFastaSeq(seqs, env).ToArray
+
+        If fa.IsNullOrEmpty Then
+            Call "could not extract sequence source fasta data!".warning
+            Return Nothing
+        End If
+
+        Dim gibbs As New GibbsSampler(fa, If(width, CInt(fa.Average(Function(s) s.Length) * 0.6)))
+        Dim motif As MSAMotif = gibbs.find(maxIterations:=maxitr)
+
+        Return motif
     End Function
 
     ''' <summary>
@@ -159,48 +311,159 @@ Module patterns
         Return file.LoadJSON(Of SequenceMotif())
     End Function
 
+    ''' <summary>
+    ''' read the motif match scan result table file
+    ''' </summary>
+    ''' <param name="file">should be a file path to a csv table file.</param>
+    ''' <returns></returns>
     <ExportAPI("read.scans")>
-    Public Function readSites(file As String) As MotifMatch()
-        Return file.LoadCsv(Of MotifMatch).ToArray
+    <RApiReturn(GetType(MotifMatch))>
+    Public Function readSites(file As String, Optional tqdm As Boolean = False) As Object
+        If tqdm Then
+            Return file.OpenHandle.AsLinq(Of MotifMatch).as_iterator
+        Else
+            Return file.LoadCsv(Of MotifMatch)(mute:=True).ToArray
+        End If
+    End Function
+
+    <ExportAPI("top_sites")>
+    Public Function top_sites(sites As MotifMatch(),
+                              Optional identities As Double? = Nothing,
+                              Optional pvalue As Double? = Nothing,
+                              Optional minW As Integer? = Nothing) As MotifMatch()
+
+        If identities IsNot Nothing Then
+            Dim identitiesVal As Double = CDbl(identities)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.identities > identitiesVal).ToArray
+        End If
+        If pvalue IsNot Nothing Then
+            Dim pvalue_cut As Double = CDbl(pvalue)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where site.pvalue < pvalue_cut).ToArray
+        End If
+        If minW IsNot Nothing Then
+            Dim width As Integer = CInt(minW)
+
+            sites = (From site As MotifMatch
+                     In sites
+                     Where (site.ends - site.start) >= minW).ToArray
+        End If
+
+        Return sites
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="fasta"></param>
+    ''' <param name="mol_type"></param>
+    ''' <param name="parallel"></param>
+    ''' <param name="env"></param>
+    ''' <returns>
+    ''' the sequence graph embedding vector data is generates from different method 
+    ''' based on the <paramref name="mol_type"/> data:
+    ''' 
+    ''' + <see cref="SeqTypes.DNA"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.DNAGraph"/>
+    ''' + <see cref="SeqTypes.Protein"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.PolypeptideGraph"/>
+    ''' + <see cref="SeqTypes.RNA"/>: <see cref="SMRUCC.genomics.Model.MotifGraph.Builder.RNAGraph"/>
+    ''' </returns>
+    <ExportAPI("as.seq_graph")>
+    <RApiReturn(GetType(SequenceGraph))>
+    Public Function seqGraph(<RRawVectorArgument>
+                             fasta As Object,
+                             Optional mol_type As SeqTypes = SeqTypes.DNA,
+                             Optional parallel As Boolean = False,
+                             Optional env As Environment = Nothing) As Object
+
+        Dim seqList = GetFastaSeq(fasta, env).ToArray
+
+        Select Case mol_type
+            Case SeqTypes.DNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.DNAGraph, parallel:=parallel)
+            Case SeqTypes.Protein : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.PolypeptideGraph, parallel:=parallel)
+            Case SeqTypes.RNA : Return env.EvaluateFramework(Of FastaSeq, SequenceGraph)(seqList, AddressOf SMRUCC.genomics.Model.MotifGraph.RNAGraph, parallel:=parallel)
+            Case Else
+                Return RInternal.debug.stop("general is not allowed!", env)
+        End Select
     End Function
 
     ''' <summary>
     ''' Find target loci site based on the given motif model
     ''' </summary>
-    ''' <param name="motif"></param>
+    ''' <param name="motif">could be <see cref="SequenceMotif"/> or <see cref="MSAMotif"/></param>
     ''' <param name="target">a collection of fasta sequence</param>
     ''' <param name="cutoff#"></param>
     ''' <param name="minW#"></param>
     ''' <returns></returns>
     <ExportAPI("motif.find_sites")>
     <RApiReturn(GetType(MotifMatch))>
-    Public Function matchSites(motif As SequenceMotif,
+    Public Function matchSites(motif As Object,
                                <RRawVectorArgument>
                                target As Object,
                                Optional cutoff# = 0.6,
-                               Optional minW# = 6,
+                               Optional minW# = 8,
                                Optional identities As Double = 0.85,
+                               Optional pvalue As Double = 0.05,
                                Optional parallel As Boolean = False,
+                               Optional motif_name As String = Nothing,
                                Optional env As Environment = Nothing) As Object
 
+        Dim PWM As SequencePatterns.Residue()
+        Dim seedName As String = motif_name
+
+        If motif Is Nothing Then
+            Call "the required motif PWM model is nothing".warning
+            Return Nothing
+        End If
+
+        If TypeOf motif Is SequenceMotif Then
+            PWM = DirectCast(motif, SequenceMotif).region
+
+            If motif_name Is Nothing Then
+                seedName = DirectCast(motif, SequenceMotif).name
+            End If
+        ElseIf TypeOf motif Is MSAMotif Then
+            PWM = DirectCast(motif, MSAMotif).PWM.ToArray
+        Else
+            Return Message.InCompatibleType(GetType(SequenceMotif), motif.GetType, env)
+        End If
+
         If target Is Nothing Then
-            Return Internal.debug.stop("sequence target can not be nothing!", env)
+            Return RInternal.debug.stop("sequence target can not be nothing!", env)
         ElseIf TypeOf target Is FastaSeq Then
-            Return motif.region _
-                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW, identities) _
+            ' scan a simple single sequence
+            Return PWM _
+                .ScanSites(DirectCast(target, FastaSeq), cutoff, minW,
+                           pvalue_cut:=pvalue,
+                           identities:=identities) _
+                .Select(Function(s)
+                            s.seeds = {seedName}
+                            Return s
+                        End Function) _
                 .ToArray
         Else
-            Dim seqs = GetFastaSeq(target, env)
+            Dim seqs As IEnumerable(Of FastaSeq) = GetFastaSeq(target, env)
 
+            ' scan multiple sequence
             If seqs Is Nothing Then
-                Return Internal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
+                Return RInternal.debug.stop($"invalid sequence collection type: {target.GetType.FullName}", env)
             Else
                 Return seqs.ToArray _
                     .Populate(parallel, App.CPUCoreNumbers) _
                     .Select(Function(seq)
-                                Return motif.ScanSites(seq, cutoff, minW, identities)
+                                Return PWM.ScanSites(seq, cutoff, minW,
+                                                     identities:=identities,
+                                                     pvalue_cut:=pvalue)
                             End Function) _
                     .IteratesALL _
+                    .Select(Function(s)
+                                s.seeds = {seedName}
+                                Return s
+                            End Function) _
                     .ToArray
             End If
         End If
@@ -229,39 +492,142 @@ Module patterns
     End Function
 
     ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="motif"></param>
+    ''' <param name="env"></param>
+    ''' <returns>the regexp liked format string for do motif matches</returns>
+    <ExportAPI("motifString")>
+    <RApiReturn(GetType(String))>
+    Public Function MotifString(<RRawVectorArgument> motif As Object, Optional env As Environment = Nothing) As Object
+        Return env.EvaluateFramework(Of SequenceMotif, String)(motif, Function(m) m.patternString())
+    End Function
+
+    <ExportAPI("create.seeds")>
+    Public Function createSeeds(<RRawVectorArgument> fasta As Object, saveto As ScanFile,
+                                Optional minw% = 8,
+                                Optional maxw% = 20,
+                                Optional seedingCutoff As Double = 0.95,
+                                Optional scanMinW As Integer = 6,
+                                Optional scanCutoff As Double = 0.8,
+                                Optional significant_sites As Integer = 4,
+                                Optional debug As Boolean = False,
+                                Optional env As Environment = Nothing) As Object
+
+        Dim param As New PopulatorParameter With {
+           .maxW = maxw,
+           .minW = minw,
+           .seedingCutoff = seedingCutoff,
+           .ScanMinW = scanMinW,
+           .ScanCutoff = scanCutoff,
+           .log = env.WriteLineHandler,
+           .seedScanner = Scanners.GraphScan,
+           .significant_sites = significant_sites,
+           .seedOccurances = 6
+        }
+        Dim scan As SeedScanner = Activator.CreateInstance(param.GetScanner, param, debug)
+
+        For Each seed As HSP In scan.GetSeeds(GetFastaSeq(fasta, env))
+            Call saveto.AddSeed($"{seed.Query}+{seed.Subject}".MD5, seed)
+        Next
+
+        Return saveto
+    End Function
+
+    ''' <summary>
     ''' find possible motifs of the given sequence collection
     ''' </summary>
-    ''' <param name="fasta"></param>
+    ''' <param name="fasta">should contains multiple sequence</param>
     ''' <param name="minw%"></param>
     ''' <param name="maxw%"></param>
-    ''' <param name="nmotifs%"></param>
+    ''' <param name="nmotifs">
+    ''' A number for limit the number of motif outputs:
+    ''' 
+    ''' + negative integer/zero: no limits[default]
+    ''' + positive value: top motifs with score desc
+    ''' </param>
     ''' <param name="noccurs%"></param>
     ''' <returns></returns>
     <ExportAPI("find_motifs")>
+    <RApiReturn(GetType(SequenceMotif))>
     Public Function GetMotifs(<RRawVectorArgument> fasta As Object,
-                              Optional minw% = 6,
+                              Optional minw% = 8,
                               Optional maxw% = 20,
-                              Optional nmotifs% = 25,
-                              Optional noccurs% = 6,
-                              Optional env As Environment = Nothing) As SequenceMotif()
+                              Optional nmotifs% = -1,
+                              Optional noccurs% = 12,
+                              Optional seedingCutoff As Double = 0.65,
+                              Optional scanMinW As Integer = 6,
+                              Optional scanCutoff As Double = 0.8,
+                              Optional cleanMotif As Double = 0.5,
+                              Optional significant_sites As Integer = 4,
+                              <RRawVectorArgument>
+                              Optional seeds As Object = Nothing,
+                              Optional debug As Boolean = False,
+                              Optional env As Environment = Nothing) As Object
 
         Dim param As New PopulatorParameter With {
             .maxW = maxw,
             .minW = minw,
-            .seedingCutoff = 0.95,
-            .ScanMinW = 6,
-            .ScanCutoff = 0.8
+            .seedingCutoff = seedingCutoff,
+            .ScanMinW = scanMinW,
+            .ScanCutoff = scanCutoff,
+            .log = env.WriteLineHandler,
+            .seedScanner = Scanners.GraphScan,
+            .significant_sites = significant_sites,
+            .seedOccurances = 6
         }
-        Dim motifs As SequenceMotif() = GetFastaSeq(fasta, env) _
-            .PopulateMotifs(
+        Dim seqInputs = GetFastaSeq(fasta, env).ToArray
+        Dim motifs As SequenceMotif()
+
+        If seeds Is Nothing Then
+            'motifs = seqInputs.PopulateMotifs(
+            '    leastN:=noccurs,
+            '    param:=param,
+            '    cleanMotif:=cleanMotif,
+            '    debug:=debug
+            ').ToArray
+            Dim seedList = seqInputs.RandomSeed(100, New IntRange(6, 20)).ToArray
+            ' seedList = GraphSeed.UMAP(seedList, 30).ToArray
+            Dim clusters = GraphSeedTool.Cluster(seedList, 0.5).ToArray
+
+            Call VBDebugger.EchoLine($"create motifs for {clusters.Length} seeds clusters!")
+
+            motifs = clusters _
+                .Select(Function(c) c.CreateMotifs(param)) _
+                .Where(Function(m) Not m Is Nothing) _
+                .ToArray
+        Else
+            Dim seedsList As HSP()
+
+            If TypeOf seeds Is ScanFile Then
+                seedsList = DirectCast(seeds, ScanFile).LoadAllSeeds.ToArray
+            Else
+                Dim pop = pipeline.TryCreatePipeline(Of HSP)(seeds, env)
+
+                If pop.isError Then
+                    Return pop.getError
+                Else
+                    seedsList = pop.populates(Of HSP)(env).ToArray
+                End If
+            End If
+
+            motifs = seedsList.PopulateMotifs(
+                param:=param,
                 leastN:=noccurs,
-                param:=param
-            ) _
-            .OrderByDescending(Function(m) m.score / m.seeds.MSA.Length) _
-            .Take(nmotifs) _
+                cleanMotif:=cleanMotif,
+                debug:=debug
+            ).ToArray
+        End If
+
+        motifs = motifs _
+            .OrderByDescending(Function(m) m.AverageScore) _
             .ToArray
 
-        Return motifs
+        If nmotifs > 0 Then
+            Return motifs.Take(nmotifs).ToArray
+        Else
+            Return motifs
+        End If
     End Function
 
     ''' <summary>
@@ -273,25 +639,40 @@ Module patterns
     ''' <returns></returns>
     <ExportAPI("plot.seqLogo")>
     <RApiReturn(GetType(GraphicsData))>
-    Public Function DrawLogo(<RRawVectorArgument> MSA As Object, Optional title$ = "", Optional env As Environment = Nothing) As Object
+    Public Function DrawLogo(<RRawVectorArgument> MSA As Object,
+                             Optional title$ = "",
+                             Optional env As Environment = Nothing) As Object
+
+        Dim driver As Drivers = env.getDriver
+
         If MSA Is Nothing Then
             Return REnv.Internal.debug.stop("MSA is nothing!", env)
         End If
 
         Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(MSA, env)
+        Dim pwm As MotifPWM
 
         If data Is Nothing Then
             Dim type As Type = MSA.GetType
 
             Select Case type
                 Case GetType(SequenceMotif)
-                    data = DirectCast(MSA, SequenceMotif).seeds.ToFasta
+                    pwm = DirectCast(MSA, SequenceMotif).CreateModel
+                Case GetType(MSAOutput)
+                    data = DirectCast(MSA, MSAOutput).PopulateAlignment
+                    pwm = SequencePatterns.Motif.PWM.FromMla(New FastaFile(data))
+                Case GetType(MSAMotif)
+                    pwm = DirectCast(MSA, MSAMotif).CreateMotif
+                Case GetType(Probability)
+                    pwm = DirectCast(MSA, Probability).CreateModel
                 Case Else
-                    Return REnv.Internal.debug.stop(New InvalidProgramException, env)
+                    Return REnv.Internal.debug.stop(New InvalidProgramException($"un-supported clr object type for extract MSA data: {type.FullName}!"), env)
             End Select
+        Else
+            pwm = SequencePatterns.Motif.PWM.FromMla(New FastaFile(data))
         End If
 
-        Return DrawingDevice.DrawFrequency(New FastaFile(data), title)
+        Return DrawingDevice.DrawFrequency(pwm, title, driver:=driver)
     End Function
 
     ''' <summary>
@@ -306,7 +687,7 @@ Module patterns
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("scaffold.orthogonality")>
-    <RApiReturn(GetType(Output))>
+    <RApiReturn(GetType(DNAOrigami.Output))>
     Public Function ScaffoldOrthogonality(<RRawVectorArgument>
                                           scaffolds As Object,
                                           Optional segment_len% = 7,
@@ -317,7 +698,7 @@ Module patterns
         Dim data As IEnumerable(Of FastaSeq) = GetFastaSeq(scaffolds, env)
 
         If data Is Nothing Then
-            Return Internal.debug.stop({
+            Return RInternal.debug.stop({
                 "invalid data type for sequence data input!",
                $"required: fasta",
                $"given: {scaffolds.GetType.FullName}"
@@ -325,7 +706,7 @@ Module patterns
         End If
 
         Dim seqs As FastaSeq() = data.ToArray
-        Dim outputs As New List(Of Output)
+        Dim outputs As New List(Of DNAOrigami.Output)
         Dim args As New Project With {
             .n = segment_len,
             .is_linear = is_linear,
@@ -339,5 +720,66 @@ Module patterns
         Next
 
         Return outputs.ToArray
+    End Function
+
+    ''' <summary>
+    ''' split the motif matches result in parts by its gene source
+    ''' </summary>
+    ''' <param name="matches"></param>
+    ''' <param name="gff"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("split_match_source")>
+    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, Optional gff As GFFTable = Nothing, Optional env As Environment = Nothing) As Object
+        Dim matchList = pipeline.TryCreatePipeline(Of MotifMatch)(matches, env)
+
+        If matchList.isError Then
+            Dim filepath As String = CLRVector.asScalarCharacter(matches)
+
+            If Not filepath.FileExists Then
+                Return matchList.getError
+            End If
+
+            matchList = filepath _
+                .OpenHandle() _
+                .AsLinq(Of MotifMatch) _
+                .DoCall(AddressOf pipeline.CreateFromPopulator)
+        End If
+
+        Dim sourceList As New Dictionary(Of String, List(Of MotifMatch))
+        Dim hashContextData As Boolean = Not gff Is Nothing
+
+        If hashContextData Then
+            Dim context = gff.features _
+                .GroupBy(Function(a) a.ID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.First
+                              End Function)
+
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim feature = context(match.title)
+                Dim source As String = feature.seqname
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        Else
+            For Each match As MotifMatch In matchList.populates(Of MotifMatch)(env)
+                Dim title As String() = match.title.Split("|"c)
+                Dim source As String = title(0)
+
+                If Not sourceList.ContainsKey(source) Then
+                    Call sourceList.Add(source, New List(Of MotifMatch))
+                End If
+
+                Call sourceList(source).Add(match)
+            Next
+        End If
+
+        Return New list(sourceList.ToDictionary(Function(a) a.Key, Function(a) a.Value.ToArray))
     End Function
 End Module

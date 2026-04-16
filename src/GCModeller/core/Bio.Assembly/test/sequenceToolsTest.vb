@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::3624ead2772c698d34482d5a91d77c7d, core\Bio.Assembly\Test\sequenceToolsTest.vb"
+﻿#Region "Microsoft.VisualBasic::2542e098f9a63de60ea2660649edd7d1, core\Bio.Assembly\Test\sequenceToolsTest.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,21 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 16
+    '    Code Lines: 14 (87.50%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 2 (12.50%)
+    '     File Size: 744 B
+
+
     ' Module sequenceToolsTest
     ' 
-    '     Sub: Main
+    '     Sub: Main1
     ' 
     ' /********************************************************************************/
 
@@ -44,7 +56,7 @@ Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
 Module sequenceToolsTest
-    Sub Main()
+    Sub Main1()
         Dim nt As New FastaSeq With {.Headers = {"ABC"}, .SequenceData = "abcdefghijklmnopqrstuvwxyz"}
         Dim cut = nt.CutSequenceLinear(New Location With {.left = 1, .right = 7})
         Dim cut2 = nt.CutSequenceLinear(New Location With {.left = 1, .right = 25})

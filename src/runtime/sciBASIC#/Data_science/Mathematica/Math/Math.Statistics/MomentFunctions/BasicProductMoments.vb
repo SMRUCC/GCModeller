@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 168
+    '    Code Lines: 85 (50.60%)
+    ' Comment Lines: 61 (36.31%)
+    '    - Xml Docs: 83.61%
+    ' 
+    '   Blank Lines: 22 (13.10%)
+    '     File Size: 7.17 KB
+
+
     '     Class BasicProductMoments
     ' 
     '         Properties: IsConverged, Max, Min, SampleVariance, StDev

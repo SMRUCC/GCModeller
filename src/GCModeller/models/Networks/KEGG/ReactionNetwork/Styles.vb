@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::93186d733c1f45bce90437e7f7cd5811, models\Networks\KEGG\ReactionNetwork\Styles.vb"
+﻿#Region "Microsoft.VisualBasic::ff0f75271a1971a8c00b91b9976ed545, models\Networks\KEGG\ReactionNetwork\Styles.vb"
 
     ' Author:
     ' 
@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 84
+    '    Code Lines: 68 (80.95%)
+    ' Comment Lines: 7 (8.33%)
+    '    - Xml Docs: 71.43%
+    ' 
+    '   Blank Lines: 9 (10.71%)
+    '     File Size: 3.92 KB
+
+
     '     Module Styles
     ' 
     '         Sub: AssignNodeClassFromPathwayMaps, AssignNodeClassFromReactionLinks
@@ -46,18 +58,18 @@ Imports Microsoft.VisualBasic.Data.visualize.Network.Graph
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
-Imports SMRUCC.genomics.Assembly.KEGG.WebServices
+Imports SMRUCC.genomics.Assembly.KEGG.WebServices.XML
 
 Namespace ReactionNetwork
 
     Public Module Styles
 
         <Extension>
-        Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+        Public Sub AssignNodeClassFromPathwayMaps(net As NetworkGraph, maps As Map(), Optional delimiter$ = SimpleBuilder.Delimiter)
             ' 生成了 compound => maps 的包含关系
             Dim compoundIndex As Dictionary(Of String, String()) = maps _
                 .Select(Function(pathway)
-                            Return pathway.shapes _
+                            Return pathway.shapes.mapdata _
                                 .Select(Function(a) a.IDVector) _
                                 .IteratesALL _
                                 .Where(Function(id) id.IsPattern("C\d+")) _
@@ -69,7 +81,7 @@ Namespace ReactionNetwork
                               Function(mapList)
                                   Return mapList _
                                       .Select(Function(l) l.Item2) _
-                                      .Select(Function(map) $"[{map.id}] {map.Name}") _
+                                      .Select(Function(map) $"[{map.EntryId}] {map.name}") _
                                       .ToArray
                               End Function)
 
@@ -88,7 +100,7 @@ Namespace ReactionNetwork
         ''' <param name="net"></param>
         ''' <param name="ko0001"></param>
         <Extension>
-        Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = FunctionalNetwork.Delimiter)
+        Public Sub AssignNodeClassFromReactionLinks(net As NetworkGraph, ko0001 As KOLinks(), Optional delimiter$ = SimpleBuilder.Delimiter)
             ' 生成了reaction => pathway的对应关系
             Dim index As Dictionary(Of String, KOLinks()) = ko0001 _
                 .Where(Function(ko) Not ko.reactions.IsNullOrEmpty) _

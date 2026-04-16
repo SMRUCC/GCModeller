@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::e1cd62e2e1647bae0a275a0f4b2034eb, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\ConvexHull\JarvisMatch.vb"
+﻿#Region "Microsoft.VisualBasic::34acc545dcc96c0a699d1f62de7a8369, gr\Microsoft.VisualBasic.Imaging\Drawing2D\Math2D\ConvexHull\JarvisMatch.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 67
+    '    Code Lines: 52 (77.61%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 15 (22.39%)
+    '     File Size: 1.99 KB
+
 
     '     Module JarvisMatch
     ' 
@@ -93,10 +105,14 @@ Namespace Drawing2D.Math2D.ConvexHull
                 q = nextHullPoint(vector, hull(counter))
 
                 If Not q = hull(0) Then
-                    hull.Add(q)
+                    Call hull.Add(q)
                 End If
 
                 counter += 1
+
+                If hull.Count / vector.Length > 100 Then
+                    Exit While
+                End If
             End While
 
             Return hull

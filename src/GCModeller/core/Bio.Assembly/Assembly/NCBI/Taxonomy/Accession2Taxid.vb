@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::0710a1558d5f01a1e19ef81192974b05, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
+﻿#Region "Microsoft.VisualBasic::042352256e33e2ef943c1cf8b7d9809c, core\Bio.Assembly\Assembly\NCBI\Taxonomy\Accession2Taxid.vb"
 
     ' Author:
     ' 
@@ -31,9 +31,24 @@
 
     ' Summaries:
 
-    '     Module Accession2Taxid
+
+    ' Code Statistics:
+
+    '   Total Lines: 153
+    '    Code Lines: 93 (60.78%)
+    ' Comment Lines: 35 (22.88%)
+    '    - Xml Docs: 68.57%
     ' 
-    '         Function: __loadData, LoadAll, Matchs, ReadFile
+    '   Blank Lines: 25 (16.34%)
+    '     File Size: 6.30 KB
+
+
+    '     Class Accession2Taxid
+    ' 
+    '         Properties: accession, accession_version, gi, taxid
+    ' 
+    '         Function: LoadAll, LoadDataAll, Matchs, ReadFile, ReadFiles
+    '                   ToString
     ' 
     ' 
     ' /********************************************************************************/
@@ -42,9 +57,11 @@
 
 Imports System.IO
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.ComponentModel.Collection
-Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Language.UnixBash
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
@@ -53,7 +70,18 @@ Namespace Assembly.NCBI.Taxonomy
     ''' <summary>
     ''' 将序列的AccessionID编号转换为Taxid编号
     ''' </summary>
-    Public Module Accession2Taxid
+    Public Class Accession2Taxid
+
+        Public Property accession As String
+        Public Property accession_version As String
+        Public Property taxid As UInteger
+        Public Property gi As UInteger
+
+        Public Const acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
+
+        Public Overrides Function ToString() As String
+            Return New String() {accession, accession_version, taxid, gi}.JoinBy(vbTab)
+        End Function
 
         ''' <summary>
         ''' 一次性的加载完整个数据库之中的数据到内存之中（不推荐）
@@ -61,29 +89,34 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="DIR$"></param>
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function LoadAll(DIR$) As BucketDictionary(Of String, Integer)
-            Return DIR.__loadData _
-                .CreateBuckets(Function(x) x.Name,
-                               Function(x) x.Value)
+        Public Shared Function LoadAll(DIR As String) As BucketDictionary(Of String, UInteger)
+            Return LoadDataAll(DIR) _
+                .CreateBuckets(Function(a) a.accession,
+                               Function(a)
+                                   Return a.taxid
+                               End Function)
+        End Function
+
+        Public Shared Function ReadFiles(ParamArray files As String()) As IEnumerable(Of Accession2Taxid)
+            Return files.Select(Function(path) ReadFile(path)).IteratesALL
         End Function
 
         ''' <summary>
-        ''' 在返回的数据之中，属性<see cref="NamedValue(Of Integer).Description"/>是原始的行数据，
-        ''' Name属性不包含有Accession的版本号
+        ''' 
         ''' </summary>
-        ''' <param name="file$"></param>
+        ''' <param name="file"></param>
         ''' <returns></returns>
-        <Extension>
-        Public Iterator Function ReadFile(file$) As IEnumerable(Of NamedValue(Of Integer))
-            Dim line$
+        Public Shared Iterator Function ReadFile(file As String) As IEnumerable(Of Accession2Taxid)
+            Dim line As Value(Of String) = ""
             Dim tokens$()
 
-            Using reader As StreamReader = file.OpenReader
+            Using txt As StreamReader = file.OpenReader
                 ' skip first line, headers
-                Call reader.ReadLine()
+                Call txt.ReadLine()
 
-                Do While Not reader.EndOfStream
-                    line = reader.ReadLine
+                Dim reader As Func(Of String) = TqdmWrapper.StreamReader(txt)
+
+                Do While (line = reader()) IsNot Nothing
                     tokens = line.Split(ASCII.TAB)
 
                     ' 2018-11-03 因为下面的解析过程是依据具体的index来进行的
@@ -92,10 +125,11 @@ Namespace Assembly.NCBI.Taxonomy
 
                     ' 0               1                       2       3
                     ' accession       accession.version       taxid   gi
-                    Yield New NamedValue(Of Integer) With {
-                        .Name = tokens(Scan0),
-                        .Value = CInt(Val(tokens(2))),
-                        .Description = line
+                    Yield New Accession2Taxid With {
+                        .accession = tokens(0),
+                        .accession_version = tokens(1),
+                        .taxid = CUInt(Val(tokens(2))),
+                        .gi = CUInt(Val(tokens(3)))
                     }
                 Loop
             End Using
@@ -107,8 +141,7 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="DIR$"></param>
         ''' <param name="gb_priority"></param>
         ''' <returns></returns>
-        <Extension>
-        Private Iterator Function __loadData(DIR$, Optional gb_priority? As Boolean = False) As IEnumerable(Of NamedValue(Of Integer))
+        Private Shared Iterator Function LoadDataAll(DIR$, Optional gb_priority? As Boolean = False) As IEnumerable(Of Accession2Taxid)
             Dim files$() = (ls - l - r - "*.*" <= DIR).ToArray
 
             If gb_priority Then
@@ -122,17 +155,13 @@ Namespace Assembly.NCBI.Taxonomy
             End If
 
             For Each file$ In files
-                Call file.ToFileURL.__DEBUG_ECHO
+                Call file.ToFileURL.debug
 
-                For Each x In file.ReadFile
+                For Each x As Accession2Taxid In ReadFile(file)
                     Yield x
                 Next
             Next
         End Function
-
-        Const null$ = Nothing
-
-        Public Const Acc2Taxid_Header As String = "accession" & vbTab & "accession.version" & vbTab & "taxid" & vbTab & "gi"
 
         ''' <summary>
         ''' 做数据库的subset操作。这个函数所返回来的数据之中是包含有表头的
@@ -140,11 +169,10 @@ Namespace Assembly.NCBI.Taxonomy
         ''' <param name="acc_list"></param>
         ''' <param name="DIR$"></param>
         ''' <returns></returns>
-        <Extension>
-        Public Iterator Function Matchs(acc_list As IEnumerable(Of String),
-                                        DIR$,
-                                        Optional gb_priority? As Boolean = False,
-                                        Optional debug? As Boolean = False) As IEnumerable(Of String)
+        Public Shared Iterator Function Matchs(acc_list As IEnumerable(Of String),
+                                               DIR$,
+                                               Optional gb_priority? As Boolean = False,
+                                               Optional debug? As Boolean = False) As IEnumerable(Of String)
 
             ' 2017-12-25 
             ' 因为后面的循环之中需要进行已经被match上的对象的remove操作
@@ -157,26 +185,26 @@ Namespace Assembly.NCBI.Taxonomy
             Yield Acc2Taxid_Header
 
             Dim n% = 0
-            Dim ALL% = list.Count
+            Dim all% = list.Count
 
-            For Each accessionId As NamedValue(Of Integer) In __loadData(DIR, gb_priority).AsParallel
-                If list.ContainsKey(accessionId.Name) Then
-                    Yield accessionId.Description
+            For Each accessionId As Accession2Taxid In LoadDataAll(DIR, gb_priority).AsParallel
+                If list.ContainsKey(accessionId.accession) Then
+                    Yield accessionId.ToString
 
                     If list.Count = 0 Then
                         Exit For
                     Else
-                        Call list.Remove(accessionId.Name)
-                        Call n.SetValue(n + 1)
+                        Call list.Remove(accessionId.accession)
+                        Call n.InlineCopy(n + 1)
 
                         If debug Then
-                            Call accessionId.Description.__DEBUG_ECHO
+                            Call accessionId.ToString.debug
                         End If
                     End If
                 End If
             Next
 
-            Call $"{ALL} accession id match {n} taxonomy info.".__INFO_ECHO
+            Call $"{all} accession id match {n} taxonomy info.".info
         End Function
-    End Module
+    End Class
 End Namespace

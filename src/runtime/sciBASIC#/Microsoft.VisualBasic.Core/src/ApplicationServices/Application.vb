@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::39ecd54cbe85f8969e06822c5a8bb59f, Microsoft.VisualBasic.Core\src\ApplicationServices\Application.vb"
+﻿#Region "Microsoft.VisualBasic::8dd42783dfbcd8f329dce6dfa249d7f8, Microsoft.VisualBasic.Core\src\ApplicationServices\Application.vb"
 
     ' Author:
     ' 
@@ -31,11 +31,23 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 59
+    '    Code Lines: 39 (66.10%)
+    ' Comment Lines: 11 (18.64%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 9 (15.25%)
+    '     File Size: 1.78 KB
+
+
     '     Class Application
     ' 
     '         Properties: ExecutablePath, ProductName, ProductVersion, StartupPath
     ' 
-    '         Sub: DoEvents
+    '         Constructor: (+1 Overloads) Sub New
     ' 
     ' 
     ' /********************************************************************************/
@@ -49,10 +61,23 @@ Imports AssemblyMeta = Microsoft.VisualBasic.ApplicationServices.Development.Ass
 
 Namespace ApplicationServices
 
+    ''' <summary>
+    ''' Application information
+    ''' </summary>
     Public Class Application
 
-        Shared ReadOnly main As Assembly = Assembly.GetEntryAssembly()
-        Shared ReadOnly meta As AssemblyMeta = main.FromAssembly
+        Shared ReadOnly main As Assembly
+        Shared ReadOnly meta As AssemblyMeta
+
+        ''' <summary>
+        ''' try to fix for the winform visual designer error
+        ''' </summary>
+        Shared Sub New()
+            On Error Resume Next
+
+            main = Assembly.GetEntryAssembly()
+            meta = main.FromAssembly
+        End Sub
 
         ''' <summary>
         ''' Gets the path for the executable file that started the application, 
@@ -61,7 +86,11 @@ Namespace ApplicationServices
         ''' <returns></returns>
         Public Shared ReadOnly Property StartupPath As String
             Get
-                Return Path.GetDirectoryName(main.Location)
+                If main Is Nothing Then
+                    Return Environment.CurrentDirectory
+                Else
+                    Return Path.GetDirectoryName(main.Location)
+                End If
             End Get
         End Property
 
@@ -82,17 +111,5 @@ Namespace ApplicationServices
                 Return meta.AssemblyVersion
             End Get
         End Property
-
-        Public Shared Sub DoEvents()
-#If netcore5 = 0 Then
-#If UNIX = False Then
-            Try
-                Call Parallel.DoEvents()
-            Catch ex As Exception
-                Call ex.PrintException
-            End Try
-#End If
-#End If
-        End Sub
     End Class
 End Namespace

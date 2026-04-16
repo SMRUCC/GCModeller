@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::84ea77c3d8cf4d69b57b2233f4cdaf8f, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\STDIO__\IConsole.vb"
+﻿#Region "Microsoft.VisualBasic::33f4c89111a4c28b5f50942fe28215fc, Microsoft.VisualBasic.Core\src\ApplicationServices\Terminal\STDIO__\IConsole.vb"
 
     ' Author:
     ' 
@@ -30,6 +30,18 @@
     ' /********************************************************************************/
 
     ' Summaries:
+
+
+    ' Code Statistics:
+
+    '   Total Lines: 76
+    '    Code Lines: 22 (28.95%)
+    ' Comment Lines: 44 (57.89%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 10 (13.16%)
+    '     File Size: 2.87 KB
+
 
     '     Interface IReadDevice
     ' 
@@ -120,6 +132,11 @@ Namespace ApplicationServices.Terminal.STDIO__
         ReadOnly Property WindowWidth As Integer
         Property BackgroundColor As ConsoleColor
         Property ForegroundColor As ConsoleColor
+
+        ''' <summary>
+        ''' when &lt;TAB> is pressed
+        ''' </summary>
+        Event Tab()
 
     End Interface
 End Namespace

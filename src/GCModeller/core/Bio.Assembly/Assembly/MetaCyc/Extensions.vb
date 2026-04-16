@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 70
+    '    Code Lines: 51 (72.86%)
+    ' Comment Lines: 6 (8.57%)
+    '    - Xml Docs: 100.00%
+    ' 
+    '   Blank Lines: 13 (18.57%)
+    '     File Size: 2.44 KB
+
+
     '     Module Extensions
     ' 
     '         Properties: Directions

@@ -31,6 +31,18 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 6
+    '    Code Lines: 5 (83.33%)
+    ' Comment Lines: 0 (0.00%)
+    '    - Xml Docs: 0.00%
+    ' 
+    '   Blank Lines: 1 (16.67%)
+    '     File Size: 135 B
+
+
     '     Interface QuantileQuery
     ' 
     '         Function: Query

@@ -1,4 +1,4 @@
-﻿#Region "Microsoft.VisualBasic::dafdb55ec4b6163a67db333dc9e04ad2, R#\metagenomics_kit\TaxonomyKit.vb"
+﻿#Region "Microsoft.VisualBasic::bc2348fc53e45a1c98aa17b9293f5b3a, R#\metagenomics_kit\TaxonomyKit.vb"
 
     ' Author:
     ' 
@@ -31,12 +31,26 @@
 
     ' Summaries:
 
+
+    ' Code Statistics:
+
+    '   Total Lines: 451
+    '    Code Lines: 283 (62.75%)
+    ' Comment Lines: 120 (26.61%)
+    '    - Xml Docs: 95.83%
+    ' 
+    '   Blank Lines: 48 (10.64%)
+    '     File Size: 18.93 KB
+
+
     ' Module TaxonomyKit
     ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: buildTree, Consensus, filterLambda, Filters, Lineage
-    '               lineageTable, LoadNcbiTaxonomyTree, printTaxonomy, RangeFilter, TaxonomyBIOMString
-    '               uniqueTaxonomy
+    '     Function: accession2Taxid_load, buildTree, Consensus, filterLambda, Filters
+    '               get_byRanks, getLCAresult, InRange, Lineage, lineageTable
+    '               loadMothurTree, LoadNcbiTaxonomyTree, ParseBIOMString, printTaxonomy, RangeFilter
+    '               ranks_list, taxonomy_name, TaxonomyBIOMString, TaxonomyRange, uniqueTaxonomy
+    ' 
+    '     Sub: Main
     ' 
     ' /********************************************************************************/
 
@@ -45,6 +59,8 @@
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.Ranges
+Imports Microsoft.VisualBasic.Data.Framework.IO
+Imports Microsoft.VisualBasic.Data.IO.HDF5.struct
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.Metagenome
@@ -54,26 +70,36 @@ Imports SMRUCC.genomics.Metagenomics
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
-Imports REnv = SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
+Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports rdataframe = SMRUCC.Rsharp.Runtime.Internal.Object.dataframe
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports Taxonomy = SMRUCC.genomics.Metagenomics.Taxonomy
 
 ''' <summary>
 ''' toolkit for process ncbi taxonomy tree data
 ''' </summary>
+''' <remarks>
+''' The Taxonomy Database is a curated classification and nomenclature for all of the 
+''' organisms in the public sequence databases. This currently represents about 10% 
+''' of the described species of life on the planet.
+''' </remarks>
 <Package("taxonomy_kit", Category:=APICategories.UtilityTools, Publisher:="xie.guigang@gcmodeller.org")>
+<RTypeExport("taxonomy", GetType(Taxonomy))>
+<RTypeExport("taxonomy_node", GetType(TaxonomyNode))>
 Module TaxonomyKit
 
-    Sub New()
-        REnv.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
-        Internal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
+    Sub Main()
+        RInternal.ConsolePrinter.AttachConsoleFormatter(Of Taxonomy)(AddressOf printTaxonomy)
+
+        RInternal.Object.Converts.addHandler(GetType(NcbiTaxonomyTree), AddressOf lineageTable)
     End Sub
 
-    Private Function lineageTable(x As Object, args As list, env As Environment) As dataframe
+    Private Function lineageTable(x As Object, args As list, env As Environment) As rdataframe
         Dim tree As NcbiTaxonomyTree = DirectCast(x, NcbiTaxonomyTree)
         Dim taxonomy = tree.Taxonomy.Keys _
             .Select(Function(id)
                         Return tree _
-                            .GetAscendantsWithRanksAndNames(id, True) _
+                            .GetAscendantsWithRanksAndNames(Integer.Parse(id), True) _
                             .DoCall(Function(line)
                                         Return New Taxonomy(line) With {
                                             .ncbi_taxid = id
@@ -90,7 +116,7 @@ Module TaxonomyKit
         Dim genus As Array = taxonomy.Select(Function(t) t.genus).ToArray
         Dim species As Array = taxonomy.Select(Function(t) t.species).ToArray
 
-        Return New dataframe With {
+        Return New rdataframe With {
             .columns = New Dictionary(Of String, Array) From {
                 {NameOf(ncbi_taxid), ncbi_taxid},
                 {NameOf(kingdom), kingdom},
@@ -105,23 +131,113 @@ Module TaxonomyKit
     End Function
 
     Private Function printTaxonomy(taxonomy As Taxonomy) As String
-        Return $"<{taxonomy.lowestLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
+        Return $"<{taxonomy.RankLevel}> {taxonomy.ToString(BIOMstyle:=True)}"
     End Function
 
+    ''' <summary>
+    ''' cast taxonomy object to biom style taxonomy string
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="trim_genusName">
+    ''' removes the genus name from the species name?
+    ''' </param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' # parse the string as taxonomy object
+    ''' let tax = biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' # then convert back the taxonomy object as the string content
+    ''' print(biom.string(tax));
+    ''' </example>
     <ExportAPI("biom.string")>
     <RApiReturn(GetType(String))>
-    Public Function TaxonomyBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+    Public Function TaxonomyBIOMString(<RRawVectorArgument>
+                                       taxonomy As Object,
+                                       Optional trim_genusName As Boolean = False,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
 
         If list.isError Then
             Return list.getError
         Else
             Return list.populates(Of Taxonomy)(env) _
-                .Select(Function(tax) tax.ToString(BIOMstyle:=True)) _
+                .Select(Function(tax)
+                            Return tax.ToString(BIOMstyle:=True, trimGenus:=trim_genusName)
+                        End Function) _
                 .ToArray
         End If
     End Function
 
+    ''' <summary>
+    ''' parse the taxonomy string in BIOM style
+    ''' </summary>
+    ''' <param name="taxonomy">a character vector of the taxonomy string in BIOM style</param>
+    ''' <param name="env"></param>
+    ''' <returns>a vector of <see cref="Taxonomy"/> object.</returns>
+    ''' <example>
+    ''' biom_string.parse(["k__Bacteria; p__Firmicutes; c__Clostridia; o__Clostridiales; f__Lachnospiraceae; g__Robinsoniella; s__peoriensis"]);
+    ''' </example>
+    <ExportAPI("biom_string.parse")>
+    <RApiReturn(GetType(Taxonomy))>
+    Public Function ParseBIOMString(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
+        Dim strings As String() = CLRVector.asCharacter(taxonomy)
+        Dim taxlist As Taxonomy() = strings _
+            .Select(AddressOf BIOMTaxonomyParser.Parse) _
+            .ToArray
+
+        Return taxlist
+    End Function
+
+    ''' <summary>
+    ''' get taxonomy name
+    ''' </summary>
+    ''' <param name="taxonomy">a collection of <see cref="Taxonomy"/> model object</param>
+    ''' <param name="rank">a specific taxonomy rank level for get the label names</param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("taxonomy_name")>
+    Public Function taxonomy_name(<RRawVectorArgument> taxonomy As Object,
+                                  Optional rank As TaxonomyRanks = TaxonomyRanks.NA,
+                                  Optional missing As String = "Unknown",
+                                  Optional env As Environment = Nothing) As Object
+
+        Dim taxons = If(TypeOf taxonomy Is Taxonomy(),
+            taxonomy,
+            ParseBIOMString(taxonomy, env)
+        )
+
+        If TypeOf taxons Is Message Then
+            Return taxons
+        End If
+
+        Dim taxList As Taxonomy() = DirectCast(taxons, Taxonomy())
+        Dim query As IEnumerable(Of String)
+
+        If rank = TaxonomyRanks.NA Then
+            query = From t As Taxonomy
+                    In taxList
+                    Select If(t.scientificName, missing)
+        Else
+            query = From t As Taxonomy
+                    In taxList
+                    Let rankLast As String = t _
+                        .Select(rank) _
+                        .LastOrDefault
+                    Select If(rankLast, missing)
+        End If
+
+        Dim names As String() = query.ToArray
+
+        Return names
+    End Function
+
+    ''' <summary>
+    ''' make taxonomy object unique
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
     <ExportAPI("unique_taxonomy")>
     Public Function uniqueTaxonomy(<RRawVectorArgument> taxonomy As Object, Optional env As Environment = Nothing) As Object
         Dim list = pipeline.TryCreatePipeline(Of Taxonomy)(taxonomy, env)
@@ -150,14 +266,59 @@ Module TaxonomyKit
     ''' { Taxid namedtuple('Node', ['name', 'rank', 'parent', 'children']
     '''     } 
     ''' ``` 
+    ''' 
     ''' + https://www.biostars.org/p/13452/ 
     ''' + https://pythonhosted.org/ete2/tutorial/tutorial_ncbitaxonomy.html
+    ''' 
     ''' </remarks>
+    ''' <example>const tree = Ncbi.taxonomy_tree("/dir/path/to/ncbi_taxdump_archive/");</example>
     <ExportAPI("Ncbi.taxonomy_tree")>
     Public Function LoadNcbiTaxonomyTree(repo As String) As NcbiTaxonomyTree
         Return New NcbiTaxonomyTree(repo)
     End Function
 
+    ''' <summary>
+    ''' cast the ncbi taxonomy tree model to taxonomy ranks data
+    ''' </summary>
+    ''' <param name="ncbi_tree"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' ranks(Ncbi.taxonomy_tree("/folder/path/to/ncbi_taxonomy_dump/"));
+    ''' </example>
+    <ExportAPI("ranks")>
+    Public Function ranks_list(ncbi_tree As NcbiTaxonomyTree) As Ranks
+        Return New Ranks(ncbi_tree)
+    End Function
+
+    ''' <summary>
+    ''' get all taxonomy tree nodes of the specific taxonomy ranks
+    ''' </summary>
+    ''' <param name="tree"></param>
+    ''' <param name="rank"></param>
+    ''' <returns></returns>
+    ''' <example>
+    ''' taxonomy_ranks(tree, rank = "class");
+    ''' </example>
+    <ExportAPI("taxonomy_ranks")>
+    <RApiReturn(GetType(TaxonomyNode))>
+    Public Function get_byRanks(tree As Ranks, rank As TaxonomyRanks) As Object
+        Return New list With {
+            .slots = tree _
+                .getByRank(rank.Description) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return CObj(a.Value.ToArray)
+                              End Function)
+        }
+    End Function
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="tree">the ncbi taxonomy tree model</param>
+    ''' <param name="range">a collection of the ncbi taxonomy id or BIOM taxonomy string.</param>
+    ''' <param name="taxid">a lambda function will be returns if this ncbi taxonomy id set is missing.</param>
+    ''' <returns></returns>
     <ExportAPI("taxonomy.filter")>
     <RApiReturn(GetType(Taxonomy), GetType(Predicate(Of Taxonomy)))>
     Public Function Filters(tree As NcbiTaxonomyTree, range As String(), Optional taxid As Integer() = Nothing) As Object
@@ -169,7 +330,7 @@ Module TaxonomyKit
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(id))
                         End If
                     End Function) _
-            .Where(Function(t) t.lowestLevel <> TaxonomyRanks.NA) _
+            .Where(Function(t) t.RankLevel <> TaxonomyRanks.NA) _
             .ToArray
 
         If taxid Is Nothing Then
@@ -235,10 +396,15 @@ Module TaxonomyKit
     ''' <returns></returns>
     <ExportAPI("lineage")>
     Public Function Lineage(tree As NcbiTaxonomyTree, <RRawVectorArgument> tax As String(), Optional fullName As Boolean = False) As Taxonomy()
+        Dim std_rank As Boolean = Not fullName
+
         Return tax _
             .Select(Function(ncbi_taxid)
                         If ncbi_taxid.IsPattern("\d+") Then
-                            Return New Taxonomy(tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=Not fullName))
+                            Dim path As TaxonomyNode() = tree.GetAscendantsWithRanksAndNames(Integer.Parse(ncbi_taxid), only_std_ranks:=std_rank)
+                            Dim taxon As New Taxonomy(path)
+
+                            Return taxon
                         Else
                             Return New Taxonomy(BIOMTaxonomy.TaxonomyParser(ncbi_taxid))
                         End If
@@ -246,16 +412,98 @@ Module TaxonomyKit
             .ToArray
     End Function
 
+    ''' <summary>
+    ''' build taxonomy tree based on a given collection of taxonomy object.
+    ''' </summary>
+    ''' <param name="taxonomy"></param>
+    ''' <returns></returns>
     <ExportAPI("as.taxonomy.tree")>
     Public Function buildTree(taxonomy As Taxonomy()) As TaxonomyTree
         Return TaxonomyTree.BuildTree(taxonomy.Select(Function(t) New gast.Taxonomy(t)), Nothing, Nothing)
     End Function
 
     <ExportAPI("consensus")>
-    Public Function Consensus(tree As TaxonomyTree, level As TaxonomyRanks) As Taxonomy()
+    Public Function Consensus(tree As TaxonomyTree, rank As TaxonomyRanks) As Taxonomy()
         Return tree _
-            .PopulateTaxonomy(level) _
+            .PopulateTaxonomy(rank) _
             .Select(Function(t) DirectCast(t, Taxonomy)) _
             .ToArray
+    End Function
+
+    ''' <summary>
+    ''' Parse the result output from mothur command ``summary.tax``. 
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.mothurTree")>
+    Public Function loadMothurTree(file As String) As MothurRankTree
+        Return MothurRankTree.LoadTaxonomySummary(file)
+    End Function
+
+    <ExportAPI("taxonomy_range")>
+    Public Function TaxonomyRange(tax As Taxonomy, rank As TaxonomyRanks) As Taxonomy
+        Return tax.TaxonomyRankString(rank).DoCall(AddressOf BIOMTaxonomyParser.Parse)
+    End Function
+
+    ''' <summary>
+    ''' test the given taxonomy list is inside the specific taxonomy range?
+    ''' </summary>
+    ''' <param name="list"></param>
+    ''' <param name="range"></param>
+    ''' <returns></returns>
+    <ROperator("in")>
+    Public Function InRange(list As Taxonomy(), range As Taxonomy) As Boolean()
+        Return list _
+            .Select(Function(tax)
+                        Dim compare As Relations = tax.CompareWith(another:=range)
+
+                        Return compare = Relations.Equals OrElse
+                               compare = Relations.IncludeBy
+                    End Function) _
+            .ToArray
+    End Function
+
+    <ExportAPI("LCA")>
+    <RApiReturn(GetType(LcaResult))>
+    Public Function getLCAresult(tree As NcbiTaxonomyTree, <RRawVectorArgument> ncbi_taxid As Object,
+                                 Optional min_supports As Double = 0.5,
+                                 Optional as_list As Boolean = True,
+                                 Optional env As Environment = Nothing) As Object
+
+        Dim taxid As Integer() = CLRVector.asInteger(ncbi_taxid)
+        Dim method As New LCA(tree)
+        Dim result As LcaResult = method.GetLCAForMetagenomics(taxid, minSupport:=min_supports)
+
+        If as_list Then
+            Dim lca As list = list.empty
+            Dim node = result.lcaNode
+
+            Call lca.add("support_ratio", result.supportRatio)
+            Call lca.add("supported_taxids", result.supportedTaxids)
+            Call lca.add("lca", New list(New Dictionary(Of String, Object) From {
+                {"taxid", node.taxid},
+                {"name", node.name},
+                {"rank", node.rank},
+                {"parent", node.parent},
+                {"childs", node.children.SafeQuery.ToArray}
+            }))
+
+            Return lca
+        Else
+            Return result
+        End If
+    End Function
+
+    ''' <summary>
+    ''' Create a stream read to the ncbi accession id mapping to ncbi taxonomy id
+    ''' </summary>
+    ''' <param name="map_files">
+    ''' should be a set of file path to the ncbi accession map to taxid table file, example as: ``c('nucl_gb.accession2taxid', 'nucl_wgs.accession2taxid')``
+    ''' </param>
+    ''' <returns></returns>
+    <ExportAPI("accession2Taxid")>
+    <RApiReturn(GetType(Accession2Taxid))>
+    Public Function accession2Taxid_load(<RRawVectorArgument> map_files As Object) As Object
+        Return pipeline.CreateFromPopulator(Accession2Taxid.ReadFiles(CLRVector.asCharacter(map_files)))
     End Function
 End Module
