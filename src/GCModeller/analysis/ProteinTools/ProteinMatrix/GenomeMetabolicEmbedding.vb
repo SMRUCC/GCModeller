@@ -110,6 +110,18 @@ Public Class GenomeMetabolicEmbedding
         Return Me
     End Function
 
+    Public Function MakeVectorizer(Optional normalize As Boolean = False) As Dictionary(Of String, Double())
+        Dim df = TfidfVectorizer(normalize)
+        Call df.delete(featureName:="taxonomy")
+        Return df.foreachRow _
+            .ToDictionary(Function(row) row.name,
+                          Function(row)
+                              Return (From xi As Object
+                                      In row
+                                      Select CDbl(xi)).ToArray
+                          End Function)
+    End Function
+
     Public Function TfidfVectorizer(Optional normalize As Boolean = False) As DataFrame
         Call $"Make metabolic embedding with: ".info
         Call $"  * {vec.N} genomes".debug
