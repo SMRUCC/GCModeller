@@ -57,6 +57,7 @@
 
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Data.NLP
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 
 Public Class GenomeMetabolicEmbedding
@@ -81,6 +82,24 @@ Public Class GenomeMetabolicEmbedding
         End If
 
         Call taxonomy.Add(genome.assembly_id, genome.taxonomy)
+    End Sub
+
+    Public Sub Add(genome_id As String, ec_numbers As IEnumerable(Of String), taxonomy As String)
+        Dim ec_terms As Dictionary(Of String, Integer) = ec_numbers _
+            .SafeQuery _
+            .GroupBy(Function(ec) ec) _
+            .ToDictionary(Function(ec) ec.Key,
+                          Function(ec)
+                              Return ec.Count
+                          End Function)
+
+        Call Me.taxonomy.Add(genome_id, taxonomy)
+
+        If hierarchical Then
+            Call vec.Add(genome_id, GenomeVector.GetHierarchicalECNumberTerms(ec_terms))
+        Else
+            Call vec.Add(genome_id, ec_terms)
+        End If
     End Sub
 
     Public Function AddGenomes(seqs As IEnumerable(Of GenomeVector)) As GenomeMetabolicEmbedding
