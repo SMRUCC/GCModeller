@@ -226,7 +226,7 @@ Namespace ContextModel.Operon
 
             ' 计算期望频率
             Dim expectedProbability As Double = 1.0
-            For Each c In motif
+            For Each c As String In motif
                 expectedProbability *= nucleotideFrequencies(c)
             Next
 
