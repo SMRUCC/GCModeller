@@ -137,6 +137,10 @@ declare namespace GCModeller {
    */
    function kegg_reactions(raw?: any): object;
    /**
+     * @param code default value Is ``null``.
+   */
+   function kegg_taxonomyinfo(code?: any): object;
+   /**
      * @param cache default value Is ``./tmp``.
      * @param batch_size default value Is ``100``.
    */
