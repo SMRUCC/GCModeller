@@ -165,7 +165,7 @@ Namespace Assembly.MetaCyc.File.DataFiles.Reflection
         Private Function SplitSlotName(SlotName As String) As String
             Dim sBuilder As StringBuilder = New StringBuilder
 
-            For Each c In SlotName
+            For Each c As Char In SlotName
                 If Asc(c) >= A AndAlso Asc(c) <= Z Then
                     sBuilder.Append("-")
                     sBuilder.Append(c)
