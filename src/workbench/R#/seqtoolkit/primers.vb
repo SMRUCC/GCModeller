@@ -17,7 +17,7 @@ Module primers
     <RApiReturn(GetType(CandidateRegion))>
     Public Function find_primers_region(<RRawVectorArgument>
                                         blastHits As Object,
-                                        Optional maxCoreSpan As Integer = 3 * ISequenceModel.KB,
+                                        Optional maxCoreSpan As Integer = 2 * ISequenceModel.MB,
                                         Optional eval_cutoff As Double = 1,
                                         <RRawVectorArgument>
                                         Optional primerIds As Object = Nothing,

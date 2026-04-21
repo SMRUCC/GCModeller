@@ -66,14 +66,14 @@ Public Class CandidateRegion
 
         For Each group As NamedCollection(Of HitRecord) In chrGroups
             Dim chrName = group.name
-            Dim hitsOnChr = group.ToList()
+            Dim hitsOnChr = group.AsList()
 
             ' 1. 动态获取每个引物在该染色体上的Hit集合，存入一个列表中
             Dim primerHitGroups As New List(Of List(Of HitRecord))
             Dim allPrimerPresent As Boolean = True
 
             For Each PID As String In primerIds
-                Dim hits = hitsOnChr.Where(Function(h) h.QueryID = PID).ToList()
+                Dim hits = hitsOnChr.Where(Function(h) h.QueryID = PID).AsList()
                 If hits.Count = 0 Then
                     ' 只要有任何一个引物在该染色体上没有hit，就标记为不全
                     allPrimerPresent = False
@@ -95,7 +95,7 @@ Public Class CandidateRegion
                 For Each existingComb In combinations
                     For Each hit In hitGroup
                         ' 复制当前已有的组合，并追加当前引物的一个hit
-                        Dim newComb = existingComb.ToList()
+                        Dim newComb = existingComb.AsList()
                         newComb.Add(hit)
                         newCombinations.Add(newComb)
                     Next
@@ -129,7 +129,7 @@ Public Class CandidateRegion
         Next
 
         ' 5. 候选区域去重与合并 (如果在同一条染色体上找到多个重叠的候选区，取外边界合并)
-        candidates = candidates.OrderBy(Function(c) c.Chr).ThenBy(Function(c) c.CoreStart).ToList()
+        candidates = candidates.OrderBy(Function(c) c.Chr).ThenBy(Function(c) c.CoreStart).AsList()
         Dim mergedCandidates As New List(Of CandidateRegion)
 
         For Each cand In candidates
