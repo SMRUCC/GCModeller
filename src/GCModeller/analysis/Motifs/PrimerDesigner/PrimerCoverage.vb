@@ -60,7 +60,7 @@ Public Class PrimerCoverage
             End If
 
             Yield New PrimerCoverage With {
-                .GeneID = gene.feature,
+                .GeneID = gene.ID,
                 .Chromosome = targetChr,
                 .Start = gene.Location.left,
                 .Ends = gene.Location.right,

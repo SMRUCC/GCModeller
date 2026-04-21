@@ -156,15 +156,6 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <returns></returns>
         Public Property strand As Strands
-            Get
-                Return _strand
-            End Get
-            Set(value As Strands)
-                _strand = value
-            End Set
-        End Property
-
-        Dim _strand As Strands
 
         ''' <summary>
         ''' One of '0', '1', '2' or '.'. '0' indicates that the specified region is in frame, i.e. that its first base corresponds to 
