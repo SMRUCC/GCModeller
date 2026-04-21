@@ -520,7 +520,11 @@ Module workflows
     ''' <returns></returns>
     <ExportAPI("read.outfmt6")>
     <RApiReturn(GetType(HitRecord))>
-    Public Function read_blast_tabular(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+    Public Function read_blast_tabular(<RRawVectorArgument>
+                                       file As Object,
+                                       Optional make_query_group As Boolean = False,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim is_filepath As Boolean = False
         Dim s = SMRUCC.Rsharp.GetFileStream(file, IO.FileAccess.Read, env, is_filepath:=is_filepath)
 
@@ -541,7 +545,16 @@ Module workflows
             End Try
         End If
 
-        Return tabular
+        If make_query_group Then
+            Return New list(tabular _
+                .GroupBy(Function(a) a.QueryID) _
+                .ToDictionary(Function(a) a.Key,
+                              Function(a)
+                                  Return a.ToArray
+                              End Function))
+        Else
+            Return tabular
+        End If
     End Function
 
     ''' <summary>
