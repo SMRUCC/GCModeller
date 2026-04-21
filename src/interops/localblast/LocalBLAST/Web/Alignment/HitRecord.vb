@@ -62,6 +62,7 @@ Imports System.Text.RegularExpressions
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Data.Framework.StorageProvider.Reflection
 Imports Microsoft.VisualBasic.Language
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 
 Namespace NCBIBlastResult.WebBlast
 
@@ -74,11 +75,11 @@ Namespace NCBIBlastResult.WebBlast
     ''' Fields: query id, subject ids, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
     ''' </remarks>
     <XmlType("hit", [Namespace]:="http://gcmodeller.org/visual/circos/blast_hit")>
-    Public Class HitRecord
+    Public Class HitRecord : Implements IMapping
 
         <XmlAttribute("query_name")>
         <Column("query id")>
-        Public Property QueryID As String
+        Public Property QueryID As String Implements IMapping.Qname
         ''' <summary>
         ''' 不同的编号，但是都是代表着同一个对象
         ''' </summary>
@@ -87,7 +88,7 @@ Namespace NCBIBlastResult.WebBlast
         ''' <remarks></remarks>
         <XmlAttribute("hits")>
         <Column("subject ids")>
-        Public Property SubjectIDs As String
+        Public Property SubjectIDs As String Implements IMapping.Sname
 
         <Column("query acc.ver")>
         Public Property QueryAccVer As String
@@ -108,16 +109,16 @@ Namespace NCBIBlastResult.WebBlast
         Public Property GapOpens As Integer
         <XmlAttribute("query.start")>
         <Column("q. start")>
-        Public Property QueryStart As Integer
+        Public Property QueryStart As Integer Implements IMapping.Qstart
         <XmlAttribute("query.ends")>
         <Column("q. end")>
-        Public Property QueryEnd As Integer
+        Public Property QueryEnd As Integer Implements IMapping.Qstop
         <XmlAttribute("hit.start")>
         <Column("s. start")>
-        Public Property SubjectStart As Integer
+        Public Property SubjectStart As Integer Implements IMapping.Sstart
         <XmlAttribute("hit.ends")>
         <Column("s. end")>
-        Public Property SubjectEnd As Integer
+        Public Property SubjectEnd As Integer Implements IMapping.Sstop
         <XmlAttribute("E-value")>
         <Column("evalue")>
         Public Property EValue As Double
