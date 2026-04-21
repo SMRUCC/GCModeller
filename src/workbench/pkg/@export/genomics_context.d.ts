@@ -36,6 +36,9 @@ declare namespace genomics_context {
      * + default value Is ``null``.
    */
    function filter_strand(genes: any, strand?: any, env?: object): any;
+   /**
+   */
+   function genomics_contex(gff: object): object;
    module is {
       /**
        * assert that does the given nucleotide location is in forward direction?
@@ -55,7 +58,7 @@ declare namespace genomics_context {
      * 
      * + default value Is ``null``.
    */
-   function location(left: object, right: object, strand?: any): any;
+   function location(left: object, right: object, strand?: any): object;
    /**
     * do offset of the given location
     * 
