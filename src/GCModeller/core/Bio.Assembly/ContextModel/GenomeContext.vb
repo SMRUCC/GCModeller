@@ -153,6 +153,35 @@ Namespace ContextModel
         End Property
 
         ''' <summary>
+        ''' 计算全基因组的平均基因长度
+        ''' </summary>
+        Public ReadOnly Property AverageGeneLength() As Double
+            Get
+                If sequence.Length = 0 Then Return 0
+                Return sequence.Average(Function(g) g.Length)
+            End Get
+        End Property
+
+        ''' <summary>
+        ''' 计算全基因组的平均基因间距
+        ''' </summary>
+        Public ReadOnly Property AverageIntergenicDistance() As Double
+            Get
+                If sequence.Length < 2 Then Return 0
+                Dim distances As New List(Of Integer)
+
+                For i As Integer = 0 To sequence.Length - 2
+                    Dim curr = sequence(i)
+                    Dim nxt = sequence(i + 1)
+                    Dim dist = GetPhysicalDistance(curr.Location, nxt.Location)
+                    distances.Add(dist)
+                Next
+
+                Return distances.Average()
+            End Get
+        End Property
+
+        ''' <summary>
         ''' 使用基因组特征集合初始化 <see cref="GenomeContext(Of T)"/> 类的新实例。
         ''' 此构造函数会执行数据预处理：按特征名分组、按链方向和物理坐标排序、计算基因组大小。
         ''' </summary>
@@ -161,12 +190,13 @@ Namespace ContextModel
         Sub New(genome As IEnumerable(Of T), Optional name$ = "unnamed")
             Dim source = genome.ToArray()
 
+            contextName = name
             featureTags = genome _
                 .GroupBy(Function(g)
-                             If g.Feature.StringEmpty Then
+                             If g.Key.StringEmpty Then
                                  Return "-"
                              Else
-                                 Return g.Feature
+                                 Return g.Key
                              End If
                          End Function) _
                 .ToDictionary(Function(g) g.Key,
@@ -187,8 +217,6 @@ Namespace ContextModel
             sequence = source _
                 .OrderBy(Function(gene) gene.Location.left) _
                 .ToArray
-
-            contextName = name
             ' 修复：预先计算 size，避免每次调用都进行 Linq 遍历
             size = sequence _
                 .Select(Function(g) g.Location) _
@@ -208,31 +236,6 @@ Namespace ContextModel
                 .IteratesALL _
                 .Where(Function(g) g.Location.Strand = strand) _
                 .ToArray
-        End Function
-
-        ''' <summary>
-        ''' 计算全基因组的平均基因长度
-        ''' </summary>
-        Public Function AverageGeneLength() As Double
-            If sequence.Length = 0 Then Return 0
-            Return sequence.Average(Function(g) g.Length)
-        End Function
-
-        ''' <summary>
-        ''' 计算全基因组的平均基因间距
-        ''' </summary>
-        Public Function AverageIntergenicDistance() As Double
-            If sequence.Length < 2 Then Return 0
-            Dim distances As New List(Of Integer)
-
-            For i As Integer = 0 To sequence.Length - 2
-                Dim curr = sequence(i)
-                Dim nxt = sequence(i + 1)
-                Dim dist = GetPhysicalDistance(curr.Location, nxt.Location)
-                distances.Add(dist)
-            Next
-
-            Return distances.Average()
         End Function
 
         ''' <summary>
@@ -578,7 +581,7 @@ Namespace ContextModel
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{contextName}: {plus.Length} (+), {minus.Length} (-) with {featureTags.Count} features."
+            Return $"{contextName},{StringFormats.Lanudry(size)}: {plus.Length} (+), {minus.Length} (-) with total {featureTags.Count} features."
         End Function
 
         ''' <summary>
