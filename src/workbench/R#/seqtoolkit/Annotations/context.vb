@@ -72,9 +72,9 @@ Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal
@@ -82,9 +82,9 @@ Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 Imports std = System.Math
 Imports vector = SMRUCC.Rsharp.Runtime.Internal.Object.vector
-Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the tools for processing of the genomics context information
@@ -165,7 +165,7 @@ Module context
     End Function
 
     <ExportAPI("primer_coverage")>
-    Public Function primer_coverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chr_seq As FastaSeq) As PrimerCoverage()
+    Public Function primer_coverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chr_seq As ISlicer) As PrimerCoverage()
         Return PrimerCoverage.GetCoverage(targetHits, chr, chr_seq).ToArray
     End Function
 

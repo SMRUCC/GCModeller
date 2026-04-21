@@ -233,12 +233,14 @@ Namespace SequenceModel.FASTA
                 Else
                     Return New FastaFile
                 End If
-            End If
+            Else
+                Dim seqs As IEnumerable(Of FastaSeq) = DocParser(file.ReadAllLines, {deli})
+                Dim fasta As New FastaFile(seqs) With {
+                    .FilePath = file.GetFullPath
+                }
 
-            Dim FastaReader As New FastaFile(DocParser(IO.File.ReadAllLines(file), {deli})) With {
-                .FilePath = FileIO.FileSystem.GetFileInfo(file).FullName
-            }
-            Return FastaReader
+                Return fasta
+            End If
         End Function
 
         ''' <summary>
