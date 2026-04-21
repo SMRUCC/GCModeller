@@ -84,6 +84,7 @@ Imports SMRUCC.Rsharp.Runtime.Interop
 Imports IContext = SMRUCC.genomics.ContextModel.Context
 Imports std = System.Math
 Imports vector = SMRUCC.Rsharp.Runtime.Internal.Object.vector
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 ''' <summary>
 ''' the tools for processing of the genomics context information
@@ -128,11 +129,30 @@ Module context
 
     <ExportAPI("genomics_context")>
     <RApiReturn(GetType(GenomeContext(Of GFF.Feature)))>
-    Public Function genomics_context(gff As GFFTable) As Object
+    Public Function genomics_context(gff As GFFTable,
+                                     Optional chr_name As String = Nothing,
+                                     Optional strict As Boolean = False,
+                                     Optional env As Environment = Nothing) As Object
+
         Dim chrs = gff.GetChromosomes.ToArray
 
         If chrs.Length = 1 Then
             Return New GenomeContext(Of Feature)(gff.features, name:=gff.species)
+        ElseIf Not chr_name.StringEmpty(, True) Then
+            Dim chr = chrs.Where(Function(c) c.name = chr_name).FirstOrDefault
+
+            If chr.IsEmpty Then
+                Dim msg As String = $"the chromosome feature data which is named '{chr_name}' could not be found in the given gff data source."
+
+                If strict Then
+                    Return RInternal.debug.stop(msg, env)
+                Else
+                    Call msg.warning
+                    Return Nothing
+                End If
+            Else
+                Return New GenomeContext(Of Feature)(chr.AsEnumerable, name:=chr.name)
+            End If
         Else
             Dim chrList As list = list.empty
 
