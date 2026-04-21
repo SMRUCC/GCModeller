@@ -1,60 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::13e91d2e0f99be416b37d9fb18530b03, R#\seqtoolkit\Annotations\workflows.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 532
-    '    Code Lines: 399 (75.00%)
-    ' Comment Lines: 77 (14.47%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 56 (10.53%)
-    '     File Size: 24.80 KB
+' Summaries:
 
 
-    ' Module workflows
-    ' 
-    '     Function: blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits, filter_low_level
-    '               FilterBesthitStream, flush, grepNames, openBlastReader, openWriter
-    '               parseBlastnMaps, read_bbhhits, read_besthits, read_m8, removeProteinSufifx
-    ' 
-    '     Sub: Main, writeStreamHelper
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 532
+'    Code Lines: 399 (75.00%)
+' Comment Lines: 77 (14.47%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 56 (10.53%)
+'     File Size: 24.80 KB
+
+
+' Module workflows
+' 
+'     Function: blastn_table, diamond_hitgroups, ExportBBHHits, ExportSBHHits, filter_low_level
+'               FilterBesthitStream, flush, grepNames, openBlastReader, openWriter
+'               parseBlastnMaps, read_bbhhits, read_besthits, read_m8, removeProteinSufifx
+' 
+'     Sub: Main, writeStreamHelper
+' 
+' /********************************************************************************/
 
 #End Region
 
+Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ApplicationServices.Debugging.Logging
 Imports Microsoft.VisualBasic.CommandLine.Reflection
@@ -73,10 +74,12 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.Rsharp.Runtime
+Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 ''' <summary>
 ''' A pipeline collection for proteins' biological function 
@@ -481,6 +484,36 @@ Module workflows
             .OpenHandle(encoding.CodePage) _
             .AsLinq(Of BiDirectionalBesthit) _
             .as_iterator
+    End Function
+
+    ''' <summary>
+    ''' read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read.outfmt6")>
+    <RApiReturn(GetType(HitRecord))>
+    Public Function read_blast_tabular(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_filepath As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, IO.FileAccess.Read, env, is_filepath:=is_filepath)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim tabular As HitRecord() = s.TryCast(Of Stream).ParseBlastTsvFile().ToArray
+
+        If is_filepath Then
+            Try
+                Call s.TryCast(Of Stream).Close()
+                Call s.TryCast(Of Stream).Dispose()
+            Catch ex As Exception
+
+            End Try
+        End If
+
+        Return tabular
     End Function
 
     ''' <summary>

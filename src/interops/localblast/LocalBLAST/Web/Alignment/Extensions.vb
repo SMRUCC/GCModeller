@@ -110,6 +110,8 @@ Namespace NCBIBlastResult.WebBlast
         ''' 解析 BLASTN 输出的 TSV 文件为 BlastResult 对象集合
         ''' </summary>
         ''' <returns>BlastResult 对象的列表</returns>
+        ''' 
+        <Extension>
         Public Iterator Function ParseBlastTsvFile(file As Stream) As IEnumerable(Of HitRecord)
             ' 使用 File.ReadLines 逐行读取，避免大文件占用过多内存
             For Each line As String In file.ReadAllLines
