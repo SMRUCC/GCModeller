@@ -67,6 +67,8 @@ Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.ComponentModel.Annotation
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Model.Network.VirtualFootprint.DocumentFormat
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -315,6 +317,24 @@ Module context
         Else
             Return LocusExtensions.GetRelationship(loci1, loci2)
         End If
+    End Function
+
+    <ExportAPI("context_location")>
+    <RApiReturn(GetType(NucleotideLocation))>
+    Public Function context_locations(<RRawVectorArgument>
+                                      blastn As Object,
+                                      Optional eval_thres As Double = Double.MaxValue,
+                                      Optional env As Environment = Nothing) As Object
+
+        Dim tabular As pipeline = pipeline.TryCreatePipeline(Of HitRecord)(blastn, env)
+
+        If tabular.isError Then
+            Return tabular.getError
+        End If
+
+        Return tabular _
+            .populates(Of HitRecord)(env) _
+            .MakeChromosomeMapping(evalueCutoff:=eval_thres)
     End Function
 
     ''' <summary>

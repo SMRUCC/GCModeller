@@ -70,6 +70,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abst
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.NtMapping
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Pipeline
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel.FASTA
@@ -79,7 +80,6 @@ Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
-Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 ''' <summary>
 ''' A pipeline collection for proteins' biological function 
@@ -502,7 +502,9 @@ Module workflows
             Return s.TryCast(Of Message)
         End If
 
-        Dim tabular As HitRecord() = s.TryCast(Of Stream).ParseBlastTsvFile().ToArray
+        Dim tabular As HitRecord() = s.TryCast(Of Stream) _
+            .ParseBlastTsvFile() _
+            .ToArray
 
         If is_filepath Then
             Try
