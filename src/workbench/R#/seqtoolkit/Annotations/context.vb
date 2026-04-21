@@ -125,9 +125,9 @@ Module context
         Return sb.ToString
     End Function
 
-    <ExportAPI("genomics_contex")>
+    <ExportAPI("genomics_context")>
     <RApiReturn(GetType(GenomeContext(Of GFF.Feature)))>
-    Public Function genomics_contex(gff As GFFTable) As Object
+    Public Function genomics_context(gff As GFFTable) As Object
         Dim chrs = gff.GetChromosomes.ToArray
 
         If chrs.Length = 1 Then
