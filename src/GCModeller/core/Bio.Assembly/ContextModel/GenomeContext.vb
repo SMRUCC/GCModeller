@@ -529,8 +529,8 @@ Namespace ContextModel
         ''' <summary>
         ''' 将基因组上面的某一区域内的基因对象都查找出来
         ''' </summary>
-        ''' <param name="i"></param>
-        ''' <param name="j"></param>
+        ''' <param name="i">left position</param>
+        ''' <param name="j">right position</param>
         ''' <param name="strand">
         ''' 默认不限制链的方向
         ''' </param>
