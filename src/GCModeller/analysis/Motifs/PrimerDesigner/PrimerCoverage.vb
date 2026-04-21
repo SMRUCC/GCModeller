@@ -2,8 +2,8 @@
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.SequenceModel
-Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Public Class PrimerCoverage
 
@@ -15,7 +15,7 @@ Public Class PrimerCoverage
     Public Property Product As String
     Public Property Sequence As String
 
-    Public Shared Iterator Function GetCoverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chrSeq As FastaSeq) As IEnumerable(Of PrimerCoverage)
+    Public Shared Iterator Function GetCoverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chrSeq As ISlicer) As IEnumerable(Of PrimerCoverage)
         ' 3. 计算共同覆盖区间
         Dim minLeft = targetHits.Min(Function(h) h.left)
         Dim maxRight = targetHits.Max(Function(h) h.right)
@@ -48,7 +48,7 @@ Public Class PrimerCoverage
         For Each gene As GFF.Feature In extractedGenes
             ' 根据坐标从基因组字符串中截取序列 (注意索引从0开始)
             Dim seqLength = gene.Location.right - gene.Location.left + 1
-            Dim seq = chrSeq.Substring(gene.Location.left, seqLength)
+            Dim seq = chrSeq.SliceRegionSite(gene.Location.left, seqLength)
 
             ' 如果是负链，需要取反向互补
             If gene.Location.Strand = Strands.Reverse Then

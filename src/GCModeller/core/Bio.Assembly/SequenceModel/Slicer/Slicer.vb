@@ -3,6 +3,10 @@ Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace SequenceModel.Slicer
 
+    ''' <summary>
+    ''' A wrapper of the biological sequence region cutter, which can be used to cut a specific sequence region 
+    ''' from a FASTA sequence or a chunked FASTA sequence
+    ''' </summary>
     Public MustInherit Class ISlicer
 
         ''' <summary>
@@ -40,6 +44,10 @@ Namespace SequenceModel.Slicer
                 Return chromosome.title
             End Get
         End Property
+
+        Sub New(chromosome As ChunkedNtFasta)
+            Me.chromosome = chromosome
+        End Sub
 
         Public Overrides Function SliceRegionSite(start As Integer, seqLength As Integer) As String
             Return chromosome.GetRegion(start, right:=start + seqLength)
