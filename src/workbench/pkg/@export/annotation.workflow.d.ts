@@ -154,11 +154,13 @@ declare namespace annotation.workflow {
        * 
        * 
         * @param file -
+        * @param make_query_group 
+        * + default value Is ``false``.
         * @param env -
         * 
         * + default value Is ``null``.
       */
-      function outfmt6(file: any, env?: object): object;
+      function outfmt6(file: any, make_query_group?: boolean, env?: object): object;
    }
    /**
     * read the diamond m8 annotation table file output
