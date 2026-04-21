@@ -92,16 +92,27 @@ Imports vector = SMRUCC.Rsharp.Runtime.Internal.Object.vector
 <Package("genomics_context", Category:=APICategories.ResearchTools)>
 Module context
 
-    Sub New()
-        Call Main()
-    End Sub
-
     <RInitialize>
-    Private Sub Main()
+    Public Sub Main()
         Call generic.add("summary", GetType(IContext), AddressOf contextSummary)
 
         Call printer.AttachConsoleFormatter(Of NucleotideLocation)(Function(o) o.ToString)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(PrimerCoverage()), AddressOf hit_table)
     End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function hit_table(hits As PrimerCoverage(), args As list, env As Environment) As Object
+        Dim tbl As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call tbl.add("gene_id", From site As PrimerCoverage In hits Select site.GeneID)
+        Call tbl.add("chromosome", From site As PrimerCoverage In hits Select site.Chromosome)
+        Call tbl.add("start", From site As PrimerCoverage In hits Select site.Start)
+        Call tbl.add("end", From site As PrimerCoverage In hits Select site.Ends)
+        Call tbl.add("strand", From site As PrimerCoverage In hits Select site.Strand)
+        Call tbl.add("sequence", From site As PrimerCoverage In hits Select site.Sequence)
+
+        Return tbl
+    End Function
 
     Private Function contextSummary(x As IContext, args As list, env As Environment) As Object
         Dim sb As New StringBuilder
