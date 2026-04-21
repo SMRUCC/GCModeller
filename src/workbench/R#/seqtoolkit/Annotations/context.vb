@@ -59,6 +59,7 @@
 
 Imports System.Text
 Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
@@ -127,7 +128,19 @@ Module context
     <ExportAPI("genomics_contex")>
     <RApiReturn(GetType(GenomeContext(Of GFF.Feature)))>
     Public Function genomics_contex(gff As GFFTable) As Object
-        Return New GenomeContext(Of Feature)(gff.features, name:=gff.species)
+        Dim chrs = gff.GetChromosomes.ToArray
+
+        If chrs.Length = 1 Then
+            Return New GenomeContext(Of Feature)(gff.features, name:=gff.species)
+        Else
+            Dim chrList As list = list.empty
+
+            For Each chr As NamedCollection(Of GFF.Feature) In chrs
+                Call chrList.add(chr.name, New GenomeContext(Of Feature)(chr.AsEnumerable, chr.name))
+            Next
+
+            Return chrList
+        End If
     End Function
 
     ''' <summary>
