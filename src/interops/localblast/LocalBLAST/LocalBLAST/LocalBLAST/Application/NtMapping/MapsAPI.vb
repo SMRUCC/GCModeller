@@ -347,9 +347,13 @@ Namespace LocalBLAST.Application.NtMapping
         Public Function MakeChromosomeMapping(blastn As IEnumerable(Of HitRecord), Optional evalueCutoff As Double = 1) As Dictionary(Of String, NucleotideLocation())
             ' Key: 染色体名称, Value: 该染色体上的比对位置列表
             Dim chrMap As New Dictionary(Of String, NucleotideLocation())
+            Dim sites As NucleotideLocation()
 
-            For Each chr In blastn.GroupBy(Function(hit) hit.SubjectIDs)
-                Call chrMap.Add(chr.Key, chr.MakeMappingLocation.ToArray)
+            For Each chr As IGrouping(Of String, HitRecord) In blastn.GroupBy(Function(hit) hit.SubjectIDs)
+                sites = chr _
+                    .MakeMappingLocation(evalueCutoff) _
+                    .ToArray
+                chrMap.Add(chr.Key, sites)
             Next
 
             Return chrMap

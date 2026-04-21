@@ -3,6 +3,7 @@
 A pipeline collection for proteins' biological function 
  annotation based on the sequence alignment.
 
++ [blast_tabular](annotation.workflow/blast_tabular.1) 
 + [read.blast](annotation.workflow/read.blast.1) Open the blast output text file for parse data result.
 + [blastn.maphit](annotation.workflow/blastn.maphit.1) export results of fastq reads mapping to genome sequence.
 + [blasthit.sbh](annotation.workflow/blasthit.sbh.1) Export single side besthit

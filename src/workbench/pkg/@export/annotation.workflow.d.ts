@@ -31,6 +31,9 @@ declare namespace annotation.workflow {
      * + default value Is ``null``.
    */
    function besthit_filter(besthits: object, evalue?: object, identities?: object, delNohits?: boolean, pickTop?: boolean, env?: object): object;
+   /**
+   */
+   function blast_tabular(hits: object, args: object, env: object): any;
    module blasthit {
       /**
         * @param algorithm default value Is ``null``.
