@@ -25,7 +25,7 @@ Public Class PrimerCoverage
         Dim maxRight = targetHits.Max(Function(h) h.right)
         Dim targetChr As String = chr.contextName
 
-        Console.WriteLine($"目标染色体: {targetChr}, 引物覆盖原始区间: {minLeft} - {maxRight}")
+        Console.WriteLine($"目标染色体: {targetChr}, 引物覆盖原始区间: {minLeft} - {maxRight} 长度约{StringFormats.Lanudry(maxRight - minLeft)}")
 
         ' 4. 动态延伸逻辑 (2Mb ~ 5Mb)
         Dim extendLength As Integer = 2 * ISequenceModel.MB  ' 默认2Mb
