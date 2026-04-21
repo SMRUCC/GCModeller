@@ -3,11 +3,13 @@ Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
+Imports SMRUCC.genomics.SequenceModel
 
 ''' <summary>
 ''' 多个引物共同覆盖的候选区域信息类
 ''' </summary>
 Public Class CandidateRegion
+
     Public Property Chr As String
     Public Property CoreStart As Integer  ' 引物覆盖的核心区域起点
     Public Property CoreEnd As Integer    ' 引物覆盖的核心区域终点
@@ -19,12 +21,40 @@ Public Class CandidateRegion
     Public Property ExtendedEnd As Integer
     Public Property ExtensionLength As Integer ' 实际延伸长度(2Mb或5Mb)
 
-    Public Shared Function FindCandidateRegions(blastHits As List(Of HitRecord),
-                                                primerIds As String(),
-                                                maxCoreSpan As Integer,
-                                                Optional eval_cutoff As Double = 1) As List(Of CandidateRegion)
+    Public Property GenesInCoreRegion As Feature() ' 区间内的基因列表
+    Public Property GenesInExtendedRegion As Feature() ' 延伸区间内的基因列表
+
+    ''' <summary>
+    ''' 需要将3个引物序列比对到新测序的六倍体基因组上，确定它们共同覆盖的目标物理区间，并上下游各延伸2Mb（若该区间基因密度较低，可适当放宽至5Mb，请最终明确延伸长度）。
+    ''' 提取该区间内所有基因，包括六倍体基因ID、染色体位置、功能注释及基因序列。
+    ''' </summary>
+    ''' <param name="blastHits"></param>
+    ''' <param name="maxCoreSpan"></param>
+    ''' <param name="eval_cutoff"></param>
+    ''' <returns></returns>
+    Public Shared Function FindCandidateRegions(blastHits As IEnumerable(Of HitRecord),
+                                                Optional maxCoreSpan As Integer = 3 * ISequenceModel.KB,
+                                                Optional eval_cutoff As Double = 1,
+                                                Optional primerIds As String() = Nothing) As CandidateRegion()
 
         Dim candidates As New List(Of CandidateRegion)
+        Dim hitPool As HitRecord() = blastHits.ToArray
+
+        If primerIds.IsNullOrEmpty Then
+            primerIds = hitPool _
+                .Select(Function(h) h.QueryID) _
+                .Distinct _
+                .ToArray
+        End If
+
+        For i As Integer = 0 To hitPool.Length - 1
+            Dim site As Integer() = New Integer() {hitPool(i).SubjectStart, hitPool(i).SubjectEnd}
+            Dim normLeft = site.Min
+            Dim normRight = site.Max
+
+            hitPool(i).SubjectStart = normLeft
+            hitPool(i).SubjectEnd = normRight
+        Next
 
         ' 1. 过滤低质量Hit (例如: Identity < 90 或 E-value > 1e-5)
         ' 2. 按染色体分组
@@ -38,38 +68,63 @@ Public Class CandidateRegion
             Dim chrName = group.name
             Dim hitsOnChr = group.ToList()
 
-            ' 分别获取3个引物在该染色体上的Hit集合
-            Dim p1Hits = hitsOnChr.Where(Function(h) h.QueryID = primerIds(0)).ToList()
-            Dim p2Hits = hitsOnChr.Where(Function(h) h.QueryID = primerIds(1)).ToList()
-            Dim p3Hits = hitsOnChr.Where(Function(h) h.QueryID = primerIds(2)).ToList()
+            ' 1. 动态获取每个引物在该染色体上的Hit集合，存入一个列表中
+            Dim primerHitGroups As New List(Of List(Of HitRecord))
+            Dim allPrimerPresent As Boolean = True
 
-            ' 如果这条染色体上没有3个引物同时出现，则跳过 (视实验严谨度也可放宽为2个引物)
-            If p1Hits.Count = 0 OrElse p2Hits.Count = 0 OrElse p3Hits.Count = 0 Then
-                Continue For
-            End If
+            For Each PID As String In primerIds
+                Dim hits = hitsOnChr.Where(Function(h) h.QueryID = PID).ToList()
+                If hits.Count = 0 Then
+                    ' 只要有任何一个引物在该染色体上没有hit，就标记为不全
+                    allPrimerPresent = False
+                    Exit For
+                End If
+                primerHitGroups.Add(hits)
+            Next
 
-            ' 3. 枚举该染色体上的所有组合 (笛卡尔积)
-            For Each h1 In p1Hits
-                For Each h2 In p2Hits
-                    For Each h3 In p3Hits
-                        ' 计算三个hit的最小起始和最大结束
-                        Dim minStart = Math.Min(Math.Min(h1.SubjectStart, h2.SubjectStart), h3.SubjectStart)
-                        Dim maxEnd = Math.Max(Math.Max(h1.SubjectEnd, h2.SubjectEnd), h3.SubjectEnd)
-                        Dim span = maxEnd - minStart
+            ' 如果这条染色体上没有所有引物同时出现，则跳过
+            If Not allPrimerPresent Then Continue For
 
-                        ' 4. 判断是否满足聚类条件 (核心假设：3个引物不会相隔太远)
-                        If span <= maxCoreSpan Then
-                            Dim cand As New CandidateRegion With {
-                                .Chr = chrName,
-                                .CoreStart = minStart,
-                                .CoreEnd = maxEnd,
-                                .Span = span,
-                                .SupportingHits = New List(Of HitRecord) From {h1, h2, h3}
-                            }
-                            candidates.Add(cand)
-                        End If
+            ' 2. 动态生成笛卡尔积 (迭代法)
+            ' combinations 初始包含一个空组合，作为迭代的基础
+            Dim combinations As New List(Of List(Of HitRecord)) From {New List(Of HitRecord)}
+
+            For Each hitGroup In primerHitGroups
+                Dim newCombinations As New List(Of List(Of HitRecord))
+
+                For Each existingComb In combinations
+                    For Each hit In hitGroup
+                        ' 复制当前已有的组合，并追加当前引物的一个hit
+                        Dim newComb = existingComb.ToList()
+                        newComb.Add(hit)
+                        newCombinations.Add(newComb)
                     Next
                 Next
+
+                ' 用新生成的组合列表替换旧的，进入下一轮迭代
+                combinations = newCombinations
+            Next
+
+            ' 3. 遍历所有组合，计算跨度并筛选
+            For Each combination As List(Of HitRecord) In combinations
+                ' combination 现在是一个包含了每个引物一个hit的集合 (数量 = primerIds.Length)
+
+                ' 使用 LINQ 动态计算任意数量 hit 的最小起始和最大结束
+                Dim minStart = combination.Min(Function(h) h.SubjectStart)
+                Dim maxEnd = combination.Max(Function(h) h.SubjectEnd)
+                Dim span = maxEnd - minStart
+
+                ' 4. 判断是否满足聚类条件
+                If span <= maxCoreSpan Then
+                    Dim cand As New CandidateRegion With {
+                        .Chr = chrName,
+                        .CoreStart = minStart,
+                        .CoreEnd = maxEnd,
+                        .Span = span,
+                        .SupportingHits = combination ' 直接将整个组合赋值给SupportingHits
+                    }
+                    candidates.Add(cand)
+                End If
             Next
         Next
 
@@ -92,15 +147,16 @@ Public Class CandidateRegion
         Return mergedCandidates
     End Function
 
-    Public Shared Sub CalculateExtensions(candidates As List(Of CandidateRegion), genomeCtx As GenomeContext(Of Feature))
-        For Each cand In candidates
+    Public Shared Sub CalculateExtensions(candidates As IEnumerable(Of CandidateRegion), genomeCtx As Dictionary(Of String, GenomeContext(Of Feature)))
+        For Each cand As CandidateRegion In candidates
             ' 默认先延伸 2Mb 进行试探
             Dim probeStart = Math.Max(1, cand.CoreStart - 2000000)
             Dim probeEnd = cand.CoreEnd + 2000000
+            Dim chrContext = genomeCtx(cand.Chr)
 
             ' 利用你的 GenomeContext 获取该 4Mb+Core 区间内的基因数量
-            Dim genesInProbe = genomeCtx.SelectByRange(probeStart, probeEnd).ToArray
-            Dim geneCount = genesInProbe.Count
+            Dim genesInProbe = chrContext.SelectByRange(probeStart, probeEnd).ToArray
+            Dim geneCount = genesInProbe.Length
 
             ' 计算基因密度 (基因数/Mb)
             Dim regionLengthMb = (probeEnd - probeStart) / 1000000.0
@@ -121,6 +177,8 @@ Public Class CandidateRegion
             cand.ExtendedStart = Math.Max(1, cand.CoreStart - cand.ExtensionLength)
             cand.ExtendedEnd = cand.CoreEnd + cand.ExtensionLength
 
+            cand.GenesInCoreRegion = chrContext.SelectByRange(cand.CoreStart, cand.CoreEnd).ToArray()
+            cand.GenesInExtendedRegion = chrContext.SelectByRange(cand.ExtendedStart, cand.ExtendedEnd).ToArray()
         Next
     End Sub
 End Class
