@@ -56,10 +56,9 @@ Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
 Imports Microsoft.VisualBasic.Language
 Imports SMRUCC.genomics.ComponentModel.Loci
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
-Namespace SequenceModel
+Namespace SequenceModel.Slicer
 
     ''' <summary>
     ''' Cut sequence for DNA/protein
@@ -106,7 +105,7 @@ Namespace SequenceModel
             Else
                 ' 计算是从1开始的，不是从零开始的
                 If left <= 0 Then
-                    Call $"set negative start position({left}) to base 1.".Warning
+                    Call $"set negative start position({left}) to base 1.".warning
                     left = 1
                 End If
 

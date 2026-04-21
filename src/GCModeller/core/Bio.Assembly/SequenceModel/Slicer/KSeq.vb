@@ -59,7 +59,7 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports SMRUCC.genomics.SequenceModel.FASTA
 
-Namespace SequenceModel
+Namespace SequenceModel.Slicer
 
     ' The MIT License
     '
