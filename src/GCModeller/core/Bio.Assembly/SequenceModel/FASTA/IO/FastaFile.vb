@@ -335,9 +335,9 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         Public Sub Split(saveDIR As Path)
             Dim Index As Integer
 
-            For Each FASTA As FastaSeq In __innerList
+            For Each seq As FastaSeq In __innerList
                 Index += 1
-                FASTA.SaveTo(String.Format("{0}/{1}.fasta", saveDIR, Index))
+                seq.SaveTo(String.Format("{0}/{1}.fasta", saveDIR, Index))
             Next
         End Sub
 
@@ -350,7 +350,7 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <remarks></remarks>
         Public Function QueryAny(KeyWord As String, Optional CaseSensitive As CompareMethod = CompareMethod.Text) As FastaFile
             Dim LQuery As IEnumerable(Of FastaSeq) = From Fasta As FastaSeq
-                                                       In __innerList.AsParallel
+                                                     In __innerList.AsParallel
                                                      Where Find(Fasta.Headers, KeyWord, CaseSensitive)
                                                      Select Fasta '
             Return New FastaFile With {
