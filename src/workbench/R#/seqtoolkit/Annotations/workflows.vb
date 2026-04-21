@@ -63,6 +63,7 @@ Imports Microsoft.VisualBasic.Data.Framework.IO.Linq
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Interops.NCBI.Extensions
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH
@@ -90,6 +91,7 @@ Module workflows
 
     Sub Main()
         Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(BlastnMapping()), AddressOf blastn_table)
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(HitRecord()), AddressOf blast_tabular)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -116,6 +118,30 @@ Module workflows
         Call tbl.add("is_unique", From n As BlastnMapping In blastn Select n.Unique)
         Call tbl.add("is_full_len", From n As BlastnMapping In blastn Select n.AlignmentFullLength)
         Call tbl.add("is_perfect", From n As BlastnMapping In blastn Select n.PerfectAlignment)
+
+        Return tbl
+    End Function
+
+    <RGenericOverloads("as.data.frame")>
+    <ExportAPI("blast_tabular")>
+    Public Function blast_tabular(hits As HitRecord(), args As list, env As Environment) As Object
+        Dim tbl As New dataframe With {.columns = New Dictionary(Of String, Array)}
+
+        Call tbl.add("query_id", From hit As HitRecord In hits Select hit.QueryID)
+        Call tbl.add("subject_id", From hit As HitRecord In hits Select hit.SubjectIDs)
+        Call tbl.add("query acc.ver", From hit As HitRecord In hits Select hit.QueryAccVer)
+        Call tbl.add("subject acc.ver", From hit As HitRecord In hits Select hit.SubjectAccVer)
+        Call tbl.add("identities", From hit As HitRecord In hits Select hit.Identity)
+        Call tbl.add("alignment_length", From hit As HitRecord In hits Select hit.AlignmentLength)
+        Call tbl.add("mis_matches", From hit As HitRecord In hits Select hit.MisMatches)
+        Call tbl.add("gap_opens", From hit As HitRecord In hits Select hit.GapOpens)
+        Call tbl.add("query_start", From hit As HitRecord In hits Select hit.QueryStart)
+        Call tbl.add("query_end", From hit As HitRecord In hits Select hit.QueryEnd)
+        Call tbl.add("subject_start", From hit As HitRecord In hits Select hit.SubjectStart)
+        Call tbl.add("subject_end", From hit As HitRecord In hits Select hit.SubjectEnd)
+        Call tbl.add("e_value", From hit As HitRecord In hits Select hit.EValue)
+        Call tbl.add("bit_score", From hit As HitRecord In hits Select hit.BitScore)
+        Call tbl.add("metadata", From hit As HitRecord In hits Select hit.data.GetJson)
 
         Return tbl
     End Function
