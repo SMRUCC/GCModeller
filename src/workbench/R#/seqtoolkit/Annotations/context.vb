@@ -58,6 +58,7 @@
 #End Region
 
 Imports System.Text
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
 Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
@@ -145,7 +146,7 @@ Module context
                                      Optional strict As Boolean = False,
                                      Optional env As Environment = Nothing) As Object
 
-        Dim chrs = gff.GetChromosomes.ToArray
+        Dim chrs = gff.GetChromosomes(mRNA:=True).ToArray
 
         If chrs.Length = 1 Then
             Return New GenomeContext(Of Feature)(gff.features, name:=gff.species)
@@ -166,9 +167,11 @@ Module context
             End If
         Else
             Dim chrList As list = list.empty
+            Dim bar As ProgressBar = Nothing
 
-            For Each chr As NamedCollection(Of GFF.Feature) In chrs
+            For Each chr As NamedCollection(Of GFF.Feature) In TqdmWrapper.Wrap(chrs, bar:=bar)
                 Call chrList.add(chr.name, New GenomeContext(Of Feature)(chr.AsEnumerable, chr.name))
+                Call bar.SetLabel(chr.name)
             Next
 
             Return chrList

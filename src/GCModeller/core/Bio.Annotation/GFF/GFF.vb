@@ -273,9 +273,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return LQuery.FirstOrDefault
         End Function
 
-        Public Iterator Function GetChromosomes() As IEnumerable(Of NamedCollection(Of Feature))
+        Public Iterator Function GetChromosomes(Optional mRNA As Boolean = False) As IEnumerable(Of NamedCollection(Of Feature))
             For Each chr As IGrouping(Of String, Feature) In features.GroupBy(Function(f) f.seqname)
-                Yield New NamedCollection(Of Feature)(chr.Key, chr.ToArray)
+                Yield New NamedCollection(Of Feature)(chr.Key, From gene As Feature In chr Where gene.feature = "mRNA")
             Next
         End Function
 
