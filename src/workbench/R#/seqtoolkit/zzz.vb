@@ -63,5 +63,6 @@ Public Class zzz
         Call terms.Main()
         Call workflows.Main()
         Call context.Main()
+        Call primers.Main()
     End Sub
 End Class
