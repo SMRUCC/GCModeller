@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
+Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.PrimerDesigner
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
@@ -9,15 +10,52 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports SMRUCC.Rsharp.Runtime.Vectorization
+Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
 <Package("primers")>
 Module primers
+
+    Sub Main()
+        Call RInternal.Object.Converts.makeDataframe.addHandler(GetType(CandidateRegion), AddressOf CandidateTable)
+    End Sub
+
+    <RGenericOverloads("as.data.frame")>
+    Private Function CandidateTable(candidate As CandidateRegion, args As list, env As Environment) As Object
+        Dim df As New dataframe With {.columns = New Dictionary(Of String, Array)}
+        Dim core_id = candidate.GenesInCoreRegion.Select(Function(g) g.ID)
+        Dim ext_id = candidate.GenesInExtendedRegion.Select(Function(g) g.ID)
+        Dim core_left = candidate.GenesInCoreRegion.Select(Function(g) g.left)
+        Dim ext_left = candidate.GenesInExtendedRegion.Select(Function(g) g.left)
+        Dim core_right = candidate.GenesInCoreRegion.Select(Function(g) g.right)
+        Dim ext_right = candidate.GenesInExtendedRegion.Select(Function(g) g.right)
+        Dim core_strand = candidate.GenesInCoreRegion.Select(Function(g) g.strand)
+        Dim ext_strand = candidate.GenesInExtendedRegion.Select(Function(g) g.strand)
+        Dim hits As String = candidate.SupportingHits.Select(Function(h) $"{h.QueryID}({h.SubjectStart}|{h.SubjectEnd})").JoinBy("; ")
+        Dim core_type = candidate.GenesInCoreRegion.Select(Function(any) "core")
+        Dim ext_type = candidate.GenesInExtendedRegion.Select(Function(any) "extended")
+
+        Call df.add("chr", scalar:=candidate.Chr)
+        Call df.add("primer_start", scalar:=candidate.CoreStart)
+        Call df.add("primer_ends", scalar:=candidate.CoreEnd)
+        Call df.add("core_span", scalar:=StringFormats.Lanudry(candidate.Span))
+        Call df.add("extends_start", scalar:=candidate.ExtendedStart)
+        Call df.add("extends_end", scalar:=candidate.ExtendedEnd)
+        Call df.add("extends_span", scalar:=StringFormats.Lanudry(candidate.ExtensionLength))
+        Call df.add("gene_id", core_id.JoinIterates(ext_id))
+        Call df.add("gene_left", core_left.JoinIterates(ext_left))
+        Call df.add("gene_right", core_right.JoinIterates(ext_right))
+        Call df.add("gene_strand", core_strand.JoinIterates(ext_strand))
+        Call df.add("type", core_type.JoinIterates(ext_type))
+        Call df.add("primer_hits", scalar:=hits)
+
+        Return df
+    End Function
 
     <ExportAPI("primer_regions")>
     <RApiReturn(GetType(CandidateRegion))>
     Public Function find_primers_region(<RRawVectorArgument>
                                         blastHits As Object,
-                                        Optional maxCoreSpan As Integer = 2 * ISequenceModel.MB,
+                                        Optional maxCoreSpan As Integer = ISequenceModel.MB,
                                         Optional eval_cutoff As Double = 1,
                                         <RRawVectorArgument>
                                         Optional primerIds As Object = Nothing,
