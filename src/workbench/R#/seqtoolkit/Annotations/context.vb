@@ -109,7 +109,7 @@ Module context
         Call tbl.add("chromosome", From site As PrimerCoverage In hits Select site.Chromosome)
         Call tbl.add("start", From site As PrimerCoverage In hits Select site.Start)
         Call tbl.add("end", From site As PrimerCoverage In hits Select site.Ends)
-        Call tbl.add("strand", From site As PrimerCoverage In hits Select site.Strand)
+        Call tbl.add("strand", From site As PrimerCoverage In hits Select site.Strand.Description)
         Call tbl.add("sequence", From site As PrimerCoverage In hits Select site.Sequence)
 
         Return tbl

@@ -15,6 +15,10 @@ Public Class PrimerCoverage
     Public Property Product As String
     Public Property Sequence As String
 
+    Public Overrides Function ToString() As String
+        Return $"[{Chromosome}] {GeneID}"
+    End Function
+
     Public Shared Iterator Function GetCoverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chrSeq As ISlicer) As IEnumerable(Of PrimerCoverage)
         ' 3. 计算共同覆盖区间
         Dim minLeft = targetHits.Min(Function(h) h.left)

@@ -10,6 +10,12 @@ Namespace SequenceModel.Slicer
     ''' </summary>
     Public MustInherit Class ISlicer
 
+        Public Overridable ReadOnly Property title As String
+
+        Protected Sub New(title As String)
+            _title = title
+        End Sub
+
         ''' <summary>
         ''' 
         ''' </summary>
@@ -18,17 +24,19 @@ Namespace SequenceModel.Slicer
         ''' <returns></returns>
         Public MustOverride Function SliceRegionSite(start As Integer, seqLength As Integer) As String
 
+        Public Overrides Function ToString() As String
+            Return title
+        End Function
+
     End Class
 
     Public Class FastaSlicer : Inherits ISlicer
 
-        Public ReadOnly Property title As String
-
         ReadOnly sequenceData As String
 
         Sub New(fa As FastaSeq)
+            Call MyBase.New(fa.Title)
             sequenceData = fa.SequenceData
-            title = fa.Title
         End Sub
 
         Public Overrides Function SliceRegionSite(start As Integer, seqLength As Integer) As String
@@ -40,13 +48,8 @@ Namespace SequenceModel.Slicer
 
         ReadOnly chromosome As ChunkedNtFasta
 
-        Public ReadOnly Property title As String
-            Get
-                Return chromosome.title
-            End Get
-        End Property
-
         Sub New(chromosome As ChunkedNtFasta)
+            Call MyBase.New(chromosome.title)
             Me.chromosome = chromosome
         End Sub
 
@@ -61,13 +64,11 @@ Namespace SequenceModel.Slicer
     ''' </summary>
     Public Class GenBankSlicer : Inherits ISlicer
 
-        Public ReadOnly Property title As String
-
         ReadOnly chromosome As String
 
         Sub New(chromosome As GBFF.File)
+            Call MyBase.New(chromosome.Accession.AccessionId)
             Me.chromosome = chromosome.Origin.SequenceData
-            Me.title = chromosome.Accession.AccessionId
         End Sub
 
         Public Overrides Function SliceRegionSite(start As Integer, seqLength As Integer) As String
