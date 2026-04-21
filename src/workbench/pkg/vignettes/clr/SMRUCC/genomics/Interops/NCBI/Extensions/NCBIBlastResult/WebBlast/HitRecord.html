@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast.HitRecord</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>HitRecord {SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>HitRecord</h2>
+
+        <h3>Description</h3>
+
+        <p>在目标基因组之上的blast hit的结果</p>
+
+<p>ncbi blast -outfmt 6
+ 
+ Fields: query id, subject ids, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
+export class HitRecord {
+   AlignmentLength: integer;
+   BitScore: integer;
+   data: list;
+   EValue: double;
+   GapOpens: integer;
+   GI: string;
+   Identity: double;
+   MisMatches: integer;
+   QueryAccVer: string;
+   QueryEnd: integer;
+   QueryID: string;
+   QueryStart: integer;
+   SubjectAccVer: string;
+   SubjectEnd: integer;
+   # 不同的编号，但是都是代表着同一个对象
+   SubjectIDs: string;
+   SubjectStart: integer;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>data</code>: list</li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>

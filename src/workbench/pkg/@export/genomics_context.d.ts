@@ -24,6 +24,11 @@ declare namespace genomics_context {
    */
    function context(loci: any, distance: object, note?: string, env?: object): object;
    /**
+     * @param eval_thres default value Is ``1.7976931348623157E+308``.
+     * @param env default value Is ``null``.
+   */
+   function context_location(blastn: any, eval_thres?: number, env?: object): object;
+   /**
     * filter genes by given strand direction
     * 
     * 
@@ -38,7 +43,7 @@ declare namespace genomics_context {
    function filter_strand(genes: any, strand?: any, env?: object): any;
    /**
    */
-   function genomics_contex(gff: object): object;
+   function genomics_context(gff: object): object;
    module is {
       /**
        * assert that does the given nucleotide location is in forward direction?
@@ -67,6 +72,9 @@ declare namespace genomics_context {
      * @param offset -
    */
    function offset(loci: object, offset: object): object;
+   /**
+   */
+   function primer_coverage(targetHits: object, chr: object, chr_seq: object): object;
    /**
     * get the segment relationship of two location
     * 

@@ -146,6 +146,16 @@ declare namespace annotation.workflow {
         * @return a collection of the query hits result details
       */
       function blast(file: string, type?: string, fastMode?: boolean, env?: object): object;
+      /**
+       * read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
+       * 
+       * 
+        * @param file -
+        * @param env -
+        * 
+        * + default value Is ``null``.
+      */
+      function outfmt6(file: any, env?: object): object;
    }
    /**
     * read the diamond m8 annotation table file output

@@ -14,6 +14,7 @@ A pipeline collection for proteins' biological function
 + [filter_low_level](annotation.workflow/filter_low_level.1) 
 + [read.besthits](annotation.workflow/read.besthits.1) read the hits data in pipeline stream style
 + [read.bbh_hits](annotation.workflow/read.bbh_hits.1) 
++ [read.outfmt6](annotation.workflow/read.outfmt6.1) read ncbi blast output format 6 (tabular) file for blastn result mapping to genome sequence
 + [open.stream](annotation.workflow/open.stream.1) Open result table stream writer
 + [read_m8](annotation.workflow/read_m8.1) read the diamond m8 annotation table file output
 + [diamond_hitgroups](annotation.workflow/diamond_hitgroups.1) Make query group and convert to alignment hit collection
