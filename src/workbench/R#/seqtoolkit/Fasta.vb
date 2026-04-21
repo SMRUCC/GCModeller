@@ -343,9 +343,17 @@ Module Fasta
                     .rownames = vrows.Keys,
                     .columns = New Dictionary(Of String, Array)
                 }
+                Dim offset As Integer
+                Dim data As IEnumerable(Of Double)
 
                 For i As Integer = 0 To vlen - 1
-                    Call m.add("v" & (i + 1), From s In vrows Let vi As Double = s.Value(i) Select vi)
+                    offset = i
+                    data = From s As KeyValuePair(Of String, Double())
+                           In vrows
+                           Let vi As Double = s.Value(offset)
+                           Select vi
+
+                    Call m.add("v" & (i + 1), data)
                 Next
 
                 Return m
