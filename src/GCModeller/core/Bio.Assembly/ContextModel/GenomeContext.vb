@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::37baa66c45b7dcc49a61a8de199a8876, core\Bio.Assembly\ContextModel\GenomeContext.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 187
-    '    Code Lines: 129 (68.98%)
-    ' Comment Lines: 37 (19.79%)
-    '    - Xml Docs: 78.38%
-    ' 
-    '   Blank Lines: 21 (11.23%)
-    '     File Size: 6.91 KB
+' Summaries:
 
 
-    '     Class GenomeContext
-    ' 
-    '         Properties: AllFeatureKeys, N, size
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    '         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand
-    '                   ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 187
+'    Code Lines: 129 (68.98%)
+' Comment Lines: 37 (19.79%)
+'    - Xml Docs: 78.38%
+' 
+'   Blank Lines: 21 (11.23%)
+'     File Size: 6.91 KB
+
+
+'     Class GenomeContext
+' 
+'         Properties: AllFeatureKeys, N, size
+' 
+'         Constructor: (+1 Overloads) Sub New
+'         Function: Absent, Delta, GetByFeature, SelectByRange, selectByStrand
+'                   ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -98,7 +98,7 @@ Namespace ContextModel
         ''' <returns></returns>
         Public ReadOnly Property N As Integer
             Get
-                Return plus.Length + minus.Length
+                Return sequence.Length
             End Get
         End Property
 
@@ -107,14 +107,6 @@ Namespace ContextModel
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property size As Integer
-            Get
-                Return sequence _
-                    .Select(Function(g) g.Location) _
-                    .Select(Function(loci) {loci.Left, loci.Right}) _
-                    .IteratesALL _
-                    .Max
-            End Get
-        End Property
 
         Public ReadOnly Property AllFeatureKeys As String()
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
@@ -124,6 +116,8 @@ Namespace ContextModel
         End Property
 
         Sub New(genome As IEnumerable(Of T), Optional name$ = "unnamed")
+            Dim source = genome.ToArray()
+
             featureTags = genome _
                 .GroupBy(Function(g)
                              If g.Feature.StringEmpty Then
@@ -140,20 +134,127 @@ Namespace ContextModel
             ' plus的时候，左边是序列的起始方向
             ' minus的时候，右边是序列的起始方向
             plus = selectByStrand(Strands.Forward) _
-                .OrderBy(Function(gene) gene.Location.Left) _
+                .OrderBy(Function(gene) gene.Location.left) _
                 .ToArray
             minus = selectByStrand(Strands.Reverse) _
-                .OrderByDescending(Function(gene) gene.Location.Right) _
+                .OrderByDescending(Function(gene) gene.Location.right) _
                 .ToArray
-            sequence = (plus.AsList + minus) _
-                .OrderBy(Function(gene) gene.Location.Left) _
+            ' 20260421
+            ' 修复：统一按物理位置排序，不要将 plus 和 minus 混合排序，因为 minus 的 OrderByDescending 会导致 sequence 整体不是严格按 Left 升序
+            sequence = source _
+                .OrderBy(Function(gene) gene.Location.left) _
                 .ToArray
 
             contextName = name
+            ' 修复：预先计算 size，避免每次调用都进行 Linq 遍历
+            size = sequence _
+                .Select(Function(g) g.Location) _
+                .Select(Function(loci) {loci.left, loci.right}) _
+                .IteratesALL _
+                .Max
         End Sub
 
         ''' <summary>
-        ''' The number of genes between feature 1 and feature 2.
+        ''' A helper function for the constructor to select genes by strand and store them in the corresponding arrays.
+        ''' </summary>
+        ''' <param name="strand"></param>
+        ''' <returns></returns>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Private Function selectByStrand(strand As Strands) As T()
+            Return featureTags.Values _
+                .IteratesALL _
+                .Where(Function(g) g.Location.Strand = strand) _
+                .ToArray
+        End Function
+
+        ''' <summary>
+        ''' 查找距离指定坐标位点一定半径范围内的所有feature
+        ''' </summary>
+        ''' <param name="position">基因组上的具体坐标点</param>
+        ''' <param name="radius">上下游的查找半径</param>
+        ''' <param name="strand">限制查找的链方向，默认为Unknown，即双向都查找</param>
+        ''' <returns></returns>
+        Public Function SelectByPosition(position As Integer, radius As Integer, Optional strand As Strands = Strands.Unknown) As IEnumerable(Of T)
+            ' 坐标边界修正，防止出现负数
+            Dim left = Math.Max(1, position - radius)
+            Dim right = position + radius
+            Return SelectByRange(left, right, strand)
+        End Function
+
+        ''' <summary>
+        ''' 查找指定位点附近上下游范围内的feature。此函数会考虑链的方向性：
+        ''' 对于正链，上游为坐标减小方向，下游为坐标增大方向；
+        ''' 对于负链，上游为坐标增大方向，下游为坐标减小方向。
+        ''' </summary>
+        ''' <param name="loci">参考位点</param>
+        ''' <param name="upstream">上游延伸长度</param>
+        ''' <param name="downstream">下游延伸长度</param>
+        ''' <param name="includeSelf">是否包含与参考位点完全重叠的feature</param>
+        ''' <param name="strand">限制查找的链方向，默认为Unknown，即双向都查找</param>
+        ''' <returns></returns>
+        Public Function GetNearbyFeatures(loci As NucleotideLocation, upstream As Integer, downstream As Integer,
+                                          Optional includeSelf As Boolean = True,
+                                          Optional strand As Strands = Strands.Unknown) As IEnumerable(Of T)
+            Dim rangeLeft As Integer
+            Dim rangeRight As Integer
+
+            If loci.Strand = Strands.Reverse Then
+                ' 负链：Start是Right，Ends是Left
+                ' 上游是坐标增大方向 (Right + upstream)
+                ' 下游是坐标减小方向 (Left - downstream)
+                rangeLeft = loci.left - downstream
+                rangeRight = loci.right + upstream
+            Else
+                ' 正链(或Unknown)：Start是Left，Ends是Right
+                ' 上游是坐标减小方向 (Left - upstream)
+                ' 下游是坐标增大方向 (Right + downstream)
+                rangeLeft = loci.left - upstream
+                rangeRight = loci.right + downstream
+            End If
+
+            ' 坐标边界修正
+            rangeLeft = Math.Max(1, rangeLeft)
+            rangeRight = Math.Max(rangeLeft, rangeRight)
+
+            Dim results = SelectByRange(rangeLeft, rangeRight, strand)
+
+            If Not includeSelf Then
+                ' 排除掉与参考位点自身完全一致的feature（按Left, Right, Strand三要素判断）
+                results = results.Where(Function(f) Not (f.Location.left = loci.left AndAlso
+                                                f.Location.right = loci.right AndAlso
+                                                f.Location.Strand = loci.Strand))
+            End If
+
+            Return results
+        End Function
+
+        ''' <summary>
+        ''' 查找指定名称的feature附近上下游范围内的feature
+        ''' </summary>
+        ''' <param name="featureName">目标feature的名称</param>
+        ''' <param name="upstream">上游延伸长度</param>
+        ''' <param name="downstream">下游延伸长度</param>
+        ''' <param name="includeSelf">是否包含目标feature自身</param>
+        ''' <param name="strand">限制查找的链方向</param>
+        ''' <returns></returns>
+        Public Function GetNearbyFeaturesByName(featureName As String, upstream As Integer, downstream As Integer,
+                                                Optional includeSelf As Boolean = True,
+                                                Optional strand As Strands = Strands.Unknown) As IEnumerable(Of T)
+
+            Dim targets = GetByFeature(featureName)
+            Dim result As New List(Of T)
+
+            For Each target As T In targets
+                Dim nearby = GetNearbyFeatures(target.Location, upstream, downstream, includeSelf, strand)
+                result.AddRange(nearby)
+            Next
+
+            ' 去重处理（因为不同的target可能会查找到相同的附近feature）
+            Return result.Distinct()
+        End Function
+
+        ''' <summary>
+        ''' count the number of genes between feature 1 and feature 2.
         ''' </summary>
         ''' <param name="feature1"></param>
         ''' <param name="feature2"></param>
@@ -163,22 +264,34 @@ Namespace ContextModel
             Dim l2 = GetByFeature(feature2).AsList
             Dim d As New List(Of Integer)
 
-            ' 两两组合，取距离最小的一对ij作为计算的对象，然后取均值？
-            For Each i In l1
+            For Each i As T In l1
+                If l2.Count = 0 Then Exit For ' 修复：防止 l2 被减空后调用 .First 报错
+
                 Dim j = l2.OrderBy(Function(lj) lj.Location.GetATGDistance(i)).First
                 l2 -= j
 
-                ' 然后数这个区间内存在多少个基因
-                If i.Location.Right < j.Location.Left Then
-                    ' i --> j
-                    d += SelectByRange(i.Location.Right, j.Location.Left).Count
+                ' 修复：处理重叠和计算区间内部基因数量
+                Dim minRight = Math.Min(i.Location.right, j.Location.right)
+                Dim maxLeft = Math.Max(i.Location.left, j.Location.left)
+
+                If maxLeft <= minRight Then
+                    ' 基因存在重叠区域，中间不可能有其他基因
+                    d += 0
                 Else
-                    ' j --> i
-                    d += SelectByRange(j.Location.Right, i.Location.Left).Count
+                    ' 计算严格处于两者之间的基因数量
+                    Dim betweenGenes = SelectByRange(maxLeft, minRight, Strands.Unknown)
+                    ' 排除掉 i 和 j 自身（如果恰好边界被包含进来）
+                    Dim n = Aggregate g As T
+                            In betweenGenes
+                            Where g.Feature <> i.Feature AndAlso g.Feature <> j.Feature
+                            Into Count
+                    d += n
                 End If
             Next
 
-            If d.Count = 1 Then
+            If d.Count = 0 Then
+                Return 0
+            ElseIf d.Count = 1 Then
                 Return d.First
             Else
                 Return d.Average
@@ -196,37 +309,24 @@ Namespace ContextModel
         ''' <returns></returns>
         Public Iterator Function SelectByRange(i%, j%, Optional strand As Strands = Strands.Unknown) As IEnumerable(Of T)
             Dim range As New IntRange({i, j})
-            Dim start As Boolean
-            Dim source As T()
-
-            Select Case strand
-                Case Strands.Forward : source = plus
-                Case Strands.Reverse : source = minus
-                Case Else
-                    source = sequence
-            End Select
+            ' 修复：统一使用 sequence，保证数组始终是按 Left 严格升序排列的
+            Dim source As T() = sequence
 
             For Each gene As T In source
+                ' 优化：因为 sequence 是按 Left 升序排序的
+                ' 如果当前基因的 Left 已经大于查询范围的最大值，后面肯定都不在范围内，直接退出
+                If gene.Location.left > range.Max Then
+                    Exit For
+                End If
+
+                ' 判断是否重叠
                 If range.IsOverlapping(gene.Location) OrElse range.IsInside(gene.Location) Then
-                    start = True
-                    Yield gene
-                Else
-                    ' 因为sequence是按照left排序的，所以假若start之后没有结果了，
-                    ' 则肯定就没有结果了，在这里跳出循环节省时间
-                    If start Then
-                        Exit For
+                    ' 判断链方向是否符合要求
+                    If strand = Strands.Unknown OrElse gene.Location.Strand = strand Then
+                        Yield gene
                     End If
                 End If
             Next
-        End Function
-
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Private Function selectByStrand(strand As Strands) As T()
-            Return featureTags _
-                .Values _
-                .IteratesALL _
-                .Where(Function(g) g.Location.Strand = strand) _
-                .ToArray
         End Function
 
         ''' <summary>
