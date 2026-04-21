@@ -1,61 +1,62 @@
 ﻿#Region "Microsoft.VisualBasic::a9c58a8fce8e068870f2b00d95b80bcf, core\Bio.Assembly\SequenceModel\NucleicAcid\Assembly.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 66
-    '    Code Lines: 41 (62.12%)
-    ' Comment Lines: 13 (19.70%)
-    '    - Xml Docs: 76.92%
-    ' 
-    '   Blank Lines: 12 (18.18%)
-    '     File Size: 2.06 KB
+' Summaries:
 
 
-    '     Class Assembly
-    ' 
-    '         Function: AssembleOriginal, ToString
-    ' 
-    '         Sub: Add, Replace
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 66
+'    Code Lines: 41 (62.12%)
+' Comment Lines: 13 (19.70%)
+'    - Xml Docs: 76.92%
+' 
+'   Blank Lines: 12 (18.18%)
+'     File Size: 2.06 KB
+
+
+'     Class Assembly
+' 
+'         Function: AssembleOriginal, ToString
+' 
+'         Sub: Add, Replace
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace SequenceModel.NucleotideModels
 

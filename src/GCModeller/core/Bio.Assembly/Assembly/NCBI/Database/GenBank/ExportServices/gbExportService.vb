@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::d1742c858adcb5dae479f44f37eb878f, core\Bio.Assembly\Assembly\NCBI\Database\GenBank\ExportServices\gbExportService.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 691
-    '    Code Lines: 508 (73.52%)
-    ' Comment Lines: 99 (14.33%)
-    '    - Xml Docs: 85.86%
-    ' 
-    '   Blank Lines: 84 (12.16%)
-    '     File Size: 33.75 KB
+' Summaries:
 
 
-    '     Module gbExportService
-    ' 
-    '         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
-    '                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
-    '                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
-    '                   ExportTable, FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource
-    '                   TryParseGBKID
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 691
+'    Code Lines: 508 (73.52%)
+' Comment Lines: 99 (14.33%)
+'    - Xml Docs: 85.86%
+' 
+'   Blank Lines: 84 (12.16%)
+'     File Size: 33.75 KB
+
+
+'     Module gbExportService
+' 
+'         Function: __exportNoAnnotation, __exportWithAnnotation, __featureToPTT, BatchExport, BatchExportPlasmid
+'                   CopyGenomeSequence, (+2 Overloads) Distinct, DnaSequenceExports, DumpEXPORT, DumpExportFeature
+'                   EnsureNonEmptyLocusId, EnumerateGeneFeatures, ExportGeneFeatures, ExportGeneNtFasta, ExportPTTAsDump
+'                   ExportTable, FeatureGenes, GbffToPTT, InvokeExport, LoadGbkSource
+'                   TryParseGBKID
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -74,6 +74,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace Assembly.NCBI.GenBank
 

@@ -1,4 +1,5 @@
-﻿Imports SMRUCC.genomics.SequenceModel.FASTA
+﻿Imports SMRUCC.genomics.Assembly.NCBI.GenBank
+Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
 Namespace SequenceModel.Slicer
@@ -51,6 +52,26 @@ Namespace SequenceModel.Slicer
 
         Public Overrides Function SliceRegionSite(start As Integer, seqLength As Integer) As String
             Return chromosome.GetRegion(start, right:=start + seqLength)
+        End Function
+    End Class
+
+    ''' <summary>
+    ''' slicer for the ncbi genbank origin sequence, which is stored in the GBFF file, 
+    ''' this slicer can be used to cut a specific sequence region from a genbank sequence file
+    ''' </summary>
+    Public Class GenBankSlicer : Inherits ISlicer
+
+        Public ReadOnly Property title As String
+
+        ReadOnly chromosome As String
+
+        Sub New(chromosome As GBFF.File)
+            Me.chromosome = chromosome.Origin.SequenceData
+            Me.title = chromosome.Accession.AccessionId
+        End Sub
+
+        Public Overrides Function SliceRegionSite(start As Integer, seqLength As Integer) As String
+            Return chromosome.Substring(start - 1, seqLength)
         End Function
     End Class
 End Namespace
