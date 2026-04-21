@@ -42,8 +42,11 @@ declare namespace genomics_context {
    */
    function filter_strand(genes: any, strand?: any, env?: object): any;
    /**
+     * @param chr_name default value Is ``null``.
+     * @param strict default value Is ``false``.
+     * @param env default value Is ``null``.
    */
-   function genomics_context(gff: object): object;
+   function genomics_context(gff: object, chr_name?: string, strict?: boolean, env?: object): object;
    module is {
       /**
        * assert that does the given nucleotide location is in forward direction?

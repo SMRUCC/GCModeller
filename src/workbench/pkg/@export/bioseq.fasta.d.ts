@@ -171,6 +171,16 @@ declare namespace bioseq.fasta {
       function seq(file: string, env?: object): object;
    }
    /**
+    * read genome assembly fasta sequence file
+    * 
+    * 
+     * @param file -
+     * @param env -
+     * 
+     * + default value Is ``null``.
+   */
+   function read_assembly(file: any, env?: object): object;
+   /**
      * @param type default value Is ``null``.
      * @param env default value Is ``null``.
    */
@@ -208,6 +218,10 @@ declare namespace bioseq.fasta {
      * @param fa -
    */
    function size(fa: object): object;
+   /**
+     * @param env default value Is ``null``.
+   */
+   function slicer(fa: any, env?: object): object|object|object|object;
    /**
      * @param env default value Is ``null``.
    */

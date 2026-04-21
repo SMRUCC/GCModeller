@@ -10,6 +10,7 @@ Fasta sequence toolkit
 + [seq_vector](bioseq.fasta/seq_vector.1) embedding the given fasta sequence as vector
 + [read.seq](bioseq.fasta/read.seq.1) Read a single fasta sequence file
 + [read.fasta](bioseq.fasta/read.fasta.1) read a fasta sequence collection file
++ [read_assembly](bioseq.fasta/read_assembly.1) read genome assembly fasta sequence file
 + [open.fasta](bioseq.fasta/open.fasta.1) open the fasta sequence file
 + [parse.fasta](bioseq.fasta/parse.fasta.1) parse the fasta sequence object from the given text data
 + [takes](bioseq.fasta/takes.1) 
@@ -21,6 +22,7 @@ Fasta sequence toolkit
 + [fasta](bioseq.fasta/fasta.1) Create a new fasta sequence objects
 + [fasta.headers](bioseq.fasta/fasta.headers.1) get/set the fasta headers title
 + [fasta.titles](bioseq.fasta/fasta.titles.1) get the fasta titles from a collection of fasta sequence
++ [slicer](bioseq.fasta/slicer.1) 
 + [cut_seq.linear](bioseq.fasta/cut_seq.linear.1) cut part of the sequence
 + [open.fingerprint_writer](bioseq.fasta/open.fingerprint_writer.1) 
 + [write_fingerprint](bioseq.fasta/write_fingerprint.1) 
