@@ -69,6 +69,8 @@ Namespace NCBIBlastResult.WebBlast
     ''' 在目标基因组之上的blast hit的结果
     ''' </summary>
     ''' <remarks>
+    ''' ncbi blast -outfmt 6
+    ''' 
     ''' Fields: query id, subject ids, % identity, alignment length, mismatches, gap opens, q. start, q. end, s. start, s. end, evalue, bit score
     ''' </remarks>
     <XmlType("hit", [Namespace]:="http://gcmodeller.org/visual/circos/blast_hit")>
