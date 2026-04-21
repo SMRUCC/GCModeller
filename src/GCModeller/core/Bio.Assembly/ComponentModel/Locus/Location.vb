@@ -122,7 +122,9 @@ Namespace ComponentModel.Loci
             Me.left = left
             Me.right = right
 
-            Call Normalization()
+            If left > right Then
+                Call left.Swap(right)
+            End If
         End Sub
 
         Sub New(loci As Location)

@@ -180,7 +180,7 @@ Namespace Assembly.NCBI.GenBank
 
         <Extension>
         Private Function toUniqueId(loci As NucleotideLocation) As String
-            Call loci.Normalization()
+            loci = loci.Normalization()
 
             If loci.Strand = Strands.Forward Then
                 Return $"{loci.left}..{loci.right}"
