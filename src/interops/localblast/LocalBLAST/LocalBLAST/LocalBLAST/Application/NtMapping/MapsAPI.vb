@@ -59,9 +59,11 @@ Imports Microsoft.VisualBasic.Language
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Parallel.Linq
 Imports Microsoft.VisualBasic.Scripting.Runtime
+Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.Application.BBH.Abstract
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.LocalBLAST.BLASTOutput.BlastPlus
+Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 
 Namespace LocalBLAST.Application.NtMapping
 
@@ -74,7 +76,8 @@ Namespace LocalBLAST.Application.NtMapping
         ''' </summary>
         ''' <param name="map"></param>
         ''' <returns></returns>
-        <Extension> Public Function GetCoverage(map As BlastnMapping) As Double
+        <Extension>
+        Public Function GetCoverage(map As BlastnMapping) As Double
             Return Math.Abs(map.QueryRight - map.QueryLeft) / map.QueryLength
         End Function
 
@@ -113,11 +116,11 @@ Namespace LocalBLAST.Application.NtMapping
         <Extension>
         Public Function CreateObject(Query As Query, topBest As Boolean) As BlastnMapping()
             Dim LQuery As BlastnMapping() = LinqAPI.Exec(Of BlastnMapping) _
- _
+                                                                           _
                 () <= From hitMapping As SubjectHit
                       In Query.SubjectHits
                       Let blastnHitMapping As BlastnHit = DirectCast(hitMapping, BlastnHit)
-                      Let result = Query.__createObject(blastnHitMapping)
+                      Let result = Query.MakeTabular(blastnHitMapping)
                       Select result
 
             Call LQuery.setUnique
@@ -138,7 +141,8 @@ Namespace LocalBLAST.Application.NtMapping
         ''' </summary>
         ''' <param name="data"></param>
         ''' <returns></returns>
-        <Extension> Private Function setUnique(ByRef data As BlastnMapping()) As Boolean
+        <Extension>
+        Private Function setUnique(ByRef data As BlastnMapping()) As Boolean
             If data.Length = 1 Then
                 data(Scan0).Unique = True
                 Return True
@@ -168,7 +172,8 @@ Namespace LocalBLAST.Application.NtMapping
         ''' <param name="Query"></param>
         ''' <param name="hitMapping"></param>
         ''' <returns></returns>
-        <Extension> Private Function __createObject(query As Query, hitMapping As BlastnHit) As BlastnMapping
+        <Extension>
+        Private Function MakeTabular(query As Query, hitMapping As BlastnHit) As BlastnMapping
             Dim MappingView As New BlastnMapping With {
                 .ReadQuery = query.QueryName,
                 .Reference = hitMapping.Name,
@@ -331,6 +336,63 @@ Namespace LocalBLAST.Application.NtMapping
             Next
 
             Return outhits
+        End Function
+
+        ''' <summary>
+        ''' 构建出单条染色体上的匹配结果位置的列表,这个位置的列表是按照query的位置进行排序的
+        ''' </summary>
+        ''' <param name="blastn"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Function MakeChromosomeMapping(blastn As IEnumerable(Of HitRecord), Optional evalueCutoff As Double = 1) As Dictionary(Of String, NucleotideLocation())
+            ' Key: 染色体名称, Value: 该染色体上的比对位置列表
+            Dim chrMap As New Dictionary(Of String, NucleotideLocation())
+
+            For Each chr In blastn.GroupBy(Function(hit) hit.SubjectIDs)
+                Call chrMap.Add(chr.Key, chr.MakeMappingLocation.ToArray)
+            Next
+
+            Return chrMap
+        End Function
+
+        ''' <summary>
+        ''' 构建出单条染色体上的匹配结果位置的列表,这个位置的列表是按照query的位置进行排序的
+        ''' </summary>
+        ''' <param name="blastn"></param>
+        ''' <returns></returns>
+        <Extension>
+        Public Iterator Function MakeMappingLocation(blastn As IEnumerable(Of HitRecord), Optional evalueCutoff As Double = 1) As IEnumerable(Of NucleotideLocation)
+            For Each hit As HitRecord In blastn
+                ' outfmt 6: 0:qseqid, 1:sseqid, 2:pident, 3:length, 4:mismatch, 5:gapopen, 
+                '           6:qstart, 7:qend, 8:sstart, 9:send, 10:evalue, 11:bitscore
+                Dim primerName = hit.QueryID
+                Dim chrName = hit.SubjectIDs
+                Dim sstart = hit.SubjectStart
+                Dim send = hit.SubjectEnd
+                Dim evalue = hit.EValue
+
+                If evalue > evalueCutoff Then
+                    Continue For
+                End If
+
+                ' 判断链方向：BLAST中如果 sstart > send，则比对在负链
+                Dim strand As Strands
+                Dim left, right As Integer
+                If sstart <= send Then
+                    strand = Strands.Forward
+                    left = sstart : right = send
+                Else
+                    strand = Strands.Reverse
+                    left = send : right = sstart
+                End If
+
+                Yield New NucleotideLocation With {
+                    .left = left,
+                    .right = right,
+                    .Strand = strand,
+                    .tagStr = primerName
+                }
+            Next
         End Function
     End Module
 End Namespace
