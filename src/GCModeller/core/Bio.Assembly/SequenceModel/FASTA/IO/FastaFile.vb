@@ -328,16 +328,15 @@ NULL_DATA:      Call $"""{path.ToFileURL}"" fasta data isnull or empty!".debug
         ''' <returns></returns>
         ''' <remarks></remarks>
         Public Shared Function ParseDocument(doc As String, Optional deli As Char() = Nothing) As FastaFile
-            Dim Fasta As New FastaFile(DocParser(doc, If(deli.IsNullOrEmpty, {"|"c}, deli)))
-            Return Fasta
+            Dim fasta As New FastaFile(DocParser(doc, If(deli.IsNullOrEmpty, {"|"c}, deli)))
+            Return fasta
         End Function
 
         Public Sub Split(saveDIR As Path)
-            Dim Index As Integer
+            Dim i As i32 = 1
 
             For Each seq As FastaSeq In __innerList
-                Index += 1
-                seq.SaveTo(String.Format("{0}/{1}.fasta", saveDIR, Index))
+                Call seq.SaveTo($"{saveDIR}/{++i}.fasta")
             Next
         End Sub
 
