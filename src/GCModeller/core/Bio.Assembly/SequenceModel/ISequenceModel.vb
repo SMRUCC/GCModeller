@@ -67,6 +67,9 @@ Namespace SequenceModel
         Implements IPolymerSequenceModel
         Implements ISequenceData(Of Char, String)
 
+        Public Const KB As Integer = 1000
+        Public Const MB As Integer = 1000 * KB
+
 #Region "Object properties"
 
         ''' <summary>

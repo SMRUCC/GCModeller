@@ -1,6 +1,7 @@
 ﻿Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
+Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 
@@ -23,7 +24,7 @@ Public Class PrimerCoverage
         Console.WriteLine($"目标染色体: {targetChr}, 引物覆盖原始区间: {minLeft} - {maxRight}")
 
         ' 4. 动态延伸逻辑 (2Mb ~ 5Mb)
-        Dim extendLength As Integer = 2000000 ' 默认2Mb
+        Dim extendLength As Integer = 2 * ISequenceModel.MB  ' 默认2Mb
         Dim lowDensityThreshold As Double = 0.0001 ' 设定低密度阈值，例如 1 gene / 10kb = 0.0001 gene/bp
 
         ' 检查上下2Mb的密度
@@ -31,7 +32,7 @@ Public Class PrimerCoverage
         Dim downDensity = chr.GeneDensity(maxRight, maxRight + extendLength)
 
         If upDensity < lowDensityThreshold OrElse downDensity < lowDensityThreshold Then
-            extendLength = 5000000 ' 放宽至5Mb
+            extendLength = 5 * ISequenceModel.MB  ' 放宽至5Mb
             Console.WriteLine("基因密度较低，延伸长度放宽至 5Mb")
         Else
             Console.WriteLine("基因密度正常，延伸长度为 2Mb")
