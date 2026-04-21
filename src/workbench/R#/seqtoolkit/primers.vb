@@ -6,6 +6,8 @@ Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.SequenceModel
+Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
 Imports SMRUCC.Rsharp.Runtime.Interop
@@ -35,6 +37,7 @@ Module primers
         Dim hits As String = candidate.SupportingHits.Select(Function(h) $"{h.QueryID}({h.SubjectStart}|{h.SubjectEnd})").JoinBy("; ")
         Dim core_type = candidate.GenesInCoreRegion.Select(Function(any) "core")
         Dim ext_type = candidate.GenesInExtendedRegion.Select(Function(any) "extended")
+        Dim fna As FastaSeq = args.getBySynonyms("fna")
 
         Call df.add("chr", scalar:=candidate.Chr)
         Call df.add("primer_start", scalar:=candidate.CoreStart)
@@ -51,6 +54,16 @@ Module primers
         Call df.add("type", core_type.JoinIterates(ext_type))
         Call df.add("num_primer_hits", scalar:=candidate.SupportingHits.Count)
         Call df.add("primer_hits", scalar:=hits)
+
+        If fna IsNot Nothing Then
+            With New FastaSlicer(fna)
+                Call df.add("gene_seq", candidate.GenesInCoreRegion _
+                       .JoinIterates(candidate.GenesInExtendedRegion) _
+                       .Select(Function(gene)
+                                   Return .SliceRegionSite(gene.left, gene.Length)
+                               End Function))
+            End With
+        End If
 
         Return df
     End Function
