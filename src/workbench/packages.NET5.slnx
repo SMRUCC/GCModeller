@@ -1629,34 +1629,6 @@
     </Project>
   </Folder>
   <Folder Name="/gcmodeller/">
-    <Project Path="../GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj">
-      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Biodeep|*" Project="Release" />
-      <BuildType Solution="Biostack-Debug|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Biostack|*" Project="Rsharp_app_release" />
-      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
-      <BuildType Solution="DEMO|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Desktop|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Docker|*" Project="Release" />
-      <BuildType Solution="docs|*" Project="Release" />
-      <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
-      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
-      <BuildType Solution="installer_x64|*" Project="Rsharp_app_release" />
-      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="MetaCardio|*" Project="gcmodeller_desktop" />
-      <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
-      <BuildType Solution="mzkit|*" Project="Debug" />
-      <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
-      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
-      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
-      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
-      <BuildType Solution="Voyager1|*" Project="mzkit_win32" />
-      <Platform Solution="*|x64" Project="x64" />
-    </Project>
     <Project Path="../GCModeller/core/Bio.Annotation/annotation.NET5.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Debug" />
       <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
@@ -1833,36 +1805,6 @@
       <Platform Solution="Desktop|x64" Project="x64" />
       <Platform Solution="nuget_release|x64" Project="x64" />
       <Platform Solution="Rsharp_app_release|x64" Project="x64" />
-    </Project>
-    <Project Path="modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj">
-      <BuildType Solution="BioDeep_database|*" Project="Debug" />
-      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
-      <BuildType Solution="Biodeep|*" Project="Debug" />
-      <BuildType Solution="Biostack-Debug|*" Project="Debug" />
-      <BuildType Solution="Biostack|*" Project="Debug" />
-      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
-      <BuildType Solution="DEMO|*" Project="Debug" />
-      <BuildType Solution="Desktop|*" Project="Debug" />
-      <BuildType Solution="Docker|*" Project="Debug" />
-      <BuildType Solution="docs|*" Project="Debug" />
-      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
-      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
-      <BuildType Solution="gcmodeller_desktop|*" Project="Rsharp_app_release" />
-      <BuildType Solution="installer_x64|*" Project="Debug" />
-      <BuildType Solution="LipidSearch|*" Project="Debug" />
-      <BuildType Solution="MetaCardio|*" Project="Debug" />
-      <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
-      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
-      <BuildType Solution="mzkit|*" Project="Debug" />
-      <BuildType Solution="node-debug|*" Project="Debug" />
-      <BuildType Solution="NPSearch|*" Project="Debug" />
-      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
-      <BuildType Solution="PlantMAT|*" Project="Debug" />
-      <BuildType Solution="Publish|*" Project="Debug" />
-      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
-      <BuildType Solution="vcellkit|*" Project="Debug" />
-      <BuildType Solution="Voyager1|*" Project="Debug" />
-      <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>
   <Folder Name="/gcmodeller/annotations/">
@@ -3710,7 +3652,63 @@
     </Project>
   </Folder>
   <Folder Name="/gcmodeller/sequence_analysis/">
+    <Project Path="../GCModeller/analysis/Motifs/PrimerDesigner/PrimerDesigner.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep|*" Project="Release" />
+      <BuildType Solution="Biostack-Debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biostack|*" Project="Rsharp_app_release" />
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="DEMO|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Desktop|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="docs|*" Project="Release" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="installer_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="MetaCardio|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
+      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Voyager1|*" Project="mzkit_win32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
     <Project Path="../GCModeller/analysis/SequenceToolkit/SequenceAlignment/SequenceAlignment.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biodeep|*" Project="Release" />
+      <BuildType Solution="Biostack-Debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Biostack|*" Project="Rsharp_app_release" />
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="DEMO|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Desktop|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Docker|*" Project="Release" />
+      <BuildType Solution="docs|*" Project="Release" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Rsharp_app_release" />
+      <BuildType Solution="installer_x64|*" Project="Rsharp_app_release" />
+      <BuildType Solution="LipidSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="MetaCardio|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="gcmodeller_desktop" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="node-debug|*" Project="Rsharp_app_release" />
+      <BuildType Solution="NPSearch|*" Project="Rsharp_app_release" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Publish|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
+      <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
+      <BuildType Solution="Voyager1|*" Project="mzkit_win32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="../GCModeller/analysis/SequenceToolkit/SNP/SNP.vbproj">
       <BuildType Solution="BioDeep_database|*" Project="Rsharp_app_release" />
       <BuildType Solution="Biodeep_UNIX_x64|*" Project="Rsharp_app_release" />
       <BuildType Solution="Biodeep|*" Project="Release" />
@@ -3763,6 +3761,36 @@
       <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Rsharp_app_release" />
       <BuildType Solution="vcellkit|*" Project="Rsharp_app_release" />
       <BuildType Solution="Voyager1|*" Project="mzkit_win32" />
+      <Platform Solution="*|x64" Project="x64" />
+    </Project>
+    <Project Path="modules/SeqFeature/SeqFeature/SeqFeature.NET5.vbproj">
+      <BuildType Solution="BioDeep_database|*" Project="Debug" />
+      <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
+      <BuildType Solution="Biodeep|*" Project="Debug" />
+      <BuildType Solution="Biostack-Debug|*" Project="Debug" />
+      <BuildType Solution="Biostack|*" Project="Debug" />
+      <BuildType Solution="CFD_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="DEMO|*" Project="Debug" />
+      <BuildType Solution="Desktop|*" Project="Debug" />
+      <BuildType Solution="Docker|*" Project="Debug" />
+      <BuildType Solution="docs|*" Project="Debug" />
+      <BuildType Solution="GCModeller(Release_X64)|*" Project="Release" />
+      <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="Release" />
+      <BuildType Solution="gcmodeller_desktop|*" Project="Rsharp_app_release" />
+      <BuildType Solution="installer_x64|*" Project="Debug" />
+      <BuildType Solution="LipidSearch|*" Project="Debug" />
+      <BuildType Solution="MetaCardio|*" Project="Debug" />
+      <BuildType Solution="mzkit_UnixDocker|*" Project="Debug" />
+      <BuildType Solution="mzkit_win32|*" Project="Rsharp_app_release" />
+      <BuildType Solution="mzkit|*" Project="Debug" />
+      <BuildType Solution="node-debug|*" Project="Debug" />
+      <BuildType Solution="NPSearch|*" Project="Debug" />
+      <BuildType Solution="nuget_release|*" Project="Rsharp_app_release" />
+      <BuildType Solution="PlantMAT|*" Project="Debug" />
+      <BuildType Solution="Publish|*" Project="Debug" />
+      <BuildType Solution="Surveillance-of-infectious-diseases|*" Project="Debug" />
+      <BuildType Solution="vcellkit|*" Project="Debug" />
+      <BuildType Solution="Voyager1|*" Project="Debug" />
       <Platform Solution="*|x64" Project="x64" />
     </Project>
   </Folder>

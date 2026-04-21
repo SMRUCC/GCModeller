@@ -96,10 +96,11 @@ Namespace ContextModel
         ''' 按照 <see cref="IGeneBrief.Feature"/> 关键字分组的基因字典，用于快速按名称检索。
         ''' </summary>
         Dim featureTags As Dictionary(Of String, T())
+
         ''' <summary>
         ''' 当前基因组上下文的名称（如染色体名称或菌株名称）。
         ''' </summary>
-        Dim contextName$
+        Public ReadOnly Property contextName As String
 
         ''' <summary>
         ''' 通过物理位置索引获取基因组特征

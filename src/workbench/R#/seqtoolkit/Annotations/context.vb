@@ -62,6 +62,7 @@ Imports Microsoft.VisualBasic.CommandLine.Reflection
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
+Imports SMRUCC.genomics.Analysis.PrimerDesigner
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat
 Imports SMRUCC.genomics.Annotation.Assembly.NCBI.GenBank.TabularFormat.GFF
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
@@ -141,6 +142,11 @@ Module context
 
             Return chrList
         End If
+    End Function
+
+    <ExportAPI("primer_coverage")>
+    Public Function primer_coverage(targetHits As NucleotideLocation(), chr As GenomeContext(Of GFF.Feature), chr_seq As FastaSeq) As PrimerCoverage()
+        Return PrimerCoverage.GetCoverage(targetHits, chr, chr_seq).ToArray
     End Function
 
     ''' <summary>

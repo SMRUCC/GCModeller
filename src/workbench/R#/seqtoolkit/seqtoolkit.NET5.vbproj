@@ -103,6 +103,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\GCModeller\analysis\Metagenome\MetaFunction\MetaFunction.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\MotifGraph\MotifGraph.vbproj" />
+    <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\PrimerDesigner\PrimerDesigner.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\Motifs\VirtualFootprint\VirtualFootprint.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\OperonMapper\OperonMapper.vbproj" />
     <ProjectReference Include="..\..\..\GCModeller\analysis\ProteinTools\ProteinMatrix\ProteinMatrix.vbproj" />

@@ -58,8 +58,7 @@
 #End Region
 
 Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Data.csv
-Imports Microsoft.VisualBasic.Data.csv.IO
+Imports Microsoft.VisualBasic.Data.Framework.StorageProvider
 Imports Microsoft.VisualBasic.Linq
 
 Namespace Restriction_enzyme
@@ -97,9 +96,7 @@ Namespace Restriction_enzyme
 
         <Extension>
         Private Iterator Function LoadResFile(file As String) As IEnumerable(Of Enzyme)
-            Dim table As EnzymeTable() = DataFrame.Parse(content:=file) _
-                .AsDataSource(Of EnzymeTable) _
-                .ToArray
+            Dim table As EnzymeTable() = DataFrameResolver.Parse(Of EnzymeTable)(content:=file).ToArray
 
             For Each row As EnzymeTable In table
                 Yield New Enzyme With {
