@@ -28,8 +28,10 @@ Module primers
         Dim ext_left = candidate.GenesInExtendedRegion.Select(Function(g) g.left)
         Dim core_right = candidate.GenesInCoreRegion.Select(Function(g) g.right)
         Dim ext_right = candidate.GenesInExtendedRegion.Select(Function(g) g.right)
-        Dim core_strand = candidate.GenesInCoreRegion.Select(Function(g) g.strand)
-        Dim ext_strand = candidate.GenesInExtendedRegion.Select(Function(g) g.strand)
+        Dim core_len = candidate.GenesInCoreRegion.Select(Function(g) g.Length)
+        Dim ext_len = candidate.GenesInExtendedRegion.Select(Function(g) g.Length)
+        Dim core_strand = candidate.GenesInCoreRegion.Select(Function(g) g.strand.Description)
+        Dim ext_strand = candidate.GenesInExtendedRegion.Select(Function(g) g.strand.Description)
         Dim hits As String = candidate.SupportingHits.Select(Function(h) $"{h.QueryID}({h.SubjectStart}|{h.SubjectEnd})").JoinBy("; ")
         Dim core_type = candidate.GenesInCoreRegion.Select(Function(any) "core")
         Dim ext_type = candidate.GenesInExtendedRegion.Select(Function(any) "extended")
@@ -44,8 +46,10 @@ Module primers
         Call df.add("gene_id", core_id.JoinIterates(ext_id))
         Call df.add("gene_left", core_left.JoinIterates(ext_left))
         Call df.add("gene_right", core_right.JoinIterates(ext_right))
+        Call df.add("gene_length", core_len.JoinIterates(ext_len))
         Call df.add("gene_strand", core_strand.JoinIterates(ext_strand))
         Call df.add("type", core_type.JoinIterates(ext_type))
+        Call df.add("num_primer_hits", scalar:=candidate.SupportingHits.Count)
         Call df.add("primer_hits", scalar:=hits)
 
         Return df
