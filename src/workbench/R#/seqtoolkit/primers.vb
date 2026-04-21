@@ -7,6 +7,7 @@ Imports SMRUCC.genomics.ContextModel
 Imports SMRUCC.genomics.Interops.NCBI.Extensions.NCBIBlastResult.WebBlast
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Internal.[Object]
@@ -37,7 +38,7 @@ Module primers
         Dim hits As String = candidate.SupportingHits.Select(Function(h) $"{h.QueryID}({h.SubjectStart}|{h.SubjectEnd})").JoinBy("; ")
         Dim core_type = candidate.GenesInCoreRegion.Select(Function(any) "core")
         Dim ext_type = candidate.GenesInExtendedRegion.Select(Function(any) "extended")
-        Dim fna As FastaSeq = args.getBySynonyms("fna")
+        Dim fna As ChunkedNtFasta = args.getBySynonyms("fna")
 
         Call df.add("chr", scalar:=candidate.Chr)
         Call df.add("primer_start", scalar:=candidate.CoreStart)
@@ -56,7 +57,7 @@ Module primers
         Call df.add("primer_hits", scalar:=hits)
 
         If fna IsNot Nothing Then
-            With New FastaSlicer(fna)
+            With New ChunkSlicer(fna)
                 Call df.add("gene_seq", candidate.GenesInCoreRegion _
                        .JoinIterates(candidate.GenesInExtendedRegion) _
                        .Select(Function(gene)

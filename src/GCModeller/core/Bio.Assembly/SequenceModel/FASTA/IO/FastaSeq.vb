@@ -386,13 +386,12 @@ AAGCGAACAAATGTTCTATA"
         End Function
 
         ''' <summary>
-        ''' Parsing a fasta sequence object from a collection of string value.(从字符串数据之中解析出Fasta序列数据)
+        ''' Parsing a fasta sequence object from a collection of string value.
         ''' </summary>
         ''' <param name="stream"></param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>(从字符串数据之中解析出Fasta序列数据)</remarks>
         ''' 
-        <ExportAPI("FastaToken.From.Stream")>
         Public Shared Function ParseFromStream(stream As IEnumerable(Of String), deli As Char()) As FastaSeq
             Dim lines$() = stream.SafeQuery.ToArray
 
@@ -402,12 +401,13 @@ AAGCGAACAAATGTTCTATA"
 
             Dim attrs$() = Mid(lines(Scan0), 2).Trim.Split(deli)
             Dim removeInvalids = Function(s$) s.Replace(StreamIterator.SOH, "")
+            Dim seq As String = lines.Skip(1).JoinBy("").ToUpper
 
             attrs = attrs.Select(removeInvalids).ToArray
 
             Dim fa As New FastaSeq With {
                 .Headers = attrs,
-                .SequenceData = String.Join("", lines.Skip(1).ToArray).ToUpper
+                .SequenceData = seq.Replace(".", "")
             }
 
             Return fa
