@@ -400,6 +400,32 @@ Module Fasta
     End Function
 
     ''' <summary>
+    ''' read genome assembly fasta sequence file
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <param name="env"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_assembly")>
+    <RApiReturn(GetType(ChunkedNtFasta))>
+    Public Function read_assembly(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_filepath As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_filepath)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim chrom = ChunkedNtFasta.LoadDocument(s.TryCast(Of IO.Stream)).ToArray
+        Dim chromSet = chrom.ToDictionary(Function(a) a.title)
+
+        If is_filepath Then
+            Call s.TryCast(Of System.IO.Stream).Dispose()
+        End If
+
+        Return New list(chromSet)
+    End Function
+
+    ''' <summary>
     ''' open the fasta sequence file 
     ''' </summary>
     ''' <param name="file"></param>
@@ -800,6 +826,18 @@ Module Fasta
         Return GetFastaSeq(fa, env) _
             .Select(Function(a) a.Title) _
             .ToArray
+    End Function
+
+    <ExportAPI("slicer")>
+    <RApiReturn(GetType(ISlicer), GetType(FastaSlicer), GetType(ChunkSlicer))>
+    Public Function slicer(fa As Object, Optional env As Environment = Nothing) As Object
+        If TypeOf fa Is FastaSeq Then
+            Return New FastaSlicer(DirectCast(fa, FastaSeq))
+        ElseIf TypeOf fa Is ChunkedNtFasta Then
+            Return New ChunkSlicer(DirectCast(fa, ChunkedNtFasta))
+        Else
+            Return Message.InCompatibleType(GetType(FastaSeq), fa.GetType, env)
+        End If
     End Function
 
     ''' <summary>
