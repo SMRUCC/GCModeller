@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>SMRUCC.genomics.Analysis.PrimerDesigner.CandidateRegion</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <link rel="stylesheet" type="text/css" href="https://gcmodeller.org/lib/page.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <table style="width: 100%;">
+            <tr>
+                <td>CandidateRegion {SMRUCC.genomics.Analysis.PrimerDesigner}</td>
+                <td style="text-align: right;">.NET clr documentation</td>
+            </tr>
+        </table>
+
+        <h2>CandidateRegion</h2>
+
+        <h3>Description</h3>
+
+        <p>多个引物共同覆盖的候选区域信息类</p>
+
+        <h3>Declare</h3>        
+
+        <pre>
+            <code id="clr_ts">
+# namespace SMRUCC.genomics.Analysis.PrimerDesigner
+export class CandidateRegion {
+   Chr: string;
+   CoreEnd: integer;
+   CoreStart: integer;
+   ExtendedEnd: integer;
+   ExtendedStart: integer;
+   ExtensionLength: integer;
+   GenesInCoreRegion: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature[]</a>;
+   GenesInExtendedRegion: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature[]</a>;
+   Span: integer;
+   SupportingHits: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">iterates(HitRecord)</a>;
+}
+</code>
+        </pre>
+
+        <h3>.NET clr type reference tree</h3>
+
+        <ol>
+<li>use by <i>property</i> member <code>GenesInCoreRegion</code>: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li>
+<li>use by <i>property</i> member <code>GenesInExtendedRegion</code>: <a href="/vignettes/clr/SMRUCC/genomics/Annotation/Assembly/NCBI/GenBank/TabularFormat/GFF/Feature.html">Feature</a></li>
+<li>use by <i>property</i> member <code>SupportingHits</code>: <a href="/vignettes/clr/SMRUCC/genomics/Interops/NCBI/Extensions/NCBIBlastResult/WebBlast/HitRecord.html">iterates(HitRecord)</a></li>
+</ol>
+
+
+        <hr />
+        <div style="text-align: center;">[Package <em>{$package}</em> version {$version} <a
+                href="../{$package}.html">Index</a>]
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="https://gcmodeller.org/lib/R_syntax.js"></script>
+<script type="text/javascript" src="https://gcmodeller.org/lib/highlights.js"></script>
+<script type="text/javascript">r_highlights("clr_ts");</script>
+
+</html>
