@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::ae5280739a8d72d96b0d3cf69299195c, core\Bio.Assembly\ComponentModel\Locus\LocusExtensions.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 215
-    '    Code Lines: 130 (60.47%)
-    ' Comment Lines: 60 (27.91%)
-    '    - Xml Docs: 93.33%
-    ' 
-    '   Blank Lines: 25 (11.63%)
-    '     File Size: 8.91 KB
+' Summaries:
 
 
-    '     Module LocusExtensions
-    ' 
-    '         Function: (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins, NCBIstyle
-    '                   TryParse, tryParseInternal
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 215
+'    Code Lines: 130 (60.47%)
+' Comment Lines: 60 (27.91%)
+'    - Xml Docs: 93.33%
+' 
+'   Blank Lines: 25 (11.63%)
+'     File Size: 8.91 KB
+
+
+'     Module LocusExtensions
+' 
+'         Function: (+2 Overloads) Equals, GetRelationship, GetStrand, MergeJoins, NCBIstyle
+'                   TryParse, tryParseInternal
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -97,46 +97,96 @@ Namespace ComponentModel.Loci
 
         ''' <summary>
         ''' Gets the location relationship of two loci segments.
-        ''' (判断获取两个位点片段之间的位置关系，请注意，这个函数只依靠左右位置来判断关系，
-        ''' 假若对核酸链的方向有要求在调用本函数之前请确保二者在同一条链之上)
         ''' </summary>
         ''' <param name="lcl">
         ''' 在计算之前请先调用<see cref="Location.Normalization()"/>方法来修正
         ''' </param>
         ''' <returns></returns>
-        ''' <remarks></remarks>
+        ''' <remarks>
+        ''' (判断获取两个位点片段之间的位置关系，请注意，这个函数只依靠左右位置来判断关系，
+        ''' 假若对核酸链的方向有要求在调用本函数之前请确保二者在同一条链之上)
+        ''' </remarks>
+        '''
+        <ExportAPI("Get.Relationship")>
+        <Extension>
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetRelationship(site As Location, lcl As Location) As SegmentRelationships
+            Return GetNormalizedSiteRelationship(site.Normalization, lcl.Normalization)
+        End Function
+
+        Private Function GetNormalizedSiteRelationship(normSite As Location, normLcl As Location) As SegmentRelationships
+            Dim sLeft = normSite.left
+            Dim sRight = normSite.right
+            Dim lLeft = normLcl.left
+            Dim lRight = normLcl.right
+
+            ' 1. 完全相等
+            If lLeft = sLeft AndAlso lRight = sRight Then
+                Return SegmentRelationships.Equals
+            End If
+
+            ' 2. 完全在上游 (包含边界相接的情况，例如 lcl=[1,10], site=[10,20] 视为上游)
+            ' 注意：如果是0-based半开区间(BED格式)，请保持原来的 < ；如果是1-based闭区间，请使用 <=
+            If lRight <= sLeft Then
+                Return SegmentRelationships.UpStream
+            End If
+
+            ' 3. 完全在下游 (包含边界相接的情况)
+            If lLeft >= sRight Then
+                Return SegmentRelationships.DownStream
+            End If
+
+            ' 4. 严格包含在内 (不包含端点对齐的情况，端点对齐归入Overlap)
+            If lLeft > sLeft AndAlso lRight < sRight Then
+                Return SegmentRelationships.Inside
+            End If
+
+            ' 5. 严格覆盖 (不包含端点对齐的情况，端点对齐归入Overlap)
+            If lLeft < sLeft AndAlso lRight > sRight Then
+                Return SegmentRelationships.Cover
+            End If
+
+            ' 6. 上游重叠 / 左侧重叠 (lcl从site的左侧开始重叠)
+            ' 此时必然有 lLeft <= sLeft (含左对齐) 且 lRight <= sRight 且存在交集
+            If lLeft <= sLeft AndAlso lRight <= sRight Then
+                Return SegmentRelationships.UpStreamOverlap
+            End If
+
+            ' 7. 下游重叠 / 右侧重叠 (lcl从site的右侧开始重叠)
+            ' 此时必然有 lLeft >= sLeft (含右对齐) 且 lRight >= sRight 且存在交集
+            If lLeft >= sLeft AndAlso lRight >= sRight Then
+                Return SegmentRelationships.DownStreamOverlap
+            End If
+
+            ' 理论上只要输入是合法的区间(left <= right)，以上条件必定命中一个
+            Return SegmentRelationships.Blank
+        End Function
+
+        ''' <summary>
+        ''' Gets the location relationship of two loci segments.
+        ''' </summary>
+        ''' <param name="lcl">
+        ''' 在计算之前请先调用<see cref="Location.Normalization()"/>方法来修正
+        ''' </param>
+        ''' <returns></returns>
+        ''' <remarks>
+        ''' (判断获取两个位点片段之间的位置关系，请注意，这个函数只依靠左右位置来判断关系，
+        ''' 假若对核酸链的方向有要求在调用本函数之前请确保二者在同一条链之上)
+        ''' </remarks>
         '''
         <ExportAPI("Get.Relationship")>
         <Extension>
         Public Function GetRelationship(site As NucleotideLocation, lcl As NucleotideLocation) As SegmentRelationships
-            Call site.Normalization()
-            Call lcl.Normalization()
+            Dim normSite = site.Normalization
+            Dim normLcl = lcl.Normalization
 
-            If lcl.left = site.left() AndAlso lcl.right = site.right() Then
-                Return SegmentRelationships.Equals
-            End If
-            If lcl.right < site.left() Then
-                Return SegmentRelationships.UpStream
-            End If
-            If lcl.left > site.right() Then
-                Return SegmentRelationships.DownStream
-            End If
-            If lcl.left > site.left() AndAlso lcl.right < site.right() Then
-                Return SegmentRelationships.Inside
-            End If
-            If site.left() > lcl.left AndAlso site.right() < lcl.right Then
-                Return SegmentRelationships.Cover
+            If site.Strand <> lcl.Strand Then
+                If normLcl.left > normSite.left AndAlso normLcl.right < normSite.right Then
+                    Return SegmentRelationships.InnerAntiSense
+                End If
             End If
 
-            If lcl.left <= site.left() AndAlso lcl.right <= site.right() AndAlso lcl.right > site.left() Then
-                Return SegmentRelationships.UpStreamOverlap
-            End If
-
-            If lcl.left >= site.left() AndAlso lcl.right >= site.right() AndAlso lcl.left < site.right() Then
-                Return SegmentRelationships.DownStreamOverlap
-            End If
-
-            Return SegmentRelationships.Blank
+            Return GetNormalizedSiteRelationship(DirectCast(normSite, Location), DirectCast(normLcl, Location))
         End Function
 
         ''' <summary>
@@ -147,7 +197,9 @@ Namespace ComponentModel.Loci
         ''' <returns></returns>
         ''' <remarks></remarks>
         '''
-        <ExportAPI("Get.Strands"), Extension> Public Function GetStrand(str As String) As Strands
+        <ExportAPI("Get.Strands"),
+            Extension>
+        Public Function GetStrand(str As String) As Strands
             If String.IsNullOrEmpty(str) Then
                 Return Strands.Unknown
             End If
@@ -203,7 +255,8 @@ Namespace ComponentModel.Loci
             Return nuclLoci
         End Function
 
-        <Extension> Public Function NCBIstyle(loci As NucleotideLocation) As String
+        <Extension>
+        Public Function NCBIstyle(loci As NucleotideLocation) As String
             Dim tag$ = $"{loci.left}..{loci.right}"
 
             If loci.Strand = Strands.Reverse Then

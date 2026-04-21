@@ -291,7 +291,7 @@ Namespace ComponentModel.Loci
         ''' 
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Overloads Function Normalization() As NucleotideLocation
-            Return DirectCast(MyBase.Normalization, NucleotideLocation)
+            Return New NucleotideLocation(MyBase.Normalization, Strand)
         End Function
 
         Public Overloads Shared Function CreateObject(Start As Long, Length As Integer, Complement As Boolean) As NucleotideLocation

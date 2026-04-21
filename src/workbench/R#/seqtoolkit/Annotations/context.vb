@@ -214,6 +214,7 @@ Module context
     ''' <param name="strand"></param>
     ''' <returns></returns>
     <ExportAPI("location")>
+    <RApiReturn(GetType(NucleotideLocation))>
     Public Function location(left As Integer, right As Integer, Optional strand As Object = Nothing) As Object
         Return New NucleotideLocation(left, right, getStrand(strand))
     End Function

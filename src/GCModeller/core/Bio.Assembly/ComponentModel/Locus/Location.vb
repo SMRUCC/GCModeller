@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::5d0fbdd35bd7d4423f73709822814862, core\Bio.Assembly\ComponentModel\Locus\Location.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 277
-    '    Code Lines: 132 (47.65%)
-    ' Comment Lines: 112 (40.43%)
-    '    - Xml Docs: 82.14%
-    ' 
-    '   Blank Lines: 33 (11.91%)
-    '     File Size: 10.40 KB
+' Summaries:
 
 
-    '     Class Location
-    ' 
-    '         Properties: Center, FragmentSize, IsNormalized, left, right
-    '                     Tag
-    ' 
-    '         Constructor: (+4 Overloads) Sub New
-    '         Function: Clone, CreateObject, Equals, GetOverlapSize, Inside
-    '                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
-    '         Operators: <>, =
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 277
+'    Code Lines: 132 (47.65%)
+' Comment Lines: 112 (40.43%)
+'    - Xml Docs: 82.14%
+' 
+'   Blank Lines: 33 (11.91%)
+'     File Size: 10.40 KB
+
+
+'     Class Location
+' 
+'         Properties: Center, FragmentSize, IsNormalized, left, right
+'                     Tag
+' 
+'         Constructor: (+4 Overloads) Sub New
+'         Function: Clone, CreateObject, Equals, GetOverlapSize, Inside
+'                   (+2 Overloads) InsideOrOverlapWith, Normalization, OffSet, ToString
+'         Operators: <>, =
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -146,14 +146,16 @@ Namespace ComponentModel.Loci
         End Property
 
         ''' <summary>
-        ''' 使用这个方法更正数据，使位置数据始终是右大于左，(Return Me: 修改自身之后返回自身)
+        ''' 使用这个方法更正数据，使位置数据始终是右大于左
         ''' </summary>
         ''' <remarks></remarks>
         Public Function Normalization() As Location
+            Dim min = Me.Min, max = Me.Max
+
             If left > right Then
-                Call Min.Swap(Max)
+                Call min.Swap(max)
             End If
-            Return Me
+            Return New Location(min, max)
         End Function
 
         ''' <summary>
