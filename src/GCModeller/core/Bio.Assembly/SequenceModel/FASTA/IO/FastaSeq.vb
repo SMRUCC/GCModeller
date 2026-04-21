@@ -681,15 +681,5 @@ AAGCGAACAAATGTTCTATA"
         Private Function GetSequenceData() As String Implements ISequenceProvider.GetSequenceData
             Return SequenceData
         End Function
-
-        ''' <summary>
-        ''' 
-        ''' </summary>
-        ''' <param name="start">1-based start index</param>
-        ''' <param name="seqLength">string length of the target locus region</param>
-        ''' <returns></returns>
-        Public Function Substring(start As Integer, seqLength As Integer) As String
-            Return SequenceData.Substring(start - 1, seqLength)
-        End Function
     End Class
 End Namespace
