@@ -281,8 +281,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Select New BindProperty(Of ColumnAttribute)(name, p, Function(a) a.Name)
         ).ToArray
 
-        Public Function GenerateDocument() As String
-            Dim sb As New StringBuilder()
+        Public Sub WriteDocument(sb As TextWriter)
             Dim features$() = Me.features _
                 .Select(AddressOf FeatureParser.ToString) _
                 .ToArray
@@ -297,12 +296,18 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                     Continue For
                 End If
 
-                Call sb.AppendLine($"{[property].GetColumnName} {str}")
+                Call sb.WriteLine($"{[property].GetColumnName} {str}")
             Next
 
-            Call sb.AppendLine(features.JoinBy(ASCII.LF))
-            Call sb.AppendLine("###")
+            Call sb.WriteLine(features.JoinBy(ASCII.LF))
+            Call sb.WriteLine("###")
+            Call sb.Flush()
+        End Sub
 
+        Public Function GenerateDocument() As String
+            Dim sb As New StringBuilder
+            Dim wr As New StringWriter(sb)
+            Call WriteDocument(wr)
             Return sb.ToString
         End Function
 
@@ -313,8 +318,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
         Public Function Save(s As Stream, encoding As Encoding) As Boolean Implements ISaveHandle.Save
             Using wr As New StreamWriter(s, encoding)
-                Call wr.WriteLine(GenerateDocument)
-                Call wr.Flush()
+                Call WriteDocument(wr)
             End Using
 
             Return True

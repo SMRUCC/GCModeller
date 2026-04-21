@@ -125,7 +125,8 @@ Module context
     End Function
 
     <ExportAPI("genomics_contex")>
-    Public Function genomics_contex(gff As GFFTable) As GenomeContext(Of GFF.Feature)
+    <RApiReturn(GetType(GenomeContext(Of GFF.Feature)))>
+    Public Function genomics_contex(gff As GFFTable) As Object
         Return New GenomeContext(Of Feature)(gff.features, name:=gff.species)
     End Function
 
