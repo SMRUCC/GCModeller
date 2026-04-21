@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::e0d753f158d9d116da728cd4a068ab2f, core\Bio.Annotation\GFF\GFF.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 304
-    '    Code Lines: 151 (49.67%)
-    ' Comment Lines: 112 (36.84%)
-    '    - Xml Docs: 87.50%
-    ' 
-    '   Blank Lines: 41 (13.49%)
-    '     File Size: 12.90 KB
+' Summaries:
 
 
-    '     Class GFFTable
-    ' 
-    '         Properties: [date], DNA, features, GffVersion, processor
-    '                     Protein, RNA, SeqRegion, Size, species
-    '                     SrcVersion, type
-    ' 
-    '         Constructor: (+2 Overloads) Sub New
-    '         Function: CreateGeneObjectIndex, filterStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes
-    '                   GetStrandFeatures, LoadDocument, (+3 Overloads) Save, ToString
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 304
+'    Code Lines: 151 (49.67%)
+' Comment Lines: 112 (36.84%)
+'    - Xml Docs: 87.50%
+' 
+'   Blank Lines: 41 (13.49%)
+'     File Size: 12.90 KB
+
+
+'     Class GFFTable
+' 
+'         Properties: [date], DNA, features, GffVersion, processor
+'                     Protein, RNA, SeqRegion, Size, species
+'                     SrcVersion, type
+' 
+'         Constructor: (+2 Overloads) Sub New
+'         Function: CreateGeneObjectIndex, filterStrandFeatures, GenerateDocument, GetByName, GetRelatedGenes
+'                   GetStrandFeatures, LoadDocument, (+3 Overloads) Save, ToString
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,6 +63,7 @@ Imports System.Reflection
 Imports System.Runtime.CompilerServices
 Imports System.Text
 Imports Microsoft.VisualBasic.ComponentModel
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel.SchemaMaps
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Serialization.JSON
@@ -206,8 +207,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             End Get
             Set(value As Feature())
                 _features = value
-                _forwards = filterStrandFeatures(Strands.Forward)
-                _reversed = filterStrandFeatures(Strands.Reverse)
+                _forwards = filterStrandFeatures(Strands.Forward).ToArray
+                _reversed = filterStrandFeatures(Strands.Reverse).ToArray
                 _contextModel = New GenomeContextProvider(Of Feature)(Me)
             End Set
         End Property
@@ -270,6 +271,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                              String.Equals(Feature.attributes("name"), Name, StringComparison.OrdinalIgnoreCase)
                          Select Feature
             Return LQuery.FirstOrDefault
+        End Function
+
+        Public Iterator Function GetChromosomes() As IEnumerable(Of NamedCollection(Of Feature))
+            For Each chr As IGrouping(Of String, Feature) In features.GroupBy(Function(f) f.seqname)
+                Yield New NamedCollection(Of Feature)(chr.Key, chr.ToArray)
+            Next
         End Function
 
         Shared ReadOnly metaAttrs As BindProperty(Of ColumnAttribute)() = (
@@ -353,8 +360,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return relates
         End Function
 
-        Private Function filterStrandFeatures(strand As Strands) As Feature()
-            Return (From x As Feature In features Where x.strand = strand Select x).ToArray
+        Private Function filterStrandFeatures(strand As Strands) As IEnumerable(Of Feature)
+            Return From x As Feature
+                   In features
+                   Where x.strand = strand
         End Function
 
         Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures
