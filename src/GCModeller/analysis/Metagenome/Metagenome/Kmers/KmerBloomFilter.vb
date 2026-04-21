@@ -1,60 +1,60 @@
 ﻿#Region "Microsoft.VisualBasic::141c110be038ad22113aad2e3c579e5e, analysis\Metagenome\Metagenome\Kmers\KmerBloomFilter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 249
-    '    Code Lines: 169 (67.87%)
-    ' Comment Lines: 33 (13.25%)
-    '    - Xml Docs: 93.94%
-    ' 
-    '   Blank Lines: 47 (18.88%)
-    '     File Size: 9.96 KB
+' Summaries:
 
 
-    '     Class KmerBloomFilter
-    ' 
-    '         Properties: k, ncbi_taxid
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: (+2 Overloads) Create, KmerHitNumber, (+2 Overloads) KmerHits, (+2 Overloads) LoadFromFile, ToString
-    ' 
-    '         Sub: Save
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 249
+'    Code Lines: 169 (67.87%)
+' Comment Lines: 33 (13.25%)
+'    - Xml Docs: 93.94%
+' 
+'   Blank Lines: 47 (18.88%)
+'     File Size: 9.96 KB
+
+
+'     Class KmerBloomFilter
+' 
+'         Properties: k, ncbi_taxid
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: (+2 Overloads) Create, KmerHitNumber, (+2 Overloads) KmerHits, (+2 Overloads) LoadFromFile, ToString
+' 
+'         Sub: Save
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -68,6 +68,7 @@ Imports Microsoft.VisualBasic.Data.IO
 Imports SMRUCC.genomics.Assembly.NCBI.Entrez
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace Kmers
 

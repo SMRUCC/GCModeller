@@ -1,58 +1,58 @@
 ﻿#Region "Microsoft.VisualBasic::b0d4f00bd1790d8db4d5e168d46dbe5f, analysis\SequenceToolkit\DNA_Comparative\ToolsAPI\ToolsAPI.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 232
-    '    Code Lines: 188 (81.03%)
-    ' Comment Lines: 21 (9.05%)
-    '    - Xml Docs: 85.71%
-    ' 
-    '   Blank Lines: 23 (9.91%)
-    '     File Size: 12.54 KB
+' Summaries:
 
 
-    ' Module ToolsAPI
-    ' 
-    '     Function: __compileCAIBIASCalculationThread, __createTable, __echo, __regionMetaParser, CAI
-    '               CompileCAIBIASCalculationThread_p, CreateSimplePartition, GenomeSigmaDifference_p, PartitioningDataFromFasta, SaveCAI
-    ' 
-    ' Structure Cache
-    ' 
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 232
+'    Code Lines: 188 (81.03%)
+' Comment Lines: 21 (9.05%)
+'    - Xml Docs: 85.71%
+' 
+'   Blank Lines: 23 (9.91%)
+'     File Size: 12.54 KB
+
+
+' Module ToolsAPI
+' 
+'     Function: __compileCAIBIASCalculationThread, __createTable, __echo, __regionMetaParser, CAI
+'               CompileCAIBIASCalculationThread_p, CreateSimplePartition, GenomeSigmaDifference_p, PartitioningDataFromFasta, SaveCAI
+' 
+' Structure Cache
+' 
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -74,6 +74,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 <Package("ComparativeGenomics.Sigma-Difference",
                     Description:="Calculates the nucleotide sequence Delta similarity to measure how closed between the two sequence.",
@@ -108,7 +109,7 @@ Public Module ToolsAPI
 
     <ExportAPI("Simple.Partition.Create")>
     Public Function CreateSimplePartition(genbank As GBFF.File, data As IEnumerable(Of ChromosomePartitioningEntry)) As PartitioningData()
-        Dim Reader As IPolymerSequenceModel = genbank.Origin.ToFasta
+        Dim reader As IPolymerSequenceModel = genbank.Origin.ToFasta
         Dim dGroup = From x As ChromosomePartitioningEntry
                      In data
                      Select x
@@ -126,7 +127,7 @@ Public Module ToolsAPI
                                                    Select p.PartitioningTag).FirstOrDefault
                             Select ORF,
                                  InternalGetPTag,
-                                 SequenceData = Reader.CutSequenceLinear(ORF.Location)
+                                 SequenceData = reader.CutSequenceLinear(ORF.Location)
                             Group By InternalGetPTag Into Group
         Dim LQuery As PartitioningData() =
             LinqAPI.Exec(Of PartitioningData) <= From pInfo
@@ -137,7 +138,7 @@ Public Module ToolsAPI
                                                                           Select {pt.left, pt.right}).IteratesALL)
                                                  Let St As Integer = Loci.Max
                                                  Let SP As Integer = Loci.Min
-                                                 Let Sequence As String = Reader.CutSequenceLinear(SP, St).SequenceData
+                                                 Let Sequence As String = reader.CutSequenceLinear(SP, St).SequenceData
                                                  Select New PartitioningData With {
                                                      .GenomeID = genbank.Accession.AccessionId,
                                                      .LociLeft = SP,

@@ -1,59 +1,59 @@
 ﻿#Region "Microsoft.VisualBasic::741247dc33fabb0ea321caafe55687cc, R#\comparative_toolkit\SigmaDifference.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 921
-    '    Code Lines: 667 (72.42%)
-    ' Comment Lines: 131 (14.22%)
-    '    - Xml Docs: 86.26%
-    ' 
-    '   Blank Lines: 123 (13.36%)
-    '     File Size: 47.17 KB
+' Summaries:
 
 
-    ' Module SigmaDifference
-    ' 
-    '     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
-    '               __compileSigma, __genomeSigmaDiff, __getSequence, __group, __mergeDelta
-    '               (+2 Overloads) __process, __query, __readSeq, __readSequence, __samples
-    '               __sigmaCompareWith, BatchCalculation, BatchCalculation2, Compile, CompileCABIAS
-    '               CompileCAIBIASCalculationThread, CreateChromesomePartitioningData, GenerateDeltaDiffReport, GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity
-    '               MergeDelta, PartionDataCreates, PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData
-    '               ReadPartitioningData, SigmaCompareWith, SiteDataLoad, WritePartionalData
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 921
+'    Code Lines: 667 (72.42%)
+' Comment Lines: 131 (14.22%)
+'    - Xml Docs: 86.26%
+' 
+'   Blank Lines: 123 (13.36%)
+'     File Size: 47.17 KB
+
+
+' Module SigmaDifference
+' 
+'     Function: __calculate, __calculates, __colorRender, __compile, __compileCAI
+'               __compileSigma, __genomeSigmaDiff, __getSequence, __group, __mergeDelta
+'               (+2 Overloads) __process, __query, __readSeq, __readSequence, __samples
+'               __sigmaCompareWith, BatchCalculation, BatchCalculation2, Compile, CompileCABIAS
+'               CompileCAIBIASCalculationThread, CreateChromesomePartitioningData, GenerateDeltaDiffReport, GenomeSigmaDifference_p, (+2 Overloads) MeasureHomogeneity
+'               MergeDelta, PartionDataCreates, PartitioningSigmaCompareWith, PartitionSimilarity, ReadPartitionalData
+'               ReadPartitioningData, SigmaCompareWith, SiteDataLoad, WritePartionalData
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -84,6 +84,7 @@ Imports SMRUCC.genomics.Interops.NCBI.Extensions.Tasks.Models
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels.NucleicAcid
+Imports SMRUCC.genomics.SequenceModel.Slicer
 Imports SMRUCC.Rsharp.Runtime.Interop
 Imports ObjectQuery = SMRUCC.genomics.ObjectQuery
 
@@ -908,7 +909,7 @@ Module SigmaDifference
 
     Private Function __getSequence(row As DynamicObjectLoader,
                                    tag$,
-                                   Reader As IPolymerSequenceModel,
+                                   reader As IPolymerSequenceModel,
                                    startTag$,
                                    <Parameter("Column.Stop")> stopTag$,
                                    nt As FastaSeq) As PartitioningData
@@ -924,9 +925,9 @@ Module SigmaDifference
         End If
 
         If Join Then
-            seq = Reader.CutSequenceCircular(CInt(Val(Left)), CInt(Val(Right))).SequenceData
+            seq = reader.CutSequenceCircular(CInt(Val(Left)), CInt(Val(Right))).SequenceData
         Else
-            seq = Reader.CutSequenceLinear(CInt(Val(Left)), CInt(Val(Right) - Val(Left))).SequenceData
+            seq = reader.CutSequenceLinear(CInt(Val(Left)), CInt(Val(Right) - Val(Left))).SequenceData
         End If
 
         Return New PartitioningData With {

@@ -1,67 +1,67 @@
 ﻿#Region "Microsoft.VisualBasic::d77db1cc9b2c45e2ec47b8abd795735e, analysis\Metagenome\Metagenome\Kmers\Classifier\Database\KmerWriter.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 235
-    '    Code Lines: 154 (65.53%)
-    ' Comment Lines: 39 (16.60%)
-    '    - Xml Docs: 69.23%
-    ' 
-    '   Blank Lines: 42 (17.87%)
-    '     File Size: 9.88 KB
+' Summaries:
 
 
-    '     Class KmerWriter
-    ' 
-    '         Constructor: (+1 Overloads) Sub New
-    ' 
-    '         Function: AddSequenceID, (+2 Overloads) CreateFromSequence, IsValidKmer, (+2 Overloads) KmerSeedsInternal
-    ' 
-    '         Sub: (+3 Overloads) Add, (+2 Overloads) Dispose, SetKSize
-    ' 
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 235
+'    Code Lines: 154 (65.53%)
+' Comment Lines: 39 (16.60%)
+'    - Xml Docs: 69.23%
+' 
+'   Blank Lines: 42 (17.87%)
+'     File Size: 9.88 KB
+
+
+'     Class KmerWriter
+' 
+'         Constructor: (+1 Overloads) Sub New
+' 
+'         Function: AddSequenceID, (+2 Overloads) CreateFromSequence, IsValidKmer, (+2 Overloads) KmerSeedsInternal
+' 
+'         Sub: (+3 Overloads) Add, (+2 Overloads) Dispose, SetKSize
+' 
+' 
+' /********************************************************************************/
 
 #End Region
 
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Serialization.JSON
-Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
+Imports SMRUCC.genomics.SequenceModel.Slicer
 
 Namespace Kmers
 
