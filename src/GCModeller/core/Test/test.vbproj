@@ -5,7 +5,7 @@
     <Configurations>Debug;Release;Rsharp_app_release;mzkit_win32;nuget_release</Configurations>
    
     <OutputType>Exe</OutputType>
-    <StartupObject>Test.Project.minhashtest</StartupObject>
+    <StartupObject>Test.Project.KEGGenzymeTest</StartupObject>
     <RootNamespace>Test.Project</RootNamespace>
     <AssemblyName>Test.Project</AssemblyName>
     <FileAlignment>512</FileAlignment>
