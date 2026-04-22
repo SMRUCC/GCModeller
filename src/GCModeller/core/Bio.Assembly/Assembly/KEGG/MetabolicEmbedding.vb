@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Linq
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Linq
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.BriteHEntry
 
@@ -23,6 +24,20 @@ Namespace Assembly.KEGG
                 Next
             Next
         End Sub
+
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Shared Function MetabolicKeys(level As Integer) As IEnumerable(Of String)
+            Return BriteHText.Load_ko00001 _
+                .Deflate("\d+") _
+                .Select(Function(term)
+                            Select Case level
+                                Case 1 : Return term.class
+                                Case 2 : Return term.category
+                                Case Else : Return term.subcategory
+                            End Select
+                        End Function) _
+                .Distinct
+        End Function
 
         Public Function MakeVector(ec As IEnumerable(Of String), Optional level As Integer = 2) As Dictionary(Of String, Double)
             Dim vec As New Dictionary(Of String, Double)
