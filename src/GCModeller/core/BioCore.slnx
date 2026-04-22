@@ -69,7 +69,6 @@
   <Project Path="Bio.Annotation/annotation.NET5.vbproj">
     <BuildType Solution="Biodeep_UNIX_x64|*" Project="Debug" />
     <BuildType Solution="Biodeep|*" Project="Debug" />
-    <BuildType Solution="Debug|x64" Project="nuget_release" />
     <BuildType Solution="docs|*" Project="Debug" />
     <BuildType Solution="GCModeller(Release_X64)|*" Project="gcmodeller_desktop" />
     <BuildType Solution="GCModeller(UNIX-Release_X64)|*" Project="gcmodeller_desktop" />
