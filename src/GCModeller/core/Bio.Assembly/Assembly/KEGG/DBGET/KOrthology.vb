@@ -106,6 +106,16 @@ Namespace Assembly.KEGG.DBGET
             }
         End Function
 
+        Public Shared Function ParseTerm(ko_id As String, text As String) As KOrthology
+            Dim t As String() = Strings.Trim(text).Split(";"c)
+
+            Return New KOrthology With {
+                .KO_id = ko_id,
+                .geneNames = t(0).StringSplit("\s*,\s+"),
+                .[function] = t.Skip(1).JoinBy(";").Trim
+            }
+        End Function
+
         ''' <summary>
         ''' request of the KEGG orthology class data via the kegg rest api
         ''' </summary>

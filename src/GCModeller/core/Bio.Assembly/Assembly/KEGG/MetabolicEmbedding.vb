@@ -12,7 +12,7 @@ Namespace Assembly.KEGG
             Dim maps = BriteHText.Load_ko00001.Deflate("\d+").ToArray
 
             For Each ko As BriteTerm In maps
-                Dim term = KOrthology.ParseID(ko.entry.Value)
+                Dim term = KOrthology.ParseTerm(ko.kegg_id, ko.entry.Value)
 
                 For Each id As String In term.EC_number
                     If Not ec_numbers.ContainsKey(id) Then
