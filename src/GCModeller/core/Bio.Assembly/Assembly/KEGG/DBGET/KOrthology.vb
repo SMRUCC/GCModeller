@@ -89,17 +89,21 @@ Namespace Assembly.KEGG.DBGET
 
         Public Shared Iterator Function ParseText(list_ko As String) As IEnumerable(Of KOrthology)
             For Each line As String In list_ko.LineTokens
-                Dim t As String() = line.Split(ASCII.TAB)
-                Dim ko_id As String = t(0)
-
-                t = t(1).Split(";"c)
-
-                Yield New KOrthology With {
-                    .KO_id = ko_id,
-                    .geneNames = t(0).StringSplit("\s*,\s+"),
-                    .[function] = t.Skip(1).JoinBy(";").Trim
-                }
+                Yield ParseID(line)
             Next
+        End Function
+
+        Public Shared Function ParseID(line As String) As KOrthology
+            Dim t As String() = line.Split(ASCII.TAB)
+            Dim ko_id As String = t(0)
+
+            t = t(1).Split(";"c)
+
+            Return New KOrthology With {
+                .KO_id = ko_id,
+                .geneNames = t(0).StringSplit("\s*,\s+"),
+                .[function] = t.Skip(1).JoinBy(";").Trim
+            }
         End Function
 
         ''' <summary>
