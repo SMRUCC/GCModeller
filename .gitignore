@@ -509,3 +509,5 @@ src/repository/graphquery/kegg/pipeline/rno.txt
 src/repository/graphquery/kegg/pipeline/ssc.hds
 src/repository/graphquery/kegg/pipeline/ssc.txt
 src/repository/graphquery/kegg/pipeline/map.hds
+src/repository/graphquery/kegg/pipeline/map.xml
+src/repository/graphquery/kegg/pipeline/map.txt
