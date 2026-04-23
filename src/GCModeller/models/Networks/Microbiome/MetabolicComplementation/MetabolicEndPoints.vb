@@ -1,61 +1,61 @@
 ﻿#Region "Microsoft.VisualBasic::f2659e598552d3d70c2dd789c158b450, models\Networks\Microbiome\MetabolicComplementation\MetabolicEndPoints.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 56
-    '    Code Lines: 40 (71.43%)
-    ' Comment Lines: 6 (10.71%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 10 (17.86%)
-    '     File Size: 2.06 KB
+' Summaries:
 
 
-    ' Class MetabolicEndPoints
-    ' 
-    '     Properties: secrete, taxonomy, uptakes
-    ' 
-    '     Function: ToString
-    ' 
-    ' Class MetabolicEndPointProfiles
-    ' 
-    '     Properties: taxonomy
-    ' 
-    '     Function: CreateProfiles, getCollection, getSize
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 56
+'    Code Lines: 40 (71.43%)
+' Comment Lines: 6 (10.71%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 10 (17.86%)
+'     File Size: 2.06 KB
+
+
+' Class MetabolicEndPoints
+' 
+'     Properties: secrete, taxonomy, uptakes
+' 
+'     Function: ToString
+' 
+' Class MetabolicEndPointProfiles
+' 
+'     Properties: taxonomy
+' 
+'     Function: CreateProfiles, getCollection, getSize
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,8 +63,8 @@ Imports System.Runtime.CompilerServices
 Imports System.Xml.Serialization
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Text.Xml.Models
+Imports SMRUCC.genomics.Assembly.KEGG
 Imports SMRUCC.genomics.Assembly.KEGG.DBGET.bGetObject
-Imports SMRUCC.genomics.Data
 Imports SMRUCC.genomics.Model.Network.Microbiome
 
 ''' <summary>
@@ -101,7 +101,7 @@ Public Class MetabolicEndPointProfiles : Inherits ListOf(Of MetabolicEndPoints)
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function CreateProfiles(taxonomy As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository, Optional nonEnzymetic As reaction() = Nothing) As MetabolicEndPointProfiles
+    Public Shared Function CreateProfiles(taxonomy As IEnumerable(Of TaxonomyRef), reactions As ReactionRepository, Optional nonEnzymetic As Reaction() = Nothing) As MetabolicEndPointProfiles
         Return New MetabolicEndPointProfiles With {
             .taxonomy = taxonomy _
                 .SafeQuery _
