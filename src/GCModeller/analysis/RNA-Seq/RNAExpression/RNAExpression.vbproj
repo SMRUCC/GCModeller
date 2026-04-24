@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>RNAExpression</RootNamespace>
+    <RootNamespace>SMRUCC.genomics.Analysis.HTS</RootNamespace>
     <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>SMRUCC.genomics.Analysis.HTS.RNAExpression</AssemblyName>
+    <AssemblyTitle>Convert the RNA-seq feature count to expression matrix data</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>
