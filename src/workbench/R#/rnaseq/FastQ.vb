@@ -1,55 +1,55 @@
 ﻿#Region "Microsoft.VisualBasic::8658755f8d14401da1eb834ae3931718, R#\rnaseq\FastQ.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 253
-    '    Code Lines: 180 (71.15%)
-    ' Comment Lines: 40 (15.81%)
-    '    - Xml Docs: 97.50%
-    ' 
-    '   Blank Lines: 33 (13.04%)
-    '     File Size: 10.16 KB
+' Summaries:
 
 
-    ' Module FastQTools
-    ' 
-    '     Constructor: (+1 Overloads) Sub New
-    '     Function: GetQualityScore, IlluminaFastQID, merge_raw, random_sampling, read_fastq
-    '               read_genedata, sample_indexstats, SequenceAssembler, simulate, write_fastq
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 253
+'    Code Lines: 180 (71.15%)
+' Comment Lines: 40 (15.81%)
+'    - Xml Docs: 97.50%
+' 
+'   Blank Lines: 33 (13.04%)
+'     File Size: 10.16 KB
+
+
+' Module FastQTools
+' 
+'     Constructor: (+1 Overloads) Sub New
+'     Function: GetQualityScore, IlluminaFastQID, merge_raw, random_sampling, read_fastq
+'               read_genedata, sample_indexstats, SequenceAssembler, simulate, write_fastq
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -63,8 +63,10 @@ Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.FASTA
 Imports SMRUCC.genomics.SequenceModel.FQ
+Imports SMRUCC.genomics.SequenceModel.GeneQuantification
 Imports SMRUCC.genomics.SequenceModel.NucleotideModels
 Imports SMRUCC.genomics.SequenceModel.SAM
+Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
 Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.ConsolePrinter
@@ -292,17 +294,5 @@ RE0:
         }
         Dim reads As New FastQFile(ReadsFakeSource.FakeReads(config))
         Return reads
-    End Function
-
-    <ExportAPI("gene_indexstats")>
-    <RApiReturn(GetType(GeneData))>
-    Public Function sample_indexstats(file As String) As Object
-        Return IndexStats.ConvertCountsToTPM(IndexStats.Parse(file.OpenReadonly)).ToArray
-    End Function
-
-    <ExportAPI("read_genedata")>
-    <RApiReturn(GetType(GeneData))>
-    Public Function read_genedata(file As String) As GeneData()
-        Return file.LoadCsv(Of GeneData)(mute:=True)
     End Function
 End Module
