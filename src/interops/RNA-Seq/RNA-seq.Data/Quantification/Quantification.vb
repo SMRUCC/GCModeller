@@ -1,4 +1,4 @@
-﻿Imports SMRUCC.genomics.SequenceModel.SAM
+﻿Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
 
 Namespace GeneQuantification
 
