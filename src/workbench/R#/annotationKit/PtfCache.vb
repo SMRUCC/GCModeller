@@ -87,6 +87,7 @@ Module PTFCache
 
     Sub Main()
         Call makeDataframe.addHandler(GetType(ProteinAnnotation()), AddressOf ptfTable)
+        Call makeDataframe.addHandler(GetType(eggNOG()), AddressOf eggNOGtable)
     End Sub
 
     <RGenericOverloads("as.data.frame")>
@@ -114,7 +115,7 @@ Module PTFCache
         Return df
     End Function
 
-    <ExportAPI("as.data.frame")>
+    <RGenericOverloads("as.data.frame")>
     Public Function eggNOGtable(proteins As eggNOG(), args As list, env As Environment) As dataframe
         Dim df As New dataframe With {
             .columns = New Dictionary(Of String, Array),
