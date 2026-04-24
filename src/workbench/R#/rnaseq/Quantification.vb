@@ -49,13 +49,13 @@ Module Quantification
     ''' <param name="counts"></param>
     ''' <returns></returns>
     <ExportAPI("edgeR_norm")>
-    Public Function edgeR_norm(counts As Matrix) As Matrix
-        Return counts.EdgeRTMMNormalize
+    Public Function edgeR_norm(counts As Matrix, Optional trimFractionM As Double = 0.3, Optional trimFractionA As Double = 0.05) As Matrix
+        Return counts.EdgeRTMMNormalize(trimFractionM, trimFractionA)
     End Function
 
     <ExportAPI("edgeR_tmm")>
-    Public Function edgeR_tmm_factors(countData As Matrix) As Object
-        Dim tmmFactors = countData.CalcTMMFactors()
+    Public Function edgeR_tmm_factors(countData As Matrix, Optional trimFractionM As Double = 0.3, Optional trimFractionA As Double = 0.05) As Object
+        Dim tmmFactors = countData.CalcTMMFactors(trimFractionA:=trimFractionA, trimFractionM:=trimFractionM)
         Dim tmm As New list(
             slot("norm_factor") = tmmFactors.normFactors,
             slot("reference_index") = tmmFactors.referenceSampleIndex,
