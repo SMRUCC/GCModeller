@@ -1,57 +1,57 @@
 ﻿#Region "Microsoft.VisualBasic::324de6496e35f026c99041d2dc635cec, R#\annotationKit\PtfCache.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 511
-    '    Code Lines: 380 (74.36%)
-    ' Comment Lines: 66 (12.92%)
-    '    - Xml Docs: 100.00%
-    ' 
-    '   Blank Lines: 65 (12.72%)
-    '     File Size: 20.48 KB
+' Summaries:
 
 
-    ' Module PTFCache
-    ' 
-    '     Function: createCluster, fromDataframe, getDatabaseList, IDMapping, loadModel
-    '               loadXrefs, name_xrefs, ptfTable, readPtf, summaryofXrefs
-    '               (+2 Overloads) writePtfFile, writePtfInternal
-    ' 
-    '     Sub: Main
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 511
+'    Code Lines: 380 (74.36%)
+' Comment Lines: 66 (12.92%)
+'    - Xml Docs: 100.00%
+' 
+'   Blank Lines: 65 (12.72%)
+'     File Size: 20.48 KB
+
+
+' Module PTFCache
+' 
+'     Function: createCluster, fromDataframe, getDatabaseList, IDMapping, loadModel
+'               loadXrefs, name_xrefs, ptfTable, readPtf, summaryofXrefs
+'               (+2 Overloads) writePtfFile, writePtfInternal
+' 
+'     Sub: Main
+' 
+' /********************************************************************************/
 
 #End Region
 
@@ -66,6 +66,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text.Xml.Models
 Imports SMRUCC.genomics.Analysis.HTS.GSEA
+Imports SMRUCC.genomics.Annotation
 Imports SMRUCC.genomics.Annotation.Ptf
 Imports SMRUCC.genomics.Assembly.Uniprot.XML
 Imports SMRUCC.genomics.Data
@@ -202,6 +203,28 @@ Module PTFCache
         Next
 
         Return proteins.ToArray
+    End Function
+
+    <ExportAPI("read_eggNOG")>
+    <RApiReturn(GetType(eggNOG))>
+    Public Function read_eggNOG(<RRawVectorArgument> file As Object, Optional env As Environment = Nothing) As Object
+        Dim is_file As Boolean = False
+        Dim s = SMRUCC.Rsharp.GetFileStream(file, FileAccess.Read, env, is_filepath:=is_file)
+
+        If s Like GetType(Message) Then
+            Return s.TryCast(Of Message)
+        End If
+
+        Dim table As eggNOG() = eggNOG.ParseTable(s.TryCast(Of Stream)).ToArray
+
+        Try
+            If is_file Then
+                Call s.TryCast(Of Stream).Dispose()
+            End If
+        Catch ex As Exception
+        End Try
+
+        Return table
     End Function
 
     ''' <summary>
