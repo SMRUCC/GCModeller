@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.Data.Framework
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports SMRUCC.genomics.Analysis.HTS
+Imports SMRUCC.genomics.Analysis.HTS.DataFrame
 Imports SMRUCC.genomics.SequenceModel
 Imports SMRUCC.genomics.SequenceModel.GeneQuantification
 Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
@@ -18,6 +19,28 @@ Module Quantification
     <RApiReturn(GetType(featureCounts))>
     Public Function read_featureCounts(file As String) As Object
         Return featureCounts.ReadTable(file).ToArray
+    End Function
+
+    <ExportAPI("counts_matrix")>
+    <RApiReturn(GetType(Matrix))>
+    Public Function as_countmatrix(<RRawVectorArgument> counts As Object, Optional env As Environment = Nothing) As Object
+        Dim pull As pipeline = pipeline.TryCreatePipeline(Of featureCounts)(counts, env)
+
+        If pull.isError Then
+            Return pull.getError
+        End If
+
+        Return pull.populates(Of featureCounts)(env).FeatureCountMatrix
+    End Function
+
+    ''' <summary>
+    ''' Apply DESeq2 Median of Ratios normalization method to the raw counts matrix.
+    ''' </summary>
+    ''' <param name="counts">The raw counts matrix.</param>
+    ''' <returns>The normalized counts matrix.</returns>
+    <ExportAPI("deseq2_norm")>
+    Public Function deseq2_norm(counts As Matrix) As Matrix
+        Return counts.DESeq2Normalize
     End Function
 
     <ExportAPI("gene_indexstats")>

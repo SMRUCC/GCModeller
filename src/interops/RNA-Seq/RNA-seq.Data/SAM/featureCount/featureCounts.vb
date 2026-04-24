@@ -18,6 +18,12 @@ Namespace SAM.featureCount
         Public Property Length As Integer
         Public Property SampleCounts As Dictionary(Of String, Integer) Implements IDynamicMeta(Of Integer).Properties
 
+        Default Public ReadOnly Property Counts(sample_ids As IEnumerable(Of String)) As Integer()
+            Get
+                Return (From id As String In sample_ids Select SampleCounts.TryGetValue(id)).ToArray
+            End Get
+        End Property
+
         Public Function IndexStats(sample As String) As IndexStats
             Return New IndexStats With {
                 .GeneID = Geneid,

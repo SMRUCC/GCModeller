@@ -1,57 +1,56 @@
 ﻿#Region "Microsoft.VisualBasic::2be14609a1565b10502511ce056d37dd, analysis\HTS_matrix\Math\DESeq2Normalization.vb"
 
-    ' Author:
-    ' 
-    '       asuka (amethyst.asuka@gcmodeller.org)
-    '       xie (genetics@smrucc.org)
-    '       xieguigang (xie.guigang@live.com)
-    ' 
-    ' Copyright (c) 2018 GPL3 Licensed
-    ' 
-    ' 
-    ' GNU GENERAL PUBLIC LICENSE (GPL3)
-    ' 
-    ' 
-    ' This program is free software: you can redistribute it and/or modify
-    ' it under the terms of the GNU General Public License as published by
-    ' the Free Software Foundation, either version 3 of the License, or
-    ' (at your option) any later version.
-    ' 
-    ' This program is distributed in the hope that it will be useful,
-    ' but WITHOUT ANY WARRANTY; without even the implied warranty of
-    ' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    ' GNU General Public License for more details.
-    ' 
-    ' You should have received a copy of the GNU General Public License
-    ' along with this program. If not, see <http://www.gnu.org/licenses/>.
+' Author:
+' 
+'       asuka (amethyst.asuka@gcmodeller.org)
+'       xie (genetics@smrucc.org)
+'       xieguigang (xie.guigang@live.com)
+' 
+' Copyright (c) 2018 GPL3 Licensed
+' 
+' 
+' GNU GENERAL PUBLIC LICENSE (GPL3)
+' 
+' 
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+' 
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+' 
+' You should have received a copy of the GNU General Public License
+' along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
 
-    ' /********************************************************************************/
+' /********************************************************************************/
 
-    ' Summaries:
-
-
-    ' Code Statistics:
-
-    '   Total Lines: 88
-    '    Code Lines: 57 (64.77%)
-    ' Comment Lines: 15 (17.05%)
-    '    - Xml Docs: 20.00%
-    ' 
-    '   Blank Lines: 16 (18.18%)
-    '     File Size: 3.50 KB
+' Summaries:
 
 
-    ' Module DESeq2Normalization
-    ' 
-    '     Function: DESeq2Normalize
-    ' 
-    ' /********************************************************************************/
+' Code Statistics:
+
+'   Total Lines: 88
+'    Code Lines: 57 (64.77%)
+' Comment Lines: 15 (17.05%)
+'    - Xml Docs: 20.00%
+' 
+'   Blank Lines: 16 (18.18%)
+'     File Size: 3.50 KB
+
+
+' Module DESeq2Normalization
+' 
+'     Function: DESeq2Normalize
+' 
+' /********************************************************************************/
 
 #End Region
 
-Imports System.Math
 Imports System.Runtime.CompilerServices
 Imports Microsoft.VisualBasic.Math.Statistics.Linq
 Imports std = System.Math
@@ -86,7 +85,7 @@ Public Module DESeq2Normalization
             ' 只有在至少两个样本中表达（或者严格大于0），才计算几何平均数
             ' DESeq2的默认行为是过滤掉几何平均数为0的基因
             If validCount > 0 Then
-                Dim geoMean As Double = Exp(sumLog / validCount)
+                Dim geoMean As Double = std.Exp(sumLog / validCount)
                 pseudoReference.Add(geoMean)
                 validGeneIndices.Add(i)
             End If
