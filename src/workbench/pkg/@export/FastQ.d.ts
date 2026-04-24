@@ -30,9 +30,6 @@ declare namespace FastQ {
    function assemble(reads: any, env?: object): object;
    /**
    */
-   function gene_indexstats(file: string): object;
-   /**
-   */
    function illumina_fastQ_id(fq: object): object;
    /**
      * @param make_unique default value Is ``true``.
@@ -72,9 +69,6 @@ declare namespace FastQ {
       */
       function fastq(file: any): object;
    }
-   /**
-   */
-   function read_genedata(file: string): object;
    /**
      * @param n default value Is ``100000``.
      * @param len default value Is ``[350,550]``.

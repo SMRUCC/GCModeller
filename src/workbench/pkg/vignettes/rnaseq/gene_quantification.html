@@ -4,13 +4,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>FastQ</title>
+    <title>gene_quantification</title>
     <meta name="author" content="xie.guigang@gcmodeller.org" />
     <meta name="copyright" content="SMRUCC genomics Copyright (c) 2022" />
-    <meta name="keywords" content="R#; FastQ; rnaseq" />
+    <meta name="keywords" content="R#; gene_quantification; rnaseq" />
     <meta name="generator" content="https://github.com/rsharp-lang" />
     <meta name="theme-color" content="#333" />
-    <meta name="description" content="FastQ toolkit..." />
+    <meta name="description" content="..." />
     <meta class="foundation-data-attribute-namespace" />
     <meta class="foundation-mq-xxlarge" />
     <meta class="foundation-mq-xlarge" />
@@ -50,33 +50,26 @@ table caption {font-size:14px;font-weight:bolder;}
 </style>
   </head>
   <body>
-    <table width="100%" summary="page for {FastQ}">
+    <table width="100%" summary="page for {gene_quantification}">
       <tbody>
         <tr>
-          <td>{FastQ}</td>
+          <td>{gene_quantification}</td>
           <td style="text-align: right;">R# Documentation</td>
         </tr>
       </tbody>
     </table>
-    <h1>FastQ</h1>
+    <h1>gene_quantification</h1>
     <hr />
     <p style="     font-size: 1.125em;     line-height: .8em;     margin-left: 0.5%;     background-color: #fbfbfb;     padding: 24px; ">
       <code>
         <span style="color: blue;">require</span>(<span style="color: black; font-weight: bold;">GCModeller</span>);
-                               <br /><br /><span style="color: green;">#' FastQ toolkit</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "FastQ"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
+                               <br /><br /><span style="color: green;">{$desc_comments}</span><br /><span style="color: blue;">imports</span><span style="color: brown"> "gene_quantification"</span><span style="color: blue;"> from</span><span style="color: brown"> "rnaseq"</span>;
                            </code>
     </p>
-    <p><p>FastQ toolkit</p></p>
+    <p></p>
     <blockquote>
       <p style="font-style: italic; font-size: 0.9em;">
-                           <p>FASTQ format Is a text-based format For storing both a biological sequence 
- (usually nucleotide sequence) And its corresponding quality scores. Both 
- the sequence letter And quality score are Each encoded With a Single ASCII 
- character For brevity. It was originally developed at the Wellcome Trust 
- Sanger Institute To bundle a FASTA formatted sequence And its quality data, 
- but has recently become the de facto standard For storing the output Of 
- high-throughput sequencing instruments such As the Illumina Genome 
- Analyzer.</p>
+                           
                            </p>
     </blockquote>
     <div id="main-wrapper">
@@ -89,53 +82,56 @@ table caption {font-size:14px;font-weight:bolder;}
       <table class="table-three-line">
         <caption>.NET clr function exports</caption>
         <tbody><tr>
-  <td id="illumina_fastQ_id">
-    <a href="./FastQ/illumina_fastQ_id.html">illumina_fastQ_id</a>
+  <td id="read_featureCounts">
+    <a href="./gene_quantification/read_featureCounts.html">read_featureCounts</a>
   </td>
   <td></td>
 </tr>
 <tr>
-  <td id="read.fastq">
-    <a href="./FastQ/read.fastq.html">read.fastq</a>
-  </td>
-  <td><p>read the fastq file</p></td>
-</tr>
-<tr>
-  <td id="merge_raw">
-    <a href="./FastQ/merge_raw.html">merge_raw</a>
+  <td id="counts_matrix">
+    <a href="./gene_quantification/counts_matrix.html">counts_matrix</a>
   </td>
   <td></td>
 </tr>
 <tr>
-  <td id="write.fastq">
-    <a href="./FastQ/write.fastq.html">write.fastq</a>
+  <td id="deseq2_norm">
+    <a href="./gene_quantification/deseq2_norm.html">deseq2_norm</a>
+  </td>
+  <td><p>Apply DESeq2 Median of Ratios normalization method to the raw counts matrix.</p></td>
+</tr>
+<tr>
+  <td id="edgeR_norm">
+    <a href="./gene_quantification/edgeR_norm.html">edgeR_norm</a>
+  </td>
+  <td><p>Apply of the edgeR TMM factor normalization method to the raw counts matrix</p></td>
+</tr>
+<tr>
+  <td id="edgeR_tmm">
+    <a href="./gene_quantification/edgeR_tmm.html">edgeR_tmm</a>
   </td>
   <td></td>
 </tr>
 <tr>
-  <td id="random_sampling">
-    <a href="./FastQ/random_sampling.html">random_sampling</a>
+  <td id="gene_indexstats">
+    <a href="./gene_quantification/gene_indexstats.html">gene_indexstats</a>
   </td>
-  <td><p>make reads data random sampling</p></td>
+  <td></td>
 </tr>
 <tr>
-  <td id="assemble">
-    <a href="./FastQ/assemble.html">assemble</a>
+  <td id="read_genedata">
+    <a href="./gene_quantification/read_genedata.html">read_genedata</a>
   </td>
-  <td><p>Do short reads assembling</p></td>
+  <td></td>
 </tr>
 <tr>
-  <td id="quality_score">
-    <a href="./FastQ/quality_score.html">quality_score</a>
+  <td id="convert_to_tpm">
+    <a href="./gene_quantification/convert_to_tpm.html">convert_to_tpm</a>
   </td>
-  <td><p>In FASTQ files, quality scores are encoded into a compact form, 
- which uses only 1 byte per quality value. In this encoding, the 
- quality score is represented as the character with an ASCII 
- code equal to its value + 33.</p></td>
+  <td></td>
 </tr>
 <tr>
-  <td id="simulate_reads">
-    <a href="./FastQ/simulate_reads.html">simulate_reads</a>
+  <td id="expression_data">
+    <a href="./gene_quantification/expression_data.html">expression_data</a>
   </td>
   <td></td>
 </tr></tbody>
