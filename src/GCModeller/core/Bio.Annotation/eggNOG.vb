@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 Imports StringReader = Microsoft.VisualBasic.ComponentModel.DataSourceModel.StringReader
 
 Public Class eggNOG
@@ -31,14 +32,30 @@ Public Class eggNOG
                 Continue For
             End If
 
-            Dim t As String() = line.Split(ControlChars.Tab)
-            Dim cols As New StringReader
+            Dim s As New StringArrayPointer(line.Split(ControlChars.Tab))
 
             Yield New eggNOG With {
-                .query = t(0),
-                .seed_ortholog = t(1),
-                .evalue = t(),
-                .
+                .query = s.ReadString,
+                .seed_ortholog = s.ReadString,
+                .evalue = s.ReadDouble,
+                .score = s.ReadDouble,
+                .eggNOG_OGs = s.ReadString,
+                .max_annot_lvl = s.ReadString,
+                .COG_category = s.ReadString,
+                .Description = s.ReadString,
+                .Preferred_name = s.ReadString,
+                .GOs = s.ReadString,
+                .EC = s.ReadString,
+                .KEGG_ko = s.ReadString,
+                .KEGG_Pathway = s.ReadString,
+                .KEGG_Module = s.ReadString,
+                .KEGG_Reaction = s.ReadString,
+                .KEGG_rclass = s.ReadString,
+                .BRITE = s.ReadString,
+                .KEGG_TC = s.ReadString,
+                .CAZy = s.ReadString,
+                .BiGG_Reaction = s.ReadString,
+                .PFAMs = s.ReadString
             }
         Next
     End Function
