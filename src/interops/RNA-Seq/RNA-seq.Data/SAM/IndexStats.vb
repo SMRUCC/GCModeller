@@ -74,6 +74,7 @@ Namespace SAM
         Public Property RawCount As Double
         Public Property RPK As Double
         Public Property TPM As Double Implements IExpressionValue.ExpressionValue
+        Public Property FPKM As Double
 
     End Class
 
@@ -109,10 +110,18 @@ Namespace SAM
             End Using
         End Function
 
-        Public Shared Iterator Function ConvertCountsToTPM(stats As IEnumerable(Of IndexStats)) As IEnumerable(Of GeneData)
+        ''' <summary>
+        ''' 将 Raw Count 转化为 TPM 和 FPKM
+        ''' </summary>
+        ''' <param name="stats">the sam index stats table file</param>
+        ''' <returns></returns>
+        Public Shared Iterator Function ConvertCountsToTPM(stats As IEnumerable(Of IndexStats), Optional totalMappedFragments As Long? = Nothing) As IEnumerable(Of GeneData)
             Dim genes As New List(Of GeneData)()
             Dim totalRPK As Double = 0.0
+            ' 用于累计总 Count 数，作为 Total Mapped Fragments 的近似
+            Dim totalRawCount As Long = 0L
 
+            ' --- 第一步：计算 RPK 并累加 totalRPK 和 totalRawCount ---
             For Each hit As IndexStats In stats
                 Dim gene As New GeneData() With {
                     .GeneID = hit.GeneID,
@@ -123,18 +132,36 @@ Namespace SAM
 
                 genes.Add(gene)
                 totalRPK += gene.RPK
+                totalRawCount += hit.RawCount ' 累加原始计数
             Next
 
             ' --- 第二步：根据 totalRPK 计算 TPM ---
             If totalRPK = 0 Then
                 Call "Warning: Total RPK is 0. All TPM values will be 0.".warning
             End If
+            If totalRawCount = 0 Then
+                Call "Warning: Total Raw Count is 0. All FPKM values will be 0.".warning
+            End If
+
+            If totalMappedFragments IsNot Nothing Then
+                totalRawCount = totalMappedFragments
+            End If
 
             For Each gene As GeneData In genes
+                ' 计算 TPM
                 If totalRPK > 0 Then
                     gene.TPM = (gene.RPK / totalRPK) * 1000000.0
                 Else
                     gene.TPM = 0.0
+                End If
+
+                ' 计算 FPKM
+                ' 利用已有的 RPK：FPKM = (RPK * 1,000,000) / totalRawCount
+                ' 等效于原公式：(RawCount * 10^9) / (totalRawCount * Length)
+                If totalRawCount > 0 Then
+                    gene.FPKM = (gene.RPK * 1000000.0) / totalRawCount
+                Else
+                    gene.FPKM = 0.0
                 End If
 
                 Yield gene

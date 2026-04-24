@@ -1,0 +1,5 @@
+﻿Namespace GeneQuantification
+
+End Namespace
+
+
