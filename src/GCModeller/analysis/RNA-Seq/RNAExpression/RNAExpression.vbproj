@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>RNAExpression</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\interops\RNA-Seq\RNA-seq.Data\RNA-seq.Data.NET5.vbproj" />
+    <ProjectReference Include="..\..\HTS_matrix\HTS_matrix-netcore5.vbproj" />
+  </ItemGroup>
+
+</Project>
