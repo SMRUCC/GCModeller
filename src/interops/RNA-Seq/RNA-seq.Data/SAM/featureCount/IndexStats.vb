@@ -61,7 +61,7 @@
 Imports System.IO
 Imports Microsoft.VisualBasic.Language
 
-Namespace SAM
+Namespace SAM.featureCount
 
     ''' <summary>
     ''' A row of the samtool indexstats output
