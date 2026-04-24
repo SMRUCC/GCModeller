@@ -43,6 +43,28 @@ Module Quantification
         Return counts.DESeq2Normalize
     End Function
 
+    ''' <summary>
+    ''' Apply of the edgeR TMM factor normalization method to the raw counts matrix
+    ''' </summary>
+    ''' <param name="counts"></param>
+    ''' <returns></returns>
+    <ExportAPI("edgeR_norm")>
+    Public Function edgeR_norm(counts As Matrix) As Matrix
+        Return counts.EdgeRTMMNormalize
+    End Function
+
+    <ExportAPI("edgeR_tmm")>
+    Public Function edgeR_tmm_factors(countData As Matrix) As Object
+        Dim tmmFactors = countData.CalcTMMFactors()
+        Dim tmm As New list(
+            slot("norm_factor") = tmmFactors.normFactors,
+            slot("reference_index") = tmmFactors.referenceSampleIndex,
+            slot("reference_sample") = countData.sampleID(tmmFactors.referenceSampleIndex)
+        )
+
+        Return tmm
+    End Function
+
     <ExportAPI("gene_indexstats")>
     <RApiReturn(GetType(GeneData))>
     Public Function sample_indexstats(file As String) As Object
