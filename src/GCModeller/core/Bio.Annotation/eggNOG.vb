@@ -1,10 +1,10 @@
 ﻿Imports System.IO
+Imports Microsoft.VisualBasic.ComponentModel.Collection.Generic
 Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
-Imports StringReader = Microsoft.VisualBasic.ComponentModel.DataSourceModel.StringReader
 
-Public Class eggNOG
+Public Class eggNOG : Implements INamedValue
 
-    Public Property query As String
+    Public Property query As String Implements INamedValue.Key
     Public Property seed_ortholog As String
     Public Property evalue As Double
     Public Property score As Double

@@ -114,6 +114,37 @@ Module PTFCache
         Return df
     End Function
 
+    <ExportAPI("as.data.frame")>
+    Public Function eggNOGtable(proteins As eggNOG(), args As list, env As Environment) As dataframe
+        Dim df As New dataframe With {
+            .columns = New Dictionary(Of String, Array),
+            .rownames = proteins.Keys.ToArray
+        }
+
+        Call df.add(NameOf(eggNOG.seed_ortholog), From prot As eggNOG In proteins Select prot.seed_ortholog)
+        Call df.add(NameOf(eggNOG.evalue), From prot As eggNOG In proteins Select prot.evalue)
+        Call df.add(NameOf(eggNOG.score), From prot As eggNOG In proteins Select prot.score)
+        Call df.add(NameOf(eggNOG.eggNOG_OGs), From prot As eggNOG In proteins Select prot.eggNOG_OGs)
+        Call df.add(NameOf(eggNOG.max_annot_lvl), From prot As eggNOG In proteins Select prot.max_annot_lvl)
+        Call df.add(NameOf(eggNOG.COG_category), From prot As eggNOG In proteins Select prot.COG_category)
+        Call df.add(NameOf(eggNOG.Description), From prot As eggNOG In proteins Select prot.Description)
+        Call df.add(NameOf(eggNOG.Preferred_name), From prot As eggNOG In proteins Select prot.Preferred_name)
+        Call df.add(NameOf(eggNOG.GOs), From prot As eggNOG In proteins Select prot.GOs)
+        Call df.add(NameOf(eggNOG.EC), From prot As eggNOG In proteins Select prot.EC)
+        Call df.add(NameOf(eggNOG.KEGG_ko), From prot As eggNOG In proteins Select prot.KEGG_ko)
+        Call df.add(NameOf(eggNOG.KEGG_Pathway), From prot As eggNOG In proteins Select prot.KEGG_Pathway)
+        Call df.add(NameOf(eggNOG.KEGG_Module), From prot As eggNOG In proteins Select prot.KEGG_Module)
+        Call df.add(NameOf(eggNOG.KEGG_Reaction), From prot As eggNOG In proteins Select prot.KEGG_Reaction)
+        Call df.add(NameOf(eggNOG.KEGG_rclass), From prot As eggNOG In proteins Select prot.KEGG_rclass)
+        Call df.add(NameOf(eggNOG.BRITE), From prot As eggNOG In proteins Select prot.BRITE)
+        Call df.add(NameOf(eggNOG.KEGG_TC), From prot As eggNOG In proteins Select prot.KEGG_TC)
+        Call df.add(NameOf(eggNOG.CAZy), From prot As eggNOG In proteins Select prot.CAZy)
+        Call df.add(NameOf(eggNOG.BiGG_Reaction), From prot As eggNOG In proteins Select prot.BiGG_Reaction)
+        Call df.add(NameOf(eggNOG.PFAMs), From prot As eggNOG In proteins Select prot.PFAMs)
+
+        Return df
+    End Function
+
     ''' <summary>
     ''' Create the protein annotation data model from a given dataframe object
     ''' </summary>
