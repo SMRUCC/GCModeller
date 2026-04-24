@@ -4,6 +4,10 @@ Namespace GeneQuantification
 
     Public Module Quantification
 
+        Public Iterator Function MakeGeneExpressions(featureCounts As IEnumerable(Of featureCounts)) As IEnumerable(Of GeneSampleSet)
+
+        End Function
+
         ''' <summary>
         ''' 将 Raw Count 转化为 TPM 和 FPKM
         ''' </summary>
