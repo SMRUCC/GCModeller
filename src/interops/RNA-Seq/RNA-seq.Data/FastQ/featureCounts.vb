@@ -1,4 +1,7 @@
-﻿Public Class featureCounts
+﻿Imports Microsoft.VisualBasic.Data.Framework
+Imports Microsoft.VisualBasic.Text
+
+Public Class featureCounts
 
     Public Property Geneid As String
     Public Property Chr As String
@@ -7,5 +10,9 @@
     Public Property Strand As String
     Public Property Length As Integer
     Public Property SampleCounts As Dictionary(Of String, Integer)
+
+    Public Shared Function ReadTable(file As String) As IEnumerable(Of featureCounts)
+        Return file.LoadTsv(Of featureCounts)(encoding:=Encodings.UTF8, mute:=True, skipComments:=True)
+    End Function
 
 End Class
