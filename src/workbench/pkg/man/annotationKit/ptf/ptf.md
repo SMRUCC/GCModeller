@@ -3,6 +3,7 @@
 The protein annotation metadata
 
 + [fromDataframe](ptf/fromDataframe.1) Create the protein annotation data model from a given dataframe object
++ [read_eggNOG](ptf/read_eggNOG.1) 
 + [list.xrefs](ptf/list.xrefs.1) enumerate all database name from a HDS stream
 + [summary.xrefs](ptf/summary.xrefs.1) 
 + [name_xrefs](ptf/name_xrefs.1) Extract gene_id to gene name mapping

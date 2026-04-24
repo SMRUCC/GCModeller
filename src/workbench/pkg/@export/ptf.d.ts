@@ -104,6 +104,10 @@ declare namespace ptf {
       */
       function ptf(file: string): object;
    }
+   /**
+     * @param env default value Is ``null``.
+   */
+   function read_eggNOG(file: any, env?: object): object;
    module summary {
       /**
       */
