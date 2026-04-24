@@ -12,8 +12,8 @@ Namespace SAM.featureCount
 
         Public Property Geneid As String Implements INamedValue.Key
         Public Property Chr As String
-        Public Property Start As UInteger
-        Public Property [End] As UInteger
+        Public Property Start As String
+        Public Property [End] As String
         Public Property Strand As String
         Public Property Length As Integer
         Public Property SampleCounts As Dictionary(Of String, Integer) Implements IDynamicMeta(Of Integer).Properties
