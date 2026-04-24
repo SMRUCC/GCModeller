@@ -1,11 +1,41 @@
-﻿Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ApplicationServices.Terminal.ProgressBar.Tqdm
+Imports SMRUCC.genomics.SequenceModel.SAM.featureCount
 
 Namespace GeneQuantification
 
     Public Module Quantification
 
-        Public Iterator Function MakeGeneExpressions(featureCounts As IEnumerable(Of featureCounts)) As IEnumerable(Of GeneSampleSet)
+        <Extension>
+        Public Function MakeGeneExpressions(featureCounts As IEnumerable(Of featureCounts)) As IEnumerable(Of GeneSampleSet)
+            Dim table As featureCounts() = featureCounts.ToArray
+            Dim sample_ids As String() = table.SelectMany(Function(gene) gene.SampleCounts.Keys).Distinct().ToArray()
+            Dim geneExpression As Dictionary(Of String, GeneSampleSet) = table _
+                .Select(Function(gene)
+                            Return New GeneSampleSet With {
+                                .Chr = gene.Chr,
+                                .FPKM = New Dictionary(Of String, Double),
+                                .GeneID = gene.Geneid,
+                                .Length = gene.Length,
+                                .TPM = New Dictionary(Of String, Double)
+                            }
+                        End Function) _
+                .ToDictionary(Function(a) a.GeneID)
 
+            For Each name As String In TqdmWrapper.Wrap(sample_ids)
+                Dim sampledata As GeneData() = (From gene As featureCounts
+                                                In table
+                                                Select gene.IndexStats(name)) _
+                    .ConvertCountsToTPM _
+                    .ToArray
+
+                For Each gene As GeneData In sampledata
+                    geneExpression(gene.GeneID).TPM.Add(name, gene.TPM)
+                    geneExpression(gene.GeneID).FPKM.Add(name, gene.FPKM)
+                Next
+            Next
+
+            Return geneExpression.Values
         End Function
 
         ''' <summary>
@@ -32,6 +62,8 @@ Namespace GeneQuantification
         ''' 如果你手头有这个样本的**实际比对总数**（通常可以从 `featureCounts` 的运行日志 `.summary` 文件中读取到 `Assigned + Unassigned` 的总数，或者从 `samtools flagstat` 中获取），
         ''' 你应该将其作为参数传入函数，而不是在函数内部累加。
         ''' </remarks>
+        ''' 
+        <Extension>
         Public Iterator Function ConvertCountsToTPM(stats As IEnumerable(Of IndexStats), Optional totalMappedFragments As Long? = Nothing) As IEnumerable(Of GeneData)
             Dim genes As New List(Of GeneData)()
             Dim totalRPK As Double = 0.0
