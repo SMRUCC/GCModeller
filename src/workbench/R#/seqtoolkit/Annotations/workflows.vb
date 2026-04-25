@@ -79,6 +79,7 @@ Imports SMRUCC.Rsharp.Runtime
 Imports SMRUCC.Rsharp.Runtime.Components
 Imports SMRUCC.Rsharp.Runtime.Internal.Object
 Imports SMRUCC.Rsharp.Runtime.Interop
+Imports SMRUCC.Rsharp.Runtime.Vectorization
 Imports REnv = SMRUCC.Rsharp.Runtime
 Imports RInternal = SMRUCC.Rsharp.Runtime.Internal
 
@@ -302,15 +303,24 @@ Module workflows
     ''' <summary>
     ''' removes protein suffix id
     ''' </summary>
-    ''' <param name="hits"></param>
+    ''' <param name="hits">a collection of the blast hits result or a character vector of the protein id.</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("remove_protein_suffix")>
+    <RApiReturn(GetType(String), GetType(I_BlastQueryHit))>
     Public Function removeProteinSufifx(<RRawVectorArgument> hits As Object, Optional env As Environment = Nothing) As Object
         Dim pull As pipeline = pipeline.TryCreatePipeline(Of I_BlastQueryHit)(hits, env)
 
         If pull.isError Then
-            Return pull.getError
+            Dim protein_ids As String() = CLRVector.asCharacter(hits)
+
+            If protein_ids Is Nothing Then
+                Return pull.getError
+            Else
+                Return protein_ids _
+                    .Select(Function(id) HeaderFormats.TrimAccessionVersion(id)) _
+                    .ToArray
+            End If
         End If
 
         Dim cleanup As IEnumerable = pull.populates(Of I_BlastQueryHit)(env) _

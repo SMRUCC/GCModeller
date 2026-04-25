@@ -71,7 +71,7 @@ Namespace SequenceModel.FASTA
         ''' <returns></returns>
         <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Public Function TrimAccessionVersion(accession As String) As String
-            Return accession.Split("."c)(Scan0)
+            Return accession.StringReplace("\.\d+$", "", RegexICMul)
         End Function
 
         Public Function HasVersionNumber(accession As String) As Boolean
