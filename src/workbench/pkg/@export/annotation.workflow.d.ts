@@ -178,12 +178,12 @@ declare namespace annotation.workflow {
     * removes protein suffix id
     * 
     * 
-     * @param hits -
+     * @param hits a collection of the blast hits result or a character vector of the protein id.
      * @param env -
      * 
      * + default value Is ``null``.
    */
-   function remove_protein_suffix(hits: any, env?: object): any;
+   function remove_protein_suffix(hits: any, env?: object): string|object;
    module stream {
       /**
        * Save the annotation rawdata into the given stream file.
