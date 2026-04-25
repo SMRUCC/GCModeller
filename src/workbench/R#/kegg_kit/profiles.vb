@@ -299,7 +299,7 @@ Module profiles
     ''' </summary>
     ''' <param name="kegg">a collection of the reference kegg maps</param>
     ''' <param name="ko">
-    ''' a id mapping from kegg ko to gene id
+    ''' a id mapping from kegg ko to gene id, [ko => gene_id]
     ''' </param>
     ''' <param name="tcode">the kegg organism code</param>
     ''' <param name="multiple_omics">
