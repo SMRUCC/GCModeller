@@ -118,15 +118,6 @@ Module metabolism
             .ToArray
     End Function
 
-    '<ExportAPI("compound.origins")>
-    'Public Function CreateCompoundOriginModel(repo As String, Optional compoundNames As Dictionary(Of String, String) = Nothing) As OrganismCompounds
-    '    If compoundNames Is Nothing Then
-    '        Return OrganismCompounds.LoadData(repo)
-    '    Else
-    '        Return OrganismCompounds.LoadData(repo, compoundNames)
-    '    End If
-    'End Function
-
     ''' <summary>
     ''' Removes invalid kegg compound id
     ''' </summary>

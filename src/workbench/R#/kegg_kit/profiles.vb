@@ -360,7 +360,10 @@ Module profiles
             .Select(Function(a) a.IDVector) _
             .IteratesALL _
             .Distinct _
-            .Where(Function(kid) koId.ContainsKey(kid)) _
+            .Where(Function(kid)
+                       ' kid = KOxxxx or Cxxxxx
+                       Return koId.ContainsKey(kid)
+                   End Function) _
             .Select(Function(kid)
                         Dim geneId = koId(kid)
                         Dim genes = geneId _
