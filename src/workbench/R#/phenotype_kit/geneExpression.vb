@@ -1586,6 +1586,25 @@ Module geneExpression
     End Function
 
     ''' <summary>
+    ''' Make time pattern label for a specific cmeans expression pattern
+    ''' </summary>
+    ''' <param name="expr_z">A specifc cmeans epxression pattern, row is gene and column is the expression data in a time point, should be sort in asc order.</param>
+    ''' <returns>A character of the pattern label name</returns>
+    <ExportAPI("time_pattern_label")>
+    Public Function time_pattern_label(expr_z As dataframe) As String
+        Dim times As String() = expr_z.colnames
+        Dim exprs As NamedCollection(Of Double)() = expr_z.forEachRow(times) _
+            .Select(Function(gene)
+                        Return New NamedCollection(Of Double)(gene.name, CLRVector.asNumeric(gene.value))
+                    End Function) _
+            .ToArray
+        Dim labels As String() = PatternClassifier.ClassifyAllGenes(times, exprs).Values.ToArray
+        Dim top As String = labels.GroupBy(Function(a) a).OrderByDescending(Function(a) a.Count).First.Key
+
+        Return top
+    End Function
+
+    ''' <summary>
     ''' ### clustering analysis of time course data
     ''' 
     ''' This function performs clustering analysis of time course data

@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
 
-Module PatternClassifier
+Public Module PatternClassifier
 
     ' 主函数：对所有的基因进行模式分类，返回基因ID和对应模式标签的字典
     Public Function ClassifyAllGenes(times As String(), genes As IEnumerable(Of NamedCollection(Of Double))) As Dictionary(Of String, String)
