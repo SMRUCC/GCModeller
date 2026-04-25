@@ -40,6 +40,7 @@ the gene expression matrix data toolkit
 + [cmeans_matrix](geneExpression/cmeans_matrix.1) get cluster membership matrix
 + [pattern_representatives](geneExpression/pattern_representatives.1) get the top n representatives genes in each expression pattern
 + [split.cmeans_clusters](geneExpression/split.cmeans_clusters.1) ### split the cmeans cluster output
++ [time_pattern_label](geneExpression/time_pattern_label.1) Make time pattern label for a specific cmeans expression pattern
 + [peakCMeans](geneExpression/peakCMeans.1) ### clustering analysis of time course data
 + [expr_ranking](geneExpression/expr_ranking.1) 
 + [deg.t.test](geneExpression/deg.t.test.1) do t-test across specific analysis comparision

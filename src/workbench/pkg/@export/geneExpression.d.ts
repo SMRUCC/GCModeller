@@ -682,6 +682,14 @@ declare namespace geneExpression {
    */
    function take_shuffle(x: object, n: object): object;
    /**
+    * Make time pattern label for a specific cmeans expression pattern
+    * 
+    * 
+     * @param expr_z A specifc cmeans epxression pattern, row is gene and column is the expression data in a time point, should be sort in asc order.
+     * @return A character of the pattern label name
+   */
+   function time_pattern_label(expr_z: object): string;
+   /**
     * normalize data by sample column
     * 
     * > apply for the metabolomics data usually

@@ -18,7 +18,7 @@ declare namespace profiles {
     * 
     * 
      * @param kegg a collection of the reference kegg maps
-     * @param ko a id mapping from kegg ko to gene id
+     * @param ko a id mapping from kegg ko to gene id, [ko => gene_id]
      * @param multiple_omics the compound id will be keeps if multiple omics flag is TRUE.
      * 
      * + default value Is ``false``.

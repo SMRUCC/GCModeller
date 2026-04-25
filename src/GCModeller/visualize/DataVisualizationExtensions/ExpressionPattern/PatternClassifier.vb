@@ -14,8 +14,8 @@ Public Module PatternClassifier
 
     ' 核心算法：根据 Z-score 序列判断表达模式
     Private Function GetPatternName(times As String(), zexpr As Double()) As String
-        If zexpr Is Nothing OrElse zexpr.Length < 2 Then Return "未知"
-        If zexpr.Length <> times.Length Then Return "数据长度不匹配"
+        If zexpr Is Nothing OrElse zexpr.Length < 2 Then Return "Unknown"
+        If zexpr.Length <> times.Length Then Return "Dimension Mis-Matched"
 
         Dim n = zexpr.Length
         Dim maxVal = zexpr.Max
@@ -28,7 +28,7 @@ Public Module PatternClassifier
         ' 如果整体变化幅度（极差）小于1.0个标准差，认为是平缓的
         Dim flatThresh As Double = 1.0
         If range < flatThresh Then
-            Return "无显著变化(-类型)"
+            Return "Stable expression"
         End If
 
         ' 单调性容差：允许在上升/下降过程中存在轻微波动（不超过总range的20%仍算单调）
@@ -44,7 +44,7 @@ Public Module PatternClassifier
                     Exit For
                 End If
             Next
-            If isMonotonicUp Then Return "逐渐升高(/类型)"
+            If isMonotonicUp Then Return "Gradually increasing"
         End If
 
         ' --- 3. 逐渐降低 (\类型) ---
@@ -57,7 +57,7 @@ Public Module PatternClassifier
                     Exit For
                 End If
             Next
-            If isMonotonicDown Then Return "逐渐降低(\类型)"
+            If isMonotonicDown Then Return "Gradually decreasing"
         End If
 
         ' 平台/山谷容差：相邻点差距小于总range的25%视为平台或山谷的一部分
@@ -81,12 +81,12 @@ Public Module PatternClassifier
             ' 只有当平台左右两端都有下降趋势时，才是真正的 /-\ 平台型，否则只是边缘高
             If pStart > 0 AndAlso pEnd < n - 1 Then
                 If pStart <> pEnd Then
-                    Return $"{times(pStart)}到{times(pEnd)}平台型表达(/-\类型)"
+                    Return $"Plateau from {times(pStart)} to {times(pEnd)}"
                 Else
-                    Return $"{times(maxIdx)}最高(/\类型)"
+                    Return $"Peak at {times(maxIdx)}"
                 End If
             Else
-                Return $"{times(maxIdx)}最高(/\类型)"
+                Return $"Peak at {times(maxIdx)}"
             End If
         End If
 
@@ -108,27 +108,27 @@ Public Module PatternClassifier
             ' 只有当山谷左右两端都有上升趋势时，才是真正的 \_/ 山谷型
             If vStart > 0 AndAlso vEnd < n - 1 Then
                 If vStart <> vEnd Then
-                    Return $"{times(vStart)}到{times(vEnd)}山谷型表达(\_/类型)"
+                    Return $"Valley from {times(vStart)} to {times(vEnd)}"
                 Else
-                    Return $"{times(minIdx)}最低(\/类型)"
+                    Return $"Trough at {times(minIdx)}"
                 End If
             Else
-                Return $"{times(minIdx)}最低(\/类型)"
+                Return $"Trough at {times(minIdx)}"
             End If
         End If
 
         ' --- 6. 边缘极值及兜底复杂波动情况 ---
         ' 如果首尾不是同时为最小/最大值，且中间没有绝对的极值
-        If maxIdx = 0 Then Return $"{times(0)}最高后降低(\类型)"
-        If maxIdx = n - 1 Then Return $"{times(n - 1)}最高(/\类型)"
-        If minIdx = 0 Then Return $"{times(0)}最低后升高(/类型)"
-        If minIdx = n - 1 Then Return $"{times(n - 1)}最低(\/类型)"
+        If maxIdx = 0 Then Return $"Decreasing after peak at {times(0)}"
+        If maxIdx = n - 1 Then Return $"Increasing to peak at {times(n - 1)}"
+        If minIdx = 0 Then Return $"Increasing after trough at {times(0)}"
+        If minIdx = n - 1 Then Return $"Decreasing to trough at {times(n - 1)}"
 
         ' 兜底：波动型趋势
         If zexpr(0) < zexpr(n - 1) Then
-            Return "波动升高(复杂类型)"
+            Return "Fluctuating increase"
         Else
-            Return "波动降低(复杂类型)"
+            Return "Fluctuating decrease"
         End If
 
     End Function
