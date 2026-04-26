@@ -363,7 +363,7 @@ declare namespace geneExpression {
      *  list(class1 = c(...), class2 = c(...), class3 = c(...))
      * 
      * + default value Is ``null``.
-     * @param names -
+     * @param names should be a list of id mapping to name
      * 
      * + default value Is ``null``.
      * @param env -
