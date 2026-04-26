@@ -149,7 +149,7 @@ Module geneExpression
         Call df.add("top", From gene As ImpactResult In genes Select gene.top_group)
         Call df.add("max_impact", From gene As ImpactResult In genes Select gene.max)
         Call df.add("significants", From gene As ImpactResult In genes Select gene.significant)
-        Call df.add("impacts", From gene As ImpactResult In genes Select gene.impacts.Select(Function(a) $"{a.Key}:{a.Value}").JoinBy("; "))
+        Call df.add("impacts", From gene As ImpactResult In genes Select gene.impacts.Select(Function(a) $"{a.Key}:{a.Value.ToString("F2")}").JoinBy("; "))
 
         Return df
     End Function
@@ -1783,7 +1783,7 @@ Module geneExpression
     ''' the id class data, example as: 
     ''' list(class1 = c(...), class2 = c(...), class3 = c(...))
     ''' </param>
-    ''' <param name="names"></param>
+    ''' <param name="names">should be a list of id mapping to name</param>
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("limma_impactsort")>
