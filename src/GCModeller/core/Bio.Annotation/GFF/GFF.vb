@@ -76,12 +76,45 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
     ' http://www.sanger.ac.uk/resources/software/gff/spec.html
 
+    Public Class GFFContext : Implements IGenomicsContextProvider(Of Feature)
+
+        Public ReadOnly Property AllFeatures As Feature() Implements IGenomicsContextProvider(Of Feature).AllFeatures
+
+        Default Public ReadOnly Property Feature(locus_tag As String) As Feature Implements IGenomicsContextProvider(Of Feature).Feature
+            Get
+                Return GetByName(locus_tag)
+            End Get
+        End Property
+
+        Public ReadOnly Property Context As GenomeContextProvider(Of Feature)
+
+        Friend Sub New(features As IEnumerable(Of Feature))
+            AllFeatures = features.ToArray
+            Context = New GenomeContextProvider(Of Feature)(AllFeatures)
+        End Sub
+
+        Public Function GetByName(locus_tag As String) As Feature Implements IGenomicsContextProvider(Of Feature).GetByName
+            Dim LQuery = From Feature As Feature
+                         In AllFeatures
+                         Where Feature.attributes.ContainsKey("name") AndAlso
+                             String.Equals(Feature.attributes("name"), locus_tag, StringComparison.OrdinalIgnoreCase)
+                         Select Feature
+            Return LQuery.FirstOrDefault
+        End Function
+
+        Public Function GetRelatedGenes(loci As NucleotideLocation, Optional unstrand As Boolean = False, Optional ATGDist As Integer = 500) As Relationship(Of Feature)() Implements IGenomicsContextProvider(Of Feature).GetRelatedGenes
+            Return Context.GetAroundRelated(loci, stranded:=Not unstrand, lociDist:=ATGDist)
+        End Function
+
+        Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures
+            Return Context.GetSource(strand).Select(Function(a) a.x).ToArray
+        End Function
+    End Class
+
     ''' <summary>
     ''' GFF (General Feature Format) specifications document
     ''' </summary>
-    Public Class GFFTable
-        Implements ISaveHandle
-        Implements IGenomicsContextProvider(Of Feature)
+    Public Class GFFTable : Implements ISaveHandle
 
 #Region "Meta Data"
 
@@ -205,7 +238,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 基因组上面的特性位点
         ''' </summary>
         ''' <returns></returns>
-        Public Property features As Feature() Implements IGenomicsContextProvider(Of Feature).AllFeatures
+        Public Property features As Feature()
             Get
                 Return _features
             End Get
@@ -213,11 +246,10 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                 _features = value
                 _forwards = filterStrandFeatures(Strands.Forward).ToArray
                 _reversed = filterStrandFeatures(Strands.Reverse).ToArray
-                _contextModel = New GenomeContextProvider(Of Feature)(Me)
             End Set
         End Property
 
-        Default Public ReadOnly Property Feature(locus_tag As String) As Feature Implements IGenomicsContextProvider(Of Feature).Feature
+        Default Public ReadOnly Property Feature(locus_tag As String) As Feature
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
                 Return GetByName(locus_tag)
@@ -227,7 +259,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         Dim _features As Feature()
         Dim _forwards As Feature()
         Dim _reversed As Feature()
-        Dim _contextModel As GenomeContextProvider(Of Feature)
+
+        Public ReadOnly Property Sources As String()
+            Get
+                Return (From locus As Feature In _features Select locus.source Distinct).ToArray
+            End Get
+        End Property
 
         Sub New()
         End Sub
@@ -268,7 +305,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' </summary>
         ''' <param name="Name"><see cref="feature.attributes"/> -> name</param>
         ''' <returns></returns>
-        Public Function GetByName(Name As String) As Feature Implements IGenomicsContextProvider(Of Feature).GetByName
+        Public Function GetByName(Name As String) As Feature
             Dim LQuery = From Feature As Feature
                          In Me.features
                          Where Feature.attributes.ContainsKey("name") AndAlso
@@ -355,13 +392,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return gff
         End Function
 
-        <MethodImpl(MethodImplOptions.AggressiveInlining)>
-        Public Function GetRelatedGenes(loci As NucleotideLocation,
-                                        Optional unstrand As Boolean = False,
-                                        Optional ATGDist As Integer = 500) As Relationship(Of Feature)() Implements IGenomicsContextProvider(Of Feature).GetRelatedGenes
-
-            Dim relates As Relationship(Of Feature)() = _contextModel.GetAroundRelated(loci, Not unstrand, ATGDist)
-            Return relates
+        Public Function CreateContextModel(Optional chr As String = Nothing) As GenomeContextProvider(Of Feature)
+            If chr.StringEmpty(, True) Then
+                Return New GenomeContextProvider(Of Feature)(_features)
+            Else
+                Return New GenomeContextProvider(Of Feature)((From locus As Feature In _features Where locus.seqname = chr).ToArray)
+            End If
         End Function
 
         Private Function filterStrandFeatures(strand As Strands) As IEnumerable(Of Feature)
@@ -370,7 +406,8 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                    Where x.strand = strand
         End Function
 
-        Public Function GetStrandFeatures(strand As Strands) As Feature() Implements IGenomicsContextProvider(Of Feature).GetStrandFeatures
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Public Function GetStrandFeatures(strand As Strands) As Feature()
             Return If(strand = Strands.Forward, _forwards, _reversed)
         End Function
 
