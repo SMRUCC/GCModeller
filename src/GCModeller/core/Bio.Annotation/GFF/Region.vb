@@ -75,7 +75,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             If String.IsNullOrWhiteSpace(s) Then
                 Return New SeqRegion
             Else
-                Dim tokens As String() = s.Split
+                Dim tokens As String() = Strings.Trim(s).Split
                 Dim acc As String = tokens(Scan0)
                 Dim start As Integer = CInt(Val(tokens(1)))
                 Dim ends As Integer = CInt(Val(tokens(2)))
