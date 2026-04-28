@@ -146,8 +146,9 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
         Private Function TryGetMetaData(data As String()) As String()
             Try
                 Dim LQuery = (From sLine As String
-                              In data
+                              In data.AsParallel
                               Where parserHelper.IsMetaDataLine(sLine)
+                              Where Not sLine.IsPattern("#+")
                               Select sLine).ToArray
                 Return LQuery
             Catch ex As Exception
