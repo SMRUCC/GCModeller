@@ -95,6 +95,12 @@ Module genomics
         Return GFFTable.LoadDocument(file)
     End Function
 
+    <ExportAPI("source_features")>
+    <RApiReturn(GetType(Feature))>
+    Public Function SourceFeatures(gff As GFFTable, source As String) As Object
+        Return gff.FilterBySource(source).ToArray
+    End Function
+
     ''' <summary>
     ''' get gff features by id reference
     ''' </summary>

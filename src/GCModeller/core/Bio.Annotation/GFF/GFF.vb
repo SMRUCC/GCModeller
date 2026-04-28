@@ -300,6 +300,14 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                               End Function)
         End Function
 
+        Public Iterator Function FilterBySource(sourceName As String) As IEnumerable(Of Feature)
+            For Each feature As Feature In features
+                If feature.source = sourceName Then
+                    Yield feature
+                End If
+            Next
+        End Function
+
         ''' <summary>
         ''' 
         ''' </summary>
