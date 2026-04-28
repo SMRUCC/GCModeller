@@ -392,11 +392,11 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
             Return gff
         End Function
 
-        Public Function CreateContextModel(Optional chr As String = Nothing) As GenomeContextProvider(Of Feature)
+        Public Function CreateContextModel(Optional chr As String = Nothing) As GFFContext
             If chr.StringEmpty(, True) Then
-                Return New GenomeContextProvider(Of Feature)(_features)
+                Return New GFFContext(_features)
             Else
-                Return New GenomeContextProvider(Of Feature)((From locus As Feature In _features Where locus.seqname = chr).ToArray)
+                Return New GFFContext(From locus As Feature In _features Where locus.seqname = chr)
             End If
         End Function
 
