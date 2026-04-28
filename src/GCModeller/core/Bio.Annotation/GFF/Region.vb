@@ -95,7 +95,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         End Function
 
         Public Overrides Function ToString() As String
-            Return $"{accessId} {start} {ends}"
+            Return $"{accessId} {start} {StringFormats.Lanudry(ends)}"
         End Function
     End Class
 End Namespace
