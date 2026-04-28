@@ -80,18 +80,20 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' 
         <Extension>
         Public Function ToGff(gb As GBFF.File) As GFFTable
-            Dim Gff As New GFFTable With {
+            Dim seq As New SeqRegion With {
+                .accessId = gb.Accession.AccessionId,
+                .start = 1,
+                .ends = gb.Origin.SequenceData.Length
+            }
+            Dim gff As New GFFTable With {
                 .date = gb.Locus.UpdateTime,
-                .Features = gb.Features.Select(AddressOf gb.ToGff).ToArray,
+                .features = gb.Features.Select(AddressOf gb.ToGff).ToArray,
                 .GffVersion = 3,
-                .SeqRegion = New SeqRegion With {
-                      .accessId = gb.Accession.AccessionId,
-                      .start = 1,
-                      .ends = gb.Origin.SequenceData.Length
-                },
+                .SeqRegion = {seq},
                 .type = "DNA"
             }
-            Return Gff
+
+            Return gff
         End Function
 
         <Extension>

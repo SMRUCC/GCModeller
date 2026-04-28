@@ -145,7 +145,7 @@ Namespace ComparativeGenomics
                             Return g.First
                         End Function) _
                 .ToArray _
-                .CreateSyntenyGenome(genome.Size, genome.SeqRegion.accessId, Function(g) g.Gene)
+                .CreateSyntenyGenome(genome.Size, genome.SeqRegion(0).accessId, Function(g) g.Gene)
         End Function
     End Class
 End Namespace
