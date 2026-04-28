@@ -183,17 +183,21 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         ''' To indicate that this file only contains entries for the specified subregion of a sequence.
         ''' </summary>
         ''' <returns></returns>
-        <Column(Name:="##sequence-region")> Public Property SeqRegion As SeqRegion
+        <Column(Name:="##sequence-region")> Public Property SeqRegion As SeqRegion()
 #End Region
 
         ''' <summary>
         ''' Genome size
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Size As Integer
+        Public ReadOnly Property Size As Long
             <MethodImpl(MethodImplOptions.AggressiveInlining)>
             Get
-                Return SeqRegion.ends
+                If SeqRegion Is Nothing Then
+                    Return 0
+                End If
+
+                Return Aggregate chr As SeqRegion In SeqRegion Into Sum(chr.ends - chr.start)
             End Get
         End Property
 

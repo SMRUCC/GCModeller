@@ -99,7 +99,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF.Document
             Gff.date = TryGetValue(attrs, "##date")
             Gff.SrcVersion = TryGetValue(attrs, "##source-version")
             Gff.type = TryGetValue(attrs, "##type")
-            Gff.SeqRegion = SeqRegion.Parser(TryGetValue(attrs, "##sequence-region"))
+            Gff.SeqRegion = SeqRegion.ParseLines(TryGetValue(attrs, "##sequence-region").StringSplit("; ")).ToArray
 
             ' 为零，则表示文本字符串为空值，则会使用默认的版本号
             If Gff.GffVersion = 0 Then

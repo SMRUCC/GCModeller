@@ -55,6 +55,7 @@
 #End Region
 
 Imports System.Xml.Serialization
+Imports Microsoft.VisualBasic.Linq
 
 Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
 
@@ -70,7 +71,7 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
         <XmlAttribute> Public Property start As Integer
         <XmlAttribute> Public Property ends As Integer
 
-        Friend Shared Function Parser(s As String) As SeqRegion
+        Private Shared Function Parser(s As String) As SeqRegion
             If String.IsNullOrWhiteSpace(s) Then
                 Return New SeqRegion
             Else
@@ -85,6 +86,12 @@ Namespace Assembly.NCBI.GenBank.TabularFormat.GFF
                     .ends = ends
                 }
             End If
+        End Function
+
+        Friend Shared Iterator Function ParseLines(lines As IEnumerable(Of String)) As IEnumerable(Of SeqRegion)
+            For Each line As String In lines.SafeQuery
+                Yield Parser(line)
+            Next
         End Function
 
         Public Overrides Function ToString() As String
