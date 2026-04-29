@@ -138,7 +138,9 @@ Namespace ContextModel
                 .PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(upstreamGene, downstreamGene), ' 3. 系统发育距离 (Hamming)
                 .LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene),' 4. 基因长度比
                 .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene),' 6. GO功能相似性
-                .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, .PhylogeneticDistance)
+                .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, .PhylogeneticDistance),
+                .upstreamID = upstreamGene.GeneID,
+                .downstreamID = downstreamGene.GeneID
             }
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)

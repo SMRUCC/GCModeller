@@ -5,6 +5,9 @@
     ''' </summary>
     Public Class FeatureScores
 
+        Public Property upstreamID As String
+        Public Property downstreamID As String
+
         ''' <summary>
         ''' 获取或设置基因间距离
         ''' 论文公式: DI = downstream_gene_start - (upstream_gene_end + 1)，并应用 [-50, 250] 截断
