@@ -69,7 +69,15 @@ Namespace MSA
     ''' </summary>
     Public Class MSAOutput
 
+        ''' <summary>
+        ''' a vector of the MSA sequence name
+        ''' </summary>
+        ''' <returns></returns>
         Public Property names As String()
+        ''' <summary>
+        ''' A vector of the MSA sequence
+        ''' </summary>
+        ''' <returns></returns>
         Public Property MSA As String()
         Public Property edits As Integer()
 
