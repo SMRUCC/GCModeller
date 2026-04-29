@@ -71,7 +71,7 @@ Imports SMRUCC.genomics.ComponentModel.Loci
 Imports SMRUCC.genomics.ContextModel
 Imports std = System.Math
 
-Namespace ContextModel.Operon
+Namespace ContextModel
 
     ''' <summary>
     ''' To evaluate the contribution of selected features in operon prediction, we have calculated 
@@ -91,24 +91,6 @@ Namespace ContextModel.Operon
     ''' </remarks>
     ''' 
     Public Class OperonPredictionFeatures
-        ' 基因信息结构
-        Public Structure GeneInfo
-            Public GeneID As String
-            Public Start As Integer
-            Public [End] As Integer
-            Public Length As Integer
-            Public Strand As Char  ' '+'或'-'
-            Public GO_Terms As List(Of String)
-            Public PhylogeneticProfile As Dictionary(Of String, Boolean) ' 基因组ID -> 存在状态
-        End Structure
-
-        ' 基因组信息结构
-        Public Structure GenomeInfo
-            Public GenomeID As String
-            Public Phylum As String
-            Public GeneCount As Integer
-            Public GenePositions As Dictionary(Of String, Integer) ' 基因ID -> 位置索引
-        End Structure
 
         ' 1. 计算基因间距离 (Intergenic Distance)
         Public Shared Function CalculateIntergenicDistance(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As Integer
