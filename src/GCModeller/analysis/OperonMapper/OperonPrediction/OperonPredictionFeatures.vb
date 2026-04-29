@@ -108,13 +108,6 @@ Namespace ContextModel
         ''' 基因存在概率字典：基因ID -> (门 -> 概率pik)
         ''' </remarks>
         ReadOnly phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double))
-        ''' <summary>
-        ''' 核苷酸频率字典
-        ''' </summary>
-        ''' <remarks>
-        ''' 核苷酸频率字典 (A, T, C, G -> 频率)
-        ''' </remarks>
-        ReadOnly nucleotideFrequencies As Dictionary(Of Char, Double)
 
         Sub New(referenceGenomes As IEnumerable(Of GenomeInfo), goHierarchy As GO_OBO, phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double)))
             Me.referenceGenomes = referenceGenomes.ToArray
@@ -129,8 +122,11 @@ Namespace ContextModel
         ''' <param name="upstreamGene">上游基因信息</param>
         ''' <param name="downstreamGene">下游基因信息</param>
         ''' <param name="intergenicSequence">基因间序列 (下游基因上游100nt)</param>
+        ''' <param name="nucleotideFrequencies">
+        ''' 核苷酸频率字典 (A, T, C, G -> 频率)
+        ''' </param>
         ''' <returns>包含所有得分的 FeatureScores 对象；若基因不在同一链上则返回 Nothing</returns>
-        Public Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo, intergenicSequence As String) As FeatureScores
+        Public Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo, intergenicSequence As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As FeatureScores
             ' 验证链方向
             If upstreamGene.Strand <> downstreamGene.Strand Then
                 Return Nothing ' 或者抛出异常
@@ -151,7 +147,7 @@ Namespace ContextModel
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)
             For Each motif As String In motifs
-                features.Motifs(motif) = CalculateMotifFrequency(intergenicSequence, motif)
+                features.Motifs(motif) = CalculateMotifFrequency(intergenicSequence, motif, nucleotideFrequencies)
             Next
 
             Return features
@@ -312,8 +308,11 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="intergenicSequence">下游基因上游100nt的基因间序列</param>
         ''' <param name="motif">待检测的DNA基序字符串</param>
+        ''' <param name="nucleotideFrequencies">
+        ''' 核苷酸频率字典 (A, T, C, G -> 频率)
+        ''' </param>
         ''' <returns>基序的归一化频率得分</returns>
-        Public Function CalculateMotifFrequency(intergenicSequence As String, motif As String) As Double
+        Public Function CalculateMotifFrequency(intergenicSequence As String, motif As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As Double
             Dim observedCount As Integer = 0
             Dim motifLength As Integer = motif.Length
 
