@@ -64,6 +64,7 @@
 
 #End Region
 
+
 Namespace ContextModel
 
     ''' <summary>
@@ -86,6 +87,67 @@ Namespace ContextModel
     ''' </remarks>
     ''' 
     Public Class OperonPredictionFeatures
+
+        ''' <summary>
+        ''' 参考基因组列表
+        ''' </summary>
+        ReadOnly referenceGenomes As GenomeInfo()
+        ''' <summary>
+        ''' GO层次结构字典：GO术语 -> 父术语列表
+        ''' </summary>
+        ReadOnly goHierarchy As Dictionary(Of String, List(Of String))
+        ReadOnly motifs As String() = {"TTT", "ATA", "TTTT", "TATA", "TTTTT", "TTTTC"}
+        ''' <summary>
+        ''' 基因存在概率字典
+        ''' </summary>
+        ''' <remarks>
+        ''' 基因存在概率字典：基因ID -> (门 -> 概率pik)
+        ''' </remarks>
+        ReadOnly phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double))
+        ''' <summary>
+        ''' 核苷酸频率字典
+        ''' </summary>
+        ''' <remarks>
+        ''' 核苷酸频率字典 (A, T, C, G -> 频率)
+        ''' </remarks>
+        ReadOnly nucleotideFrequencies As Dictionary(Of Char, Double)
+
+        Sub New(referenceGenomes As IEnumerable(Of GenomeInfo), goHierarchy As Dictionary(Of String, List(Of String)))
+            Me.referenceGenomes = referenceGenomes.ToArray
+            Me.goHierarchy = goHierarchy
+        End Sub
+
+        ''' <summary>
+        ''' 计算所有特征的综合函数
+        ''' 包含前置校验(同链验证)及论文中所列全部6类特征的提取
+        ''' </summary>
+        ''' <param name="upstreamGene">上游基因信息</param>
+        ''' <param name="downstreamGene">下游基因信息</param>
+        ''' <param name="intergenicSequence">基因间序列 (下游基因上游100nt)</param>
+        ''' <returns>包含所有得分的 FeatureScores 对象；若基因不在同一链上则返回 Nothing</returns>
+        Public Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo, intergenicSequence As String) As FeatureScores
+            ' 验证链方向
+            If upstreamGene.Strand <> downstreamGene.Strand Then
+                Return Nothing ' 或者抛出异常
+            End If
+
+            Dim features As New FeatureScores With {
+                .Motifs = New Dictionary(Of String, Double),
+                .IntergenicDistance = CalculateIntergenicDistance(upstreamGene, downstreamGene),' 1. 基因间距离
+                .NeighborhoodConservation = CalculateNeighborhoodConservation(upstreamGene, downstreamGene), ' 2. 基因邻域保守性
+                .PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(upstreamGene, downstreamGene), ' 3. 系统发育距离 (Hamming)
+                .LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene),' 4. 基因长度比
+                .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene),' 6. GO功能相似性
+                .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, .PhylogeneticDistance)
+            }
+
+            ' 5. DNA基序频率 (使用论文中提到的关键基序)
+            For Each motif As String In motifs
+                features.Motifs($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif)
+            Next
+
+            Return features
+        End Function
 
         ''' <summary>
         ''' 1. 计算基因间距离
@@ -116,13 +178,11 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="gene1">基因1信息</param>
         ''' <param name="gene2">基因2信息</param>
-        ''' <param name="referenceGenomes">参考基因组列表</param>
-        ''' <param name="phylumProbabilities">基因存在概率字典：基因ID -> (门 -> 概率pik)</param>
         ''' <returns>邻域保守性总得分 S</returns>
         ''' <remarks>
         ''' 2. 计算基因邻域保守性 (Neighborhood Conservation)
         ''' </remarks>
-        Public Shared Function CalculateNeighborhoodConservation(gene1 As GeneInfo, gene2 As GeneInfo, referenceGenomes As List(Of GenomeInfo), phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double))) As Double
+        Public Function CalculateNeighborhoodConservation(gene1 As GeneInfo, gene2 As GeneInfo) As Double
             Dim totalScore As Double = 0.0
 
             For Each genome As GenomeInfo In referenceGenomes
@@ -169,18 +229,17 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="gene1">基因1信息</param>
         ''' <param name="gene2">基因2信息</param>
-        ''' <param name="genomeIDs">参考基因组ID列表</param>
         ''' <returns>汉明距离得分</returns>
         ''' <remarks>
         ''' 3. 计算系统发育距离 (Hamming Distance)
         ''' </remarks>
-        Public Shared Function CalculatePhylogeneticDistanceHamming(gene1 As GeneInfo, gene2 As GeneInfo, genomeIDs As List(Of String)) As Integer
+        Public Function CalculatePhylogeneticDistanceHamming(gene1 As GeneInfo, gene2 As GeneInfo) As Integer
             Dim distance As Integer = 0
-            For Each genomeID In genomeIDs
-                Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genomeID) AndAlso
-                                      gene1.PhylogeneticProfile(genomeID)
-                Dim g2Present As Boolean = gene2.PhylogeneticProfile.ContainsKey(genomeID) AndAlso
-                                      gene2.PhylogeneticProfile(genomeID)
+            For Each genome As GenomeInfo In referenceGenomes
+                Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genome.GenomeID) AndAlso
+                                      gene1.PhylogeneticProfile(genome.GenomeID)
+                Dim g2Present As Boolean = gene2.PhylogeneticProfile.ContainsKey(genome.GenomeID) AndAlso
+                                      gene2.PhylogeneticProfile(genome.GenomeID)
 
                 If g1Present <> g2Present Then
                     distance += 1
@@ -196,24 +255,22 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="gene1">基因1信息</param>
         ''' <param name="gene2">基因2信息</param>
-        ''' <param name="genomeIDs">参考基因组ID列表</param>
         ''' <param name="DH">distance result of <see cref="CalculatePhylogeneticDistanceHamming"/></param>
         ''' <returns>香农熵距离得分</returns>
         '''
-        Public Shared Function CalculatePhylogeneticDistanceShannon(gene1 As GeneInfo, gene2 As GeneInfo, genomeIDs As List(Of String), DH As Integer) As Double
-            Dim n As Integer = genomeIDs.Count
-
+        Public Function CalculatePhylogeneticDistanceShannon(gene1 As GeneInfo, gene2 As GeneInfo, DH As Integer) As Double
             ' 计算 p: 0 identities 的比例
             Dim zeroCount As Integer = 0
-            For Each genomeID In genomeIDs
-                Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genomeID) AndAlso gene1.PhylogeneticProfile(genomeID)
-                Dim g2Present As Boolean = gene2.PhylogeneticProfile.ContainsKey(genomeID) AndAlso gene2.PhylogeneticProfile(genomeID)
+            For Each genome As GenomeInfo In referenceGenomes
+                Dim g1Present As Boolean = gene1.PhylogeneticProfile.ContainsKey(genome.GenomeID) AndAlso gene1.PhylogeneticProfile(genome.GenomeID)
+                Dim g2Present As Boolean = gene2.PhylogeneticProfile.ContainsKey(genome.GenomeID) AndAlso gene2.PhylogeneticProfile(genome.GenomeID)
                 ' 两者均不存在则为 0 identity
                 If Not g1Present AndAlso Not g2Present Then
                     zeroCount += 1
                 End If
             Next
 
+            Dim n As Integer = referenceGenomes.Length
             Dim p As Double = zeroCount / n
             If p = 0 OrElse p = 1 Then Return n - (n - DH) ' 边界情况处理
 
@@ -247,9 +304,8 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="intergenicSequence">下游基因上游100nt的基因间序列</param>
         ''' <param name="motif">待检测的DNA基序字符串</param>
-        ''' <param name="nucleotideFrequencies">核苷酸频率字典 (A, T, C, G -> 频率)</param>
         ''' <returns>基序的归一化频率得分</returns>
-        Public Shared Function CalculateMotifFrequency(intergenicSequence As String, motif As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As Double
+        Public Function CalculateMotifFrequency(intergenicSequence As String, motif As String) As Double
             Dim observedCount As Integer = 0
             Dim motifLength As Integer = motif.Length
 
@@ -279,9 +335,8 @@ Namespace ContextModel
         ''' </summary>
         ''' <param name="gene1">基因1信息</param>
         ''' <param name="gene2">基因2信息</param>
-        ''' <param name="goHierarchy">GO层次结构字典：GO术语 -> 父术语列表</param>
         ''' <returns>GO功能相似性最大得分</returns>
-        Public Shared Function CalculateGOSimilarity(gene1 As GeneInfo, gene2 As GeneInfo, goHierarchy As Dictionary(Of String, List(Of String))) As Integer
+        Public Function CalculateGOSimilarity(gene1 As GeneInfo, gene2 As GeneInfo) As Integer
             If gene1.GO_Terms Is Nothing OrElse gene2.GO_Terms Is Nothing OrElse gene1.GO_Terms.Count = 0 OrElse gene2.GO_Terms.Count = 0 Then
                 Return 0
             End If
@@ -291,11 +346,11 @@ Namespace ContextModel
             ' 遍历两个基因的GO术语对，寻找最大路径交集
             For Each term1 In gene1.GO_Terms
                 Dim ancestors1 As New HashSet(Of String) From {term1}
-                AddAncestorTerms(term1, goHierarchy, ancestors1)
+                AddAncestorTerms(term1, ancestors1)
 
                 For Each term2 In gene2.GO_Terms
                     Dim ancestors2 As New HashSet(Of String) From {term2}
-                    AddAncestorTerms(term2, goHierarchy, ancestors2)
+                    AddAncestorTerms(term2, ancestors2)
 
                     ' 计算当前两条路径的共同祖先数
                     Dim commonTerms As Integer = ancestors1.Intersect(ancestors2).Count()
@@ -312,13 +367,12 @@ Namespace ContextModel
         ''' 递归添加祖先GO术语到集合中
         ''' </summary>
         ''' <param name="term">当前GO术语</param>
-        ''' <param name="goHierarchy">GO层次结构字典</param>
         ''' <param name="termSet">用于收集祖先术语的HashSet</param>
-        Private Shared Sub AddAncestorTerms(term As String, goHierarchy As Dictionary(Of String, List(Of String)), termSet As HashSet(Of String))
+        Private Sub AddAncestorTerms(term As String, termSet As HashSet(Of String))
             If goHierarchy.ContainsKey(term) Then
                 For Each parentTerm In goHierarchy(term)
                     If termSet.Add(parentTerm) Then
-                        AddAncestorTerms(parentTerm, goHierarchy, termSet)
+                        AddAncestorTerms(parentTerm, termSet)
                     End If
                 Next
             End If
@@ -342,51 +396,6 @@ Namespace ContextModel
             If dist < 40 Then Return IntergenicDistanceGroup.U40
             If dist > 200 Then Return IntergenicDistanceGroup.O200
             Return IntergenicDistanceGroup.U200
-        End Function
-
-        ''' <summary>
-        ''' 计算所有特征的综合函数
-        ''' 包含前置校验(同链验证)及论文中所列全部6类特征的提取
-        ''' </summary>
-        ''' <param name="upstreamGene">上游基因信息</param>
-        ''' <param name="downstreamGene">下游基因信息</param>
-        ''' <param name="intergenicSequence">基因间序列 (下游基因上游100nt)</param>
-        ''' <param name="referenceGenomes">参考基因组列表</param>
-        ''' <param name="phylumProbabilities">基因存在概率字典</param>
-        ''' <param name="genomeIDs">参考基因组ID列表</param>
-        ''' <param name="nucleotideFrequencies">核苷酸频率字典</param>
-        ''' <param name="goHierarchy">GO层次结构字典</param>
-        ''' <returns>包含所有得分的 FeatureScores 对象；若基因不在同一链上则返回 Nothing</returns>
-        Public Shared Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo,
-                                                    intergenicSequence As String,
-                                                    referenceGenomes As List(Of GenomeInfo),
-                                                    phylumProbabilities As Dictionary(Of String, Dictionary(Of String, Double)),
-                                                    genomeIDs As List(Of String),
-                                                    nucleotideFrequencies As Dictionary(Of Char, Double),
-                                                    goHierarchy As Dictionary(Of String, List(Of String))) As FeatureScores
-            ' 验证链方向
-            If upstreamGene.Strand <> downstreamGene.Strand Then
-                Return Nothing ' 或者抛出异常
-            End If
-
-            Dim features As New FeatureScores With {
-                .Motifs = New Dictionary(Of String, Double),
-                .IntergenicDistance = CalculateIntergenicDistance(upstreamGene, downstreamGene),' 1. 基因间距离
-                .NeighborhoodConservation = CalculateNeighborhoodConservation(upstreamGene, downstreamGene, referenceGenomes, phylumProbabilities), ' 2. 基因邻域保守性
-                .PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(upstreamGene, downstreamGene, genomeIDs), ' 3. 系统发育距离 (Hamming)
-                .LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene),' 4. 基因长度比
-                .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy),' 6. GO功能相似性
-                .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, genomeIDs, .PhylogeneticDistance)
-            }
-
-            ' 5. DNA基序频率 (使用论文中提到的关键基序)
-            Dim motifs As String() = {"TTT", "ATA", "TTTT", "TATA", "TTTTT", "TTTTC"}
-
-            For Each motif As String In motifs
-                features.Motifs($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif, nucleotideFrequencies)
-            Next
-
-            Return features
         End Function
     End Class
 End Namespace
