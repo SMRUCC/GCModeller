@@ -165,7 +165,12 @@ Namespace SequenceModel.NucleotideModels
 
         <Extension>
         Public Function NucleotideFrequencies(nt As String) As Dictionary(Of Char, Double)
-            Return nt.GroupBy(Function(c) c).ToDictionary(Function(c) c.Key, Function(c) c.Count / nt.Length)
+            Return nt _
+                .GroupBy(Function(c) c) _
+                .ToDictionary(Function(c) c.Key,
+                              Function(c)
+                                  Return c.Count / nt.Length
+                              End Function)
         End Function
 
         ''' <summary>
