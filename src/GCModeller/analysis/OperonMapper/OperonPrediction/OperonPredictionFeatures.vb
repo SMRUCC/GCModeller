@@ -289,30 +289,21 @@ Namespace ContextModel
                                                     nucleotideFrequencies As Dictionary(Of Char, Double),
                                                     goHierarchy As Dictionary(Of String, List(Of String))) As FeatureScores
 
-            Dim features As New FeatureScores With {.Motifs = New Dictionary(Of String, Double)}
-
-            ' 1. 基因间距离
-            features.IntergenicDistance = CalculateIntergenicDistance(upstreamGene, downstreamGene)
-
-            ' 2. 基因邻域保守性
-            features.NeighborhoodConservation = CalculateNeighborhoodConservation(
-            upstreamGene, downstreamGene, referenceGenomes, phylumProbabilities)
-
-            ' 3. 系统发育距离 (Hamming)
-            features.PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(
-            upstreamGene, downstreamGene, genomeIDs)
-
-            ' 4. 基因长度比
-            features.LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene)
+            Dim features As New FeatureScores With {
+                .Motifs = New Dictionary(Of String, Double),
+                .IntergenicDistance = CalculateIntergenicDistance(upstreamGene, downstreamGene),' 1. 基因间距离
+                .NeighborhoodConservation = CalculateNeighborhoodConservation(upstreamGene, downstreamGene, referenceGenomes, phylumProbabilities), ' 2. 基因邻域保守性
+                .PhylogeneticDistance = CalculatePhylogeneticDistanceHamming(upstreamGene, downstreamGene, genomeIDs), ' 3. 系统发育距离 (Hamming)
+                .LengthRatio = CalculateLengthRatio(upstreamGene, downstreamGene),' 4. 基因长度比
+                .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy) ' 6. GO功能相似性
+            }
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)
             Dim motifs As String() = {"TTT", "ATA", "TTTT", "TATA", "TTTTT", "TTTTC"}
+
             For Each motif As String In motifs
                 features.Motifs($"Motif_{motif}") = CalculateMotifFrequency(intergenicSequence, motif, nucleotideFrequencies)
             Next
-
-            ' 6. GO功能相似性
-            features.GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene, goHierarchy)
 
             Return features
         End Function
