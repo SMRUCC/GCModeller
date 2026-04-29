@@ -140,7 +140,8 @@ Namespace ContextModel
                 .GOSimilarity = CalculateGOSimilarity(upstreamGene, downstreamGene),' 6. GO功能相似性
                 .PhylogeneticDistanceShannon = CalculatePhylogeneticDistanceShannon(upstreamGene, downstreamGene, .PhylogeneticDistance),
                 .upstreamID = upstreamGene.GeneID,
-                .downstreamID = downstreamGene.GeneID
+                .downstreamID = downstreamGene.GeneID,
+                .DistanceGroup = GetDistanceGroup(upstreamGene, downstreamGene)
             }
 
             ' 5. DNA基序频率 (使用论文中提到的关键基序)
@@ -387,10 +388,10 @@ Namespace ContextModel
         ''' <param name="upstreamGene">上游基因信息</param>
         ''' <param name="downstreamGene">下游基因信息</param>
         ''' <returns>距离分组枚举值；如果两基因不在同一链上，则返回 Nothing</returns>
-        Public Shared Function GetDistanceGroup(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As IntergenicDistanceGroup?
+        Public Shared Function GetDistanceGroup(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As IntergenicDistanceGroup
             ' 1. 必须在同一条链上才可能是Operon
             If upstreamGene.Strand <> downstreamGene.Strand Then
-                Return Nothing
+                Return IntergenicDistanceGroup.NA
             End If
 
             Dim dist As Integer = CalculateIntergenicDistance(upstreamGene, downstreamGene)

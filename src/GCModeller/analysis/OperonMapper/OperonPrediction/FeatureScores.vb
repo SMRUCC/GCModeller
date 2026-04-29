@@ -41,5 +41,7 @@
         ''' </summary>
         Public Property Motifs As Dictionary(Of String, Double)
 
+        Public Property DistanceGroup As IntergenicDistanceGroup
+
     End Class
 End Namespace
