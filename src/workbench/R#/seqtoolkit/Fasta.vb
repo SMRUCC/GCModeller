@@ -69,6 +69,7 @@ Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.Scripting.MetaData
 Imports Microsoft.VisualBasic.Text
 Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA
+Imports SMRUCC.genomics.Analysis.SequenceAlignment.MSA.Tabular
 Imports SMRUCC.genomics.Analysis.SequenceTools.SequencePatterns
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank
 Imports SMRUCC.genomics.Assembly.NCBI.GenBank.GBFF.Keywords.FEATURES
@@ -716,6 +717,17 @@ Module Fasta
     <ExportAPI("MSA.of")>
     Public Function MSA(<RRawVectorArgument> seqs As Object, Optional env As Environment = Nothing) As MSAOutput
         Return GetFastaSeq(seqs, env).MultipleAlignment(ScoreMatrix.DefaultMatrix)
+    End Function
+
+    ''' <summary>
+    ''' read stockholm MSA file.
+    ''' </summary>
+    ''' <param name="file"></param>
+    ''' <returns></returns>
+    <ExportAPI("read_stockholm")>
+    <RApiReturn(GetType(Stockholm))>
+    Public Function read_stockholm(file As String) As Object
+        Return Reader.Read(file).ToArray
     End Function
 
     ''' <summary>
