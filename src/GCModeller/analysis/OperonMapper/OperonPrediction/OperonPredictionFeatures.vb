@@ -67,6 +67,8 @@
 Namespace ContextModel
 
     ''' <summary>
+    ''' 提取并计算操纵子预测所需的各种特征得分
+    ''' 
     ''' To evaluate the contribution of selected features in operon prediction, we have calculated 
     ''' the numerical values of the features, And then used these values individually And in combination 
     ''' to train a classifier. The features used in our study are
@@ -86,11 +88,13 @@ Namespace ContextModel
     Public Class OperonPredictionFeatures
 
         ''' <summary>
-        ''' 1. 计算基因间距离 (Intergenic Distance)
+        ''' 1. 计算基因间距离
+        ''' 论文公式: DI = downstream_gene_start - (upstream_gene_end + 1)
+        ''' 并根据论文 Materials and Methods 应用 [-50, 250] 的截断值
         ''' </summary>
-        ''' <param name="upstreamGene"></param>
-        ''' <param name="downstreamGene"></param>
-        ''' <returns></returns>
+        ''' <param name="upstreamGene">上游基因信息</param>
+        ''' <param name="downstreamGene">下游基因信息</param>
+        ''' <returns>经截断处理后的基因间距离</returns>
         Public Shared Function CalculateIntergenicDistance(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As Integer
             Dim rawDistance As Integer = downstreamGene.Start - (upstreamGene.[End] + 1)
             ' 根据论文，应用 -50 和 250 的截断值
@@ -110,11 +114,11 @@ Namespace ContextModel
         ''' dk(ij) Is the number of genes between gi And gj; Nk Is the number Of genes In genome Gk; And pik Is the probability 
         ''' that gene gi Is present In genome Gk.
         ''' </summary>
-        ''' <param name="gene1"></param>
-        ''' <param name="gene2"></param>
-        ''' <param name="referenceGenomes"></param>
-        ''' <param name="phylumProbabilities">基因ID -> (门 -> 概率)</param>
-        ''' <returns></returns>
+        ''' <param name="gene1">基因1信息</param>
+        ''' <param name="gene2">基因2信息</param>
+        ''' <param name="referenceGenomes">参考基因组列表</param>
+        ''' <param name="phylumProbabilities">基因存在概率字典：基因ID -> (门 -> 概率pik)</param>
+        ''' <returns>邻域保守性总得分 S</returns>
         ''' <remarks>
         ''' 2. 计算基因邻域保守性 (Neighborhood Conservation)
         ''' </remarks>
@@ -163,10 +167,10 @@ Namespace ContextModel
         ''' DH=Sum([1,n], di)‚ where n Is the number of genomes, di=0 if the orthologs of A And B are both present Or both absent in genome i, 
         ''' And di = 1 otherwise.
         ''' </summary>
-        ''' <param name="gene1"></param>
-        ''' <param name="gene2"></param>
-        ''' <param name="genomeIDs"></param>
-        ''' <returns></returns>
+        ''' <param name="gene1">基因1信息</param>
+        ''' <param name="gene2">基因2信息</param>
+        ''' <param name="genomeIDs">参考基因组ID列表</param>
+        ''' <returns>汉明距离得分</returns>
         ''' <remarks>
         ''' 3. 计算系统发育距离 (Hamming Distance)
         ''' </remarks>
@@ -186,12 +190,16 @@ Namespace ContextModel
         End Function
 
         ''' <summary>
-        ''' 3. 计算系统发育距离 (Shannon Entropy Distance)
-        ''' DE = n - (n - DH) * Sqrt(E(p) / p)
+        ''' 3. 计算系统发育距离 - 香农熵距离 (补充实现)
+        ''' 论文公式: DE = n - (n - DH) * Sqrt(E(p) / p)
+        ''' 其中 p 是0身份(两基因均不存在)的比例，E(p) = -p*log(p) - (1-p)*log(1-p)
         ''' </summary>
-        ''' <param name="DH">
-        ''' distance result of <see cref="CalculatePhylogeneticDistanceHamming"/>
-        ''' </param>
+        ''' <param name="gene1">基因1信息</param>
+        ''' <param name="gene2">基因2信息</param>
+        ''' <param name="genomeIDs">参考基因组ID列表</param>
+        ''' <param name="DH">distance result of <see cref="CalculatePhylogeneticDistanceHamming"/></param>
+        ''' <returns>香农熵距离得分</returns>
+        '''
         Public Shared Function CalculatePhylogeneticDistanceShannon(gene1 As GeneInfo, gene2 As GeneInfo, genomeIDs As List(Of String), DH As Integer) As Double
             Dim n As Integer = genomeIDs.Count
 
@@ -233,12 +241,14 @@ Namespace ContextModel
         End Function
 
         ''' <summary>
-        ''' 5. 计算DNA基序频率 (Motif Frequency)
+        ''' 5. 计算DNA基序频率
+        ''' 论文公式: Fm = X / ((L-d+1) * p)
+        ''' X为观测次数，L为序列长度，d为基序长度，p为基于核苷酸频率计算的期望频率
         ''' </summary>
-        ''' <param name="intergenicSequence"></param>
-        ''' <param name="motif"></param>
-        ''' <param name="nucleotideFrequencies"></param>
-        ''' <returns></returns>
+        ''' <param name="intergenicSequence">下游基因上游100nt的基因间序列</param>
+        ''' <param name="motif">待检测的DNA基序字符串</param>
+        ''' <param name="nucleotideFrequencies">核苷酸频率字典 (A, T, C, G -> 频率)</param>
+        ''' <returns>基序的归一化频率得分</returns>
         Public Shared Function CalculateMotifFrequency(intergenicSequence As String, motif As String, nucleotideFrequencies As Dictionary(Of Char, Double)) As Double
             Dim observedCount As Integer = 0
             Dim motifLength As Integer = motif.Length
@@ -262,12 +272,15 @@ Namespace ContextModel
         End Function
 
         ''' <summary>
-        ''' 6. 计算GO功能相似性 (GO Similarity)
+        ''' 6. 计算GO功能相似性 (修正为严格符合论文的路径最大匹配)
+        ''' 论文定义: SGO(gi,gj) = max s(Vi,Vj)
+        ''' s(Vi,Vj) 是由两个基因的GO术语分别诱导出的两条路径之间的共同术语数量
+        ''' 取所有路径对中的最大值
         ''' </summary>
-        ''' <param name="gene1"></param>
-        ''' <param name="gene2"></param>
-        ''' <param name="goHierarchy">GO术语 -> 父术语列表</param>
-        ''' <returns></returns>
+        ''' <param name="gene1">基因1信息</param>
+        ''' <param name="gene2">基因2信息</param>
+        ''' <param name="goHierarchy">GO层次结构字典：GO术语 -> 父术语列表</param>
+        ''' <returns>GO功能相似性最大得分</returns>
         Public Shared Function CalculateGOSimilarity(gene1 As GeneInfo, gene2 As GeneInfo, goHierarchy As Dictionary(Of String, List(Of String))) As Integer
             If gene1.GO_Terms Is Nothing OrElse gene2.GO_Terms Is Nothing OrElse gene1.GO_Terms.Count = 0 OrElse gene2.GO_Terms.Count = 0 Then
                 Return 0
@@ -296,11 +309,11 @@ Namespace ContextModel
         End Function
 
         ''' <summary>
-        ''' 递归添加祖先GO术语
+        ''' 递归添加祖先GO术语到集合中
         ''' </summary>
-        ''' <param name="term"></param>
-        ''' <param name="goHierarchy"></param>
-        ''' <param name="termSet"></param>
+        ''' <param name="term">当前GO术语</param>
+        ''' <param name="goHierarchy">GO层次结构字典</param>
+        ''' <param name="termSet">用于收集祖先术语的HashSet</param>
         Private Shared Sub AddAncestorTerms(term As String, goHierarchy As Dictionary(Of String, List(Of String)), termSet As HashSet(Of String))
             If goHierarchy.ContainsKey(term) Then
                 For Each parentTerm In goHierarchy(term)
@@ -312,8 +325,12 @@ Namespace ContextModel
         End Sub
 
         ''' <summary>
-        ''' 判断基因对属于哪个距离分组 (用于选择特定的分类器)
+        ''' 判断相邻基因对属于哪个距离分组，用于后续选择特定的分类器模型
+        ''' 论文 Results: 划分为 U40, U200, O200 进行子组训练
         ''' </summary>
+        ''' <param name="upstreamGene">上游基因信息</param>
+        ''' <param name="downstreamGene">下游基因信息</param>
+        ''' <returns>距离分组枚举值；如果两基因不在同一链上，则返回 Nothing</returns>
         Public Shared Function GetDistanceGroup(upstreamGene As GeneInfo, downstreamGene As GeneInfo) As IntergenicDistanceGroup?
             ' 1. 必须在同一条链上才可能是Operon
             If upstreamGene.Strand <> downstreamGene.Strand Then
@@ -329,16 +346,17 @@ Namespace ContextModel
 
         ''' <summary>
         ''' 计算所有特征的综合函数
+        ''' 包含前置校验(同链验证)及论文中所列全部6类特征的提取
         ''' </summary>
-        ''' <param name="upstreamGene"></param>
-        ''' <param name="downstreamGene"></param>
-        ''' <param name="intergenicSequence"></param>
-        ''' <param name="referenceGenomes"></param>
-        ''' <param name="phylumProbabilities"></param>
-        ''' <param name="genomeIDs"></param>
-        ''' <param name="nucleotideFrequencies"></param>
-        ''' <param name="goHierarchy"></param>
-        ''' <returns></returns>
+        ''' <param name="upstreamGene">上游基因信息</param>
+        ''' <param name="downstreamGene">下游基因信息</param>
+        ''' <param name="intergenicSequence">基因间序列 (下游基因上游100nt)</param>
+        ''' <param name="referenceGenomes">参考基因组列表</param>
+        ''' <param name="phylumProbabilities">基因存在概率字典</param>
+        ''' <param name="genomeIDs">参考基因组ID列表</param>
+        ''' <param name="nucleotideFrequencies">核苷酸频率字典</param>
+        ''' <param name="goHierarchy">GO层次结构字典</param>
+        ''' <returns>包含所有得分的 FeatureScores 对象；若基因不在同一链上则返回 Nothing</returns>
         Public Shared Function CalculateAllFeatures(upstreamGene As GeneInfo, downstreamGene As GeneInfo,
                                                     intergenicSequence As String,
                                                     referenceGenomes As List(Of GenomeInfo),
