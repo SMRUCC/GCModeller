@@ -730,7 +730,11 @@ Module patterns
     ''' <param name="env"></param>
     ''' <returns></returns>
     <ExportAPI("split_match_source")>
-    Public Function SplitMatchesSource(<RRawVectorArgument> matches As Object, Optional gff As GFFTable = Nothing, Optional env As Environment = Nothing) As Object
+    Public Function SplitMatchesSource(<RRawVectorArgument>
+                                       matches As Object,
+                                       Optional gff As GFFTable = Nothing,
+                                       Optional env As Environment = Nothing) As Object
+
         Dim matchList = pipeline.TryCreatePipeline(Of MotifMatch)(matches, env)
 
         If matchList.isError Then
